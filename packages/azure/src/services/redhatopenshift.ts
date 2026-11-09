@@ -33,6 +33,52 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+export interface DeleteExternalAuthRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the HcpOpenShiftCluster */
+  hcpOpenShiftClusterName: string;
+  /** The name of the ExternalAuth */
+  externalAuthName: string;
+}
+export interface DeleteExternalAuthResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+export interface DeleteHcpOpenShiftClusterRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the HcpOpenShiftCluster */
+  hcpOpenShiftClusterName: string;
+}
+export interface DeleteHcpOpenShiftClusterResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+export interface DeleteNodePoolRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the HcpOpenShiftCluster */
+  hcpOpenShiftClusterName: string;
+  /** The name of the NodePool */
+  nodePoolName: string;
+}
+export interface DeleteNodePoolResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export interface DeleteOpenShiftClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -47,13 +93,111 @@ export interface DeleteOpenShiftClusterResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
-export interface GetOpenShiftClusterRequest {
+/** This configures the acceptable audiences for JWT tokens issued by the identity provider. At least one of the entries must match the 'aud' claim in the JWT token. Audiences must contain at least one entry and must not exceed ten entries. */
+export type TokenIssuerProfileAudiencesList = Array<string>;
+/** Token issuer profile This configures how the platform interacts with the identity provider and how tokens issued from the identity provider are evaluated by the Kubernetes API server. */
+export interface TokenIssuerProfile {
+  /** This configures the URL used to issue tokens by the identity provider. The Kubernetes API server determines how authentication tokens should be handled by matching the 'iss' claim in the JWT to the issuerURL of configured identity providers. issuerURL must use the 'https' scheme. */
+  url: string;
+  /** This configures the acceptable audiences for JWT tokens issued by the identity provider. At least one of the entries must match the 'aud' claim in the JWT token. Audiences must contain at least one entry and must not exceed ten entries. */
+  audiences: TokenIssuerProfileAudiencesList;
+  /** The issuer of the token. Certificate bundle to use to validate server certificates for the configured URL. It must be PEM encoded and when not specified, the system trust is used. */
+  ca?: string;
+}
+/** External Auth component profile Must have unique namespace/name pairs. */
+export interface ExternalAuthClientComponentProfile {
+  /** The name of the external auth client This specifies the name of the platform component being configured to use the identity provider as an authentication mode. It is used in combination with namespace as a unique identifier. */
+  name: string;
+  /** The namespace of the external Auth client This specifies the namespace in which the platform component being configured to use the identity provider as an authentication mode is running. It is used in combination with name as a unique identifier. */
+  authClientNamespace: string;
+}
+/** external auth client scopes This is useful if you have configured claim mappings that requires specific scopes to be requested beyond the standard OIDC scopes. When omitted, no additional scopes are requested. */
+export type ExternalAuthClientProfileExtraScopesList = Array<string>;
+/** Representation of the possible values of an external authentication client's type */
+export type ExternalAuthClientType = "Confidential" | "Public";
+/** External Auth client profile This configures how on-cluster, platform clients should request tokens from the identity provider. */
+export interface ExternalAuthClientProfile {
+  /** External Auth client component */
+  component: ExternalAuthClientComponentProfile;
+  /** External Auth client id The clientId must appear in the audience field of the TokenIssuerProfile. */
+  clientId: string;
+  /** external auth client scopes This is useful if you have configured claim mappings that requires specific scopes to be requested beyond the standard OIDC scopes. When omitted, no additional scopes are requested. */
+  extraScopes?: ExternalAuthClientProfileExtraScopesList;
+  /** Determines the OIDC provider client type. */
+  type: ExternalAuthClientType | (string & {});
+}
+/** External Auth OIDC clients There must not be more than 20 entries and entries must have unique namespace/name pairs. */
+export type ExternalAuthPropertiesInputClientsList = Array<ExternalAuthClientProfile>;
+/** UsernameClaimPrefixPolicy configures whether to add a prefix to a JWT claim. */
+export type UsernameClaimPrefixPolicy = "None" | "Prefix" | "NoPrefix";
+/** External Auth claim profile This configures how the username of a cluster identity should be constructed from the claims in a JWT token issued by the identity provider. */
+export interface UsernameClaimProfile {
+  /** Claim name of the external profile */
+  claim: string;
+  /** Prefix for the claim external profile. Must be set when the prefixPolicy field is set to 'Prefix' and must be unset otherwise. */
+  prefix?: string;
+  /** Prefix policy is an optional field that configures how a prefix should be applied to the value of the JWT claim specified in the 'claim' field. Allowed values are 'Prefix', 'NoPrefix', and 'None'. If not specified, the default policy is 'None'. When set to 'Prefix', the value specified in the prefix field will be prepended to the value of the JWT claim. The prefix field must be set when prefixPolicy is 'Prefix'. When set to 'NoPrefix', no prefix will be prepended to the value of the JWT claim. When set to 'None', this means no opinion and the platform is left to choose any prefixes that are applied which is subject to change over time. Currently, the platform prepends `{issuerURL}#` to the value of the JWT claim when the claim is not 'email'. As an example, consider the following scenario: `prefix` is unset, `issuerURL` is set to `https://myoidc.tld`, the JWT claims include "username":"userA" and "email":"userA */
+  prefixPolicy?: UsernameClaimPrefixPolicy | (string & {});
+}
+/** External Auth claim profile This configures how the groups of a cluster identity should be constructed from the claims in a JWT token issued by the identity provider. When referencing a claim, if the claim is present in the JWT token, its value must be a list of groups separated by a comma (','). For example - '"example"' and '"exampleOne", "exampleTwo", "exampleThree"' are valid claim values. */
+export interface GroupClaimProfile {
+  /** Claim name of the external profile */
+  claim: string;
+  /** Prefix for the claim external profile. If this is specified, prefixPolicy will be set to "Prefix" by default. */
+  prefix?: string;
+}
+/** External Auth claim mappings profile. At a minimum username or groups must be defined. */
+export interface TokenClaimMappingsProfile {
+  /** The claim mappings username. */
+  username: UsernameClaimProfile;
+  /** The claim mappings groups. */
+  groups?: GroupClaimProfile;
+}
+/** This configures the type of the validation rule. It defaults to "RequiredClaim" */
+export type TokenClaimValidationRuleType = "RequiredClaim";
+/** Token required claim validation rule. */
+export interface TokenRequiredClaim {
+  /** Claim name for the validation profile claim is a required field that configures the name of the required claim. */
+  claim: string;
+  /** Required value requiredValue is a required field that configures the value that 'claim' must have when taken from the incoming JWT claims. If the value in the JWT claims does not match, the token will be rejected for authentication. */
+  requiredValue: string;
+}
+/** External Auth claim validation rule */
+export interface TokenClaimValidationRule {
+  /** This configures the type of the validation rule. It defaults to "RequiredClaim" */
+  type?: TokenClaimValidationRuleType | (string & {});
+  /** The required claim rule to be applied. */
+  requiredClaim?: TokenRequiredClaim;
+}
+/** The claim validation rules. */
+export type ExternalAuthClaimProfileValidationRulesList = Array<TokenClaimValidationRule>;
+/** External Auth claim profile */
+export interface ExternalAuthClaimProfile {
+  /** The claim mappings. */
+  mappings: TokenClaimMappingsProfile;
+  /** The claim validation rules. */
+  validationRules?: ExternalAuthClaimProfileValidationRulesList;
+}
+/** External Auth profile */
+export interface ExternalAuthPropertiesInput {
+  /** Token Issuer profile */
+  issuer: TokenIssuerProfile;
+  /** External Auth OIDC clients There must not be more than 20 entries and entries must have unique namespace/name pairs. */
+  clients?: ExternalAuthPropertiesInputClientsList;
+  /** External Auth claim This configures how claims are validated and applied. */
+  claim: ExternalAuthClaimProfile;
+}
+export interface ExternalAuthsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the OpenShift cluster resource. */
-  resourceName: string;
+  /** The name of the HcpOpenShiftCluster */
+  hcpOpenShiftClusterName: string;
+  /** The name of the ExternalAuth */
+  externalAuthName: string;
+  /** The resource-specific properties for this resource. */
+  properties?: ExternalAuthPropertiesInput;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -73,6 +217,624 @@ export interface SystemData {
   lastModifiedByType?: SystemDataLastModifiedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: string;
+}
+/** The resource provisioning state. */
+export type ExternalAuthProvisioningState =
+  | "Succeeded"
+  | "Failed"
+  | "Canceled"
+  | "Accepted"
+  | "Deleting"
+  | "Provisioning"
+  | "Updating"
+  | "AwaitingSecret";
+/** Representation of the possible condition types. */
+export type ConditionType = "Available" | "Degraded" | "Progressing";
+/** Representation of the possible values of a condition status. */
+export type StatusType = "True" | "False" | "Unknown";
+/** Condition represents an observation of a resource's state. */
+export interface Condition {
+  /** Type of the condition. This is a PascalCase identifier representing the type of the condition. */
+  type: ConditionType;
+  /** The status of the condition. */
+  status: StatusType;
+  /** The last time the condition transitioned from one status to another. */
+  lastTransitionTime: string;
+  /** A programmatic identifier indicating the reason for the condition's last transition. This value should be a CamelCase string. */
+  reason: string;
+  /** A human readable message indicating details about the transition. This may be an empty string. */
+  message: string;
+}
+/** The conditions on the resource */
+export type ExternalAuthResourceStatusConditionsList = Array<Condition>;
+/** ExternalAuthResourceStatus represents the observed status of the external auth resource. */
+export interface ExternalAuthResourceStatus {
+  /** The conditions on the resource */
+  conditions?: ExternalAuthResourceStatusConditionsList;
+}
+/** External Auth OIDC clients There must not be more than 20 entries and entries must have unique namespace/name pairs. */
+export type ExternalAuthPropertiesClientsList = Array<ExternalAuthClientProfile>;
+/** External Auth profile */
+export interface ExternalAuthProperties {
+  /** Provisioning state */
+  provisioningState?: ExternalAuthProvisioningState;
+  /** Status of the external auth resource */
+  status?: ExternalAuthResourceStatus;
+  /** Token Issuer profile */
+  issuer: TokenIssuerProfile;
+  /** External Auth OIDC clients There must not be more than 20 entries and entries must have unique namespace/name pairs. */
+  clients?: ExternalAuthPropertiesClientsList;
+  /** External Auth claim This configures how claims are validated and applied. */
+  claim: ExternalAuthClaimProfile;
+}
+export interface ExternalAuthsCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** The resource-specific properties for this resource. */
+  properties?: ExternalAuthProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+export interface GetExternalAuthRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the HcpOpenShiftCluster */
+  hcpOpenShiftClusterName: string;
+  /** The name of the ExternalAuth */
+  externalAuthName: string;
+}
+export interface GetExternalAuthResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** The resource-specific properties for this resource. */
+  properties?: ExternalAuthProperties;
+}
+export interface GetHcpOpenShiftClusterRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the HcpOpenShiftCluster */
+  hcpOpenShiftClusterName: string;
+}
+/** Resource tags. */
+export type GetHcpOpenShiftClusterResponseTagsMap = { [key: string]: string | undefined };
+/** The resource provisioning state. */
+export type ProvisioningState_2 =
+  | "Succeeded"
+  | "Failed"
+  | "Canceled"
+  | "Accepted"
+  | "Deleting"
+  | "Provisioning"
+  | "Updating";
+/** Versions represents an OpenShift version. */
+export interface VersionProfile {
+  /** ID is the desired X.Y version of the cluster control plane. */
+  id: string;
+  /** ChannelGroup is the name of the set to which this version belongs. Each version belongs to only a single set. If not specified, the default value is 'stable'. This property is intended to be updateable, but that support is not yet complete. Until then, changing this value after cluster creation is rejected. */
+  channelGroup?: string;
+}
+/** DNS contains the DNS settings of the cluster */
+export interface DnsProfile {
+  /** BaseDomain is the base DNS domain of the cluster. */
+  baseDomain?: string;
+  /** BaseDomainPrefix is the base domain prefix for the cluster ingress. It will be used to configure ingress in the cluster through the subdomain "BaseDomainPrefix.BaseDomain". */
+  baseDomainPrefix?: string;
+}
+/** The main controller responsible for rendering the core networking components */
+export type NetworkProfileNetworkType = "OVNKubernetes" | "Other";
+/** OpenShift networking configuration */
+export interface NetworkProfile_2 {
+  /** The main controller responsible for rendering the core networking components */
+  networkType?: NetworkProfileNetworkType | (string & {});
+  /** The CIDR of the pod IP addresses */
+  podCidr?: string;
+  /** The CIDR block for assigned service IPs */
+  serviceCidr?: string;
+  /** The CIDR block from which to assign machine IP addresses */
+  machineCidr?: string;
+  /** Network host prefix */
+  hostPrefix?: number;
+}
+/** Configuration of the cluster web console */
+export interface ConsoleProfile_2 {
+  /** The cluster web console URL endpoint */
+  url: string;
+}
+/** The internet visibility of the OpenShift API server */
+export type ApiProfileVisibility = "Public" | "Private";
+/** The list of authorized IPv4 CIDR blocks allowed to access the API server. Maximum 500 entries. */
+export type ApiProfileAuthorizedCidrsList = Array<string>;
+/** Information about the API of a cluster. */
+export interface ApiProfile {
+  /** URL endpoint for the API server */
+  url: string;
+  /** The internet visibility of the OpenShift API server */
+  visibility?: ApiProfileVisibility;
+  /** The list of authorized IPv4 CIDR blocks allowed to access the API server. Maximum 500 entries. */
+  authorizedCidrs?: ApiProfileAuthorizedCidrsList;
+}
+/** The type of the default cluster ingress. */
+export type IngressProfileType = "Public" | "Private" | "Disabled";
+/** Information about the Ingress of a cluster. */
+export interface IngressProfile_2 {
+  /** The type of the default cluster ingress. */
+  type?: IngressProfileType | (string & {});
+}
+/** The core outgoing configuration */
+export type PlatformProfileOutboundType = "LoadBalancer";
+/** The set of Azure User-Assigned Managed Identities leveraged for the Control Plane operators of the cluster. The set of required managed identities is dependent on the Cluster's OpenShift version. */
+export type UserAssignedIdentitiesProfileControlPlaneOperatorsMap = {
+  [key: string]: string | undefined;
+};
+/** The set of Azure User-Assigned Managed Identities leveraged for the Data Plane operators of the cluster. The set of required managed identities is dependent on the Cluster's OpenShift version. */
+export type UserAssignedIdentitiesProfileDataPlaneOperatorsMap = {
+  [key: string]: string | undefined;
+};
+/** Represents the information related to Azure User-Assigned managed identities needed to perform Operators authentication based on Azure User-Assigned Managed Identities */
+export interface UserAssignedIdentitiesProfile {
+  /** The set of Azure User-Assigned Managed Identities leveraged for the Control Plane operators of the cluster. The set of required managed identities is dependent on the Cluster's OpenShift version. */
+  controlPlaneOperators: UserAssignedIdentitiesProfileControlPlaneOperatorsMap;
+  /** The set of Azure User-Assigned Managed Identities leveraged for the Data Plane operators of the cluster. The set of required managed identities is dependent on the Cluster's OpenShift version. */
+  dataPlaneOperators: UserAssignedIdentitiesProfileDataPlaneOperatorsMap;
+  /** Represents the information associated to an Azure User-Assigned Managed Identity whose purpose is to perform service level actions. */
+  serviceManagedIdentity: string;
+}
+/** The configuration that the operators of the cluster have to authenticate to Azure. */
+export interface OperatorsAuthenticationProfile {
+  /** Represents the information related to Azure User-Assigned managed identities needed to perform Operators authentication based on Azure User-Assigned Managed Identities */
+  userAssignedIdentities: UserAssignedIdentitiesProfile;
+}
+/** Azure Container Registry configuration for a cluster. Configures how worker nodes authenticate container image pulls from Azure Container Registry (ACR). */
+export interface ContainerRegistryProfile {
+  /** The user-assigned managed identity used for container registry image pulls. */
+  managedIdentity?: string;
+}
+/** Azure specific configuration */
+export interface PlatformProfile {
+  /** The name of the resource group to put cluster resources in. If not specified then a unique name is generated from the following pattern "aro-hcp-" + clusterName + "-" + UUID where clusterName means the hcpOpenShiftClusters resource name (up to 45 characters) followed by a 16-byte universally unique identifier per RFC 4122. */
+  managedResourceGroup?: string;
+  /** The Azure resource ID of the worker subnet. Note that a subnet cannot be reused between ARO-HCP Clusters. */
+  subnetId: string;
+  /** The Azure resource ID of a subnet that enables direct, private network connectivity between the hosted control plane and your cluster's nodes. This subnet must be dedicated to ARO HCP and cannot be shared with the cluster subnet or any node pool subnets. */
+  vnetIntegrationSubnetId: string;
+  /** The core outgoing configuration */
+  outboundType?: PlatformProfileOutboundType;
+  /** ResourceId for the NSG (network security group) attached to the cluster subnet Note that NSGs cannot be reused for other ARO-HCP clusters. */
+  networkSecurityGroupId: string;
+  /** The configuration that the operators of the cluster have to authenticate to Azure */
+  operatorsAuthentication: OperatorsAuthenticationProfile;
+  /** Azure Container Registry configuration for authenticating image pulls on the cluster's worker nodes. */
+  containerRegistry?: ContainerRegistryProfile;
+  /** URL for the OIDC provider to be used for authentication to authenticate against user Azure cloud account */
+  issuerUrl: string;
+}
+/** ClusterAutoscaling specifies auto-scaling behavior that applies to all NodePools associated with a control plane. */
+export interface ClusterAutoscalingProfile {
+  /** maxNodesTotal is the maximum allowable number of nodes. The autoscaler will not grow the cluster beyond this number. If omitted, the autoscaler will not have a maximum limit. */
+  maxNodesTotal?: number;
+  /** maxPodGracePeriodSeconds is the maximum amount of time in seconds to wait for graceful pod termination before scaling down a NodePool. The default is 600 seconds. */
+  maxPodGracePeriodSeconds?: number;
+  /** maxNodeProvisionTimeSeconds is the maximum time to wait for node provisioning before considering the provisioning to be unsuccessful. The default is 900 seconds, or 15 minutes. */
+  maxNodeProvisionTimeSeconds?: number;
+  /** podPriorityThreshold enables users to schedule "best-effort" pods, which shouldn't trigger autoscaler actions, but only run when there are spare resources available. The default is -10. See the following for more details: https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#how-does-cluster-autoscaler-work-with-pod-priority-and-preemption */
+  podPriorityThreshold?: number;
+}
+/** The encryption key management mode types supported for ETCD data encryption. */
+export type EtcdDataEncryptionKeyManagementModeType = "CustomerManaged";
+/** The encryption type used. By default, "KMS" is used. */
+export type CustomerManagedEncryptionProfileEncryptionType = "KMS";
+/** The internet visibility of a keyvault resource */
+export type KeyVaultVisibility = "Public" | "Private";
+/** A representation of a KeyVault Secret. */
+export interface KmsKey {
+  /** name is the name of the keyvault key used for encryption/decryption. */
+  name: string;
+  /** version contains the version of the key to use. */
+  version: string;
+}
+/** The type of keyvault used for KMS encryption. Defaults to KeyVault when absent. */
+export type KmsEncryptionProfileKeyVaultType = "KeyVault" | "ManagedHSM";
+/** Configure etcd encryption Key Management Service (KMS) key. Your Microsoft Entra application used to create the cluster must be authorized to access this keyvault, e.g using the AzureCLI: `az keyvault set-policy -n $KEYVAULT_NAME --key-permissions decrypt encrypt --spn (YOUR APPLICATION CLIENT ID)` */
+export interface KmsEncryptionProfile {
+  /** vaultName is the name of the keyvault that contains the secret. */
+  vaultName: string;
+  /** visibility of the keyvault that contains the secret. */
+  visibility: KeyVaultVisibility | (string & {});
+  /** The details of the active key. */
+  activeKey: KmsKey;
+  /** The type of keyvault used for KMS encryption. Defaults to KeyVault when absent. */
+  keyVaultType?: KmsEncryptionProfileKeyVaultType | (string & {});
+}
+/** Customer managed encryption key profile. */
+export interface CustomerManagedEncryptionProfile {
+  /** The encryption type used. By default, "KMS" is used. */
+  encryptionType?: CustomerManagedEncryptionProfileEncryptionType | (string & {});
+  /** The Key Management Service (KMS) encryption key details. Required when encryptionType is "KMS". */
+  kms?: KmsEncryptionProfile;
+}
+/** The ETCD data encryption settings. */
+export interface EtcdDataEncryptionProfile {
+  /** Specify the key management strategy used for the encryption key that encrypts the ETCD data. */
+  keyManagementMode: EtcdDataEncryptionKeyManagementModeType | (string & {});
+  /** Specify customer managed encryption key details. Required when keyManagementMode is "CustomerManaged". */
+  customerManaged?: CustomerManagedEncryptionProfile;
+}
+/** The ETCD settings and configuration options. */
+export interface EtcdProfile {
+  /** ETCD Data Encryption settings. If not specified platform managed keys are used. */
+  dataEncryption?: EtcdDataEncryptionProfile;
+}
+/** mirrors is zero or more locations that may also contain the same images. No mirror will be configured if not specified. Images can be pulled from these mirrors only if they are referenced by their digests. The mirrored location is obtained by replacing the part of the input reference that matches source by the mirrors entry, e.g. for registry.redhat.io/product/repo reference, a (source, mirror) pair *.redhat.io, mirror.local/redhat causes a mirror.local/redhat/product/repo repository to be used. The order of mirrors in this list is treated as the user's desired priority, while source is by default considered lower priority than all mirrors. If no mirror is specified or all image pulls from the mirror list fail, the image will continue to be pulled from the repository in the pull spec. Other cluster configuration, including (but not limited to) other imageDigestMirrors objects, may impact the exact order mirrors are contacted in, or some mirrors may be contacted in parallel, so this should be considered a preference rather than a guarantee of ordering. mirrors uses one of the following formats: * host[:port] * host[:port]/namespace[/namespace...] * host[:port]/namespace[/namespace...]/repo for more information about the format, see: https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table */
+export type ImageDigestMirrorMirrorsList = Array<string>;
+/** ImageDigestMirror specifies a set of mirror registries to redirect image pulls targeting the specified source registries. */
+export interface ImageDigestMirror {
+  /** source matches the repository that users refer to, e.g. in image pull specifications. Setting source to a registry hostname, e.g. docker.io, quay.io, or registry.redhat.io, will match the image pull specification of the corresponding registry. source uses one of the following formats: * host[:port] * host[:port]/namespace[/namespace...] * host[:port]/namespace[/namespace...]/repo * [*.]host for more information about the format, see: https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table */
+  source: string;
+  /** mirrors is zero or more locations that may also contain the same images. No mirror will be configured if not specified. Images can be pulled from these mirrors only if they are referenced by their digests. The mirrored location is obtained by replacing the part of the input reference that matches source by the mirrors entry, e.g. for registry.redhat.io/product/repo reference, a (source, mirror) pair *.redhat.io, mirror.local/redhat causes a mirror.local/redhat/product/repo repository to be used. The order of mirrors in this list is treated as the user's desired priority, while source is by default considered lower priority than all mirrors. If no mirror is specified or all image pulls from the mirror list fail, the image will continue to be pulled from the repository in the pull spec. Other cluster configuration, including (but not limited to) other imageDigestMirrors objects, may impact the exact order mirrors are contacted in, or some mirrors may be contacted in parallel, so this should be considered a preference rather than a guarantee of ordering. mirrors uses one of the following formats: * host[:port] * host[:port]/namespace[/namespace...] * host[:port]/namespace[/namespace...]/repo for more information about the format, see: https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table */
+  mirrors: ImageDigestMirrorMirrorsList;
+}
+/** imageDigestMirrors is a set of rules to allow pulling images from a mirrored registry by using digest specifications. WARNING: Updating this array will redeploy all node pools in the cluster. */
+export type HcpOpenShiftClusterPropertiesImageDigestMirrorsList = Array<ImageDigestMirror>;
+/** state indicates the desired ImageStream-backed cluster image registry installation mode. This can only be set during cluster creation and cannot be changed after cluster creation. Enabled means the ImageStream-backed image registry will be run as pods on worker nodes in the cluster. Disabled means the ImageStream-backed image registry will not be present in the cluster. The default is Enabled. */
+export type ClusterImageRegistryProfileState = "Enabled" | "Disabled";
+/** OpenShift cluster image registry */
+export interface ClusterImageRegistryProfile {
+  /** state indicates the desired ImageStream-backed cluster image registry installation mode. This can only be set during cluster creation and cannot be changed after cluster creation. Enabled means the ImageStream-backed image registry will be run as pods on worker nodes in the cluster. Disabled means the ImageStream-backed image registry will not be present in the cluster. The default is Enabled. */
+  state?: ClusterImageRegistryProfileState | (string & {});
+}
+/** The conditions on the resource */
+export type ClusterResourceStatusConditionsList = Array<Condition>;
+/** ClusterActiveVersion represents a version of a resource. */
+export interface ClusterActiveVersion {
+  /** The version of the resource. Specified in major.minor, same as the input */
+  version: string;
+}
+/** The observed active versions of the cluster. During upgrades, both the previous and target versions may be active simultaneously until the rollout completes, so this array can contain more than one entry. The ordering of entries has no meaning. */
+export type ClusterResourceStatusActiveVersionsList = Array<ClusterActiveVersion>;
+/** ClusterResourceStatus represents the observed status of the cluster resource. */
+export interface ClusterResourceStatus {
+  /** The conditions on the resource */
+  conditions?: ClusterResourceStatusConditionsList;
+  /** The observed active versions of the cluster. During upgrades, both the previous and target versions may be active simultaneously until the rollout completes, so this array can contain more than one entry. The ordering of entries has no meaning. */
+  activeVersions?: ClusterResourceStatusActiveVersionsList;
+}
+/** Cryptographic restrictions for kernel and userspace libraries */
+export type HcpOpenShiftClusterPropertiesCryptoRestrictions = "None" | "FIPS";
+/** HCP cluster properties */
+export interface HcpOpenShiftClusterProperties {
+  /** The status of the last operation. */
+  provisioningState?: ProvisioningState_2;
+  /** Version of the control plane components */
+  version: VersionProfile;
+  /** Cluster DNS configuration */
+  dns?: DnsProfile;
+  /** Cluster network configuration */
+  network?: NetworkProfile_2;
+  /** Shows the cluster web console information */
+  console?: ConsoleProfile_2;
+  /** Shows the cluster API server profile */
+  api?: ApiProfile;
+  /** The cluster ingress configuration */
+  ingress?: IngressProfile_2;
+  /** Azure platform configuration */
+  platform: PlatformProfile;
+  /** Configure ClusterAutoscaling . */
+  autoscaling?: ClusterAutoscalingProfile;
+  /** Configure ETCD. */
+  etcd?: EtcdProfile;
+  /** imageDigestMirrors is a set of rules to allow pulling images from a mirrored registry by using digest specifications. WARNING: Updating this array will redeploy all node pools in the cluster. */
+  imageDigestMirrors?: HcpOpenShiftClusterPropertiesImageDigestMirrorsList;
+  /** nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected workloads will be respected during any node draining operation. After this grace period, any workloads protected by Pod Disruption Budgets that have not been successfully drained from a node will be forcibly evicted. This is especially relevant to cluster upgrades. Valid values are in minutes and from 0 to 10080 minutes (1 week). 0 means that the MachinePool can be drained without any time limitation. This value is used as a default for all NodePools. It can be overridden by specifying nodeDrainTimeoutMinutes for a given NodePool */
+  nodeDrainTimeoutMinutes?: number;
+  /** OpenShift internal image registry */
+  clusterImageRegistry?: ClusterImageRegistryProfile;
+  /** Status of the cluster resource */
+  status?: ClusterResourceStatus;
+  /** Cryptographic restrictions for kernel and userspace libraries */
+  cryptoRestrictions?: HcpOpenShiftClusterPropertiesCryptoRestrictions;
+}
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+export type ManagedServiceIdentityType =
+  | "None"
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned,UserAssigned";
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /** The principal ID of the assigned identity. */
+  principalId?: string;
+  /** The client ID of the assigned identity. */
+  clientId?: string;
+}
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type GetHcpOpenShiftClusterResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentity | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface GetHcpOpenShiftClusterResponseIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string;
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: GetHcpOpenShiftClusterResponseIdentityUserAssignedIdentitiesMap;
+}
+export interface GetHcpOpenShiftClusterResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: GetHcpOpenShiftClusterResponseTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: HcpOpenShiftClusterProperties;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: GetHcpOpenShiftClusterResponseIdentity;
+}
+export interface GetHcpOpenShiftVersionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the Azure region. */
+  location: string;
+  /** The name of the HcpOpenShiftVersion */
+  hcpOpenShiftVersionName: string;
+}
+/** HcpOpenShiftVersionProperties contains details of an available HCP Openshift version */
+export interface HcpOpenShiftVersionProperties {
+  /** ChannelGroup is the name of the group where this version belongs. */
+  channelGroup: string;
+  /** Enabled indicates if this version can be used to create clusters. */
+  enabled: boolean;
+  /** EndOfLifeTimestamp is the date and time when this version will reach End of Life. */
+  endOfLifeTimestamp: string;
+}
+export interface GetHcpOpenShiftVersionResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** The resource-specific properties for this resource. */
+  properties?: HcpOpenShiftVersionProperties;
+}
+export interface GetHcpOperatorIdentityRoleSetRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the Azure region. */
+  location: string;
+  /** The OpenShift minor version these identities are required for. */
+  hcpOperatorIdentityRoleSetName: string;
+}
+/** Indicates if the identity is required */
+export type OperatorIdentityRequired = "Always" | "OnEnablement";
+/** A single role definition required by a given operator */
+export interface RoleDefinition {
+  /** The name of the required role definition */
+  name: string;
+  /** The resource ID of the role definition */
+  resourceId: string;
+}
+/** The role definitions required to be assigned to the identity assumed by this operator */
+export type OperatorIdentityRolesRoleDefinitionsList = Array<RoleDefinition>;
+/** Role definitions for a specific operator */
+export interface OperatorIdentityRoles {
+  /** Name of the operator */
+  name: string;
+  /** Whether or not the operator is required for installation */
+  required: OperatorIdentityRequired;
+  /** The role definitions required to be assigned to the identity assumed by this operator */
+  roleDefinitions: OperatorIdentityRolesRoleDefinitionsList;
+}
+/** The role definitions required for the User-Assigned managed identities used by Control Plane operators on a cluster. */
+export type HcpOperatorIdentityRoleSetPropertiesControlPlaneOperatorsList =
+  Array<OperatorIdentityRoles>;
+/** The role definitions required for the User-Assigned managed identities used by Data Plane operators on a cluster. */
+export type HcpOperatorIdentityRoleSetPropertiesDataPlaneOperatorsList =
+  Array<OperatorIdentityRoles>;
+/** HCP Operator Identity Roles properties */
+export interface HcpOperatorIdentityRoleSetProperties {
+  /** The role definitions required for the User-Assigned managed identities used by Control Plane operators on a cluster. */
+  controlPlaneOperators: HcpOperatorIdentityRoleSetPropertiesControlPlaneOperatorsList;
+  /** The role definitions required for the User-Assigned managed identities used by Data Plane operators on a cluster. */
+  dataPlaneOperators: HcpOperatorIdentityRoleSetPropertiesDataPlaneOperatorsList;
+}
+export interface GetHcpOperatorIdentityRoleSetResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** The resource-specific properties for this resource. */
+  properties?: HcpOperatorIdentityRoleSetProperties;
+}
+export interface GetNodePoolRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the HcpOpenShiftCluster */
+  hcpOpenShiftClusterName: string;
+  /** The name of the NodePool */
+  nodePoolName: string;
+}
+/** Resource tags. */
+export type GetNodePoolResponseTagsMap = { [key: string]: string | undefined };
+/** Versions represents an OpenShift version. */
+export interface NodePoolVersionProfile {
+  /** ID is the unique identifier of the version. */
+  id: string;
+  /** ChannelGroup is the name of the set to which this version belongs. Each version belongs to only a single set. If not specified, the default value is 'stable'. This property is intended to be updateable, but that support is not yet complete. Until then, changing this value after node pool creation is rejected. */
+  channelGroup?: string;
+}
+/** The type of the disk storage account - https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types */
+export type OsDiskProfileDiskStorageAccountType =
+  | "Premium_LRS"
+  | "StandardSSD_LRS"
+  | "Standard_LRS";
+/** The type of the OS disk. - https://learn.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks */
+export type OsDiskProfileDiskType = "Managed" | "Ephemeral";
+/** The settings and configuration options for OSDisk */
+export interface OsDiskProfile {
+  /** The OS disk size in GiB. Maximum is 4095 GiB for Managed disks. For Ephemeral disks, the maximum is 2040 GiB; Azure may enforce a lower effective limit based on the selected VM size's local cache, temp, or NVMe capacity. */
+  sizeGiB?: number;
+  /** The type of the disk storage account - https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types */
+  diskStorageAccountType?: OsDiskProfileDiskStorageAccountType | (string & {});
+  /** The ID of the DiskEncryptionSet resource to use to encrypt the OS disks for the VMs. This needs to exist in the same subscription id listed in the Hosted Cluster, HostedCluster.Spec.Platform.Azure.SubscriptionID. DiskEncryptionSetID should also exist in a resource group under the same subscription id and the same location listed in the Hosted Cluster, HostedCluster.Spec.Platform.Azure.Location. Details on how to create a Disk Encryption Set can be found here: https://learn.microsoft.com/en-us/azure/virtual-machines/disks-enable-customer-managed-keys-portal#set-up-your-disk-encryption-set */
+  encryptionSetId?: string;
+  /** The type of the OS disk. - https://learn.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks */
+  diskType?: OsDiskProfileDiskType | (string & {});
+}
+/** Azure node pool platform configuration */
+export interface NodePoolPlatformProfile {
+  /** The Azure resource ID of the worker subnet. Note that a subnet cannot be reused between ARO-HCP Clusters, however the same subnet can be used for NodePools of the same cluster. */
+  subnetId?: string;
+  /** The VM size according to the documentation: - https://learn.microsoft.com/en-us/azure/virtual-machines/sizes */
+  vmSize: string;
+  /** Whether to enable host based OS and data drive encryption. - https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#encryption-at-host---end-to-end-encryption-for-your-vm-data */
+  enableEncryptionAtHost?: boolean;
+  /** The settings and configuration options for OSDisk */
+  osDisk?: OsDiskProfile;
+  /** The availability zone for the node pool. Please read the documentation to see which regions support availability zones - https://learn.microsoft.com/en-us/azure/availability-zones/az-overview */
+  availabilityZone?: string;
+}
+/** Node pool autoscaling */
+export interface NodePoolAutoScaling {
+  /** The minimum number of nodes in the node pool. Validation: - Minimum: 0 - Maximum: 200 (only when availabilityZone is not specified) - No maximum when availabilityZone is specified */
+  min?: number;
+  /** The maximum number of nodes in the node pool. Validation: - Minimum: 0 (must be >= min) - Maximum: 200 (only when availabilityZone is not specified) - No maximum when availabilityZone is specified */
+  max?: number;
+}
+/** Label represents the Kubernetes label */
+export interface Label {
+  /** The key of the label */
+  key: string;
+  /** The value of the label */
+  value?: string;
+}
+/** Kubernetes labels to propagate to the NodePool Nodes. Note that when the labels are updated this is only applied to newly created nodes in the NodePool, existing node labels remain unchanged. */
+export type NodePoolPropertiesLabelsList = Array<Label>;
+/** The taint effect the same as in Kubernetes */
+export type Effect = "NoSchedule" | "PreferNoSchedule" | "NoExecute";
+/** Taint is controlling the node taint and its effects */
+export interface Taint {
+  /** The key of the taint */
+  key: string;
+  /** The value of the taint */
+  value?: string;
+  /** The effect of the taint */
+  effect: Effect | (string & {});
+}
+/** Taints for the nodes. */
+export type NodePoolPropertiesTaintsList = Array<Taint>;
+/** The conditions on the resource */
+export type NodePoolResourceStatusConditionsList = Array<Condition>;
+/** NodePoolActiveVersion represents a version of a resource. */
+export interface NodePoolActiveVersion {
+  /** The version of the resource. Specified in major.minor.patch, same as the input */
+  version: string;
+}
+/** The observed active versions of the node pool. During upgrades, it is common for multiple versions to be active at the same time while old nodes are drained and replaced. The ordering of entries has no meaning. */
+export type NodePoolResourceStatusActiveVersionsList = Array<NodePoolActiveVersion>;
+/** NodePoolResourceStatus represents the observed status of the nodepool resource. */
+export interface NodePoolResourceStatus {
+  /** The conditions on the resource */
+  conditions?: NodePoolResourceStatusConditionsList;
+  /** The observed active versions of the node pool. During upgrades, it is common for multiple versions to be active at the same time while old nodes are drained and replaced. The ordering of entries has no meaning. */
+  activeVersions?: NodePoolResourceStatusActiveVersionsList;
+}
+/** Represents the node pool properties */
+export interface NodePoolProperties {
+  /** Provisioning state */
+  provisioningState?: ProvisioningState_2;
+  /** OpenShift version for the nodepool */
+  version?: NodePoolVersionProfile;
+  /** Azure node pool platform configuration */
+  platform: NodePoolPlatformProfile;
+  /** The number of worker nodes, it cannot be used together with autoscaling. Validation: - Minimum: 0 - Maximum: 200 (only when availabilityZone is not specified) - No maximum when availabilityZone is specified */
+  replicas?: number;
+  /** autoRepair specifies whether health checks should be enabled for machines in the NodePool. Enabling this feature will cause the controller to automatically delete unhealthy machines. The unhealthy criteria are determined by checking the Node Ready condition and a timeout that might vary depending on the platform provider. autoRepair will not take action when more than 2 Nodes are unhealthy at the same time, giving time for the cluster to stabilize or for the user to manually intervene. */
+  autoRepair?: boolean;
+  /** Representation of a autoscaling in a node pool. */
+  autoScaling?: NodePoolAutoScaling;
+  /** Kubernetes labels to propagate to the NodePool Nodes. Note that when the labels are updated this is only applied to newly created nodes in the NodePool, existing node labels remain unchanged. */
+  labels?: NodePoolPropertiesLabelsList;
+  /** Taints for the nodes. */
+  taints?: NodePoolPropertiesTaintsList;
+  /** nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected workloads will be respected during any node draining operation. After this grace period, any workloads protected by Pod Disruption Budgets that have not been successfully drained from a node will be forcibly evicted. This is especially relevant to cluster upgrades. Valid values are from 0 to 10080 minutes (1 week) . 0 means that the NodePool can be drained without any time limitation. If unset the cluster nodeDrainTimeoutMinutes value is used as a default. */
+  nodeDrainTimeoutMinutes?: number;
+  /** Status of the node pool resource */
+  status?: NodePoolResourceStatus;
+}
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type GetNodePoolResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentity | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface GetNodePoolResponseIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string;
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: GetNodePoolResponseIdentityUserAssignedIdentitiesMap;
+}
+export interface GetNodePoolResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: GetNodePoolResponseTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: NodePoolProperties;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: GetNodePoolResponseIdentity;
+}
+export interface GetOpenShiftClusterRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the OpenShift cluster resource. */
+  resourceName: string;
 }
 /** Resource tags. */
 export type GetOpenShiftClusterResponseTagsMap = { [key: string]: string | undefined };
@@ -251,19 +1013,6 @@ export interface OpenShiftClusterProperties {
   /** The cluster ingress profiles. */
   ingressProfiles?: OpenShiftClusterPropertiesIngressProfilesList;
 }
-/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-export type ManagedServiceIdentityType =
-  | "None"
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned,UserAssigned";
-/** User assigned identity properties */
-export interface UserAssignedIdentity {
-  /** The principal ID of the assigned identity. */
-  principalId?: string;
-  /** The client ID of the assigned identity. */
-  clientId?: string;
-}
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type GetOpenShiftClusterResponseIdentityUserAssignedIdentitiesMap = {
   [key: string]: UserAssignedIdentity | null | undefined;
@@ -359,6 +1108,357 @@ export interface GetPlatformWorkloadIdentityRoleSetResponse {
   systemData?: SystemData;
   /** The properties for the PlatformWorkloadIdentityRoleSet resource. */
   properties?: PlatformWorkloadIdentityRoleSetProperties;
+}
+/** Resource tags. */
+export type HcpOpenShiftClustersCreateOrUpdateRequestTagsMap = {
+  [key: string]: string | undefined;
+};
+/** DNS contains the DNS settings of the cluster */
+export interface DnsProfileInput {
+  /** BaseDomainPrefix is the base domain prefix for the cluster ingress. It will be used to configure ingress in the cluster through the subdomain "BaseDomainPrefix.BaseDomain". */
+  baseDomainPrefix?: string;
+}
+/** The internet visibility of the OpenShift API server */
+export type ApiProfileInputVisibility = "Public" | "Private";
+/** The list of authorized IPv4 CIDR blocks allowed to access the API server. Maximum 500 entries. */
+export type ApiProfileInputAuthorizedCidrsList = Array<string>;
+/** Information about the API of a cluster. */
+export interface ApiProfileInput {
+  /** The internet visibility of the OpenShift API server */
+  visibility?: ApiProfileInputVisibility | (string & {});
+  /** The list of authorized IPv4 CIDR blocks allowed to access the API server. Maximum 500 entries. */
+  authorizedCidrs?: ApiProfileInputAuthorizedCidrsList;
+}
+/** The core outgoing configuration */
+export type PlatformProfileInputOutboundType = "LoadBalancer";
+/** Azure specific configuration */
+export interface PlatformProfileInput {
+  /** The name of the resource group to put cluster resources in. If not specified then a unique name is generated from the following pattern "aro-hcp-" + clusterName + "-" + UUID where clusterName means the hcpOpenShiftClusters resource name (up to 45 characters) followed by a 16-byte universally unique identifier per RFC 4122. */
+  managedResourceGroup?: string;
+  /** The Azure resource ID of the worker subnet. Note that a subnet cannot be reused between ARO-HCP Clusters. */
+  subnetId: string;
+  /** The Azure resource ID of a subnet that enables direct, private network connectivity between the hosted control plane and your cluster's nodes. This subnet must be dedicated to ARO HCP and cannot be shared with the cluster subnet or any node pool subnets. */
+  vnetIntegrationSubnetId: string;
+  /** The core outgoing configuration */
+  outboundType?: PlatformProfileInputOutboundType | (string & {});
+  /** ResourceId for the NSG (network security group) attached to the cluster subnet Note that NSGs cannot be reused for other ARO-HCP clusters. */
+  networkSecurityGroupId: string;
+  /** The configuration that the operators of the cluster have to authenticate to Azure */
+  operatorsAuthentication: OperatorsAuthenticationProfile;
+  /** Azure Container Registry configuration for authenticating image pulls on the cluster's worker nodes. */
+  containerRegistry?: ContainerRegistryProfile;
+}
+/** imageDigestMirrors is a set of rules to allow pulling images from a mirrored registry by using digest specifications. WARNING: Updating this array will redeploy all node pools in the cluster. */
+export type HcpOpenShiftClusterPropertiesInputImageDigestMirrorsList = Array<ImageDigestMirror>;
+/** Cryptographic restrictions for kernel and userspace libraries */
+export type HcpOpenShiftClusterPropertiesInputCryptoRestrictions = "None" | "FIPS";
+/** HCP cluster properties */
+export interface HcpOpenShiftClusterPropertiesInput {
+  /** Version of the control plane components */
+  version: VersionProfile;
+  /** Cluster DNS configuration */
+  dns?: DnsProfileInput;
+  /** Cluster network configuration */
+  network?: NetworkProfile_2;
+  /** Shows the cluster API server profile */
+  api?: ApiProfileInput;
+  /** The cluster ingress configuration */
+  ingress?: IngressProfile_2;
+  /** Azure platform configuration */
+  platform: PlatformProfileInput;
+  /** Configure ClusterAutoscaling . */
+  autoscaling?: ClusterAutoscalingProfile;
+  /** Configure ETCD. */
+  etcd?: EtcdProfile;
+  /** imageDigestMirrors is a set of rules to allow pulling images from a mirrored registry by using digest specifications. WARNING: Updating this array will redeploy all node pools in the cluster. */
+  imageDigestMirrors?: HcpOpenShiftClusterPropertiesInputImageDigestMirrorsList;
+  /** nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected workloads will be respected during any node draining operation. After this grace period, any workloads protected by Pod Disruption Budgets that have not been successfully drained from a node will be forcibly evicted. This is especially relevant to cluster upgrades. Valid values are in minutes and from 0 to 10080 minutes (1 week). 0 means that the MachinePool can be drained without any time limitation. This value is used as a default for all NodePools. It can be overridden by specifying nodeDrainTimeoutMinutes for a given NodePool */
+  nodeDrainTimeoutMinutes?: number;
+  /** OpenShift internal image registry */
+  clusterImageRegistry?: ClusterImageRegistryProfile;
+  /** Cryptographic restrictions for kernel and userspace libraries */
+  cryptoRestrictions?: HcpOpenShiftClusterPropertiesInputCryptoRestrictions | (string & {});
+}
+/** User assigned identity properties */
+export interface UserAssignedIdentityInput {}
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type HcpOpenShiftClustersCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentityInput | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface HcpOpenShiftClustersCreateOrUpdateRequestIdentity {
+  type: ManagedServiceIdentityType | (string & {});
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: HcpOpenShiftClustersCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap;
+}
+export interface HcpOpenShiftClustersCreateOrUpdateRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the HcpOpenShiftCluster */
+  hcpOpenShiftClusterName: string;
+  /** Resource tags. */
+  tags?: HcpOpenShiftClustersCreateOrUpdateRequestTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: HcpOpenShiftClusterPropertiesInput;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: HcpOpenShiftClustersCreateOrUpdateRequestIdentity;
+}
+/** Resource tags. */
+export type HcpOpenShiftClustersCreateOrUpdateResponseTagsMap = {
+  [key: string]: string | undefined;
+};
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type HcpOpenShiftClustersCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentity | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface HcpOpenShiftClustersCreateOrUpdateResponseIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string;
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: HcpOpenShiftClustersCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap;
+}
+export interface HcpOpenShiftClustersCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: HcpOpenShiftClustersCreateOrUpdateResponseTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: HcpOpenShiftClusterProperties;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: HcpOpenShiftClustersCreateOrUpdateResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+export interface HcpOpenShiftClustersRequestAdminCredentialRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the HcpOpenShiftCluster */
+  hcpOpenShiftClusterName: string;
+  /** PEM encoded certificate request */
+  certificateSigningRequest?: string;
+}
+/** HCP cluster admin credential */
+export interface HcpOpenShiftClusterAdminCredential {
+  /** Admin kubeconfig with a temporary client certificate */
+  kubeconfig: string;
+  /** Expiration timestamp for the kubeconfig's client certificate */
+  expirationTimestamp: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+export interface ListExternalAuthByParentRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the HcpOpenShiftCluster */
+  hcpOpenShiftClusterName: string;
+}
+/** ExternalAuth resource */
+export interface ExternalAuth {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** The resource-specific properties for this resource. */
+  properties?: ExternalAuthProperties;
+}
+/** The ExternalAuth items on this page */
+export type ExternalAuthListResultValueList = Array<ExternalAuth>;
+/** The response of a ExternalAuth list operation. */
+export interface ExternalAuthListResult {
+  /** The ExternalAuth items on this page */
+  value: ExternalAuthListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export interface ListHcpOpenShiftClusterByResourceGroupRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+}
+/** Resource tags. */
+export type HcpOpenShiftClusterTagsMap = { [key: string]: string | undefined };
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type HcpOpenShiftClusterIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentity | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface HcpOpenShiftClusterIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string;
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: HcpOpenShiftClusterIdentityUserAssignedIdentitiesMap;
+}
+/** HCP cluster resource */
+export interface HcpOpenShiftCluster {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: HcpOpenShiftClusterTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: HcpOpenShiftClusterProperties;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: HcpOpenShiftClusterIdentity;
+}
+/** The HcpOpenShiftCluster items on this page */
+export type HcpOpenShiftClusterListResultValueList = Array<HcpOpenShiftCluster>;
+/** The response of a HcpOpenShiftCluster list operation. */
+export interface HcpOpenShiftClusterListResult {
+  /** The HcpOpenShiftCluster items on this page */
+  value: HcpOpenShiftClusterListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export interface ListHcpOpenShiftClusterBySubscriptionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+}
+export interface ListHcpOpenShiftVersionsRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the Azure region. */
+  location: string;
+}
+/** HcpOpenShiftVersion represents a location based available HCP OpenShift version */
+export interface HcpOpenShiftVersion {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** The resource-specific properties for this resource. */
+  properties?: HcpOpenShiftVersionProperties;
+}
+/** The HcpOpenShiftVersion items on this page */
+export type HcpOpenShiftVersionListResultValueList = Array<HcpOpenShiftVersion>;
+/** The response of a HcpOpenShiftVersion list operation. */
+export interface HcpOpenShiftVersionListResult {
+  /** The HcpOpenShiftVersion items on this page */
+  value: HcpOpenShiftVersionListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export interface ListHcpOperatorIdentityRoleSetsRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the Azure region. */
+  location: string;
+}
+/** HcpOperatorIdentityRoles represents a location based representation of the required platform workload identities and their required roles for a given OpenShift version */
+export interface HcpOperatorIdentityRoleSet {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** The resource-specific properties for this resource. */
+  properties?: HcpOperatorIdentityRoleSetProperties;
+}
+/** The HcpOperatorIdentityRoleSet items on this page */
+export type HcpOperatorIdentityRoleSetListResultValueList = Array<HcpOperatorIdentityRoleSet>;
+/** The response of a HcpOperatorIdentityRoleSet list operation. */
+export interface HcpOperatorIdentityRoleSetListResult {
+  /** The HcpOperatorIdentityRoleSet items on this page */
+  value: HcpOperatorIdentityRoleSetListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export interface ListNodePoolByParentRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the HcpOpenShiftCluster */
+  hcpOpenShiftClusterName: string;
+}
+/** Resource tags. */
+export type NodePoolTagsMap = { [key: string]: string | undefined };
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type NodePoolIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentity | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface NodePoolIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string;
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: NodePoolIdentityUserAssignedIdentitiesMap;
+}
+/** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
+export interface NodePool {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: NodePoolTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: NodePoolProperties;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: NodePoolIdentity;
+}
+/** The NodePool items on this page */
+export type NodePoolListResultValueList = Array<NodePool>;
+/** The response of a NodePool list operation. */
+export interface NodePoolListResult {
+  /** The NodePool items on this page */
+  value: NodePoolListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 export interface ListOpenShiftClusterAdminCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -529,6 +1629,97 @@ export interface PlatformWorkloadIdentityRoleSetList {
   nextLink?: string;
 }
 /** Resource tags. */
+export type NodePoolsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
+/** Kubernetes labels to propagate to the NodePool Nodes. Note that when the labels are updated this is only applied to newly created nodes in the NodePool, existing node labels remain unchanged. */
+export type NodePoolPropertiesInputLabelsList = Array<Label>;
+/** Taints for the nodes. */
+export type NodePoolPropertiesInputTaintsList = Array<Taint>;
+/** Represents the node pool properties */
+export interface NodePoolPropertiesInput {
+  /** OpenShift version for the nodepool */
+  version?: NodePoolVersionProfile;
+  /** Azure node pool platform configuration */
+  platform: NodePoolPlatformProfile;
+  /** The number of worker nodes, it cannot be used together with autoscaling. Validation: - Minimum: 0 - Maximum: 200 (only when availabilityZone is not specified) - No maximum when availabilityZone is specified */
+  replicas?: number;
+  /** autoRepair specifies whether health checks should be enabled for machines in the NodePool. Enabling this feature will cause the controller to automatically delete unhealthy machines. The unhealthy criteria are determined by checking the Node Ready condition and a timeout that might vary depending on the platform provider. autoRepair will not take action when more than 2 Nodes are unhealthy at the same time, giving time for the cluster to stabilize or for the user to manually intervene. */
+  autoRepair?: boolean;
+  /** Representation of a autoscaling in a node pool. */
+  autoScaling?: NodePoolAutoScaling;
+  /** Kubernetes labels to propagate to the NodePool Nodes. Note that when the labels are updated this is only applied to newly created nodes in the NodePool, existing node labels remain unchanged. */
+  labels?: NodePoolPropertiesInputLabelsList;
+  /** Taints for the nodes. */
+  taints?: NodePoolPropertiesInputTaintsList;
+  /** nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected workloads will be respected during any node draining operation. After this grace period, any workloads protected by Pod Disruption Budgets that have not been successfully drained from a node will be forcibly evicted. This is especially relevant to cluster upgrades. Valid values are from 0 to 10080 minutes (1 week) . 0 means that the NodePool can be drained without any time limitation. If unset the cluster nodeDrainTimeoutMinutes value is used as a default. */
+  nodeDrainTimeoutMinutes?: number;
+}
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type NodePoolsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentityInput | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface NodePoolsCreateOrUpdateRequestIdentity {
+  type: ManagedServiceIdentityType | (string & {});
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: NodePoolsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap;
+}
+export interface NodePoolsCreateOrUpdateRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the HcpOpenShiftCluster */
+  hcpOpenShiftClusterName: string;
+  /** The name of the NodePool */
+  nodePoolName: string;
+  /** Resource tags. */
+  tags?: NodePoolsCreateOrUpdateRequestTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: NodePoolPropertiesInput;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: NodePoolsCreateOrUpdateRequestIdentity;
+}
+/** Resource tags. */
+export type NodePoolsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type NodePoolsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentity | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface NodePoolsCreateOrUpdateResponseIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string;
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: NodePoolsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap;
+}
+export interface NodePoolsCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: NodePoolsCreateOrUpdateResponseTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: NodePoolProperties;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: NodePoolsCreateOrUpdateResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+/** Resource tags. */
 export type OpenShiftClustersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** ClusterProfile represents a cluster profile. */
 export interface ClusterProfileInput {
@@ -544,7 +1735,7 @@ export interface ClusterProfileInput {
   fipsValidatedModules?: FipsValidatedModules | (string & {});
 }
 /** ConsoleProfile represents a console profile. */
-export interface ConsoleProfileInput {}
+export type ConsoleProfileInput = UserAssignedIdentityInput;
 /** PlatformWorkloadIdentity stores information representing a single workload identity. */
 export interface PlatformWorkloadIdentityInput {
   /** The resource ID of the PlatformWorkloadIdentity resource */
@@ -602,7 +1793,7 @@ export interface OpenShiftClusterPropertiesInput {
   /** The cluster profile. */
   clusterProfile?: ClusterProfileInput;
   /** The console profile. */
-  consoleProfile?: ConsoleProfileInput;
+  consoleProfile?: UserAssignedIdentityInput;
   /** The cluster service principal profile. */
   servicePrincipalProfile?: ServicePrincipalProfile;
   /** The workload identity profile. */
@@ -618,11 +1809,9 @@ export interface OpenShiftClusterPropertiesInput {
   /** The cluster ingress profiles. */
   ingressProfiles?: OpenShiftClusterPropertiesInputIngressProfilesList;
 }
-/** User assigned identity properties */
-export type UserAssignedIdentityInput = ConsoleProfileInput;
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type OpenShiftClustersCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ConsoleProfileInput | null | undefined;
+  [key: string]: UserAssignedIdentityInput | null | undefined;
 };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface OpenShiftClustersCreateOrUpdateRequestIdentity {
@@ -684,11 +1873,349 @@ export interface OpenShiftClustersCreateOrUpdateResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
+export interface RevokeHcpOpenShiftClusterCredentialsRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the HcpOpenShiftCluster */
+  hcpOpenShiftClusterName: string;
+}
+export interface RevokeHcpOpenShiftClusterCredentialsResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+/** This configures the acceptable audiences for JWT tokens issued by the identity provider. At least one of the entries must match the 'aud' claim in the JWT token. Audiences must contain at least one entry and must not exceed ten entries. */
+export type TokenIssuerProfileUpdateAudiencesList = Array<string>;
+/** Token issuer profile This configures how the platform interacts with the identity provider and how tokens issued from the identity provider are evaluated by the Kubernetes API server. */
+export interface TokenIssuerProfileUpdate {
+  /** This configures the URL used to issue tokens by the identity provider. The Kubernetes API server determines how authentication tokens should be handled by matching the 'iss' claim in the JWT to the issuerURL of configured identity providers. issuerURL must use the 'https' scheme. */
+  url?: string;
+  /** This configures the acceptable audiences for JWT tokens issued by the identity provider. At least one of the entries must match the 'aud' claim in the JWT token. Audiences must contain at least one entry and must not exceed ten entries. */
+  audiences?: TokenIssuerProfileUpdateAudiencesList;
+  /** The issuer of the token. Certificate bundle to use to validate server certificates for the configured URL. It must be PEM encoded and when not specified, the system trust is used. */
+  ca?: string;
+}
+/** External Auth OIDC clients There must not be more than 20 entries and entries must have unique namespace/name pairs. */
+export type ExternalAuthPropertiesUpdateClientsList = Array<ExternalAuthClientProfile>;
+/** External Auth claim profile This configures how the username of a cluster identity should be constructed from the claims in a JWT token issued by the identity provider. */
+export interface UsernameClaimProfileUpdate {
+  /** Claim name of the external profile */
+  claim?: string;
+  /** Prefix for the claim external profile. Must be set when the prefixPolicy field is set to 'Prefix' and must be unset otherwise. */
+  prefix?: string;
+  /** Prefix policy is an optional field that configures how a prefix should be applied to the value of the JWT claim specified in the 'claim' field. Allowed values are 'Prefix', 'NoPrefix', and 'None'. If not specified, the default policy is 'None'. When set to 'Prefix', the value specified in the prefix field will be prepended to the value of the JWT claim. The prefix field must be set when prefixPolicy is 'Prefix'. When set to 'NoPrefix', no prefix will be prepended to the value of the JWT claim. When set to 'None', this means no opinion and the platform is left to choose any prefixes that are applied which is subject to change over time. Currently, the platform prepends `{issuerURL}#` to the value of the JWT claim when the claim is not 'email'. As an example, consider the following scenario: `prefix` is unset, `issuerURL` is set to `https://myoidc.tld`, the JWT claims include "username":"userA" and "email":"userA */
+  prefixPolicy?: UsernameClaimPrefixPolicy | (string & {});
+}
+/** External Auth claim profile This configures how the groups of a cluster identity should be constructed from the claims in a JWT token issued by the identity provider. When referencing a claim, if the claim is present in the JWT token, its value must be a list of groups separated by a comma (','). For example - '"example"' and '"exampleOne", "exampleTwo", "exampleThree"' are valid claim values. */
+export interface GroupClaimProfileUpdate {
+  /** Claim name of the external profile */
+  claim?: string;
+  /** Prefix for the claim external profile. If this is specified, prefixPolicy will be set to "Prefix" by default. */
+  prefix?: string;
+}
+/** External Auth claim mappings profile. At a minimum username or groups must be defined. */
+export interface TokenClaimMappingsProfileUpdate {
+  /** The claim mappings username. */
+  username?: UsernameClaimProfileUpdate;
+  /** The claim mappings groups. */
+  groups?: GroupClaimProfileUpdate;
+}
+/** The claim validation rules. */
+export type ExternalAuthClaimProfileUpdateValidationRulesList = Array<TokenClaimValidationRule>;
+/** External Auth claim profile */
+export interface ExternalAuthClaimProfileUpdate {
+  /** The claim mappings. */
+  mappings?: TokenClaimMappingsProfileUpdate;
+  /** The claim validation rules. */
+  validationRules?: ExternalAuthClaimProfileUpdateValidationRulesList;
+}
+/** External Auth profile */
+export interface ExternalAuthPropertiesUpdate {
+  /** Token Issuer profile */
+  issuer?: TokenIssuerProfileUpdate;
+  /** External Auth OIDC clients There must not be more than 20 entries and entries must have unique namespace/name pairs. */
+  clients?: ExternalAuthPropertiesUpdateClientsList;
+  /** External Auth claim This configures how claims are validated and applied. */
+  claim?: ExternalAuthClaimProfileUpdate;
+}
+export interface UpdateExternalAuthRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the HcpOpenShiftCluster */
+  hcpOpenShiftClusterName: string;
+  /** The name of the ExternalAuth */
+  externalAuthName: string;
+  /** The resource-specific properties for this resource. */
+  properties?: ExternalAuthPropertiesUpdate;
+}
+export interface UpdateExternalAuthResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** The resource-specific properties for this resource. */
+  properties?: ExternalAuthProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+/** Resource tags. */
+export type UpdateHcpOpenShiftClusterRequestTagsMap = { [key: string]: string | undefined };
+/** Versions represents an OpenShift version. */
+export interface VersionProfileUpdate {
+  /** ID is the desired X.Y version of the cluster control plane. */
+  id?: string;
+  /** ChannelGroup is the name of the set to which this version belongs. Each version belongs to only a single set. If not specified, the default value is 'stable'. This property is intended to be updateable, but that support is not yet complete. Until then, changing this value after cluster creation is rejected. */
+  channelGroup?: string;
+}
+/** The list of authorized IPv4 CIDR blocks allowed to access the API server. Maximum 500 entries. */
+export type ApiProfileUpdateAuthorizedCidrsList = Array<string>;
+/** Information about the API of a cluster. */
+export interface ApiProfileUpdate {
+  /** The list of authorized IPv4 CIDR blocks allowed to access the API server. Maximum 500 entries. */
+  authorizedCidrs?: ApiProfileUpdateAuthorizedCidrsList;
+}
+/** The set of Azure User-Assigned Managed Identities leveraged for the Control Plane operators of the cluster. The set of required managed identities is dependent on the Cluster's OpenShift version. */
+export type UserAssignedIdentitiesProfileUpdateControlPlaneOperatorsMap = {
+  [key: string]: string | undefined;
+};
+/** The set of Azure User-Assigned Managed Identities leveraged for the Data Plane operators of the cluster. The set of required managed identities is dependent on the Cluster's OpenShift version. */
+export type UserAssignedIdentitiesProfileUpdateDataPlaneOperatorsMap = {
+  [key: string]: string | undefined;
+};
+/** Represents the information related to Azure User-Assigned managed identities needed to perform Operators authentication based on Azure User-Assigned Managed Identities */
+export interface UserAssignedIdentitiesProfileUpdate {
+  /** The set of Azure User-Assigned Managed Identities leveraged for the Control Plane operators of the cluster. The set of required managed identities is dependent on the Cluster's OpenShift version. */
+  controlPlaneOperators?: UserAssignedIdentitiesProfileUpdateControlPlaneOperatorsMap;
+  /** The set of Azure User-Assigned Managed Identities leveraged for the Data Plane operators of the cluster. The set of required managed identities is dependent on the Cluster's OpenShift version. */
+  dataPlaneOperators?: UserAssignedIdentitiesProfileUpdateDataPlaneOperatorsMap;
+  /** Represents the information associated to an Azure User-Assigned Managed Identity whose purpose is to perform service level actions. */
+  serviceManagedIdentity?: string;
+}
+/** The configuration that the operators of the cluster have to authenticate to Azure. */
+export interface OperatorsAuthenticationProfileUpdate {
+  /** Represents the information related to Azure User-Assigned managed identities needed to perform Operators authentication based on Azure User-Assigned Managed Identities */
+  userAssignedIdentities?: UserAssignedIdentitiesProfileUpdate;
+}
+/** Azure specific configuration */
+export interface PlatformProfileUpdate {
+  /** The configuration that the operators of the cluster have to authenticate to Azure */
+  operatorsAuthentication?: OperatorsAuthenticationProfileUpdate;
+  /** Azure Container Registry configuration for authenticating image pulls on the cluster's worker nodes. */
+  containerRegistry?: ContainerRegistryProfile;
+}
+/** A representation of a KeyVault Secret. */
+export interface KmsKeyUpdate {
+  /** version contains the version of the key to use. */
+  version?: string;
+}
+/** Configure etcd encryption Key Management Service (KMS) key. Your Microsoft Entra application used to create the cluster must be authorized to access this keyvault, e.g using the AzureCLI: `az keyvault set-policy -n $KEYVAULT_NAME --key-permissions decrypt encrypt --spn (YOUR APPLICATION CLIENT ID)` */
+export interface KmsEncryptionProfileUpdate {
+  /** The details of the active key. */
+  activeKey?: KmsKeyUpdate;
+}
+/** Customer managed encryption key profile. */
+export interface CustomerManagedEncryptionProfileUpdate {
+  /** The Key Management Service (KMS) encryption key details. Required when encryptionType is "KMS". */
+  kms?: KmsEncryptionProfileUpdate;
+}
+/** The ETCD data encryption settings. */
+export interface EtcdDataEncryptionProfileUpdate {
+  /** Specify customer managed encryption key details. Required when keyManagementMode is "CustomerManaged". */
+  customerManaged?: CustomerManagedEncryptionProfileUpdate;
+}
+/** The ETCD settings and configuration options. */
+export interface EtcdProfileUpdate {
+  /** ETCD Data Encryption settings. If not specified platform managed keys are used. */
+  dataEncryption?: EtcdDataEncryptionProfileUpdate;
+}
+/** imageDigestMirrors is a set of rules to allow pulling images from a mirrored registry by using digest specifications. WARNING: Updating this array will redeploy all node pools in the cluster. */
+export type HcpOpenShiftClusterPropertiesUpdateImageDigestMirrorsList = Array<ImageDigestMirror>;
+/** HCP cluster properties */
+export interface HcpOpenShiftClusterPropertiesUpdate {
+  /** Version of the control plane components */
+  version?: VersionProfileUpdate;
+  /** Shows the cluster API server profile */
+  api?: ApiProfileUpdate;
+  /** Azure platform configuration */
+  platform?: PlatformProfileUpdate;
+  /** Configure ClusterAutoscaling . */
+  autoscaling?: ClusterAutoscalingProfile;
+  /** Configure ETCD. */
+  etcd?: EtcdProfileUpdate;
+  /** imageDigestMirrors is a set of rules to allow pulling images from a mirrored registry by using digest specifications. WARNING: Updating this array will redeploy all node pools in the cluster. */
+  imageDigestMirrors?: HcpOpenShiftClusterPropertiesUpdateImageDigestMirrorsList;
+  /** nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected workloads will be respected during any node draining operation. After this grace period, any workloads protected by Pod Disruption Budgets that have not been successfully drained from a node will be forcibly evicted. This is especially relevant to cluster upgrades. Valid values are in minutes and from 0 to 10080 minutes (1 week). 0 means that the MachinePool can be drained without any time limitation. This value is used as a default for all NodePools. It can be overridden by specifying nodeDrainTimeoutMinutes for a given NodePool */
+  nodeDrainTimeoutMinutes?: number;
+}
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+export type AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputType =
+  | "None"
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned,UserAssigned";
+/** User assigned identity properties */
+export type AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputUserAssignedIdentitiesValue =
+  UserAssignedIdentityInput;
+/** The identities assigned to this resource by the user. */
+export type AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputUserAssignedIdentitiesMap =
+  { [key: string]: UserAssignedIdentityInput | undefined };
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput {
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputType | (string & {});
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputUserAssignedIdentitiesMap;
+}
+export interface UpdateHcpOpenShiftClusterRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the HcpOpenShiftCluster */
+  hcpOpenShiftClusterName: string;
+  /** Resource tags. */
+  tags?: UpdateHcpOpenShiftClusterRequestTagsMap;
+  /** The resource-specific properties for this resource. */
+  properties?: HcpOpenShiftClusterPropertiesUpdate;
+  /** The managed service identities assigned to this resource. */
+  identity?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput;
+}
+/** Resource tags. */
+export type UpdateHcpOpenShiftClusterResponseTagsMap = { [key: string]: string | undefined };
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type UpdateHcpOpenShiftClusterResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentity | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface UpdateHcpOpenShiftClusterResponseIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string;
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: UpdateHcpOpenShiftClusterResponseIdentityUserAssignedIdentitiesMap;
+}
+export interface UpdateHcpOpenShiftClusterResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: UpdateHcpOpenShiftClusterResponseTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: HcpOpenShiftClusterProperties;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: UpdateHcpOpenShiftClusterResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+/** Resource tags. */
+export type UpdateNodePoolRequestTagsMap = { [key: string]: string | undefined };
+/** Versions represents an OpenShift version. */
+export interface NodePoolVersionProfileUpdate {
+  /** ID is the unique identifier of the version. */
+  id?: string;
+  /** ChannelGroup is the name of the set to which this version belongs. Each version belongs to only a single set. If not specified, the default value is 'stable'. This property is intended to be updateable, but that support is not yet complete. Until then, changing this value after node pool creation is rejected. */
+  channelGroup?: string;
+}
+/** Kubernetes labels to propagate to the NodePool Nodes. Note that when the labels are updated this is only applied to newly created nodes in the NodePool, existing node labels remain unchanged. */
+export type NodePoolPropertiesUpdateLabelsList = Array<Label>;
+/** Taints for the nodes. */
+export type NodePoolPropertiesUpdateTaintsList = Array<Taint>;
+/** Represents the node pool properties */
+export interface NodePoolPropertiesUpdate {
+  /** OpenShift version for the nodepool */
+  version?: NodePoolVersionProfileUpdate;
+  /** The number of worker nodes, it cannot be used together with autoscaling. Validation: - Minimum: 0 - Maximum: 200 (only when availabilityZone is not specified) - No maximum when availabilityZone is specified */
+  replicas?: number;
+  /** Representation of a autoscaling in a node pool. */
+  autoScaling?: NodePoolAutoScaling;
+  /** Kubernetes labels to propagate to the NodePool Nodes. Note that when the labels are updated this is only applied to newly created nodes in the NodePool, existing node labels remain unchanged. */
+  labels?: NodePoolPropertiesUpdateLabelsList;
+  /** Taints for the nodes. */
+  taints?: NodePoolPropertiesUpdateTaintsList;
+  /** nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected workloads will be respected during any node draining operation. After this grace period, any workloads protected by Pod Disruption Budgets that have not been successfully drained from a node will be forcibly evicted. This is especially relevant to cluster upgrades. Valid values are from 0 to 10080 minutes (1 week) . 0 means that the NodePool can be drained without any time limitation. If unset the cluster nodeDrainTimeoutMinutes value is used as a default. */
+  nodeDrainTimeoutMinutes?: number;
+}
+export interface UpdateNodePoolRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the HcpOpenShiftCluster */
+  hcpOpenShiftClusterName: string;
+  /** The name of the NodePool */
+  nodePoolName: string;
+  /** Resource tags. */
+  tags?: UpdateNodePoolRequestTagsMap;
+  /** The resource-specific properties for this resource. */
+  properties?: NodePoolPropertiesUpdate;
+  /** The managed service identities assigned to this resource. */
+  identity?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput;
+}
+/** Resource tags. */
+export type UpdateNodePoolResponseTagsMap = { [key: string]: string | undefined };
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type UpdateNodePoolResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentity | null | undefined;
+};
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface UpdateNodePoolResponseIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string;
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: UpdateNodePoolResponseIdentityUserAssignedIdentitiesMap;
+}
+export interface UpdateNodePoolResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: UpdateNodePoolResponseTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties?: NodePoolProperties;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: UpdateNodePoolResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 /** The resource tags. */
 export type UpdateOpenShiftClusterRequestTagsMap = { [key: string]: string | undefined };
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UpdateOpenShiftClusterRequestIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ConsoleProfileInput | null | undefined;
+  [key: string]: UserAssignedIdentityInput | null | undefined;
 };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateOpenShiftClusterRequestIdentity {
@@ -748,6 +2275,57 @@ export interface UpdateOpenShiftClusterResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
+export type DeleteExternalAuthError = AzureOpError;
+/** Delete a ExternalAuth */
+export const DeleteExternalAuth: API.OperationMethod<
+  DeleteExternalAuthRequest,
+  DeleteExternalAuthResponse,
+  DeleteExternalAuthError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteExternalAuthRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteExternalAuthResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteExternalAuth",
+}));
+
+export type DeleteHcpOpenShiftClusterError = AzureOpError;
+/** Delete a HcpOpenShiftCluster */
+export const DeleteHcpOpenShiftCluster: API.OperationMethod<
+  DeleteHcpOpenShiftClusterRequest,
+  DeleteHcpOpenShiftClusterResponse,
+  DeleteHcpOpenShiftClusterError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(64, __c2, 0) as any as S.Schema<DeleteHcpOpenShiftClusterRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteHcpOpenShiftClusterResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHcpOpenShiftCluster",
+}));
+
+export type DeleteNodePoolError = AzureOpError;
+/** Delete a NodePool */
+export const DeleteNodePool: API.OperationMethod<
+  DeleteNodePoolRequest,
+  DeleteNodePoolResponse,
+  DeleteNodePoolError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(672, __c21, 0) as any as S.Schema<DeleteNodePoolRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteNodePoolResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNodePool",
+}));
+
 export type DeleteOpenShiftClusterError = AzureOpError;
 /** Deletes a OpenShift cluster with the specified subscription, resource group and resource name. The operation returns nothing. */
 export const DeleteOpenShiftCluster: API.OperationMethod<
@@ -756,13 +2334,115 @@ export const DeleteOpenShiftCluster: API.OperationMethod<
   DeleteOpenShiftClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeleteOpenShiftClusterRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<DeleteOpenShiftClusterResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<DeleteOpenShiftClusterRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteOpenShiftClusterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteOpenShiftCluster",
+}));
+
+export type ExternalAuthsCreateOrUpdateError = AzureOpError;
+/** Create a ExternalAuth */
+export const ExternalAuthsCreateOrUpdate: API.OperationMethod<
+  ExternalAuthsCreateOrUpdateRequest,
+  ExternalAuthsCreateOrUpdateResponse,
+  ExternalAuthsCreateOrUpdateError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1313, __c41, 1) as any as S.Schema<ExternalAuthsCreateOrUpdateRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<ExternalAuthsCreateOrUpdateResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalAuthsCreateOrUpdate",
+}));
+
+export type GetExternalAuthError = AzureOpError;
+/** Get a ExternalAuth */
+export const GetExternalAuth: API.OperationMethod<
+  GetExternalAuthRequest,
+  GetExternalAuthResponse,
+  GetExternalAuthError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1472, __c46, 0) as any as S.Schema<GetExternalAuthRequest>,
+  output: __S(1504, __c47, 0) as any as S.Schema<GetExternalAuthResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExternalAuth",
+}));
+
+export type GetHcpOpenShiftClusterError = AzureOpError;
+/** Get a HcpOpenShiftCluster */
+export const GetHcpOpenShiftCluster: API.OperationMethod<
+  GetHcpOpenShiftClusterRequest,
+  GetHcpOpenShiftClusterResponse,
+  GetHcpOpenShiftClusterError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1536, __c48, 0) as any as S.Schema<GetHcpOpenShiftClusterRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<GetHcpOpenShiftClusterResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHcpOpenShiftCluster",
+}));
+
+export type GetHcpOpenShiftVersionError = AzureOpError;
+/** Get a HcpOpenShiftVersion */
+export const GetHcpOpenShiftVersion: API.OperationMethod<
+  GetHcpOpenShiftVersionRequest,
+  GetHcpOpenShiftVersionResponse,
+  GetHcpOpenShiftVersionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1696, __c53, 0) as any as S.Schema<GetHcpOpenShiftVersionRequest>,
+  output: __S(1729, __c54, 1) as any as S.Schema<GetHcpOpenShiftVersionResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHcpOpenShiftVersion",
+}));
+
+export type GetHcpOperatorIdentityRoleSetError = AzureOpError;
+/** Get a HcpOperatorIdentityRoleSet */
+export const GetHcpOperatorIdentityRoleSet: API.OperationMethod<
+  GetHcpOperatorIdentityRoleSetRequest,
+  GetHcpOperatorIdentityRoleSetResponse,
+  GetHcpOperatorIdentityRoleSetError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1760, __c55, 0) as any as S.Schema<GetHcpOperatorIdentityRoleSetRequest>,
+  output: __S(1797, __c56, 5) as any as S.Schema<GetHcpOperatorIdentityRoleSetResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHcpOperatorIdentityRoleSet",
+}));
+
+export type GetNodePoolError = AzureOpError;
+/** Get a NodePool */
+export const GetNodePool: API.OperationMethod<
+  GetNodePoolRequest,
+  GetNodePoolResponse,
+  GetNodePoolError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1824, __c57, 0) as any as S.Schema<GetNodePoolRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<GetNodePoolResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNodePool",
 }));
 
 export type GetOpenShiftClusterError = AzureOpError;
@@ -773,8 +2453,8 @@ export const GetOpenShiftCluster: API.OperationMethod<
   GetOpenShiftClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<GetOpenShiftClusterRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<GetOpenShiftClusterResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<GetOpenShiftClusterRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<GetOpenShiftClusterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -790,8 +2470,8 @@ export const GetOpenShiftVersion: API.OperationMethod<
   GetOpenShiftVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GetOpenShiftVersionRequest>,
-  output: __S(321, __c10, 1) as any as S.Schema<GetOpenShiftVersionResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<GetOpenShiftVersionRequest>,
+  output: __S(224, __c7, 0) as any as S.Schema<GetOpenShiftVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -807,13 +2487,149 @@ export const GetPlatformWorkloadIdentityRoleSet: API.OperationMethod<
   GetPlatformWorkloadIdentityRoleSetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetPlatformWorkloadIdentityRoleSetRequest>,
-  output: __S(387, __c12, 3) as any as S.Schema<GetPlatformWorkloadIdentityRoleSetResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetPlatformWorkloadIdentityRoleSetRequest>,
+  output: __S(323, __c10, 3) as any as S.Schema<GetPlatformWorkloadIdentityRoleSetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetPlatformWorkloadIdentityRoleSet",
+}));
+
+export type HcpOpenShiftClustersCreateOrUpdateError = AzureOpError;
+/** Create a HcpOpenShiftCluster */
+export const HcpOpenShiftClustersCreateOrUpdate: API.OperationMethod<
+  HcpOpenShiftClustersCreateOrUpdateRequest,
+  HcpOpenShiftClustersCreateOrUpdateResponse,
+  HcpOpenShiftClustersCreateOrUpdateError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(356, __c11, 4) as any as S.Schema<HcpOpenShiftClustersCreateOrUpdateRequest>,
+  output: __S(357, __c11, 5) as any as S.Schema<HcpOpenShiftClustersCreateOrUpdateResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HcpOpenShiftClustersCreateOrUpdate",
+}));
+
+export type HcpOpenShiftClustersRequestAdminCredentialError = AzureOpError;
+/** Request a temporary admin kubeconfig for the cluster */
+export const HcpOpenShiftClustersRequestAdminCredential: API.OperationMethod<
+  HcpOpenShiftClustersRequestAdminCredentialRequest,
+  HcpOpenShiftClusterAdminCredential,
+  HcpOpenShiftClustersRequestAdminCredentialError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(448, __c14, 0) as any as S.Schema<HcpOpenShiftClustersRequestAdminCredentialRequest>,
+  output: __S(449, __c14, 1) as any as S.Schema<HcpOpenShiftClusterAdminCredential>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HcpOpenShiftClustersRequestAdminCredential",
+}));
+
+export type ListExternalAuthByParentError = AzureOpError;
+/** List ExternalAuth resources by HcpOpenShiftCluster */
+export const ListExternalAuthByParent: API.OperationMethod<
+  ListExternalAuthByParentRequest,
+  ExternalAuthListResult,
+  ListExternalAuthByParentError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(480, __c15, 0) as any as S.Schema<ListExternalAuthByParentRequest>,
+  output: __S(482, __c15, 2) as any as S.Schema<ExternalAuthListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExternalAuthByParent",
+}));
+
+export type ListHcpOpenShiftClusterByResourceGroupError = AzureOpError;
+/** List HcpOpenShiftCluster resources by resource group */
+export const ListHcpOpenShiftClusterByResourceGroup: API.OperationMethod<
+  ListHcpOpenShiftClusterByResourceGroupRequest,
+  HcpOpenShiftClusterListResult,
+  ListHcpOpenShiftClusterByResourceGroupError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(512, __c16, 0) as any as S.Schema<ListHcpOpenShiftClusterByResourceGroupRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<HcpOpenShiftClusterListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHcpOpenShiftClusterByResourceGroup",
+}));
+
+export type ListHcpOpenShiftClusterBySubscriptionError = AzureOpError;
+/** List HcpOpenShiftCluster resources by subscription ID */
+export const ListHcpOpenShiftClusterBySubscription: API.OperationMethod<
+  ListHcpOpenShiftClusterBySubscriptionRequest,
+  HcpOpenShiftClusterListResult,
+  ListHcpOpenShiftClusterBySubscriptionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(576, __c18, 0) as any as S.Schema<ListHcpOpenShiftClusterBySubscriptionRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<HcpOpenShiftClusterListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHcpOpenShiftClusterBySubscription",
+}));
+
+export type ListHcpOpenShiftVersionsError = AzureOpError;
+/** List HcpOpenShiftVersion resources by SubscriptionLocationResource */
+export const ListHcpOpenShiftVersions: API.OperationMethod<
+  ListHcpOpenShiftVersionsRequest,
+  HcpOpenShiftVersionListResult,
+  ListHcpOpenShiftVersionsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(608, __c19, 0) as any as S.Schema<ListHcpOpenShiftVersionsRequest>,
+  output: __S(610, __c19, 2) as any as S.Schema<HcpOpenShiftVersionListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHcpOpenShiftVersions",
+}));
+
+export type ListHcpOperatorIdentityRoleSetsError = AzureOpError;
+/** List HcpOperatorIdentityRoleSet resources by SubscriptionLocationResource */
+export const ListHcpOperatorIdentityRoleSets: API.OperationMethod<
+  ListHcpOperatorIdentityRoleSetsRequest,
+  HcpOperatorIdentityRoleSetListResult,
+  ListHcpOperatorIdentityRoleSetsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(640, __c20, 0) as any as S.Schema<ListHcpOperatorIdentityRoleSetsRequest>,
+  output: __S(642, __c20, 2) as any as S.Schema<HcpOperatorIdentityRoleSetListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHcpOperatorIdentityRoleSets",
+}));
+
+export type ListNodePoolByParentError = AzureOpError;
+/** List NodePool resources by HcpOpenShiftCluster */
+export const ListNodePoolByParent: API.OperationMethod<
+  ListNodePoolByParentRequest,
+  NodePoolListResult,
+  ListNodePoolByParentError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(704, __c22, 0) as any as S.Schema<ListNodePoolByParentRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<NodePoolListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNodePoolByParent",
 }));
 
 export type ListOpenShiftClusterAdminCredentialsError = AzureOpError;
@@ -824,8 +2640,8 @@ export const ListOpenShiftClusterAdminCredentials: API.OperationMethod<
   ListOpenShiftClusterAdminCredentialsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ListOpenShiftClusterAdminCredentialsRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<OpenShiftClusterAdminKubeconfig>,
+  input: __S(736, __c23, 0) as any as S.Schema<ListOpenShiftClusterAdminCredentialsRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<OpenShiftClusterAdminKubeconfig>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -841,8 +2657,8 @@ export const ListOpenShiftClusterByResourceGroup: API.OperationMethod<
   ListOpenShiftClusterByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<ListOpenShiftClusterByResourceGroupRequest>,
-  output: __S(481, __c15, 1) as any as S.Schema<OpenShiftClusterList>,
+  input: __S(768, __c24, 0) as any as S.Schema<ListOpenShiftClusterByResourceGroupRequest>,
+  output: __S(801, __c25, 1) as any as S.Schema<OpenShiftClusterList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -858,8 +2674,8 @@ export const ListOpenShiftClusterCredentials: API.OperationMethod<
   ListOpenShiftClusterCredentialsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ListOpenShiftClusterCredentialsRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<OpenShiftClusterCredentials>,
+  input: __S(832, __c26, 0) as any as S.Schema<ListOpenShiftClusterCredentialsRequest>,
+  output: __S(833, __c26, 1) as any as S.Schema<OpenShiftClusterCredentials>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -875,8 +2691,8 @@ export const ListOpenShiftClusters: API.OperationMethod<
   ListOpenShiftClustersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<ListOpenShiftClustersRequest>,
-  output: __S(481, __c15, 1) as any as S.Schema<OpenShiftClusterList>,
+  input: __S(864, __c27, 0) as any as S.Schema<ListOpenShiftClustersRequest>,
+  output: __S(801, __c25, 1) as any as S.Schema<OpenShiftClusterList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -892,8 +2708,8 @@ export const ListOpenShiftVersions: API.OperationMethod<
   ListOpenShiftVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<ListOpenShiftVersionsRequest>,
-  output: __S(578, __c18, 2) as any as S.Schema<OpenShiftVersionList>,
+  input: __S(896, __c28, 0) as any as S.Schema<ListOpenShiftVersionsRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<OpenShiftVersionList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -909,8 +2725,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(612, __c19, 4) as any as S.Schema<OperationList>,
+  input: __S(928, __c29, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(932, __c29, 4) as any as S.Schema<OperationList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -926,13 +2742,30 @@ export const ListPlatformWorkloadIdentityRoleSets: API.OperationMethod<
   ListPlatformWorkloadIdentityRoleSetsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<ListPlatformWorkloadIdentityRoleSetsRequest>,
-  output: __S(162, __c5, 2) as any as S.Schema<PlatformWorkloadIdentityRoleSetList>,
+  input: __S(960, __c30, 0) as any as S.Schema<ListPlatformWorkloadIdentityRoleSetsRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<PlatformWorkloadIdentityRoleSetList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPlatformWorkloadIdentityRoleSets",
+}));
+
+export type NodePoolsCreateOrUpdateError = AzureOpError;
+/** Create a NodePool */
+export const NodePoolsCreateOrUpdate: API.OperationMethod<
+  NodePoolsCreateOrUpdateRequest,
+  NodePoolsCreateOrUpdateResponse,
+  NodePoolsCreateOrUpdateError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(993, __c31, 1) as any as S.Schema<NodePoolsCreateOrUpdateRequest>,
+  output: __S(994, __c31, 2) as any as S.Schema<NodePoolsCreateOrUpdateResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodePoolsCreateOrUpdate",
 }));
 
 export type OpenShiftClustersCreateOrUpdateError = AzureOpError;
@@ -943,13 +2776,81 @@ export const OpenShiftClustersCreateOrUpdate: API.OperationMethod<
   OpenShiftClustersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<OpenShiftClustersCreateOrUpdateRequest>,
-  output: __S(237, __c7, 13) as any as S.Schema<OpenShiftClustersCreateOrUpdateResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<OpenShiftClustersCreateOrUpdateRequest>,
+  output: __S(1066, __c33, 10) as any as S.Schema<OpenShiftClustersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "OpenShiftClustersCreateOrUpdate",
+}));
+
+export type RevokeHcpOpenShiftClusterCredentialsError = AzureOpError;
+/** Revoke all credentials issued by requestAdminCredential */
+export const RevokeHcpOpenShiftClusterCredentials: API.OperationMethod<
+  RevokeHcpOpenShiftClusterCredentialsRequest,
+  RevokeHcpOpenShiftClusterCredentialsResponse,
+  RevokeHcpOpenShiftClusterCredentialsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1120, __c35, 0) as any as S.Schema<RevokeHcpOpenShiftClusterCredentialsRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<RevokeHcpOpenShiftClusterCredentialsResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeHcpOpenShiftClusterCredentials",
+}));
+
+export type UpdateExternalAuthError = AzureOpError;
+/** Update a ExternalAuth */
+export const UpdateExternalAuth: API.OperationMethod<
+  UpdateExternalAuthRequest,
+  UpdateExternalAuthResponse,
+  UpdateExternalAuthError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1158, __c36, 6) as any as S.Schema<UpdateExternalAuthRequest>,
+  output: __S(1159, __c36, 7) as any as S.Schema<UpdateExternalAuthResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExternalAuth",
+}));
+
+export type UpdateHcpOpenShiftClusterError = AzureOpError;
+/** Update a HcpOpenShiftCluster */
+export const UpdateHcpOpenShiftCluster: API.OperationMethod<
+  UpdateHcpOpenShiftClusterRequest,
+  UpdateHcpOpenShiftClusterResponse,
+  UpdateHcpOpenShiftClusterError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1193, __c37, 9) as any as S.Schema<UpdateHcpOpenShiftClusterRequest>,
+  output: __S(1194, __c37, 10) as any as S.Schema<UpdateHcpOpenShiftClusterResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHcpOpenShiftCluster",
+}));
+
+export type UpdateNodePoolError = AzureOpError;
+/** Update a NodePool */
+export const UpdateNodePool: API.OperationMethod<
+  UpdateNodePoolRequest,
+  UpdateNodePoolResponse,
+  UpdateNodePoolError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1249, __c39, 1) as any as S.Schema<UpdateNodePoolRequest>,
+  output: __S(1250, __c39, 2) as any as S.Schema<UpdateNodePoolResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNodePool",
 }));
 
 export type UpdateOpenShiftClusterError = AzureOpError;
@@ -960,8 +2861,8 @@ export const UpdateOpenShiftCluster: API.OperationMethod<
   UpdateOpenShiftClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<UpdateOpenShiftClusterRequest>,
-  output: __S(237, __c7, 13) as any as S.Schema<UpdateOpenShiftClusterResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<UpdateOpenShiftClusterRequest>,
+  output: __S(1066, __c33, 10) as any as S.Schema<UpdateOpenShiftClusterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -977,26 +2878,50 @@ function __c0(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
-          resourceName: S.String.pipe(T.Label()),
+          hcpOpenShiftClusterName: S.String.pipe(T.Label()),
+          externalAuthName: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/openShiftClusters/{resourceName}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/externalAuths/{externalAuthName}",
             code: 200,
-            apiVersion: "2025-07-25",
+            apiVersion: "2026-10-01",
           }),
         ),
-      ).annotate({ identifier: "DeleteOpenShiftClusterRequest" });
-    case 1:
+      ).annotate({ identifier: "DeleteExternalAuthRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
-      ).annotate({ identifier: "DeleteOpenShiftClusterResponse" });
+      ).annotate({ identifier: "DeleteExternalAuthResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          hcpOpenShiftClusterName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteHcpOpenShiftClusterRequest" });
+  }
+}
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1015,22 +2940,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetOpenShiftClusterRequest" });
   }
 }
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createdBy: S.optional(S.String),
-          createdByType: S.optional(S.String),
-          createdAt: S.optional(S.String),
-          lastModifiedBy: S.optional(S.String),
-          lastModifiedByType: S.optional(S.String),
-          lastModifiedAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SystemData" });
-  }
-}
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1038,20 +2948,18 @@ function __c3(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          tags: S.optional(__S(128, __c4, 0)),
+          systemData: S.optional(__S(1408, __c44, 0)),
+          tags: S.optional(__S(1632, __c51, 0)),
           location: S.String,
-          properties: S.optional(__S(146, __c4, 18)),
-          identity: S.optional(__S(149, __c4, 21)),
+          properties: S.optional(__S(177, __c5, 17)),
+          identity: S.optional(__S(1635, __c51, 3)),
         }),
       ).annotate({ identifier: "GetOpenShiftClusterResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           pullSecret: S.optional(S.String),
@@ -1062,20 +2970,20 @@ function __c4(j: number): any {
           oidcIssuer: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterProfile" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConsoleProfile" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           clientId: S.optional(S.String),
           clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ServicePrincipalProfile" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           resourceId: S.optional(S.String),
@@ -1083,47 +2991,47 @@ function __c4(j: number): any {
           objectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "PlatformWorkloadIdentity" });
+    case 4:
+      return S.Record(S.String, __S(163, __c5, 3));
     case 5:
-      return S.Record(S.String, __S(132, __c4, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
           upgradeableTo: S.optional(S.String),
-          platformWorkloadIdentities: S.optional(__S(133, __c4, 5)),
+          platformWorkloadIdentities: S.optional(__S(164, __c5, 4)),
         }),
       ).annotate({ identifier: "PlatformWorkloadIdentityProfile" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ManagedOutboundIPs" });
-    case 8:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "EffectiveOutboundIP" });
+    case 8:
+      return S.Array(__S(167, __c5, 7));
     case 9:
-      return S.Array(__S(136, __c4, 8));
-    case 10:
       return S.suspend(() =>
         S.Struct({
-          managedOutboundIps: S.optional(__S(135, __c4, 7)),
-          effectiveOutboundIps: S.optional(__S(137, __c4, 9)),
+          managedOutboundIps: S.optional(__S(166, __c5, 6)),
+          effectiveOutboundIps: S.optional(__S(168, __c5, 8)),
         }),
       ).annotate({ identifier: "LoadBalancerProfile" });
-    case 11:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           podCidr: S.optional(S.String),
           serviceCidr: S.optional(S.String),
           outboundType: S.optional(S.String),
-          loadBalancerProfile: S.optional(__S(138, __c4, 10)),
+          loadBalancerProfile: S.optional(__S(169, __c5, 9)),
           preconfiguredNSG: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkProfile" });
-    case 12:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           vmSize: S.optional(S.String),
@@ -1132,7 +3040,7 @@ function __c4(j: number): any {
           diskEncryptionSetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "MasterProfile" });
-    case 13:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
@@ -1144,9 +3052,9 @@ function __c4(j: number): any {
           diskEncryptionSetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkerProfile" });
+    case 13:
+      return S.Array(__S(172, __c5, 12));
     case 14:
-      return S.Array(__S(141, __c4, 13));
-    case 15:
       return S.suspend(() =>
         S.Struct({
           visibility: S.optional(S.String),
@@ -1154,7 +3062,7 @@ function __c4(j: number): any {
           ip: S.optional(S.String),
         }),
       ).annotate({ identifier: "APIServerProfile" });
-    case 16:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
@@ -1162,218 +3070,27 @@ function __c4(j: number): any {
           ip: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngressProfile" });
+    case 16:
+      return S.Array(__S(175, __c5, 15));
     case 17:
-      return S.Array(__S(144, __c4, 16));
-    case 18:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          clusterProfile: S.optional(__S(129, __c4, 1)),
-          consoleProfile: S.optional(__S(130, __c4, 2)),
-          servicePrincipalProfile: S.optional(__S(131, __c4, 3)),
-          platformWorkloadIdentityProfile: S.optional(__S(134, __c4, 6)),
-          networkProfile: S.optional(__S(139, __c4, 11)),
-          masterProfile: S.optional(__S(140, __c4, 12)),
-          workerProfiles: S.optional(__S(142, __c4, 14)),
-          workerProfilesStatus: S.optional(__S(142, __c4, 14)),
-          apiserverProfile: S.optional(__S(143, __c4, 15)),
-          ingressProfiles: S.optional(__S(145, __c4, 17)),
+          clusterProfile: S.optional(__S(160, __c5, 0)),
+          consoleProfile: S.optional(__S(161, __c5, 1)),
+          servicePrincipalProfile: S.optional(__S(162, __c5, 2)),
+          platformWorkloadIdentityProfile: S.optional(__S(165, __c5, 5)),
+          networkProfile: S.optional(__S(170, __c5, 10)),
+          masterProfile: S.optional(__S(171, __c5, 11)),
+          workerProfiles: S.optional(__S(173, __c5, 13)),
+          workerProfilesStatus: S.optional(__S(173, __c5, 13)),
+          apiserverProfile: S.optional(__S(174, __c5, 14)),
+          ingressProfiles: S.optional(__S(176, __c5, 16)),
         }),
       ).annotate({ identifier: "OpenShiftClusterProperties" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          principalId: S.optional(S.String),
-          clientId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UserAssignedIdentity" });
-    case 20:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(147, __c4, 19)));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          principalId: S.optional(S.String),
-          tenantId: S.optional(S.String),
-          type: S.String,
-          userAssignedIdentities: S.optional(__S(148, __c4, 20)),
-        }),
-      ).annotate({ identifier: "GetOpenShiftClusterResponseIdentity" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RedHatOpenShift/locations/{location}/platformWorkloadIdentityRoleSets",
-            code: 200,
-            apiVersion: "2025-07-25",
-          }),
-        ),
-      ).annotate({ identifier: "ListPlatformWorkloadIdentityRoleSetsRequest" });
-    case 1:
-      return S.Array(__S(387, __c12, 3));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(161, __c5, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PlatformWorkloadIdentityRoleSetList" });
   }
 }
 function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          resourceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(128, __c4, 0)),
-          location: S.String,
-          properties: S.optional(__S(234, __c7, 10)),
-          identity: S.optional(__S(236, __c7, 12)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/openShiftClusters/{resourceName}",
-            code: 200,
-            apiVersion: "2025-07-25",
-          }),
-        ),
-      ).annotate({ identifier: "OpenShiftClustersCreateOrUpdateRequest" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pullSecret: S.optional(S.String),
-          domain: S.optional(S.String),
-          version: S.optional(S.String),
-          resourceGroupId: S.optional(S.String),
-          fipsValidatedModules: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ClusterProfileInput" });
-    case 1:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "ConsoleProfileInput" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          resourceId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PlatformWorkloadIdentityInput" });
-    case 3:
-      return S.Record(S.String, __S(226, __c7, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          upgradeableTo: S.optional(S.String),
-          platformWorkloadIdentities: S.optional(__S(227, __c7, 3)),
-        }),
-      ).annotate({ identifier: "PlatformWorkloadIdentityProfileInput" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          managedOutboundIps: S.optional(__S(135, __c4, 7)),
-        }),
-      ).annotate({ identifier: "LoadBalancerProfileInput" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          podCidr: S.optional(S.String),
-          serviceCidr: S.optional(S.String),
-          outboundType: S.optional(S.String),
-          loadBalancerProfile: S.optional(__S(229, __c7, 5)),
-          preconfiguredNSG: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NetworkProfileInput" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          visibility: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "APIServerProfileInput" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          visibility: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IngressProfileInput" });
-    case 9:
-      return S.Array(__S(232, __c7, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          provisioningState: S.optional(S.String),
-          clusterProfile: S.optional(__S(224, __c7, 0)),
-          consoleProfile: S.optional(__S(225, __c7, 1)),
-          servicePrincipalProfile: S.optional(__S(131, __c4, 3)),
-          platformWorkloadIdentityProfile: S.optional(__S(228, __c7, 4)),
-          networkProfile: S.optional(__S(230, __c7, 6)),
-          masterProfile: S.optional(__S(140, __c4, 12)),
-          workerProfiles: S.optional(__S(142, __c4, 14)),
-          apiserverProfile: S.optional(__S(231, __c7, 7)),
-          ingressProfiles: S.optional(__S(233, __c7, 9)),
-        }),
-      ).annotate({ identifier: "OpenShiftClusterPropertiesInput" });
-    case 11:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(225, __c7, 1)));
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          userAssignedIdentities: S.optional(__S(235, __c7, 11)),
-        }),
-      ).annotate({ identifier: "OpenShiftClustersCreateOrUpdateRequestIdentity" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          tags: S.optional(__S(128, __c4, 0)),
-          location: S.String,
-          properties: S.optional(__S(146, __c4, 18)),
-          identity: S.optional(__S(149, __c4, 21)),
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
-        }),
-      ).annotate({ identifier: "OpenShiftClustersCreateOrUpdateResponse" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          resourceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(128, __c4, 0)),
-          properties: S.optional(__S(234, __c7, 10)),
-          identity: S.optional(__S(236, __c7, 12)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/openShiftClusters/{resourceName}",
-            code: 200,
-            apiVersion: "2025-07-25",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateOpenShiftClusterRequest" });
-  }
-}
-function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1392,7 +3109,21 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetOpenShiftVersionRequest" });
   }
 }
-function __c10(j: number): any {
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(1408, __c44, 0)),
+          properties: S.optional(__S(256, __c8, 0)),
+        }),
+      ).annotate({ identifier: "GetOpenShiftVersionResponse" });
+  }
+}
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1400,19 +3131,9 @@ function __c10(j: number): any {
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "OpenShiftVersionProperties" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: S.optional(__S(320, __c10, 0)),
-        }),
-      ).annotate({ identifier: "GetOpenShiftVersionResponse" });
   }
 }
-function __c11(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1431,7 +3152,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetPlatformWorkloadIdentityRoleSetRequest" });
   }
 }
-function __c12(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1442,12 +3163,12 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "PlatformWorkloadIdentityRole" });
     case 1:
-      return S.Array(__S(384, __c12, 0));
+      return S.Array(__S(320, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           openShiftVersion: S.optional(S.String),
-          platformWorkloadIdentityRoles: S.optional(__S(385, __c12, 1)),
+          platformWorkloadIdentityRoles: S.optional(__S(321, __c10, 1)),
         }),
       ).annotate({ identifier: "PlatformWorkloadIdentityRoleSetProperties" });
     case 3:
@@ -1456,13 +3177,319 @@ function __c12(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: S.optional(__S(386, __c12, 2)),
+          systemData: S.optional(__S(1408, __c44, 0)),
+          properties: S.optional(__S(322, __c10, 2)),
         }),
       ).annotate({ identifier: "GetPlatformWorkloadIdentityRoleSetResponse" });
   }
 }
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          baseDomainPrefix: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DnsProfileInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          visibility: S.optional(S.String),
+          authorizedCidrs: S.optional(__S(1376, __c43, 0)),
+        }),
+      ).annotate({ identifier: "ApiProfileInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          managedResourceGroup: S.optional(S.String),
+          subnetId: S.String,
+          vnetIntegrationSubnetId: S.String,
+          outboundType: S.optional(S.String),
+          networkSecurityGroupId: S.String,
+          operatorsAuthentication: __S(1574, __c49, 6),
+          containerRegistry: S.optional(__S(1575, __c49, 7)),
+        }),
+      ).annotate({ identifier: "PlatformProfileInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          version: __S(1664, __c52, 0),
+          dns: S.optional(__S(352, __c11, 0)),
+          network: S.optional(__S(1569, __c49, 1)),
+          api: S.optional(__S(353, __c11, 1)),
+          ingress: S.optional(__S(1572, __c49, 4)),
+          platform: __S(354, __c11, 2),
+          autoscaling: S.optional(__S(1577, __c49, 9)),
+          etcd: S.optional(__S(1582, __c49, 14)),
+          imageDigestMirrors: S.optional(__S(1584, __c49, 16)),
+          nodeDrainTimeoutMinutes: S.optional(S.Number),
+          clusterImageRegistry: S.optional(__S(1585, __c49, 17)),
+          cryptoRestrictions: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HcpOpenShiftClusterPropertiesInput" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          hcpOpenShiftClusterName: S.String.pipe(T.Label()),
+          tags: S.optional(__S(1632, __c51, 0)),
+          location: S.String,
+          properties: S.optional(__S(355, __c11, 3)),
+          identity: S.optional(__S(417, __c13, 1)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "HcpOpenShiftClustersCreateOrUpdateRequest" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(1408, __c44, 0)),
+          tags: S.optional(__S(1632, __c51, 0)),
+          location: S.String,
+          properties: S.optional(__S(1586, __c49, 18)),
+          identity: S.optional(__S(1635, __c51, 3)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "HcpOpenShiftClustersCreateOrUpdateResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "UserAssignedIdentityInput" });
+  }
+}
 function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(384, __c12, 0)));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          userAssignedIdentities: S.optional(__S(416, __c13, 0)),
+        }),
+      ).annotate({ identifier: "HcpOpenShiftClustersCreateOrUpdateRequestIdentity" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          hcpOpenShiftClusterName: S.String.pipe(T.Label()),
+          certificateSigningRequest: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/requestAdminCredential",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "HcpOpenShiftClustersRequestAdminCredentialRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          kubeconfig: S.String,
+          expirationTimestamp: S.String,
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "HcpOpenShiftClusterAdminCredential" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          hcpOpenShiftClusterName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/externalAuths",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListExternalAuthByParentRequest" });
+    case 1:
+      return S.Array(__S(1504, __c47, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(481, __c15, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExternalAuthListResult" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListHcpOpenShiftClusterByResourceGroupRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1600, __c50, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(544, __c17, 0),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HcpOpenShiftClusterListResult" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListHcpOpenShiftClusterBySubscriptionRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          location: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RedHatOpenShift/locations/{location}/hcpOpenShiftVersions",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListHcpOpenShiftVersionsRequest" });
+    case 1:
+      return S.Array(__S(1729, __c54, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(609, __c19, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HcpOpenShiftVersionListResult" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          location: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RedHatOpenShift/locations/{location}/hcpOperatorIdentityRoleSets",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListHcpOperatorIdentityRoleSetsRequest" });
+    case 1:
+      return S.Array(__S(1797, __c56, 5));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(641, __c20, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HcpOperatorIdentityRoleSetListResult" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          hcpOpenShiftClusterName: S.String.pipe(T.Label()),
+          nodePoolName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/nodePools/{nodePoolName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteNodePoolRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          hcpOpenShiftClusterName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/nodePools",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListNodePoolByParentRequest" });
+    case 1:
+      return S.Array(__S(1856, __c58, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(705, __c22, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NodePoolListResult" });
+  }
+}
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1487,7 +3514,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "OpenShiftClusterAdminKubeconfig" });
   }
 }
-function __c14(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1505,20 +3532,20 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ListOpenShiftClusterByResourceGroupRequest" });
   }
 }
-function __c15(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(96, __c3, 0));
+      return S.Array(__S(128, __c4, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(480, __c15, 0),
+          value: __S(800, __c25, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OpenShiftClusterList" });
   }
 }
-function __c16(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1544,7 +3571,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "OpenShiftClusterCredentials" });
   }
 }
-function __c17(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1561,7 +3588,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "ListOpenShiftClustersRequest" });
   }
 }
-function __c18(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1578,17 +3605,17 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListOpenShiftVersionsRequest" });
     case 1:
-      return S.Array(__S(321, __c10, 1));
+      return S.Array(__S(224, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(577, __c18, 1),
+          value: __S(897, __c28, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OpenShiftVersionList" });
   }
 }
-function __c19(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1614,19 +3641,1164 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          display: S.optional(__S(609, __c19, 1)),
+          display: S.optional(__S(929, __c29, 1)),
           origin: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(610, __c19, 2));
+      return S.Array(__S(930, __c29, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: __S(611, __c19, 3),
+          value: __S(931, __c29, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationList" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          location: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RedHatOpenShift/locations/{location}/platformWorkloadIdentityRoleSets",
+            code: 200,
+            apiVersion: "2025-07-25",
+          }),
+        ),
+      ).annotate({ identifier: "ListPlatformWorkloadIdentityRoleSetsRequest" });
+    case 1:
+      return S.Array(__S(323, __c10, 3));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(961, __c30, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PlatformWorkloadIdentityRoleSetList" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.optional(__S(1664, __c52, 0)),
+          platform: __S(1889, __c59, 1),
+          replicas: S.optional(S.Number),
+          autoRepair: S.optional(S.Boolean),
+          autoScaling: S.optional(__S(1890, __c59, 2)),
+          labels: S.optional(__S(1892, __c59, 4)),
+          taints: S.optional(__S(1894, __c59, 6)),
+          nodeDrainTimeoutMinutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "NodePoolPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          hcpOpenShiftClusterName: S.String.pipe(T.Label()),
+          nodePoolName: S.String.pipe(T.Label()),
+          tags: S.optional(__S(1632, __c51, 0)),
+          location: S.String,
+          properties: S.optional(__S(992, __c31, 0)),
+          identity: S.optional(__S(417, __c13, 1)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/nodePools/{nodePoolName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "NodePoolsCreateOrUpdateRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(1408, __c44, 0)),
+          tags: S.optional(__S(1632, __c51, 0)),
+          location: S.String,
+          properties: S.optional(__S(1895, __c59, 7)),
+          identity: S.optional(__S(1635, __c51, 3)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "NodePoolsCreateOrUpdateResponse" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          resourceName: S.String.pipe(T.Label()),
+          tags: S.optional(__S(1632, __c51, 0)),
+          location: S.String,
+          properties: S.optional(__S(1065, __c33, 9)),
+          identity: S.optional(__S(417, __c13, 1)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/openShiftClusters/{resourceName}",
+            code: 200,
+            apiVersion: "2025-07-25",
+          }),
+        ),
+      ).annotate({ identifier: "OpenShiftClustersCreateOrUpdateRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pullSecret: S.optional(S.String),
+          domain: S.optional(S.String),
+          version: S.optional(S.String),
+          resourceGroupId: S.optional(S.String),
+          fipsValidatedModules: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClusterProfileInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          resourceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PlatformWorkloadIdentityInput" });
+    case 2:
+      return S.Record(S.String, __S(1057, __c33, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          upgradeableTo: S.optional(S.String),
+          platformWorkloadIdentities: S.optional(__S(1058, __c33, 2)),
+        }),
+      ).annotate({ identifier: "PlatformWorkloadIdentityProfileInput" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          managedOutboundIps: S.optional(__S(166, __c5, 6)),
+        }),
+      ).annotate({ identifier: "LoadBalancerProfileInput" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          podCidr: S.optional(S.String),
+          serviceCidr: S.optional(S.String),
+          outboundType: S.optional(S.String),
+          loadBalancerProfile: S.optional(__S(1060, __c33, 4)),
+          preconfiguredNSG: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NetworkProfileInput" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          visibility: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "APIServerProfileInput" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          visibility: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IngressProfileInput" });
+    case 8:
+      return S.Array(__S(1063, __c33, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          clusterProfile: S.optional(__S(1056, __c33, 0)),
+          consoleProfile: S.optional(__S(384, __c12, 0)),
+          servicePrincipalProfile: S.optional(__S(162, __c5, 2)),
+          platformWorkloadIdentityProfile: S.optional(__S(1059, __c33, 3)),
+          networkProfile: S.optional(__S(1061, __c33, 5)),
+          masterProfile: S.optional(__S(171, __c5, 11)),
+          workerProfiles: S.optional(__S(173, __c5, 13)),
+          apiserverProfile: S.optional(__S(1062, __c33, 6)),
+          ingressProfiles: S.optional(__S(1064, __c33, 8)),
+        }),
+      ).annotate({ identifier: "OpenShiftClusterPropertiesInput" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(1408, __c44, 0)),
+          tags: S.optional(__S(1632, __c51, 0)),
+          location: S.String,
+          properties: S.optional(__S(177, __c5, 17)),
+          identity: S.optional(__S(1635, __c51, 3)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "OpenShiftClustersCreateOrUpdateResponse" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          resourceName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/openShiftClusters/{resourceName}",
+            code: 200,
+            apiVersion: "2025-07-25",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteOpenShiftClusterRequest" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          hcpOpenShiftClusterName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/revokeCredentials",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "RevokeHcpOpenShiftClusterCredentialsRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.optional(S.String),
+          audiences: S.optional(__S(1376, __c43, 0)),
+          ca: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TokenIssuerProfileUpdate" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          claim: S.optional(S.String),
+          prefix: S.optional(S.String),
+          prefixPolicy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UsernameClaimProfileUpdate" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          claim: S.optional(S.String),
+          prefix: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GroupClaimProfileUpdate" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          username: S.optional(__S(1153, __c36, 1)),
+          groups: S.optional(__S(1154, __c36, 2)),
+        }),
+      ).annotate({ identifier: "TokenClaimMappingsProfileUpdate" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          mappings: S.optional(__S(1155, __c36, 3)),
+          validationRules: S.optional(__S(1353, __c42, 9)),
+        }),
+      ).annotate({ identifier: "ExternalAuthClaimProfileUpdate" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          issuer: S.optional(__S(1152, __c36, 0)),
+          clients: S.optional(__S(1347, __c42, 3)),
+          claim: S.optional(__S(1156, __c36, 4)),
+        }),
+      ).annotate({ identifier: "ExternalAuthPropertiesUpdate" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          hcpOpenShiftClusterName: S.String.pipe(T.Label()),
+          externalAuthName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(1157, __c36, 5)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/externalAuths/{externalAuthName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateExternalAuthRequest" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(1408, __c44, 0)),
+          properties: S.optional(__S(1356, __c42, 12)),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "UpdateExternalAuthResponse" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          authorizedCidrs: S.optional(__S(1376, __c43, 0)),
+        }),
+      ).annotate({ identifier: "ApiProfileUpdate" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          controlPlaneOperators: S.optional(__S(1632, __c51, 0)),
+          dataPlaneOperators: S.optional(__S(1632, __c51, 0)),
+          serviceManagedIdentity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserAssignedIdentitiesProfileUpdate" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          userAssignedIdentities: S.optional(__S(1185, __c37, 1)),
+        }),
+      ).annotate({ identifier: "OperatorsAuthenticationProfileUpdate" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          operatorsAuthentication: S.optional(__S(1186, __c37, 2)),
+          containerRegistry: S.optional(__S(1575, __c49, 7)),
+        }),
+      ).annotate({ identifier: "PlatformProfileUpdate" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          activeKey: S.optional(__S(256, __c8, 0)),
+        }),
+      ).annotate({ identifier: "KmsEncryptionProfileUpdate" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          kms: S.optional(__S(1188, __c37, 4)),
+        }),
+      ).annotate({ identifier: "CustomerManagedEncryptionProfileUpdate" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          customerManaged: S.optional(__S(1189, __c37, 5)),
+        }),
+      ).annotate({ identifier: "EtcdDataEncryptionProfileUpdate" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          dataEncryption: S.optional(__S(1190, __c37, 6)),
+        }),
+      ).annotate({ identifier: "EtcdProfileUpdate" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.optional(__S(1216, __c38, 0)),
+          api: S.optional(__S(1184, __c37, 0)),
+          platform: S.optional(__S(1187, __c37, 3)),
+          autoscaling: S.optional(__S(1577, __c49, 9)),
+          etcd: S.optional(__S(1191, __c37, 7)),
+          imageDigestMirrors: S.optional(__S(1584, __c49, 16)),
+          nodeDrainTimeoutMinutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "HcpOpenShiftClusterPropertiesUpdate" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          hcpOpenShiftClusterName: S.String.pipe(T.Label()),
+          tags: S.optional(__S(1632, __c51, 0)),
+          properties: S.optional(__S(1192, __c37, 8)),
+          identity: S.optional(__S(1218, __c38, 2)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateHcpOpenShiftClusterRequest" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(1408, __c44, 0)),
+          tags: S.optional(__S(1632, __c51, 0)),
+          location: S.String,
+          properties: S.optional(__S(1586, __c49, 18)),
+          identity: S.optional(__S(1635, __c51, 3)),
+          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "UpdateHcpOpenShiftClusterResponse" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          channelGroup: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VersionProfileUpdate" });
+    case 1:
+      return S.Record(S.String, __S(384, __c12, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          userAssignedIdentities: S.optional(__S(1217, __c38, 1)),
+        }),
+      ).annotate({
+        identifier: "AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput",
+      });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.optional(__S(1216, __c38, 0)),
+          replicas: S.optional(S.Number),
+          autoScaling: S.optional(__S(1890, __c59, 2)),
+          labels: S.optional(__S(1892, __c59, 4)),
+          taints: S.optional(__S(1894, __c59, 6)),
+          nodeDrainTimeoutMinutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "NodePoolPropertiesUpdate" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          hcpOpenShiftClusterName: S.String.pipe(T.Label()),
+          nodePoolName: S.String.pipe(T.Label()),
+          tags: S.optional(__S(1632, __c51, 0)),
+          properties: S.optional(__S(1248, __c39, 0)),
+          identity: S.optional(__S(1218, __c38, 2)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/nodePools/{nodePoolName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateNodePoolRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(1408, __c44, 0)),
+          tags: S.optional(__S(1632, __c51, 0)),
+          location: S.String,
+          properties: S.optional(__S(1895, __c59, 7)),
+          identity: S.optional(__S(1635, __c51, 3)),
+          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "UpdateNodePoolResponse" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          resourceName: S.String.pipe(T.Label()),
+          tags: S.optional(__S(1632, __c51, 0)),
+          properties: S.optional(__S(1065, __c33, 9)),
+          identity: S.optional(__S(417, __c13, 1)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/openShiftClusters/{resourceName}",
+            code: 200,
+            apiVersion: "2025-07-25",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateOpenShiftClusterRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          issuer: __S(1344, __c42, 0),
+          clients: S.optional(__S(1347, __c42, 3)),
+          claim: __S(1354, __c42, 10),
+        }),
+      ).annotate({ identifier: "ExternalAuthPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          hcpOpenShiftClusterName: S.String.pipe(T.Label()),
+          externalAuthName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(1312, __c41, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/externalAuths/{externalAuthName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "ExternalAuthsCreateOrUpdateRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(1408, __c44, 0)),
+          properties: S.optional(__S(1356, __c42, 12)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "ExternalAuthsCreateOrUpdateResponse" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.String,
+          audiences: __S(1376, __c43, 0),
+          ca: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TokenIssuerProfile" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          authClientNamespace: S.String,
+        }),
+      ).annotate({ identifier: "ExternalAuthClientComponentProfile" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          component: __S(1345, __c42, 1),
+          clientId: S.String,
+          extraScopes: S.optional(__S(1376, __c43, 0)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "ExternalAuthClientProfile" });
+    case 3:
+      return S.Array(__S(1346, __c42, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          claim: S.String,
+          prefix: S.optional(S.String),
+          prefixPolicy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UsernameClaimProfile" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          claim: S.String,
+          prefix: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GroupClaimProfile" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          username: __S(1348, __c42, 4),
+          groups: S.optional(__S(1349, __c42, 5)),
+        }),
+      ).annotate({ identifier: "TokenClaimMappingsProfile" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          claim: S.String,
+          requiredValue: S.String,
+        }),
+      ).annotate({ identifier: "TokenRequiredClaim" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          requiredClaim: S.optional(__S(1351, __c42, 7)),
+        }),
+      ).annotate({ identifier: "TokenClaimValidationRule" });
+    case 9:
+      return S.Array(__S(1352, __c42, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          mappings: __S(1350, __c42, 6),
+          validationRules: S.optional(__S(1353, __c42, 9)),
+        }),
+      ).annotate({ identifier: "ExternalAuthClaimProfile" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          conditions: S.optional(__S(1441, __c45, 1)),
+        }),
+      ).annotate({ identifier: "ExternalAuthResourceStatus" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          status: S.optional(__S(1355, __c42, 11)),
+          issuer: __S(1344, __c42, 0),
+          clients: S.optional(__S(1347, __c42, 3)),
+          claim: __S(1354, __c42, 10),
+        }),
+      ).annotate({ identifier: "ExternalAuthProperties" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createdBy: S.optional(S.String),
+          createdByType: S.optional(S.String),
+          createdAt: S.optional(S.String),
+          lastModifiedBy: S.optional(S.String),
+          lastModifiedByType: S.optional(S.String),
+          lastModifiedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SystemData" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          status: S.String,
+          lastTransitionTime: S.String,
+          reason: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "Condition" });
+    case 1:
+      return S.Array(__S(1440, __c45, 0));
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          hcpOpenShiftClusterName: S.String.pipe(T.Label()),
+          externalAuthName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/externalAuths/{externalAuthName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetExternalAuthRequest" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(1408, __c44, 0)),
+          properties: S.optional(__S(1356, __c42, 12)),
+        }),
+      ).annotate({ identifier: "GetExternalAuthResponse" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          hcpOpenShiftClusterName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetHcpOpenShiftClusterRequest" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          baseDomain: S.optional(S.String),
+          baseDomainPrefix: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DnsProfile" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          networkType: S.optional(S.String),
+          podCidr: S.optional(S.String),
+          serviceCidr: S.optional(S.String),
+          machineCidr: S.optional(S.String),
+          hostPrefix: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "NetworkProfile_2" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.String,
+        }),
+      ).annotate({ identifier: "ConsoleProfile_2" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.String,
+          visibility: S.optional(S.String),
+          authorizedCidrs: S.optional(__S(1376, __c43, 0)),
+        }),
+      ).annotate({ identifier: "ApiProfile" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IngressProfile_2" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          controlPlaneOperators: __S(1632, __c51, 0),
+          dataPlaneOperators: __S(1632, __c51, 0),
+          serviceManagedIdentity: S.String,
+        }),
+      ).annotate({ identifier: "UserAssignedIdentitiesProfile" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          userAssignedIdentities: __S(1573, __c49, 5),
+        }),
+      ).annotate({ identifier: "OperatorsAuthenticationProfile" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          managedIdentity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ContainerRegistryProfile" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          managedResourceGroup: S.optional(S.String),
+          subnetId: S.String,
+          vnetIntegrationSubnetId: S.String,
+          outboundType: S.optional(S.String),
+          networkSecurityGroupId: S.String,
+          operatorsAuthentication: __S(1574, __c49, 6),
+          containerRegistry: S.optional(__S(1575, __c49, 7)),
+          issuerUrl: S.String,
+        }),
+      ).annotate({ identifier: "PlatformProfile" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          maxNodesTotal: S.optional(S.Number),
+          maxPodGracePeriodSeconds: S.optional(S.Number),
+          maxNodeProvisionTimeSeconds: S.optional(S.Number),
+          podPriorityThreshold: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ClusterAutoscalingProfile" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          version: S.String,
+        }),
+      ).annotate({ identifier: "KmsKey" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          vaultName: S.String,
+          visibility: S.String,
+          activeKey: __S(1578, __c49, 10),
+          keyVaultType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KmsEncryptionProfile" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          encryptionType: S.optional(S.String),
+          kms: S.optional(__S(1579, __c49, 11)),
+        }),
+      ).annotate({ identifier: "CustomerManagedEncryptionProfile" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          keyManagementMode: S.String,
+          customerManaged: S.optional(__S(1580, __c49, 12)),
+        }),
+      ).annotate({ identifier: "EtcdDataEncryptionProfile" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          dataEncryption: S.optional(__S(1581, __c49, 13)),
+        }),
+      ).annotate({ identifier: "EtcdProfile" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          source: S.String,
+          mirrors: __S(1376, __c43, 0),
+        }),
+      ).annotate({ identifier: "ImageDigestMirror" });
+    case 16:
+      return S.Array(__S(1583, __c49, 15));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClusterImageRegistryProfile" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          version: __S(1664, __c52, 0),
+          dns: S.optional(__S(1568, __c49, 0)),
+          network: S.optional(__S(1569, __c49, 1)),
+          console: S.optional(__S(1570, __c49, 2)),
+          api: S.optional(__S(1571, __c49, 3)),
+          ingress: S.optional(__S(1572, __c49, 4)),
+          platform: __S(1576, __c49, 8),
+          autoscaling: S.optional(__S(1577, __c49, 9)),
+          etcd: S.optional(__S(1582, __c49, 14)),
+          imageDigestMirrors: S.optional(__S(1584, __c49, 16)),
+          nodeDrainTimeoutMinutes: S.optional(S.Number),
+          clusterImageRegistry: S.optional(__S(1585, __c49, 17)),
+          status: S.optional(__S(1667, __c52, 3)),
+          cryptoRestrictions: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HcpOpenShiftClusterProperties" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(1408, __c44, 0)),
+          tags: S.optional(__S(1632, __c51, 0)),
+          location: S.String,
+          properties: S.optional(__S(1586, __c49, 18)),
+          identity: S.optional(__S(1635, __c51, 3)),
+        }),
+      ).annotate({ identifier: "GetHcpOpenShiftClusterResponse" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          principalId: S.optional(S.String),
+          clientId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserAssignedIdentity" });
+    case 2:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(1633, __c51, 1)));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          principalId: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          type: S.String,
+          userAssignedIdentities: S.optional(__S(1634, __c51, 2)),
+        }),
+      ).annotate({ identifier: "GetHcpOpenShiftClusterResponseIdentity" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          channelGroup: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VersionProfile" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.String,
+        }),
+      ).annotate({ identifier: "ClusterActiveVersion" });
+    case 2:
+      return S.Array(__S(1665, __c52, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          conditions: S.optional(__S(1441, __c45, 1)),
+          activeVersions: S.optional(__S(1666, __c52, 2)),
+        }),
+      ).annotate({ identifier: "ClusterResourceStatus" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          location: S.String.pipe(T.Label()),
+          hcpOpenShiftVersionName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RedHatOpenShift/locations/{location}/hcpOpenShiftVersions/{hcpOpenShiftVersionName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetHcpOpenShiftVersionRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channelGroup: S.String,
+          enabled: S.Boolean,
+          endOfLifeTimestamp: S.String,
+        }),
+      ).annotate({ identifier: "HcpOpenShiftVersionProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(1408, __c44, 0)),
+          properties: S.optional(__S(1728, __c54, 0)),
+        }),
+      ).annotate({ identifier: "GetHcpOpenShiftVersionResponse" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          location: S.String.pipe(T.Label()),
+          hcpOperatorIdentityRoleSetName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.RedHatOpenShift/locations/{location}/hcpOperatorIdentityRoleSets/{hcpOperatorIdentityRoleSetName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetHcpOperatorIdentityRoleSetRequest" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          resourceId: S.String,
+        }),
+      ).annotate({ identifier: "RoleDefinition" });
+    case 1:
+      return S.Array(__S(1792, __c56, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          required: S.String,
+          roleDefinitions: __S(1793, __c56, 1),
+        }),
+      ).annotate({ identifier: "OperatorIdentityRoles" });
+    case 3:
+      return S.Array(__S(1794, __c56, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          controlPlaneOperators: __S(1795, __c56, 3),
+          dataPlaneOperators: __S(1795, __c56, 3),
+        }),
+      ).annotate({ identifier: "HcpOperatorIdentityRoleSetProperties" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(1408, __c44, 0)),
+          properties: S.optional(__S(1796, __c56, 4)),
+        }),
+      ).annotate({ identifier: "GetHcpOperatorIdentityRoleSetResponse" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          hcpOpenShiftClusterName: S.String.pipe(T.Label()),
+          nodePoolName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/nodePools/{nodePoolName}",
+            code: 200,
+            apiVersion: "2026-10-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetNodePoolRequest" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(1408, __c44, 0)),
+          tags: S.optional(__S(1632, __c51, 0)),
+          location: S.String,
+          properties: S.optional(__S(1895, __c59, 7)),
+          identity: S.optional(__S(1635, __c51, 3)),
+        }),
+      ).annotate({ identifier: "GetNodePoolResponse" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sizeGiB: S.optional(S.Number),
+          diskStorageAccountType: S.optional(S.String),
+          encryptionSetId: S.optional(S.String),
+          diskType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OsDiskProfile" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subnetId: S.optional(S.String),
+          vmSize: S.String,
+          enableEncryptionAtHost: S.optional(S.Boolean),
+          osDisk: S.optional(__S(1888, __c59, 0)),
+          availabilityZone: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NodePoolPlatformProfile" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          min: S.optional(S.Number),
+          max: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "NodePoolAutoScaling" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Label" });
+    case 4:
+      return S.Array(__S(1891, __c59, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          value: S.optional(S.String),
+          effect: S.String,
+        }),
+      ).annotate({ identifier: "Taint" });
+    case 6:
+      return S.Array(__S(1893, __c59, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          version: S.optional(__S(1664, __c52, 0)),
+          platform: __S(1889, __c59, 1),
+          replicas: S.optional(S.Number),
+          autoRepair: S.optional(S.Boolean),
+          autoScaling: S.optional(__S(1890, __c59, 2)),
+          labels: S.optional(__S(1892, __c59, 4)),
+          taints: S.optional(__S(1894, __c59, 6)),
+          nodeDrainTimeoutMinutes: S.optional(S.Number),
+          status: S.optional(__S(1667, __c52, 3)),
+        }),
+      ).annotate({ identifier: "NodePoolProperties" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

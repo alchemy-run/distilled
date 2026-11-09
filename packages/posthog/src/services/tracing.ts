@@ -142,6 +142,10 @@ export interface TracingAggregationQueryBody {
   offset?: number;
   /** Also return the sessions and people behind each operation. Off by default because it reads the span and resource attribute maps, which the rest of the aggregation never touches. */
   includeImpact?: boolean;
+  /** Group HTTP server spans by `METHOD route` (from `http.route`) in place of the span name, so raw paths like `/users/1` and `/users/2` fold into one row. Spans without a route keep their span name. Spans that are not HTTP server spans are left out. */
+  groupByEndpoint?: boolean;
+  /** Also return `health_status` and `health_reason` per row, comparing each row with the same row in the comparison window, or in the previous period when `compareFilter` is off. Uses the same statuses and thresholds as the service health check. Costs a second window query. */
+  includeHealth?: boolean;
 }
 export interface CreateTracingSpansAggregateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -149,6 +153,15 @@ export interface CreateTracingSpansAggregateRequest {
   /** The span aggregation query to execute. */
   query: TracingAggregationQueryBody;
 }
+/** * `silent` - Silent * `regressed` - Regressed * `degraded` - Degraded * `new` - New * `recovered` - Recovered * `improved` - Improved * `ok` - Ok */
+export type ServiceHealthStatusEnum =
+  | "silent"
+  | "regressed"
+  | "degraded"
+  | "new"
+  | "recovered"
+  | "improved"
+  | "ok";
 export interface AggregatedSpanRow {
   /** Service that emitted the spans in this group. */
   service_name: string;
@@ -178,6 +191,10 @@ export interface AggregatedSpanRow {
   spans_with_session_id: number | null;
   /** How many of this group's spans carry a person distinct ID under the team's configured or conventional attribute keys. Null unless the query set `includeImpact`. */
   spans_with_distinct_id: number | null;
+  /** How this group compares with its baseline: regressed (error rate or p95 jumped), degraded (high error rate), new (no spans in the baseline), recovered, improved, or ok. Null unless the query set `includeHealth`. * `silent` - Silent * `regressed` - Regressed * `degraded` - Degraded * `new` - New * `recovered` - Recovered * `improved` - Improved * `ok` - Ok */
+  health_status: ServiceHealthStatusEnum | null;
+  /** Short reason for `health_status`, such as `error rate 0.2% -> 4.1%`. Empty when the status is ok. */
+  health_reason: string | null;
 }
 /** One row per (service_name, name) group, ordered by total_duration_nano descending. */
 export type TracingAggregationResponseResultsList = Array<AggregatedSpanRow>;
@@ -540,6 +557,147 @@ export interface TracingQueryResponse {
   /** Cursor for the next page, or null on the last page. Pass it back as the query's `after`. Always null when ordering by duration, which pages by offset instead. */
   nextCursor: string | null;
 }
+export interface ServiceHealthDateRange {
+  /** Relative (-30m, -6h, -7d) or ISO 8601. */
+  date_from?: string | null;
+  /** Same format. Omit or null for "now". */
+  date_to?: string | null;
+}
+/** * `none` - None * `previous_period` - Previous Period * `previous_day` - Previous Day * `previous_week` - Previous Week */
+export type ServiceHealthBaselineEnum =
+  | "none"
+  | "previous_period"
+  | "previous_day"
+  | "previous_week";
+/** Only these services. */
+export type ServiceHealthQueryServiceNamesList = Array<string>;
+/** * `entry` - Entry * `all` - All */
+export type ServiceHealthSpanScopeEnum = "entry" | "all";
+/** * `status` - Status * `error_rate` - Error Rate * `p95` - P95 * `throughput` - Throughput * `error_count` - Error Count */
+export type ServiceHealthOrderByEnum =
+  | "status"
+  | "error_rate"
+  | "p95"
+  | "throughput"
+  | "error_count";
+export interface ServiceHealthQuery {
+  /** The window to score. Defaults to the last hour. */
+  dateRange?: ServiceHealthDateRange;
+  /** The baseline. previous_period (default) is the same length just before the window. previous_day and previous_week shift the window back 1 or 7 days. none skips it. baselineDateRange overrides it. * `none` - None * `previous_period` - Previous Period * `previous_day` - Previous Day * `previous_week` - Previous Week */
+  compare?: ServiceHealthBaselineEnum | (string & {});
+  /** Only this environment, matched without case on deployment.environment.name, then deployment.environment, then env. */
+  environment?: string | null;
+  /** Only these services. */
+  serviceNames?: ServiceHealthQueryServiceNamesList;
+  /** entry (default) counts root, server and consumer spans, one per request. all counts every span. * `entry` - Entry * `all` - All */
+  spanScope?: ServiceHealthSpanScopeEnum | (string & {});
+  /** status (default) puts silent, regressed and degraded first. The others sort high to low. * `status` - Status * `error_rate` - Error Rate * `p95` - P95 * `throughput` - Throughput * `error_count` - Error Count */
+  orderBy?: ServiceHealthOrderByEnum | (string & {});
+  /** Max service rows, 1-200. */
+  limit?: number;
+}
+export interface CreateTracingSpansServiceHealthRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The service health query. Every field is optional. */
+  query: ServiceHealthQuery;
+  /** An explicit baseline window. Overrides query.compare. */
+  baselineDateRange?: ServiceHealthDateRange;
+}
+export interface ServiceHealthTimeRange {
+  /** Start, ISO 8601 UTC, inclusive. */
+  date_from: string;
+  /** End, ISO 8601 UTC, exclusive. */
+  date_to: string;
+}
+export interface ServiceHealthWindow {
+  /** The scored window. Reuse it as dateRange in follow-up calls. */
+  current: ServiceHealthTimeRange;
+  /** The baseline window. Null when compare is none. */
+  baseline: ServiceHealthTimeRange | null;
+  /** Always UTC. */
+  timezone: string;
+}
+export interface ServiceHealthSummary {
+  /** Services scored, before the limit. */
+  services: number;
+  /** Requests over all scored services. */
+  requests: number;
+  /** Services per status. */
+  ok: number;
+  /** Services per status. */
+  degraded: number;
+  /** Services per status. */
+  regressed: number;
+  /** Services per status. */
+  silent: number;
+  /** Services per status. */
+  new: number;
+  /** Services per status. */
+  recovered: number;
+  /** Services per status. */
+  improved: number;
+}
+export interface ServiceHealthRow {
+  /** Service name. */
+  service: string;
+  /** silent: spans stopped. regressed: error rate or p95 worse than the baseline. degraded: error rate 5% or more. new: no spans in the baseline. recovered, improved: the reverse of regressed. * `silent` - Silent * `regressed` - Regressed * `degraded` - Degraded * `new` - New * `recovered` - Recovered * `improved` - Improved * `ok` - Ok */
+  status: ServiceHealthStatusEnum;
+  /** Why the service has this status. Empty for ok. */
+  reason: string;
+  /** Spans in the window, in the chosen spanScope. */
+  requests: number;
+  /** Requests per minute. */
+  throughput_per_min: number;
+  /** Requests with OTel status Error. */
+  error_count: number;
+  /** Error share of requests, percent. */
+  error_rate_pct: number | null;
+  /** Change from the baseline, points. */
+  error_rate_delta_pp: number | null;
+  /** Median duration, ms. */
+  p50_ms: number | null;
+  /** 95th percentile duration, ms. */
+  p95_ms: number | null;
+  /** p95 change from the baseline, percent. */
+  p95_change_pct: number | null;
+  /** 99th percentile duration, ms. */
+  p99_ms: number | null;
+  /** Baseline requests. Null without one. */
+  baseline_requests: number | null;
+  /** Last span, ISO 8601 UTC. */
+  last_seen: string | null;
+}
+/** One row per service, in orderBy order. */
+export type ServiceHealthResponseServicesList = Array<ServiceHealthRow>;
+/** The prefilled query argument. */
+export type ServiceHealthNextCallQueryMap = { [key: string]: unknown | undefined };
+export interface ServiceHealthNextCall {
+  /** The tool to call next. */
+  tool: string;
+  /** What the call answers. */
+  why: string;
+  /** The prefilled query argument. */
+  query: ServiceHealthNextCallQueryMap;
+}
+/** Prefilled follow-up calls. */
+export type ServiceHealthResponseNextList = Array<ServiceHealthNextCall>;
+/** Caveats about this result. */
+export type ServiceHealthResponseNotesList = Array<string>;
+export interface ServiceHealthResponse {
+  /** The absolute UTC windows the server used. */
+  window: ServiceHealthWindow;
+  /** Counts over all scored services. */
+  summary: ServiceHealthSummary;
+  /** One row per service, in orderBy order. */
+  services: ServiceHealthResponseServicesList;
+  /** Prefilled follow-up calls. */
+  next: ServiceHealthResponseNextList;
+  /** True when more services matched than limit. */
+  truncated: boolean;
+  /** Caveats about this result. */
+  notes: ServiceHealthResponseNotesList;
+}
 /** Filter by service names. */
 export type TracingSparklineQueryBodyServiceNamesList = Array<string>;
 /** Filter by OTel span status codes (0 Unset, 1 OK, 2 Error) -- not HTTP status codes. Use [2] to select error spans. */
@@ -674,7 +832,7 @@ export interface CreateTracingSpansTraceRequest {
   trace_id: string;
   /** Date range for the query. Omit it to search all retained spans for this trace. */
   dateRange?: TracingDateRange;
-  /** Omit the per-span attributes and resource attributes maps from results to keep payloads compact. Defaults to false. */
+  /** Omit the per-span attributes, resource attributes and events from results to keep payloads compact. Defaults to false. */
   excludeAttributes?: boolean;
   /** Pagination offset into the trace's spans (ordered by start time ascending). Each page returns up to 2000 spans; pass the response's `nextOffset` to load the next page. Defaults to 0. */
   offset?: number;
@@ -683,7 +841,19 @@ export interface CreateTracingSpansTraceRequest {
 export type TraceSpanAttributesMap = { [key: string]: string | undefined };
 /** Resource attributes of the emitting service. Keys are whatever the instrumentation set. */
 export type TraceSpanResourceAttributesMap = { [key: string]: string | undefined };
-/** A span in a single trace. The trace action adds self time, which the list does not compute. */
+/** Event attributes. Keys are whatever the instrumentation set. */
+export type SpanEventAttributesMap = { [key: string]: string | undefined };
+export interface SpanEvent {
+  /** Event name, for example `exception`. */
+  name: string;
+  /** When the event occurred. Null when the SDK did not set a time. */
+  timestamp: string | null;
+  /** Event attributes. Keys are whatever the instrumentation set. */
+  attributes: SpanEventAttributesMap;
+}
+/** OpenTelemetry span events, earliest first. Omitted when `excludeAttributes` is true. */
+export type TraceSpanEventsList = Array<SpanEvent>;
+/** A span in a single trace. The trace action adds self time and span events, which the list does not return. */
 export interface TraceSpan {
   /** Span's own UUID. */
   uuid: string;
@@ -721,6 +891,8 @@ export interface TraceSpan {
   resource_attributes: TraceSpanResourceAttributesMap;
   /** Span duration minus the time spent in its children, in nanoseconds. */
   self_time_nano: number;
+  /** OpenTelemetry span events, earliest first. Omitted when `excludeAttributes` is true. */
+  events?: TraceSpanEventsList;
 }
 /** Spans in the trace, earliest first. */
 export type TracingTraceResponseResultsList = Array<TraceSpan>;
@@ -864,6 +1036,12 @@ export interface GetTracingSpansAttributeRequest {
   project_id: string;
   /** Type of attributes: "span_attribute" for span-level attributes, "span_resource_attribute" for resource-level attributes. * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute */
   attribute_type?: GetTracingSpansAttributeRequestAttributeType | (string & {});
+  /** JSON-encoded date range object, e.g. {"date_from": "-1h"}. Malformed JSON returns 400. Or pass date_from and date_to. */
+  dateRange?: string;
+  /** Range start: -1h, -7d or ISO 8601. Defaults to -1h. */
+  date_from?: string;
+  /** Range end, same format. Omit for "now". */
+  date_to?: string;
   /** Max results (default: 100). */
   limit?: number;
   /** Pagination offset (default: 0). */
@@ -904,8 +1082,12 @@ export interface HasSpansResponse {
 export interface GetTracingSpansServiceNameRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** JSON-encoded date range, e.g. '{"date_from": "-1h"}'. */
+  /** JSON-encoded date range object, e.g. {"date_from": "-1h"}. Malformed JSON returns 400. Or pass date_from and date_to. */
   dateRange?: string;
+  /** Range start: -1h, -7d or ISO 8601. Defaults to -1h. */
+  date_from?: string;
+  /** Range end, same format. Omit for "now". */
+  date_to?: string;
   /** Search filter for service names. */
   search?: string;
 }
@@ -973,6 +1155,12 @@ export interface GetTracingSpansValueRequest {
   project_id: string;
   /** Type of attribute: "span" for built-in span fields (e.g. name), "span_attribute" for span-level attributes, "span_resource_attribute" for resource-level attributes. * `span` - span * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute */
   attribute_type?: GetTracingSpansValueRequestAttributeType | (string & {});
+  /** JSON-encoded date range object, e.g. {"date_from": "-1h"}. Malformed JSON returns 400. Or pass date_from and date_to. */
+  dateRange?: string;
+  /** Range start: -1h, -7d or ISO 8601. Defaults to -1h. */
+  date_from?: string;
+  /** Range end, same format. Omit for "now". */
+  date_to?: string;
   /** The attribute key to get values for. */
   key: string;
   /** Max results (default: 100). */
@@ -1087,7 +1275,7 @@ export const createTracingRetentionRule: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateTracingRetentionRuleRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<TracesRetentionRule>,
+  output: __S(16, __c1, 0) as any as S.Schema<TracesRetentionRule>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1103,8 +1291,8 @@ export const createTracingRetentionRulesReorder: API.OperationMethod<
   CreateTracingRetentionRulesReorderError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<CreateTracingRetentionRulesReorderRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<PaginatedTracesRetentionRuleList>,
+  input: __S(32, __c2, 0) as any as S.Schema<CreateTracingRetentionRulesReorderRequest>,
+  output: __S(49, __c3, 1) as any as S.Schema<PaginatedTracesRetentionRuleList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1120,8 +1308,8 @@ export const createTracingRetentionRulesSuggestName: API.OperationMethod<
   CreateTracingRetentionRulesSuggestNameError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<CreateTracingRetentionRulesSuggestNameRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<LogsRetentionRuleNameSuggestion>,
+  input: __S(288, __c18, 0) as any as S.Schema<CreateTracingRetentionRulesSuggestNameRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<LogsRetentionRuleNameSuggestion>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1136,8 +1324,8 @@ export const createTracingSpansAggregate: API.OperationMethod<
   CreateTracingSpansAggregateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(241, __c30, 1) as any as S.Schema<CreateTracingSpansAggregateRequest>,
-  output: __S(244, __c30, 4) as any as S.Schema<TracingAggregationResponse>,
+  input: __S(497, __c31, 1) as any as S.Schema<CreateTracingSpansAggregateRequest>,
+  output: __S(500, __c31, 4) as any as S.Schema<TracingAggregationResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1152,8 +1340,8 @@ export const createTracingSpansAttributeBreakdown: API.OperationMethod<
   CreateTracingSpansAttributeBreakdownError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(281, __c35, 1) as any as S.Schema<CreateTracingSpansAttributeBreakdownRequest>,
-  output: __S(284, __c35, 4) as any as S.Schema<TracingAttributeBreakdownResponse>,
+  input: __S(593, __c37, 1) as any as S.Schema<CreateTracingSpansAttributeBreakdownRequest>,
+  output: __S(596, __c37, 4) as any as S.Schema<TracingAttributeBreakdownResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1168,8 +1356,8 @@ export const createTracingSpansCount: API.OperationMethod<
   CreateTracingSpansCountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<CreateTracingSpansCountRequest>,
-  output: __S(289, __c36, 1) as any as S.Schema<TracingCountResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<CreateTracingSpansCountRequest>,
+  output: __S(609, __c38, 1) as any as S.Schema<TracingCountResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1184,8 +1372,8 @@ export const createTracingSpansDurationHistogram: API.OperationMethod<
   CreateTracingSpansDurationHistogramError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<CreateTracingSpansDurationHistogramRequest>,
-  output: __S(315, __c39, 3) as any as S.Schema<TracingDurationHistogramResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<CreateTracingSpansDurationHistogramRequest>,
+  output: __S(659, __c41, 3) as any as S.Schema<TracingDurationHistogramResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1201,8 +1389,8 @@ export const createTracingSpansErrorCount: API.OperationMethod<
   CreateTracingSpansErrorCountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<CreateTracingSpansErrorCountRequest>,
-  output: __S(335, __c41, 7) as any as S.Schema<TracingErrorCountsResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<CreateTracingSpansErrorCountRequest>,
+  output: __S(695, __c43, 7) as any as S.Schema<TracingErrorCountsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1217,8 +1405,8 @@ export const createTracingSpansImpact: API.OperationMethod<
   CreateTracingSpansImpactError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<CreateTracingSpansImpactRequest>,
-  output: __S(339, __c42, 3) as any as S.Schema<TracingImpactResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<CreateTracingSpansImpactRequest>,
+  output: __S(707, __c44, 3) as any as S.Schema<TracingImpactResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1233,8 +1421,8 @@ export const createTracingSpansLatencyHeatmap: API.OperationMethod<
   CreateTracingSpansLatencyHeatmapError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<CreateTracingSpansLatencyHeatmapRequest>,
-  output: __S(347, __c43, 3) as any as S.Schema<TracingLatencyHeatmapResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<CreateTracingSpansLatencyHeatmapRequest>,
+  output: __S(723, __c45, 3) as any as S.Schema<TracingLatencyHeatmapResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1249,13 +1437,29 @@ export const createTracingSpansQuery: API.OperationMethod<
   CreateTracingSpansQueryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(41, __c5, 1) as any as S.Schema<CreateTracingSpansQueryRequest>,
-  output: __S(44, __c5, 4) as any as S.Schema<TracingQueryResponse>,
+  input: __S(81, __c5, 1) as any as S.Schema<CreateTracingSpansQueryRequest>,
+  output: __S(84, __c5, 4) as any as S.Schema<TracingQueryResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateTracingSpansQuery",
+}));
+
+export type CreateTracingSpansServiceHealthError = PosthogOpError;
+export const createTracingSpansServiceHealth: API.OperationMethod<
+  CreateTracingSpansServiceHealthRequest,
+  ServiceHealthResponse,
+  CreateTracingSpansServiceHealthError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(113, __c7, 1) as any as S.Schema<CreateTracingSpansServiceHealthRequest>,
+  output: __S(121, __c7, 9) as any as S.Schema<ServiceHealthResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTracingSpansServiceHealth",
 }));
 
 export type CreateTracingSpansSparklineError = PosthogOpError;
@@ -1265,8 +1469,8 @@ export const createTracingSpansSparkline: API.OperationMethod<
   CreateTracingSpansSparklineError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<CreateTracingSpansSparklineRequest>,
-  output: __S(59, __c7, 3) as any as S.Schema<TracingSparklineResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<CreateTracingSpansSparklineRequest>,
+  output: __S(147, __c9, 3) as any as S.Schema<TracingSparklineResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1281,8 +1485,8 @@ export const createTracingSpansSymbolStat: API.OperationMethod<
   CreateTracingSpansSymbolStatError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(67, __c8, 3) as any as S.Schema<CreateTracingSpansSymbolStatRequest>,
-  output: __S(71, __c8, 7) as any as S.Schema<SymbolStatsResponse>,
+  input: __S(163, __c10, 3) as any as S.Schema<CreateTracingSpansSymbolStatRequest>,
+  output: __S(167, __c10, 7) as any as S.Schema<SymbolStatsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1297,8 +1501,8 @@ export const createTracingSpansTrace: API.OperationMethod<
   CreateTracingSpansTraceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<CreateTracingSpansTraceRequest>,
-  output: __S(75, __c9, 3) as any as S.Schema<TracingTraceResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<CreateTracingSpansTraceRequest>,
+  output: __S(181, __c11, 5) as any as S.Schema<TracingTraceResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1313,8 +1517,8 @@ export const createTracingSpansTree: API.OperationMethod<
   CreateTracingSpansTreeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(81, __c10, 1) as any as S.Schema<CreateTracingSpansTreeRequest>,
-  output: __S(84, __c10, 4) as any as S.Schema<TracingTreeResponse>,
+  input: __S(193, __c12, 1) as any as S.Schema<CreateTracingSpansTreeRequest>,
+  output: __S(196, __c12, 4) as any as S.Schema<TracingTreeResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1329,8 +1533,8 @@ export const createTracingView: API.OperationMethod<
   CreateTracingViewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<CreateTracingViewRequest>,
-  output: __S(98, __c12, 2) as any as S.Schema<TracingView>,
+  input: __S(208, __c13, 0) as any as S.Schema<CreateTracingViewRequest>,
+  output: __S(225, __c14, 1) as any as S.Schema<TracingView>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1346,8 +1550,8 @@ export const getTracingRetentionRule: API.OperationMethod<
   GetTracingRetentionRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetTracingRetentionRuleRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<TracesRetentionRule>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetTracingRetentionRuleRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<TracesRetentionRule>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1362,8 +1566,8 @@ export const getTracingSpansAttribute: API.OperationMethod<
   GetTracingSpansAttributeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetTracingSpansAttributeRequest>,
-  output: __S(115, __c14, 3) as any as S.Schema<TracingAttributesResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetTracingSpansAttributeRequest>,
+  output: __S(259, __c16, 3) as any as S.Schema<TracingAttributesResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1378,8 +1582,8 @@ export const getTracingSpansHasSpan: API.OperationMethod<
   GetTracingSpansHasSpanError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetTracingSpansHasSpanRequest>,
-  output: __S(121, __c15, 1) as any as S.Schema<HasSpansResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetTracingSpansHasSpanRequest>,
+  output: __S(273, __c17, 1) as any as S.Schema<HasSpansResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1394,8 +1598,8 @@ export const getTracingSpansServiceName: API.OperationMethod<
   GetTracingSpansServiceNameError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetTracingSpansServiceNameRequest>,
-  output: __S(130, __c16, 2) as any as S.Schema<TracingServiceNamesResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<GetTracingSpansServiceNameRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<TracingServiceNamesResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1411,8 +1615,8 @@ export const getTracingSpansTraceAiEvent: API.OperationMethod<
   GetTracingSpansTraceAiEventError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetTracingSpansTraceAiEventRequest>,
-  output: __S(155, __c19, 3) as any as S.Schema<TracingTraceAiEventsResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetTracingSpansTraceAiEventRequest>,
+  output: __S(339, __c21, 3) as any as S.Schema<TracingTraceAiEventsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1427,8 +1631,8 @@ export const getTracingSpansValue: API.OperationMethod<
   GetTracingSpansValueError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetTracingSpansValueRequest>,
-  output: __S(168, __c21, 0) as any as S.Schema<GetTracingSpansValueResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<GetTracingSpansValueRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<GetTracingSpansValueResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1443,8 +1647,8 @@ export const getTracingView: API.OperationMethod<
   GetTracingViewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<GetTracingViewRequest>,
-  output: __S(98, __c12, 2) as any as S.Schema<TracingView>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetTracingViewRequest>,
+  output: __S(225, __c14, 1) as any as S.Schema<TracingView>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1460,8 +1664,8 @@ export const listTracingRetentionRules: API.OperationMethod<
   ListTracingRetentionRulesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<ListTracingRetentionRulesRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<PaginatedTracesRetentionRuleList>,
+  input: __S(400, __c25, 0) as any as S.Schema<ListTracingRetentionRulesRequest>,
+  output: __S(49, __c3, 1) as any as S.Schema<PaginatedTracesRetentionRuleList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1476,8 +1680,8 @@ export const listTracingViews: API.OperationMethod<
   ListTracingViewsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<ListTracingViewsRequest>,
-  output: __S(194, __c24, 2) as any as S.Schema<PaginatedTracingViewList>,
+  input: __S(416, __c26, 0) as any as S.Schema<ListTracingViewsRequest>,
+  output: __S(418, __c26, 2) as any as S.Schema<PaginatedTracingViewList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1493,8 +1697,8 @@ export const tracingRetentionRulesDestroy: API.OperationMethod<
   TracingRetentionRulesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<TracingRetentionRulesDestroyRequest>,
-  output: __S(168, __c21, 0) as any as S.Schema<TracingRetentionRulesDestroyResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<TracingRetentionRulesDestroyRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<TracingRetentionRulesDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1509,8 +1713,8 @@ export const tracingViewsDestroy: API.OperationMethod<
   TracingViewsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<TracingViewsDestroyRequest>,
-  output: __S(168, __c21, 0) as any as S.Schema<TracingViewsDestroyResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<TracingViewsDestroyRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<TracingViewsDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1526,8 +1730,8 @@ export const updateTracingRetentionRule: API.OperationMethod<
   UpdateTracingRetentionRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<UpdateTracingRetentionRuleRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<TracesRetentionRule>,
+  input: __S(464, __c29, 0) as any as S.Schema<UpdateTracingRetentionRuleRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<TracesRetentionRule>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1543,8 +1747,8 @@ export const updateTracingRetentionRulesPartial: API.OperationMethod<
   UpdateTracingRetentionRulesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<UpdateTracingRetentionRulesPartialRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<TracesRetentionRule>,
+  input: __S(480, __c30, 0) as any as S.Schema<UpdateTracingRetentionRulesPartialRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<TracesRetentionRule>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1559,8 +1763,8 @@ export const updateTracingView: API.OperationMethod<
   UpdateTracingViewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<UpdateTracingViewRequest>,
-  output: __S(98, __c12, 2) as any as S.Schema<TracingView>,
+  input: __S(560, __c35, 0) as any as S.Schema<UpdateTracingViewRequest>,
+  output: __S(225, __c14, 1) as any as S.Schema<TracingView>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1575,8 +1779,8 @@ export const updateTracingViewsPartial: API.OperationMethod<
   UpdateTracingViewsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<UpdateTracingViewsPartialRequest>,
-  output: __S(98, __c12, 2) as any as S.Schema<TracingView>,
+  input: __S(576, __c36, 0) as any as S.Schema<UpdateTracingViewsPartialRequest>,
+  output: __S(225, __c14, 1) as any as S.Schema<TracingView>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1631,7 +1835,7 @@ function __c2(j: number): any {
           project_id: S.String.pipe(T.Label()),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
-          ordered_ids: __S(32, __c4, 0),
+          ordered_ids: __S(64, __c4, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1645,14 +1849,14 @@ function __c2(j: number): any {
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8, __c1, 0));
+      return S.Array(__S(16, __c1, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(24, __c3, 0),
+          results: __S(48, __c3, 0),
         }),
       ).annotate({ identifier: "PaginatedTracesRetentionRuleList" });
   }
@@ -1668,12 +1872,12 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dateRange: S.optional(__S(256, __c32, 0)),
-          serviceNames: S.optional(__S(32, __c4, 0)),
-          statusCodes: S.optional(__S(296, __c37, 0)),
+          dateRange: S.optional(__S(528, __c33, 0)),
+          serviceNames: S.optional(__S(64, __c4, 0)),
+          statusCodes: S.optional(__S(624, __c39, 0)),
           orderBy: S.optional(S.String),
           orderDirection: S.optional(S.String),
-          filterGroup: S.optional(__S(265, __c33, 1)),
+          filterGroup: S.optional(__S(545, __c34, 1)),
           traceId: S.optional(S.String),
           limit: S.optional(S.Number),
           after: S.optional(S.String),
@@ -1688,7 +1892,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(40, __c5, 0),
+          query: __S(80, __c5, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1715,16 +1919,16 @@ function __c5(j: number): any {
           matched_filter: S.Number,
           trace_start: S.String,
           trace_duration: S.Number,
-          attributes: __S(48, __c6, 0),
-          resource_attributes: __S(48, __c6, 0),
+          attributes: __S(96, __c6, 0),
+          resource_attributes: __S(96, __c6, 0),
         }),
       ).annotate({ identifier: "Span" });
     case 3:
-      return S.Array(__S(42, __c5, 2));
+      return S.Array(__S(82, __c5, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(43, __c5, 3),
+          results: __S(83, __c5, 3),
           hasMore: S.Boolean,
           nextCursor: S.NullOr(S.String),
         }),
@@ -1742,8 +1946,115 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          dateRange: S.optional(__S(528, __c33, 0)),
+          compare: S.optional(S.String),
+          environment: S.optional(S.NullOr(S.String)),
+          serviceNames: S.optional(__S(64, __c4, 0)),
+          spanScope: S.optional(S.String),
+          orderBy: S.optional(S.String),
+          limit: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ServiceHealthQuery" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(320, __c40, 0),
+          query: __S(112, __c7, 0),
+          baselineDateRange: S.optional(__S(528, __c33, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/tracing/spans/service_health/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateTracingSpansServiceHealthRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          date_from: S.String,
+          date_to: S.String,
+        }),
+      ).annotate({ identifier: "ServiceHealthTimeRange" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          current: __S(114, __c7, 2),
+          baseline: S.NullOr(__S(114, __c7, 2)),
+          timezone: S.String,
+        }),
+      ).annotate({ identifier: "ServiceHealthWindow" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          services: S.Number,
+          requests: S.Number,
+          ok: S.Number,
+          degraded: S.Number,
+          regressed: S.Number,
+          silent: S.Number,
+          new: S.Number,
+          recovered: S.Number,
+          improved: S.Number,
+        }),
+      ).annotate({ identifier: "ServiceHealthSummary" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          service: S.String,
+          status: S.String,
+          reason: S.String,
+          requests: S.Number,
+          throughput_per_min: S.Number,
+          error_count: S.Number,
+          error_rate_pct: S.NullOr(S.Number),
+          error_rate_delta_pp: S.NullOr(S.Number),
+          p50_ms: S.NullOr(S.Number),
+          p95_ms: S.NullOr(S.Number),
+          p95_change_pct: S.NullOr(S.Number),
+          p99_ms: S.NullOr(S.Number),
+          baseline_requests: S.NullOr(S.Number),
+          last_seen: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ServiceHealthRow" });
+    case 6:
+      return S.Array(__S(117, __c7, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          tool: S.String,
+          why: S.String,
+          query: __S(128, __c8, 0),
+        }),
+      ).annotate({ identifier: "ServiceHealthNextCall" });
+    case 8:
+      return S.Array(__S(119, __c7, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          window: __S(115, __c7, 3),
+          summary: __S(116, __c7, 4),
+          services: __S(118, __c7, 6),
+          next: __S(120, __c7, 8),
+          truncated: S.Boolean,
+          notes: __S(64, __c4, 0),
+        }),
+      ).annotate({ identifier: "ServiceHealthResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          query: __S(672, __c42, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1761,16 +2072,16 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "TracingSparklineRow" });
     case 2:
-      return S.Array(__S(57, __c7, 1));
+      return S.Array(__S(145, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(58, __c7, 2),
+          results: __S(146, __c9, 2),
         }),
       ).annotate({ identifier: "TracingSparklineResponse" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1781,20 +2092,20 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "SymbolStatsSymbol" });
     case 1:
-      return S.Array(__S(64, __c8, 0));
+      return S.Array(__S(160, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           filePath: S.String,
-          dateRange: S.optional(__S(256, __c32, 0)),
-          symbols: S.optional(__S(65, __c8, 1)),
+          dateRange: S.optional(__S(528, __c33, 0)),
+          symbols: S.optional(__S(161, __c10, 1)),
         }),
       ).annotate({ identifier: "SymbolStatsQueryBody" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(66, __c8, 2),
+          query: __S(162, __c10, 2),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1834,30 +2145,30 @@ function __c8(j: number): any {
           line: S.Number,
           name: S.optional(S.NullOr(S.String)),
           end_line: S.optional(S.NullOr(S.Number)),
-          previous: __S(68, __c8, 4),
+          previous: __S(164, __c10, 4),
           count_pct_change: S.NullOr(S.Number),
           p95_duration_pct_change: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "SymbolStatsRow" });
     case 6:
-      return S.Array(__S(69, __c8, 5));
+      return S.Array(__S(165, __c10, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          results: __S(70, __c8, 6),
+          results: __S(166, __c10, 6),
           granularity: S.String,
         }),
       ).annotate({ identifier: "SymbolStatsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           trace_id: S.String.pipe(T.Label()),
-          dateRange: S.optional(__S(256, __c32, 0)),
+          dateRange: S.optional(__S(528, __c33, 0)),
           excludeAttributes: S.optional(S.Boolean),
           offset: S.optional(S.Number),
         }).pipe(
@@ -1869,6 +2180,16 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "CreateTracingSpansTraceRequest" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          timestamp: S.NullOr(S.String),
+          attributes: __S(96, __c6, 0),
+        }),
+      ).annotate({ identifier: "SpanEvent" });
+    case 2:
+      return S.Array(__S(177, __c11, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String,
@@ -1886,41 +2207,42 @@ function __c9(j: number): any {
           matched_filter: S.Number,
           trace_start: S.String,
           trace_duration: S.Number,
-          attributes: __S(48, __c6, 0),
-          resource_attributes: __S(48, __c6, 0),
+          attributes: __S(96, __c6, 0),
+          resource_attributes: __S(96, __c6, 0),
           self_time_nano: S.Number,
+          events: S.optional(__S(178, __c11, 2)),
         }),
       ).annotate({ identifier: "TraceSpan" });
-    case 2:
-      return S.Array(__S(73, __c9, 1));
-    case 3:
+    case 4:
+      return S.Array(__S(179, __c11, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          results: __S(74, __c9, 2),
+          results: __S(180, __c11, 4),
           hasMore: S.Boolean,
           nextOffset: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "TracingTraceResponse" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           spanName: S.String,
           serviceName: S.String,
-          dateRange: S.optional(__S(256, __c32, 0)),
-          compareFilter: S.optional(__S(248, __c31, 0)),
-          serviceNames: S.optional(__S(32, __c4, 0)),
-          filterGroup: S.optional(__S(265, __c33, 1)),
+          dateRange: S.optional(__S(528, __c33, 0)),
+          compareFilter: S.optional(__S(512, __c32, 0)),
+          serviceNames: S.optional(__S(64, __c4, 0)),
+          filterGroup: S.optional(__S(545, __c34, 1)),
         }),
       ).annotate({ identifier: "TracingTreeQueryBody" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(80, __c10, 0),
+          query: __S(192, __c12, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1949,24 +2271,24 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "SpanTreeNode" });
     case 3:
-      return S.Array(__S(82, __c10, 2));
+      return S.Array(__S(194, __c12, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(83, __c10, 3),
-          compare: S.NullOr(__S(83, __c10, 3)),
+          results: __S(195, __c12, 3),
+          compare: S.NullOr(__S(195, __c12, 3)),
         }),
       ).annotate({ identifier: "TracingTreeResponse" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           name: S.String,
-          filters: S.optional(__S(96, __c12, 0)),
+          filters: S.optional(__S(128, __c8, 0)),
           pinned: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/tracing/views/", code: 200 }),
@@ -1974,11 +2296,9 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateTracingViewRequest" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
@@ -1988,26 +2308,26 @@ function __c12(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(96, __c12, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(128, __c8, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           short_id: S.String,
           name: S.String,
-          filters: S.optional(__S(96, __c12, 0)),
+          filters: S.optional(__S(128, __c8, 0)),
           pinned: S.optional(S.Boolean),
           created_at: S.String,
-          created_by: S.NullOr(__S(97, __c12, 1)),
+          created_by: S.NullOr(__S(224, __c14, 0)),
           updated_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "TracingView" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2024,13 +2344,16 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetTracingRetentionRuleRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           attribute_type: S.optional(S.String.pipe(T.Query())),
+          dateRange: S.optional(S.String.pipe(T.Query())),
+          date_from: S.optional(S.String.pipe(T.Query())),
+          date_to: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
@@ -2053,17 +2376,17 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "TracingAttributeEntry" });
     case 2:
-      return S.Array(__S(113, __c14, 1));
+      return S.Array(__S(257, __c16, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(114, __c14, 2),
+          results: __S(258, __c16, 2),
           count: S.Number,
         }),
       ).annotate({ identifier: "TracingAttributesResponse" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2085,33 +2408,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "HasSpansResponse" });
   }
 }
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          dateRange: S.optional(S.String.pipe(T.Query())),
-          search: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/tracing/spans/service-names/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetTracingSpansServiceNameRequest" });
-    case 1:
-      return S.Array(__S(144, __c18, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          results: __S(129, __c16, 1),
-        }),
-      ).annotate({ identifier: "TracingServiceNamesResponse" });
-  }
-}
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2129,7 +2426,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CreateTracingRetentionRulesSuggestNameRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2139,7 +2436,35 @@ function __c18(j: number): any {
       ).annotate({ identifier: "LogsRetentionRuleNameSuggestion" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          dateRange: S.optional(S.String.pipe(T.Query())),
+          date_from: S.optional(S.String.pipe(T.Query())),
+          date_to: S.optional(S.String.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/tracing/spans/service-names/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetTracingSpansServiceNameRequest" });
+    case 1:
+      return S.Array(__S(304, __c19, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(321, __c20, 1),
+        }),
+      ).annotate({ identifier: "TracingServiceNamesResponse" });
+  }
+}
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2174,24 +2499,27 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "TracingTraceAiEvent" });
     case 2:
-      return S.Array(__S(153, __c19, 1));
+      return S.Array(__S(337, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(154, __c19, 2),
+          results: __S(338, __c21, 2),
           limit: S.Number,
           has_more: S.Boolean,
         }),
       ).annotate({ identifier: "TracingTraceAiEventsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           attribute_type: S.optional(S.String.pipe(T.Query())),
+          dateRange: S.optional(S.String.pipe(T.Query())),
+          date_from: S.optional(S.String.pipe(T.Query())),
+          date_to: S.optional(S.String.pipe(T.Query())),
           key: S.String.pipe(T.Query()),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
@@ -2206,13 +2534,13 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetTracingSpansValueRequest" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "GetTracingSpansValueResponse" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2229,7 +2557,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetTracingViewRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2247,7 +2575,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ListTracingRetentionRulesRequest" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2260,19 +2588,19 @@ function __c24(j: number): any {
         ),
       ).annotate({ identifier: "ListTracingViewsRequest" });
     case 1:
-      return S.Array(__S(98, __c12, 2));
+      return S.Array(__S(225, __c14, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(193, __c24, 1),
+          results: __S(417, __c26, 1),
         }),
       ).annotate({ identifier: "PaginatedTracingViewList" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2289,7 +2617,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "TracingRetentionRulesDestroyRequest" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2306,7 +2634,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "TracingViewsDestroyRequest" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2327,7 +2655,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "UpdateTracingRetentionRuleRequest" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2348,45 +2676,27 @@ function __c28(j: number): any {
       ).annotate({ identifier: "UpdateTracingRetentionRulesPartialRequest" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          short_id: S.String.pipe(T.Label()),
-          name: S.String,
-          filters: S.optional(__S(96, __c12, 0)),
-          pinned: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/projects/{project_id}/tracing/views/{short_id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateTracingViewRequest" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dateRange: S.optional(__S(256, __c32, 0)),
-          compareFilter: S.optional(__S(248, __c31, 0)),
-          serviceNames: S.optional(__S(32, __c4, 0)),
-          filterGroup: S.optional(__S(265, __c33, 1)),
+          dateRange: S.optional(__S(528, __c33, 0)),
+          compareFilter: S.optional(__S(512, __c32, 0)),
+          serviceNames: S.optional(__S(64, __c4, 0)),
+          filterGroup: S.optional(__S(545, __c34, 1)),
           limit: S.optional(S.Number),
           offset: S.optional(S.Number),
           includeImpact: S.optional(S.Boolean),
+          groupByEndpoint: S.optional(S.Boolean),
+          includeHealth: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TracingAggregationQueryBody" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(240, __c30, 0),
+          query: __S(496, __c31, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2412,22 +2722,24 @@ function __c30(j: number): any {
           users: S.NullOr(S.Number),
           spans_with_session_id: S.NullOr(S.Number),
           spans_with_distinct_id: S.NullOr(S.Number),
+          health_status: S.NullOr(S.String),
+          health_reason: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "AggregatedSpanRow" });
     case 3:
-      return S.Array(__S(242, __c30, 2));
+      return S.Array(__S(498, __c31, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(243, __c30, 3),
-          compare: S.NullOr(__S(243, __c30, 3)),
+          results: __S(499, __c31, 3),
+          compare: S.NullOr(__S(499, __c31, 3)),
           has_more: S.Boolean,
           next_offset: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "TracingAggregationResponse" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2438,7 +2750,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "CompareFilter" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2449,7 +2761,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "TracingDateRange" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2461,10 +2773,30 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "SpanPropertyFilter" });
     case 1:
-      return S.Array(__S(264, __c33, 0));
+      return S.Array(__S(544, __c34, 0));
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          short_id: S.String.pipe(T.Label()),
+          name: S.String,
+          filters: S.optional(__S(128, __c8, 0)),
+          pinned: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/projects/{project_id}/tracing/views/{short_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateTracingViewRequest" });
+  }
+}
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2472,7 +2804,7 @@ function __c34(j: number): any {
           project_id: S.String.pipe(T.Label()),
           short_id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          filters: S.optional(__S(96, __c12, 0)),
+          filters: S.optional(__S(128, __c8, 0)),
           pinned: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -2484,7 +2816,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "UpdateTracingViewsPartialRequest" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2494,17 +2826,17 @@ function __c35(j: number): any {
           excludeBreakdownFilter: S.optional(S.Boolean),
           facetSearch: S.optional(S.String),
           orderBy: S.optional(S.String),
-          dateRange: S.optional(__S(256, __c32, 0)),
-          compareFilter: S.optional(__S(248, __c31, 0)),
-          serviceNames: S.optional(__S(32, __c4, 0)),
-          filterGroup: S.optional(__S(265, __c33, 1)),
+          dateRange: S.optional(__S(528, __c33, 0)),
+          compareFilter: S.optional(__S(512, __c32, 0)),
+          serviceNames: S.optional(__S(64, __c4, 0)),
+          filterGroup: S.optional(__S(545, __c34, 1)),
         }),
       ).annotate({ identifier: "TracingAttributeBreakdownQueryBody" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(280, __c35, 0),
+          query: __S(592, __c37, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2524,23 +2856,23 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "TracingAttributeBreakdownRow" });
     case 3:
-      return S.Array(__S(282, __c35, 2));
+      return S.Array(__S(594, __c37, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(283, __c35, 3),
-          compare: S.NullOr(__S(283, __c35, 3)),
+          results: __S(595, __c37, 3),
+          compare: S.NullOr(__S(595, __c37, 3)),
         }),
       ).annotate({ identifier: "TracingAttributeBreakdownResponse" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(304, __c38, 0),
+          query: __S(640, __c40, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2558,32 +2890,32 @@ function __c36(j: number): any {
       ).annotate({ identifier: "TracingCountResponse" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dateRange: S.optional(__S(256, __c32, 0)),
-          serviceNames: S.optional(__S(32, __c4, 0)),
-          statusCodes: S.optional(__S(296, __c37, 0)),
+          dateRange: S.optional(__S(528, __c33, 0)),
+          serviceNames: S.optional(__S(64, __c4, 0)),
+          statusCodes: S.optional(__S(624, __c39, 0)),
           filterGroup: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "TracingCountBody" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(320, __c40, 0),
+          query: __S(672, __c42, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2601,38 +2933,38 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "TracingDurationHistogramRow" });
     case 2:
-      return S.Array(__S(313, __c39, 1));
+      return S.Array(__S(657, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(314, __c39, 2),
+          results: __S(658, __c41, 2),
         }),
       ).annotate({ identifier: "TracingDurationHistogramResponse" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dateRange: S.optional(__S(256, __c32, 0)),
-          serviceNames: S.optional(__S(32, __c4, 0)),
-          statusCodes: S.optional(__S(296, __c37, 0)),
-          filterGroup: S.optional(__S(265, __c33, 1)),
+          dateRange: S.optional(__S(528, __c33, 0)),
+          serviceNames: S.optional(__S(64, __c4, 0)),
+          statusCodes: S.optional(__S(624, __c39, 0)),
+          filterGroup: S.optional(__S(545, __c34, 1)),
           rootSpans: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TracingDurationHistogramQueryBody" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          traceIds: S.optional(__S(32, __c4, 0)),
-          spanIds: S.optional(__S(32, __c4, 0)),
-          sessionIds: S.optional(__S(32, __c4, 0)),
+          traceIds: S.optional(__S(64, __c4, 0)),
+          spanIds: S.optional(__S(64, __c4, 0)),
+          sessionIds: S.optional(__S(64, __c4, 0)),
           dateFrom: S.String,
           dateTo: S.String,
         }).pipe(
@@ -2651,7 +2983,7 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "TracingTraceErrorCount" });
     case 2:
-      return S.Array(__S(329, __c41, 1));
+      return S.Array(__S(689, __c43, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2660,7 +2992,7 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "TracingSpanErrorCount" });
     case 4:
-      return S.Array(__S(331, __c41, 3));
+      return S.Array(__S(691, __c43, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -2669,24 +3001,24 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "TracingSessionErrorCount" });
     case 6:
-      return S.Array(__S(333, __c41, 5));
+      return S.Array(__S(693, __c43, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          traceResults: __S(330, __c41, 2),
-          spanResults: __S(332, __c41, 4),
-          sessionResults: __S(334, __c41, 6),
+          traceResults: __S(690, __c43, 2),
+          spanResults: __S(692, __c43, 4),
+          sessionResults: __S(694, __c43, 6),
         }),
       ).annotate({ identifier: "TracingErrorCountsResponse" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(304, __c38, 0),
+          query: __S(640, __c40, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2703,7 +3035,7 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "TracingImpactTopValue" });
     case 2:
-      return S.Array(__S(337, __c42, 1));
+      return S.Array(__S(705, __c44, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2712,19 +3044,19 @@ function __c42(j: number): any {
           sessions: S.Number,
           spansWithDistinctId: S.Number,
           users: S.Number,
-          topSessions: __S(338, __c42, 2),
-          topUsers: __S(338, __c42, 2),
+          topSessions: __S(706, __c44, 2),
+          topUsers: __S(706, __c44, 2),
         }),
       ).annotate({ identifier: "TracingImpactResponse" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(320, __c40, 0),
+          query: __S(672, __c42, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2742,11 +3074,11 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "TracingLatencyHeatmapCell" });
     case 2:
-      return S.Array(__S(345, __c43, 1));
+      return S.Array(__S(721, __c45, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(346, __c43, 2),
+          results: __S(722, __c45, 2),
         }),
       ).annotate({ identifier: "TracingLatencyHeatmapResponse" });
   }

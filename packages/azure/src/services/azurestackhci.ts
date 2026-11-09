@@ -6179,7 +6179,7 @@ export interface VirtualMachineInstanceProperties {
   status?: VirtualMachineInstanceStatus;
   /** Guest agent install status. */
   guestAgentInstallStatus?: GuestAgentInstallStatus;
-  /** Unique identifier for the vm resource. */
+  /** The SMBIOS GUID of the VM (hybrid compute identity). This is null for non-secure VMs and is populated for TrustedLaunch and ConfidentialVM VMs. */
   vmId?: string;
   /** Unique identifier defined by ARC to identify the guest of the VM. */
   resourceUid?: string;

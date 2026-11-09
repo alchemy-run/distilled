@@ -95,6 +95,38 @@ export interface GetBotManagementRequest {
   /** Identifier. */
   zoneId: string;
 }
+export type GetResultBotFightModeConfigurationAiAgentsAnthropicAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type GetResultBotFightModeConfigurationAiAgentsGoogleAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type GetResultBotFightModeConfigurationAiAgentsInstinct =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type GetResultBotFightModeConfigurationAiAgentsMuse =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type GetResultBotFightModeConfigurationAiAgentsOpenaiAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export interface GetResultBotFightModeConfigurationAiAgents {
+  /** Action to apply to one supported personal AI agent. */
+  anthropicAgent?: GetResultBotFightModeConfigurationAiAgentsAnthropicAgent | null;
+  /** Action to apply to one supported personal AI agent. */
+  googleAgent?: GetResultBotFightModeConfigurationAiAgentsGoogleAgent | null;
+  /** Action to apply to one supported personal AI agent. */
+  instinct?: GetResultBotFightModeConfigurationAiAgentsInstinct | null;
+  /** Action to apply to one supported personal AI agent. */
+  muse?: GetResultBotFightModeConfigurationAiAgentsMuse | null;
+  /** Action to apply to one supported personal AI agent. */
+  openaiAgent?: GetResultBotFightModeConfigurationAiAgentsOpenaiAgent | null;
+}
 export type GetResultBotFightModeConfigurationAiBotsProtection =
   | "block"
   | "disabled"
@@ -124,6 +156,8 @@ export interface GetResultBotFightModeConfigurationStaleZoneConfiguration {
   suppressSessionScore?: boolean | null;
 }
 export interface GetResultBotFightModeConfiguration {
+  /** Configure blocking behavior for supported personal AI agents. */
+  aiAgents?: GetResultBotFightModeConfigurationAiAgents | null;
   /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
   aiBotsMigrationOptOut?: boolean | null;
   /** Enable rule to block AI Scrapers and Crawlers. */
@@ -154,6 +188,38 @@ export interface GetResultBotFightModeConfiguration {
   staleZoneConfiguration?: GetResultBotFightModeConfigurationStaleZoneConfiguration | null;
   /** A read-only field that indicates whether the zone currently is running the latest ML model. */
   usingLatestModel?: boolean | null;
+}
+export type GetResultSuperBotFightModeDefinitelyConfigurationAiAgentsAnthropicAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type GetResultSuperBotFightModeDefinitelyConfigurationAiAgentsGoogleAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type GetResultSuperBotFightModeDefinitelyConfigurationAiAgentsInstinct =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type GetResultSuperBotFightModeDefinitelyConfigurationAiAgentsMuse =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type GetResultSuperBotFightModeDefinitelyConfigurationAiAgentsOpenaiAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export interface GetResultSuperBotFightModeDefinitelyConfigurationAiAgents {
+  /** Action to apply to one supported personal AI agent. */
+  anthropicAgent?: GetResultSuperBotFightModeDefinitelyConfigurationAiAgentsAnthropicAgent | null;
+  /** Action to apply to one supported personal AI agent. */
+  googleAgent?: GetResultSuperBotFightModeDefinitelyConfigurationAiAgentsGoogleAgent | null;
+  /** Action to apply to one supported personal AI agent. */
+  instinct?: GetResultSuperBotFightModeDefinitelyConfigurationAiAgentsInstinct | null;
+  /** Action to apply to one supported personal AI agent. */
+  muse?: GetResultSuperBotFightModeDefinitelyConfigurationAiAgentsMuse | null;
+  /** Action to apply to one supported personal AI agent. */
+  openaiAgent?: GetResultSuperBotFightModeDefinitelyConfigurationAiAgentsOpenaiAgent | null;
 }
 export type GetResultSuperBotFightModeDefinitelyConfigurationAiBotsProtection =
   | "block"
@@ -193,6 +259,8 @@ export interface GetResultSuperBotFightModeDefinitelyConfigurationStaleZoneConfi
   sbfmLikelyAutomated?: string | null;
 }
 export interface GetResultSuperBotFightModeDefinitelyConfiguration {
+  /** Configure blocking behavior for supported personal AI agents. */
+  aiAgents?: GetResultSuperBotFightModeDefinitelyConfigurationAiAgents | null;
   /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
   aiBotsMigrationOptOut?: boolean | null;
   /** Enable rule to block AI Scrapers and Crawlers. */
@@ -230,6 +298,38 @@ export interface GetResultSuperBotFightModeDefinitelyConfiguration {
   /** A read-only field that indicates whether the zone currently is running the latest ML model. */
   usingLatestModel?: boolean | null;
 }
+export type GetResultSuperBotFightModeLikelyConfigurationAiAgentsAnthropicAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type GetResultSuperBotFightModeLikelyConfigurationAiAgentsGoogleAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type GetResultSuperBotFightModeLikelyConfigurationAiAgentsInstinct =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type GetResultSuperBotFightModeLikelyConfigurationAiAgentsMuse =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type GetResultSuperBotFightModeLikelyConfigurationAiAgentsOpenaiAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export interface GetResultSuperBotFightModeLikelyConfigurationAiAgents {
+  /** Action to apply to one supported personal AI agent. */
+  anthropicAgent?: GetResultSuperBotFightModeLikelyConfigurationAiAgentsAnthropicAgent | null;
+  /** Action to apply to one supported personal AI agent. */
+  googleAgent?: GetResultSuperBotFightModeLikelyConfigurationAiAgentsGoogleAgent | null;
+  /** Action to apply to one supported personal AI agent. */
+  instinct?: GetResultSuperBotFightModeLikelyConfigurationAiAgentsInstinct | null;
+  /** Action to apply to one supported personal AI agent. */
+  muse?: GetResultSuperBotFightModeLikelyConfigurationAiAgentsMuse | null;
+  /** Action to apply to one supported personal AI agent. */
+  openaiAgent?: GetResultSuperBotFightModeLikelyConfigurationAiAgentsOpenaiAgent | null;
+}
 export type GetResultSuperBotFightModeLikelyConfigurationAiBotsProtection =
   | "block"
   | "disabled"
@@ -266,6 +366,8 @@ export interface GetResultSuperBotFightModeLikelyConfigurationStaleZoneConfigura
   fightMode?: boolean | null;
 }
 export interface GetResultSuperBotFightModeLikelyConfiguration {
+  /** Configure blocking behavior for supported personal AI agents. */
+  aiAgents?: GetResultSuperBotFightModeLikelyConfigurationAiAgents | null;
   /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
   aiBotsMigrationOptOut?: boolean | null;
   /** Enable rule to block AI Scrapers and Crawlers. */
@@ -305,6 +407,38 @@ export interface GetResultSuperBotFightModeLikelyConfiguration {
   /** A read-only field that indicates whether the zone currently is running the latest ML model. */
   usingLatestModel?: boolean | null;
 }
+export type GetResultSubscriptionConfigurationAiAgentsAnthropicAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type GetResultSubscriptionConfigurationAiAgentsGoogleAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type GetResultSubscriptionConfigurationAiAgentsInstinct =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type GetResultSubscriptionConfigurationAiAgentsMuse =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type GetResultSubscriptionConfigurationAiAgentsOpenaiAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export interface GetResultSubscriptionConfigurationAiAgents {
+  /** Action to apply to one supported personal AI agent. */
+  anthropicAgent?: GetResultSubscriptionConfigurationAiAgentsAnthropicAgent | null;
+  /** Action to apply to one supported personal AI agent. */
+  googleAgent?: GetResultSubscriptionConfigurationAiAgentsGoogleAgent | null;
+  /** Action to apply to one supported personal AI agent. */
+  instinct?: GetResultSubscriptionConfigurationAiAgentsInstinct | null;
+  /** Action to apply to one supported personal AI agent. */
+  muse?: GetResultSubscriptionConfigurationAiAgentsMuse | null;
+  /** Action to apply to one supported personal AI agent. */
+  openaiAgent?: GetResultSubscriptionConfigurationAiAgentsOpenaiAgent | null;
+}
 export type GetResultSubscriptionConfigurationAiBotsProtection =
   | "block"
   | "disabled"
@@ -334,6 +468,8 @@ export interface GetResultSubscriptionConfigurationStaleZoneConfiguration {
   sbfmVerifiedBots?: string | null;
 }
 export interface GetResultSubscriptionConfiguration {
+  /** Configure blocking behavior for supported personal AI agents. */
+  aiAgents?: GetResultSubscriptionConfigurationAiAgents | null;
   /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
   aiBotsMigrationOptOut?: boolean | null;
   /** Enable rule to block AI Scrapers and Crawlers. */
@@ -402,6 +538,23 @@ export interface ListFeedbackResponse {
   createdAt?: string | null;
   subtype?: string | null;
 }
+export type UpdateRequestAiAgentsAnthropicAgent = "disabled" | "block" | "only_on_ad_pages";
+export type UpdateRequestAiAgentsGoogleAgent = "disabled" | "block" | "only_on_ad_pages";
+export type UpdateRequestAiAgentsInstinct = "disabled" | "block" | "only_on_ad_pages";
+export type UpdateRequestAiAgentsMuse = "disabled" | "block" | "only_on_ad_pages";
+export type UpdateRequestAiAgentsOpenaiAgent = "disabled" | "block" | "only_on_ad_pages";
+export interface UpdateRequestAiAgents {
+  /** Action to apply to one supported personal AI agent. */
+  anthropicAgent?: UpdateRequestAiAgentsAnthropicAgent | (string & {});
+  /** Action to apply to one supported personal AI agent. */
+  googleAgent?: UpdateRequestAiAgentsGoogleAgent | (string & {});
+  /** Action to apply to one supported personal AI agent. */
+  instinct?: UpdateRequestAiAgentsInstinct | (string & {});
+  /** Action to apply to one supported personal AI agent. */
+  muse?: UpdateRequestAiAgentsMuse | (string & {});
+  /** Action to apply to one supported personal AI agent. */
+  openaiAgent?: UpdateRequestAiAgentsOpenaiAgent | (string & {});
+}
 export type UpdateRequestAiBotsProtection = "block" | "disabled" | "only_on_ad_pages";
 export type UpdateRequestAiSearch = "disabled" | "block" | "only_on_ad_pages";
 export type UpdateRequestAiTraining = "disabled" | "disallow" | "block" | "only_on_ad_pages";
@@ -458,6 +611,8 @@ export type UpdateRequestSbfmLikelyAutomated = "allow" | "block" | "managed_chal
 export interface PutBotManagementRequest {
   /** Identifier. */
   zoneId: string;
+  /** Configure blocking behavior for supported personal AI agents. */
+  aiAgents?: UpdateRequestAiAgents;
   /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
   aiBotsMigrationOptOut?: boolean;
   /** Enable rule to block AI Scrapers and Crawlers. */
@@ -505,6 +660,38 @@ export interface PutBotManagementRequest {
   /** Whether to disable tracking the highest bot score for a session in the Bot Management cookie. */
   suppressSessionScore?: boolean;
 }
+export type UpdateResultBotFightModeConfigurationAiAgentsAnthropicAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type UpdateResultBotFightModeConfigurationAiAgentsGoogleAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type UpdateResultBotFightModeConfigurationAiAgentsInstinct =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type UpdateResultBotFightModeConfigurationAiAgentsMuse =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type UpdateResultBotFightModeConfigurationAiAgentsOpenaiAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export interface UpdateResultBotFightModeConfigurationAiAgents {
+  /** Action to apply to one supported personal AI agent. */
+  anthropicAgent?: UpdateResultBotFightModeConfigurationAiAgentsAnthropicAgent | null;
+  /** Action to apply to one supported personal AI agent. */
+  googleAgent?: UpdateResultBotFightModeConfigurationAiAgentsGoogleAgent | null;
+  /** Action to apply to one supported personal AI agent. */
+  instinct?: UpdateResultBotFightModeConfigurationAiAgentsInstinct | null;
+  /** Action to apply to one supported personal AI agent. */
+  muse?: UpdateResultBotFightModeConfigurationAiAgentsMuse | null;
+  /** Action to apply to one supported personal AI agent. */
+  openaiAgent?: UpdateResultBotFightModeConfigurationAiAgentsOpenaiAgent | null;
+}
 export type UpdateResultBotFightModeConfigurationAiBotsProtection =
   | "block"
   | "disabled"
@@ -525,6 +712,8 @@ export type UpdateResultBotFightModeConfigurationCrawlerProtection = "enabled" |
 export type UpdateResultBotFightModeConfigurationStaleZoneConfiguration =
   GetResultBotFightModeConfigurationStaleZoneConfiguration;
 export interface UpdateResultBotFightModeConfiguration {
+  /** Configure blocking behavior for supported personal AI agents. */
+  aiAgents?: UpdateResultBotFightModeConfigurationAiAgents | null;
   /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
   aiBotsMigrationOptOut?: boolean | null;
   /** Enable rule to block AI Scrapers and Crawlers. */
@@ -555,6 +744,38 @@ export interface UpdateResultBotFightModeConfiguration {
   staleZoneConfiguration?: GetResultBotFightModeConfigurationStaleZoneConfiguration | null;
   /** A read-only field that indicates whether the zone currently is running the latest ML model. */
   usingLatestModel?: boolean | null;
+}
+export type UpdateResultSuperBotFightModeDefinitelyConfigurationAiAgentsAnthropicAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type UpdateResultSuperBotFightModeDefinitelyConfigurationAiAgentsGoogleAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type UpdateResultSuperBotFightModeDefinitelyConfigurationAiAgentsInstinct =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type UpdateResultSuperBotFightModeDefinitelyConfigurationAiAgentsMuse =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type UpdateResultSuperBotFightModeDefinitelyConfigurationAiAgentsOpenaiAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export interface UpdateResultSuperBotFightModeDefinitelyConfigurationAiAgents {
+  /** Action to apply to one supported personal AI agent. */
+  anthropicAgent?: UpdateResultSuperBotFightModeDefinitelyConfigurationAiAgentsAnthropicAgent | null;
+  /** Action to apply to one supported personal AI agent. */
+  googleAgent?: UpdateResultSuperBotFightModeDefinitelyConfigurationAiAgentsGoogleAgent | null;
+  /** Action to apply to one supported personal AI agent. */
+  instinct?: UpdateResultSuperBotFightModeDefinitelyConfigurationAiAgentsInstinct | null;
+  /** Action to apply to one supported personal AI agent. */
+  muse?: UpdateResultSuperBotFightModeDefinitelyConfigurationAiAgentsMuse | null;
+  /** Action to apply to one supported personal AI agent. */
+  openaiAgent?: UpdateResultSuperBotFightModeDefinitelyConfigurationAiAgentsOpenaiAgent | null;
 }
 export type UpdateResultSuperBotFightModeDefinitelyConfigurationAiBotsProtection =
   | "block"
@@ -592,6 +813,8 @@ export type UpdateResultSuperBotFightModeDefinitelyConfigurationSbfmVerifiedBots
 export type UpdateResultSuperBotFightModeDefinitelyConfigurationStaleZoneConfiguration =
   GetResultSuperBotFightModeDefinitelyConfigurationStaleZoneConfiguration;
 export interface UpdateResultSuperBotFightModeDefinitelyConfiguration {
+  /** Configure blocking behavior for supported personal AI agents. */
+  aiAgents?: UpdateResultSuperBotFightModeDefinitelyConfigurationAiAgents | null;
   /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
   aiBotsMigrationOptOut?: boolean | null;
   /** Enable rule to block AI Scrapers and Crawlers. */
@@ -629,6 +852,38 @@ export interface UpdateResultSuperBotFightModeDefinitelyConfiguration {
   /** A read-only field that indicates whether the zone currently is running the latest ML model. */
   usingLatestModel?: boolean | null;
 }
+export type UpdateResultSuperBotFightModeLikelyConfigurationAiAgentsAnthropicAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type UpdateResultSuperBotFightModeLikelyConfigurationAiAgentsGoogleAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type UpdateResultSuperBotFightModeLikelyConfigurationAiAgentsInstinct =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type UpdateResultSuperBotFightModeLikelyConfigurationAiAgentsMuse =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type UpdateResultSuperBotFightModeLikelyConfigurationAiAgentsOpenaiAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export interface UpdateResultSuperBotFightModeLikelyConfigurationAiAgents {
+  /** Action to apply to one supported personal AI agent. */
+  anthropicAgent?: UpdateResultSuperBotFightModeLikelyConfigurationAiAgentsAnthropicAgent | null;
+  /** Action to apply to one supported personal AI agent. */
+  googleAgent?: UpdateResultSuperBotFightModeLikelyConfigurationAiAgentsGoogleAgent | null;
+  /** Action to apply to one supported personal AI agent. */
+  instinct?: UpdateResultSuperBotFightModeLikelyConfigurationAiAgentsInstinct | null;
+  /** Action to apply to one supported personal AI agent. */
+  muse?: UpdateResultSuperBotFightModeLikelyConfigurationAiAgentsMuse | null;
+  /** Action to apply to one supported personal AI agent. */
+  openaiAgent?: UpdateResultSuperBotFightModeLikelyConfigurationAiAgentsOpenaiAgent | null;
+}
 export type UpdateResultSuperBotFightModeLikelyConfigurationAiBotsProtection =
   | "block"
   | "disabled"
@@ -665,6 +920,8 @@ export type UpdateResultSuperBotFightModeLikelyConfigurationSbfmVerifiedBots = "
 export type UpdateResultSuperBotFightModeLikelyConfigurationStaleZoneConfiguration =
   GetResultSuperBotFightModeLikelyConfigurationStaleZoneConfiguration;
 export interface UpdateResultSuperBotFightModeLikelyConfiguration {
+  /** Configure blocking behavior for supported personal AI agents. */
+  aiAgents?: UpdateResultSuperBotFightModeLikelyConfigurationAiAgents | null;
   /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
   aiBotsMigrationOptOut?: boolean | null;
   /** Enable rule to block AI Scrapers and Crawlers. */
@@ -704,6 +961,38 @@ export interface UpdateResultSuperBotFightModeLikelyConfiguration {
   /** A read-only field that indicates whether the zone currently is running the latest ML model. */
   usingLatestModel?: boolean | null;
 }
+export type UpdateResultSubscriptionConfigurationAiAgentsAnthropicAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type UpdateResultSubscriptionConfigurationAiAgentsGoogleAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type UpdateResultSubscriptionConfigurationAiAgentsInstinct =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type UpdateResultSubscriptionConfigurationAiAgentsMuse =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export type UpdateResultSubscriptionConfigurationAiAgentsOpenaiAgent =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export interface UpdateResultSubscriptionConfigurationAiAgents {
+  /** Action to apply to one supported personal AI agent. */
+  anthropicAgent?: UpdateResultSubscriptionConfigurationAiAgentsAnthropicAgent | null;
+  /** Action to apply to one supported personal AI agent. */
+  googleAgent?: UpdateResultSubscriptionConfigurationAiAgentsGoogleAgent | null;
+  /** Action to apply to one supported personal AI agent. */
+  instinct?: UpdateResultSubscriptionConfigurationAiAgentsInstinct | null;
+  /** Action to apply to one supported personal AI agent. */
+  muse?: UpdateResultSubscriptionConfigurationAiAgentsMuse | null;
+  /** Action to apply to one supported personal AI agent. */
+  openaiAgent?: UpdateResultSubscriptionConfigurationAiAgentsOpenaiAgent | null;
+}
 export type UpdateResultSubscriptionConfigurationAiBotsProtection =
   | "block"
   | "disabled"
@@ -724,6 +1013,8 @@ export type UpdateResultSubscriptionConfigurationCrawlerProtection = "enabled" |
 export type UpdateResultSubscriptionConfigurationStaleZoneConfiguration =
   GetResultSubscriptionConfigurationStaleZoneConfiguration;
 export interface UpdateResultSubscriptionConfiguration {
+  /** Configure blocking behavior for supported personal AI agents. */
+  aiAgents?: UpdateResultSubscriptionConfigurationAiAgents | null;
   /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
   aiBotsMigrationOptOut?: boolean | null;
   /** Enable rule to block AI Scrapers and Crawlers. */
@@ -790,8 +1081,8 @@ export const getBotManagement: API.OperationMethod<
   GetBotManagementError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<GetBotManagementRequest>,
-  output: __S(10, __c2, 2) as any as S.Schema<GetBotManagementResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<GetBotManagementRequest>,
+  output: __S(18, __c2, 2) as any as S.Schema<GetBotManagementResponse>,
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -807,8 +1098,8 @@ export const listFeedback: API.OperationMethod<
   ListFeedbackError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<ListFeedbackRequest>,
-  output: __S(13, __c3, 1) as any as S.Schema<ListFeedbackResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<ListFeedbackRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<ListFeedbackResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -824,8 +1115,8 @@ export const putBotManagement: API.OperationMethod<
   PutBotManagementError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17, __c4, 1) as any as S.Schema<PutBotManagementRequest>,
-  output: __S(19, __c4, 3) as any as S.Schema<PutBotManagementResponse>,
+  input: __S(34, __c4, 2) as any as S.Schema<PutBotManagementRequest>,
+  output: __S(36, __c4, 4) as any as S.Schema<PutBotManagementResponse>,
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -845,9 +1136,9 @@ function __c0(j: number): any {
           firstRequestSeenAt: S.String.pipe(T.Body("first_request_seen_at")),
           lastRequestSeenAt: S.String.pipe(T.Body("last_request_seen_at")),
           requests: S.Number,
-          requestsByAttribute: __S(4, __c1, 0).pipe(T.Body("requests_by_attribute")),
-          requestsByScore: __S(5, __c1, 1).pipe(T.Body("requests_by_score")),
-          requestsByScoreSrc: __S(5, __c1, 1).pipe(T.Body("requests_by_score_src")),
+          requestsByAttribute: __S(8, __c1, 0).pipe(T.Body("requests_by_attribute")),
+          requestsByScore: __S(9, __c1, 1).pipe(T.Body("requests_by_score")),
+          requestsByScoreSrc: __S(9, __c1, 1).pipe(T.Body("requests_by_score_src")),
           type: S.String,
           subtype: S.optional(S.String),
         })
@@ -889,6 +1180,7 @@ function __c2(j: number): any {
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           [
+            "aiAgents",
             "aiBotsMigrationOptOut",
             "aiBotsProtection",
             "aiSearch",
@@ -906,6 +1198,7 @@ function __c2(j: number): any {
             "usingLatestModel",
           ],
           [
+            "aiAgents",
             "aiBotsMigrationOptOut",
             "aiBotsProtection",
             "aiSearch",
@@ -926,6 +1219,7 @@ function __c2(j: number): any {
             "usingLatestModel",
           ],
           [
+            "aiAgents",
             "aiBotsMigrationOptOut",
             "aiBotsProtection",
             "aiSearch",
@@ -947,6 +1241,7 @@ function __c2(j: number): any {
             "usingLatestModel",
           ],
           [
+            "aiAgents",
             "aiBotsMigrationOptOut",
             "aiBotsProtection",
             "aiSearch",
@@ -969,7 +1264,7 @@ function __c2(j: number): any {
       );
     case 2:
       return S.suspend(() =>
-        __S(9, __c2, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(17, __c2, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBotManagementResponse" });
   }
 }
@@ -993,9 +1288,9 @@ function __c3(j: number): any {
           firstRequestSeenAt: S.String.pipe(T.Body("first_request_seen_at")),
           lastRequestSeenAt: S.String.pipe(T.Body("last_request_seen_at")),
           requests: S.Number,
-          requestsByAttribute: __S(4, __c1, 0).pipe(T.Body("requests_by_attribute")),
-          requestsByScore: __S(5, __c1, 1).pipe(T.Body("requests_by_score")),
-          requestsByScoreSrc: __S(5, __c1, 1).pipe(T.Body("requests_by_score_src")),
+          requestsByAttribute: __S(8, __c1, 0).pipe(T.Body("requests_by_attribute")),
+          requestsByScore: __S(9, __c1, 1).pipe(T.Body("requests_by_score")),
+          requestsByScoreSrc: __S(9, __c1, 1).pipe(T.Body("requests_by_score_src")),
           type: S.String,
           createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
           subtype: S.optional(S.NullOr(S.String)),
@@ -1006,6 +1301,16 @@ function __c3(j: number): any {
 function __c4(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          anthropicAgent: S.optional(S.String.pipe(T.Body("anthropic_agent"))),
+          googleAgent: S.optional(S.String.pipe(T.Body("google_agent"))),
+          instinct: S.optional(S.String),
+          muse: S.optional(S.String),
+          openaiAgent: S.optional(S.String.pipe(T.Body("openai_agent"))),
+        }),
+      ).annotate({ identifier: "UpdateRequestAiAgents" });
+    case 1:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           [
@@ -1028,10 +1333,11 @@ function __c4(j: number): any {
           ],
         ]),
       );
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
+          aiAgents: S.optional(__S(32, __c4, 0).pipe(T.Body("ai_agents"))),
           aiBotsMigrationOptOut: S.optional(S.Boolean.pipe(T.Body("ai_bots_migration_opt_out"))),
           aiBotsProtection: S.optional(S.String.pipe(T.Body("ai_bots_protection"))),
           aiSearch: S.optional(S.String.pipe(T.Body("ai_search"))),
@@ -1048,7 +1354,7 @@ function __c4(j: number): any {
           isRobotsTxtManaged: S.optional(S.Boolean.pipe(T.Body("is_robots_txt_managed"))),
           jsdApiResultsEnabled: S.optional(S.Boolean.pipe(T.Body("jsd_api_results_enabled"))),
           staleZoneConfiguration: S.optional(
-            __S(16, __c4, 0).pipe(T.Body("stale_zone_configuration")),
+            __S(33, __c4, 1).pipe(T.Body("stale_zone_configuration")),
           ),
           usingLatestModel: S.optional(S.Boolean.pipe(T.Body("using_latest_model"))),
           optimizeWordpress: S.optional(S.Boolean.pipe(T.Body("optimize_wordpress"))),
@@ -1065,10 +1371,11 @@ function __c4(j: number): any {
           .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/bot_management", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutBotManagementRequest" });
-    case 2:
+    case 3:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           [
+            "aiAgents",
             "aiBotsMigrationOptOut",
             "aiBotsProtection",
             "aiSearch",
@@ -1086,6 +1393,7 @@ function __c4(j: number): any {
             "usingLatestModel",
           ],
           [
+            "aiAgents",
             "aiBotsMigrationOptOut",
             "aiBotsProtection",
             "aiSearch",
@@ -1106,6 +1414,7 @@ function __c4(j: number): any {
             "usingLatestModel",
           ],
           [
+            "aiAgents",
             "aiBotsMigrationOptOut",
             "aiBotsProtection",
             "aiSearch",
@@ -1127,6 +1436,7 @@ function __c4(j: number): any {
             "usingLatestModel",
           ],
           [
+            "aiAgents",
             "aiBotsMigrationOptOut",
             "aiBotsProtection",
             "aiSearch",
@@ -1147,9 +1457,9 @@ function __c4(j: number): any {
           ],
         ]),
       );
-    case 3:
+    case 4:
       return S.suspend(() =>
-        __S(18, __c4, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(35, __c4, 3).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutBotManagementResponse" });
   }
 }

@@ -106,8 +106,8 @@ export interface ValueRange {
   range?: string;
 }
 export interface AppendSpreadsheetsValuesRequest {
-  /** Determines if the update response should include the values of the cells that were appended. By default, responses do not include the updated values. */
-  includeValuesInResponse?: boolean;
+  /** The ID of the spreadsheet to update. */
+  spreadsheetId: string;
   /** Determines how dates, times, and durations in the response should be rendered. This is ignored if response_value_render_option is FORMATTED_VALUE. The default dateTime render option is SERIAL_NUMBER. */
   responseDateTimeRenderOption?:
     | AppendSpreadsheetsValuesResponseDateTimeRenderOptionEnum
@@ -116,10 +116,10 @@ export interface AppendSpreadsheetsValuesRequest {
   responseValueRenderOption?: AppendSpreadsheetsValuesResponseValueRenderOptionEnum | (string & {});
   /** How the input data should be interpreted. */
   valueInputOption?: AppendSpreadsheetsValuesValueInputOptionEnum | (string & {});
+  /** Determines if the update response should include the values of the cells that were appended. By default, responses do not include the updated values. */
+  includeValuesInResponse?: boolean;
   /** How the input data should be inserted. */
   insertDataOption?: AppendSpreadsheetsValuesInsertDataOptionEnum | (string & {});
-  /** The ID of the spreadsheet to update. */
-  spreadsheetId: string;
   /** The [A1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell) of a range to search for a logical table of data. Values are appended after the last row of the table. */
   range: string;
   /** Request body */
@@ -127,38 +127,41 @@ export interface AppendSpreadsheetsValuesRequest {
 }
 /** The response when updating a range of values in a spreadsheet. */
 export interface UpdateValuesResponse {
+  /** The number of cells updated. */
+  updatedCells?: number;
+  /** The number of rows where at least one cell in the row was updated. */
+  updatedRows?: number;
+  /** The spreadsheet the updates were applied to. */
+  spreadsheetId?: string;
   /** The range (in A1 notation) that updates were applied to. */
   updatedRange?: string;
   /** The values of the cells after updates were applied. This is only included if the request's `includeValuesInResponse` field was `true`. */
   updatedData?: ValueRange;
-  /** The number of rows where at least one cell in the row was updated. */
-  updatedRows?: number;
   /** The number of columns where at least one cell in the column was updated. */
   updatedColumns?: number;
-  /** The number of cells updated. */
-  updatedCells?: number;
-  /** The spreadsheet the updates were applied to. */
-  spreadsheetId?: string;
 }
 /** The response when updating a range of values in a spreadsheet. */
 export interface AppendValuesResponse {
+  /** The range (in A1 notation) of the table that values are being appended to (before the values were appended). Empty if no table was found. */
+  tableRange?: string;
   /** Information about the updates that were applied. */
   updates?: UpdateValuesResponse;
   /** The spreadsheet the updates were applied to. */
   spreadsheetId?: string;
-  /** The range (in A1 notation) of the table that values are being appended to (before the values were appended). Empty if no table was found. */
-  tableRange?: string;
 }
-export type DeveloperMetadataLookupLocationTypeEnum =
-  | "DEVELOPER_METADATA_LOCATION_TYPE_UNSPECIFIED"
-  | "ROW"
-  | "COLUMN"
-  | "SHEET"
-  | "SPREADSHEET";
-export type DeveloperMetadataLookupVisibilityEnum =
-  | "DEVELOPER_METADATA_VISIBILITY_UNSPECIFIED"
-  | "DOCUMENT"
-  | "PROJECT";
+/** A range on a sheet. All indexes are zero-based. Indexes are half open, i.e. the start index is inclusive and the end index is exclusive -- [start_index, end_index). Missing indexes indicate the range is unbounded on that side. For example, if `"Sheet1"` is sheet ID 123456, then: `Sheet1!A1:A1 == sheet_id: 123456, start_row_index: 0, end_row_index: 1, start_column_index: 0, end_column_index: 1` `Sheet1!A3:B4 == sheet_id: 123456, start_row_index: 2, end_row_index: 4, start_column_index: 0, end_column_index: 2` `Sheet1!A:B == sheet_id: 123456, start_column_index: 0, end_column_index: 2` `Sheet1!A5:B == sheet_id: 123456, start_row_index: 4, start_column_index: 0, end_column_index: 2` `Sheet1 == sheet_id: 123456` The start index must always be less than or equal to the end index. If the start index equals the end index, then the range is empty. Empty ranges are typically not meaningful and are usually rendered in the UI as `#REF!`. */
+export interface GridRange {
+  /** The start row (inclusive) of the range, or not set if unbounded. */
+  startRowIndex?: number;
+  /** The sheet this range is on. */
+  sheetId?: number;
+  /** The end row (exclusive) of the range, or not set if unbounded. */
+  endRowIndex?: number;
+  /** The start column (inclusive) of the range, or not set if unbounded. */
+  startColumnIndex?: number;
+  /** The end column (exclusive) of the range, or not set if unbounded. */
+  endColumnIndex?: number;
+}
 export type DeveloperMetadataLocationLocationTypeEnum =
   | "DEVELOPER_METADATA_LOCATION_TYPE_UNSPECIFIED"
   | "ROW"
@@ -168,14 +171,14 @@ export type DeveloperMetadataLocationLocationTypeEnum =
 export type DimensionRangeDimensionEnum = "DIMENSION_UNSPECIFIED" | "ROWS" | "COLUMNS";
 /** A range along a single dimension on a sheet. All indexes are zero-based. Indexes are half open: the start index is inclusive and the end index is exclusive. Missing indexes indicate the range is unbounded on that side. */
 export interface DimensionRange {
-  /** The sheet this span is on. */
-  sheetId?: number;
   /** The dimension of the span. */
   dimension?: DimensionRangeDimensionEnum | (string & {});
-  /** The end (exclusive) of the span, or not set if unbounded. */
-  endIndex?: number;
+  /** The sheet this span is on. */
+  sheetId?: number;
   /** The start (inclusive) of the span, or not set if unbounded. */
   startIndex?: number;
+  /** The end (exclusive) of the span, or not set if unbounded. */
+  endIndex?: number;
 }
 /** A location where metadata may be associated in a spreadsheet. */
 export interface DeveloperMetadataLocation {
@@ -188,48 +191,45 @@ export interface DeveloperMetadataLocation {
   /** Represents the row or column when metadata is associated with a dimension. The specified DimensionRange must represent a single row or column. It cannot be unbounded or span multiple rows or columns. */
   dimensionRange?: DimensionRange;
 }
+export type DeveloperMetadataLookupLocationTypeEnum =
+  | "DEVELOPER_METADATA_LOCATION_TYPE_UNSPECIFIED"
+  | "ROW"
+  | "COLUMN"
+  | "SHEET"
+  | "SPREADSHEET";
 export type DeveloperMetadataLookupLocationMatchingStrategyEnum =
   | "DEVELOPER_METADATA_LOCATION_MATCHING_STRATEGY_UNSPECIFIED"
   | "EXACT_LOCATION"
   | "INTERSECTING_LOCATION";
+export type DeveloperMetadataLookupVisibilityEnum =
+  | "DEVELOPER_METADATA_VISIBILITY_UNSPECIFIED"
+  | "DOCUMENT"
+  | "PROJECT";
 /** Selects DeveloperMetadata that matches all of the specified fields. For example, if only a metadata ID is specified this considers the DeveloperMetadata with that particular unique ID. If a metadata key is specified, this considers all developer metadata with that key. If a key, visibility, and location type are all specified, this considers all developer metadata with that key and visibility that are associated with a location of that type. In general, this selects all DeveloperMetadata that match the intersection of all the specified fields; any field or combination of fields may be specified. */
 export interface DeveloperMetadataLookup {
   /** Limits the selected developer metadata to that which has a matching DeveloperMetadata.metadata_value. */
   metadataValue?: string;
+  /** Limits the selected developer metadata to those entries associated with the specified location. This field either matches exact locations or all intersecting locations according the specified locationMatchingStrategy. */
+  metadataLocation?: DeveloperMetadataLocation;
   /** Limits the selected developer metadata to those entries which are associated with locations of the specified type. For example, when this field is specified as ROW this lookup only considers developer metadata associated on rows. If the field is left unspecified, all location types are considered. This field cannot be specified as SPREADSHEET when the locationMatchingStrategy is specified as INTERSECTING or when the metadataLocation is specified as a non-spreadsheet location. Spreadsheet metadata cannot intersect any other developer metadata location. This field also must be left unspecified when the locationMatchingStrategy is specified as EXACT. */
   locationType?: DeveloperMetadataLookupLocationTypeEnum | (string & {});
+  /** Determines how this lookup matches the location. If this field is specified as EXACT, only developer metadata associated on the exact location specified is matched. If this field is specified to INTERSECTING, developer metadata associated on intersecting locations is also matched. If left unspecified, this field assumes a default value of INTERSECTING. If this field is specified, a metadataLocation must also be specified. */
+  locationMatchingStrategy?: DeveloperMetadataLookupLocationMatchingStrategyEnum | (string & {});
+  /** Limits the selected developer metadata to that which has a matching DeveloperMetadata.visibility. If left unspecified, all developer metadata visible to the requesting project is considered. */
+  visibility?: DeveloperMetadataLookupVisibilityEnum | (string & {});
   /** Limits the selected developer metadata to that which has a matching DeveloperMetadata.metadata_id. */
   metadataId?: number;
   /** Limits the selected developer metadata to that which has a matching DeveloperMetadata.metadata_key. */
   metadataKey?: string;
-  /** Limits the selected developer metadata to that which has a matching DeveloperMetadata.visibility. If left unspecified, all developer metadata visible to the requesting project is considered. */
-  visibility?: DeveloperMetadataLookupVisibilityEnum | (string & {});
-  /** Limits the selected developer metadata to those entries associated with the specified location. This field either matches exact locations or all intersecting locations according the specified locationMatchingStrategy. */
-  metadataLocation?: DeveloperMetadataLocation;
-  /** Determines how this lookup matches the location. If this field is specified as EXACT, only developer metadata associated on the exact location specified is matched. If this field is specified to INTERSECTING, developer metadata associated on intersecting locations is also matched. If left unspecified, this field assumes a default value of INTERSECTING. If this field is specified, a metadataLocation must also be specified. */
-  locationMatchingStrategy?: DeveloperMetadataLookupLocationMatchingStrategyEnum | (string & {});
-}
-/** A range on a sheet. All indexes are zero-based. Indexes are half open, i.e. the start index is inclusive and the end index is exclusive -- [start_index, end_index). Missing indexes indicate the range is unbounded on that side. For example, if `"Sheet1"` is sheet ID 123456, then: `Sheet1!A1:A1 == sheet_id: 123456, start_row_index: 0, end_row_index: 1, start_column_index: 0, end_column_index: 1` `Sheet1!A3:B4 == sheet_id: 123456, start_row_index: 2, end_row_index: 4, start_column_index: 0, end_column_index: 2` `Sheet1!A:B == sheet_id: 123456, start_column_index: 0, end_column_index: 2` `Sheet1!A5:B == sheet_id: 123456, start_row_index: 4, start_column_index: 0, end_column_index: 2` `Sheet1 == sheet_id: 123456` The start index must always be less than or equal to the end index. If the start index equals the end index, then the range is empty. Empty ranges are typically not meaningful and are usually rendered in the UI as `#REF!`. */
-export interface GridRange {
-  /** The end column (exclusive) of the range, or not set if unbounded. */
-  endColumnIndex?: number;
-  /** The start row (inclusive) of the range, or not set if unbounded. */
-  startRowIndex?: number;
-  /** The end row (exclusive) of the range, or not set if unbounded. */
-  endRowIndex?: number;
-  /** The start column (inclusive) of the range, or not set if unbounded. */
-  startColumnIndex?: number;
-  /** The sheet this range is on. */
-  sheetId?: number;
 }
 /** Filter that describes what data should be selected or returned from a request. For more information, see [Read, write, and search metadata](https://developers.google.com/workspace/sheets/api/guides/metadata). */
 export interface DataFilter {
-  /** Selects data associated with the developer metadata matching the criteria described by this DeveloperMetadataLookup. */
-  developerMetadataLookup?: DeveloperMetadataLookup;
   /** Selects data that matches the specified A1 range. */
   a1Range?: string;
   /** Selects data that matches the range described by the GridRange. */
   gridRange?: GridRange;
+  /** Selects data associated with the developer metadata matching the criteria described by this DeveloperMetadataLookup. */
+  developerMetadataLookup?: DeveloperMetadataLookup;
 }
 export type DataFilterList = Array<DataFilter>;
 /** The request for clearing more than one range selected by a DataFilter in a spreadsheet. */
@@ -264,28 +264,28 @@ export interface BatchClearSpreadsheetsValuesRequest {
 }
 /** The response when clearing a range of values in a spreadsheet. */
 export interface BatchClearValuesResponse {
-  /** The spreadsheet the updates were applied to. */
-  spreadsheetId?: string;
   /** The ranges that were cleared, in A1 notation. If the requests are for an unbounded range or a range larger than the bounds of the sheet, this is the actual ranges that were cleared, bounded to the sheet's limits. */
   clearedRanges?: StringList;
+  /** The spreadsheet the updates were applied to. */
+  spreadsheetId?: string;
 }
+export type BatchGetValuesByDataFilterRequestDateTimeRenderOptionEnum =
+  | "SERIAL_NUMBER"
+  | "FORMATTED_STRING";
 export type BatchGetValuesByDataFilterRequestMajorDimensionEnum =
   | "DIMENSION_UNSPECIFIED"
   | "ROWS"
   | "COLUMNS";
-export type BatchGetValuesByDataFilterRequestDateTimeRenderOptionEnum =
-  | "SERIAL_NUMBER"
-  | "FORMATTED_STRING";
 export type BatchGetValuesByDataFilterRequestValueRenderOptionEnum =
   | "FORMATTED_VALUE"
   | "UNFORMATTED_VALUE"
   | "FORMULA";
 /** The request for retrieving a range of values in a spreadsheet selected by a set of DataFilters. */
 export interface BatchGetValuesByDataFilterRequest {
-  /** The major dimension that results should use. For example, if the spreadsheet data is: `A1=1,B1=2,A2=3,B2=4`, then a request that selects that range and sets `majorDimension=ROWS` returns `[[1,2],[3,4]]`, whereas a request that sets `majorDimension=COLUMNS` returns `[[1,3],[2,4]]`. */
-  majorDimension?: BatchGetValuesByDataFilterRequestMajorDimensionEnum | (string & {});
   /** How dates, times, and durations should be represented in the output. This is ignored if value_render_option is FORMATTED_VALUE. The default dateTime render option is SERIAL_NUMBER. */
   dateTimeRenderOption?: BatchGetValuesByDataFilterRequestDateTimeRenderOptionEnum | (string & {});
+  /** The major dimension that results should use. For example, if the spreadsheet data is: `A1=1,B1=2,A2=3,B2=4`, then a request that selects that range and sets `majorDimension=ROWS` returns `[[1,2],[3,4]]`, whereas a request that sets `majorDimension=COLUMNS` returns `[[1,3],[2,4]]`. */
+  majorDimension?: BatchGetValuesByDataFilterRequestMajorDimensionEnum | (string & {});
   /** The data filters used to match the ranges of values to retrieve. Ranges that match any of the specified data filters are included in the response. */
   dataFilters?: DataFilterList;
   /** How values should be represented in the output. The default render option is FORMATTED_VALUE. */
@@ -312,10 +312,6 @@ export interface BatchGetValuesByDataFilterResponse {
   /** The requested values with the list of data filters that matched them. */
   valueRanges?: MatchedValueRangeList;
 }
-export type BatchGetSpreadsheetsValuesMajorDimensionEnum =
-  | "DIMENSION_UNSPECIFIED"
-  | "ROWS"
-  | "COLUMNS";
 export type BatchGetSpreadsheetsValuesDateTimeRenderOptionEnum =
   | "SERIAL_NUMBER"
   | "FORMATTED_STRING";
@@ -323,26 +319,33 @@ export type BatchGetSpreadsheetsValuesValueRenderOptionEnum =
   | "FORMATTED_VALUE"
   | "UNFORMATTED_VALUE"
   | "FORMULA";
+export type BatchGetSpreadsheetsValuesMajorDimensionEnum =
+  | "DIMENSION_UNSPECIFIED"
+  | "ROWS"
+  | "COLUMNS";
 export interface BatchGetSpreadsheetsValuesRequest {
-  /** The major dimension that results should use. For example, if the spreadsheet data is: `A1=1,B1=2,A2=3,B2=4`, then requesting `ranges=["A1:B2"],majorDimension=ROWS` returns `[[1,2],[3,4]]`, whereas requesting `ranges=["A1:B2"],majorDimension=COLUMNS` returns `[[1,3],[2,4]]`. */
-  majorDimension?: BatchGetSpreadsheetsValuesMajorDimensionEnum | (string & {});
-  /** How dates, times, and durations should be represented in the output. This is ignored if value_render_option is FORMATTED_VALUE. The default dateTime render option is SERIAL_NUMBER. */
-  dateTimeRenderOption?: BatchGetSpreadsheetsValuesDateTimeRenderOptionEnum | (string & {});
   /** The [A1 notation or R1C1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell) of the range to retrieve values from. */
   ranges?: StringList;
-  /** The ID of the spreadsheet to retrieve data from. */
-  spreadsheetId: string;
+  /** How dates, times, and durations should be represented in the output. This is ignored if value_render_option is FORMATTED_VALUE. The default dateTime render option is SERIAL_NUMBER. */
+  dateTimeRenderOption?: BatchGetSpreadsheetsValuesDateTimeRenderOptionEnum | (string & {});
   /** How values should be represented in the output. The default render option is ValueRenderOption.FORMATTED_VALUE. */
   valueRenderOption?: BatchGetSpreadsheetsValuesValueRenderOptionEnum | (string & {});
+  /** The ID of the spreadsheet to retrieve data from. */
+  spreadsheetId: string;
+  /** The major dimension that results should use. For example, if the spreadsheet data is: `A1=1,B1=2,A2=3,B2=4`, then requesting `ranges=["A1:B2"],majorDimension=ROWS` returns `[[1,2],[3,4]]`, whereas requesting `ranges=["A1:B2"],majorDimension=COLUMNS` returns `[[1,3],[2,4]]`. */
+  majorDimension?: BatchGetSpreadsheetsValuesMajorDimensionEnum | (string & {});
 }
 export type ValueRangeList = Array<ValueRange>;
 /** The response when retrieving more than one range of values in a spreadsheet. */
 export interface BatchGetValuesResponse {
-  /** The ID of the spreadsheet the data was retrieved from. */
-  spreadsheetId?: string;
   /** The requested values. The order of the ValueRanges is the same as the order of the requested ranges. */
   valueRanges?: ValueRangeList;
+  /** The ID of the spreadsheet the data was retrieved from. */
+  spreadsheetId?: string;
 }
+export type BatchUpdateValuesByDataFilterRequestResponseDateTimeRenderOptionEnum =
+  | "SERIAL_NUMBER"
+  | "FORMATTED_STRING";
 export type DataFilterValueRangeMajorDimensionEnum = "DIMENSION_UNSPECIFIED" | "ROWS" | "COLUMNS";
 /** A range of values whose location is specified by a DataFilter. */
 export interface DataFilterValueRange {
@@ -354,33 +357,30 @@ export interface DataFilterValueRange {
   values?: DocumentListList;
 }
 export type DataFilterValueRangeList = Array<DataFilterValueRange>;
-export type BatchUpdateValuesByDataFilterRequestResponseDateTimeRenderOptionEnum =
-  | "SERIAL_NUMBER"
-  | "FORMATTED_STRING";
-export type BatchUpdateValuesByDataFilterRequestResponseValueRenderOptionEnum =
-  | "FORMATTED_VALUE"
-  | "UNFORMATTED_VALUE"
-  | "FORMULA";
 export type BatchUpdateValuesByDataFilterRequestValueInputOptionEnum =
   | "INPUT_VALUE_OPTION_UNSPECIFIED"
   | "RAW"
   | "USER_ENTERED";
+export type BatchUpdateValuesByDataFilterRequestResponseValueRenderOptionEnum =
+  | "FORMATTED_VALUE"
+  | "UNFORMATTED_VALUE"
+  | "FORMULA";
 /** The request for updating more than one range of values in a spreadsheet. */
 export interface BatchUpdateValuesByDataFilterRequest {
-  /** The new values to apply to the spreadsheet. If more than one range is matched by the specified DataFilter the specified values are applied to all of those ranges. */
-  data?: DataFilterValueRangeList;
   /** Determines if the update response should include the values of the cells that were updated. By default, responses do not include the updated values. The `updatedData` field within each of the BatchUpdateValuesResponse.responses contains the updated values. If the range to write was larger than the range actually written, the response includes all values in the requested range (excluding trailing empty rows and columns). */
   includeValuesInResponse?: boolean;
   /** Determines how dates, times, and durations in the response should be rendered. This is ignored if response_value_render_option is FORMATTED_VALUE. The default dateTime render option is SERIAL_NUMBER. */
   responseDateTimeRenderOption?:
     | BatchUpdateValuesByDataFilterRequestResponseDateTimeRenderOptionEnum
     | (string & {});
+  /** The new values to apply to the spreadsheet. If more than one range is matched by the specified DataFilter the specified values are applied to all of those ranges. */
+  data?: DataFilterValueRangeList;
+  /** How the input data should be interpreted. */
+  valueInputOption?: BatchUpdateValuesByDataFilterRequestValueInputOptionEnum | (string & {});
   /** Determines how values in the response should be rendered. The default render option is FORMATTED_VALUE. */
   responseValueRenderOption?:
     | BatchUpdateValuesByDataFilterRequestResponseValueRenderOptionEnum
     | (string & {});
-  /** How the input data should be interpreted. */
-  valueInputOption?: BatchUpdateValuesByDataFilterRequestValueInputOptionEnum | (string & {});
 }
 export interface BatchUpdateByDataFilterSpreadsheetsValuesRequest {
   /** The ID of the spreadsheet to update. */
@@ -396,81 +396,122 @@ export interface UpdateValuesByDataFilterResponse {
   updatedRows?: number;
   /** The values of the cells in the range matched by the dataFilter after all updates were applied. This is only included if the request's `includeValuesInResponse` field was `true`. */
   updatedData?: ValueRange;
-  /** The range (in [A1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell)) that updates were applied to. */
-  updatedRange?: string;
   /** The number of cells updated. */
   updatedCells?: number;
+  /** The range (in [A1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell)) that updates were applied to. */
+  updatedRange?: string;
   /** The data filter that selected the range that was updated. */
   dataFilter?: DataFilter;
 }
 export type UpdateValuesByDataFilterResponseList = Array<UpdateValuesByDataFilterResponse>;
 /** The response when updating a range of values in a spreadsheet. */
 export interface BatchUpdateValuesByDataFilterResponse {
-  /** The total number of sheets where at least one cell in the sheet was updated. */
-  totalUpdatedSheets?: number;
   /** The total number of cells updated. */
   totalUpdatedCells?: number;
-  /** The spreadsheet the updates were applied to. */
-  spreadsheetId?: string;
-  /** The total number of columns where at least one cell in the column was updated. */
-  totalUpdatedColumns?: number;
   /** The response for each range updated. */
   responses?: UpdateValuesByDataFilterResponseList;
+  /** The total number of columns where at least one cell in the column was updated. */
+  totalUpdatedColumns?: number;
+  /** The total number of sheets where at least one cell in the sheet was updated. */
+  totalUpdatedSheets?: number;
   /** The total number of rows where at least one cell in the row was updated. */
   totalUpdatedRows?: number;
+  /** The spreadsheet the updates were applied to. */
+  spreadsheetId?: string;
 }
-/** Clears the basic filter, if any exists on the sheet. */
-export interface ClearBasicFilterRequest {
-  /** The sheet ID on which the basic filter should be cleared. */
-  sheetId?: number;
+export type BatchUpdateSpreadsheetRequestCommentsViewModeEnum =
+  | "COMMENTS_VIEW_MODE_UNSPECIFIED"
+  | "COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS"
+  | "COMMENTS_VIEW_MODE_OMITTED"
+  | "COMMENTS_VIEW_MODE_INCLUDED";
+/** The specification of a Looker data source. */
+export interface LookerDataSourceSpec {
+  /** Name of a Looker model. */
+  model?: string;
+  /** Name of a Looker model explore. */
+  explore?: string;
+  /** A Looker instance URL. */
+  instanceUri?: string;
 }
-export type CopyPasteRequestPasteOrientationEnum = "NORMAL" | "TRANSPOSE";
-export type CopyPasteRequestPasteTypeEnum =
-  | "PASTE_NORMAL"
-  | "PASTE_VALUES"
-  | "PASTE_FORMAT"
-  | "PASTE_NO_BORDERS"
-  | "PASTE_FORMULA"
-  | "PASTE_DATA_VALIDATION"
-  | "PASTE_CONDITIONAL_FORMATTING";
-/** Copies data from the source to the destination. */
-export interface CopyPasteRequest {
-  /** The location to paste to. If the range covers a span that's a multiple of the source's height or width, then the data will be repeated to fill in the destination range. If the range is smaller than the source range, the entire source data will still be copied (beyond the end of the destination range). */
-  destination?: GridRange;
-  /** How that data should be oriented when pasting. */
-  pasteOrientation?: CopyPasteRequestPasteOrientationEnum | (string & {});
-  /** The source range to copy. */
-  source?: GridRange;
-  /** What kind of data to paste. */
-  pasteType?: CopyPasteRequestPasteTypeEnum | (string & {});
-}
-export type SourceAndDestinationDimensionEnum = "DIMENSION_UNSPECIFIED" | "ROWS" | "COLUMNS";
-/** A combination of a source range and how to extend that source. */
-export interface SourceAndDestination {
-  /** The number of rows or columns that data should be filled into. Positive numbers expand beyond the last row or last column of the source. Negative numbers expand before the first row or first column of the source. */
-  fillLength?: number;
-  /** The dimension that data should be filled into. */
-  dimension?: SourceAndDestinationDimensionEnum | (string & {});
-  /** The location of the data to use as the source of the autofill. */
-  source?: GridRange;
-}
-/** Fills in more data based on existing data. */
-export interface AutoFillRequest {
-  /** The source and destination areas to autofill. This explicitly lists the source of the autofill and where to extend that data. */
-  sourceAndDestination?: SourceAndDestination;
-  /** True if we should generate data with the "alternate" series. This differs based on the type and amount of source data. */
-  useAlternateSeries?: boolean;
-  /** The range to autofill. This will examine the range and detect the location that has data and automatically fill that data in to the rest of the range. */
+/** A parameter in a data source's query. The parameter allows the user to pass in values from the spreadsheet into a query. */
+export interface DataSourceParameter {
+  /** ID of a NamedRange. Its size must be 1x1. */
+  namedRangeId?: string;
+  /** Named parameter. Must be a legitimate identifier for the DataSource that supports it. For example, [BigQuery identifier](https://cloud.google.com/bigquery/docs/reference/standard-sql/lexical#identifiers). */
+  name?: string;
+  /** A range that contains the value of the parameter. Its size must be 1x1. */
   range?: GridRange;
+}
+export type DataSourceParameterList = Array<DataSourceParameter>;
+/** Specifies a custom BigQuery query. */
+export interface BigQueryQuerySpec {
+  /** The raw query string. */
+  rawQuery?: string;
+}
+/** Specifies a BigQuery table definition. Only [native tables](https://cloud.google.com/bigquery/docs/tables-intro) are allowed. */
+export interface BigQueryTableSpec {
+  /** The ID of a BigQuery project the table belongs to. If not specified, the project_id is assumed. */
+  tableProjectId?: string;
+  /** The BigQuery dataset id. */
+  datasetId?: string;
+  /** The BigQuery table id. */
+  tableId?: string;
+}
+/** The specification of a BigQuery data source that's connected to a sheet. */
+export interface BigQueryDataSourceSpec {
+  /** A BigQueryQuerySpec. */
+  querySpec?: BigQueryQuerySpec;
+  /** The ID of a BigQuery enabled Google Cloud project with a billing account attached. For any queries executed against the data source, the project is charged. */
+  projectId?: string;
+  /** A BigQueryTableSpec. */
+  tableSpec?: BigQueryTableSpec;
+}
+/** This specifies the details of the data source. For example, for BigQuery, this specifies information about the BigQuery source. */
+export interface DataSourceSpec {
+  /** A LookerDatasourceSpec. */
+  looker?: LookerDataSourceSpec;
+  /** The parameters of the data source, used when querying the data source. */
+  parameters?: DataSourceParameterList;
+  /** A BigQueryDataSourceSpec. */
+  bigQuery?: BigQueryDataSourceSpec;
+}
+/** An unique identifier that references a data source column. */
+export interface DataSourceColumnReference {
+  /** The display name of the column. It should be unique within a data source. */
+  name?: string;
+}
+/** A column in a data source. */
+export interface DataSourceColumn {
+  /** The column reference. */
+  reference?: DataSourceColumnReference;
+  /** The formula of the calculated column. */
+  formula?: string;
+}
+export type DataSourceColumnList = Array<DataSourceColumn>;
+/** Information about an external data source in the spreadsheet. */
+export interface DataSource {
+  /** The spreadsheet-scoped unique ID that identifies the data source. Example: 1080547365. */
+  dataSourceId?: string;
+  /** The ID of the Sheet connected with the data source. The field cannot be changed once set. When creating a data source, an associated DATA_SOURCE sheet is also created, if the field is not specified, the ID of the created sheet will be randomly generated. */
+  sheetId?: number;
+  /** The DataSourceSpec for the data source connected with this spreadsheet. */
+  spec?: DataSourceSpec;
+  /** All calculated columns in the data source. */
+  calculatedColumns?: DataSourceColumnList;
+}
+/** Adds a data source. After the data source is added successfully, an associated DATA_SOURCE sheet is created and an execution is triggered to refresh the sheet to read data from the data source. The request requires an additional `bigquery.readonly` OAuth scope if you are adding a BigQuery data source. */
+export interface AddDataSourceRequest {
+  /** The data source to add. */
+  dataSource?: DataSource;
 }
 /** Represents a color in the RGBA color space. This representation is designed for simplicity of conversion to and from color representations in various languages over compactness. For example, the fields of this representation can be trivially provided to the constructor of `java.awt.Color` in Java; it can also be trivially provided to UIColor's `+colorWithRed:green:blue:alpha` method in iOS; and, with just a little work, it can be easily formatted into a CSS `rgba()` string in JavaScript. This reference page doesn't have information about the absolute color space that should be used to interpret the RGB value--for example, sRGB, Adobe RGB, DCI-P3, and BT.2020. By default, applications should assume the sRGB color space. When color equality needs to be decided, implementations, unless documented otherwise, treat two colors as equal if all their red, green, blue, and alpha values each differ by at most `1e-5`. Example (Java): import com.google.type.Color; // ... public static java.awt.Color fromProto(Color protocolor) { float alpha = protocolor.hasAlpha() ? protocolor.getAlpha().getValue() : 1.0; return new java.awt.Color( protocolor.getRed(), protocolor.getGreen(), protocolor.getBlue(), alpha); } public static Color toProto(java.awt.Color color) { float red = (float) color.getRed(); float green = (float) color.getGreen(); float blue = (float) color.getBlue(); float denominator = 255.0; Color.Builder resultBuilder = Color .newBuilder() .setRed(red / denominator) .setGreen(green / denominator) .setBlue(blue / denominator); int alpha = color.getAlpha(); if (alpha != 255) { result.setAlpha( FloatValue .newBuilder() .setValue(((float) alpha) / denominator) .build()); } return resultBuilder.build(); } // ... Example (iOS / Obj-C): // ... static UIColor* fromProto(Color* protocolor) { float red = [protocolor red]; float green = [protocolor green]; float blue = [protocolor blue]; FloatValue* alpha_wrapper = [protocolor alpha]; float alpha = 1.0; if (alpha_wrapper != nil) { alpha = [alpha_wrapper value]; } return [UIColor colorWithRed:red green:green blue:blue alpha:alpha]; } static Color* toProto(UIColor* color) { CGFloat red, green, blue, alpha; if (![color getRed:&red green:&green blue:&blue alpha:&alpha]) { return nil; } Color* result = [[Color alloc] init]; [result setRed:red]; [result setGreen:green]; [result setBlue:blue]; if (alpha <= 0.9999) { [result setAlpha:floatWrapperWithValue(alpha)]; } [result autorelease]; return result; } // ... Example (JavaScript): // ... var protoToCssColor = function(rgb_color) { var redFrac = rgb_color.red || 0.0; var greenFrac = rgb_color.green || 0.0; var blueFrac = rgb_color.blue || 0.0; var red = Math.floor(redFrac * 255); var green = Math.floor(greenFrac * 255); var blue = Math.floor(blueFrac * 255); if (!('alpha' in rgb_color)) { return rgbToCssColor(red, green, blue); } var alphaFrac = rgb_color.alpha.value || 0.0; var rgbParams = [red, green, blue].join(','); return ['rgba(', rgbParams, ',', alphaFrac, ')'].join(''); }; var rgbToCssColor = function(red, green, blue) { var rgbNumber = new Number((red << 16) | (green << 8) | blue); var hexString = rgbNumber.toString(16); var missingZeros = 6 - hexString.length; var resultBuilder = ['#']; for (var i = 0; i < missingZeros; i++) { resultBuilder.push('0'); } resultBuilder.push(hexString); return resultBuilder.join(''); }; // ... */
 export interface Color {
-  /** The amount of green in the color as a value in the interval [0, 1]. */
-  green?: number;
-  /** The amount of blue in the color as a value in the interval [0, 1]. */
-  blue?: number;
   /** The fraction of this color that should be applied to the pixel. That is, the final pixel color is defined by the equation: `pixel color = alpha * (this color) + (1.0 - alpha) * (background color)` This means that a value of 1.0 corresponds to a solid color, whereas a value of 0.0 corresponds to a completely transparent color. This uses a wrapper message rather than a simple float scalar so that it is possible to distinguish between a default value and the value being unset. If omitted, this color object is rendered as a solid color (as if the alpha value had been explicitly given a value of 1.0). */
   alpha?: number;
+  /** The amount of blue in the color as a value in the interval [0, 1]. */
+  blue?: number;
+  /** The amount of green in the color as a value in the interval [0, 1]. */
+  green?: number;
   /** The amount of red in the color as a value in the interval [0, 1]. */
   red?: number;
 }
@@ -492,33 +533,37 @@ export interface ColorStyle {
   /** Theme color. */
   themeColor?: ColorStyleThemeColorEnum | (string & {});
 }
-/** The table row properties. */
-export interface TableRowsProperties {
-  /** The second color that is alternating. If this field is set, the second banded row is filled with the specified color. Otherwise, the second banded row is filled with a default color. */
-  secondBandColorStyle?: ColorStyle;
-  /** The color of the header row. If this field is set, the header row is filled with the specified color. Otherwise, the header row is filled with a default color. */
-  headerColorStyle?: ColorStyle;
-  /** The first color that is alternating. If this field is set, the first banded row is filled with the specified color. Otherwise, the first banded row is filled with a default color. */
-  firstBandColorStyle?: ColorStyle;
-  /** The color of the last row. If this field is not set a footer is not added, the last row is filled with either first_band_color_style or second_band_color_style, depending on the color of the previous row. If updating an existing table without a footer to have a footer, the range will be expanded by 1 row. If updating an existing table with a footer and removing a footer, the range will be shrunk by 1 row. */
-  footerColorStyle?: ColorStyle;
+/** An external or local reference. */
+export interface Link {
+  /** The link identifier. */
+  uri?: string;
 }
-export type TableColumnPropertiesColumnTypeEnum =
-  | "COLUMN_TYPE_UNSPECIFIED"
-  | "DOUBLE"
-  | "CURRENCY"
-  | "PERCENT"
-  | "DATE"
-  | "TIME"
-  | "DATE_TIME"
-  | "TEXT"
-  | "BOOLEAN"
-  | "DROPDOWN"
-  | "FILES_CHIP"
-  | "PEOPLE_CHIP"
-  | "FINANCE_CHIP"
-  | "PLACE_CHIP"
-  | "RATINGS_CHIP";
+/** The format of a run of text in a cell. Absent values indicate that the field isn't specified. */
+export interface TextFormat {
+  /** The size of the font. */
+  fontSize?: number;
+  /** True if the text is bold. */
+  bold?: boolean;
+  /** The font family. */
+  fontFamily?: string;
+  /** True if the text is underlined. */
+  underline?: boolean;
+  /** True if the text has a strikethrough. */
+  strikethrough?: boolean;
+  /** True if the text is italicized. */
+  italic?: boolean;
+  /** The foreground color of the text. Deprecated: Use foreground_color_style. */
+  foregroundColor?: Color;
+  /** The foreground color of the text. If foreground_color is also set, this field takes precedence. */
+  foregroundColorStyle?: ColorStyle;
+  /** The link destination of the text, if any. Setting the link field in a TextFormatRun will clear the cell's existing links or a cell-level link set in the same request. When a link is set, the text foreground color will be set to the default link color and the text will be underlined. If these fields are modified in the same request, those values will be used instead of the link defaults. */
+  link?: Link;
+}
+export type SlicerSpecHorizontalAlignmentEnum =
+  | "HORIZONTAL_ALIGN_UNSPECIFIED"
+  | "LEFT"
+  | "CENTER"
+  | "RIGHT";
 export type BooleanConditionTypeEnum =
   | "CONDITION_TYPE_UNSPECIFIED"
   | "NUMBER_GREATER"
@@ -563,10 +608,10 @@ export type ConditionValueRelativeDateEnum =
   | "TOMORROW";
 /** The value of the condition. */
 export interface ConditionValue {
-  /** A relative date (based on the current date). Valid only if the type is DATE_BEFORE, DATE_AFTER, DATE_ON_OR_BEFORE or DATE_ON_OR_AFTER. Relative dates are not supported in data validation. They are supported only in conditional formatting and conditional filters. */
-  relativeDate?: ConditionValueRelativeDateEnum | (string & {});
   /** A value the condition is based on. The value is parsed as if the user typed into a cell. Formulas are supported (and must begin with an `=` or a '+'). */
   userEnteredValue?: string;
+  /** A relative date (based on the current date). Valid only if the type is DATE_BEFORE, DATE_AFTER, DATE_ON_OR_BEFORE or DATE_ON_OR_AFTER. Relative dates are not supported in data validation. They are supported only in conditional formatting and conditional filters. */
+  relativeDate?: ConditionValueRelativeDateEnum | (string & {});
 }
 export type ConditionValueList = Array<ConditionValue>;
 /** A condition that can evaluate to true or false. BooleanConditions are used by conditional formatting, data validation, and the criteria in filters. */
@@ -576,273 +621,211 @@ export interface BooleanCondition {
   /** The values of the condition. The number of supported values depends on the condition type. Some support zero values, others one or two values, and ConditionType.ONE_OF_LIST supports an arbitrary number of values. */
   values?: ConditionValueList;
 }
-/** A data validation rule for a column in a table. */
-export interface TableColumnDataValidationRule {
-  /** The condition that data in the cell must match. Valid only if the [BooleanCondition.type] is ONE_OF_LIST. */
-  condition?: BooleanCondition;
-}
-/** The table column. */
-export interface TableColumnProperties {
-  /** The 0-based column index. This index is relative to its position in the table and is not necessarily the same as the column index in the sheet. */
-  columnIndex?: number;
-  /** The column type. */
-  columnType?: TableColumnPropertiesColumnTypeEnum | (string & {});
-  /** The column data validation rule. Only set for dropdown column type. */
-  dataValidationRule?: TableColumnDataValidationRule;
-  /** The column name. */
-  columnName?: string;
-}
-export type TableColumnPropertiesList = Array<TableColumnProperties>;
-/** A table. */
-export interface Table {
-  /** The table name. This is unique to all tables in the same spreadsheet. */
-  name?: string;
-  /** The table rows properties. */
-  rowsProperties?: TableRowsProperties;
-  /** The table range. */
-  range?: GridRange;
-  /** The id of the table. */
-  tableId?: string;
-  /** The table column properties. */
-  columnProperties?: TableColumnPropertiesList;
-}
-/** Adds a new table to the spreadsheet. */
-export interface AddTableRequest {
-  /** Required. The table to add. */
-  table?: Table;
-}
-export type DeleteRangeRequestShiftDimensionEnum = "DIMENSION_UNSPECIFIED" | "ROWS" | "COLUMNS";
-/** Deletes a range of cells, shifting other cells into the deleted area. */
-export interface DeleteRangeRequest {
-  /** The range of cells to delete. */
-  range?: GridRange;
-  /** The dimension from which deleted cells will be replaced with. If ROWS, existing cells will be shifted upward to replace the deleted cells. If COLUMNS, existing cells will be shifted left to replace the deleted cells. */
-  shiftDimension?: DeleteRangeRequestShiftDimensionEnum | (string & {});
-}
-/** An unique identifier that references a data source column. */
-export interface DataSourceColumnReference {
-  /** The display name of the column. It should be unique within a data source. */
-  name?: string;
-}
-export type DataSourceColumnReferenceList = Array<DataSourceColumnReference>;
-/** A range along a single dimension on a DATA_SOURCE sheet. */
-export interface DataSourceSheetDimensionRange {
-  /** The columns on the data source sheet. */
-  columnReferences?: DataSourceColumnReferenceList;
-  /** The ID of the data source sheet the range is on. */
-  sheetId?: number;
-}
-export type DeveloperMetadataVisibilityEnum =
-  | "DEVELOPER_METADATA_VISIBILITY_UNSPECIFIED"
-  | "DOCUMENT"
-  | "PROJECT";
-/** Developer metadata associated with a location or object in a spreadsheet. For more information, see [Read, write, and search metadata](https://developers.google.com/workspace/sheets/api/guides/metadata). Developer metadata may be used to associate arbitrary data with various parts of a spreadsheet and it will remain associated at those locations as they move around and the spreadsheet is edited. For example, if developer metadata is associated with row 5 and another row is then subsequently inserted above row 5, that original metadata is still associated with the row it was first associated with (what is now row 6). If the associated object is deleted then its metadata is deleted too. */
-export interface DeveloperMetadata {
-  /** The metadata visibility. Developer metadata must always have visibility specified. */
-  visibility?: DeveloperMetadataVisibilityEnum | (string & {});
-  /** Data associated with the metadata's key. */
-  metadataValue?: string;
-  /** The spreadsheet-scoped unique ID that identifies the metadata. IDs may be specified when metadata is created, otherwise one will be randomly generated and assigned. Must be positive. */
-  metadataId?: number;
-  /** The location where the metadata is associated. */
-  location?: DeveloperMetadataLocation;
-  /** The metadata key. There may be multiple metadata in a spreadsheet with the same key. Developer metadata must always have a key specified. */
-  metadataKey?: string;
-}
-export type DeveloperMetadataList = Array<DeveloperMetadata>;
-/** Properties about a dimension. */
-export interface DimensionProperties {
-  /** True if this dimension is being filtered. This field is read-only. */
-  hiddenByFilter?: boolean;
-  /** The developer metadata associated with a single row or column. */
-  developerMetadata?: DeveloperMetadataList;
-  /** True if this dimension is explicitly hidden. */
-  hiddenByUser?: boolean;
-  /** The height (if a row) or width (if a column) of the dimension in pixels. */
-  pixelSize?: number;
-  /** Output only. If set, this is a column in a data source sheet. */
-  dataSourceColumnReference?: DataSourceColumnReference;
-}
-/** Updates properties of dimensions within the specified range. */
-export interface UpdateDimensionPropertiesRequest {
-  /** The columns on a data source sheet to update. */
-  dataSourceSheetRange?: DataSourceSheetDimensionRange;
-  /** The fields that should be updated. At least one field must be specified. The root `properties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
-  fields?: string;
-  /** The rows or columns to update. */
-  range?: DimensionRange;
-  /** Properties to update. */
-  properties?: DimensionProperties;
-}
 /** Criteria for showing or hiding rows in a filter or filter view. */
 export interface FilterCriteria {
-  /** The background fill color to filter by; only cells with this fill color are shown. This field is mutually exclusive with visible_foreground_color, and must be set to an RGB-type color. If visible_background_color is also set, this field takes precedence. */
-  visibleBackgroundColorStyle?: ColorStyle;
-  /** The foreground color to filter by; only cells with this foreground color are shown. This field is mutually exclusive with visible_background_color, and must be set to an RGB-type color. If visible_foreground_color is also set, this field takes precedence. */
-  visibleForegroundColorStyle?: ColorStyle;
-  /** Values that should be hidden. */
-  hiddenValues?: StringList;
   /** The background fill color to filter by; only cells with this fill color are shown. Mutually exclusive with visible_foreground_color. Deprecated: Use visible_background_color_style. */
   visibleBackgroundColor?: Color;
   /** The foreground color to filter by; only cells with this foreground color are shown. Mutually exclusive with visible_background_color. Deprecated: Use visible_foreground_color_style. */
   visibleForegroundColor?: Color;
   /** A condition that must be `true` for values to be shown. (This does not override hidden_values -- if a value is listed there, it will still be hidden.) */
   condition?: BooleanCondition;
+  /** The background fill color to filter by; only cells with this fill color are shown. This field is mutually exclusive with visible_foreground_color, and must be set to an RGB-type color. If visible_background_color is also set, this field takes precedence. */
+  visibleBackgroundColorStyle?: ColorStyle;
+  /** The foreground color to filter by; only cells with this foreground color are shown. This field is mutually exclusive with visible_background_color, and must be set to an RGB-type color. If visible_foreground_color is also set, this field takes precedence. */
+  visibleForegroundColorStyle?: ColorStyle;
+  /** Values that should be hidden. */
+  hiddenValues?: StringList;
 }
-export type FilterCriteriaMap = { [key: string]: FilterCriteria | undefined };
+/** The specifications of a slicer. */
+export interface SlicerSpec {
+  /** The zero-based column index in the data table on which the filter is applied to. */
+  columnIndex?: number;
+  /** The text format of title in the slicer. The link field is not supported. */
+  textFormat?: TextFormat;
+  /** The horizontal alignment of title in the slicer. If unspecified, defaults to `LEFT` */
+  horizontalAlignment?: SlicerSpecHorizontalAlignmentEnum | (string & {});
+  /** The background color of the slicer. Deprecated: Use background_color_style. */
+  backgroundColor?: Color;
+  /** The filtering criteria of the slicer. */
+  filterCriteria?: FilterCriteria;
+  /** The background color of the slicer. If background_color is also set, this field takes precedence. */
+  backgroundColorStyle?: ColorStyle;
+  /** The data range of the slicer. */
+  dataRange?: GridRange;
+  /** The title of the slicer. */
+  title?: string;
+  /** True if the filter should apply to pivot tables. If not set, default to `True`. */
+  applyToPivotTables?: boolean;
+}
+/** Updates a slicer's specifications. (This does not move or resize a slicer. To move or resize a slicer use UpdateEmbeddedObjectPositionRequest. */
+export interface UpdateSlicerSpecRequest {
+  /** The specification to apply to the slicer. */
+  spec?: SlicerSpec;
+  /** The id of the slicer to update. */
+  slicerId?: number;
+  /** The fields that should be updated. At least one field must be specified. The root `SlicerSpec` is implied and should not be specified. A single "*"` can be used as short-hand for listing every field. */
+  fields?: string;
+}
+/** A data validation rule. */
+export interface DataValidationRule {
+  /** True if invalid data should be rejected. */
+  strict?: boolean;
+  /** True if the UI should be customized based on the kind of condition. If true, "List" conditions will show a dropdown. */
+  showCustomUi?: boolean;
+  /** The condition that data in the cell must match. */
+  condition?: BooleanCondition;
+  /** A message to show the user when adding data to the cell. */
+  inputMessage?: string;
+}
+/** Sets a data validation rule to every cell in the range. To clear validation in a range, call this with no rule specified. */
+export interface SetDataValidationRequest {
+  /** The data validation rule to set on each cell in the range, or empty to clear the data validation in the range. */
+  rule?: DataValidationRule;
+  /** The range the data validation rule should apply to. */
+  range?: GridRange;
+  /** Optional. If true, the data validation rule will be applied to the filtered rows as well. */
+  filteredRowsIncluded?: boolean;
+}
+/** Duplicates a particular filter view. */
+export interface DuplicateFilterViewRequest {
+  /** The ID of the filter being duplicated. */
+  filterId?: number;
+}
+/** Inserts rows or columns in a sheet at a particular index. */
+export interface InsertDimensionRequest {
+  /** The dimensions to insert. Both the start and end indexes must be bounded. */
+  range?: DimensionRange;
+  /** Whether dimension properties should be extended from the dimensions before or after the newly inserted dimensions. True to inherit from the dimensions before (in which case the start index must be greater than 0), and false to inherit from the dimensions after. For example, if row index 0 has red background and row index 1 has a green background, then inserting 2 rows at index 1 can inherit either the green or red background. If `inheritFromBefore` is true, the two new rows will be red (because the row before the insertion point was red), whereas if `inheritFromBefore` is false, the two new rows will be green (because the row after the insertion point was green). */
+  inheritFromBefore?: boolean;
+}
 export type SortSpecSortOrderEnum = "SORT_ORDER_UNSPECIFIED" | "ASCENDING" | "DESCENDING";
 /** A sort order associated with a specific column or row. */
 export interface SortSpec {
-  /** The foreground color to sort by; cells with this foreground color are sorted to the top. Mutually exclusive with background_color, and must be an RGB-type color. If foreground_color is also set, this field takes precedence. */
-  foregroundColorStyle?: ColorStyle;
-  /** Reference to a data source column. */
-  dataSourceColumnReference?: DataSourceColumnReference;
   /** The background fill color to sort by; cells with this fill color are sorted to the top. Mutually exclusive with foreground_color. Deprecated: Use background_color_style. */
   backgroundColor?: Color;
   /** The dimension the sort should be applied to. */
   dimensionIndex?: number;
-  /** The background fill color to sort by; cells with this fill color are sorted to the top. Mutually exclusive with foreground_color, and must be an RGB-type color. If background_color is also set, this field takes precedence. */
-  backgroundColorStyle?: ColorStyle;
+  /** The foreground color to sort by; cells with this foreground color are sorted to the top. Mutually exclusive with background_color, and must be an RGB-type color. If foreground_color is also set, this field takes precedence. */
+  foregroundColorStyle?: ColorStyle;
   /** The foreground color to sort by; cells with this foreground color are sorted to the top. Mutually exclusive with background_color. Deprecated: Use foreground_color_style. */
   foregroundColor?: Color;
+  /** The background fill color to sort by; cells with this fill color are sorted to the top. Mutually exclusive with foreground_color, and must be an RGB-type color. If background_color is also set, this field takes precedence. */
+  backgroundColorStyle?: ColorStyle;
   /** The order data should be sorted. */
   sortOrder?: SortSpecSortOrderEnum | (string & {});
-}
-export type SortSpecList = Array<SortSpec>;
-/** The filter criteria associated with a specific column. */
-export interface FilterSpec {
-  /** The criteria for the column. */
-  filterCriteria?: FilterCriteria;
   /** Reference to a data source column. */
   dataSourceColumnReference?: DataSourceColumnReference;
+}
+export type SortSpecList = Array<SortSpec>;
+export type FilterCriteriaMap = { [key: string]: FilterCriteria | undefined };
+/** The filter criteria associated with a specific column. */
+export interface FilterSpec {
   /** The zero-based column index. */
   columnIndex?: number;
+  /** Reference to a data source column. */
+  dataSourceColumnReference?: DataSourceColumnReference;
+  /** The criteria for the column. */
+  filterCriteria?: FilterCriteria;
 }
 export type FilterSpecList = Array<FilterSpec>;
-/** A filter view. For more information, see [Manage data visibility with filters](https://developers.google.com/workspace/sheets/api/guides/filters). */
-export interface FilterView {
-  /** The name of the filter view. */
-  title?: string;
-  /** The named range this filter view is backed by, if any. When writing, only one of range, named_range_id, or table_id may be set. */
-  namedRangeId?: string;
-  /** The range this filter view covers. When writing, only one of range, named_range_id, or table_id may be set. */
+/** The default filter associated with a sheet. For more information, see [Manage data visibility with filters](https://developers.google.com/workspace/sheets/api/guides/filters). */
+export interface BasicFilter {
+  /** The range the filter covers. */
   range?: GridRange;
-  /** The criteria for showing/hiding values per column. The map's key is the column index, and the value is the criteria for that column. This field is deprecated in favor of filter_specs. */
-  criteria?: FilterCriteriaMap;
-  /** The table this filter view is backed by, if any. When writing, only one of range, named_range_id, or table_id may be set. */
-  tableId?: string;
-  /** The ID of the filter view. */
-  filterViewId?: number;
   /** The sort order per column. Later specifications are used when values are equal in the earlier specifications. */
   sortSpecs?: SortSpecList;
-  /** The filter criteria for showing or hiding values per column. Both criteria and filter_specs are populated in responses. If both fields are specified in an update request, this field takes precedence. */
+  /** The criteria for showing/hiding values per column. The map's key is the column index, and the value is the criteria for that column. This field is deprecated in favor of filter_specs. */
+  criteria?: FilterCriteriaMap;
+  /** The filter criteria per column. Both criteria and filter_specs are populated in responses. If both fields are specified in an update request, this field takes precedence. */
   filterSpecs?: FilterSpecList;
+  /** The table this filter is backed by, if any. When writing, only one of range or table_id may be set. */
+  tableId?: string;
 }
-/** Updates properties of the filter view. */
-export interface UpdateFilterViewRequest {
-  /** The new properties of the filter view. */
-  filter?: FilterView;
-  /** The fields that should be updated. At least one field must be specified. The root `filter` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
-  fields?: string;
+/** Sets the basic filter associated with a sheet. */
+export interface SetBasicFilterRequest {
+  /** The filter to set. */
+  filter?: BasicFilter;
 }
-export type DimensionRangeList = Array<DimensionRange>;
-/** Removes rows within this range that contain values in the specified columns that are duplicates of values in any previous row. Rows with identical values but different letter cases, formatting, or formulas are considered to be duplicates. This request also removes duplicate rows hidden from view (for example, due to a filter). When removing duplicates, the first instance of each duplicate row scanning from the top downwards is kept in the resulting range. Content outside of the specified range isn't removed, and rows considered duplicates do not have to be adjacent to each other in the range. */
-export interface DeleteDuplicatesRequest {
-  /** The range to remove duplicates rows from. */
-  range?: GridRange;
-  /** The columns in the range to analyze for duplicate values. If no columns are selected then all columns are analyzed for duplicates. */
-  comparisonColumns?: DimensionRangeList;
+export type ErrorValueTypeEnum =
+  | "ERROR_TYPE_UNSPECIFIED"
+  | "ERROR"
+  | "NULL_VALUE"
+  | "DIVIDE_BY_ZERO"
+  | "VALUE"
+  | "REF"
+  | "NAME"
+  | "NUM"
+  | "N_A"
+  | "LOADING";
+/** An error in a cell. */
+export interface ErrorValue {
+  /** The type of error. */
+  type?: ErrorValueTypeEnum | (string & {});
+  /** A message with more information about the error (in the spreadsheet's locale). */
+  message?: string;
 }
-export type AppendDimensionRequestDimensionEnum = "DIMENSION_UNSPECIFIED" | "ROWS" | "COLUMNS";
-/** Appends rows or columns to the end of a sheet. */
-export interface AppendDimensionRequest {
-  /** Whether rows or columns should be appended. */
-  dimension?: AppendDimensionRequestDimensionEnum | (string & {});
-  /** The number of rows or columns to append. */
-  length?: number;
-  /** The sheet to append rows or columns to. */
-  sheetId?: number;
+/** The kinds of value that a cell in a spreadsheet can have. */
+export interface ExtendedValue {
+  /** Represents a boolean value. */
+  boolValue?: boolean;
+  /** Represents a double value. Note: Dates, Times and DateTimes are represented as doubles in SERIAL_NUMBER format. */
+  numberValue?: number;
+  /** Represents a formula. */
+  formulaValue?: string;
+  /** Represents an error. This field is read-only. */
+  errorValue?: ErrorValue;
+  /** Represents a string value. Leading single quotes are not included. For example, if the user typed `'123` into the UI, this would be represented as a `stringValue` of `"123"`. */
+  stringValue?: string;
 }
-/** Represents a user who authored a comment post. */
-export interface PostAuthor {
-  /** The resource name of the post author user, which can also be used to identify the user in the [Google People API](https://developers.google.com/people/api/rest/v1/people). Format: `users/{user}`. Will not be populated if the anonymous field is `true` or if the post is from an imported spreadsheet. */
-  user?: string;
-  /** Whether the user is anonymous. */
-  anonymous?: boolean;
-  /** Whether the user is the authenticated user making the request. */
-  me?: boolean;
-  /** The display name of the user. May be absent if the author is anonymous. */
-  displayName?: string;
+export type CellFormatHyperlinkDisplayTypeEnum =
+  | "HYPERLINK_DISPLAY_TYPE_UNSPECIFIED"
+  | "LINKED"
+  | "PLAIN_TEXT";
+export type NumberFormatTypeEnum =
+  | "NUMBER_FORMAT_TYPE_UNSPECIFIED"
+  | "TEXT"
+  | "NUMBER"
+  | "PERCENT"
+  | "CURRENCY"
+  | "DATE"
+  | "TIME"
+  | "DATE_TIME"
+  | "SCIENTIFIC";
+/** The number format of a cell. */
+export interface NumberFormat {
+  /** The type of the number format. When writing, this field must be set. */
+  type?: NumberFormatTypeEnum | (string & {});
+  /** Pattern string used for formatting. If not set, a default pattern based on the spreadsheet's locale will be used if necessary for the given type. See the [Date and Number Formats guide](https://developers.google.com/workspace/sheets/api/guides/formats) for more information about the supported patterns. */
+  pattern?: string;
 }
-export type PostCommentActionEnum =
-  | "COMMENT_ACTION_TYPE_UNSPECIFIED"
-  | "NO_COMMENT_ACTION_CHANGE"
-  | "RESOLVE"
-  | "REOPEN";
-/** Represents a single post in a comment thread. */
-export interface Post {
-  /** Output only. Whether the post is deleted. If `true`, content and author fields will be empty. */
-  deleted?: boolean;
-  /** Output only. The time the post was last updated. */
-  updateTime?: string;
-  /** Output only. The user who created the post. */
-  author?: PostAuthor;
-  /** Action taken as part of creating the post. */
-  commentAction?: PostCommentActionEnum | (string & {});
-  /** Output only. Whether the post is from an imported spreadsheet. This field cannot be set directly by callers. */
-  fromImportedSpreadsheet?: boolean;
-  /** Output only. The unique ID of the post. */
-  postId?: string;
-  /** Output only. The time the post was created. */
-  createTime?: string;
-  /** The content of the post. Required to be non-empty if comment_action is not `RESOLVE` or `REOPEN`. This text content will be handled similarly to comments created in the Sheets editor. It will have similar behaviors for formatting, notifications, etc. May not exceed 2048 UTF-8 code units. */
-  content?: string;
-  /** Optional. The email of the user who is being newly assigned to the thread as part of this post. Returns a 400 bad request error if: - The parent thread is a CommentThread whose headPost does not have an assignee. - commentAction is specified as `RESOLVE` or `REOPEN`. - `assignee_email` exceeds 2048 UTF-8 code units. */
-  assigneeEmail?: string;
-  /** Output only. Whether the post is from a copied spreadsheet. This field cannot be set directly by callers. */
-  fromCopiedSpreadsheet?: boolean;
-  /** Output only. The content of the post as HTML. */
-  contentHtml?: string;
+export type CellFormatVerticalAlignmentEnum =
+  | "VERTICAL_ALIGN_UNSPECIFIED"
+  | "TOP"
+  | "MIDDLE"
+  | "BOTTOM";
+/** The amount of padding around the cell, in pixels. When updating padding, every field must be specified. */
+export interface Padding {
+  /** The left padding of the cell. */
+  left?: number;
+  /** The right padding of the cell. */
+  right?: number;
+  /** The top padding of the cell. */
+  top?: number;
+  /** The bottom padding of the cell. */
+  bottom?: number;
 }
-/** Inserts a reply Post into a CommentThread. */
-export interface AddCommentReplyRequest {
-  /** The ID of the CommentThread to add the reply to. */
-  commentId?: string;
-  /** The Post representing the reply. */
-  post?: Post;
-}
-/** Randomizes the order of the rows in a range. */
-export interface RandomizeRangeRequest {
-  /** The range to randomize. */
-  range?: GridRange;
-}
-/** A group over an interval of rows or columns on a sheet, which can contain or be contained within other groups. A group can be collapsed or expanded as a unit on the sheet. */
-export interface DimensionGroup {
-  /** This field is true if this group is collapsed. A collapsed group remains collapsed if an overlapping group at a shallower depth is expanded. A true value does not imply that all dimensions within the group are hidden, since a dimension's visibility can change independently from this group property. However, when this property is updated, all dimensions within it are set to hidden if this field is true, or set to visible if this field is false. */
-  collapsed?: boolean;
-  /** The depth of the group, representing how many groups have a range that wholly contains the range of this group. */
-  depth?: number;
-  /** The range over which this group exists. */
-  range?: DimensionRange;
-}
-/** Updates the state of the specified group. */
-export interface UpdateDimensionGroupRequest {
-  /** The fields that should be updated. At least one field must be specified. The root `dimensionGroup` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
-  fields?: string;
-  /** The group whose state should be updated. The range and depth of the group should specify a valid group on the sheet, and all other fields updated. */
-  dimensionGroup?: DimensionGroup;
-}
-/** Inserts rows or columns in a sheet at a particular index. */
-export interface InsertDimensionRequest {
-  /** Whether dimension properties should be extended from the dimensions before or after the newly inserted dimensions. True to inherit from the dimensions before (in which case the start index must be greater than 0), and false to inherit from the dimensions after. For example, if row index 0 has red background and row index 1 has a green background, then inserting 2 rows at index 1 can inherit either the green or red background. If `inheritFromBefore` is true, the two new rows will be red (because the row before the insertion point was red), whereas if `inheritFromBefore` is false, the two new rows will be green (because the row after the insertion point was green). */
-  inheritFromBefore?: boolean;
-  /** The dimensions to insert. Both the start and end indexes must be bounded. */
-  range?: DimensionRange;
-}
-/** Deletes a group over the specified range by decrementing the depth of the dimensions in the range. For example, assume the sheet has a depth-1 group over B:E and a depth-2 group over C:D. Deleting a group over D:E leaves the sheet with a depth-1 group over B:D and a depth-2 group over C:C. */
-export interface DeleteDimensionGroupRequest {
-  /** The range of the group to be deleted. */
-  range?: DimensionRange;
+export type CellFormatWrapStrategyEnum =
+  | "WRAP_STRATEGY_UNSPECIFIED"
+  | "OVERFLOW_CELL"
+  | "LEGACY_WRAP"
+  | "CLIP"
+  | "WRAP";
+/** The rotation applied to text in a cell. */
+export interface TextRotation {
+  /** If true, text reads top to bottom, but the orientation of individual characters is unchanged. For example: | V | | e | | r | | t | | i | | c | | a | | l | */
+  vertical?: boolean;
+  /** The angle between the standard orientation and the desired orientation. Measured in degrees. Valid values are between -90 and 90. Positive angles are angled upwards, negative are angled downwards. Note: For LTR text direction positive angles are in the counterclockwise direction, whereas for RTL they are in the clockwise direction */
+  angle?: number;
 }
 export type BorderStyleEnum =
   | "STYLE_UNSPECIFIED"
@@ -855,141 +838,1265 @@ export type BorderStyleEnum =
   | "DOUBLE";
 /** A border along a cell. */
 export interface Border {
-  /** The width of the border, in pixels. Deprecated; the width is determined by the "style" field. */
-  width?: number;
   /** The style of the border. */
   style?: BorderStyleEnum | (string & {});
-  /** The color of the border. Deprecated: Use color_style. */
-  color?: Color;
+  /** The width of the border, in pixels. Deprecated; the width is determined by the "style" field. */
+  width?: number;
   /** The color of the border. If color is also set, this field takes precedence. */
   colorStyle?: ColorStyle;
+  /** The color of the border. Deprecated: Use color_style. */
+  color?: Color;
 }
-/** Updates the borders of a range. If a field is not set in the request, that means the border remains as-is. For example, with two subsequent UpdateBordersRequest: 1. range: A1:A5 `{ top: RED, bottom: WHITE }` 2. range: A1:A5 `{ left: BLUE }` That would result in A1:A5 having a borders of `{ top: RED, bottom: WHITE, left: BLUE }`. If you want to clear a border, explicitly set the style to NONE. */
-export interface UpdateBordersRequest {
-  /** The border to put at the top of the range. */
-  top?: Border;
-  /** The border to put at the right of the range. */
-  right?: Border;
-  /** The range whose borders should be updated. */
-  range?: GridRange;
-  /** The border to put at the left of the range. */
+/** The borders of the cell. */
+export interface Borders {
+  /** The left border of the cell. */
   left?: Border;
-  /** The horizontal border to put within the range. */
-  innerHorizontal?: Border;
-  /** The vertical border to put within the range. */
-  innerVertical?: Border;
-  /** The border to put at the bottom of the range. */
+  /** The bottom border of the cell. */
   bottom?: Border;
+  /** The top border of the cell. */
+  top?: Border;
+  /** The right border of the cell. */
+  right?: Border;
 }
-export type MergeCellsRequestMergeTypeEnum = "MERGE_ALL" | "MERGE_COLUMNS" | "MERGE_ROWS";
-/** Merges all cells in the range. */
-export interface MergeCellsRequest {
-  /** How the cells should be merged. */
-  mergeType?: MergeCellsRequestMergeTypeEnum | (string & {});
-  /** The range of cells to merge. */
-  range?: GridRange;
+export type CellFormatTextDirectionEnum =
+  | "TEXT_DIRECTION_UNSPECIFIED"
+  | "LEFT_TO_RIGHT"
+  | "RIGHT_TO_LEFT";
+export type CellFormatHorizontalAlignmentEnum =
+  | "HORIZONTAL_ALIGN_UNSPECIFIED"
+  | "LEFT"
+  | "CENTER"
+  | "RIGHT";
+/** The format of a cell. */
+export interface CellFormat {
+  /** If one exists, how a hyperlink should be displayed in the cell. */
+  hyperlinkDisplayType?: CellFormatHyperlinkDisplayTypeEnum | (string & {});
+  /** A format describing how number values should be represented to the user. */
+  numberFormat?: NumberFormat;
+  /** The vertical alignment of the value in the cell. */
+  verticalAlignment?: CellFormatVerticalAlignmentEnum | (string & {});
+  /** The format of the text in the cell (unless overridden by a format run). Setting a cell-level link here clears the cell's existing links. Setting the link field in a TextFormatRun takes precedence over the cell-level link. */
+  textFormat?: TextFormat;
+  /** The background color of the cell. Deprecated: Use background_color_style. */
+  backgroundColor?: Color;
+  /** The padding of the cell. */
+  padding?: Padding;
+  /** The wrap strategy for the value in the cell. */
+  wrapStrategy?: CellFormatWrapStrategyEnum | (string & {});
+  /** The rotation applied to text in the cell. */
+  textRotation?: TextRotation;
+  /** The background color of the cell. If background_color is also set, this field takes precedence. */
+  backgroundColorStyle?: ColorStyle;
+  /** The borders of the cell. */
+  borders?: Borders;
+  /** The direction of the text in the cell. */
+  textDirection?: CellFormatTextDirectionEnum | (string & {});
+  /** The horizontal alignment of the value in the cell. */
+  horizontalAlignment?: CellFormatHorizontalAlignmentEnum | (string & {});
 }
-export type GridRangeList = Array<GridRange>;
-/** The editors of a protected range. */
-export interface Editors {
-  /** True if anyone in the document's domain has edit access to the protected range. Domain protection is only supported on documents within a domain. */
-  domainUsersCanEdit?: boolean;
-  /** The email addresses of groups with edit access to the protected range. */
-  groups?: StringList;
-  /** The email addresses of users with edit access to the protected range. */
-  users?: StringList;
+/** A run of a text format. The format of this run continues until the start index of the next run. When updating, all fields must be set. */
+export interface TextFormatRun {
+  /** The format of this run. Absent values inherit the cell's format. */
+  format?: TextFormat;
+  /** The zero-based character index where this run starts, in UTF-16 code units. */
+  startIndex?: number;
 }
-/** A protected range. */
-export interface ProtectedRange {
-  /** The range that is being protected. The range may be fully unbounded, in which case this is considered a protected sheet. When writing, only one of range or named_range_id or table_id may be set. */
-  range?: GridRange;
-  /** True if this protected range will show a warning when editing. Warning-based protection means that every user can edit data in the protected range, except editing will prompt a warning asking the user to confirm the edit. When writing: if this field is true, then editors are ignored. Additionally, if this field is changed from true to false and the `editors` field is not set (nor included in the field mask), then the editors will be set to all the editors in the document. */
-  warningOnly?: boolean;
-  /** The named range this protected range is backed by, if any. When writing, only one of range or named_range_id or table_id may be set. */
-  namedRangeId?: string;
-  /** True if the user who requested this protected range can edit the protected area. This field is read-only. */
-  requestingUserCanEdit?: boolean;
-  /** The list of unprotected ranges within a protected sheet. Unprotected ranges are only supported on protected sheets. */
-  unprotectedRanges?: GridRangeList;
-  /** The ID of the protected range. This field is read-only. */
-  protectedRangeId?: number;
-  /** The table this protected range is backed by, if any. When writing, only one of range or named_range_id or table_id may be set. */
-  tableId?: string;
-  /** The description of this protected range. */
-  description?: string;
-  /** The users and groups with edit access to the protected range. This field is only visible to users with edit access to the protected range and the document. Editors are not supported with warning_only protection. */
-  editors?: Editors;
+export type TextFormatRunList = Array<TextFormatRun>;
+export type DataExecutionStatusErrorCodeEnum =
+  | "DATA_EXECUTION_ERROR_CODE_UNSPECIFIED"
+  | "TIMED_OUT"
+  | "TOO_MANY_ROWS"
+  | "TOO_MANY_COLUMNS"
+  | "TOO_MANY_CELLS"
+  | "ENGINE"
+  | "PARAMETER_INVALID"
+  | "UNSUPPORTED_DATA_TYPE"
+  | "DUPLICATE_COLUMN_NAMES"
+  | "INTERRUPTED"
+  | "CONCURRENT_QUERY"
+  | "OTHER"
+  | "TOO_MANY_CHARS_PER_CELL"
+  | "DATA_NOT_FOUND"
+  | "PERMISSION_DENIED"
+  | "MISSING_COLUMN_ALIAS"
+  | "OBJECT_NOT_FOUND"
+  | "OBJECT_IN_ERROR_STATE"
+  | "OBJECT_SPEC_INVALID"
+  | "DATA_EXECUTION_CANCELLED";
+export type DataExecutionStatusStateEnum =
+  | "DATA_EXECUTION_STATE_UNSPECIFIED"
+  | "NOT_STARTED"
+  | "RUNNING"
+  | "CANCELLING"
+  | "SUCCEEDED"
+  | "FAILED";
+/** The data execution status. A data execution is created to sync a data source object with the latest data from a DataSource. It is usually scheduled to run at background, you can check its state to tell if an execution completes There are several scenarios where a data execution is triggered to run: * Adding a data source creates an associated data source sheet as well as a data execution to sync the data from the data source to the sheet. * Updating a data source creates a data execution to refresh the associated data source sheet similarly. * You can send refresh request to explicitly refresh one or multiple data source objects. */
+export interface DataExecutionStatus {
+  /** The error code. */
+  errorCode?: DataExecutionStatusErrorCodeEnum | (string & {});
+  /** The state of the data execution. */
+  state?: DataExecutionStatusStateEnum | (string & {});
+  /** The error message, which may be empty. */
+  errorMessage?: string;
+  /** Gets the time the data last successfully refreshed. */
+  lastRefreshTime?: string;
 }
-/** Updates an existing protected range with the specified protectedRangeId. */
-export interface UpdateProtectedRangeRequest {
-  /** The fields that should be updated. At least one field must be specified. The root `protectedRange` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
+export type DataSourceTableColumnSelectionTypeEnum =
+  | "DATA_SOURCE_TABLE_COLUMN_SELECTION_TYPE_UNSPECIFIED"
+  | "SELECTED"
+  | "SYNC_ALL";
+export type DataSourceColumnReferenceList = Array<DataSourceColumnReference>;
+/** A data source table, which allows the user to import a static table of data from the DataSource into Sheets. This is also known as "Extract" in the Sheets editor. */
+export interface DataSourceTable {
+  /** The limit of rows to return. If not set, a default limit is applied. Please refer to the Sheets editor for the default and max limit. */
+  rowLimit?: number;
+  /** Output only. The data execution status. */
+  dataExecutionStatus?: DataExecutionStatus;
+  /** Filter specifications in the data source table. */
+  filterSpecs?: FilterSpecList;
+  /** Sort specifications in the data source table. The result of the data source table is sorted based on the sort specifications in order. */
+  sortSpecs?: SortSpecList;
+  /** The type to select columns for the data source table. Defaults to SELECTED. */
+  columnSelectionType?: DataSourceTableColumnSelectionTypeEnum | (string & {});
+  /** Columns selected for the data source table. The column_selection_type must be SELECTED. */
+  columns?: DataSourceColumnReferenceList;
+  /** The ID of the data source the data source table is associated with. */
+  dataSourceId?: string;
+}
+/** A data source formula. */
+export interface DataSourceFormula {
+  /** The ID of the data source the formula is associated with. */
+  dataSourceId?: string;
+  /** Output only. The data execution status. */
+  dataExecutionStatus?: DataExecutionStatus;
+}
+/** Properties of a link to a Google resource (such as a file in Drive, a YouTube video, a Maps address, or a Calendar event). Only Drive files can be written as chips. All other rich link types are read only. URIs cannot exceed 2000 bytes when writing. NOTE: Writing Drive file chips requires at least one of the `drive.file`, `drive.readonly`, or `drive` OAuth scopes. */
+export interface RichLinkProperties {
+  /** Output only. The [MIME type](https://developers.google.com/drive/api/v3/mime-types) of the link, if there's one (for example, when it's a file in Drive). */
+  mimeType?: string;
+  /** Required. The URI to the link. This is always present. */
+  uri?: string;
+}
+export type PersonPropertiesDisplayFormatEnum =
+  | "DISPLAY_FORMAT_UNSPECIFIED"
+  | "DEFAULT"
+  | "LAST_NAME_COMMA_FIRST_NAME"
+  | "EMAIL";
+/** Properties specific to a linked person. */
+export interface PersonProperties {
+  /** Required. The email address linked to this person. This field is always present. */
+  email?: string;
+  /** Optional. The display format of the person chip. If not set, the default display format is used. */
+  displayFormat?: PersonPropertiesDisplayFormatEnum | (string & {});
+}
+/** The Smart Chip. */
+export interface Chip {
+  /** Properties of a rich link. */
+  richLinkProperties?: RichLinkProperties;
+  /** Properties of a linked person. */
+  personProperties?: PersonProperties;
+}
+/** The run of a chip. The chip continues until the start index of the next run. */
+export interface ChipRun {
+  /** Optional. The chip of this run. */
+  chip?: Chip;
+  /** Required. The zero-based character index where this run starts, in UTF-16 code units. */
+  startIndex?: number;
+}
+export type ChipRunList = Array<ChipRun>;
+export type ExtendedValueList = Array<ExtendedValue>;
+/** Information about which values in a pivot group should be used for sorting. */
+export interface PivotGroupSortValueBucket {
+  /** The offset in the PivotTable.values list which the values in this grouping should be sorted by. */
+  valuesIndex?: number;
+  /** Determines the bucket from which values are chosen to sort. For example, in a pivot table with one row group & two column groups, the row group can list up to two values. The first value corresponds to a value within the first column group, and the second value corresponds to a value in the second column group. If no values are listed, this would indicate that the row should be sorted according to the "Grand Total" over the column groups. If a single value is listed, this would correspond to using the "Total" of that bucket. */
+  buckets?: ExtendedValueList;
+}
+/** The count limit on rows or columns in the pivot group. */
+export interface PivotGroupLimit {
+  /** The count limit. */
+  countLimit?: number;
+  /** The order in which the group limit is applied to the pivot table. Pivot group limits are applied from lower to higher order number. Order numbers are normalized to consecutive integers from 0. For write request, to fully customize the applying orders, all pivot group limits should have this field set with an unique number. Otherwise, the order is determined by the index in the PivotTable.rows list and then the PivotTable.columns list. */
+  applyOrder?: number;
+}
+export type PivotGroupSortOrderEnum = "SORT_ORDER_UNSPECIFIED" | "ASCENDING" | "DESCENDING";
+export type DateTimeRuleTypeEnum =
+  | "DATE_TIME_RULE_TYPE_UNSPECIFIED"
+  | "SECOND"
+  | "MINUTE"
+  | "HOUR"
+  | "HOUR_MINUTE"
+  | "HOUR_MINUTE_AMPM"
+  | "DAY_OF_WEEK"
+  | "DAY_OF_YEAR"
+  | "DAY_OF_MONTH"
+  | "DAY_MONTH"
+  | "MONTH"
+  | "QUARTER"
+  | "YEAR"
+  | "YEAR_MONTH"
+  | "YEAR_QUARTER"
+  | "YEAR_MONTH_DAY";
+/** Allows you to organize the date-time values in a source data column into buckets based on selected parts of their date or time values. For example, consider a pivot table showing sales transactions by date: +----------+--------------+ | Date | SUM of Sales | +----------+--------------+ | 1/1/2017 | $621.14 | | 2/3/2017 | $708.84 | | 5/8/2017 | $326.84 | ... +----------+--------------+ Applying a date-time group rule with a DateTimeRuleType of YEAR_MONTH results in the following pivot table. +--------------+--------------+ | Grouped Date | SUM of Sales | +--------------+--------------+ | 2017-Jan | $53,731.78 | | 2017-Feb | $83,475.32 | | 2017-Mar | $94,385.05 | ... +--------------+--------------+ */
+export interface DateTimeRule {
+  /** The type of date-time grouping to apply. */
+  type?: DateTimeRuleTypeEnum | (string & {});
+}
+/** Allows you to organize the numeric values in a source data column into buckets of a constant size. All values from HistogramRule.start to HistogramRule.end are placed into groups of size HistogramRule.interval. In addition, all values below HistogramRule.start are placed in one group, and all values above HistogramRule.end are placed in another. Only HistogramRule.interval is required, though if HistogramRule.start and HistogramRule.end are both provided, HistogramRule.start must be less than HistogramRule.end. For example, a pivot table showing average purchase amount by age that has 50+ rows: +-----+-------------------+ | Age | AVERAGE of Amount | +-----+-------------------+ | 16 | $27.13 | | 17 | $5.24 | | 18 | $20.15 | ... +-----+-------------------+ could be turned into a pivot table that looks like the one below by applying a histogram group rule with a HistogramRule.start of 25, an HistogramRule.interval of 20, and an HistogramRule.end of 65. +-------------+-------------------+ | Grouped Age | AVERAGE of Amount | +-------------+-------------------+ | < 25 | $19.34 | | 25-45 | $31.43 | | 45-65 | $35.87 | | > 65 | $27.55 | +-------------+-------------------+ | Grand Total | $29.12 | +-------------+-------------------+ */
+export interface HistogramRule {
+  /** The size of the buckets that are created. Must be positive. */
+  interval?: number;
+  /** The maximum value at which items are placed into buckets of constant size. Values above end are lumped into a single bucket. This field is optional. */
+  end?: number;
+  /** The minimum value at which items are placed into buckets of constant size. Values below start are lumped into a single bucket. This field is optional. */
+  start?: number;
+}
+/** A group name and a list of items from the source data that should be placed in the group with this name. */
+export interface ManualRuleGroup {
+  /** The items in the source data that should be placed into this group. Each item may be a string, number, or boolean. Items may appear in at most one group within a given ManualRule. Items that do not appear in any group will appear on their own. */
+  items?: ExtendedValueList;
+  /** The group name, which must be a string. Each group in a given ManualRule must have a unique group name. */
+  groupName?: ExtendedValue;
+}
+export type ManualRuleGroupList = Array<ManualRuleGroup>;
+/** Allows you to manually organize the values in a source data column into buckets with names of your choosing. For example, a pivot table that aggregates population by state: +-------+-------------------+ | State | SUM of Population | +-------+-------------------+ | AK | 0.7 | | AL | 4.8 | | AR | 2.9 | ... +-------+-------------------+ could be turned into a pivot table that aggregates population by time zone by providing a list of groups (for example, groupName = 'Central', items = ['AL', 'AR', 'IA', ...]) to a manual group rule. Note that a similar effect could be achieved by adding a time zone column to the source data and adjusting the pivot table. +-----------+-------------------+ | Time Zone | SUM of Population | +-----------+-------------------+ | Central | 106.3 | | Eastern | 151.9 | | Mountain | 17.4 | ... +-----------+-------------------+ */
+export interface ManualRule {
+  /** The list of group names and the corresponding items from the source data that map to each group name. */
+  groups?: ManualRuleGroupList;
+}
+/** An optional setting on a PivotGroup that defines buckets for the values in the source data column rather than breaking out each individual value. Only one PivotGroup with a group rule may be added for each column in the source data, though on any given column you may add both a PivotGroup that has a rule and a PivotGroup that does not. */
+export interface PivotGroupRule {
+  /** A DateTimeRule. */
+  dateTimeRule?: DateTimeRule;
+  /** A HistogramRule. */
+  histogramRule?: HistogramRule;
+  /** A ManualRule. */
+  manualRule?: ManualRule;
+}
+/** Metadata about a value in a pivot grouping. */
+export interface PivotGroupValueMetadata {
+  /** The calculated value the metadata corresponds to. (Note that formulaValue is not valid, because the values will be calculated.) */
+  value?: ExtendedValue;
+  /** True if the data corresponding to the value is collapsed. */
+  collapsed?: boolean;
+}
+export type PivotGroupValueMetadataList = Array<PivotGroupValueMetadata>;
+/** A single grouping (either row or column) in a pivot table. */
+export interface PivotGroup {
+  /** True if the headings in this pivot group should be repeated. This is only valid for row groupings and is ignored by columns. By default, we minimize repetition of headings by not showing higher level headings where they are the same. For example, even though the third row below corresponds to "Q1 Mar", "Q1" is not shown because it is redundant with previous rows. Setting repeat_headings to true would cause "Q1" to be repeated for "Feb" and "Mar". +--------------+ | Q1 | Jan | | | Feb | | | Mar | +--------+-----+ | Q1 Total | +--------------+ */
+  repeatHeadings?: boolean;
+  /** The labels to use for the row/column groups which can be customized. For example, in the following pivot table, the row label is `Region` (which could be renamed to `State`) and the column label is `Product` (which could be renamed `Item`). Pivot tables created before December 2017 do not have header labels. If you'd like to add header labels to an existing pivot table, please delete the existing pivot table and then create a new pivot table with same parameters. +--------------+---------+-------+ | SUM of Units | Product | | | Region | Pen | Paper | +--------------+---------+-------+ | New York | 345 | 98 | | Oregon | 234 | 123 | | Tennessee | 531 | 415 | +--------------+---------+-------+ | Grand Total | 1110 | 636 | +--------------+---------+-------+ */
+  label?: string;
+  /** True if the pivot table should include the totals for this grouping. */
+  showTotals?: boolean;
+  /** The column offset of the source range that this grouping is based on. For example, if the source was `C10:E15`, a `sourceColumnOffset` of `0` means this group refers to column `C`, whereas the offset `1` would refer to column `D`. */
+  sourceColumnOffset?: number;
+  /** The bucket of the opposite pivot group to sort by. If not specified, sorting is alphabetical by this group's values. */
+  valueBucket?: PivotGroupSortValueBucket;
+  /** The count limit on rows or columns to apply to this pivot group. */
+  groupLimit?: PivotGroupLimit;
+  /** The order the values in this group should be sorted. */
+  sortOrder?: PivotGroupSortOrderEnum | (string & {});
+  /** The group rule to apply to this row/column group. */
+  groupRule?: PivotGroupRule;
+  /** The reference to the data source column this grouping is based on. */
+  dataSourceColumnReference?: DataSourceColumnReference;
+  /** Metadata about values in the grouping. */
+  valueMetadata?: PivotGroupValueMetadataList;
+}
+export type PivotGroupList = Array<PivotGroup>;
+export type PivotTableValueLayoutEnum = "HORIZONTAL" | "VERTICAL";
+/** Criteria for showing/hiding rows in a pivot table. */
+export interface PivotFilterCriteria {
+  /** A condition that must be true for values to be shown. (`visibleValues` does not override this -- even if a value is listed there, it is still hidden if it does not meet the condition.) Condition values that refer to ranges in A1-notation are evaluated relative to the pivot table sheet. References are treated absolutely, so are not filled down the pivot table. For example, a condition value of `=A1` on "Pivot Table 1" is treated as `'Pivot Table 1'!$A$1`. The source data of the pivot table can be referenced by column header name. For example, if the source data has columns named "Revenue" and "Cost" and a condition is applied to the "Revenue" column with type `NUMBER_GREATER` and value `=Cost`, then only columns where "Revenue" > "Cost" are included. */
+  condition?: BooleanCondition;
+  /** Values that should be included. Values not listed here are excluded. */
+  visibleValues?: StringList;
+  /** Whether values are visible by default. If true, the visible_values are ignored, all values that meet condition (if specified) are shown. If false, values that are both in visible_values and meet condition are shown. */
+  visibleByDefault?: boolean;
+}
+/** The pivot table filter criteria associated with a specific source column offset. */
+export interface PivotFilterSpec {
+  /** The zero-based column offset of the source range. */
+  columnOffsetIndex?: number;
+  /** The reference to the data source column. */
+  dataSourceColumnReference?: DataSourceColumnReference;
+  /** The criteria for the column. */
+  filterCriteria?: PivotFilterCriteria;
+}
+export type PivotFilterSpecList = Array<PivotFilterSpec>;
+export type PivotFilterCriteriaMap = { [key: string]: PivotFilterCriteria | undefined };
+export type PivotValueCalculatedDisplayTypeEnum =
+  | "PIVOT_VALUE_CALCULATED_DISPLAY_TYPE_UNSPECIFIED"
+  | "PERCENT_OF_ROW_TOTAL"
+  | "PERCENT_OF_COLUMN_TOTAL"
+  | "PERCENT_OF_GRAND_TOTAL";
+export type PivotValueSummarizeFunctionEnum =
+  | "PIVOT_STANDARD_VALUE_FUNCTION_UNSPECIFIED"
+  | "SUM"
+  | "COUNTA"
+  | "COUNT"
+  | "COUNTUNIQUE"
+  | "AVERAGE"
+  | "MAX"
+  | "MIN"
+  | "MEDIAN"
+  | "PRODUCT"
+  | "STDEV"
+  | "STDEVP"
+  | "VAR"
+  | "VARP"
+  | "CUSTOM"
+  | "NONE";
+/** The definition of how a value in a pivot table should be calculated. */
+export interface PivotValue {
+  /** If specified, indicates that pivot values should be displayed as the result of a calculation with another pivot value. For example, if calculated_display_type is specified as PERCENT_OF_GRAND_TOTAL, all the pivot values are displayed as the percentage of the grand total. In the Sheets editor, this is referred to as "Show As" in the value section of a pivot table. */
+  calculatedDisplayType?: PivotValueCalculatedDisplayTypeEnum | (string & {});
+  /** The reference to the data source column that this value reads from. */
+  dataSourceColumnReference?: DataSourceColumnReference;
+  /** The column offset of the source range that this value reads from. For example, if the source was `C10:E15`, a `sourceColumnOffset` of `0` means this value refers to column `C`, whereas the offset `1` would refer to column `D`. */
+  sourceColumnOffset?: number;
+  /** A name to use for the value. */
+  name?: string;
+  /** A custom formula to calculate the value. The formula must start with an `=` character. */
+  formula?: string;
+  /** A function to summarize the value. If formula is set, the only supported values are SUM and CUSTOM. If sourceColumnOffset is set, then `CUSTOM` is not supported. */
+  summarizeFunction?: PivotValueSummarizeFunctionEnum | (string & {});
+}
+export type PivotValueList = Array<PivotValue>;
+/** A pivot table. */
+export interface PivotTable {
+  /** Each column grouping in the pivot table. */
+  columns?: PivotGroupList;
+  /** The ID of the data source the pivot table is reading data from. */
+  dataSourceId?: string;
+  /** Whether values should be listed horizontally (as columns) or vertically (as rows). */
+  valueLayout?: PivotTableValueLayoutEnum | (string & {});
+  /** Output only. The data execution status for data source pivot tables. */
+  dataExecutionStatus?: DataExecutionStatus;
+  /** Each row grouping in the pivot table. */
+  rows?: PivotGroupList;
+  /** The filters applied to the source columns before aggregating data for the pivot table. Both criteria and filter_specs are populated in responses. If both fields are specified in an update request, this field takes precedence. */
+  filterSpecs?: PivotFilterSpecList;
+  /** The range the pivot table is reading data from. */
+  source?: GridRange;
+  /** An optional mapping of filters per source column offset. The filters are applied before aggregating data into the pivot table. The map's key is the column offset of the source range that you want to filter, and the value is the criteria for that column. For example, if the source was `C10:E15`, a key of `0` will have the filter for column `C`, whereas the key `1` is for column `D`. This field is deprecated in favor of filter_specs. */
+  criteria?: PivotFilterCriteriaMap;
+  /** A list of values to include in the pivot table. */
+  values?: PivotValueList;
+}
+/** Data about a specific cell. */
+export interface CellData {
+  /** The value the user entered in the cell. e.g., `1234`, `'Hello'`, or `=NOW()` Note: Dates, Times and DateTimes are represented as doubles in serial number format. */
+  userEnteredValue?: ExtendedValue;
+  /** The format the user entered for the cell. When writing, the new format will be merged with the existing format. */
+  userEnteredFormat?: CellFormat;
+  /** Runs of rich text applied to subsections of the cell. Runs are only valid on user entered strings, not formulas, bools, or numbers. Properties of a run start at a specific index in the text and continue until the next run. Runs will inherit the properties of the cell unless explicitly changed. When writing, the new runs will overwrite any prior runs. When writing a new user_entered_value, previous runs are erased. */
+  textFormatRuns?: TextFormatRunList;
+  /** The effective value of the cell. For cells with formulas, this is the calculated value. For cells with literals, this is the same as the user_entered_value. This field is read-only. */
+  effectiveValue?: ExtendedValue;
+  /** A data source table anchored at this cell. The size of data source table itself is computed dynamically based on its configuration. Only the first cell of the data source table contains the data source table definition. The other cells will contain the display values of the data source table result in their effective_value fields. */
+  dataSourceTable?: DataSourceTable;
+  /** The formatted value of the cell. This is the value as it's shown to the user. This field is read-only. */
+  formattedValue?: string;
+  /** Output only. Information about a data source formula on the cell. The field is set if user_entered_value is a formula referencing some DATA_SOURCE sheet, e.g. `=SUM(DataSheet!Column)`. */
+  dataSourceFormula?: DataSourceFormula;
+  /** A hyperlink this cell points to, if any. If the cell contains multiple hyperlinks, this field will be empty. This field is read-only. To set it, use a `=HYPERLINK` formula in the userEnteredValue.formulaValue field. A cell-level link can also be set from the userEnteredFormat.textFormat field. Alternatively, set a hyperlink in the textFormatRun.format.link field that spans the entire cell. */
+  hyperlink?: string;
+  /** The effective format being used by the cell. This includes the results of applying any conditional formatting and, if the cell contains a formula, the computed number format. If the effective format is the default format, effective format will not be written. This field is read-only. */
+  effectiveFormat?: CellFormat;
+  /** Optional. Runs of chips applied to subsections of the cell. Properties of a run start at a specific index in the text and continue until the next run. When reading, all chipped and non-chipped runs are included. Non-chipped runs will have an empty Chip. When writing, only runs with chips are included. Runs containing chips are of length 1 and are represented in the user-entered text by an "@" placeholder symbol. New runs will overwrite any prior runs. Writing a new user_entered_value will erase previous runs. */
+  chipRuns?: ChipRunList;
+  /** A pivot table anchored at this cell. The size of pivot table itself is computed dynamically based on its data, grouping, filters, values, etc. Only the top-left cell of the pivot table contains the pivot table definition. The other cells will contain the calculated values of the results of the pivot in their effective_value fields. */
+  pivotTable?: PivotTable;
+  /** Any note on the cell. */
+  note?: string;
+  /** A data validation rule on the cell, if any. When writing, the new data validation rule will overwrite any prior rule. */
+  dataValidation?: DataValidationRule;
+}
+export type CellDataList = Array<CellData>;
+/** Data about each cell in a row. */
+export interface RowData {
+  /** The values in the row, one per column. */
+  values?: CellDataList;
+}
+export type RowDataList = Array<RowData>;
+/** A coordinate in a sheet. All indexes are zero-based. */
+export interface GridCoordinate {
+  /** The sheet this coordinate is on. */
+  sheetId?: number;
+  /** The column index of the coordinate. */
+  columnIndex?: number;
+  /** The row index of the coordinate. */
+  rowIndex?: number;
+}
+/** Updates all cells in a range with new data. */
+export interface UpdateCellsRequest {
+  /** The fields of CellData that should be updated. At least one field must be specified. The root is the CellData; 'row.values.' should not be specified. A single `"*"` can be used as short-hand for listing every field. */
   fields?: string;
-  /** The protected range to update with the new properties. */
-  protectedRange?: ProtectedRange;
+  /** The data to write. */
+  rows?: RowDataList;
+  /** The coordinate to start writing data at. Any number of rows and columns (including a different number of columns per row) may be written. */
+  start?: GridCoordinate;
+  /** The range to write data to. If the data in rows does not cover the entire requested range, the fields matching those set in fields will be cleared. */
+  range?: GridRange;
 }
-/** Deletes the embedded object with the given ID. */
-export interface DeleteEmbeddedObjectRequest {
-  /** The ID of the embedded object to delete. */
-  objectId?: number;
+/** Deletes a data source. The request also deletes the associated data source sheet, and unlinks all associated data source objects. */
+export interface DeleteDataSourceRequest {
+  /** The ID of the data source to delete. */
+  dataSourceId?: string;
+}
+export type CutPasteRequestPasteTypeEnum =
+  | "PASTE_NORMAL"
+  | "PASTE_VALUES"
+  | "PASTE_FORMAT"
+  | "PASTE_NO_BORDERS"
+  | "PASTE_FORMULA"
+  | "PASTE_DATA_VALIDATION"
+  | "PASTE_CONDITIONAL_FORMATTING";
+/** Moves data from the source to the destination. */
+export interface CutPasteRequest {
+  /** What kind of data to paste. All the source data will be cut, regardless of what is pasted. */
+  pasteType?: CutPasteRequestPasteTypeEnum | (string & {});
+  /** The source data to cut. */
+  source?: GridRange;
+  /** The top-left coordinate where the data should be pasted. */
+  destination?: GridCoordinate;
+}
+/** Deletes the requested sheet. */
+export interface DeleteSheetRequest {
+  /** The ID of the sheet to delete. If the sheet is of DATA_SOURCE type, the associated DataSource is also deleted. */
+  sheetId?: number;
+}
+/** The location an object is overlaid on top of a grid. */
+export interface OverlayPosition {
+  /** The vertical offset, in pixels, that the object is offset from the anchor cell. */
+  offsetYPixels?: number;
+  /** The width of the object, in pixels. Defaults to 600. */
+  widthPixels?: number;
+  /** The height of the object, in pixels. Defaults to 371. */
+  heightPixels?: number;
+  /** The cell the object is anchored to. */
+  anchorCell?: GridCoordinate;
+  /** The horizontal offset, in pixels, that the object is offset from the anchor cell. */
+  offsetXPixels?: number;
+}
+/** The position of an embedded object such as a chart. */
+export interface EmbeddedObjectPosition {
+  /** If true, the embedded object is put on a new sheet whose ID is chosen for you. Used only when writing. */
+  newSheet?: boolean;
+  /** The sheet this is on. Set only if the embedded object is on its own sheet. Must be non-negative. */
+  sheetId?: number;
+  /** The position at which the object is overlaid on top of a grid. */
+  overlayPosition?: OverlayPosition;
+}
+/** A slicer in a sheet. */
+export interface Slicer {
+  /** The ID of the slicer. */
+  slicerId?: number;
+  /** The specification of the slicer. */
+  spec?: SlicerSpec;
+  /** The position of the slicer. Note that slicer can be positioned only on existing sheet. Also, width and height of slicer can be automatically adjusted to keep it within permitted limits. */
+  position?: EmbeddedObjectPosition;
+}
+/** Adds a slicer to a sheet in the spreadsheet. */
+export interface AddSlicerRequest {
+  /** The slicer that should be added to the spreadsheet, including the position where it should be placed. The slicerId field is optional; if one is not set, an id will be randomly generated. (It is an error to specify the ID of a slicer that already exists.) */
+  slicer?: Slicer;
 }
 /** A named range. */
 export interface NamedRange {
   /** The ID of the named range. */
   namedRangeId?: string;
-  /** The name of the named range. */
-  name?: string;
   /** The range this represents. */
   range?: GridRange;
+  /** The name of the named range. */
+  name?: string;
 }
 /** Adds a named range to the spreadsheet. */
 export interface AddNamedRangeRequest {
   /** The named range to add. The namedRangeId field is optional; if one is not set, an id will be randomly generated. (It is an error to specify the ID of a range that already exists.) */
   namedRange?: NamedRange;
 }
-/** A coordinate in a sheet. All indexes are zero-based. */
-export interface GridCoordinate {
-  /** The sheet this coordinate is on. */
+export type TextToColumnsRequestDelimiterTypeEnum =
+  | "DELIMITER_TYPE_UNSPECIFIED"
+  | "COMMA"
+  | "SEMICOLON"
+  | "PERIOD"
+  | "SPACE"
+  | "CUSTOM"
+  | "AUTODETECT";
+/** Splits a column of text into multiple columns, based on a delimiter in each cell. */
+export interface TextToColumnsRequest {
+  /** The delimiter to use. Used only if delimiterType is CUSTOM. */
+  delimiter?: string;
+  /** The delimiter type to use. */
+  delimiterType?: TextToColumnsRequestDelimiterTypeEnum | (string & {});
+  /** The source data range. This must span exactly one column. */
+  source?: GridRange;
+}
+/** A filter view. For more information, see [Manage data visibility with filters](https://developers.google.com/workspace/sheets/api/guides/filters). */
+export interface FilterView {
+  /** The named range this filter view is backed by, if any. When writing, only one of range, named_range_id, or table_id may be set. */
+  namedRangeId?: string;
+  /** The table this filter view is backed by, if any. When writing, only one of range, named_range_id, or table_id may be set. */
+  tableId?: string;
+  /** The name of the filter view. */
+  title?: string;
+  /** The ID of the filter view. */
+  filterViewId?: number;
+  /** The range this filter view covers. When writing, only one of range, named_range_id, or table_id may be set. */
+  range?: GridRange;
+  /** The sort order per column. Later specifications are used when values are equal in the earlier specifications. */
+  sortSpecs?: SortSpecList;
+  /** The criteria for showing/hiding values per column. The map's key is the column index, and the value is the criteria for that column. This field is deprecated in favor of filter_specs. */
+  criteria?: FilterCriteriaMap;
+  /** The filter criteria for showing or hiding values per column. Both criteria and filter_specs are populated in responses. If both fields are specified in an update request, this field takes precedence. */
+  filterSpecs?: FilterSpecList;
+}
+/** Updates properties of the filter view. */
+export interface UpdateFilterViewRequest {
+  /** The fields that should be updated. At least one field must be specified. The root `filter` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
+  fields?: string;
+  /** The new properties of the filter view. */
+  filter?: FilterView;
+}
+/** Trims the whitespace (such as spaces, tabs, or new lines) in every cell in the specified range. This request removes all whitespace from the start and end of each cell's text, and reduces any subsequence of remaining whitespace characters to a single space. If the resulting trimmed text starts with a '+' or '=' character, the text remains as a string value and isn't interpreted as a formula. */
+export interface TrimWhitespaceRequest {
+  /** The range whose cells to trim. */
+  range?: GridRange;
+}
+export type InsertRangeRequestShiftDimensionEnum = "DIMENSION_UNSPECIFIED" | "ROWS" | "COLUMNS";
+/** Inserts cells into a range, shifting the existing cells over or down. */
+export interface InsertRangeRequest {
+  /** The range to insert new cells into. The range is constrained to the current sheet boundaries. */
+  range?: GridRange;
+  /** The dimension which will be shifted when inserting cells. If ROWS, existing cells will be shifted down. If COLUMNS, existing cells will be shifted right. */
+  shiftDimension?: InsertRangeRequestShiftDimensionEnum | (string & {});
+}
+export type InterpolationPointTypeEnum =
+  | "INTERPOLATION_POINT_TYPE_UNSPECIFIED"
+  | "MIN"
+  | "MAX"
+  | "NUMBER"
+  | "PERCENT"
+  | "PERCENTILE";
+/** A single interpolation point on a gradient conditional format. These pin the gradient color scale according to the color, type and value chosen. */
+export interface InterpolationPoint {
+  /** The value this interpolation point uses. May be a formula. Unused if type is MIN or MAX. */
+  value?: string;
+  /** The color this interpolation point should use. If color is also set, this field takes precedence. */
+  colorStyle?: ColorStyle;
+  /** The color this interpolation point should use. Deprecated: Use color_style. */
+  color?: Color;
+  /** How the value should be interpreted. */
+  type?: InterpolationPointTypeEnum | (string & {});
+}
+/** A rule that applies a gradient color scale format, based on the interpolation points listed. The format of a cell will vary based on its contents as compared to the values of the interpolation points. */
+export interface GradientRule {
+  /** An optional midway interpolation point. */
+  midpoint?: InterpolationPoint;
+  /** The starting interpolation point. */
+  minpoint?: InterpolationPoint;
+  /** The final interpolation point. */
+  maxpoint?: InterpolationPoint;
+}
+/** A rule that may or may not match, depending on the condition. */
+export interface BooleanRule {
+  /** The condition of the rule. If the condition evaluates to true, the format is applied. */
+  condition?: BooleanCondition;
+  /** The format to apply. Conditional formatting can only apply a subset of formatting: bold, italic, strikethrough, foreground color and, background color. */
+  format?: CellFormat;
+}
+export type GridRangeList = Array<GridRange>;
+/** A rule describing a conditional format. */
+export interface ConditionalFormatRule {
+  /** The formatting will vary based on the gradients in the rule. */
+  gradientRule?: GradientRule;
+  /** The formatting is either "on" or "off" according to the rule. */
+  booleanRule?: BooleanRule;
+  /** The ranges that are formatted if the condition is true. All the ranges must be on the same grid. */
+  ranges?: GridRangeList;
+}
+/** Adds a new conditional format rule at the given index. All subsequent rules' indexes are incremented. */
+export interface AddConditionalFormatRuleRequest {
+  /** The zero-based index where the rule should be inserted. */
+  index?: number;
+  /** The rule to add. */
+  rule?: ConditionalFormatRule;
+}
+/** Updates a conditional format rule at the given index, or moves a conditional format rule to another index. */
+export interface UpdateConditionalFormatRuleRequest {
+  /** The zero-based new index the rule should end up at. */
+  newIndex?: number;
+  /** The sheet of the rule to move. Required if new_index is set, unused otherwise. */
   sheetId?: number;
-  /** The row index of the coordinate. */
-  rowIndex?: number;
-  /** The column index of the coordinate. */
+  /** The zero-based index of the rule that should be replaced or moved. */
+  index?: number;
+  /** The rule that should replace the rule at the given index. */
+  rule?: ConditionalFormatRule;
+}
+export type CopyPasteRequestPasteTypeEnum =
+  | "PASTE_NORMAL"
+  | "PASTE_VALUES"
+  | "PASTE_FORMAT"
+  | "PASTE_NO_BORDERS"
+  | "PASTE_FORMULA"
+  | "PASTE_DATA_VALIDATION"
+  | "PASTE_CONDITIONAL_FORMATTING";
+export type CopyPasteRequestPasteOrientationEnum = "NORMAL" | "TRANSPOSE";
+/** Copies data from the source to the destination. */
+export interface CopyPasteRequest {
+  /** What kind of data to paste. */
+  pasteType?: CopyPasteRequestPasteTypeEnum | (string & {});
+  /** The location to paste to. If the range covers a span that's a multiple of the source's height or width, then the data will be repeated to fill in the destination range. If the range is smaller than the source range, the entire source data will still be copied (beyond the end of the destination range). */
+  destination?: GridRange;
+  /** How that data should be oriented when pasting. */
+  pasteOrientation?: CopyPasteRequestPasteOrientationEnum | (string & {});
+  /** The source range to copy. */
+  source?: GridRange;
+}
+export type SheetPropertiesSheetTypeEnum =
+  | "SHEET_TYPE_UNSPECIFIED"
+  | "GRID"
+  | "OBJECT"
+  | "DATA_SOURCE";
+/** Properties of a grid. */
+export interface GridProperties {
+  /** True if the column grouping control toggle is shown after the group. */
+  columnGroupControlAfter?: boolean;
+  /** True if the row grouping control toggle is shown after the group. */
+  rowGroupControlAfter?: boolean;
+  /** The number of rows in the grid. */
+  rowCount?: number;
+  /** The number of rows that are frozen in the grid. */
+  frozenRowCount?: number;
+  /** The number of columns that are frozen in the grid. */
+  frozenColumnCount?: number;
+  /** The number of columns in the grid. */
+  columnCount?: number;
+  /** True if the grid isn't showing gridlines in the UI. */
+  hideGridlines?: boolean;
+}
+/** Additional properties of a DATA_SOURCE sheet. */
+export interface DataSourceSheetProperties {
+  /** The columns displayed on the sheet, corresponding to the values in RowData. */
+  columns?: DataSourceColumnList;
+  /** The data execution status. */
+  dataExecutionStatus?: DataExecutionStatus;
+  /** ID of the DataSource the sheet is connected to. */
+  dataSourceId?: string;
+}
+/** Properties of a sheet. */
+export interface SheetProperties {
+  /** The index of the sheet within the spreadsheet. When adding or updating sheet properties, if this field is excluded then the sheet is added or moved to the end of the sheet list. When updating sheet indices or inserting sheets, movement is considered in "before the move" indexes. For example, if there were three sheets (S1, S2, S3) in order to move S1 ahead of S2 the index would have to be set to 2. A sheet index update request is ignored if the requested index is identical to the sheets current index or if the requested new index is equal to the current sheet index + 1. */
+  index?: number;
+  /** The name of the sheet. */
+  title?: string;
+  /** True if the sheet is hidden in the UI, false if it's visible. */
+  hidden?: boolean;
+  /** The type of sheet. Defaults to GRID. This field cannot be changed once set. */
+  sheetType?: SheetPropertiesSheetTypeEnum | (string & {});
+  /** The color of the tab in the UI. If tab_color is also set, this field takes precedence. */
+  tabColorStyle?: ColorStyle;
+  /** The ID of the sheet. Must be non-negative. This field cannot be changed once set. */
+  sheetId?: number;
+  /** Additional properties of the sheet if this sheet is a grid. (If the sheet is an object sheet, containing a chart or image, then this field will be absent.) When writing it is an error to set any grid properties on non-grid sheets. If this sheet is a DATA_SOURCE sheet, this field is output only but contains the properties that reflect how a data source sheet is rendered in the UI, e.g. row_count. */
+  gridProperties?: GridProperties;
+  /** The color of the tab in the UI. Deprecated: Use tab_color_style. */
+  tabColor?: Color;
+  /** Output only. If present, the field contains DATA_SOURCE sheet specific properties. */
+  dataSourceSheetProperties?: DataSourceSheetProperties;
+  /** True if the sheet is an RTL sheet instead of an LTR sheet. */
+  rightToLeft?: boolean;
+}
+/** Adds a new sheet. When a sheet is added at a given index, all subsequent sheets' indexes are incremented. To add an object sheet, use AddChartRequest instead and specify EmbeddedObjectPosition.sheetId or EmbeddedObjectPosition.newSheet. */
+export interface AddSheetRequest {
+  /** The properties the new sheet should have. All properties are optional. The sheetId field is optional; if one is not set, an id will be randomly generated. (It is an error to specify the ID of a sheet that already exists.) */
+  properties?: SheetProperties;
+}
+/** Properties referring a single dimension (either row or column). If both BandedRange.row_properties and BandedRange.column_properties are set, the fill colors are applied to cells according to the following rules: * header_color and footer_color take priority over band colors. * first_band_color takes priority over second_band_color. * row_properties takes priority over column_properties. For example, the first row color takes priority over the first column color, but the first column color takes priority over the second row color. Similarly, the row header takes priority over the column header in the top left cell, but the column header takes priority over the first row color if the row header is not set. */
+export interface BandingProperties {
+  /** The first color that is alternating. (Required) If first_band_color is also set, this field takes precedence. */
+  firstBandColorStyle?: ColorStyle;
+  /** The color of the first row or column. If this field is set, the first row or column is filled with this color and the colors alternate between first_band_color and second_band_color starting from the second row or column. Otherwise, the first row or column is filled with first_band_color and the colors proceed to alternate as they normally would. If header_color is also set, this field takes precedence. */
+  headerColorStyle?: ColorStyle;
+  /** The color of the first row or column. If this field is set, the first row or column is filled with this color and the colors alternate between first_band_color and second_band_color starting from the second row or column. Otherwise, the first row or column is filled with first_band_color and the colors proceed to alternate as they normally would. Deprecated: Use header_color_style. */
+  headerColor?: Color;
+  /** The first color that is alternating. (Required) Deprecated: Use first_band_color_style. */
+  firstBandColor?: Color;
+  /** The color of the last row or column. If this field is not set, the last row or column is filled with either first_band_color or second_band_color, depending on the color of the previous row or column. Deprecated: Use footer_color_style. */
+  footerColor?: Color;
+  /** The color of the last row or column. If this field is not set, the last row or column is filled with either first_band_color or second_band_color, depending on the color of the previous row or column. If footer_color is also set, this field takes precedence. */
+  footerColorStyle?: ColorStyle;
+  /** The second color that is alternating. (Required) Deprecated: Use second_band_color_style. */
+  secondBandColor?: Color;
+  /** The second color that is alternating. (Required) If second_band_color is also set, this field takes precedence. */
+  secondBandColorStyle?: ColorStyle;
+}
+/** A banded (alternating colors) range in a sheet. */
+export interface BandedRange {
+  /** The range over which these properties are applied. */
+  range?: GridRange;
+  /** Properties for column bands. These properties are applied on a column- by-column basis throughout all the columns in the range. At least one of row_properties or column_properties must be specified. */
+  columnProperties?: BandingProperties;
+  /** Output only. The reference of the banded range, used to identify the ID that is not supported by the banded_range_id. */
+  bandedRangeReference?: string;
+  /** The ID of the banded range. If unset, refer to banded_range_reference. */
+  bandedRangeId?: number;
+  /** Properties for row bands. These properties are applied on a row-by-row basis throughout all the rows in the range. At least one of row_properties or column_properties must be specified. */
+  rowProperties?: BandingProperties;
+}
+/** Updates properties of the supplied banded range. */
+export interface UpdateBandingRequest {
+  /** The banded range to update with the new properties. */
+  bandedRange?: BandedRange;
+  /** The fields that should be updated. At least one field must be specified. The root `bandedRange` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
+  fields?: string;
+}
+/** Removes the table with the given ID from the spreadsheet. */
+export interface DeleteTableRequest {
+  /** The ID of the table to delete. */
+  tableId?: string;
+}
+/** Deletes a particular filter view. */
+export interface DeleteFilterViewRequest {
+  /** The ID of the filter to delete. */
+  filterId?: number;
+}
+export type DeveloperMetadataVisibilityEnum =
+  | "DEVELOPER_METADATA_VISIBILITY_UNSPECIFIED"
+  | "DOCUMENT"
+  | "PROJECT";
+/** Developer metadata associated with a location or object in a spreadsheet. For more information, see [Read, write, and search metadata](https://developers.google.com/workspace/sheets/api/guides/metadata). Developer metadata may be used to associate arbitrary data with various parts of a spreadsheet and it will remain associated at those locations as they move around and the spreadsheet is edited. For example, if developer metadata is associated with row 5 and another row is then subsequently inserted above row 5, that original metadata is still associated with the row it was first associated with (what is now row 6). If the associated object is deleted then its metadata is deleted too. */
+export interface DeveloperMetadata {
+  /** Data associated with the metadata's key. */
+  metadataValue?: string;
+  /** The spreadsheet-scoped unique ID that identifies the metadata. IDs may be specified when metadata is created, otherwise one will be randomly generated and assigned. Must be positive. */
+  metadataId?: number;
+  /** The metadata visibility. Developer metadata must always have visibility specified. */
+  visibility?: DeveloperMetadataVisibilityEnum | (string & {});
+  /** The metadata key. There may be multiple metadata in a spreadsheet with the same key. Developer metadata must always have a key specified. */
+  metadataKey?: string;
+  /** The location where the metadata is associated. */
+  location?: DeveloperMetadataLocation;
+}
+/** A request to update properties of developer metadata. Updates the properties of the developer metadata selected by the filters to the values provided in the DeveloperMetadata resource. Callers must specify the properties they wish to update in the fields parameter, as well as specify at least one DataFilter matching the metadata they wish to update. */
+export interface UpdateDeveloperMetadataRequest {
+  /** The fields that should be updated. At least one field must be specified. The root `developerMetadata` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
+  fields?: string;
+  /** The filters matching the developer metadata entries to update. */
+  dataFilters?: DataFilterList;
+  /** The value that all metadata matched by the data filters will be updated to. */
+  developerMetadata?: DeveloperMetadata;
+}
+export type ThemeColorPairColorTypeEnum =
+  | "THEME_COLOR_TYPE_UNSPECIFIED"
+  | "TEXT"
+  | "BACKGROUND"
+  | "ACCENT1"
+  | "ACCENT2"
+  | "ACCENT3"
+  | "ACCENT4"
+  | "ACCENT5"
+  | "ACCENT6"
+  | "LINK";
+/** A pair mapping a spreadsheet theme color type to the concrete color it represents. */
+export interface ThemeColorPair {
+  /** The type of the spreadsheet theme color. */
+  colorType?: ThemeColorPairColorTypeEnum | (string & {});
+  /** The concrete color corresponding to the theme color type. */
+  color?: ColorStyle;
+}
+export type ThemeColorPairList = Array<ThemeColorPair>;
+/** Represents spreadsheet theme */
+export interface SpreadsheetTheme {
+  /** Name of the primary font family. */
+  primaryFontFamily?: string;
+  /** The spreadsheet theme color pairs. To update you must provide all theme color pairs. */
+  themeColors?: ThemeColorPairList;
+}
+/** Settings to control how circular dependencies are resolved with iterative calculation. */
+export interface IterativeCalculationSettings {
+  /** When iterative calculation is enabled, the maximum number of calculation rounds to perform. */
+  maxIterations?: number;
+  /** When iterative calculation is enabled and successive results differ by less than this threshold value, the calculation rounds stop. */
+  convergenceThreshold?: number;
+}
+export type SpreadsheetPropertiesAutoRecalcEnum =
+  | "RECALCULATION_INTERVAL_UNSPECIFIED"
+  | "ON_CHANGE"
+  | "MINUTE"
+  | "HOUR";
+/** Properties of a spreadsheet. */
+export interface SpreadsheetProperties {
+  /** The title of the spreadsheet. */
+  title?: string;
+  /** Whether to allow external URL access for image and import functions. Read only when true. When false, you can set to true. This value will be bypassed and always return true if the admin has enabled the [allowlisting feature](https://support.google.com/a?p=url_allowlist). */
+  importFunctionsExternalUrlAccessAllowed?: boolean;
+  /** The time zone of the spreadsheet, in CLDR format such as `America/New_York`. If the time zone isn't recognized, this may be a custom time zone such as `GMT-07:00`. */
+  timeZone?: string;
+  /** The locale of the spreadsheet in one of the following formats: * an ISO 639-1 language code such as `en` * an ISO 639-2 language code such as `fil`, if no 639-1 code exists * a combination of the ISO language code and country code, such as `en_US` Note: when updating this field, not all locales/languages are supported. */
+  locale?: string;
+  /** Theme applied to the spreadsheet. */
+  spreadsheetTheme?: SpreadsheetTheme;
+  /** Determines whether and how circular references are resolved with iterative calculation. Absence of this field means that circular references result in calculation errors. */
+  iterativeCalculationSettings?: IterativeCalculationSettings;
+  /** The amount of time to wait before volatile functions are recalculated. */
+  autoRecalc?: SpreadsheetPropertiesAutoRecalcEnum | (string & {});
+  /** The default format of all cells in the spreadsheet. CellData.effectiveFormat will not be set if the cell's format is equal to this default format. This field is read-only. */
+  defaultFormat?: CellFormat;
+}
+/** Updates properties of a spreadsheet. */
+export interface UpdateSpreadsheetPropertiesRequest {
+  /** The fields that should be updated. At least one field must be specified. The root 'properties' is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
+  fields?: string;
+  /** The properties to update. */
+  properties?: SpreadsheetProperties;
+}
+/** A group over an interval of rows or columns on a sheet, which can contain or be contained within other groups. A group can be collapsed or expanded as a unit on the sheet. */
+export interface DimensionGroup {
+  /** The depth of the group, representing how many groups have a range that wholly contains the range of this group. */
+  depth?: number;
+  /** This field is true if this group is collapsed. A collapsed group remains collapsed if an overlapping group at a shallower depth is expanded. A true value does not imply that all dimensions within the group are hidden, since a dimension's visibility can change independently from this group property. However, when this property is updated, all dimensions within it are set to hidden if this field is true, or set to visible if this field is false. */
+  collapsed?: boolean;
+  /** The range over which this group exists. */
+  range?: DimensionRange;
+}
+/** Updates the state of the specified group. */
+export interface UpdateDimensionGroupRequest {
+  /** The group whose state should be updated. The range and depth of the group should specify a valid group on the sheet, and all other fields updated. */
+  dimensionGroup?: DimensionGroup;
+  /** The fields that should be updated. At least one field must be specified. The root `dimensionGroup` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
+  fields?: string;
+}
+/** A border along an embedded object. */
+export interface EmbeddedObjectBorder {
+  /** The color of the border. If color is also set, this field takes precedence. */
+  colorStyle?: ColorStyle;
+  /** The color of the border. Deprecated: Use color_style. */
+  color?: Color;
+}
+/** Updates an embedded object's border property. */
+export interface UpdateEmbeddedObjectBorderRequest {
+  /** The border that applies to the embedded object. */
+  border?: EmbeddedObjectBorder;
+  /** The ID of the embedded object to update. */
+  objectId?: number;
+  /** The fields that should be updated. At least one field must be specified. The root `border` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
+  fields?: string;
+}
+/** Deletes the dimensions from the sheet. */
+export interface DeleteDimensionRequest {
+  /** The dimensions to delete from the sheet. */
+  range?: DimensionRange;
+}
+/** Deletes a CommentThread. Returns a 400 bad request error if the requesting user is not the author of the headPost. */
+export interface DeleteCommentRequest {
+  /** The ID of the CommentThread that is being deleted. */
+  commentId?: string;
+}
+/** Updates the borders of a range. If a field is not set in the request, that means the border remains as-is. For example, with two subsequent UpdateBordersRequest: 1. range: A1:A5 `{ top: RED, bottom: WHITE }` 2. range: A1:A5 `{ left: BLUE }` That would result in A1:A5 having a borders of `{ top: RED, bottom: WHITE, left: BLUE }`. If you want to clear a border, explicitly set the style to NONE. */
+export interface UpdateBordersRequest {
+  /** The horizontal border to put within the range. */
+  innerHorizontal?: Border;
+  /** The border to put at the right of the range. */
+  right?: Border;
+  /** The vertical border to put within the range. */
+  innerVertical?: Border;
+  /** The range whose borders should be updated. */
+  range?: GridRange;
+  /** The border to put at the left of the range. */
+  left?: Border;
+  /** The border to put at the top of the range. */
+  top?: Border;
+  /** The border to put at the bottom of the range. */
+  bottom?: Border;
+}
+/** Updates all cells in the range to the values in the given Cell object. Only the fields listed in the fields field are updated; others are unchanged. If writing a cell with a formula, the formula's ranges will automatically increment for each field in the range. For example, if writing a cell with formula `=A1` into range B2:C4, B2 would be `=A1`, B3 would be `=A2`, B4 would be `=A3`, C2 would be `=B1`, C3 would be `=B2`, C4 would be `=B3`. To keep the formula's ranges static, use the `$` indicator. For example, use the formula `=$A$1` to prevent both the row and the column from incrementing. */
+export interface RepeatCellRequest {
+  /** The range to repeat the cell in. */
+  range?: GridRange;
+  /** The data to write. */
+  cell?: CellData;
+  /** The fields that should be updated. At least one field must be specified. The root `cell` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
+  fields?: string;
+}
+/** A request to create developer metadata. */
+export interface CreateDeveloperMetadataRequest {
+  /** The developer metadata to create. */
+  developerMetadata?: DeveloperMetadata;
+}
+/** Adds new cells after the last row with data in a sheet, inserting new rows into the sheet if necessary. */
+export interface AppendCellsRequest {
+  /** The fields of CellData that should be updated. At least one field must be specified. The root is the CellData; 'row.values.' should not be specified. A single `"*"` can be used as short-hand for listing every field. */
+  fields?: string;
+  /** The sheet ID to append the data to. */
+  sheetId?: number;
+  /** The data to append. */
+  rows?: RowDataList;
+  /** The ID of the table to append data to. The data will be only appended to the table body. This field also takes precedence over the `sheet_id` field. */
+  tableId?: string;
+}
+/** Duplicates the contents of a sheet. */
+export interface DuplicateSheetRequest {
+  /** The sheet to duplicate. If the source sheet is of DATA_SOURCE type, its backing DataSource is also duplicated and associated with the new copy of the sheet. No data execution is triggered, the grid data of this sheet is also copied over but only available after the batch request completes. */
+  sourceSheetId?: number;
+  /** If set, the ID of the new sheet. If not set, an ID is chosen. If set, the ID must not conflict with any existing sheet ID. If set, it must be non-negative. */
+  newSheetId?: number;
+  /** The zero-based index where the new sheet should be inserted. The index of all sheets after this are incremented. */
+  insertSheetIndex?: number;
+  /** The name of the new sheet. If empty, a new name is chosen for you. */
+  newSheetName?: string;
+}
+/** Randomizes the order of the rows in a range. */
+export interface RandomizeRangeRequest {
+  /** The range to randomize. */
+  range?: GridRange;
+}
+/** A range along a single dimension on a DATA_SOURCE sheet. */
+export interface DataSourceSheetDimensionRange {
+  /** The columns on the data source sheet. */
+  columnReferences?: DataSourceColumnReferenceList;
+  /** The ID of the data source sheet the range is on. */
+  sheetId?: number;
+}
+/** Automatically resizes one or more dimensions based on the contents of the cells in that dimension. */
+export interface AutoResizeDimensionsRequest {
+  /** The dimensions to automatically resize. */
+  dimensions?: DimensionRange;
+  /** The dimensions on a data source sheet to automatically resize. */
+  dataSourceSheetDimensions?: DataSourceSheetDimensionRange;
+}
+export type TableColumnPropertiesColumnTypeEnum =
+  | "COLUMN_TYPE_UNSPECIFIED"
+  | "DOUBLE"
+  | "CURRENCY"
+  | "PERCENT"
+  | "DATE"
+  | "TIME"
+  | "DATE_TIME"
+  | "TEXT"
+  | "BOOLEAN"
+  | "DROPDOWN"
+  | "FILES_CHIP"
+  | "PEOPLE_CHIP"
+  | "FINANCE_CHIP"
+  | "PLACE_CHIP"
+  | "RATINGS_CHIP";
+/** A data validation rule for a column in a table. */
+export interface TableColumnDataValidationRule {
+  /** The condition that data in the cell must match. Valid only if the [BooleanCondition.type] is ONE_OF_LIST. */
+  condition?: BooleanCondition;
+}
+/** The table column. */
+export interface TableColumnProperties {
+  /** The column type. */
+  columnType?: TableColumnPropertiesColumnTypeEnum | (string & {});
+  /** The column data validation rule. Only set for dropdown column type. */
+  dataValidationRule?: TableColumnDataValidationRule;
+  /** The column name. */
+  columnName?: string;
+  /** The 0-based column index. This index is relative to its position in the table and is not necessarily the same as the column index in the sheet. */
   columnIndex?: number;
 }
-/** The location an object is overlaid on top of a grid. */
-export interface OverlayPosition {
-  /** The horizontal offset, in pixels, that the object is offset from the anchor cell. */
-  offsetXPixels?: number;
-  /** The vertical offset, in pixels, that the object is offset from the anchor cell. */
-  offsetYPixels?: number;
-  /** The cell the object is anchored to. */
-  anchorCell?: GridCoordinate;
-  /** The height of the object, in pixels. Defaults to 371. */
-  heightPixels?: number;
-  /** The width of the object, in pixels. Defaults to 600. */
-  widthPixels?: number;
+export type TableColumnPropertiesList = Array<TableColumnProperties>;
+/** The table row properties. */
+export interface TableRowsProperties {
+  /** The color of the header row. If this field is set, the header row is filled with the specified color. Otherwise, the header row is filled with a default color. */
+  headerColorStyle?: ColorStyle;
+  /** The first color that is alternating. If this field is set, the first banded row is filled with the specified color. Otherwise, the first banded row is filled with a default color. */
+  firstBandColorStyle?: ColorStyle;
+  /** The color of the last row. If this field is not set a footer is not added, the last row is filled with either first_band_color_style or second_band_color_style, depending on the color of the previous row. If updating an existing table without a footer to have a footer, the range will be expanded by 1 row. If updating an existing table with a footer and removing a footer, the range will be shrunk by 1 row. */
+  footerColorStyle?: ColorStyle;
+  /** The second color that is alternating. If this field is set, the second banded row is filled with the specified color. Otherwise, the second banded row is filled with a default color. */
+  secondBandColorStyle?: ColorStyle;
 }
-/** The position of an embedded object such as a chart. */
-export interface EmbeddedObjectPosition {
-  /** The position at which the object is overlaid on top of a grid. */
-  overlayPosition?: OverlayPosition;
-  /** The sheet this is on. Set only if the embedded object is on its own sheet. Must be non-negative. */
+/** A table. */
+export interface Table {
+  /** The table range. */
+  range?: GridRange;
+  /** The table column properties. */
+  columnProperties?: TableColumnPropertiesList;
+  /** The id of the table. */
+  tableId?: string;
+  /** The table name. This is unique to all tables in the same spreadsheet. */
+  name?: string;
+  /** The table rows properties. */
+  rowsProperties?: TableRowsProperties;
+}
+/** Adds a new table to the spreadsheet. */
+export interface AddTableRequest {
+  /** Required. The table to add. */
+  table?: Table;
+}
+/** A request to delete developer metadata. */
+export interface DeleteDeveloperMetadataRequest {
+  /** The data filter describing the criteria used to select which developer metadata entry to delete. */
+  dataFilter?: DataFilter;
+}
+export type DeleteRangeRequestShiftDimensionEnum = "DIMENSION_UNSPECIFIED" | "ROWS" | "COLUMNS";
+/** Deletes a range of cells, shifting other cells into the deleted area. */
+export interface DeleteRangeRequest {
+  /** The range of cells to delete. */
+  range?: GridRange;
+  /** The dimension from which deleted cells will be replaced with. If ROWS, existing cells will be shifted upward to replace the deleted cells. If COLUMNS, existing cells will be shifted left to replace the deleted cells. */
+  shiftDimension?: DeleteRangeRequestShiftDimensionEnum | (string & {});
+}
+/** Updates a data source. After the data source is updated successfully, an execution is triggered to refresh the associated DATA_SOURCE sheet to read data from the updated data source. The request requires an additional `bigquery.readonly` OAuth scope if you are updating a BigQuery data source. */
+export interface UpdateDataSourceRequest {
+  /** The data source to update. */
+  dataSource?: DataSource;
+  /** The fields that should be updated. At least one field must be specified. The root `dataSource` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
+  fields?: string;
+}
+export type AppendDimensionRequestDimensionEnum = "DIMENSION_UNSPECIFIED" | "ROWS" | "COLUMNS";
+/** Appends rows or columns to the end of a sheet. */
+export interface AppendDimensionRequest {
+  /** The number of rows or columns to append. */
+  length?: number;
+  /** The sheet to append rows or columns to. */
   sheetId?: number;
-  /** If true, the embedded object is put on a new sheet whose ID is chosen for you. Used only when writing. */
-  newSheet?: boolean;
+  /** Whether rows or columns should be appended. */
+  dimension?: AppendDimensionRequestDimensionEnum | (string & {});
 }
 /** Update an embedded object's position (such as a moving or resizing a chart or image). */
 export interface UpdateEmbeddedObjectPositionRequest {
-  /** The fields of OverlayPosition that should be updated when setting a new position. Used only if newPosition.overlayPosition is set, in which case at least one field must be specified. The root `newPosition.overlayPosition` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
-  fields?: string;
-  /** The ID of the object to moved. */
-  objectId?: number;
   /** An explicit position to move the embedded object to. If newPosition.sheetId is set, a new sheet with that ID will be created. If newPosition.newSheet is set to true, a new sheet will be created with an ID that will be chosen for you. */
   newPosition?: EmbeddedObjectPosition;
+  /** The ID of the object to moved. */
+  objectId?: number;
+  /** The fields of OverlayPosition that should be updated when setting a new position. Used only if newPosition.overlayPosition is set, in which case at least one field must be specified. The root `newPosition.overlayPosition` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
+  fields?: string;
 }
-/** Source ranges for a chart. */
-export interface ChartSourceRange {
-  /** The ranges of data for a series or domain. Exactly one dimension must have a length of 1, and all sources in the list must have the same dimension with length 1. The domain (if it exists) & all series must have the same number of source ranges. If using more than one source range, then the source range at a given offset must be in order and contiguous across the domain and series. For example, these are valid configurations: domain sources: A1:A5 series1 sources: B1:B5 series2 sources: D6:D10 domain sources: A1:A5, C10:C12 series1 sources: B1:B5, D10:D12 series2 sources: C1:C5, E10:E12 */
-  sources?: GridRangeList;
+/** Deletes the protected range with the given ID. */
+export interface DeleteProtectedRangeRequest {
+  /** The ID of the protected range to delete. */
+  protectedRangeId?: number;
+}
+/** Clears the basic filter, if any exists on the sheet. */
+export interface ClearBasicFilterRequest {
+  /** The sheet ID on which the basic filter should be cleared. */
+  sheetId?: number;
+}
+/** Deletes the embedded object with the given ID. */
+export interface DeleteEmbeddedObjectRequest {
+  /** The ID of the embedded object to delete. */
+  objectId?: number;
+}
+/** Sorts data in rows based on a sort order per column. */
+export interface SortRangeRequest {
+  /** The sort order per column. Later specifications are used when values are equal in the earlier specifications. */
+  sortSpecs?: SortSpecList;
+  /** The range to sort. */
+  range?: GridRange;
+}
+/** Moves one or more rows or columns. */
+export interface MoveDimensionRequest {
+  /** The source dimensions to move. */
+  source?: DimensionRange;
+  /** The zero-based start index of where to move the source data to, based on the coordinates *before* the source data is removed from the grid. Existing data will be shifted down or right (depending on the dimension) to make room for the moved dimensions. The source dimensions are removed from the grid, so the the data may end up in a different index than specified. For example, given `A1..A5` of `0, 1, 2, 3, 4` and wanting to move `"1"` and `"2"` to between `"3"` and `"4"`, the source would be `ROWS [1..3)`,and the destination index would be `"4"` (the zero-based index of row 5). The end result would be `A1..A5` of `0, 3, 1, 2, 4`. */
+  destinationIndex?: number;
+}
+/** The editors of a protected range. */
+export interface Editors {
+  /** The email addresses of groups with edit access to the protected range. */
+  groups?: StringList;
+  /** True if anyone in the document's domain has edit access to the protected range. Domain protection is only supported on documents within a domain. */
+  domainUsersCanEdit?: boolean;
+  /** The email addresses of users with edit access to the protected range. */
+  users?: StringList;
+}
+/** A protected range. */
+export interface ProtectedRange {
+  /** True if the user who requested this protected range can edit the protected area. This field is read-only. */
+  requestingUserCanEdit?: boolean;
+  /** The description of this protected range. */
+  description?: string;
+  /** The named range this protected range is backed by, if any. When writing, only one of range or named_range_id or table_id may be set. */
+  namedRangeId?: string;
+  /** The users and groups with edit access to the protected range. This field is only visible to users with edit access to the protected range and the document. Editors are not supported with warning_only protection. */
+  editors?: Editors;
+  /** True if this protected range will show a warning when editing. Warning-based protection means that every user can edit data in the protected range, except editing will prompt a warning asking the user to confirm the edit. When writing: if this field is true, then editors are ignored. Additionally, if this field is changed from true to false and the `editors` field is not set (nor included in the field mask), then the editors will be set to all the editors in the document. */
+  warningOnly?: boolean;
+  /** The range that is being protected. The range may be fully unbounded, in which case this is considered a protected sheet. When writing, only one of range or named_range_id or table_id may be set. */
+  range?: GridRange;
+  /** The list of unprotected ranges within a protected sheet. Unprotected ranges are only supported on protected sheets. */
+  unprotectedRanges?: GridRangeList;
+  /** The table this protected range is backed by, if any. When writing, only one of range or named_range_id or table_id may be set. */
+  tableId?: string;
+  /** The ID of the protected range. This field is read-only. */
+  protectedRangeId?: number;
+}
+/** Updates an existing protected range with the specified protectedRangeId. */
+export interface UpdateProtectedRangeRequest {
+  /** The protected range to update with the new properties. */
+  protectedRange?: ProtectedRange;
+  /** The fields that should be updated. At least one field must be specified. The root `protectedRange` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
+  fields?: string;
+}
+export type PostCommentActionEnum =
+  | "COMMENT_ACTION_TYPE_UNSPECIFIED"
+  | "NO_COMMENT_ACTION_CHANGE"
+  | "RESOLVE"
+  | "REOPEN";
+/** Represents a user who authored a comment post. */
+export interface PostAuthor {
+  /** The display name of the user. May be absent if the author is anonymous. */
+  displayName?: string;
+  /** Whether the user is anonymous. */
+  anonymous?: boolean;
+  /** The resource name of the post author user, which can also be used to identify the user in the [Google People API](https://developers.google.com/people/api/rest/v1/people). Format: `users/{user}`. Will not be populated if the anonymous field is `true` or if the post is from an imported spreadsheet. */
+  user?: string;
+  /** Whether the user is the authenticated user making the request. */
+  me?: boolean;
+}
+/** Represents a single post in a comment thread. */
+export interface Post {
+  /** Output only. Whether the post is from a copied spreadsheet. This field cannot be set directly by callers. */
+  fromCopiedSpreadsheet?: boolean;
+  /** Output only. The time the post was last updated. */
+  updateTime?: string;
+  /** Output only. The unique ID of the post. */
+  postId?: string;
+  /** Action taken as part of creating the post. */
+  commentAction?: PostCommentActionEnum | (string & {});
+  /** Output only. The content of the post as HTML. */
+  contentHtml?: string;
+  /** Output only. The user who created the post. */
+  author?: PostAuthor;
+  /** Output only. Whether the post is deleted. If `true`, content and author fields will be empty. */
+  deleted?: boolean;
+  /** Output only. Whether the post is from an imported spreadsheet. This field cannot be set directly by callers. */
+  fromImportedSpreadsheet?: boolean;
+  /** The content of the post. Required to be non-empty if comment_action is not `RESOLVE` or `REOPEN`. This text content will be handled similarly to comments created in the Sheets editor. It will have similar behaviors for formatting, notifications, etc. May not exceed 2048 UTF-8 code units. */
+  content?: string;
+  /** Output only. The time the post was created. */
+  createTime?: string;
+  /** Optional. The email of the user who is being newly assigned to the thread as part of this post. Returns a 400 bad request error if: - The parent thread is a CommentThread whose headPost does not have an assignee. - commentAction is specified as `RESOLVE` or `REOPEN`. - `assignee_email` exceeds 2048 UTF-8 code units. */
+  assigneeEmail?: string;
+}
+/** Inserts a reply Post into a CommentThread. */
+export interface AddCommentReplyRequest {
+  /** The Post representing the reply. */
+  post?: Post;
+  /** The ID of the CommentThread to add the reply to. */
+  commentId?: string;
+}
+/** Inserts a CommentThread into the spreadsheet. */
+export interface InsertCommentRequest {
+  /** The GridCoordinate in the sheet that is tied to this comment. */
+  coordinate?: GridCoordinate;
+  /** The text of the comment, as plain text. This text content will be handled similarly to comments created in the Sheets editor. It will have similar behaviors for formatting, notifications, etc. This field cannot be empty, and must not exceed 2048 UTF-8 code units. */
+  content?: string;
+  /** Optional. The email address of the assignee of the comment. Leave empty for a non-assigned comment. May not exceed 2048 UTF-8 code units. */
+  assigneeEmailAddress?: string;
+}
+/** Deletes a reply Post from a CommentThread. Returns a 400 bad request error if: - The requesting user is not the author of the post. - The reply post contains a comment action. - The reply post contains an assignee. */
+export interface DeleteCommentReplyRequest {
+  /** The ID of the CommentThread which the post belongs to. */
+  commentId?: string;
+  /** The ID of the reply Post being deleted. */
+  postId?: string;
+}
+/** Creates a group over the specified range. If the requested range is a superset of the range of an existing group G, then the depth of G is incremented and this new group G' has the depth of that group. For example, a group [C:D, depth 1] + [B:E] results in groups [B:E, depth 1] and [C:D, depth 2]. If the requested range is a subset of the range of an existing group G, then the depth of the new group G' becomes one greater than the depth of G. For example, a group [B:E, depth 1] + [C:D] results in groups [B:E, depth 1] and [C:D, depth 2]. If the requested range starts before and ends within, or starts within and ends after, the range of an existing group G, then the range of the existing group G becomes the union of the ranges, and the new group G' has depth one greater than the depth of G and range as the intersection of the ranges. For example, a group [B:D, depth 1] + [C:E] results in groups [B:E, depth 1] and [C:D, depth 2]. */
+export interface AddDimensionGroupRequest {
+  /** The range over which to create a group. */
+  range?: DimensionRange;
+}
+/** Updates a table in the spreadsheet. */
+export interface UpdateTableRequest {
+  /** Required. The fields that should be updated. At least one field must be specified. The root `table` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
+  fields?: string;
+  /** Required. The table to update. */
+  table?: Table;
+}
+/** Adds a filter view. */
+export interface AddFilterViewRequest {
+  /** The filter to add. The filterViewId field is optional. If one is not set, an ID will be randomly generated. (It is an error to specify the ID of a filter that already exists.) */
+  filter?: FilterView;
+}
+export type DeveloperMetadataList = Array<DeveloperMetadata>;
+/** Properties about a dimension. */
+export interface DimensionProperties {
+  /** True if this dimension is being filtered. This field is read-only. */
+  hiddenByFilter?: boolean;
+  /** The height (if a row) or width (if a column) of the dimension in pixels. */
+  pixelSize?: number;
+  /** Output only. If set, this is a column in a data source sheet. */
+  dataSourceColumnReference?: DataSourceColumnReference;
+  /** True if this dimension is explicitly hidden. */
+  hiddenByUser?: boolean;
+  /** The developer metadata associated with a single row or column. */
+  developerMetadata?: DeveloperMetadataList;
+}
+/** Updates properties of dimensions within the specified range. */
+export interface UpdateDimensionPropertiesRequest {
+  /** Properties to update. */
+  properties?: DimensionProperties;
+  /** The rows or columns to update. */
+  range?: DimensionRange;
+  /** The fields that should be updated. At least one field must be specified. The root `properties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
+  fields?: string;
+  /** The columns on a data source sheet to update. */
+  dataSourceSheetRange?: DataSourceSheetDimensionRange;
+}
+/** Deletes a group over the specified range by decrementing the depth of the dimensions in the range. For example, assume the sheet has a depth-1 group over B:E and a depth-2 group over C:D. Deleting a group over D:E leaves the sheet with a depth-1 group over B:D and a depth-2 group over C:C. */
+export interface DeleteDimensionGroupRequest {
+  /** The range of the group to be deleted. */
+  range?: DimensionRange;
+}
+export type SourceAndDestinationDimensionEnum = "DIMENSION_UNSPECIFIED" | "ROWS" | "COLUMNS";
+/** A combination of a source range and how to extend that source. */
+export interface SourceAndDestination {
+  /** The dimension that data should be filled into. */
+  dimension?: SourceAndDestinationDimensionEnum | (string & {});
+  /** The location of the data to use as the source of the autofill. */
+  source?: GridRange;
+  /** The number of rows or columns that data should be filled into. Positive numbers expand beyond the last row or last column of the source. Negative numbers expand before the first row or first column of the source. */
+  fillLength?: number;
+}
+/** Fills in more data based on existing data. */
+export interface AutoFillRequest {
+  /** The range to autofill. This will examine the range and detect the location that has data and automatically fill that data in to the rest of the range. */
+  range?: GridRange;
+  /** True if we should generate data with the "alternate" series. This differs based on the type and amount of source data. */
+  useAlternateSeries?: boolean;
+  /** The source and destination areas to autofill. This explicitly lists the source of the autofill and where to extend that data. */
+  sourceAndDestination?: SourceAndDestination;
+}
+/** Adds a new banded range to the spreadsheet. */
+export interface AddBandingRequest {
+  /** The banded range to add. The bandedRangeId field is optional; if one is not set, an id will be randomly generated. (It is an error to specify the ID of a range that already exists.) */
+  bandedRange?: BandedRange;
+}
+export type MergeCellsRequestMergeTypeEnum = "MERGE_ALL" | "MERGE_COLUMNS" | "MERGE_ROWS";
+/** Merges all cells in the range. */
+export interface MergeCellsRequest {
+  /** The range of cells to merge. */
+  range?: GridRange;
+  /** How the cells should be merged. */
+  mergeType?: MergeCellsRequestMergeTypeEnum | (string & {});
+}
+export type DimensionRangeList = Array<DimensionRange>;
+/** Removes rows within this range that contain values in the specified columns that are duplicates of values in any previous row. Rows with identical values but different letter cases, formatting, or formulas are considered to be duplicates. This request also removes duplicate rows hidden from view (for example, due to a filter). When removing duplicates, the first instance of each duplicate row scanning from the top downwards is kept in the resulting range. Content outside of the specified range isn't removed, and rows considered duplicates do not have to be adjacent to each other in the range. */
+export interface DeleteDuplicatesRequest {
+  /** The range to remove duplicates rows from. */
+  range?: GridRange;
+  /** The columns in the range to analyze for duplicate values. If no columns are selected then all columns are analyzed for duplicates. */
+  comparisonColumns?: DimensionRangeList;
+}
+/** Updates properties of the named range with the specified namedRangeId. */
+export interface UpdateNamedRangeRequest {
+  /** The named range to update with the new properties. */
+  namedRange?: NamedRange;
+  /** The fields that should be updated. At least one field must be specified. The root `namedRange` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
+  fields?: string;
+}
+/** Removes the named range with the given ID from the spreadsheet. */
+export interface DeleteNamedRangeRequest {
+  /** The ID of the named range to delete. */
+  namedRangeId?: string;
 }
 export type ChartDataAggregateTypeEnum =
   | "CHART_AGGREGATE_TYPE_UNSPECIFIED"
@@ -1023,12 +2130,12 @@ export interface ChartDateTimeRule {
 }
 /** Allows you to organize numeric values in a source data column into buckets of constant size. */
 export interface ChartHistogramRule {
-  /** The minimum value at which items are placed into buckets. Values that are less than the minimum are grouped into a single bucket. If omitted, it is determined by the minimum item value. */
-  minValue?: number;
-  /** The size of the buckets that are created. Must be positive. */
-  intervalSize?: number;
   /** The maximum value at which items are placed into buckets. Values greater than the maximum are grouped into a single bucket. If omitted, it is determined by the maximum item value. */
   maxValue?: number;
+  /** The size of the buckets that are created. Must be positive. */
+  intervalSize?: number;
+  /** The minimum value at which items are placed into buckets. Values that are less than the minimum are grouped into a single bucket. If omitted, it is determined by the minimum item value. */
+  minValue?: number;
 }
 /** An optional setting on the ChartData of the domain of a data source chart that defines buckets for the values in the domain rather than breaking out each individual value. For example, when plotting a data source chart, you can specify a histogram rule on the domain (it should only contain numeric values), grouping its values into buckets. Any values of a chart series that fall into the same bucket are aggregated based on the aggregate_type. */
 export interface ChartGroupRule {
@@ -1037,66 +2144,271 @@ export interface ChartGroupRule {
   /** A ChartHistogramRule */
   histogramRule?: ChartHistogramRule;
 }
+/** Source ranges for a chart. */
+export interface ChartSourceRange {
+  /** The ranges of data for a series or domain. Exactly one dimension must have a length of 1, and all sources in the list must have the same dimension with length 1. The domain (if it exists) & all series must have the same number of source ranges. If using more than one source range, then the source range at a given offset must be in order and contiguous across the domain and series. For example, these are valid configurations: domain sources: A1:A5 series1 sources: B1:B5 series2 sources: D6:D10 domain sources: A1:A5, C10:C12 series1 sources: B1:B5, D10:D12 series2 sources: C1:C5, E10:E12 */
+  sources?: GridRangeList;
+}
 /** The data included in a domain or series. */
 export interface ChartData {
-  /** The source ranges of the data. */
-  sourceRange?: ChartSourceRange;
-  /** The reference to the data source column that the data reads from. */
-  columnReference?: DataSourceColumnReference;
   /** The aggregation type for the series of a data source chart. Only supported for data source charts. */
   aggregateType?: ChartDataAggregateTypeEnum | (string & {});
   /** The rule to group the data by if the ChartData backs the domain of a data source chart. Only supported for data source charts. */
   groupRule?: ChartGroupRule;
+  /** The source ranges of the data. */
+  sourceRange?: ChartSourceRange;
+  /** The reference to the data source column that the data reads from. */
+  columnReference?: DataSourceColumnReference;
 }
-/** A histogram series containing the series color and data. */
-export interface HistogramSeries {
-  /** The color of the column representing this series in each bucket. This field is optional. Deprecated: Use bar_color_style. */
-  barColor?: Color;
-  /** The color of the column representing this series in each bucket. This field is optional. If bar_color is also set, this field takes precedence. */
-  barColorStyle?: ColorStyle;
-  /** The data for this histogram series. */
-  data?: ChartData;
-}
-export type HistogramSeriesList = Array<HistogramSeries>;
-export type HistogramChartSpecLegendPositionEnum =
-  | "HISTOGRAM_CHART_LEGEND_POSITION_UNSPECIFIED"
+export type BubbleChartSpecLegendPositionEnum =
+  | "BUBBLE_CHART_LEGEND_POSITION_UNSPECIFIED"
   | "BOTTOM_LEGEND"
   | "LEFT_LEGEND"
   | "RIGHT_LEGEND"
   | "TOP_LEGEND"
   | "NO_LEGEND"
   | "INSIDE_LEGEND";
-/** A histogram chart. A histogram chart groups data items into bins, displaying each bin as a column of stacked items. Histograms are used to display the distribution of a dataset. Each column of items represents a range into which those items fall. The number of bins can be chosen automatically or specified explicitly. */
-export interface HistogramChartSpec {
-  /** By default the bucket size (the range of values stacked in a single column) is chosen automatically, but it may be overridden here. E.g., A bucket size of 1.5 results in buckets from 0 - 1.5, 1.5 - 3.0, etc. Cannot be negative. This field is optional. */
-  bucketSize?: number;
-  /** Whether horizontal divider lines should be displayed between items in each column. */
-  showItemDividers?: boolean;
-  /** The series for a histogram may be either a single series of values to be bucketed or multiple series, each of the same length, containing the name of the series followed by the values to be bucketed for that series. */
-  series?: HistogramSeriesList;
-  /** The position of the chart legend. */
-  legendPosition?: HistogramChartSpecLegendPositionEnum | (string & {});
-  /** The outlier percentile is used to ensure that outliers do not adversely affect the calculation of bucket sizes. For example, setting an outlier percentile of 0.05 indicates that the top and bottom 5% of values when calculating buckets. The values are still included in the chart, they will be added to the first or last buckets instead of their own buckets. Must be between 0.0 and 0.5. */
-  outlierPercentile?: number;
+/** A bubble chart. */
+export interface BubbleChartSpec {
+  /** The data containing the bubble x-values. These values locate the bubbles in the chart horizontally. */
+  domain?: ChartData;
+  /** The max radius size of the bubbles, in pixels. If specified, the field must be a positive value. */
+  bubbleMaxRadiusSize?: number;
+  /** The bubble border color. If bubble_border_color is also set, this field takes precedence. */
+  bubbleBorderColorStyle?: ColorStyle;
+  /** The format of the text inside the bubbles. Strikethrough, underline, and link are not supported. */
+  bubbleTextStyle?: TextFormat;
+  /** The data containing the bubble y-values. These values locate the bubbles in the chart vertically. */
+  series?: ChartData;
+  /** The data containing the bubble labels. These do not need to be unique. */
+  bubbleLabels?: ChartData;
+  /** The data containing the bubble sizes. Bubble sizes are used to draw the bubbles at different sizes relative to each other. If specified, group_ids must also be specified. This field is optional. */
+  bubbleSizes?: ChartData;
+  /** The minimum radius size of the bubbles, in pixels. If specific, the field must be a positive value. */
+  bubbleMinRadiusSize?: number;
+  /** The data containing the bubble group IDs. All bubbles with the same group ID are drawn in the same color. If bubble_sizes is specified then this field must also be specified but may contain blank values. This field is optional. */
+  groupIds?: ChartData;
+  /** Where the legend of the chart should be drawn. */
+  legendPosition?: BubbleChartSpecLegendPositionEnum | (string & {});
+  /** The bubble border color. Deprecated: Use bubble_border_color_style. */
+  bubbleBorderColor?: Color;
+  /** The opacity of the bubbles between 0 and 1.0. 0 is fully transparent and 1 is fully opaque. */
+  bubbleOpacity?: number;
 }
-/** A custom subtotal column for a waterfall chart series. */
-export interface WaterfallChartCustomSubtotal {
-  /** A label for the subtotal column. */
-  label?: string;
-  /** True if the data point at subtotal_index is the subtotal. If false, the subtotal will be computed and appear after the data point. */
-  dataIsSubtotal?: boolean;
-  /** The zero-based index of a data point within the series. If data_is_subtotal is true, the data point at this index is the subtotal. Otherwise, the subtotal appears after the data point with this index. A series can have multiple subtotals at arbitrary indices, but subtotals do not affect the indices of the data points. For example, if a series has three data points, their indices will always be 0, 1, and 2, regardless of how many subtotals exist on the series or what data points they are associated with. */
-  subtotalIndex?: number;
+export type TextPositionHorizontalAlignmentEnum =
+  | "HORIZONTAL_ALIGN_UNSPECIFIED"
+  | "LEFT"
+  | "CENTER"
+  | "RIGHT";
+/** Position settings for text. */
+export interface TextPosition {
+  /** Horizontal alignment setting for the piece of text. */
+  horizontalAlignment?: TextPositionHorizontalAlignmentEnum | (string & {});
 }
-export type WaterfallChartCustomSubtotalList = Array<WaterfallChartCustomSubtotal>;
-/** Styles for a waterfall chart column. */
-export interface WaterfallChartColumnStyle {
-  /** The color of the column. If color is also set, this field takes precedence. */
-  colorStyle?: ColorStyle;
-  /** The label of the column's legend. */
-  label?: string;
-  /** The color of the column. Deprecated: Use color_style. */
-  color?: Color;
+/** A color scale for a treemap chart. */
+export interface TreemapChartColorScale {
+  /** The background color for cells with a color value less than or equal to minValue. Defaults to #dc3912 if not specified. Deprecated: Use min_value_color_style. */
+  minValueColor?: Color;
+  /** The background color for cells that have no color data associated with them. Defaults to #000000 if not specified. Deprecated: Use no_data_color_style. */
+  noDataColor?: Color;
+  /** The background color for cells with a color value at the midpoint between minValue and maxValue. Defaults to #efe6dc if not specified. If mid_value_color is also set, this field takes precedence. */
+  midValueColorStyle?: ColorStyle;
+  /** The background color for cells that have no color data associated with them. Defaults to #000000 if not specified. If no_data_color is also set, this field takes precedence. */
+  noDataColorStyle?: ColorStyle;
+  /** The background color for cells with a color value less than or equal to minValue. Defaults to #dc3912 if not specified. If min_value_color is also set, this field takes precedence. */
+  minValueColorStyle?: ColorStyle;
+  /** The background color for cells with a color value greater than or equal to maxValue. Defaults to #109618 if not specified. Deprecated: Use max_value_color_style. */
+  maxValueColor?: Color;
+  /** The background color for cells with a color value greater than or equal to maxValue. Defaults to #109618 if not specified. If max_value_color is also set, this field takes precedence. */
+  maxValueColorStyle?: ColorStyle;
+  /** The background color for cells with a color value at the midpoint between minValue and maxValue. Defaults to #efe6dc if not specified. Deprecated: Use mid_value_color_style. */
+  midValueColor?: Color;
+}
+/** A Treemap chart. */
+export interface TreemapChartSpec {
+  /** The number of additional data levels beyond the labeled levels to be shown on the treemap chart. These levels are not interactive and are shown without their labels. Defaults to 0 if not specified. */
+  hintedLevels?: number;
+  /** The data that determines the background color of each treemap data cell. This field is optional. If not specified, size_data is used to determine background colors. If specified, the data is expected to be numeric. color_scale will determine how the values in this data map to data cell background colors. */
+  colorData?: ChartData;
+  /** The background color for header cells. Deprecated: Use header_color_style. */
+  headerColor?: Color;
+  /** The data the contains the treemap cells' parent labels. */
+  parentLabels?: ChartData;
+  /** True to hide tooltips. */
+  hideTooltips?: boolean;
+  /** The data that contains the treemap cell labels. */
+  labels?: ChartData;
+  /** The maximum possible data value. Cells with values greater than this will have the same color as cells with this value. If not specified, defaults to the actual maximum value from color_data, or the maximum value from size_data if color_data is not specified. */
+  maxValue?: number;
+  /** The color scale for data cells in the treemap chart. Data cells are assigned colors based on their color values. These color values come from color_data, or from size_data if color_data is not specified. Cells with color values less than or equal to min_value will have minValueColor as their background color. Cells with color values greater than or equal to max_value will have maxValueColor as their background color. Cells with color values between min_value and max_value will have background colors on a gradient between minValueColor and maxValueColor, the midpoint of the gradient being midValueColor. Cells with missing or non-numeric color values will have noDataColor as their background color. */
+  colorScale?: TreemapChartColorScale;
+  /** The background color for header cells. If header_color is also set, this field takes precedence. */
+  headerColorStyle?: ColorStyle;
+  /** The number of data levels to show on the treemap chart. These levels are interactive and are shown with their labels. Defaults to 2 if not specified. */
+  levels?: number;
+  /** The minimum possible data value. Cells with values less than this will have the same color as cells with this value. If not specified, defaults to the actual minimum value from color_data, or the minimum value from size_data if color_data is not specified. */
+  minValue?: number;
+  /** The data that determines the size of each treemap data cell. This data is expected to be numeric. The cells corresponding to non-numeric or missing data will not be rendered. If color_data is not specified, this data is used to determine data cell background colors as well. */
+  sizeData?: ChartData;
+  /** The text format for all labels on the chart. The link field is not supported. */
+  textFormat?: TextFormat;
+}
+export type ChartSpecHiddenDimensionStrategyEnum =
+  | "CHART_HIDDEN_DIMENSION_STRATEGY_UNSPECIFIED"
+  | "SKIP_HIDDEN_ROWS_AND_COLUMNS"
+  | "SKIP_HIDDEN_ROWS"
+  | "SKIP_HIDDEN_COLUMNS"
+  | "SHOW_ALL";
+export type ScorecardChartSpecNumberFormatSourceEnum =
+  | "CHART_NUMBER_FORMAT_SOURCE_UNDEFINED"
+  | "FROM_DATA"
+  | "CUSTOM";
+export type ScorecardChartSpecAggregateTypeEnum =
+  | "CHART_AGGREGATE_TYPE_UNSPECIFIED"
+  | "AVERAGE"
+  | "COUNT"
+  | "MAX"
+  | "MEDIAN"
+  | "MIN"
+  | "SUM";
+export type BaselineValueFormatComparisonTypeEnum =
+  | "COMPARISON_TYPE_UNDEFINED"
+  | "ABSOLUTE_DIFFERENCE"
+  | "PERCENTAGE_DIFFERENCE";
+/** Formatting options for baseline value. */
+export interface BaselineValueFormat {
+  /** Specifies the horizontal text positioning of baseline value. This field is optional. If not specified, default positioning is used. */
+  position?: TextPosition;
+  /** Color to be used, in case baseline value represents a negative change for key value. This field is optional. If negative_color is also set, this field takes precedence. */
+  negativeColorStyle?: ColorStyle;
+  /** Color to be used, in case baseline value represents a positive change for key value. This field is optional. If positive_color is also set, this field takes precedence. */
+  positiveColorStyle?: ColorStyle;
+  /** The comparison type of key value with baseline value. */
+  comparisonType?: BaselineValueFormatComparisonTypeEnum | (string & {});
+  /** Description which is appended after the baseline value. This field is optional. */
+  description?: string;
+  /** Text formatting options for baseline value. The link field is not supported. */
+  textFormat?: TextFormat;
+  /** Color to be used, in case baseline value represents a positive change for key value. This field is optional. Deprecated: Use positive_color_style. */
+  positiveColor?: Color;
+  /** Color to be used, in case baseline value represents a negative change for key value. This field is optional. Deprecated: Use negative_color_style. */
+  negativeColor?: Color;
+}
+/** Custom number formatting options for chart attributes. */
+export interface ChartCustomNumberFormatOptions {
+  /** Custom prefix to be prepended to the chart attribute. This field is optional. */
+  prefix?: string;
+  /** Custom suffix to be appended to the chart attribute. This field is optional. */
+  suffix?: string;
+}
+/** Formatting options for key value. */
+export interface KeyValueFormat {
+  /** Specifies the horizontal text positioning of key value. This field is optional. If not specified, default positioning is used. */
+  position?: TextPosition;
+  /** Text formatting options for key value. The link field is not supported. */
+  textFormat?: TextFormat;
+}
+/** A scorecard chart. Scorecard charts are used to highlight key performance indicators, known as KPIs, on the spreadsheet. A scorecard chart can represent things like total sales, average cost, or a top selling item. You can specify a single data value, or aggregate over a range of data. Percentage or absolute difference from a baseline value can be highlighted, like changes over time. */
+export interface ScorecardChartSpec {
+  /** The number format source used in the scorecard chart. This field is optional. */
+  numberFormatSource?: ScorecardChartSpecNumberFormatSourceEnum | (string & {});
+  /** The aggregation type for key and baseline chart data in scorecard chart. This field is not supported for data source charts. Use the ChartData.aggregateType field of the key_value_data or baseline_value_data instead for data source charts. This field is optional. */
+  aggregateType?: ScorecardChartSpecAggregateTypeEnum | (string & {});
+  /** Formatting options for baseline value. This field is needed only if baseline_value_data is specified. */
+  baselineValueFormat?: BaselineValueFormat;
+  /** Value to scale scorecard key and baseline value. For example, a factor of 10 can be used to divide all values in the chart by 10. This field is optional. */
+  scaleFactor?: number;
+  /** Custom formatting options for numeric key/baseline values in scorecard chart. This field is used only when number_format_source is set to CUSTOM. This field is optional. */
+  customFormatOptions?: ChartCustomNumberFormatOptions;
+  /** Formatting options for key value. */
+  keyValueFormat?: KeyValueFormat;
+  /** The data for scorecard baseline value. This field is optional. */
+  baselineValueData?: ChartData;
+  /** The data for scorecard key value. */
+  keyValueData?: ChartData;
+}
+/** Properties of a data source chart. */
+export interface DataSourceChartProperties {
+  /** Output only. The data execution status. */
+  dataExecutionStatus?: DataExecutionStatus;
+  /** ID of the data source that the chart is associated with. */
+  dataSourceId?: string;
+}
+/** The domain of a CandlestickChart. */
+export interface CandlestickDomain {
+  /** The data of the CandlestickDomain. */
+  data?: ChartData;
+  /** True to reverse the order of the domain values (horizontal axis). */
+  reversed?: boolean;
+}
+/** The series of a CandlestickData. */
+export interface CandlestickSeries {
+  /** The data of the CandlestickSeries. */
+  data?: ChartData;
+}
+/** The Candlestick chart data, each containing the low, open, close, and high values for a series. */
+export interface CandlestickData {
+  /** The range data (vertical axis) for the high/maximum value for each candle. This is the top of the candle's center line. */
+  highSeries?: CandlestickSeries;
+  /** The range data (vertical axis) for the close/final value for each candle. This is the top of the candle body. If greater than the open value the candle will be filled. Otherwise the candle will be hollow. */
+  closeSeries?: CandlestickSeries;
+  /** The range data (vertical axis) for the open/initial value for each candle. This is the bottom of the candle body. If less than the close value the candle will be filled. Otherwise the candle will be hollow. */
+  openSeries?: CandlestickSeries;
+  /** The range data (vertical axis) for the low/minimum value for each candle. This is the bottom of the candle's center line. */
+  lowSeries?: CandlestickSeries;
+}
+export type CandlestickDataList = Array<CandlestickData>;
+/** A candlestick chart. */
+export interface CandlestickChartSpec {
+  /** The domain data (horizontal axis) for the candlestick chart. String data will be treated as discrete labels, other data will be treated as continuous values. */
+  domain?: CandlestickDomain;
+  /** The Candlestick chart data. Only one CandlestickData is supported. */
+  data?: CandlestickDataList;
+}
+export type OrgChartSpecNodeSizeEnum =
+  | "ORG_CHART_LABEL_SIZE_UNSPECIFIED"
+  | "SMALL"
+  | "MEDIUM"
+  | "LARGE";
+/** An org chart. Org charts require a unique set of labels in labels and may optionally include parent_labels and tooltips. parent_labels contain, for each node, the label identifying the parent node. tooltips contain, for each node, an optional tooltip. For example, to describe an OrgChart with Alice as the CEO, Bob as the President (reporting to Alice) and Cathy as VP of Sales (also reporting to Alice), have labels contain "Alice", "Bob", "Cathy", parent_labels contain "", "Alice", "Alice" and tooltips contain "CEO", "President", "VP Sales". */
+export interface OrgChartSpec {
+  /** The data containing the label of the parent for the corresponding node. A blank value indicates that the node has no parent and is a top-level node. This field is optional. */
+  parentLabels?: ChartData;
+  /** The color of the selected org chart nodes. If selected_node_color is also set, this field takes precedence. */
+  selectedNodeColorStyle?: ColorStyle;
+  /** The data containing the labels for all the nodes in the chart. Labels must be unique. */
+  labels?: ChartData;
+  /** The color of the selected org chart nodes. Deprecated: Use selected_node_color_style. */
+  selectedNodeColor?: Color;
+  /** The data containing the tooltip for the corresponding node. A blank value results in no tooltip being displayed for the node. This field is optional. */
+  tooltips?: ChartData;
+  /** The color of the org chart nodes. Deprecated: Use node_color_style. */
+  nodeColor?: Color;
+  /** The color of the org chart nodes. If node_color is also set, this field takes precedence. */
+  nodeColorStyle?: ColorStyle;
+  /** The size of the org chart nodes. */
+  nodeSize?: OrgChartSpecNodeSizeEnum | (string & {});
+}
+export type PieChartSpecLegendPositionEnum =
+  | "PIE_CHART_LEGEND_POSITION_UNSPECIFIED"
+  | "BOTTOM_LEGEND"
+  | "LEFT_LEGEND"
+  | "RIGHT_LEGEND"
+  | "TOP_LEGEND"
+  | "NO_LEGEND"
+  | "LABELED_LEGEND";
+/** A pie chart. */
+export interface PieChartSpec {
+  /** True if the pie is three dimensional. */
+  threeDimensional?: boolean;
+  /** Where the legend of the pie chart should be drawn. */
+  legendPosition?: PieChartSpecLegendPositionEnum | (string & {});
+  /** The data that covers the domain of the pie chart. */
+  domain?: ChartData;
+  /** The data that covers the one and only series of the pie chart. */
+  series?: ChartData;
+  /** The size of the hole in the pie chart. */
+  pieHole?: number;
 }
 export type DataLabelTypeEnum = "DATA_LABEL_TYPE_UNSPECIFIED" | "NONE" | "DATA" | "CUSTOM";
 export type DataLabelPlacementEnum =
@@ -1109,57 +2421,50 @@ export type DataLabelPlacementEnum =
   | "INSIDE_END"
   | "INSIDE_BASE"
   | "OUTSIDE_END";
-/** An external or local reference. */
-export interface Link {
-  /** The link identifier. */
-  uri?: string;
-}
-/** The format of a run of text in a cell. Absent values indicate that the field isn't specified. */
-export interface TextFormat {
-  /** True if the text is italicized. */
-  italic?: boolean;
-  /** The link destination of the text, if any. Setting the link field in a TextFormatRun will clear the cell's existing links or a cell-level link set in the same request. When a link is set, the text foreground color will be set to the default link color and the text will be underlined. If these fields are modified in the same request, those values will be used instead of the link defaults. */
-  link?: Link;
-  /** The foreground color of the text. Deprecated: Use foreground_color_style. */
-  foregroundColor?: Color;
-  /** True if the text has a strikethrough. */
-  strikethrough?: boolean;
-  /** The foreground color of the text. If foreground_color is also set, this field takes precedence. */
-  foregroundColorStyle?: ColorStyle;
-  /** The size of the font. */
-  fontSize?: number;
-  /** True if the text is bold. */
-  bold?: boolean;
-  /** True if the text is underlined. */
-  underline?: boolean;
-  /** The font family. */
-  fontFamily?: string;
-}
 /** Settings for one set of data labels. Data labels are annotations that appear next to a set of data, such as the points on a line chart, and provide additional information about what the data represents, such as a text representation of the value behind that point on the graph. */
 export interface DataLabel {
   /** The type of the data label. */
   type?: DataLabelTypeEnum | (string & {});
-  /** The placement of the data label relative to the labeled data. */
-  placement?: DataLabelPlacementEnum | (string & {});
   /** The text format used for the data label. The link field is not supported. */
   textFormat?: TextFormat;
   /** Data to use for custom labels. Only used if type is set to CUSTOM. This data must be the same length as the series or other element this data label is applied to. In addition, if the series is split into multiple source ranges, this source data must come from the next column in the source data. For example, if the series is B2:B4,E6:E8 then this data must come from C2:C4,F6:F8. */
   customLabelData?: ChartData;
+  /** The placement of the data label relative to the labeled data. */
+  placement?: DataLabelPlacementEnum | (string & {});
 }
+/** Styles for a waterfall chart column. */
+export interface WaterfallChartColumnStyle {
+  /** The color of the column. If color is also set, this field takes precedence. */
+  colorStyle?: ColorStyle;
+  /** The label of the column's legend. */
+  label?: string;
+  /** The color of the column. Deprecated: Use color_style. */
+  color?: Color;
+}
+/** A custom subtotal column for a waterfall chart series. */
+export interface WaterfallChartCustomSubtotal {
+  /** A label for the subtotal column. */
+  label?: string;
+  /** The zero-based index of a data point within the series. If data_is_subtotal is true, the data point at this index is the subtotal. Otherwise, the subtotal appears after the data point with this index. A series can have multiple subtotals at arbitrary indices, but subtotals do not affect the indices of the data points. For example, if a series has three data points, their indices will always be 0, 1, and 2, regardless of how many subtotals exist on the series or what data points they are associated with. */
+  subtotalIndex?: number;
+  /** True if the data point at subtotal_index is the subtotal. If false, the subtotal will be computed and appear after the data point. */
+  dataIsSubtotal?: boolean;
+}
+export type WaterfallChartCustomSubtotalList = Array<WaterfallChartCustomSubtotal>;
 /** A single series of data for a waterfall chart. */
 export interface WaterfallChartSeries {
-  /** Custom subtotal columns appearing in this series. The order in which subtotals are defined is not significant. Only one subtotal may be defined for each data point. */
-  customSubtotals?: WaterfallChartCustomSubtotalList;
-  /** Styles for all columns in this series with negative values. */
-  negativeColumnsStyle?: WaterfallChartColumnStyle;
-  /** Styles for all subtotal columns in this series. */
-  subtotalColumnsStyle?: WaterfallChartColumnStyle;
-  /** Styles for all columns in this series with positive values. */
-  positiveColumnsStyle?: WaterfallChartColumnStyle;
   /** Information about the data labels for this series. */
   dataLabel?: DataLabel;
+  /** Styles for all columns in this series with negative values. */
+  negativeColumnsStyle?: WaterfallChartColumnStyle;
+  /** Custom subtotal columns appearing in this series. The order in which subtotals are defined is not significant. Only one subtotal may be defined for each data point. */
+  customSubtotals?: WaterfallChartCustomSubtotalList;
+  /** Styles for all subtotal columns in this series. */
+  subtotalColumnsStyle?: WaterfallChartColumnStyle;
   /** The data being visualized in this series. */
   data?: ChartData;
+  /** Styles for all columns in this series with positive values. */
+  positiveColumnsStyle?: WaterfallChartColumnStyle;
   /** True to hide the subtotal column from the end of the series. By default, a subtotal column will appear at the end of each series. Setting this field to true will hide that subtotal column for this series. */
   hideTrailingSubtotal?: boolean;
 }
@@ -1196,10 +2501,10 @@ export interface LineStyle {
 export interface WaterfallChartSpec {
   /** True to interpret the first value as a total. */
   firstValueIsTotal?: boolean;
-  /** The data this waterfall chart is visualizing. */
-  series?: WaterfallChartSeriesList;
   /** True to hide connector lines between columns. */
   hideConnectorLines?: boolean;
+  /** The data this waterfall chart is visualizing. */
+  series?: WaterfallChartSeriesList;
   /** The stacked type. */
   stackedType?: WaterfallChartSpecStackedTypeEnum | (string & {});
   /** The domain data (horizontal axis) for the waterfall chart. */
@@ -1209,218 +2514,76 @@ export interface WaterfallChartSpec {
   /** The line style for the connector lines. */
   connectorLineStyle?: LineStyle;
 }
-export type ChartSpecHiddenDimensionStrategyEnum =
-  | "CHART_HIDDEN_DIMENSION_STRATEGY_UNSPECIFIED"
-  | "SKIP_HIDDEN_ROWS_AND_COLUMNS"
-  | "SKIP_HIDDEN_ROWS"
-  | "SKIP_HIDDEN_COLUMNS"
-  | "SHOW_ALL";
-export type ScorecardChartSpecNumberFormatSourceEnum =
-  | "CHART_NUMBER_FORMAT_SOURCE_UNDEFINED"
-  | "FROM_DATA"
-  | "CUSTOM";
-export type ScorecardChartSpecAggregateTypeEnum =
-  | "CHART_AGGREGATE_TYPE_UNSPECIFIED"
-  | "AVERAGE"
-  | "COUNT"
-  | "MAX"
-  | "MEDIAN"
-  | "MIN"
-  | "SUM";
-export type TextPositionHorizontalAlignmentEnum =
-  | "HORIZONTAL_ALIGN_UNSPECIFIED"
-  | "LEFT"
-  | "CENTER"
-  | "RIGHT";
-/** Position settings for text. */
-export interface TextPosition {
-  /** Horizontal alignment setting for the piece of text. */
-  horizontalAlignment?: TextPositionHorizontalAlignmentEnum | (string & {});
+export type BasicChartSpecStackedTypeEnum =
+  | "BASIC_CHART_STACKED_TYPE_UNSPECIFIED"
+  | "NOT_STACKED"
+  | "STACKED"
+  | "PERCENT_STACKED";
+export type BasicChartSeriesTargetAxisEnum =
+  | "BASIC_CHART_AXIS_POSITION_UNSPECIFIED"
+  | "BOTTOM_AXIS"
+  | "LEFT_AXIS"
+  | "RIGHT_AXIS";
+export type PointStyleShapeEnum =
+  | "POINT_SHAPE_UNSPECIFIED"
+  | "CIRCLE"
+  | "DIAMOND"
+  | "HEXAGON"
+  | "PENTAGON"
+  | "SQUARE"
+  | "STAR"
+  | "TRIANGLE"
+  | "X_MARK";
+/** The style of a point on the chart. */
+export interface PointStyle {
+  /** The point size. If empty, a default size is used. */
+  size?: number;
+  /** The point shape. If empty or unspecified, a default shape is used. */
+  shape?: PointStyleShapeEnum | (string & {});
 }
-/** Formatting options for key value. */
-export interface KeyValueFormat {
-  /** Specifies the horizontal text positioning of key value. This field is optional. If not specified, default positioning is used. */
-  position?: TextPosition;
-  /** Text formatting options for key value. The link field is not supported. */
-  textFormat?: TextFormat;
+/** Style override settings for a single series data point. */
+export interface BasicSeriesDataPointStyleOverride {
+  /** Color of the series data point. If empty, the series default is used. Deprecated: Use color_style. */
+  color?: Color;
+  /** Color of the series data point. If empty, the series default is used. If color is also set, this field takes precedence. */
+  colorStyle?: ColorStyle;
+  /** The zero-based index of the series data point. */
+  index?: number;
+  /** Point style of the series data point. Valid only if the chartType is AREA, LINE, or SCATTER. COMBO charts are also supported if the series chart type is AREA, LINE, or SCATTER. If empty, the series default is used. */
+  pointStyle?: PointStyle;
 }
-/** Custom number formatting options for chart attributes. */
-export interface ChartCustomNumberFormatOptions {
-  /** Custom prefix to be prepended to the chart attribute. This field is optional. */
-  prefix?: string;
-  /** Custom suffix to be appended to the chart attribute. This field is optional. */
-  suffix?: string;
-}
-export type BaselineValueFormatComparisonTypeEnum =
-  | "COMPARISON_TYPE_UNDEFINED"
-  | "ABSOLUTE_DIFFERENCE"
-  | "PERCENTAGE_DIFFERENCE";
-/** Formatting options for baseline value. */
-export interface BaselineValueFormat {
-  /** Specifies the horizontal text positioning of baseline value. This field is optional. If not specified, default positioning is used. */
-  position?: TextPosition;
-  /** Color to be used, in case baseline value represents a positive change for key value. This field is optional. Deprecated: Use positive_color_style. */
-  positiveColor?: Color;
-  /** Text formatting options for baseline value. The link field is not supported. */
-  textFormat?: TextFormat;
-  /** Color to be used, in case baseline value represents a negative change for key value. This field is optional. Deprecated: Use negative_color_style. */
-  negativeColor?: Color;
-  /** Color to be used, in case baseline value represents a positive change for key value. This field is optional. If positive_color is also set, this field takes precedence. */
-  positiveColorStyle?: ColorStyle;
-  /** Color to be used, in case baseline value represents a negative change for key value. This field is optional. If negative_color is also set, this field takes precedence. */
-  negativeColorStyle?: ColorStyle;
-  /** The comparison type of key value with baseline value. */
-  comparisonType?: BaselineValueFormatComparisonTypeEnum | (string & {});
-  /** Description which is appended after the baseline value. This field is optional. */
-  description?: string;
-}
-/** A scorecard chart. Scorecard charts are used to highlight key performance indicators, known as KPIs, on the spreadsheet. A scorecard chart can represent things like total sales, average cost, or a top selling item. You can specify a single data value, or aggregate over a range of data. Percentage or absolute difference from a baseline value can be highlighted, like changes over time. */
-export interface ScorecardChartSpec {
-  /** The number format source used in the scorecard chart. This field is optional. */
-  numberFormatSource?: ScorecardChartSpecNumberFormatSourceEnum | (string & {});
-  /** The aggregation type for key and baseline chart data in scorecard chart. This field is not supported for data source charts. Use the ChartData.aggregateType field of the key_value_data or baseline_value_data instead for data source charts. This field is optional. */
-  aggregateType?: ScorecardChartSpecAggregateTypeEnum | (string & {});
-  /** Formatting options for key value. */
-  keyValueFormat?: KeyValueFormat;
-  /** Custom formatting options for numeric key/baseline values in scorecard chart. This field is used only when number_format_source is set to CUSTOM. This field is optional. */
-  customFormatOptions?: ChartCustomNumberFormatOptions;
-  /** The data for scorecard key value. */
-  keyValueData?: ChartData;
-  /** The data for scorecard baseline value. This field is optional. */
-  baselineValueData?: ChartData;
-  /** Formatting options for baseline value. This field is needed only if baseline_value_data is specified. */
-  baselineValueFormat?: BaselineValueFormat;
-  /** Value to scale scorecard key and baseline value. For example, a factor of 10 can be used to divide all values in the chart by 10. This field is optional. */
-  scaleFactor?: number;
-}
-export type BubbleChartSpecLegendPositionEnum =
-  | "BUBBLE_CHART_LEGEND_POSITION_UNSPECIFIED"
-  | "BOTTOM_LEGEND"
-  | "LEFT_LEGEND"
-  | "RIGHT_LEGEND"
-  | "TOP_LEGEND"
-  | "NO_LEGEND"
-  | "INSIDE_LEGEND";
-/** A bubble chart. */
-export interface BubbleChartSpec {
-  /** The data containing the bubble x-values. These values locate the bubbles in the chart horizontally. */
-  domain?: ChartData;
-  /** Where the legend of the chart should be drawn. */
-  legendPosition?: BubbleChartSpecLegendPositionEnum | (string & {});
-  /** The opacity of the bubbles between 0 and 1.0. 0 is fully transparent and 1 is fully opaque. */
-  bubbleOpacity?: number;
-  /** The minimum radius size of the bubbles, in pixels. If specific, the field must be a positive value. */
-  bubbleMinRadiusSize?: number;
-  /** The data containing the bubble y-values. These values locate the bubbles in the chart vertically. */
+export type BasicSeriesDataPointStyleOverrideList = Array<BasicSeriesDataPointStyleOverride>;
+export type BasicChartSeriesTypeEnum =
+  | "BASIC_CHART_TYPE_UNSPECIFIED"
+  | "BAR"
+  | "LINE"
+  | "AREA"
+  | "COLUMN"
+  | "SCATTER"
+  | "COMBO"
+  | "STEPPED_AREA";
+/** A single series of data in a chart. For example, if charting stock prices over time, multiple series may exist, one for the "Open Price", "High Price", "Low Price" and "Close Price". */
+export interface BasicChartSeries {
+  /** The minor axis that will specify the range of values for this series. For example, if charting stocks over time, the "Volume" series may want to be pinned to the right with the prices pinned to the left, because the scale of trading volume is different than the scale of prices. It is an error to specify an axis that isn't a valid minor axis for the chart's type. */
+  targetAxis?: BasicChartSeriesTargetAxisEnum | (string & {});
+  /** The line style of this series. Valid only if the chartType is AREA, LINE, or SCATTER. COMBO charts are also supported if the series chart type is AREA or LINE. */
+  lineStyle?: LineStyle;
+  /** The data being visualized in this chart series. */
   series?: ChartData;
-  /** The bubble border color. Deprecated: Use bubble_border_color_style. */
-  bubbleBorderColor?: Color;
-  /** The data containing the bubble labels. These do not need to be unique. */
-  bubbleLabels?: ChartData;
-  /** The data containing the bubble group IDs. All bubbles with the same group ID are drawn in the same color. If bubble_sizes is specified then this field must also be specified but may contain blank values. This field is optional. */
-  groupIds?: ChartData;
-  /** The bubble border color. If bubble_border_color is also set, this field takes precedence. */
-  bubbleBorderColorStyle?: ColorStyle;
-  /** The max radius size of the bubbles, in pixels. If specified, the field must be a positive value. */
-  bubbleMaxRadiusSize?: number;
-  /** The format of the text inside the bubbles. Strikethrough, underline, and link are not supported. */
-  bubbleTextStyle?: TextFormat;
-  /** The data containing the bubble sizes. Bubble sizes are used to draw the bubbles at different sizes relative to each other. If specified, group_ids must also be specified. This field is optional. */
-  bubbleSizes?: ChartData;
+  /** Style override settings for series data points. */
+  styleOverrides?: BasicSeriesDataPointStyleOverrideList;
+  /** The style for points associated with this series. Valid only if the chartType is AREA, LINE, or SCATTER. COMBO charts are also supported if the series chart type is AREA, LINE, or SCATTER. If empty, a default point style is used. */
+  pointStyle?: PointStyle;
+  /** The color for elements (such as bars, lines, and points) associated with this series. If empty, a default color is used. If color is also set, this field takes precedence. */
+  colorStyle?: ColorStyle;
+  /** The type of this series. Valid only if the chartType is COMBO. Different types will change the way the series is visualized. Only LINE, AREA, and COLUMN are supported. */
+  type?: BasicChartSeriesTypeEnum | (string & {});
+  /** The color for elements (such as bars, lines, and points) associated with this series. If empty, a default color is used. Deprecated: Use color_style. */
+  color?: Color;
+  /** Information about the data labels for this series. */
+  dataLabel?: DataLabel;
 }
-/** A color scale for a treemap chart. */
-export interface TreemapChartColorScale {
-  /** The background color for cells with a color value at the midpoint between minValue and maxValue. Defaults to #efe6dc if not specified. If mid_value_color is also set, this field takes precedence. */
-  midValueColorStyle?: ColorStyle;
-  /** The background color for cells with a color value less than or equal to minValue. Defaults to #dc3912 if not specified. Deprecated: Use min_value_color_style. */
-  minValueColor?: Color;
-  /** The background color for cells with a color value less than or equal to minValue. Defaults to #dc3912 if not specified. If min_value_color is also set, this field takes precedence. */
-  minValueColorStyle?: ColorStyle;
-  /** The background color for cells with a color value greater than or equal to maxValue. Defaults to #109618 if not specified. If max_value_color is also set, this field takes precedence. */
-  maxValueColorStyle?: ColorStyle;
-  /** The background color for cells with a color value at the midpoint between minValue and maxValue. Defaults to #efe6dc if not specified. Deprecated: Use mid_value_color_style. */
-  midValueColor?: Color;
-  /** The background color for cells that have no color data associated with them. Defaults to #000000 if not specified. Deprecated: Use no_data_color_style. */
-  noDataColor?: Color;
-  /** The background color for cells that have no color data associated with them. Defaults to #000000 if not specified. If no_data_color is also set, this field takes precedence. */
-  noDataColorStyle?: ColorStyle;
-  /** The background color for cells with a color value greater than or equal to maxValue. Defaults to #109618 if not specified. Deprecated: Use max_value_color_style. */
-  maxValueColor?: Color;
-}
-/** A Treemap chart. */
-export interface TreemapChartSpec {
-  /** The number of data levels to show on the treemap chart. These levels are interactive and are shown with their labels. Defaults to 2 if not specified. */
-  levels?: number;
-  /** The data that determines the size of each treemap data cell. This data is expected to be numeric. The cells corresponding to non-numeric or missing data will not be rendered. If color_data is not specified, this data is used to determine data cell background colors as well. */
-  sizeData?: ChartData;
-  /** The minimum possible data value. Cells with values less than this will have the same color as cells with this value. If not specified, defaults to the actual minimum value from color_data, or the minimum value from size_data if color_data is not specified. */
-  minValue?: number;
-  /** The data that determines the background color of each treemap data cell. This field is optional. If not specified, size_data is used to determine background colors. If specified, the data is expected to be numeric. color_scale will determine how the values in this data map to data cell background colors. */
-  colorData?: ChartData;
-  /** The number of additional data levels beyond the labeled levels to be shown on the treemap chart. These levels are not interactive and are shown without their labels. Defaults to 0 if not specified. */
-  hintedLevels?: number;
-  /** The maximum possible data value. Cells with values greater than this will have the same color as cells with this value. If not specified, defaults to the actual maximum value from color_data, or the maximum value from size_data if color_data is not specified. */
-  maxValue?: number;
-  /** The text format for all labels on the chart. The link field is not supported. */
-  textFormat?: TextFormat;
-  /** The background color for header cells. Deprecated: Use header_color_style. */
-  headerColor?: Color;
-  /** The color scale for data cells in the treemap chart. Data cells are assigned colors based on their color values. These color values come from color_data, or from size_data if color_data is not specified. Cells with color values less than or equal to min_value will have minValueColor as their background color. Cells with color values greater than or equal to max_value will have maxValueColor as their background color. Cells with color values between min_value and max_value will have background colors on a gradient between minValueColor and maxValueColor, the midpoint of the gradient being midValueColor. Cells with missing or non-numeric color values will have noDataColor as their background color. */
-  colorScale?: TreemapChartColorScale;
-  /** The data that contains the treemap cell labels. */
-  labels?: ChartData;
-  /** The background color for header cells. If header_color is also set, this field takes precedence. */
-  headerColorStyle?: ColorStyle;
-  /** The data the contains the treemap cells' parent labels. */
-  parentLabels?: ChartData;
-  /** True to hide tooltips. */
-  hideTooltips?: boolean;
-}
-export type PieChartSpecLegendPositionEnum =
-  | "PIE_CHART_LEGEND_POSITION_UNSPECIFIED"
-  | "BOTTOM_LEGEND"
-  | "LEFT_LEGEND"
-  | "RIGHT_LEGEND"
-  | "TOP_LEGEND"
-  | "NO_LEGEND"
-  | "LABELED_LEGEND";
-/** A pie chart. */
-export interface PieChartSpec {
-  /** True if the pie is three dimensional. */
-  threeDimensional?: boolean;
-  /** The data that covers the one and only series of the pie chart. */
-  series?: ChartData;
-  /** Where the legend of the pie chart should be drawn. */
-  legendPosition?: PieChartSpecLegendPositionEnum | (string & {});
-  /** The size of the hole in the pie chart. */
-  pieHole?: number;
-  /** The data that covers the domain of the pie chart. */
-  domain?: ChartData;
-}
-export type OrgChartSpecNodeSizeEnum =
-  | "ORG_CHART_LABEL_SIZE_UNSPECIFIED"
-  | "SMALL"
-  | "MEDIUM"
-  | "LARGE";
-/** An org chart. Org charts require a unique set of labels in labels and may optionally include parent_labels and tooltips. parent_labels contain, for each node, the label identifying the parent node. tooltips contain, for each node, an optional tooltip. For example, to describe an OrgChart with Alice as the CEO, Bob as the President (reporting to Alice) and Cathy as VP of Sales (also reporting to Alice), have labels contain "Alice", "Bob", "Cathy", parent_labels contain "", "Alice", "Alice" and tooltips contain "CEO", "President", "VP Sales". */
-export interface OrgChartSpec {
-  /** The data containing the labels for all the nodes in the chart. Labels must be unique. */
-  labels?: ChartData;
-  /** The color of the org chart nodes. If node_color is also set, this field takes precedence. */
-  nodeColorStyle?: ColorStyle;
-  /** The data containing the label of the parent for the corresponding node. A blank value indicates that the node has no parent and is a top-level node. This field is optional. */
-  parentLabels?: ChartData;
-  /** The color of the selected org chart nodes. Deprecated: Use selected_node_color_style. */
-  selectedNodeColor?: Color;
-  /** The size of the org chart nodes. */
-  nodeSize?: OrgChartSpecNodeSizeEnum | (string & {});
-  /** The color of the org chart nodes. Deprecated: Use node_color_style. */
-  nodeColor?: Color;
-  /** The color of the selected org chart nodes. If selected_node_color is also set, this field takes precedence. */
-  selectedNodeColorStyle?: ColorStyle;
-  /** The data containing the tooltip for the corresponding node. A blank value results in no tooltip being displayed for the node. This field is optional. */
-  tooltips?: ChartData;
-}
+export type BasicChartSeriesList = Array<BasicChartSeries>;
 export type BasicChartSpecLegendPositionEnum =
   | "BASIC_CHART_LEGEND_POSITION_UNSPECIFIED"
   | "BOTTOM_LEGEND"
@@ -1428,6 +2591,18 @@ export type BasicChartSpecLegendPositionEnum =
   | "RIGHT_LEGEND"
   | "TOP_LEGEND"
   | "NO_LEGEND";
+/** The domain of a chart. For example, if charting stock prices over time, this would be the date. */
+export interface BasicChartDomain {
+  /** The data of the domain. For example, if charting stock prices over time, this is the data representing the dates. */
+  domain?: ChartData;
+  /** True to reverse the order of the domain values (horizontal axis). */
+  reversed?: boolean;
+}
+export type BasicChartDomainList = Array<BasicChartDomain>;
+export type BasicChartSpecCompareModeEnum =
+  | "BASIC_CHART_COMPARE_MODE_UNSPECIFIED"
+  | "DATUM"
+  | "CATEGORY";
 export type BasicChartSpecChartTypeEnum =
   | "BASIC_CHART_TYPE_UNSPECIFIED"
   | "BAR"
@@ -1437,28 +2612,6 @@ export type BasicChartSpecChartTypeEnum =
   | "SCATTER"
   | "COMBO"
   | "STEPPED_AREA";
-export type BasicChartSpecStackedTypeEnum =
-  | "BASIC_CHART_STACKED_TYPE_UNSPECIFIED"
-  | "NOT_STACKED"
-  | "STACKED"
-  | "PERCENT_STACKED";
-export type BasicChartSpecCompareModeEnum =
-  | "BASIC_CHART_COMPARE_MODE_UNSPECIFIED"
-  | "DATUM"
-  | "CATEGORY";
-/** The domain of a chart. For example, if charting stock prices over time, this would be the date. */
-export interface BasicChartDomain {
-  /** True to reverse the order of the domain values (horizontal axis). */
-  reversed?: boolean;
-  /** The data of the domain. For example, if charting stock prices over time, this is the data representing the dates. */
-  domain?: ChartData;
-}
-export type BasicChartDomainList = Array<BasicChartDomain>;
-export type BasicChartAxisPositionEnum =
-  | "BASIC_CHART_AXIS_POSITION_UNSPECIFIED"
-  | "BOTTOM_AXIS"
-  | "LEFT_AXIS"
-  | "RIGHT_AXIS";
 export type ChartAxisViewWindowOptionsViewWindowModeEnum =
   | "DEFAULT_VIEW_WINDOW_MODE"
   | "VIEW_WINDOW_MODE_UNSUPPORTED"
@@ -1473,239 +2626,133 @@ export interface ChartAxisViewWindowOptions {
   /** The view window's mode. */
   viewWindowMode?: ChartAxisViewWindowOptionsViewWindowModeEnum | (string & {});
 }
-/** An axis of the chart. A chart may not have more than one axis per axis position. */
-export interface BasicChartAxis {
-  /** The position of this axis. */
-  position?: BasicChartAxisPositionEnum | (string & {});
-  /** The axis title text position. */
-  titleTextPosition?: TextPosition;
-  /** The view window options for this axis. */
-  viewWindowOptions?: ChartAxisViewWindowOptions;
-  /** The format of the title. Only valid if the axis is not associated with the domain. The link field is not supported. */
-  format?: TextFormat;
-  /** The title of this axis. If set, this overrides any title inferred from headers of the data. */
-  title?: string;
-}
-export type BasicChartAxisList = Array<BasicChartAxis>;
-export type PointStyleShapeEnum =
-  | "POINT_SHAPE_UNSPECIFIED"
-  | "CIRCLE"
-  | "DIAMOND"
-  | "HEXAGON"
-  | "PENTAGON"
-  | "SQUARE"
-  | "STAR"
-  | "TRIANGLE"
-  | "X_MARK";
-/** The style of a point on the chart. */
-export interface PointStyle {
-  /** The point shape. If empty or unspecified, a default shape is used. */
-  shape?: PointStyleShapeEnum | (string & {});
-  /** The point size. If empty, a default size is used. */
-  size?: number;
-}
-/** Style override settings for a single series data point. */
-export interface BasicSeriesDataPointStyleOverride {
-  /** Point style of the series data point. Valid only if the chartType is AREA, LINE, or SCATTER. COMBO charts are also supported if the series chart type is AREA, LINE, or SCATTER. If empty, the series default is used. */
-  pointStyle?: PointStyle;
-  /** Color of the series data point. If empty, the series default is used. Deprecated: Use color_style. */
-  color?: Color;
-  /** The zero-based index of the series data point. */
-  index?: number;
-  /** Color of the series data point. If empty, the series default is used. If color is also set, this field takes precedence. */
-  colorStyle?: ColorStyle;
-}
-export type BasicSeriesDataPointStyleOverrideList = Array<BasicSeriesDataPointStyleOverride>;
-export type BasicChartSeriesTargetAxisEnum =
+export type BasicChartAxisPositionEnum =
   | "BASIC_CHART_AXIS_POSITION_UNSPECIFIED"
   | "BOTTOM_AXIS"
   | "LEFT_AXIS"
   | "RIGHT_AXIS";
-export type BasicChartSeriesTypeEnum =
-  | "BASIC_CHART_TYPE_UNSPECIFIED"
-  | "BAR"
-  | "LINE"
-  | "AREA"
-  | "COLUMN"
-  | "SCATTER"
-  | "COMBO"
-  | "STEPPED_AREA";
-/** A single series of data in a chart. For example, if charting stock prices over time, multiple series may exist, one for the "Open Price", "High Price", "Low Price" and "Close Price". */
-export interface BasicChartSeries {
-  /** The line style of this series. Valid only if the chartType is AREA, LINE, or SCATTER. COMBO charts are also supported if the series chart type is AREA or LINE. */
-  lineStyle?: LineStyle;
-  /** Style override settings for series data points. */
-  styleOverrides?: BasicSeriesDataPointStyleOverrideList;
-  /** Information about the data labels for this series. */
-  dataLabel?: DataLabel;
-  /** The data being visualized in this chart series. */
-  series?: ChartData;
-  /** The minor axis that will specify the range of values for this series. For example, if charting stocks over time, the "Volume" series may want to be pinned to the right with the prices pinned to the left, because the scale of trading volume is different than the scale of prices. It is an error to specify an axis that isn't a valid minor axis for the chart's type. */
-  targetAxis?: BasicChartSeriesTargetAxisEnum | (string & {});
-  /** The style for points associated with this series. Valid only if the chartType is AREA, LINE, or SCATTER. COMBO charts are also supported if the series chart type is AREA, LINE, or SCATTER. If empty, a default point style is used. */
-  pointStyle?: PointStyle;
-  /** The color for elements (such as bars, lines, and points) associated with this series. If empty, a default color is used. Deprecated: Use color_style. */
-  color?: Color;
-  /** The color for elements (such as bars, lines, and points) associated with this series. If empty, a default color is used. If color is also set, this field takes precedence. */
-  colorStyle?: ColorStyle;
-  /** The type of this series. Valid only if the chartType is COMBO. Different types will change the way the series is visualized. Only LINE, AREA, and COLUMN are supported. */
-  type?: BasicChartSeriesTypeEnum | (string & {});
+/** An axis of the chart. A chart may not have more than one axis per axis position. */
+export interface BasicChartAxis {
+  /** The view window options for this axis. */
+  viewWindowOptions?: ChartAxisViewWindowOptions;
+  /** The format of the title. Only valid if the axis is not associated with the domain. The link field is not supported. */
+  format?: TextFormat;
+  /** The position of this axis. */
+  position?: BasicChartAxisPositionEnum | (string & {});
+  /** The axis title text position. */
+  titleTextPosition?: TextPosition;
+  /** The title of this axis. If set, this overrides any title inferred from headers of the data. */
+  title?: string;
 }
-export type BasicChartSeriesList = Array<BasicChartSeries>;
+export type BasicChartAxisList = Array<BasicChartAxis>;
 /** The specification for a basic chart. See BasicChartType for the list of charts this supports. */
 export interface BasicChartSpec {
+  /** The number of rows or columns in the data that are "headers". If not set, Google Sheets will guess how many rows are headers based on the data. (Note that BasicChartAxis.title may override the axis title inferred from the header values.) */
+  headerCount?: number;
+  /** If some values in a series are missing, gaps may appear in the chart (e.g, segments of lines in a line chart will be missing). To eliminate these gaps set this to true. Applies to Line, Area, and Combo charts. */
+  interpolateNulls?: boolean;
+  /** The stacked type for charts that support vertical stacking. Applies to Area, Bar, Column, Combo, and Stepped Area charts. */
+  stackedType?: BasicChartSpecStackedTypeEnum | (string & {});
+  /** Gets whether all lines should be rendered smooth or straight by default. Applies to Line charts. */
+  lineSmoothing?: boolean;
+  /** The data this chart is visualizing. */
+  series?: BasicChartSeriesList;
   /** The position of the chart legend. */
   legendPosition?: BasicChartSpecLegendPositionEnum | (string & {});
+  /** The domain of data this is charting. Only a single domain is supported. */
+  domains?: BasicChartDomainList;
+  /** The behavior of tooltips and data highlighting when hovering on data and chart area. */
+  compareMode?: BasicChartSpecCompareModeEnum | (string & {});
   /** Controls whether to display additional data labels on stacked charts which sum the total value of all stacked values at each value along the domain axis. These data labels can only be set when chart_type is one of AREA, BAR, COLUMN, COMBO or STEPPED_AREA and stacked_type is either STACKED or PERCENT_STACKED. In addition, for COMBO, this will only be supported if there is only one type of stackable series type or one type has more series than the others and each of the other types have no more than one series. For example, if a chart has two stacked bar series and one area series, the total data labels will be supported. If it has three bar series and two area series, total data labels are not allowed. Neither CUSTOM nor placement can be set on the total_data_label. */
   totalDataLabel?: DataLabel;
   /** The type of the chart. */
   chartType?: BasicChartSpecChartTypeEnum | (string & {});
-  /** The stacked type for charts that support vertical stacking. Applies to Area, Bar, Column, Combo, and Stepped Area charts. */
-  stackedType?: BasicChartSpecStackedTypeEnum | (string & {});
-  /** The behavior of tooltips and data highlighting when hovering on data and chart area. */
-  compareMode?: BasicChartSpecCompareModeEnum | (string & {});
-  /** True to make the chart 3D. Applies to Bar and Column charts. */
+  /** True to make the chart 3D. Applies to Bar and Column charts. Setting it on a Combo chart is allowed but has no effect; setting it on any other chart type returns an error. */
   threeDimensional?: boolean;
-  /** The domain of data this is charting. Only a single domain is supported. */
-  domains?: BasicChartDomainList;
-  /** If some values in a series are missing, gaps may appear in the chart (e.g, segments of lines in a line chart will be missing). To eliminate these gaps set this to true. Applies to Line, Area, and Combo charts. */
-  interpolateNulls?: boolean;
-  /** Gets whether all lines should be rendered smooth or straight by default. Applies to Line charts. */
-  lineSmoothing?: boolean;
   /** The axis on the chart. */
   axis?: BasicChartAxisList;
-  /** The data this chart is visualizing. */
-  series?: BasicChartSeriesList;
-  /** The number of rows or columns in the data that are "headers". If not set, Google Sheets will guess how many rows are headers based on the data. (Note that BasicChartAxis.title may override the axis title inferred from the header values.) */
-  headerCount?: number;
 }
-export type DataExecutionStatusStateEnum =
-  | "DATA_EXECUTION_STATE_UNSPECIFIED"
-  | "NOT_STARTED"
-  | "RUNNING"
-  | "CANCELLING"
-  | "SUCCEEDED"
-  | "FAILED";
-export type DataExecutionStatusErrorCodeEnum =
-  | "DATA_EXECUTION_ERROR_CODE_UNSPECIFIED"
-  | "TIMED_OUT"
-  | "TOO_MANY_ROWS"
-  | "TOO_MANY_COLUMNS"
-  | "TOO_MANY_CELLS"
-  | "ENGINE"
-  | "PARAMETER_INVALID"
-  | "UNSUPPORTED_DATA_TYPE"
-  | "DUPLICATE_COLUMN_NAMES"
-  | "INTERRUPTED"
-  | "CONCURRENT_QUERY"
-  | "OTHER"
-  | "TOO_MANY_CHARS_PER_CELL"
-  | "DATA_NOT_FOUND"
-  | "PERMISSION_DENIED"
-  | "MISSING_COLUMN_ALIAS"
-  | "OBJECT_NOT_FOUND"
-  | "OBJECT_IN_ERROR_STATE"
-  | "OBJECT_SPEC_INVALID"
-  | "DATA_EXECUTION_CANCELLED";
-/** The data execution status. A data execution is created to sync a data source object with the latest data from a DataSource. It is usually scheduled to run at background, you can check its state to tell if an execution completes There are several scenarios where a data execution is triggered to run: * Adding a data source creates an associated data source sheet as well as a data execution to sync the data from the data source to the sheet. * Updating a data source creates a data execution to refresh the associated data source sheet similarly. * You can send refresh request to explicitly refresh one or multiple data source objects. */
-export interface DataExecutionStatus {
-  /** The error message, which may be empty. */
-  errorMessage?: string;
-  /** The state of the data execution. */
-  state?: DataExecutionStatusStateEnum | (string & {});
-  /** Gets the time the data last successfully refreshed. */
-  lastRefreshTime?: string;
-  /** The error code. */
-  errorCode?: DataExecutionStatusErrorCodeEnum | (string & {});
-}
-/** Properties of a data source chart. */
-export interface DataSourceChartProperties {
-  /** Output only. The data execution status. */
-  dataExecutionStatus?: DataExecutionStatus;
-  /** ID of the data source that the chart is associated with. */
-  dataSourceId?: string;
-}
-/** The series of a CandlestickData. */
-export interface CandlestickSeries {
-  /** The data of the CandlestickSeries. */
+export type HistogramChartSpecLegendPositionEnum =
+  | "HISTOGRAM_CHART_LEGEND_POSITION_UNSPECIFIED"
+  | "BOTTOM_LEGEND"
+  | "LEFT_LEGEND"
+  | "RIGHT_LEGEND"
+  | "TOP_LEGEND"
+  | "NO_LEGEND"
+  | "INSIDE_LEGEND";
+/** A histogram series containing the series color and data. */
+export interface HistogramSeries {
+  /** The color of the column representing this series in each bucket. This field is optional. If bar_color is also set, this field takes precedence. */
+  barColorStyle?: ColorStyle;
+  /** The data for this histogram series. */
   data?: ChartData;
+  /** The color of the column representing this series in each bucket. This field is optional. Deprecated: Use bar_color_style. */
+  barColor?: Color;
 }
-/** The Candlestick chart data, each containing the low, open, close, and high values for a series. */
-export interface CandlestickData {
-  /** The range data (vertical axis) for the open/initial value for each candle. This is the bottom of the candle body. If less than the close value the candle will be filled. Otherwise the candle will be hollow. */
-  openSeries?: CandlestickSeries;
-  /** The range data (vertical axis) for the high/maximum value for each candle. This is the top of the candle's center line. */
-  highSeries?: CandlestickSeries;
-  /** The range data (vertical axis) for the low/minimum value for each candle. This is the bottom of the candle's center line. */
-  lowSeries?: CandlestickSeries;
-  /** The range data (vertical axis) for the close/final value for each candle. This is the top of the candle body. If greater than the open value the candle will be filled. Otherwise the candle will be hollow. */
-  closeSeries?: CandlestickSeries;
-}
-export type CandlestickDataList = Array<CandlestickData>;
-/** The domain of a CandlestickChart. */
-export interface CandlestickDomain {
-  /** True to reverse the order of the domain values (horizontal axis). */
-  reversed?: boolean;
-  /** The data of the CandlestickDomain. */
-  data?: ChartData;
-}
-/** A candlestick chart. */
-export interface CandlestickChartSpec {
-  /** The Candlestick chart data. Only one CandlestickData is supported. */
-  data?: CandlestickDataList;
-  /** The domain data (horizontal axis) for the candlestick chart. String data will be treated as discrete labels, other data will be treated as continuous values. */
-  domain?: CandlestickDomain;
+export type HistogramSeriesList = Array<HistogramSeries>;
+/** A histogram chart. A histogram chart groups data items into bins, displaying each bin as a column of stacked items. Histograms are used to display the distribution of a dataset. Each column of items represents a range into which those items fall. The number of bins can be chosen automatically or specified explicitly. */
+export interface HistogramChartSpec {
+  /** The position of the chart legend. */
+  legendPosition?: HistogramChartSpecLegendPositionEnum | (string & {});
+  /** Whether horizontal divider lines should be displayed between items in each column. */
+  showItemDividers?: boolean;
+  /** By default the bucket size (the range of values stacked in a single column) is chosen automatically, but it may be overridden here. E.g., A bucket size of 1.5 results in buckets from 0 - 1.5, 1.5 - 3.0, etc. Cannot be negative. This field is optional. */
+  bucketSize?: number;
+  /** The outlier percentile is used to ensure that outliers do not adversely affect the calculation of bucket sizes. For example, setting an outlier percentile of 0.05 indicates that the top and bottom 5% of values when calculating buckets. The values are still included in the chart, they will be added to the first or last buckets instead of their own buckets. Must be between 0.0 and 0.5. */
+  outlierPercentile?: number;
+  /** The series for a histogram may be either a single series of values to be bucketed or multiple series, each of the same length, containing the name of the series followed by the values to be bucketed for that series. */
+  series?: HistogramSeriesList;
 }
 /** The specifications of a chart. */
 export interface ChartSpec {
-  /** A histogram chart specification. */
-  histogramChart?: HistogramChartSpec;
-  /** The background color of the entire chart. Not applicable to Org charts. Deprecated: Use background_color_style. */
-  backgroundColor?: Color;
-  /** A waterfall chart specification. */
-  waterfallChart?: WaterfallChartSpec;
-  /** The background color of the entire chart. Not applicable to Org charts. If background_color is also set, this field takes precedence. */
-  backgroundColorStyle?: ColorStyle;
+  /** A bubble chart specification. */
+  bubbleChart?: BubbleChartSpec;
+  /** The subtitle text position. This field is optional. */
+  subtitleTextPosition?: TextPosition;
+  /** A treemap chart specification. */
+  treemapChart?: TreemapChartSpec;
   /** Determines how the charts will use hidden rows or columns. */
   hiddenDimensionStrategy?: ChartSpecHiddenDimensionStrategyEnum | (string & {});
   /** A scorecard chart specification. */
   scorecardChart?: ScorecardChartSpec;
-  /** The subtitle text position. This field is optional. */
-  subtitleTextPosition?: TextPosition;
-  /** A bubble chart specification. */
-  bubbleChart?: BubbleChartSpec;
-  /** The alternative text that describes the chart. This is often used for accessibility. */
-  altText?: string;
-  /** A treemap chart specification. */
-  treemapChart?: TreemapChartSpec;
-  /** The order to sort the chart data by. Only a single sort spec is supported. Only supported for data source charts. */
-  sortSpecs?: SortSpecList;
-  /** The title text format. Strikethrough, underline, and link are not supported. */
-  titleTextFormat?: TextFormat;
-  /** True to make a chart fill the entire space in which it's rendered with minimum padding. False to use the default padding. (Not applicable to Geo and Org charts.) */
-  maximized?: boolean;
-  /** A pie chart specification. */
-  pieChart?: PieChartSpec;
-  /** The filters applied to the source data of the chart. Only supported for data source charts. */
-  filterSpecs?: FilterSpecList;
-  /** An org chart specification. */
-  orgChart?: OrgChartSpec;
-  /** The title text position. This field is optional. */
-  titleTextPosition?: TextPosition;
-  /** A basic chart specification, can be one of many kinds of charts. See BasicChartType for the list of all charts this supports. */
-  basicChart?: BasicChartSpec;
-  /** The subtitle text format. Strikethrough, underline, and link are not supported. */
-  subtitleTextFormat?: TextFormat;
-  /** The title of the chart. */
-  title?: string;
-  /** The name of the font to use by default for all chart text (e.g. title, axis labels, legend). If a font is specified for a specific part of the chart it will override this font name. */
-  fontName?: string;
   /** If present, the field contains data source chart specific properties. */
   dataSourceChartProperties?: DataSourceChartProperties;
-  /** The subtitle of the chart. */
-  subtitle?: string;
   /** A candlestick chart specification. */
   candlestickChart?: CandlestickChartSpec;
+  /** The alternative text that describes the chart. This is often used for accessibility. */
+  altText?: string;
+  /** The title text format. Strikethrough, underline, and link are not supported. */
+  titleTextFormat?: TextFormat;
+  /** An org chart specification. */
+  orgChart?: OrgChartSpec;
+  /** A pie chart specification. */
+  pieChart?: PieChartSpec;
+  /** The subtitle of the chart. */
+  subtitle?: string;
+  /** The order to sort the chart data by. Only a single sort spec is supported. Only supported for data source charts. */
+  sortSpecs?: SortSpecList;
+  /** The name of the font to use by default for all chart text (e.g. title, axis labels, legend). If a font is specified for a specific part of the chart it will override this font name. */
+  fontName?: string;
+  /** A waterfall chart specification. */
+  waterfallChart?: WaterfallChartSpec;
+  /** A basic chart specification, can be one of many kinds of charts. See BasicChartType for the list of all charts this supports. */
+  basicChart?: BasicChartSpec;
+  /** The filters applied to the source data of the chart. Only supported for data source charts. */
+  filterSpecs?: FilterSpecList;
+  /** A histogram chart specification. */
+  histogramChart?: HistogramChartSpec;
+  /** The background color of the entire chart. Not applicable to Org charts. If background_color is also set, this field takes precedence. */
+  backgroundColorStyle?: ColorStyle;
+  /** The title of the chart. */
+  title?: string;
+  /** The background color of the entire chart. Not applicable to Org charts. Deprecated: Use background_color_style. */
+  backgroundColor?: Color;
+  /** True to make a chart fill the entire space in which it's rendered with minimum padding. False to use the default padding. (Not applicable to Geo and Org charts.) */
+  maximized?: boolean;
+  /** The subtitle text format. Strikethrough, underline, and link are not supported. */
+  subtitleTextFormat?: TextFormat;
+  /** The title text position. This field is optional. */
+  titleTextPosition?: TextPosition;
 }
 /** Updates a chart's specifications. (This does not move or resize a chart. To move or resize a chart, use UpdateEmbeddedObjectPositionRequest.) */
 export interface UpdateChartSpecRequest {
@@ -1714,711 +2761,17 @@ export interface UpdateChartSpecRequest {
   /** The specification to apply to the chart. */
   spec?: ChartSpec;
 }
-export type SlicerSpecHorizontalAlignmentEnum =
-  | "HORIZONTAL_ALIGN_UNSPECIFIED"
-  | "LEFT"
-  | "CENTER"
-  | "RIGHT";
-/** The specifications of a slicer. */
-export interface SlicerSpec {
-  /** The horizontal alignment of title in the slicer. If unspecified, defaults to `LEFT` */
-  horizontalAlignment?: SlicerSpecHorizontalAlignmentEnum | (string & {});
-  /** The text format of title in the slicer. The link field is not supported. */
-  textFormat?: TextFormat;
-  /** True if the filter should apply to pivot tables. If not set, default to `True`. */
-  applyToPivotTables?: boolean;
-  /** The zero-based column index in the data table on which the filter is applied to. */
-  columnIndex?: number;
-  /** The background color of the slicer. Deprecated: Use background_color_style. */
-  backgroundColor?: Color;
-  /** The filtering criteria of the slicer. */
-  filterCriteria?: FilterCriteria;
-  /** The background color of the slicer. If background_color is also set, this field takes precedence. */
-  backgroundColorStyle?: ColorStyle;
-  /** The data range of the slicer. */
-  dataRange?: GridRange;
-  /** The title of the slicer. */
-  title?: string;
-}
-/** Updates a slicer's specifications. (This does not move or resize a slicer. To move or resize a slicer use UpdateEmbeddedObjectPositionRequest. */
-export interface UpdateSlicerSpecRequest {
-  /** The id of the slicer to update. */
-  slicerId?: number;
-  /** The specification to apply to the slicer. */
-  spec?: SlicerSpec;
-  /** The fields that should be updated. At least one field must be specified. The root `SlicerSpec` is implied and should not be specified. A single "*"` can be used as short-hand for listing every field. */
-  fields?: string;
-}
-export type PasteDataRequestTypeEnum =
-  | "PASTE_NORMAL"
-  | "PASTE_VALUES"
-  | "PASTE_FORMAT"
-  | "PASTE_NO_BORDERS"
-  | "PASTE_FORMULA"
-  | "PASTE_DATA_VALIDATION"
-  | "PASTE_CONDITIONAL_FORMATTING";
-/** Inserts data into the spreadsheet starting at the specified coordinate. */
-export interface PasteDataRequest {
-  /** True if the data is HTML. */
-  html?: boolean;
-  /** The delimiter in the data. */
-  delimiter?: string;
-  /** The coordinate at which the data should start being inserted. */
-  coordinate?: GridCoordinate;
-  /** The data to insert. */
-  data?: string;
-  /** How the data should be pasted. */
-  type?: PasteDataRequestTypeEnum | (string & {});
-}
-/** A data validation rule. */
-export interface DataValidationRule {
-  /** A message to show the user when adding data to the cell. */
-  inputMessage?: string;
-  /** True if the UI should be customized based on the kind of condition. If true, "List" conditions will show a dropdown. */
-  showCustomUi?: boolean;
-  /** The condition that data in the cell must match. */
-  condition?: BooleanCondition;
-  /** True if invalid data should be rejected. */
-  strict?: boolean;
-}
-/** Sets a data validation rule to every cell in the range. To clear validation in a range, call this with no rule specified. */
-export interface SetDataValidationRequest {
-  /** The range the data validation rule should apply to. */
+/** Unmerges cells in the given range. */
+export interface UnmergeCellsRequest {
+  /** The range within which all cells should be unmerged. If the range spans multiple merges, all will be unmerged. The range must not partially span any merge. */
   range?: GridRange;
-  /** Optional. If true, the data validation rule will be applied to the filtered rows as well. */
-  filteredRowsIncluded?: boolean;
-  /** The data validation rule to set on each cell in the range, or empty to clear the data validation in the range. */
-  rule?: DataValidationRule;
 }
-/** A border along an embedded object. */
-export interface EmbeddedObjectBorder {
-  /** The color of the border. Deprecated: Use color_style. */
-  color?: Color;
-  /** The color of the border. If color is also set, this field takes precedence. */
-  colorStyle?: ColorStyle;
-}
-/** A chart embedded in a sheet. */
-export interface EmbeddedChart {
-  /** The position of the chart. */
-  position?: EmbeddedObjectPosition;
-  /** The border of the chart. */
-  border?: EmbeddedObjectBorder;
-  /** The specification of the chart. */
-  spec?: ChartSpec;
-  /** The ID of the chart. */
-  chartId?: number;
-}
-/** Adds a chart to a sheet in the spreadsheet. */
-export interface AddChartRequest {
-  /** The chart that should be added to the spreadsheet, including the position where it should be placed. The chartId field is optional; if one is not set, an id will be randomly generated. (It is an error to specify the ID of an embedded object that already exists.) */
-  chart?: EmbeddedChart;
-}
-/** Updates properties of the named range with the specified namedRangeId. */
-export interface UpdateNamedRangeRequest {
-  /** The named range to update with the new properties. */
-  namedRange?: NamedRange;
-  /** The fields that should be updated. At least one field must be specified. The root `namedRange` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
-  fields?: string;
-}
-export type TextToColumnsRequestDelimiterTypeEnum =
-  | "DELIMITER_TYPE_UNSPECIFIED"
-  | "COMMA"
-  | "SEMICOLON"
-  | "PERIOD"
-  | "SPACE"
-  | "CUSTOM"
-  | "AUTODETECT";
-/** Splits a column of text into multiple columns, based on a delimiter in each cell. */
-export interface TextToColumnsRequest {
-  /** The source data range. This must span exactly one column. */
-  source?: GridRange;
-  /** The delimiter to use. Used only if delimiterType is CUSTOM. */
-  delimiter?: string;
-  /** The delimiter type to use. */
-  delimiterType?: TextToColumnsRequestDelimiterTypeEnum | (string & {});
-}
-/** Deletes the protected range with the given ID. */
-export interface DeleteProtectedRangeRequest {
-  /** The ID of the protected range to delete. */
-  protectedRangeId?: number;
-}
-/** Updates a Post in a CommentThread. Returns a 400 bad request error if: - The requesting user is not the author of the post. */
-export interface UpdateCommentPostRequest {
-  /** The ID of the CommentThread which the post belongs to. */
-  commentId?: string;
-  /** The new text of the comment, as plain text. This text content will be handled similarly to comments created in the Sheets editor. It will have similar behaviors for formatting, notifications, etc. This field cannot be empty, and must not exceed 2048 UTF-8 code units. */
-  content?: string;
-  /** The ID of the post being updated. */
-  postId?: string;
-}
-/** Inserts a CommentThread into the spreadsheet. */
-export interface InsertCommentRequest {
-  /** The GridCoordinate in the sheet that is tied to this comment. */
-  coordinate?: GridCoordinate;
-  /** Optional. The email address of the assignee of the comment. Leave empty for a non-assigned comment. May not exceed 2048 UTF-8 code units. */
-  assigneeEmailAddress?: string;
-  /** The text of the comment, as plain text. This text content will be handled similarly to comments created in the Sheets editor. It will have similar behaviors for formatting, notifications, etc. This field cannot be empty, and must not exceed 2048 UTF-8 code units. */
-  content?: string;
-}
-export type CellFormatHyperlinkDisplayTypeEnum =
-  | "HYPERLINK_DISPLAY_TYPE_UNSPECIFIED"
-  | "LINKED"
-  | "PLAIN_TEXT";
-/** The borders of the cell. */
-export interface Borders {
-  /** The left border of the cell. */
-  left?: Border;
-  /** The right border of the cell. */
-  right?: Border;
-  /** The top border of the cell. */
-  top?: Border;
-  /** The bottom border of the cell. */
-  bottom?: Border;
-}
-export type NumberFormatTypeEnum =
-  | "NUMBER_FORMAT_TYPE_UNSPECIFIED"
-  | "TEXT"
-  | "NUMBER"
-  | "PERCENT"
-  | "CURRENCY"
-  | "DATE"
-  | "TIME"
-  | "DATE_TIME"
-  | "SCIENTIFIC";
-/** The number format of a cell. */
-export interface NumberFormat {
-  /** The type of the number format. When writing, this field must be set. */
-  type?: NumberFormatTypeEnum | (string & {});
-  /** Pattern string used for formatting. If not set, a default pattern based on the spreadsheet's locale will be used if necessary for the given type. See the [Date and Number Formats guide](https://developers.google.com/workspace/sheets/api/guides/formats) for more information about the supported patterns. */
-  pattern?: string;
-}
-/** The rotation applied to text in a cell. */
-export interface TextRotation {
-  /** The angle between the standard orientation and the desired orientation. Measured in degrees. Valid values are between -90 and 90. Positive angles are angled upwards, negative are angled downwards. Note: For LTR text direction positive angles are in the counterclockwise direction, whereas for RTL they are in the clockwise direction */
-  angle?: number;
-  /** If true, text reads top to bottom, but the orientation of individual characters is unchanged. For example: | V | | e | | r | | t | | i | | c | | a | | l | */
-  vertical?: boolean;
-}
-export type CellFormatVerticalAlignmentEnum =
-  | "VERTICAL_ALIGN_UNSPECIFIED"
-  | "TOP"
-  | "MIDDLE"
-  | "BOTTOM";
-/** The amount of padding around the cell, in pixels. When updating padding, every field must be specified. */
-export interface Padding {
-  /** The top padding of the cell. */
-  top?: number;
-  /** The bottom padding of the cell. */
-  bottom?: number;
-  /** The right padding of the cell. */
-  right?: number;
-  /** The left padding of the cell. */
-  left?: number;
-}
-export type CellFormatTextDirectionEnum =
-  | "TEXT_DIRECTION_UNSPECIFIED"
-  | "LEFT_TO_RIGHT"
-  | "RIGHT_TO_LEFT";
-export type CellFormatWrapStrategyEnum =
-  | "WRAP_STRATEGY_UNSPECIFIED"
-  | "OVERFLOW_CELL"
-  | "LEGACY_WRAP"
-  | "CLIP"
-  | "WRAP";
-export type CellFormatHorizontalAlignmentEnum =
-  | "HORIZONTAL_ALIGN_UNSPECIFIED"
-  | "LEFT"
-  | "CENTER"
-  | "RIGHT";
-/** The format of a cell. */
-export interface CellFormat {
-  /** The background color of the cell. Deprecated: Use background_color_style. */
-  backgroundColor?: Color;
-  /** If one exists, how a hyperlink should be displayed in the cell. */
-  hyperlinkDisplayType?: CellFormatHyperlinkDisplayTypeEnum | (string & {});
-  /** The format of the text in the cell (unless overridden by a format run). Setting a cell-level link here clears the cell's existing links. Setting the link field in a TextFormatRun takes precedence over the cell-level link. */
-  textFormat?: TextFormat;
-  /** The borders of the cell. */
-  borders?: Borders;
-  /** A format describing how number values should be represented to the user. */
-  numberFormat?: NumberFormat;
-  /** The rotation applied to text in the cell. */
-  textRotation?: TextRotation;
-  /** The vertical alignment of the value in the cell. */
-  verticalAlignment?: CellFormatVerticalAlignmentEnum | (string & {});
-  /** The padding of the cell. */
-  padding?: Padding;
-  /** The direction of the text in the cell. */
-  textDirection?: CellFormatTextDirectionEnum | (string & {});
-  /** The wrap strategy for the value in the cell. */
-  wrapStrategy?: CellFormatWrapStrategyEnum | (string & {});
-  /** The background color of the cell. If background_color is also set, this field takes precedence. */
-  backgroundColorStyle?: ColorStyle;
-  /** The horizontal alignment of the value in the cell. */
-  horizontalAlignment?: CellFormatHorizontalAlignmentEnum | (string & {});
-}
-/** A data source formula. */
-export interface DataSourceFormula {
-  /** The ID of the data source the formula is associated with. */
-  dataSourceId?: string;
-  /** Output only. The data execution status. */
-  dataExecutionStatus?: DataExecutionStatus;
-}
-/** Properties of a link to a Google resource (such as a file in Drive, a YouTube video, a Maps address, or a Calendar event). Only Drive files can be written as chips. All other rich link types are read only. URIs cannot exceed 2000 bytes when writing. NOTE: Writing Drive file chips requires at least one of the `drive.file`, `drive.readonly`, or `drive` OAuth scopes. */
-export interface RichLinkProperties {
-  /** Required. The URI to the link. This is always present. */
-  uri?: string;
-  /** Output only. The [MIME type](https://developers.google.com/drive/api/v3/mime-types) of the link, if there's one (for example, when it's a file in Drive). */
-  mimeType?: string;
-}
-export type PersonPropertiesDisplayFormatEnum =
-  | "DISPLAY_FORMAT_UNSPECIFIED"
-  | "DEFAULT"
-  | "LAST_NAME_COMMA_FIRST_NAME"
-  | "EMAIL";
-/** Properties specific to a linked person. */
-export interface PersonProperties {
-  /** Required. The email address linked to this person. This field is always present. */
-  email?: string;
-  /** Optional. The display format of the person chip. If not set, the default display format is used. */
-  displayFormat?: PersonPropertiesDisplayFormatEnum | (string & {});
-}
-/** The Smart Chip. */
-export interface Chip {
-  /** Properties of a rich link. */
-  richLinkProperties?: RichLinkProperties;
-  /** Properties of a linked person. */
-  personProperties?: PersonProperties;
-}
-/** The run of a chip. The chip continues until the start index of the next run. */
-export interface ChipRun {
-  /** Required. The zero-based character index where this run starts, in UTF-16 code units. */
-  startIndex?: number;
-  /** Optional. The chip of this run. */
-  chip?: Chip;
-}
-export type ChipRunList = Array<ChipRun>;
-export type DataSourceTableColumnSelectionTypeEnum =
-  | "DATA_SOURCE_TABLE_COLUMN_SELECTION_TYPE_UNSPECIFIED"
-  | "SELECTED"
-  | "SYNC_ALL";
-/** A data source table, which allows the user to import a static table of data from the DataSource into Sheets. This is also known as "Extract" in the Sheets editor. */
-export interface DataSourceTable {
-  /** Filter specifications in the data source table. */
-  filterSpecs?: FilterSpecList;
-  /** The ID of the data source the data source table is associated with. */
-  dataSourceId?: string;
-  /** Output only. The data execution status. */
-  dataExecutionStatus?: DataExecutionStatus;
-  /** Columns selected for the data source table. The column_selection_type must be SELECTED. */
-  columns?: DataSourceColumnReferenceList;
-  /** The type to select columns for the data source table. Defaults to SELECTED. */
-  columnSelectionType?: DataSourceTableColumnSelectionTypeEnum | (string & {});
-  /** Sort specifications in the data source table. The result of the data source table is sorted based on the sort specifications in order. */
-  sortSpecs?: SortSpecList;
-  /** The limit of rows to return. If not set, a default limit is applied. Please refer to the Sheets editor for the default and max limit. */
-  rowLimit?: number;
-}
-/** A run of a text format. The format of this run continues until the start index of the next run. When updating, all fields must be set. */
-export interface TextFormatRun {
-  /** The zero-based character index where this run starts, in UTF-16 code units. */
-  startIndex?: number;
-  /** The format of this run. Absent values inherit the cell's format. */
-  format?: TextFormat;
-}
-export type TextFormatRunList = Array<TextFormatRun>;
-export type PivotValueSummarizeFunctionEnum =
-  | "PIVOT_STANDARD_VALUE_FUNCTION_UNSPECIFIED"
-  | "SUM"
-  | "COUNTA"
-  | "COUNT"
-  | "COUNTUNIQUE"
-  | "AVERAGE"
-  | "MAX"
-  | "MIN"
-  | "MEDIAN"
-  | "PRODUCT"
-  | "STDEV"
-  | "STDEVP"
-  | "VAR"
-  | "VARP"
-  | "CUSTOM"
-  | "NONE";
-export type PivotValueCalculatedDisplayTypeEnum =
-  | "PIVOT_VALUE_CALCULATED_DISPLAY_TYPE_UNSPECIFIED"
-  | "PERCENT_OF_ROW_TOTAL"
-  | "PERCENT_OF_COLUMN_TOTAL"
-  | "PERCENT_OF_GRAND_TOTAL";
-/** The definition of how a value in a pivot table should be calculated. */
-export interface PivotValue {
-  /** The column offset of the source range that this value reads from. For example, if the source was `C10:E15`, a `sourceColumnOffset` of `0` means this value refers to column `C`, whereas the offset `1` would refer to column `D`. */
-  sourceColumnOffset?: number;
-  /** A function to summarize the value. If formula is set, the only supported values are SUM and CUSTOM. If sourceColumnOffset is set, then `CUSTOM` is not supported. */
-  summarizeFunction?: PivotValueSummarizeFunctionEnum | (string & {});
-  /** A custom formula to calculate the value. The formula must start with an `=` character. */
-  formula?: string;
-  /** If specified, indicates that pivot values should be displayed as the result of a calculation with another pivot value. For example, if calculated_display_type is specified as PERCENT_OF_GRAND_TOTAL, all the pivot values are displayed as the percentage of the grand total. In the Sheets editor, this is referred to as "Show As" in the value section of a pivot table. */
-  calculatedDisplayType?: PivotValueCalculatedDisplayTypeEnum | (string & {});
-  /** A name to use for the value. */
-  name?: string;
-  /** The reference to the data source column that this value reads from. */
-  dataSourceColumnReference?: DataSourceColumnReference;
-}
-export type PivotValueList = Array<PivotValue>;
-export type DateTimeRuleTypeEnum =
-  | "DATE_TIME_RULE_TYPE_UNSPECIFIED"
-  | "SECOND"
-  | "MINUTE"
-  | "HOUR"
-  | "HOUR_MINUTE"
-  | "HOUR_MINUTE_AMPM"
-  | "DAY_OF_WEEK"
-  | "DAY_OF_YEAR"
-  | "DAY_OF_MONTH"
-  | "DAY_MONTH"
-  | "MONTH"
-  | "QUARTER"
-  | "YEAR"
-  | "YEAR_MONTH"
-  | "YEAR_QUARTER"
-  | "YEAR_MONTH_DAY";
-/** Allows you to organize the date-time values in a source data column into buckets based on selected parts of their date or time values. For example, consider a pivot table showing sales transactions by date: +----------+--------------+ | Date | SUM of Sales | +----------+--------------+ | 1/1/2017 | $621.14 | | 2/3/2017 | $708.84 | | 5/8/2017 | $326.84 | ... +----------+--------------+ Applying a date-time group rule with a DateTimeRuleType of YEAR_MONTH results in the following pivot table. +--------------+--------------+ | Grouped Date | SUM of Sales | +--------------+--------------+ | 2017-Jan | $53,731.78 | | 2017-Feb | $83,475.32 | | 2017-Mar | $94,385.05 | ... +--------------+--------------+ */
-export interface DateTimeRule {
-  /** The type of date-time grouping to apply. */
-  type?: DateTimeRuleTypeEnum | (string & {});
-}
-export type ErrorValueTypeEnum =
-  | "ERROR_TYPE_UNSPECIFIED"
-  | "ERROR"
-  | "NULL_VALUE"
-  | "DIVIDE_BY_ZERO"
-  | "VALUE"
-  | "REF"
-  | "NAME"
-  | "NUM"
-  | "N_A"
-  | "LOADING";
-/** An error in a cell. */
-export interface ErrorValue {
-  /** A message with more information about the error (in the spreadsheet's locale). */
-  message?: string;
-  /** The type of error. */
-  type?: ErrorValueTypeEnum | (string & {});
-}
-/** The kinds of value that a cell in a spreadsheet can have. */
-export interface ExtendedValue {
-  /** Represents a string value. Leading single quotes are not included. For example, if the user typed `'123` into the UI, this would be represented as a `stringValue` of `"123"`. */
-  stringValue?: string;
-  /** Represents an error. This field is read-only. */
-  errorValue?: ErrorValue;
-  /** Represents a formula. */
-  formulaValue?: string;
-  /** Represents a double value. Note: Dates, Times and DateTimes are represented as doubles in SERIAL_NUMBER format. */
-  numberValue?: number;
-  /** Represents a boolean value. */
-  boolValue?: boolean;
-}
-export type ExtendedValueList = Array<ExtendedValue>;
-/** A group name and a list of items from the source data that should be placed in the group with this name. */
-export interface ManualRuleGroup {
-  /** The items in the source data that should be placed into this group. Each item may be a string, number, or boolean. Items may appear in at most one group within a given ManualRule. Items that do not appear in any group will appear on their own. */
-  items?: ExtendedValueList;
-  /** The group name, which must be a string. Each group in a given ManualRule must have a unique group name. */
-  groupName?: ExtendedValue;
-}
-export type ManualRuleGroupList = Array<ManualRuleGroup>;
-/** Allows you to manually organize the values in a source data column into buckets with names of your choosing. For example, a pivot table that aggregates population by state: +-------+-------------------+ | State | SUM of Population | +-------+-------------------+ | AK | 0.7 | | AL | 4.8 | | AR | 2.9 | ... +-------+-------------------+ could be turned into a pivot table that aggregates population by time zone by providing a list of groups (for example, groupName = 'Central', items = ['AL', 'AR', 'IA', ...]) to a manual group rule. Note that a similar effect could be achieved by adding a time zone column to the source data and adjusting the pivot table. +-----------+-------------------+ | Time Zone | SUM of Population | +-----------+-------------------+ | Central | 106.3 | | Eastern | 151.9 | | Mountain | 17.4 | ... +-----------+-------------------+ */
-export interface ManualRule {
-  /** The list of group names and the corresponding items from the source data that map to each group name. */
-  groups?: ManualRuleGroupList;
-}
-/** Allows you to organize the numeric values in a source data column into buckets of a constant size. All values from HistogramRule.start to HistogramRule.end are placed into groups of size HistogramRule.interval. In addition, all values below HistogramRule.start are placed in one group, and all values above HistogramRule.end are placed in another. Only HistogramRule.interval is required, though if HistogramRule.start and HistogramRule.end are both provided, HistogramRule.start must be less than HistogramRule.end. For example, a pivot table showing average purchase amount by age that has 50+ rows: +-----+-------------------+ | Age | AVERAGE of Amount | +-----+-------------------+ | 16 | $27.13 | | 17 | $5.24 | | 18 | $20.15 | ... +-----+-------------------+ could be turned into a pivot table that looks like the one below by applying a histogram group rule with a HistogramRule.start of 25, an HistogramRule.interval of 20, and an HistogramRule.end of 65. +-------------+-------------------+ | Grouped Age | AVERAGE of Amount | +-------------+-------------------+ | < 25 | $19.34 | | 25-45 | $31.43 | | 45-65 | $35.87 | | > 65 | $27.55 | +-------------+-------------------+ | Grand Total | $29.12 | +-------------+-------------------+ */
-export interface HistogramRule {
-  /** The maximum value at which items are placed into buckets of constant size. Values above end are lumped into a single bucket. This field is optional. */
-  end?: number;
-  /** The minimum value at which items are placed into buckets of constant size. Values below start are lumped into a single bucket. This field is optional. */
-  start?: number;
-  /** The size of the buckets that are created. Must be positive. */
-  interval?: number;
-}
-/** An optional setting on a PivotGroup that defines buckets for the values in the source data column rather than breaking out each individual value. Only one PivotGroup with a group rule may be added for each column in the source data, though on any given column you may add both a PivotGroup that has a rule and a PivotGroup that does not. */
-export interface PivotGroupRule {
-  /** A DateTimeRule. */
-  dateTimeRule?: DateTimeRule;
-  /** A ManualRule. */
-  manualRule?: ManualRule;
-  /** A HistogramRule. */
-  histogramRule?: HistogramRule;
-}
-/** Information about which values in a pivot group should be used for sorting. */
-export interface PivotGroupSortValueBucket {
-  /** The offset in the PivotTable.values list which the values in this grouping should be sorted by. */
-  valuesIndex?: number;
-  /** Determines the bucket from which values are chosen to sort. For example, in a pivot table with one row group & two column groups, the row group can list up to two values. The first value corresponds to a value within the first column group, and the second value corresponds to a value in the second column group. If no values are listed, this would indicate that the row should be sorted according to the "Grand Total" over the column groups. If a single value is listed, this would correspond to using the "Total" of that bucket. */
-  buckets?: ExtendedValueList;
-}
-/** The count limit on rows or columns in the pivot group. */
-export interface PivotGroupLimit {
-  /** The count limit. */
-  countLimit?: number;
-  /** The order in which the group limit is applied to the pivot table. Pivot group limits are applied from lower to higher order number. Order numbers are normalized to consecutive integers from 0. For write request, to fully customize the applying orders, all pivot group limits should have this field set with an unique number. Otherwise, the order is determined by the index in the PivotTable.rows list and then the PivotTable.columns list. */
-  applyOrder?: number;
-}
-export type PivotGroupSortOrderEnum = "SORT_ORDER_UNSPECIFIED" | "ASCENDING" | "DESCENDING";
-/** Metadata about a value in a pivot grouping. */
-export interface PivotGroupValueMetadata {
-  /** The calculated value the metadata corresponds to. (Note that formulaValue is not valid, because the values will be calculated.) */
-  value?: ExtendedValue;
-  /** True if the data corresponding to the value is collapsed. */
-  collapsed?: boolean;
-}
-export type PivotGroupValueMetadataList = Array<PivotGroupValueMetadata>;
-/** A single grouping (either row or column) in a pivot table. */
-export interface PivotGroup {
-  /** The group rule to apply to this row/column group. */
-  groupRule?: PivotGroupRule;
-  /** The bucket of the opposite pivot group to sort by. If not specified, sorting is alphabetical by this group's values. */
-  valueBucket?: PivotGroupSortValueBucket;
-  /** The count limit on rows or columns to apply to this pivot group. */
-  groupLimit?: PivotGroupLimit;
-  /** The reference to the data source column this grouping is based on. */
-  dataSourceColumnReference?: DataSourceColumnReference;
-  /** True if the headings in this pivot group should be repeated. This is only valid for row groupings and is ignored by columns. By default, we minimize repetition of headings by not showing higher level headings where they are the same. For example, even though the third row below corresponds to "Q1 Mar", "Q1" is not shown because it is redundant with previous rows. Setting repeat_headings to true would cause "Q1" to be repeated for "Feb" and "Mar". +--------------+ | Q1 | Jan | | | Feb | | | Mar | +--------+-----+ | Q1 Total | +--------------+ */
-  repeatHeadings?: boolean;
-  /** The order the values in this group should be sorted. */
-  sortOrder?: PivotGroupSortOrderEnum | (string & {});
-  /** True if the pivot table should include the totals for this grouping. */
-  showTotals?: boolean;
-  /** Metadata about values in the grouping. */
-  valueMetadata?: PivotGroupValueMetadataList;
-  /** The column offset of the source range that this grouping is based on. For example, if the source was `C10:E15`, a `sourceColumnOffset` of `0` means this group refers to column `C`, whereas the offset `1` would refer to column `D`. */
-  sourceColumnOffset?: number;
-  /** The labels to use for the row/column groups which can be customized. For example, in the following pivot table, the row label is `Region` (which could be renamed to `State`) and the column label is `Product` (which could be renamed `Item`). Pivot tables created before December 2017 do not have header labels. If you'd like to add header labels to an existing pivot table, please delete the existing pivot table and then create a new pivot table with same parameters. +--------------+---------+-------+ | SUM of Units | Product | | | Region | Pen | Paper | +--------------+---------+-------+ | New York | 345 | 98 | | Oregon | 234 | 123 | | Tennessee | 531 | 415 | +--------------+---------+-------+ | Grand Total | 1110 | 636 | +--------------+---------+-------+ */
-  label?: string;
-}
-export type PivotGroupList = Array<PivotGroup>;
-/** Criteria for showing/hiding rows in a pivot table. */
-export interface PivotFilterCriteria {
-  /** Values that should be included. Values not listed here are excluded. */
-  visibleValues?: StringList;
-  /** A condition that must be true for values to be shown. (`visibleValues` does not override this -- even if a value is listed there, it is still hidden if it does not meet the condition.) Condition values that refer to ranges in A1-notation are evaluated relative to the pivot table sheet. References are treated absolutely, so are not filled down the pivot table. For example, a condition value of `=A1` on "Pivot Table 1" is treated as `'Pivot Table 1'!$A$1`. The source data of the pivot table can be referenced by column header name. For example, if the source data has columns named "Revenue" and "Cost" and a condition is applied to the "Revenue" column with type `NUMBER_GREATER` and value `=Cost`, then only columns where "Revenue" > "Cost" are included. */
-  condition?: BooleanCondition;
-  /** Whether values are visible by default. If true, the visible_values are ignored, all values that meet condition (if specified) are shown. If false, values that are both in visible_values and meet condition are shown. */
-  visibleByDefault?: boolean;
-}
-export type PivotFilterCriteriaMap = { [key: string]: PivotFilterCriteria | undefined };
-export type PivotTableValueLayoutEnum = "HORIZONTAL" | "VERTICAL";
-/** The pivot table filter criteria associated with a specific source column offset. */
-export interface PivotFilterSpec {
-  /** The criteria for the column. */
-  filterCriteria?: PivotFilterCriteria;
-  /** The reference to the data source column. */
-  dataSourceColumnReference?: DataSourceColumnReference;
-  /** The zero-based column offset of the source range. */
-  columnOffsetIndex?: number;
-}
-export type PivotFilterSpecList = Array<PivotFilterSpec>;
-/** A pivot table. */
-export interface PivotTable {
-  /** The ID of the data source the pivot table is reading data from. */
-  dataSourceId?: string;
-  /** A list of values to include in the pivot table. */
-  values?: PivotValueList;
-  /** Each column grouping in the pivot table. */
-  columns?: PivotGroupList;
-  /** The range the pivot table is reading data from. */
-  source?: GridRange;
-  /** Each row grouping in the pivot table. */
-  rows?: PivotGroupList;
-  /** An optional mapping of filters per source column offset. The filters are applied before aggregating data into the pivot table. The map's key is the column offset of the source range that you want to filter, and the value is the criteria for that column. For example, if the source was `C10:E15`, a key of `0` will have the filter for column `C`, whereas the key `1` is for column `D`. This field is deprecated in favor of filter_specs. */
-  criteria?: PivotFilterCriteriaMap;
-  /** Output only. The data execution status for data source pivot tables. */
-  dataExecutionStatus?: DataExecutionStatus;
-  /** Whether values should be listed horizontally (as columns) or vertically (as rows). */
-  valueLayout?: PivotTableValueLayoutEnum | (string & {});
-  /** The filters applied to the source columns before aggregating data for the pivot table. Both criteria and filter_specs are populated in responses. If both fields are specified in an update request, this field takes precedence. */
-  filterSpecs?: PivotFilterSpecList;
-}
-/** Data about a specific cell. */
-export interface CellData {
-  /** A hyperlink this cell points to, if any. If the cell contains multiple hyperlinks, this field will be empty. This field is read-only. To set it, use a `=HYPERLINK` formula in the userEnteredValue.formulaValue field. A cell-level link can also be set from the userEnteredFormat.textFormat field. Alternatively, set a hyperlink in the textFormatRun.format.link field that spans the entire cell. */
-  hyperlink?: string;
-  /** The effective format being used by the cell. This includes the results of applying any conditional formatting and, if the cell contains a formula, the computed number format. If the effective format is the default format, effective format will not be written. This field is read-only. */
-  effectiveFormat?: CellFormat;
-  /** The format the user entered for the cell. When writing, the new format will be merged with the existing format. */
-  userEnteredFormat?: CellFormat;
-  /** Output only. Information about a data source formula on the cell. The field is set if user_entered_value is a formula referencing some DATA_SOURCE sheet, e.g. `=SUM(DataSheet!Column)`. */
-  dataSourceFormula?: DataSourceFormula;
-  /** Optional. Runs of chips applied to subsections of the cell. Properties of a run start at a specific index in the text and continue until the next run. When reading, all chipped and non-chipped runs are included. Non-chipped runs will have an empty Chip. When writing, only runs with chips are included. Runs containing chips are of length 1 and are represented in the user-entered text by an "@" placeholder symbol. New runs will overwrite any prior runs. Writing a new user_entered_value will erase previous runs. */
-  chipRuns?: ChipRunList;
-  /** The formatted value of the cell. This is the value as it's shown to the user. This field is read-only. */
-  formattedValue?: string;
-  /** A data source table anchored at this cell. The size of data source table itself is computed dynamically based on its configuration. Only the first cell of the data source table contains the data source table definition. The other cells will contain the display values of the data source table result in their effective_value fields. */
-  dataSourceTable?: DataSourceTable;
-  /** Runs of rich text applied to subsections of the cell. Runs are only valid on user entered strings, not formulas, bools, or numbers. Properties of a run start at a specific index in the text and continue until the next run. Runs will inherit the properties of the cell unless explicitly changed. When writing, the new runs will overwrite any prior runs. When writing a new user_entered_value, previous runs are erased. */
-  textFormatRuns?: TextFormatRunList;
-  /** Any note on the cell. */
-  note?: string;
-  /** A pivot table anchored at this cell. The size of pivot table itself is computed dynamically based on its data, grouping, filters, values, etc. Only the top-left cell of the pivot table contains the pivot table definition. The other cells will contain the calculated values of the results of the pivot in their effective_value fields. */
-  pivotTable?: PivotTable;
-  /** A data validation rule on the cell, if any. When writing, the new data validation rule will overwrite any prior rule. */
-  dataValidation?: DataValidationRule;
-  /** The effective value of the cell. For cells with formulas, this is the calculated value. For cells with literals, this is the same as the user_entered_value. This field is read-only. */
-  effectiveValue?: ExtendedValue;
-  /** The value the user entered in the cell. e.g., `1234`, `'Hello'`, or `=NOW()` Note: Dates, Times and DateTimes are represented as doubles in serial number format. */
-  userEnteredValue?: ExtendedValue;
-}
-/** Updates all cells in the range to the values in the given Cell object. Only the fields listed in the fields field are updated; others are unchanged. If writing a cell with a formula, the formula's ranges will automatically increment for each field in the range. For example, if writing a cell with formula `=A1` into range B2:C4, B2 would be `=A1`, B3 would be `=A2`, B4 would be `=A3`, C2 would be `=B1`, C3 would be `=B2`, C4 would be `=B3`. To keep the formula's ranges static, use the `$` indicator. For example, use the formula `=$A$1` to prevent both the row and the column from incrementing. */
-export interface RepeatCellRequest {
-  /** The data to write. */
-  cell?: CellData;
-  /** The range to repeat the cell in. */
-  range?: GridRange;
-  /** The fields that should be updated. At least one field must be specified. The root `cell` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
-  fields?: string;
-}
-/** Deletes the requested sheet. */
-export interface DeleteSheetRequest {
-  /** The ID of the sheet to delete. If the sheet is of DATA_SOURCE type, the associated DataSource is also deleted. */
+/** Deletes a conditional format rule at the given index. All subsequent rules' indexes are decremented. */
+export interface DeleteConditionalFormatRuleRequest {
+  /** The sheet the rule is being deleted from. */
   sheetId?: number;
-}
-/** Removes the table with the given ID from the spreadsheet. */
-export interface DeleteTableRequest {
-  /** The ID of the table to delete. */
-  tableId?: string;
-}
-/** Adds a new protected range. */
-export interface AddProtectedRangeRequest {
-  /** The protected range to be added. The protectedRangeId field is optional; if one is not set, an id will be randomly generated. (It is an error to specify the ID of a range that already exists.) */
-  protectedRange?: ProtectedRange;
-}
-export type InterpolationPointTypeEnum =
-  | "INTERPOLATION_POINT_TYPE_UNSPECIFIED"
-  | "MIN"
-  | "MAX"
-  | "NUMBER"
-  | "PERCENT"
-  | "PERCENTILE";
-/** A single interpolation point on a gradient conditional format. These pin the gradient color scale according to the color, type and value chosen. */
-export interface InterpolationPoint {
-  /** The color this interpolation point should use. If color is also set, this field takes precedence. */
-  colorStyle?: ColorStyle;
-  /** The value this interpolation point uses. May be a formula. Unused if type is MIN or MAX. */
-  value?: string;
-  /** The color this interpolation point should use. Deprecated: Use color_style. */
-  color?: Color;
-  /** How the value should be interpreted. */
-  type?: InterpolationPointTypeEnum | (string & {});
-}
-/** A rule that applies a gradient color scale format, based on the interpolation points listed. The format of a cell will vary based on its contents as compared to the values of the interpolation points. */
-export interface GradientRule {
-  /** An optional midway interpolation point. */
-  midpoint?: InterpolationPoint;
-  /** The final interpolation point. */
-  maxpoint?: InterpolationPoint;
-  /** The starting interpolation point. */
-  minpoint?: InterpolationPoint;
-}
-/** A rule that may or may not match, depending on the condition. */
-export interface BooleanRule {
-  /** The condition of the rule. If the condition evaluates to true, the format is applied. */
-  condition?: BooleanCondition;
-  /** The format to apply. Conditional formatting can only apply a subset of formatting: bold, italic, strikethrough, foreground color and, background color. */
-  format?: CellFormat;
-}
-/** A rule describing a conditional format. */
-export interface ConditionalFormatRule {
-  /** The formatting will vary based on the gradients in the rule. */
-  gradientRule?: GradientRule;
-  /** The formatting is either "on" or "off" according to the rule. */
-  booleanRule?: BooleanRule;
-  /** The ranges that are formatted if the condition is true. All the ranges must be on the same grid. */
-  ranges?: GridRangeList;
-}
-/** Updates a conditional format rule at the given index, or moves a conditional format rule to another index. */
-export interface UpdateConditionalFormatRuleRequest {
-  /** The zero-based new index the rule should end up at. */
-  newIndex?: number;
-  /** The sheet of the rule to move. Required if new_index is set, unused otherwise. */
-  sheetId?: number;
-  /** The zero-based index of the rule that should be replaced or moved. */
+  /** The zero-based index of the rule to be deleted. */
   index?: number;
-  /** The rule that should replace the rule at the given index. */
-  rule?: ConditionalFormatRule;
-}
-/** Deletes the dimensions from the sheet. */
-export interface DeleteDimensionRequest {
-  /** The dimensions to delete from the sheet. */
-  range?: DimensionRange;
-}
-/** Deletes a reply Post from a CommentThread. Returns a 400 bad request error if: - The requesting user is not the author of the post. - The reply post contains a comment action. - The reply post contains an assignee. */
-export interface DeleteCommentReplyRequest {
-  /** The ID of the reply Post being deleted. */
-  postId?: string;
-  /** The ID of the CommentThread which the post belongs to. */
-  commentId?: string;
-}
-/** A column in a data source. */
-export interface DataSourceColumn {
-  /** The column reference. */
-  reference?: DataSourceColumnReference;
-  /** The formula of the calculated column. */
-  formula?: string;
-}
-export type DataSourceColumnList = Array<DataSourceColumn>;
-/** Additional properties of a DATA_SOURCE sheet. */
-export interface DataSourceSheetProperties {
-  /** The columns displayed on the sheet, corresponding to the values in RowData. */
-  columns?: DataSourceColumnList;
-  /** ID of the DataSource the sheet is connected to. */
-  dataSourceId?: string;
-  /** The data execution status. */
-  dataExecutionStatus?: DataExecutionStatus;
-}
-export type SheetPropertiesSheetTypeEnum =
-  | "SHEET_TYPE_UNSPECIFIED"
-  | "GRID"
-  | "OBJECT"
-  | "DATA_SOURCE";
-/** Properties of a grid. */
-export interface GridProperties {
-  /** The number of rows that are frozen in the grid. */
-  frozenRowCount?: number;
-  /** True if the column grouping control toggle is shown after the group. */
-  columnGroupControlAfter?: boolean;
-  /** True if the row grouping control toggle is shown after the group. */
-  rowGroupControlAfter?: boolean;
-  /** The number of columns that are frozen in the grid. */
-  frozenColumnCount?: number;
-  /** True if the grid isn't showing gridlines in the UI. */
-  hideGridlines?: boolean;
-  /** The number of columns in the grid. */
-  columnCount?: number;
-  /** The number of rows in the grid. */
-  rowCount?: number;
-}
-/** Properties of a sheet. */
-export interface SheetProperties {
-  /** The color of the tab in the UI. If tab_color is also set, this field takes precedence. */
-  tabColorStyle?: ColorStyle;
-  /** Output only. If present, the field contains DATA_SOURCE sheet specific properties. */
-  dataSourceSheetProperties?: DataSourceSheetProperties;
-  /** True if the sheet is hidden in the UI, false if it's visible. */
-  hidden?: boolean;
-  /** The type of sheet. Defaults to GRID. This field cannot be changed once set. */
-  sheetType?: SheetPropertiesSheetTypeEnum | (string & {});
-  /** The index of the sheet within the spreadsheet. When adding or updating sheet properties, if this field is excluded then the sheet is added or moved to the end of the sheet list. When updating sheet indices or inserting sheets, movement is considered in "before the move" indexes. For example, if there were three sheets (S1, S2, S3) in order to move S1 ahead of S2 the index would have to be set to 2. A sheet index update request is ignored if the requested index is identical to the sheets current index or if the requested new index is equal to the current sheet index + 1. */
-  index?: number;
-  /** The ID of the sheet. Must be non-negative. This field cannot be changed once set. */
-  sheetId?: number;
-  /** Additional properties of the sheet if this sheet is a grid. (If the sheet is an object sheet, containing a chart or image, then this field will be absent.) When writing it is an error to set any grid properties on non-grid sheets. If this sheet is a DATA_SOURCE sheet, this field is output only but contains the properties that reflect how a data source sheet is rendered in the UI, e.g. row_count. */
-  gridProperties?: GridProperties;
-  /** The color of the tab in the UI. Deprecated: Use tab_color_style. */
-  tabColor?: Color;
-  /** The name of the sheet. */
-  title?: string;
-  /** True if the sheet is an RTL sheet instead of an LTR sheet. */
-  rightToLeft?: boolean;
 }
 /** Updates properties of the sheet with the specified sheetId. */
 export interface UpdateSheetPropertiesRequest {
@@ -2427,235 +2780,8 @@ export interface UpdateSheetPropertiesRequest {
   /** The properties to update. */
   properties?: SheetProperties;
 }
-/** Deletes a conditional format rule at the given index. All subsequent rules' indexes are decremented. */
-export interface DeleteConditionalFormatRuleRequest {
-  /** The zero-based index of the rule to be deleted. */
-  index?: number;
-  /** The sheet the rule is being deleted from. */
-  sheetId?: number;
-}
-/** Sorts data in rows based on a sort order per column. */
-export interface SortRangeRequest {
-  /** The range to sort. */
-  range?: GridRange;
-  /** The sort order per column. Later specifications are used when values are equal in the earlier specifications. */
-  sortSpecs?: SortSpecList;
-}
-export type CellDataList = Array<CellData>;
-/** Data about each cell in a row. */
-export interface RowData {
-  /** The values in the row, one per column. */
-  values?: CellDataList;
-}
-export type RowDataList = Array<RowData>;
-/** Updates all cells in a range with new data. */
-export interface UpdateCellsRequest {
-  /** The fields of CellData that should be updated. At least one field must be specified. The root is the CellData; 'row.values.' should not be specified. A single `"*"` can be used as short-hand for listing every field. */
-  fields?: string;
-  /** The range to write data to. If the data in rows does not cover the entire requested range, the fields matching those set in fields will be cleared. */
-  range?: GridRange;
-  /** The coordinate to start writing data at. Any number of rows and columns (including a different number of columns per row) may be written. */
-  start?: GridCoordinate;
-  /** The data to write. */
-  rows?: RowDataList;
-}
-/** The default filter associated with a sheet. For more information, see [Manage data visibility with filters](https://developers.google.com/workspace/sheets/api/guides/filters). */
-export interface BasicFilter {
-  /** The sort order per column. Later specifications are used when values are equal in the earlier specifications. */
-  sortSpecs?: SortSpecList;
-  /** The table this filter is backed by, if any. When writing, only one of range or table_id may be set. */
-  tableId?: string;
-  /** The range the filter covers. */
-  range?: GridRange;
-  /** The criteria for showing/hiding values per column. The map's key is the column index, and the value is the criteria for that column. This field is deprecated in favor of filter_specs. */
-  criteria?: FilterCriteriaMap;
-  /** The filter criteria per column. Both criteria and filter_specs are populated in responses. If both fields are specified in an update request, this field takes precedence. */
-  filterSpecs?: FilterSpecList;
-}
-/** Sets the basic filter associated with a sheet. */
-export interface SetBasicFilterRequest {
-  /** The filter to set. */
-  filter?: BasicFilter;
-}
-/** Unmerges cells in the given range. */
-export interface UnmergeCellsRequest {
-  /** The range within which all cells should be unmerged. If the range spans multiple merges, all will be unmerged. The range must not partially span any merge. */
-  range?: GridRange;
-}
-export type CutPasteRequestPasteTypeEnum =
-  | "PASTE_NORMAL"
-  | "PASTE_VALUES"
-  | "PASTE_FORMAT"
-  | "PASTE_NO_BORDERS"
-  | "PASTE_FORMULA"
-  | "PASTE_DATA_VALIDATION"
-  | "PASTE_CONDITIONAL_FORMATTING";
-/** Moves data from the source to the destination. */
-export interface CutPasteRequest {
-  /** The top-left coordinate where the data should be pasted. */
-  destination?: GridCoordinate;
-  /** What kind of data to paste. All the source data will be cut, regardless of what is pasted. */
-  pasteType?: CutPasteRequestPasteTypeEnum | (string & {});
-  /** The source data to cut. */
-  source?: GridRange;
-}
-/** Adds a new conditional format rule at the given index. All subsequent rules' indexes are incremented. */
-export interface AddConditionalFormatRuleRequest {
-  /** The zero-based index where the rule should be inserted. */
-  index?: number;
-  /** The rule to add. */
-  rule?: ConditionalFormatRule;
-}
-/** Adds a new sheet. When a sheet is added at a given index, all subsequent sheets' indexes are incremented. To add an object sheet, use AddChartRequest instead and specify EmbeddedObjectPosition.sheetId or EmbeddedObjectPosition.newSheet. */
-export interface AddSheetRequest {
-  /** The properties the new sheet should have. All properties are optional. The sheetId field is optional; if one is not set, an id will be randomly generated. (It is an error to specify the ID of a sheet that already exists.) */
-  properties?: SheetProperties;
-}
-/** Updates a table in the spreadsheet. */
-export interface UpdateTableRequest {
-  /** Required. The fields that should be updated. At least one field must be specified. The root `table` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
-  fields?: string;
-  /** Required. The table to update. */
-  table?: Table;
-}
-/** Updates an embedded object's border property. */
-export interface UpdateEmbeddedObjectBorderRequest {
-  /** The ID of the embedded object to update. */
-  objectId?: number;
-  /** The border that applies to the embedded object. */
-  border?: EmbeddedObjectBorder;
-  /** The fields that should be updated. At least one field must be specified. The root `border` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
-  fields?: string;
-}
-/** Trims the whitespace (such as spaces, tabs, or new lines) in every cell in the specified range. This request removes all whitespace from the start and end of each cell's text, and reduces any subsequence of remaining whitespace characters to a single space. If the resulting trimmed text starts with a '+' or '=' character, the text remains as a string value and isn't interpreted as a formula. */
-export interface TrimWhitespaceRequest {
-  /** The range whose cells to trim. */
-  range?: GridRange;
-}
-export type SpreadsheetPropertiesAutoRecalcEnum =
-  | "RECALCULATION_INTERVAL_UNSPECIFIED"
-  | "ON_CHANGE"
-  | "MINUTE"
-  | "HOUR";
-export type ThemeColorPairColorTypeEnum =
-  | "THEME_COLOR_TYPE_UNSPECIFIED"
-  | "TEXT"
-  | "BACKGROUND"
-  | "ACCENT1"
-  | "ACCENT2"
-  | "ACCENT3"
-  | "ACCENT4"
-  | "ACCENT5"
-  | "ACCENT6"
-  | "LINK";
-/** A pair mapping a spreadsheet theme color type to the concrete color it represents. */
-export interface ThemeColorPair {
-  /** The concrete color corresponding to the theme color type. */
-  color?: ColorStyle;
-  /** The type of the spreadsheet theme color. */
-  colorType?: ThemeColorPairColorTypeEnum | (string & {});
-}
-export type ThemeColorPairList = Array<ThemeColorPair>;
-/** Represents spreadsheet theme */
-export interface SpreadsheetTheme {
-  /** Name of the primary font family. */
-  primaryFontFamily?: string;
-  /** The spreadsheet theme color pairs. To update you must provide all theme color pairs. */
-  themeColors?: ThemeColorPairList;
-}
-/** Settings to control how circular dependencies are resolved with iterative calculation. */
-export interface IterativeCalculationSettings {
-  /** When iterative calculation is enabled, the maximum number of calculation rounds to perform. */
-  maxIterations?: number;
-  /** When iterative calculation is enabled and successive results differ by less than this threshold value, the calculation rounds stop. */
-  convergenceThreshold?: number;
-}
-/** Properties of a spreadsheet. */
-export interface SpreadsheetProperties {
-  /** The default format of all cells in the spreadsheet. CellData.effectiveFormat will not be set if the cell's format is equal to this default format. This field is read-only. */
-  defaultFormat?: CellFormat;
-  /** The amount of time to wait before volatile functions are recalculated. */
-  autoRecalc?: SpreadsheetPropertiesAutoRecalcEnum | (string & {});
-  /** Whether to allow external URL access for image and import functions. Read only when true. When false, you can set to true. This value will be bypassed and always return true if the admin has enabled the [allowlisting feature](https://support.google.com/a?p=url_allowlist). */
-  importFunctionsExternalUrlAccessAllowed?: boolean;
-  /** The time zone of the spreadsheet, in CLDR format such as `America/New_York`. If the time zone isn't recognized, this may be a custom time zone such as `GMT-07:00`. */
-  timeZone?: string;
-  /** The locale of the spreadsheet in one of the following formats: * an ISO 639-1 language code such as `en` * an ISO 639-2 language code such as `fil`, if no 639-1 code exists * a combination of the ISO language code and country code, such as `en_US` Note: when updating this field, not all locales/languages are supported. */
-  locale?: string;
-  /** The title of the spreadsheet. */
-  title?: string;
-  /** Theme applied to the spreadsheet. */
-  spreadsheetTheme?: SpreadsheetTheme;
-  /** Determines whether and how circular references are resolved with iterative calculation. Absence of this field means that circular references result in calculation errors. */
-  iterativeCalculationSettings?: IterativeCalculationSettings;
-}
-/** Updates properties of a spreadsheet. */
-export interface UpdateSpreadsheetPropertiesRequest {
-  /** The fields that should be updated. At least one field must be specified. The root 'properties' is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
-  fields?: string;
-  /** The properties to update. */
-  properties?: SpreadsheetProperties;
-}
-/** A request to update properties of developer metadata. Updates the properties of the developer metadata selected by the filters to the values provided in the DeveloperMetadata resource. Callers must specify the properties they wish to update in the fields parameter, as well as specify at least one DataFilter matching the metadata they wish to update. */
-export interface UpdateDeveloperMetadataRequest {
-  /** The filters matching the developer metadata entries to update. */
-  dataFilters?: DataFilterList;
-  /** The value that all metadata matched by the data filters will be updated to. */
-  developerMetadata?: DeveloperMetadata;
-  /** The fields that should be updated. At least one field must be specified. The root `developerMetadata` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
-  fields?: string;
-}
-export type InsertRangeRequestShiftDimensionEnum = "DIMENSION_UNSPECIFIED" | "ROWS" | "COLUMNS";
-/** Inserts cells into a range, shifting the existing cells over or down. */
-export interface InsertRangeRequest {
-  /** The range to insert new cells into. The range is constrained to the current sheet boundaries. */
-  range?: GridRange;
-  /** The dimension which will be shifted when inserting cells. If ROWS, existing cells will be shifted down. If COLUMNS, existing cells will be shifted right. */
-  shiftDimension?: InsertRangeRequestShiftDimensionEnum | (string & {});
-}
-/** Properties referring a single dimension (either row or column). If both BandedRange.row_properties and BandedRange.column_properties are set, the fill colors are applied to cells according to the following rules: * header_color and footer_color take priority over band colors. * first_band_color takes priority over second_band_color. * row_properties takes priority over column_properties. For example, the first row color takes priority over the first column color, but the first column color takes priority over the second row color. Similarly, the row header takes priority over the column header in the top left cell, but the column header takes priority over the first row color if the row header is not set. */
-export interface BandingProperties {
-  /** The first color that is alternating. (Required) If first_band_color is also set, this field takes precedence. */
-  firstBandColorStyle?: ColorStyle;
-  /** The color of the first row or column. If this field is set, the first row or column is filled with this color and the colors alternate between first_band_color and second_band_color starting from the second row or column. Otherwise, the first row or column is filled with first_band_color and the colors proceed to alternate as they normally would. Deprecated: Use header_color_style. */
-  headerColor?: Color;
-  /** The second color that is alternating. (Required) Deprecated: Use second_band_color_style. */
-  secondBandColor?: Color;
-  /** The color of the first row or column. If this field is set, the first row or column is filled with this color and the colors alternate between first_band_color and second_band_color starting from the second row or column. Otherwise, the first row or column is filled with first_band_color and the colors proceed to alternate as they normally would. If header_color is also set, this field takes precedence. */
-  headerColorStyle?: ColorStyle;
-  /** The color of the last row or column. If this field is not set, the last row or column is filled with either first_band_color or second_band_color, depending on the color of the previous row or column. Deprecated: Use footer_color_style. */
-  footerColor?: Color;
-  /** The color of the last row or column. If this field is not set, the last row or column is filled with either first_band_color or second_band_color, depending on the color of the previous row or column. If footer_color is also set, this field takes precedence. */
-  footerColorStyle?: ColorStyle;
-  /** The second color that is alternating. (Required) If second_band_color is also set, this field takes precedence. */
-  secondBandColorStyle?: ColorStyle;
-  /** The first color that is alternating. (Required) Deprecated: Use first_band_color_style. */
-  firstBandColor?: Color;
-}
-/** A banded (alternating colors) range in a sheet. */
-export interface BandedRange {
-  /** Properties for column bands. These properties are applied on a column- by-column basis throughout all the columns in the range. At least one of row_properties or column_properties must be specified. */
-  columnProperties?: BandingProperties;
-  /** Output only. The reference of the banded range, used to identify the ID that is not supported by the banded_range_id. */
-  bandedRangeReference?: string;
-  /** The range over which these properties are applied. */
-  range?: GridRange;
-  /** The ID of the banded range. If unset, refer to banded_range_reference. */
-  bandedRangeId?: number;
-  /** Properties for row bands. These properties are applied on a row-by-row basis throughout all the rows in the range. At least one of row_properties or column_properties must be specified. */
-  rowProperties?: BandingProperties;
-}
-/** Updates properties of the supplied banded range. */
-export interface UpdateBandingRequest {
-  /** The banded range to update with the new properties. */
-  bandedRange?: BandedRange;
-  /** The fields that should be updated. At least one field must be specified. The root `bandedRange` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
-  fields?: string;
-}
 /** Reference to a data source object. */
 export interface DataSourceObjectReference {
-  /** References to a DATA_SOURCE sheet. */
-  sheetId?: string;
   /** References to a data source chart. */
   chartId?: number;
   /** References to a data source PivotTable anchored at the cell. */
@@ -2664,6 +2790,8 @@ export interface DataSourceObjectReference {
   dataSourceFormulaCell?: GridCoordinate;
   /** References to a DataSourceTable anchored at the cell. */
   dataSourceTableAnchorCell?: GridCoordinate;
+  /** References to a DATA_SOURCE sheet. */
+  sheetId?: string;
 }
 export type DataSourceObjectReferenceList = Array<DataSourceObjectReference>;
 /** A list of references to data source objects. */
@@ -2680,386 +2808,258 @@ export interface CancelDataSourceRefreshRequest {
   /** Reference to a DataSource. If specified, cancels all associated data source object refreshes for this data source. */
   dataSourceId?: string;
 }
-/** Deletes a data source. The request also deletes the associated data source sheet, and unlinks all associated data source objects. */
-export interface DeleteDataSourceRequest {
-  /** The ID of the data source to delete. */
-  dataSourceId?: string;
+export type PasteDataRequestTypeEnum =
+  | "PASTE_NORMAL"
+  | "PASTE_VALUES"
+  | "PASTE_FORMAT"
+  | "PASTE_NO_BORDERS"
+  | "PASTE_FORMULA"
+  | "PASTE_DATA_VALIDATION"
+  | "PASTE_CONDITIONAL_FORMATTING";
+/** Inserts data into the spreadsheet starting at the specified coordinate. */
+export interface PasteDataRequest {
+  /** True if the data is HTML. */
+  html?: boolean;
+  /** The delimiter in the data. */
+  delimiter?: string;
+  /** How the data should be pasted. */
+  type?: PasteDataRequestTypeEnum | (string & {});
+  /** The data to insert. */
+  data?: string;
+  /** The coordinate at which the data should start being inserted. */
+  coordinate?: GridCoordinate;
 }
-/** A parameter in a data source's query. The parameter allows the user to pass in values from the spreadsheet into a query. */
-export interface DataSourceParameter {
-  /** Named parameter. Must be a legitimate identifier for the DataSource that supports it. For example, [BigQuery identifier](https://cloud.google.com/bigquery/docs/reference/standard-sql/lexical#identifiers). */
-  name?: string;
-  /** A range that contains the value of the parameter. Its size must be 1x1. */
-  range?: GridRange;
-  /** ID of a NamedRange. Its size must be 1x1. */
-  namedRangeId?: string;
+/** A chart embedded in a sheet. */
+export interface EmbeddedChart {
+  /** The position of the chart. */
+  position?: EmbeddedObjectPosition;
+  /** The specification of the chart. */
+  spec?: ChartSpec;
+  /** The border of the chart. */
+  border?: EmbeddedObjectBorder;
+  /** The ID of the chart. */
+  chartId?: number;
 }
-export type DataSourceParameterList = Array<DataSourceParameter>;
-/** The specification of a Looker data source. */
-export interface LookerDataSourceSpec {
-  /** Name of a Looker model explore. */
-  explore?: string;
-  /** A Looker instance URL. */
-  instanceUri?: string;
-  /** Name of a Looker model. */
-  model?: string;
+/** Adds a chart to a sheet in the spreadsheet. */
+export interface AddChartRequest {
+  /** The chart that should be added to the spreadsheet, including the position where it should be placed. The chartId field is optional; if one is not set, an id will be randomly generated. (It is an error to specify the ID of an embedded object that already exists.) */
+  chart?: EmbeddedChart;
 }
-/** Specifies a BigQuery table definition. Only [native tables](https://cloud.google.com/bigquery/docs/tables-intro) are allowed. */
-export interface BigQueryTableSpec {
-  /** The ID of a BigQuery project the table belongs to. If not specified, the project_id is assumed. */
-  tableProjectId?: string;
-  /** The BigQuery dataset id. */
-  datasetId?: string;
-  /** The BigQuery table id. */
-  tableId?: string;
-}
-/** Specifies a custom BigQuery query. */
-export interface BigQueryQuerySpec {
-  /** The raw query string. */
-  rawQuery?: string;
-}
-/** The specification of a BigQuery data source that's connected to a sheet. */
-export interface BigQueryDataSourceSpec {
-  /** A BigQueryTableSpec. */
-  tableSpec?: BigQueryTableSpec;
-  /** The ID of a BigQuery enabled Google Cloud project with a billing account attached. For any queries executed against the data source, the project is charged. */
-  projectId?: string;
-  /** A BigQueryQuerySpec. */
-  querySpec?: BigQueryQuerySpec;
-}
-/** This specifies the details of the data source. For example, for BigQuery, this specifies information about the BigQuery source. */
-export interface DataSourceSpec {
-  /** The parameters of the data source, used when querying the data source. */
-  parameters?: DataSourceParameterList;
-  /** A LookerDatasourceSpec. */
-  looker?: LookerDataSourceSpec;
-  /** A BigQueryDataSourceSpec. */
-  bigQuery?: BigQueryDataSourceSpec;
-}
-/** Information about an external data source in the spreadsheet. */
-export interface DataSource {
-  /** All calculated columns in the data source. */
-  calculatedColumns?: DataSourceColumnList;
-  /** The spreadsheet-scoped unique ID that identifies the data source. Example: 1080547365. */
-  dataSourceId?: string;
-  /** The ID of the Sheet connected with the data source. The field cannot be changed once set. When creating a data source, an associated DATA_SOURCE sheet is also created, if the field is not specified, the ID of the created sheet will be randomly generated. */
+/** Finds and replaces data in cells over a range, sheet, or all sheets. */
+export interface FindReplaceRequest {
+  /** True to find/replace over all sheets. */
+  allSheets?: boolean;
+  /** The sheet to find/replace over. */
   sheetId?: number;
-  /** The DataSourceSpec for the data source connected with this spreadsheet. */
-  spec?: DataSourceSpec;
+  /** The value to search. */
+  find?: string;
+  /** True if the find value is a regex. The regular expression and replacement should follow Java regex rules at https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html. The replacement string is allowed to refer to capturing groups. For example, if one cell has the contents `"Google Sheets"` and another has `"Google Docs"`, then searching for `"o.* (.*)"` with a replacement of `"$1 Rocks"` would change the contents of the cells to `"GSheets Rocks"` and `"GDocs Rocks"` respectively. */
+  searchByRegex?: boolean;
+  /** The range to find/replace over. */
+  range?: GridRange;
+  /** True if the find value should match the entire cell. */
+  matchEntireCell?: boolean;
+  /** The value to use as the replacement. */
+  replacement?: string;
+  /** True if the search is case sensitive. */
+  matchCase?: boolean;
+  /** True if the search should include cells with formulas. False to skip cells with formulas. */
+  includeFormulas?: boolean;
 }
-/** Adds a data source. After the data source is added successfully, an associated DATA_SOURCE sheet is created and an execution is triggered to refresh the sheet to read data from the data source. The request requires an additional `bigquery.readonly` OAuth scope if you are adding a BigQuery data source. */
-export interface AddDataSourceRequest {
-  /** The data source to add. */
-  dataSource?: DataSource;
+/** Adds a new protected range. */
+export interface AddProtectedRangeRequest {
+  /** The protected range to be added. The protectedRangeId field is optional; if one is not set, an id will be randomly generated. (It is an error to specify the ID of a range that already exists.) */
+  protectedRange?: ProtectedRange;
 }
-/** A request to create developer metadata. */
-export interface CreateDeveloperMetadataRequest {
-  /** The developer metadata to create. */
-  developerMetadata?: DeveloperMetadata;
-}
-/** Removes the named range with the given ID from the spreadsheet. */
-export interface DeleteNamedRangeRequest {
-  /** The ID of the named range to delete. */
-  namedRangeId?: string;
-}
-/** Duplicates the contents of a sheet. */
-export interface DuplicateSheetRequest {
-  /** The name of the new sheet. If empty, a new name is chosen for you. */
-  newSheetName?: string;
-  /** The sheet to duplicate. If the source sheet is of DATA_SOURCE type, its backing DataSource is also duplicated and associated with the new copy of the sheet. No data execution is triggered, the grid data of this sheet is also copied over but only available after the batch request completes. */
-  sourceSheetId?: number;
-  /** The zero-based index where the new sheet should be inserted. The index of all sheets after this are incremented. */
-  insertSheetIndex?: number;
-  /** If set, the ID of the new sheet. If not set, an ID is chosen. If set, the ID must not conflict with any existing sheet ID. If set, it must be non-negative. */
-  newSheetId?: number;
-}
-/** Adds a new banded range to the spreadsheet. */
-export interface AddBandingRequest {
-  /** The banded range to add. The bandedRangeId field is optional; if one is not set, an id will be randomly generated. (It is an error to specify the ID of a range that already exists.) */
-  bandedRange?: BandedRange;
-}
-/** Refreshes one or multiple data source objects in the spreadsheet by the specified references. The request requires an additional `bigquery.readonly` OAuth scope if you are refreshing a BigQuery data source. If there are multiple refresh requests referencing the same data source objects in one batch, only the last refresh request is processed, and all those requests will have the same response accordingly. */
-export interface RefreshDataSourceRequest {
-  /** References to data source objects to refresh. */
-  references?: DataSourceObjectReferences;
-  /** Refreshes all existing data source objects in the spreadsheet. */
-  isAll?: boolean;
-  /** Refreshes the data source objects regardless of the current state. If not set and a referenced data source object was in error state, the refresh will fail immediately. */
-  force?: boolean;
-  /** Reference to a DataSource. If specified, refreshes all associated data source objects for the data source. */
-  dataSourceId?: string;
-}
-/** Duplicates a particular filter view. */
-export interface DuplicateFilterViewRequest {
-  /** The ID of the filter being duplicated. */
-  filterId?: number;
-}
-/** Automatically resizes one or more dimensions based on the contents of the cells in that dimension. */
-export interface AutoResizeDimensionsRequest {
-  /** The dimensions to automatically resize. */
-  dimensions?: DimensionRange;
-  /** The dimensions on a data source sheet to automatically resize. */
-  dataSourceSheetDimensions?: DataSourceSheetDimensionRange;
+/** Updates a Post in a CommentThread. Returns a 400 bad request error if: - The requesting user is not the author of the post. */
+export interface UpdateCommentPostRequest {
+  /** The new text of the comment, as plain text. This text content will be handled similarly to comments created in the Sheets editor. It will have similar behaviors for formatting, notifications, etc. This field cannot be empty, and must not exceed 2048 UTF-8 code units. */
+  content?: string;
+  /** The ID of the post being updated. */
+  postId?: string;
+  /** The ID of the CommentThread which the post belongs to. */
+  commentId?: string;
 }
 /** Removes the banded range with the given ID from the spreadsheet. */
 export interface DeleteBandingRequest {
   /** The ID of the banded range to delete. */
   bandedRangeId?: number;
 }
-/** Adds a filter view. */
-export interface AddFilterViewRequest {
-  /** The filter to add. The filterViewId field is optional. If one is not set, an ID will be randomly generated. (It is an error to specify the ID of a filter that already exists.) */
-  filter?: FilterView;
-}
-/** Deletes a CommentThread. Returns a 400 bad request error if the requesting user is not the author of the headPost. */
-export interface DeleteCommentRequest {
-  /** The ID of the CommentThread that is being deleted. */
-  commentId?: string;
-}
-/** Updates a data source. After the data source is updated successfully, an execution is triggered to refresh the associated DATA_SOURCE sheet to read data from the updated data source. The request requires an additional `bigquery.readonly` OAuth scope if you are updating a BigQuery data source. */
-export interface UpdateDataSourceRequest {
-  /** The data source to update. */
-  dataSource?: DataSource;
-  /** The fields that should be updated. At least one field must be specified. The root `dataSource` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
-  fields?: string;
-}
-/** Creates a group over the specified range. If the requested range is a superset of the range of an existing group G, then the depth of G is incremented and this new group G' has the depth of that group. For example, a group [C:D, depth 1] + [B:E] results in groups [B:E, depth 1] and [C:D, depth 2]. If the requested range is a subset of the range of an existing group G, then the depth of the new group G' becomes one greater than the depth of G. For example, a group [B:E, depth 1] + [C:D] results in groups [B:E, depth 1] and [C:D, depth 2]. If the requested range starts before and ends within, or starts within and ends after, the range of an existing group G, then the range of the existing group G becomes the union of the ranges, and the new group G' has depth one greater than the depth of G and range as the intersection of the ranges. For example, a group [B:D, depth 1] + [C:E] results in groups [B:E, depth 1] and [C:D, depth 2]. */
-export interface AddDimensionGroupRequest {
-  /** The range over which to create a group. */
-  range?: DimensionRange;
-}
-/** Moves one or more rows or columns. */
-export interface MoveDimensionRequest {
-  /** The source dimensions to move. */
-  source?: DimensionRange;
-  /** The zero-based start index of where to move the source data to, based on the coordinates *before* the source data is removed from the grid. Existing data will be shifted down or right (depending on the dimension) to make room for the moved dimensions. The source dimensions are removed from the grid, so the the data may end up in a different index than specified. For example, given `A1..A5` of `0, 1, 2, 3, 4` and wanting to move `"1"` and `"2"` to between `"3"` and `"4"`, the source would be `ROWS [1..3)`,and the destination index would be `"4"` (the zero-based index of row 5). The end result would be `A1..A5` of `0, 3, 1, 2, 4`. */
-  destinationIndex?: number;
-}
-/** Adds new cells after the last row with data in a sheet, inserting new rows into the sheet if necessary. */
-export interface AppendCellsRequest {
-  /** The sheet ID to append the data to. */
-  sheetId?: number;
-  /** The data to append. */
-  rows?: RowDataList;
-  /** The fields of CellData that should be updated. At least one field must be specified. The root is the CellData; 'row.values.' should not be specified. A single `"*"` can be used as short-hand for listing every field. */
-  fields?: string;
-  /** The ID of the table to append data to. The data will be only appended to the table body. This field also takes precedence over the `sheet_id` field. */
-  tableId?: string;
-}
-/** Finds and replaces data in cells over a range, sheet, or all sheets. */
-export interface FindReplaceRequest {
-  /** True if the find value should match the entire cell. */
-  matchEntireCell?: boolean;
-  /** True to find/replace over all sheets. */
-  allSheets?: boolean;
-  /** True if the find value is a regex. The regular expression and replacement should follow Java regex rules at https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html. The replacement string is allowed to refer to capturing groups. For example, if one cell has the contents `"Google Sheets"` and another has `"Google Docs"`, then searching for `"o.* (.*)"` with a replacement of `"$1 Rocks"` would change the contents of the cells to `"GSheets Rocks"` and `"GDocs Rocks"` respectively. */
-  searchByRegex?: boolean;
-  /** The range to find/replace over. */
-  range?: GridRange;
-  /** The sheet to find/replace over. */
-  sheetId?: number;
-  /** True if the search should include cells with formulas. False to skip cells with formulas. */
-  includeFormulas?: boolean;
-  /** The value to use as the replacement. */
-  replacement?: string;
-  /** The value to search. */
-  find?: string;
-  /** True if the search is case sensitive. */
-  matchCase?: boolean;
-}
-/** Deletes a particular filter view. */
-export interface DeleteFilterViewRequest {
-  /** The ID of the filter to delete. */
-  filterId?: number;
-}
-/** A request to delete developer metadata. */
-export interface DeleteDeveloperMetadataRequest {
-  /** The data filter describing the criteria used to select which developer metadata entry to delete. */
-  dataFilter?: DataFilter;
-}
-/** A slicer in a sheet. */
-export interface Slicer {
-  /** The position of the slicer. Note that slicer can be positioned only on existing sheet. Also, width and height of slicer can be automatically adjusted to keep it within permitted limits. */
-  position?: EmbeddedObjectPosition;
-  /** The ID of the slicer. */
-  slicerId?: number;
-  /** The specification of the slicer. */
-  spec?: SlicerSpec;
-}
-/** Adds a slicer to a sheet in the spreadsheet. */
-export interface AddSlicerRequest {
-  /** The slicer that should be added to the spreadsheet, including the position where it should be placed. The slicerId field is optional; if one is not set, an id will be randomly generated. (It is an error to specify the ID of a slicer that already exists.) */
-  slicer?: Slicer;
+/** Refreshes one or multiple data source objects in the spreadsheet by the specified references. The request requires an additional `bigquery.readonly` OAuth scope if you are refreshing a BigQuery data source. If there are multiple refresh requests referencing the same data source objects in one batch, only the last refresh request is processed, and all those requests will have the same response accordingly. */
+export interface RefreshDataSourceRequest {
+  /** References to data source objects to refresh. */
+  references?: DataSourceObjectReferences;
+  /** Reference to a DataSource. If specified, refreshes all associated data source objects for the data source. */
+  dataSourceId?: string;
+  /** Refreshes all existing data source objects in the spreadsheet. */
+  isAll?: boolean;
+  /** Refreshes the data source objects regardless of the current state. If not set and a referenced data source object was in error state, the refresh will fail immediately. */
+  force?: boolean;
 }
 /** A single kind of update to apply to a spreadsheet. */
 export interface Request {
-  /** Clears the basic filter on a sheet. */
-  clearBasicFilter?: ClearBasicFilterRequest;
-  /** Copies data from one area and pastes it to another. */
-  copyPaste?: CopyPasteRequest;
-  /** Automatically fills in more data based on existing data. */
-  autoFill?: AutoFillRequest;
-  /** Adds a table. */
-  addTable?: AddTableRequest;
-  /** Deletes a range of cells from a sheet, shifting the remaining cells. */
-  deleteRange?: DeleteRangeRequest;
-  /** Updates dimensions' properties. */
-  updateDimensionProperties?: UpdateDimensionPropertiesRequest;
-  /** Updates the properties of a filter view. */
-  updateFilterView?: UpdateFilterViewRequest;
-  /** Removes rows containing duplicate values in specified columns of a cell range. */
-  deleteDuplicates?: DeleteDuplicatesRequest;
-  /** Appends dimensions to the end of a sheet. */
-  appendDimension?: AppendDimensionRequest;
-  /** Adds a reply to a CommentThread. */
-  addCommentReply?: AddCommentReplyRequest;
-  /** Randomizes the order of the rows in a range. */
-  randomizeRange?: RandomizeRangeRequest;
-  /** Updates the state of the specified group. */
-  updateDimensionGroup?: UpdateDimensionGroupRequest;
-  /** Inserts new rows or columns in a sheet. */
-  insertDimension?: InsertDimensionRequest;
-  /** Deletes a group over the specified range. */
-  deleteDimensionGroup?: DeleteDimensionGroupRequest;
-  /** Updates the borders in a range of cells. */
-  updateBorders?: UpdateBordersRequest;
-  /** Merges cells together. */
-  mergeCells?: MergeCellsRequest;
-  /** Updates a protected range. */
-  updateProtectedRange?: UpdateProtectedRangeRequest;
-  /** Deletes an embedded object (e.g, chart, image) in a sheet. */
-  deleteEmbeddedObject?: DeleteEmbeddedObjectRequest;
-  /** Adds a named range. */
-  addNamedRange?: AddNamedRangeRequest;
-  /** Updates an embedded object's (e.g. chart, image) position. */
-  updateEmbeddedObjectPosition?: UpdateEmbeddedObjectPositionRequest;
-  /** Updates a chart's specifications. */
-  updateChartSpec?: UpdateChartSpecRequest;
-  /** Updates a slicer's specifications. */
-  updateSlicerSpec?: UpdateSlicerSpecRequest;
-  /** Pastes data (HTML or delimited) into a sheet. */
-  pasteData?: PasteDataRequest;
-  /** Sets data validation for one or more cells. */
-  setDataValidation?: SetDataValidationRequest;
-  /** Adds a chart. */
-  addChart?: AddChartRequest;
-  /** Updates a named range. */
-  updateNamedRange?: UpdateNamedRangeRequest;
-  /** Converts a column of text into many columns of text. */
-  textToColumns?: TextToColumnsRequest;
-  /** Deletes a protected range. */
-  deleteProtectedRange?: DeleteProtectedRangeRequest;
-  /** Updates an existing post (head post or reply) of a CommentThread. */
-  updateCommentPost?: UpdateCommentPostRequest;
-  /** Inserts a CommentThread into the spreadsheet. */
-  insertComment?: InsertCommentRequest;
-  /** Repeats a single cell across a range. */
-  repeatCell?: RepeatCellRequest;
-  /** Deletes a sheet. */
-  deleteSheet?: DeleteSheetRequest;
-  /** A request for deleting a table. */
-  deleteTable?: DeleteTableRequest;
-  /** Adds a protected range. */
-  addProtectedRange?: AddProtectedRangeRequest;
-  /** Updates an existing conditional format rule. */
-  updateConditionalFormatRule?: UpdateConditionalFormatRuleRequest;
-  /** Deletes rows or columns in a sheet. */
-  deleteDimension?: DeleteDimensionRequest;
-  /** Deletes a reply Post from a CommentThread */
-  deleteCommentReply?: DeleteCommentReplyRequest;
-  /** Updates a sheet's properties. */
-  updateSheetProperties?: UpdateSheetPropertiesRequest;
-  /** Deletes an existing conditional format rule. */
-  deleteConditionalFormatRule?: DeleteConditionalFormatRuleRequest;
-  /** Sorts data in a range. */
-  sortRange?: SortRangeRequest;
-  /** Updates many cells at once. */
-  updateCells?: UpdateCellsRequest;
-  /** Sets the basic filter on a sheet. */
-  setBasicFilter?: SetBasicFilterRequest;
-  /** Unmerges merged cells. */
-  unmergeCells?: UnmergeCellsRequest;
-  /** Cuts data from one area and pastes it to another. */
-  cutPaste?: CutPasteRequest;
-  /** Adds a new conditional format rule. */
-  addConditionalFormatRule?: AddConditionalFormatRuleRequest;
-  /** Adds a sheet. */
-  addSheet?: AddSheetRequest;
-  /** Updates a table. */
-  updateTable?: UpdateTableRequest;
-  /** Updates an embedded object's border. */
-  updateEmbeddedObjectBorder?: UpdateEmbeddedObjectBorderRequest;
-  /** Trims cells of whitespace (such as spaces, tabs, or new lines). */
-  trimWhitespace?: TrimWhitespaceRequest;
-  /** Updates the spreadsheet's properties. */
-  updateSpreadsheetProperties?: UpdateSpreadsheetPropertiesRequest;
-  /** Updates an existing developer metadata entry */
-  updateDeveloperMetadata?: UpdateDeveloperMetadataRequest;
-  /** Inserts new cells in a sheet, shifting the existing cells. */
-  insertRange?: InsertRangeRequest;
-  /** Updates a banded range */
-  updateBanding?: UpdateBandingRequest;
-  /** Cancels refreshes of one or multiple data sources and associated dbobjects. */
-  cancelDataSourceRefresh?: CancelDataSourceRefreshRequest;
-  /** Deletes a data source. */
-  deleteDataSource?: DeleteDataSourceRequest;
   /** Adds a data source. */
   addDataSource?: AddDataSourceRequest;
-  /** Creates new developer metadata */
-  createDeveloperMetadata?: CreateDeveloperMetadataRequest;
-  /** Deletes a named range. */
-  deleteNamedRange?: DeleteNamedRangeRequest;
-  /** Duplicates a sheet. */
-  duplicateSheet?: DuplicateSheetRequest;
-  /** Adds a new banded range */
-  addBanding?: AddBandingRequest;
-  /** Refreshes one or multiple data sources and associated dbobjects. */
-  refreshDataSource?: RefreshDataSourceRequest;
+  /** Updates a slicer's specifications. */
+  updateSlicerSpec?: UpdateSlicerSpecRequest;
+  /** Sets data validation for one or more cells. */
+  setDataValidation?: SetDataValidationRequest;
   /** Duplicates a filter view. */
   duplicateFilterView?: DuplicateFilterViewRequest;
-  /** Automatically resizes one or more dimensions based on the contents of the cells in that dimension. */
-  autoResizeDimensions?: AutoResizeDimensionsRequest;
-  /** Removes a banded range */
-  deleteBanding?: DeleteBandingRequest;
-  /** Adds a filter view. */
-  addFilterView?: AddFilterViewRequest;
-  /** Deletes a CommentThread. */
-  deleteComment?: DeleteCommentRequest;
-  /** Updates a data source. */
-  updateDataSource?: UpdateDataSourceRequest;
-  /** Creates a group over the specified range. */
-  addDimensionGroup?: AddDimensionGroupRequest;
-  /** Moves rows or columns to another location in a sheet. */
-  moveDimension?: MoveDimensionRequest;
-  /** Appends cells after the last row with data in a sheet. */
-  appendCells?: AppendCellsRequest;
-  /** Finds and replaces occurrences of some text with other text. */
-  findReplace?: FindReplaceRequest;
-  /** Deletes a filter view from a sheet. */
-  deleteFilterView?: DeleteFilterViewRequest;
-  /** Deletes developer metadata */
-  deleteDeveloperMetadata?: DeleteDeveloperMetadataRequest;
+  /** Inserts new rows or columns in a sheet. */
+  insertDimension?: InsertDimensionRequest;
+  /** Sets the basic filter on a sheet. */
+  setBasicFilter?: SetBasicFilterRequest;
+  /** Updates many cells at once. */
+  updateCells?: UpdateCellsRequest;
+  /** Deletes a data source. */
+  deleteDataSource?: DeleteDataSourceRequest;
+  /** Cuts data from one area and pastes it to another. */
+  cutPaste?: CutPasteRequest;
+  /** Deletes a sheet. */
+  deleteSheet?: DeleteSheetRequest;
   /** Adds a slicer. */
   addSlicer?: AddSlicerRequest;
+  /** Adds a named range. */
+  addNamedRange?: AddNamedRangeRequest;
+  /** Converts a column of text into many columns of text. */
+  textToColumns?: TextToColumnsRequest;
+  /** Updates the properties of a filter view. */
+  updateFilterView?: UpdateFilterViewRequest;
+  /** Trims cells of whitespace (such as spaces, tabs, or new lines). */
+  trimWhitespace?: TrimWhitespaceRequest;
+  /** Inserts new cells in a sheet, shifting the existing cells. */
+  insertRange?: InsertRangeRequest;
+  /** Adds a new conditional format rule. */
+  addConditionalFormatRule?: AddConditionalFormatRuleRequest;
+  /** Updates an existing conditional format rule. */
+  updateConditionalFormatRule?: UpdateConditionalFormatRuleRequest;
+  /** Copies data from one area and pastes it to another. */
+  copyPaste?: CopyPasteRequest;
+  /** Adds a sheet. */
+  addSheet?: AddSheetRequest;
+  /** Updates a banded range */
+  updateBanding?: UpdateBandingRequest;
+  /** A request for deleting a table. */
+  deleteTable?: DeleteTableRequest;
+  /** Deletes a filter view from a sheet. */
+  deleteFilterView?: DeleteFilterViewRequest;
+  /** Updates an existing developer metadata entry */
+  updateDeveloperMetadata?: UpdateDeveloperMetadataRequest;
+  /** Updates the spreadsheet's properties. */
+  updateSpreadsheetProperties?: UpdateSpreadsheetPropertiesRequest;
+  /** Updates the state of the specified group. */
+  updateDimensionGroup?: UpdateDimensionGroupRequest;
+  /** Updates an embedded object's border. */
+  updateEmbeddedObjectBorder?: UpdateEmbeddedObjectBorderRequest;
+  /** Deletes rows or columns in a sheet. */
+  deleteDimension?: DeleteDimensionRequest;
+  /** Deletes a CommentThread. */
+  deleteComment?: DeleteCommentRequest;
+  /** Updates the borders in a range of cells. */
+  updateBorders?: UpdateBordersRequest;
+  /** Repeats a single cell across a range. */
+  repeatCell?: RepeatCellRequest;
+  /** Creates new developer metadata */
+  createDeveloperMetadata?: CreateDeveloperMetadataRequest;
+  /** Appends cells after the last row with data in a sheet. */
+  appendCells?: AppendCellsRequest;
+  /** Duplicates a sheet. */
+  duplicateSheet?: DuplicateSheetRequest;
+  /** Randomizes the order of the rows in a range. */
+  randomizeRange?: RandomizeRangeRequest;
+  /** Automatically resizes one or more dimensions based on the contents of the cells in that dimension. */
+  autoResizeDimensions?: AutoResizeDimensionsRequest;
+  /** Adds a table. */
+  addTable?: AddTableRequest;
+  /** Deletes developer metadata */
+  deleteDeveloperMetadata?: DeleteDeveloperMetadataRequest;
+  /** Deletes a range of cells from a sheet, shifting the remaining cells. */
+  deleteRange?: DeleteRangeRequest;
+  /** Updates a data source. */
+  updateDataSource?: UpdateDataSourceRequest;
+  /** Appends dimensions to the end of a sheet. */
+  appendDimension?: AppendDimensionRequest;
+  /** Updates an embedded object's (e.g. chart, image) position. */
+  updateEmbeddedObjectPosition?: UpdateEmbeddedObjectPositionRequest;
+  /** Deletes a protected range. */
+  deleteProtectedRange?: DeleteProtectedRangeRequest;
+  /** Clears the basic filter on a sheet. */
+  clearBasicFilter?: ClearBasicFilterRequest;
+  /** Deletes an embedded object (e.g, chart, image) in a sheet. */
+  deleteEmbeddedObject?: DeleteEmbeddedObjectRequest;
+  /** Sorts data in a range. */
+  sortRange?: SortRangeRequest;
+  /** Moves rows or columns to another location in a sheet. */
+  moveDimension?: MoveDimensionRequest;
+  /** Updates a protected range. */
+  updateProtectedRange?: UpdateProtectedRangeRequest;
+  /** Adds a reply to a CommentThread. */
+  addCommentReply?: AddCommentReplyRequest;
+  /** Inserts a CommentThread into the spreadsheet. */
+  insertComment?: InsertCommentRequest;
+  /** Deletes a reply Post from a CommentThread */
+  deleteCommentReply?: DeleteCommentReplyRequest;
+  /** Creates a group over the specified range. */
+  addDimensionGroup?: AddDimensionGroupRequest;
+  /** Updates a table. */
+  updateTable?: UpdateTableRequest;
+  /** Adds a filter view. */
+  addFilterView?: AddFilterViewRequest;
+  /** Updates dimensions' properties. */
+  updateDimensionProperties?: UpdateDimensionPropertiesRequest;
+  /** Deletes a group over the specified range. */
+  deleteDimensionGroup?: DeleteDimensionGroupRequest;
+  /** Automatically fills in more data based on existing data. */
+  autoFill?: AutoFillRequest;
+  /** Adds a new banded range */
+  addBanding?: AddBandingRequest;
+  /** Merges cells together. */
+  mergeCells?: MergeCellsRequest;
+  /** Removes rows containing duplicate values in specified columns of a cell range. */
+  deleteDuplicates?: DeleteDuplicatesRequest;
+  /** Updates a named range. */
+  updateNamedRange?: UpdateNamedRangeRequest;
+  /** Deletes a named range. */
+  deleteNamedRange?: DeleteNamedRangeRequest;
+  /** Updates a chart's specifications. */
+  updateChartSpec?: UpdateChartSpecRequest;
+  /** Unmerges merged cells. */
+  unmergeCells?: UnmergeCellsRequest;
+  /** Deletes an existing conditional format rule. */
+  deleteConditionalFormatRule?: DeleteConditionalFormatRuleRequest;
+  /** Updates a sheet's properties. */
+  updateSheetProperties?: UpdateSheetPropertiesRequest;
+  /** Cancels refreshes of one or multiple data sources and associated dbobjects. */
+  cancelDataSourceRefresh?: CancelDataSourceRefreshRequest;
+  /** Pastes data (HTML or delimited) into a sheet. */
+  pasteData?: PasteDataRequest;
+  /** Adds a chart. */
+  addChart?: AddChartRequest;
+  /** Finds and replaces occurrences of some text with other text. */
+  findReplace?: FindReplaceRequest;
+  /** Adds a protected range. */
+  addProtectedRange?: AddProtectedRangeRequest;
+  /** Updates an existing post (head post or reply) of a CommentThread. */
+  updateCommentPost?: UpdateCommentPostRequest;
+  /** Removes a banded range */
+  deleteBanding?: DeleteBandingRequest;
+  /** Refreshes one or multiple data sources and associated dbobjects. */
+  refreshDataSource?: RefreshDataSourceRequest;
 }
 export type RequestList = Array<Request>;
-export type BatchUpdateSpreadsheetRequestCommentsViewModeEnum =
-  | "COMMENTS_VIEW_MODE_UNSPECIFIED"
-  | "COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS"
-  | "COMMENTS_VIEW_MODE_OMITTED"
-  | "COMMENTS_VIEW_MODE_INCLUDED";
 /** The request for updating any aspect of a spreadsheet. */
 export interface BatchUpdateSpreadsheetRequest {
   /** Determines if the update response should include the spreadsheet resource. */
   includeSpreadsheetInResponse?: boolean;
-  /** A list of updates to apply to the spreadsheet. Requests will be applied in the order they are specified. If any request is not valid, no requests will be applied. */
-  requests?: RequestList;
   /** Limits the ranges included in the response spreadsheet. Meaningful only if include_spreadsheet_in_response is 'true'. */
   responseRanges?: StringList;
   /** The comments view mode to apply to the spreadsheet. This allows viewing the spreadsheet with comments omitted or included. If one is not specified, COMMENTS_VIEW_MODE_OMITTED is used. Meaningful only if include_spreadsheet_in_response is 'true'. */
   commentsViewMode?: BatchUpdateSpreadsheetRequestCommentsViewModeEnum | (string & {});
   /** True if grid data should be returned. Meaningful only if include_spreadsheet_in_response is 'true'. This parameter is ignored if a field mask was set in the request. */
   responseIncludeGridData?: boolean;
+  /** A list of updates to apply to the spreadsheet. Requests will be applied in the order they are specified. If any request is not valid, no requests will be applied. */
+  requests?: RequestList;
 }
 export interface BatchUpdateSpreadsheetsRequest {
   /** The spreadsheet to apply the updates to. */
@@ -3067,37 +3067,54 @@ export interface BatchUpdateSpreadsheetsRequest {
   /** Request body */
   body?: BatchUpdateSpreadsheetRequest;
 }
-/** The result of trimming whitespace in cells. */
-export interface TrimWhitespaceResponse {
-  /** The number of cells that were trimmed of whitespace. */
-  cellsChangedCount?: number;
+export type DimensionGroupList = Array<DimensionGroup>;
+/** The result of adding a group. */
+export interface AddDimensionGroupResponse {
+  /** All groups of a dimension after adding a group to that dimension. */
+  dimensionGroups?: DimensionGroupList;
 }
-/** The result of adding a table. */
-export interface AddTableResponse {
-  /** Output only. The table that was added. */
-  table?: Table;
+/** The result of adding a named range. */
+export interface AddNamedRangeResponse {
+  /** The named range to add. */
+  namedRange?: NamedRange;
 }
-/** The result of adding a filter view. */
-export interface AddFilterViewResponse {
-  /** The newly added filter view. */
+/** The result of a filter view being duplicated. */
+export interface DuplicateFilterViewResponse {
+  /** The newly created filter. */
   filter?: FilterView;
+}
+/** The result of updating a conditional format rule. */
+export interface UpdateConditionalFormatRuleResponse {
+  /** The old (deleted) rule. Not set if a rule was moved (because it is the same as new_rule). */
+  oldRule?: ConditionalFormatRule;
+  /** The new rule that replaced the old rule (if replacing), or the rule that was moved (if moved) */
+  newRule?: ConditionalFormatRule;
+  /** The index of the new rule. */
+  newIndex?: number;
+  /** The old index of the rule. Not set if a rule was replaced (because it is the same as new_index). */
+  oldIndex?: number;
+}
+/** The result of adding a sheet. */
+export interface AddSheetResponse {
+  /** The properties of the newly added sheet. */
+  properties?: SheetProperties;
 }
 export type PostList = Array<Post>;
 export type CommentThreadStatusEnum = "STATUS_UNSPECIFIED" | "OPEN" | "RESOLVED";
 /** Represents a single comment thread inside a spreadsheet. */
 export interface CommentThread {
+  /** The unique ID of the comment thread. */
+  commentId?: string;
   /** The ID of the CommentAnchor in the sheet that this thread is tied to. */
   anchorId?: string;
+  /** The quoted text from the spreadsheet when the comment was created, formatted as plain-text. */
+  plainTextQuote?: string;
   /** The first post in the thread. */
   headPost?: Post;
   /** Replies to the head post. */
   replies?: PostList;
   /** Whether the thread is open or resolved. */
   status?: CommentThreadStatusEnum | (string & {});
-  /** The unique ID of the comment thread. */
-  commentId?: string;
-  /** The quoted text from the spreadsheet when the comment was created, formatted as plain-text. */
-  plainTextQuote?: string;
 }
 /** The result of creating a comment. */
 export interface InsertCommentResponse {
@@ -3109,42 +3126,81 @@ export interface AddBandingResponse {
   /** The banded range that was added. */
   bandedRange?: BandedRange;
 }
+/** The result of adding a data source. */
+export interface AddDataSourceResponse {
+  /** The data source that was created. */
+  dataSource?: DataSource;
+  /** The data execution status. */
+  dataExecutionStatus?: DataExecutionStatus;
+}
+/** The response from updating data source. */
+export interface UpdateDataSourceResponse {
+  /** The updated data source. */
+  dataSource?: DataSource;
+  /** The data execution status. */
+  dataExecutionStatus?: DataExecutionStatus;
+}
+/** The result of duplicating a sheet. */
+export interface DuplicateSheetResponse {
+  /** The properties of the duplicate sheet. */
+  properties?: SheetProperties;
+}
+/** The result of updating an embedded object's position. */
+export interface UpdateEmbeddedObjectPositionResponse {
+  /** The new position of the embedded object. */
+  position?: EmbeddedObjectPosition;
+}
+/** The response from deleting developer metadata. */
+export interface DeleteDeveloperMetadataResponse {
+  /** The metadata that was deleted. */
+  deletedDeveloperMetadata?: DeveloperMetadataList;
+}
+/** The result of adding a chart to a spreadsheet. */
+export interface AddChartResponse {
+  /** The newly added chart. */
+  chart?: EmbeddedChart;
+}
+/** The result of deleting a group. */
+export interface DeleteDimensionGroupResponse {
+  /** All groups of a dimension after deleting a group from that dimension. */
+  dimensionGroups?: DimensionGroupList;
+}
+/** The execution status of refreshing one data source object. */
+export interface RefreshDataSourceObjectExecutionStatus {
+  /** Reference to a data source object being refreshed. */
+  reference?: DataSourceObjectReference;
+  /** The data execution status. */
+  dataExecutionStatus?: DataExecutionStatus;
+}
+export type RefreshDataSourceObjectExecutionStatusList =
+  Array<RefreshDataSourceObjectExecutionStatus>;
+/** The response from refreshing one or multiple data source objects. */
+export interface RefreshDataSourceResponse {
+  /** All the refresh status for the data source object references specified in the request. If is_all is specified, the field contains only those in failure status. */
+  statuses?: RefreshDataSourceObjectExecutionStatusList;
+}
 /** The result of deleting a conditional format rule. */
 export interface DeleteConditionalFormatRuleResponse {
   /** The rule that was deleted. */
   rule?: ConditionalFormatRule;
-}
-/** The result of adding a sheet. */
-export interface AddSheetResponse {
-  /** The properties of the newly added sheet. */
-  properties?: SheetProperties;
-}
-/** The response from updating data source. */
-export interface UpdateDataSourceResponse {
-  /** The data execution status. */
-  dataExecutionStatus?: DataExecutionStatus;
-  /** The updated data source. */
-  dataSource?: DataSource;
-}
-/** The result of a filter view being duplicated. */
-export interface DuplicateFilterViewResponse {
-  /** The newly created filter. */
-  filter?: FilterView;
 }
 /** The response from creating developer metadata. */
 export interface CreateDeveloperMetadataResponse {
   /** The developer metadata that was created. */
   developerMetadata?: DeveloperMetadata;
 }
-/** The result of creating a reply. */
-export interface AddCommentReplyResponse {
-  /** The newly-inserted reply Post. */
-  post?: Post;
-}
-/** The response from updating developer metadata. */
-export interface UpdateDeveloperMetadataResponse {
-  /** The updated developer metadata. */
-  developerMetadata?: DeveloperMetadataList;
+/** The result of the find/replace. */
+export interface FindReplaceResponse {
+  /** The number of occurrences (possibly multiple within a cell) changed. For example, if replacing `"e"` with `"o"` in `"Google Sheets"`, this would be `"3"` because `"Google Sheets"` -> `"Googlo Shoots"`. */
+  occurrencesChanged?: number;
+  /** The number of formula cells changed. */
+  formulasChanged?: number;
+  /** The number of rows changed. */
+  rowsChanged?: number;
+  /** The number of sheets changed. */
+  sheetsChanged?: number;
+  /** The number of non-formula cells changed. */
+  valuesChanged?: number;
 }
 export type RefreshCancellationStatusStateEnum =
   | "REFRESH_CANCELLATION_STATE_UNSPECIFIED"
@@ -3166,10 +3222,10 @@ export interface RefreshCancellationStatus {
 }
 /** The status of cancelling a single data source object refresh. */
 export interface CancelDataSourceRefreshStatus {
-  /** Reference to the data source object whose refresh is being cancelled. */
-  reference?: DataSourceObjectReference;
   /** The cancellation status. */
   refreshCancellationStatus?: RefreshCancellationStatus;
+  /** Reference to the data source object whose refresh is being cancelled. */
+  reference?: DataSourceObjectReference;
 }
 export type CancelDataSourceRefreshStatusList = Array<CancelDataSourceRefreshStatus>;
 /** The response from cancelling one or multiple data source object refreshes. */
@@ -3177,158 +3233,102 @@ export interface CancelDataSourceRefreshResponse {
   /** The cancellation statuses of refreshes of all data source objects specified in the request. If is_all is specified, the field contains only those in failure status. Refreshing and canceling refresh the same data source object is also not allowed in the same `batchUpdate`. */
   statuses?: CancelDataSourceRefreshStatusList;
 }
-/** The result of updating an embedded object's position. */
-export interface UpdateEmbeddedObjectPositionResponse {
-  /** The new position of the embedded object. */
-  position?: EmbeddedObjectPosition;
-}
 /** The result of adding a new protected range. */
 export interface AddProtectedRangeResponse {
   /** The newly added protected range. */
   protectedRange?: ProtectedRange;
 }
-/** The result of the find/replace. */
-export interface FindReplaceResponse {
-  /** The number of formula cells changed. */
-  formulasChanged?: number;
-  /** The number of sheets changed. */
-  sheetsChanged?: number;
-  /** The number of non-formula cells changed. */
-  valuesChanged?: number;
-  /** The number of occurrences (possibly multiple within a cell) changed. For example, if replacing `"e"` with `"o"` in `"Google Sheets"`, this would be `"3"` because `"Google Sheets"` -> `"Googlo Shoots"`. */
-  occurrencesChanged?: number;
-  /** The number of rows changed. */
-  rowsChanged?: number;
+/** The result of adding a table. */
+export interface AddTableResponse {
+  /** Output only. The table that was added. */
+  table?: Table;
 }
-/** The result of adding a chart to a spreadsheet. */
-export interface AddChartResponse {
-  /** The newly added chart. */
-  chart?: EmbeddedChart;
-}
-export type DimensionGroupList = Array<DimensionGroup>;
-/** The result of adding a group. */
-export interface AddDimensionGroupResponse {
-  /** All groups of a dimension after adding a group to that dimension. */
-  dimensionGroups?: DimensionGroupList;
-}
-/** The result of adding a data source. */
-export interface AddDataSourceResponse {
-  /** The data execution status. */
-  dataExecutionStatus?: DataExecutionStatus;
-  /** The data source that was created. */
-  dataSource?: DataSource;
-}
-/** The result of adding a named range. */
-export interface AddNamedRangeResponse {
-  /** The named range to add. */
-  namedRange?: NamedRange;
-}
-/** The result of adding a slicer to a spreadsheet. */
-export interface AddSlicerResponse {
-  /** The newly added slicer. */
-  slicer?: Slicer;
+/** The result of adding a filter view. */
+export interface AddFilterViewResponse {
+  /** The newly added filter view. */
+  filter?: FilterView;
 }
 /** The result of removing duplicates in a range. */
 export interface DeleteDuplicatesResponse {
   /** The number of duplicate rows removed. */
   duplicatesRemovedCount?: number;
 }
-/** The result of updating a conditional format rule. */
-export interface UpdateConditionalFormatRuleResponse {
-  /** The old (deleted) rule. Not set if a rule was moved (because it is the same as new_rule). */
-  oldRule?: ConditionalFormatRule;
-  /** The old index of the rule. Not set if a rule was replaced (because it is the same as new_index). */
-  oldIndex?: number;
-  /** The index of the new rule. */
-  newIndex?: number;
-  /** The new rule that replaced the old rule (if replacing), or the rule that was moved (if moved) */
-  newRule?: ConditionalFormatRule;
+/** The result of adding a slicer to a spreadsheet. */
+export interface AddSlicerResponse {
+  /** The newly added slicer. */
+  slicer?: Slicer;
 }
-/** The result of duplicating a sheet. */
-export interface DuplicateSheetResponse {
-  /** The properties of the duplicate sheet. */
-  properties?: SheetProperties;
+/** The response from updating developer metadata. */
+export interface UpdateDeveloperMetadataResponse {
+  /** The updated developer metadata. */
+  developerMetadata?: DeveloperMetadataList;
 }
-/** The execution status of refreshing one data source object. */
-export interface RefreshDataSourceObjectExecutionStatus {
-  /** Reference to a data source object being refreshed. */
-  reference?: DataSourceObjectReference;
-  /** The data execution status. */
-  dataExecutionStatus?: DataExecutionStatus;
+/** The result of trimming whitespace in cells. */
+export interface TrimWhitespaceResponse {
+  /** The number of cells that were trimmed of whitespace. */
+  cellsChangedCount?: number;
 }
-export type RefreshDataSourceObjectExecutionStatusList =
-  Array<RefreshDataSourceObjectExecutionStatus>;
-/** The response from refreshing one or multiple data source objects. */
-export interface RefreshDataSourceResponse {
-  /** All the refresh status for the data source object references specified in the request. If is_all is specified, the field contains only those in failure status. */
-  statuses?: RefreshDataSourceObjectExecutionStatusList;
-}
-/** The result of deleting a group. */
-export interface DeleteDimensionGroupResponse {
-  /** All groups of a dimension after deleting a group from that dimension. */
-  dimensionGroups?: DimensionGroupList;
-}
-/** The response from deleting developer metadata. */
-export interface DeleteDeveloperMetadataResponse {
-  /** The metadata that was deleted. */
-  deletedDeveloperMetadata?: DeveloperMetadataList;
+/** The result of creating a reply. */
+export interface AddCommentReplyResponse {
+  /** The newly-inserted reply Post. */
+  post?: Post;
 }
 /** A single response from an update. */
 export interface Response {
-  /** A reply from trimming whitespace. */
-  trimWhitespace?: TrimWhitespaceResponse;
-  /** A reply from adding a table. */
-  addTable?: AddTableResponse;
-  /** A reply from adding a filter view. */
-  addFilterView?: AddFilterViewResponse;
+  /** A reply from adding a dimension group. */
+  addDimensionGroup?: AddDimensionGroupResponse;
+  /** A reply from adding a named range. */
+  addNamedRange?: AddNamedRangeResponse;
+  /** A reply from duplicating a filter view. */
+  duplicateFilterView?: DuplicateFilterViewResponse;
+  /** A reply from updating a conditional format rule. */
+  updateConditionalFormatRule?: UpdateConditionalFormatRuleResponse;
+  /** A reply from adding a sheet. */
+  addSheet?: AddSheetResponse;
   /** The result of creating a comment. */
   insertComment?: InsertCommentResponse;
   /** A reply from adding a banded range. */
   addBanding?: AddBandingResponse;
-  /** A reply from deleting a conditional format rule. */
-  deleteConditionalFormatRule?: DeleteConditionalFormatRuleResponse;
-  /** A reply from adding a sheet. */
-  addSheet?: AddSheetResponse;
-  /** A reply from updating a data source. */
-  updateDataSource?: UpdateDataSourceResponse;
-  /** A reply from duplicating a filter view. */
-  duplicateFilterView?: DuplicateFilterViewResponse;
-  /** A reply from creating a developer metadata entry. */
-  createDeveloperMetadata?: CreateDeveloperMetadataResponse;
-  /** The result of creating a reply. */
-  addCommentReply?: AddCommentReplyResponse;
-  /** A reply from updating a developer metadata entry. */
-  updateDeveloperMetadata?: UpdateDeveloperMetadataResponse;
-  /** A reply from cancelling data source object refreshes. */
-  cancelDataSourceRefresh?: CancelDataSourceRefreshResponse;
-  /** A reply from updating an embedded object's position. */
-  updateEmbeddedObjectPosition?: UpdateEmbeddedObjectPositionResponse;
-  /** A reply from adding a protected range. */
-  addProtectedRange?: AddProtectedRangeResponse;
-  /** A reply from doing a find/replace. */
-  findReplace?: FindReplaceResponse;
-  /** A reply from adding a chart. */
-  addChart?: AddChartResponse;
-  /** A reply from adding a dimension group. */
-  addDimensionGroup?: AddDimensionGroupResponse;
   /** A reply from adding a data source. */
   addDataSource?: AddDataSourceResponse;
-  /** A reply from adding a named range. */
-  addNamedRange?: AddNamedRangeResponse;
-  /** A reply from adding a slicer. */
-  addSlicer?: AddSlicerResponse;
-  /** A reply from removing rows containing duplicate values. */
-  deleteDuplicates?: DeleteDuplicatesResponse;
-  /** A reply from updating a conditional format rule. */
-  updateConditionalFormatRule?: UpdateConditionalFormatRuleResponse;
+  /** A reply from updating a data source. */
+  updateDataSource?: UpdateDataSourceResponse;
   /** A reply from duplicating a sheet. */
   duplicateSheet?: DuplicateSheetResponse;
-  /** A reply from refreshing data source objects. */
-  refreshDataSource?: RefreshDataSourceResponse;
-  /** A reply from deleting a dimension group. */
-  deleteDimensionGroup?: DeleteDimensionGroupResponse;
+  /** A reply from updating an embedded object's position. */
+  updateEmbeddedObjectPosition?: UpdateEmbeddedObjectPositionResponse;
   /** A reply from deleting a developer metadata entry. */
   deleteDeveloperMetadata?: DeleteDeveloperMetadataResponse;
+  /** A reply from adding a chart. */
+  addChart?: AddChartResponse;
+  /** A reply from deleting a dimension group. */
+  deleteDimensionGroup?: DeleteDimensionGroupResponse;
+  /** A reply from refreshing data source objects. */
+  refreshDataSource?: RefreshDataSourceResponse;
+  /** A reply from deleting a conditional format rule. */
+  deleteConditionalFormatRule?: DeleteConditionalFormatRuleResponse;
+  /** A reply from creating a developer metadata entry. */
+  createDeveloperMetadata?: CreateDeveloperMetadataResponse;
+  /** A reply from doing a find/replace. */
+  findReplace?: FindReplaceResponse;
+  /** A reply from cancelling data source object refreshes. */
+  cancelDataSourceRefresh?: CancelDataSourceRefreshResponse;
+  /** A reply from adding a protected range. */
+  addProtectedRange?: AddProtectedRangeResponse;
+  /** A reply from adding a table. */
+  addTable?: AddTableResponse;
+  /** A reply from adding a filter view. */
+  addFilterView?: AddFilterViewResponse;
+  /** A reply from removing rows containing duplicate values. */
+  deleteDuplicates?: DeleteDuplicatesResponse;
+  /** A reply from adding a slicer. */
+  addSlicer?: AddSlicerResponse;
+  /** A reply from updating a developer metadata entry. */
+  updateDeveloperMetadata?: UpdateDeveloperMetadataResponse;
+  /** A reply from trimming whitespace. */
+  trimWhitespace?: TrimWhitespaceResponse;
+  /** The result of creating a reply. */
+  addCommentReply?: AddCommentReplyResponse;
 }
 export type ResponseList = Array<Response>;
 export type BatchUpdateSpreadsheetResponseCommentUpdateStateEnum =
@@ -3336,35 +3336,7 @@ export type BatchUpdateSpreadsheetResponseCommentUpdateStateEnum =
   | "NO_UPDATES_REQUESTED"
   | "ALL_SAVED"
   | "ALL_FAILED_UNKNOWN_REASON";
-export type DataSourceList = Array<DataSource>;
-export type CommentThreadList = Array<CommentThread>;
-export type SpreadsheetCommentsViewModeEnum =
-  | "COMMENTS_VIEW_MODE_UNSPECIFIED"
-  | "COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS"
-  | "COMMENTS_VIEW_MODE_OMITTED"
-  | "COMMENTS_VIEW_MODE_INCLUDED";
-export type EmbeddedChartList = Array<EmbeddedChart>;
-export type ConditionalFormatRuleList = Array<ConditionalFormatRule>;
-export type BandedRangeList = Array<BandedRange>;
-export type TableList = Array<Table>;
-export type FilterViewList = Array<FilterView>;
-export type ProtectedRangeList = Array<ProtectedRange>;
 export type SlicerList = Array<Slicer>;
-export type DimensionPropertiesList = Array<DimensionProperties>;
-/** Data in the grid, as well as metadata about the dimensions. */
-export interface GridData {
-  /** The first column this GridData refers to, zero-based. */
-  startColumn?: number;
-  /** Metadata about the requested columns in the grid, starting with the column in start_column. */
-  columnMetadata?: DimensionPropertiesList;
-  /** The first row this GridData refers to, zero-based. */
-  startRow?: number;
-  /** The data in the grid, one entry per row, starting with the row in startRow. The values in RowData will correspond to columns starting at start_column. */
-  rowData?: RowDataList;
-  /** Metadata about the requested rows in the grid, starting with the row in start_row. */
-  rowMetadata?: DimensionPropertiesList;
-}
-export type GridDataList = Array<GridData>;
 /** A location in the spreadsheet that is tied to a CommentThread with the same anchorId. Note: Multiple anchors may refer to the same location. */
 export interface CommentAnchor {
   /** The unique ID of the comment anchor. Output only. */
@@ -3373,54 +3345,93 @@ export interface CommentAnchor {
   range?: GridRange;
 }
 export type CommentAnchorList = Array<CommentAnchor>;
+export type ProtectedRangeList = Array<ProtectedRange>;
+export type ConditionalFormatRuleList = Array<ConditionalFormatRule>;
+export type BandedRangeList = Array<BandedRange>;
+export type EmbeddedChartList = Array<EmbeddedChart>;
+export type FilterViewList = Array<FilterView>;
+export type DimensionPropertiesList = Array<DimensionProperties>;
+/** Data in the grid, as well as metadata about the dimensions. */
+export interface GridData {
+  /** The first row this GridData refers to, zero-based. */
+  startRow?: number;
+  /** The first column this GridData refers to, zero-based. */
+  startColumn?: number;
+  /** Metadata about the requested columns in the grid, starting with the column in start_column. */
+  columnMetadata?: DimensionPropertiesList;
+  /** The data in the grid, one entry per row, starting with the row in startRow. The values in RowData will correspond to columns starting at start_column. */
+  rowData?: RowDataList;
+  /** Metadata about the requested rows in the grid, starting with the row in start_row. */
+  rowMetadata?: DimensionPropertiesList;
+}
+export type GridDataList = Array<GridData>;
+export type TableList = Array<Table>;
 /** A sheet in a spreadsheet. */
 export interface Sheet {
-  /** The specifications of every chart on this sheet. */
-  charts?: EmbeddedChartList;
-  /** The conditional format rules in this sheet. */
-  conditionalFormats?: ConditionalFormatRuleList;
-  /** The properties of the sheet. */
-  properties?: SheetProperties;
-  /** The banded (alternating colors) ranges on this sheet. */
-  bandedRanges?: BandedRangeList;
-  /** The tables on this sheet. */
-  tables?: TableList;
-  /** The ranges that are merged together. */
-  merges?: GridRangeList;
-  /** The filter views in this sheet. */
-  filterViews?: FilterViewList;
   /** The developer metadata associated with a sheet. */
   developerMetadata?: DeveloperMetadataList;
-  /** The protected ranges in this sheet. */
-  protectedRanges?: ProtectedRangeList;
-  /** The filter on this sheet, if any. */
-  basicFilter?: BasicFilter;
+  /** The properties of the sheet. */
+  properties?: SheetProperties;
   /** The slicers on this sheet. */
   slicers?: SlicerList;
-  /** Data in the grid, if this is a grid sheet. The number of GridData objects returned is dependent on the number of ranges requested on this sheet. For example, if this is representing `Sheet1`, and the spreadsheet was requested with ranges `Sheet1!A1:C10` and `Sheet1!D15:E20`, then the first GridData will have a startRow/startColumn of `0`, while the second one will have `startRow 14` (zero-based row 15), and `startColumn 3` (zero-based column D). For a DATA_SOURCE sheet, you can not request a specific range, the GridData contains all the values. */
-  data?: GridDataList;
-  /** All row groups on this sheet, ordered by increasing range start index, then by group depth. */
-  rowGroups?: DimensionGroupList;
-  /** All column groups on this sheet, ordered by increasing range start index, then by group depth. */
-  columnGroups?: DimensionGroupList;
   /** The comment anchors on this sheet. */
   commentAnchors?: CommentAnchorList;
+  /** The protected ranges in this sheet. */
+  protectedRanges?: ProtectedRangeList;
+  /** The conditional format rules in this sheet. */
+  conditionalFormats?: ConditionalFormatRuleList;
+  /** The filter on this sheet, if any. */
+  basicFilter?: BasicFilter;
+  /** The banded (alternating colors) ranges on this sheet. */
+  bandedRanges?: BandedRangeList;
+  /** The specifications of every chart on this sheet. */
+  charts?: EmbeddedChartList;
+  /** The ranges that are merged together. */
+  merges?: GridRangeList;
+  /** All column groups on this sheet, ordered by increasing range start index, then by group depth. */
+  columnGroups?: DimensionGroupList;
+  /** The filter views in this sheet. */
+  filterViews?: FilterViewList;
+  /** All row groups on this sheet, ordered by increasing range start index, then by group depth. */
+  rowGroups?: DimensionGroupList;
+  /** Data in the grid, if this is a grid sheet. The number of GridData objects returned is dependent on the number of ranges requested on this sheet. For example, if this is representing `Sheet1`, and the spreadsheet was requested with ranges `Sheet1!A1:C10` and `Sheet1!D15:E20`, then the first GridData will have a startRow/startColumn of `0`, while the second one will have `startRow 14` (zero-based row 15), and `startColumn 3` (zero-based column D). For a DATA_SOURCE sheet, you can not request a specific range, the GridData contains all the values. */
+  data?: GridDataList;
+  /** The tables on this sheet. */
+  tables?: TableList;
 }
 export type SheetList = Array<Sheet>;
 export type NamedRangeList = Array<NamedRange>;
+export type DataSourceRefreshScheduleRefreshScopeEnum =
+  | "DATA_SOURCE_REFRESH_SCOPE_UNSPECIFIED"
+  | "ALL_DATA_SOURCES";
+/** Represents a time interval, encoded as a Timestamp start (inclusive) and a Timestamp end (exclusive). The start must be less than or equal to the end. When the start equals the end, the interval is empty (matches no time). When both start and end are unspecified, the interval matches any time. */
+export interface Interval {
+  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
+  startTime?: string;
+  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
+  endTime?: string;
+}
 /** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
 export interface TimeOfDay {
-  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number;
   /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
   hours?: number;
-  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
   /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
   nanos?: number;
+  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number;
+  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
+  minutes?: number;
 }
 /** A schedule for data to refresh every day in a given time interval. */
 export interface DataSourceRefreshDailySchedule {
+  /** The start time of a time interval in which a data source refresh is scheduled. Only `hours` part is used. The time interval size defaults to that in the Sheets editor. */
+  startTime?: TimeOfDay;
+}
+export type IntegerList = Array<number>;
+/** A monthly schedule for data to refresh on specific days in the month in a given time interval. */
+export interface DataSourceRefreshMonthlySchedule {
+  /** Days of the month to refresh. Only 1-28 are supported, mapping to the 1st to the 28th day. At least one day must be specified. */
+  daysOfMonth?: IntegerList;
   /** The start time of a time interval in which a data source refresh is scheduled. Only `hours` part is used. The time interval size defaults to that in the Sheets editor. */
   startTime?: TimeOfDay;
 }
@@ -3438,102 +3449,91 @@ export type DataSourceRefreshWeeklyScheduleDaysOfWeekItemEnumList = Array<
 >;
 /** A weekly schedule for data to refresh on specific days in a given time interval. */
 export interface DataSourceRefreshWeeklySchedule {
+  /** The start time of a time interval in which a data source refresh is scheduled. Only `hours` part is used. The time interval size defaults to that in the Sheets editor. */
+  startTime?: TimeOfDay;
   /** Days of the week to refresh. At least one day must be specified. */
   daysOfWeek?: DataSourceRefreshWeeklyScheduleDaysOfWeekItemEnumList;
-  /** The start time of a time interval in which a data source refresh is scheduled. Only `hours` part is used. The time interval size defaults to that in the Sheets editor. */
-  startTime?: TimeOfDay;
 }
-/** Represents a time interval, encoded as a Timestamp start (inclusive) and a Timestamp end (exclusive). The start must be less than or equal to the end. When the start equals the end, the interval is empty (matches no time). When both start and end are unspecified, the interval matches any time. */
-export interface Interval {
-  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  startTime?: string;
-  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  endTime?: string;
-}
-export type IntegerList = Array<number>;
-/** A monthly schedule for data to refresh on specific days in the month in a given time interval. */
-export interface DataSourceRefreshMonthlySchedule {
-  /** Days of the month to refresh. Only 1-28 are supported, mapping to the 1st to the 28th day. At least one day must be specified. */
-  daysOfMonth?: IntegerList;
-  /** The start time of a time interval in which a data source refresh is scheduled. Only `hours` part is used. The time interval size defaults to that in the Sheets editor. */
-  startTime?: TimeOfDay;
-}
-export type DataSourceRefreshScheduleRefreshScopeEnum =
-  | "DATA_SOURCE_REFRESH_SCOPE_UNSPECIFIED"
-  | "ALL_DATA_SOURCES";
 /** Schedule for refreshing the data source. Data sources in the spreadsheet are refreshed within a time interval. You can specify the start time by clicking the Scheduled Refresh button in the Sheets editor, but the interval is fixed at 4 hours. For example, if you specify a start time of 8 AM , the refresh will take place between 8 AM and 12 PM every day. */
 export interface DataSourceRefreshSchedule {
+  /** The scope of the refresh. Must be ALL_DATA_SOURCES. */
+  refreshScope?: DataSourceRefreshScheduleRefreshScopeEnum | (string & {});
+  /** Output only. The time interval of the next run. */
+  nextRun?: Interval;
   /** True if the refresh schedule is enabled, or false otherwise. */
   enabled?: boolean;
   /** Daily refresh schedule. */
   dailySchedule?: DataSourceRefreshDailySchedule;
-  /** Weekly refresh schedule. */
-  weeklySchedule?: DataSourceRefreshWeeklySchedule;
-  /** Output only. The time interval of the next run. */
-  nextRun?: Interval;
   /** Monthly refresh schedule. */
   monthlySchedule?: DataSourceRefreshMonthlySchedule;
-  /** The scope of the refresh. Must be ALL_DATA_SOURCES. */
-  refreshScope?: DataSourceRefreshScheduleRefreshScopeEnum | (string & {});
+  /** Weekly refresh schedule. */
+  weeklySchedule?: DataSourceRefreshWeeklySchedule;
 }
 export type DataSourceRefreshScheduleList = Array<DataSourceRefreshSchedule>;
+export type SpreadsheetCommentsViewModeEnum =
+  | "COMMENTS_VIEW_MODE_UNSPECIFIED"
+  | "COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS"
+  | "COMMENTS_VIEW_MODE_OMITTED"
+  | "COMMENTS_VIEW_MODE_INCLUDED";
+export type DataSourceList = Array<DataSource>;
+export type CommentThreadList = Array<CommentThread>;
 /** Resource that represents a spreadsheet. */
 export interface Spreadsheet {
-  /** A list of external data sources connected with the spreadsheet. */
-  dataSources?: DataSourceList;
   /** Overall properties of a spreadsheet. */
   properties?: SpreadsheetProperties;
-  /** The ID of the spreadsheet. This field is read-only. */
-  spreadsheetId?: string;
-  /** The url of the spreadsheet. This field is read-only. */
-  spreadsheetUrl?: string;
-  /** The developer metadata associated with a spreadsheet. */
-  developerMetadata?: DeveloperMetadataList;
-  /** The comment threads associated with the spreadsheet. */
-  comments?: CommentThreadList;
-  /** Output only. The comments view mode applied to the spreadsheet. */
-  commentsViewMode?: SpreadsheetCommentsViewModeEnum | (string & {});
   /** The sheets that are part of a spreadsheet. */
   sheets?: SheetList;
   /** The named ranges defined in a spreadsheet. */
   namedRanges?: NamedRangeList;
+  /** The ID of the spreadsheet. This field is read-only. */
+  spreadsheetId?: string;
   /** Output only. A list of data source refresh schedules. */
   dataSourceSchedules?: DataSourceRefreshScheduleList;
+  /** The developer metadata associated with a spreadsheet. */
+  developerMetadata?: DeveloperMetadataList;
+  /** Output only. The comments view mode applied to the spreadsheet. */
+  commentsViewMode?: SpreadsheetCommentsViewModeEnum | (string & {});
+  /** A list of external data sources connected with the spreadsheet. */
+  dataSources?: DataSourceList;
+  /** The url of the spreadsheet. This field is read-only. */
+  spreadsheetUrl?: string;
+  /** The comment threads associated with the spreadsheet. */
+  comments?: CommentThreadList;
 }
 /** The reply for batch updating a spreadsheet. */
 export interface BatchUpdateSpreadsheetResponse {
-  /** The reply of the updates. This maps 1:1 with the updates, although replies to some requests may be empty. */
-  replies?: ResponseList;
   /** The spreadsheet the updates were applied to. */
   spreadsheetId?: string;
+  /** The reply of the updates. This maps 1:1 with the updates, although replies to some requests may be empty. */
+  replies?: ResponseList;
   /** Whether comment updates were applied in the batch request. */
   commentUpdateState?: BatchUpdateSpreadsheetResponseCommentUpdateStateEnum;
   /** The spreadsheet after updates were applied. This is only set if BatchUpdateSpreadsheetRequest.include_spreadsheet_in_response is `true`. */
   updatedSpreadsheet?: Spreadsheet;
 }
-export type BatchUpdateValuesRequestResponseDateTimeRenderOptionEnum =
-  | "SERIAL_NUMBER"
-  | "FORMATTED_STRING";
 export type BatchUpdateValuesRequestValueInputOptionEnum =
   | "INPUT_VALUE_OPTION_UNSPECIFIED"
   | "RAW"
   | "USER_ENTERED";
+export type BatchUpdateValuesRequestResponseDateTimeRenderOptionEnum =
+  | "SERIAL_NUMBER"
+  | "FORMATTED_STRING";
 export type BatchUpdateValuesRequestResponseValueRenderOptionEnum =
   | "FORMATTED_VALUE"
   | "UNFORMATTED_VALUE"
   | "FORMULA";
 /** The request for updating more than one range of values in a spreadsheet. */
 export interface BatchUpdateValuesRequest {
-  /** Determines if the update response should include the values of the cells that were updated. By default, responses do not include the updated values. The `updatedData` field within each of the BatchUpdateValuesResponse.responses contains the updated values. If the range to write was larger than the range actually written, the response includes all values in the requested range (excluding trailing empty rows and columns). */
-  includeValuesInResponse?: boolean;
   /** The new values to apply to the spreadsheet. */
   data?: ValueRangeList;
+  /** How the input data should be interpreted. */
+  valueInputOption?: BatchUpdateValuesRequestValueInputOptionEnum | (string & {});
   /** Determines how dates, times, and durations in the response should be rendered. This is ignored if response_value_render_option is FORMATTED_VALUE. The default dateTime render option is SERIAL_NUMBER. */
   responseDateTimeRenderOption?:
     | BatchUpdateValuesRequestResponseDateTimeRenderOptionEnum
     | (string & {});
-  /** How the input data should be interpreted. */
-  valueInputOption?: BatchUpdateValuesRequestValueInputOptionEnum | (string & {});
+  /** Determines if the update response should include the values of the cells that were updated. By default, responses do not include the updated values. The `updatedData` field within each of the BatchUpdateValuesResponse.responses contains the updated values. If the range to write was larger than the range actually written, the response includes all values in the requested range (excluding trailing empty rows and columns). */
+  includeValuesInResponse?: boolean;
   /** Determines how values in the response should be rendered. The default render option is FORMATTED_VALUE. */
   responseValueRenderOption?: BatchUpdateValuesRequestResponseValueRenderOptionEnum | (string & {});
 }
@@ -3546,12 +3546,12 @@ export interface BatchUpdateSpreadsheetsValuesRequest {
 export type UpdateValuesResponseList = Array<UpdateValuesResponse>;
 /** The response when updating a range of values in a spreadsheet. */
 export interface BatchUpdateValuesResponse {
-  /** The spreadsheet the updates were applied to. */
-  spreadsheetId?: string;
   /** The total number of rows where at least one cell in the row was updated. */
   totalUpdatedRows?: number;
   /** The total number of sheets where at least one cell in the sheet was updated. */
   totalUpdatedSheets?: number;
+  /** The spreadsheet the updates were applied to. */
+  spreadsheetId?: string;
   /** The total number of columns where at least one cell in the column was updated. */
   totalUpdatedColumns?: number;
   /** The total number of cells updated. */
@@ -3562,19 +3562,19 @@ export interface BatchUpdateValuesResponse {
 /** The request for clearing a range of values in a spreadsheet. */
 export interface ClearValuesRequest {}
 export interface ClearSpreadsheetsValuesRequest {
-  /** The [A1 notation or R1C1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell) of the values to clear. */
-  range: string;
   /** The ID of the spreadsheet to update. */
   spreadsheetId: string;
+  /** The [A1 notation or R1C1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell) of the values to clear. */
+  range: string;
   /** Request body */
   body?: ClearValuesRequest;
 }
 /** The response when clearing a range of values in a spreadsheet. */
 export interface ClearValuesResponse {
-  /** The spreadsheet the updates were applied to. */
-  spreadsheetId?: string;
   /** The range (in A1 notation) that was cleared. (If the request was for an unbounded range or a range larger than the bounds of the sheet, this will be the actual range that was cleared, bounded to the sheet's limits.) */
   clearedRange?: string;
+  /** The spreadsheet the updates were applied to. */
+  spreadsheetId?: string;
 }
 /** The request to copy a sheet across spreadsheets. */
 export interface CopySheetToAnotherSpreadsheetRequest {
@@ -3582,10 +3582,10 @@ export interface CopySheetToAnotherSpreadsheetRequest {
   destinationSpreadsheetId?: string;
 }
 export interface CopyToSpreadsheetsSheetsRequest {
-  /** The ID of the sheet to copy. */
-  sheetId: number;
   /** The ID of the spreadsheet containing the sheet to copy. */
   spreadsheetId: string;
+  /** The ID of the sheet to copy. */
+  sheetId: number;
   /** Request body */
   body?: CopySheetToAnotherSpreadsheetRequest;
 }
@@ -3602,10 +3602,10 @@ export type GetSpreadsheetByDataFilterRequestCommentsViewModeEnum =
 export interface GetSpreadsheetByDataFilterRequest {
   /** True if grid data should be returned. This parameter is ignored if a field mask was set in the request. */
   includeGridData?: boolean;
-  /** The DataFilters used to select which ranges to retrieve from the spreadsheet. */
-  dataFilters?: DataFilterList;
   /** True if tables should be excluded in the banded ranges. False if not set. */
   excludeTablesInBandedRanges?: boolean;
+  /** The DataFilters used to select which ranges to retrieve from the spreadsheet. */
+  dataFilters?: DataFilterList;
   /** The comments view mode to apply to the spreadsheet. This allows viewing the spreadsheet with comments omitted or included. If one is not specified, COMMENTS_VIEW_MODE_OMITTED is used. */
   commentsViewMode?: GetSpreadsheetByDataFilterRequestCommentsViewModeEnum | (string & {});
 }
@@ -3623,14 +3623,14 @@ export type GetSpreadsheetsCommentsViewModeEnum =
 export interface GetSpreadsheetsRequest {
   /** True if grid data should be returned. This parameter is ignored if a field mask was set in the request. */
   includeGridData?: boolean;
-  /** True if tables should be excluded in the banded ranges. False if not set. */
-  excludeTablesInBandedRanges?: boolean;
-  /** The spreadsheet to request. */
-  spreadsheetId: string;
   /** The ranges to retrieve from the spreadsheet. */
   ranges?: StringList;
   /** The comments view mode to apply to the spreadsheet. This allows viewing the spreadsheet with comments omitted or included. If one is not specified, COMMENTS_VIEW_MODE_OMITTED is used. */
   commentsViewMode?: GetSpreadsheetsCommentsViewModeEnum | (string & {});
+  /** True if tables should be excluded in the banded ranges. False if not set. */
+  excludeTablesInBandedRanges?: boolean;
+  /** The spreadsheet to request. */
+  spreadsheetId: string;
 }
 export interface GetSpreadsheetsDeveloperMetadataRequest {
   /** The ID of the developer metadata to retrieve. */
@@ -3638,23 +3638,23 @@ export interface GetSpreadsheetsDeveloperMetadataRequest {
   /** The ID of the spreadsheet to retrieve metadata from. */
   spreadsheetId: string;
 }
-export type GetSpreadsheetsValuesMajorDimensionEnum = "DIMENSION_UNSPECIFIED" | "ROWS" | "COLUMNS";
 export type GetSpreadsheetsValuesValueRenderOptionEnum =
   | "FORMATTED_VALUE"
   | "UNFORMATTED_VALUE"
   | "FORMULA";
 export type GetSpreadsheetsValuesDateTimeRenderOptionEnum = "SERIAL_NUMBER" | "FORMATTED_STRING";
+export type GetSpreadsheetsValuesMajorDimensionEnum = "DIMENSION_UNSPECIFIED" | "ROWS" | "COLUMNS";
 export interface GetSpreadsheetsValuesRequest {
-  /** The major dimension that results should use. For example, if the spreadsheet data in Sheet1 is: `A1=1,B1=2,A2=3,B2=4`, then requesting `range=Sheet1!A1:B2?majorDimension=ROWS` returns `[[1,2],[3,4]]`, whereas requesting `range=Sheet1!A1:B2?majorDimension=COLUMNS` returns `[[1,3],[2,4]]`. */
-  majorDimension?: GetSpreadsheetsValuesMajorDimensionEnum | (string & {});
   /** How values should be represented in the output. The default render option is FORMATTED_VALUE. */
   valueRenderOption?: GetSpreadsheetsValuesValueRenderOptionEnum | (string & {});
   /** The [A1 notation or R1C1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell) of the range to retrieve values from. */
   range: string;
-  /** The ID of the spreadsheet to retrieve data from. */
-  spreadsheetId: string;
   /** How dates, times, and durations should be represented in the output. This is ignored if value_render_option is FORMATTED_VALUE. The default dateTime render option is SERIAL_NUMBER. */
   dateTimeRenderOption?: GetSpreadsheetsValuesDateTimeRenderOptionEnum | (string & {});
+  /** The ID of the spreadsheet to retrieve data from. */
+  spreadsheetId: string;
+  /** The major dimension that results should use. For example, if the spreadsheet data in Sheet1 is: `A1=1,B1=2,A2=3,B2=4`, then requesting `range=Sheet1!A1:B2?majorDimension=ROWS` returns `[[1,2],[3,4]]`, whereas requesting `range=Sheet1!A1:B2?majorDimension=COLUMNS` returns `[[1,3],[2,4]]`. */
+  majorDimension?: GetSpreadsheetsValuesMajorDimensionEnum | (string & {});
 }
 /** A request to retrieve all developer metadata matching the set of specified criteria. */
 export interface SearchDeveloperMetadataRequest {
@@ -3669,10 +3669,10 @@ export interface SearchSpreadsheetsDeveloperMetadataRequest {
 }
 /** A developer metadata entry and the data filters specified in the original request that matched it. */
 export interface MatchedDeveloperMetadata {
-  /** All filters matching the returned developer metadata. */
-  dataFilters?: DataFilterList;
   /** The developer metadata matching the specified filters. */
   developerMetadata?: DeveloperMetadata;
+  /** All filters matching the returned developer metadata. */
+  dataFilters?: DataFilterList;
 }
 export type MatchedDeveloperMetadataList = Array<MatchedDeveloperMetadata>;
 /** A reply to a developer metadata search request. */
@@ -3680,6 +3680,10 @@ export interface SearchDeveloperMetadataResponse {
   /** The metadata matching the criteria of the search request. */
   matchedDeveloperMetadata?: MatchedDeveloperMetadataList;
 }
+export type UpdateSpreadsheetsValuesResponseValueRenderOptionEnum =
+  | "FORMATTED_VALUE"
+  | "UNFORMATTED_VALUE"
+  | "FORMULA";
 export type UpdateSpreadsheetsValuesResponseDateTimeRenderOptionEnum =
   | "SERIAL_NUMBER"
   | "FORMATTED_STRING";
@@ -3687,25 +3691,21 @@ export type UpdateSpreadsheetsValuesValueInputOptionEnum =
   | "INPUT_VALUE_OPTION_UNSPECIFIED"
   | "RAW"
   | "USER_ENTERED";
-export type UpdateSpreadsheetsValuesResponseValueRenderOptionEnum =
-  | "FORMATTED_VALUE"
-  | "UNFORMATTED_VALUE"
-  | "FORMULA";
 export interface UpdateSpreadsheetsValuesRequest {
+  /** Determines how values in the response should be rendered. The default render option is FORMATTED_VALUE. */
+  responseValueRenderOption?: UpdateSpreadsheetsValuesResponseValueRenderOptionEnum | (string & {});
+  /** The ID of the spreadsheet to update. */
+  spreadsheetId: string;
+  /** The [A1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell) of the values to update. */
+  range: string;
+  /** Determines if the update response should include the values of the cells that were updated. By default, responses do not include the updated values. If the range to write was larger than the range actually written, the response includes all values in the requested range (excluding trailing empty rows and columns). */
+  includeValuesInResponse?: boolean;
   /** Determines how dates, times, and durations in the response should be rendered. This is ignored if response_value_render_option is FORMATTED_VALUE. The default dateTime render option is SERIAL_NUMBER. */
   responseDateTimeRenderOption?:
     | UpdateSpreadsheetsValuesResponseDateTimeRenderOptionEnum
     | (string & {});
-  /** Determines if the update response should include the values of the cells that were updated. By default, responses do not include the updated values. If the range to write was larger than the range actually written, the response includes all values in the requested range (excluding trailing empty rows and columns). */
-  includeValuesInResponse?: boolean;
-  /** The [A1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell) of the values to update. */
-  range: string;
-  /** The ID of the spreadsheet to update. */
-  spreadsheetId: string;
   /** How the input data should be interpreted. */
   valueInputOption?: UpdateSpreadsheetsValuesValueInputOptionEnum | (string & {});
-  /** Determines how values in the response should be rendered. The default render option is FORMATTED_VALUE. */
-  responseValueRenderOption?: UpdateSpreadsheetsValuesResponseValueRenderOptionEnum | (string & {});
   /** Request body */
   body?: ValueRange;
 }
@@ -3745,7 +3745,7 @@ export const batchClearByDataFilterSpreadsheetsValues: API.OperationMethod<
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<BatchClearByDataFilterSpreadsheetsValuesRequest>,
-  output: __S(864, __c27, 0) as any as S.Schema<BatchClearValuesByDataFilterResponse>,
+  output: __S(801, __c25, 1) as any as S.Schema<BatchClearValuesByDataFilterResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -3766,8 +3766,8 @@ export const batchClearSpreadsheetsValues: API.OperationMethod<
   BatchClearSpreadsheetsValuesError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1057, __c33, 1) as any as S.Schema<BatchClearSpreadsheetsValuesRequest>,
-  output: __S(864, __c27, 0) as any as S.Schema<BatchClearValuesResponse>,
+  input: __S(1025, __c32, 1) as any as S.Schema<BatchClearSpreadsheetsValuesRequest>,
+  output: __S(1026, __c32, 2) as any as S.Schema<BatchClearValuesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -3788,8 +3788,8 @@ export const batchGetByDataFilterSpreadsheetsValues: API.OperationMethod<
   BatchGetByDataFilterSpreadsheetsValuesError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1089, __c34, 1) as any as S.Schema<BatchGetByDataFilterSpreadsheetsValuesRequest>,
-  output: __S(1092, __c34, 4) as any as S.Schema<BatchGetValuesByDataFilterResponse>,
+  input: __S(1057, __c33, 1) as any as S.Schema<BatchGetByDataFilterSpreadsheetsValuesRequest>,
+  output: __S(1060, __c33, 4) as any as S.Schema<BatchGetValuesByDataFilterResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -3805,8 +3805,8 @@ export const batchGetSpreadsheetsValues: API.OperationMethod<
   BatchGetSpreadsheetsValuesError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<BatchGetSpreadsheetsValuesRequest>,
-  output: __S(1121, __c35, 1) as any as S.Schema<BatchGetValuesResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<BatchGetSpreadsheetsValuesRequest>,
+  output: __S(1089, __c34, 1) as any as S.Schema<BatchGetValuesResponse>,
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -3827,8 +3827,8 @@ export const batchUpdateByDataFilterSpreadsheetsValues: API.OperationMethod<
   BatchUpdateByDataFilterSpreadsheetsValuesError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1187, __c37, 3) as any as S.Schema<BatchUpdateByDataFilterSpreadsheetsValuesRequest>,
-  output: __S(1190, __c37, 6) as any as S.Schema<BatchUpdateValuesByDataFilterResponse>,
+  input: __S(1155, __c36, 3) as any as S.Schema<BatchUpdateByDataFilterSpreadsheetsValuesRequest>,
+  output: __S(1158, __c36, 6) as any as S.Schema<BatchUpdateValuesByDataFilterResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -3938,7 +3938,7 @@ export const createSpreadsheets: API.OperationMethod<
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<CreateSpreadsheetsRequest>,
-  output: __S(329, __c10, 9) as any as S.Schema<Spreadsheet>,
+  output: __S(328, __c10, 8) as any as S.Schema<Spreadsheet>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -3960,7 +3960,7 @@ export const getByDataFilterSpreadsheets: API.OperationMethod<
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(513, __c16, 1) as any as S.Schema<GetByDataFilterSpreadsheetsRequest>,
-  output: __S(329, __c10, 9) as any as S.Schema<Spreadsheet>,
+  output: __S(328, __c10, 8) as any as S.Schema<Spreadsheet>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -3977,7 +3977,7 @@ export const getSpreadsheets: API.OperationMethod<
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetSpreadsheetsRequest>,
-  output: __S(329, __c10, 9) as any as S.Schema<Spreadsheet>,
+  output: __S(328, __c10, 8) as any as S.Schema<Spreadsheet>,
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -4069,234 +4069,234 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sheetId: S.optional(S.Number),
+          dataSource: S.optional(__S(167, __c5, 7)),
         }),
-      ).annotate({ identifier: "ClearBasicFilterRequest" });
+      ).annotate({ identifier: "AddDataSourceRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          destination: S.optional(__S(992, __c31, 0)),
-          pasteOrientation: S.optional(S.String),
-          source: S.optional(__S(992, __c31, 0)),
-          pasteType: S.optional(S.String),
+          spec: S.optional(__S(174, __c5, 14)),
+          slicerId: S.optional(S.Number),
+          fields: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CopyPasteRequest" });
+      ).annotate({ identifier: "UpdateSlicerSpecRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          fillLength: S.optional(S.Number),
-          dimension: S.optional(S.String),
-          source: S.optional(__S(992, __c31, 0)),
+          rule: S.optional(__S(175, __c5, 15)),
+          range: S.optional(__S(960, __c30, 0)),
+          filteredRowsIncluded: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "SourceAndDestination" });
+      ).annotate({ identifier: "SetDataValidationRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          sourceAndDestination: S.optional(__S(2, __c0, 2)),
-          useAlternateSeries: S.optional(S.Boolean),
-          range: S.optional(__S(992, __c31, 0)),
+          filterId: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "AutoFillRequest" });
+      ).annotate({ identifier: "DuplicateFilterViewRequest" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          table: S.optional(__S(167, __c5, 7)),
+          range: S.optional(__S(928, __c29, 0)),
+          inheritFromBefore: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "AddTableRequest" });
+      ).annotate({ identifier: "InsertDimensionRequest" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(992, __c31, 0)),
-          shiftDimension: S.optional(S.String),
+          filter: S.optional(__S(181, __c5, 21)),
         }),
-      ).annotate({ identifier: "DeleteRangeRequest" });
+      ).annotate({ identifier: "SetBasicFilterRequest" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          columnReferences: S.optional(__S(168, __c5, 8)),
-          sheetId: S.optional(S.Number),
+          fields: S.optional(S.String),
+          rows: S.optional(__S(223, __c6, 31)),
+          start: S.optional(__S(224, __c7, 0)),
+          range: S.optional(__S(960, __c30, 0)),
         }),
-      ).annotate({ identifier: "DataSourceSheetDimensionRange" });
+      ).annotate({ identifier: "UpdateCellsRequest" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          dataSourceSheetRange: S.optional(__S(6, __c0, 6)),
-          fields: S.optional(S.String),
-          range: S.optional(__S(960, __c30, 0)),
-          properties: S.optional(__S(170, __c5, 10)),
+          dataSourceId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UpdateDimensionPropertiesRequest" });
+      ).annotate({ identifier: "DeleteDataSourceRequest" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(__S(177, __c5, 17)),
-          fields: S.optional(S.String),
+          pasteType: S.optional(S.String),
+          source: S.optional(__S(960, __c30, 0)),
+          destination: S.optional(__S(224, __c7, 0)),
         }),
-      ).annotate({ identifier: "UpdateFilterViewRequest" });
+      ).annotate({ identifier: "CutPasteRequest" });
     case 9:
-      return S.Array(__S(960, __c30, 0));
+      return S.suspend(() =>
+        S.Struct({
+          sheetId: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DeleteSheetRequest" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(992, __c31, 0)),
-          comparisonColumns: S.optional(__S(9, __c0, 9)),
+          slicer: S.optional(__S(227, __c7, 3)),
         }),
-      ).annotate({ identifier: "DeleteDuplicatesRequest" });
+      ).annotate({ identifier: "AddSlicerRequest" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          dimension: S.optional(S.String),
-          length: S.optional(S.Number),
-          sheetId: S.optional(S.Number),
+          namedRange: S.optional(__S(228, __c7, 4)),
         }),
-      ).annotate({ identifier: "AppendDimensionRequest" });
+      ).annotate({ identifier: "AddNamedRangeRequest" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          commentId: S.optional(S.String),
-          post: S.optional(__S(179, __c5, 19)),
+          delimiter: S.optional(S.String),
+          delimiterType: S.optional(S.String),
+          source: S.optional(__S(960, __c30, 0)),
         }),
-      ).annotate({ identifier: "AddCommentReplyRequest" });
+      ).annotate({ identifier: "TextToColumnsRequest" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(992, __c31, 0)),
+          fields: S.optional(S.String),
+          filter: S.optional(__S(229, __c7, 5)),
         }),
-      ).annotate({ identifier: "RandomizeRangeRequest" });
+      ).annotate({ identifier: "UpdateFilterViewRequest" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(S.String),
-          dimensionGroup: S.optional(__S(180, __c5, 20)),
+          range: S.optional(__S(960, __c30, 0)),
         }),
-      ).annotate({ identifier: "UpdateDimensionGroupRequest" });
+      ).annotate({ identifier: "TrimWhitespaceRequest" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          inheritFromBefore: S.optional(S.Boolean),
           range: S.optional(__S(960, __c30, 0)),
+          shiftDimension: S.optional(S.String),
         }),
-      ).annotate({ identifier: "InsertDimensionRequest" });
+      ).annotate({ identifier: "InsertRangeRequest" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(960, __c30, 0)),
+          index: S.optional(S.Number),
+          rule: S.optional(__S(234, __c7, 10)),
         }),
-      ).annotate({ identifier: "DeleteDimensionGroupRequest" });
+      ).annotate({ identifier: "AddConditionalFormatRuleRequest" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          top: S.optional(__S(181, __c5, 21)),
-          right: S.optional(__S(181, __c5, 21)),
-          range: S.optional(__S(992, __c31, 0)),
-          left: S.optional(__S(181, __c5, 21)),
-          innerHorizontal: S.optional(__S(181, __c5, 21)),
-          innerVertical: S.optional(__S(181, __c5, 21)),
-          bottom: S.optional(__S(181, __c5, 21)),
+          newIndex: S.optional(S.Number),
+          sheetId: S.optional(S.Number),
+          index: S.optional(S.Number),
+          rule: S.optional(__S(234, __c7, 10)),
         }),
-      ).annotate({ identifier: "UpdateBordersRequest" });
+      ).annotate({ identifier: "UpdateConditionalFormatRuleRequest" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          mergeType: S.optional(S.String),
-          range: S.optional(__S(992, __c31, 0)),
+          pasteType: S.optional(S.String),
+          destination: S.optional(__S(960, __c30, 0)),
+          pasteOrientation: S.optional(S.String),
+          source: S.optional(__S(960, __c30, 0)),
         }),
-      ).annotate({ identifier: "MergeCellsRequest" });
+      ).annotate({ identifier: "CopyPasteRequest" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(S.String),
-          protectedRange: S.optional(__S(184, __c5, 24)),
+          properties: S.optional(__S(136, __c4, 8)),
         }),
-      ).annotate({ identifier: "UpdateProtectedRangeRequest" });
+      ).annotate({ identifier: "AddSheetRequest" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          objectId: S.optional(S.Number),
+          bandedRange: S.optional(__S(236, __c7, 12)),
+          fields: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DeleteEmbeddedObjectRequest" });
+      ).annotate({ identifier: "UpdateBandingRequest" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          namedRange: S.optional(__S(185, __c5, 25)),
+          tableId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AddNamedRangeRequest" });
+      ).annotate({ identifier: "DeleteTableRequest" });
     case 22:
       return S.suspend(() =>
         S.Struct({
           fields: S.optional(S.String),
-          objectId: S.optional(S.Number),
-          newPosition: S.optional(__S(188, __c5, 28)),
+          dataFilters: S.optional(__S(896, __c28, 0)),
+          developerMetadata: S.optional(__S(352, __c11, 0)),
         }),
-      ).annotate({ identifier: "UpdateEmbeddedObjectPositionRequest" });
+      ).annotate({ identifier: "UpdateDeveloperMetadataRequest" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          chartId: S.optional(S.Number),
-          spec: S.optional(__S(235, __c7, 11)),
+          fields: S.optional(S.String),
+          properties: S.optional(__S(241, __c7, 17)),
         }),
-      ).annotate({ identifier: "UpdateChartSpecRequest" });
+      ).annotate({ identifier: "UpdateSpreadsheetPropertiesRequest" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          slicerId: S.optional(S.Number),
-          spec: S.optional(__S(236, __c7, 12)),
+          dimensionGroup: S.optional(__S(242, __c7, 18)),
           fields: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UpdateSlicerSpecRequest" });
+      ).annotate({ identifier: "UpdateDimensionGroupRequest" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          html: S.optional(S.Boolean),
-          delimiter: S.optional(S.String),
-          coordinate: S.optional(__S(186, __c5, 26)),
-          data: S.optional(S.String),
-          type: S.optional(S.String),
+          border: S.optional(__S(243, __c7, 19)),
+          objectId: S.optional(S.Number),
+          fields: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PasteDataRequest" });
+      ).annotate({ identifier: "UpdateEmbeddedObjectBorderRequest" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(992, __c31, 0)),
-          filteredRowsIncluded: S.optional(S.Boolean),
-          rule: S.optional(__S(237, __c7, 13)),
+          range: S.optional(__S(928, __c29, 0)),
         }),
-      ).annotate({ identifier: "SetDataValidationRequest" });
+      ).annotate({ identifier: "DeleteDimensionRequest" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          chart: S.optional(__S(239, __c7, 15)),
+          commentId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AddChartRequest" });
+      ).annotate({ identifier: "DeleteCommentRequest" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          namedRange: S.optional(__S(185, __c5, 25)),
-          fields: S.optional(S.String),
+          innerHorizontal: S.optional(__S(187, __c5, 27)),
+          right: S.optional(__S(187, __c5, 27)),
+          innerVertical: S.optional(__S(187, __c5, 27)),
+          range: S.optional(__S(960, __c30, 0)),
+          left: S.optional(__S(187, __c5, 27)),
+          top: S.optional(__S(187, __c5, 27)),
+          bottom: S.optional(__S(187, __c5, 27)),
         }),
-      ).annotate({ identifier: "UpdateNamedRangeRequest" });
+      ).annotate({ identifier: "UpdateBordersRequest" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(992, __c31, 0)),
-          delimiter: S.optional(S.String),
-          delimiterType: S.optional(S.String),
+          range: S.optional(__S(960, __c30, 0)),
+          cell: S.optional(__S(220, __c6, 28)),
+          fields: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TextToColumnsRequest" });
+      ).annotate({ identifier: "RepeatCellRequest" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          protectedRangeId: S.optional(S.Number),
+          developerMetadata: S.optional(__S(352, __c11, 0)),
         }),
-      ).annotate({ identifier: "DeleteProtectedRangeRequest" });
+      ).annotate({ identifier: "CreateDeveloperMetadataRequest" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          commentId: S.optional(S.String),
-          content: S.optional(S.String),
-          postId: S.optional(S.String),
+          fields: S.optional(S.String),
+          sheetId: S.optional(S.Number),
+          rows: S.optional(__S(223, __c6, 31)),
+          tableId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UpdateCommentPostRequest" });
+      ).annotate({ identifier: "AppendCellsRequest" });
   }
 }
 function __c1(j: number): any {
@@ -4304,185 +4304,183 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          coordinate: S.optional(__S(186, __c5, 26)),
-          assigneeEmailAddress: S.optional(S.String),
-          content: S.optional(S.String),
+          sourceSheetId: S.optional(S.Number),
+          newSheetId: S.optional(S.Number),
+          insertSheetIndex: S.optional(S.Number),
+          newSheetName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "InsertCommentRequest" });
+      ).annotate({ identifier: "DuplicateSheetRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          cell: S.optional(__S(275, __c8, 19)),
-          range: S.optional(__S(992, __c31, 0)),
-          fields: S.optional(S.String),
+          columnReferences: S.optional(__S(192, __c6, 0)),
+          sheetId: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "RepeatCellRequest" });
+      ).annotate({ identifier: "DataSourceSheetDimensionRange" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tableId: S.optional(S.String),
+          dimensions: S.optional(__S(928, __c29, 0)),
+          dataSourceSheetDimensions: S.optional(__S(33, __c1, 1)),
         }),
-      ).annotate({ identifier: "DeleteTableRequest" });
+      ).annotate({ identifier: "AutoResizeDimensionsRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          protectedRange: S.optional(__S(184, __c5, 24)),
+          table: S.optional(__S(248, __c7, 24)),
         }),
-      ).annotate({ identifier: "AddProtectedRangeRequest" });
+      ).annotate({ identifier: "AddTableRequest" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          newIndex: S.optional(S.Number),
-          sheetId: S.optional(S.Number),
-          index: S.optional(S.Number),
-          rule: S.optional(__S(279, __c8, 23)),
+          dataFilter: S.optional(__S(993, __c31, 1)),
         }),
-      ).annotate({ identifier: "UpdateConditionalFormatRuleRequest" });
+      ).annotate({ identifier: "DeleteDeveloperMetadataRequest" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          postId: S.optional(S.String),
-          commentId: S.optional(S.String),
+          dataSource: S.optional(__S(167, __c5, 7)),
+          fields: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DeleteCommentReplyRequest" });
+      ).annotate({ identifier: "UpdateDataSourceRequest" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(S.String),
-          properties: S.optional(__S(136, __c4, 8)),
+          length: S.optional(S.Number),
+          sheetId: S.optional(S.Number),
+          dimension: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UpdateSheetPropertiesRequest" });
+      ).annotate({ identifier: "AppendDimensionRequest" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          index: S.optional(S.Number),
-          sheetId: S.optional(S.Number),
+          newPosition: S.optional(__S(226, __c7, 2)),
+          objectId: S.optional(S.Number),
+          fields: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DeleteConditionalFormatRuleRequest" });
+      ).annotate({ identifier: "UpdateEmbeddedObjectPositionRequest" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(992, __c31, 0)),
-          sortSpecs: S.optional(__S(174, __c5, 14)),
+          protectedRangeId: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "SortRangeRequest" });
+      ).annotate({ identifier: "DeleteProtectedRangeRequest" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(S.String),
-          range: S.optional(__S(992, __c31, 0)),
-          start: S.optional(__S(186, __c5, 26)),
-          rows: S.optional(__S(282, __c8, 26)),
+          objectId: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "UpdateCellsRequest" });
+      ).annotate({ identifier: "DeleteEmbeddedObjectRequest" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(__S(283, __c8, 27)),
+          sortSpecs: S.optional(__S(177, __c5, 17)),
+          range: S.optional(__S(960, __c30, 0)),
         }),
-      ).annotate({ identifier: "SetBasicFilterRequest" });
+      ).annotate({ identifier: "SortRangeRequest" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          destination: S.optional(__S(186, __c5, 26)),
-          pasteType: S.optional(S.String),
-          source: S.optional(__S(992, __c31, 0)),
+          source: S.optional(__S(928, __c29, 0)),
+          destinationIndex: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "CutPasteRequest" });
+      ).annotate({ identifier: "MoveDimensionRequest" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          index: S.optional(S.Number),
-          rule: S.optional(__S(279, __c8, 23)),
+          protectedRange: S.optional(__S(250, __c7, 26)),
+          fields: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AddConditionalFormatRuleRequest" });
+      ).annotate({ identifier: "UpdateProtectedRangeRequest" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(136, __c4, 8)),
+          post: S.optional(__S(252, __c7, 28)),
+          commentId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AddSheetRequest" });
+      ).annotate({ identifier: "AddCommentReplyRequest" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(S.String),
-          table: S.optional(__S(167, __c5, 7)),
+          coordinate: S.optional(__S(224, __c7, 0)),
+          content: S.optional(S.String),
+          assigneeEmailAddress: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UpdateTableRequest" });
+      ).annotate({ identifier: "InsertCommentRequest" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          objectId: S.optional(S.Number),
-          border: S.optional(__S(238, __c7, 14)),
-          fields: S.optional(S.String),
+          commentId: S.optional(S.String),
+          postId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UpdateEmbeddedObjectBorderRequest" });
+      ).annotate({ identifier: "DeleteCommentReplyRequest" });
     case 16:
       return S.suspend(() =>
         S.Struct({
           fields: S.optional(S.String),
-          properties: S.optional(__S(288, __c9, 0)),
+          table: S.optional(__S(248, __c7, 24)),
         }),
-      ).annotate({ identifier: "UpdateSpreadsheetPropertiesRequest" });
+      ).annotate({ identifier: "UpdateTableRequest" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          dataFilters: S.optional(__S(928, __c29, 0)),
-          developerMetadata: S.optional(__S(352, __c11, 0)),
-          fields: S.optional(S.String),
+          filter: S.optional(__S(229, __c7, 5)),
         }),
-      ).annotate({ identifier: "UpdateDeveloperMetadataRequest" });
+      ).annotate({ identifier: "AddFilterViewRequest" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          bandedRange: S.optional(__S(290, __c9, 2)),
+          properties: S.optional(__S(254, __c7, 30)),
+          range: S.optional(__S(928, __c29, 0)),
           fields: S.optional(S.String),
+          dataSourceSheetRange: S.optional(__S(33, __c1, 1)),
         }),
-      ).annotate({ identifier: "UpdateBandingRequest" });
+      ).annotate({ identifier: "UpdateDimensionPropertiesRequest" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          sheetId: S.optional(S.String),
-          chartId: S.optional(S.Number),
-          dataSourcePivotTableAnchorCell: S.optional(__S(186, __c5, 26)),
-          dataSourceFormulaCell: S.optional(__S(186, __c5, 26)),
-          dataSourceTableAnchorCell: S.optional(__S(186, __c5, 26)),
+          dimension: S.optional(S.String),
+          source: S.optional(__S(960, __c30, 0)),
+          fillLength: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "DataSourceObjectReference" });
+      ).annotate({ identifier: "SourceAndDestination" });
     case 20:
-      return S.Array(__S(51, __c1, 19));
+      return S.suspend(() =>
+        S.Struct({
+          range: S.optional(__S(960, __c30, 0)),
+          useAlternateSeries: S.optional(S.Boolean),
+          sourceAndDestination: S.optional(__S(51, __c1, 19)),
+        }),
+      ).annotate({ identifier: "AutoFillRequest" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          references: S.optional(__S(52, __c1, 20)),
+          bandedRange: S.optional(__S(236, __c7, 12)),
         }),
-      ).annotate({ identifier: "DataSourceObjectReferences" });
+      ).annotate({ identifier: "AddBandingRequest" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          references: S.optional(__S(53, __c1, 21)),
-          isAll: S.optional(S.Boolean),
-          dataSourceId: S.optional(S.String),
+          range: S.optional(__S(960, __c30, 0)),
+          mergeType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CancelDataSourceRefreshRequest" });
+      ).annotate({ identifier: "MergeCellsRequest" });
     case 23:
-      return S.suspend(() =>
-        S.Struct({
-          dataSourceId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DeleteDataSourceRequest" });
+      return S.Array(__S(928, __c29, 0));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          dataSource: S.optional(__S(298, __c9, 10)),
+          range: S.optional(__S(960, __c30, 0)),
+          comparisonColumns: S.optional(__S(55, __c1, 23)),
         }),
-      ).annotate({ identifier: "AddDataSourceRequest" });
+      ).annotate({ identifier: "DeleteDuplicatesRequest" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          developerMetadata: S.optional(__S(352, __c11, 0)),
+          namedRange: S.optional(__S(228, __c7, 4)),
+          fields: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CreateDeveloperMetadataRequest" });
+      ).annotate({ identifier: "UpdateNamedRangeRequest" });
     case 26:
       return S.suspend(() =>
         S.Struct({
@@ -4492,40 +4490,36 @@ function __c1(j: number): any {
     case 27:
       return S.suspend(() =>
         S.Struct({
-          newSheetName: S.optional(S.String),
-          sourceSheetId: S.optional(S.Number),
-          insertSheetIndex: S.optional(S.Number),
-          newSheetId: S.optional(S.Number),
+          chartId: S.optional(S.Number),
+          spec: S.optional(__S(297, __c9, 9)),
         }),
-      ).annotate({ identifier: "DuplicateSheetRequest" });
+      ).annotate({ identifier: "UpdateChartSpecRequest" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          bandedRange: S.optional(__S(290, __c9, 2)),
+          sheetId: S.optional(S.Number),
+          index: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "AddBandingRequest" });
+      ).annotate({ identifier: "DeleteConditionalFormatRuleRequest" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          references: S.optional(__S(53, __c1, 21)),
-          isAll: S.optional(S.Boolean),
-          force: S.optional(S.Boolean),
-          dataSourceId: S.optional(S.String),
+          fields: S.optional(S.String),
+          properties: S.optional(__S(136, __c4, 8)),
         }),
-      ).annotate({ identifier: "RefreshDataSourceRequest" });
+      ).annotate({ identifier: "UpdateSheetPropertiesRequest" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          filterId: S.optional(S.Number),
+          chartId: S.optional(S.Number),
+          dataSourcePivotTableAnchorCell: S.optional(__S(224, __c7, 0)),
+          dataSourceFormulaCell: S.optional(__S(224, __c7, 0)),
+          dataSourceTableAnchorCell: S.optional(__S(224, __c7, 0)),
+          sheetId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DuplicateFilterViewRequest" });
+      ).annotate({ identifier: "DataSourceObjectReference" });
     case 31:
-      return S.suspend(() =>
-        S.Struct({
-          dimensions: S.optional(__S(960, __c30, 0)),
-          dataSourceSheetDimensions: S.optional(__S(6, __c0, 6)),
-        }),
-      ).annotate({ identifier: "AutoResizeDimensionsRequest" });
+      return S.Array(__S(62, __c1, 30));
   }
 }
 function __c2(j: number): any {
@@ -4533,147 +4527,153 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bandedRangeId: S.optional(S.Number),
+          references: S.optional(__S(63, __c1, 31)),
         }),
-      ).annotate({ identifier: "DeleteBandingRequest" });
+      ).annotate({ identifier: "DataSourceObjectReferences" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(__S(177, __c5, 17)),
+          references: S.optional(__S(64, __c2, 0)),
+          isAll: S.optional(S.Boolean),
+          dataSourceId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AddFilterViewRequest" });
+      ).annotate({ identifier: "CancelDataSourceRefreshRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          commentId: S.optional(S.String),
+          html: S.optional(S.Boolean),
+          delimiter: S.optional(S.String),
+          type: S.optional(S.String),
+          data: S.optional(S.String),
+          coordinate: S.optional(__S(224, __c7, 0)),
         }),
-      ).annotate({ identifier: "DeleteCommentRequest" });
+      ).annotate({ identifier: "PasteDataRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dataSource: S.optional(__S(298, __c9, 10)),
-          fields: S.optional(S.String),
+          chart: S.optional(__S(298, __c9, 10)),
         }),
-      ).annotate({ identifier: "UpdateDataSourceRequest" });
+      ).annotate({ identifier: "AddChartRequest" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(960, __c30, 0)),
-          destinationIndex: S.optional(S.Number),
+          allSheets: S.optional(S.Boolean),
+          sheetId: S.optional(S.Number),
+          find: S.optional(S.String),
+          searchByRegex: S.optional(S.Boolean),
+          range: S.optional(__S(960, __c30, 0)),
+          matchEntireCell: S.optional(S.Boolean),
+          replacement: S.optional(S.String),
+          matchCase: S.optional(S.Boolean),
+          includeFormulas: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "MoveDimensionRequest" });
+      ).annotate({ identifier: "FindReplaceRequest" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          sheetId: S.optional(S.Number),
-          rows: S.optional(__S(282, __c8, 26)),
-          fields: S.optional(S.String),
-          tableId: S.optional(S.String),
+          protectedRange: S.optional(__S(250, __c7, 26)),
         }),
-      ).annotate({ identifier: "AppendCellsRequest" });
+      ).annotate({ identifier: "AddProtectedRangeRequest" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          matchEntireCell: S.optional(S.Boolean),
-          allSheets: S.optional(S.Boolean),
-          searchByRegex: S.optional(S.Boolean),
-          range: S.optional(__S(992, __c31, 0)),
-          sheetId: S.optional(S.Number),
-          includeFormulas: S.optional(S.Boolean),
-          replacement: S.optional(S.String),
-          find: S.optional(S.String),
-          matchCase: S.optional(S.Boolean),
+          content: S.optional(S.String),
+          postId: S.optional(S.String),
+          commentId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "FindReplaceRequest" });
+      ).annotate({ identifier: "UpdateCommentPostRequest" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          dataFilter: S.optional(__S(1025, __c32, 1)),
+          bandedRangeId: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "DeleteDeveloperMetadataRequest" });
+      ).annotate({ identifier: "DeleteBandingRequest" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          slicer: S.optional(__S(299, __c9, 11)),
+          references: S.optional(__S(64, __c2, 0)),
+          dataSourceId: S.optional(S.String),
+          isAll: S.optional(S.Boolean),
+          force: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "AddSlicerRequest" });
+      ).annotate({ identifier: "RefreshDataSourceRequest" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          clearBasicFilter: S.optional(__S(0, __c0, 0)),
-          copyPaste: S.optional(__S(1, __c0, 1)),
-          autoFill: S.optional(__S(3, __c0, 3)),
-          addTable: S.optional(__S(4, __c0, 4)),
-          deleteRange: S.optional(__S(5, __c0, 5)),
-          updateDimensionProperties: S.optional(__S(7, __c0, 7)),
-          updateFilterView: S.optional(__S(8, __c0, 8)),
-          deleteDuplicates: S.optional(__S(10, __c0, 10)),
-          appendDimension: S.optional(__S(11, __c0, 11)),
-          addCommentReply: S.optional(__S(12, __c0, 12)),
-          randomizeRange: S.optional(__S(13, __c0, 13)),
-          updateDimensionGroup: S.optional(__S(14, __c0, 14)),
-          insertDimension: S.optional(__S(15, __c0, 15)),
-          deleteDimensionGroup: S.optional(__S(16, __c0, 16)),
-          updateBorders: S.optional(__S(17, __c0, 17)),
-          mergeCells: S.optional(__S(18, __c0, 18)),
-          updateProtectedRange: S.optional(__S(19, __c0, 19)),
-          deleteEmbeddedObject: S.optional(__S(20, __c0, 20)),
-          addNamedRange: S.optional(__S(21, __c0, 21)),
-          updateEmbeddedObjectPosition: S.optional(__S(22, __c0, 22)),
-          updateChartSpec: S.optional(__S(23, __c0, 23)),
-          updateSlicerSpec: S.optional(__S(24, __c0, 24)),
-          pasteData: S.optional(__S(25, __c0, 25)),
-          setDataValidation: S.optional(__S(26, __c0, 26)),
-          addChart: S.optional(__S(27, __c0, 27)),
-          updateNamedRange: S.optional(__S(28, __c0, 28)),
-          textToColumns: S.optional(__S(29, __c0, 29)),
-          deleteProtectedRange: S.optional(__S(30, __c0, 30)),
-          updateCommentPost: S.optional(__S(31, __c0, 31)),
-          insertComment: S.optional(__S(32, __c1, 0)),
-          repeatCell: S.optional(__S(33, __c1, 1)),
-          deleteSheet: S.optional(__S(0, __c0, 0)),
-          deleteTable: S.optional(__S(34, __c1, 2)),
-          addProtectedRange: S.optional(__S(35, __c1, 3)),
-          updateConditionalFormatRule: S.optional(__S(36, __c1, 4)),
-          deleteDimension: S.optional(__S(16, __c0, 16)),
-          deleteCommentReply: S.optional(__S(37, __c1, 5)),
-          updateSheetProperties: S.optional(__S(38, __c1, 6)),
-          deleteConditionalFormatRule: S.optional(__S(39, __c1, 7)),
-          sortRange: S.optional(__S(40, __c1, 8)),
-          updateCells: S.optional(__S(41, __c1, 9)),
-          setBasicFilter: S.optional(__S(42, __c1, 10)),
-          unmergeCells: S.optional(__S(13, __c0, 13)),
-          cutPaste: S.optional(__S(43, __c1, 11)),
-          addConditionalFormatRule: S.optional(__S(44, __c1, 12)),
-          addSheet: S.optional(__S(45, __c1, 13)),
-          updateTable: S.optional(__S(46, __c1, 14)),
-          updateEmbeddedObjectBorder: S.optional(__S(47, __c1, 15)),
-          trimWhitespace: S.optional(__S(13, __c0, 13)),
-          updateSpreadsheetProperties: S.optional(__S(48, __c1, 16)),
-          updateDeveloperMetadata: S.optional(__S(49, __c1, 17)),
-          insertRange: S.optional(__S(5, __c0, 5)),
-          updateBanding: S.optional(__S(50, __c1, 18)),
-          cancelDataSourceRefresh: S.optional(__S(54, __c1, 22)),
-          deleteDataSource: S.optional(__S(55, __c1, 23)),
-          addDataSource: S.optional(__S(56, __c1, 24)),
-          createDeveloperMetadata: S.optional(__S(57, __c1, 25)),
+          addDataSource: S.optional(__S(0, __c0, 0)),
+          updateSlicerSpec: S.optional(__S(1, __c0, 1)),
+          setDataValidation: S.optional(__S(2, __c0, 2)),
+          duplicateFilterView: S.optional(__S(3, __c0, 3)),
+          insertDimension: S.optional(__S(4, __c0, 4)),
+          setBasicFilter: S.optional(__S(5, __c0, 5)),
+          updateCells: S.optional(__S(6, __c0, 6)),
+          deleteDataSource: S.optional(__S(7, __c0, 7)),
+          cutPaste: S.optional(__S(8, __c0, 8)),
+          deleteSheet: S.optional(__S(9, __c0, 9)),
+          addSlicer: S.optional(__S(10, __c0, 10)),
+          addNamedRange: S.optional(__S(11, __c0, 11)),
+          textToColumns: S.optional(__S(12, __c0, 12)),
+          updateFilterView: S.optional(__S(13, __c0, 13)),
+          trimWhitespace: S.optional(__S(14, __c0, 14)),
+          insertRange: S.optional(__S(15, __c0, 15)),
+          addConditionalFormatRule: S.optional(__S(16, __c0, 16)),
+          updateConditionalFormatRule: S.optional(__S(17, __c0, 17)),
+          copyPaste: S.optional(__S(18, __c0, 18)),
+          addSheet: S.optional(__S(19, __c0, 19)),
+          updateBanding: S.optional(__S(20, __c0, 20)),
+          deleteTable: S.optional(__S(21, __c0, 21)),
+          deleteFilterView: S.optional(__S(3, __c0, 3)),
+          updateDeveloperMetadata: S.optional(__S(22, __c0, 22)),
+          updateSpreadsheetProperties: S.optional(__S(23, __c0, 23)),
+          updateDimensionGroup: S.optional(__S(24, __c0, 24)),
+          updateEmbeddedObjectBorder: S.optional(__S(25, __c0, 25)),
+          deleteDimension: S.optional(__S(26, __c0, 26)),
+          deleteComment: S.optional(__S(27, __c0, 27)),
+          updateBorders: S.optional(__S(28, __c0, 28)),
+          repeatCell: S.optional(__S(29, __c0, 29)),
+          createDeveloperMetadata: S.optional(__S(30, __c0, 30)),
+          appendCells: S.optional(__S(31, __c0, 31)),
+          duplicateSheet: S.optional(__S(32, __c1, 0)),
+          randomizeRange: S.optional(__S(14, __c0, 14)),
+          autoResizeDimensions: S.optional(__S(34, __c1, 2)),
+          addTable: S.optional(__S(35, __c1, 3)),
+          deleteDeveloperMetadata: S.optional(__S(36, __c1, 4)),
+          deleteRange: S.optional(__S(15, __c0, 15)),
+          updateDataSource: S.optional(__S(37, __c1, 5)),
+          appendDimension: S.optional(__S(38, __c1, 6)),
+          updateEmbeddedObjectPosition: S.optional(__S(39, __c1, 7)),
+          deleteProtectedRange: S.optional(__S(40, __c1, 8)),
+          clearBasicFilter: S.optional(__S(9, __c0, 9)),
+          deleteEmbeddedObject: S.optional(__S(41, __c1, 9)),
+          sortRange: S.optional(__S(42, __c1, 10)),
+          moveDimension: S.optional(__S(43, __c1, 11)),
+          updateProtectedRange: S.optional(__S(44, __c1, 12)),
+          addCommentReply: S.optional(__S(45, __c1, 13)),
+          insertComment: S.optional(__S(46, __c1, 14)),
+          deleteCommentReply: S.optional(__S(47, __c1, 15)),
+          addDimensionGroup: S.optional(__S(26, __c0, 26)),
+          updateTable: S.optional(__S(48, __c1, 16)),
+          addFilterView: S.optional(__S(49, __c1, 17)),
+          updateDimensionProperties: S.optional(__S(50, __c1, 18)),
+          deleteDimensionGroup: S.optional(__S(26, __c0, 26)),
+          autoFill: S.optional(__S(52, __c1, 20)),
+          addBanding: S.optional(__S(53, __c1, 21)),
+          mergeCells: S.optional(__S(54, __c1, 22)),
+          deleteDuplicates: S.optional(__S(56, __c1, 24)),
+          updateNamedRange: S.optional(__S(57, __c1, 25)),
           deleteNamedRange: S.optional(__S(58, __c1, 26)),
-          duplicateSheet: S.optional(__S(59, __c1, 27)),
-          addBanding: S.optional(__S(60, __c1, 28)),
-          refreshDataSource: S.optional(__S(61, __c1, 29)),
-          duplicateFilterView: S.optional(__S(62, __c1, 30)),
-          autoResizeDimensions: S.optional(__S(63, __c1, 31)),
-          deleteBanding: S.optional(__S(64, __c2, 0)),
-          addFilterView: S.optional(__S(65, __c2, 1)),
-          deleteComment: S.optional(__S(66, __c2, 2)),
-          updateDataSource: S.optional(__S(67, __c2, 3)),
-          addDimensionGroup: S.optional(__S(16, __c0, 16)),
-          moveDimension: S.optional(__S(68, __c2, 4)),
-          appendCells: S.optional(__S(69, __c2, 5)),
-          findReplace: S.optional(__S(70, __c2, 6)),
-          deleteFilterView: S.optional(__S(62, __c1, 30)),
-          deleteDeveloperMetadata: S.optional(__S(71, __c2, 7)),
-          addSlicer: S.optional(__S(72, __c2, 8)),
+          updateChartSpec: S.optional(__S(59, __c1, 27)),
+          unmergeCells: S.optional(__S(14, __c0, 14)),
+          deleteConditionalFormatRule: S.optional(__S(60, __c1, 28)),
+          updateSheetProperties: S.optional(__S(61, __c1, 29)),
+          cancelDataSourceRefresh: S.optional(__S(65, __c2, 1)),
+          pasteData: S.optional(__S(66, __c2, 2)),
+          addChart: S.optional(__S(67, __c2, 3)),
+          findReplace: S.optional(__S(68, __c2, 4)),
+          addProtectedRange: S.optional(__S(69, __c2, 5)),
+          updateCommentPost: S.optional(__S(70, __c2, 6)),
+          deleteBanding: S.optional(__S(71, __c2, 7)),
+          refreshDataSource: S.optional(__S(72, __c2, 8)),
         }),
       ).annotate({ identifier: "Request" });
     case 10:
@@ -4682,10 +4682,10 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           includeSpreadsheetInResponse: S.optional(S.Boolean),
-          requests: S.optional(__S(74, __c2, 10)),
-          responseRanges: S.optional(__S(896, __c28, 0)),
+          responseRanges: S.optional(__S(864, __c27, 0)),
           commentsViewMode: S.optional(S.String),
           responseIncludeGridData: S.optional(S.Boolean),
+          requests: S.optional(__S(74, __c2, 10)),
         }),
       ).annotate({ identifier: "BatchUpdateSpreadsheetRequest" });
     case 12:
@@ -4704,120 +4704,120 @@ function __c2(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          cellsChangedCount: S.optional(S.Number),
+          dimensionGroups: S.optional(__S(299, __c9, 11)),
         }),
-      ).annotate({ identifier: "TrimWhitespaceResponse" });
+      ).annotate({ identifier: "AddDimensionGroupResponse" });
     case 14:
+      return S.suspend(() =>
+        S.Struct({
+          oldRule: S.optional(__S(234, __c7, 10)),
+          newRule: S.optional(__S(234, __c7, 10)),
+          newIndex: S.optional(S.Number),
+          oldIndex: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "UpdateConditionalFormatRuleResponse" });
+    case 15:
       return S.suspend(() =>
         S.Struct({
           commentThread: S.optional(__S(301, __c9, 13)),
         }),
       ).annotate({ identifier: "InsertCommentResponse" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          rule: S.optional(__S(279, __c8, 23)),
-        }),
-      ).annotate({ identifier: "DeleteConditionalFormatRuleResponse" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          dataExecutionStatus: S.optional(__S(131, __c4, 3)),
-          dataSource: S.optional(__S(298, __c9, 10)),
+          dataSource: S.optional(__S(167, __c5, 7)),
+          dataExecutionStatus: S.optional(__S(133, __c4, 5)),
         }),
-      ).annotate({ identifier: "UpdateDataSourceResponse" });
+      ).annotate({ identifier: "AddDataSourceResponse" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          post: S.optional(__S(179, __c5, 19)),
+          position: S.optional(__S(226, __c7, 2)),
         }),
-      ).annotate({ identifier: "AddCommentReplyResponse" });
+      ).annotate({ identifier: "UpdateEmbeddedObjectPositionResponse" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          developerMetadata: S.optional(__S(169, __c5, 9)),
+          deletedDeveloperMetadata: S.optional(__S(253, __c7, 29)),
         }),
-      ).annotate({ identifier: "UpdateDeveloperMetadataResponse" });
+      ).annotate({ identifier: "DeleteDeveloperMetadataResponse" });
     case 19:
+      return S.suspend(() =>
+        S.Struct({
+          reference: S.optional(__S(62, __c1, 30)),
+          dataExecutionStatus: S.optional(__S(133, __c4, 5)),
+        }),
+      ).annotate({ identifier: "RefreshDataSourceObjectExecutionStatus" });
+    case 20:
+      return S.Array(__S(83, __c2, 19));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          statuses: S.optional(__S(84, __c2, 20)),
+        }),
+      ).annotate({ identifier: "RefreshDataSourceResponse" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          rule: S.optional(__S(234, __c7, 10)),
+        }),
+      ).annotate({ identifier: "DeleteConditionalFormatRuleResponse" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          occurrencesChanged: S.optional(S.Number),
+          formulasChanged: S.optional(S.Number),
+          rowsChanged: S.optional(S.Number),
+          sheetsChanged: S.optional(S.Number),
+          valuesChanged: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "FindReplaceResponse" });
+    case 24:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
           errorCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "RefreshCancellationStatus" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          reference: S.optional(__S(51, __c1, 19)),
-          refreshCancellationStatus: S.optional(__S(83, __c2, 19)),
-        }),
-      ).annotate({ identifier: "CancelDataSourceRefreshStatus" });
-    case 21:
-      return S.Array(__S(84, __c2, 20));
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          statuses: S.optional(__S(85, __c2, 21)),
-        }),
-      ).annotate({ identifier: "CancelDataSourceRefreshResponse" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          position: S.optional(__S(188, __c5, 28)),
-        }),
-      ).annotate({ identifier: "UpdateEmbeddedObjectPositionResponse" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          formulasChanged: S.optional(S.Number),
-          sheetsChanged: S.optional(S.Number),
-          valuesChanged: S.optional(S.Number),
-          occurrencesChanged: S.optional(S.Number),
-          rowsChanged: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "FindReplaceResponse" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          dimensionGroups: S.optional(__S(302, __c9, 14)),
+          refreshCancellationStatus: S.optional(__S(88, __c2, 24)),
+          reference: S.optional(__S(62, __c1, 30)),
         }),
-      ).annotate({ identifier: "AddDimensionGroupResponse" });
+      ).annotate({ identifier: "CancelDataSourceRefreshStatus" });
     case 26:
+      return S.Array(__S(89, __c2, 25));
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          statuses: S.optional(__S(90, __c2, 26)),
+        }),
+      ).annotate({ identifier: "CancelDataSourceRefreshResponse" });
+    case 28:
       return S.suspend(() =>
         S.Struct({
           duplicatesRemovedCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DeleteDuplicatesResponse" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          oldRule: S.optional(__S(279, __c8, 23)),
-          oldIndex: S.optional(S.Number),
-          newIndex: S.optional(S.Number),
-          newRule: S.optional(__S(279, __c8, 23)),
-        }),
-      ).annotate({ identifier: "UpdateConditionalFormatRuleResponse" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          reference: S.optional(__S(51, __c1, 19)),
-          dataExecutionStatus: S.optional(__S(131, __c4, 3)),
-        }),
-      ).annotate({ identifier: "RefreshDataSourceObjectExecutionStatus" });
     case 29:
-      return S.Array(__S(92, __c2, 28));
+      return S.suspend(() =>
+        S.Struct({
+          developerMetadata: S.optional(__S(253, __c7, 29)),
+        }),
+      ).annotate({ identifier: "UpdateDeveloperMetadataResponse" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          statuses: S.optional(__S(93, __c2, 29)),
+          cellsChangedCount: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "RefreshDataSourceResponse" });
+      ).annotate({ identifier: "TrimWhitespaceResponse" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          deletedDeveloperMetadata: S.optional(__S(169, __c5, 9)),
+          post: S.optional(__S(252, __c7, 28)),
         }),
-      ).annotate({ identifier: "DeleteDeveloperMetadataResponse" });
+      ).annotate({ identifier: "AddCommentReplyResponse" });
   }
 }
 function __c3(j: number): any {
@@ -4825,33 +4825,33 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          trimWhitespace: S.optional(__S(77, __c2, 13)),
-          addTable: S.optional(__S(4, __c0, 4)),
-          addFilterView: S.optional(__S(65, __c2, 1)),
-          insertComment: S.optional(__S(78, __c2, 14)),
-          addBanding: S.optional(__S(60, __c1, 28)),
-          deleteConditionalFormatRule: S.optional(__S(79, __c2, 15)),
-          addSheet: S.optional(__S(45, __c1, 13)),
-          updateDataSource: S.optional(__S(80, __c2, 16)),
-          duplicateFilterView: S.optional(__S(65, __c2, 1)),
-          createDeveloperMetadata: S.optional(__S(57, __c1, 25)),
-          addCommentReply: S.optional(__S(81, __c2, 17)),
-          updateDeveloperMetadata: S.optional(__S(82, __c2, 18)),
-          cancelDataSourceRefresh: S.optional(__S(86, __c2, 22)),
-          updateEmbeddedObjectPosition: S.optional(__S(87, __c2, 23)),
-          addProtectedRange: S.optional(__S(35, __c1, 3)),
-          findReplace: S.optional(__S(88, __c2, 24)),
-          addChart: S.optional(__S(27, __c0, 27)),
-          addDimensionGroup: S.optional(__S(89, __c2, 25)),
+          addDimensionGroup: S.optional(__S(77, __c2, 13)),
+          addNamedRange: S.optional(__S(11, __c0, 11)),
+          duplicateFilterView: S.optional(__S(49, __c1, 17)),
+          updateConditionalFormatRule: S.optional(__S(78, __c2, 14)),
+          addSheet: S.optional(__S(19, __c0, 19)),
+          insertComment: S.optional(__S(79, __c2, 15)),
+          addBanding: S.optional(__S(53, __c1, 21)),
           addDataSource: S.optional(__S(80, __c2, 16)),
-          addNamedRange: S.optional(__S(21, __c0, 21)),
-          addSlicer: S.optional(__S(72, __c2, 8)),
-          deleteDuplicates: S.optional(__S(90, __c2, 26)),
-          updateConditionalFormatRule: S.optional(__S(91, __c2, 27)),
-          duplicateSheet: S.optional(__S(45, __c1, 13)),
-          refreshDataSource: S.optional(__S(94, __c2, 30)),
-          deleteDimensionGroup: S.optional(__S(89, __c2, 25)),
-          deleteDeveloperMetadata: S.optional(__S(95, __c2, 31)),
+          updateDataSource: S.optional(__S(80, __c2, 16)),
+          duplicateSheet: S.optional(__S(19, __c0, 19)),
+          updateEmbeddedObjectPosition: S.optional(__S(81, __c2, 17)),
+          deleteDeveloperMetadata: S.optional(__S(82, __c2, 18)),
+          addChart: S.optional(__S(67, __c2, 3)),
+          deleteDimensionGroup: S.optional(__S(77, __c2, 13)),
+          refreshDataSource: S.optional(__S(85, __c2, 21)),
+          deleteConditionalFormatRule: S.optional(__S(86, __c2, 22)),
+          createDeveloperMetadata: S.optional(__S(30, __c0, 30)),
+          findReplace: S.optional(__S(87, __c2, 23)),
+          cancelDataSourceRefresh: S.optional(__S(91, __c2, 27)),
+          addProtectedRange: S.optional(__S(69, __c2, 5)),
+          addTable: S.optional(__S(35, __c1, 3)),
+          addFilterView: S.optional(__S(49, __c1, 17)),
+          deleteDuplicates: S.optional(__S(92, __c2, 28)),
+          addSlicer: S.optional(__S(10, __c0, 10)),
+          updateDeveloperMetadata: S.optional(__S(93, __c2, 29)),
+          trimWhitespace: S.optional(__S(94, __c2, 30)),
+          addCommentReply: S.optional(__S(95, __c2, 31)),
         }),
       ).annotate({ identifier: "Response" });
     case 1:
@@ -4859,10 +4859,10 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          replies: S.optional(__S(97, __c3, 1)),
           spreadsheetId: S.optional(S.String),
+          replies: S.optional(__S(97, __c3, 1)),
           commentUpdateState: S.optional(S.String),
-          updatedSpreadsheet: S.optional(__S(329, __c10, 9)),
+          updatedSpreadsheet: S.optional(__S(328, __c10, 8)),
         }),
       ).annotate({ identifier: "BatchUpdateSpreadsheetResponse" });
   }
@@ -4872,75 +4872,75 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          green: S.optional(S.Number),
-          blue: S.optional(S.Number),
-          alpha: S.optional(S.Number),
-          red: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Color" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          rgbColor: S.optional(__S(128, __c4, 0)),
-          themeColor: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ColorStyle" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataSourceColumnReference" });
-    case 3:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          errorMessage: S.optional(S.String),
-          state: S.optional(S.String),
-          lastRefreshTime: S.optional(S.String),
-          errorCode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DataExecutionStatus" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          reference: S.optional(__S(130, __c4, 2)),
+          reference: S.optional(__S(128, __c4, 0)),
           formula: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataSourceColumn" });
+    case 2:
+      return S.Array(__S(129, __c4, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          alpha: S.optional(S.Number),
+          blue: S.optional(S.Number),
+          green: S.optional(S.Number),
+          red: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Color" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          rgbColor: S.optional(__S(131, __c4, 3)),
+          themeColor: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ColorStyle" });
     case 5:
-      return S.Array(__S(132, __c4, 4));
+      return S.suspend(() =>
+        S.Struct({
+          errorCode: S.optional(S.String),
+          state: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          lastRefreshTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataExecutionStatus" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          columns: S.optional(__S(133, __c4, 5)),
-          dataSourceId: S.optional(S.String),
-          dataExecutionStatus: S.optional(__S(131, __c4, 3)),
+          columnGroupControlAfter: S.optional(S.Boolean),
+          rowGroupControlAfter: S.optional(S.Boolean),
+          rowCount: S.optional(S.Number),
+          frozenRowCount: S.optional(S.Number),
+          frozenColumnCount: S.optional(S.Number),
+          columnCount: S.optional(S.Number),
+          hideGridlines: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "DataSourceSheetProperties" });
+      ).annotate({ identifier: "GridProperties" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          frozenRowCount: S.optional(S.Number),
-          columnGroupControlAfter: S.optional(S.Boolean),
-          rowGroupControlAfter: S.optional(S.Boolean),
-          frozenColumnCount: S.optional(S.Number),
-          hideGridlines: S.optional(S.Boolean),
-          columnCount: S.optional(S.Number),
-          rowCount: S.optional(S.Number),
+          columns: S.optional(__S(130, __c4, 2)),
+          dataExecutionStatus: S.optional(__S(133, __c4, 5)),
+          dataSourceId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GridProperties" });
+      ).annotate({ identifier: "DataSourceSheetProperties" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          tabColorStyle: S.optional(__S(129, __c4, 1)),
-          dataSourceSheetProperties: S.optional(__S(134, __c4, 6)),
+          index: S.optional(S.Number),
+          title: S.optional(S.String),
           hidden: S.optional(S.Boolean),
           sheetType: S.optional(S.String),
-          index: S.optional(S.Number),
+          tabColorStyle: S.optional(__S(132, __c4, 4)),
           sheetId: S.optional(S.Number),
-          gridProperties: S.optional(__S(135, __c4, 7)),
-          tabColor: S.optional(__S(128, __c4, 0)),
-          title: S.optional(S.String),
+          gridProperties: S.optional(__S(134, __c4, 6)),
+          tabColor: S.optional(__S(131, __c4, 3)),
+          dataSourceSheetProperties: S.optional(__S(135, __c4, 7)),
           rightToLeft: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SheetProperties" });
@@ -4951,297 +4951,60 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          secondBandColorStyle: S.optional(__S(129, __c4, 1)),
-          headerColorStyle: S.optional(__S(129, __c4, 1)),
-          firstBandColorStyle: S.optional(__S(129, __c4, 1)),
-          footerColorStyle: S.optional(__S(129, __c4, 1)),
+          model: S.optional(S.String),
+          explore: S.optional(S.String),
+          instanceUri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TableRowsProperties" });
+      ).annotate({ identifier: "LookerDataSourceSpec" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          relativeDate: S.optional(S.String),
-          userEnteredValue: S.optional(S.String),
+          namedRangeId: S.optional(S.String),
+          name: S.optional(S.String),
+          range: S.optional(__S(960, __c30, 0)),
         }),
-      ).annotate({ identifier: "ConditionValue" });
+      ).annotate({ identifier: "DataSourceParameter" });
     case 2:
       return S.Array(__S(161, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          values: S.optional(__S(162, __c5, 2)),
+          rawQuery: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BooleanCondition" });
+      ).annotate({ identifier: "BigQueryQuerySpec" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(163, __c5, 3)),
+          tableProjectId: S.optional(S.String),
+          datasetId: S.optional(S.String),
+          tableId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TableColumnDataValidationRule" });
+      ).annotate({ identifier: "BigQueryTableSpec" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          columnIndex: S.optional(S.Number),
-          columnType: S.optional(S.String),
-          dataValidationRule: S.optional(__S(164, __c5, 4)),
-          columnName: S.optional(S.String),
+          querySpec: S.optional(__S(163, __c5, 3)),
+          projectId: S.optional(S.String),
+          tableSpec: S.optional(__S(164, __c5, 4)),
         }),
-      ).annotate({ identifier: "TableColumnProperties" });
+      ).annotate({ identifier: "BigQueryDataSourceSpec" });
     case 6:
-      return S.Array(__S(165, __c5, 5));
+      return S.suspend(() =>
+        S.Struct({
+          looker: S.optional(__S(160, __c5, 0)),
+          parameters: S.optional(__S(162, __c5, 2)),
+          bigQuery: S.optional(__S(165, __c5, 5)),
+        }),
+      ).annotate({ identifier: "DataSourceSpec" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          rowsProperties: S.optional(__S(160, __c5, 0)),
-          range: S.optional(__S(992, __c31, 0)),
-          tableId: S.optional(S.String),
-          columnProperties: S.optional(__S(166, __c5, 6)),
-        }),
-      ).annotate({ identifier: "Table" });
-    case 8:
-      return S.Array(__S(130, __c4, 2));
-    case 9:
-      return S.Array(__S(352, __c11, 0));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          hiddenByFilter: S.optional(S.Boolean),
-          developerMetadata: S.optional(__S(169, __c5, 9)),
-          hiddenByUser: S.optional(S.Boolean),
-          pixelSize: S.optional(S.Number),
-          dataSourceColumnReference: S.optional(__S(130, __c4, 2)),
-        }),
-      ).annotate({ identifier: "DimensionProperties" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          visibleBackgroundColorStyle: S.optional(__S(129, __c4, 1)),
-          visibleForegroundColorStyle: S.optional(__S(129, __c4, 1)),
-          hiddenValues: S.optional(__S(896, __c28, 0)),
-          visibleBackgroundColor: S.optional(__S(128, __c4, 0)),
-          visibleForegroundColor: S.optional(__S(128, __c4, 0)),
-          condition: S.optional(__S(163, __c5, 3)),
-        }),
-      ).annotate({ identifier: "FilterCriteria" });
-    case 12:
-      return S.Record(S.String, __S(171, __c5, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          foregroundColorStyle: S.optional(__S(129, __c4, 1)),
-          dataSourceColumnReference: S.optional(__S(130, __c4, 2)),
-          backgroundColor: S.optional(__S(128, __c4, 0)),
-          dimensionIndex: S.optional(S.Number),
-          backgroundColorStyle: S.optional(__S(129, __c4, 1)),
-          foregroundColor: S.optional(__S(128, __c4, 0)),
-          sortOrder: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SortSpec" });
-    case 14:
-      return S.Array(__S(173, __c5, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          filterCriteria: S.optional(__S(171, __c5, 11)),
-          dataSourceColumnReference: S.optional(__S(130, __c4, 2)),
-          columnIndex: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "FilterSpec" });
-    case 16:
-      return S.Array(__S(175, __c5, 15));
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          title: S.optional(S.String),
-          namedRangeId: S.optional(S.String),
-          range: S.optional(__S(992, __c31, 0)),
-          criteria: S.optional(__S(172, __c5, 12)),
-          tableId: S.optional(S.String),
-          filterViewId: S.optional(S.Number),
-          sortSpecs: S.optional(__S(174, __c5, 14)),
-          filterSpecs: S.optional(__S(176, __c5, 16)),
-        }),
-      ).annotate({ identifier: "FilterView" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          user: S.optional(S.String),
-          anonymous: S.optional(S.Boolean),
-          me: S.optional(S.Boolean),
-          displayName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PostAuthor" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          deleted: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          author: S.optional(__S(178, __c5, 18)),
-          commentAction: S.optional(S.String),
-          fromImportedSpreadsheet: S.optional(S.Boolean),
-          postId: S.optional(S.String),
-          createTime: S.optional(S.String),
-          content: S.optional(S.String),
-          assigneeEmail: S.optional(S.String),
-          fromCopiedSpreadsheet: S.optional(S.Boolean),
-          contentHtml: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Post" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          collapsed: S.optional(S.Boolean),
-          depth: S.optional(S.Number),
-          range: S.optional(__S(960, __c30, 0)),
-        }),
-      ).annotate({ identifier: "DimensionGroup" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          width: S.optional(S.Number),
-          style: S.optional(S.String),
-          color: S.optional(__S(128, __c4, 0)),
-          colorStyle: S.optional(__S(129, __c4, 1)),
-        }),
-      ).annotate({ identifier: "Border" });
-    case 22:
-      return S.Array(__S(992, __c31, 0));
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          domainUsersCanEdit: S.optional(S.Boolean),
-          groups: S.optional(__S(896, __c28, 0)),
-          users: S.optional(__S(896, __c28, 0)),
-        }),
-      ).annotate({ identifier: "Editors" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          range: S.optional(__S(992, __c31, 0)),
-          warningOnly: S.optional(S.Boolean),
-          namedRangeId: S.optional(S.String),
-          requestingUserCanEdit: S.optional(S.Boolean),
-          unprotectedRanges: S.optional(__S(182, __c5, 22)),
-          protectedRangeId: S.optional(S.Number),
-          tableId: S.optional(S.String),
-          description: S.optional(S.String),
-          editors: S.optional(__S(183, __c5, 23)),
-        }),
-      ).annotate({ identifier: "ProtectedRange" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          namedRangeId: S.optional(S.String),
-          name: S.optional(S.String),
-          range: S.optional(__S(992, __c31, 0)),
-        }),
-      ).annotate({ identifier: "NamedRange" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
+          dataSourceId: S.optional(S.String),
           sheetId: S.optional(S.Number),
-          rowIndex: S.optional(S.Number),
-          columnIndex: S.optional(S.Number),
+          spec: S.optional(__S(166, __c5, 6)),
+          calculatedColumns: S.optional(__S(130, __c4, 2)),
         }),
-      ).annotate({ identifier: "GridCoordinate" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          offsetXPixels: S.optional(S.Number),
-          offsetYPixels: S.optional(S.Number),
-          anchorCell: S.optional(__S(186, __c5, 26)),
-          heightPixels: S.optional(S.Number),
-          widthPixels: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "OverlayPosition" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          overlayPosition: S.optional(__S(187, __c5, 27)),
-          sheetId: S.optional(S.Number),
-          newSheet: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "EmbeddedObjectPosition" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          sources: S.optional(__S(182, __c5, 22)),
-        }),
-      ).annotate({ identifier: "ChartSourceRange" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ChartDateTimeRule" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          minValue: S.optional(S.Number),
-          intervalSize: S.optional(S.Number),
-          maxValue: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ChartHistogramRule" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dateTimeRule: S.optional(__S(190, __c5, 30)),
-          histogramRule: S.optional(__S(191, __c5, 31)),
-        }),
-      ).annotate({ identifier: "ChartGroupRule" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          sourceRange: S.optional(__S(189, __c5, 29)),
-          columnReference: S.optional(__S(130, __c4, 2)),
-          aggregateType: S.optional(S.String),
-          groupRule: S.optional(__S(192, __c6, 0)),
-        }),
-      ).annotate({ identifier: "ChartData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          barColor: S.optional(__S(128, __c4, 0)),
-          barColorStyle: S.optional(__S(129, __c4, 1)),
-          data: S.optional(__S(193, __c6, 1)),
-        }),
-      ).annotate({ identifier: "HistogramSeries" });
-    case 3:
-      return S.Array(__S(194, __c6, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          bucketSize: S.optional(S.Number),
-          showItemDividers: S.optional(S.Boolean),
-          series: S.optional(__S(195, __c6, 3)),
-          legendPosition: S.optional(S.String),
-          outlierPercentile: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "HistogramChartSpec" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          label: S.optional(S.String),
-          dataIsSubtotal: S.optional(S.Boolean),
-          subtotalIndex: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "WaterfallChartCustomSubtotal" });
-    case 6:
-      return S.Array(__S(197, __c6, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          colorStyle: S.optional(__S(129, __c4, 1)),
-          label: S.optional(S.String),
-          color: S.optional(__S(128, __c4, 0)),
-        }),
-      ).annotate({ identifier: "WaterfallChartColumnStyle" });
+      ).annotate({ identifier: "DataSource" });
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -5251,219 +5014,396 @@ function __c6(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          italic: S.optional(S.Boolean),
-          link: S.optional(__S(200, __c6, 8)),
-          foregroundColor: S.optional(__S(128, __c4, 0)),
-          strikethrough: S.optional(S.Boolean),
-          foregroundColorStyle: S.optional(__S(129, __c4, 1)),
           fontSize: S.optional(S.Number),
           bold: S.optional(S.Boolean),
-          underline: S.optional(S.Boolean),
           fontFamily: S.optional(S.String),
+          underline: S.optional(S.Boolean),
+          strikethrough: S.optional(S.Boolean),
+          italic: S.optional(S.Boolean),
+          foregroundColor: S.optional(__S(131, __c4, 3)),
+          foregroundColorStyle: S.optional(__S(132, __c4, 4)),
+          link: S.optional(__S(168, __c5, 8)),
         }),
       ).annotate({ identifier: "TextFormat" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          placement: S.optional(S.String),
-          textFormat: S.optional(__S(201, __c6, 9)),
-          customLabelData: S.optional(__S(193, __c6, 1)),
+          userEnteredValue: S.optional(S.String),
+          relativeDate: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DataLabel" });
+      ).annotate({ identifier: "ConditionValue" });
     case 11:
+      return S.Array(__S(170, __c5, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          customSubtotals: S.optional(__S(198, __c6, 6)),
-          negativeColumnsStyle: S.optional(__S(199, __c6, 7)),
-          subtotalColumnsStyle: S.optional(__S(199, __c6, 7)),
-          positiveColumnsStyle: S.optional(__S(199, __c6, 7)),
-          dataLabel: S.optional(__S(202, __c6, 10)),
-          data: S.optional(__S(193, __c6, 1)),
-          hideTrailingSubtotal: S.optional(S.Boolean),
+          type: S.optional(S.String),
+          values: S.optional(__S(171, __c5, 11)),
         }),
-      ).annotate({ identifier: "WaterfallChartSeries" });
-    case 12:
-      return S.Array(__S(203, __c6, 11));
+      ).annotate({ identifier: "BooleanCondition" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(193, __c6, 1)),
-          reversed: S.optional(S.Boolean),
+          visibleBackgroundColor: S.optional(__S(131, __c4, 3)),
+          visibleForegroundColor: S.optional(__S(131, __c4, 3)),
+          condition: S.optional(__S(172, __c5, 12)),
+          visibleBackgroundColorStyle: S.optional(__S(132, __c4, 4)),
+          visibleForegroundColorStyle: S.optional(__S(132, __c4, 4)),
+          hiddenValues: S.optional(__S(864, __c27, 0)),
         }),
-      ).annotate({ identifier: "WaterfallChartDomain" });
+      ).annotate({ identifier: "FilterCriteria" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          width: S.optional(S.Number),
+          columnIndex: S.optional(S.Number),
+          textFormat: S.optional(__S(169, __c5, 9)),
+          horizontalAlignment: S.optional(S.String),
+          backgroundColor: S.optional(__S(131, __c4, 3)),
+          filterCriteria: S.optional(__S(173, __c5, 13)),
+          backgroundColorStyle: S.optional(__S(132, __c4, 4)),
+          dataRange: S.optional(__S(960, __c30, 0)),
+          title: S.optional(S.String),
+          applyToPivotTables: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "LineStyle" });
+      ).annotate({ identifier: "SlicerSpec" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          firstValueIsTotal: S.optional(S.Boolean),
-          series: S.optional(__S(204, __c6, 12)),
-          hideConnectorLines: S.optional(S.Boolean),
-          stackedType: S.optional(S.String),
-          domain: S.optional(__S(205, __c6, 13)),
-          totalDataLabel: S.optional(__S(202, __c6, 10)),
-          connectorLineStyle: S.optional(__S(206, __c6, 14)),
+          strict: S.optional(S.Boolean),
+          showCustomUi: S.optional(S.Boolean),
+          condition: S.optional(__S(172, __c5, 12)),
+          inputMessage: S.optional(S.String),
         }),
-      ).annotate({ identifier: "WaterfallChartSpec" });
+      ).annotate({ identifier: "DataValidationRule" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          horizontalAlignment: S.optional(S.String),
+          backgroundColor: S.optional(__S(131, __c4, 3)),
+          dimensionIndex: S.optional(S.Number),
+          foregroundColorStyle: S.optional(__S(132, __c4, 4)),
+          foregroundColor: S.optional(__S(131, __c4, 3)),
+          backgroundColorStyle: S.optional(__S(132, __c4, 4)),
+          sortOrder: S.optional(S.String),
+          dataSourceColumnReference: S.optional(__S(128, __c4, 0)),
         }),
-      ).annotate({ identifier: "TextPosition" });
+      ).annotate({ identifier: "SortSpec" });
     case 17:
-      return S.suspend(() =>
-        S.Struct({
-          position: S.optional(__S(208, __c6, 16)),
-          textFormat: S.optional(__S(201, __c6, 9)),
-        }),
-      ).annotate({ identifier: "KeyValueFormat" });
+      return S.Array(__S(176, __c5, 16));
     case 18:
-      return S.suspend(() =>
-        S.Struct({
-          prefix: S.optional(S.String),
-          suffix: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ChartCustomNumberFormatOptions" });
+      return S.Record(S.String, __S(173, __c5, 13));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          position: S.optional(__S(208, __c6, 16)),
-          positiveColor: S.optional(__S(128, __c4, 0)),
-          textFormat: S.optional(__S(201, __c6, 9)),
-          negativeColor: S.optional(__S(128, __c4, 0)),
-          positiveColorStyle: S.optional(__S(129, __c4, 1)),
-          negativeColorStyle: S.optional(__S(129, __c4, 1)),
-          comparisonType: S.optional(S.String),
-          description: S.optional(S.String),
+          columnIndex: S.optional(S.Number),
+          dataSourceColumnReference: S.optional(__S(128, __c4, 0)),
+          filterCriteria: S.optional(__S(173, __c5, 13)),
         }),
-      ).annotate({ identifier: "BaselineValueFormat" });
+      ).annotate({ identifier: "FilterSpec" });
     case 20:
-      return S.suspend(() =>
-        S.Struct({
-          numberFormatSource: S.optional(S.String),
-          aggregateType: S.optional(S.String),
-          keyValueFormat: S.optional(__S(209, __c6, 17)),
-          customFormatOptions: S.optional(__S(210, __c6, 18)),
-          keyValueData: S.optional(__S(193, __c6, 1)),
-          baselineValueData: S.optional(__S(193, __c6, 1)),
-          baselineValueFormat: S.optional(__S(211, __c6, 19)),
-          scaleFactor: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ScorecardChartSpec" });
+      return S.Array(__S(179, __c5, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          domain: S.optional(__S(193, __c6, 1)),
-          legendPosition: S.optional(S.String),
-          bubbleOpacity: S.optional(S.Number),
-          bubbleMinRadiusSize: S.optional(S.Number),
-          series: S.optional(__S(193, __c6, 1)),
-          bubbleBorderColor: S.optional(__S(128, __c4, 0)),
-          bubbleLabels: S.optional(__S(193, __c6, 1)),
-          groupIds: S.optional(__S(193, __c6, 1)),
-          bubbleBorderColorStyle: S.optional(__S(129, __c4, 1)),
-          bubbleMaxRadiusSize: S.optional(S.Number),
-          bubbleTextStyle: S.optional(__S(201, __c6, 9)),
-          bubbleSizes: S.optional(__S(193, __c6, 1)),
+          range: S.optional(__S(960, __c30, 0)),
+          sortSpecs: S.optional(__S(177, __c5, 17)),
+          criteria: S.optional(__S(178, __c5, 18)),
+          filterSpecs: S.optional(__S(180, __c5, 20)),
+          tableId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BubbleChartSpec" });
+      ).annotate({ identifier: "BasicFilter" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          midValueColorStyle: S.optional(__S(129, __c4, 1)),
-          minValueColor: S.optional(__S(128, __c4, 0)),
-          minValueColorStyle: S.optional(__S(129, __c4, 1)),
-          maxValueColorStyle: S.optional(__S(129, __c4, 1)),
-          midValueColor: S.optional(__S(128, __c4, 0)),
-          noDataColor: S.optional(__S(128, __c4, 0)),
-          noDataColorStyle: S.optional(__S(129, __c4, 1)),
-          maxValueColor: S.optional(__S(128, __c4, 0)),
+          type: S.optional(S.String),
+          message: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TreemapChartColorScale" });
+      ).annotate({ identifier: "ErrorValue" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          levels: S.optional(S.Number),
-          sizeData: S.optional(__S(193, __c6, 1)),
-          minValue: S.optional(S.Number),
-          colorData: S.optional(__S(193, __c6, 1)),
-          hintedLevels: S.optional(S.Number),
-          maxValue: S.optional(S.Number),
-          textFormat: S.optional(__S(201, __c6, 9)),
-          headerColor: S.optional(__S(128, __c4, 0)),
-          colorScale: S.optional(__S(214, __c6, 22)),
-          labels: S.optional(__S(193, __c6, 1)),
-          headerColorStyle: S.optional(__S(129, __c4, 1)),
-          parentLabels: S.optional(__S(193, __c6, 1)),
-          hideTooltips: S.optional(S.Boolean),
+          boolValue: S.optional(S.Boolean),
+          numberValue: S.optional(S.Number),
+          formulaValue: S.optional(S.String),
+          errorValue: S.optional(__S(182, __c5, 22)),
+          stringValue: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TreemapChartSpec" });
+      ).annotate({ identifier: "ExtendedValue" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          threeDimensional: S.optional(S.Boolean),
-          series: S.optional(__S(193, __c6, 1)),
-          legendPosition: S.optional(S.String),
-          pieHole: S.optional(S.Number),
-          domain: S.optional(__S(193, __c6, 1)),
+          type: S.optional(S.String),
+          pattern: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PieChartSpec" });
+      ).annotate({ identifier: "NumberFormat" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(193, __c6, 1)),
-          nodeColorStyle: S.optional(__S(129, __c4, 1)),
-          parentLabels: S.optional(__S(193, __c6, 1)),
-          selectedNodeColor: S.optional(__S(128, __c4, 0)),
-          nodeSize: S.optional(S.String),
-          nodeColor: S.optional(__S(128, __c4, 0)),
-          selectedNodeColorStyle: S.optional(__S(129, __c4, 1)),
-          tooltips: S.optional(__S(193, __c6, 1)),
+          left: S.optional(S.Number),
+          right: S.optional(S.Number),
+          top: S.optional(S.Number),
+          bottom: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "OrgChartSpec" });
+      ).annotate({ identifier: "Padding" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          reversed: S.optional(S.Boolean),
-          domain: S.optional(__S(193, __c6, 1)),
+          vertical: S.optional(S.Boolean),
+          angle: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "BasicChartDomain" });
+      ).annotate({ identifier: "TextRotation" });
     case 27:
-      return S.Array(__S(218, __c6, 26));
+      return S.suspend(() =>
+        S.Struct({
+          style: S.optional(S.String),
+          width: S.optional(S.Number),
+          colorStyle: S.optional(__S(132, __c4, 4)),
+          color: S.optional(__S(131, __c4, 3)),
+        }),
+      ).annotate({ identifier: "Border" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          viewWindowMin: S.optional(S.Number),
-          viewWindowMax: S.optional(S.Number),
-          viewWindowMode: S.optional(S.String),
+          left: S.optional(__S(187, __c5, 27)),
+          bottom: S.optional(__S(187, __c5, 27)),
+          top: S.optional(__S(187, __c5, 27)),
+          right: S.optional(__S(187, __c5, 27)),
         }),
-      ).annotate({ identifier: "ChartAxisViewWindowOptions" });
+      ).annotate({ identifier: "Borders" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          position: S.optional(S.String),
-          titleTextPosition: S.optional(__S(208, __c6, 16)),
-          viewWindowOptions: S.optional(__S(220, __c6, 28)),
-          format: S.optional(__S(201, __c6, 9)),
-          title: S.optional(S.String),
+          hyperlinkDisplayType: S.optional(S.String),
+          numberFormat: S.optional(__S(184, __c5, 24)),
+          verticalAlignment: S.optional(S.String),
+          textFormat: S.optional(__S(169, __c5, 9)),
+          backgroundColor: S.optional(__S(131, __c4, 3)),
+          padding: S.optional(__S(185, __c5, 25)),
+          wrapStrategy: S.optional(S.String),
+          textRotation: S.optional(__S(186, __c5, 26)),
+          backgroundColorStyle: S.optional(__S(132, __c4, 4)),
+          borders: S.optional(__S(188, __c5, 28)),
+          textDirection: S.optional(S.String),
+          horizontalAlignment: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BasicChartAxis" });
+      ).annotate({ identifier: "CellFormat" });
     case 30:
-      return S.Array(__S(221, __c6, 29));
-    case 31:
       return S.suspend(() =>
         S.Struct({
-          shape: S.optional(S.String),
-          size: S.optional(S.Number),
+          format: S.optional(__S(169, __c5, 9)),
+          startIndex: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "PointStyle" });
+      ).annotate({ identifier: "TextFormatRun" });
+    case 31:
+      return S.Array(__S(190, __c5, 30));
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(128, __c4, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          rowLimit: S.optional(S.Number),
+          dataExecutionStatus: S.optional(__S(133, __c4, 5)),
+          filterSpecs: S.optional(__S(180, __c5, 20)),
+          sortSpecs: S.optional(__S(177, __c5, 17)),
+          columnSelectionType: S.optional(S.String),
+          columns: S.optional(__S(192, __c6, 0)),
+          dataSourceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataSourceTable" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          dataSourceId: S.optional(S.String),
+          dataExecutionStatus: S.optional(__S(133, __c4, 5)),
+        }),
+      ).annotate({ identifier: "DataSourceFormula" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          mimeType: S.optional(S.String),
+          uri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RichLinkProperties" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          email: S.optional(S.String),
+          displayFormat: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PersonProperties" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          richLinkProperties: S.optional(__S(195, __c6, 3)),
+          personProperties: S.optional(__S(196, __c6, 4)),
+        }),
+      ).annotate({ identifier: "Chip" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          chip: S.optional(__S(197, __c6, 5)),
+          startIndex: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ChipRun" });
+    case 7:
+      return S.Array(__S(198, __c6, 6));
+    case 8:
+      return S.Array(__S(183, __c5, 23));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          valuesIndex: S.optional(S.Number),
+          buckets: S.optional(__S(200, __c6, 8)),
+        }),
+      ).annotate({ identifier: "PivotGroupSortValueBucket" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          countLimit: S.optional(S.Number),
+          applyOrder: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PivotGroupLimit" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DateTimeRule" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          interval: S.optional(S.Number),
+          end: S.optional(S.Number),
+          start: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "HistogramRule" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          items: S.optional(__S(200, __c6, 8)),
+          groupName: S.optional(__S(183, __c5, 23)),
+        }),
+      ).annotate({ identifier: "ManualRuleGroup" });
+    case 14:
+      return S.Array(__S(205, __c6, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          groups: S.optional(__S(206, __c6, 14)),
+        }),
+      ).annotate({ identifier: "ManualRule" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          dateTimeRule: S.optional(__S(203, __c6, 11)),
+          histogramRule: S.optional(__S(204, __c6, 12)),
+          manualRule: S.optional(__S(207, __c6, 15)),
+        }),
+      ).annotate({ identifier: "PivotGroupRule" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(__S(183, __c5, 23)),
+          collapsed: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "PivotGroupValueMetadata" });
+    case 18:
+      return S.Array(__S(209, __c6, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          repeatHeadings: S.optional(S.Boolean),
+          label: S.optional(S.String),
+          showTotals: S.optional(S.Boolean),
+          sourceColumnOffset: S.optional(S.Number),
+          valueBucket: S.optional(__S(201, __c6, 9)),
+          groupLimit: S.optional(__S(202, __c6, 10)),
+          sortOrder: S.optional(S.String),
+          groupRule: S.optional(__S(208, __c6, 16)),
+          dataSourceColumnReference: S.optional(__S(128, __c4, 0)),
+          valueMetadata: S.optional(__S(210, __c6, 18)),
+        }),
+      ).annotate({ identifier: "PivotGroup" });
+    case 20:
+      return S.Array(__S(211, __c6, 19));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          condition: S.optional(__S(172, __c5, 12)),
+          visibleValues: S.optional(__S(864, __c27, 0)),
+          visibleByDefault: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "PivotFilterCriteria" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          columnOffsetIndex: S.optional(S.Number),
+          dataSourceColumnReference: S.optional(__S(128, __c4, 0)),
+          filterCriteria: S.optional(__S(213, __c6, 21)),
+        }),
+      ).annotate({ identifier: "PivotFilterSpec" });
+    case 23:
+      return S.Array(__S(214, __c6, 22));
+    case 24:
+      return S.Record(S.String, __S(213, __c6, 21));
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          calculatedDisplayType: S.optional(S.String),
+          dataSourceColumnReference: S.optional(__S(128, __c4, 0)),
+          sourceColumnOffset: S.optional(S.Number),
+          name: S.optional(S.String),
+          formula: S.optional(S.String),
+          summarizeFunction: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PivotValue" });
+    case 26:
+      return S.Array(__S(217, __c6, 25));
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          columns: S.optional(__S(212, __c6, 20)),
+          dataSourceId: S.optional(S.String),
+          valueLayout: S.optional(S.String),
+          dataExecutionStatus: S.optional(__S(133, __c4, 5)),
+          rows: S.optional(__S(212, __c6, 20)),
+          filterSpecs: S.optional(__S(215, __c6, 23)),
+          source: S.optional(__S(960, __c30, 0)),
+          criteria: S.optional(__S(216, __c6, 24)),
+          values: S.optional(__S(218, __c6, 26)),
+        }),
+      ).annotate({ identifier: "PivotTable" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          userEnteredValue: S.optional(__S(183, __c5, 23)),
+          userEnteredFormat: S.optional(__S(189, __c5, 29)),
+          textFormatRuns: S.optional(__S(191, __c5, 31)),
+          effectiveValue: S.optional(__S(183, __c5, 23)),
+          dataSourceTable: S.optional(__S(193, __c6, 1)),
+          formattedValue: S.optional(S.String),
+          dataSourceFormula: S.optional(__S(194, __c6, 2)),
+          hyperlink: S.optional(S.String),
+          effectiveFormat: S.optional(__S(189, __c5, 29)),
+          chipRuns: S.optional(__S(199, __c6, 7)),
+          pivotTable: S.optional(__S(219, __c6, 27)),
+          note: S.optional(S.String),
+          dataValidation: S.optional(__S(175, __c5, 15)),
+        }),
+      ).annotate({ identifier: "CellData" });
+    case 29:
+      return S.Array(__S(220, __c6, 28));
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          values: S.optional(__S(221, __c6, 29)),
+        }),
+      ).annotate({ identifier: "RowData" });
+    case 31:
+      return S.Array(__S(222, __c6, 30));
   }
 }
 function __c7(j: number): any {
@@ -5471,273 +5411,269 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pointStyle: S.optional(__S(223, __c6, 31)),
-          color: S.optional(__S(128, __c4, 0)),
-          index: S.optional(S.Number),
-          colorStyle: S.optional(__S(129, __c4, 1)),
+          sheetId: S.optional(S.Number),
+          columnIndex: S.optional(S.Number),
+          rowIndex: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "BasicSeriesDataPointStyleOverride" });
+      ).annotate({ identifier: "GridCoordinate" });
     case 1:
-      return S.Array(__S(224, __c7, 0));
+      return S.suspend(() =>
+        S.Struct({
+          offsetYPixels: S.optional(S.Number),
+          widthPixels: S.optional(S.Number),
+          heightPixels: S.optional(S.Number),
+          anchorCell: S.optional(__S(224, __c7, 0)),
+          offsetXPixels: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "OverlayPosition" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          lineStyle: S.optional(__S(206, __c6, 14)),
-          styleOverrides: S.optional(__S(225, __c7, 1)),
-          dataLabel: S.optional(__S(202, __c6, 10)),
-          series: S.optional(__S(193, __c6, 1)),
-          targetAxis: S.optional(S.String),
-          pointStyle: S.optional(__S(223, __c6, 31)),
-          color: S.optional(__S(128, __c4, 0)),
-          colorStyle: S.optional(__S(129, __c4, 1)),
-          type: S.optional(S.String),
+          newSheet: S.optional(S.Boolean),
+          sheetId: S.optional(S.Number),
+          overlayPosition: S.optional(__S(225, __c7, 1)),
         }),
-      ).annotate({ identifier: "BasicChartSeries" });
+      ).annotate({ identifier: "EmbeddedObjectPosition" });
     case 3:
-      return S.Array(__S(226, __c7, 2));
+      return S.suspend(() =>
+        S.Struct({
+          slicerId: S.optional(S.Number),
+          spec: S.optional(__S(174, __c5, 14)),
+          position: S.optional(__S(226, __c7, 2)),
+        }),
+      ).annotate({ identifier: "Slicer" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          legendPosition: S.optional(S.String),
-          totalDataLabel: S.optional(__S(202, __c6, 10)),
-          chartType: S.optional(S.String),
-          stackedType: S.optional(S.String),
-          compareMode: S.optional(S.String),
-          threeDimensional: S.optional(S.Boolean),
-          domains: S.optional(__S(219, __c6, 27)),
-          interpolateNulls: S.optional(S.Boolean),
-          lineSmoothing: S.optional(S.Boolean),
-          axis: S.optional(__S(222, __c6, 30)),
-          series: S.optional(__S(227, __c7, 3)),
-          headerCount: S.optional(S.Number),
+          namedRangeId: S.optional(S.String),
+          range: S.optional(__S(960, __c30, 0)),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BasicChartSpec" });
+      ).annotate({ identifier: "NamedRange" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          dataExecutionStatus: S.optional(__S(131, __c4, 3)),
-          dataSourceId: S.optional(S.String),
+          namedRangeId: S.optional(S.String),
+          tableId: S.optional(S.String),
+          title: S.optional(S.String),
+          filterViewId: S.optional(S.Number),
+          range: S.optional(__S(960, __c30, 0)),
+          sortSpecs: S.optional(__S(177, __c5, 17)),
+          criteria: S.optional(__S(178, __c5, 18)),
+          filterSpecs: S.optional(__S(180, __c5, 20)),
         }),
-      ).annotate({ identifier: "DataSourceChartProperties" });
+      ).annotate({ identifier: "FilterView" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(193, __c6, 1)),
+          value: S.optional(S.String),
+          colorStyle: S.optional(__S(132, __c4, 4)),
+          color: S.optional(__S(131, __c4, 3)),
+          type: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CandlestickSeries" });
+      ).annotate({ identifier: "InterpolationPoint" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          openSeries: S.optional(__S(230, __c7, 6)),
-          highSeries: S.optional(__S(230, __c7, 6)),
-          lowSeries: S.optional(__S(230, __c7, 6)),
-          closeSeries: S.optional(__S(230, __c7, 6)),
+          midpoint: S.optional(__S(230, __c7, 6)),
+          minpoint: S.optional(__S(230, __c7, 6)),
+          maxpoint: S.optional(__S(230, __c7, 6)),
         }),
-      ).annotate({ identifier: "CandlestickData" });
+      ).annotate({ identifier: "GradientRule" });
     case 8:
-      return S.Array(__S(231, __c7, 7));
-    case 9:
       return S.suspend(() =>
         S.Struct({
-          reversed: S.optional(S.Boolean),
-          data: S.optional(__S(193, __c6, 1)),
+          condition: S.optional(__S(172, __c5, 12)),
+          format: S.optional(__S(189, __c5, 29)),
         }),
-      ).annotate({ identifier: "CandlestickDomain" });
+      ).annotate({ identifier: "BooleanRule" });
+    case 9:
+      return S.Array(__S(960, __c30, 0));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(232, __c7, 8)),
-          domain: S.optional(__S(233, __c7, 9)),
+          gradientRule: S.optional(__S(231, __c7, 7)),
+          booleanRule: S.optional(__S(232, __c7, 8)),
+          ranges: S.optional(__S(233, __c7, 9)),
         }),
-      ).annotate({ identifier: "CandlestickChartSpec" });
+      ).annotate({ identifier: "ConditionalFormatRule" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          histogramChart: S.optional(__S(196, __c6, 4)),
-          backgroundColor: S.optional(__S(128, __c4, 0)),
-          waterfallChart: S.optional(__S(207, __c6, 15)),
-          backgroundColorStyle: S.optional(__S(129, __c4, 1)),
-          hiddenDimensionStrategy: S.optional(S.String),
-          scorecardChart: S.optional(__S(212, __c6, 20)),
-          subtitleTextPosition: S.optional(__S(208, __c6, 16)),
-          bubbleChart: S.optional(__S(213, __c6, 21)),
-          altText: S.optional(S.String),
-          treemapChart: S.optional(__S(215, __c6, 23)),
-          sortSpecs: S.optional(__S(174, __c5, 14)),
-          titleTextFormat: S.optional(__S(201, __c6, 9)),
-          maximized: S.optional(S.Boolean),
-          pieChart: S.optional(__S(216, __c6, 24)),
-          filterSpecs: S.optional(__S(176, __c5, 16)),
-          orgChart: S.optional(__S(217, __c6, 25)),
-          titleTextPosition: S.optional(__S(208, __c6, 16)),
-          basicChart: S.optional(__S(228, __c7, 4)),
-          subtitleTextFormat: S.optional(__S(201, __c6, 9)),
-          title: S.optional(S.String),
-          fontName: S.optional(S.String),
-          dataSourceChartProperties: S.optional(__S(229, __c7, 5)),
-          subtitle: S.optional(S.String),
-          candlestickChart: S.optional(__S(234, __c7, 10)),
+          firstBandColorStyle: S.optional(__S(132, __c4, 4)),
+          headerColorStyle: S.optional(__S(132, __c4, 4)),
+          headerColor: S.optional(__S(131, __c4, 3)),
+          firstBandColor: S.optional(__S(131, __c4, 3)),
+          footerColor: S.optional(__S(131, __c4, 3)),
+          footerColorStyle: S.optional(__S(132, __c4, 4)),
+          secondBandColor: S.optional(__S(131, __c4, 3)),
+          secondBandColorStyle: S.optional(__S(132, __c4, 4)),
         }),
-      ).annotate({ identifier: "ChartSpec" });
+      ).annotate({ identifier: "BandingProperties" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          horizontalAlignment: S.optional(S.String),
-          textFormat: S.optional(__S(201, __c6, 9)),
-          applyToPivotTables: S.optional(S.Boolean),
-          columnIndex: S.optional(S.Number),
-          backgroundColor: S.optional(__S(128, __c4, 0)),
-          filterCriteria: S.optional(__S(171, __c5, 11)),
-          backgroundColorStyle: S.optional(__S(129, __c4, 1)),
-          dataRange: S.optional(__S(992, __c31, 0)),
-          title: S.optional(S.String),
+          range: S.optional(__S(960, __c30, 0)),
+          columnProperties: S.optional(__S(235, __c7, 11)),
+          bandedRangeReference: S.optional(S.String),
+          bandedRangeId: S.optional(S.Number),
+          rowProperties: S.optional(__S(235, __c7, 11)),
         }),
-      ).annotate({ identifier: "SlicerSpec" });
+      ).annotate({ identifier: "BandedRange" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          inputMessage: S.optional(S.String),
-          showCustomUi: S.optional(S.Boolean),
-          condition: S.optional(__S(163, __c5, 3)),
-          strict: S.optional(S.Boolean),
+          colorType: S.optional(S.String),
+          color: S.optional(__S(132, __c4, 4)),
         }),
-      ).annotate({ identifier: "DataValidationRule" });
+      ).annotate({ identifier: "ThemeColorPair" });
     case 14:
-      return S.suspend(() =>
-        S.Struct({
-          color: S.optional(__S(128, __c4, 0)),
-          colorStyle: S.optional(__S(129, __c4, 1)),
-        }),
-      ).annotate({ identifier: "EmbeddedObjectBorder" });
+      return S.Array(__S(237, __c7, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          position: S.optional(__S(188, __c5, 28)),
-          border: S.optional(__S(238, __c7, 14)),
-          spec: S.optional(__S(235, __c7, 11)),
-          chartId: S.optional(S.Number),
+          primaryFontFamily: S.optional(S.String),
+          themeColors: S.optional(__S(238, __c7, 14)),
         }),
-      ).annotate({ identifier: "EmbeddedChart" });
+      ).annotate({ identifier: "SpreadsheetTheme" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          left: S.optional(__S(181, __c5, 21)),
-          right: S.optional(__S(181, __c5, 21)),
-          top: S.optional(__S(181, __c5, 21)),
-          bottom: S.optional(__S(181, __c5, 21)),
+          maxIterations: S.optional(S.Number),
+          convergenceThreshold: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "Borders" });
+      ).annotate({ identifier: "IterativeCalculationSettings" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          pattern: S.optional(S.String),
+          title: S.optional(S.String),
+          importFunctionsExternalUrlAccessAllowed: S.optional(S.Boolean),
+          timeZone: S.optional(S.String),
+          locale: S.optional(S.String),
+          spreadsheetTheme: S.optional(__S(239, __c7, 15)),
+          iterativeCalculationSettings: S.optional(__S(240, __c7, 16)),
+          autoRecalc: S.optional(S.String),
+          defaultFormat: S.optional(__S(189, __c5, 29)),
         }),
-      ).annotate({ identifier: "NumberFormat" });
+      ).annotate({ identifier: "SpreadsheetProperties" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          angle: S.optional(S.Number),
-          vertical: S.optional(S.Boolean),
+          depth: S.optional(S.Number),
+          collapsed: S.optional(S.Boolean),
+          range: S.optional(__S(928, __c29, 0)),
         }),
-      ).annotate({ identifier: "TextRotation" });
+      ).annotate({ identifier: "DimensionGroup" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          top: S.optional(S.Number),
-          bottom: S.optional(S.Number),
-          right: S.optional(S.Number),
-          left: S.optional(S.Number),
+          colorStyle: S.optional(__S(132, __c4, 4)),
+          color: S.optional(__S(131, __c4, 3)),
         }),
-      ).annotate({ identifier: "Padding" });
+      ).annotate({ identifier: "EmbeddedObjectBorder" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          backgroundColor: S.optional(__S(128, __c4, 0)),
-          hyperlinkDisplayType: S.optional(S.String),
-          textFormat: S.optional(__S(201, __c6, 9)),
-          borders: S.optional(__S(240, __c7, 16)),
-          numberFormat: S.optional(__S(241, __c7, 17)),
-          textRotation: S.optional(__S(242, __c7, 18)),
-          verticalAlignment: S.optional(S.String),
-          padding: S.optional(__S(243, __c7, 19)),
-          textDirection: S.optional(S.String),
-          wrapStrategy: S.optional(S.String),
-          backgroundColorStyle: S.optional(__S(129, __c4, 1)),
-          horizontalAlignment: S.optional(S.String),
+          condition: S.optional(__S(172, __c5, 12)),
         }),
-      ).annotate({ identifier: "CellFormat" });
+      ).annotate({ identifier: "TableColumnDataValidationRule" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          dataSourceId: S.optional(S.String),
-          dataExecutionStatus: S.optional(__S(131, __c4, 3)),
+          columnType: S.optional(S.String),
+          dataValidationRule: S.optional(__S(244, __c7, 20)),
+          columnName: S.optional(S.String),
+          columnIndex: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "DataSourceFormula" });
+      ).annotate({ identifier: "TableColumnProperties" });
     case 22:
-      return S.suspend(() =>
-        S.Struct({
-          uri: S.optional(S.String),
-          mimeType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RichLinkProperties" });
+      return S.Array(__S(245, __c7, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
-          email: S.optional(S.String),
-          displayFormat: S.optional(S.String),
+          headerColorStyle: S.optional(__S(132, __c4, 4)),
+          firstBandColorStyle: S.optional(__S(132, __c4, 4)),
+          footerColorStyle: S.optional(__S(132, __c4, 4)),
+          secondBandColorStyle: S.optional(__S(132, __c4, 4)),
         }),
-      ).annotate({ identifier: "PersonProperties" });
+      ).annotate({ identifier: "TableRowsProperties" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          richLinkProperties: S.optional(__S(246, __c7, 22)),
-          personProperties: S.optional(__S(247, __c7, 23)),
+          range: S.optional(__S(960, __c30, 0)),
+          columnProperties: S.optional(__S(246, __c7, 22)),
+          tableId: S.optional(S.String),
+          name: S.optional(S.String),
+          rowsProperties: S.optional(__S(247, __c7, 23)),
         }),
-      ).annotate({ identifier: "Chip" });
+      ).annotate({ identifier: "Table" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          startIndex: S.optional(S.Number),
-          chip: S.optional(__S(248, __c7, 24)),
+          groups: S.optional(__S(864, __c27, 0)),
+          domainUsersCanEdit: S.optional(S.Boolean),
+          users: S.optional(__S(864, __c27, 0)),
         }),
-      ).annotate({ identifier: "ChipRun" });
+      ).annotate({ identifier: "Editors" });
     case 26:
-      return S.Array(__S(249, __c7, 25));
+      return S.suspend(() =>
+        S.Struct({
+          requestingUserCanEdit: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          namedRangeId: S.optional(S.String),
+          editors: S.optional(__S(249, __c7, 25)),
+          warningOnly: S.optional(S.Boolean),
+          range: S.optional(__S(960, __c30, 0)),
+          unprotectedRanges: S.optional(__S(233, __c7, 9)),
+          tableId: S.optional(S.String),
+          protectedRangeId: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ProtectedRange" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          filterSpecs: S.optional(__S(176, __c5, 16)),
-          dataSourceId: S.optional(S.String),
-          dataExecutionStatus: S.optional(__S(131, __c4, 3)),
-          columns: S.optional(__S(168, __c5, 8)),
-          columnSelectionType: S.optional(S.String),
-          sortSpecs: S.optional(__S(174, __c5, 14)),
-          rowLimit: S.optional(S.Number),
+          displayName: S.optional(S.String),
+          anonymous: S.optional(S.Boolean),
+          user: S.optional(S.String),
+          me: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "DataSourceTable" });
+      ).annotate({ identifier: "PostAuthor" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          startIndex: S.optional(S.Number),
-          format: S.optional(__S(201, __c6, 9)),
+          fromCopiedSpreadsheet: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          postId: S.optional(S.String),
+          commentAction: S.optional(S.String),
+          contentHtml: S.optional(S.String),
+          author: S.optional(__S(251, __c7, 27)),
+          deleted: S.optional(S.Boolean),
+          fromImportedSpreadsheet: S.optional(S.Boolean),
+          content: S.optional(S.String),
+          createTime: S.optional(S.String),
+          assigneeEmail: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TextFormatRun" });
+      ).annotate({ identifier: "Post" });
     case 29:
-      return S.Array(__S(252, __c7, 28));
+      return S.Array(__S(352, __c11, 0));
     case 30:
       return S.suspend(() =>
         S.Struct({
-          sourceColumnOffset: S.optional(S.Number),
-          summarizeFunction: S.optional(S.String),
-          formula: S.optional(S.String),
-          calculatedDisplayType: S.optional(S.String),
-          name: S.optional(S.String),
-          dataSourceColumnReference: S.optional(__S(130, __c4, 2)),
+          hiddenByFilter: S.optional(S.Boolean),
+          pixelSize: S.optional(S.Number),
+          dataSourceColumnReference: S.optional(__S(128, __c4, 0)),
+          hiddenByUser: S.optional(S.Boolean),
+          developerMetadata: S.optional(__S(253, __c7, 29)),
         }),
-      ).annotate({ identifier: "PivotValue" });
+      ).annotate({ identifier: "DimensionProperties" });
     case 31:
-      return S.Array(__S(254, __c7, 30));
+      return S.suspend(() =>
+        S.Struct({
+          maxValue: S.optional(S.Number),
+          intervalSize: S.optional(S.Number),
+          minValue: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ChartHistogramRule" });
   }
 }
 function __c8(j: number): any {
@@ -5745,220 +5681,274 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(S.String),
-          type: S.optional(S.String),
+          dateTimeRule: S.optional(__S(203, __c6, 11)),
+          histogramRule: S.optional(__S(255, __c7, 31)),
         }),
-      ).annotate({ identifier: "ErrorValue" });
+      ).annotate({ identifier: "ChartGroupRule" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          stringValue: S.optional(S.String),
-          errorValue: S.optional(__S(256, __c8, 0)),
-          formulaValue: S.optional(S.String),
-          numberValue: S.optional(S.Number),
-          boolValue: S.optional(S.Boolean),
+          sources: S.optional(__S(233, __c7, 9)),
         }),
-      ).annotate({ identifier: "ExtendedValue" });
+      ).annotate({ identifier: "ChartSourceRange" });
     case 2:
-      return S.Array(__S(257, __c8, 1));
+      return S.suspend(() =>
+        S.Struct({
+          aggregateType: S.optional(S.String),
+          groupRule: S.optional(__S(256, __c8, 0)),
+          sourceRange: S.optional(__S(257, __c8, 1)),
+          columnReference: S.optional(__S(128, __c4, 0)),
+        }),
+      ).annotate({ identifier: "ChartData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(258, __c8, 2)),
-          groupName: S.optional(__S(257, __c8, 1)),
+          domain: S.optional(__S(258, __c8, 2)),
+          bubbleMaxRadiusSize: S.optional(S.Number),
+          bubbleBorderColorStyle: S.optional(__S(132, __c4, 4)),
+          bubbleTextStyle: S.optional(__S(169, __c5, 9)),
+          series: S.optional(__S(258, __c8, 2)),
+          bubbleLabels: S.optional(__S(258, __c8, 2)),
+          bubbleSizes: S.optional(__S(258, __c8, 2)),
+          bubbleMinRadiusSize: S.optional(S.Number),
+          groupIds: S.optional(__S(258, __c8, 2)),
+          legendPosition: S.optional(S.String),
+          bubbleBorderColor: S.optional(__S(131, __c4, 3)),
+          bubbleOpacity: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "ManualRuleGroup" });
+      ).annotate({ identifier: "BubbleChartSpec" });
     case 4:
-      return S.Array(__S(259, __c8, 3));
+      return S.suspend(() =>
+        S.Struct({
+          horizontalAlignment: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TextPosition" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(260, __c8, 4)),
+          minValueColor: S.optional(__S(131, __c4, 3)),
+          noDataColor: S.optional(__S(131, __c4, 3)),
+          midValueColorStyle: S.optional(__S(132, __c4, 4)),
+          noDataColorStyle: S.optional(__S(132, __c4, 4)),
+          minValueColorStyle: S.optional(__S(132, __c4, 4)),
+          maxValueColor: S.optional(__S(131, __c4, 3)),
+          maxValueColorStyle: S.optional(__S(132, __c4, 4)),
+          midValueColor: S.optional(__S(131, __c4, 3)),
         }),
-      ).annotate({ identifier: "ManualRule" });
+      ).annotate({ identifier: "TreemapChartColorScale" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          end: S.optional(S.Number),
-          start: S.optional(S.Number),
-          interval: S.optional(S.Number),
+          hintedLevels: S.optional(S.Number),
+          colorData: S.optional(__S(258, __c8, 2)),
+          headerColor: S.optional(__S(131, __c4, 3)),
+          parentLabels: S.optional(__S(258, __c8, 2)),
+          hideTooltips: S.optional(S.Boolean),
+          labels: S.optional(__S(258, __c8, 2)),
+          maxValue: S.optional(S.Number),
+          colorScale: S.optional(__S(261, __c8, 5)),
+          headerColorStyle: S.optional(__S(132, __c4, 4)),
+          levels: S.optional(S.Number),
+          minValue: S.optional(S.Number),
+          sizeData: S.optional(__S(258, __c8, 2)),
+          textFormat: S.optional(__S(169, __c5, 9)),
         }),
-      ).annotate({ identifier: "HistogramRule" });
+      ).annotate({ identifier: "TreemapChartSpec" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          dateTimeRule: S.optional(__S(190, __c5, 30)),
-          manualRule: S.optional(__S(261, __c8, 5)),
-          histogramRule: S.optional(__S(262, __c8, 6)),
+          position: S.optional(__S(260, __c8, 4)),
+          negativeColorStyle: S.optional(__S(132, __c4, 4)),
+          positiveColorStyle: S.optional(__S(132, __c4, 4)),
+          comparisonType: S.optional(S.String),
+          description: S.optional(S.String),
+          textFormat: S.optional(__S(169, __c5, 9)),
+          positiveColor: S.optional(__S(131, __c4, 3)),
+          negativeColor: S.optional(__S(131, __c4, 3)),
         }),
-      ).annotate({ identifier: "PivotGroupRule" });
+      ).annotate({ identifier: "BaselineValueFormat" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          valuesIndex: S.optional(S.Number),
-          buckets: S.optional(__S(258, __c8, 2)),
+          prefix: S.optional(S.String),
+          suffix: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PivotGroupSortValueBucket" });
+      ).annotate({ identifier: "ChartCustomNumberFormatOptions" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          countLimit: S.optional(S.Number),
-          applyOrder: S.optional(S.Number),
+          position: S.optional(__S(260, __c8, 4)),
+          textFormat: S.optional(__S(169, __c5, 9)),
         }),
-      ).annotate({ identifier: "PivotGroupLimit" });
+      ).annotate({ identifier: "KeyValueFormat" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(257, __c8, 1)),
-          collapsed: S.optional(S.Boolean),
+          numberFormatSource: S.optional(S.String),
+          aggregateType: S.optional(S.String),
+          baselineValueFormat: S.optional(__S(263, __c8, 7)),
+          scaleFactor: S.optional(S.Number),
+          customFormatOptions: S.optional(__S(264, __c8, 8)),
+          keyValueFormat: S.optional(__S(265, __c8, 9)),
+          baselineValueData: S.optional(__S(258, __c8, 2)),
+          keyValueData: S.optional(__S(258, __c8, 2)),
         }),
-      ).annotate({ identifier: "PivotGroupValueMetadata" });
+      ).annotate({ identifier: "ScorecardChartSpec" });
     case 11:
-      return S.Array(__S(266, __c8, 10));
+      return S.suspend(() =>
+        S.Struct({
+          dataExecutionStatus: S.optional(__S(133, __c4, 5)),
+          dataSourceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataSourceChartProperties" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          groupRule: S.optional(__S(263, __c8, 7)),
-          valueBucket: S.optional(__S(264, __c8, 8)),
-          groupLimit: S.optional(__S(265, __c8, 9)),
-          dataSourceColumnReference: S.optional(__S(130, __c4, 2)),
-          repeatHeadings: S.optional(S.Boolean),
-          sortOrder: S.optional(S.String),
-          showTotals: S.optional(S.Boolean),
-          valueMetadata: S.optional(__S(267, __c8, 11)),
-          sourceColumnOffset: S.optional(S.Number),
-          label: S.optional(S.String),
+          data: S.optional(__S(258, __c8, 2)),
+          reversed: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "PivotGroup" });
+      ).annotate({ identifier: "CandlestickDomain" });
     case 13:
-      return S.Array(__S(268, __c8, 12));
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(__S(258, __c8, 2)),
+        }),
+      ).annotate({ identifier: "CandlestickSeries" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          visibleValues: S.optional(__S(896, __c28, 0)),
-          condition: S.optional(__S(163, __c5, 3)),
-          visibleByDefault: S.optional(S.Boolean),
+          highSeries: S.optional(__S(269, __c8, 13)),
+          closeSeries: S.optional(__S(269, __c8, 13)),
+          openSeries: S.optional(__S(269, __c8, 13)),
+          lowSeries: S.optional(__S(269, __c8, 13)),
         }),
-      ).annotate({ identifier: "PivotFilterCriteria" });
+      ).annotate({ identifier: "CandlestickData" });
     case 15:
-      return S.Record(S.String, __S(270, __c8, 14));
+      return S.Array(__S(270, __c8, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          filterCriteria: S.optional(__S(270, __c8, 14)),
-          dataSourceColumnReference: S.optional(__S(130, __c4, 2)),
-          columnOffsetIndex: S.optional(S.Number),
+          domain: S.optional(__S(268, __c8, 12)),
+          data: S.optional(__S(271, __c8, 15)),
         }),
-      ).annotate({ identifier: "PivotFilterSpec" });
+      ).annotate({ identifier: "CandlestickChartSpec" });
     case 17:
-      return S.Array(__S(272, __c8, 16));
+      return S.suspend(() =>
+        S.Struct({
+          parentLabels: S.optional(__S(258, __c8, 2)),
+          selectedNodeColorStyle: S.optional(__S(132, __c4, 4)),
+          labels: S.optional(__S(258, __c8, 2)),
+          selectedNodeColor: S.optional(__S(131, __c4, 3)),
+          tooltips: S.optional(__S(258, __c8, 2)),
+          nodeColor: S.optional(__S(131, __c4, 3)),
+          nodeColorStyle: S.optional(__S(132, __c4, 4)),
+          nodeSize: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OrgChartSpec" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          dataSourceId: S.optional(S.String),
-          values: S.optional(__S(255, __c7, 31)),
-          columns: S.optional(__S(269, __c8, 13)),
-          source: S.optional(__S(992, __c31, 0)),
-          rows: S.optional(__S(269, __c8, 13)),
-          criteria: S.optional(__S(271, __c8, 15)),
-          dataExecutionStatus: S.optional(__S(131, __c4, 3)),
-          valueLayout: S.optional(S.String),
-          filterSpecs: S.optional(__S(273, __c8, 17)),
+          threeDimensional: S.optional(S.Boolean),
+          legendPosition: S.optional(S.String),
+          domain: S.optional(__S(258, __c8, 2)),
+          series: S.optional(__S(258, __c8, 2)),
+          pieHole: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "PivotTable" });
+      ).annotate({ identifier: "PieChartSpec" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          hyperlink: S.optional(S.String),
-          effectiveFormat: S.optional(__S(244, __c7, 20)),
-          userEnteredFormat: S.optional(__S(244, __c7, 20)),
-          dataSourceFormula: S.optional(__S(245, __c7, 21)),
-          chipRuns: S.optional(__S(250, __c7, 26)),
-          formattedValue: S.optional(S.String),
-          dataSourceTable: S.optional(__S(251, __c7, 27)),
-          textFormatRuns: S.optional(__S(253, __c7, 29)),
-          note: S.optional(S.String),
-          pivotTable: S.optional(__S(274, __c8, 18)),
-          dataValidation: S.optional(__S(237, __c7, 13)),
-          effectiveValue: S.optional(__S(257, __c8, 1)),
-          userEnteredValue: S.optional(__S(257, __c8, 1)),
+          type: S.optional(S.String),
+          textFormat: S.optional(__S(169, __c5, 9)),
+          customLabelData: S.optional(__S(258, __c8, 2)),
+          placement: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CellData" });
+      ).annotate({ identifier: "DataLabel" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          colorStyle: S.optional(__S(129, __c4, 1)),
-          value: S.optional(S.String),
-          color: S.optional(__S(128, __c4, 0)),
-          type: S.optional(S.String),
+          colorStyle: S.optional(__S(132, __c4, 4)),
+          label: S.optional(S.String),
+          color: S.optional(__S(131, __c4, 3)),
         }),
-      ).annotate({ identifier: "InterpolationPoint" });
+      ).annotate({ identifier: "WaterfallChartColumnStyle" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          midpoint: S.optional(__S(276, __c8, 20)),
-          maxpoint: S.optional(__S(276, __c8, 20)),
-          minpoint: S.optional(__S(276, __c8, 20)),
+          label: S.optional(S.String),
+          subtotalIndex: S.optional(S.Number),
+          dataIsSubtotal: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "GradientRule" });
+      ).annotate({ identifier: "WaterfallChartCustomSubtotal" });
     case 22:
-      return S.suspend(() =>
-        S.Struct({
-          condition: S.optional(__S(163, __c5, 3)),
-          format: S.optional(__S(244, __c7, 20)),
-        }),
-      ).annotate({ identifier: "BooleanRule" });
+      return S.Array(__S(277, __c8, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
-          gradientRule: S.optional(__S(277, __c8, 21)),
-          booleanRule: S.optional(__S(278, __c8, 22)),
-          ranges: S.optional(__S(182, __c5, 22)),
+          dataLabel: S.optional(__S(275, __c8, 19)),
+          negativeColumnsStyle: S.optional(__S(276, __c8, 20)),
+          customSubtotals: S.optional(__S(278, __c8, 22)),
+          subtotalColumnsStyle: S.optional(__S(276, __c8, 20)),
+          data: S.optional(__S(258, __c8, 2)),
+          positiveColumnsStyle: S.optional(__S(276, __c8, 20)),
+          hideTrailingSubtotal: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "ConditionalFormatRule" });
+      ).annotate({ identifier: "WaterfallChartSeries" });
     case 24:
-      return S.Array(__S(275, __c8, 19));
+      return S.Array(__S(279, __c8, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(280, __c8, 24)),
+          type: S.optional(S.String),
+          width: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "RowData" });
+      ).annotate({ identifier: "LineStyle" });
     case 26:
-      return S.Array(__S(281, __c8, 25));
+      return S.suspend(() =>
+        S.Struct({
+          firstValueIsTotal: S.optional(S.Boolean),
+          hideConnectorLines: S.optional(S.Boolean),
+          series: S.optional(__S(280, __c8, 24)),
+          stackedType: S.optional(S.String),
+          domain: S.optional(__S(268, __c8, 12)),
+          totalDataLabel: S.optional(__S(275, __c8, 19)),
+          connectorLineStyle: S.optional(__S(281, __c8, 25)),
+        }),
+      ).annotate({ identifier: "WaterfallChartSpec" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          sortSpecs: S.optional(__S(174, __c5, 14)),
-          tableId: S.optional(S.String),
-          range: S.optional(__S(992, __c31, 0)),
-          criteria: S.optional(__S(172, __c5, 12)),
-          filterSpecs: S.optional(__S(176, __c5, 16)),
+          size: S.optional(S.Number),
+          shape: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BasicFilter" });
+      ).annotate({ identifier: "PointStyle" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          color: S.optional(__S(129, __c4, 1)),
-          colorType: S.optional(S.String),
+          color: S.optional(__S(131, __c4, 3)),
+          colorStyle: S.optional(__S(132, __c4, 4)),
+          index: S.optional(S.Number),
+          pointStyle: S.optional(__S(283, __c8, 27)),
         }),
-      ).annotate({ identifier: "ThemeColorPair" });
+      ).annotate({ identifier: "BasicSeriesDataPointStyleOverride" });
     case 29:
       return S.Array(__S(284, __c8, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
-          primaryFontFamily: S.optional(S.String),
-          themeColors: S.optional(__S(285, __c8, 29)),
+          targetAxis: S.optional(S.String),
+          lineStyle: S.optional(__S(281, __c8, 25)),
+          series: S.optional(__S(258, __c8, 2)),
+          styleOverrides: S.optional(__S(285, __c8, 29)),
+          pointStyle: S.optional(__S(283, __c8, 27)),
+          colorStyle: S.optional(__S(132, __c4, 4)),
+          type: S.optional(S.String),
+          color: S.optional(__S(131, __c4, 3)),
+          dataLabel: S.optional(__S(275, __c8, 19)),
         }),
-      ).annotate({ identifier: "SpreadsheetTheme" });
+      ).annotate({ identifier: "BasicChartSeries" });
     case 31:
-      return S.suspend(() =>
-        S.Struct({
-          maxIterations: S.optional(S.Number),
-          convergenceThreshold: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "IterativeCalculationSettings" });
+      return S.Array(__S(286, __c8, 30));
   }
 }
 function __c9(j: number): any {
@@ -5966,254 +5956,257 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          defaultFormat: S.optional(__S(244, __c7, 20)),
-          autoRecalc: S.optional(S.String),
-          importFunctionsExternalUrlAccessAllowed: S.optional(S.Boolean),
-          timeZone: S.optional(S.String),
-          locale: S.optional(S.String),
-          title: S.optional(S.String),
-          spreadsheetTheme: S.optional(__S(286, __c8, 30)),
-          iterativeCalculationSettings: S.optional(__S(287, __c8, 31)),
+          domain: S.optional(__S(258, __c8, 2)),
+          reversed: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "SpreadsheetProperties" });
+      ).annotate({ identifier: "BasicChartDomain" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          firstBandColorStyle: S.optional(__S(129, __c4, 1)),
-          headerColor: S.optional(__S(128, __c4, 0)),
-          secondBandColor: S.optional(__S(128, __c4, 0)),
-          headerColorStyle: S.optional(__S(129, __c4, 1)),
-          footerColor: S.optional(__S(128, __c4, 0)),
-          footerColorStyle: S.optional(__S(129, __c4, 1)),
-          secondBandColorStyle: S.optional(__S(129, __c4, 1)),
-          firstBandColor: S.optional(__S(128, __c4, 0)),
-        }),
-      ).annotate({ identifier: "BandingProperties" });
+      return S.Array(__S(288, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          columnProperties: S.optional(__S(289, __c9, 1)),
-          bandedRangeReference: S.optional(S.String),
-          range: S.optional(__S(992, __c31, 0)),
-          bandedRangeId: S.optional(S.Number),
-          rowProperties: S.optional(__S(289, __c9, 1)),
+          viewWindowMin: S.optional(S.Number),
+          viewWindowMax: S.optional(S.Number),
+          viewWindowMode: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BandedRange" });
+      ).annotate({ identifier: "ChartAxisViewWindowOptions" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          range: S.optional(__S(992, __c31, 0)),
-          namedRangeId: S.optional(S.String),
+          viewWindowOptions: S.optional(__S(290, __c9, 2)),
+          format: S.optional(__S(169, __c5, 9)),
+          position: S.optional(S.String),
+          titleTextPosition: S.optional(__S(260, __c8, 4)),
+          title: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DataSourceParameter" });
+      ).annotate({ identifier: "BasicChartAxis" });
     case 4:
       return S.Array(__S(291, __c9, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          explore: S.optional(S.String),
-          instanceUri: S.optional(S.String),
-          model: S.optional(S.String),
+          headerCount: S.optional(S.Number),
+          interpolateNulls: S.optional(S.Boolean),
+          stackedType: S.optional(S.String),
+          lineSmoothing: S.optional(S.Boolean),
+          series: S.optional(__S(287, __c8, 31)),
+          legendPosition: S.optional(S.String),
+          domains: S.optional(__S(289, __c9, 1)),
+          compareMode: S.optional(S.String),
+          totalDataLabel: S.optional(__S(275, __c8, 19)),
+          chartType: S.optional(S.String),
+          threeDimensional: S.optional(S.Boolean),
+          axis: S.optional(__S(292, __c9, 4)),
         }),
-      ).annotate({ identifier: "LookerDataSourceSpec" });
+      ).annotate({ identifier: "BasicChartSpec" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          tableProjectId: S.optional(S.String),
-          datasetId: S.optional(S.String),
-          tableId: S.optional(S.String),
+          barColorStyle: S.optional(__S(132, __c4, 4)),
+          data: S.optional(__S(258, __c8, 2)),
+          barColor: S.optional(__S(131, __c4, 3)),
         }),
-      ).annotate({ identifier: "BigQueryTableSpec" });
+      ).annotate({ identifier: "HistogramSeries" });
     case 7:
-      return S.suspend(() =>
-        S.Struct({
-          rawQuery: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BigQueryQuerySpec" });
+      return S.Array(__S(294, __c9, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          tableSpec: S.optional(__S(294, __c9, 6)),
-          projectId: S.optional(S.String),
-          querySpec: S.optional(__S(295, __c9, 7)),
+          legendPosition: S.optional(S.String),
+          showItemDividers: S.optional(S.Boolean),
+          bucketSize: S.optional(S.Number),
+          outlierPercentile: S.optional(S.Number),
+          series: S.optional(__S(295, __c9, 7)),
         }),
-      ).annotate({ identifier: "BigQueryDataSourceSpec" });
+      ).annotate({ identifier: "HistogramChartSpec" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          parameters: S.optional(__S(292, __c9, 4)),
-          looker: S.optional(__S(293, __c9, 5)),
-          bigQuery: S.optional(__S(296, __c9, 8)),
+          bubbleChart: S.optional(__S(259, __c8, 3)),
+          subtitleTextPosition: S.optional(__S(260, __c8, 4)),
+          treemapChart: S.optional(__S(262, __c8, 6)),
+          hiddenDimensionStrategy: S.optional(S.String),
+          scorecardChart: S.optional(__S(266, __c8, 10)),
+          dataSourceChartProperties: S.optional(__S(267, __c8, 11)),
+          candlestickChart: S.optional(__S(272, __c8, 16)),
+          altText: S.optional(S.String),
+          titleTextFormat: S.optional(__S(169, __c5, 9)),
+          orgChart: S.optional(__S(273, __c8, 17)),
+          pieChart: S.optional(__S(274, __c8, 18)),
+          subtitle: S.optional(S.String),
+          sortSpecs: S.optional(__S(177, __c5, 17)),
+          fontName: S.optional(S.String),
+          waterfallChart: S.optional(__S(282, __c8, 26)),
+          basicChart: S.optional(__S(293, __c9, 5)),
+          filterSpecs: S.optional(__S(180, __c5, 20)),
+          histogramChart: S.optional(__S(296, __c9, 8)),
+          backgroundColorStyle: S.optional(__S(132, __c4, 4)),
+          title: S.optional(S.String),
+          backgroundColor: S.optional(__S(131, __c4, 3)),
+          maximized: S.optional(S.Boolean),
+          subtitleTextFormat: S.optional(__S(169, __c5, 9)),
+          titleTextPosition: S.optional(__S(260, __c8, 4)),
         }),
-      ).annotate({ identifier: "DataSourceSpec" });
+      ).annotate({ identifier: "ChartSpec" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          calculatedColumns: S.optional(__S(133, __c4, 5)),
-          dataSourceId: S.optional(S.String),
-          sheetId: S.optional(S.Number),
+          position: S.optional(__S(226, __c7, 2)),
           spec: S.optional(__S(297, __c9, 9)),
+          border: S.optional(__S(243, __c7, 19)),
+          chartId: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "DataSource" });
+      ).annotate({ identifier: "EmbeddedChart" });
     case 11:
-      return S.suspend(() =>
-        S.Struct({
-          position: S.optional(__S(188, __c5, 28)),
-          slicerId: S.optional(S.Number),
-          spec: S.optional(__S(236, __c7, 12)),
-        }),
-      ).annotate({ identifier: "Slicer" });
+      return S.Array(__S(242, __c7, 18));
     case 12:
-      return S.Array(__S(179, __c5, 19));
+      return S.Array(__S(252, __c7, 28));
     case 13:
       return S.suspend(() =>
         S.Struct({
+          commentId: S.optional(S.String),
           anchorId: S.optional(S.String),
-          headPost: S.optional(__S(179, __c5, 19)),
+          plainTextQuote: S.optional(S.String),
+          headPost: S.optional(__S(252, __c7, 28)),
           replies: S.optional(__S(300, __c9, 12)),
           status: S.optional(S.String),
-          commentId: S.optional(S.String),
-          plainTextQuote: S.optional(S.String),
         }),
       ).annotate({ identifier: "CommentThread" });
     case 14:
-      return S.Array(__S(180, __c5, 20));
+      return S.Array(__S(227, __c7, 3));
     case 15:
-      return S.Array(__S(298, __c9, 10));
-    case 16:
-      return S.Array(__S(301, __c9, 13));
-    case 17:
-      return S.Array(__S(239, __c7, 15));
-    case 18:
-      return S.Array(__S(279, __c8, 23));
-    case 19:
-      return S.Array(__S(290, __c9, 2));
-    case 20:
-      return S.Array(__S(167, __c5, 7));
-    case 21:
-      return S.Array(__S(177, __c5, 17));
-    case 22:
-      return S.Array(__S(184, __c5, 24));
-    case 23:
-      return S.Array(__S(299, __c9, 11));
-    case 24:
-      return S.Array(__S(170, __c5, 10));
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          startColumn: S.optional(S.Number),
-          columnMetadata: S.optional(__S(312, __c9, 24)),
-          startRow: S.optional(S.Number),
-          rowData: S.optional(__S(282, __c8, 26)),
-          rowMetadata: S.optional(__S(312, __c9, 24)),
-        }),
-      ).annotate({ identifier: "GridData" });
-    case 26:
-      return S.Array(__S(313, __c9, 25));
-    case 27:
       return S.suspend(() =>
         S.Struct({
           anchorId: S.optional(S.String),
-          range: S.optional(__S(992, __c31, 0)),
+          range: S.optional(__S(960, __c30, 0)),
         }),
       ).annotate({ identifier: "CommentAnchor" });
-    case 28:
-      return S.Array(__S(315, __c9, 27));
-    case 29:
+    case 16:
+      return S.Array(__S(303, __c9, 15));
+    case 17:
+      return S.Array(__S(250, __c7, 26));
+    case 18:
+      return S.Array(__S(234, __c7, 10));
+    case 19:
+      return S.Array(__S(236, __c7, 12));
+    case 20:
+      return S.Array(__S(298, __c9, 10));
+    case 21:
+      return S.Array(__S(229, __c7, 5));
+    case 22:
+      return S.Array(__S(254, __c7, 30));
+    case 23:
       return S.suspend(() =>
         S.Struct({
-          charts: S.optional(__S(305, __c9, 17)),
-          conditionalFormats: S.optional(__S(306, __c9, 18)),
+          startRow: S.optional(S.Number),
+          startColumn: S.optional(S.Number),
+          columnMetadata: S.optional(__S(310, __c9, 22)),
+          rowData: S.optional(__S(223, __c6, 31)),
+          rowMetadata: S.optional(__S(310, __c9, 22)),
+        }),
+      ).annotate({ identifier: "GridData" });
+    case 24:
+      return S.Array(__S(311, __c9, 23));
+    case 25:
+      return S.Array(__S(248, __c7, 24));
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          developerMetadata: S.optional(__S(253, __c7, 29)),
           properties: S.optional(__S(136, __c4, 8)),
+          slicers: S.optional(__S(302, __c9, 14)),
+          commentAnchors: S.optional(__S(304, __c9, 16)),
+          protectedRanges: S.optional(__S(305, __c9, 17)),
+          conditionalFormats: S.optional(__S(306, __c9, 18)),
+          basicFilter: S.optional(__S(181, __c5, 21)),
           bandedRanges: S.optional(__S(307, __c9, 19)),
-          tables: S.optional(__S(308, __c9, 20)),
-          merges: S.optional(__S(182, __c5, 22)),
+          charts: S.optional(__S(308, __c9, 20)),
+          merges: S.optional(__S(233, __c7, 9)),
+          columnGroups: S.optional(__S(299, __c9, 11)),
           filterViews: S.optional(__S(309, __c9, 21)),
-          developerMetadata: S.optional(__S(169, __c5, 9)),
-          protectedRanges: S.optional(__S(310, __c9, 22)),
-          basicFilter: S.optional(__S(283, __c8, 27)),
-          slicers: S.optional(__S(311, __c9, 23)),
-          data: S.optional(__S(314, __c9, 26)),
-          rowGroups: S.optional(__S(302, __c9, 14)),
-          columnGroups: S.optional(__S(302, __c9, 14)),
-          commentAnchors: S.optional(__S(316, __c9, 28)),
+          rowGroups: S.optional(__S(299, __c9, 11)),
+          data: S.optional(__S(312, __c9, 24)),
+          tables: S.optional(__S(313, __c9, 25)),
         }),
       ).annotate({ identifier: "Sheet" });
-    case 30:
-      return S.Array(__S(317, __c9, 29));
-    case 31:
-      return S.Array(__S(185, __c5, 25));
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          minutes: S.optional(S.Number),
-          hours: S.optional(S.Number),
-          seconds: S.optional(S.Number),
-          nanos: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TimeOfDay" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          startTime: S.optional(__S(320, __c10, 0)),
-        }),
-      ).annotate({ identifier: "DataSourceRefreshDailySchedule" });
-    case 2:
-      return S.Array(S.String);
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          daysOfWeek: S.optional(__S(322, __c10, 2)),
-          startTime: S.optional(__S(320, __c10, 0)),
-        }),
-      ).annotate({ identifier: "DataSourceRefreshWeeklySchedule" });
-    case 4:
+    case 27:
+      return S.Array(__S(314, __c9, 26));
+    case 28:
+      return S.Array(__S(228, __c7, 4));
+    case 29:
       return S.suspend(() =>
         S.Struct({
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Interval" });
-    case 5:
-      return S.Array(S.Number);
-    case 6:
+    case 30:
       return S.suspend(() =>
         S.Struct({
-          daysOfMonth: S.optional(__S(325, __c10, 5)),
-          startTime: S.optional(__S(320, __c10, 0)),
+          hours: S.optional(S.Number),
+          nanos: S.optional(S.Number),
+          seconds: S.optional(S.Number),
+          minutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TimeOfDay" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.optional(__S(318, __c9, 30)),
+        }),
+      ).annotate({ identifier: "DataSourceRefreshDailySchedule" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          daysOfMonth: S.optional(__S(320, __c10, 0)),
+          startTime: S.optional(__S(318, __c9, 30)),
         }),
       ).annotate({ identifier: "DataSourceRefreshMonthlySchedule" });
-    case 7:
+    case 2:
+      return S.Array(S.String);
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.optional(S.Boolean),
-          dailySchedule: S.optional(__S(321, __c10, 1)),
-          weeklySchedule: S.optional(__S(323, __c10, 3)),
-          nextRun: S.optional(__S(324, __c10, 4)),
-          monthlySchedule: S.optional(__S(326, __c10, 6)),
+          startTime: S.optional(__S(318, __c9, 30)),
+          daysOfWeek: S.optional(__S(322, __c10, 2)),
+        }),
+      ).annotate({ identifier: "DataSourceRefreshWeeklySchedule" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           refreshScope: S.optional(S.String),
+          nextRun: S.optional(__S(317, __c9, 29)),
+          enabled: S.optional(S.Boolean),
+          dailySchedule: S.optional(__S(319, __c9, 31)),
+          monthlySchedule: S.optional(__S(321, __c10, 1)),
+          weeklySchedule: S.optional(__S(323, __c10, 3)),
         }),
       ).annotate({ identifier: "DataSourceRefreshSchedule" });
+    case 5:
+      return S.Array(__S(324, __c10, 4));
+    case 6:
+      return S.Array(__S(167, __c5, 7));
+    case 7:
+      return S.Array(__S(301, __c9, 13));
     case 8:
-      return S.Array(__S(327, __c10, 7));
-    case 9:
       return S.suspend(() =>
         S.Struct({
-          dataSources: S.optional(__S(303, __c9, 15)),
-          properties: S.optional(__S(288, __c9, 0)),
+          properties: S.optional(__S(241, __c7, 17)),
+          sheets: S.optional(__S(315, __c9, 27)),
+          namedRanges: S.optional(__S(316, __c9, 28)),
           spreadsheetId: S.optional(S.String),
-          spreadsheetUrl: S.optional(S.String),
-          developerMetadata: S.optional(__S(169, __c5, 9)),
-          comments: S.optional(__S(304, __c9, 16)),
+          dataSourceSchedules: S.optional(__S(325, __c10, 5)),
+          developerMetadata: S.optional(__S(253, __c7, 29)),
           commentsViewMode: S.optional(S.String),
-          sheets: S.optional(__S(318, __c9, 30)),
-          namedRanges: S.optional(__S(319, __c9, 31)),
-          dataSourceSchedules: S.optional(__S(328, __c10, 8)),
+          dataSources: S.optional(__S(326, __c10, 6)),
+          spreadsheetUrl: S.optional(S.String),
+          comments: S.optional(__S(327, __c10, 7)),
         }),
       ).annotate({ identifier: "Spreadsheet" });
   }
@@ -6223,11 +6216,11 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          visibility: S.optional(S.String),
           metadataValue: S.optional(S.String),
           metadataId: S.optional(S.Number),
-          location: S.optional(__S(961, __c30, 1)),
+          visibility: S.optional(S.String),
           metadataKey: S.optional(S.String),
+          location: S.optional(__S(929, __c29, 1)),
         }),
       ).annotate({ identifier: "DeveloperMetadata" });
   }
@@ -6237,10 +6230,10 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          includeValuesInResponse: S.optional(S.Boolean),
-          data: S.optional(__S(1152, __c36, 0)),
-          responseDateTimeRenderOption: S.optional(S.String),
+          data: S.optional(__S(1120, __c35, 0)),
           valueInputOption: S.optional(S.String),
+          responseDateTimeRenderOption: S.optional(S.String),
+          includeValuesInResponse: S.optional(S.Boolean),
           responseValueRenderOption: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchUpdateValuesRequest" });
@@ -6262,9 +6255,9 @@ function __c12(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          spreadsheetId: S.optional(S.String),
           totalUpdatedRows: S.optional(S.Number),
           totalUpdatedSheets: S.optional(S.Number),
+          spreadsheetId: S.optional(S.String),
           totalUpdatedColumns: S.optional(S.Number),
           totalUpdatedCells: S.optional(S.Number),
           responses: S.optional(__S(386, __c12, 2)),
@@ -6279,8 +6272,8 @@ function __c13(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          range: S.String.pipe(T.Label()),
           spreadsheetId: S.String.pipe(T.Label()),
+          range: S.String.pipe(T.Label()),
           body: S.optional(__S(416, __c13, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -6293,8 +6286,8 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          spreadsheetId: S.optional(S.String),
           clearedRange: S.optional(S.String),
+          spreadsheetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClearValuesResponse" });
   }
@@ -6310,8 +6303,8 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sheetId: S.Number.pipe(T.Label()),
           spreadsheetId: S.String.pipe(T.Label()),
+          sheetId: S.Number.pipe(T.Label()),
           body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -6328,7 +6321,7 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(329, __c10, 9).pipe(T.HttpBody())),
+          body: S.optional(__S(328, __c10, 8).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6345,8 +6338,8 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           includeGridData: S.optional(S.Boolean),
-          dataFilters: S.optional(__S(928, __c29, 0)),
           excludeTablesInBandedRanges: S.optional(S.Boolean),
+          dataFilters: S.optional(__S(896, __c28, 0)),
           commentsViewMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSpreadsheetByDataFilterRequest" });
@@ -6371,10 +6364,10 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           includeGridData: S.optional(S.Boolean.pipe(T.Query())),
+          ranges: S.optional(__S(864, __c27, 0).pipe(T.Query())),
+          commentsViewMode: S.optional(S.String.pipe(T.Query())),
           excludeTablesInBandedRanges: S.optional(S.Boolean.pipe(T.Query())),
           spreadsheetId: S.String.pipe(T.Label()),
-          ranges: S.optional(__S(896, __c28, 0).pipe(T.Query())),
-          commentsViewMode: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6407,11 +6400,11 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          majorDimension: S.optional(S.String.pipe(T.Query())),
           valueRenderOption: S.optional(S.String.pipe(T.Query())),
           range: S.String.pipe(T.Label()),
-          spreadsheetId: S.String.pipe(T.Label()),
           dateTimeRenderOption: S.optional(S.String.pipe(T.Query())),
+          spreadsheetId: S.String.pipe(T.Label()),
+          majorDimension: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6440,8 +6433,8 @@ function __c20(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dataFilters: S.optional(__S(928, __c29, 0)),
           developerMetadata: S.optional(__S(352, __c11, 0)),
+          dataFilters: S.optional(__S(896, __c28, 0)),
         }),
       ).annotate({ identifier: "MatchedDeveloperMetadata" });
     case 2:
@@ -6459,12 +6452,12 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          responseDateTimeRenderOption: S.optional(S.String.pipe(T.Query())),
-          includeValuesInResponse: S.optional(S.Boolean.pipe(T.Query())),
-          range: S.String.pipe(T.Label()),
-          spreadsheetId: S.String.pipe(T.Label()),
-          valueInputOption: S.optional(S.String.pipe(T.Query())),
           responseValueRenderOption: S.optional(S.String.pipe(T.Query())),
+          spreadsheetId: S.String.pipe(T.Label()),
+          range: S.String.pipe(T.Label()),
+          includeValuesInResponse: S.optional(S.Boolean.pipe(T.Query())),
+          responseDateTimeRenderOption: S.optional(S.String.pipe(T.Query())),
+          valueInputOption: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(770, __c24, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -6481,12 +6474,12 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          includeValuesInResponse: S.optional(S.Boolean.pipe(T.Query())),
+          spreadsheetId: S.String.pipe(T.Label()),
           responseDateTimeRenderOption: S.optional(S.String.pipe(T.Query())),
           responseValueRenderOption: S.optional(S.String.pipe(T.Query())),
           valueInputOption: S.optional(S.String.pipe(T.Query())),
+          includeValuesInResponse: S.optional(S.Boolean.pipe(T.Query())),
           insertDataOption: S.optional(S.String.pipe(T.Query())),
-          spreadsheetId: S.String.pipe(T.Label()),
           range: S.String.pipe(T.Label()),
           body: S.optional(__S(770, __c24, 2).pipe(T.HttpBody())),
         }).pipe(
@@ -6500,9 +6493,9 @@ function __c22(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          tableRange: S.optional(S.String),
           updates: S.optional(__S(736, __c23, 0)),
           spreadsheetId: S.optional(S.String),
-          tableRange: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppendValuesResponse" });
   }
@@ -6512,12 +6505,12 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          updatedCells: S.optional(S.Number),
+          updatedRows: S.optional(S.Number),
+          spreadsheetId: S.optional(S.String),
           updatedRange: S.optional(S.String),
           updatedData: S.optional(__S(770, __c24, 2)),
-          updatedRows: S.optional(S.Number),
           updatedColumns: S.optional(S.Number),
-          updatedCells: S.optional(S.Number),
-          spreadsheetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateValuesResponse" });
   }
@@ -6553,6 +6546,13 @@ function __c25(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchClearByDataFilterSpreadsheetsValuesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          spreadsheetId: S.optional(S.String),
+          clearedRanges: S.optional(__S(864, __c27, 0)),
+        }),
+      ).annotate({ identifier: "BatchClearValuesByDataFilterResponse" });
   }
 }
 function __c26(j: number): any {
@@ -6560,7 +6560,7 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dataFilters: S.optional(__S(928, __c29, 0)),
+          dataFilters: S.optional(__S(896, __c28, 0)),
         }),
       ).annotate({ identifier: "BatchClearValuesByDataFilterRequest" });
   }
@@ -6568,35 +6568,24 @@ function __c26(j: number): any {
 function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          spreadsheetId: S.optional(S.String),
-          clearedRanges: S.optional(__S(896, __c28, 0)),
-        }),
-      ).annotate({ identifier: "BatchClearValuesByDataFilterResponse" });
+      return S.Array(S.String);
   }
 }
 function __c28(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.Array(__S(993, __c31, 1));
   }
 }
 function __c29(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1025, __c32, 1));
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({
-          sheetId: S.optional(S.Number),
           dimension: S.optional(S.String),
-          endIndex: S.optional(S.Number),
+          sheetId: S.optional(S.Number),
           startIndex: S.optional(S.Number),
+          endIndex: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DimensionRange" });
     case 1:
@@ -6605,9 +6594,23 @@ function __c30(j: number): any {
           sheetId: S.optional(S.Number),
           spreadsheet: S.optional(S.Boolean),
           locationType: S.optional(S.String),
-          dimensionRange: S.optional(__S(960, __c30, 0)),
+          dimensionRange: S.optional(__S(928, __c29, 0)),
         }),
       ).annotate({ identifier: "DeveloperMetadataLocation" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          startRowIndex: S.optional(S.Number),
+          sheetId: S.optional(S.Number),
+          endRowIndex: S.optional(S.Number),
+          startColumnIndex: S.optional(S.Number),
+          endColumnIndex: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GridRange" });
   }
 }
 function __c31(j: number): any {
@@ -6615,13 +6618,23 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          endColumnIndex: S.optional(S.Number),
-          startRowIndex: S.optional(S.Number),
-          endRowIndex: S.optional(S.Number),
-          startColumnIndex: S.optional(S.Number),
-          sheetId: S.optional(S.Number),
+          metadataValue: S.optional(S.String),
+          metadataLocation: S.optional(__S(929, __c29, 1)),
+          locationType: S.optional(S.String),
+          locationMatchingStrategy: S.optional(S.String),
+          visibility: S.optional(S.String),
+          metadataId: S.optional(S.Number),
+          metadataKey: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GridRange" });
+      ).annotate({ identifier: "DeveloperMetadataLookup" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          a1Range: S.optional(S.String),
+          gridRange: S.optional(__S(960, __c30, 0)),
+          developerMetadataLookup: S.optional(__S(992, __c31, 0)),
+        }),
+      ).annotate({ identifier: "DataFilter" });
   }
 }
 function __c32(j: number): any {
@@ -6629,38 +6642,14 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadataValue: S.optional(S.String),
-          locationType: S.optional(S.String),
-          metadataId: S.optional(S.Number),
-          metadataKey: S.optional(S.String),
-          visibility: S.optional(S.String),
-          metadataLocation: S.optional(__S(961, __c30, 1)),
-          locationMatchingStrategy: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DeveloperMetadataLookup" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          developerMetadataLookup: S.optional(__S(1024, __c32, 0)),
-          a1Range: S.optional(S.String),
-          gridRange: S.optional(__S(992, __c31, 0)),
-        }),
-      ).annotate({ identifier: "DataFilter" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ranges: S.optional(__S(896, __c28, 0)),
+          ranges: S.optional(__S(864, __c27, 0)),
         }),
       ).annotate({ identifier: "BatchClearValuesRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           spreadsheetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6669,16 +6658,23 @@ function __c33(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchClearSpreadsheetsValuesRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          clearedRanges: S.optional(__S(864, __c27, 0)),
+          spreadsheetId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BatchClearValuesResponse" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          majorDimension: S.optional(S.String),
           dateTimeRenderOption: S.optional(S.String),
-          dataFilters: S.optional(__S(928, __c29, 0)),
+          majorDimension: S.optional(S.String),
+          dataFilters: S.optional(__S(896, __c28, 0)),
           valueRenderOption: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchGetValuesByDataFilterRequest" });
@@ -6686,7 +6682,7 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           spreadsheetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c34, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6698,31 +6694,31 @@ function __c34(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dataFilters: S.optional(__S(928, __c29, 0)),
+          dataFilters: S.optional(__S(896, __c28, 0)),
           valueRange: S.optional(__S(770, __c24, 2)),
         }),
       ).annotate({ identifier: "MatchedValueRange" });
     case 3:
-      return S.Array(__S(1090, __c34, 2));
+      return S.Array(__S(1058, __c33, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           spreadsheetId: S.optional(S.String),
-          valueRanges: S.optional(__S(1091, __c34, 3)),
+          valueRanges: S.optional(__S(1059, __c33, 3)),
         }),
       ).annotate({ identifier: "BatchGetValuesByDataFilterResponse" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          majorDimension: S.optional(S.String.pipe(T.Query())),
+          ranges: S.optional(__S(864, __c27, 0).pipe(T.Query())),
           dateTimeRenderOption: S.optional(S.String.pipe(T.Query())),
-          ranges: S.optional(__S(896, __c28, 0).pipe(T.Query())),
-          spreadsheetId: S.String.pipe(T.Label()),
           valueRenderOption: S.optional(S.String.pipe(T.Query())),
+          spreadsheetId: S.String.pipe(T.Label()),
+          majorDimension: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6734,45 +6730,45 @@ function __c35(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          valueRanges: S.optional(__S(1120, __c35, 0)),
           spreadsheetId: S.optional(S.String),
-          valueRanges: S.optional(__S(1152, __c36, 0)),
         }),
       ).annotate({ identifier: "BatchGetValuesResponse" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(770, __c24, 2));
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dataFilter: S.optional(__S(1025, __c32, 1)),
+          dataFilter: S.optional(__S(993, __c31, 1)),
           majorDimension: S.optional(S.String),
           values: S.optional(__S(769, __c24, 1)),
         }),
       ).annotate({ identifier: "DataFilterValueRange" });
     case 1:
-      return S.Array(__S(1184, __c37, 0));
+      return S.Array(__S(1152, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1185, __c37, 1)),
           includeValuesInResponse: S.optional(S.Boolean),
           responseDateTimeRenderOption: S.optional(S.String),
-          responseValueRenderOption: S.optional(S.String),
+          data: S.optional(__S(1153, __c36, 1)),
           valueInputOption: S.optional(S.String),
+          responseValueRenderOption: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchUpdateValuesByDataFilterRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           spreadsheetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1186, __c37, 2).pipe(T.HttpBody())),
+          body: S.optional(__S(1154, __c36, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6787,22 +6783,22 @@ function __c37(j: number): any {
           updatedColumns: S.optional(S.Number),
           updatedRows: S.optional(S.Number),
           updatedData: S.optional(__S(770, __c24, 2)),
-          updatedRange: S.optional(S.String),
           updatedCells: S.optional(S.Number),
-          dataFilter: S.optional(__S(1025, __c32, 1)),
+          updatedRange: S.optional(S.String),
+          dataFilter: S.optional(__S(993, __c31, 1)),
         }),
       ).annotate({ identifier: "UpdateValuesByDataFilterResponse" });
     case 5:
-      return S.Array(__S(1188, __c37, 4));
+      return S.Array(__S(1156, __c36, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          totalUpdatedSheets: S.optional(S.Number),
           totalUpdatedCells: S.optional(S.Number),
-          spreadsheetId: S.optional(S.String),
+          responses: S.optional(__S(1157, __c36, 5)),
           totalUpdatedColumns: S.optional(S.Number),
-          responses: S.optional(__S(1189, __c37, 5)),
+          totalUpdatedSheets: S.optional(S.Number),
           totalUpdatedRows: S.optional(S.Number),
+          spreadsheetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchUpdateValuesByDataFilterResponse" });
   }

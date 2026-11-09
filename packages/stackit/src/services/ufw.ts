@@ -82,7 +82,7 @@ export interface CreateRuleRequest {
   sourceIP: string;
   /** Indicates whether the security group rule is stateful or stateless (used only for security groups, default value for them will be true). */
   stateful?: boolean;
-  /** The type of the rule (e.g., "ACL", "PublicIP", "SecurityRule"). */
+  /** The type of the rule (e.g., "ACL", "SecurityRule"). */
   type: string;
 }
 export interface CreateRuleResponse {
@@ -119,8 +119,8 @@ export type RuleResponseStatus =
   | "Updating"
   | "Deleting"
   | "Creating";
-/** The type of the rule (e.g., "ACL", "PublicIP", "SecurityRule"). */
-export type RuleResponseType = "ACL" | "PublicIP" | "SecurityRule" | "SecurityGroup";
+/** The type of the rule (e.g., "ACL", "SecurityRule"). */
+export type RuleResponseType = "ACL" | "SecurityRule" | "SecurityGroup";
 export interface RuleResponse {
   description?: string;
   destination: string;
@@ -137,12 +137,13 @@ export interface RuleResponse {
   refId?: string;
   region?: string;
   remoteSecurityGroupId?: string;
+  remoteSecurityGroupName?: string;
   securityGroupId?: string;
   sourceIP: string;
   stateful?: boolean;
   /** The current state of the resource. */
   status: RuleResponseStatus;
-  /** The type of the rule (e.g., "ACL", "PublicIP", "SecurityRule"). */
+  /** The type of the rule (e.g., "ACL", "SecurityRule"). */
   type: RuleResponseType;
 }
 export interface ListFolderContainersRequest {
@@ -207,7 +208,7 @@ export interface ListRulesRequest {
   product?: string;
   /** The ID of the source, similar to a project ID but for the product service instance. */
   instanceId?: string;
-  /** The type of the rule (e.g., "ACL", "PublicIP", "SecurityRule"). */
+  /** The type of the rule (e.g., "ACL", "SecurityRule"). */
   type?: string;
   /** The IP for the rule. */
   sourceIP?: string;
@@ -526,6 +527,7 @@ function __c5(j: number): any {
           refId: S.optional(S.String),
           region: S.optional(S.String),
           remoteSecurityGroupId: S.optional(S.String),
+          remoteSecurityGroupName: S.optional(S.String),
           securityGroupId: S.optional(S.String),
           sourceIP: S.String,
           stateful: S.optional(S.Boolean),

@@ -83,73 +83,26 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** A specific location in a form. */
-export interface Location {
-  /** The index of an item in the form. This must be in the range [0..*N*), where *N* is the number of items in the form. */
-  index?: number;
-}
-/** Move an item in a form. */
-export interface MoveItemRequest {
-  /** Required. The new location for the item. */
-  newLocation?: Location;
-  /** Required. The location of the item to move. */
-  originalLocation?: Location;
-}
-/** The general information for a form. */
-export interface Info {
-  /** The description of the form. */
-  description?: string;
-  /** Required. The title of the form which is visible to responders. */
-  title?: string;
-  /** Output only. The title of the document which is visible in Drive. If Info.title is empty, `document_title` may appear in its place in the Google Forms UI and be visible to responders. `document_title` can be set on create, but cannot be modified by a batchUpdate request. Please use the [Google Drive API](https://developers.google.com/drive/api/v3/reference/files/update) if you need to programmatically update `document_title`. */
-  documentTitle?: string;
-}
-/** Update Form's Info. */
-export interface UpdateFormInfoRequest {
-  /** The info to update. */
-  info?: Info;
-  /** Required. Only values named in this mask are changed. At least one field must be specified. The root `info` is implied and should not be specified. A single `"*"` can be used as short-hand for updating every field. */
-  updateMask?: string;
+/** Provides control over how write requests are executed. */
+export interface WriteControl {
+  /** The target revision ID of the form that the write request is applied to. If changes have occurred after this revision, the changes in this update request are transformed against those changes. This results in a new revision of the form that incorporates both the changes in the request and the intervening changes, with the server resolving conflicting changes. The target revision ID may only be used to write to recent versions of a form. If the target revision is too far behind the latest revision, the request is not processed and returns a 400 (Bad Request Error). The request may be retried after reading the latest version of the form. In most cases a target revision ID remains valid for several minutes after it is read, but for frequently-edited forms this window may be shorter. */
+  targetRevisionId?: string;
+  /** The revision ID of the form that the write request is applied to. If this is not the latest revision of the form, the request is not processed and returns a 400 bad request error. */
+  requiredRevisionId?: string;
 }
 /** A text item. */
 export interface TextItem {}
-export type MediaPropertiesAlignmentEnum = "ALIGNMENT_UNSPECIFIED" | "LEFT" | "RIGHT" | "CENTER";
-/** Properties of the media. */
-export interface MediaProperties {
-  /** Position of the media. */
-  alignment?: MediaPropertiesAlignmentEnum | (string & {});
-  /** The width of the media in pixels. When the media is displayed, it is scaled to the smaller of this value or the width of the displayed form. The original aspect ratio of the media is preserved. If a width is not specified when the media is added to the form, it is set to the width of the media source. Width must be between 0 and 740, inclusive. Setting width to 0 or unspecified is only permitted when updating the media source. */
-  width?: number;
-}
-/** Data representing a video. */
-export interface Video {
-  /** Required. A YouTube URI. */
-  youtubeUri?: string;
-  /** Properties of a video. */
-  properties?: MediaProperties;
-}
-/** An item containing a video. */
-export interface VideoItem {
-  /** Required. The video displayed in the item. */
-  video?: Video;
-  /** The text displayed below the video. */
-  caption?: string;
-}
-/** Data representing an image. */
-export interface Image {
-  /** A description of the image that is shown on hover and read by screenreaders. */
-  altText?: string;
-  /** Properties of an image. */
-  properties?: MediaProperties;
-  /** Output only. A URI from which you can download the image; this is valid only for a limited time. */
-  contentUri?: string;
-  /** Input only. The source URI is the URI used to insert the image. The source URI can be empty when fetched. */
-  sourceUri?: string;
-}
-/** An item containing an image. */
-export interface ImageItem {
-  /** Required. The image displayed in the item. */
-  image?: Image;
+export type RatingQuestionIconTypeEnum =
+  | "RATING_ICON_TYPE_UNSPECIFIED"
+  | "STAR"
+  | "HEART"
+  | "THUMB_UP";
+/** A rating question. The user has a range of icons to choose from. */
+export interface RatingQuestion {
+  /** Required. The rating scale level of the rating question. */
+  ratingScaleLevel?: number;
+  /** Required. The icon type to use for the rating. */
+  iconType?: RatingQuestionIconTypeEnum | (string & {});
 }
 export type ChoiceQuestionTypeEnum = "CHOICE_TYPE_UNSPECIFIED" | "RADIO" | "CHECKBOX" | "DROP_DOWN";
 export type OptionGoToActionEnum =
@@ -157,39 +110,100 @@ export type OptionGoToActionEnum =
   | "NEXT_SECTION"
   | "RESTART_FORM"
   | "SUBMIT_FORM";
+export type MediaPropertiesAlignmentEnum = "ALIGNMENT_UNSPECIFIED" | "LEFT" | "RIGHT" | "CENTER";
+/** Properties of the media. */
+export interface MediaProperties {
+  /** The width of the media in pixels. When the media is displayed, it is scaled to the smaller of this value or the width of the displayed form. The original aspect ratio of the media is preserved. If a width is not specified when the media is added to the form, it is set to the width of the media source. Width must be between 0 and 740, inclusive. Setting width to 0 or unspecified is only permitted when updating the media source. */
+  width?: number;
+  /** Position of the media. */
+  alignment?: MediaPropertiesAlignmentEnum | (string & {});
+}
+/** Data representing an image. */
+export interface Image {
+  /** Output only. A URI from which you can download the image; this is valid only for a limited time. */
+  contentUri?: string;
+  /** A description of the image that is shown on hover and read by screenreaders. */
+  altText?: string;
+  /** Input only. The source URI is the URI used to insert the image. The source URI can be empty when fetched. */
+  sourceUri?: string;
+  /** Properties of an image. */
+  properties?: MediaProperties;
+}
 /** An option for a Choice question. */
 export interface Option {
-  /** Display image as an option. */
-  image?: Image;
   /** Section navigation type. */
   goToAction?: OptionGoToActionEnum | (string & {});
   /** Required. The choice as presented to the user. */
   value?: string;
-  /** Whether the option is "other". Currently only applies to `RADIO` and `CHECKBOX` choice types, but is not allowed in a QuestionGroupItem. */
-  isOther?: boolean;
+  /** Display image as an option. */
+  image?: Image;
   /** Item ID of section header to go to. */
   goToSectionId?: string;
+  /** Whether the option is "other". Currently only applies to `RADIO` and `CHECKBOX` choice types, but is not allowed in a QuestionGroupItem. */
+  isOther?: boolean;
 }
 export type OptionList = Array<Option>;
 /** A radio/checkbox/dropdown question. */
 export interface ChoiceQuestion {
-  /** Whether the options should be displayed in random order for different instances of the quiz. This is often used to prevent cheating by respondents who might be looking at another respondent's screen, or to address bias in a survey that might be introduced by always putting the same options first or last. */
-  shuffle?: boolean;
   /** Required. The type of choice question. */
   type?: ChoiceQuestionTypeEnum | (string & {});
   /** Required. List of options that a respondent must choose from. */
   options?: OptionList;
+  /** Whether the options should be displayed in random order for different instances of the quiz. This is often used to prevent cheating by respondents who might be looking at another respondent's screen, or to address bias in a survey that might be introduced by always putting the same options first or last. */
+  shuffle?: boolean;
 }
-/** A single correct answer for a question. For multiple-valued (`CHECKBOX`) questions, several `CorrectAnswer`s may be needed to represent a single correct response option. */
-export interface CorrectAnswer {
-  /** Required. The correct answer value. See the documentation for TextAnswer.value for details on how various value types are formatted. */
-  value?: string;
+/** Configuration for a question that is part of a question group. */
+export interface RowQuestion {
+  /** Required. The title for the single row in the QuestionGroupItem. */
+  title?: string;
 }
-export type CorrectAnswerList = Array<CorrectAnswer>;
-/** The answer key for a question. */
-export interface CorrectAnswers {
-  /** A list of correct answers. A quiz response can be automatically graded based on these answers. For single-valued questions, a response is marked correct if it matches any value in this list (in other words, multiple correct answers are possible). For multiple-valued (`CHECKBOX`) questions, a response is marked correct if it contains exactly the values in this list. */
-  answers?: CorrectAnswerList;
+export type FileUploadQuestionTypesItemEnum =
+  | "FILE_TYPE_UNSPECIFIED"
+  | "ANY"
+  | "DOCUMENT"
+  | "PRESENTATION"
+  | "SPREADSHEET"
+  | "DRAWING"
+  | "PDF"
+  | "IMAGE"
+  | "VIDEO"
+  | "AUDIO";
+export type FileUploadQuestionTypesItemEnumList = Array<
+  FileUploadQuestionTypesItemEnum | (string & {})
+>;
+/** A file upload question. The API currently does not support creating file upload questions. */
+export interface FileUploadQuestion {
+  /** File types accepted by this question. */
+  types?: FileUploadQuestionTypesItemEnumList;
+  /** Required. The ID of the Drive folder where uploaded files are stored. */
+  folderId?: string;
+  /** Maximum number of files that can be uploaded for this question in a single response. */
+  maxFiles?: number;
+  /** Maximum number of bytes allowed for any single file uploaded to this question. */
+  maxFileSize?: string;
+}
+/** A date question. Date questions default to just month + day. */
+export interface DateQuestion {
+  /** Whether to include the time as part of the question. */
+  includeTime?: boolean;
+  /** Whether to include the year as part of the question. */
+  includeYear?: boolean;
+}
+/** A time question. */
+export interface TimeQuestion {
+  /** `true` if the question is about an elapsed time. Otherwise it is about a time of day. */
+  duration?: boolean;
+}
+/** A scale question. The user has a range of numeric values to choose from. */
+export interface ScaleQuestion {
+  /** The label to display describing the highest point on the scale. */
+  highLabel?: string;
+  /** Required. The highest possible value for the scale. */
+  high?: number;
+  /** The label to display describing the lowest point on the scale. */
+  lowLabel?: string;
+  /** Required. The lowest possible value for the scale. */
+  low?: number;
 }
 /** Link for text. */
 export interface TextLink {
@@ -220,83 +234,29 @@ export interface Feedback {
   /** Required. The main text of the feedback. */
   text?: string;
 }
+/** A single correct answer for a question. For multiple-valued (`CHECKBOX`) questions, several `CorrectAnswer`s may be needed to represent a single correct response option. */
+export interface CorrectAnswer {
+  /** Required. The correct answer value. See the documentation for TextAnswer.value for details on how various value types are formatted. */
+  value?: string;
+}
+export type CorrectAnswerList = Array<CorrectAnswer>;
+/** The answer key for a question. */
+export interface CorrectAnswers {
+  /** A list of correct answers. A quiz response can be automatically graded based on these answers. For single-valued questions, a response is marked correct if it matches any value in this list (in other words, multiple correct answers are possible). For multiple-valued (`CHECKBOX`) questions, a response is marked correct if it contains exactly the values in this list. */
+  answers?: CorrectAnswerList;
+}
 /** Grading for a single question */
 export interface Grading {
+  /** The feedback displayed for incorrect responses. This feedback can only be set for multiple choice questions that have correct answers provided. */
+  whenWrong?: Feedback;
   /** Required. The answer key for the question. Responses are automatically graded based on this field. */
   correctAnswers?: CorrectAnswers;
+  /** The feedback displayed for all answers. This is commonly used for short answer questions when a quiz owner wants to quickly give respondents some sense of whether they answered the question correctly before they've had a chance to officially grade the response. General feedback cannot be set for automatically graded multiple choice questions. */
+  generalFeedback?: Feedback;
   /** The feedback displayed for correct responses. This feedback can only be set for multiple choice questions that have correct answers provided. */
   whenRight?: Feedback;
   /** Required. The maximum number of points a respondent can automatically get for a correct answer. This must not be negative. */
   pointValue?: number;
-  /** The feedback displayed for all answers. This is commonly used for short answer questions when a quiz owner wants to quickly give respondents some sense of whether they answered the question correctly before they've had a chance to officially grade the response. General feedback cannot be set for automatically graded multiple choice questions. */
-  generalFeedback?: Feedback;
-  /** The feedback displayed for incorrect responses. This feedback can only be set for multiple choice questions that have correct answers provided. */
-  whenWrong?: Feedback;
-}
-/** Configuration for a question that is part of a question group. */
-export interface RowQuestion {
-  /** Required. The title for the single row in the QuestionGroupItem. */
-  title?: string;
-}
-export type FileUploadQuestionTypesItemEnum =
-  | "FILE_TYPE_UNSPECIFIED"
-  | "ANY"
-  | "DOCUMENT"
-  | "PRESENTATION"
-  | "SPREADSHEET"
-  | "DRAWING"
-  | "PDF"
-  | "IMAGE"
-  | "VIDEO"
-  | "AUDIO";
-export type FileUploadQuestionTypesItemEnumList = Array<
-  FileUploadQuestionTypesItemEnum | (string & {})
->;
-/** A file upload question. The API currently does not support creating file upload questions. */
-export interface FileUploadQuestion {
-  /** Required. The ID of the Drive folder where uploaded files are stored. */
-  folderId?: string;
-  /** Maximum number of files that can be uploaded for this question in a single response. */
-  maxFiles?: number;
-  /** File types accepted by this question. */
-  types?: FileUploadQuestionTypesItemEnumList;
-  /** Maximum number of bytes allowed for any single file uploaded to this question. */
-  maxFileSize?: string;
-}
-export type RatingQuestionIconTypeEnum =
-  | "RATING_ICON_TYPE_UNSPECIFIED"
-  | "STAR"
-  | "HEART"
-  | "THUMB_UP";
-/** A rating question. The user has a range of icons to choose from. */
-export interface RatingQuestion {
-  /** Required. The rating scale level of the rating question. */
-  ratingScaleLevel?: number;
-  /** Required. The icon type to use for the rating. */
-  iconType?: RatingQuestionIconTypeEnum | (string & {});
-}
-/** A time question. */
-export interface TimeQuestion {
-  /** `true` if the question is about an elapsed time. Otherwise it is about a time of day. */
-  duration?: boolean;
-}
-/** A date question. Date questions default to just month + day. */
-export interface DateQuestion {
-  /** Whether to include the time as part of the question. */
-  includeTime?: boolean;
-  /** Whether to include the year as part of the question. */
-  includeYear?: boolean;
-}
-/** A scale question. The user has a range of numeric values to choose from. */
-export interface ScaleQuestion {
-  /** Required. The lowest possible value for the scale. */
-  low?: number;
-  /** The label to display describing the lowest point on the scale. */
-  lowLabel?: string;
-  /** Required. The highest possible value for the scale. */
-  high?: number;
-  /** The label to display describing the highest point on the scale. */
-  highLabel?: string;
 }
 /** A text-based question. */
 export interface TextQuestion {
@@ -305,35 +265,28 @@ export interface TextQuestion {
 }
 /** Any question. The specific type of question is known by its `kind`. */
 export interface Question {
-  /** Whether the question must be answered in order for a respondent to submit their response. */
-  required?: boolean;
+  /** A respondent can choose a rating from a pre-defined set of icons. */
+  ratingQuestion?: RatingQuestion;
   /** A respondent can choose from a pre-defined set of options. */
   choiceQuestion?: ChoiceQuestion;
-  /** Grading setup for the question. */
-  grading?: Grading;
   /** A row of a QuestionGroupItem. */
   rowQuestion?: RowQuestion;
   /** A respondent can upload one or more files. */
   fileUploadQuestion?: FileUploadQuestion;
-  /** A respondent can choose a rating from a pre-defined set of icons. */
-  ratingQuestion?: RatingQuestion;
-  /** A respondent can enter a time. */
-  timeQuestion?: TimeQuestion;
+  /** Whether the question must be answered in order for a respondent to submit their response. */
+  required?: boolean;
   /** Read only. The question ID. On creation, it can be provided but the ID must not be already used in the form. If not provided, a new ID is assigned. */
   questionId?: string;
   /** A respondent can enter a date. */
   dateQuestion?: DateQuestion;
+  /** A respondent can enter a time. */
+  timeQuestion?: TimeQuestion;
   /** A respondent can choose a number from a range. */
   scaleQuestion?: ScaleQuestion;
+  /** Grading setup for the question. */
+  grading?: Grading;
   /** A respondent can enter a free text response. */
   textQuestion?: TextQuestion;
-}
-/** A form item containing a single question. */
-export interface QuestionItem {
-  /** The image displayed within the question. */
-  image?: Image;
-  /** Required. The displayed question. */
-  question?: Question;
 }
 export type QuestionList = Array<Question>;
 /** A grid of choices (radio or check boxes) with each row constituting a separate question. Each row has the same choices, which are shown as the columns. */
@@ -345,35 +298,66 @@ export interface Grid {
 }
 /** Defines a question that comprises multiple questions grouped together. */
 export interface QuestionGroupItem {
-  /** The image displayed within the question group above the specific questions. */
-  image?: Image;
   /** Required. A list of questions that belong in this question group. A question must only belong to one group. The `kind` of the group may affect what types of questions are allowed. */
   questions?: QuestionList;
+  /** The image displayed within the question group above the specific questions. */
+  image?: Image;
   /** The question group is a grid with rows of multiple choice questions that share the same options. When `grid` is set, all questions in the group must be of kind `row`. */
   grid?: Grid;
 }
+/** Data representing a video. */
+export interface Video {
+  /** Required. A YouTube URI. */
+  youtubeUri?: string;
+  /** Properties of a video. */
+  properties?: MediaProperties;
+}
+/** An item containing a video. */
+export interface VideoItem {
+  /** The text displayed below the video. */
+  caption?: string;
+  /** Required. The video displayed in the item. */
+  video?: Video;
+}
+/** An item containing an image. */
+export interface ImageItem {
+  /** Required. The image displayed in the item. */
+  image?: Image;
+}
 /** A page break. The title and description of this item are shown at the top of the new page. */
 export type PageBreakItem = TextItem;
+/** A form item containing a single question. */
+export interface QuestionItem {
+  /** The image displayed within the question. */
+  image?: Image;
+  /** Required. The displayed question. */
+  question?: Question;
+}
 /** A single item of the form. `kind` defines which kind of item it is. */
 export interface Item {
   /** Displays a title and description on the page. */
   textItem?: TextItem;
   /** The description of the item. */
   description?: string;
+  /** Poses one or more questions to the user with a single major prompt. */
+  questionGroupItem?: QuestionGroupItem;
   /** Displays a video on the page. */
   videoItem?: VideoItem;
+  /** The item ID. On creation, it can be provided but the ID must not be already used in the form. If not provided, a new ID is assigned. */
+  itemId?: string;
   /** Displays an image on the page. */
   imageItem?: ImageItem;
+  /** Starts a new page with a title. */
+  pageBreakItem?: TextItem;
   /** Poses a question to the user. */
   questionItem?: QuestionItem;
   /** The title of the item. */
   title?: string;
-  /** Poses one or more questions to the user with a single major prompt. */
-  questionGroupItem?: QuestionGroupItem;
-  /** Starts a new page with a title. */
-  pageBreakItem?: TextItem;
-  /** The item ID. On creation, it can be provided but the ID must not be already used in the form. If not provided, a new ID is assigned. */
-  itemId?: string;
+}
+/** A specific location in a form. */
+export interface Location {
+  /** The index of an item in the form. This must be in the range [0..*N*), where *N* is the number of items in the form. */
+  index?: number;
 }
 /** Create an item in a form. */
 export interface CreateItemRequest {
@@ -384,12 +368,35 @@ export interface CreateItemRequest {
 }
 /** Update an item in a form. */
 export interface UpdateItemRequest {
-  /** Required. Only values named in this mask are changed. */
-  updateMask?: string;
   /** Required. New values for the item. Note that item and question IDs are used if they are provided (and are in the field mask). If an ID is blank (and in the field mask) a new ID is generated. This means you can modify an item by getting the form via forms.get, modifying your local copy of that item to be how you want it, and using UpdateItemRequest to write it back, with the IDs being the same (or not in the field mask). */
   item?: Item;
   /** Required. The location identifying the item to update. */
   location?: Location;
+  /** Required. Only values named in this mask are changed. */
+  updateMask?: string;
+}
+/** Move an item in a form. */
+export interface MoveItemRequest {
+  /** Required. The location of the item to move. */
+  originalLocation?: Location;
+  /** Required. The new location for the item. */
+  newLocation?: Location;
+}
+/** The general information for a form. */
+export interface Info {
+  /** Required. The title of the form which is visible to responders. */
+  title?: string;
+  /** The description of the form. */
+  description?: string;
+  /** Output only. The title of the document which is visible in Drive. If Info.title is empty, `document_title` may appear in its place in the Google Forms UI and be visible to responders. `document_title` can be set on create, but cannot be modified by a batchUpdate request. Please use the [Google Drive API](https://developers.google.com/drive/api/v3/reference/files/update) if you need to programmatically update `document_title`. */
+  documentTitle?: string;
+}
+/** Update Form's Info. */
+export interface UpdateFormInfoRequest {
+  /** The info to update. */
+  info?: Info;
+  /** Required. Only values named in this mask are changed. At least one field must be specified. The root `info` is implied and should not be specified. A single `"*"` can be used as short-hand for updating every field. */
+  updateMask?: string;
 }
 export type FormSettingsEmailCollectionTypeEnum =
   | "EMAIL_COLLECTION_TYPE_UNSPECIFIED"
@@ -422,35 +429,28 @@ export interface DeleteItemRequest {
 }
 /** The kinds of update requests that can be made. */
 export interface Request {
-  /** Move an item to a specified location. */
-  moveItem?: MoveItemRequest;
-  /** Update Form's Info. */
-  updateFormInfo?: UpdateFormInfoRequest;
   /** Create a new item. */
   createItem?: CreateItemRequest;
   /** Update an item. */
   updateItem?: UpdateItemRequest;
+  /** Move an item to a specified location. */
+  moveItem?: MoveItemRequest;
+  /** Update Form's Info. */
+  updateFormInfo?: UpdateFormInfoRequest;
   /** Updates the Form's settings. */
   updateSettings?: UpdateSettingsRequest;
   /** Delete an item. */
   deleteItem?: DeleteItemRequest;
 }
 export type RequestList = Array<Request>;
-/** Provides control over how write requests are executed. */
-export interface WriteControl {
-  /** The target revision ID of the form that the write request is applied to. If changes have occurred after this revision, the changes in this update request are transformed against those changes. This results in a new revision of the form that incorporates both the changes in the request and the intervening changes, with the server resolving conflicting changes. The target revision ID may only be used to write to recent versions of a form. If the target revision is too far behind the latest revision, the request is not processed and returns a 400 (Bad Request Error). The request may be retried after reading the latest version of the form. In most cases a target revision ID remains valid for several minutes after it is read, but for frequently-edited forms this window may be shorter. */
-  targetRevisionId?: string;
-  /** The revision ID of the form that the write request is applied to. If this is not the latest revision of the form, the request is not processed and returns a 400 bad request error. */
-  requiredRevisionId?: string;
-}
 /** A batch of updates to perform on a form. All the specified updates are made or none of them are. */
 export interface BatchUpdateFormRequest {
-  /** Required. The update requests of this batch. */
-  requests?: RequestList;
   /** Provides control over how write requests are executed. */
   writeControl?: WriteControl;
   /** Whether to return an updated version of the model in the response. */
   includeFormInResponse?: boolean;
+  /** Required. The update requests of this batch. */
+  requests?: RequestList;
 }
 export interface BatchUpdateFormsRequest {
   /** Required. The form ID. */
@@ -461,10 +461,10 @@ export interface BatchUpdateFormsRequest {
 export type StringList = Array<string>;
 /** The result of creating an item. */
 export interface CreateItemResponse {
-  /** The ID of the question created as part of this item, for a question group it lists IDs of all the questions created for this item. */
-  questionId?: StringList;
   /** The ID of the created item. */
   itemId?: string;
+  /** The ID of the question created as part of this item, for a question group it lists IDs of all the questions created for this item. */
+  questionId?: StringList;
 }
 /** A single response from an update. */
 export interface Response {
@@ -472,46 +472,46 @@ export interface Response {
   createItem?: CreateItemResponse;
 }
 export type ResponseList = Array<Response>;
-export type ItemList = Array<Item>;
 /** The publishing state of a form. */
 export interface PublishState {
-  /** Required. Whether the form accepts responses. If `is_published` is set to `false`, this field is forced to `false`. */
-  isAcceptingResponses?: boolean;
   /** Required. Whether the form is published and visible to others. */
   isPublished?: boolean;
+  /** Required. Whether the form accepts responses. If `is_published` is set to `false`, this field is forced to `false`. */
+  isAcceptingResponses?: boolean;
 }
 /** The publishing settings of a form. */
 export interface PublishSettings {
   /** Optional. The publishing state of a form. When updating `publish_state`, both `is_published` and `is_accepting_responses` must be set. However, setting `is_accepting_responses` to `true` and `is_published` to `false` isn't supported and returns an error. */
   publishState?: PublishState;
 }
+export type ItemList = Array<Item>;
 /** A Google Forms document. A form is created in Drive, and deleting a form or changing its access protections is done via the [Drive API](https://developers.google.com/drive/api/v3/about-sdk). */
 export interface Form {
-  /** Output only. The form ID. */
-  formId?: string;
-  /** Output only. The ID of the linked Google Sheet which is accumulating responses from this Form (if such a Sheet exists). */
-  linkedSheetId?: string;
-  /** Output only. The revision ID of the form. Used in the WriteControl in update requests to identify the revision on which the changes are based. The format of the revision ID may change over time, so it should be treated opaquely. A returned revision ID is only guaranteed to be valid for 24 hours after it has been returned and cannot be shared across users. If the revision ID is unchanged between calls, then the form *content* has not changed. Conversely, a changed ID (for the same form and user) usually means the form *content* has been updated; however, a changed ID can also be due to internal factors such as ID format changes. Form content excludes form metadata, including: * sharing settings (who has access to the form) * publish_settings (if the form supports publishing and if it is published) */
-  revisionId?: string;
-  /** Output only. The form URI to share with responders. This opens a page that allows the user to submit responses but not edit the questions. For forms that have publish_settings value set, this is the published form URI. */
-  responderUri?: string;
   /** The form's settings. This must be updated with UpdateSettingsRequest; it is ignored during CreateForm and UpdateFormInfoRequest. */
   settings?: FormSettings;
-  /** Required. A list of the form's items, which can include section headers, questions, embedded media, etc. */
-  items?: ItemList;
   /** Output only. The publishing settings for a form. This field isn't set for legacy forms because they don't have the publish_settings field. All newly created forms support publish settings. Forms with publish_settings value set can call SetPublishSettings API to publish or unpublish the form. */
   publishSettings?: PublishSettings;
+  /** Required. A list of the form's items, which can include section headers, questions, embedded media, etc. */
+  items?: ItemList;
+  /** Output only. The revision ID of the form. Used in the WriteControl in update requests to identify the revision on which the changes are based. The format of the revision ID may change over time, so it should be treated opaquely. A returned revision ID is only guaranteed to be valid for 24 hours after it has been returned and cannot be shared across users. If the revision ID is unchanged between calls, then the form *content* has not changed. Conversely, a changed ID (for the same form and user) usually means the form *content* has been updated; however, a changed ID can also be due to internal factors such as ID format changes. Form content excludes form metadata, including: * sharing settings (who has access to the form) * publish_settings (if the form supports publishing and if it is published) */
+  revisionId?: string;
+  /** Output only. The form ID. */
+  formId?: string;
   /** Required. The title and description of the form. */
   info?: Info;
+  /** Output only. The ID of the linked Google Sheet which is accumulating responses from this Form (if such a Sheet exists). */
+  linkedSheetId?: string;
+  /** Output only. The form URI to share with responders. This opens a page that allows the user to submit responses but not edit the questions. For forms that have publish_settings value set, this is the published form URI. */
+  responderUri?: string;
 }
 /** Response to a BatchUpdateFormRequest. */
 export interface BatchUpdateFormResponse {
+  /** The updated write control after applying the request. */
+  writeControl?: WriteControl;
   /** The reply of the updates. This maps 1:1 with the update requests, although replies to some requests may be empty. */
   replies?: ResponseList;
   /** Based on the bool request field `include_form_in_response`, a form with all applied mutations/updates is returned or not. This may be later than the revision ID created by these changes. */
   form?: Form;
-  /** The updated write control after applying the request. */
-  writeControl?: WriteControl;
 }
 export interface CreateFormsRequest {
   /** Optional. Whether the form is unpublished. If set to `true`, the form doesn't accept responses. If set to `false` or unset, the form is published and accepts responses. */
@@ -519,12 +519,7 @@ export interface CreateFormsRequest {
   /** Request body */
   body?: Form;
 }
-export type WatchErrorTypeEnum =
-  | "ERROR_TYPE_UNSPECIFIED"
-  | "PROJECT_NOT_AUTHORIZED"
-  | "NO_USER_ACCESS"
-  | "OTHER_ERRORS";
-export type WatchStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "SUSPENDED";
+export type WatchEventTypeEnum = "EVENT_TYPE_UNSPECIFIED" | "SCHEMA" | "RESPONSES";
 /** A Pub/Sub topic. */
 export interface CloudPubsubTopic {
   /** Required. A fully qualified Pub/Sub topic name to publish the events to. This topic must be owned by the calling project and already exist in Pub/Sub. */
@@ -535,23 +530,28 @@ export interface WatchTarget {
   /** A Pub/Sub topic. To receive notifications, the topic must grant publish privileges to the Forms service account `serviceAccount:forms-notifications@system.gserviceaccount.com`. Only the project that owns a topic may create a watch with it. Pub/Sub delivery guarantees should be considered. */
   topic?: CloudPubsubTopic;
 }
-export type WatchEventTypeEnum = "EVENT_TYPE_UNSPECIFIED" | "SCHEMA" | "RESPONSES";
+export type WatchErrorTypeEnum =
+  | "ERROR_TYPE_UNSPECIFIED"
+  | "PROJECT_NOT_AUTHORIZED"
+  | "NO_USER_ACCESS"
+  | "OTHER_ERRORS";
+export type WatchStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "SUSPENDED";
 /** A watch for events for a form. When the designated event happens, a notification will be published to the specified target. The notification's attributes will include a `formId` key that has the ID of the watched form and an `eventType` key that has the string of the type. Messages are sent with at-least-once delivery and are only dropped in extraordinary circumstances. Typically all notifications should be reliably delivered within a few seconds; however, in some situations notifications may be delayed. A watch expires seven days after it is created unless it is renewed with watches.renew */
 export interface Watch {
-  /** Output only. The most recent error type for an attempted delivery. To begin watching the form again a call can be made to watches.renew which also clears this error information. */
-  errorType?: WatchErrorTypeEnum | (string & {});
-  /** Output only. Timestamp for when this will expire. Each watches.renew call resets this to seven days in the future. */
-  expireTime?: string;
-  /** Output only. The current state of the watch. Additional details about suspended watches can be found by checking the `error_type`. */
-  state?: WatchStateEnum | (string & {});
-  /** Output only. Timestamp of when this was created. */
-  createTime?: string;
-  /** Required. Where to send the notification. */
-  target?: WatchTarget;
-  /** Output only. The ID of this watch. See notes on CreateWatchRequest.watch_id. */
-  id?: string;
   /** Required. Which event type to watch for. */
   eventType?: WatchEventTypeEnum | (string & {});
+  /** Output only. Timestamp of when this was created. */
+  createTime?: string;
+  /** Output only. Timestamp for when this will expire. Each watches.renew call resets this to seven days in the future. */
+  expireTime?: string;
+  /** Output only. The ID of this watch. See notes on CreateWatchRequest.watch_id. */
+  id?: string;
+  /** Required. Where to send the notification. */
+  target?: WatchTarget;
+  /** Output only. The most recent error type for an attempted delivery. To begin watching the form again a call can be made to watches.renew which also clears this error information. */
+  errorType?: WatchErrorTypeEnum | (string & {});
+  /** Output only. The current state of the watch. Additional details about suspended watches can be found by checking the `error_type`. */
+  state?: WatchStateEnum | (string & {});
 }
 /** Create a new watch. */
 export interface CreateWatchRequest {
@@ -579,34 +579,10 @@ export interface GetFormsRequest {
   formId: string;
 }
 export interface GetFormsResponsesRequest {
-  /** Required. The form ID. */
-  formId: string;
   /** Required. The response ID within the form. */
   responseId: string;
-}
-/** Grade information associated with a respondent's answer to a question. */
-export interface Grade {
-  /** Output only. Additional feedback given for an answer. */
-  feedback?: Feedback;
-  /** Output only. The numeric score awarded for the answer. */
-  score?: number;
-  /** Output only. Whether the question was answered correctly or not. A zero-point score is not enough to infer incorrectness, since a correctly answered question could be worth zero points. */
-  correct?: boolean;
-}
-/** Info for a single file submitted to a file upload question. */
-export interface FileUploadAnswer {
-  /** Output only. The file name, as stored in Google Drive on upload. */
-  fileName?: string;
-  /** Output only. The MIME type of the file, as stored in Google Drive on upload. */
-  mimeType?: string;
-  /** Output only. The ID of the Google Drive file. */
-  fileId?: string;
-}
-export type FileUploadAnswerList = Array<FileUploadAnswer>;
-/** All submitted files for a FileUpload question. */
-export interface FileUploadAnswers {
-  /** Output only. All submitted files for a FileUpload question. */
-  answers?: FileUploadAnswerList;
+  /** Required. The form ID. */
+  formId: string;
 }
 /** An answer to a question represented as text. */
 export interface TextAnswer {
@@ -619,52 +595,76 @@ export interface TextAnswers {
   /** Output only. Answers to a question. For multiple-value ChoiceQuestions, each answer is a separate value. */
   answers?: TextAnswerList;
 }
+/** Grade information associated with a respondent's answer to a question. */
+export interface Grade {
+  /** Output only. The numeric score awarded for the answer. */
+  score?: number;
+  /** Output only. Whether the question was answered correctly or not. A zero-point score is not enough to infer incorrectness, since a correctly answered question could be worth zero points. */
+  correct?: boolean;
+  /** Output only. Additional feedback given for an answer. */
+  feedback?: Feedback;
+}
+/** Info for a single file submitted to a file upload question. */
+export interface FileUploadAnswer {
+  /** Output only. The file name, as stored in Google Drive on upload. */
+  fileName?: string;
+  /** Output only. The ID of the Google Drive file. */
+  fileId?: string;
+  /** Output only. The MIME type of the file, as stored in Google Drive on upload. */
+  mimeType?: string;
+}
+export type FileUploadAnswerList = Array<FileUploadAnswer>;
+/** All submitted files for a FileUpload question. */
+export interface FileUploadAnswers {
+  /** Output only. All submitted files for a FileUpload question. */
+  answers?: FileUploadAnswerList;
+}
 /** The submitted answer for a question. */
 export interface Answer {
-  /** Output only. The grade for the answer if the form was a quiz. */
-  grade?: Grade;
-  /** Output only. The answers to a file upload question. */
-  fileUploadAnswers?: FileUploadAnswers;
   /** Output only. The specific answers as text. */
   textAnswers?: TextAnswers;
+  /** Output only. The grade for the answer if the form was a quiz. */
+  grade?: Grade;
   /** Output only. The question's ID. See also Question.question_id. */
   questionId?: string;
+  /** Output only. The answers to a file upload question. */
+  fileUploadAnswers?: FileUploadAnswers;
 }
 export type AnswerMap = { [key: string]: Answer | undefined };
 /** A form response. */
 export interface FormResponse {
+  /** Output only. The response ID. */
+  responseId?: string;
+  /** Output only. Timestamp for the most recent time the response was submitted. Does not track changes to grades. */
+  lastSubmittedTime?: string;
+  /** Output only. The actual answers to the questions, keyed by question_id. */
+  answers?: AnswerMap;
+  /** Output only. The form ID. */
+  formId?: string;
   /** Output only. Timestamp for the first time the response was submitted. */
   createTime?: string;
   /** Output only. The email address (if collected) for the respondent. */
   respondentEmail?: string;
-  /** Output only. Timestamp for the most recent time the response was submitted. Does not track changes to grades. */
-  lastSubmittedTime?: string;
-  /** Output only. The form ID. */
-  formId?: string;
-  /** Output only. The response ID. */
-  responseId?: string;
-  /** Output only. The actual answers to the questions, keyed by question_id. */
-  answers?: AnswerMap;
   /** Output only. The total number of points the respondent received for their submission Only set if the form was a quiz and the response was graded. This includes points automatically awarded via autograding adjusted by any manual corrections entered by the form owner. */
   totalScore?: number;
 }
 export interface ListFormsResponsesRequest {
   /** The maximum number of responses to return. The service may return fewer than this value. If unspecified or zero, at most 5000 responses are returned. */
   pageSize?: number;
-  /** Which form responses to return. Currently, the only supported filters are: * timestamp > *N* which means to get all form responses submitted after (but not at) timestamp *N*. * timestamp >= *N* which means to get all form responses submitted at and after timestamp *N*. For both supported filters, timestamp must be formatted in RFC3339 UTC "Zulu" format. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z". */
-  filter?: string;
-  /** A page token returned by a previous list response. If this field is set, the form and the values of the filter must be the same as for the original request. */
-  pageToken?: string;
   /** Required. ID of the Form whose responses to list. */
   formId: string;
+  /** A page token returned by a previous list response. If this field is set, the form and the values of the filter must be the same as for the original request. */
+  pageToken?: string;
+  /** Which form responses to return. Currently, the only supported filters are: * timestamp > *N* which means to get all form responses submitted after (but not at) timestamp *N*. * timestamp >= *N* which means to get all form responses submitted at and after timestamp *N*. For both supported filters, timestamp must be formatted in RFC3339 UTC "Zulu" format. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z". */
+  filter?: string;
 }
 export type FormResponseList = Array<FormResponse>;
 /** Response to a ListFormResponsesRequest. */
 export interface ListFormResponsesResponse {
-  /** The returned form responses. Note: The `formId` field is not returned in the `FormResponse` object for list requests. */
-  responses?: FormResponseList;
   /** If set, there are more responses. To get the next page of responses, provide this as `page_token` in a future request. */
   nextPageToken?: string;
+  /** The returned form responses. Note: The `formId` field is not returned in the `FormResponse` object for list requests. */
+  responses?: FormResponseList;
 }
 export interface ListFormsWatchesRequest {
   /** Required. ID of the Form whose watches to list. */
@@ -679,10 +679,10 @@ export interface ListWatchesResponse {
 /** Renew an existing Watch for seven days. */
 export type RenewWatchRequest = TextItem;
 export interface RenewFormsWatchesRequest {
-  /** Required. The ID of the Watch to renew. */
-  watchId: string;
   /** Required. The ID of the Form. */
   formId: string;
+  /** Required. The ID of the Watch to renew. */
+  watchId: string;
   /** Request body */
   body?: TextItem;
 }
@@ -886,9 +886,9 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           formId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -902,8 +902,8 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          responses: S.optional(__S(1, __c0, 1)),
           nextPageToken: S.optional(S.String),
+          responses: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "ListFormResponsesResponse" });
   }
@@ -937,8 +937,8 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          watchId: S.String.pipe(T.Label()),
           formId: S.String.pipe(T.Label()),
+          watchId: S.String.pipe(T.Label()),
           body: S.optional(__S(160, __c5, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -986,77 +986,77 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          index: S.optional(S.Number),
+          targetRevisionId: S.optional(S.String),
+          requiredRevisionId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Location" });
+      ).annotate({ identifier: "WriteControl" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          newLocation: S.optional(__S(128, __c4, 0)),
-          originalLocation: S.optional(__S(128, __c4, 0)),
+          index: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "MoveItemRequest" });
+      ).annotate({ identifier: "Location" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          info: S.optional(__S(192, __c6, 0)),
-          updateMask: S.optional(S.String),
+          item: S.optional(__S(214, __c6, 22)),
+          location: S.optional(__S(129, __c4, 1)),
         }),
-      ).annotate({ identifier: "UpdateFormInfoRequest" });
+      ).annotate({ identifier: "CreateItemRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          item: S.optional(__S(215, __c6, 23)),
-          location: S.optional(__S(128, __c4, 0)),
+          item: S.optional(__S(214, __c6, 22)),
+          location: S.optional(__S(129, __c4, 1)),
+          updateMask: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CreateItemRequest" });
+      ).annotate({ identifier: "UpdateItemRequest" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String),
-          item: S.optional(__S(215, __c6, 23)),
-          location: S.optional(__S(128, __c4, 0)),
+          originalLocation: S.optional(__S(129, __c4, 1)),
+          newLocation: S.optional(__S(129, __c4, 1)),
         }),
-      ).annotate({ identifier: "UpdateItemRequest" });
+      ).annotate({ identifier: "MoveItemRequest" });
     case 5:
+      return S.suspend(() =>
+        S.Struct({
+          info: S.optional(__S(215, __c6, 23)),
+          updateMask: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateFormInfoRequest" });
+    case 6:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String),
           settings: S.optional(__S(217, __c6, 25)),
         }),
       ).annotate({ identifier: "UpdateSettingsRequest" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(128, __c4, 0)),
-        }),
-      ).annotate({ identifier: "DeleteItemRequest" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          moveItem: S.optional(__S(129, __c4, 1)),
-          updateFormInfo: S.optional(__S(130, __c4, 2)),
-          createItem: S.optional(__S(131, __c4, 3)),
-          updateItem: S.optional(__S(132, __c4, 4)),
-          updateSettings: S.optional(__S(133, __c4, 5)),
-          deleteItem: S.optional(__S(134, __c4, 6)),
+          location: S.optional(__S(129, __c4, 1)),
         }),
-      ).annotate({ identifier: "Request" });
+      ).annotate({ identifier: "DeleteItemRequest" });
     case 8:
-      return S.Array(__S(135, __c4, 7));
-    case 9:
       return S.suspend(() =>
         S.Struct({
-          targetRevisionId: S.optional(S.String),
-          requiredRevisionId: S.optional(S.String),
+          createItem: S.optional(__S(130, __c4, 2)),
+          updateItem: S.optional(__S(131, __c4, 3)),
+          moveItem: S.optional(__S(132, __c4, 4)),
+          updateFormInfo: S.optional(__S(133, __c4, 5)),
+          updateSettings: S.optional(__S(134, __c4, 6)),
+          deleteItem: S.optional(__S(135, __c4, 7)),
         }),
-      ).annotate({ identifier: "WriteControl" });
+      ).annotate({ identifier: "Request" });
+    case 9:
+      return S.Array(__S(136, __c4, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          requests: S.optional(__S(136, __c4, 8)),
-          writeControl: S.optional(__S(137, __c4, 9)),
+          writeControl: S.optional(__S(128, __c4, 0)),
           includeFormInResponse: S.optional(S.Boolean),
+          requests: S.optional(__S(137, __c4, 9)),
         }),
       ).annotate({ identifier: "BatchUpdateFormRequest" });
     case 11:
@@ -1077,8 +1077,8 @@ function __c4(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          questionId: S.optional(__S(140, __c4, 12)),
           itemId: S.optional(S.String),
+          questionId: S.optional(__S(140, __c4, 12)),
         }),
       ).annotate({ identifier: "CreateItemResponse" });
     case 14:
@@ -1092,9 +1092,9 @@ function __c4(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
+          writeControl: S.optional(__S(128, __c4, 0)),
           replies: S.optional(__S(143, __c4, 15)),
           form: S.optional(__S(219, __c6, 27)),
-          writeControl: S.optional(__S(137, __c4, 9)),
         }),
       ).annotate({ identifier: "BatchUpdateFormResponse" });
   }
@@ -1110,183 +1110,183 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          title: S.optional(S.String),
-          documentTitle: S.optional(S.String),
+          ratingScaleLevel: S.optional(S.Number),
+          iconType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Info" });
+      ).annotate({ identifier: "RatingQuestion" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          alignment: S.optional(S.String),
           width: S.optional(S.Number),
+          alignment: S.optional(S.String),
         }),
       ).annotate({ identifier: "MediaProperties" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          youtubeUri: S.optional(S.String),
+          contentUri: S.optional(S.String),
+          altText: S.optional(S.String),
+          sourceUri: S.optional(S.String),
           properties: S.optional(__S(193, __c6, 1)),
         }),
-      ).annotate({ identifier: "Video" });
+      ).annotate({ identifier: "Image" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          video: S.optional(__S(194, __c6, 2)),
-          caption: S.optional(S.String),
+          goToAction: S.optional(S.String),
+          value: S.optional(S.String),
+          image: S.optional(__S(194, __c6, 2)),
+          goToSectionId: S.optional(S.String),
+          isOther: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "VideoItem" });
+      ).annotate({ identifier: "Option" });
     case 4:
-      return S.suspend(() =>
-        S.Struct({
-          altText: S.optional(S.String),
-          properties: S.optional(__S(193, __c6, 1)),
-          contentUri: S.optional(S.String),
-          sourceUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Image" });
+      return S.Array(__S(195, __c6, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          image: S.optional(__S(196, __c6, 4)),
-        }),
-      ).annotate({ identifier: "ImageItem" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          image: S.optional(__S(196, __c6, 4)),
-          goToAction: S.optional(S.String),
-          value: S.optional(S.String),
-          isOther: S.optional(S.Boolean),
-          goToSectionId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Option" });
-    case 7:
-      return S.Array(__S(198, __c6, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          shuffle: S.optional(S.Boolean),
           type: S.optional(S.String),
-          options: S.optional(__S(199, __c6, 7)),
+          options: S.optional(__S(196, __c6, 4)),
+          shuffle: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ChoiceQuestion" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          correctAnswers: S.optional(__S(258, __c8, 2)),
-          whenRight: S.optional(__S(263, __c8, 7)),
-          pointValue: S.optional(S.Number),
-          generalFeedback: S.optional(__S(263, __c8, 7)),
-          whenWrong: S.optional(__S(263, __c8, 7)),
-        }),
-      ).annotate({ identifier: "Grading" });
-    case 10:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "RowQuestion" });
-    case 11:
+    case 7:
       return S.Array(S.String);
-    case 12:
+    case 8:
       return S.suspend(() =>
         S.Struct({
+          types: S.optional(__S(199, __c6, 7)),
           folderId: S.optional(S.String),
           maxFiles: S.optional(S.Number),
-          types: S.optional(__S(203, __c6, 11)),
           maxFileSize: S.optional(S.String),
         }),
       ).annotate({ identifier: "FileUploadQuestion" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          ratingScaleLevel: S.optional(S.Number),
-          iconType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RatingQuestion" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          duration: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TimeQuestion" });
-    case 15:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           includeTime: S.optional(S.Boolean),
           includeYear: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DateQuestion" });
-    case 16:
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          low: S.optional(S.Number),
-          lowLabel: S.optional(S.String),
-          high: S.optional(S.Number),
+          duration: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TimeQuestion" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
           highLabel: S.optional(S.String),
+          high: S.optional(S.Number),
+          lowLabel: S.optional(S.String),
+          low: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ScaleQuestion" });
-    case 17:
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          whenWrong: S.optional(__S(260, __c8, 4)),
+          correctAnswers: S.optional(__S(263, __c8, 7)),
+          generalFeedback: S.optional(__S(260, __c8, 4)),
+          whenRight: S.optional(__S(260, __c8, 4)),
+          pointValue: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Grading" });
+    case 13:
       return S.suspend(() =>
         S.Struct({
           paragraph: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TextQuestion" });
-    case 18:
+    case 14:
       return S.suspend(() =>
         S.Struct({
+          ratingQuestion: S.optional(__S(192, __c6, 0)),
+          choiceQuestion: S.optional(__S(197, __c6, 5)),
+          rowQuestion: S.optional(__S(198, __c6, 6)),
+          fileUploadQuestion: S.optional(__S(200, __c6, 8)),
           required: S.optional(S.Boolean),
-          choiceQuestion: S.optional(__S(200, __c6, 8)),
-          grading: S.optional(__S(201, __c6, 9)),
-          rowQuestion: S.optional(__S(202, __c6, 10)),
-          fileUploadQuestion: S.optional(__S(204, __c6, 12)),
-          ratingQuestion: S.optional(__S(205, __c6, 13)),
-          timeQuestion: S.optional(__S(206, __c6, 14)),
           questionId: S.optional(S.String),
-          dateQuestion: S.optional(__S(207, __c6, 15)),
-          scaleQuestion: S.optional(__S(208, __c6, 16)),
-          textQuestion: S.optional(__S(209, __c6, 17)),
+          dateQuestion: S.optional(__S(201, __c6, 9)),
+          timeQuestion: S.optional(__S(202, __c6, 10)),
+          scaleQuestion: S.optional(__S(203, __c6, 11)),
+          grading: S.optional(__S(204, __c6, 12)),
+          textQuestion: S.optional(__S(205, __c6, 13)),
         }),
       ).annotate({ identifier: "Question" });
-    case 19:
+    case 15:
+      return S.Array(__S(206, __c6, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({
-          image: S.optional(__S(196, __c6, 4)),
-          question: S.optional(__S(210, __c6, 18)),
-        }),
-      ).annotate({ identifier: "QuestionItem" });
-    case 20:
-      return S.Array(__S(210, __c6, 18));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          columns: S.optional(__S(200, __c6, 8)),
+          columns: S.optional(__S(197, __c6, 5)),
           shuffleQuestions: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Grid" });
-    case 22:
+    case 17:
       return S.suspend(() =>
         S.Struct({
-          image: S.optional(__S(196, __c6, 4)),
-          questions: S.optional(__S(212, __c6, 20)),
-          grid: S.optional(__S(213, __c6, 21)),
+          questions: S.optional(__S(207, __c6, 15)),
+          image: S.optional(__S(194, __c6, 2)),
+          grid: S.optional(__S(208, __c6, 16)),
         }),
       ).annotate({ identifier: "QuestionGroupItem" });
-    case 23:
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          youtubeUri: S.optional(S.String),
+          properties: S.optional(__S(193, __c6, 1)),
+        }),
+      ).annotate({ identifier: "Video" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          caption: S.optional(S.String),
+          video: S.optional(__S(210, __c6, 18)),
+        }),
+      ).annotate({ identifier: "VideoItem" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          image: S.optional(__S(194, __c6, 2)),
+        }),
+      ).annotate({ identifier: "ImageItem" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          image: S.optional(__S(194, __c6, 2)),
+          question: S.optional(__S(206, __c6, 14)),
+        }),
+      ).annotate({ identifier: "QuestionItem" });
+    case 22:
       return S.suspend(() =>
         S.Struct({
           textItem: S.optional(__S(160, __c5, 0)),
           description: S.optional(S.String),
-          videoItem: S.optional(__S(195, __c6, 3)),
-          imageItem: S.optional(__S(197, __c6, 5)),
-          questionItem: S.optional(__S(211, __c6, 19)),
-          title: S.optional(S.String),
-          questionGroupItem: S.optional(__S(214, __c6, 22)),
-          pageBreakItem: S.optional(__S(160, __c5, 0)),
+          questionGroupItem: S.optional(__S(209, __c6, 17)),
+          videoItem: S.optional(__S(211, __c6, 19)),
           itemId: S.optional(S.String),
+          imageItem: S.optional(__S(212, __c6, 20)),
+          pageBreakItem: S.optional(__S(160, __c5, 0)),
+          questionItem: S.optional(__S(213, __c6, 21)),
+          title: S.optional(S.String),
         }),
       ).annotate({ identifier: "Item" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          title: S.optional(S.String),
+          description: S.optional(S.String),
+          documentTitle: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Info" });
     case 24:
       return S.suspend(() =>
         S.Struct({
@@ -1301,18 +1301,18 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "FormSettings" });
     case 26:
-      return S.Array(__S(215, __c6, 23));
+      return S.Array(__S(214, __c6, 22));
     case 27:
       return S.suspend(() =>
         S.Struct({
-          formId: S.optional(S.String),
-          linkedSheetId: S.optional(S.String),
-          revisionId: S.optional(S.String),
-          responderUri: S.optional(S.String),
           settings: S.optional(__S(217, __c6, 25)),
-          items: S.optional(__S(218, __c6, 26)),
           publishSettings: S.optional(__S(225, __c7, 1)),
-          info: S.optional(__S(192, __c6, 0)),
+          items: S.optional(__S(218, __c6, 26)),
+          revisionId: S.optional(S.String),
+          formId: S.optional(S.String),
+          info: S.optional(__S(215, __c6, 23)),
+          linkedSheetId: S.optional(S.String),
+          responderUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "Form" });
   }
@@ -1322,8 +1322,8 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          isAcceptingResponses: S.optional(S.Boolean),
           isPublished: S.optional(S.Boolean),
+          isAcceptingResponses: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PublishState" });
     case 1:
@@ -1339,47 +1339,47 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CorrectAnswer" });
-    case 1:
-      return S.Array(__S(256, __c8, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          answers: S.optional(__S(257, __c8, 1)),
-        }),
-      ).annotate({ identifier: "CorrectAnswers" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           displayText: S.optional(S.String),
           uri: S.optional(S.String),
         }),
       ).annotate({ identifier: "TextLink" });
-    case 4:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           youtubeUri: S.optional(S.String),
           displayText: S.optional(S.String),
         }),
       ).annotate({ identifier: "VideoLink" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          link: S.optional(__S(256, __c8, 0)),
+          video: S.optional(__S(257, __c8, 1)),
+        }),
+      ).annotate({ identifier: "ExtraMaterial" });
+    case 3:
+      return S.Array(__S(258, __c8, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          material: S.optional(__S(259, __c8, 3)),
+          text: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Feedback" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          link: S.optional(__S(259, __c8, 3)),
-          video: S.optional(__S(260, __c8, 4)),
+          value: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ExtraMaterial" });
+      ).annotate({ identifier: "CorrectAnswer" });
     case 6:
       return S.Array(__S(261, __c8, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          material: S.optional(__S(262, __c8, 6)),
-          text: S.optional(S.String),
+          answers: S.optional(__S(262, __c8, 6)),
         }),
-      ).annotate({ identifier: "Feedback" });
+      ).annotate({ identifier: "CorrectAnswers" });
   }
 }
 function __c9(j: number): any {
@@ -1436,13 +1436,13 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          errorType: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          target: S.optional(__S(353, __c11, 1)),
-          id: S.optional(S.String),
           eventType: S.optional(S.String),
+          createTime: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          id: S.optional(S.String),
+          target: S.optional(__S(353, __c11, 1)),
+          errorType: S.optional(S.String),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "Watch" });
   }
@@ -1485,8 +1485,8 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          formId: S.String.pipe(T.Label()),
           responseId: S.String.pipe(T.Label()),
+          formId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1502,17 +1502,17 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          feedback: S.optional(__S(263, __c8, 7)),
           score: S.optional(S.Number),
           correct: S.optional(S.Boolean),
+          feedback: S.optional(__S(260, __c8, 4)),
         }),
       ).annotate({ identifier: "Grade" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           fileName: S.optional(S.String),
-          mimeType: S.optional(S.String),
           fileId: S.optional(S.String),
+          mimeType: S.optional(S.String),
         }),
       ).annotate({ identifier: "FileUploadAnswer" });
     case 2:
@@ -1526,10 +1526,10 @@ function __c15(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
+          textAnswers: S.optional(__S(263, __c8, 7)),
           grade: S.optional(__S(480, __c15, 0)),
-          fileUploadAnswers: S.optional(__S(483, __c15, 3)),
-          textAnswers: S.optional(__S(258, __c8, 2)),
           questionId: S.optional(S.String),
+          fileUploadAnswers: S.optional(__S(483, __c15, 3)),
         }),
       ).annotate({ identifier: "Answer" });
     case 5:
@@ -1537,12 +1537,12 @@ function __c15(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
+          responseId: S.optional(S.String),
+          lastSubmittedTime: S.optional(S.String),
+          answers: S.optional(__S(485, __c15, 5)),
+          formId: S.optional(S.String),
           createTime: S.optional(S.String),
           respondentEmail: S.optional(S.String),
-          lastSubmittedTime: S.optional(S.String),
-          formId: S.optional(S.String),
-          responseId: S.optional(S.String),
-          answers: S.optional(__S(485, __c15, 5)),
           totalScore: S.optional(S.Number),
         }),
       ).annotate({ identifier: "FormResponse" });

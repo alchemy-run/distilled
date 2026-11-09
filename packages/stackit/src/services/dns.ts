@@ -79,7 +79,7 @@ export interface CloneZoneRequest {
 export type DomainObservabilityExtensionState = "CREATING" | "CREATE_SUCCEEDED" | "ERROR";
 export interface DomainObservabilityExtension {
   observabilityInstanceId: string;
-  state?: DomainObservabilityExtensionState;
+  state?: DomainObservabilityExtensionState | (string & {});
 }
 export interface DomainExtensions {
   observabilityExtension?: DomainObservabilityExtension;
@@ -406,6 +406,37 @@ export type ZoneDataExchangeRrSetsList = Array<RecordDataExchange>;
 export interface ZoneDataExchange {
   rrSets?: ZoneDataExchangeRrSetsList;
 }
+export type FlushDomainRequestType =
+  | "A"
+  | "AAAA"
+  | "SOA"
+  | "CNAME"
+  | "NS"
+  | "MX"
+  | "TXT"
+  | "SRV"
+  | "PTR"
+  | "DNAME"
+  | "CAA"
+  | "DNSKEY"
+  | "DS"
+  | "LOC"
+  | "NAPTR"
+  | "SSHFP"
+  | "TLSA"
+  | "URI"
+  | "CERT"
+  | "SVCB"
+  | "CSYNC"
+  | "HINFO"
+  | "HTTPS";
+export interface FlushDomainRequest {
+  domain: string;
+  type?: FlushDomainRequestType | (string & {});
+}
+export interface FlushDomainResponse {
+  message?: string;
+}
 export interface GetRecordSetRequest {
   /** project id */
   projectId: string;
@@ -531,7 +562,7 @@ export interface ListRecordSetsRequest {
   name_like_?: string;
   /** filter type */
   type_eq_?: ListRecordSetsRequestTypeEq | (string & {});
-  /** filter state */
+  /** filter state (DELETE_SUCCEEDED is excluded by default) */
   state_eq_?: ListRecordSetsRequestStateEq | (string & {});
   /** filter state */
   state_neq_?: ListRecordSetsRequestStateNeq | (string & {});
@@ -652,7 +683,7 @@ export interface ListZonesRequest {
   description_neq_?: string;
   /** filter description like */
   description_like_?: string;
-  /** filter state */
+  /** filter state (DELETE_SUCCEEDED is excluded by default) */
   state_eq_?: ListZonesRequestStateEq | (string & {});
   /** filter state */
   state_neq_?: ListZonesRequestStateNeq | (string & {});
@@ -728,6 +759,100 @@ export interface ListZonesResponse {
   totalPages: number;
   zones: ListZonesResponseZonesList;
 }
+/** RecordType specifies the DNS record type to query (A, AAAA, MX, etc.) If omitted, defaults to ANY records */
+export type LookupDomainRequestRecordType =
+  | "A"
+  | "AAAA"
+  | "SOA"
+  | "CNAME"
+  | "NS"
+  | "MX"
+  | "TXT"
+  | "SRV"
+  | "PTR"
+  | "ALIAS"
+  | "DNAME"
+  | "CAA"
+  | "DNSKEY"
+  | "DS"
+  | "LOC"
+  | "NAPTR"
+  | "SSHFP"
+  | "TLSA"
+  | "URI"
+  | "CERT"
+  | "SVCB"
+  | "TYPE"
+  | "CSYNC"
+  | "HINFO"
+  | "HTTPS"
+  | "ANY";
+/** Type specifies whether to query all configured resolvers or just one "one" - query a single resolver chosen by round-robin (default) "all" - query all configured resolvers */
+export type LookupDomainRequestType = "all" | "one";
+export interface LookupDomainRequest {
+  /** Address is the domain name to look up */
+  address?: string;
+  /** IncludeRawResponse indicates whether to include the raw DNS response in the result */
+  includeRawResponse?: boolean;
+  /** RecordType specifies the DNS record type to query (A, AAAA, MX, etc.) If omitted, defaults to ANY records */
+  recordType?: LookupDomainRequestRecordType | (string & {});
+  /** Region optionally specifies a STACKIT region to scope the DNS lookup */
+  region?: string;
+  /** Type specifies whether to query all configured resolvers or just one "one" - query a single resolver chosen by round-robin (default) "all" - query all configured resolvers */
+  type?: LookupDomainRequestType | (string & {});
+}
+/** Type is the DNS record type (A, AAAA, MX, etc.) */
+export type LookupRecordType =
+  | "A"
+  | "AAAA"
+  | "SOA"
+  | "CNAME"
+  | "NS"
+  | "MX"
+  | "TXT"
+  | "SRV"
+  | "PTR"
+  | "ALIAS"
+  | "DNAME"
+  | "CAA"
+  | "DNSKEY"
+  | "DS"
+  | "LOC"
+  | "NAPTR"
+  | "SSHFP"
+  | "TLSA"
+  | "URI"
+  | "CERT"
+  | "SVCB"
+  | "TYPE"
+  | "CSYNC"
+  | "HINFO"
+  | "HTTPS";
+export interface LookupRecord {
+  /** Data contains the record-specific data (e.g., IP address for A records) */
+  data?: string;
+  /** Name is the domain name to which this record applies */
+  name?: string;
+  /** TTL (Time To Live) is the duration in seconds that the record may be cached */
+  ttl?: number;
+  /** Type is the DNS record type (A, AAAA, MX, etc.) */
+  type?: LookupRecordType;
+}
+/** Records contains the DNS records returned by the lookup */
+export type LookupResultRecordsList = Array<LookupRecord>;
+export interface LookupResult {
+  /** RawResponse contains the raw DNS response in a human-readable format (only included when requested) */
+  rawResponse?: string;
+  /** Records contains the DNS records returned by the lookup */
+  records?: LookupResultRecordsList;
+  /** ResolverIP is the IP address of the DNS resolver used for the query */
+  resolverIP?: string;
+}
+export type LookupDomainResponseStateList = Array<LookupResult>;
+export interface LookupDomainResponse {
+  message?: string;
+  state?: LookupDomainResponseStateList;
+}
 export interface MoveZoneRequest {
   /** project id */
   projectId: string;
@@ -788,7 +913,7 @@ export interface PartialUpdateZoneRequest {
   /** expire time */
   expireTime?: number;
   /** optional extensions */
-  extensions?: ZoneExtensions;
+  extensions?: DomainExtensions;
   /** labels for the zone - max 64 items. Keys: 1-314 chars (up to 250 prefix, 1 for slash, 1-63 the actual key). Values: 0-63 chars. */
   labelsMap?: PartialUpdateZoneRequestLabelsMapMap;
   /** user given name */
@@ -832,8 +957,8 @@ export const cloneZone: API.OperationMethod<
   CloneZoneError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<CloneZoneRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<ZoneResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<CloneZoneRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<ZoneResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -849,8 +974,8 @@ export const createMoveCode: API.OperationMethod<
   CreateMoveCodeError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<CreateMoveCodeRequest>,
-  output: __S(161, __c20, 1) as any as S.Schema<MoveCodeResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<CreateMoveCodeRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<MoveCodeResponse>,
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -866,8 +991,8 @@ export const createRecordSet: API.OperationMethod<
   CreateRecordSetError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<CreateRecordSetRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<RecordSetResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<CreateRecordSetRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<RecordSetResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -883,8 +1008,8 @@ export const createZone: API.OperationMethod<
   CreateZoneError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<CreateZoneRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<ZoneResponse>,
+  input: __S(218, __c27, 2) as any as S.Schema<CreateZoneRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<ZoneResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -900,8 +1025,8 @@ export const deleteMoveCode: API.OperationMethod<
   DeleteMoveCodeError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<DeleteMoveCodeRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<Message>,
+  input: __S(224, __c28, 0) as any as S.Schema<DeleteMoveCodeRequest>,
+  output: __S(232, __c29, 0) as any as S.Schema<Message>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -917,8 +1042,8 @@ export const deleteRecordSet: API.OperationMethod<
   DeleteRecordSetError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<DeleteRecordSetRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<Message>,
+  input: __S(240, __c30, 0) as any as S.Schema<DeleteRecordSetRequest>,
+  output: __S(232, __c29, 0) as any as S.Schema<Message>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -935,7 +1060,7 @@ export const deleteZone: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteZoneRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<Message>,
+  output: __S(232, __c29, 0) as any as S.Schema<Message>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -960,6 +1085,23 @@ export const exportRecordSets: API.OperationMethod<
   span: "ExportRecordSets",
 }));
 
+export type FlushDomainError = BadRequest | StackitOpError;
+/** Flush Route allows the user to flush the cache for a domain on the STACKIT DNS Resolvers */
+export const flushDomain: API.OperationMethod<
+  FlushDomainRequest,
+  FlushDomainResponse,
+  FlushDomainError,
+  StackitOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(24, __c3, 0) as any as S.Schema<FlushDomainRequest>,
+  output: __S(232, __c29, 0) as any as S.Schema<FlushDomainResponse>,
+  errors: [BadRequest, UnknownStackitError],
+  protocol: StackitProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FlushDomain",
+}));
+
 export type GetRecordSetError = BadRequest | NotFound | StackitOpError;
 /** Get a single rrset Get rrset */
 export const getRecordSet: API.OperationMethod<
@@ -968,8 +1110,8 @@ export const getRecordSet: API.OperationMethod<
   GetRecordSetError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetRecordSetRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<RecordSetResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetRecordSetRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<RecordSetResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -985,8 +1127,8 @@ export const getZone: API.OperationMethod<
   GetZoneError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetZoneRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<ZoneResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetZoneRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<ZoneResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1002,8 +1144,8 @@ export const getZone2: API.OperationMethod<
   GetZone2Error,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetZoneRequest2>,
-  output: __S(224, __c28, 0) as any as S.Schema<Message>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetZoneRequest2>,
+  output: __S(232, __c29, 0) as any as S.Schema<Message>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1019,8 +1161,8 @@ export const importRecordSets: API.OperationMethod<
   ImportRecordSetsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ImportRecordSetsRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<ImportRecordSetsResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<ImportRecordSetsRequest>,
+  output: __S(58, __c7, 2) as any as S.Schema<ImportRecordSetsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1029,7 +1171,7 @@ export const importRecordSets: API.OperationMethod<
 }));
 
 export type ListRecordSetsError = BadRequest | NotFound | StackitOpError;
-/** All get selected RRSets All RRSet */
+/** All get selected RRSets Retrieve all RRSets. By default, records in the 'DELETE_SUCCEEDED' state are excluded. To retrieve them, explicitly specify 'state[eq]=DELETE_SUCCEEDED' in the query parameters. */
 export const listRecordSets: API.PaginatedOperationMethod<
   ListRecordSetsRequest,
   ListRecordSetsResponse,
@@ -1038,8 +1180,8 @@ export const listRecordSets: API.PaginatedOperationMethod<
   RecordSet
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(56, __c7, 0) as any as S.Schema<ListRecordSetsRequest>,
-    output: __S(58, __c7, 2) as any as S.Schema<ListRecordSetsResponse>,
+    input: __S(64, __c8, 0) as any as S.Schema<ListRecordSetsRequest>,
+    output: __S(66, __c8, 2) as any as S.Schema<ListRecordSetsResponse>,
     errors: [BadRequest, NotFound, UnknownStackitError],
     protocol: StackitProtocol,
     retry: Retry.Retry,
@@ -1057,7 +1199,7 @@ export const listRecordSets: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListZonesError = BadRequest | NotFound | StackitOpError;
-/** All get selected zones All zone */
+/** All get selected zones Retrieve all zones. By default, zones in the 'DELETE_SUCCEEDED' state are excluded. To retrieve them, explicitly specify 'state[eq]=DELETE_SUCCEEDED' in the query parameters. */
 export const listZones: API.PaginatedOperationMethod<
   ListZonesRequest,
   ListZonesResponse,
@@ -1066,8 +1208,8 @@ export const listZones: API.PaginatedOperationMethod<
   Zone
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(64, __c8, 0) as any as S.Schema<ListZonesRequest>,
-    output: __S(66, __c8, 2) as any as S.Schema<ListZonesResponse>,
+    input: __S(72, __c9, 0) as any as S.Schema<ListZonesRequest>,
+    output: __S(74, __c9, 2) as any as S.Schema<ListZonesResponse>,
     errors: [BadRequest, NotFound, UnknownStackitError],
     protocol: StackitProtocol,
     retry: Retry.Retry,
@@ -1084,6 +1226,23 @@ export const listZones: API.PaginatedOperationMethod<
   paginateByTotalPages,
 ) as any;
 
+export type LookupDomainError = BadRequest | StackitOpError;
+/** DNS Lookup Route allows the user to lookup a domain on the STACKIT DNS Resolvers */
+export const lookupDomain: API.OperationMethod<
+  LookupDomainRequest,
+  LookupDomainResponse,
+  LookupDomainError,
+  StackitOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(80, __c10, 0) as any as S.Schema<LookupDomainRequest>,
+  output: __S(85, __c10, 5) as any as S.Schema<LookupDomainResponse>,
+  errors: [BadRequest, UnknownStackitError],
+  protocol: StackitProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupDomain",
+}));
+
 export type MoveZoneError = BadRequest | NotFound | StackitOpError;
 /** move zone from one project to another move zone from one project to another */
 export const moveZone: API.OperationMethod<
@@ -1092,8 +1251,8 @@ export const moveZone: API.OperationMethod<
   MoveZoneError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<MoveZoneRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<Message>,
+  input: __S(88, __c11, 0) as any as S.Schema<MoveZoneRequest>,
+  output: __S(232, __c29, 0) as any as S.Schema<Message>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1109,8 +1268,8 @@ export const partialUpdateRecord: API.OperationMethod<
   PartialUpdateRecordError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<PartialUpdateRecordRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<Message>,
+  input: __S(96, __c12, 0) as any as S.Schema<PartialUpdateRecordRequest>,
+  output: __S(232, __c29, 0) as any as S.Schema<Message>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1126,8 +1285,8 @@ export const partialUpdateRecordSet: API.OperationMethod<
   PartialUpdateRecordSetError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<PartialUpdateRecordSetRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<Message>,
+  input: __S(104, __c13, 0) as any as S.Schema<PartialUpdateRecordSetRequest>,
+  output: __S(232, __c29, 0) as any as S.Schema<Message>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1143,8 +1302,8 @@ export const partialUpdateZone: API.OperationMethod<
   PartialUpdateZoneError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<PartialUpdateZoneRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<ZoneResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<PartialUpdateZoneRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<ZoneResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1160,8 +1319,8 @@ export const restoreRecordSet: API.OperationMethod<
   RestoreRecordSetError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<RestoreRecordSetRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<Message>,
+  input: __S(120, __c15, 0) as any as S.Schema<RestoreRecordSetRequest>,
+  output: __S(232, __c29, 0) as any as S.Schema<Message>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1177,8 +1336,8 @@ export const restoreZone: API.OperationMethod<
   RestoreZoneError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<RestoreZoneRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<Message>,
+  input: __S(128, __c16, 0) as any as S.Schema<RestoreZoneRequest>,
+  output: __S(232, __c29, 0) as any as S.Schema<Message>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1194,8 +1353,8 @@ export const validateMoveCode: API.OperationMethod<
   ValidateMoveCodeError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<ValidateMoveCodeRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<Message>,
+  input: __S(136, __c17, 0) as any as S.Schema<ValidateMoveCodeRequest>,
+  output: __S(232, __c29, 0) as any as S.Schema<Message>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1254,7 +1413,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           comment: S.optional(S.String),
-          content: S.optional(__S(136, __c17, 0)),
+          content: S.optional(__S(152, __c19, 0)),
           name: S.optional(S.String),
           ttl: S.optional(S.Number),
           type: S.optional(S.String),
@@ -1265,6 +1424,24 @@ function __c2(j: number): any {
   }
 }
 function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String,
+          type: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/resolver/flush",
+            code: 200,
+            baseUrl: "https://dns.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "FlushDomainRequest" });
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1283,7 +1460,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetRecordSetRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1301,7 +1478,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetZoneRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1319,7 +1496,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetZoneRequest2" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1353,12 +1530,12 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          summary: __S(49, __c6, 1),
+          summary: __S(57, __c7, 1),
         }),
       ).annotate({ identifier: "ImportRecordSetsResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1409,20 +1586,20 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "ListRecordSetsRequest" });
     case 1:
-      return S.Array(__S(186, __c23, 2));
+      return S.Array(__S(202, __c25, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           itemsPerPage: S.Number,
           message: S.optional(S.String),
-          rrSets: __S(57, __c7, 1),
+          rrSets: __S(65, __c8, 1),
           totalItems: S.Number,
           totalPages: S.Number,
         }),
       ).annotate({ identifier: "ListRecordSetsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1461,8 +1638,8 @@ function __c8(j: number): any {
           updateFinished_lt_: S.optional(S.String.pipe(T.Query("updateFinished[lt]"))),
           updateFinished_gte_: S.optional(S.String.pipe(T.Query("updateFinished[gte]"))),
           updateFinished_lte_: S.optional(S.String.pipe(T.Query("updateFinished[lte]"))),
-          labelKey_eq_: S.optional(__S(136, __c17, 0).pipe(T.Query("labelKey[eq]"))),
-          labelValue_eq_: S.optional(__S(136, __c17, 0).pipe(T.Query("labelValue[eq]"))),
+          labelKey_eq_: S.optional(__S(152, __c19, 0).pipe(T.Query("labelKey[eq]"))),
+          labelValue_eq_: S.optional(__S(152, __c19, 0).pipe(T.Query("labelValue[eq]"))),
           orderBy_dnsName_: S.optional(S.String.pipe(T.Query("orderBy[dnsName]"))),
           orderBy_name_: S.optional(S.String.pipe(T.Query("orderBy[name]"))),
           orderBy_recordCount_: S.optional(S.String.pipe(T.Query("orderBy[recordCount]"))),
@@ -1484,7 +1661,7 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "ListZonesRequest" });
     case 1:
-      return S.Array(__S(149, __c18, 5));
+      return S.Array(__S(165, __c20, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1492,12 +1669,61 @@ function __c8(j: number): any {
           message: S.optional(S.String),
           totalItems: S.Number,
           totalPages: S.Number,
-          zones: __S(65, __c8, 1),
+          zones: __S(73, __c9, 1),
         }),
       ).annotate({ identifier: "ListZonesResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.optional(S.String),
+          includeRawResponse: S.optional(S.Boolean),
+          recordType: S.optional(S.String),
+          region: S.optional(S.String),
+          type: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/dnslookup",
+            code: 200,
+            baseUrl: "https://dns.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "LookupDomainRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(S.String),
+          name: S.optional(S.String),
+          ttl: S.optional(S.Number),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LookupRecord" });
+    case 2:
+      return S.Array(__S(81, __c10, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          rawResponse: S.optional(S.String),
+          records: S.optional(__S(82, __c10, 2)),
+          resolverIP: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LookupResult" });
+    case 4:
+      return S.Array(__S(83, __c10, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          state: S.optional(__S(84, __c10, 4)),
+        }),
+      ).annotate({ identifier: "LookupDomainResponse" });
+  }
+}
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1516,7 +1742,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "MoveZoneRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1525,7 +1751,7 @@ function __c10(j: number): any {
           zoneId: S.String.pipe(T.Label()),
           rrSetId: S.String.pipe(T.Label()),
           action: S.String,
-          records: __S(193, __c24, 1),
+          records: __S(209, __c26, 1),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1537,7 +1763,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "PartialUpdateRecordRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1547,7 +1773,7 @@ function __c11(j: number): any {
           rrSetId: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
           name: S.optional(S.String),
-          records: S.optional(__S(193, __c24, 1)),
+          records: S.optional(__S(209, __c26, 1)),
           ttl: S.optional(S.Number),
         }).pipe(
           T.Http({
@@ -1560,7 +1786,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "PartialUpdateRecordSetRequest" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1572,11 +1798,11 @@ function __c12(j: number): any {
           defaultTTL: S.optional(S.Number),
           description: S.optional(S.String),
           expireTime: S.optional(S.Number),
-          extensions: S.optional(__S(209, __c26, 1)),
-          labelsMap: S.optional(__S(148, __c18, 4)),
+          extensions: S.optional(__S(161, __c20, 1)),
+          labelsMap: S.optional(__S(164, __c20, 4)),
           name: S.optional(S.String),
           negativeCache: S.optional(S.Number),
-          primaries: S.optional(__S(136, __c17, 0)),
+          primaries: S.optional(__S(152, __c19, 0)),
           refreshTime: S.optional(S.Number),
           retryTime: S.optional(S.Number),
         }).pipe(
@@ -1590,7 +1816,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "PartialUpdateZoneRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1609,7 +1835,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "RestoreRecordSetRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1627,7 +1853,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "RestoreZoneRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1646,7 +1872,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ValidateMoveCodeRequest" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1668,13 +1894,13 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CloneZoneRequest" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1686,7 +1912,7 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          observabilityExtension: S.optional(__S(144, __c18, 0)),
+          observabilityExtension: S.optional(__S(160, __c20, 0)),
         }),
       ).annotate({ identifier: "DomainExtensions" });
     case 2:
@@ -1697,7 +1923,7 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "Label" });
     case 3:
-      return S.Array(__S(146, __c18, 2));
+      return S.Array(__S(162, __c20, 2));
     case 4:
       return S.Record(S.String, S.String);
     case 5:
@@ -1713,14 +1939,14 @@ function __c18(j: number): any {
           dnsName: S.String,
           error: S.optional(S.String),
           expireTime: S.Number,
-          extensions: S.optional(__S(145, __c18, 1)),
+          extensions: S.optional(__S(161, __c20, 1)),
           id: S.String,
           isReverseZone: S.optional(S.Boolean),
-          labels: S.optional(__S(147, __c18, 3)),
-          labelsMap: S.optional(__S(148, __c18, 4)),
+          labels: S.optional(__S(163, __c20, 3)),
+          labelsMap: S.optional(__S(164, __c20, 4)),
           name: S.String,
           negativeCache: S.Number,
-          primaries: S.optional(__S(136, __c17, 0)),
+          primaries: S.optional(__S(152, __c19, 0)),
           primaryNameServer: S.String,
           recordCount: S.optional(S.Number),
           refreshTime: S.Number,
@@ -1735,18 +1961,18 @@ function __c18(j: number): any {
       ).annotate({ identifier: "Zone" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          zone: __S(149, __c18, 5),
+          zone: __S(165, __c20, 5),
         }),
       ).annotate({ identifier: "ZoneResponse" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1773,7 +1999,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "MoveCodeResponse" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1782,7 +2008,7 @@ function __c21(j: number): any {
           zoneId: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
           name: S.String,
-          records: __S(193, __c24, 1),
+          records: __S(209, __c26, 1),
           ttl: S.optional(S.Number),
           type: S.String,
         }).pipe(
@@ -1796,18 +2022,18 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CreateRecordSetRequest" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          rrset: __S(186, __c23, 2),
+          rrset: __S(202, __c25, 2),
         }),
       ).annotate({ identifier: "RecordSetResponse" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1817,7 +2043,7 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "Record" });
     case 1:
-      return S.Array(__S(184, __c23, 0));
+      return S.Array(__S(200, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1828,7 +2054,7 @@ function __c23(j: number): any {
           error: S.optional(S.String),
           id: S.String,
           name: S.String,
-          records: __S(185, __c23, 1),
+          records: __S(201, __c25, 1),
           state: S.String,
           ttl: S.Number,
           type: S.String,
@@ -1838,7 +2064,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "RecordSet" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1847,12 +2073,24 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "RecordPayload" });
     case 1:
-      return S.Array(__S(192, __c24, 0));
+      return S.Array(__S(208, __c26, 0));
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          observabilityInstanceId: S.String,
+        }),
+      ).annotate({ identifier: "ZoneObservabilityExtension" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          observabilityExtension: S.optional(__S(216, __c27, 0)),
+        }),
+      ).annotate({ identifier: "ZoneExtensions" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
@@ -1862,12 +2100,12 @@ function __c25(j: number): any {
           description: S.optional(S.String),
           dnsName: S.String,
           expireTime: S.optional(S.Number),
-          extensions: S.optional(__S(209, __c26, 1)),
+          extensions: S.optional(__S(217, __c27, 1)),
           isReverseZone: S.optional(S.Boolean),
-          labelsMap: S.optional(__S(148, __c18, 4)),
+          labelsMap: S.optional(__S(164, __c20, 4)),
           name: S.String,
           negativeCache: S.optional(S.Number),
-          primaries: S.optional(__S(136, __c17, 0)),
+          primaries: S.optional(__S(152, __c19, 0)),
           refreshTime: S.optional(S.Number),
           retryTime: S.optional(S.Number),
           type: S.optional(S.String),
@@ -1882,23 +2120,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CreateZoneRequest" });
   }
 }
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          observabilityInstanceId: S.String,
-        }),
-      ).annotate({ identifier: "ZoneObservabilityExtension" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          observabilityExtension: S.optional(__S(208, __c26, 0)),
-        }),
-      ).annotate({ identifier: "ZoneExtensions" });
-  }
-}
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1916,7 +2138,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DeleteMoveCodeRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1926,7 +2148,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "Message" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

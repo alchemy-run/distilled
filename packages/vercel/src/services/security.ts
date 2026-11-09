@@ -34,6 +34,15 @@ export class BadRequest
     [{ status: 400 }],
   ) {}
 
+export class Conflict
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409 }],
+  ) {}
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -115,6 +124,152 @@ export interface AddBypassIpResponseBodyCase1 {
 }
 export type AddBypassIpResponseBody = AddBypassIpResponseBodyCase0 | AddBypassIpResponseBodyCase1;
 export type AddBypassIpResponse = AddBypassIpResponseBody;
+export type CreateConditionalBypassRequestConditionGroupItemConditionsItemCase0Type = "user_agent";
+export type CreateConditionalBypassRequestConditionGroupItemConditionsItemCase0Op =
+  | "eq"
+  | "pre"
+  | "suf"
+  | "sub";
+export type CreateConditionalBypassRequestConditionGroupItemConditionsItemCase0Key = "user-agent";
+export interface CreateConditionalBypassRequestConditionGroupItemConditionsItemCase0 {
+  type: CreateConditionalBypassRequestConditionGroupItemConditionsItemCase0Type;
+  op: CreateConditionalBypassRequestConditionGroupItemConditionsItemCase0Op | (string & {});
+  value: string;
+  key?: CreateConditionalBypassRequestConditionGroupItemConditionsItemCase0Key | (string & {});
+}
+export type CreateConditionalBypassRequestConditionGroupItemConditionsItemCase1Type = "path";
+export type CreateConditionalBypassRequestConditionGroupItemConditionsItemCase1Op =
+  | "eq"
+  | "pre"
+  | "suf"
+  | "sub";
+export interface CreateConditionalBypassRequestConditionGroupItemConditionsItemCase1 {
+  type: CreateConditionalBypassRequestConditionGroupItemConditionsItemCase1Type;
+  op: CreateConditionalBypassRequestConditionGroupItemConditionsItemCase1Op | (string & {});
+  value: string;
+}
+export type CreateConditionalBypassRequestConditionGroupItemConditionsItemCase2Type = "header";
+export type CreateConditionalBypassRequestConditionGroupItemConditionsItemCase2Op =
+  | "eq"
+  | "pre"
+  | "suf"
+  | "sub";
+export interface CreateConditionalBypassRequestConditionGroupItemConditionsItemCase2 {
+  type: CreateConditionalBypassRequestConditionGroupItemConditionsItemCase2Type;
+  op: CreateConditionalBypassRequestConditionGroupItemConditionsItemCase2Op | (string & {});
+  key: string;
+  value: string;
+}
+export type CreateConditionalBypassRequestConditionGroupItemConditionsItemCase3Type = "header";
+export type CreateConditionalBypassRequestConditionGroupItemConditionsItemCase3Op = "ex";
+export interface CreateConditionalBypassRequestConditionGroupItemConditionsItemCase3 {
+  type: CreateConditionalBypassRequestConditionGroupItemConditionsItemCase3Type;
+  op: CreateConditionalBypassRequestConditionGroupItemConditionsItemCase3Op;
+  key: string;
+}
+export type CreateConditionalBypassRequestConditionGroupItemConditionsItem =
+  | CreateConditionalBypassRequestConditionGroupItemConditionsItemCase0
+  | CreateConditionalBypassRequestConditionGroupItemConditionsItemCase1
+  | CreateConditionalBypassRequestConditionGroupItemConditionsItemCase2
+  | CreateConditionalBypassRequestConditionGroupItemConditionsItemCase3;
+export type CreateConditionalBypassRequestConditionGroupItemConditionsList =
+  Array<CreateConditionalBypassRequestConditionGroupItemConditionsItem>;
+export interface CreateConditionalBypassRequestConditionGroupItem {
+  conditions: CreateConditionalBypassRequestConditionGroupItemConditionsList;
+}
+export type CreateConditionalBypassRequestConditionGroupList =
+  Array<CreateConditionalBypassRequestConditionGroupItem>;
+export interface CreateConditionalBypassRequest {
+  projectId: string;
+  slug?: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+  domain: string;
+  conditionGroup: CreateConditionalBypassRequestConditionGroupList;
+  note?: string;
+}
+export type CreateConditionalBypassResponseConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export type CreateConditionalBypassResponseConditionGroupItemConditionsItemType =
+  | "bot_category"
+  | "bot_name"
+  | "bot_protection"
+  | "bot_status"
+  | "cookie"
+  | "domain_environment"
+  | "environment"
+  | "geo_as_number"
+  | "geo_city"
+  | "geo_continent"
+  | "geo_country"
+  | "geo_country_region"
+  | "header"
+  | "host"
+  | "ip_address"
+  | "ja3_digest"
+  | "ja4_digest"
+  | "method"
+  | "path"
+  | "protocol"
+  | "query"
+  | "rate_limit_api_id"
+  | "raw_path"
+  | "region"
+  | "response_code"
+  | "response_header"
+  | "route"
+  | "ruleset"
+  | "scheme"
+  | "server_action"
+  | "shared_condition"
+  | "target_path"
+  | "traffic_source"
+  | "trusted_source"
+  | "user_agent";
+export type CreateConditionalBypassResponseConditionGroupItemConditionsItemValueCase2List =
+  Array<string>;
+export type CreateConditionalBypassResponseConditionGroupItemConditionsItemValue =
+  | string
+  | number
+  | CreateConditionalBypassResponseConditionGroupItemConditionsItemValueCase2List;
+export interface CreateConditionalBypassResponseConditionGroupItemConditionsItem {
+  key?: string;
+  neg?: boolean;
+  op: CreateConditionalBypassResponseConditionGroupItemConditionsItemOp;
+  type: CreateConditionalBypassResponseConditionGroupItemConditionsItemType;
+  value?: CreateConditionalBypassResponseConditionGroupItemConditionsItemValue;
+}
+export type CreateConditionalBypassResponseConditionGroupItemConditionsList =
+  Array<CreateConditionalBypassResponseConditionGroupItemConditionsItem>;
+export interface CreateConditionalBypassResponseConditionGroupItem {
+  conditions: CreateConditionalBypassResponseConditionGroupItemConditionsList;
+}
+export type CreateConditionalBypassResponseConditionGroupList =
+  Array<CreateConditionalBypassResponseConditionGroupItem>;
+export interface CreateConditionalBypassResponse {
+  condition: string;
+  conditionGroup: CreateConditionalBypassResponseConditionGroupList;
+  createdAt: string;
+  domain: string;
+  id: string;
+  note?: string;
+  projectId: string;
+  updatedAt: string;
+}
 export interface CreateSecurityFirewallConfigByConfigVersionActivateRequest {
   /** The deployed configVersion for the firewall configuration */
   configVersion: string;
@@ -161,6 +316,8 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCondition
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -453,6 +610,8 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItem
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -578,6 +737,8 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItem
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -665,6 +826,8 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsC
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -816,6 +979,15 @@ export interface CreateSecurityFirewallConfigByConfigVersionActivateResponse {
   updatedAt: string;
   version: number;
 }
+export interface DeleteConditionalBypassRequest {
+  projectId: string;
+  slug?: string;
+  domain: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+}
+export type DeleteConditionalBypassResponseBody = "";
+export type DeleteConditionalBypassResponse = DeleteConditionalBypassResponseBody;
 export interface DeleteSecurityFirewallConfigRequest {
   /** The deployed configVersion for the firewall configuration */
   configVersion: string;
@@ -856,7 +1028,7 @@ export type GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItemValu
   | GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItemValueCase2List;
 export interface GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItem {
   key?: string;
-  neg?: boolean;
+  neg: boolean;
   op: string;
   type: string;
   value?: GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItemValue;
@@ -976,6 +1148,186 @@ export interface GetBypassIpResponse {
   pagination?: GetBypassIpResponsePagination;
   result: GetBypassIpResponseResultList;
 }
+export interface GetConditionalBypassRequest {
+  projectId: string;
+  slug?: string;
+  domain?: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+}
+export type GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export type GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsItemType =
+  | "bot_category"
+  | "bot_name"
+  | "bot_protection"
+  | "bot_status"
+  | "cookie"
+  | "domain_environment"
+  | "environment"
+  | "geo_as_number"
+  | "geo_city"
+  | "geo_continent"
+  | "geo_country"
+  | "geo_country_region"
+  | "header"
+  | "host"
+  | "ip_address"
+  | "ja3_digest"
+  | "ja4_digest"
+  | "method"
+  | "path"
+  | "protocol"
+  | "query"
+  | "rate_limit_api_id"
+  | "raw_path"
+  | "region"
+  | "response_code"
+  | "response_header"
+  | "route"
+  | "ruleset"
+  | "scheme"
+  | "server_action"
+  | "shared_condition"
+  | "target_path"
+  | "traffic_source"
+  | "trusted_source"
+  | "user_agent";
+export type GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsItemValueCase2List =
+  Array<string>;
+export type GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsItemValue =
+  | string
+  | number
+  | GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsItemValueCase2List;
+export interface GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsItem {
+  key?: string;
+  neg?: boolean;
+  op: GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsItemOp;
+  type: GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsItemType;
+  value?: GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsItemValue;
+}
+export type GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsList =
+  Array<GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsItem>;
+export interface GetConditionalBypassResponseBodyCase0ConditionGroupItem {
+  conditions: GetConditionalBypassResponseBodyCase0ConditionGroupItemConditionsList;
+}
+export type GetConditionalBypassResponseBodyCase0ConditionGroupList =
+  Array<GetConditionalBypassResponseBodyCase0ConditionGroupItem>;
+export interface GetConditionalBypassResponseBodyCase0 {
+  condition: string;
+  conditionGroup: GetConditionalBypassResponseBodyCase0ConditionGroupList;
+  createdAt: string;
+  domain: string;
+  id: string;
+  note?: string;
+  projectId: string;
+  updatedAt: string;
+}
+export type GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export type GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsItemType =
+  | "bot_category"
+  | "bot_name"
+  | "bot_protection"
+  | "bot_status"
+  | "cookie"
+  | "domain_environment"
+  | "environment"
+  | "geo_as_number"
+  | "geo_city"
+  | "geo_continent"
+  | "geo_country"
+  | "geo_country_region"
+  | "header"
+  | "host"
+  | "ip_address"
+  | "ja3_digest"
+  | "ja4_digest"
+  | "method"
+  | "path"
+  | "protocol"
+  | "query"
+  | "rate_limit_api_id"
+  | "raw_path"
+  | "region"
+  | "response_code"
+  | "response_header"
+  | "route"
+  | "ruleset"
+  | "scheme"
+  | "server_action"
+  | "shared_condition"
+  | "target_path"
+  | "traffic_source"
+  | "trusted_source"
+  | "user_agent";
+export type GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsItemValueCase2List =
+  Array<string>;
+export type GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsItemValue =
+  | string
+  | number
+  | GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsItemValueCase2List;
+export interface GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsItem {
+  key?: string;
+  neg?: boolean;
+  op: GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsItemOp;
+  type: GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsItemType;
+  value?: GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsItemValue;
+}
+export type GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsList =
+  Array<GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsItem>;
+export interface GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItem {
+  conditions: GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItemConditionsList;
+}
+export type GetConditionalBypassResponseBodyCase1RulesItemConditionGroupList =
+  Array<GetConditionalBypassResponseBodyCase1RulesItemConditionGroupItem>;
+export interface GetConditionalBypassResponseBodyCase1RulesItem {
+  condition: string;
+  conditionGroup: GetConditionalBypassResponseBodyCase1RulesItemConditionGroupList;
+  createdAt: string;
+  domain: string;
+  id: string;
+  note?: string;
+  projectId: string;
+  updatedAt: string;
+}
+export type GetConditionalBypassResponseBodyCase1RulesList =
+  Array<GetConditionalBypassResponseBodyCase1RulesItem>;
+export interface GetConditionalBypassResponseBodyCase1 {
+  rules: GetConditionalBypassResponseBodyCase1RulesList;
+}
+export type GetConditionalBypassResponseBody =
+  | GetConditionalBypassResponseBodyCase0
+  | GetConditionalBypassResponseBodyCase1;
+export type GetConditionalBypassResponse = GetConditionalBypassResponseBody;
 export interface GetFirewallConfigRequest {
   /** The deployed configVersion for the firewall configuration */
   configVersion: string;
@@ -1027,6 +1379,8 @@ export type GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsI
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -1304,6 +1658,8 @@ export type GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsI
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -1427,6 +1783,8 @@ export type GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsI
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -1512,6 +1870,8 @@ export type GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditio
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -1701,6 +2061,8 @@ export type GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupI
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -1974,6 +2336,8 @@ export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupI
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -2099,6 +2463,8 @@ export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupI
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -2186,6 +2552,8 @@ export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGro
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -2376,6 +2744,8 @@ export type GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupIt
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -2648,6 +3018,8 @@ export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupIt
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -2772,6 +3144,8 @@ export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupIt
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -2859,6 +3233,8 @@ export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGrou
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -3049,6 +3425,8 @@ export type GetSecurityFirewallConfigResponseVersionsItemConditionsItemCondition
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -3322,6 +3700,8 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0Condition
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -3447,6 +3827,8 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Condition
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -3534,6 +3916,8 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemCondit
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -3920,7 +4304,9 @@ export type PutFirewallConfigRequestRulesItemConditionGroupItemConditionsItemTyp
   | "bot_protection"
   | "shared_condition"
   | "traffic_source"
-  | "ruleset";
+  | "ruleset"
+  | "response_code"
+  | "response_header";
 export type PutFirewallConfigRequestRulesItemConditionGroupItemConditionsItemOp =
   | "re"
   | "eq"
@@ -4054,7 +4440,9 @@ export type PutFirewallConfigRequestRulesetsCase0ItemConditionGroupItemCondition
   | "bot_protection"
   | "shared_condition"
   | "traffic_source"
-  | "ruleset";
+  | "ruleset"
+  | "response_code"
+  | "response_header";
 export type PutFirewallConfigRequestRulesetsCase0ItemConditionGroupItemConditionsItemOp =
   | "re"
   | "eq"
@@ -4204,6 +4592,8 @@ export type PutFirewallConfigResponseActiveConditionsItemConditionGroupItemCondi
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -4488,6 +4878,8 @@ export type PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemCondi
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -4612,6 +5004,8 @@ export type PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemCondi
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -4698,6 +5092,8 @@ export type PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemCo
   | "rate_limit_api_id"
   | "raw_path"
   | "region"
+  | "response_code"
+  | "response_header"
   | "route"
   | "ruleset"
   | "scheme"
@@ -4885,6 +5281,152 @@ export interface UpdateAttackChallengeModeResponse {
   attackModeEnabled: boolean;
   attackModeUpdatedAt: number;
 }
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase0Type = "user_agent";
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase0Op =
+  | "eq"
+  | "pre"
+  | "suf"
+  | "sub";
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase0Key = "user-agent";
+export interface UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase0 {
+  type: UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase0Type;
+  op: UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase0Op | (string & {});
+  value: string;
+  key?: UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase0Key | (string & {});
+}
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase1Type = "path";
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase1Op =
+  | "eq"
+  | "pre"
+  | "suf"
+  | "sub";
+export interface UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase1 {
+  type: UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase1Type;
+  op: UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase1Op | (string & {});
+  value: string;
+}
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase2Type = "header";
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase2Op =
+  | "eq"
+  | "pre"
+  | "suf"
+  | "sub";
+export interface UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase2 {
+  type: UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase2Type;
+  op: UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase2Op | (string & {});
+  key: string;
+  value: string;
+}
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase3Type = "header";
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase3Op = "ex";
+export interface UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase3 {
+  type: UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase3Type;
+  op: UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase3Op;
+  key: string;
+}
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsItem =
+  | UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase0
+  | UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase1
+  | UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase2
+  | UpdateConditionalBypassRequestConditionGroupItemConditionsItemCase3;
+export type UpdateConditionalBypassRequestConditionGroupItemConditionsList =
+  Array<UpdateConditionalBypassRequestConditionGroupItemConditionsItem>;
+export interface UpdateConditionalBypassRequestConditionGroupItem {
+  conditions: UpdateConditionalBypassRequestConditionGroupItemConditionsList;
+}
+export type UpdateConditionalBypassRequestConditionGroupList =
+  Array<UpdateConditionalBypassRequestConditionGroupItem>;
+export interface UpdateConditionalBypassRequest {
+  projectId: string;
+  slug?: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+  domain: string;
+  conditionGroup: UpdateConditionalBypassRequestConditionGroupList;
+  note?: string;
+}
+export type UpdateConditionalBypassResponseConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export type UpdateConditionalBypassResponseConditionGroupItemConditionsItemType =
+  | "bot_category"
+  | "bot_name"
+  | "bot_protection"
+  | "bot_status"
+  | "cookie"
+  | "domain_environment"
+  | "environment"
+  | "geo_as_number"
+  | "geo_city"
+  | "geo_continent"
+  | "geo_country"
+  | "geo_country_region"
+  | "header"
+  | "host"
+  | "ip_address"
+  | "ja3_digest"
+  | "ja4_digest"
+  | "method"
+  | "path"
+  | "protocol"
+  | "query"
+  | "rate_limit_api_id"
+  | "raw_path"
+  | "region"
+  | "response_code"
+  | "response_header"
+  | "route"
+  | "ruleset"
+  | "scheme"
+  | "server_action"
+  | "shared_condition"
+  | "target_path"
+  | "traffic_source"
+  | "trusted_source"
+  | "user_agent";
+export type UpdateConditionalBypassResponseConditionGroupItemConditionsItemValueCase2List =
+  Array<string>;
+export type UpdateConditionalBypassResponseConditionGroupItemConditionsItemValue =
+  | string
+  | number
+  | UpdateConditionalBypassResponseConditionGroupItemConditionsItemValueCase2List;
+export interface UpdateConditionalBypassResponseConditionGroupItemConditionsItem {
+  key?: string;
+  neg?: boolean;
+  op: UpdateConditionalBypassResponseConditionGroupItemConditionsItemOp;
+  type: UpdateConditionalBypassResponseConditionGroupItemConditionsItemType;
+  value?: UpdateConditionalBypassResponseConditionGroupItemConditionsItemValue;
+}
+export type UpdateConditionalBypassResponseConditionGroupItemConditionsList =
+  Array<UpdateConditionalBypassResponseConditionGroupItemConditionsItem>;
+export interface UpdateConditionalBypassResponseConditionGroupItem {
+  conditions: UpdateConditionalBypassResponseConditionGroupItemConditionsList;
+}
+export type UpdateConditionalBypassResponseConditionGroupList =
+  Array<UpdateConditionalBypassResponseConditionGroupItem>;
+export interface UpdateConditionalBypassResponse {
+  condition: string;
+  conditionGroup: UpdateConditionalBypassResponseConditionGroupList;
+  createdAt: string;
+  domain: string;
+  id: string;
+  note?: string;
+  projectId: string;
+  updatedAt: string;
+}
 export type UpdateFirewallConfigRequestBodyCase0Action = "firewallEnabled";
 export type UpdateFirewallConfigRequestBodyCase0ValueConditionGroupItemConditionsItemType =
   | "host"
@@ -4918,7 +5460,9 @@ export type UpdateFirewallConfigRequestBodyCase0ValueConditionGroupItemCondition
   | "bot_protection"
   | "shared_condition"
   | "traffic_source"
-  | "ruleset";
+  | "ruleset"
+  | "response_code"
+  | "response_header";
 export type UpdateFirewallConfigRequestBodyCase0ValueConditionGroupItemConditionsItemOp =
   | "re"
   | "eq"
@@ -5019,7 +5563,9 @@ export type UpdateFirewallConfigRequestBodyCase1ValueConditionGroupItemCondition
   | "bot_protection"
   | "shared_condition"
   | "traffic_source"
-  | "ruleset";
+  | "ruleset"
+  | "response_code"
+  | "response_header";
 export type UpdateFirewallConfigRequestBodyCase1ValueConditionGroupItemConditionsItemOp =
   | "re"
   | "eq"
@@ -5134,7 +5680,9 @@ export type UpdateFirewallConfigRequestBodyCase4ValueConditionGroupItemCondition
   | "bot_protection"
   | "shared_condition"
   | "traffic_source"
-  | "ruleset";
+  | "ruleset"
+  | "response_code"
+  | "response_header";
 export type UpdateFirewallConfigRequestBodyCase4ValueConditionGroupItemConditionsItemOp =
   | "re"
   | "eq"
@@ -5224,7 +5772,9 @@ export type UpdateFirewallConfigRequestBodyCase5ValueConditionGroupItemCondition
   | "bot_protection"
   | "shared_condition"
   | "traffic_source"
-  | "ruleset";
+  | "ruleset"
+  | "response_code"
+  | "response_header";
 export type UpdateFirewallConfigRequestBodyCase5ValueConditionGroupItemConditionsItemOp =
   | "re"
   | "eq"
@@ -5350,7 +5900,9 @@ export type UpdateFirewallConfigRequestBodyCase10ValueConditionGroupItemConditio
   | "bot_protection"
   | "shared_condition"
   | "traffic_source"
-  | "ruleset";
+  | "ruleset"
+  | "response_code"
+  | "response_header";
 export type UpdateFirewallConfigRequestBodyCase10ValueConditionGroupItemConditionsItemOp =
   | "re"
   | "eq"
@@ -5491,7 +6043,9 @@ export type UpdateFirewallConfigRequestBodyCase11ValueConditionGroupItemConditio
   | "bot_protection"
   | "shared_condition"
   | "traffic_source"
-  | "ruleset";
+  | "ruleset"
+  | "response_code"
+  | "response_header";
 export type UpdateFirewallConfigRequestBodyCase11ValueConditionGroupItemConditionsItemOp =
   | "re"
   | "eq"
@@ -5773,13 +6327,35 @@ export const addBypassIp: API.OperationMethod<
   AddBypassIpError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<AddBypassIpRequest>,
-  output: __S(289, __c9, 1) as any as S.Schema<AddBypassIpResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<AddBypassIpRequest>,
+  output: __S(481, __c15, 1) as any as S.Schema<AddBypassIpResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddBypassIp",
+}));
+
+export type CreateConditionalBypassError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | VercelOpError;
+/** Create conditional firewall bypass Create a conditional firewall bypass rule for a project domain. */
+export const createConditionalBypass: API.OperationMethod<
+  CreateConditionalBypassRequest,
+  CreateConditionalBypassResponse,
+  CreateConditionalBypassError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(515, __c16, 3) as any as S.Schema<CreateConditionalBypassRequest>,
+  output: __S(520, __c16, 8) as any as S.Schema<CreateConditionalBypassResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConditionalBypass",
 }));
 
 export type CreateSecurityFirewallConfigByConfigVersionActivateError =
@@ -5796,13 +6372,13 @@ export const createSecurityFirewallConfigByConfigVersionActivate: API.OperationM
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    320,
-    __c10,
+    544,
+    __c17,
     0,
   ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateRequest>,
   output: __S(
-    328,
-    __c10,
+    552,
+    __c17,
     8,
   ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
@@ -5810,6 +6386,23 @@ export const createSecurityFirewallConfigByConfigVersionActivate: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSecurityFirewallConfigByConfigVersionActivate",
+}));
+
+export type DeleteConditionalBypassError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** Delete conditional firewall bypass Delete a conditional firewall bypass rule from a project domain. */
+export const deleteConditionalBypass: API.OperationMethod<
+  DeleteConditionalBypassRequest,
+  DeleteConditionalBypassResponse,
+  DeleteConditionalBypassError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(608, __c19, 0) as any as S.Schema<DeleteConditionalBypassRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<DeleteConditionalBypassResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConditionalBypass",
 }));
 
 export type DeleteSecurityFirewallConfigError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -5820,8 +6413,8 @@ export const deleteSecurityFirewallConfig: API.OperationMethod<
   DeleteSecurityFirewallConfigError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<DeleteSecurityFirewallConfigRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<DeleteSecurityFirewallConfigResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<DeleteSecurityFirewallConfigRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<DeleteSecurityFirewallConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -5837,8 +6430,8 @@ export const generateFirewallRule: API.OperationMethod<
   GenerateFirewallRuleError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(417, __c13, 1) as any as S.Schema<GenerateFirewallRuleRequest>,
-  output: __S(426, __c13, 10) as any as S.Schema<GenerateFirewallRuleResponse>,
+  input: __S(1, __c0, 1) as any as S.Schema<GenerateFirewallRuleRequest>,
+  output: __S(10, __c0, 10) as any as S.Schema<GenerateFirewallRuleResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -5854,8 +6447,8 @@ export const getActiveAttackStatus: API.OperationMethod<
   GetActiveAttackStatusError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetActiveAttackStatusRequest>,
-  output: __S(481, __c15, 1) as any as S.Schema<GetActiveAttackStatusResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<GetActiveAttackStatusRequest>,
+  output: __S(65, __c2, 1) as any as S.Schema<GetActiveAttackStatusResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -5871,13 +6464,30 @@ export const getBypassIp: API.OperationMethod<
   GetBypassIpError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(514, __c16, 2) as any as S.Schema<GetBypassIpRequest>,
-  output: __S(516, __c16, 4) as any as S.Schema<GetBypassIpResponse>,
+  input: __S(98, __c3, 2) as any as S.Schema<GetBypassIpRequest>,
+  output: __S(100, __c3, 4) as any as S.Schema<GetBypassIpResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBypassIp",
+}));
+
+export type GetConditionalBypassError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** Get conditional firewall bypasses Retrieve conditional firewall bypass rules for a project. */
+export const getConditionalBypass: API.OperationMethod<
+  GetConditionalBypassRequest,
+  GetConditionalBypassResponse,
+  GetConditionalBypassError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c4, 0) as any as S.Schema<GetConditionalBypassRequest>,
+  output: __S(129, __c4, 1) as any as S.Schema<GetConditionalBypassResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConditionalBypass",
 }));
 
 export type GetFirewallConfigError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -5888,8 +6498,8 @@ export const getFirewallConfig: API.OperationMethod<
   GetFirewallConfigError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetFirewallConfigRequest>,
-  output: __S(8, __c0, 8) as any as S.Schema<GetFirewallConfigResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<GetFirewallConfigRequest>,
+  output: __S(168, __c5, 8) as any as S.Schema<GetFirewallConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -5905,8 +6515,8 @@ export const getSecurityFirewallConfig: API.OperationMethod<
   GetSecurityFirewallConfigError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<GetSecurityFirewallConfigRequest>,
-  output: __S(58, __c1, 26) as any as S.Schema<GetSecurityFirewallConfigResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<GetSecurityFirewallConfigRequest>,
+  output: __S(218, __c6, 26) as any as S.Schema<GetSecurityFirewallConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -5922,8 +6532,8 @@ export const getSecurityFirewallEvents: API.OperationMethod<
   GetSecurityFirewallEventsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<GetSecurityFirewallEventsRequest>,
-  output: __S(68, __c2, 4) as any as S.Schema<GetSecurityFirewallEventsResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<GetSecurityFirewallEventsRequest>,
+  output: __S(228, __c7, 4) as any as S.Schema<GetSecurityFirewallEventsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -5943,8 +6553,8 @@ export const getSecurityFirewallEventsSummary: API.OperationMethod<
   GetSecurityFirewallEventsSummaryError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<GetSecurityFirewallEventsSummaryRequest>,
-  output: __S(130, __c4, 2) as any as S.Schema<GetSecurityFirewallEventsSummaryResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetSecurityFirewallEventsSummaryRequest>,
+  output: __S(290, __c9, 2) as any as S.Schema<GetSecurityFirewallEventsSummaryResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -5965,8 +6575,8 @@ export const putFirewallConfig: API.OperationMethod<
   PutFirewallConfigError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(172, __c5, 12) as any as S.Schema<PutFirewallConfigRequest>,
-  output: __S(181, __c5, 21) as any as S.Schema<PutFirewallConfigResponse>,
+  input: __S(332, __c10, 12) as any as S.Schema<PutFirewallConfigRequest>,
+  output: __S(341, __c10, 21) as any as S.Schema<PutFirewallConfigResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -5987,8 +6597,8 @@ export const removeBypassIp: API.OperationMethod<
   RemoveBypassIpError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<RemoveBypassIpRequest>,
-  output: __S(193, __c6, 1) as any as S.Schema<RemoveBypassIpResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<RemoveBypassIpRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<RemoveBypassIpResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -6004,13 +6614,30 @@ export const updateAttackChallengeMode: API.OperationMethod<
   UpdateAttackChallengeModeError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<UpdateAttackChallengeModeRequest>,
-  output: __S(225, __c7, 1) as any as S.Schema<UpdateAttackChallengeModeResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<UpdateAttackChallengeModeRequest>,
+  output: __S(385, __c12, 1) as any as S.Schema<UpdateAttackChallengeModeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAttackChallengeMode",
+}));
+
+export type UpdateConditionalBypassError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** Update conditional firewall bypass Update a conditional firewall bypass rule for a project domain. Replaces conditions and the note for the domain's existing rule. Omitting `note` clears it. The rule ID, domain, creator, and creation time are preserved. Missing or deleted rules are not created. */
+export const updateConditionalBypass: API.OperationMethod<
+  UpdateConditionalBypassRequest,
+  UpdateConditionalBypassResponse,
+  UpdateConditionalBypassError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(419, __c13, 3) as any as S.Schema<UpdateConditionalBypassRequest>,
+  output: __S(424, __c13, 8) as any as S.Schema<UpdateConditionalBypassResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConditionalBypass",
 }));
 
 export type UpdateFirewallConfigError =
@@ -6026,8 +6653,8 @@ export const updateFirewallConfig: API.OperationMethod<
   UpdateFirewallConfigError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<UpdateFirewallConfigRequest>,
-  output: __S(257, __c8, 1) as any as S.Schema<UpdateFirewallConfigResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<UpdateFirewallConfigRequest>,
+  output: __S(449, __c14, 1) as any as S.Schema<UpdateFirewallConfigResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -6037,6 +6664,186 @@ export const updateFirewallConfig: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.String,
+          permanent: S.Boolean,
+        }),
+      ).annotate({
+        identifier:
+          "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.optional(S.String.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/v1/security/firewall/config/generate-rule", code: 200 }),
+        ),
+      ).annotate({ identifier: "GenerateFirewallRuleRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.optional(S.NullOr(S.String)),
+          algo: S.String,
+          keys: __S(32, __c1, 0),
+          limit: S.Number,
+          window: S.Number,
+        }),
+      ).annotate({ identifier: "GenerateFirewallRuleResponseRuleActionMitigateRateLimit" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.String,
+          actionDuration: S.optional(S.NullOr(S.String)),
+          rateLimit: S.optional(S.NullOr(__S(2, __c0, 2))),
+          redirect: S.optional(S.NullOr(__S(0, __c0, 0))),
+        }),
+      ).annotate({ identifier: "GenerateFirewallRuleResponseRuleActionMitigate" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          mitigate: S.optional(__S(3, __c0, 3)),
+        }),
+      ).annotate({ identifier: "GenerateFirewallRuleResponseRuleAction" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.optional(S.String),
+          neg: S.Boolean,
+          op: S.String,
+          type: S.String,
+          value: S.optional(S.Unknown),
+        }),
+      ).annotate({
+        identifier: "GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItem",
+      });
+    case 6:
+      return S.Array(__S(5, __c0, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          conditions: __S(6, __c0, 6),
+        }),
+      ).annotate({ identifier: "GenerateFirewallRuleResponseRuleConditionGroupItem" });
+    case 8:
+      return S.Array(__S(7, __c0, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          action: __S(4, __c0, 4),
+          active: S.Boolean,
+          conditionGroup: __S(8, __c0, 8),
+          description: S.optional(S.String),
+          name: S.String,
+        }),
+      ).annotate({ identifier: "GenerateFirewallRuleResponseRule" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(S.String),
+          rule: S.optional(__S(9, __c0, 9)),
+        }),
+      ).annotate({ identifier: "GenerateFirewallRuleResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Query()),
+          since: S.optional(S.Number.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/security/firewall/attack-status", code: 200 })),
+      ).annotate({ identifier: "GetActiveAttackStatusRequest" });
+    case 1:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetActiveAttackStatusResponse",
+      });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Action: S.optional(S.String),
+          ActorId: S.optional(S.String),
+          CreatedAt: S.String,
+          DeletedAt: S.optional(S.String),
+          Domain: S.String,
+          ExpiresAt: S.optional(S.NullOr(S.Number)),
+          Id: S.String,
+          Ip: S.String,
+          IsProjectRule: S.optional(S.Boolean),
+          Note: S.optional(S.String),
+          OwnerId: S.String,
+          ProjectId: S.optional(S.String),
+          UpdatedAt: S.String,
+          UpdatedAtHour: S.String,
+        }),
+      ).annotate({ identifier: "AddBypassIpResponseBodyCase1ResultItem" });
+    case 1:
+      return S.Array(__S(96, __c3, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Query()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          sourceIp: S.optional(S.String.pipe(T.Query())),
+          domain: S.optional(S.String.pipe(T.Query())),
+          projectScope: S.optional(S.Boolean.pipe(T.Query())),
+          offset: S.optional(S.String.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/security/firewall/bypass", code: 200 })),
+      ).annotate({ identifier: "GetBypassIpRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.String,
+          OwnerId: S.String,
+        }),
+      ).annotate({ identifier: "GetBypassIpResponsePagination" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          pagination: S.optional(__S(99, __c3, 3)),
+          result: __S(97, __c3, 1),
+        }),
+      ).annotate({ identifier: "GetBypassIpResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Query()),
+          slug: S.optional(S.String.pipe(T.Query())),
+          domain: S.optional(S.String.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/security/firewall/bypass/rules", code: 200 })),
+      ).annotate({ identifier: "GetConditionalBypassRequest" });
+    case 1:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetConditionalBypassResponse",
+      });
+  }
+}
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6062,44 +6869,44 @@ function __c0(j: number): any {
         identifier: "GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItem",
       });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(161, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(2, __c0, 2),
+          conditions: __S(162, __c5, 2),
         }),
       ).annotate({ identifier: "GetFirewallConfigResponseConditionsItemConditionGroupItem" });
     case 4:
-      return S.Array(__S(3, __c0, 3));
+      return S.Array(__S(163, __c5, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
-          conditionGroup: __S(4, __c0, 4),
+          conditionGroup: __S(164, __c5, 4),
           description: S.optional(S.String),
           id: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "GetFirewallConfigResponseConditionsItem" });
     case 6:
-      return S.Array(__S(5, __c0, 5));
+      return S.Array(__S(165, __c5, 5));
     case 7:
       return S.Array(S.Unknown);
     case 8:
       return S.suspend(() =>
         S.Struct({
           botIdEnabled: S.optional(S.Boolean),
-          changes: __S(352, __c11, 0),
-          conditions: S.optional(__S(6, __c0, 6)),
-          crs: S.optional(__S(354, __c11, 2)),
+          changes: __S(576, __c18, 0),
+          conditions: S.optional(__S(166, __c5, 6)),
+          crs: S.optional(__S(578, __c18, 2)),
           firewallEnabled: S.Boolean,
           id: S.String,
-          ips: __S(356, __c11, 4),
+          ips: __S(580, __c18, 4),
           logHeaders: S.optional(S.Unknown),
-          managedRules: S.optional(__S(358, __c11, 6)),
+          managedRules: S.optional(__S(582, __c18, 6)),
           ownerId: S.String,
           projectKey: S.String,
-          rules: __S(7, __c0, 7),
+          rules: __S(167, __c5, 7),
           rulesets: S.optional(S.Unknown),
           updatedAt: S.String,
           version: S.Number,
@@ -6107,7 +6914,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GetFirewallConfigResponse" });
   }
 }
-function __c1(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6129,46 +6936,46 @@ function __c1(j: number): any {
           "GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem",
       });
     case 2:
-      return S.Array(__S(33, __c1, 1));
+      return S.Array(__S(193, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(34, __c1, 2),
+          conditions: __S(194, __c6, 2),
         }),
       ).annotate({
         identifier: "GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItem",
       });
     case 4:
-      return S.Array(__S(35, __c1, 3));
+      return S.Array(__S(195, __c6, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
-          conditionGroup: __S(36, __c1, 4),
+          conditionGroup: __S(196, __c6, 4),
           description: S.optional(S.String),
           id: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "GetSecurityFirewallConfigResponseActiveConditionsItem" });
     case 6:
-      return S.Array(__S(37, __c1, 5));
+      return S.Array(__S(197, __c6, 5));
     case 7:
       return S.Array(S.Unknown);
     case 8:
       return S.suspend(() =>
         S.Struct({
           botIdEnabled: S.optional(S.Boolean),
-          changes: __S(352, __c11, 0),
-          conditions: S.optional(__S(38, __c1, 6)),
-          crs: S.optional(__S(354, __c11, 2)),
+          changes: __S(576, __c18, 0),
+          conditions: S.optional(__S(198, __c6, 6)),
+          crs: S.optional(__S(578, __c18, 2)),
           firewallEnabled: S.Boolean,
           id: S.String,
-          ips: __S(356, __c11, 4),
+          ips: __S(580, __c18, 4),
           logHeaders: S.optional(S.Unknown),
-          managedRules: S.optional(__S(358, __c11, 6)),
+          managedRules: S.optional(__S(582, __c18, 6)),
           ownerId: S.String,
           projectKey: S.String,
-          rules: __S(39, __c1, 7),
+          rules: __S(199, __c6, 7),
           rulesets: S.optional(S.Unknown),
           updatedAt: S.String,
           version: S.Number,
@@ -6188,46 +6995,46 @@ function __c1(j: number): any {
           "GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItem",
       });
     case 10:
-      return S.Array(__S(41, __c1, 9));
+      return S.Array(__S(201, __c6, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(42, __c1, 10),
+          conditions: __S(202, __c6, 10),
         }),
       ).annotate({
         identifier: "GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItem",
       });
     case 12:
-      return S.Array(__S(43, __c1, 11));
+      return S.Array(__S(203, __c6, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
-          conditionGroup: __S(44, __c1, 12),
+          conditionGroup: __S(204, __c6, 12),
           description: S.optional(S.String),
           id: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "GetSecurityFirewallConfigResponseDraftConditionsItem" });
     case 14:
-      return S.Array(__S(45, __c1, 13));
+      return S.Array(__S(205, __c6, 13));
     case 15:
       return S.Array(S.Unknown);
     case 16:
       return S.suspend(() =>
         S.Struct({
           botIdEnabled: S.optional(S.Boolean),
-          changes: __S(352, __c11, 0),
-          conditions: S.optional(__S(46, __c1, 14)),
-          crs: S.optional(__S(354, __c11, 2)),
+          changes: __S(576, __c18, 0),
+          conditions: S.optional(__S(206, __c6, 14)),
+          crs: S.optional(__S(578, __c18, 2)),
           firewallEnabled: S.Boolean,
           id: S.String,
-          ips: __S(356, __c11, 4),
+          ips: __S(580, __c18, 4),
           logHeaders: S.optional(S.Unknown),
-          managedRules: S.optional(__S(358, __c11, 6)),
+          managedRules: S.optional(__S(582, __c18, 6)),
           ownerId: S.String,
           projectKey: S.String,
-          rules: __S(47, __c1, 15),
+          rules: __S(207, __c6, 15),
           rulesets: S.optional(S.Unknown),
           updatedAt: S.String,
           version: S.Number,
@@ -6247,64 +7054,64 @@ function __c1(j: number): any {
           "GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItem",
       });
     case 18:
-      return S.Array(__S(49, __c1, 17));
+      return S.Array(__S(209, __c6, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(50, __c1, 18),
+          conditions: __S(210, __c6, 18),
         }),
       ).annotate({
         identifier: "GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItem",
       });
     case 20:
-      return S.Array(__S(51, __c1, 19));
+      return S.Array(__S(211, __c6, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
-          conditionGroup: __S(52, __c1, 20),
+          conditionGroup: __S(212, __c6, 20),
           description: S.optional(S.String),
           id: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "GetSecurityFirewallConfigResponseVersionsItemConditionsItem" });
     case 22:
-      return S.Array(__S(53, __c1, 21));
+      return S.Array(__S(213, __c6, 21));
     case 23:
       return S.Array(S.Unknown);
     case 24:
       return S.suspend(() =>
         S.Struct({
           botIdEnabled: S.optional(S.Boolean),
-          changes: __S(352, __c11, 0),
-          conditions: S.optional(__S(54, __c1, 22)),
-          crs: S.optional(__S(354, __c11, 2)),
+          changes: __S(576, __c18, 0),
+          conditions: S.optional(__S(214, __c6, 22)),
+          crs: S.optional(__S(578, __c18, 2)),
           firewallEnabled: S.Boolean,
           id: S.String,
-          ips: __S(356, __c11, 4),
+          ips: __S(580, __c18, 4),
           logHeaders: S.optional(S.Unknown),
-          managedRules: S.optional(__S(358, __c11, 6)),
+          managedRules: S.optional(__S(582, __c18, 6)),
           ownerId: S.String,
           projectKey: S.String,
-          rules: __S(55, __c1, 23),
+          rules: __S(215, __c6, 23),
           rulesets: S.optional(S.Unknown),
           updatedAt: S.String,
           version: S.Number,
         }),
       ).annotate({ identifier: "GetSecurityFirewallConfigResponseVersionsItem" });
     case 25:
-      return S.Array(__S(56, __c1, 24));
+      return S.Array(__S(216, __c6, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
-          active: S.NullOr(__S(40, __c1, 8)),
-          draft: S.NullOr(__S(48, __c1, 16)),
-          versions: __S(57, __c1, 25),
+          active: S.NullOr(__S(200, __c6, 8)),
+          draft: S.NullOr(__S(208, __c6, 16)),
+          versions: __S(217, __c6, 25),
         }),
       ).annotate({ identifier: "GetSecurityFirewallConfigResponse" });
   }
 }
-function __c2(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6316,12 +7123,12 @@ function __c2(j: number): any {
           startTimestamp: S.optional(S.Number.pipe(T.Query())),
           endTimestamp: S.optional(S.Number.pipe(T.Query())),
           hosts: S.optional(S.String.pipe(T.Query())),
-          ip: S.optional(__S(448, __c14, 0).pipe(T.Query())),
+          ip: S.optional(__S(32, __c1, 0).pipe(T.Query())),
           isActive: S.optional(S.Boolean.pipe(T.Query())),
-          action: S.optional(__S(96, __c3, 0).pipe(T.Query())),
-          actionType: S.optional(__S(96, __c3, 0).pipe(T.Query())),
+          action: S.optional(__S(256, __c8, 0).pipe(T.Query())),
+          actionType: S.optional(__S(256, __c8, 0).pipe(T.Query())),
           ruleKind: S.optional(S.String.pipe(T.Query())),
-          ruleId: S.optional(__S(448, __c14, 0).pipe(T.Query())),
+          ruleId: S.optional(__S(32, __c1, 0).pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/security/firewall/events", code: 200 })),
@@ -6342,7 +7149,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "GetSecurityFirewallEventsResponseActionsItem" });
     case 2:
-      return S.Array(__S(65, __c2, 1));
+      return S.Array(__S(225, __c7, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6353,19 +7160,19 @@ function __c2(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          actions: __S(66, __c2, 2),
-          pagination: __S(67, __c2, 3),
+          actions: __S(226, __c7, 2),
+          pagination: __S(227, __c7, 3),
         }),
       ).annotate({ identifier: "GetSecurityFirewallEventsResponse" });
   }
 }
-function __c3(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c4(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6374,12 +7181,12 @@ function __c4(j: number): any {
           startTimestamp: S.optional(S.Number.pipe(T.Query())),
           endTimestamp: S.optional(S.Number.pipe(T.Query())),
           hosts: S.optional(S.String.pipe(T.Query())),
-          ip: S.optional(__S(448, __c14, 0).pipe(T.Query())),
+          ip: S.optional(__S(32, __c1, 0).pipe(T.Query())),
           isActive: S.optional(S.Boolean.pipe(T.Query())),
-          action: S.optional(__S(96, __c3, 0).pipe(T.Query())),
-          actionType: S.optional(__S(96, __c3, 0).pipe(T.Query())),
+          action: S.optional(__S(256, __c8, 0).pipe(T.Query())),
+          actionType: S.optional(__S(256, __c8, 0).pipe(T.Query())),
           ruleKind: S.optional(S.String.pipe(T.Query())),
-          ruleId: S.optional(__S(448, __c14, 0).pipe(T.Query())),
+          ruleId: S.optional(__S(32, __c1, 0).pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/security/firewall/events/summary", code: 200 })),
@@ -6390,8 +7197,8 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           blockingIps: S.Number,
-          byAction: __S(129, __c4, 1),
-          byActionType: __S(129, __c4, 1),
+          byAction: __S(289, __c9, 1),
+          byActionType: __S(289, __c9, 1),
           challengingIps: S.Number,
           other: S.Number,
           total: S.Number,
@@ -6399,7 +7206,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetSecurityFirewallEventsSummaryResponse" });
   }
 }
-function __c5(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6411,17 +7218,17 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sd: S.optional(__S(160, __c5, 0)),
-          ma: S.optional(__S(160, __c5, 0)),
-          lfi: S.optional(__S(160, __c5, 0)),
-          rfi: S.optional(__S(160, __c5, 0)),
-          rce: S.optional(__S(160, __c5, 0)),
-          php: S.optional(__S(160, __c5, 0)),
-          gen: S.optional(__S(160, __c5, 0)),
-          xss: S.optional(__S(160, __c5, 0)),
-          sqli: S.optional(__S(160, __c5, 0)),
-          sf: S.optional(__S(160, __c5, 0)),
-          java: S.optional(__S(160, __c5, 0)),
+          sd: S.optional(__S(320, __c10, 0)),
+          ma: S.optional(__S(320, __c10, 0)),
+          lfi: S.optional(__S(320, __c10, 0)),
+          rfi: S.optional(__S(320, __c10, 0)),
+          rce: S.optional(__S(320, __c10, 0)),
+          php: S.optional(__S(320, __c10, 0)),
+          gen: S.optional(__S(320, __c10, 0)),
+          xss: S.optional(__S(320, __c10, 0)),
+          sqli: S.optional(__S(320, __c10, 0)),
+          sf: S.optional(__S(320, __c10, 0)),
+          java: S.optional(__S(320, __c10, 0)),
         }),
       ).annotate({ identifier: "PutFirewallConfigRequestCrs" });
     case 2:
@@ -6437,15 +7244,15 @@ function __c5(j: number): any {
         identifier: "PutFirewallConfigRequestRulesItemConditionGroupItemConditionsItem",
       });
     case 3:
-      return S.Array(__S(162, __c5, 2));
+      return S.Array(__S(322, __c10, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(163, __c5, 3),
+          conditions: __S(323, __c10, 3),
         }),
       ).annotate({ identifier: "PutFirewallConfigRequestRulesItemConditionGroupItem" });
     case 5:
-      return S.Array(__S(164, __c5, 4));
+      return S.Array(__S(324, __c10, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -6460,7 +7267,7 @@ function __c5(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          mitigate: S.optional(__S(166, __c5, 6)),
+          mitigate: S.optional(__S(326, __c10, 6)),
         }),
       ).annotate({ identifier: "PutFirewallConfigRequestRulesItemAction" });
     case 8:
@@ -6470,14 +7277,14 @@ function __c5(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           active: S.Boolean,
-          conditionGroup: __S(165, __c5, 5),
-          action: __S(167, __c5, 7),
+          conditionGroup: __S(325, __c10, 5),
+          action: __S(327, __c10, 7),
           valid: S.optional(S.Boolean),
           validationErrors: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "PutFirewallConfigRequestRulesItem" });
     case 9:
-      return S.Array(__S(168, __c5, 8));
+      return S.Array(__S(328, __c10, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -6489,7 +7296,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "PutFirewallConfigRequestIpsItem" });
     case 11:
-      return S.Array(__S(170, __c5, 10));
+      return S.Array(__S(330, __c10, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -6498,10 +7305,10 @@ function __c5(j: number): any {
           slug: S.optional(S.String.pipe(T.Query())),
           firewallEnabled: S.Boolean,
           managedRules: S.optional(S.Unknown),
-          crs: S.optional(__S(161, __c5, 1)),
-          rules: S.optional(__S(169, __c5, 9)),
+          crs: S.optional(__S(321, __c10, 1)),
+          rules: S.optional(__S(329, __c10, 9)),
           rulesets: S.optional(S.Unknown),
-          ips: S.optional(__S(171, __c5, 11)),
+          ips: S.optional(__S(331, __c10, 11)),
           botIdEnabled: S.optional(S.Boolean),
           logHeaders: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/security/firewall/config", code: 200 })),
@@ -6519,44 +7326,44 @@ function __c5(j: number): any {
         identifier: "PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem",
       });
     case 14:
-      return S.Array(__S(173, __c5, 13));
+      return S.Array(__S(333, __c10, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(174, __c5, 14),
+          conditions: __S(334, __c10, 14),
         }),
       ).annotate({ identifier: "PutFirewallConfigResponseActiveConditionsItemConditionGroupItem" });
     case 16:
-      return S.Array(__S(175, __c5, 15));
+      return S.Array(__S(335, __c10, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
-          conditionGroup: __S(176, __c5, 16),
+          conditionGroup: __S(336, __c10, 16),
           description: S.optional(S.String),
           id: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "PutFirewallConfigResponseActiveConditionsItem" });
     case 18:
-      return S.Array(__S(177, __c5, 17));
+      return S.Array(__S(337, __c10, 17));
     case 19:
       return S.Array(S.Unknown);
     case 20:
       return S.suspend(() =>
         S.Struct({
           botIdEnabled: S.optional(S.Boolean),
-          changes: __S(352, __c11, 0),
-          conditions: S.optional(__S(178, __c5, 18)),
-          crs: S.optional(__S(354, __c11, 2)),
+          changes: __S(576, __c18, 0),
+          conditions: S.optional(__S(338, __c10, 18)),
+          crs: S.optional(__S(578, __c18, 2)),
           firewallEnabled: S.Boolean,
           id: S.String,
-          ips: __S(356, __c11, 4),
+          ips: __S(580, __c18, 4),
           logHeaders: S.optional(S.Unknown),
-          managedRules: S.optional(__S(358, __c11, 6)),
+          managedRules: S.optional(__S(582, __c18, 6)),
           ownerId: S.String,
           projectKey: S.String,
-          rules: __S(179, __c5, 19),
+          rules: __S(339, __c10, 19),
           rulesets: S.optional(S.Unknown),
           updatedAt: S.String,
           version: S.Number,
@@ -6565,12 +7372,12 @@ function __c5(j: number): any {
     case 21:
       return S.suspend(() =>
         S.Struct({
-          active: __S(180, __c5, 20),
+          active: __S(340, __c10, 20),
         }),
       ).annotate({ identifier: "PutFirewallConfigResponse" });
   }
 }
-function __c6(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6593,7 +7400,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "RemoveBypassIpResponse" });
   }
 }
-function __c7(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6612,7 +7419,65 @@ function __c7(j: number): any {
       ).annotate({ identifier: "UpdateAttackChallengeModeResponse" });
   }
 }
-function __c8(j: number): any {
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          conditions: __S(416, __c13, 0),
+        }),
+      ).annotate({ identifier: "UpdateConditionalBypassRequestConditionGroupItem" });
+    case 2:
+      return S.Array(__S(417, __c13, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Query()),
+          slug: S.optional(S.String.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          domain: S.String,
+          conditionGroup: __S(418, __c13, 2),
+          note: S.optional(S.String),
+        }).pipe(T.Http({ method: "PUT", uri: "/v1/security/firewall/bypass/rules", code: 200 })),
+      ).annotate({ identifier: "UpdateConditionalBypassRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.optional(S.String),
+          neg: S.optional(S.Boolean),
+          op: S.String,
+          type: S.String,
+          value: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "UpdateConditionalBypassResponseConditionGroupItemConditionsItem" });
+    case 5:
+      return S.Array(__S(420, __c13, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          conditions: __S(421, __c13, 5),
+        }),
+      ).annotate({ identifier: "UpdateConditionalBypassResponseConditionGroupItem" });
+    case 7:
+      return S.Array(__S(422, __c13, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          condition: S.String,
+          conditionGroup: __S(423, __c13, 7),
+          createdAt: S.String,
+          domain: S.String,
+          id: S.String,
+          note: S.optional(S.String),
+          projectId: S.String,
+          updatedAt: S.String,
+        }),
+      ).annotate({ identifier: "UpdateConditionalBypassResponse" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6629,7 +7494,7 @@ function __c8(j: number): any {
       });
   }
 }
-function __c9(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6651,7 +7516,65 @@ function __c9(j: number): any {
       });
   }
 }
-function __c10(j: number): any {
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          conditions: __S(512, __c16, 0),
+        }),
+      ).annotate({ identifier: "CreateConditionalBypassRequestConditionGroupItem" });
+    case 2:
+      return S.Array(__S(513, __c16, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Query()),
+          slug: S.optional(S.String.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          domain: S.String,
+          conditionGroup: __S(514, __c16, 2),
+          note: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/security/firewall/bypass/rules", code: 200 })),
+      ).annotate({ identifier: "CreateConditionalBypassRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.optional(S.String),
+          neg: S.optional(S.Boolean),
+          op: S.String,
+          type: S.String,
+          value: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "CreateConditionalBypassResponseConditionGroupItemConditionsItem" });
+    case 5:
+      return S.Array(__S(516, __c16, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          conditions: __S(517, __c16, 5),
+        }),
+      ).annotate({ identifier: "CreateConditionalBypassResponseConditionGroupItem" });
+    case 7:
+      return S.Array(__S(518, __c16, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          condition: S.String,
+          conditionGroup: __S(519, __c16, 7),
+          createdAt: S.String,
+          domain: S.String,
+          id: S.String,
+          note: S.optional(S.String),
+          projectId: S.String,
+          updatedAt: S.String,
+        }),
+      ).annotate({ identifier: "CreateConditionalBypassResponse" });
+  }
+}
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6679,23 +7602,23 @@ function __c10(j: number): any {
           "CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItem",
       });
     case 2:
-      return S.Array(__S(321, __c10, 1));
+      return S.Array(__S(545, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(322, __c10, 2),
+          conditions: __S(546, __c17, 2),
         }),
       ).annotate({
         identifier:
           "CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItem",
       });
     case 4:
-      return S.Array(__S(323, __c10, 3));
+      return S.Array(__S(547, __c17, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
-          conditionGroup: __S(324, __c10, 4),
+          conditionGroup: __S(548, __c17, 4),
           description: S.optional(S.String),
           id: S.String,
           name: S.String,
@@ -6704,24 +7627,24 @@ function __c10(j: number): any {
         identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItem",
       });
     case 6:
-      return S.Array(__S(325, __c10, 5));
+      return S.Array(__S(549, __c17, 5));
     case 7:
       return S.Array(S.Unknown);
     case 8:
       return S.suspend(() =>
         S.Struct({
           botIdEnabled: S.optional(S.Boolean),
-          changes: __S(352, __c11, 0),
-          conditions: S.optional(__S(326, __c10, 6)),
-          crs: S.optional(__S(354, __c11, 2)),
+          changes: __S(576, __c18, 0),
+          conditions: S.optional(__S(550, __c17, 6)),
+          crs: S.optional(__S(578, __c18, 2)),
           firewallEnabled: S.Boolean,
           id: S.String,
-          ips: __S(356, __c11, 4),
+          ips: __S(580, __c18, 4),
           logHeaders: S.optional(S.Unknown),
-          managedRules: S.optional(__S(358, __c11, 6)),
+          managedRules: S.optional(__S(582, __c18, 6)),
           ownerId: S.String,
           projectKey: S.String,
-          rules: __S(327, __c10, 7),
+          rules: __S(551, __c17, 7),
           rulesets: S.optional(S.Unknown),
           updatedAt: S.String,
           version: S.Number,
@@ -6729,7 +7652,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponse" });
   }
 }
-function __c11(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -6745,17 +7668,17 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          gen: __S(353, __c11, 1),
-          java: __S(353, __c11, 1),
-          lfi: __S(353, __c11, 1),
-          ma: __S(353, __c11, 1),
-          php: __S(353, __c11, 1),
-          rce: __S(353, __c11, 1),
-          rfi: __S(353, __c11, 1),
-          sd: __S(353, __c11, 1),
-          sf: __S(353, __c11, 1),
-          sqli: __S(353, __c11, 1),
-          xss: __S(353, __c11, 1),
+          gen: __S(577, __c18, 1),
+          java: __S(577, __c18, 1),
+          lfi: __S(577, __c18, 1),
+          ma: __S(577, __c18, 1),
+          php: __S(577, __c18, 1),
+          rce: __S(577, __c18, 1),
+          rfi: __S(577, __c18, 1),
+          sd: __S(577, __c18, 1),
+          sf: __S(577, __c18, 1),
+          sqli: __S(577, __c18, 1),
+          xss: __S(577, __c18, 1),
         }),
       ).annotate({ identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrs" });
     case 3:
@@ -6771,7 +7694,7 @@ function __c11(j: number): any {
         identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItem",
       });
     case 4:
-      return S.Array(__S(355, __c11, 3));
+      return S.Array(__S(579, __c18, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -6787,18 +7710,39 @@ function __c11(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          ai_bots: S.optional(__S(357, __c11, 5)),
-          bot_protection: S.optional(__S(357, __c11, 5)),
-          owasp: S.optional(__S(357, __c11, 5)),
-          traffic_sources: S.optional(__S(357, __c11, 5)),
-          vercel_ruleset: S.optional(__S(357, __c11, 5)),
+          ai_bots: S.optional(__S(581, __c18, 5)),
+          bot_protection: S.optional(__S(581, __c18, 5)),
+          owasp: S.optional(__S(581, __c18, 5)),
+          traffic_sources: S.optional(__S(581, __c18, 5)),
+          vercel_ruleset: S.optional(__S(581, __c18, 5)),
         }),
       ).annotate({
         identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRules",
       });
   }
 }
-function __c12(j: number): any {
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Query()),
+          slug: S.optional(S.String.pipe(T.Query())),
+          domain: S.String.pipe(T.Query()),
+          teamId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "DELETE", uri: "/v1/security/firewall/bypass/rules", code: 200 })),
+      ).annotate({ identifier: "DeleteConditionalBypassRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
+        identifier: "DeleteConditionalBypassResponse",
+      });
+  }
+}
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6812,173 +7756,6 @@ function __c12(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DeleteSecurityFirewallConfigRequest" });
-    case 1:
-      return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
-        identifier: "DeleteSecurityFirewallConfigResponse",
-      });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.String,
-          permanent: S.Boolean,
-        }),
-      ).annotate({
-        identifier:
-          "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect",
-      });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.optional(S.String.pipe(T.Query())),
-          teamId: S.optional(S.String.pipe(T.Query())),
-          slug: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/v1/security/firewall/config/generate-rule", code: 200 }),
-        ),
-      ).annotate({ identifier: "GenerateFirewallRuleRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.optional(S.NullOr(S.String)),
-          algo: S.String,
-          keys: __S(448, __c14, 0),
-          limit: S.Number,
-          window: S.Number,
-        }),
-      ).annotate({ identifier: "GenerateFirewallRuleResponseRuleActionMitigateRateLimit" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.String,
-          actionDuration: S.optional(S.NullOr(S.String)),
-          rateLimit: S.optional(S.NullOr(__S(418, __c13, 2))),
-          redirect: S.optional(S.NullOr(__S(416, __c13, 0))),
-        }),
-      ).annotate({ identifier: "GenerateFirewallRuleResponseRuleActionMitigate" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          mitigate: S.optional(__S(419, __c13, 3)),
-        }),
-      ).annotate({ identifier: "GenerateFirewallRuleResponseRuleAction" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.optional(S.String),
-          neg: S.optional(S.Boolean),
-          op: S.String,
-          type: S.String,
-          value: S.optional(S.Unknown),
-        }),
-      ).annotate({
-        identifier: "GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItem",
-      });
-    case 6:
-      return S.Array(__S(421, __c13, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          conditions: __S(422, __c13, 6),
-        }),
-      ).annotate({ identifier: "GenerateFirewallRuleResponseRuleConditionGroupItem" });
-    case 8:
-      return S.Array(__S(423, __c13, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          action: __S(420, __c13, 4),
-          active: S.Boolean,
-          conditionGroup: __S(424, __c13, 8),
-          description: S.optional(S.String),
-          name: S.String,
-        }),
-      ).annotate({ identifier: "GenerateFirewallRuleResponseRule" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          error: S.optional(S.String),
-          rule: S.optional(__S(425, __c13, 9)),
-        }),
-      ).annotate({ identifier: "GenerateFirewallRuleResponse" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Query()),
-          since: S.optional(S.Number.pipe(T.Query())),
-          teamId: S.optional(S.String.pipe(T.Query())),
-          slug: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/security/firewall/attack-status", code: 200 })),
-      ).annotate({ identifier: "GetActiveAttackStatusRequest" });
-    case 1:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetActiveAttackStatusResponse",
-      });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Action: S.optional(S.String),
-          ActorId: S.optional(S.String),
-          CreatedAt: S.String,
-          DeletedAt: S.optional(S.String),
-          Domain: S.String,
-          ExpiresAt: S.optional(S.NullOr(S.Number)),
-          Id: S.String,
-          Ip: S.String,
-          IsProjectRule: S.optional(S.Boolean),
-          Note: S.optional(S.String),
-          OwnerId: S.String,
-          ProjectId: S.optional(S.String),
-          UpdatedAt: S.String,
-          UpdatedAtHour: S.String,
-        }),
-      ).annotate({ identifier: "AddBypassIpResponseBodyCase1ResultItem" });
-    case 1:
-      return S.Array(__S(512, __c16, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Query()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          sourceIp: S.optional(S.String.pipe(T.Query())),
-          domain: S.optional(S.String.pipe(T.Query())),
-          projectScope: S.optional(S.Boolean.pipe(T.Query())),
-          offset: S.optional(S.String.pipe(T.Query())),
-          teamId: S.optional(S.String.pipe(T.Query())),
-          slug: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/security/firewall/bypass", code: 200 })),
-      ).annotate({ identifier: "GetBypassIpRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          Id: S.String,
-          OwnerId: S.String,
-        }),
-      ).annotate({ identifier: "GetBypassIpResponsePagination" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          pagination: S.optional(__S(515, __c16, 3)),
-          result: __S(513, __c16, 1),
-        }),
-      ).annotate({ identifier: "GetBypassIpResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

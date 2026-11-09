@@ -162,6 +162,8 @@ export type IoK8sApiBatchV1PodFailurePolicyRuleOnPodConditionsList =
 export interface IoK8sApiBatchV1PodFailurePolicyRule {
   /** action specifies the action taken on a pod failure when the requirements are satisfied. Possible values are: - FailJob: indicates that the pod's job is marked as Failed and all running pods are terminated. - FailIndex: indicates that the pod's index is marked as Failed and will not be restarted. - Ignore: indicates that the counter towards the .backoffLimit is not incremented and a replacement pod is created. - Count: indicates that the pod is handled in the default way - the counter towards the .backoffLimit is incremented. Additional values are considered to be added in the future. Clients should react to an unknown action by skipping the rule. */
   action: string;
+  /** name of the pod failure policy rule. When a rule with the FailJob action fails the Job, its name is included in the Job failure condition message. The condition reason remains PodFailurePolicy. Unnamed rules are identified by their zero-based index in the message. The name must be a non-empty DNS label of at most 63 characters, containing only lowercase alphanumeric characters or hyphens, starting and ending with an alphanumeric character, and must be unique within the Job. This field is alpha-level and is only honored by servers that enable the PodFailurePolicyName feature gate. */
+  name?: string;
   /** onExitCodes represents the requirement on the container exit codes. */
   onExitCodes?: IoK8sApiBatchV1PodFailurePolicyOnExitCodesRequirement;
   /** onPodConditions represents the requirement on the pod conditions. The requirement is represented as a list of pod condition patterns. The requirement is satisfied if at least one pattern matches an actual pod condition. At most 20 elements are allowed. */
@@ -175,14 +177,14 @@ export interface IoK8sApiBatchV1PodFailurePolicy {
   rules?: IoK8sApiBatchV1PodFailurePolicyRulesList;
 }
 /** WorkloadPodGroupDisruptionMode defines how individual pods within a group can be disrupted. Exactly one mode must be set. */
-export interface IoK8sApiSchedulingV1alpha3WorkloadPodGroupDisruptionMode {
+export interface IoK8sApiSchedulingV1WorkloadPodGroupDisruptionMode {
   /** all specifies that all pods in the group must be disrupted together. */
   all?: unknown;
   /** single specifies that pods can be disrupted independently from each other. */
   single?: unknown;
 }
 /** WorkloadPodGroupResourceClaim references a dynamic resource claim that is shared across pods in the group. */
-export interface IoK8sApiSchedulingV1alpha3WorkloadPodGroupResourceClaim {
+export interface IoK8sApiSchedulingV1WorkloadPodGroupResourceClaim {
   /** name uniquely identifies this resource claim inside the group. This field is required. It must be a DNS_LABEL. */
   name: string;
   /** resourceClaimName is the name of a ResourceClaim object in the same namespace. This field is optional. If it is not specified, no resource claim is used. If set, it must be a DNS subdomain. */
@@ -192,42 +194,42 @@ export interface IoK8sApiSchedulingV1alpha3WorkloadPodGroupResourceClaim {
 }
 /** resourceClaims defines which ResourceClaims may be shared among Pods in the Job. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. At most 4 claims may be set, matching the limit on the resulting PodGroup. This list is immutable after creation: entries may neither be added, removed, nor modified. */
 export type IoK8sApiBatchV1JobSchedulingConfigurationResourceClaimsList =
-  Array<IoK8sApiSchedulingV1alpha3WorkloadPodGroupResourceClaim>;
-/** TopologyConstraint defines a topology constraint for a PodGroup. */
-export interface IoK8sApiSchedulingV1alpha3TopologyConstraint {
-  /** key specifies the key of the node label representing the topology domain. All pods within the PodGroup must be colocated within the same domain instance. Different PodGroups can land on different domain instances even if they derive from the same PodGroupTemplate. Examples: "topology.kubernetes.io/rack" */
+  Array<IoK8sApiSchedulingV1WorkloadPodGroupResourceClaim>;
+/** WorkloadTopologyConstraint defines a topology constraint for a group of pods managed by a workload controller. */
+export interface IoK8sApiSchedulingV1WorkloadTopologyConstraint {
+  /** key specifies the key of the node label representing the topology domain. All pods within the PodGroup (or CompositePodGroup) must be colocated within the same domain instance. Different groups can land on different domain instances even if they derive from the same template. Nodes where this label is missing or has an empty value do not belong to any domain instance, so pods within the PodGroup/CompositePodGroup cannot be scheduled onto them. Examples: "topology.kubernetes.io/rack" */
   key: string;
 }
 /** topology specifies desired topological placements for all pods within the pod group. If unset, no topology placement is requested. */
-export type IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraintsTopologyList =
-  Array<IoK8sApiSchedulingV1alpha3TopologyConstraint>;
+export type IoK8sApiSchedulingV1WorkloadPodGroupSchedulingConstraintsTopologyList =
+  Array<IoK8sApiSchedulingV1WorkloadTopologyConstraint>;
 /** WorkloadPodGroupSchedulingConstraints defines leaf-level scheduling constraints, such as topology. */
-export interface IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraints {
+export interface IoK8sApiSchedulingV1WorkloadPodGroupSchedulingConstraints {
   /** topology specifies desired topological placements for all pods within the pod group. If unset, no topology placement is requested. */
-  topology?: IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraintsTopologyList;
+  topology?: IoK8sApiSchedulingV1WorkloadPodGroupSchedulingConstraintsTopologyList;
 }
 /** WorkloadPodGroupGangSchedulingPolicy defines the parameters for gang (all-or-nothing) scheduling. */
-export interface IoK8sApiSchedulingV1alpha3WorkloadPodGroupGangSchedulingPolicy {
+export interface IoK8sApiSchedulingV1WorkloadPodGroupGangSchedulingPolicy {
   /** minCount is the minimum number of pods that must be scheduled at the same time for the scheduler to admit the entire group. This field is optional. If it is not specified, the controller should inject a context-specific sane default (e.g., parallelism for a Job). If set, it must be a positive integer. */
   minCount?: number;
 }
 /** WorkloadPodGroupSchedulingPolicy defines the scheduling policy for a group of pods managed by a workload controller. Exactly one policy must be set. */
-export interface IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingPolicy {
+export interface IoK8sApiSchedulingV1WorkloadPodGroupSchedulingPolicy {
   /** basic specifies that standard, pod-by-pod Kubernetes scheduling behavior should be used. */
   basic?: unknown;
   /** gang specifies all-or-nothing scheduling semantics. */
-  gang?: IoK8sApiSchedulingV1alpha3WorkloadPodGroupGangSchedulingPolicy;
+  gang?: IoK8sApiSchedulingV1WorkloadPodGroupGangSchedulingPolicy;
 }
 /** JobSchedulingConfiguration composes the reusable workload-aware scheduling building blocks. */
 export interface IoK8sApiBatchV1JobSchedulingConfiguration {
   /** disruptionMode defines the mode in which the Job's pods can be disrupted. One of Single, All. This field is immutable after creation: it may not be added or removed, and the selected mode may not be changed. */
-  disruptionMode?: IoK8sApiSchedulingV1alpha3WorkloadPodGroupDisruptionMode;
+  disruptionMode?: IoK8sApiSchedulingV1WorkloadPodGroupDisruptionMode;
   /** resourceClaims defines which ResourceClaims may be shared among Pods in the Job. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. At most 4 claims may be set, matching the limit on the resulting PodGroup. This list is immutable after creation: entries may neither be added, removed, nor modified. */
   resourceClaims?: IoK8sApiBatchV1JobSchedulingConfigurationResourceClaimsList;
   /** schedulingConstraints defines scheduling constraints (e.g. topology) for the Job's pods. This field is immutable after creation. */
-  schedulingConstraints?: IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraints;
+  schedulingConstraints?: IoK8sApiSchedulingV1WorkloadPodGroupSchedulingConstraints;
   /** schedulingPolicy defines the scheduling policy for this Job. Exactly one of Basic or Gang must be set. This field is immutable after creation: the policy may not be added or removed. The policy variant (basic/gang) is frozen by hand-written validation; only schedulingPolicy.gang.minCount may be changed. */
-  schedulingPolicy?: IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingPolicy;
+  schedulingPolicy?: IoK8sApiSchedulingV1WorkloadPodGroupSchedulingPolicy;
 }
 /** values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch. */
 export type IoK8sApimachineryPkgApisMetaV1LabelSelectorRequirementValuesList = Array<string>;
@@ -605,7 +607,7 @@ export interface IoK8sApiCoreV1ResourceClaim {
 }
 /** claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. This field is immutable. It can only be set for containers. */
 export type IoK8sApiCoreV1ResourceRequirementsClaimsList = Array<IoK8sApiCoreV1ResourceClaim>;
-/** limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
+/** limits describes the maximum amount of compute resources allowed. For kubelet cgroup enforcement: - cpu and memory: a limit of 0 is treated the same as an unspecified limit. If neither the container nor the pod specifies a limit, the resource is not limited. - hugepages: an unspecified limit is treated the same as a limit of 0. More details: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
 export type IoK8sApiCoreV1ResourceRequirementsLimitsMap = { [key: string]: string | undefined };
 /** requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
 export type IoK8sApiCoreV1ResourceRequirementsRequestsMap = { [key: string]: string | undefined };
@@ -613,7 +615,7 @@ export type IoK8sApiCoreV1ResourceRequirementsRequestsMap = { [key: string]: str
 export interface IoK8sApiCoreV1ResourceRequirements {
   /** claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. This field is immutable. It can only be set for containers. */
   claims?: IoK8sApiCoreV1ResourceRequirementsClaimsList;
-  /** limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
+  /** limits describes the maximum amount of compute resources allowed. For kubelet cgroup enforcement: - cpu and memory: a limit of 0 is treated the same as an unspecified limit. If neither the container nor the pod specifies a limit, the resource is not limited. - hugepages: an unspecified limit is treated the same as a limit of 0. More details: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
   limits?: IoK8sApiCoreV1ResourceRequirementsLimitsMap;
   /** requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
   requests?: IoK8sApiCoreV1ResourceRequirementsRequestsMap;
@@ -666,11 +668,27 @@ export interface IoK8sApiCoreV1SELinuxOptions {
   /** user is a SELinux user label that applies to the container. */
   user?: string;
 }
+/** SecurityProfileOCIBase specifies the base profile of an OCI security profile. */
+export interface IoK8sApiCoreV1SecurityProfileOCIBase {
+  /** localhostProfile indicates a base profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a non-empty descending path, relative to the kubelet's configured seccomp profile location, of at most 4096 characters. Must be set if type is "Localhost". Must NOT be set for any other type. */
+  localhostProfile?: string;
+  /** type indicates which kind of base profile will be applied. Valid options are: Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. */
+  type: string;
+}
+/** SecurityProfileOCI references a security profile stored as an artifact in an OCI registry, with an optional base profile. */
+export interface IoK8sApiCoreV1SecurityProfileOCI {
+  /** baseProfile optionally specifies the base profile that the container runtime merges with the OCI profile. The effective profile permits an operation only if both permit it. When omitted, the container runtime default profile is the base; a Localhost base profile takes its place. */
+  baseProfile?: IoK8sApiCoreV1SecurityProfileOCIBase;
+  /** ref is the OCI reference of the profile. It must be a digest-pinned reference in canonical form, registry/repository@<algorithm>:<digest>, with the registry spelled out (for example docker.io/library/profile, not profile or docker.io/profile). Tags are rejected. The digest algorithm must be sha256, sha384, or sha512. The maximum length is 1024 characters. Pull secrets are assembled in the same way as for the container image by looking up node credentials, service account image pull secrets, and pod spec image pull secrets. */
+  ref: string;
+}
 /** SeccompProfile defines a pod/container's seccomp profile settings. Only one profile source may be set. */
 export interface IoK8sApiCoreV1SeccompProfile {
   /** localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet's configured seccomp profile location. Must be set if type is "Localhost". Must NOT be set for any other type. */
   localhostProfile?: string;
-  /** type indicates which kind of seccomp profile will be applied. Valid options are: Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied. */
+  /** oci specifies a seccomp profile stored as an artifact in an OCI registry. The container runtime merges the profile with a base profile, so the effective profile permits an operation only if both permit it. Must be set if type is "OCI". Must NOT be set for any other type. This is an alpha field and requires enabling the SecurityProfileOCI feature gate. */
+  oci?: IoK8sApiCoreV1SecurityProfileOCI;
+  /** type indicates which kind of seccomp profile will be applied. Valid options are: Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied. OCI - a profile pulled from an OCI registry should be used, merged with a base profile (see oci.baseProfile). Privileged containers cannot use it, whether it is set on the container or inherited from the pod. This is an alpha value and requires enabling the SecurityProfileOCI feature gate. */
   type: string;
 }
 /** WindowsSecurityContextOptions contain Windows-specific options and credentials. */
@@ -998,7 +1016,7 @@ export interface IoK8sApiCoreV1PodSecurityContext {
   seccompProfile?: IoK8sApiCoreV1SeccompProfile;
   /** supplementalGroups is a list of groups applied to the first process run in each container, in addition to the container's primary GID and fsGroup (if specified). If the SupplementalGroupsPolicy feature is enabled, the supplementalGroupsPolicy field determines whether these are in addition to or instead of any group memberships defined in the container image. If unspecified, no additional groups are added, though group memberships defined in the container image may still be used, depending on the supplementalGroupsPolicy field. Note that this field cannot be set when spec.os.name is windows. */
   supplementalGroups?: IoK8sApiCoreV1PodSecurityContextSupplementalGroupsList;
-  /** supplementalGroupsPolicy defines how supplemental groups of the first container processes are calculated. Valid values are "Merge" and "Strict". If not specified, "Merge" is used. (Alpha) Using the field requires the SupplementalGroupsPolicy feature gate to be enabled and the container runtime must implement support for this feature. Note that this field cannot be set when spec.os.name is windows. */
+  /** supplementalGroupsPolicy defines how supplemental groups of the first container processes are calculated. Valid values are "Merge" and "Strict". If not specified, "Merge" is used. The container runtime must implement support for this feature. Note that this field cannot be set when spec.os.name is windows. */
   supplementalGroupsPolicy?: string;
   /** sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported sysctls (by the container runtime) might fail to launch. Note that this field cannot be set when spec.os.name is windows. */
   sysctls?: IoK8sApiCoreV1PodSecurityContextSysctlsList;
@@ -1115,7 +1133,7 @@ export interface IoK8sApiCoreV1KeyToPath {
   mode?: number;
   /** path is the relative path of the file to map the key to. May not be an absolute path. May not contain the path element '..'. May not start with the string '..'. */
   path: string;
-  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
   user?: number;
 }
 /** items if unspecified, each key-value pair in the Data field of the referenced ConfigMap will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the ConfigMap, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
@@ -1124,7 +1142,7 @@ export type IoK8sApiCoreV1ConfigMapVolumeSourceItemsList = Array<IoK8sApiCoreV1K
 export interface IoK8sApiCoreV1ConfigMapVolumeSource {
   /** defaultMode is optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
   defaultMode?: number;
-  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
   defaultUser?: number;
   /** items if unspecified, each key-value pair in the Data field of the referenced ConfigMap will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the ConfigMap, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
   items?: IoK8sApiCoreV1ConfigMapVolumeSourceItemsList;
@@ -1160,7 +1178,7 @@ export interface IoK8sApiCoreV1DownwardAPIVolumeFile {
   path: string;
   /** resourceFieldRef selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, requests.cpu and requests.memory) are currently supported. */
   resourceFieldRef?: IoK8sApiCoreV1ResourceFieldSelector;
-  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
   user?: number;
 }
 /** items is a list of downward API volume file */
@@ -1170,7 +1188,7 @@ export type IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList =
 export interface IoK8sApiCoreV1DownwardAPIVolumeSource {
   /** defaultMode is mode bits to use on created files by default. Must be a Optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
   defaultMode?: number;
-  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
   defaultUser?: number;
   /** items is a list of downward API volume file */
   items?: IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList;
@@ -1304,7 +1322,7 @@ export interface IoK8sApiCoreV1GCEPersistentDiskVolumeSource {
   /** readOnly here will force the ReadOnly setting in VolumeMounts. Defaults to false. More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk */
   readOnly?: boolean;
 }
-/** Represents a volume that is populated with the contents of a git repository. Git repo volumes do not support ownership management. Git repo volumes support SELinux relabeling. DEPRECATED: GitRepo is deprecated. To provision a container with a git repo, mount an EmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir into the Pod's container. */
+/** Represents a volume that is populated with the contents of a git repository. Git repo volumes do not support ownership management. Git repo volumes support SELinux relabeling. Deprecated: GitRepo is deprecated. To provision a container with a git repo, mount an EmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir into the Pod's container. */
 export interface IoK8sApiCoreV1GitRepoVolumeSource {
   /** directory is the target directory name. Must not contain or start with '..'. If '.' is supplied, the volume directory will be the git repository. Otherwise, if specified, the volume will contain the git repository in the subdirectory with the given name. */
   directory?: string;
@@ -1407,7 +1425,7 @@ export interface IoK8sApiCoreV1ClusterTrustBundleProjection {
   path: string;
   /** signerName selects all ClusterTrustBundles that match this signer name. Mutually-exclusive with name. The contents of all selected ClusterTrustBundles will be unified and deduplicated. */
   signerName?: string;
-  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
   user?: number;
 }
 /** items if unspecified, each key-value pair in the Data field of the referenced ConfigMap will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the ConfigMap, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
@@ -1447,7 +1465,7 @@ export interface IoK8sApiCoreV1PodCertificateProjection {
   maxExpirationSeconds?: number;
   /** signerName is the name of the signer. Kubelet's generated CSRs will be addressed to this signer. */
   signerName: string;
-  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
   user?: number;
   /** userAnnotations allow pod authors to pass additional information to the signer implementation. Kubernetes does not restrict or validate this metadata in any way. These values are copied verbatim into the `spec.unverifiedUserAnnotations` field of the PodCertificateRequest objects that Kubelet creates. Entries are subject to the same validation as object metadata annotations, with the addition that all keys must be domain-prefixed. No restrictions are placed on values, except an overall size limitation on the entire field. Signers should document the keys and values they support. Signers should deny requests that contain keys they do not recognize. */
   userAnnotations?: IoK8sApiCoreV1PodCertificateProjectionUserAnnotationsMap;
@@ -1471,7 +1489,7 @@ export interface IoK8sApiCoreV1ServiceAccountTokenProjection {
   expirationSeconds?: number;
   /** path is the path relative to the mount point of the file to project the token into. */
   path: string;
-  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
   user?: number;
 }
 /** Projection that may be projected along with other supported volume types. Exactly one of these fields must be set. */
@@ -1495,7 +1513,7 @@ export type IoK8sApiCoreV1ProjectedVolumeSourceSourcesList = Array<IoK8sApiCoreV
 export interface IoK8sApiCoreV1ProjectedVolumeSource {
   /** defaultMode are the mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
   defaultMode?: number;
-  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
   defaultUser?: number;
   /** sources is the list of volume projections. Each entry in this list handles one source. */
   sources?: IoK8sApiCoreV1ProjectedVolumeSourceSourcesList;
@@ -1565,7 +1583,7 @@ export type IoK8sApiCoreV1SecretVolumeSourceItemsList = Array<IoK8sApiCoreV1KeyT
 export interface IoK8sApiCoreV1SecretVolumeSource {
   /** defaultMode is Optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
   defaultMode?: number;
-  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
   defaultUser?: number;
   /** items If unspecified, each key-value pair in the Data field of the referenced Secret will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the Secret, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
   items?: IoK8sApiCoreV1SecretVolumeSourceItemsList;
@@ -1721,7 +1739,7 @@ export interface IoK8sApiCoreV1PodSpec {
   readinessGates?: IoK8sApiCoreV1PodSpecReadinessGatesList;
   /** resourceClaims defines which ResourceClaims must be allocated and reserved before the Pod is allowed to start. The resources will be made available to those containers which consume them by name. This field is immutable. */
   resourceClaims?: IoK8sApiCoreV1PodSpecResourceClaimsList;
-  /** resources is the total amount of CPU and Memory resources required by all containers in the pod. It supports specifying Requests and Limits for "cpu", "memory" and "hugepages-" resource names only. ResourceClaims are not supported. This field enables fine-grained control over resource allocation for the entire pod, allowing resource sharing among containers in a pod. This is an alpha field and requires enabling the PodLevelResources feature gate. */
+  /** resources is the total amount of CPU and Memory resources required by all containers in the pod. It supports specifying Requests and Limits for "cpu", "memory" and "hugepages-" resource names only. ResourceClaims are not supported. This field enables fine-grained control over resource allocation for the entire pod, allowing resource sharing among containers in a pod. If a limit is not specified at the pod level, the pod is limited by the aggregate of its container limits: - For cpu and memory, the aggregate is used only if every init and regular container specifies a limit; otherwise the pod is not limited for that resource. - For hugepages, the container limits are summed and unspecified values are treated as 0. More details: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
   resources?: IoK8sApiCoreV1ResourceRequirements;
   /** restartPolicy is the restart policy for all containers within the pod. One of Always, OnFailure, Never. In some contexts, only a subset of those values may be permitted. Default to Always. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy */
   restartPolicy?: string;
@@ -1731,7 +1749,7 @@ export interface IoK8sApiCoreV1PodSpec {
   schedulerName?: string;
   /** schedulingGates is an opaque list of values that if specified will block scheduling the pod. If schedulingGates is not empty, the pod will stay in the SchedulingGated state and the scheduler will not attempt to schedule the pod. SchedulingGates can only be set at pod creation time, and be removed only afterwards. */
   schedulingGates?: IoK8sApiCoreV1PodSpecSchedulingGatesList;
-  /** schedulingGroup provides a reference to the immediate scheduling runtime grouping object that this Pod belongs to. This field is used by the scheduler to identify the group and apply the correct group scheduling policies. The association with a group also impacts other lifecycle aspects of a Pod that are relevant in a wider context of scheduling like preemption, resource attachment, etc. If not specified, the Pod is treated as a single unit in all of these aspects. The group object referenced by this field may not exist at the time the Pod is created. This field is immutable, but a group object with the same name may be recreated with different policies. Doing this during pod scheduling may result in the placement not conforming to the expected policies. */
+  /** schedulingGroup provides a reference to the immediate scheduling runtime grouping object that this Pod belongs to. This field is used by the scheduler to identify the group and apply the correct group scheduling policies. The association with a group also impacts other lifecycle aspects of a Pod that are relevant in a wider context of scheduling like preemption, resource attachment, etc. If not specified, the Pod is treated as a single unit in all of these aspects. The group object referenced by this field may not exist at the time the Pod is created. This field is immutable. The scheduler cannot distinguish PodGroup runtime instances that reuse the same namespace and name. Controllers should use a new PodGroup name for each runtime instance. Reusing a name for a PodGroup with different policies may result in Pod placement not conforming to the expected policies. */
   schedulingGroup?: IoK8sApiCoreV1PodSchedulingGroup;
   /** securityContext holds pod-level security attributes and common container settings. Optional: Defaults to empty. See type description for default values of each field. */
   securityContext?: IoK8sApiCoreV1PodSecurityContext;
@@ -1785,7 +1803,7 @@ export interface IoK8sApiBatchV1JobSpec {
   podFailurePolicy?: IoK8sApiBatchV1PodFailurePolicy;
   /** podReplacementPolicy specifies when to create replacement Pods. Possible values are: - TerminatingOrFailed means that we recreate pods when they are terminating (has a metadata.deletionTimestamp) or failed. - Failed means to wait until a previously created Pod is fully terminated (has phase Failed or Succeeded) before creating a replacement Pod. When using podFailurePolicy, Failed is the the only allowed value. TerminatingOrFailed and Failed are allowed values when podFailurePolicy is not in use. */
   podReplacementPolicy?: string;
-  /** scheduling defines the Workload-aware Scheduling configuration for this Job. When set, it specifies the scheduling policy (basic or gang), topology constraints, disruption mode, and shared resource claims. When omitted, the Job defaults to the basic scheduling policy, which behaves as standard pod-by-pod scheduling. This field is alpha-level and requires the WorkloadWithJob feature gate. This field is immutable, including whether it is set at all, only policy.gang.minCount may be changed after creation. */
+  /** scheduling defines the Workload-aware Scheduling configuration for this Job. When set, it specifies the scheduling policy (basic or gang), topology constraints, disruption mode, and shared resource claims. When omitted, the Job defaults to the basic scheduling policy, which behaves as standard pod-by-pod scheduling. This field is gated by the WorkloadWithJob feature gate. This field is immutable, including whether it is set at all, only policy.gang.minCount may be changed after creation. */
   scheduling?: IoK8sApiBatchV1JobSchedulingConfiguration;
   /** selector is a label query over pods that should match the pod count. Normally, the system sets this field for you. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors */
   selector?: IoK8sApimachineryPkgApisMetaV1LabelSelector;
@@ -2011,7 +2029,7 @@ export interface DeleteBatchV1CollectionNamespacedCronJobRequest {
   resourceVersionMatch?: string;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
   sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
   shardSelector?: string;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
   timeoutSeconds?: number;
@@ -2064,7 +2082,7 @@ export interface IoK8sApimachineryPkgApisMetaV1ListMeta {
   resourceVersion?: string;
   /** Deprecated: selfLink is a legacy read-only field that is no longer populated by the system. */
   selfLink?: string;
-  /** shardInfo is set when the list is a filtered subset of the full collection, as selected by a shard selector on the request. It echoes back the selector so clients can verify which shard they received and merge sharded responses. Clients should not cache sharded list responses as a full representation of the collection. This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  /** shardInfo is set when the list is a filtered subset of the full collection, as selected by a shard selector on the request. It echoes back the selector so clients can verify which shard they received and merge sharded responses. Clients should not cache sharded list responses as a full representation of the collection. This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
   shardInfo?: IoK8sApimachineryPkgApisMetaV1ShardInfo;
 }
 /** Status is a return value for calls that don't return other objects. */
@@ -2115,7 +2133,7 @@ export interface DeleteBatchV1CollectionNamespacedJobRequest {
   resourceVersionMatch?: string;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
   sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
   shardSelector?: string;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
   timeoutSeconds?: number;
@@ -2273,7 +2291,7 @@ export interface ListBatchV1CronJobForAllNamespacesRequest {
   resourceVersionMatch?: string;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
   sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
   shardSelector?: string;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
   timeoutSeconds?: number;
@@ -2312,7 +2330,7 @@ export interface ListBatchV1JobForAllNamespacesRequest {
   resourceVersionMatch?: string;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
   sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
   shardSelector?: string;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
   timeoutSeconds?: number;
@@ -2353,7 +2371,7 @@ export interface ListBatchV1NamespacedCronJobRequest {
   resourceVersionMatch?: string;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
   sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
   shardSelector?: string;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
   timeoutSeconds?: number;
@@ -2381,7 +2399,7 @@ export interface ListBatchV1NamespacedJobRequest {
   resourceVersionMatch?: string;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
   sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
   shardSelector?: string;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
   timeoutSeconds?: number;
@@ -2599,7 +2617,7 @@ export interface WatchBatchV1CronJobListForAllNamespacesRequest {
   resourceVersionMatch?: string;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
   sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
   shardSelector?: string;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
   timeoutSeconds?: number;
@@ -2631,7 +2649,7 @@ export interface WatchBatchV1JobListForAllNamespacesRequest {
   resourceVersionMatch?: string;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
   sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
   shardSelector?: string;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
   timeoutSeconds?: number;
@@ -2661,7 +2679,7 @@ export interface WatchBatchV1NamespacedCronJobRequest {
   resourceVersionMatch?: string;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
   sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
   shardSelector?: string;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
   timeoutSeconds?: number;
@@ -2689,7 +2707,7 @@ export interface WatchBatchV1NamespacedCronJobListRequest {
   resourceVersionMatch?: string;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
   sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
   shardSelector?: string;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
   timeoutSeconds?: number;
@@ -2719,7 +2737,7 @@ export interface WatchBatchV1NamespacedJobRequest {
   resourceVersionMatch?: string;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
   sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
   shardSelector?: string;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
   timeoutSeconds?: number;
@@ -2747,7 +2765,7 @@ export interface WatchBatchV1NamespacedJobListRequest {
   resourceVersionMatch?: string;
   /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
   sendInitialEvents?: boolean;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
   shardSelector?: string;
   /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
   timeoutSeconds?: number;
@@ -3684,7 +3702,7 @@ function __c17(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(837, __c26, 5)),
-          spec: __S(984, __c30, 24),
+          spec: __S(986, __c30, 26),
           status: S.optional(__S(1123, __c35, 3)),
         }).pipe(
           T.Http({
@@ -3710,7 +3728,7 @@ function __c18(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(837, __c26, 5)),
-          spec: __S(984, __c30, 24),
+          spec: __S(986, __c30, 26),
           status: S.optional(__S(1123, __c35, 3)),
         }).pipe(
           T.Http({
@@ -3835,7 +3853,7 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           metadata: S.optional(__S(837, __c26, 5)),
-          spec: __S(984, __c30, 24),
+          spec: __S(986, __c30, 26),
         }),
       ).annotate({ identifier: "IoK8sApiBatchV1JobTemplateSpec" });
     case 1:
@@ -3965,6 +3983,7 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           action: S.String,
+          name: S.optional(S.String),
           onExitCodes: S.optional(__S(839, __c26, 7)),
           onPodConditions: S.optional(__S(841, __c26, 9)),
         }),
@@ -3983,7 +4002,7 @@ function __c26(j: number): any {
           all: S.optional(S.Unknown),
           single: S.optional(S.Unknown),
         }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3WorkloadPodGroupDisruptionMode" });
+      ).annotate({ identifier: "IoK8sApiSchedulingV1WorkloadPodGroupDisruptionMode" });
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -3991,7 +4010,7 @@ function __c26(j: number): any {
           resourceClaimName: S.optional(S.String),
           resourceClaimTemplateName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3WorkloadPodGroupResourceClaim" });
+      ).annotate({ identifier: "IoK8sApiSchedulingV1WorkloadPodGroupResourceClaim" });
     case 15:
       return S.Array(__S(846, __c26, 14));
     case 16:
@@ -3999,7 +4018,7 @@ function __c26(j: number): any {
         S.Struct({
           key: S.String,
         }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3TopologyConstraint" });
+      ).annotate({ identifier: "IoK8sApiSchedulingV1WorkloadTopologyConstraint" });
     case 17:
       return S.Array(__S(848, __c26, 16));
     case 18:
@@ -4007,20 +4026,20 @@ function __c26(j: number): any {
         S.Struct({
           topology: S.optional(__S(849, __c26, 17)),
         }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraints" });
+      ).annotate({ identifier: "IoK8sApiSchedulingV1WorkloadPodGroupSchedulingConstraints" });
     case 19:
       return S.suspend(() =>
         S.Struct({
           minCount: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3WorkloadPodGroupGangSchedulingPolicy" });
+      ).annotate({ identifier: "IoK8sApiSchedulingV1WorkloadPodGroupGangSchedulingPolicy" });
     case 20:
       return S.suspend(() =>
         S.Struct({
           basic: S.optional(S.Unknown),
           gang: S.optional(__S(851, __c26, 19)),
         }),
-      ).annotate({ identifier: "IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingPolicy" });
+      ).annotate({ identifier: "IoK8sApiSchedulingV1WorkloadPodGroupSchedulingPolicy" });
     case 21:
       return S.suspend(() =>
         S.Struct({
@@ -4366,13 +4385,28 @@ function __c28(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
+          baseProfile: S.optional(__S(902, __c28, 6)),
+          ref: S.String,
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1SecurityProfileOCI" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          localhostProfile: S.optional(S.String),
+          oci: S.optional(__S(905, __c28, 9)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1SeccompProfile" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
           gmsaCredentialSpec: S.optional(S.String),
           gmsaCredentialSpecName: S.optional(S.String),
           hostProcess: S.optional(S.Boolean),
           runAsUserName: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1WindowsSecurityContextOptions" });
-    case 10:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           allowPrivilegeEscalation: S.optional(S.Boolean),
@@ -4385,20 +4419,20 @@ function __c28(j: number): any {
           runAsNonRoot: S.optional(S.Boolean),
           runAsUser: S.optional(S.Number),
           seLinuxOptions: S.optional(__S(904, __c28, 8)),
-          seccompProfile: S.optional(__S(902, __c28, 6)),
-          windowsOptions: S.optional(__S(905, __c28, 9)),
+          seccompProfile: S.optional(__S(906, __c28, 10)),
+          windowsOptions: S.optional(__S(907, __c28, 11)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1SecurityContext" });
-    case 11:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           devicePath: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeDevice" });
-    case 12:
-      return S.Array(__S(907, __c28, 11));
-    case 13:
+    case 14:
+      return S.Array(__S(909, __c28, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           bindMountOptions: S.optional(__S(800, __c25, 0)),
@@ -4411,9 +4445,9 @@ function __c28(j: number): any {
           subPathExpr: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeMount" });
-    case 14:
-      return S.Array(__S(909, __c28, 13));
-    case 15:
+    case 16:
+      return S.Array(__S(911, __c28, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           args: S.optional(__S(800, __c25, 0)),
@@ -4431,38 +4465,38 @@ function __c28(j: number): any {
           resources: S.optional(__S(898, __c28, 2)),
           restartPolicy: S.optional(S.String),
           restartPolicyRules: S.optional(__S(901, __c28, 5)),
-          securityContext: S.optional(__S(906, __c28, 10)),
+          securityContext: S.optional(__S(908, __c28, 12)),
           startupProbe: S.optional(__S(891, __c27, 27)),
           stdin: S.optional(S.Boolean),
           stdinOnce: S.optional(S.Boolean),
           terminationMessagePath: S.optional(S.String),
           terminationMessagePolicy: S.optional(S.String),
           tty: S.optional(S.Boolean),
-          volumeDevices: S.optional(__S(908, __c28, 12)),
-          volumeMounts: S.optional(__S(910, __c28, 14)),
+          volumeDevices: S.optional(__S(910, __c28, 14)),
+          volumeMounts: S.optional(__S(912, __c28, 16)),
           workingDir: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Container" });
-    case 16:
-      return S.Array(__S(911, __c28, 15));
-    case 17:
+    case 18:
+      return S.Array(__S(913, __c28, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodDNSConfigOption" });
-    case 18:
-      return S.Array(__S(913, __c28, 17));
-    case 19:
+    case 20:
+      return S.Array(__S(915, __c28, 19));
+    case 21:
       return S.suspend(() =>
         S.Struct({
           nameservers: S.optional(__S(800, __c25, 0)),
-          options: S.optional(__S(914, __c28, 18)),
+          options: S.optional(__S(916, __c28, 20)),
           searches: S.optional(__S(800, __c25, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodDNSConfig" });
-    case 20:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           args: S.optional(__S(800, __c25, 0)),
@@ -4480,7 +4514,7 @@ function __c28(j: number): any {
           resources: S.optional(__S(898, __c28, 2)),
           restartPolicy: S.optional(S.String),
           restartPolicyRules: S.optional(__S(901, __c28, 5)),
-          securityContext: S.optional(__S(906, __c28, 10)),
+          securityContext: S.optional(__S(908, __c28, 12)),
           startupProbe: S.optional(__S(891, __c27, 27)),
           stdin: S.optional(S.Boolean),
           stdinOnce: S.optional(S.Boolean),
@@ -4488,66 +4522,66 @@ function __c28(j: number): any {
           terminationMessagePath: S.optional(S.String),
           terminationMessagePolicy: S.optional(S.String),
           tty: S.optional(S.Boolean),
-          volumeDevices: S.optional(__S(908, __c28, 12)),
-          volumeMounts: S.optional(__S(910, __c28, 14)),
+          volumeDevices: S.optional(__S(910, __c28, 14)),
+          volumeMounts: S.optional(__S(912, __c28, 16)),
           workingDir: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EphemeralContainer" });
-    case 21:
-      return S.Array(__S(916, __c28, 20));
-    case 22:
+    case 23:
+      return S.Array(__S(918, __c28, 22));
+    case 24:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           priority: S.Number,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EvictionResponder" });
-    case 23:
-      return S.Array(__S(918, __c28, 22));
-    case 24:
+    case 25:
+      return S.Array(__S(920, __c28, 24));
+    case 26:
       return S.suspend(() =>
         S.Struct({
           hostnames: S.optional(__S(800, __c25, 0)),
           ip: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1HostAlias" });
-    case 25:
-      return S.Array(__S(920, __c28, 24));
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IoK8sApiCoreV1LocalObjectReference" });
     case 27:
       return S.Array(__S(922, __c28, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1LocalObjectReference" });
+    case 29:
+      return S.Array(__S(924, __c28, 28));
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodOS" });
-    case 29:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           conditionType: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodReadinessGate" });
-    case 30:
-      return S.Array(__S(925, __c28, 29));
-    case 31:
-      return S.Array(__S(924, __c28, 28));
   }
 }
 function __c29(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(927, __c28, 31));
+    case 1:
+      return S.Array(__S(926, __c28, 30));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           podGroupName: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodSchedulingGroup" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           appArmorProfile: S.optional(__S(902, __c28, 6)),
@@ -4558,14 +4592,14 @@ function __c29(j: number): any {
           runAsUser: S.optional(S.Number),
           seLinuxChangePolicy: S.optional(S.String),
           seLinuxOptions: S.optional(__S(904, __c28, 8)),
-          seccompProfile: S.optional(__S(902, __c28, 6)),
+          seccompProfile: S.optional(__S(906, __c28, 10)),
           supplementalGroups: S.optional(__S(838, __c26, 6)),
           supplementalGroupsPolicy: S.optional(S.String),
           sysctls: S.optional(__S(884, __c27, 20)),
-          windowsOptions: S.optional(__S(905, __c28, 9)),
+          windowsOptions: S.optional(__S(907, __c28, 11)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodSecurityContext" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           effect: S.optional(S.String),
@@ -4575,9 +4609,9 @@ function __c29(j: number): any {
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Toleration" });
-    case 3:
-      return S.Array(__S(930, __c29, 2));
-    case 4:
+    case 5:
+      return S.Array(__S(932, __c29, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           labelSelector: S.optional(__S(856, __c26, 24)),
@@ -4590,9 +4624,9 @@ function __c29(j: number): any {
           whenUnsatisfiable: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1TopologySpreadConstraint" });
-    case 5:
-      return S.Array(__S(932, __c29, 4));
-    case 6:
+    case 7:
+      return S.Array(__S(934, __c29, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
@@ -4601,7 +4635,7 @@ function __c29(j: number): any {
           volumeID: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1AWSElasticBlockStoreVolumeSource" });
-    case 7:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           cachingMode: S.optional(S.String),
@@ -4612,7 +4646,7 @@ function __c29(j: number): any {
           readOnly: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1AzureDiskVolumeSource" });
-    case 8:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           readOnly: S.optional(S.Boolean),
@@ -4620,27 +4654,27 @@ function __c29(j: number): any {
           shareName: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1AzureFileVolumeSource" });
-    case 9:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           monitors: __S(800, __c25, 0),
           path: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
           secretFile: S.optional(S.String),
-          secretRef: S.optional(__S(922, __c28, 26)),
+          secretRef: S.optional(__S(924, __c28, 28)),
           user: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1CephFSVolumeSource" });
-    case 10:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(922, __c28, 26)),
+          secretRef: S.optional(__S(924, __c28, 28)),
           volumeID: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1CinderVolumeSource" });
-    case 11:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
@@ -4649,29 +4683,29 @@ function __c29(j: number): any {
           user: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1KeyToPath" });
-    case 12:
-      return S.Array(__S(939, __c29, 11));
-    case 13:
+    case 14:
+      return S.Array(__S(941, __c29, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           defaultMode: S.optional(S.Number),
           defaultUser: S.optional(S.Number),
-          items: S.optional(__S(940, __c29, 12)),
+          items: S.optional(__S(942, __c29, 14)),
           name: S.optional(S.String),
           optional: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ConfigMapVolumeSource" });
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           driver: S.String,
           fsType: S.optional(S.String),
-          nodePublishSecretRef: S.optional(__S(922, __c28, 26)),
+          nodePublishSecretRef: S.optional(__S(924, __c28, 28)),
           readOnly: S.optional(S.Boolean),
           volumeAttributes: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1CSIVolumeSource" });
-    case 15:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           fieldRef: S.optional(__S(873, __c27, 9)),
@@ -4681,17 +4715,17 @@ function __c29(j: number): any {
           user: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1DownwardAPIVolumeFile" });
-    case 16:
-      return S.Array(__S(943, __c29, 15));
-    case 17:
+    case 18:
+      return S.Array(__S(945, __c29, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           defaultMode: S.optional(S.Number),
           defaultUser: S.optional(S.Number),
-          items: S.optional(__S(944, __c29, 16)),
+          items: S.optional(__S(946, __c29, 18)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1DownwardAPIVolumeSource" });
-    case 18:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           medium: S.optional(S.String),
@@ -4699,7 +4733,7 @@ function __c29(j: number): any {
           sizeLimit: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EmptyDirVolumeSource" });
-    case 19:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           apiGroup: S.optional(S.String),
@@ -4707,7 +4741,7 @@ function __c29(j: number): any {
           name: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1TypedLocalObjectReference" });
-    case 20:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           apiGroup: S.optional(S.String),
@@ -4716,20 +4750,20 @@ function __c29(j: number): any {
           namespace: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1TypedObjectReference" });
-    case 21:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           limits: S.optional(__S(832, __c26, 0)),
           requests: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeResourceRequirements" });
-    case 22:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           accessModes: S.optional(__S(800, __c25, 0)),
-          dataSource: S.optional(__S(947, __c29, 19)),
-          dataSourceRef: S.optional(__S(948, __c29, 20)),
-          resources: S.optional(__S(949, __c29, 21)),
+          dataSource: S.optional(__S(949, __c29, 21)),
+          dataSourceRef: S.optional(__S(950, __c29, 22)),
+          resources: S.optional(__S(951, __c29, 23)),
           selector: S.optional(__S(856, __c26, 24)),
           storageClassName: S.optional(S.String),
           volumeAttributesClassName: S.optional(S.String),
@@ -4737,20 +4771,20 @@ function __c29(j: number): any {
           volumeName: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PersistentVolumeClaimSpec" });
-    case 23:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           metadata: S.optional(__S(837, __c26, 5)),
-          spec: __S(950, __c29, 22),
+          spec: __S(952, __c29, 24),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PersistentVolumeClaimTemplate" });
-    case 24:
+    case 26:
       return S.suspend(() =>
         S.Struct({
-          volumeClaimTemplate: __S(951, __c29, 23),
+          volumeClaimTemplate: __S(953, __c29, 25),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EphemeralVolumeSource" });
-    case 25:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
@@ -4760,24 +4794,24 @@ function __c29(j: number): any {
           wwids: S.optional(__S(800, __c25, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1FCVolumeSource" });
-    case 26:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           driver: S.String,
           fsType: S.optional(S.String),
           options: S.optional(__S(832, __c26, 0)),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(922, __c28, 26)),
+          secretRef: S.optional(__S(924, __c28, 28)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1FlexVolumeSource" });
-    case 27:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           datasetName: S.optional(S.String),
           datasetUUID: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1FlockerVolumeSource" });
-    case 28:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
@@ -4786,7 +4820,7 @@ function __c29(j: number): any {
           readOnly: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1GCEPersistentDiskVolumeSource" });
-    case 29:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           directory: S.optional(S.String),
@@ -4794,21 +4828,6 @@ function __c29(j: number): any {
           revision: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1GitRepoVolumeSource" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          endpoints: S.String,
-          path: S.String,
-          readOnly: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "IoK8sApiCoreV1GlusterfsVolumeSource" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.String,
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IoK8sApiCoreV1HostPathVolumeSource" });
   }
 }
 function __c30(j: number): any {
@@ -4816,11 +4835,26 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          endpoints: S.String,
+          path: S.String,
+          readOnly: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1GlusterfsVolumeSource" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.String,
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1HostPathVolumeSource" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           pullPolicy: S.optional(S.String),
           reference: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ImageVolumeSource" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           chapAuthDiscovery: S.optional(S.Boolean),
@@ -4832,11 +4866,11 @@ function __c30(j: number): any {
           lun: S.optional(S.Number),
           portals: S.optional(__S(800, __c25, 0)),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(922, __c28, 26)),
+          secretRef: S.optional(__S(924, __c28, 28)),
           targetPortal: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ISCSIVolumeSource" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           path: S.String,
@@ -4844,21 +4878,21 @@ function __c30(j: number): any {
           server: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NFSVolumeSource" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           claimName: S.String,
           readOnly: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PersistentVolumeClaimVolumeSource" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
           pdID: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PhotonPersistentDiskVolumeSource" });
-    case 5:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
@@ -4866,7 +4900,7 @@ function __c30(j: number): any {
           volumeID: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PortworxVolumeSource" });
-    case 6:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           labelSelector: S.optional(__S(856, __c26, 24)),
@@ -4877,21 +4911,21 @@ function __c30(j: number): any {
           user: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ClusterTrustBundleProjection" });
-    case 7:
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(940, __c29, 12)),
+          items: S.optional(__S(942, __c29, 14)),
           name: S.optional(S.String),
           optional: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ConfigMapProjection" });
-    case 8:
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(944, __c29, 16)),
+          items: S.optional(__S(946, __c29, 18)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1DownwardAPIProjection" });
-    case 9:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           certificateChainPath: S.optional(S.String),
@@ -4904,7 +4938,7 @@ function __c30(j: number): any {
           userAnnotations: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodCertificateProjection" });
-    case 10:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           audience: S.optional(S.String),
@@ -4913,28 +4947,28 @@ function __c30(j: number): any {
           user: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ServiceAccountTokenProjection" });
-    case 11:
+    case 13:
       return S.suspend(() =>
         S.Struct({
-          clusterTrustBundle: S.optional(__S(966, __c30, 6)),
-          configMap: S.optional(__S(967, __c30, 7)),
-          downwardAPI: S.optional(__S(968, __c30, 8)),
-          podCertificate: S.optional(__S(969, __c30, 9)),
-          secret: S.optional(__S(967, __c30, 7)),
-          serviceAccountToken: S.optional(__S(970, __c30, 10)),
+          clusterTrustBundle: S.optional(__S(968, __c30, 8)),
+          configMap: S.optional(__S(969, __c30, 9)),
+          downwardAPI: S.optional(__S(970, __c30, 10)),
+          podCertificate: S.optional(__S(971, __c30, 11)),
+          secret: S.optional(__S(969, __c30, 9)),
+          serviceAccountToken: S.optional(__S(972, __c30, 12)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeProjection" });
-    case 12:
-      return S.Array(__S(971, __c30, 11));
-    case 13:
+    case 14:
+      return S.Array(__S(973, __c30, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           defaultMode: S.optional(S.Number),
           defaultUser: S.optional(S.Number),
-          sources: S.optional(__S(972, __c30, 12)),
+          sources: S.optional(__S(974, __c30, 14)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ProjectedVolumeSource" });
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           group: S.optional(S.String),
@@ -4945,7 +4979,7 @@ function __c30(j: number): any {
           volume: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1QuobyteVolumeSource" });
-    case 15:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
@@ -4954,18 +4988,18 @@ function __c30(j: number): any {
           monitors: __S(800, __c25, 0),
           pool: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(922, __c28, 26)),
+          secretRef: S.optional(__S(924, __c28, 28)),
           user: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1RBDVolumeSource" });
-    case 16:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
           gateway: S.String,
           protectionDomain: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(922, __c28, 26)),
+          secretRef: S.optional(__S(924, __c28, 28)),
           sslEnabled: S.optional(S.Boolean),
           storageMode: S.optional(S.String),
           storagePool: S.optional(S.String),
@@ -4973,27 +5007,27 @@ function __c30(j: number): any {
           volumeName: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ScaleIOVolumeSource" });
-    case 17:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           defaultMode: S.optional(S.Number),
           defaultUser: S.optional(S.Number),
-          items: S.optional(__S(940, __c29, 12)),
+          items: S.optional(__S(942, __c29, 14)),
           optional: S.optional(S.Boolean),
           secretName: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1SecretVolumeSource" });
-    case 18:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(922, __c28, 26)),
+          secretRef: S.optional(__S(924, __c28, 28)),
           volumeName: S.String,
           volumeNamespace: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1StorageOSVolumeSource" });
-    case 19:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
@@ -5002,100 +5036,100 @@ function __c30(j: number): any {
           volumePath: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VsphereVirtualDiskVolumeSource" });
-    case 20:
+    case 22:
       return S.suspend(() =>
         S.Struct({
-          awsElasticBlockStore: S.optional(__S(934, __c29, 6)),
-          azureDisk: S.optional(__S(935, __c29, 7)),
-          azureFile: S.optional(__S(936, __c29, 8)),
-          cephfs: S.optional(__S(937, __c29, 9)),
-          cinder: S.optional(__S(938, __c29, 10)),
-          configMap: S.optional(__S(941, __c29, 13)),
-          csi: S.optional(__S(942, __c29, 14)),
-          downwardAPI: S.optional(__S(945, __c29, 17)),
-          emptyDir: S.optional(__S(946, __c29, 18)),
-          ephemeral: S.optional(__S(952, __c29, 24)),
-          fc: S.optional(__S(953, __c29, 25)),
-          flexVolume: S.optional(__S(954, __c29, 26)),
-          flocker: S.optional(__S(955, __c29, 27)),
-          gcePersistentDisk: S.optional(__S(956, __c29, 28)),
-          gitRepo: S.optional(__S(957, __c29, 29)),
-          glusterfs: S.optional(__S(958, __c29, 30)),
-          hostPath: S.optional(__S(959, __c29, 31)),
-          image: S.optional(__S(960, __c30, 0)),
-          iscsi: S.optional(__S(961, __c30, 1)),
+          awsElasticBlockStore: S.optional(__S(936, __c29, 8)),
+          azureDisk: S.optional(__S(937, __c29, 9)),
+          azureFile: S.optional(__S(938, __c29, 10)),
+          cephfs: S.optional(__S(939, __c29, 11)),
+          cinder: S.optional(__S(940, __c29, 12)),
+          configMap: S.optional(__S(943, __c29, 15)),
+          csi: S.optional(__S(944, __c29, 16)),
+          downwardAPI: S.optional(__S(947, __c29, 19)),
+          emptyDir: S.optional(__S(948, __c29, 20)),
+          ephemeral: S.optional(__S(954, __c29, 26)),
+          fc: S.optional(__S(955, __c29, 27)),
+          flexVolume: S.optional(__S(956, __c29, 28)),
+          flocker: S.optional(__S(957, __c29, 29)),
+          gcePersistentDisk: S.optional(__S(958, __c29, 30)),
+          gitRepo: S.optional(__S(959, __c29, 31)),
+          glusterfs: S.optional(__S(960, __c30, 0)),
+          hostPath: S.optional(__S(961, __c30, 1)),
+          image: S.optional(__S(962, __c30, 2)),
+          iscsi: S.optional(__S(963, __c30, 3)),
           name: S.String,
-          nfs: S.optional(__S(962, __c30, 2)),
-          persistentVolumeClaim: S.optional(__S(963, __c30, 3)),
-          photonPersistentDisk: S.optional(__S(964, __c30, 4)),
-          portworxVolume: S.optional(__S(965, __c30, 5)),
-          projected: S.optional(__S(973, __c30, 13)),
-          quobyte: S.optional(__S(974, __c30, 14)),
-          rbd: S.optional(__S(975, __c30, 15)),
-          scaleIO: S.optional(__S(976, __c30, 16)),
-          secret: S.optional(__S(977, __c30, 17)),
-          storageos: S.optional(__S(978, __c30, 18)),
-          vsphereVolume: S.optional(__S(979, __c30, 19)),
+          nfs: S.optional(__S(964, __c30, 4)),
+          persistentVolumeClaim: S.optional(__S(965, __c30, 5)),
+          photonPersistentDisk: S.optional(__S(966, __c30, 6)),
+          portworxVolume: S.optional(__S(967, __c30, 7)),
+          projected: S.optional(__S(975, __c30, 15)),
+          quobyte: S.optional(__S(976, __c30, 16)),
+          rbd: S.optional(__S(977, __c30, 17)),
+          scaleIO: S.optional(__S(978, __c30, 18)),
+          secret: S.optional(__S(979, __c30, 19)),
+          storageos: S.optional(__S(980, __c30, 20)),
+          vsphereVolume: S.optional(__S(981, __c30, 21)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Volume" });
-    case 21:
-      return S.Array(__S(980, __c30, 20));
-    case 22:
+    case 23:
+      return S.Array(__S(982, __c30, 22));
+    case 24:
       return S.suspend(() =>
         S.Struct({
           activeDeadlineSeconds: S.optional(S.Number),
           affinity: S.optional(__S(871, __c27, 7)),
           automountServiceAccountToken: S.optional(S.Boolean),
-          containers: __S(912, __c28, 16),
-          dnsConfig: S.optional(__S(915, __c28, 19)),
+          containers: __S(914, __c28, 18),
+          dnsConfig: S.optional(__S(917, __c28, 21)),
           dnsPolicy: S.optional(S.String),
           enableServiceLinks: S.optional(S.Boolean),
-          ephemeralContainers: S.optional(__S(917, __c28, 21)),
-          evictionResponders: S.optional(__S(919, __c28, 23)),
-          hostAliases: S.optional(__S(921, __c28, 25)),
+          ephemeralContainers: S.optional(__S(919, __c28, 23)),
+          evictionResponders: S.optional(__S(921, __c28, 25)),
+          hostAliases: S.optional(__S(923, __c28, 27)),
           hostIPC: S.optional(S.Boolean),
           hostNetwork: S.optional(S.Boolean),
           hostPID: S.optional(S.Boolean),
           hostUsers: S.optional(S.Boolean),
           hostname: S.optional(S.String),
           hostnameOverride: S.optional(S.String),
-          imagePullSecrets: S.optional(__S(923, __c28, 27)),
-          initContainers: S.optional(__S(912, __c28, 16)),
+          imagePullSecrets: S.optional(__S(925, __c28, 29)),
+          initContainers: S.optional(__S(914, __c28, 18)),
           nodeName: S.optional(S.String),
           nodeSelector: S.optional(__S(832, __c26, 0)),
-          os: S.optional(__S(924, __c28, 28)),
+          os: S.optional(__S(926, __c28, 30)),
           overhead: S.optional(__S(832, __c26, 0)),
           preemptionPolicy: S.optional(S.String),
           priority: S.optional(S.Number),
           priorityClassName: S.optional(S.String),
-          readinessGates: S.optional(__S(926, __c28, 30)),
+          readinessGates: S.optional(__S(928, __c29, 0)),
           resourceClaims: S.optional(__S(847, __c26, 15)),
           resources: S.optional(__S(898, __c28, 2)),
           restartPolicy: S.optional(S.String),
           runtimeClassName: S.optional(S.String),
           schedulerName: S.optional(S.String),
-          schedulingGates: S.optional(__S(927, __c28, 31)),
-          schedulingGroup: S.optional(__S(928, __c29, 0)),
-          securityContext: S.optional(__S(929, __c29, 1)),
+          schedulingGates: S.optional(__S(929, __c29, 1)),
+          schedulingGroup: S.optional(__S(930, __c29, 2)),
+          securityContext: S.optional(__S(931, __c29, 3)),
           serviceAccount: S.optional(S.String),
           serviceAccountName: S.optional(S.String),
           setHostnameAsFQDN: S.optional(S.Boolean),
           shareProcessNamespace: S.optional(S.Boolean),
           subdomain: S.optional(S.String),
           terminationGracePeriodSeconds: S.optional(S.Number),
-          tolerations: S.optional(__S(931, __c29, 3)),
-          topologySpreadConstraints: S.optional(__S(933, __c29, 5)),
-          volumes: S.optional(__S(981, __c30, 21)),
+          tolerations: S.optional(__S(933, __c29, 5)),
+          topologySpreadConstraints: S.optional(__S(935, __c29, 7)),
+          volumes: S.optional(__S(983, __c30, 23)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodSpec" });
-    case 23:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           metadata: S.optional(__S(837, __c26, 5)),
-          spec: S.optional(__S(982, __c30, 22)),
+          spec: S.optional(__S(984, __c30, 24)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodTemplateSpec" });
-    case 24:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           activeDeadlineSeconds: S.optional(S.Number),
@@ -5113,7 +5147,7 @@ function __c30(j: number): any {
           selector: S.optional(__S(856, __c26, 24)),
           successPolicy: S.optional(__S(859, __c26, 27)),
           suspend: S.optional(S.Boolean),
-          template: __S(983, __c30, 23),
+          template: __S(985, __c30, 25),
           ttlSecondsAfterFinished: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IoK8sApiBatchV1JobSpec" });
@@ -5217,7 +5251,7 @@ function __c34(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(837, __c26, 5)),
-          spec: __S(984, __c30, 24),
+          spec: __S(986, __c30, 26),
           status: S.optional(__S(1123, __c35, 3)),
         }).pipe(
           T.Http({ method: "POST", uri: "/apis/batch/v1/namespaces/{namespace}/jobs", code: 200 }),
@@ -5269,7 +5303,7 @@ function __c35(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(837, __c26, 5)),
-          spec: __S(984, __c30, 24),
+          spec: __S(986, __c30, 26),
           status: S.optional(__S(1123, __c35, 3)),
         }),
       ).annotate({ identifier: "IoK8sApiBatchV1Job" });

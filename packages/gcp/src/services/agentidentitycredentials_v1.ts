@@ -85,12 +85,12 @@ export class NotFound
 
 /** Request message for `FinalizeCredentials`. */
 export interface GoogleCloudAgentidentitycredentialsV1_FinalizeCredentialsRequest {
-  /** Required. The same `consent_nonce` value that was provided during retrieval in the [UriConsentRequired](https://cloud.google.com/iam/docs/reference/agentidentitycredentials/rest/v1/projects.locations.authProviders.credentials/retrieve#UriConsentRequired) metadata. */
-  consentNonce?: string;
   /** Required. The identity of the end user. */
   userId?: string;
   /** Required. The encrypted state passed back from the consent flow. */
   userIdValidationState?: string;
+  /** Required. The same `consent_nonce` value that was provided during retrieval in the [UriConsentRequired](https://cloud.google.com/iam/docs/reference/agentidentitycredentials/rest/v1/projects.locations.authProviders.credentials/retrieve#UriConsentRequired) metadata. */
+  consentNonce?: string;
 }
 export interface FinalizeProjectsLocationsAuthProvidersCredentialsRequest {
   /** Required. The resource name of the auth provider. Format: `projects/{project}/locations/{location}/authProviders/{auth_provider}` */
@@ -105,12 +105,12 @@ export type StringList = Array<string>;
 export interface GoogleCloudAgentidentitycredentialsV1_RetrieveCredentialsRequest {
   /** Required. The identity of the end user. */
   userId?: string;
+  /** Optional. The URI to redirect the user to after consent is completed. This field is required for auth providers using the 3-legged OAuth flow. For other auth provider types, this field is unused but not rejected. */
+  continueUri?: string;
   /** Optional. Input only. Set this field only if the previous token was expired or invalid. This value must be the full, previously returned token string. Setting this field triggers a refresh of the access token with a stored refresh token, if possible, or a new consent flow. */
   forceRefreshToken?: string;
   /** Optional. The OAuth scopes required for this access. */
   scopes?: StringList;
-  /** Optional. The URI to redirect the user to after consent is completed. This field is required for auth providers using the 3-legged OAuth flow. For other auth provider types, this field is unused but not rejected. */
-  continueUri?: string;
 }
 export interface GetProjectsLocationsAuthProvidersCredentialsRequest {
   /** Required. The resource name of the auth provider. Format: `projects/{project}/locations/{location}/authProviders/{auth_provider}` */
@@ -118,11 +118,11 @@ export interface GetProjectsLocationsAuthProvidersCredentialsRequest {
   /** Request body */
   body?: GoogleCloudAgentidentitycredentialsV1_RetrieveCredentialsRequest;
 }
-/** Indicates that the credential retrieval is pending. The caller should retry the `RetrieveCredentials` request after some time. */
-export interface GoogleCloudAgentidentitycredentialsV1_Pending {}
 /** Indicates the user has rejected the permission delegation or canceled the request. */
-export type GoogleCloudAgentidentitycredentialsV1_ConsentRejected =
-  GoogleCloudAgentidentitycredentialsV1_Pending;
+export interface GoogleCloudAgentidentitycredentialsV1_ConsentRejected {}
+/** Indicates that the credential retrieval is pending. The caller should retry the `RetrieveCredentials` request after some time. */
+export type GoogleCloudAgentidentitycredentialsV1_Pending =
+  GoogleCloudAgentidentitycredentialsV1_ConsentRejected;
 /** Indicates that the user must visit the provided URI to consent to delegate permission to the agent to act on their behalf. The caller can either poll the `RetrieveCredentials` method, or await the /ValidateUserId callback. */
 export interface GoogleCloudAgentidentitycredentialsV1_UriConsentRequired {
   /** Output only. The URL where the user should be redirected to grant consent. This will always be present. */
@@ -134,21 +134,21 @@ export interface GoogleCloudAgentidentitycredentialsV1_UriConsentRequired {
 }
 /** Message indicating successful retrieval of credentials. */
 export interface GoogleCloudAgentidentitycredentialsV1_Success {
-  /** The HTTP header name where the token should be placed. */
-  header?: string;
-  /** The expiration time of the token. This does not guarantee that the token will be valid until this time, since the token could be revoked earlier. There could also be clock skew between the auth provider and the client so it may expire slightly earlier. If not set, the token might be permanent or it may be that the service does not (or cannot) know when it will expire. */
-  expireTime?: string;
   /** The scopes actually associated with the retrieved token. End users may have rejected some requested scopes, or the third-party authorization servers can return a different set of scopes than what was asked for. Callers should verify that all required scopes for their intended use are included in this list. */
   scopes?: StringList;
+  /** The HTTP header name where the token should be placed. */
+  header?: string;
   /** The retrieved access token or credential for the end user. On an MCP tool call, for an invalid token the OAuth spec states that this should return `401` or `403`, but MCP servers may implement this differently. If you get any flavor of `PERMISSION_DENIED`, retry your original request to `RetrieveCredentials` with force_refresh_token set to the expired/invalid token string, which will fetch a new token or initiate a new consent flow. */
   token?: string;
+  /** The expiration time of the token. This does not guarantee that the token will be valid until this time, since the token could be revoked earlier. There could also be clock skew between the auth provider and the client so it may expire slightly earlier. If not set, the token might be permanent or it may be that the service does not (or cannot) know when it will expire. */
+  expireTime?: string;
 }
 /** Response message for `RetrieveCredentials`. Contains the access tokens and related artifacts. */
 export interface GoogleCloudAgentidentitycredentialsV1_RetrieveCredentialsResponse {
-  /** Message indicating credential retrieval is pending. */
-  pending?: GoogleCloudAgentidentitycredentialsV1_Pending;
   /** Message indicating consent was rejected. */
-  consentRejected?: GoogleCloudAgentidentitycredentialsV1_Pending;
+  consentRejected?: GoogleCloudAgentidentitycredentialsV1_ConsentRejected;
+  /** Message indicating credential retrieval is pending. */
+  pending?: GoogleCloudAgentidentitycredentialsV1_ConsentRejected;
   /** Message indicating URI-based consent is required. */
   uriConsentRequired?: GoogleCloudAgentidentitycredentialsV1_UriConsentRequired;
   /** Message indicating credentials were successfully retrieved. */
@@ -216,9 +216,9 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          consentNonce: S.optional(S.String),
           userId: S.optional(S.String),
           userIdValidationState: S.optional(S.String),
+          consentNonce: S.optional(S.String),
         }),
       ).annotate({
         identifier: "GoogleCloudAgentidentitycredentialsV1_FinalizeCredentialsRequest",
@@ -254,9 +254,9 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           userId: S.optional(S.String),
+          continueUri: S.optional(S.String),
           forceRefreshToken: S.optional(S.String),
           scopes: S.optional(__S(16, __c2, 0)),
-          continueUri: S.optional(S.String),
         }),
       ).annotate({
         identifier: "GoogleCloudAgentidentitycredentialsV1_RetrieveCredentialsRequest",
@@ -285,17 +285,17 @@ function __c2(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          header: S.optional(S.String),
-          expireTime: S.optional(S.String),
           scopes: S.optional(__S(16, __c2, 0)),
+          header: S.optional(S.String),
           token: S.optional(S.String),
+          expireTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAgentidentitycredentialsV1_Success" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          pending: S.optional(__S(8, __c1, 0)),
           consentRejected: S.optional(__S(8, __c1, 0)),
+          pending: S.optional(__S(8, __c1, 0)),
           uriConsentRequired: S.optional(__S(19, __c2, 3)),
           success: S.optional(__S(20, __c2, 4)),
         }),

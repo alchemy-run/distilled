@@ -50,7 +50,7 @@ export type CreateOrgPrivateRegistryRequestRegistryType =
 export type CreateOrgPrivateRegistryRequestVisibility = "all" | "private" | "selected";
 /** An array of repository IDs that can access the organization private registry. You can only provide a list of repository IDs when `visibility` is set to `selected`. You can manage the list of selected repositories using the [Update a private registry for an organization](https://docs.github.com/rest/private-registries/organization-configurations#update-a-private-registry-for-an-organization) endpoint. This field should be omitted if `visibility` is set to `all` or `private`. */
 export type CreateOrgPrivateRegistryRequestSelectedRepositoryIdsList = Array<number>;
-/** The authentication type for the private registry. Defaults to `token` if not specified. Use `oidc_azure`, `oidc_aws`, `oidc_jfrog`, `oidc_cloudsmith`, or `oidc_gcp` for OIDC authentication. */
+/** The authentication type for the private registry. Defaults to `token` if not specified. Use `oidc_azure`, `oidc_aws`, `oidc_jfrog`, `oidc_cloudsmith`, or `oidc_gcp` for OIDC authentication. Use `anonymous` for registries that do not require authentication; `username`, `encrypted_value`, and `key_id` must be omitted. */
 export type CreateOrgPrivateRegistryRequestAuthType =
   | "token"
   | "username_password"
@@ -58,7 +58,8 @@ export type CreateOrgPrivateRegistryRequestAuthType =
   | "oidc_aws"
   | "oidc_jfrog"
   | "oidc_cloudsmith"
-  | "oidc_gcp";
+  | "oidc_gcp"
+  | "anonymous";
 export interface CreateOrgPrivateRegistryRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -78,7 +79,7 @@ export interface CreateOrgPrivateRegistryRequest {
   visibility: CreateOrgPrivateRegistryRequestVisibility | (string & {});
   /** An array of repository IDs that can access the organization private registry. You can only provide a list of repository IDs when `visibility` is set to `selected`. You can manage the list of selected repositories using the [Update a private registry for an organization](https://docs.github.com/rest/private-registries/organization-configurations#update-a-private-registry-for-an-organization) endpoint. This field should be omitted if `visibility` is set to `all` or `private`. */
   selected_repository_ids?: CreateOrgPrivateRegistryRequestSelectedRepositoryIdsList;
-  /** The authentication type for the private registry. Defaults to `token` if not specified. Use `oidc_azure`, `oidc_aws`, `oidc_jfrog`, `oidc_cloudsmith`, or `oidc_gcp` for OIDC authentication. */
+  /** The authentication type for the private registry. Defaults to `token` if not specified. Use `oidc_azure`, `oidc_aws`, `oidc_jfrog`, `oidc_cloudsmith`, or `oidc_gcp` for OIDC authentication. Use `anonymous` for registries that do not require authentication; `username`, `encrypted_value`, and `key_id` must be omitted. */
   auth_type?: CreateOrgPrivateRegistryRequestAuthType | (string & {});
   /** The tenant ID of the Azure AD application. Required when `auth_type` is `oidc_azure`. */
   tenant_id?: string;
@@ -136,7 +137,8 @@ export type OrgPrivateRegistryConfigurationWithSelectedRepositoriesAuthType =
   | "oidc_aws"
   | "oidc_jfrog"
   | "oidc_cloudsmith"
-  | "oidc_gcp";
+  | "oidc_gcp"
+  | "anonymous";
 /** Which type of organization repositories have access to the private registry. `selected` means only the repositories specified by `selected_repository_ids` can access the private registry. */
 export type OrgPrivateRegistryConfigurationWithSelectedRepositoriesVisibility =
   | "all"
@@ -234,7 +236,8 @@ export type OrgPrivateRegistryConfigurationAuthType =
   | "oidc_aws"
   | "oidc_jfrog"
   | "oidc_cloudsmith"
-  | "oidc_gcp";
+  | "oidc_gcp"
+  | "anonymous";
 /** Which type of organization repositories have access to the private registry. */
 export type OrgPrivateRegistryConfigurationVisibility = "all" | "private" | "selected";
 /** Private registry configuration for an organization */
@@ -339,7 +342,8 @@ export type UpdateOrgPrivateRegistryRequestAuthType =
   | "oidc_aws"
   | "oidc_jfrog"
   | "oidc_cloudsmith"
-  | "oidc_gcp";
+  | "oidc_gcp"
+  | "anonymous";
 export interface UpdateOrgPrivateRegistryRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -396,7 +400,7 @@ export interface UpdateOrgPrivateRegistryRequest {
 }
 export interface UpdateOrgPrivateRegistryResponse {}
 export type CreateOrgPrivateRegistryError = GithubOpError;
-/** Create a private registry for an organization Creates a private registry configuration with an encrypted value for an organization. Encrypt your secret using [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)." For OIDC-based registries (`oidc_azure`, `oidc_aws`, `oidc_jfrog`, `oidc_cloudsmith`, or `oidc_gcp`), the `encrypted_value` and `key_id` fields should be omitted. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
+/** Create a private registry for an organization Creates a private registry configuration with an encrypted value for an organization. Encrypt your secret using [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)." For OIDC-based registries (`oidc_azure`, `oidc_aws`, `oidc_jfrog`, `oidc_cloudsmith`, or `oidc_gcp`), the `encrypted_value` and `key_id` fields should be omitted. For anonymous registries (`anonymous`), the `username`, `encrypted_value`, and `key_id` fields must be omitted. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
 export const createOrgPrivateRegistry: API.OperationMethod<
   CreateOrgPrivateRegistryRequest,
   OrgPrivateRegistryConfigurationWithSelectedRepositories,
@@ -495,7 +499,7 @@ export const listOrgPrivateRegistries: API.PaginatedOperationMethod<
 ) as any;
 
 export type UpdateOrgPrivateRegistryError = GithubOpError;
-/** Update a private registry for an organization Updates a private registry configuration with an encrypted value for an organization. Encrypt your secret using [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)." For OIDC-based registries (`oidc_azure`, `oidc_aws`, `oidc_jfrog`, `oidc_cloudsmith`, or `oidc_gcp`), the `encrypted_value` and `key_id` fields should be omitted. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
+/** Update a private registry for an organization Updates a private registry configuration with an encrypted value for an organization. Encrypt your secret using [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)." For OIDC-based registries (`oidc_azure`, `oidc_aws`, `oidc_jfrog`, `oidc_cloudsmith`, or `oidc_gcp`), the `encrypted_value` and `key_id` fields should be omitted. For anonymous registries (`anonymous`), the `username`, `encrypted_value`, and `key_id` fields must be omitted, and `auth_type` cannot be changed to or from `anonymous`. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
 export const updateOrgPrivateRegistry: API.OperationMethod<
   UpdateOrgPrivateRegistryRequest,
   UpdateOrgPrivateRegistryResponse,

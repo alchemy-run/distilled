@@ -87,12 +87,12 @@ export class NotFound
 export interface Brand {
   /** Application name displayed on OAuth consent screen. */
   applicationTitle?: string;
-  /** Support email displayed on the OAuth consent screen. */
-  supportEmail?: string;
-  /** Output only. Identifier of the brand. NOTE: GCP project number achieves the same brand identification purpose as only one brand per project can be created. */
-  name?: string;
   /** Output only. Whether the brand is only intended for usage inside the G Suite organization only. */
   orgInternalOnly?: boolean;
+  /** Output only. Identifier of the brand. NOTE: GCP project number achieves the same brand identification purpose as only one brand per project can be created. */
+  name?: string;
+  /** Support email displayed on the OAuth consent screen. */
+  supportEmail?: string;
 }
 export interface CreateProjectsBrandsRequest {
   /** Required. GCP Project number/id under which the brand is to be created. In the following format: projects/{project_number/id}. */
@@ -104,10 +104,10 @@ export interface CreateProjectsBrandsRequest {
 export interface IdentityAwareProxyClient {
   /** Output only. Client secret of the OAuth client. */
   secret?: string;
-  /** Output only. Unique identifier of the OAuth client. */
-  name?: string;
   /** Human-friendly name given to the OAuth client. */
   displayName?: string;
+  /** Output only. Unique identifier of the OAuth client. */
+  name?: string;
 }
 export interface CreateProjectsBrandsIdentityAwareProxyClientsRequest {
   /** Required. Path to create the client in. In the following format: projects/{project_number/id}/brands/{brand}. The project must belong to a G Suite account. */
@@ -120,10 +120,10 @@ export type StringList = Array<string>;
 export interface TunnelDestGroup {
   /** Optional. Unordered list. List of FQDNs that this group applies to. */
   fqdns?: StringList;
-  /** Optional. Unordered list. List of CIDRs that this group applies to. */
-  cidrs?: StringList;
   /** Identifier. Identifier for the TunnelDestGroup. Must be unique within the project and contain only lower case letters (a-z) and dashes (-). */
   name?: string;
+  /** Optional. Unordered list. List of CIDRs that this group applies to. */
+  cidrs?: StringList;
 }
 export interface CreateProjectsIap_tunnelLocationsDestGroupsRequest {
   /** Required. The ID to use for the TunnelDestGroup, which becomes the final component of the resource name. This value must be 4-63 characters, and valid characters are `[a-z]-`. */
@@ -161,23 +161,23 @@ export interface GetIamPolicyV1Request {
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
   /** Textual representation of an expression in Common Expression Language syntax. */
   expression?: string;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
   members?: StringList;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string;
 }
 export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
@@ -192,6 +192,153 @@ export interface Policy {
 export interface GetIapSettingsV1Request {
   /** Required. The resource name for which to retrieve the settings. Authorization: Requires the `getSettings` permission for the associated resource. */
   name: string;
+}
+/** Configuration for IAP allowed domains. Lets you to restrict access to an app and allow access to only the domains that you list. */
+export interface AllowedDomainsSettings {
+  /** Optional. List of trusted domains. */
+  domains?: StringList;
+  /** Optional. Configuration for customers to opt in for the feature. */
+  enable?: boolean;
+}
+/** Allows customers to configure tenant IDs for a Cloud Identity Platform (GCIP) instance for each application. */
+export interface GcipSettings {
+  /** Optional. GCIP tenant IDs that are linked to the IAP resource. `tenant_ids` could be a string beginning with a number character to indicate authenticating with GCIP tenant flow, or in the format of `_` to indicate authenticating with GCIP agent flow. If agent flow is used, `tenant_ids` should only contain one single element, while for tenant flow, `tenant_ids` can contain multiple elements. */
+  tenantIds?: StringList;
+  /** Login page URI associated with the GCIP tenants. Typically, all resources within the same project share the same login page, though it could be overridden at the sub resource level. */
+  loginPageUri?: string;
+}
+/** The OAuth 2.0 Settings */
+export interface OAuth2 {
+  /** The OAuth 2.0 client ID registered in the workforce identity federation OAuth 2.0 Server. */
+  clientId?: string;
+  /** Input only. The OAuth 2.0 client secret created while registering the client ID. */
+  clientSecret?: string;
+  /** Output only. SHA256 hash value for the client secret. This field is returned by IAP when the settings are retrieved. */
+  clientSecretSha256?: string;
+}
+/** WorkforceIdentitySettings allows customers to configure workforce pools and OAuth 2.0 settings to gate their applications using a third-party IdP with access control. */
+export interface WorkforceIdentitySettings {
+  /** OAuth 2.0 settings for IAP to perform OIDC flow with workforce identity federation services. */
+  oauth2?: OAuth2;
+  /** The workforce pool resources. Only one workforce pool is accepted. */
+  workforcePools?: StringList;
+}
+export type AccessSettingsIdentitySourcesItemEnum =
+  | "IDENTITY_SOURCE_UNSPECIFIED"
+  | "WORKFORCE_IDENTITY_FEDERATION";
+export type AccessSettingsIdentitySourcesItemEnumList = Array<
+  AccessSettingsIdentitySourcesItemEnum | (string & {})
+>;
+export type DocumentMap = { [key: string]: unknown | undefined };
+export type StringMap = { [key: string]: string | undefined };
+export interface TagsPartialState {
+  /** Keys of the tags that should be removed for evaluation purposes. IMPORTANT: Currently only numeric references are supported. Once support for namespace references is added, both the tag references (numeric and namespace) will be removed. */
+  tagKeysToRemove?: StringList;
+  /** Tags that'll be updated or added to the current state of tags for evaluation purposes. If a key exists in both "tags_to_upsert" and "tag_keys_to_remove", the one in "tag_keys_to_remove" is ignored. Only one type of tags reference (numeric or namespace) is required to be passed. */
+  tagsToUpsert?: StringMap;
+}
+export interface TagsFullStateForChildResource {
+  /** If TagsFullStateForChildResource is initialized, the values in this field represent all the tags in the next state for the child resource. Only one type of tags reference (numeric or namespace) is required to be passed. IMPORTANT: This field should only be used when the target resource IAM policy name is UNKNOWN and the resource's parent IAM policy name is being passed in the request. */
+  tags?: StringMap;
+}
+export interface TagsFullState {
+  /** If TagsFullState is initialized, the values in this field fully represent all the tags in the next state (the current tag values are not used). If tags.size() == 0, the next state of tags would be no tags for evaluation purposes. Only one type of tags reference (numeric or namespace) is required to be passed. */
+  tags?: StringMap;
+}
+/** Used for calculating the next state of tags on the resource being passed for the CheckCustomConstraints RPC call. The detail evaluation of each field is described in go/op-create-update-time-tags and go/tags-in-orgpolicy-requests. */
+export interface NextStateOfTags {
+  tagsPartialState?: TagsPartialState;
+  tagsFullStateForChildResource?: TagsFullStateForChildResource;
+  tagsFullState?: TagsFullState;
+}
+export interface Resource {
+  /** The name of the service this resource belongs to. It is configured using the official_service_name of the Service as defined in service configurations under //configs/cloud/resourcetypes. For example, the official_service_name of cloud resource manager service is set as 'cloudresourcemanager.googleapis.com' according to //configs/cloud/resourcetypes/google/cloud/resourcemanager/prod.yaml This field is **required** for services integrated with resource-attribute-based IAM conditions and/or CustomOrgPolicy. This field requires special handling for parents-only permissions such as `create` and `list`. See the document linked below for further details. See go/iam-conditions-sig-g3#populate-resource-attributes for specific details on populating this field. */
+  service?: string;
+  /** The **relative** name of the resource, which is the URI path of the resource without the leading "/". See https://cloud.google.com/iam/docs/conditions-resource-attributes#resource-name for examples used by other GCP Services. This field is **required** for services integrated with resource-attribute-based IAM conditions and/or CustomOrgPolicy. This field requires special handling for parents-only permissions such as `create` and `list`. See the document linked below for further details. See go/iam-conditions-sig-g3#populate-resource-attributes for specific details on populating this field. */
+  name?: string;
+  /** The public resource type name of the resource. It is configured using the official_name of the ResourceType as defined in service configurations under //configs/cloud/resourcetypes. For example, the official_name for GCP projects is set as 'cloudresourcemanager.googleapis.com/Project' according to //configs/cloud/resourcetypes/google/cloud/resourcemanager/prod.yaml This field is **required** for services integrated with resource-attribute-based IAM conditions and/or CustomOrgPolicy. This field requires special handling for parents-only permissions such as `create` and `list`. See the document linked below for further details. See go/iam-conditions-sig-g3#populate-resource-attributes for specific details on populating this field. */
+  type?: string;
+  /** The proto or JSON formatted expected next state of the resource, wrapped in a google.protobuf.Any proto, against which the policy rules are evaluated. Services not integrated with custom org policy can omit this field. Services integrated with custom org policy must populate this field for all requests where the API call changes the state of the resource. Custom org policy backend uses these attributes to enforce custom org policies. For create operations, GCP service is expected to pass resource from customer request as is. For update/patch operations, GCP service is expected to compute the next state with the patch provided by the user. See go/federated-custom-org-policy-integration-guide for additional details. */
+  expectedNextState?: DocumentMap;
+  /** The locations of the resource. This field is used to determine whether the request is compliant with Trust Boundaries. Usage: - Must not be empty for services in-scope for Trust Boundaries. Once Trust Boundaries is GA, empty values will cause the request to be rejected if customers enforce Trust Boundaries on the parent CRM nodes. - For global resources: use a single value of "global". - For regional/multi-regional resources: use name of the GCP region(s) where the resource exists (e.g., ["us-east1", "us-west1"]). For multi-regional resources specify the name of each GCP region in the resource's multi-region. NOTE: Only GCP cloud region names are supported - go/cloud-region-names. - Constraints: - Individual location strings must be less than 1000 bytes. - The cumulative size of all locations must be less than 16KB. */
+  locations?: StringList;
+  /** Used for calculating the next state of tags on the resource being passed for Custom Org Policy enforcement. NOTE: Only one of the tags representations (i.e. numeric or namespaced) should be populated. The input tags will be converted to the same representation before the calculation. This behavior intentionally may differ from other tags related fields in CheckPolicy request, which may require both formats to be passed in. IMPORTANT: If tags are unchanged, this field should not be set. */
+  nextStateOfTags?: NextStateOfTags;
+  /** The service defined labels of the resource on which the conditions will be evaluated. The semantics - including the key names - are vague to IAM. If the effective condition has a reference to a `resource.labels[foo]` construct, IAM consults with this map to retrieve the values associated with `foo` key for Conditions evaluation. If the provided key is not found in the labels map, the condition would evaluate to false. This field is in limited use. If your intended use case is not expected to express resource.labels attribute in IAM Conditions, leave this field empty. Before planning on using this attribute please: * Read go/iam-conditions-labels-comm and ensure your service can meet the data availability and management requirements. * Talk to iam-conditions-eng@ about your use case. */
+  labels?: StringMap;
+}
+/** An internal name for an IAM policy, based on the resource to which the policy applies. Not to be confused with a resource's external full resource name. For more information on this distinction, see go/iam-full-resource-names. */
+export interface PolicyName {
+  /** Identifies an instance of the type. ID format varies by type. The ID format is defined in the IAM .service file that defines the type, either in path_mapping or in a comment. */
+  id?: string;
+  /** Resource type. Types are defined in IAM's .service files. Valid values for type might be 'storage_buckets', 'compute_instances', 'resourcemanager_customers', 'billing_accounts', etc. */
+  type?: string;
+  /** For Cloud IAM: The location of the Policy. Must be empty or "global" for Policies owned by global IAM. Must name a region from prodspec/cloud-iam-cloudspec for Regional IAM Policies, see go/iam-faq#where-is-iam-currently-deployed. For Local IAM: This field should be set to "local". */
+  region?: string;
+}
+/** PolicyDelegationConfig allows google-internal teams to use IAP for apps hosted in a tenant project. Using these settings, the app can delegate permission check to happen against the linked customer project. This is only ever supposed to be used by google internal teams, hence the restriction on the proto. */
+export interface PolicyDelegationSettings {
+  /** The DNS name of the service (e.g. "resourcemanager.googleapis.com"). This should be the domain name part of the full resource names (see https://aip.dev/122#full-resource-names), which is usually the same as IamServiceSpec.service of the service where the resource type is defined. */
+  iamServiceName?: string;
+  /** Permission to check in IAM. */
+  iamPermission?: string;
+  /** IAM resource to check permission on */
+  resource?: Resource;
+  /** Policy name to be checked */
+  policyName?: PolicyName;
+}
+/** Allows customers to configure HTTP request paths that'll allow HTTP `OPTIONS` call to bypass authentication and authorization. */
+export interface CorsSettings {
+  /** Configuration to allow HTTP `OPTIONS` calls to skip authentication and authorization. If undefined, IAP will not apply any special logic to `OPTIONS` requests. */
+  allowHttpOptions?: boolean;
+}
+/** Configuration for OAuth login&consent flow behavior as well as for OAuth Credentials. */
+export interface OAuthSettings {
+  /** Output only. OAuth secret SHA256 paired with client ID. */
+  clientSecretSha256?: string;
+  /** Domain hint to send as hd=? parameter in OAuth request flow. Enables redirect to primary IDP by skipping Google's login screen. https://developers.google.com/identity/protocols/OpenIDConnect#hd-param Note: IAP does not verify that the id token's hd claim matches this value since access behavior is managed by IAM policies. */
+  loginHint?: string;
+  /** Optional. Input only. OAuth secret paired with client ID. */
+  clientSecret?: string;
+  /** Optional. OAuth 2.0 client ID used in the OAuth flow. This allows for client sharing. The risks of client sharing are outlined here: https://cloud.google.com/iap/docs/sharing-oauth-clients#risks. */
+  clientId?: string;
+  /** Optional. List of client ids allowed to use IAP programmatically. */
+  programmaticClients?: StringList;
+}
+export type ReauthSettingsPolicyTypeEnum = "POLICY_TYPE_UNSPECIFIED" | "MINIMUM" | "DEFAULT";
+export type ReauthSettingsMethodEnum =
+  | "METHOD_UNSPECIFIED"
+  | "LOGIN"
+  | "PASSWORD"
+  | "SECURE_KEY"
+  | "ENROLLED_SECOND_FACTORS";
+/** Configuration for IAP reauthentication policies. */
+export interface ReauthSettings {
+  /** Optional. How IAP determines the effective policy in cases of hierarchical policies. Policies are merged from higher in the hierarchy to lower in the hierarchy. */
+  policyType?: ReauthSettingsPolicyTypeEnum | (string & {});
+  /** Optional. Reauth method requested. */
+  method?: ReauthSettingsMethodEnum | (string & {});
+  /** Optional. Reauth session lifetime, how long before a user has to reauthenticate again. */
+  maxAge?: string;
+}
+/** Access related settings for IAP protected apps. */
+export interface AccessSettings {
+  /** Optional. Settings to configure and enable allowed domains. */
+  allowedDomainsSettings?: AllowedDomainsSettings;
+  /** Optional. GCIP claims and endpoint configurations for 3p identity providers. */
+  gcipSettings?: GcipSettings;
+  /** Optional. Settings to configure the workforce identity federation, including workforce pools and OAuth 2.0 settings. */
+  workforceIdentitySettings?: WorkforceIdentitySettings;
+  /** Optional. Identity sources that IAP can use to authenticate the end user. Only one identity source can be configured. */
+  identitySources?: AccessSettingsIdentitySourcesItemEnumList;
+  /** Optional. Settings to allow google-internal teams to use IAP for apps hosted in a tenant project. */
+  policyDelegationSettings?: PolicyDelegationSettings;
+  /** Optional. Configuration to allow cross-origin requests via IAP. */
+  corsSettings?: CorsSettings;
+  /** Optional. Settings to configure IAP's OAuth behavior. */
+  oauthSettings?: OAuthSettings;
+  /** Optional. Settings to configure reauthentication policies in IAP. */
+  reauthSettings?: ReauthSettings;
 }
 /** Custom content configuration for access denied page. IAP allows customers to define a custom URI to use as the error page when access is denied to users. If IAP prevents access to this page, the default IAP error page will be displayed instead. */
 export interface AccessDeniedPageSettings {
@@ -235,161 +382,14 @@ export interface ApplicationSettings {
   /** Optional. Settings to configure IAP's behavior for a service mesh. */
   csmSettings?: CsmSettings;
 }
-/** Configuration for IAP allowed domains. Lets you to restrict access to an app and allow access to only the domains that you list. */
-export interface AllowedDomainsSettings {
-  /** Optional. List of trusted domains. */
-  domains?: StringList;
-  /** Optional. Configuration for customers to opt in for the feature. */
-  enable?: boolean;
-}
-export type AccessSettingsIdentitySourcesItemEnum =
-  | "IDENTITY_SOURCE_UNSPECIFIED"
-  | "WORKFORCE_IDENTITY_FEDERATION";
-export type AccessSettingsIdentitySourcesItemEnumList = Array<
-  AccessSettingsIdentitySourcesItemEnum | (string & {})
->;
-/** An internal name for an IAM policy, based on the resource to which the policy applies. Not to be confused with a resource's external full resource name. For more information on this distinction, see go/iam-full-resource-names. */
-export interface PolicyName {
-  /** Resource type. Types are defined in IAM's .service files. Valid values for type might be 'storage_buckets', 'compute_instances', 'resourcemanager_customers', 'billing_accounts', etc. */
-  type?: string;
-  /** For Cloud IAM: The location of the Policy. Must be empty or "global" for Policies owned by global IAM. Must name a region from prodspec/cloud-iam-cloudspec for Regional IAM Policies, see go/iam-faq#where-is-iam-currently-deployed. For Local IAM: This field should be set to "local". */
-  region?: string;
-  /** Identifies an instance of the type. ID format varies by type. The ID format is defined in the IAM .service file that defines the type, either in path_mapping or in a comment. */
-  id?: string;
-}
-export type StringMap = { [key: string]: string | undefined };
-export interface TagsPartialState {
-  /** Tags that'll be updated or added to the current state of tags for evaluation purposes. If a key exists in both "tags_to_upsert" and "tag_keys_to_remove", the one in "tag_keys_to_remove" is ignored. Only one type of tags reference (numeric or namespace) is required to be passed. */
-  tagsToUpsert?: StringMap;
-  /** Keys of the tags that should be removed for evaluation purposes. IMPORTANT: Currently only numeric references are supported. Once support for namespace references is added, both the tag references (numeric and namespace) will be removed. */
-  tagKeysToRemove?: StringList;
-}
-export interface TagsFullStateForChildResource {
-  /** If TagsFullStateForChildResource is initialized, the values in this field represent all the tags in the next state for the child resource. Only one type of tags reference (numeric or namespace) is required to be passed. IMPORTANT: This field should only be used when the target resource IAM policy name is UNKNOWN and the resource's parent IAM policy name is being passed in the request. */
-  tags?: StringMap;
-}
-export interface TagsFullState {
-  /** If TagsFullState is initialized, the values in this field fully represent all the tags in the next state (the current tag values are not used). If tags.size() == 0, the next state of tags would be no tags for evaluation purposes. Only one type of tags reference (numeric or namespace) is required to be passed. */
-  tags?: StringMap;
-}
-/** Used for calculating the next state of tags on the resource being passed for the CheckCustomConstraints RPC call. The detail evaluation of each field is described in go/op-create-update-time-tags and go/tags-in-orgpolicy-requests. */
-export interface NextStateOfTags {
-  tagsPartialState?: TagsPartialState;
-  tagsFullStateForChildResource?: TagsFullStateForChildResource;
-  tagsFullState?: TagsFullState;
-}
-export type DocumentMap = { [key: string]: unknown | undefined };
-export interface Resource {
-  /** Used for calculating the next state of tags on the resource being passed for Custom Org Policy enforcement. NOTE: Only one of the tags representations (i.e. numeric or namespaced) should be populated. The input tags will be converted to the same representation before the calculation. This behavior intentionally may differ from other tags related fields in CheckPolicy request, which may require both formats to be passed in. IMPORTANT: If tags are unchanged, this field should not be set. */
-  nextStateOfTags?: NextStateOfTags;
-  /** The public resource type name of the resource. It is configured using the official_name of the ResourceType as defined in service configurations under //configs/cloud/resourcetypes. For example, the official_name for GCP projects is set as 'cloudresourcemanager.googleapis.com/Project' according to //configs/cloud/resourcetypes/google/cloud/resourcemanager/prod.yaml This field is **required** for services integrated with resource-attribute-based IAM conditions and/or CustomOrgPolicy. This field requires special handling for parents-only permissions such as `create` and `list`. See the document linked below for further details. See go/iam-conditions-sig-g3#populate-resource-attributes for specific details on populating this field. */
-  type?: string;
-  /** The service defined labels of the resource on which the conditions will be evaluated. The semantics - including the key names - are vague to IAM. If the effective condition has a reference to a `resource.labels[foo]` construct, IAM consults with this map to retrieve the values associated with `foo` key for Conditions evaluation. If the provided key is not found in the labels map, the condition would evaluate to false. This field is in limited use. If your intended use case is not expected to express resource.labels attribute in IAM Conditions, leave this field empty. Before planning on using this attribute please: * Read go/iam-conditions-labels-comm and ensure your service can meet the data availability and management requirements. * Talk to iam-conditions-eng@ about your use case. */
-  labels?: StringMap;
-  /** The **relative** name of the resource, which is the URI path of the resource without the leading "/". See https://cloud.google.com/iam/docs/conditions-resource-attributes#resource-name for examples used by other GCP Services. This field is **required** for services integrated with resource-attribute-based IAM conditions and/or CustomOrgPolicy. This field requires special handling for parents-only permissions such as `create` and `list`. See the document linked below for further details. See go/iam-conditions-sig-g3#populate-resource-attributes for specific details on populating this field. */
-  name?: string;
-  /** The name of the service this resource belongs to. It is configured using the official_service_name of the Service as defined in service configurations under //configs/cloud/resourcetypes. For example, the official_service_name of cloud resource manager service is set as 'cloudresourcemanager.googleapis.com' according to //configs/cloud/resourcetypes/google/cloud/resourcemanager/prod.yaml This field is **required** for services integrated with resource-attribute-based IAM conditions and/or CustomOrgPolicy. This field requires special handling for parents-only permissions such as `create` and `list`. See the document linked below for further details. See go/iam-conditions-sig-g3#populate-resource-attributes for specific details on populating this field. */
-  service?: string;
-  /** The proto or JSON formatted expected next state of the resource, wrapped in a google.protobuf.Any proto, against which the policy rules are evaluated. Services not integrated with custom org policy can omit this field. Services integrated with custom org policy must populate this field for all requests where the API call changes the state of the resource. Custom org policy backend uses these attributes to enforce custom org policies. For create operations, GCP service is expected to pass resource from customer request as is. For update/patch operations, GCP service is expected to compute the next state with the patch provided by the user. See go/federated-custom-org-policy-integration-guide for additional details. */
-  expectedNextState?: DocumentMap;
-  /** The locations of the resource. This field is used to determine whether the request is compliant with Trust Boundaries. Usage: - Must not be empty for services in-scope for Trust Boundaries. Once Trust Boundaries is GA, empty values will cause the request to be rejected if customers enforce Trust Boundaries on the parent CRM nodes. - For global resources: use a single value of "global". - For regional/multi-regional resources: use name of the GCP region(s) where the resource exists (e.g., ["us-east1", "us-west1"]). For multi-regional resources specify the name of each GCP region in the resource's multi-region. NOTE: Only GCP cloud region names are supported - go/cloud-region-names. - Constraints: - Individual location strings must be less than 1000 bytes. - The cumulative size of all locations must be less than 16KB. */
-  locations?: StringList;
-}
-/** PolicyDelegationConfig allows google-internal teams to use IAP for apps hosted in a tenant project. Using these settings, the app can delegate permission check to happen against the linked customer project. This is only ever supposed to be used by google internal teams, hence the restriction on the proto. */
-export interface PolicyDelegationSettings {
-  /** Permission to check in IAM. */
-  iamPermission?: string;
-  /** Policy name to be checked */
-  policyName?: PolicyName;
-  /** The DNS name of the service (e.g. "resourcemanager.googleapis.com"). This should be the domain name part of the full resource names (see https://aip.dev/122#full-resource-names), which is usually the same as IamServiceSpec.service of the service where the resource type is defined. */
-  iamServiceName?: string;
-  /** IAM resource to check permission on */
-  resource?: Resource;
-}
-/** Allows customers to configure tenant IDs for a Cloud Identity Platform (GCIP) instance for each application. */
-export interface GcipSettings {
-  /** Optional. GCIP tenant IDs that are linked to the IAP resource. `tenant_ids` could be a string beginning with a number character to indicate authenticating with GCIP tenant flow, or in the format of `_` to indicate authenticating with GCIP agent flow. If agent flow is used, `tenant_ids` should only contain one single element, while for tenant flow, `tenant_ids` can contain multiple elements. */
-  tenantIds?: StringList;
-  /** Login page URI associated with the GCIP tenants. Typically, all resources within the same project share the same login page, though it could be overridden at the sub resource level. */
-  loginPageUri?: string;
-}
-/** Allows customers to configure HTTP request paths that'll allow HTTP `OPTIONS` call to bypass authentication and authorization. */
-export interface CorsSettings {
-  /** Configuration to allow HTTP `OPTIONS` calls to skip authentication and authorization. If undefined, IAP will not apply any special logic to `OPTIONS` requests. */
-  allowHttpOptions?: boolean;
-}
-/** Configuration for OAuth login&consent flow behavior as well as for OAuth Credentials. */
-export interface OAuthSettings {
-  /** Optional. OAuth 2.0 client ID used in the OAuth flow. This allows for client sharing. The risks of client sharing are outlined here: https://cloud.google.com/iap/docs/sharing-oauth-clients#risks. */
-  clientId?: string;
-  /** Optional. Input only. OAuth secret paired with client ID. */
-  clientSecret?: string;
-  /** Optional. List of client ids allowed to use IAP programmatically. */
-  programmaticClients?: StringList;
-  /** Domain hint to send as hd=? parameter in OAuth request flow. Enables redirect to primary IDP by skipping Google's login screen. https://developers.google.com/identity/protocols/OpenIDConnect#hd-param Note: IAP does not verify that the id token's hd claim matches this value since access behavior is managed by IAM policies. */
-  loginHint?: string;
-  /** Output only. OAuth secret SHA256 paired with client ID. */
-  clientSecretSha256?: string;
-}
-/** The OAuth 2.0 Settings */
-export interface OAuth2 {
-  /** The OAuth 2.0 client ID registered in the workforce identity federation OAuth 2.0 Server. */
-  clientId?: string;
-  /** Output only. SHA256 hash value for the client secret. This field is returned by IAP when the settings are retrieved. */
-  clientSecretSha256?: string;
-  /** Input only. The OAuth 2.0 client secret created while registering the client ID. */
-  clientSecret?: string;
-}
-/** WorkforceIdentitySettings allows customers to configure workforce pools and OAuth 2.0 settings to gate their applications using a third-party IdP with access control. */
-export interface WorkforceIdentitySettings {
-  /** OAuth 2.0 settings for IAP to perform OIDC flow with workforce identity federation services. */
-  oauth2?: OAuth2;
-  /** The workforce pool resources. Only one workforce pool is accepted. */
-  workforcePools?: StringList;
-}
-export type ReauthSettingsMethodEnum =
-  | "METHOD_UNSPECIFIED"
-  | "LOGIN"
-  | "PASSWORD"
-  | "SECURE_KEY"
-  | "ENROLLED_SECOND_FACTORS";
-export type ReauthSettingsPolicyTypeEnum = "POLICY_TYPE_UNSPECIFIED" | "MINIMUM" | "DEFAULT";
-/** Configuration for IAP reauthentication policies. */
-export interface ReauthSettings {
-  /** Optional. Reauth method requested. */
-  method?: ReauthSettingsMethodEnum | (string & {});
-  /** Optional. Reauth session lifetime, how long before a user has to reauthenticate again. */
-  maxAge?: string;
-  /** Optional. How IAP determines the effective policy in cases of hierarchical policies. Policies are merged from higher in the hierarchy to lower in the hierarchy. */
-  policyType?: ReauthSettingsPolicyTypeEnum | (string & {});
-}
-/** Access related settings for IAP protected apps. */
-export interface AccessSettings {
-  /** Optional. Settings to configure and enable allowed domains. */
-  allowedDomainsSettings?: AllowedDomainsSettings;
-  /** Optional. Identity sources that IAP can use to authenticate the end user. Only one identity source can be configured. */
-  identitySources?: AccessSettingsIdentitySourcesItemEnumList;
-  /** Optional. Settings to allow google-internal teams to use IAP for apps hosted in a tenant project. */
-  policyDelegationSettings?: PolicyDelegationSettings;
-  /** Optional. GCIP claims and endpoint configurations for 3p identity providers. */
-  gcipSettings?: GcipSettings;
-  /** Optional. Configuration to allow cross-origin requests via IAP. */
-  corsSettings?: CorsSettings;
-  /** Optional. Settings to configure IAP's OAuth behavior. */
-  oauthSettings?: OAuthSettings;
-  /** Optional. Settings to configure the workforce identity federation, including workforce pools and OAuth 2.0 settings. */
-  workforceIdentitySettings?: WorkforceIdentitySettings;
-  /** Optional. Settings to configure reauthentication policies in IAP. */
-  reauthSettings?: ReauthSettings;
-}
 /** The IAP configurable settings. */
 export interface IapSettings {
-  /** Required. The resource name of the IAP protected resource. */
-  name?: string;
-  /** Optional. Top level wrapper for all application related settings in IAP */
-  applicationSettings?: ApplicationSettings;
   /** Optional. Top level wrapper for all access related setting in IAP */
   accessSettings?: AccessSettings;
+  /** Optional. Top level wrapper for all application related settings in IAP */
+  applicationSettings?: ApplicationSettings;
+  /** Required. The resource name of the IAP protected resource. */
+  name?: string;
 }
 export interface GetProjectsBrandsRequest {
   /** Required. Name of the brand to be fetched. In the following format: projects/{project_number/id}/brands/{brand}. */
@@ -414,28 +414,28 @@ export interface ListBrandsResponse {
   brands?: BrandList;
 }
 export interface ListProjectsBrandsIdentityAwareProxyClientsRequest {
-  /** Required. Full brand path. In the following format: projects/{project_number/id}/brands/{brand}. */
-  parent: string;
   /** A page token, received from a previous `ListIdentityAwareProxyClients` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListIdentityAwareProxyClients` must match the call that provided the page token. */
   pageToken?: string;
+  /** Required. Full brand path. In the following format: projects/{project_number/id}/brands/{brand}. */
+  parent: string;
   /** The maximum number of clients to return. The service may return fewer than this value. If unspecified, at most 100 clients will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
 }
 export type IdentityAwareProxyClientList = Array<IdentityAwareProxyClient>;
 /** Response message for ListIdentityAwareProxyClients. */
 export interface ListIdentityAwareProxyClientsResponse {
-  /** A token, which can be send as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** Clients existing in the brand. */
   identityAwareProxyClients?: IdentityAwareProxyClientList;
+  /** A token, which can be send as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export interface ListProjectsIap_tunnelLocationsDestGroupsRequest {
-  /** A page token, received from a previous `ListTunnelDestGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTunnelDestGroups` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Required. Google Cloud Project ID and location. In the following format: `projects/{project_number/id}/iap_tunnel/locations/{location}`. A `-` can be used for the location to group across all locations. */
-  parent: string;
   /** The maximum number of groups to return. The service might return fewer than this value. If unspecified, at most 100 groups are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
   pageSize?: number;
+  /** Required. Google Cloud Project ID and location. In the following format: `projects/{project_number/id}/iap_tunnel/locations/{location}`. A `-` can be used for the location to group across all locations. */
+  parent: string;
+  /** A page token, received from a previous `ListTunnelDestGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTunnelDestGroups` must match the call that provided the page token. */
+  pageToken?: string;
 }
 export type TunnelDestGroupList = Array<TunnelDestGroup>;
 /** The response from ListTunnelDestGroups. */
@@ -497,10 +497,10 @@ export interface UpdateIapSettingsV1Request {
   body?: IapSettings;
 }
 export interface ValidateAttributeExpressionV1Request {
-  /** Required. The resource name of the IAP protected resource. */
-  name: string;
   /** Required. User input string expression. Should be of the form `attributes.saml_attributes.filter(attribute, attribute.name in ['{attribute_name}', '{attribute_name}'])` */
   expression?: string;
+  /** Required. The resource name of the IAP protected resource. */
+  name: string;
 }
 /** IAP Expression Linter endpoint returns empty response body. */
 export interface ValidateIapAttributeExpressionResponse {}
@@ -900,162 +900,162 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          remediationTokenGenerationEnabled: S.optional(S.Boolean),
-          accessDeniedPageUri: S.optional(S.String),
-          generateTroubleshootingUri: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "AccessDeniedPageSettings" });
-    case 1:
-      return S.Array(S.String);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          expression: S.optional(S.String),
-          enable: S.optional(S.Boolean),
-          outputCredentials: S.optional(__S(33, __c1, 1)),
-        }),
-      ).annotate({ identifier: "AttributePropagationSettings" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          rctokenAud: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CsmSettings" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          accessDeniedPageSettings: S.optional(__S(32, __c1, 0)),
-          cookieDomain: S.optional(S.String),
-          attributePropagationSettings: S.optional(__S(34, __c1, 2)),
-          csmSettings: S.optional(__S(35, __c1, 3)),
-        }),
-      ).annotate({ identifier: "ApplicationSettings" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
           domains: S.optional(__S(640, __c20, 0)),
           enable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AllowedDomainsSettings" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          region: S.optional(S.String),
-          id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PolicyName" });
-    case 7:
-      return S.Record(S.String, S.String);
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          tagsToUpsert: S.optional(__S(39, __c1, 7)),
-          tagKeysToRemove: S.optional(__S(640, __c20, 0)),
-        }),
-      ).annotate({ identifier: "TagsPartialState" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          tags: S.optional(__S(39, __c1, 7)),
-        }),
-      ).annotate({ identifier: "TagsFullStateForChildResource" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          tagsPartialState: S.optional(__S(40, __c1, 8)),
-          tagsFullStateForChildResource: S.optional(__S(41, __c1, 9)),
-          tagsFullState: S.optional(__S(41, __c1, 9)),
-        }),
-      ).annotate({ identifier: "NextStateOfTags" });
-    case 11:
-      return S.Record(S.String, S.Unknown);
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          nextStateOfTags: S.optional(__S(42, __c1, 10)),
-          type: S.optional(S.String),
-          labels: S.optional(__S(39, __c1, 7)),
-          name: S.optional(S.String),
-          service: S.optional(S.String),
-          expectedNextState: S.optional(__S(43, __c1, 11)),
-          locations: S.optional(__S(640, __c20, 0)),
-        }),
-      ).annotate({ identifier: "Resource" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          iamPermission: S.optional(S.String),
-          policyName: S.optional(__S(38, __c1, 6)),
-          iamServiceName: S.optional(S.String),
-          resource: S.optional(__S(44, __c1, 12)),
-        }),
-      ).annotate({ identifier: "PolicyDelegationSettings" });
-    case 14:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           tenantIds: S.optional(__S(640, __c20, 0)),
           loginPageUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "GcipSettings" });
-    case 15:
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          clientId: S.optional(S.String),
+          clientSecret: S.optional(S.String),
+          clientSecretSha256: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OAuth2" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          oauth2: S.optional(__S(34, __c1, 2)),
+          workforcePools: S.optional(__S(640, __c20, 0)),
+        }),
+      ).annotate({ identifier: "WorkforceIdentitySettings" });
+    case 4:
+      return S.Array(S.String);
+    case 5:
+      return S.Record(S.String, S.Unknown);
+    case 6:
+      return S.Record(S.String, S.String);
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          tagKeysToRemove: S.optional(__S(640, __c20, 0)),
+          tagsToUpsert: S.optional(__S(38, __c1, 6)),
+        }),
+      ).annotate({ identifier: "TagsPartialState" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          tags: S.optional(__S(38, __c1, 6)),
+        }),
+      ).annotate({ identifier: "TagsFullStateForChildResource" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          tagsPartialState: S.optional(__S(39, __c1, 7)),
+          tagsFullStateForChildResource: S.optional(__S(40, __c1, 8)),
+          tagsFullState: S.optional(__S(40, __c1, 8)),
+        }),
+      ).annotate({ identifier: "NextStateOfTags" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          service: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          expectedNextState: S.optional(__S(37, __c1, 5)),
+          locations: S.optional(__S(640, __c20, 0)),
+          nextStateOfTags: S.optional(__S(41, __c1, 9)),
+          labels: S.optional(__S(38, __c1, 6)),
+        }),
+      ).annotate({ identifier: "Resource" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          type: S.optional(S.String),
+          region: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PolicyName" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          iamServiceName: S.optional(S.String),
+          iamPermission: S.optional(S.String),
+          resource: S.optional(__S(42, __c1, 10)),
+          policyName: S.optional(__S(43, __c1, 11)),
+        }),
+      ).annotate({ identifier: "PolicyDelegationSettings" });
+    case 13:
       return S.suspend(() =>
         S.Struct({
           allowHttpOptions: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CorsSettings" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          clientSecretSha256: S.optional(S.String),
+          loginHint: S.optional(S.String),
+          clientSecret: S.optional(S.String),
+          clientId: S.optional(S.String),
+          programmaticClients: S.optional(__S(640, __c20, 0)),
+        }),
+      ).annotate({ identifier: "OAuthSettings" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          policyType: S.optional(S.String),
+          method: S.optional(S.String),
+          maxAge: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReauthSettings" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          clientId: S.optional(S.String),
-          clientSecret: S.optional(S.String),
-          programmaticClients: S.optional(__S(640, __c20, 0)),
-          loginHint: S.optional(S.String),
-          clientSecretSha256: S.optional(S.String),
+          allowedDomainsSettings: S.optional(__S(32, __c1, 0)),
+          gcipSettings: S.optional(__S(33, __c1, 1)),
+          workforceIdentitySettings: S.optional(__S(35, __c1, 3)),
+          identitySources: S.optional(__S(36, __c1, 4)),
+          policyDelegationSettings: S.optional(__S(44, __c1, 12)),
+          corsSettings: S.optional(__S(45, __c1, 13)),
+          oauthSettings: S.optional(__S(46, __c1, 14)),
+          reauthSettings: S.optional(__S(47, __c1, 15)),
         }),
-      ).annotate({ identifier: "OAuthSettings" });
+      ).annotate({ identifier: "AccessSettings" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          clientId: S.optional(S.String),
-          clientSecretSha256: S.optional(S.String),
-          clientSecret: S.optional(S.String),
+          remediationTokenGenerationEnabled: S.optional(S.Boolean),
+          accessDeniedPageUri: S.optional(S.String),
+          generateTroubleshootingUri: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "OAuth2" });
+      ).annotate({ identifier: "AccessDeniedPageSettings" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          oauth2: S.optional(__S(49, __c1, 17)),
-          workforcePools: S.optional(__S(640, __c20, 0)),
+          expression: S.optional(S.String),
+          enable: S.optional(S.Boolean),
+          outputCredentials: S.optional(__S(36, __c1, 4)),
         }),
-      ).annotate({ identifier: "WorkforceIdentitySettings" });
+      ).annotate({ identifier: "AttributePropagationSettings" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          method: S.optional(S.String),
-          maxAge: S.optional(S.String),
-          policyType: S.optional(S.String),
+          rctokenAud: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ReauthSettings" });
+      ).annotate({ identifier: "CsmSettings" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          allowedDomainsSettings: S.optional(__S(37, __c1, 5)),
-          identitySources: S.optional(__S(33, __c1, 1)),
-          policyDelegationSettings: S.optional(__S(45, __c1, 13)),
-          gcipSettings: S.optional(__S(46, __c1, 14)),
-          corsSettings: S.optional(__S(47, __c1, 15)),
-          oauthSettings: S.optional(__S(48, __c1, 16)),
-          workforceIdentitySettings: S.optional(__S(50, __c1, 18)),
-          reauthSettings: S.optional(__S(51, __c1, 19)),
+          accessDeniedPageSettings: S.optional(__S(49, __c1, 17)),
+          cookieDomain: S.optional(S.String),
+          attributePropagationSettings: S.optional(__S(50, __c1, 18)),
+          csmSettings: S.optional(__S(51, __c1, 19)),
         }),
-      ).annotate({ identifier: "AccessSettings" });
+      ).annotate({ identifier: "ApplicationSettings" });
     case 21:
       return S.suspend(() =>
         S.Struct({
+          accessSettings: S.optional(__S(48, __c1, 16)),
+          applicationSettings: S.optional(__S(52, __c1, 20)),
           name: S.optional(S.String),
-          applicationSettings: S.optional(__S(36, __c1, 4)),
-          accessSettings: S.optional(__S(52, __c1, 20)),
         }),
       ).annotate({ identifier: "IapSettings" });
   }
@@ -1125,8 +1125,8 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1141,8 +1141,8 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           identityAwareProxyClients: S.optional(__S(193, __c6, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListIdentityAwareProxyClientsResponse" });
   }
@@ -1152,9 +1152,9 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1274,8 +1274,8 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           expression: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1309,9 +1309,9 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           applicationTitle: S.optional(S.String),
-          supportEmail: S.optional(S.String),
-          name: S.optional(S.String),
           orgInternalOnly: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          supportEmail: S.optional(S.String),
         }),
       ).annotate({ identifier: "Brand" });
   }
@@ -1339,8 +1339,8 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           secret: S.optional(S.String),
-          name: S.optional(S.String),
           displayName: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "IdentityAwareProxyClient" });
   }
@@ -1369,8 +1369,8 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           fqdns: S.optional(__S(640, __c20, 0)),
-          cidrs: S.optional(__S(640, __c20, 0)),
           name: S.optional(S.String),
+          cidrs: S.optional(__S(640, __c20, 0)),
         }),
       ).annotate({ identifier: "TunnelDestGroup" });
   }
@@ -1445,18 +1445,18 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(S.String),
-          title: S.optional(S.String),
-          description: S.optional(S.String),
           expression: S.optional(S.String),
+          description: S.optional(S.String),
+          title: S.optional(S.String),
+          location: S.optional(S.String),
         }),
       ).annotate({ identifier: "Expr" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          role: S.optional(S.String),
-          condition: S.optional(__S(800, __c25, 0)),
           members: S.optional(__S(640, __c20, 0)),
+          condition: S.optional(__S(800, __c25, 0)),
+          role: S.optional(S.String),
         }),
       ).annotate({ identifier: "Binding" });
     case 2:

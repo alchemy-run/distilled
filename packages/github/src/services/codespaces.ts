@@ -363,6 +363,7 @@ export interface MinimalRepository {
   updated_at?: string | null;
   permissions?: MinimalRepositoryPermissions;
   role_name?: string;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string;
   delete_branch_on_merge?: boolean;
   subscribers_count?: number;
@@ -1071,6 +1072,7 @@ export interface NullableRepository {
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean;
@@ -1227,6 +1229,7 @@ export interface Repository {
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean;
@@ -1354,6 +1357,7 @@ export interface FullRepository {
   permissions?: FullRepositoryPermissions;
   allow_rebase_merge?: boolean;
   template_repository?: NullableRepository | null;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string | null;
   allow_squash_merge?: boolean;
   allow_auto_merge?: boolean;

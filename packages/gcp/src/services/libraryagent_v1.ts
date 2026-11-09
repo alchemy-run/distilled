@@ -89,12 +89,12 @@ export interface BorrowShelvesBooksRequest {
 }
 /** A single book in the library. */
 export interface GoogleExampleLibraryagentV1Book {
-  /** The resource name of the book. Book names have the form `shelves/{shelf_id}/books/{book_id}`. The name is ignored when creating a book. */
-  name?: string;
   /** The title of the book. */
   title?: string;
   /** Value indicating whether the book has been read. */
   read?: boolean;
+  /** The resource name of the book. Book names have the form `shelves/{shelf_id}/books/{book_id}`. The name is ignored when creating a book. */
+  name?: string;
   /** The name of the book author. */
   author?: string;
 }
@@ -104,20 +104,20 @@ export interface GetShelvesRequest {
 }
 /** A Shelf contains a collection of books with a theme. */
 export interface GoogleExampleLibraryagentV1Shelf {
-  /** The theme of the shelf */
-  theme?: string;
   /** Output only. The resource name of the shelf. Shelf names have the form `shelves/{shelf_id}`. The name is ignored when creating a shelf. */
   name?: string;
+  /** The theme of the shelf */
+  theme?: string;
 }
 export interface GetShelvesBooksRequest {
   /** Required. The name of the book to retrieve. */
   name: string;
 }
 export interface ListShelvesRequest {
-  /** A token identifying a page of results the server should return. Typically, this is the value of ListShelvesResponse.next_page_token returned from the previous call to `ListShelves` method. */
-  pageToken?: string;
   /** Requested page size. Server may return fewer shelves than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
+  /** A token identifying a page of results the server should return. Typically, this is the value of ListShelvesResponse.next_page_token returned from the previous call to `ListShelves` method. */
+  pageToken?: string;
 }
 export type GoogleExampleLibraryagentV1ShelfList = Array<GoogleExampleLibraryagentV1Shelf>;
 /** Response message for LibraryAgent.ListShelves. */
@@ -128,12 +128,12 @@ export interface GoogleExampleLibraryagentV1ListShelvesResponse {
   nextPageToken?: string;
 }
 export interface ListShelvesBooksRequest {
+  /** Required. The name of the shelf whose books we'd like to list. */
+  parent: string;
   /** A token identifying a page of results the server should return. Typically, this is the value of ListBooksResponse.next_page_token. returned from the previous call to `ListBooks` method. */
   pageToken?: string;
   /** Requested page size. Server may return fewer books than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
-  /** Required. The name of the shelf whose books we'd like to list. */
-  parent: string;
 }
 export type GoogleExampleLibraryagentV1BookList = Array<GoogleExampleLibraryagentV1Book>;
 /** Response message for LibraryAgent.ListBooks. */
@@ -275,9 +275,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           title: S.optional(S.String),
           read: S.optional(S.Boolean),
+          name: S.optional(S.String),
           author: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleExampleLibraryagentV1Book" });
@@ -304,8 +304,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          theme: S.optional(S.String),
           name: S.optional(S.String),
+          theme: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleExampleLibraryagentV1Shelf" });
   }
@@ -331,8 +331,8 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -357,9 +357,9 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",

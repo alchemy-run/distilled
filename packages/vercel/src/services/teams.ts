@@ -198,7 +198,7 @@ export interface TeamDefaultDeploymentProtectionPasswordProtection {
 }
 export type TeamDefaultDeploymentProtectionSsoProtection =
   TeamDefaultDeploymentProtectionPasswordProtection;
-/** Default deployment protection for this team null indicates protection is disabled */
+/** Deployment protection defaults for new projects in this team. When no Vercel Authentication default is saved, `ssoProtection` shows Standard Protection. An explicitly saved `null` remains disabled. Organization policy may override the team default during project creation. */
 export interface TeamDefaultDeploymentProtection {
   passwordProtection?: TeamDefaultDeploymentProtectionPasswordProtection | null;
   ssoProtection?: TeamDefaultDeploymentProtectionPasswordProtection | null;
@@ -237,6 +237,13 @@ export interface TeamDefaultProjectJobsFlagDefinitionsPresent {
   targets: TeamDefaultProjectJobsFlagDefinitionsPresentTargetsList;
 }
 /** Default job configuration applied to new projects created in this team. */
+export type TeamDefaultProjectJobsHealthCheckTargetsList = Array<string>;
+/** Default job configuration applied to new projects created in this team. */
+export interface TeamDefaultProjectJobsHealthCheck {
+  /** Default job configuration applied to new projects created in this team. */
+  targets: TeamDefaultProjectJobsHealthCheckTargetsList;
+}
+/** Default job configuration applied to new projects created in this team. */
 export type TeamDefaultProjectJobsLintTargetsList = Array<string>;
 /** Default job configuration applied to new projects created in this team. */
 export interface TeamDefaultProjectJobsLint {
@@ -261,6 +268,8 @@ export interface TeamDefaultProjectJobsTypecheck {
 export interface TeamDefaultProjectJobs {
   /** Default job configuration applied to new projects created in this team. */
   flag_definitions_present?: TeamDefaultProjectJobsFlagDefinitionsPresent;
+  /** Default job configuration applied to new projects created in this team. */
+  health_check?: TeamDefaultProjectJobsHealthCheck;
   /** Default job configuration applied to new projects created in this team. */
   lint?: TeamDefaultProjectJobsLint;
   /** Default job configuration applied to new projects created in this team. */
@@ -461,6 +470,7 @@ export type TeamMembershipJoinedFromOrigin =
   | "nsnb-redeploy-attribution-card"
   | "nsnb-request-access"
   | "nsnb-viewer-upgrade"
+  | "org-admin-sync"
   | "organization-teams"
   | "saml"
   | "teams";
@@ -524,7 +534,9 @@ export interface TeamMembership {
   created: number;
   createdAt: number;
   entitlements?: TeamMembershipEntitlementsList;
+  isOrgBackingTeamMembership?: boolean;
   joinedFrom?: TeamMembershipJoinedFrom;
+  organizationId?: string;
   role: TeamMembershipRole;
   teamId?: string;
   teamPermissions?: TeamMembershipTeamPermissionsList;
@@ -710,8 +722,8 @@ export interface Team {
   creatorId: string;
   /** Default continuous-usage billing kind for projects under this team. Absent means projects stay unmetered. */
   defaultContinuousUsageKind?: TeamDefaultContinuousUsageKind;
-  /** Default deployment protection for this team null indicates protection is disabled */
-  defaultDeploymentProtection?: TeamDefaultDeploymentProtection;
+  /** Deployment protection defaults for new projects in this team. When no Vercel Authentication default is saved, `ssoProtection` shows Standard Protection. An explicitly saved `null` remains disabled. Organization policy may override the team default during project creation. */
+  defaultDeploymentProtection: TeamDefaultDeploymentProtection;
   /** Default deployment expiration settings for this team */
   defaultExpirationSettings?: TeamDefaultExpirationSettings;
   /** Default Passport configuration for new projects in this team. */
@@ -750,6 +762,8 @@ export interface Team {
   /** Code that can be used to join this Team. Only visible to Team owners. */
   inviteCode?: string;
   ipBuckets?: TeamIpBucketsList;
+  /** Property indicating that this Team data contains full information. Limited Team data has `limited: true`. */
+  limited: boolean;
   /** The membership of the authenticated User in relation to the Team. */
   membership?: TeamMembership;
   /** Name associated with the Team account, or `null` if none has been provided. */
@@ -789,6 +803,7 @@ export interface Team {
   strictShareableLinks?: TeamStrictConnectors;
   /** Timestamp (in milliseconds) of when the Team was last updated. */
   updatedAt: number;
+  [key: string]: unknown;
 }
 export interface GetTeamAccessRequestRequest {
   teamId: string;
@@ -820,6 +835,7 @@ export type GetTeamAccessRequestResponseJoinedFromOrigin =
   | "nsnb-redeploy-attribution-card"
   | "nsnb-request-access"
   | "nsnb-viewer-upgrade"
+  | "org-admin-sync"
   | "organization-teams"
   | "saml"
   | "teams";
@@ -976,6 +992,7 @@ export type GetTeamMembersResponseMembersItemJoinedFromOrigin =
   | "nsnb-redeploy-attribution-card"
   | "nsnb-request-access"
   | "nsnb-viewer-upgrade"
+  | "org-admin-sync"
   | "organization-teams"
   | "saml"
   | "teams";
@@ -1103,6 +1120,7 @@ export type TeamLimitedMembershipJoinedFromOrigin =
   | "nsnb-redeploy-attribution-card"
   | "nsnb-request-access"
   | "nsnb-viewer-upgrade"
+  | "org-admin-sync"
   | "organization-teams"
   | "saml"
   | "teams";
@@ -1167,7 +1185,9 @@ export interface TeamLimitedMembership {
   created: number;
   createdAt: number;
   entitlements?: TeamLimitedMembershipEntitlementsList;
+  isOrgBackingTeamMembership?: boolean;
   joinedFrom?: TeamLimitedMembershipJoinedFrom;
+  organizationId?: string;
   role: TeamLimitedMembershipRole;
   teamId?: string;
   teamPermissions?: TeamLimitedMembershipTeamPermissionsList;
@@ -1423,6 +1443,7 @@ export type RequestAccessToTeamResponseJoinedFromOrigin =
   | "nsnb-redeploy-attribution-card"
   | "nsnb-request-access"
   | "nsnb-viewer-upgrade"
+  | "org-admin-sync"
   | "organization-teams"
   | "saml"
   | "teams";
@@ -1782,7 +1803,7 @@ export interface UpdateTeamRequest {
   slug?: string;
   /** The hash value of an uploaded image, or `null` to clear the avatar. */
   avatar?: string | null;
-  /** A short text that describes the team. */
+  /** A short text that describes the team. Set to an empty string to clear the description. Omit to keep the current description. */
   description?: string;
   emailDomain?: string | null;
   /** The name of the team. */
@@ -1851,7 +1872,7 @@ export type UpdateTeamMemberRequestTeamPermissionsItem =
   | "V0Builder"
   | "V0Chatter"
   | "V0Viewer";
-/** The team permissions to set for the member. Permissions must be compatible with the team roles assigned to the member. */
+/** The team permissions to set for the member. Permissions must be available to the team and compatible with the team roles assigned to the member. */
 export type UpdateTeamMemberRequestTeamPermissionsList = Array<
   UpdateTeamMemberRequestTeamPermissionsItem | (string & {})
 >;
@@ -1878,7 +1899,7 @@ export interface UpdateTeamMemberRequest {
   confirmed?: boolean;
   /** The role in the team of the member. */
   role?: string;
-  /** The team permissions to set for the member. Permissions must be compatible with the team roles assigned to the member. */
+  /** The team permissions to set for the member. Permissions must be available to the team and compatible with the team roles assigned to the member. */
   teamPermissions?: UpdateTeamMemberRequestTeamPermissionsList;
   projects?: UpdateTeamMemberRequestProjectsList;
   joinedFrom?: UpdateTeamMemberRequestJoinedFrom;
@@ -1945,7 +1966,7 @@ export type DeleteTeamError =
   | NotFound
   | Conflict
   | VercelOpError;
-/** Delete a Team Delete a team under your account. You need to send a `DELETE` request with the desired team `id`. An optional array of reasons for deletion may also be sent. */
+/** Delete a Team Delete a team under your account. You need to send a `DELETE` request with the desired team `id`. An optional array of reasons for deletion may also be sent. Enterprise teams can only be deleted in test billing mode and when not linked to an organization. Enterprise children of an organization cannot be deleted. */
 export const deleteTeam: API.OperationMethod<
   DeleteTeamRequest,
   DeleteTeamResponse,
@@ -2253,6 +2274,7 @@ function __c3(j: number): any {
           flag_definitions_present: S.optional(
             __S(102, __c3, 6).pipe(T.Body("flag-definitions-present")),
           ),
+          health_check: S.optional(__S(102, __c3, 6).pipe(T.Body("health-check"))),
           lint: S.optional(__S(102, __c3, 6)),
           mfe_config_present: S.optional(__S(102, __c3, 6).pipe(T.Body("mfe-config-present"))),
           typecheck: S.optional(__S(102, __c3, 6)),
@@ -2350,7 +2372,9 @@ function __c3(j: number): any {
           created: S.Number,
           createdAt: S.Number,
           entitlements: S.optional(__S(117, __c3, 21)),
+          isOrgBackingTeamMembership: S.optional(S.Boolean),
           joinedFrom: S.optional(__S(118, __c3, 22)),
+          organizationId: S.optional(S.String),
           role: S.String,
           teamId: S.optional(S.String),
           teamPermissions: S.optional(__S(32, __c1, 0)),
@@ -2440,57 +2464,61 @@ function __c4(j: number): any {
       ).annotate({ identifier: "TeamStrictConnectors" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          apiKeysInvalidatedAt: S.optional(S.Number),
-          appTokensInvalidatedAt: S.optional(S.Number),
-          avatar: S.NullOr(S.String),
-          billing: S.NullOr(__S(96, __c3, 0)),
-          connect: S.optional(__S(97, __c3, 1)),
-          createdAt: S.Number,
-          creatorId: S.String,
-          defaultContinuousUsageKind: S.optional(S.String),
-          defaultDeploymentProtection: S.optional(__S(99, __c3, 3)),
-          defaultExpirationSettings: S.optional(__S(100, __c3, 4)),
-          defaultPassport: S.optional(S.NullOr(__S(101, __c3, 5))),
-          defaultProjectJobs: S.optional(__S(103, __c3, 7)),
-          defaultRoles: S.optional(__S(104, __c3, 8)),
-          deploymentPolicy: S.optional(__S(112, __c3, 16)),
-          deploymentStorageRollout: S.optional(__S(113, __c3, 17)),
-          description: S.NullOr(S.String),
-          disableHardAutoBlocks: S.optional(S.Unknown),
-          disableRepositoryDispatchEvents: S.optional(S.Boolean),
-          disjunctiveProductionSecretPolicy: S.optional(S.NullOr(S.String)),
-          dpAccessRequestsMode: S.optional(S.String),
-          emailDomain: S.optional(S.NullOr(S.String)),
-          enablePreviewFeedback: S.optional(S.NullOr(S.String)),
-          enableProductionFeedback: S.optional(S.NullOr(S.String)),
-          hideIpAddresses: S.optional(S.NullOr(S.Boolean)),
-          hideIpAddressesInLogDrains: S.optional(S.NullOr(S.Boolean)),
-          id: S.String,
-          integrationTokensInvalidatedAt: S.optional(S.Number),
-          inviteCode: S.optional(S.String),
-          ipBuckets: S.optional(__S(115, __c3, 19)),
-          membership: S.optional(__S(119, __c3, 23)),
-          name: S.NullOr(S.String),
-          nsnbConfig: S.optional(__S(120, __c3, 24)),
-          orgRootTeamId: S.optional(S.String),
-          parentId: S.optional(S.String),
-          personalAccessTokensInvalidatedAt: S.optional(S.Number),
-          platform: S.optional(S.Boolean),
-          previewDeploymentSuffix: S.optional(S.NullOr(S.String)),
-          remoteCaching: S.optional(__S(97, __c3, 1)),
-          requireVerifiedCommits: S.optional(S.Boolean),
-          resourceConfig: S.optional(__S(123, __c3, 27)),
-          saml: S.optional(__S(127, __c3, 31)),
-          sensitiveEnvironmentVariablePolicy: S.optional(S.NullOr(S.String)),
-          slug: S.String,
-          stagingPrefix: S.String,
-          strictConnectors: S.optional(__S(128, __c4, 0)),
-          strictDeploymentProtectionSettings: S.optional(__S(128, __c4, 0)),
-          strictPasswordProtectionSettings: S.optional(__S(128, __c4, 0)),
-          strictShareableLinks: S.optional(__S(128, __c4, 0)),
-          updatedAt: S.Number,
-        }),
+        S.StructWithRest(
+          S.Struct({
+            apiKeysInvalidatedAt: S.optional(S.Number),
+            appTokensInvalidatedAt: S.optional(S.Number),
+            avatar: S.NullOr(S.String),
+            billing: S.NullOr(__S(96, __c3, 0)),
+            connect: S.optional(__S(97, __c3, 1)),
+            createdAt: S.Number,
+            creatorId: S.String,
+            defaultContinuousUsageKind: S.optional(S.String),
+            defaultDeploymentProtection: __S(99, __c3, 3),
+            defaultExpirationSettings: S.optional(__S(100, __c3, 4)),
+            defaultPassport: S.optional(S.NullOr(__S(101, __c3, 5))),
+            defaultProjectJobs: S.optional(__S(103, __c3, 7)),
+            defaultRoles: S.optional(__S(104, __c3, 8)),
+            deploymentPolicy: S.optional(__S(112, __c3, 16)),
+            deploymentStorageRollout: S.optional(__S(113, __c3, 17)),
+            description: S.NullOr(S.String),
+            disableHardAutoBlocks: S.optional(S.Unknown),
+            disableRepositoryDispatchEvents: S.optional(S.Boolean),
+            disjunctiveProductionSecretPolicy: S.optional(S.NullOr(S.String)),
+            dpAccessRequestsMode: S.optional(S.String),
+            emailDomain: S.optional(S.NullOr(S.String)),
+            enablePreviewFeedback: S.optional(S.NullOr(S.String)),
+            enableProductionFeedback: S.optional(S.NullOr(S.String)),
+            hideIpAddresses: S.optional(S.NullOr(S.Boolean)),
+            hideIpAddressesInLogDrains: S.optional(S.NullOr(S.Boolean)),
+            id: S.String,
+            integrationTokensInvalidatedAt: S.optional(S.Number),
+            inviteCode: S.optional(S.String),
+            ipBuckets: S.optional(__S(115, __c3, 19)),
+            limited: S.Boolean,
+            membership: S.optional(__S(119, __c3, 23)),
+            name: S.NullOr(S.String),
+            nsnbConfig: S.optional(__S(120, __c3, 24)),
+            orgRootTeamId: S.optional(S.String),
+            parentId: S.optional(S.String),
+            personalAccessTokensInvalidatedAt: S.optional(S.Number),
+            platform: S.optional(S.Boolean),
+            previewDeploymentSuffix: S.optional(S.NullOr(S.String)),
+            remoteCaching: S.optional(__S(97, __c3, 1)),
+            requireVerifiedCommits: S.optional(S.Boolean),
+            resourceConfig: S.optional(__S(123, __c3, 27)),
+            saml: S.optional(__S(127, __c3, 31)),
+            sensitiveEnvironmentVariablePolicy: S.optional(S.NullOr(S.String)),
+            slug: S.String,
+            stagingPrefix: S.String,
+            strictConnectors: S.optional(__S(128, __c4, 0)),
+            strictDeploymentProtectionSettings: S.optional(__S(128, __c4, 0)),
+            strictPasswordProtectionSettings: S.optional(__S(128, __c4, 0)),
+            strictShareableLinks: S.optional(__S(128, __c4, 0)),
+            updatedAt: S.Number,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "Team" });
   }
 }

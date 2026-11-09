@@ -57,6 +57,43 @@ export interface CreateDataWarehouseDeprovisionRequest {
   project_id: string;
 }
 export interface CreateDataWarehouseDeprovisionResponse {}
+/** * `read` - Read * `write` - Read & write */
+export type HoglakeCredentialScopeEnum = "read" | "write";
+export interface CreateDataWarehouseHoglakeCredentialsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A label for the client using this credential, e.g. 'laptop' or 'airflow'. It appears in hoglake's audit log. Letters, digits, spaces and ._:@/- only; at most 64 characters. */
+  name: string;
+  /** read lists and reads tables; write can also commit to them. * `read` - Read * `write` - Read & write */
+  scope: HoglakeCredentialScopeEnum | (string & {});
+  /** Lifetime in seconds, from one hour to a year. Defaults to 90 days. */
+  ttl_seconds?: number;
+}
+export interface HoglakeCredentialIssued {
+  /** The OAuth client_id, hlc_... */
+  client_id: string;
+  /** The client secret -- returned only here, never again */
+  client_secret: string | Redacted.Redacted<string>;
+  name: string;
+  scope: string;
+  expires_at: string;
+  /** org or team */
+  kind?: string;
+}
+/** The projects this credential reaches, each one you can see. Its tokens get your current access on each, so losing a project's access takes it out of the next token. */
+export type CreateDataWarehouseMyHoglakeCredentialsRequestTeamIdsList = Array<number>;
+export interface CreateDataWarehouseMyHoglakeCredentialsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A label for the client using this credential, e.g. 'laptop' or 'airflow'. It appears in hoglake's audit log. Letters, digits, spaces and ._:@/- only; at most 64 characters. */
+  name: string;
+  /** read lists and reads tables; write can also commit to them. * `read` - Read * `write` - Read & write */
+  scope: HoglakeCredentialScopeEnum | (string & {});
+  /** Lifetime in seconds, from one hour to a year. Defaults to 90 days. */
+  ttl_seconds?: number;
+  /** The projects this credential reaches, each one you can see. Its tokens get your current access on each, so losing a project's access takes it out of the next token. */
+  team_ids: CreateDataWarehouseMyHoglakeCredentialsRequestTeamIdsList;
+}
 export interface CreateDataWarehouseOnboardTeamRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -78,6 +115,30 @@ export interface CreateDataWarehouseProvisionRequest {
   schema_name: string;
 }
 export interface CreateDataWarehouseProvisionResponse {}
+export interface DataWarehouseHoglakeCredentialsDestroyRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  credential_id: string;
+}
+export interface HoglakeCredentialRevoked {
+  /** The revoked client_id */
+  revoked: string;
+}
+export interface DataWarehouseHoglakeCredentialsRotateCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  credential_id: string;
+}
+export interface DataWarehouseMyHoglakeCredentialsDestroyRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  credential_id: string;
+}
+export interface DataWarehouseMyHoglakeCredentialsRotateCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  credential_id: string;
+}
 export interface DataWarehouseResetPasswordCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -213,6 +274,47 @@ export interface GetDataWarehouseDataQualityGateRequest {
 export interface DataQualityGateConfig {
   /** When true, a materialization whose error-severity checks fail is not published; the previous version keeps serving and downstream models are skipped. */
   gate_materialization_on_checks: boolean;
+}
+export interface GetDataWarehouseHoglakeCredentialsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+/** A personal credential's projects */
+export type HoglakeCredentialTeamIdsList = Array<number>;
+export interface HoglakeCredential {
+  /** The OAuth client_id, hlc_... */
+  client_id: string;
+  name: string;
+  /** read or write */
+  scope: string;
+  /** org: reaches the whole catalog. team: a member's personal credential, limited to the projects in team_ids that its owner can still see. */
+  kind?: string;
+  /** A personal credential's owner */
+  owner_user_uuid?: string;
+  /** The owner's email, while they are a member */
+  owner_email?: string;
+  /** The owner's name, while they are a member */
+  owner_name?: string;
+  /** A personal credential's projects */
+  team_ids?: HoglakeCredentialTeamIdsList;
+  created_at: string;
+  last_rotated_at: string;
+  expires_at: string;
+  /** Set once revoked */
+  revoked_at?: string | null;
+}
+export type HoglakeCredentialListResponseHoglakeCredentialsList = Array<HoglakeCredential>;
+export interface HoglakeConnect {
+  /** The hoglake catalog (warehouse) these credentials reach */
+  catalog: string;
+  /** Hoglake's public REST catalog URL */
+  hoglake_url?: string;
+  /** OAuth token endpoint (client_credentials grant) */
+  token_url?: string;
+}
+export interface HoglakeCredentialListResponse {
+  hoglake_credentials: HoglakeCredentialListResponseHoglakeCredentialsList;
+  connect: HoglakeConnect;
 }
 export type GetDataWarehouseJobStatRequestDays = 1 | 7 | 30;
 export interface GetDataWarehouseJobStatRequest {
@@ -534,6 +636,134 @@ export interface ManagedWarehouseSourceSchemasResponse {
   /** Per-schema copy or register workflow status for the requested source. */
   schemas: ManagedWarehouseSourceSchemasResponseSchemasList;
 }
+export interface GetDataWarehouseManagedWarehouseTrinoMonitoringRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export interface ManagedWarehouseTrinoMonitoringState {
+  /** Trino lifecycle state for the organization: not_enabled, pending, provisioning, ready, or failed. */
+  state: string;
+  /** UTC timestamp when Trino became ready for the organization, or null. */
+  ready_at: string | null;
+  /** UTC timestamp when Trino setup last failed for the organization, or null. */
+  failed_at: string | null;
+}
+export interface ManagedWarehouseTrinoMonitoringLimits {
+  /** Maximum number of the organization's queries that run at the same time. Zero when Trino is not enabled. */
+  max_running_queries: number;
+  /** Maximum number of the organization's queries that can wait in the queue. Zero when Trino is not enabled. */
+  max_queued_queries: number;
+}
+export interface ManagedWarehouseTrinoMonitoringTotals {
+  /** Queries submitted and not yet finished. Equals running plus queued. */
+  in_flight: number;
+  /** In-flight queries past the queue. This is the count the concurrency limit applies to. */
+  running: number;
+  /** Queries waiting for a running slot. */
+  queued: number;
+  /** Running queries whose work is all waiting on data or metadata. A subset of running. */
+  blocked: number;
+  /** Elapsed milliseconds of the longest in-flight query, or zero when there is none. */
+  longest_running_ms: number;
+  /** Bytes read so far by all in-flight queries. */
+  physical_input_bytes: number;
+}
+export interface ManagedWarehouseTrinoMonitoringQuery {
+  /** Trino query identifier. */
+  query_id: string;
+  /** Trino query state in lower case, such as queued, planning, starting, running, or finishing. */
+  state: string;
+  /** Warehouse username that ran the query. Blank when it cannot be resolved. */
+  user: string;
+  /** Client-reported source of the query, such as a tool name. Blank when not set. */
+  source: string;
+  /** SQL text with literal values replaced by ? and comments removed. A placeholder when unavailable. */
+  query: string;
+  /** UTC timestamp when the query was submitted, or null when Trino does not report it. */
+  created_at: string | null;
+  /** Milliseconds since the query was submitted. */
+  elapsed_ms: number;
+  /** Milliseconds the query spent queued. */
+  queued_ms: number;
+  /** CPU milliseconds the query has used. */
+  cpu_ms: number;
+  /** Bytes the query has read from storage. */
+  physical_input_bytes: number;
+  /** Peak memory the query has reserved, in bytes. */
+  peak_memory_bytes: number;
+  /** Rows the query has read. */
+  processed_input_rows: number;
+  /** Best-effort progress percentage, or null when Trino cannot estimate it. */
+  progress_percentage: number | null;
+  /** Whether all of the query's work is waiting on data or metadata. */
+  blocked: boolean;
+}
+/** In-flight queries, longest-running first, capped at 200 rows. */
+export type ManagedWarehouseTrinoMonitoringSnapshotResponseQueriesList =
+  Array<ManagedWarehouseTrinoMonitoringQuery>;
+export interface ManagedWarehouseTrinoMonitoringSnapshotResponse {
+  /** Version of the Trino monitoring response schema. */
+  schema_version: number;
+  /** Organization whose managed warehouse is represented. */
+  org_id: string;
+  /** UTC timestamp when this snapshot was assembled. */
+  as_of: string;
+  /** Trino lifecycle details for the organization. */
+  trino: ManagedWarehouseTrinoMonitoringState;
+  /** Whether live query data could be read. When false, totals are zero and do not mean the warehouse is idle. */
+  available: boolean;
+  /** Concurrency and queue limits. */
+  limits: ManagedWarehouseTrinoMonitoringLimits;
+  /** Current in-flight query totals. */
+  totals: ManagedWarehouseTrinoMonitoringTotals;
+  /** In-flight queries, longest-running first, capped at 200 rows. */
+  queries: ManagedWarehouseTrinoMonitoringSnapshotResponseQueriesList;
+  /** Whether the query list was capped. Totals always cover every in-flight query. */
+  queries_truncated: boolean;
+}
+export type GetDataWarehouseManagedWarehouseTrinoMonitoringTimeseriesRequestMetric =
+  | "queries_in_flight"
+  | "query_rate"
+  | "error_ratio"
+  | "duration_p50"
+  | "duration_p95"
+  | "queue_time_p95"
+  | "scanned_bytes_rate"
+  | "cpu_seconds_rate"
+  | "storage_bytes";
+export type GetDataWarehouseManagedWarehouseTrinoMonitoringTimeseriesRequestWindow =
+  | "1h"
+  | "6h"
+  | "24h"
+  | "7d"
+  | "30d";
+export interface GetDataWarehouseManagedWarehouseTrinoMonitoringTimeseriesRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Allow-listed Trino metric to retrieve. * `queries_in_flight` - queries_in_flight * `query_rate` - query_rate * `error_ratio` - error_ratio * `duration_p50` - duration_p50 * `duration_p95` - duration_p95 * `queue_time_p95` - queue_time_p95 * `scanned_bytes_rate` - scanned_bytes_rate * `cpu_seconds_rate` - cpu_seconds_rate * `storage_bytes` - storage_bytes */
+  metric: GetDataWarehouseManagedWarehouseTrinoMonitoringTimeseriesRequestMetric | (string & {});
+  /** Trailing time window to retrieve. Defaults to 24h. * `1h` - 1h * `6h` - 6h * `24h` - 24h * `7d` - 7d * `30d` - 30d */
+  window?: GetDataWarehouseManagedWarehouseTrinoMonitoringTimeseriesRequestWindow | (string & {});
+}
+export interface GetDataWarehouseMyHoglakeCredentialsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export type MyHoglakeCredentialListResponseHoglakeCredentialsList = Array<HoglakeCredential>;
+export interface HoglakeProject {
+  id: number;
+  name: string;
+  /** read or write: the most a credential gets on this project */
+  access: string;
+}
+/** The projects you can put in a credential */
+export type MyHoglakeCredentialListResponseProjectsList = Array<HoglakeProject>;
+export interface MyHoglakeCredentialListResponse {
+  hoglake_credentials: MyHoglakeCredentialListResponseHoglakeCredentialsList;
+  connect: HoglakeConnect;
+  /** The projects you can put in a credential */
+  projects: MyHoglakeCredentialListResponseProjectsList;
+}
 export interface GetDataWarehousePropertyValueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -593,7 +823,7 @@ export type WarehouseStatusResponseStateEnum =
   | "deleting"
   | "deleted";
 export interface WarehouseConnection {
-  /** Connection host -- the warehouse name is the SNI subdomain, e.g. my-warehouse.dw.us.postwh.com */
+  /** Postgres connection host. The warehouse name is the SNI subdomain, e.g. my-warehouse.dw.us.postwh.com */
   host: string;
   /** Postgres wire-protocol port */
   port: number;
@@ -601,6 +831,32 @@ export interface WarehouseConnection {
   database: string;
   /** Root database username */
   username: string;
+}
+/** * `not_enabled` - not_enabled * `pending` - pending * `provisioning` - provisioning * `ready` - ready * `failed` - failed * `unavailable` - unavailable */
+export type WarehouseTrinoStatusStateEnum =
+  | "not_enabled"
+  | "pending"
+  | "provisioning"
+  | "ready"
+  | "failed"
+  | "unavailable";
+export interface WarehouseTrinoConnection {
+  /** Trino host to connect to over HTTPS */
+  host: string;
+  /** Trino HTTPS port */
+  port: number;
+  /** Trino catalog that holds the organization's data */
+  catalog: string;
+  /** Root username */
+  username: string;
+}
+export interface WarehouseTrinoStatus {
+  /** Trino lifecycle state for the organization. `unavailable` means the state could not be read. * `not_enabled` - not_enabled * `pending` - pending * `provisioning` - provisioning * `ready` - ready * `failed` - failed * `unavailable` - unavailable */
+  state: WarehouseTrinoStatusStateEnum;
+  /** When Trino became ready for the organization */
+  ready_at: string | null;
+  /** Trino connection target. Null until Trino is ready and reachable. */
+  connection: WarehouseTrinoConnection | null;
 }
 export interface WarehouseStatusResponse {
   /** duckgres org identifier (the PostHog organization id) */
@@ -621,7 +877,10 @@ export interface WarehouseStatusResponse {
   ready_at: string | null;
   /** When provisioning failed */
   failed_at: string | null;
+  /** Postgres connection target. Null for organizations on the Trino Data ops variant. */
   connection?: WarehouseConnection | null;
+  /** Trino status for organizations on the Trino Data ops variant, once the warehouse is ready. Null otherwise. */
+  trino?: WarehouseTrinoStatus | null;
   /** Whether this project already has a warehouse backfill configured. When true, its table name is fixed and the enable form should not be shown. */
   has_backfill: boolean;
   /** This project's per-environment table suffix (events_<suffix>). Null when the project still writes to the shared tables. */
@@ -645,13 +904,47 @@ export const createDataWarehouseDeprovision: API.OperationMethod<
   CreateDataWarehouseDeprovisionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<CreateDataWarehouseDeprovisionRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<CreateDataWarehouseDeprovisionResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<CreateDataWarehouseDeprovisionRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<CreateDataWarehouseDeprovisionResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDataWarehouseDeprovision",
+}));
+
+export type CreateDataWarehouseHoglakeCredentialsError = PosthogOpError;
+/** Create a hoglake credential Create an OAuth client credential for the managed hoglake catalog. The secret is in this response only. */
+export const createDataWarehouseHoglakeCredentials: API.OperationMethod<
+  CreateDataWarehouseHoglakeCredentialsRequest,
+  HoglakeCredentialIssued,
+  CreateDataWarehouseHoglakeCredentialsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(496, __c31, 0) as any as S.Schema<CreateDataWarehouseHoglakeCredentialsRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<HoglakeCredentialIssued>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataWarehouseHoglakeCredentials",
+}));
+
+export type CreateDataWarehouseMyHoglakeCredentialsError = PosthogOpError;
+/** Create a hoglake credential of your own Create an OAuth client credential owned by you and limited to the projects you name. Each token it gets carries your current access on each project. The secret is in this response only. */
+export const createDataWarehouseMyHoglakeCredentials: API.OperationMethod<
+  CreateDataWarehouseMyHoglakeCredentialsRequest,
+  HoglakeCredentialIssued,
+  CreateDataWarehouseMyHoglakeCredentialsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(528, __c33, 0) as any as S.Schema<CreateDataWarehouseMyHoglakeCredentialsRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<HoglakeCredentialIssued>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataWarehouseMyHoglakeCredentials",
 }));
 
 export type CreateDataWarehouseOnboardTeamError = PosthogOpError;
@@ -662,8 +955,8 @@ export const createDataWarehouseOnboardTeam: API.OperationMethod<
   CreateDataWarehouseOnboardTeamError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<CreateDataWarehouseOnboardTeamRequest>,
-  output: __S(289, __c18, 1) as any as S.Schema<OnboardWarehouseTeamResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<CreateDataWarehouseOnboardTeamRequest>,
+  output: __S(561, __c35, 1) as any as S.Schema<OnboardWarehouseTeamResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -679,13 +972,81 @@ export const createDataWarehouseProvision: API.OperationMethod<
   CreateDataWarehouseProvisionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<CreateDataWarehouseProvisionRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<CreateDataWarehouseProvisionResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<CreateDataWarehouseProvisionRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<CreateDataWarehouseProvisionResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDataWarehouseProvision",
+}));
+
+export type DataWarehouseHoglakeCredentialsDestroyError = PosthogOpError;
+/** Revoke a hoglake credential Revoke the credential now: new tokens are refused and its S3 vends stop. */
+export const dataWarehouseHoglakeCredentialsDestroy: API.OperationMethod<
+  DataWarehouseHoglakeCredentialsDestroyRequest,
+  HoglakeCredentialRevoked,
+  DataWarehouseHoglakeCredentialsDestroyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(592, __c37, 0) as any as S.Schema<DataWarehouseHoglakeCredentialsDestroyRequest>,
+  output: __S(608, __c38, 0) as any as S.Schema<HoglakeCredentialRevoked>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataWarehouseHoglakeCredentialsDestroy",
+}));
+
+export type DataWarehouseHoglakeCredentialsRotateCreateError = PosthogOpError;
+/** Rotate a hoglake credential's secret Replace the credential's secret; the old one stops working. The new secret is in this response only. */
+export const dataWarehouseHoglakeCredentialsRotateCreate: API.OperationMethod<
+  DataWarehouseHoglakeCredentialsRotateCreateRequest,
+  HoglakeCredentialIssued,
+  DataWarehouseHoglakeCredentialsRotateCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(624, __c39, 0) as any as S.Schema<DataWarehouseHoglakeCredentialsRotateCreateRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<HoglakeCredentialIssued>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataWarehouseHoglakeCredentialsRotateCreate",
+}));
+
+export type DataWarehouseMyHoglakeCredentialsDestroyError = PosthogOpError;
+/** Revoke one of your hoglake credentials Revoke your credential now: new tokens are refused and its S3 vends stop. */
+export const dataWarehouseMyHoglakeCredentialsDestroy: API.OperationMethod<
+  DataWarehouseMyHoglakeCredentialsDestroyRequest,
+  HoglakeCredentialRevoked,
+  DataWarehouseMyHoglakeCredentialsDestroyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<DataWarehouseMyHoglakeCredentialsDestroyRequest>,
+  output: __S(608, __c38, 0) as any as S.Schema<HoglakeCredentialRevoked>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataWarehouseMyHoglakeCredentialsDestroy",
+}));
+
+export type DataWarehouseMyHoglakeCredentialsRotateCreateError = PosthogOpError;
+/** Rotate one of your hoglake credentials Replace your credential's secret; the old one stops working. The new secret is in this response only. */
+export const dataWarehouseMyHoglakeCredentialsRotateCreate: API.OperationMethod<
+  DataWarehouseMyHoglakeCredentialsRotateCreateRequest,
+  HoglakeCredentialIssued,
+  DataWarehouseMyHoglakeCredentialsRotateCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(16, __c1, 0) as any as S.Schema<DataWarehouseMyHoglakeCredentialsRotateCreateRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<HoglakeCredentialIssued>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataWarehouseMyHoglakeCredentialsRotateCreate",
 }));
 
 export type DataWarehouseResetPasswordCreateError = PosthogOpError;
@@ -696,8 +1057,8 @@ export const dataWarehouseResetPasswordCreate: API.OperationMethod<
   DataWarehouseResetPasswordCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<DataWarehouseResetPasswordCreateRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<ResetPasswordResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<DataWarehouseResetPasswordCreateRequest>,
+  output: __S(33, __c2, 1) as any as S.Schema<ResetPasswordResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -713,8 +1074,8 @@ export const deleteDataWarehouseOrgDestroy: API.OperationMethod<
   DeleteDataWarehouseOrgDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<DeleteDataWarehouseOrgDestroyRequest>,
-  output: __S(337, __c21, 1) as any as S.Schema<DeleteWarehouseOrgResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<DeleteDataWarehouseOrgDestroyRequest>,
+  output: __S(49, __c3, 1) as any as S.Schema<DeleteWarehouseOrgResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -730,8 +1091,8 @@ export const getDataWarehouseCheckDatabaseName: API.OperationMethod<
   GetDataWarehouseCheckDatabaseNameError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetDataWarehouseCheckDatabaseNameRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<CheckDatabaseNameResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<GetDataWarehouseCheckDatabaseNameRequest>,
+  output: __S(80, __c5, 0) as any as S.Schema<CheckDatabaseNameResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -747,8 +1108,8 @@ export const getDataWarehouseCheckSchemaName: API.OperationMethod<
   GetDataWarehouseCheckSchemaNameError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<GetDataWarehouseCheckSchemaNameRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<CheckSchemaNameResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<GetDataWarehouseCheckSchemaNameRequest>,
+  output: __S(80, __c5, 0) as any as S.Schema<CheckSchemaNameResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -764,8 +1125,8 @@ export const getDataWarehouseCompletedActivity: API.OperationMethod<
   GetDataWarehouseCompletedActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetDataWarehouseCompletedActivityRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<PipelineActivityResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetDataWarehouseCompletedActivityRequest>,
+  output: __S(130, __c8, 2) as any as S.Schema<PipelineActivityResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -781,8 +1142,8 @@ export const getDataWarehouseDataHealthIssue: API.OperationMethod<
   GetDataWarehouseDataHealthIssueError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetDataWarehouseDataHealthIssueRequest>,
-  output: __S(35, __c2, 3) as any as S.Schema<DataHealthIssuesResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetDataWarehouseDataHealthIssueRequest>,
+  output: __S(147, __c9, 3) as any as S.Schema<DataHealthIssuesResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -798,8 +1159,8 @@ export const getDataWarehouseDataOpsDashboard: API.OperationMethod<
   GetDataWarehouseDataOpsDashboardError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<GetDataWarehouseDataOpsDashboardRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<GetDataWarehouseDataOpsDashboardResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetDataWarehouseDataOpsDashboardRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<GetDataWarehouseDataOpsDashboardResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -815,13 +1176,30 @@ export const getDataWarehouseDataQualityGate: API.OperationMethod<
   GetDataWarehouseDataQualityGateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetDataWarehouseDataQualityGateRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<DataQualityGateConfig>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetDataWarehouseDataQualityGateRequest>,
+  output: __S(192, __c12, 0) as any as S.Schema<DataQualityGateConfig>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDataWarehouseDataQualityGate",
+}));
+
+export type GetDataWarehouseHoglakeCredentialsError = PosthogOpError;
+/** List hoglake credentials The organization's live hoglake OAuth credentials (never their secrets), and where to use them. */
+export const getDataWarehouseHoglakeCredentials: API.OperationMethod<
+  GetDataWarehouseHoglakeCredentialsRequest,
+  HoglakeCredentialListResponse,
+  GetDataWarehouseHoglakeCredentialsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(208, __c13, 0) as any as S.Schema<GetDataWarehouseHoglakeCredentialsRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<HoglakeCredentialListResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataWarehouseHoglakeCredentials",
 }));
 
 export type GetDataWarehouseJobStatError = BadRequest | PosthogOpError;
@@ -832,8 +1210,8 @@ export const getDataWarehouseJobStat: API.OperationMethod<
   GetDataWarehouseJobStatError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetDataWarehouseJobStatRequest>,
-  output: __S(100, __c6, 4) as any as S.Schema<PipelineJobStatsResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetDataWarehouseJobStatRequest>,
+  output: __S(244, __c15, 4) as any as S.Schema<PipelineJobStatsResponse>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -849,8 +1227,8 @@ export const getDataWarehouseManagedWarehouseDataStatus: API.OperationMethod<
   GetDataWarehouseManagedWarehouseDataStatusError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetDataWarehouseManagedWarehouseDataStatusRequest>,
-  output: __S(117, __c7, 5) as any as S.Schema<ManagedWarehouseDataStatusResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetDataWarehouseManagedWarehouseDataStatusRequest>,
+  output: __S(261, __c16, 5) as any as S.Schema<ManagedWarehouseDataStatusResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -870,8 +1248,8 @@ export const getDataWarehouseManagedWarehouseMonitoring: API.OperationMethod<
   GetDataWarehouseManagedWarehouseMonitoringError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetDataWarehouseManagedWarehouseMonitoringRequest>,
-  output: __S(136, __c8, 8) as any as S.Schema<ManagedWarehouseMonitoringSnapshotResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetDataWarehouseManagedWarehouseMonitoringRequest>,
+  output: __S(280, __c17, 8) as any as S.Schema<ManagedWarehouseMonitoringSnapshotResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -892,11 +1270,11 @@ export const getDataWarehouseManagedWarehouseMonitoringTimeseries: API.Operation
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    144,
-    __c9,
+    288,
+    __c18,
     0,
   ) as any as S.Schema<GetDataWarehouseManagedWarehouseMonitoringTimeseriesRequest>,
-  output: __S(150, __c9, 6) as any as S.Schema<ManagedWarehouseMonitoringSeriesResponse>,
+  output: __S(309, __c19, 5) as any as S.Schema<ManagedWarehouseMonitoringSeriesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -912,13 +1290,80 @@ export const getDataWarehouseManagedWarehouseSourceSchema: API.OperationMethod<
   GetDataWarehouseManagedWarehouseSourceSchemaError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetDataWarehouseManagedWarehouseSourceSchemaRequest>,
-  output: __S(163, __c10, 3) as any as S.Schema<ManagedWarehouseSourceSchemasResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<GetDataWarehouseManagedWarehouseSourceSchemaRequest>,
+  output: __S(323, __c20, 3) as any as S.Schema<ManagedWarehouseSourceSchemasResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDataWarehouseManagedWarehouseSourceSchema",
+}));
+
+export type GetDataWarehouseManagedWarehouseTrinoMonitoringError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+/** Get managed warehouse Trino monitoring snapshot Get tenant-safe live Trino query totals, limits, and in-flight queries for the current organization. */
+export const getDataWarehouseManagedWarehouseTrinoMonitoring: API.OperationMethod<
+  GetDataWarehouseManagedWarehouseTrinoMonitoringRequest,
+  ManagedWarehouseTrinoMonitoringSnapshotResponse,
+  GetDataWarehouseManagedWarehouseTrinoMonitoringError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    336,
+    __c21,
+    0,
+  ) as any as S.Schema<GetDataWarehouseManagedWarehouseTrinoMonitoringRequest>,
+  output: __S(342, __c21, 6) as any as S.Schema<ManagedWarehouseTrinoMonitoringSnapshotResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataWarehouseManagedWarehouseTrinoMonitoring",
+}));
+
+export type GetDataWarehouseManagedWarehouseTrinoMonitoringTimeseriesError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+/** Get managed warehouse Trino monitoring time series Get one allow-listed Trino monitoring metric for the current organization and trailing time window. */
+export const getDataWarehouseManagedWarehouseTrinoMonitoringTimeseries: API.OperationMethod<
+  GetDataWarehouseManagedWarehouseTrinoMonitoringTimeseriesRequest,
+  ManagedWarehouseMonitoringSeriesResponse,
+  GetDataWarehouseManagedWarehouseTrinoMonitoringTimeseriesError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    352,
+    __c22,
+    0,
+  ) as any as S.Schema<GetDataWarehouseManagedWarehouseTrinoMonitoringTimeseriesRequest>,
+  output: __S(309, __c19, 5) as any as S.Schema<ManagedWarehouseMonitoringSeriesResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataWarehouseManagedWarehouseTrinoMonitoringTimeseries",
+}));
+
+export type GetDataWarehouseMyHoglakeCredentialsError = PosthogOpError;
+/** List your hoglake credentials Your own live hoglake OAuth credentials (never their secrets), the projects you can put in one, and where to use them. */
+export const getDataWarehouseMyHoglakeCredentials: API.OperationMethod<
+  GetDataWarehouseMyHoglakeCredentialsRequest,
+  MyHoglakeCredentialListResponse,
+  GetDataWarehouseMyHoglakeCredentialsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(368, __c23, 0) as any as S.Schema<GetDataWarehouseMyHoglakeCredentialsRequest>,
+  output: __S(371, __c23, 3) as any as S.Schema<MyHoglakeCredentialListResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataWarehouseMyHoglakeCredentials",
 }));
 
 export type GetDataWarehousePropertyValueError = PosthogOpError;
@@ -929,8 +1374,8 @@ export const getDataWarehousePropertyValue: API.OperationMethod<
   GetDataWarehousePropertyValueError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetDataWarehousePropertyValueRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<GetDataWarehousePropertyValueResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetDataWarehousePropertyValueRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<GetDataWarehousePropertyValueResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -946,8 +1391,8 @@ export const getDataWarehouseRunningActivity: API.OperationMethod<
   GetDataWarehouseRunningActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetDataWarehouseRunningActivityRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<PipelineActivityResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetDataWarehouseRunningActivityRequest>,
+  output: __S(130, __c8, 2) as any as S.Schema<PipelineActivityResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -963,8 +1408,8 @@ export const getDataWarehouseTotalRowsStat: API.OperationMethod<
   GetDataWarehouseTotalRowsStatError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetDataWarehouseTotalRowsStatRequest>,
-  output: __S(210, __c13, 2) as any as S.Schema<PipelineRowsStatsResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<GetDataWarehouseTotalRowsStatRequest>,
+  output: __S(450, __c28, 2) as any as S.Schema<PipelineRowsStatsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -980,8 +1425,8 @@ export const getDataWarehouseWarehouseStatus: API.OperationMethod<
   GetDataWarehouseWarehouseStatusError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetDataWarehouseWarehouseStatusRequest>,
-  output: __S(226, __c14, 2) as any as S.Schema<WarehouseStatusResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<GetDataWarehouseWarehouseStatusRequest>,
+  output: __S(468, __c29, 4) as any as S.Schema<WarehouseStatusResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -997,8 +1442,8 @@ export const updateDataWarehouseDataQualityGatePartial: API.OperationMethod<
   UpdateDataWarehouseDataQualityGatePartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<UpdateDataWarehouseDataQualityGatePartialRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<DataQualityGateConfig>,
+  input: __S(480, __c30, 0) as any as S.Schema<UpdateDataWarehouseDataQualityGatePartialRequest>,
+  output: __S(192, __c12, 0) as any as S.Schema<DataQualityGateConfig>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1008,6 +1453,131 @@ export const updateDataWarehouseDataQualityGatePartial: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          credential_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/data_warehouse/my_hoglake_credentials/{credential_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DataWarehouseMyHoglakeCredentialsDestroyRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          credential_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/data_warehouse/my_hoglake_credentials/{credential_id}/rotate/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DataWarehouseMyHoglakeCredentialsRotateCreateRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/data_warehouse/reset-password/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DataWarehouseResetPasswordCreateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          username: S.String,
+          password: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "ResetPasswordResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/data_warehouse/delete-org/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteDataWarehouseOrgDestroyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          org: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteWarehouseOrgResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/data_warehouse/check-database-name/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetDataWarehouseCheckDatabaseNameRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          available: S.Boolean,
+        }),
+      ).annotate({ identifier: "CheckDatabaseNameResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/data_warehouse/check-schema-name/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetDataWarehouseCheckSchemaNameRequest" });
+  }
+}
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1028,7 +1598,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GetDataWarehouseCompletedActivityRequest" });
   }
 }
-function __c1(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1047,18 +1617,18 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "PipelineActivityRow" });
     case 1:
-      return S.Array(__S(16, __c1, 0));
+      return S.Array(__S(128, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(17, __c1, 1),
+          results: __S(129, __c8, 1),
           next: S.NullOr(S.String),
           previous: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "PipelineActivityResponse" });
   }
 }
-function __c2(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1087,17 +1657,17 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "DataHealthIssue" });
     case 2:
-      return S.Array(__S(33, __c2, 1));
+      return S.Array(__S(145, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(34, __c2, 2),
+          results: __S(146, __c9, 2),
           count: S.Number,
         }),
       ).annotate({ identifier: "DataHealthIssuesResponse" });
   }
 }
-function __c3(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1113,7 +1683,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetDataWarehouseDataOpsDashboardRequest" });
   }
 }
-function __c4(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1129,7 +1699,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetDataWarehouseDataQualityGateRequest" });
   }
 }
-function __c5(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1139,7 +1709,61 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DataQualityGateConfig" });
   }
 }
-function __c6(j: number): any {
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/data_warehouse/hoglake_credentials/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetDataWarehouseHoglakeCredentialsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          hoglake_credentials: __S(225, __c14, 1),
+          connect: __S(226, __c14, 2),
+        }),
+      ).annotate({ identifier: "HoglakeCredentialListResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.String,
+          name: S.String,
+          scope: S.String,
+          kind: S.optional(S.String),
+          owner_user_uuid: S.optional(S.String),
+          owner_email: S.optional(S.String),
+          owner_name: S.optional(S.String),
+          team_ids: S.optional(__S(544, __c34, 0)),
+          created_at: S.String,
+          last_rotated_at: S.String,
+          expires_at: S.String,
+          revoked_at: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "HoglakeCredential" });
+    case 1:
+      return S.Array(__S(224, __c14, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          catalog: S.String,
+          hoglake_url: S.optional(S.String),
+          token_url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HoglakeConnect" });
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1171,7 +1795,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "JobStatsBucket" });
     case 3:
-      return S.Record(S.String, __S(98, __c6, 2));
+      return S.Record(S.String, __S(242, __c15, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1180,14 +1804,14 @@ function __c6(j: number): any {
           total_jobs: S.Number,
           successful_jobs: S.Number,
           failed_jobs: S.Number,
-          external_data_jobs: __S(97, __c6, 1),
-          modeling_jobs: __S(97, __c6, 1),
-          breakdown: __S(99, __c6, 3),
+          external_data_jobs: __S(241, __c15, 1),
+          modeling_jobs: __S(241, __c15, 1),
+          breakdown: __S(243, __c15, 3),
         }),
       ).annotate({ identifier: "PipelineJobStatsResponse" });
   }
 }
-function __c7(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1228,28 +1852,28 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "ManagedWarehouseSourceSummary" });
     case 3:
-      return S.Array(__S(114, __c7, 2));
+      return S.Array(__S(258, __c16, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           readiness_state: S.String,
           detail: S.String,
-          sources: __S(115, __c7, 3),
+          sources: __S(259, __c16, 3),
         }),
       ).annotate({ identifier: "ManagedWarehouseSourcesStatus" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           overall_readiness_state: S.String,
-          events: __S(113, __c7, 1),
-          persons: __S(113, __c7, 1),
-          sources: __S(116, __c7, 4),
+          events: __S(257, __c16, 1),
+          persons: __S(257, __c16, 1),
+          sources: __S(260, __c16, 4),
           generated_at: S.String,
         }),
       ).annotate({ identifier: "ManagedWarehouseDataStatusResponse" });
   }
 }
-function __c8(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1313,11 +1937,11 @@ function __c8(j: number): any {
           ttl_seconds: S.Number,
           created_at: S.String,
           last_heartbeat_at: S.String,
-          session: S.optional(S.NullOr(__S(132, __c8, 4))),
+          session: S.optional(S.NullOr(__S(276, __c17, 4))),
         }),
       ).annotate({ identifier: "ManagedWarehouseMonitoringWorker" });
     case 6:
-      return S.Array(__S(133, __c8, 5));
+      return S.Array(__S(277, __c17, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -1332,16 +1956,16 @@ function __c8(j: number): any {
           schema_version: S.Number,
           org_id: S.String,
           as_of: S.String,
-          warehouse: __S(129, __c8, 1),
-          limits: __S(130, __c8, 2),
-          totals: __S(131, __c8, 3),
-          workers: __S(134, __c8, 6),
-          coverage: __S(135, __c8, 7),
+          warehouse: __S(273, __c17, 1),
+          limits: __S(274, __c17, 2),
+          totals: __S(275, __c17, 3),
+          workers: __S(278, __c17, 6),
+          coverage: __S(279, __c17, 7),
         }),
       ).annotate({ identifier: "ManagedWarehouseMonitoringSnapshotResponse" });
   }
 }
-function __c9(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1357,27 +1981,31 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetDataWarehouseManagedWarehouseMonitoringTimeseriesRequest" });
-    case 1:
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
       return S.Record(S.String, S.String);
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           timestamp: S.String,
           value: S.Number,
         }),
       ).annotate({ identifier: "ManagedWarehouseMonitoringPoint" });
+    case 2:
+      return S.Array(__S(305, __c19, 1));
     case 3:
-      return S.Array(__S(146, __c9, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
-          labels: __S(145, __c9, 1),
-          points: __S(147, __c9, 3),
+          labels: __S(304, __c19, 0),
+          points: __S(306, __c19, 2),
         }),
       ).annotate({ identifier: "ManagedWarehouseMonitoringSeries" });
+    case 4:
+      return S.Array(__S(307, __c19, 3));
     case 5:
-      return S.Array(__S(148, __c9, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
           schema_version: S.Number,
@@ -1387,12 +2015,12 @@ function __c9(j: number): any {
           start: S.String,
           end: S.String,
           step_seconds: S.Number,
-          series: __S(149, __c9, 5),
+          series: __S(308, __c19, 4),
         }),
       ).annotate({ identifier: "ManagedWarehouseMonitoringSeriesResponse" });
   }
 }
-function __c10(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1426,16 +2054,147 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "ManagedWarehouseSourceTableStatus" });
     case 2:
-      return S.Array(__S(161, __c10, 1));
+      return S.Array(__S(321, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          schemas: __S(162, __c10, 2),
+          schemas: __S(322, __c20, 2),
         }),
       ).annotate({ identifier: "ManagedWarehouseSourceSchemasResponse" });
   }
 }
-function __c11(j: number): any {
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/data_warehouse/managed-warehouse-trino-monitoring/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetDataWarehouseManagedWarehouseTrinoMonitoringRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.String,
+          ready_at: S.NullOr(S.String),
+          failed_at: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ManagedWarehouseTrinoMonitoringState" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          max_running_queries: S.Number,
+          max_queued_queries: S.Number,
+        }),
+      ).annotate({ identifier: "ManagedWarehouseTrinoMonitoringLimits" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          in_flight: S.Number,
+          running: S.Number,
+          queued: S.Number,
+          blocked: S.Number,
+          longest_running_ms: S.Number,
+          physical_input_bytes: S.Number,
+        }),
+      ).annotate({ identifier: "ManagedWarehouseTrinoMonitoringTotals" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          query_id: S.String,
+          state: S.String,
+          user: S.String,
+          source: S.String,
+          query: S.String,
+          created_at: S.NullOr(S.String),
+          elapsed_ms: S.Number,
+          queued_ms: S.Number,
+          cpu_ms: S.Number,
+          physical_input_bytes: S.Number,
+          peak_memory_bytes: S.Number,
+          processed_input_rows: S.Number,
+          progress_percentage: S.NullOr(S.Number),
+          blocked: S.Boolean,
+        }),
+      ).annotate({ identifier: "ManagedWarehouseTrinoMonitoringQuery" });
+    case 5:
+      return S.Array(__S(340, __c21, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          schema_version: S.Number,
+          org_id: S.String,
+          as_of: S.String,
+          trino: __S(337, __c21, 1),
+          available: S.Boolean,
+          limits: __S(338, __c21, 2),
+          totals: __S(339, __c21, 3),
+          queries: __S(341, __c21, 5),
+          queries_truncated: S.Boolean,
+        }),
+      ).annotate({ identifier: "ManagedWarehouseTrinoMonitoringSnapshotResponse" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          metric: S.String.pipe(T.Query()),
+          window: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/data_warehouse/managed-warehouse-trino-monitoring-timeseries/",
+            code: 200,
+          }),
+        ),
+      ).annotate({
+        identifier: "GetDataWarehouseManagedWarehouseTrinoMonitoringTimeseriesRequest",
+      });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/data_warehouse/my_hoglake_credentials/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetDataWarehouseMyHoglakeCredentialsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          name: S.String,
+          access: S.String,
+        }),
+      ).annotate({ identifier: "HoglakeProject" });
+    case 2:
+      return S.Array(__S(369, __c23, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          hoglake_credentials: __S(225, __c14, 1),
+          connect: __S(226, __c14, 2),
+          projects: __S(370, __c23, 2),
+        }),
+      ).annotate({ identifier: "MyHoglakeCredentialListResponse" });
+  }
+}
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1451,7 +2210,31 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetDataWarehousePropertyValueRequest" });
   }
 }
-function __c12(j: number): any {
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/data_warehouse/deprovision/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateDataWarehouseDeprovisionRequest" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "CreateDataWarehouseDeprovisionResponse",
+      });
+  }
+}
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1471,7 +2254,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetDataWarehouseRunningActivityRequest" });
   }
 }
-function __c13(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1498,12 +2281,12 @@ function __c13(j: number): any {
           tracked_billing_rows: S.Number,
           pending_billing_rows: S.Number,
           materialized_rows_in_billing_period: S.Number,
-          breakdown_of_rows_by_source: __S(209, __c13, 1),
+          breakdown_of_rows_by_source: __S(449, __c28, 1),
         }),
       ).annotate({ identifier: "PipelineRowsStatsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1529,6 +2312,23 @@ function __c14(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          host: S.String,
+          port: S.Number,
+          catalog: S.String,
+          username: S.String,
+        }),
+      ).annotate({ identifier: "WarehouseTrinoConnection" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.String,
+          ready_at: S.NullOr(S.String),
+          connection: S.NullOr(__S(466, __c29, 2)),
+        }),
+      ).annotate({ identifier: "WarehouseTrinoStatus" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           org_id: S.String,
           state: S.String,
           status_message: S.String,
@@ -1538,7 +2338,8 @@ function __c14(j: number): any {
           secrets_state: S.String,
           ready_at: S.NullOr(S.String),
           failed_at: S.NullOr(S.String),
-          connection: S.optional(S.NullOr(__S(225, __c14, 1))),
+          connection: S.optional(S.NullOr(__S(465, __c29, 1))),
+          trino: S.optional(S.NullOr(__S(467, __c29, 3))),
           has_backfill: S.Boolean,
           table_suffix: S.NullOr(S.String),
           team_onboarded: S.Boolean,
@@ -1547,7 +2348,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "WarehouseStatusResponse" });
   }
 }
-function __c15(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1564,31 +2365,67 @@ function __c15(j: number): any {
       ).annotate({ identifier: "UpdateDataWarehouseDataQualityGatePartialRequest" });
   }
 }
-function __c16(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          name: S.String,
+          scope: S.String,
+          ttl_seconds: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/projects/{project_id}/data_warehouse/deprovision/",
+            uri: "/api/projects/{project_id}/data_warehouse/hoglake_credentials/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "CreateDataWarehouseDeprovisionRequest" });
+      ).annotate({ identifier: "CreateDataWarehouseHoglakeCredentialsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "CreateDataWarehouseDeprovisionResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.String,
+          client_secret: S.String.pipe(T.SensitiveValue({})),
+          name: S.String,
+          scope: S.String,
+          expires_at: S.String,
+          kind: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HoglakeCredentialIssued" });
   }
 }
-function __c18(j: number): any {
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          name: S.String,
+          scope: S.String,
+          ttl_seconds: S.optional(S.Number),
+          team_ids: __S(544, __c34, 0),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/data_warehouse/my_hoglake_credentials/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateDataWarehouseMyHoglakeCredentialsRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+  }
+}
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1612,7 +2449,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "OnboardWarehouseTeamResponse" });
   }
 }
-function __c19(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1630,95 +2467,48 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateDataWarehouseProvisionRequest" });
   }
 }
-function __c20(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/data_warehouse/reset-password/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DataWarehouseResetPasswordCreateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          username: S.String,
-          password: S.String.pipe(T.SensitiveValue({})),
-        }),
-      ).annotate({ identifier: "ResetPasswordResponse" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
+          credential_id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
-            uri: "/api/projects/{project_id}/data_warehouse/delete-org/",
+            uri: "/api/projects/{project_id}/data_warehouse/hoglake_credentials/{credential_id}/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "DeleteDataWarehouseOrgDestroyRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          org: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DeleteWarehouseOrgResponse" });
+      ).annotate({ identifier: "DataWarehouseHoglakeCredentialsDestroyRequest" });
   }
 }
-function __c22(j: number): any {
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          revoked: S.String,
+        }),
+      ).annotate({ identifier: "HoglakeCredentialRevoked" });
+  }
+}
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Query()),
+          credential_id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/data_warehouse/check-database-name/",
+            method: "POST",
+            uri: "/api/projects/{project_id}/data_warehouse/hoglake_credentials/{credential_id}/rotate/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "GetDataWarehouseCheckDatabaseNameRequest" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          available: S.Boolean,
-        }),
-      ).annotate({ identifier: "CheckDatabaseNameResponse" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Query()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/data_warehouse/check-schema-name/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetDataWarehouseCheckSchemaNameRequest" });
+      ).annotate({ identifier: "DataWarehouseHoglakeCredentialsRotateCreateRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

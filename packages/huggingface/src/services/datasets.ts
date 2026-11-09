@@ -58,12 +58,20 @@ export interface AddResourceGroupResponse {
   addedBy: string;
 }
 export type BatchHandleAccessRequestsRequestStatus = "accepted" | "rejected" | "pending" | "reset";
-export interface BatchHandleAccessRequestsRequestRequestsItem {
-  /** Either userId or user must be provided */
-  userId?: string;
-  /** Either userId or user must be provided */
-  user?: string;
+export interface BatchHandleAccessRequestsRequestRequestsItemCase0 {
+  /** Id of the request as returned by the listing endpoint; the only identifier when the requester's profile is not shared */
+  requestId: string;
 }
+export interface BatchHandleAccessRequestsRequestRequestsItemCase1 {
+  userId: string;
+}
+export interface BatchHandleAccessRequestsRequestRequestsItemCase2 {
+  user: string;
+}
+export type BatchHandleAccessRequestsRequestRequestsItem =
+  | BatchHandleAccessRequestsRequestRequestsItemCase0
+  | BatchHandleAccessRequestsRequestRequestsItemCase1
+  | BatchHandleAccessRequestsRequestRequestsItemCase2;
 export type BatchHandleAccessRequestsRequestRequestsList =
   Array<BatchHandleAccessRequestsRequestRequestsItem>;
 export interface BatchHandleAccessRequestsRequest {
@@ -76,6 +84,7 @@ export interface BatchHandleAccessRequestsRequest {
 }
 export type BatchHandleAccessRequestsResponseBodyItemError = "user_not_found" | "request_not_found";
 export interface BatchHandleAccessRequestsResponseBodyItem {
+  requestId?: string;
   userId?: string;
   user?: string;
   ok: boolean;
@@ -539,17 +548,48 @@ export interface GrantAccessRequest {
   user?: string;
 }
 export interface GrantAccessResponse {}
-export type HandleAccessRequestRequestStatus = "accepted" | "rejected" | "pending" | "reset";
+export type HandleAccessRequestRequestBodyCase0Status =
+  | "accepted"
+  | "rejected"
+  | "pending"
+  | "reset";
+export interface HandleAccessRequestRequestBodyCase0 {
+  status: HandleAccessRequestRequestBodyCase0Status | (string & {});
+  rejectionReason?: string;
+  resetReason?: string;
+  /** Id of the request as returned by the listing endpoint; the only identifier when the requester's profile is not shared */
+  requestId: string;
+}
+export type HandleAccessRequestRequestBodyCase1Status =
+  | "accepted"
+  | "rejected"
+  | "pending"
+  | "reset";
+export interface HandleAccessRequestRequestBodyCase1 {
+  status: HandleAccessRequestRequestBodyCase1Status | (string & {});
+  rejectionReason?: string;
+  resetReason?: string;
+  userId: string;
+}
+export type HandleAccessRequestRequestBodyCase2Status =
+  | "accepted"
+  | "rejected"
+  | "pending"
+  | "reset";
+export interface HandleAccessRequestRequestBodyCase2 {
+  status: HandleAccessRequestRequestBodyCase2Status | (string & {});
+  rejectionReason?: string;
+  resetReason?: string;
+  user: string;
+}
+export type HandleAccessRequestRequestBody =
+  | HandleAccessRequestRequestBodyCase0
+  | HandleAccessRequestRequestBodyCase1
+  | HandleAccessRequestRequestBodyCase2;
 export interface HandleAccessRequestRequest {
   namespace: string;
   repo: string;
-  /** Either userId or user must be provided */
-  userId?: string;
-  /** Either userId or user must be provided */
-  user?: string;
-  status: HandleAccessRequestRequestStatus | (string & {});
-  rejectionReason?: string;
-  resetReason?: string;
+  body?: HandleAccessRequestRequestBody;
 }
 export interface HandleAccessRequestResponse {}
 export type ListAccessRequestsRequestStatus = "pending" | "accepted" | "rejected" | "reset";
@@ -579,6 +619,7 @@ export interface ListAccessRequestsResponseBodyItemUserServiceAccount {
   description?: string;
 }
 export type ListAccessRequestsResponseBodyItemUserVerifiedOrgNamesList = Array<string>;
+/** Absent when the requester's profile is not shared */
 export interface ListAccessRequestsResponseBodyItemUser {
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
@@ -655,6 +696,9 @@ export type ListAccessRequestsResponseBodyItemStatus =
   | "reset";
 export type ListAccessRequestsResponseBodyItemFieldsMap = { [key: string]: string | undefined };
 export interface ListAccessRequestsResponseBodyItem {
+  /** Id of the request, usable to accept/reject it even when the requester identity is not shared */
+  requestId: string;
+  /** Absent when the requester's profile is not shared */
   user?: ListAccessRequestsResponseBodyItemUser;
   grantedBy?: ListAccessRequestsResponseBodyItemGrantedBy;
   status: ListAccessRequestsResponseBodyItemStatus;
@@ -1218,6 +1262,16 @@ export type UpdateRepoSettingsRequestDiscussionsSorting =
   | "reactions";
 export type UpdateRepoSettingsRequestGatedCase1 = "auto" | "manual";
 export type UpdateRepoSettingsRequestGated = boolean | UpdateRepoSettingsRequestGatedCase1;
+export interface UpdateRepoSettingsRequestGatedProfileSharingCase0 {
+  username: boolean;
+  email: boolean;
+}
+export type UpdateRepoSettingsRequestGatedProfileSharingCase1 =
+  UpdateRepoSettingsRequestGatedProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type UpdateRepoSettingsRequestGatedProfileSharing =
+  | UpdateRepoSettingsRequestGatedProfileSharingCase0
+  | UpdateRepoSettingsRequestGatedProfileSharingCase0;
 export type UpdateRepoSettingsRequestGatedNotificationsMode = "bulk" | "real-time";
 export interface UpdateRepoSettingsRequest {
   namespace: string;
@@ -1230,6 +1284,8 @@ export interface UpdateRepoSettingsRequest {
   gated?: UpdateRepoSettingsRequestGated;
   /** If true, members of the owning org (except admins) must also go through the gated access-request flow. */
   orgMembersGated?: boolean;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  gatedProfileSharing?: UpdateRepoSettingsRequestGatedProfileSharing;
   gatedNotificationsEmail?: string;
   gatedNotificationsMode?: UpdateRepoSettingsRequestGatedNotificationsMode | (string & {});
 }
@@ -1241,6 +1297,14 @@ export type UpdateRepoSettingsResponseDiscussionsSorting =
   | "reactions";
 export type UpdateRepoSettingsResponseGatedCase1 = "auto" | "manual";
 export type UpdateRepoSettingsResponseGated = boolean | UpdateRepoSettingsResponseGatedCase1;
+export type UpdateRepoSettingsResponseGatedProfileSharingCase0 =
+  UpdateRepoSettingsRequestGatedProfileSharingCase0;
+export type UpdateRepoSettingsResponseGatedProfileSharingCase1 =
+  UpdateRepoSettingsRequestGatedProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type UpdateRepoSettingsResponseGatedProfileSharing =
+  | UpdateRepoSettingsRequestGatedProfileSharingCase0
+  | UpdateRepoSettingsRequestGatedProfileSharingCase0;
 export type UpdateRepoSettingsResponseGatedNotificationsMode = "bulk" | "real-time";
 export interface UpdateRepoSettingsResponse {
   private?: boolean;
@@ -1251,6 +1315,8 @@ export interface UpdateRepoSettingsResponse {
   gated?: UpdateRepoSettingsResponseGated;
   /** If true, members of the owning org (except admins) must also go through the gated access-request flow. */
   orgMembersGated?: boolean;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  gatedProfileSharing?: UpdateRepoSettingsResponseGatedProfileSharing;
   gatedNotificationsEmail?: string;
   gatedNotificationsMode?: UpdateRepoSettingsResponseGatedNotificationsMode;
 }
@@ -1299,8 +1365,8 @@ export const batchHandleAccessRequests: API.OperationMethod<
   BatchHandleAccessRequestsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(210, __c13, 2) as any as S.Schema<BatchHandleAccessRequestsRequest>,
-  output: __S(213, __c13, 5) as any as S.Schema<BatchHandleAccessRequestsResponse>,
+  input: __S(209, __c13, 1) as any as S.Schema<BatchHandleAccessRequestsRequest>,
+  output: __S(212, __c13, 4) as any as S.Schema<BatchHandleAccessRequestsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1632,7 +1698,7 @@ export const getSecurityStatus: API.OperationMethod<
 }));
 
 export type GrantAccessError = HuggingFaceOpError;
-/** Grant access Grant access to a user for a gated repository */
+/** Grant access Grant access to a user for a gated repository. */
 export const grantAccess: API.OperationMethod<
   GrantAccessRequest,
   GrantAccessResponse,
@@ -2240,15 +2306,8 @@ function __c12(j: number): any {
 function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.optional(S.String),
-          user: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BatchHandleAccessRequestsRequestRequestsItem" });
+      return S.Array(S.Unknown);
     case 1:
-      return S.Array(__S(208, __c13, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
@@ -2256,7 +2315,7 @@ function __c13(j: number): any {
           status: S.String,
           rejectionReason: S.optional(S.String),
           resetReason: S.optional(S.String),
-          requests: __S(209, __c13, 1),
+          requests: __S(208, __c13, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2265,19 +2324,20 @@ function __c13(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchHandleAccessRequestsRequest" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
+          requestId: S.optional(S.String),
           userId: S.optional(S.String),
           user: S.optional(S.String),
           ok: S.Boolean,
           error: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchHandleAccessRequestsResponseBodyItem" });
+    case 3:
+      return S.Array(__S(210, __c13, 2));
     case 4:
-      return S.Array(__S(211, __c13, 3));
-    case 5:
-      return S.suspend(() => __S(212, __c13, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(211, __c13, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "BatchHandleAccessRequestsResponse",
       });
   }
@@ -2360,11 +2420,7 @@ function __c17(j: number): any {
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
-          userId: S.optional(S.String),
-          user: S.optional(S.String),
-          status: S.String,
-          rejectionReason: S.optional(S.String),
-          resetReason: S.optional(S.String),
+          body: S.optional(S.Unknown.pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2451,6 +2507,7 @@ function __c18(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
+          requestId: S.String,
           user: S.optional(__S(292, __c18, 4)),
           grantedBy: S.optional(S.Unknown),
           status: S.String,
@@ -2915,6 +2972,7 @@ function __c34(j: number): any {
           discussionsSorting: S.optional(S.String),
           gated: S.optional(S.Unknown),
           orgMembersGated: S.optional(S.Boolean),
+          gatedProfileSharing: S.optional(S.Unknown),
           gatedNotificationsEmail: S.optional(S.String),
           gatedNotificationsMode: S.optional(S.String),
         }).pipe(
@@ -2930,6 +2988,7 @@ function __c34(j: number): any {
           discussionsSorting: S.optional(S.String),
           gated: S.optional(S.Unknown),
           orgMembersGated: S.optional(S.Boolean),
+          gatedProfileSharing: S.optional(S.Unknown),
           gatedNotificationsEmail: S.optional(S.String),
           gatedNotificationsMode: S.optional(S.String),
         }),

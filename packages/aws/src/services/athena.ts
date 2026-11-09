@@ -446,6 +446,20 @@ export interface CreatePresignedNotebookUrlResponse {
   AuthToken: string;
   AuthTokenExpirationTime: number;
 }
+export type SystemTableName = "ALL" | (string & {});
+export type KmsKeyArn = string;
+export interface CreateSystemTableConfigurationInput {
+  ClientRequestToken?: string;
+  TableName: SystemTableName;
+  KmsKeyArn?: string;
+  Tags?: Tag[];
+}
+export interface CreateSystemTableConfigurationOutput {
+  TableName?: SystemTableName;
+  KmsKeyArn?: string;
+  CreatedAt?: Date;
+  LastModifiedAt?: Date;
+}
 export type BytesScannedCutoffValue = number;
 export type RoleArn = string;
 export type LogGroupName = string;
@@ -499,6 +513,12 @@ export interface IdentityCenterConfiguration {
   EnableIdentityCenter?: boolean;
   IdentityCenterInstanceArn?: string;
 }
+export type SystemTableType = "QUERY_EXECUTIONS" | (string & {});
+export interface SystemTableStatus {
+  TableName: SystemTableType;
+  Enabled: boolean;
+}
+export type SystemTableStatusList = SystemTableStatus[];
 export interface WorkGroupConfiguration {
   ResultConfiguration?: ResultConfiguration;
   ManagedQueryResultsConfiguration?: ManagedQueryResultsConfiguration;
@@ -515,6 +535,7 @@ export interface WorkGroupConfiguration {
   EnableMinimumEncryptionConfiguration?: boolean;
   IdentityCenterConfiguration?: IdentityCenterConfiguration;
   QueryResultsS3AccessGrantsConfiguration?: QueryResultsS3AccessGrantsConfiguration;
+  SystemTableStatuses?: SystemTableStatus[];
 }
 export type WorkGroupDescriptionString = string;
 export interface CreateWorkGroupInput {
@@ -548,6 +569,10 @@ export interface DeletePreparedStatementInput {
   WorkGroup: string;
 }
 export interface DeletePreparedStatementOutput {}
+export interface DeleteSystemTableConfigurationInput {
+  TableName: SystemTableName;
+}
+export interface DeleteSystemTableConfigurationOutput {}
 export interface DeleteWorkGroupInput {
   WorkGroup: string;
   RecursiveDeleteOption?: boolean;
@@ -871,6 +896,15 @@ export interface GetSessionStatusResponse {
   SessionId?: string;
   Status?: SessionStatus;
 }
+export interface GetSystemTableConfigurationInput {
+  TableName: SystemTableName;
+}
+export interface GetSystemTableConfigurationOutput {
+  TableName?: SystemTableName;
+  KmsKeyArn?: string;
+  CreatedAt?: Date;
+  LastModifiedAt?: Date;
+}
 export interface GetTableMetadataInput {
   CatalogName: string;
   DatabaseName: string;
@@ -1122,6 +1156,15 @@ export interface ListSessionsResponse {
   NextToken?: string;
   Sessions?: SessionSummary[];
 }
+export type MaxSystemTableStatusesCount = number;
+export interface ListSystemTableStatusesInput {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export interface ListSystemTableStatusesOutput {
+  Items: SystemTableStatus[];
+  NextToken?: string;
+}
 export type ExpressionString = string;
 export type MaxTableMetadataCount = number;
 export interface ListTableMetadataInput {
@@ -1281,6 +1324,16 @@ export interface UpdatePreparedStatementInput {
   Description?: string;
 }
 export interface UpdatePreparedStatementOutput {}
+export interface UpdateSystemTableConfigurationInput {
+  TableName: SystemTableName;
+  KmsKeyArn?: string;
+}
+export interface UpdateSystemTableConfigurationOutput {
+  TableName?: SystemTableName;
+  KmsKeyArn?: string;
+  CreatedAt?: Date;
+  LastModifiedAt?: Date;
+}
 export interface ResultConfigurationUpdates {
   OutputLocation?: string;
   RemoveOutputLocation?: boolean;
@@ -1343,8 +1396,8 @@ export const batchGetNamedQuery: API.OperationMethod<
   BatchGetNamedQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<BatchGetNamedQueryInput>,
-  output: __S(1540, __c96, 4) as any as S.Schema<BatchGetNamedQueryOutput>,
+  input: __S(1648, __c103, 0) as any as S.Schema<BatchGetNamedQueryInput>,
+  output: __S(1652, __c103, 4) as any as S.Schema<BatchGetNamedQueryOutput>,
   errors: [InternalServerException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1598,6 +1651,32 @@ export const createPresignedNotebookUrl: API.OperationMethod<
   span: "CreatePresignedNotebookUrl",
 }));
 
+export type CreateSystemTableConfigurationError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Enables system tables for the current account. System tables are enabled or disabled for
+ * the entire account: creating this configuration enables them. If a configuration
+ * already exists, use UpdateSystemTableConfiguration to update it.
+ */
+export const createSystemTableConfiguration: API.OperationMethod<
+  CreateSystemTableConfigurationInput & RegionInput,
+  CreateSystemTableConfigurationOutput,
+  CreateSystemTableConfigurationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(368, __c23, 0) as any as S.Schema<CreateSystemTableConfigurationInput>,
+  output: __S(384, __c24, 0) as any as S.Schema<CreateSystemTableConfigurationOutput>,
+  errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateSystemTableConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateSystemTableConfiguration",
+}));
+
 export type CreateWorkGroupError = InternalServerException | InvalidRequestException | CommonErrors;
 /**
  * Creates a workgroup with the specified name. A workgroup can be an Apache Spark
@@ -1609,7 +1688,7 @@ export const createWorkGroup: API.OperationMethod<
   CreateWorkGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<CreateWorkGroupInput>,
+  input: __S(400, __c25, 0) as any as S.Schema<CreateWorkGroupInput>,
   output: __S(192, __c12, 0) as any as S.Schema<CreateWorkGroupOutput>,
   errors: [InternalServerException, InvalidRequestException],
   protocol: AwsProtocol,
@@ -1636,7 +1715,7 @@ export const deleteCapacityReservation: API.OperationMethod<
   DeleteCapacityReservationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<DeleteCapacityReservationInput>,
+  input: __S(480, __c30, 0) as any as S.Schema<DeleteCapacityReservationInput>,
   output: __S(192, __c12, 0) as any as S.Schema<DeleteCapacityReservationOutput>,
   errors: [InternalServerException, InvalidRequestException],
   protocol: AwsProtocol,
@@ -1660,7 +1739,7 @@ export const deleteDataCatalog: API.OperationMethod<
   DeleteDataCatalogError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<DeleteDataCatalogInput>,
+  input: __S(496, __c31, 0) as any as S.Schema<DeleteDataCatalogInput>,
   output: __S(273, __c17, 1) as any as S.Schema<DeleteDataCatalogOutput>,
   errors: [InternalServerException, InvalidRequestException, DataCatalogNotFound],
   protocol: AwsProtocol,
@@ -1685,7 +1764,7 @@ export const deleteNamedQuery: API.OperationMethod<
   DeleteNamedQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<DeleteNamedQueryInput>,
+  input: __S(512, __c32, 0) as any as S.Schema<DeleteNamedQueryInput>,
   output: __S(192, __c12, 0) as any as S.Schema<DeleteNamedQueryOutput>,
   errors: [InternalServerException, InvalidRequestException, NamedQueryNotFound],
   protocol: AwsProtocol,
@@ -1709,7 +1788,7 @@ export const deleteNotebook: API.OperationMethod<
   DeleteNotebookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<DeleteNotebookInput>,
+  input: __S(528, __c33, 0) as any as S.Schema<DeleteNotebookInput>,
   output: __S(192, __c12, 0) as any as S.Schema<DeleteNotebookOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
   protocol: AwsProtocol,
@@ -1735,7 +1814,7 @@ export const deletePreparedStatement: API.OperationMethod<
   DeletePreparedStatementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<DeletePreparedStatementInput>,
+  input: __S(544, __c34, 0) as any as S.Schema<DeletePreparedStatementInput>,
   output: __S(192, __c12, 0) as any as S.Schema<DeletePreparedStatementOutput>,
   errors: [
     InternalServerException,
@@ -1750,6 +1829,32 @@ export const deletePreparedStatement: API.OperationMethod<
   span: "DeletePreparedStatement",
 }));
 
+export type DeleteSystemTableConfigurationError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Disables system tables for the current account by deleting the account-level
+ * configuration. If the configuration doesn't exist, the operation succeeds without making
+ * any changes. The system table and previously published data are left intact.
+ */
+export const deleteSystemTableConfiguration: API.OperationMethod<
+  DeleteSystemTableConfigurationInput & RegionInput,
+  DeleteSystemTableConfigurationOutput,
+  DeleteSystemTableConfigurationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(560, __c35, 0) as any as S.Schema<DeleteSystemTableConfigurationInput>,
+  output: __S(192, __c12, 0) as any as S.Schema<DeleteSystemTableConfigurationOutput>,
+  errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteSystemTableConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteSystemTableConfiguration",
+}));
+
 export type DeleteWorkGroupError = InternalServerException | InvalidRequestException | CommonErrors;
 /**
  * Deletes the workgroup with the specified name. The primary workgroup cannot be
@@ -1761,7 +1866,7 @@ export const deleteWorkGroup: API.OperationMethod<
   DeleteWorkGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<DeleteWorkGroupInput>,
+  input: __S(576, __c36, 0) as any as S.Schema<DeleteWorkGroupInput>,
   output: __S(192, __c12, 0) as any as S.Schema<DeleteWorkGroupOutput>,
   errors: [InternalServerException, InvalidRequestException],
   protocol: AwsProtocol,
@@ -1785,8 +1890,8 @@ export const exportNotebook: API.OperationMethod<
   ExportNotebookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<ExportNotebookInput>,
-  output: __S(529, __c33, 1) as any as S.Schema<ExportNotebookOutput>,
+  input: __S(592, __c37, 0) as any as S.Schema<ExportNotebookInput>,
+  output: __S(593, __c37, 1) as any as S.Schema<ExportNotebookOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1809,8 +1914,8 @@ export const getCalculationExecution: API.OperationMethod<
   GetCalculationExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<GetCalculationExecutionRequest>,
-  output: __S(562, __c35, 2) as any as S.Schema<GetCalculationExecutionResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<GetCalculationExecutionRequest>,
+  output: __S(626, __c39, 2) as any as S.Schema<GetCalculationExecutionResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1833,8 +1938,8 @@ export const getCalculationExecutionCode: API.OperationMethod<
   GetCalculationExecutionCodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<GetCalculationExecutionCodeRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<GetCalculationExecutionCodeResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<GetCalculationExecutionCodeRequest>,
+  output: __S(688, __c43, 0) as any as S.Schema<GetCalculationExecutionCodeResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1857,8 +1962,8 @@ export const getCalculationExecutionStatus: API.OperationMethod<
   GetCalculationExecutionStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<GetCalculationExecutionStatusRequest>,
-  output: __S(641, __c40, 1) as any as S.Schema<GetCalculationExecutionStatusResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<GetCalculationExecutionStatusRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<GetCalculationExecutionStatusResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1881,8 +1986,8 @@ export const getCapacityAssignmentConfiguration: API.OperationMethod<
   GetCapacityAssignmentConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<GetCapacityAssignmentConfigurationInput>,
-  output: __S(658, __c41, 2) as any as S.Schema<GetCapacityAssignmentConfigurationOutput>,
+  input: __S(720, __c45, 0) as any as S.Schema<GetCapacityAssignmentConfigurationInput>,
+  output: __S(722, __c45, 2) as any as S.Schema<GetCapacityAssignmentConfigurationOutput>,
   errors: [InternalServerException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1904,8 +2009,8 @@ export const getCapacityReservation: API.OperationMethod<
   GetCapacityReservationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<GetCapacityReservationInput>,
-  output: __S(689, __c43, 1) as any as S.Schema<GetCapacityReservationOutput>,
+  input: __S(752, __c47, 0) as any as S.Schema<GetCapacityReservationInput>,
+  output: __S(753, __c47, 1) as any as S.Schema<GetCapacityReservationOutput>,
   errors: [InternalServerException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1928,8 +2033,8 @@ export const getDatabase: API.OperationMethod<
   GetDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<GetDatabaseInput>,
-  output: __S(721, __c45, 1) as any as S.Schema<GetDatabaseOutput>,
+  input: __S(784, __c49, 0) as any as S.Schema<GetDatabaseInput>,
+  output: __S(785, __c49, 1) as any as S.Schema<GetDatabaseOutput>,
   errors: [InternalServerException, InvalidRequestException, MetadataException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1952,7 +2057,7 @@ export const getDataCatalog: API.OperationMethod<
   GetDataCatalogError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<GetDataCatalogInput>,
+  input: __S(816, __c51, 0) as any as S.Schema<GetDataCatalogInput>,
   output: __S(273, __c17, 1) as any as S.Schema<GetDataCatalogOutput>,
   errors: [InternalServerException, InvalidRequestException, DataCatalogNotFound],
   protocol: AwsProtocol,
@@ -1977,8 +2082,8 @@ export const getNamedQuery: API.OperationMethod<
   GetNamedQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<GetNamedQueryInput>,
-  output: __S(769, __c48, 1) as any as S.Schema<GetNamedQueryOutput>,
+  input: __S(832, __c52, 0) as any as S.Schema<GetNamedQueryInput>,
+  output: __S(833, __c52, 1) as any as S.Schema<GetNamedQueryOutput>,
   errors: [InternalServerException, InvalidRequestException, NamedQueryNotFound],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2001,8 +2106,8 @@ export const getNotebookMetadata: API.OperationMethod<
   GetNotebookMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<GetNotebookMetadataInput>,
-  output: __S(785, __c49, 1) as any as S.Schema<GetNotebookMetadataOutput>,
+  input: __S(848, __c53, 0) as any as S.Schema<GetNotebookMetadataInput>,
+  output: __S(849, __c53, 1) as any as S.Schema<GetNotebookMetadataOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2027,8 +2132,8 @@ export const getPreparedStatement: API.OperationMethod<
   GetPreparedStatementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<GetPreparedStatementInput>,
-  output: __S(801, __c50, 1) as any as S.Schema<GetPreparedStatementOutput>,
+  input: __S(864, __c54, 0) as any as S.Schema<GetPreparedStatementInput>,
+  output: __S(865, __c54, 1) as any as S.Schema<GetPreparedStatementOutput>,
   errors: [
     InternalServerException,
     InvalidRequestException,
@@ -2057,8 +2162,8 @@ export const getQueryExecution: API.OperationMethod<
   GetQueryExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<GetQueryExecutionInput>,
-  output: __S(817, __c51, 1) as any as S.Schema<GetQueryExecutionOutput>,
+  input: __S(880, __c55, 0) as any as S.Schema<GetQueryExecutionInput>,
+  output: __S(881, __c55, 1) as any as S.Schema<GetQueryExecutionOutput>,
   errors: [InternalServerException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2097,8 +2202,8 @@ export const getQueryResults: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<GetQueryResultsInput>,
-  output: __S(841, __c52, 9) as any as S.Schema<GetQueryResultsOutput>,
+  input: __S(896, __c56, 0) as any as S.Schema<GetQueryResultsInput>,
+  output: __S(905, __c56, 9) as any as S.Schema<GetQueryResultsOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2131,8 +2236,8 @@ export const getQueryRuntimeStatistics: API.OperationMethod<
   GetQueryRuntimeStatisticsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<GetQueryRuntimeStatisticsInput>,
-  output: __S(856, __c53, 8) as any as S.Schema<GetQueryRuntimeStatisticsOutput>,
+  input: __S(912, __c57, 0) as any as S.Schema<GetQueryRuntimeStatisticsInput>,
+  output: __S(920, __c57, 8) as any as S.Schema<GetQueryRuntimeStatisticsOutput>,
   errors: [InternalServerException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2155,8 +2260,8 @@ export const getResourceDashboard: API.OperationMethod<
   GetResourceDashboardError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<GetResourceDashboardRequest>,
-  output: __S(865, __c54, 1) as any as S.Schema<GetResourceDashboardResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<GetResourceDashboardRequest>,
+  output: __S(929, __c58, 1) as any as S.Schema<GetResourceDashboardResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2180,8 +2285,8 @@ export const getSession: API.OperationMethod<
   GetSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<GetSessionRequest>,
-  output: __S(883, __c55, 3) as any as S.Schema<GetSessionResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<GetSessionRequest>,
+  output: __S(947, __c59, 3) as any as S.Schema<GetSessionResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2204,8 +2309,8 @@ export const getSessionEndpoint: API.OperationMethod<
   GetSessionEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<GetSessionEndpointRequest>,
-  output: __S(913, __c57, 1) as any as S.Schema<GetSessionEndpointResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<GetSessionEndpointRequest>,
+  output: __S(977, __c61, 1) as any as S.Schema<GetSessionEndpointResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2228,14 +2333,46 @@ export const getSessionStatus: API.OperationMethod<
   GetSessionStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<GetSessionStatusRequest>,
-  output: __S(929, __c58, 1) as any as S.Schema<GetSessionStatusResponse>,
+  input: __S(992, __c62, 0) as any as S.Schema<GetSessionStatusRequest>,
+  output: __S(993, __c62, 1) as any as S.Schema<GetSessionStatusResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionStatus",
   telemetry: TELEMETRY,
   span: "GetSessionStatus",
+}));
+
+export type GetSystemTableConfigurationError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Returns the account-level system tables configuration. Fails with a
+ * `ResourceNotFoundException` if system tables are not enabled for the
+ * account.
+ */
+export const getSystemTableConfiguration: API.OperationMethod<
+  GetSystemTableConfigurationInput & RegionInput,
+  GetSystemTableConfigurationOutput,
+  GetSystemTableConfigurationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1008, __c63, 0) as any as S.Schema<GetSystemTableConfigurationInput>,
+  output: __S(384, __c24, 0) as any as S.Schema<GetSystemTableConfigurationOutput>,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetSystemTableConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetSystemTableConfiguration",
 }));
 
 export type GetTableMetadataError =
@@ -2252,8 +2389,8 @@ export const getTableMetadata: API.OperationMethod<
   GetTableMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<GetTableMetadataInput>,
-  output: __S(945, __c59, 1) as any as S.Schema<GetTableMetadataOutput>,
+  input: __S(1024, __c64, 0) as any as S.Schema<GetTableMetadataInput>,
+  output: __S(1025, __c64, 1) as any as S.Schema<GetTableMetadataOutput>,
   errors: [InternalServerException, InvalidRequestException, MetadataException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2276,8 +2413,8 @@ export const getWorkGroup: API.OperationMethod<
   GetWorkGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<GetWorkGroupInput>,
-  output: __S(978, __c61, 2) as any as S.Schema<GetWorkGroupOutput>,
+  input: __S(1056, __c66, 0) as any as S.Schema<GetWorkGroupInput>,
+  output: __S(1058, __c66, 2) as any as S.Schema<GetWorkGroupOutput>,
   errors: [InternalServerException, InvalidRequestException, WorkGroupNotFound],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2305,7 +2442,7 @@ export const importNotebook: API.OperationMethod<
   ImportNotebookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<ImportNotebookInput>,
+  input: __S(1072, __c67, 0) as any as S.Schema<ImportNotebookInput>,
   output: __S(320, __c20, 0) as any as S.Schema<ImportNotebookOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
   protocol: AwsProtocol,
@@ -2331,8 +2468,8 @@ export const listApplicationDPUSizes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<ListApplicationDPUSizesInput>,
-  output: __S(1012, __c63, 4) as any as S.Schema<ListApplicationDPUSizesOutput>,
+  input: __S(1088, __c68, 0) as any as S.Schema<ListApplicationDPUSizesInput>,
+  output: __S(1092, __c68, 4) as any as S.Schema<ListApplicationDPUSizesOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2362,8 +2499,8 @@ export const listCalculationExecutions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<ListCalculationExecutionsRequest>,
-  output: __S(1027, __c64, 3) as any as S.Schema<ListCalculationExecutionsResponse>,
+  input: __S(1104, __c69, 0) as any as S.Schema<ListCalculationExecutionsRequest>,
+  output: __S(1107, __c69, 3) as any as S.Schema<ListCalculationExecutionsResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2391,8 +2528,8 @@ export const listCapacityReservations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<ListCapacityReservationsInput>,
-  output: __S(1042, __c65, 2) as any as S.Schema<ListCapacityReservationsOutput>,
+  input: __S(1120, __c70, 0) as any as S.Schema<ListCapacityReservationsInput>,
+  output: __S(1122, __c70, 2) as any as S.Schema<ListCapacityReservationsOutput>,
   errors: [InternalServerException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2421,8 +2558,8 @@ export const listDatabases: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Database
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<ListDatabasesInput>,
-  output: __S(1058, __c66, 2) as any as S.Schema<ListDatabasesOutput>,
+  input: __S(1136, __c71, 0) as any as S.Schema<ListDatabasesInput>,
+  output: __S(1138, __c71, 2) as any as S.Schema<ListDatabasesOutput>,
   errors: [InternalServerException, InvalidRequestException, MetadataException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2454,8 +2591,8 @@ export const listDataCatalogs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DataCatalogSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<ListDataCatalogsInput>,
-  output: __S(1075, __c67, 3) as any as S.Schema<ListDataCatalogsOutput>,
+  input: __S(1152, __c72, 0) as any as S.Schema<ListDataCatalogsInput>,
+  output: __S(1155, __c72, 3) as any as S.Schema<ListDataCatalogsOutput>,
   errors: [InternalServerException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2485,8 +2622,8 @@ export const listEngineVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<ListEngineVersionsInput>,
-  output: __S(1090, __c68, 2) as any as S.Schema<ListEngineVersionsOutput>,
+  input: __S(1168, __c73, 0) as any as S.Schema<ListEngineVersionsInput>,
+  output: __S(1170, __c73, 2) as any as S.Schema<ListEngineVersionsOutput>,
   errors: [InternalServerException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2517,8 +2654,8 @@ export const listExecutors: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<ListExecutorsRequest>,
-  output: __S(1107, __c69, 3) as any as S.Schema<ListExecutorsResponse>,
+  input: __S(1184, __c74, 0) as any as S.Schema<ListExecutorsRequest>,
+  output: __S(1187, __c74, 3) as any as S.Schema<ListExecutorsResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2548,8 +2685,8 @@ export const listNamedQueries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<ListNamedQueriesInput>,
-  output: __S(1121, __c70, 1) as any as S.Schema<ListNamedQueriesOutput>,
+  input: __S(1200, __c75, 0) as any as S.Schema<ListNamedQueriesInput>,
+  output: __S(1201, __c75, 1) as any as S.Schema<ListNamedQueriesOutput>,
   errors: [InternalServerException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2577,8 +2714,8 @@ export const listNotebookMetadata: API.OperationMethod<
   ListNotebookMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1137, __c71, 1) as any as S.Schema<ListNotebookMetadataInput>,
-  output: __S(1139, __c71, 3) as any as S.Schema<ListNotebookMetadataOutput>,
+  input: __S(1217, __c76, 1) as any as S.Schema<ListNotebookMetadataInput>,
+  output: __S(1219, __c76, 3) as any as S.Schema<ListNotebookMetadataOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2604,8 +2741,8 @@ export const listNotebookSessions: API.OperationMethod<
   ListNotebookSessionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<ListNotebookSessionsRequest>,
-  output: __S(1155, __c72, 3) as any as S.Schema<ListNotebookSessionsResponse>,
+  input: __S(1232, __c77, 0) as any as S.Schema<ListNotebookSessionsRequest>,
+  output: __S(1235, __c77, 3) as any as S.Schema<ListNotebookSessionsResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2628,8 +2765,8 @@ export const listPreparedStatements: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<ListPreparedStatementsInput>,
-  output: __S(1171, __c73, 3) as any as S.Schema<ListPreparedStatementsOutput>,
+  input: __S(1248, __c78, 0) as any as S.Schema<ListPreparedStatementsInput>,
+  output: __S(1251, __c78, 3) as any as S.Schema<ListPreparedStatementsOutput>,
   errors: [InternalServerException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2660,8 +2797,8 @@ export const listQueryExecutions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<ListQueryExecutionsInput>,
-  output: __S(1185, __c74, 1) as any as S.Schema<ListQueryExecutionsOutput>,
+  input: __S(1264, __c79, 0) as any as S.Schema<ListQueryExecutionsInput>,
+  output: __S(1265, __c79, 1) as any as S.Schema<ListQueryExecutionsOutput>,
   errors: [InternalServerException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2693,8 +2830,8 @@ export const listSessions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<ListSessionsRequest>,
-  output: __S(1203, __c75, 3) as any as S.Schema<ListSessionsResponse>,
+  input: __S(1280, __c80, 0) as any as S.Schema<ListSessionsRequest>,
+  output: __S(1283, __c80, 3) as any as S.Schema<ListSessionsResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2706,6 +2843,39 @@ export const listSessions: API.PaginatedOperationMethod<
   } as const,
   telemetry: TELEMETRY,
   span: "ListSessions",
+})) as any;
+
+export type ListSystemTableStatusesError =
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Lists the system tables that the account-level configuration activates, along with
+ * whether each is currently enabled. Because system tables are enabled at the account
+ * level, every entry reflects the same account-wide state.
+ */
+export const listSystemTableStatuses: API.PaginatedOperationMethod<
+  ListSystemTableStatusesInput & RegionInput,
+  ListSystemTableStatusesOutput,
+  ListSystemTableStatusesError,
+  Credentials | HttpClient.HttpClient,
+  SystemTableStatus
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1296, __c81, 0) as any as S.Schema<ListSystemTableStatusesInput>,
+  output: __S(1297, __c81, 1) as any as S.Schema<ListSystemTableStatusesOutput>,
+  errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListSystemTableStatuses",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListSystemTableStatuses",
 })) as any;
 
 export type ListTableMetadataError =
@@ -2723,8 +2893,8 @@ export const listTableMetadata: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TableMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<ListTableMetadataInput>,
-  output: __S(1218, __c76, 2) as any as S.Schema<ListTableMetadataOutput>,
+  input: __S(1312, __c82, 0) as any as S.Schema<ListTableMetadataInput>,
+  output: __S(1314, __c82, 2) as any as S.Schema<ListTableMetadataOutput>,
   errors: [InternalServerException, InvalidRequestException, MetadataException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2754,8 +2924,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Tag
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<ListTagsForResourceInput>,
-  output: __S(1233, __c77, 1) as any as S.Schema<ListTagsForResourceOutput>,
+  input: __S(1328, __c83, 0) as any as S.Schema<ListTagsForResourceInput>,
+  output: __S(1329, __c83, 1) as any as S.Schema<ListTagsForResourceOutput>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2781,8 +2951,8 @@ export const listWorkGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<ListWorkGroupsInput>,
-  output: __S(1251, __c78, 3) as any as S.Schema<ListWorkGroupsOutput>,
+  input: __S(1344, __c84, 0) as any as S.Schema<ListWorkGroupsInput>,
+  output: __S(1347, __c84, 3) as any as S.Schema<ListWorkGroupsOutput>,
   errors: [InternalServerException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2811,7 +2981,7 @@ export const putCapacityAssignmentConfiguration: API.OperationMethod<
   PutCapacityAssignmentConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<PutCapacityAssignmentConfigurationInput>,
+  input: __S(1360, __c85, 0) as any as S.Schema<PutCapacityAssignmentConfigurationInput>,
   output: __S(192, __c12, 0) as any as S.Schema<PutCapacityAssignmentConfigurationOutput>,
   errors: [InternalServerException, InvalidRequestException],
   protocol: AwsProtocol,
@@ -2841,8 +3011,8 @@ export const startCalculationExecution: API.OperationMethod<
   StartCalculationExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<StartCalculationExecutionRequest>,
-  output: __S(1281, __c80, 1) as any as S.Schema<StartCalculationExecutionResponse>,
+  input: __S(1376, __c86, 0) as any as S.Schema<StartCalculationExecutionRequest>,
+  output: __S(1377, __c86, 1) as any as S.Schema<StartCalculationExecutionResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2870,8 +3040,8 @@ export const startQueryExecution: API.OperationMethod<
   StartQueryExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<StartQueryExecutionInput>,
-  output: __S(1297, __c81, 1) as any as S.Schema<StartQueryExecutionOutput>,
+  input: __S(1392, __c87, 0) as any as S.Schema<StartQueryExecutionInput>,
+  output: __S(1393, __c87, 1) as any as S.Schema<StartQueryExecutionOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2897,8 +3067,8 @@ export const startSession: API.OperationMethod<
   StartSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<StartSessionRequest>,
-  output: __S(1313, __c82, 1) as any as S.Schema<StartSessionResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<StartSessionRequest>,
+  output: __S(1409, __c88, 1) as any as S.Schema<StartSessionResponse>,
   errors: [
     InternalServerException,
     InvalidRequestException,
@@ -2935,8 +3105,8 @@ export const stopCalculationExecution: API.OperationMethod<
   StopCalculationExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<StopCalculationExecutionRequest>,
-  output: __S(1344, __c84, 0) as any as S.Schema<StopCalculationExecutionResponse>,
+  input: __S(1424, __c89, 0) as any as S.Schema<StopCalculationExecutionRequest>,
+  output: __S(1440, __c90, 0) as any as S.Schema<StopCalculationExecutionResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2959,7 +3129,7 @@ export const stopQueryExecution: API.OperationMethod<
   StopQueryExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<StopQueryExecutionInput>,
+  input: __S(1456, __c91, 0) as any as S.Schema<StopQueryExecutionInput>,
   output: __S(192, __c12, 0) as any as S.Schema<StopQueryExecutionOutput>,
   errors: [InternalServerException, InvalidRequestException],
   protocol: AwsProtocol,
@@ -2993,7 +3163,7 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<TagResourceInput>,
+  input: __S(1472, __c92, 0) as any as S.Schema<TagResourceInput>,
   output: __S(192, __c12, 0) as any as S.Schema<TagResourceOutput>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
@@ -3021,8 +3191,8 @@ export const terminateSession: API.OperationMethod<
   TerminateSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<TerminateSessionRequest>,
-  output: __S(1344, __c84, 0) as any as S.Schema<TerminateSessionResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<TerminateSessionRequest>,
+  output: __S(1440, __c90, 0) as any as S.Schema<TerminateSessionResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3045,7 +3215,7 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<UntagResourceInput>,
+  input: __S(1504, __c94, 0) as any as S.Schema<UntagResourceInput>,
   output: __S(192, __c12, 0) as any as S.Schema<UntagResourceOutput>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
@@ -3069,7 +3239,7 @@ export const updateCapacityReservation: API.OperationMethod<
   UpdateCapacityReservationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<UpdateCapacityReservationInput>,
+  input: __S(1520, __c95, 0) as any as S.Schema<UpdateCapacityReservationInput>,
   output: __S(192, __c12, 0) as any as S.Schema<UpdateCapacityReservationOutput>,
   errors: [InternalServerException, InvalidRequestException],
   protocol: AwsProtocol,
@@ -3093,7 +3263,7 @@ export const updateDataCatalog: API.OperationMethod<
   UpdateDataCatalogError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<UpdateDataCatalogInput>,
+  input: __S(1536, __c96, 0) as any as S.Schema<UpdateDataCatalogInput>,
   output: __S(192, __c12, 0) as any as S.Schema<UpdateDataCatalogOutput>,
   errors: [InternalServerException, InvalidRequestException, DataCatalogNotFound],
   protocol: AwsProtocol,
@@ -3118,7 +3288,7 @@ export const updateNamedQuery: API.OperationMethod<
   UpdateNamedQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<UpdateNamedQueryInput>,
+  input: __S(1552, __c97, 0) as any as S.Schema<UpdateNamedQueryInput>,
   output: __S(192, __c12, 0) as any as S.Schema<UpdateNamedQueryOutput>,
   errors: [InternalServerException, InvalidRequestException, NamedQueryNotFound],
   protocol: AwsProtocol,
@@ -3142,7 +3312,7 @@ export const updateNotebook: API.OperationMethod<
   UpdateNotebookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<UpdateNotebookInput>,
+  input: __S(1568, __c98, 0) as any as S.Schema<UpdateNotebookInput>,
   output: __S(192, __c12, 0) as any as S.Schema<UpdateNotebookOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
   protocol: AwsProtocol,
@@ -3166,7 +3336,7 @@ export const updateNotebookMetadata: API.OperationMethod<
   UpdateNotebookMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<UpdateNotebookMetadataInput>,
+  input: __S(1584, __c99, 0) as any as S.Schema<UpdateNotebookMetadataInput>,
   output: __S(192, __c12, 0) as any as S.Schema<UpdateNotebookMetadataOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
   protocol: AwsProtocol,
@@ -3190,7 +3360,7 @@ export const updatePreparedStatement: API.OperationMethod<
   UpdatePreparedStatementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<UpdatePreparedStatementInput>,
+  input: __S(1600, __c100, 0) as any as S.Schema<UpdatePreparedStatementInput>,
   output: __S(192, __c12, 0) as any as S.Schema<UpdatePreparedStatementOutput>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
@@ -3198,6 +3368,38 @@ export const updatePreparedStatement: API.OperationMethod<
   operationName: "UpdatePreparedStatement",
   telemetry: TELEMETRY,
   span: "UpdatePreparedStatement",
+}));
+
+export type UpdateSystemTableConfigurationError =
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Updates the account-level system tables configuration. If no configuration exists, use
+ * CreateSystemTableConfiguration to create one. Fields that you omit
+ * retain their current values.
+ */
+export const updateSystemTableConfiguration: API.OperationMethod<
+  UpdateSystemTableConfigurationInput & RegionInput,
+  UpdateSystemTableConfigurationOutput,
+  UpdateSystemTableConfigurationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1616, __c101, 0) as any as S.Schema<UpdateSystemTableConfigurationInput>,
+  output: __S(384, __c24, 0) as any as S.Schema<UpdateSystemTableConfigurationOutput>,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateSystemTableConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateSystemTableConfiguration",
 }));
 
 export type UpdateWorkGroupError =
@@ -3215,7 +3417,7 @@ export const updateWorkGroup: API.OperationMethod<
   UpdateWorkGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1523, __c95, 3) as any as S.Schema<UpdateWorkGroupInput>,
+  input: __S(1635, __c102, 3) as any as S.Schema<UpdateWorkGroupInput>,
   output: __S(192, __c12, 0) as any as S.Schema<UpdateWorkGroupOutput>,
   errors: [InternalServerException, InvalidRequestException, WorkGroupNotFound],
   protocol: AwsProtocol,
@@ -3230,7 +3432,7 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ PreparedStatementNames: __S(1552, __c97, 0), WorkGroup: S.String }).pipe(
+        S.Struct({ PreparedStatementNames: __S(1664, __c104, 0), WorkGroup: S.String }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetPreparedStatementInput" });
@@ -3273,7 +3475,7 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ QueryExecutionIds: __S(1552, __c97, 0) }).pipe(
+        S.Struct({ QueryExecutionIds: __S(1664, __c104, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetQueryExecutionInput" });
@@ -3416,7 +3618,7 @@ function __c9(j: number): any {
           Statistics: S.optional(__S(147, __c9, 3)),
           WorkGroup: S.optional(S.String),
           EngineVersion: S.optional(__S(80, __c5, 0)),
-          ExecutionParameters: S.optional(__S(1552, __c97, 0)),
+          ExecutionParameters: S.optional(__S(1664, __c104, 0)),
           SubstatementType: S.optional(S.String),
           QueryResultsS3AccessGrantsConfiguration: S.optional(__S(129, __c8, 1)),
         }),
@@ -3590,22 +3792,48 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Name: S.String,
-          Configuration: S.optional(__S(417, __c26, 1)),
-          Description: S.optional(S.String),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          TableName: S.String,
+          KmsKeyArn: S.optional(S.String),
           Tags: S.optional(__S(225, __c14, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "CreateWorkGroupInput" });
+      ).annotate({ identifier: "CreateSystemTableConfigurationInput" });
   }
 }
 function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          TableName: S.optional(S.String),
+          KmsKeyArn: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "CreateSystemTableConfigurationOutput" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Configuration: S.optional(__S(449, __c28, 1)),
+          Description: S.optional(S.String),
+          Tags: S.optional(__S(225, __c14, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateWorkGroupInput" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({ Name: S.optional(S.String), Properties: S.optional(__S(256, __c16, 0)) }),
       ).annotate({ identifier: "Classification" });
     case 1:
-      return S.Array(__S(384, __c24, 0));
+      return S.Array(__S(416, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3614,22 +3842,22 @@ function __c24(j: number): any {
           DefaultExecutorDpuSize: S.optional(S.Number),
           AdditionalConfigs: S.optional(__S(256, __c16, 0)),
           SparkProperties: S.optional(__S(256, __c16, 0)),
-          Classifications: S.optional(__S(385, __c24, 1)),
+          Classifications: S.optional(__S(417, __c26, 1)),
         }),
       ).annotate({ identifier: "EngineConfiguration" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, /*@__PURE__*/ __S(1552, __c97, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(1664, __c104, 0).pipe(S.optional));
     case 1:
       return S.suspend(() =>
         S.Struct({
           Enabled: S.Boolean,
           LogGroup: S.optional(S.String),
           LogStreamNamePrefix: S.optional(S.String),
-          LogTypes: S.optional(__S(400, __c25, 0)),
+          LogTypes: S.optional(__S(432, __c27, 0)),
         }),
       ).annotate({ identifier: "CloudWatchLoggingConfiguration" });
     case 2:
@@ -3647,14 +3875,14 @@ function __c25(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          CloudWatchLoggingConfiguration: S.optional(__S(401, __c25, 1)),
-          ManagedLoggingConfiguration: S.optional(__S(402, __c25, 2)),
-          S3LoggingConfiguration: S.optional(__S(403, __c25, 3)),
+          CloudWatchLoggingConfiguration: S.optional(__S(433, __c27, 1)),
+          ManagedLoggingConfiguration: S.optional(__S(434, __c27, 2)),
+          S3LoggingConfiguration: S.optional(__S(435, __c27, 3)),
         }),
       ).annotate({ identifier: "MonitoringConfiguration" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3675,17 +3903,28 @@ function __c26(j: number): any {
           EngineVersion: S.optional(__S(80, __c5, 0)),
           AdditionalConfiguration: S.optional(S.String),
           ExecutionRole: S.optional(S.String),
-          MonitoringConfiguration: S.optional(__S(404, __c25, 4)),
-          EngineConfiguration: S.optional(__S(386, __c24, 2)),
+          MonitoringConfiguration: S.optional(__S(436, __c27, 4)),
+          EngineConfiguration: S.optional(__S(418, __c26, 2)),
           CustomerContentEncryptionConfiguration: S.optional(__S(128, __c8, 0)),
           EnableMinimumEncryptionConfiguration: S.optional(S.Boolean),
-          IdentityCenterConfiguration: S.optional(__S(416, __c26, 0)),
+          IdentityCenterConfiguration: S.optional(__S(448, __c28, 0)),
           QueryResultsS3AccessGrantsConfiguration: S.optional(__S(129, __c8, 1)),
+          SystemTableStatuses: S.optional(__S(465, __c29, 1)),
         }),
       ).annotate({ identifier: "WorkGroupConfiguration" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ TableName: S.String, Enabled: S.Boolean })).annotate({
+        identifier: "SystemTableStatus",
+      });
+    case 1:
+      return S.Array(__S(464, __c29, 0));
+  }
+}
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3695,7 +3934,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DeleteCapacityReservationInput" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3705,7 +3944,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DeleteDataCatalogInput" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3715,7 +3954,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteNamedQueryInput" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3725,7 +3964,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeleteNotebookInput" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3735,7 +3974,17 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DeletePreparedStatementInput" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TableName: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteSystemTableConfigurationInput" });
+  }
+}
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3745,7 +3994,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DeleteWorkGroupInput" });
   }
 }
-function __c33(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3756,13 +4005,13 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          NotebookMetadata: S.optional(__S(544, __c34, 0)),
+          NotebookMetadata: S.optional(__S(608, __c38, 0)),
           Payload: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExportNotebookOutput" });
   }
 }
-function __c34(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3777,7 +4026,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "NotebookMetadata" });
   }
 }
-function __c35(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3801,14 +4050,14 @@ function __c35(j: number): any {
           SessionId: S.optional(S.String),
           Description: S.optional(S.String),
           WorkingDirectory: S.optional(S.String),
-          Status: S.optional(__S(592, __c37, 0)),
-          Statistics: S.optional(__S(576, __c36, 0)),
-          Result: S.optional(__S(561, __c35, 1)),
+          Status: S.optional(__S(656, __c41, 0)),
+          Statistics: S.optional(__S(640, __c40, 0)),
+          Result: S.optional(__S(625, __c39, 1)),
         }),
       ).annotate({ identifier: "GetCalculationExecutionResponse" });
   }
 }
-function __c36(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3816,7 +4065,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CalculationStatistics" });
   }
 }
-function __c37(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3829,7 +4078,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CalculationStatus" });
   }
 }
-function __c38(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3839,7 +4088,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GetCalculationExecutionCodeRequest" });
   }
 }
-function __c39(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ CodeBlock: S.optional(S.String) })).annotate({
@@ -3847,7 +4096,7 @@ function __c39(j: number): any {
       });
   }
 }
-function __c40(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3858,13 +4107,13 @@ function __c40(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Status: S.optional(__S(592, __c37, 0)),
-          Statistics: S.optional(__S(576, __c36, 0)),
+          Status: S.optional(__S(656, __c41, 0)),
+          Statistics: S.optional(__S(640, __c40, 0)),
         }),
       ).annotate({ identifier: "GetCalculationExecutionStatusResponse" });
   }
 }
-function __c41(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3876,26 +4125,26 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           CapacityReservationName: S.optional(S.String),
-          CapacityAssignments: S.optional(__S(673, __c42, 1)),
+          CapacityAssignments: S.optional(__S(737, __c46, 1)),
         }),
       ).annotate({ identifier: "CapacityAssignmentConfiguration" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ CapacityAssignmentConfiguration: __S(657, __c41, 1) }),
+        S.Struct({ CapacityAssignmentConfiguration: __S(721, __c45, 1) }),
       ).annotate({ identifier: "GetCapacityAssignmentConfigurationOutput" });
   }
 }
-function __c42(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ WorkGroupNames: S.optional(__S(1552, __c97, 0)) }),
+        S.Struct({ WorkGroupNames: S.optional(__S(1664, __c104, 0)) }),
       ).annotate({ identifier: "CapacityAssignment" });
     case 1:
-      return S.Array(__S(672, __c42, 0));
+      return S.Array(__S(736, __c46, 0));
   }
 }
-function __c43(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3904,12 +4153,12 @@ function __c43(j: number): any {
         ),
       ).annotate({ identifier: "GetCapacityReservationInput" });
     case 1:
-      return S.suspend(() => S.Struct({ CapacityReservation: __S(705, __c44, 1) })).annotate({
+      return S.suspend(() => S.Struct({ CapacityReservation: __S(769, __c48, 1) })).annotate({
         identifier: "GetCapacityReservationOutput",
       });
   }
 }
-function __c44(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3927,14 +4176,14 @@ function __c44(j: number): any {
           Status: S.String,
           TargetDpus: S.Number,
           AllocatedDpus: S.Number,
-          LastAllocation: S.optional(__S(704, __c44, 0)),
+          LastAllocation: S.optional(__S(768, __c48, 0)),
           LastSuccessfulAllocationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "CapacityReservation" });
   }
 }
-function __c45(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3945,12 +4194,12 @@ function __c45(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetDatabaseInput" });
     case 1:
-      return S.suspend(() => S.Struct({ Database: S.optional(__S(736, __c46, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ Database: S.optional(__S(800, __c50, 0)) })).annotate({
         identifier: "GetDatabaseOutput",
       });
   }
 }
-function __c46(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3962,7 +4211,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "Database" });
   }
 }
-function __c47(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3972,7 +4221,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetDataCatalogInput" });
   }
 }
-function __c48(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3981,12 +4230,12 @@ function __c48(j: number): any {
         ),
       ).annotate({ identifier: "GetNamedQueryInput" });
     case 1:
-      return S.suspend(() => S.Struct({ NamedQuery: S.optional(__S(1568, __c98, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ NamedQuery: S.optional(__S(1680, __c105, 0)) })).annotate({
         identifier: "GetNamedQueryOutput",
       });
   }
 }
-function __c49(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3996,11 +4245,11 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetNotebookMetadataInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ NotebookMetadata: S.optional(__S(544, __c34, 0)) }),
+        S.Struct({ NotebookMetadata: S.optional(__S(608, __c38, 0)) }),
       ).annotate({ identifier: "GetNotebookMetadataOutput" });
   }
 }
-function __c50(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4014,7 +4263,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetPreparedStatementOutput" });
   }
 }
-function __c51(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4028,7 +4277,7 @@ function __c51(j: number): any {
       });
   }
 }
-function __c52(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4044,13 +4293,13 @@ function __c52(j: number): any {
         identifier: "Datum",
       });
     case 2:
-      return S.Array(__S(833, __c52, 1));
+      return S.Array(__S(897, __c56, 1));
     case 3:
-      return S.suspend(() => S.Struct({ Data: S.optional(__S(834, __c52, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ Data: S.optional(__S(898, __c56, 2)) })).annotate({
         identifier: "Row",
       });
     case 4:
-      return S.Array(__S(835, __c52, 3));
+      return S.Array(__S(899, __c56, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -4067,29 +4316,29 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "ColumnInfo" });
     case 6:
-      return S.Array(__S(837, __c52, 5));
+      return S.Array(__S(901, __c56, 5));
     case 7:
-      return S.suspend(() => S.Struct({ ColumnInfo: S.optional(__S(838, __c52, 6)) })).annotate({
+      return S.suspend(() => S.Struct({ ColumnInfo: S.optional(__S(902, __c56, 6)) })).annotate({
         identifier: "ResultSetMetadata",
       });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          Rows: S.optional(__S(836, __c52, 4)),
-          ResultSetMetadata: S.optional(__S(839, __c52, 7)),
+          Rows: S.optional(__S(900, __c56, 4)),
+          ResultSetMetadata: S.optional(__S(903, __c56, 7)),
         }),
       ).annotate({ identifier: "ResultSet" });
     case 9:
       return S.suspend(() =>
         S.Struct({
           UpdateCount: S.optional(S.Number),
-          ResultSet: S.optional(__S(840, __c52, 8)),
+          ResultSet: S.optional(__S(904, __c56, 8)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetQueryResultsOutput" });
   }
 }
-function __c53(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4119,7 +4368,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "QueryRuntimeStatisticsRows" });
     case 3:
       return S.Array(
-        /*@__PURE__*/ S.suspend((): S.Schema<QueryStagePlanNode> => __S(852, __c53, 4)).annotate({
+        /*@__PURE__*/ S.suspend((): S.Schema<QueryStagePlanNode> => __S(916, __c57, 4)).annotate({
           identifier: "QueryStagePlanNode",
         }),
       );
@@ -4129,14 +4378,14 @@ function __c53(j: number): any {
           Name: S.optional(S.String),
           Identifier: S.optional(S.String),
           Children: S.optional(
-            S.suspend(() => __S(851, __c53, 3)).annotate({ identifier: "QueryStagePlanNodes" }),
+            S.suspend(() => __S(915, __c57, 3)).annotate({ identifier: "QueryStagePlanNodes" }),
           ),
-          RemoteSources: S.optional(__S(1552, __c97, 0)),
+          RemoteSources: S.optional(__S(1664, __c104, 0)),
         }),
       ).annotate({ identifier: "QueryStagePlanNode" });
     case 5:
       return S.Array(
-        /*@__PURE__*/ S.suspend((): S.Schema<QueryStage> => __S(854, __c53, 6)).annotate({
+        /*@__PURE__*/ S.suspend((): S.Schema<QueryStage> => __S(918, __c57, 6)).annotate({
           identifier: "QueryStage",
         }),
       );
@@ -4151,30 +4400,30 @@ function __c53(j: number): any {
           InputRows: S.optional(S.Number),
           ExecutionTime: S.optional(S.Number),
           QueryStagePlan: S.optional(
-            S.suspend((): S.Schema<QueryStagePlanNode> => __S(852, __c53, 4)).annotate({
+            S.suspend((): S.Schema<QueryStagePlanNode> => __S(916, __c57, 4)).annotate({
               identifier: "QueryStagePlanNode",
             }),
           ),
           SubStages: S.optional(
-            S.suspend(() => __S(853, __c53, 5)).annotate({ identifier: "QueryStages" }),
+            S.suspend(() => __S(917, __c57, 5)).annotate({ identifier: "QueryStages" }),
           ),
         }),
       ).annotate({ identifier: "QueryStage" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          Timeline: S.optional(__S(849, __c53, 1)),
-          Rows: S.optional(__S(850, __c53, 2)),
-          OutputStage: S.optional(__S(854, __c53, 6)),
+          Timeline: S.optional(__S(913, __c57, 1)),
+          Rows: S.optional(__S(914, __c57, 2)),
+          OutputStage: S.optional(__S(918, __c57, 6)),
         }),
       ).annotate({ identifier: "QueryRuntimeStatistics" });
     case 8:
       return S.suspend(() =>
-        S.Struct({ QueryRuntimeStatistics: S.optional(__S(855, __c53, 7)) }),
+        S.Struct({ QueryRuntimeStatistics: S.optional(__S(919, __c57, 7)) }),
       ).annotate({ identifier: "GetQueryRuntimeStatisticsOutput" });
   }
 }
-function __c54(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4188,7 +4437,7 @@ function __c54(j: number): any {
       });
   }
 }
-function __c55(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4217,17 +4466,17 @@ function __c55(j: number): any {
           Description: S.optional(S.String),
           WorkGroup: S.optional(S.String),
           EngineVersion: S.optional(S.String),
-          EngineConfiguration: S.optional(__S(386, __c24, 2)),
+          EngineConfiguration: S.optional(__S(418, __c26, 2)),
           NotebookVersion: S.optional(S.String),
-          MonitoringConfiguration: S.optional(__S(404, __c25, 4)),
-          SessionConfiguration: S.optional(__S(881, __c55, 1)),
-          Status: S.optional(__S(896, __c56, 0)),
-          Statistics: S.optional(__S(882, __c55, 2)),
+          MonitoringConfiguration: S.optional(__S(436, __c27, 4)),
+          SessionConfiguration: S.optional(__S(945, __c59, 1)),
+          Status: S.optional(__S(960, __c60, 0)),
+          Statistics: S.optional(__S(946, __c59, 2)),
         }),
       ).annotate({ identifier: "GetSessionResponse" });
   }
 }
-function __c56(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4242,7 +4491,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "SessionStatus" });
   }
 }
-function __c57(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4260,7 +4509,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GetSessionEndpointResponse" });
   }
 }
-function __c58(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4270,11 +4519,21 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GetSessionStatusRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ SessionId: S.optional(S.String), Status: S.optional(__S(896, __c56, 0)) }),
+        S.Struct({ SessionId: S.optional(S.String), Status: S.optional(__S(960, __c60, 0)) }),
       ).annotate({ identifier: "GetSessionStatusResponse" });
   }
 }
-function __c59(j: number): any {
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TableName: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetSystemTableConfigurationInput" });
+  }
+}
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4286,19 +4545,19 @@ function __c59(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetTableMetadataInput" });
     case 1:
-      return S.suspend(() => S.Struct({ TableMetadata: S.optional(__S(962, __c60, 2)) })).annotate({
-        identifier: "GetTableMetadataOutput",
-      });
+      return S.suspend(() => S.Struct({ TableMetadata: S.optional(__S(1042, __c65, 2)) })).annotate(
+        { identifier: "GetTableMetadataOutput" },
+      );
   }
 }
-function __c60(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ Name: S.String, Type: S.optional(S.String), Comment: S.optional(S.String) }),
       ).annotate({ identifier: "Column" });
     case 1:
-      return S.Array(__S(960, __c60, 0));
+      return S.Array(__S(1040, __c65, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4306,14 +4565,14 @@ function __c60(j: number): any {
           CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastAccessTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           TableType: S.optional(S.String),
-          Columns: S.optional(__S(961, __c60, 1)),
-          PartitionKeys: S.optional(__S(961, __c60, 1)),
+          Columns: S.optional(__S(1041, __c65, 1)),
+          PartitionKeys: S.optional(__S(1041, __c65, 1)),
           Parameters: S.optional(__S(256, __c16, 0)),
         }),
       ).annotate({ identifier: "TableMetadata" });
   }
 }
-function __c61(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4326,19 +4585,19 @@ function __c61(j: number): any {
         S.Struct({
           Name: S.String,
           State: S.optional(S.String),
-          Configuration: S.optional(__S(417, __c26, 1)),
+          Configuration: S.optional(__S(449, __c28, 1)),
           Description: S.optional(S.String),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           IdentityCenterApplicationArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkGroup" });
     case 2:
-      return S.suspend(() => S.Struct({ WorkGroup: S.optional(__S(977, __c61, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ WorkGroup: S.optional(__S(1057, __c66, 1)) })).annotate({
         identifier: "GetWorkGroupOutput",
       });
   }
 }
-function __c62(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4353,7 +4612,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "ImportNotebookInput" });
   }
 }
-function __c63(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4367,21 +4626,21 @@ function __c63(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ApplicationRuntimeId: S.optional(S.String),
-          SupportedDPUSizes: S.optional(__S(1009, __c63, 1)),
+          SupportedDPUSizes: S.optional(__S(1089, __c68, 1)),
         }),
       ).annotate({ identifier: "ApplicationDPUSizes" });
     case 3:
-      return S.Array(__S(1010, __c63, 2));
+      return S.Array(__S(1090, __c68, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          ApplicationDPUSizes: S.optional(__S(1011, __c63, 3)),
+          ApplicationDPUSizes: S.optional(__S(1091, __c68, 3)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListApplicationDPUSizesOutput" });
   }
 }
-function __c64(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4397,21 +4656,21 @@ function __c64(j: number): any {
         S.Struct({
           CalculationExecutionId: S.optional(S.String),
           Description: S.optional(S.String),
-          Status: S.optional(__S(592, __c37, 0)),
+          Status: S.optional(__S(656, __c41, 0)),
         }),
       ).annotate({ identifier: "CalculationSummary" });
     case 2:
-      return S.Array(__S(1025, __c64, 1));
+      return S.Array(__S(1105, __c69, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          Calculations: S.optional(__S(1026, __c64, 2)),
+          Calculations: S.optional(__S(1106, __c69, 2)),
         }),
       ).annotate({ identifier: "ListCalculationExecutionsResponse" });
   }
 }
-function __c65(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4420,14 +4679,14 @@ function __c65(j: number): any {
         ),
       ).annotate({ identifier: "ListCapacityReservationsInput" });
     case 1:
-      return S.Array(__S(705, __c44, 1));
+      return S.Array(__S(769, __c48, 1));
     case 2:
       return S.suspend(() =>
-        S.Struct({ NextToken: S.optional(S.String), CapacityReservations: __S(1041, __c65, 1) }),
+        S.Struct({ NextToken: S.optional(S.String), CapacityReservations: __S(1121, __c70, 1) }),
       ).annotate({ identifier: "ListCapacityReservationsOutput" });
   }
 }
-function __c66(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4439,17 +4698,17 @@ function __c66(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListDatabasesInput" });
     case 1:
-      return S.Array(__S(736, __c46, 0));
+      return S.Array(__S(800, __c50, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          DatabaseList: S.optional(__S(1057, __c66, 1)),
+          DatabaseList: S.optional(__S(1137, __c71, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDatabasesOutput" });
   }
 }
-function __c67(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4470,17 +4729,17 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "DataCatalogSummary" });
     case 2:
-      return S.Array(__S(1073, __c67, 1));
+      return S.Array(__S(1153, __c72, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataCatalogsSummary: S.optional(__S(1074, __c67, 2)),
+          DataCatalogsSummary: S.optional(__S(1154, __c72, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDataCatalogsOutput" });
   }
 }
-function __c68(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4493,13 +4752,13 @@ function __c68(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          EngineVersions: S.optional(__S(1089, __c68, 1)),
+          EngineVersions: S.optional(__S(1169, __c73, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEngineVersionsOutput" });
   }
 }
-function __c69(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4522,18 +4781,18 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "ExecutorsSummary" });
     case 2:
-      return S.Array(__S(1105, __c69, 1));
+      return S.Array(__S(1185, __c74, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           SessionId: S.String,
           NextToken: S.optional(S.String),
-          ExecutorsSummary: S.optional(__S(1106, __c69, 2)),
+          ExecutorsSummary: S.optional(__S(1186, __c74, 2)),
         }),
       ).annotate({ identifier: "ListExecutorsResponse" });
   }
 }
-function __c70(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4546,13 +4805,13 @@ function __c70(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          NamedQueryIds: S.optional(__S(1552, __c97, 0)),
+          NamedQueryIds: S.optional(__S(1664, __c104, 0)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListNamedQueriesOutput" });
   }
 }
-function __c71(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Name: S.optional(S.String) })).annotate({
@@ -4561,24 +4820,24 @@ function __c71(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Filters: S.optional(__S(1136, __c71, 0)),
+          Filters: S.optional(__S(1216, __c76, 0)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
           WorkGroup: S.String,
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListNotebookMetadataInput" });
     case 2:
-      return S.Array(__S(544, __c34, 0));
+      return S.Array(__S(608, __c38, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          NotebookMetadataList: S.optional(__S(1138, __c71, 2)),
+          NotebookMetadataList: S.optional(__S(1218, __c76, 2)),
         }),
       ).annotate({ identifier: "ListNotebookMetadataOutput" });
   }
 }
-function __c72(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4596,14 +4855,14 @@ function __c72(j: number): any {
         }),
       ).annotate({ identifier: "NotebookSessionSummary" });
     case 2:
-      return S.Array(__S(1153, __c72, 1));
+      return S.Array(__S(1233, __c77, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ NotebookSessionsList: __S(1154, __c72, 2), NextToken: S.optional(S.String) }),
+        S.Struct({ NotebookSessionsList: __S(1234, __c77, 2), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListNotebookSessionsResponse" });
   }
 }
-function __c73(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4621,17 +4880,17 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "PreparedStatementSummary" });
     case 2:
-      return S.Array(__S(1169, __c73, 1));
+      return S.Array(__S(1249, __c78, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          PreparedStatements: S.optional(__S(1170, __c73, 2)),
+          PreparedStatements: S.optional(__S(1250, __c78, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPreparedStatementsOutput" });
   }
 }
-function __c74(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4644,13 +4903,13 @@ function __c74(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          QueryExecutionIds: S.optional(__S(1552, __c97, 0)),
+          QueryExecutionIds: S.optional(__S(1664, __c104, 0)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListQueryExecutionsOutput" });
   }
 }
-function __c75(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4668,18 +4927,32 @@ function __c75(j: number): any {
           Description: S.optional(S.String),
           EngineVersion: S.optional(__S(80, __c5, 0)),
           NotebookVersion: S.optional(S.String),
-          Status: S.optional(__S(896, __c56, 0)),
+          Status: S.optional(__S(960, __c60, 0)),
         }),
       ).annotate({ identifier: "SessionSummary" });
     case 2:
-      return S.Array(__S(1201, __c75, 1));
+      return S.Array(__S(1281, __c80, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ NextToken: S.optional(S.String), Sessions: S.optional(__S(1202, __c75, 2)) }),
+        S.Struct({ NextToken: S.optional(S.String), Sessions: S.optional(__S(1282, __c80, 2)) }),
       ).annotate({ identifier: "ListSessionsResponse" });
   }
 }
-function __c76(j: number): any {
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListSystemTableStatusesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Items: __S(465, __c29, 1), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListSystemTableStatusesOutput" });
+  }
+}
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4693,17 +4966,17 @@ function __c76(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListTableMetadataInput" });
     case 1:
-      return S.Array(__S(962, __c60, 2));
+      return S.Array(__S(1042, __c65, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          TableMetadataList: S.optional(__S(1217, __c76, 1)),
+          TableMetadataList: S.optional(__S(1313, __c82, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTableMetadataOutput" });
   }
 }
-function __c77(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4719,7 +4992,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "ListTagsForResourceOutput" });
   }
 }
-function __c78(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4739,32 +5012,32 @@ function __c78(j: number): any {
         }),
       ).annotate({ identifier: "WorkGroupSummary" });
     case 2:
-      return S.Array(__S(1249, __c78, 1));
+      return S.Array(__S(1345, __c84, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ WorkGroups: S.optional(__S(1250, __c78, 2)), NextToken: S.optional(S.String) }),
+        S.Struct({ WorkGroups: S.optional(__S(1346, __c84, 2)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListWorkGroupsOutput" });
   }
 }
-function __c79(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           CapacityReservationName: S.String,
-          CapacityAssignments: __S(673, __c42, 1),
+          CapacityAssignments: __S(737, __c46, 1),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutCapacityAssignmentConfigurationInput" });
   }
 }
-function __c80(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           SessionId: S.String,
           Description: S.optional(S.String),
-          CalculationConfiguration: S.optional(__S(624, __c39, 0)),
+          CalculationConfiguration: S.optional(__S(688, __c43, 0)),
           CodeBlock: S.optional(S.String),
           ClientRequestToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -4775,7 +5048,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "StartCalculationExecutionResponse" });
   }
 }
-function __c81(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4785,9 +5058,9 @@ function __c81(j: number): any {
           QueryExecutionContext: S.optional(__S(162, __c10, 2)),
           ResultConfiguration: S.optional(__S(96, __c6, 0)),
           WorkGroup: S.optional(S.String),
-          ExecutionParameters: S.optional(__S(1552, __c97, 0)),
+          ExecutionParameters: S.optional(__S(1664, __c104, 0)),
           ResultReuseConfiguration: S.optional(__S(161, __c10, 1)),
-          EngineConfiguration: S.optional(__S(386, __c24, 2)),
+          EngineConfiguration: S.optional(__S(418, __c26, 2)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "StartQueryExecutionInput" });
     case 1:
@@ -4796,16 +5069,16 @@ function __c81(j: number): any {
       });
   }
 }
-function __c82(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Description: S.optional(S.String),
           WorkGroup: S.String,
-          EngineConfiguration: __S(386, __c24, 2),
+          EngineConfiguration: __S(418, __c26, 2),
           ExecutionRole: S.optional(S.String),
-          MonitoringConfiguration: S.optional(__S(404, __c25, 4)),
+          MonitoringConfiguration: S.optional(__S(436, __c27, 4)),
           NotebookVersion: S.optional(S.String),
           SessionIdleTimeoutInMinutes: S.optional(S.Number),
           ClientRequestToken: S.optional(S.String),
@@ -4819,7 +5092,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "StartSessionResponse" });
   }
 }
-function __c83(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4829,7 +5102,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "StopCalculationExecutionRequest" });
   }
 }
-function __c84(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ State: S.optional(S.String) })).annotate({
@@ -4837,7 +5110,7 @@ function __c84(j: number): any {
       });
   }
 }
-function __c85(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4847,7 +5120,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "StopQueryExecutionInput" });
   }
 }
-function __c86(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4857,7 +5130,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "TagResourceInput" });
   }
 }
-function __c87(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4867,17 +5140,17 @@ function __c87(j: number): any {
       ).annotate({ identifier: "TerminateSessionRequest" });
   }
 }
-function __c88(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ResourceARN: S.String, TagKeys: __S(1552, __c97, 0) }).pipe(
+        S.Struct({ ResourceARN: S.String, TagKeys: __S(1664, __c104, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UntagResourceInput" });
   }
 }
-function __c89(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4887,7 +5160,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "UpdateCapacityReservationInput" });
   }
 }
-function __c90(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4900,7 +5173,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "UpdateDataCatalogInput" });
   }
 }
-function __c91(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4913,7 +5186,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "UpdateNamedQueryInput" });
   }
 }
-function __c92(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4927,7 +5200,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "UpdateNotebookInput" });
   }
 }
-function __c93(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4939,7 +5212,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "UpdateNotebookMetadataInput" });
   }
 }
-function __c94(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4952,7 +5225,17 @@ function __c94(j: number): any {
       ).annotate({ identifier: "UpdatePreparedStatementInput" });
   }
 }
-function __c95(j: number): any {
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TableName: S.String, KmsKeyArn: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateSystemTableConfigurationInput" });
+  }
+}
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4979,8 +5262,8 @@ function __c95(j: number): any {
       return S.suspend(() =>
         S.Struct({
           EnforceWorkGroupConfiguration: S.optional(S.Boolean),
-          ResultConfigurationUpdates: S.optional(__S(1520, __c95, 0)),
-          ManagedQueryResultsConfigurationUpdates: S.optional(__S(1521, __c95, 1)),
+          ResultConfigurationUpdates: S.optional(__S(1632, __c102, 0)),
+          ManagedQueryResultsConfigurationUpdates: S.optional(__S(1633, __c102, 1)),
           PublishCloudWatchMetricsEnabled: S.optional(S.Boolean),
           BytesScannedCutoffPerQuery: S.optional(S.Number),
           RemoveBytesScannedCutoffPerQuery: S.optional(S.Boolean),
@@ -4992,8 +5275,8 @@ function __c95(j: number): any {
           CustomerContentEncryptionConfiguration: S.optional(__S(128, __c8, 0)),
           EnableMinimumEncryptionConfiguration: S.optional(S.Boolean),
           QueryResultsS3AccessGrantsConfiguration: S.optional(__S(129, __c8, 1)),
-          MonitoringConfiguration: S.optional(__S(404, __c25, 4)),
-          EngineConfiguration: S.optional(__S(386, __c24, 2)),
+          MonitoringConfiguration: S.optional(__S(436, __c27, 4)),
+          EngineConfiguration: S.optional(__S(418, __c26, 2)),
         }),
       ).annotate({ identifier: "WorkGroupConfigurationUpdates" });
     case 3:
@@ -5001,22 +5284,22 @@ function __c95(j: number): any {
         S.Struct({
           WorkGroup: S.String,
           Description: S.optional(S.String),
-          ConfigurationUpdates: S.optional(__S(1522, __c95, 2)),
+          ConfigurationUpdates: S.optional(__S(1634, __c102, 2)),
           State: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateWorkGroupInput" });
   }
 }
-function __c96(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ NamedQueryIds: __S(1552, __c97, 0) }).pipe(
+        S.Struct({ NamedQueryIds: __S(1664, __c104, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetNamedQueryInput" });
     case 1:
-      return S.Array(__S(1568, __c98, 0));
+      return S.Array(__S(1680, __c105, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5026,23 +5309,23 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "UnprocessedNamedQueryId" });
     case 3:
-      return S.Array(__S(1538, __c96, 2));
+      return S.Array(__S(1650, __c103, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          NamedQueries: S.optional(__S(1537, __c96, 1)),
-          UnprocessedNamedQueryIds: S.optional(__S(1539, __c96, 3)),
+          NamedQueries: S.optional(__S(1649, __c103, 1)),
+          UnprocessedNamedQueryIds: S.optional(__S(1651, __c103, 3)),
         }),
       ).annotate({ identifier: "BatchGetNamedQueryOutput" });
   }
 }
-function __c97(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c98(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

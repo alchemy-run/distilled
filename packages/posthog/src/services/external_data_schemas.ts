@@ -95,13 +95,20 @@ export interface ExternalDataSchemasDestroyRequest {
   id: string;
 }
 export interface ExternalDataSchemasDestroyResponse {}
+export interface ExternalDataSchemasHistoryTableDestroyRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this external data schema. */
+  id: string;
+}
+export interface ExternalDataSchemasHistoryTableDestroyResponse {}
 export interface GetExternalDataSchemaRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this external data schema. */
   id: string;
 }
-export type ExternalDataSchemaTableMap = { [key: string]: unknown | undefined };
+export type ExternalDataSchemaOutputTableMap = { [key: string]: unknown | undefined };
 /** * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
 export type ExternalDataSchemaSyncTypeEnum =
   | "full_refresh"
@@ -132,14 +139,16 @@ export type ExternalDataSchemaSyncFrequencyEnum =
   | "7day"
   | "30day";
 /** Column names for primary key deduplication. */
-export type ExternalDataSchemaPrimaryKeyColumnsList = Array<string>;
+export type ExternalDataSchemaOutputPrimaryKeyColumnsList = Array<string>;
 /** * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
 export type CdcTableModeEnum = "consolidated" | "cdc_only" | "both";
 /** * `missing_primary_key` - Missing primary key * `duplicate_primary_key` - Duplicate primary key */
 export type IncrementalSyncBlockedReasonEnum = "missing_primary_key" | "duplicate_primary_key";
 /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-export type ExternalDataSchemaEnabledColumnsList = Array<string>;
-export interface ExternalDataSchemaRowFiltersItem {
+export type ExternalDataSchemaOutputEnabledColumnsList = Array<string>;
+/** Names of source columns whose values are replaced with a deterministic one-way digest at sync time, for sensitive data such as passwords or PII. `null` (default) masks nothing. Primary-key, partition and incremental columns can't be masked, and direct query sources don't support masking. Any change to this list starts a full resync of the table (CDC tables take a new snapshot), or stages it until syncing is turned on. A synced webhook table can't change its masked columns, because its data can't be fetched again. */
+export type ExternalDataSchemaOutputMaskedColumnsList = Array<string>;
+export interface ExternalDataSchemaOutputRowFiltersItem {
   column: string;
   /** One of: > >= < <= = != IN "NOT IN". */
   operator: string;
@@ -147,17 +156,43 @@ export interface ExternalDataSchemaRowFiltersItem {
   value: unknown;
 }
 /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync -- not retroactive to already-synced rows. */
-export type ExternalDataSchemaRowFiltersList = Array<ExternalDataSchemaRowFiltersItem>;
-export interface ExternalDataSchemaAvailableColumnsItem {
+export type ExternalDataSchemaOutputRowFiltersList = Array<ExternalDataSchemaOutputRowFiltersItem>;
+/** Operators a row filter on this column may use. */
+export type RowFilterColumnOperatorsList = Array<string>;
+export interface RowFilterColumn {
+  /** Column name to use as `column` in a row filter. */
+  name: string;
+  /** Column type, which decides the format of the filter value. */
+  data_type: string;
+  /** Operators a row filter on this column may use. */
+  operators: RowFilterColumnOperatorsList;
+}
+/** Columns a row filter on this schema may use, with the operators each accepts. `null` means any column in `available_columns` with any operator, which is the case for SQL sources. A list means the source can filter on these columns only; an empty list means this schema accepts no row filter. */
+export type ExternalDataSchemaOutputRowFilterColumnsList = Array<RowFilterColumn>;
+/** The kind of personal or secret data the column's name and type suggest, or null. */
+export type ExternalDataSchemaOutputAvailableColumnsItemSensitivity =
+  | "email"
+  | "phone"
+  | "name"
+  | "address"
+  | "date_of_birth"
+  | "ip_address"
+  | "token"
+  | "secret"
+  | "card_number";
+export interface ExternalDataSchemaOutputAvailableColumnsItem {
   name: string;
   data_type?: string;
   is_nullable?: boolean;
+  /** The kind of personal or secret data the column's name and type suggest, or null. */
+  sensitivity?: ExternalDataSchemaOutputAvailableColumnsItemSensitivity | null;
 }
 /** Column metadata (name, data type, nullable) for this schema. For SQL sources this is the source-side schema discovered via `refresh_schemas`; for other sources (and once synced) it falls back to the synced table's columns. Empty only before the first successful sync/refresh. */
-export type ExternalDataSchemaAvailableColumnsList = Array<ExternalDataSchemaAvailableColumnsItem>;
-export type ExternalDataSchemaSourceSupportedApiVersionsList = Array<string>;
+export type ExternalDataSchemaOutputAvailableColumnsList =
+  Array<ExternalDataSchemaOutputAvailableColumnsItem>;
+export type ExternalDataSchemaOutputSourceSupportedApiVersionsList = Array<string>;
 /** Lightweight parent-source summary (id, source_type, access_method, column-selection support, the requesting user's access level). Only populated on the single-schema retrieve endpoint -- `null` elsewhere -- so read-only views can render without fetching the full source and all its schemas. */
-export interface ExternalDataSchemaSource {
+export interface ExternalDataSchemaOutputSource {
   id?: string;
   source_type?: string;
   access_method?: string;
@@ -166,7 +201,8 @@ export interface ExternalDataSchemaSource {
   requires_exact_column_metadata?: boolean;
   user_access_level?: string | null;
   api_version?: string | null;
-  supported_api_versions?: ExternalDataSchemaSourceSupportedApiVersionsList;
+  supported_api_versions?: ExternalDataSchemaOutputSourceSupportedApiVersionsList;
+  file_name?: string | null;
 }
 export interface ExternalDataSourceApiVersionDeprecation {
   /** The deprecated vendor API version this source is pinned to. */
@@ -177,17 +213,21 @@ export interface ExternalDataSourceApiVersionDeprecation {
   default_version: string;
 }
 /** A schema of an external data source: its sync configuration and the warehouse table it syncs into. */
-export interface ExternalDataSchema {
+export interface ExternalDataSchemaOutput {
   id?: string;
   name?: string;
   label?: string | null;
-  table?: ExternalDataSchemaTableMap | null;
+  table?: ExternalDataSchemaOutputTableMap | null;
+  /** The id of the warehouse table this schema syncs into. Set before the first sync for a table the schema already names, such as a migrated one. Null when there is none. */
+  table_id: string | null;
   should_sync?: boolean;
   last_synced_at?: string | null;
   /** The latest error that occurred when syncing this schema. */
   latest_error?: string | null;
   incremental?: boolean;
   status?: string | null;
+  /** Whether this schema is linked to an existing self-managed table that its first sync will import. Until then the table keeps reading the original bucket. */
+  pending_self_managed_table: boolean;
   /** Sync strategy: incremental, full_refresh, append, cdc, or xmin. * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
   sync_type?: ExternalDataSchemaSyncTypeEnum | null;
   /** Column name used to track sync progress. */
@@ -208,21 +248,31 @@ export interface ExternalDataSchema {
   next_full_refresh_at?: string | null;
   description?: string | null;
   /** Column names for primary key deduplication. */
-  primary_key_columns?: ExternalDataSchemaPrimaryKeyColumnsList | null;
+  primary_key_columns?: ExternalDataSchemaOutputPrimaryKeyColumnsList | null;
   /** For CDC syncs: consolidated, cdc_only, or both. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
   cdc_table_mode?: CdcTableModeEnum | null;
   /** Why the last sync run could not merge rows for this table, or `null` when no such failure is current, which includes a run that failed for another reason. A blocked table is disabled, and the resolution differs by reason. `missing_primary_key`: no key to merge on, so set `primary_key_columns` to a unique key, which is accepted because none was set before. `duplicate_primary_key`: the key in use does not identify one row, and that key cannot be swapped once data has synced, so either remove the duplicates at the source and set `should_sync` to true, or delete the synced data before setting a different key. Either reason also accepts a different `sync_type`: `append` is only safe for insert-only tables, because updated rows arrive again as duplicates, and `full_refresh` re-reads the whole table on every sync and bills every row. This reports the last run's failure, so it clears once a run succeeds or fails for another reason, not when an update lands. * `missing_primary_key` - Missing primary key * `duplicate_primary_key` - Duplicate primary key */
   incremental_sync_blocked?: IncrementalSyncBlockedReasonEnum | null;
+  /** Whether this table uses webhook sync, but its source has no enabled webhook. Such a table gets no webhook updates. Each sync polls the source API instead, which is slower and can read the whole table. Set up the webhook on the source, or change `sync_type`. */
+  webhook_not_registered: boolean;
   /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-  enabled_columns?: ExternalDataSchemaEnabledColumnsList | null;
+  enabled_columns?: ExternalDataSchemaOutputEnabledColumnsList | null;
+  /** Names of source columns whose values are replaced with a deterministic one-way digest at sync time, for sensitive data such as passwords or PII. `null` (default) masks nothing. Primary-key, partition and incremental columns can't be masked, and direct query sources don't support masking. Any change to this list starts a full resync of the table (CDC tables take a new snapshot), or stages it until syncing is turned on. A synced webhook table can't change its masked columns, because its data can't be fetched again. */
+  masked_columns?: ExternalDataSchemaOutputMaskedColumnsList | null;
   /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync -- not retroactive to already-synced rows. */
-  row_filters?: ExternalDataSchemaRowFiltersList | null;
+  row_filters?: ExternalDataSchemaOutputRowFiltersList | null;
+  /** Columns a row filter on this schema may use, with the operators each accepts. `null` means any column in `available_columns` with any operator, which is the case for SQL sources. A list means the source can filter on these columns only; an empty list means this schema accepts no row filter. */
+  row_filter_columns: ExternalDataSchemaOutputRowFilterColumnsList | null;
   /** Column metadata (name, data type, nullable) for this schema. For SQL sources this is the source-side schema discovered via `refresh_schemas`; for other sources (and once synced) it falls back to the synced table's columns. Empty only before the first successful sync/refresh. */
-  available_columns?: ExternalDataSchemaAvailableColumnsList;
+  available_columns?: ExternalDataSchemaOutputAvailableColumnsList;
   /** Whether exact source-side column metadata is available for safe source-query projection. */
   source_column_metadata_available?: boolean;
+  /** Name of the history table that keeps every version of each row, or `null` when the table keeps no history. A history table created before `_history` names existed keeps its `_cdc` name. */
+  history_table_name: string | null;
+  /** Name of the history table registered for this schema, whether or not its mode still writes it, or `null` when none is registered. One the schema no longer writes can be removed with the `history_table` delete endpoint. Populated on the single-schema retrieve and update endpoints, `null` elsewhere. After an update that sent `drop_history_table`, a name means the history table was kept, for example because a sync started meanwhile. */
+  registered_history_table_name: string | null;
   /** Lightweight parent-source summary (id, source_type, access_method, column-selection support, the requesting user's access level). Only populated on the single-schema retrieve endpoint -- `null` elsewhere -- so read-only views can render without fetching the full source and all its schemas. */
-  source?: ExternalDataSchemaSource | null;
+  source?: ExternalDataSchemaOutputSource | null;
   /** Vendor API version override for this schema. `null` (default) syncs on the source's pinned version. Must be one of the source type's supported versions. User-managed: version-migration tooling never changes it. Not available for webhook-sync schemas. */
   api_version?: string | null;
   /** Set when this schema's version override is deprecated by the vendor; null when there is no override or it is not deprecated. The source-level field covers the source pin. */
@@ -264,6 +314,8 @@ export interface GetExternalDataSchemasLogRequest {
   level?: string;
   /** Maximum number of log entries to return (1-500, default 50). */
   limit?: number;
+  /** Number of log entries to skip before the first returned entry (default 0). */
+  offset?: number;
   /** Case-insensitive substring search across log messages. */
   search?: string;
 }
@@ -278,20 +330,23 @@ export interface ListExternalDataSchemasRequest {
   /** A search term. */
   search?: string;
 }
-export type PaginatedExternalDataSchemaListResultsList = Array<ExternalDataSchema>;
-export interface PaginatedExternalDataSchemaList {
+export type PaginatedExternalDataSchemaListOutputResultsList = Array<ExternalDataSchemaOutput>;
+export interface PaginatedExternalDataSchemaListOutput {
   count?: number;
   next?: string | null;
   previous?: string | null;
-  results?: PaginatedExternalDataSchemaListResultsList;
+  results?: PaginatedExternalDataSchemaListOutputResultsList;
 }
 /** Column names for primary key deduplication. */
 export type UpdateExternalDataSchemaRequestPrimaryKeyColumnsList = Array<string>;
 /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
 export type UpdateExternalDataSchemaRequestEnabledColumnsList = Array<string>;
-export type UpdateExternalDataSchemaRequestRowFiltersItem = ExternalDataSchemaRowFiltersItem;
+/** Names of source columns whose values are replaced with a deterministic one-way digest at sync time, for sensitive data such as passwords or PII. `null` (default) masks nothing. Primary-key, partition and incremental columns can't be masked, and direct query sources don't support masking. Any change to this list starts a full resync of the table (CDC tables take a new snapshot), or stages it until syncing is turned on. A synced webhook table can't change its masked columns, because its data can't be fetched again. */
+export type UpdateExternalDataSchemaRequestMaskedColumnsList = Array<string>;
+export type UpdateExternalDataSchemaRequestRowFiltersItem = ExternalDataSchemaOutputRowFiltersItem;
 /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync -- not retroactive to already-synced rows. */
-export type UpdateExternalDataSchemaRequestRowFiltersList = Array<ExternalDataSchemaRowFiltersItem>;
+export type UpdateExternalDataSchemaRequestRowFiltersList =
+  Array<ExternalDataSchemaOutputRowFiltersItem>;
 export interface UpdateExternalDataSchemaRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -320,8 +375,12 @@ export interface UpdateExternalDataSchemaRequest {
   cdc_table_mode?: CdcTableModeEnum | (string & {}) | null;
   /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
   enabled_columns?: UpdateExternalDataSchemaRequestEnabledColumnsList | null;
+  /** Names of source columns whose values are replaced with a deterministic one-way digest at sync time, for sensitive data such as passwords or PII. `null` (default) masks nothing. Primary-key, partition and incremental columns can't be masked, and direct query sources don't support masking. Any change to this list starts a full resync of the table (CDC tables take a new snapshot), or stages it until syncing is turned on. A synced webhook table can't change its masked columns, because its data can't be fetched again. */
+  masked_columns?: UpdateExternalDataSchemaRequestMaskedColumnsList | null;
   /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync -- not retroactive to already-synced rows. */
   row_filters?: UpdateExternalDataSchemaRequestRowFiltersList | null;
+  /** For CDC syncs: set to true with a change that stops writing the history table, such as `cdc_table_mode` from `both` or `cdc_only` to `consolidated`, or a `sync_type` other than `cdc`, to delete the history table and every past row version in it. This cannot be undone. Refused while a sync of the table is still running. Omit it, or send false, to keep the history table. */
+  drop_history_table?: boolean;
   /** Vendor API version override for this schema. `null` (default) syncs on the source's pinned version. Must be one of the source type's supported versions. User-managed: version-migration tooling never changes it. Not available for webhook-sync schemas. */
   api_version?: string | null;
 }
@@ -339,11 +398,13 @@ export interface UpdateExternalDataSchemasDestinationsPartialRequest {
 export type UpdateExternalDataSchemasPartialRequestPrimaryKeyColumnsList = Array<string>;
 /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
 export type UpdateExternalDataSchemasPartialRequestEnabledColumnsList = Array<string>;
+/** Names of source columns whose values are replaced with a deterministic one-way digest at sync time, for sensitive data such as passwords or PII. `null` (default) masks nothing. Primary-key, partition and incremental columns can't be masked, and direct query sources don't support masking. Any change to this list starts a full resync of the table (CDC tables take a new snapshot), or stages it until syncing is turned on. A synced webhook table can't change its masked columns, because its data can't be fetched again. */
+export type UpdateExternalDataSchemasPartialRequestMaskedColumnsList = Array<string>;
 export type UpdateExternalDataSchemasPartialRequestRowFiltersItem =
-  ExternalDataSchemaRowFiltersItem;
+  ExternalDataSchemaOutputRowFiltersItem;
 /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync -- not retroactive to already-synced rows. */
 export type UpdateExternalDataSchemasPartialRequestRowFiltersList =
-  Array<ExternalDataSchemaRowFiltersItem>;
+  Array<ExternalDataSchemaOutputRowFiltersItem>;
 export interface UpdateExternalDataSchemasPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -372,8 +433,12 @@ export interface UpdateExternalDataSchemasPartialRequest {
   cdc_table_mode?: CdcTableModeEnum | (string & {}) | null;
   /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
   enabled_columns?: UpdateExternalDataSchemasPartialRequestEnabledColumnsList | null;
+  /** Names of source columns whose values are replaced with a deterministic one-way digest at sync time, for sensitive data such as passwords or PII. `null` (default) masks nothing. Primary-key, partition and incremental columns can't be masked, and direct query sources don't support masking. Any change to this list starts a full resync of the table (CDC tables take a new snapshot), or stages it until syncing is turned on. A synced webhook table can't change its masked columns, because its data can't be fetched again. */
+  masked_columns?: UpdateExternalDataSchemasPartialRequestMaskedColumnsList | null;
   /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync -- not retroactive to already-synced rows. */
   row_filters?: UpdateExternalDataSchemasPartialRequestRowFiltersList | null;
+  /** For CDC syncs: set to true with a change that stops writing the history table, such as `cdc_table_mode` from `both` or `cdc_only` to `consolidated`, or a `sync_type` other than `cdc`, to delete the history table and every past row version in it. This cannot be undone. Refused while a sync of the table is still running. Omit it, or send false, to keep the history table. */
+  drop_history_table?: boolean;
   /** Vendor API version override for this schema. `null` (default) syncs on the source's pinned version. Must be one of the source type's supported versions. User-managed: version-migration tooling never changes it. Not available for webhook-sync schemas. */
   api_version?: string | null;
 }
@@ -388,8 +453,8 @@ export const createExternalDataSchemasIncrementalField: API.OperationMethod<
   CreateExternalDataSchemasIncrementalFieldError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<CreateExternalDataSchemasIncrementalFieldRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<CreateExternalDataSchemasIncrementalFieldResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<CreateExternalDataSchemasIncrementalFieldRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<CreateExternalDataSchemasIncrementalFieldResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -409,8 +474,8 @@ export const createExternalDataSchemasReload: API.OperationMethod<
   CreateExternalDataSchemasReloadError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<CreateExternalDataSchemasReloadRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<CreateExternalDataSchemasReloadResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<CreateExternalDataSchemasReloadRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<CreateExternalDataSchemasReloadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -430,8 +495,8 @@ export const createExternalDataSchemasResync: API.OperationMethod<
   CreateExternalDataSchemasResyncError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<CreateExternalDataSchemasResyncRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<CreateExternalDataSchemasResyncResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<CreateExternalDataSchemasResyncRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<CreateExternalDataSchemasResyncResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -446,8 +511,8 @@ export const deleteExternalDataSchemaDataDestroy: API.OperationMethod<
   DeleteExternalDataSchemaDataDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<DeleteExternalDataSchemaDataDestroyRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<DeleteExternalDataSchemaDataDestroyResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<DeleteExternalDataSchemaDataDestroyRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<DeleteExternalDataSchemaDataDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -466,8 +531,8 @@ export const externalDataSchemasCancelCreate: API.OperationMethod<
   ExternalDataSchemasCancelCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<ExternalDataSchemasCancelCreateRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<ExternalDataSchemasCancelCreateResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<ExternalDataSchemasCancelCreateRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<ExternalDataSchemasCancelCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -482,8 +547,8 @@ export const externalDataSchemasDestroy: API.OperationMethod<
   ExternalDataSchemasDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<ExternalDataSchemasDestroyRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<ExternalDataSchemasDestroyResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<ExternalDataSchemasDestroyRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<ExternalDataSchemasDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -491,15 +556,32 @@ export const externalDataSchemasDestroy: API.OperationMethod<
   span: "ExternalDataSchemasDestroy",
 }));
 
+export type ExternalDataSchemasHistoryTableDestroyError = BadRequest | PosthogOpError;
+/** Delete the history table of a CDC schema that no longer writes it, for example after `cdc_table_mode` moved to `consolidated` or the schema left CDC while keeping it. Deletes the table and every past row version in it, and cannot be undone. Refused while the schema still writes the history table, or while a sync of it is still running. Switching back to a mode that keeps history later starts a new history table. */
+export const externalDataSchemasHistoryTableDestroy: API.OperationMethod<
+  ExternalDataSchemasHistoryTableDestroyRequest,
+  ExternalDataSchemasHistoryTableDestroyResponse,
+  ExternalDataSchemasHistoryTableDestroyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(272, __c17, 0) as any as S.Schema<ExternalDataSchemasHistoryTableDestroyRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<ExternalDataSchemasHistoryTableDestroyResponse>,
+  errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataSchemasHistoryTableDestroy",
+}));
+
 export type GetExternalDataSchemaError = Forbidden | NotFound | PosthogOpError;
 export const getExternalDataSchema: API.OperationMethod<
   GetExternalDataSchemaRequest,
-  ExternalDataSchema,
+  ExternalDataSchemaOutput,
   GetExternalDataSchemaError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetExternalDataSchemaRequest>,
-  output: __S(135, __c16, 7) as any as S.Schema<ExternalDataSchema>,
+  input: __S(0, __c0, 0) as any as S.Schema<GetExternalDataSchemaRequest>,
+  output: __S(41, __c2, 9) as any as S.Schema<ExternalDataSchemaOutput>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -515,8 +597,8 @@ export const getExternalDataSchemasDestination: API.OperationMethod<
   GetExternalDataSchemasDestinationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetExternalDataSchemasDestinationRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<SchemaDestinations>,
+  input: __S(48, __c3, 0) as any as S.Schema<GetExternalDataSchemasDestinationRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<SchemaDestinations>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -531,8 +613,8 @@ export const getExternalDataSchemasLog: API.OperationMethod<
   GetExternalDataSchemasLogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetExternalDataSchemasLogRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<GetExternalDataSchemasLogResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetExternalDataSchemasLogRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<GetExternalDataSchemasLogResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -543,12 +625,12 @@ export const getExternalDataSchemasLog: API.OperationMethod<
 export type ListExternalDataSchemasError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const listExternalDataSchemas: API.OperationMethod<
   ListExternalDataSchemasRequest,
-  PaginatedExternalDataSchemaList,
+  PaginatedExternalDataSchemaListOutput,
   ListExternalDataSchemasError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<ListExternalDataSchemasRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<PaginatedExternalDataSchemaList>,
+  input: __S(96, __c6, 0) as any as S.Schema<ListExternalDataSchemasRequest>,
+  output: __S(98, __c6, 2) as any as S.Schema<PaginatedExternalDataSchemaListOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -559,12 +641,12 @@ export const listExternalDataSchemas: API.OperationMethod<
 export type UpdateExternalDataSchemaError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const updateExternalDataSchema: API.OperationMethod<
   UpdateExternalDataSchemaRequest,
-  ExternalDataSchema,
+  ExternalDataSchemaOutput,
   UpdateExternalDataSchemaError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<UpdateExternalDataSchemaRequest>,
-  output: __S(135, __c16, 7) as any as S.Schema<ExternalDataSchema>,
+  input: __S(112, __c7, 0) as any as S.Schema<UpdateExternalDataSchemaRequest>,
+  output: __S(41, __c2, 9) as any as S.Schema<ExternalDataSchemaOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -580,8 +662,8 @@ export const updateExternalDataSchemasDestinationsPartial: API.OperationMethod<
   UpdateExternalDataSchemasDestinationsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<UpdateExternalDataSchemasDestinationsPartialRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<SchemaDestinations>,
+  input: __S(128, __c8, 0) as any as S.Schema<UpdateExternalDataSchemasDestinationsPartialRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<SchemaDestinations>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -596,12 +678,12 @@ export type UpdateExternalDataSchemasPartialError =
   | PosthogOpError;
 export const updateExternalDataSchemasPartial: API.OperationMethod<
   UpdateExternalDataSchemasPartialRequest,
-  ExternalDataSchema,
+  ExternalDataSchemaOutput,
   UpdateExternalDataSchemasPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<UpdateExternalDataSchemasPartialRequest>,
-  output: __S(135, __c16, 7) as any as S.Schema<ExternalDataSchema>,
+  input: __S(144, __c9, 0) as any as S.Schema<UpdateExternalDataSchemasPartialRequest>,
+  output: __S(41, __c2, 9) as any as S.Schema<ExternalDataSchemaOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -620,6 +702,131 @@ function __c0(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
+            uri: "/api/projects/{project_id}/external_data_schemas/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetExternalDataSchemaRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          column: S.String,
+          operator: S.String,
+          value: S.Unknown,
+        }),
+      ).annotate({ identifier: "ExternalDataSchemaOutputRowFiltersItem" });
+    case 2:
+      return S.Array(__S(33, __c2, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          data_type: S.String,
+          operators: __S(16, __c1, 0),
+        }),
+      ).annotate({ identifier: "RowFilterColumn" });
+    case 4:
+      return S.Array(__S(35, __c2, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          data_type: S.optional(S.String),
+          is_nullable: S.optional(S.Boolean),
+          sensitivity: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ExternalDataSchemaOutputAvailableColumnsItem" });
+    case 6:
+      return S.Array(__S(37, __c2, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          source_type: S.optional(S.String),
+          access_method: S.optional(S.String),
+          supports_column_selection: S.optional(S.Boolean),
+          supports_row_filters: S.optional(S.Boolean),
+          requires_exact_column_metadata: S.optional(S.Boolean),
+          user_access_level: S.optional(S.NullOr(S.String)),
+          api_version: S.optional(S.NullOr(S.String)),
+          supported_api_versions: S.optional(__S(16, __c1, 0)),
+          file_name: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ExternalDataSchemaOutputSource" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.String,
+          sunset_at: S.NullOr(S.String),
+          default_version: S.String,
+        }),
+      ).annotate({ identifier: "ExternalDataSourceApiVersionDeprecation" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          label: S.optional(S.NullOr(S.String)),
+          table: S.optional(S.NullOr(__S(32, __c2, 0))),
+          table_id: S.NullOr(S.String),
+          should_sync: S.optional(S.Boolean),
+          last_synced_at: S.optional(S.NullOr(S.String)),
+          latest_error: S.optional(S.NullOr(S.String)),
+          incremental: S.optional(S.Boolean),
+          status: S.optional(S.NullOr(S.String)),
+          pending_self_managed_table: S.Boolean,
+          sync_type: S.optional(S.NullOr(S.String)),
+          incremental_field: S.optional(S.NullOr(S.String)),
+          incremental_field_type: S.optional(S.NullOr(S.String)),
+          incremental_field_lookback_seconds: S.optional(S.NullOr(S.Number)),
+          sync_frequency: S.optional(S.NullOr(S.String)),
+          sync_time_of_day: S.optional(S.NullOr(S.String)),
+          full_refresh_interval_days: S.optional(S.NullOr(S.Number)),
+          full_refresh_time_of_day: S.optional(S.NullOr(S.String)),
+          next_full_refresh_at: S.optional(S.NullOr(S.String)),
+          description: S.optional(S.NullOr(S.String)),
+          primary_key_columns: S.optional(S.NullOr(__S(16, __c1, 0))),
+          cdc_table_mode: S.optional(S.NullOr(S.String)),
+          incremental_sync_blocked: S.optional(S.NullOr(S.String)),
+          webhook_not_registered: S.Boolean,
+          enabled_columns: S.optional(S.NullOr(__S(16, __c1, 0))),
+          masked_columns: S.optional(S.NullOr(__S(16, __c1, 0))),
+          row_filters: S.optional(S.NullOr(__S(34, __c2, 2))),
+          row_filter_columns: S.NullOr(__S(36, __c2, 4)),
+          available_columns: S.optional(__S(38, __c2, 6)),
+          source_column_metadata_available: S.optional(S.Boolean),
+          history_table_name: S.NullOr(S.String),
+          registered_history_table_name: S.NullOr(S.String),
+          source: S.optional(S.NullOr(__S(39, __c2, 7))),
+          api_version: S.optional(S.NullOr(S.String)),
+          api_version_deprecation: S.optional(S.NullOr(__S(40, __c2, 8))),
+          user_access_level: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ExternalDataSchemaOutput" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
             uri: "/api/projects/{project_id}/external_data_schemas/{id}/destinations/",
             code: 200,
           }),
@@ -627,19 +834,19 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GetExternalDataSchemasDestinationRequest" });
   }
 }
-function __c1(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          destination_ids: S.NullOr(__S(120, __c15, 0)),
+          destination_ids: S.NullOr(__S(16, __c1, 0)),
           inherits_from_source: S.Boolean,
-          effective_destination_ids: S.optional(__S(120, __c15, 0)),
+          effective_destination_ids: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "SchemaDestinations" });
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -651,6 +858,7 @@ function __c2(j: number): any {
           instance_id: S.optional(S.String.pipe(T.Query())),
           level: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -662,7 +870,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetExternalDataSchemasLogRequest" });
   }
 }
-function __c3(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -680,19 +888,19 @@ function __c3(j: number): any {
         ),
       ).annotate({ identifier: "ListExternalDataSchemasRequest" });
     case 1:
-      return S.Array(__S(135, __c16, 7));
+      return S.Array(__S(41, __c2, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(25, __c3, 1)),
+          results: S.optional(__S(97, __c6, 1)),
         }),
-      ).annotate({ identifier: "PaginatedExternalDataSchemaList" });
+      ).annotate({ identifier: "PaginatedExternalDataSchemaListOutput" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -708,10 +916,12 @@ function __c4(j: number): any {
           sync_time_of_day: S.optional(S.NullOr(S.String)),
           full_refresh_interval_days: S.optional(S.NullOr(S.Number)),
           full_refresh_time_of_day: S.optional(S.NullOr(S.String)),
-          primary_key_columns: S.optional(S.NullOr(__S(120, __c15, 0))),
+          primary_key_columns: S.optional(S.NullOr(__S(16, __c1, 0))),
           cdc_table_mode: S.optional(S.NullOr(S.String)),
-          enabled_columns: S.optional(S.NullOr(__S(120, __c15, 0))),
-          row_filters: S.optional(S.NullOr(__S(130, __c16, 2))),
+          enabled_columns: S.optional(S.NullOr(__S(16, __c1, 0))),
+          masked_columns: S.optional(S.NullOr(__S(16, __c1, 0))),
+          row_filters: S.optional(S.NullOr(__S(34, __c2, 2))),
+          drop_history_table: S.optional(S.Boolean),
           api_version: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -723,14 +933,14 @@ function __c4(j: number): any {
       ).annotate({ identifier: "UpdateExternalDataSchemaRequest" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          destination_ids: S.optional(S.NullOr(__S(120, __c15, 0))),
+          destination_ids: S.optional(S.NullOr(__S(16, __c1, 0))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -741,7 +951,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "UpdateExternalDataSchemasDestinationsPartialRequest" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -757,10 +967,12 @@ function __c6(j: number): any {
           sync_time_of_day: S.optional(S.NullOr(S.String)),
           full_refresh_interval_days: S.optional(S.NullOr(S.Number)),
           full_refresh_time_of_day: S.optional(S.NullOr(S.String)),
-          primary_key_columns: S.optional(S.NullOr(__S(120, __c15, 0))),
+          primary_key_columns: S.optional(S.NullOr(__S(16, __c1, 0))),
           cdc_table_mode: S.optional(S.NullOr(S.String)),
-          enabled_columns: S.optional(S.NullOr(__S(120, __c15, 0))),
-          row_filters: S.optional(S.NullOr(__S(130, __c16, 2))),
+          enabled_columns: S.optional(S.NullOr(__S(16, __c1, 0))),
+          masked_columns: S.optional(S.NullOr(__S(16, __c1, 0))),
+          row_filters: S.optional(S.NullOr(__S(34, __c2, 2))),
+          drop_history_table: S.optional(S.Boolean),
           api_version: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -772,7 +984,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "UpdateExternalDataSchemasPartialRequest" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -789,7 +1001,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateExternalDataSchemasIncrementalFieldRequest" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -797,7 +1009,7 @@ function __c8(j: number): any {
       });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -814,7 +1026,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateExternalDataSchemasReloadRequest" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -831,7 +1043,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateExternalDataSchemasResyncRequest" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -848,7 +1060,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteExternalDataSchemaDataDestroyRequest" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -871,7 +1083,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ExternalDataSchemasCancelCreateResponse" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -888,7 +1100,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ExternalDataSchemasDestroyRequest" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -897,101 +1109,12 @@ function __c14(j: number): any {
           id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/external_data_schemas/{id}/",
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/external_data_schemas/{id}/history_table/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "GetExternalDataSchemaRequest" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          column: S.String,
-          operator: S.String,
-          value: S.Unknown,
-        }),
-      ).annotate({ identifier: "ExternalDataSchemaRowFiltersItem" });
-    case 2:
-      return S.Array(__S(129, __c16, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          data_type: S.optional(S.String),
-          is_nullable: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ExternalDataSchemaAvailableColumnsItem" });
-    case 4:
-      return S.Array(__S(131, __c16, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          source_type: S.optional(S.String),
-          access_method: S.optional(S.String),
-          supports_column_selection: S.optional(S.Boolean),
-          supports_row_filters: S.optional(S.Boolean),
-          requires_exact_column_metadata: S.optional(S.Boolean),
-          user_access_level: S.optional(S.NullOr(S.String)),
-          api_version: S.optional(S.NullOr(S.String)),
-          supported_api_versions: S.optional(__S(120, __c15, 0)),
-        }),
-      ).annotate({ identifier: "ExternalDataSchemaSource" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          version: S.String,
-          sunset_at: S.NullOr(S.String),
-          default_version: S.String,
-        }),
-      ).annotate({ identifier: "ExternalDataSourceApiVersionDeprecation" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          label: S.optional(S.NullOr(S.String)),
-          table: S.optional(S.NullOr(__S(128, __c16, 0))),
-          should_sync: S.optional(S.Boolean),
-          last_synced_at: S.optional(S.NullOr(S.String)),
-          latest_error: S.optional(S.NullOr(S.String)),
-          incremental: S.optional(S.Boolean),
-          status: S.optional(S.NullOr(S.String)),
-          sync_type: S.optional(S.NullOr(S.String)),
-          incremental_field: S.optional(S.NullOr(S.String)),
-          incremental_field_type: S.optional(S.NullOr(S.String)),
-          incremental_field_lookback_seconds: S.optional(S.NullOr(S.Number)),
-          sync_frequency: S.optional(S.NullOr(S.String)),
-          sync_time_of_day: S.optional(S.NullOr(S.String)),
-          full_refresh_interval_days: S.optional(S.NullOr(S.Number)),
-          full_refresh_time_of_day: S.optional(S.NullOr(S.String)),
-          next_full_refresh_at: S.optional(S.NullOr(S.String)),
-          description: S.optional(S.NullOr(S.String)),
-          primary_key_columns: S.optional(S.NullOr(__S(120, __c15, 0))),
-          cdc_table_mode: S.optional(S.NullOr(S.String)),
-          incremental_sync_blocked: S.optional(S.NullOr(S.String)),
-          enabled_columns: S.optional(S.NullOr(__S(120, __c15, 0))),
-          row_filters: S.optional(S.NullOr(__S(130, __c16, 2))),
-          available_columns: S.optional(__S(132, __c16, 4)),
-          source_column_metadata_available: S.optional(S.Boolean),
-          source: S.optional(S.NullOr(__S(133, __c16, 5))),
-          api_version: S.optional(S.NullOr(S.String)),
-          api_version_deprecation: S.optional(S.NullOr(__S(134, __c16, 6))),
-          user_access_level: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "ExternalDataSchema" });
+      ).annotate({ identifier: "ExternalDataSchemasHistoryTableDestroyRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

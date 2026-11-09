@@ -89,11 +89,36 @@ export interface GetGoogleUpdatedLocationsLodgingRequest {
   /** Required. Google identifier for this location in the form: `locations/{location_id}/lodging` */
   name: string;
 }
-/** Metadata for the Lodging. */
-export interface LodgingMetadata {
-  /** Required. The latest time at which the Lodging data is asserted to be true in the real world. This is not necessarily the time at which the request is made. */
-  updateTime?: string;
-}
+export type PoolsLifeguardExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type PoolsHotTubExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type PoolsAdultPoolExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type PoolsIndoorPoolsCountExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type PoolsLazyRiverExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type PoolsWavePoolExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
 export type PoolsPoolsCountExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
@@ -104,57 +129,7 @@ export type PoolsWaterParkExceptionEnum =
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PoolsOutdoorPoolsCountExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
 export type PoolsWadingPoolExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PoolsHotTubExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PoolsWaterslideExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PoolsIndoorPoolsCountExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PoolsWavePoolExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PoolsLazyRiverExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PoolsAdultPoolExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PoolsOutdoorPoolExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PoolsPoolExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PoolsLifeguardExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
@@ -164,701 +139,86 @@ export type PoolsIndoorPoolExceptionEnum =
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
+export type PoolsOutdoorPoolExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type PoolsOutdoorPoolsCountExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type PoolsPoolExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type PoolsWaterslideExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
 /** Swimming pool or recreational water facilities available at the hotel. */
 export interface Pools {
-  /** Pools count exception. */
-  poolsCountException?: PoolsPoolsCountExceptionEnum | (string & {});
-  /** Water park exception. */
-  waterParkException?: PoolsWaterParkExceptionEnum | (string & {});
-  /** Outdoor pool. A pool located outside on the grounds of the hotel and available for guests to use for swimming, soaking or recreation. Use may or may not be restricted to adults and/or children. */
-  outdoorPool?: boolean;
-  /** Wading pool. A shallow pool designed for small children to play in. Can be indoors or outdoors. Also known as kiddie pool. */
-  wadingPool?: boolean;
-  /** Outdoor pools count. The sum of all outdoor pools at the hotel. */
-  outdoorPoolsCount?: number;
-  /** Waterslide. A continuously wetted chute positioned by an indoor or outdoor pool which people slide down into the water. */
-  waterslide?: boolean;
-  /** Outdoor pools count exception. */
-  outdoorPoolsCountException?: PoolsOutdoorPoolsCountExceptionEnum | (string & {});
-  /** Wading pool exception. */
-  wadingPoolException?: PoolsWadingPoolExceptionEnum | (string & {});
-  /** Pools count. The sum of all pools at the hotel. */
-  poolsCount?: number;
-  /** Adult pool. A pool restricted for use by adults only. Can be indoors or outdoors. */
-  adultPool?: boolean;
-  /** Indoor pool. A pool located inside the hotel and available for guests to use for swimming and/or soaking. Use may or may not be restricted to adults and/or children. */
-  indoorPool?: boolean;
-  /** Water park. An aquatic recreation area with a large pool or series of pools that has features such as a water slide or tube, wavepool, fountains, rope swings, and/or obstacle course. Can be indoors or outdoors. Also known as adventure pool. */
-  waterPark?: boolean;
-  /** Hot tub. A man-made pool containing bubbling water maintained at a higher temperature and circulated by aerating jets for the purpose of soaking, relaxation and hydrotherapy. Can be indoors or outdoors. Not used for active swimming. Also known as Jacuzzi. Hot tub must be in a common area where all guests can access it. Does not apply to room-specific hot tubs that are only accessible to guest occupying that room. */
-  hotTub?: boolean;
-  /** Lazy river. A man-made pool or several interconnected recreational pools built to mimic the shape and current of a winding river where guests float in the water on inflated rubber tubes. Can be indoors or outdoors. */
-  lazyRiver?: boolean;
-  /** Hot tub exception. */
-  hotTubException?: PoolsHotTubExceptionEnum | (string & {});
-  /** Waterslide exception. */
-  waterslideException?: PoolsWaterslideExceptionEnum | (string & {});
-  /** Indoor pools count exception. */
-  indoorPoolsCountException?: PoolsIndoorPoolsCountExceptionEnum | (string & {});
-  /** Wave pool exception. */
-  wavePoolException?: PoolsWavePoolExceptionEnum | (string & {});
-  /** Lifeguard. A trained member of the hotel staff stationed by the hotel's indoor or outdoor swimming area and responsible for the safety of swimming guests. */
-  lifeguard?: boolean;
-  /** Pool. The presence of a pool, either indoors or outdoors, for guests to use for swimming and/or soaking. Use may or may not be restricted to adults and/or children. */
-  pool?: boolean;
-  /** Lazy river exception. */
-  lazyRiverException?: PoolsLazyRiverExceptionEnum | (string & {});
-  /** Wave pool. A large indoor or outdoor pool with a machine that produces water currents to mimic the ocean's crests. */
-  wavePool?: boolean;
-  /** Adult pool exception. */
-  adultPoolException?: PoolsAdultPoolExceptionEnum | (string & {});
-  /** Indoor pools count. The sum of all indoor pools at the hotel. */
-  indoorPoolsCount?: number;
-  /** Outdoor pool exception. */
-  outdoorPoolException?: PoolsOutdoorPoolExceptionEnum | (string & {});
-  /** Pool exception. */
-  poolException?: PoolsPoolExceptionEnum | (string & {});
   /** Lifeguard exception. */
   lifeguardException?: PoolsLifeguardExceptionEnum | (string & {});
+  /** Hot tub exception. */
+  hotTubException?: PoolsHotTubExceptionEnum | (string & {});
+  /** Indoor pool. A pool located inside the hotel and available for guests to use for swimming and/or soaking. Use may or may not be restricted to adults and/or children. */
+  indoorPool?: boolean;
+  /** Adult pool exception. */
+  adultPoolException?: PoolsAdultPoolExceptionEnum | (string & {});
+  /** Outdoor pool. A pool located outside on the grounds of the hotel and available for guests to use for swimming, soaking or recreation. Use may or may not be restricted to adults and/or children. */
+  outdoorPool?: boolean;
+  /** Indoor pools count. The sum of all indoor pools at the hotel. */
+  indoorPoolsCount?: number;
+  /** Indoor pools count exception. */
+  indoorPoolsCountException?: PoolsIndoorPoolsCountExceptionEnum | (string & {});
+  /** Adult pool. A pool restricted for use by adults only. Can be indoors or outdoors. */
+  adultPool?: boolean;
+  /** Wave pool. A large indoor or outdoor pool with a machine that produces water currents to mimic the ocean's crests. */
+  wavePool?: boolean;
+  /** Lazy river exception. */
+  lazyRiverException?: PoolsLazyRiverExceptionEnum | (string & {});
+  /** Wave pool exception. */
+  wavePoolException?: PoolsWavePoolExceptionEnum | (string & {});
+  /** Pools count exception. */
+  poolsCountException?: PoolsPoolsCountExceptionEnum | (string & {});
+  /** Pools count. The sum of all pools at the hotel. */
+  poolsCount?: number;
+  /** Water park exception. */
+  waterParkException?: PoolsWaterParkExceptionEnum | (string & {});
+  /** Water park. An aquatic recreation area with a large pool or series of pools that has features such as a water slide or tube, wavepool, fountains, rope swings, and/or obstacle course. Can be indoors or outdoors. Also known as adventure pool. */
+  waterPark?: boolean;
+  /** Waterslide. A continuously wetted chute positioned by an indoor or outdoor pool which people slide down into the water. */
+  waterslide?: boolean;
+  /** Wading pool exception. */
+  wadingPoolException?: PoolsWadingPoolExceptionEnum | (string & {});
   /** Indoor pool exception. */
   indoorPoolException?: PoolsIndoorPoolExceptionEnum | (string & {});
+  /** Hot tub. A man-made pool containing bubbling water maintained at a higher temperature and circulated by aerating jets for the purpose of soaking, relaxation and hydrotherapy. Can be indoors or outdoors. Not used for active swimming. Also known as Jacuzzi. Hot tub must be in a common area where all guests can access it. Does not apply to room-specific hot tubs that are only accessible to guest occupying that room. */
+  hotTub?: boolean;
+  /** Outdoor pool exception. */
+  outdoorPoolException?: PoolsOutdoorPoolExceptionEnum | (string & {});
+  /** Pool. The presence of a pool, either indoors or outdoors, for guests to use for swimming and/or soaking. Use may or may not be restricted to adults and/or children. */
+  pool?: boolean;
+  /** Outdoor pools count exception. */
+  outdoorPoolsCountException?: PoolsOutdoorPoolsCountExceptionEnum | (string & {});
+  /** Lifeguard. A trained member of the hotel staff stationed by the hotel's indoor or outdoor swimming area and responsible for the safety of swimming guests. */
+  lifeguard?: boolean;
+  /** Pool exception. */
+  poolException?: PoolsPoolExceptionEnum | (string & {});
+  /** Wading pool. A shallow pool designed for small children to play in. Can be indoors or outdoors. Also known as kiddie pool. */
+  wadingPool?: boolean;
+  /** Waterslide exception. */
+  waterslideException?: PoolsWaterslideExceptionEnum | (string & {});
+  /** Lazy river. A man-made pool or several interconnected recreational pools built to mimic the shape and current of a winding river where guests float in the water on inflated rubber tubes. Can be indoors or outdoors. */
+  lazyRiver?: boolean;
+  /** Outdoor pools count. The sum of all outdoor pools at the hotel. */
+  outdoorPoolsCount?: number;
 }
-export type LivingAreaLayoutPatioExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaLayoutNonSmokingExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaLayoutStairsExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaLayoutLoftExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaLayoutBalconyExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaLayoutLivingAreaSqMetersExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Information about the layout of the living area. */
-export interface LivingAreaLayout {
-  /** Patio exception. */
-  patioException?: LivingAreaLayoutPatioExceptionEnum | (string & {});
-  /** Living area sq meters. The measurement in meters of the area of a guestroom's living space. */
-  livingAreaSqMeters?: number;
-  /** Patio. A paved, outdoor area with seating attached to and accessed through a ground-floor guestroom for use by the occupants of the guestroom. */
-  patio?: boolean;
-  /** Balcony. An outdoor platform attached to a building and surrounded by a short wall, fence or other safety railing. The balcony is accessed through a door in a guestroom or suite and is for use by the guest staying in that room. May or may not include seating or outdoor furniture. Is not located on the ground floor. Also lanai. */
-  balcony?: boolean;
-  /** Loft. A three-walled upper area accessed by stairs or a ladder that overlooks the lower area of a room. */
-  loft?: boolean;
-  /** Non smoking exception. */
-  nonSmokingException?: LivingAreaLayoutNonSmokingExceptionEnum | (string & {});
-  /** Stairs exception. */
-  stairsException?: LivingAreaLayoutStairsExceptionEnum | (string & {});
-  /** Loft exception. */
-  loftException?: LivingAreaLayoutLoftExceptionEnum | (string & {});
-  /** Stairs. There are steps leading from one level or story to another in the unit. */
-  stairs?: boolean;
-  /** Non smoking. A guestroom in which the smoking of cigarettes, cigars and pipes is prohibited. */
-  nonSmoking?: boolean;
-  /** Balcony exception. */
-  balconyException?: LivingAreaLayoutBalconyExceptionEnum | (string & {});
-  /** Living area sq meters exception. */
-  livingAreaSqMetersException?: LivingAreaLayoutLivingAreaSqMetersExceptionEnum | (string & {});
-}
-export type LivingAreaEatingKitchenAvailableExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaEatingMicrowaveExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaEatingTeaStationExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaEatingOutdoorGrillExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaEatingSinkExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaEatingCookwareExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaEatingKettleExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaEatingMinibarExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaEatingSnackbarExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaEatingOvenExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaEatingCoffeeMakerExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaEatingToasterExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaEatingStoveExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaEatingDishwasherExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaEatingRefrigeratorExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaEatingIndoorGrillExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Information about eating features in the living area. */
-export interface LivingAreaEating {
-  /** Sink. A basin with a faucet attached to a water source and used for the purpose of washing and rinsing. */
-  sink?: boolean;
-  /** Snackbar. A small cabinet in the guestroom containing snacks. The items are most commonly available for a fee. */
-  snackbar?: boolean;
-  /** Minibar. A small refrigerated cabinet in the guestroom containing bottles/cans of soft drinks, mini bottles of alcohol, and snacks. The items are most commonly available for a fee. */
-  minibar?: boolean;
-  /** Kitchen available exception. */
-  kitchenAvailableException?: LivingAreaEatingKitchenAvailableExceptionEnum | (string & {});
-  /** Microwave exception. */
-  microwaveException?: LivingAreaEatingMicrowaveExceptionEnum | (string & {});
-  /** Coffee maker. An electric appliance that brews coffee by heating and forcing water through ground coffee. */
-  coffeeMaker?: boolean;
-  /** Tea station exception. */
-  teaStationException?: LivingAreaEatingTeaStationExceptionEnum | (string & {});
-  /** Toaster. A small, temperature controlled electric appliance with rectangular slots at the top that are lined with heated coils for the purpose of browning slices of bread products. */
-  toaster?: boolean;
-  /** Outdoor grill exception. */
-  outdoorGrillException?: LivingAreaEatingOutdoorGrillExceptionEnum | (string & {});
-  /** Microwave. An electric oven that quickly cooks and heats food by microwave energy. Smaller than a standing or wall mounted oven. Usually placed on a kitchen counter, a shelf or tabletop or mounted above a cooktop. */
-  microwave?: boolean;
-  /** Stove. A kitchen appliance powered by gas or electricity for the purpose of creating a flame or hot surface on which pots of food can be cooked. Also known as cooktop or hob. */
-  stove?: boolean;
-  /** Refrigerator. A large, climate-controlled electrical cabinet with vertical doors. Built for the purpose of chilling and storing perishable foods. */
-  refrigerator?: boolean;
-  /** Sink exception. */
-  sinkException?: LivingAreaEatingSinkExceptionEnum | (string & {});
-  /** Outdoor grill. Metal grates on which food is cooked over an open flame or electric heat source. Part of an outdoor apparatus that supports the grates. Also known as barbecue grill or barbecue. */
-  outdoorGrill?: boolean;
-  /** Cookware exception. */
-  cookwareException?: LivingAreaEatingCookwareExceptionEnum | (string & {});
-  /** Dishwasher. A counter-height electrical cabinet containing racks for dirty dishware, cookware and cutlery, and a dispenser for soap built into the pull-down door. The cabinet is attached to the plumbing system to facilitate the automatic cleaning of its contents. */
-  dishwasher?: boolean;
-  /** Kettle exception. */
-  kettleException?: LivingAreaEatingKettleExceptionEnum | (string & {});
-  /** Cookware. Kitchen pots, pans and utensils used in connection with the preparation of food. */
-  cookware?: boolean;
-  /** Minibar exception. */
-  minibarException?: LivingAreaEatingMinibarExceptionEnum | (string & {});
-  /** Tea station. A small area with the supplies needed to heat water and make tea. */
-  teaStation?: boolean;
-  /** Snackbar exception. */
-  snackbarException?: LivingAreaEatingSnackbarExceptionEnum | (string & {});
-  /** Oven exception. */
-  ovenException?: LivingAreaEatingOvenExceptionEnum | (string & {});
-  /** Coffee maker exception. */
-  coffeeMakerException?: LivingAreaEatingCoffeeMakerExceptionEnum | (string & {});
-  /** Oven. A temperature controlled, heated metal cabinet powered by gas or electricity in which food is placed for the purpose of cooking or reheating. */
-  oven?: boolean;
-  /** Toaster exception. */
-  toasterException?: LivingAreaEatingToasterExceptionEnum | (string & {});
-  /** Stove exception. */
-  stoveException?: LivingAreaEatingStoveExceptionEnum | (string & {});
-  /** Kitchen available. An area of the guestroom designated for the preparation and storage of food via the presence of a refrigerator, cook top, oven and sink, as well as cutlery, dishes and cookware. Usually includes small appliances such a coffee maker and a microwave. May or may not include an automatic dishwasher. */
-  kitchenAvailable?: boolean;
-  /** Dishwasher exception. */
-  dishwasherException?: LivingAreaEatingDishwasherExceptionEnum | (string & {});
-  /** Indoor grill. Metal grates built into an indoor cooktop on which food is cooked over an open flame or electric heat source. */
-  indoorGrill?: boolean;
-  /** Refrigerator exception. */
-  refrigeratorException?: LivingAreaEatingRefrigeratorExceptionEnum | (string & {});
-  /** Kettle. A covered container with a handle and a spout used for boiling water. */
-  kettle?: boolean;
-  /** Indoor grill exception. */
-  indoorGrillException?: LivingAreaEatingIndoorGrillExceptionEnum | (string & {});
-}
-export type LivingAreaSleepingCribsCountExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaSleepingSofaBedsCountExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaSleepingQueenBedsCountExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaSleepingFeatherPillowsExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaSleepingDoubleBedsCountExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaSleepingOtherBedsCountExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaSleepingRollAwayBedsCountExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaSleepingSingleOrTwinBedsCountExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaSleepingHypoallergenicBeddingExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaSleepingKingBedsCountExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaSleepingBunkBedsCountExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaSleepingSyntheticPillowsExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaSleepingMemoryFoamPillowsExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaSleepingBedsCountExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Information about sleeping features in the living area. */
-export interface LivingAreaSleeping {
-  /** Other beds count. The number of beds that are not standard mattress and boxspring setups such as Japanese tatami mats, trundle beds, air mattresses and cots. */
-  otherBedsCount?: number;
-  /** Cribs count exception. */
-  cribsCountException?: LivingAreaSleepingCribsCountExceptionEnum | (string & {});
-  /** Sofa beds count exception. */
-  sofaBedsCountException?: LivingAreaSleepingSofaBedsCountExceptionEnum | (string & {});
-  /** Synthetic pillows. The option for guests to obtain bed pillows stuffed with polyester material crafted to reproduce the feel of a pillow stuffed with down and feathers. */
-  syntheticPillows?: boolean;
-  /** Queen beds count exception. */
-  queenBedsCountException?: LivingAreaSleepingQueenBedsCountExceptionEnum | (string & {});
-  /** Queen beds count. The number of medium-large beds measuring 60"W x 80"L (152cm x 102cm). */
-  queenBedsCount?: number;
-  /** Feather pillows. The option for guests to obtain bed pillows that are stuffed with the feathers and down of ducks or geese. */
-  featherPillows?: boolean;
-  /** Feather pillows exception. */
-  featherPillowsException?: LivingAreaSleepingFeatherPillowsExceptionEnum | (string & {});
-  /** Double beds count exception. */
-  doubleBedsCountException?: LivingAreaSleepingDoubleBedsCountExceptionEnum | (string & {});
-  /** Other beds count exception. */
-  otherBedsCountException?: LivingAreaSleepingOtherBedsCountExceptionEnum | (string & {});
-  /** Roll away beds count exception. */
-  rollAwayBedsCountException?: LivingAreaSleepingRollAwayBedsCountExceptionEnum | (string & {});
-  /** Cribs count. The number of small beds for an infant or toddler that the guestroom can obtain. The bed is surrounded by a high railing to prevent the child from falling or climbing out of the bed */
-  cribsCount?: number;
-  /** Double beds count. The number of medium beds measuring 53"W x 75"L (135cm x 191cm). Also known as full size bed. */
-  doubleBedsCount?: number;
-  /** King beds count. The number of large beds measuring 76"W x 80"L (193cm x 102cm). Most often meant to accompany two people. Includes California king and super king. */
-  kingBedsCount?: number;
-  /** Bunk beds count. The number of furniture pieces in which one framed mattress is fixed directly above another by means of a physical frame. This allows one person(s) to sleep in the bottom bunk and one person(s) to sleep in the top bunk. Also known as double decker bed. */
-  bunkBedsCount?: number;
-  /** Beds count. The number of permanent beds present in a guestroom. Does not include rollaway beds, cribs or sofabeds. */
-  bedsCount?: number;
-  /** Single or twin beds count exception. */
-  singleOrTwinBedsCountException?:
-    | LivingAreaSleepingSingleOrTwinBedsCountExceptionEnum
-    | (string & {});
-  /** Hypoallergenic bedding exception. */
-  hypoallergenicBeddingException?:
-    | LivingAreaSleepingHypoallergenicBeddingExceptionEnum
-    | (string & {});
-  /** Hypoallergenic bedding. Bedding such as linens, pillows, mattress covers and/or mattresses that are made of materials known to be resistant to allergens such as mold, dust and dander. */
-  hypoallergenicBedding?: boolean;
-  /** Roll away beds count. The number of mattresses on wheeled frames that can be folded in half and rolled away for easy storage that the guestroom can obtain upon request. */
-  rollAwayBedsCount?: number;
-  /** King beds count exception. */
-  kingBedsCountException?: LivingAreaSleepingKingBedsCountExceptionEnum | (string & {});
-  /** Bunk beds count exception. */
-  bunkBedsCountException?: LivingAreaSleepingBunkBedsCountExceptionEnum | (string & {});
-  /** Memory foam pillows. The option for guests to obtain bed pillows that are stuffed with a man-made foam that responds to body heat by conforming to the body closely, and then recovers its shape when the pillow cools down. */
-  memoryFoamPillows?: boolean;
-  /** Synthetic pillows exception. */
-  syntheticPillowsException?: LivingAreaSleepingSyntheticPillowsExceptionEnum | (string & {});
-  /** Single or twin count beds. The number of smaller beds measuring 38"W x 75"L (97cm x 191cm) that can accommodate one adult. */
-  singleOrTwinBedsCount?: number;
-  /** Memory foam pillows exception. */
-  memoryFoamPillowsException?: LivingAreaSleepingMemoryFoamPillowsExceptionEnum | (string & {});
-  /** Beds count exception. */
-  bedsCountException?: LivingAreaSleepingBedsCountExceptionEnum | (string & {});
-  /** Sofa beds count. The number of specially designed sofas that can be made to serve as a bed by lowering its hinged upholstered back to horizontal position or by pulling out a concealed mattress. */
-  sofaBedsCount?: number;
-}
-export type LivingAreaAccessibilityMobilityAccessibleShowerExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaAccessibilityHearingAccessibleFireAlarmExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaAccessibilityMobilityAccessibleBathtubExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaAccessibilityAdaCompliantUnitExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaAccessibilityMobilityAccessibleToiletExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaAccessibilityHearingAccessibleUnitExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaAccessibilityHearingAccessibleDoorbellExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaAccessibilityMobilityAccessibleUnitExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Accessibility features of the living area. */
-export interface LivingAreaAccessibility {
-  /** Hearing-accessible fire alarm. A device that gives warning of a fire through flashing lights. */
-  hearingAccessibleFireAlarm?: boolean;
-  /** Hearing-accessible doorbell. A visual indicator(s) of a knock or ring at the door. */
-  hearingAccessibleDoorbell?: boolean;
-  /** Mobility-accessible shower exception. */
-  mobilityAccessibleShowerException?:
-    | LivingAreaAccessibilityMobilityAccessibleShowerExceptionEnum
-    | (string & {});
-  /** Hearing-accessible fire alarm exception. */
-  hearingAccessibleFireAlarmException?:
-    | LivingAreaAccessibilityHearingAccessibleFireAlarmExceptionEnum
-    | (string & {});
-  /** Mobility-accessible bathtub exception. */
-  mobilityAccessibleBathtubException?:
-    | LivingAreaAccessibilityMobilityAccessibleBathtubExceptionEnum
-    | (string & {});
-  /** ADA compliant unit exception. */
-  adaCompliantUnitException?: LivingAreaAccessibilityAdaCompliantUnitExceptionEnum | (string & {});
-  /** Mobility-accessible unit. A guestroom designed to accommodate the physical challenges of a guest with mobility and/or auditory and/or visual issues. Usually features enlarged doorways, roll-in showers with seats, bathroom grab bars, and communication equipment for the hearing and sight challenged. */
-  mobilityAccessibleUnit?: boolean;
-  /** ADA compliant unit. A guestroom designed to accommodate the physical challenges of a guest with mobility and/or auditory and/or visual issues, as determined by legislative policy. Usually features enlarged doorways, roll-in showers with seats, bathroom grab bars, and communication equipment for the hearing and sight challenged. */
-  adaCompliantUnit?: boolean;
-  /** Mobility-accessible toilet exception. */
-  mobilityAccessibleToiletException?:
-    | LivingAreaAccessibilityMobilityAccessibleToiletExceptionEnum
-    | (string & {});
-  /** Mobility-accessible shower. A shower with an enlarged door or access point to accommodate a wheelchair or a waterproof seat for the physically challenged. */
-  mobilityAccessibleShower?: boolean;
-  /** Hearing-accessible unit. A guestroom designed to accommodate the physical challenges of a guest with auditory issues. */
-  hearingAccessibleUnit?: boolean;
-  /** Hearing-accessible unit exception. */
-  hearingAccessibleUnitException?:
-    | LivingAreaAccessibilityHearingAccessibleUnitExceptionEnum
-    | (string & {});
-  /** Hearing-accessible doorbell exception. */
-  hearingAccessibleDoorbellException?:
-    | LivingAreaAccessibilityHearingAccessibleDoorbellExceptionEnum
-    | (string & {});
-  /** Mobility-accessible toilet. A toilet with a higher seat, grab bars, and/or a larger area around it to accommodate the physically challenged. */
-  mobilityAccessibleToilet?: boolean;
-  /** Mobility-accessible bathtub. A bathtub that accomodates the physically challenged with additional railings or hand grips, a transfer seat or lift, and/or a door to enable walking into the tub. */
-  mobilityAccessibleBathtub?: boolean;
-  /** Mobility-accessible unit exception. */
-  mobilityAccessibleUnitException?:
-    | LivingAreaAccessibilityMobilityAccessibleUnitExceptionEnum
-    | (string & {});
-}
-export type LivingAreaFeaturesAirConditioningExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaFeaturesTvStreamingExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaFeaturesPayPerViewMoviesExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaFeaturesHairdryerExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaFeaturesTvExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaFeaturesToiletExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaFeaturesElectronicRoomKeyExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaFeaturesInunitWifiAvailableExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaFeaturesWasherExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaFeaturesShowerExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaFeaturesBidetExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaFeaturesUniversalPowerAdaptersExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaFeaturesIroningEquipmentExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaFeaturesFireplaceExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaFeaturesTvCastingExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaFeaturesBathtubExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaFeaturesPrivateBathroomExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaFeaturesDryerExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaFeaturesHeatingExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LivingAreaFeaturesInunitSafeExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Features in the living area. */
-export interface LivingAreaFeatures {
-  /** Ironing equipment. A device, usually with a flat metal base, that is heated to smooth, finish, or press clothes and a flat, padded, cloth-covered surface on which the clothes are worked. */
-  ironingEquipment?: boolean;
-  /** Toilet. A fixed bathroom feature connected to a sewer or septic system and consisting of a water-flushed bowl with a seat, as well as a device that elicites the water-flushing action. Used for the process and disposal of human waste. */
-  toilet?: boolean;
-  /** Heating. An electrical machine used to warm the temperature of the guestroom. */
-  heating?: boolean;
-  /** Dryer. An electrical machine designed to dry clothing. */
-  dryer?: boolean;
-  /** Air conditioning exception. */
-  airConditioningException?: LivingAreaFeaturesAirConditioningExceptionEnum | (string & {});
-  /** Universal power adapters. A power supply for electronic devices which plugs into a wall for the purpose of converting AC to a single DC voltage. Also know as AC adapter or charger. */
-  universalPowerAdapters?: boolean;
-  /** Private bathroom. A bathroom designated for the express use of the guests staying in a specific guestroom. */
-  privateBathroom?: boolean;
-  /** TV casting. A television equipped with a device through which the video entertainment accessed on a personal computer, phone or tablet can be wirelessly delivered to and viewed on the guestroom's television. */
-  tvCasting?: boolean;
-  /** In-unit Wifi available. Guests can wirelessly connect to the Internet in the guestroom. Can be free or for a fee. */
-  inunitWifiAvailable?: boolean;
-  /** Hairdryer. A handheld electric appliance that blows temperature-controlled air for the purpose of drying wet hair. Can be mounted to a bathroom wall or a freestanding device stored in the guestroom's bathroom or closet. */
-  hairdryer?: boolean;
-  /** TV streaming exception. */
-  tvStreamingException?: LivingAreaFeaturesTvStreamingExceptionEnum | (string & {});
-  /** TV. A television is available in the guestroom. */
-  tv?: boolean;
-  /** Washer. An electrical machine connected to a running water source designed to launder clothing. */
-  washer?: boolean;
-  /** In-unit safe. A strong fireproof cabinet with a programmable lock, used for the protected storage of valuables in a guestroom. Often built into a closet. */
-  inunitSafe?: boolean;
-  /** Air conditioning. An electrical machine used to cool the temperature of the guestroom. */
-  airConditioning?: boolean;
-  /** Pay per view movies exception. */
-  payPerViewMoviesException?: LivingAreaFeaturesPayPerViewMoviesExceptionEnum | (string & {});
-  /** Hairdryer exception. */
-  hairdryerException?: LivingAreaFeaturesHairdryerExceptionEnum | (string & {});
-  /** TV exception. */
-  tvException?: LivingAreaFeaturesTvExceptionEnum | (string & {});
-  /** Toilet exception. */
-  toiletException?: LivingAreaFeaturesToiletExceptionEnum | (string & {});
-  /** Shower. A fixed plumbing fixture for standing bathing that features a tall spray spout or faucet through which water flows, a knob or knobs that control the water's temperature, and a drain in the floor. */
-  shower?: boolean;
-  /** Electronic room key exception. */
-  electronicRoomKeyException?: LivingAreaFeaturesElectronicRoomKeyExceptionEnum | (string & {});
-  /** In-unit Wifi available exception. */
-  inunitWifiAvailableException?: LivingAreaFeaturesInunitWifiAvailableExceptionEnum | (string & {});
-  /** TV streaming. Televisions that embed a range of web-based apps to allow for watching media from those apps. */
-  tvStreaming?: boolean;
-  /** Bathtub. A fixed plumbing feature set on the floor and consisting of a large container that accommodates the body of an adult for the purpose of seated bathing. Includes knobs or fixtures to control the temperature of the water, a faucet through which the water flows, and a drain that can be closed for filling and opened for draining. */
-  bathtub?: boolean;
-  /** Washer exception. */
-  washerException?: LivingAreaFeaturesWasherExceptionEnum | (string & {});
-  /** Shower exception. */
-  showerException?: LivingAreaFeaturesShowerExceptionEnum | (string & {});
-  /** Bidet exception. */
-  bidetException?: LivingAreaFeaturesBidetExceptionEnum | (string & {});
-  /** Universal power adapters exception. */
-  universalPowerAdaptersException?:
-    | LivingAreaFeaturesUniversalPowerAdaptersExceptionEnum
-    | (string & {});
-  /** Ironing equipment exception. */
-  ironingEquipmentException?: LivingAreaFeaturesIroningEquipmentExceptionEnum | (string & {});
-  /** Fireplace exception. */
-  fireplaceException?: LivingAreaFeaturesFireplaceExceptionEnum | (string & {});
-  /** Pay per view movies. Televisions with channels that offer films that can be viewed for a fee, and have an interface to allow the viewer to accept the terms and approve payment. */
-  payPerViewMovies?: boolean;
-  /** TV exception. */
-  tvCastingException?: LivingAreaFeaturesTvCastingExceptionEnum | (string & {});
-  /** Bidet. A plumbing fixture attached to a toilet or a low, fixed sink designed for the purpose of washing after toilet use. */
-  bidet?: boolean;
-  /** Bathtub exception. */
-  bathtubException?: LivingAreaFeaturesBathtubExceptionEnum | (string & {});
-  /** Private bathroom exception. */
-  privateBathroomException?: LivingAreaFeaturesPrivateBathroomExceptionEnum | (string & {});
-  /** Electronic room key. A card coded by the check-in computer that is read by the lock on the hotel guestroom door to allow for entry. */
-  electronicRoomKey?: boolean;
-  /** Dryer exception. */
-  dryerException?: LivingAreaFeaturesDryerExceptionEnum | (string & {});
-  /** Heating exception. */
-  heatingException?: LivingAreaFeaturesHeatingExceptionEnum | (string & {});
-  /** In-unit safe exception. */
-  inunitSafeException?: LivingAreaFeaturesInunitSafeExceptionEnum | (string & {});
-  /** Fireplace. A framed opening (aka hearth) at the base of a chimney in which logs or an electrical fire feature are burned to provide a relaxing ambiance or to heat the room. Often made of bricks or stone. */
-  fireplace?: boolean;
-}
-/** An individual room, such as kitchen, bathroom, bedroom, within a bookable guest unit. */
-export interface LivingArea {
-  /** Information about the layout of the living area. */
-  layout?: LivingAreaLayout;
-  /** Information about eating features in the living area. */
-  eating?: LivingAreaEating;
-  /** Information about sleeping features in the living area. */
-  sleeping?: LivingAreaSleeping;
-  /** Accessibility features of the living area. */
-  accessibility?: LivingAreaAccessibility;
-  /** Features in the living area. */
-  features?: LivingAreaFeatures;
-}
-export type GuestUnitFeaturesTierEnum = "UNIT_TIER_UNSPECIFIED" | "STANDARD_UNIT" | "DELUXE_UNIT";
 export type GuestUnitFeaturesMaxOccupantsCountExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type GuestUnitFeaturesPrivateHomeExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type GuestUnitFeaturesBungalowOrVillaExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
@@ -873,17 +233,636 @@ export type GuestUnitFeaturesMaxAdultOccupantsCountExceptionEnum =
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type GuestUnitFeaturesTierExceptionEnum =
+export type LivingAreaLayoutPatioExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ViewsFromUnitPoolViewExceptionEnum =
+export type LivingAreaLayoutLoftExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ViewsFromUnitGardenViewExceptionEnum =
+export type LivingAreaLayoutNonSmokingExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaLayoutStairsExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaLayoutLivingAreaSqMetersExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaLayoutBalconyExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Information about the layout of the living area. */
+export interface LivingAreaLayout {
+  /** Non smoking. A guestroom in which the smoking of cigarettes, cigars and pipes is prohibited. */
+  nonSmoking?: boolean;
+  /** Patio exception. */
+  patioException?: LivingAreaLayoutPatioExceptionEnum | (string & {});
+  /** Patio. A paved, outdoor area with seating attached to and accessed through a ground-floor guestroom for use by the occupants of the guestroom. */
+  patio?: boolean;
+  /** Loft. A three-walled upper area accessed by stairs or a ladder that overlooks the lower area of a room. */
+  loft?: boolean;
+  /** Loft exception. */
+  loftException?: LivingAreaLayoutLoftExceptionEnum | (string & {});
+  /** Stairs. There are steps leading from one level or story to another in the unit. */
+  stairs?: boolean;
+  /** Non smoking exception. */
+  nonSmokingException?: LivingAreaLayoutNonSmokingExceptionEnum | (string & {});
+  /** Stairs exception. */
+  stairsException?: LivingAreaLayoutStairsExceptionEnum | (string & {});
+  /** Living area sq meters exception. */
+  livingAreaSqMetersException?: LivingAreaLayoutLivingAreaSqMetersExceptionEnum | (string & {});
+  /** Balcony. An outdoor platform attached to a building and surrounded by a short wall, fence or other safety railing. The balcony is accessed through a door in a guestroom or suite and is for use by the guest staying in that room. May or may not include seating or outdoor furniture. Is not located on the ground floor. Also lanai. */
+  balcony?: boolean;
+  /** Balcony exception. */
+  balconyException?: LivingAreaLayoutBalconyExceptionEnum | (string & {});
+  /** Living area sq meters. The measurement in meters of the area of a guestroom's living space. */
+  livingAreaSqMeters?: number;
+}
+export type LivingAreaAccessibilityHearingAccessibleDoorbellExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaAccessibilityHearingAccessibleUnitExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaAccessibilityMobilityAccessibleUnitExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaAccessibilityAdaCompliantUnitExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaAccessibilityMobilityAccessibleShowerExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaAccessibilityMobilityAccessibleBathtubExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaAccessibilityHearingAccessibleFireAlarmExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaAccessibilityMobilityAccessibleToiletExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Accessibility features of the living area. */
+export interface LivingAreaAccessibility {
+  /** Hearing-accessible doorbell exception. */
+  hearingAccessibleDoorbellException?:
+    | LivingAreaAccessibilityHearingAccessibleDoorbellExceptionEnum
+    | (string & {});
+  /** Hearing-accessible unit exception. */
+  hearingAccessibleUnitException?:
+    | LivingAreaAccessibilityHearingAccessibleUnitExceptionEnum
+    | (string & {});
+  /** Mobility-accessible unit exception. */
+  mobilityAccessibleUnitException?:
+    | LivingAreaAccessibilityMobilityAccessibleUnitExceptionEnum
+    | (string & {});
+  /** ADA compliant unit exception. */
+  adaCompliantUnitException?: LivingAreaAccessibilityAdaCompliantUnitExceptionEnum | (string & {});
+  /** Mobility-accessible shower exception. */
+  mobilityAccessibleShowerException?:
+    | LivingAreaAccessibilityMobilityAccessibleShowerExceptionEnum
+    | (string & {});
+  /** Hearing-accessible unit. A guestroom designed to accommodate the physical challenges of a guest with auditory issues. */
+  hearingAccessibleUnit?: boolean;
+  /** Mobility-accessible bathtub. A bathtub that accomodates the physically challenged with additional railings or hand grips, a transfer seat or lift, and/or a door to enable walking into the tub. */
+  mobilityAccessibleBathtub?: boolean;
+  /** Mobility-accessible bathtub exception. */
+  mobilityAccessibleBathtubException?:
+    | LivingAreaAccessibilityMobilityAccessibleBathtubExceptionEnum
+    | (string & {});
+  /** Hearing-accessible fire alarm. A device that gives warning of a fire through flashing lights. */
+  hearingAccessibleFireAlarm?: boolean;
+  /** Mobility-accessible shower. A shower with an enlarged door or access point to accommodate a wheelchair or a waterproof seat for the physically challenged. */
+  mobilityAccessibleShower?: boolean;
+  /** Mobility-accessible toilet. A toilet with a higher seat, grab bars, and/or a larger area around it to accommodate the physically challenged. */
+  mobilityAccessibleToilet?: boolean;
+  /** Hearing-accessible doorbell. A visual indicator(s) of a knock or ring at the door. */
+  hearingAccessibleDoorbell?: boolean;
+  /** ADA compliant unit. A guestroom designed to accommodate the physical challenges of a guest with mobility and/or auditory and/or visual issues, as determined by legislative policy. Usually features enlarged doorways, roll-in showers with seats, bathroom grab bars, and communication equipment for the hearing and sight challenged. */
+  adaCompliantUnit?: boolean;
+  /** Hearing-accessible fire alarm exception. */
+  hearingAccessibleFireAlarmException?:
+    | LivingAreaAccessibilityHearingAccessibleFireAlarmExceptionEnum
+    | (string & {});
+  /** Mobility-accessible toilet exception. */
+  mobilityAccessibleToiletException?:
+    | LivingAreaAccessibilityMobilityAccessibleToiletExceptionEnum
+    | (string & {});
+  /** Mobility-accessible unit. A guestroom designed to accommodate the physical challenges of a guest with mobility and/or auditory and/or visual issues. Usually features enlarged doorways, roll-in showers with seats, bathroom grab bars, and communication equipment for the hearing and sight challenged. */
+  mobilityAccessibleUnit?: boolean;
+}
+export type LivingAreaSleepingHypoallergenicBeddingExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaSleepingRollAwayBedsCountExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaSleepingMemoryFoamPillowsExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaSleepingFeatherPillowsExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaSleepingOtherBedsCountExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaSleepingSingleOrTwinBedsCountExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaSleepingKingBedsCountExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaSleepingCribsCountExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaSleepingSofaBedsCountExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaSleepingDoubleBedsCountExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaSleepingBedsCountExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaSleepingSyntheticPillowsExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaSleepingBunkBedsCountExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaSleepingQueenBedsCountExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Information about sleeping features in the living area. */
+export interface LivingAreaSleeping {
+  /** Hypoallergenic bedding exception. */
+  hypoallergenicBeddingException?:
+    | LivingAreaSleepingHypoallergenicBeddingExceptionEnum
+    | (string & {});
+  /** Hypoallergenic bedding. Bedding such as linens, pillows, mattress covers and/or mattresses that are made of materials known to be resistant to allergens such as mold, dust and dander. */
+  hypoallergenicBedding?: boolean;
+  /** Double beds count. The number of medium beds measuring 53"W x 75"L (135cm x 191cm). Also known as full size bed. */
+  doubleBedsCount?: number;
+  /** Cribs count. The number of small beds for an infant or toddler that the guestroom can obtain. The bed is surrounded by a high railing to prevent the child from falling or climbing out of the bed */
+  cribsCount?: number;
+  /** Roll away beds count exception. */
+  rollAwayBedsCountException?: LivingAreaSleepingRollAwayBedsCountExceptionEnum | (string & {});
+  /** Memory foam pillows exception. */
+  memoryFoamPillowsException?: LivingAreaSleepingMemoryFoamPillowsExceptionEnum | (string & {});
+  /** Roll away beds count. The number of mattresses on wheeled frames that can be folded in half and rolled away for easy storage that the guestroom can obtain upon request. */
+  rollAwayBedsCount?: number;
+  /** Feather pillows exception. */
+  featherPillowsException?: LivingAreaSleepingFeatherPillowsExceptionEnum | (string & {});
+  /** Other beds count exception. */
+  otherBedsCountException?: LivingAreaSleepingOtherBedsCountExceptionEnum | (string & {});
+  /** Single or twin count beds. The number of smaller beds measuring 38"W x 75"L (97cm x 191cm) that can accommodate one adult. */
+  singleOrTwinBedsCount?: number;
+  /** Single or twin beds count exception. */
+  singleOrTwinBedsCountException?:
+    | LivingAreaSleepingSingleOrTwinBedsCountExceptionEnum
+    | (string & {});
+  /** King beds count exception. */
+  kingBedsCountException?: LivingAreaSleepingKingBedsCountExceptionEnum | (string & {});
+  /** Memory foam pillows. The option for guests to obtain bed pillows that are stuffed with a man-made foam that responds to body heat by conforming to the body closely, and then recovers its shape when the pillow cools down. */
+  memoryFoamPillows?: boolean;
+  /** Beds count. The number of permanent beds present in a guestroom. Does not include rollaway beds, cribs or sofabeds. */
+  bedsCount?: number;
+  /** Feather pillows. The option for guests to obtain bed pillows that are stuffed with the feathers and down of ducks or geese. */
+  featherPillows?: boolean;
+  /** Cribs count exception. */
+  cribsCountException?: LivingAreaSleepingCribsCountExceptionEnum | (string & {});
+  /** Sofa beds count exception. */
+  sofaBedsCountException?: LivingAreaSleepingSofaBedsCountExceptionEnum | (string & {});
+  /** Double beds count exception. */
+  doubleBedsCountException?: LivingAreaSleepingDoubleBedsCountExceptionEnum | (string & {});
+  /** Beds count exception. */
+  bedsCountException?: LivingAreaSleepingBedsCountExceptionEnum | (string & {});
+  /** Synthetic pillows exception. */
+  syntheticPillowsException?: LivingAreaSleepingSyntheticPillowsExceptionEnum | (string & {});
+  /** Synthetic pillows. The option for guests to obtain bed pillows stuffed with polyester material crafted to reproduce the feel of a pillow stuffed with down and feathers. */
+  syntheticPillows?: boolean;
+  /** Other beds count. The number of beds that are not standard mattress and boxspring setups such as Japanese tatami mats, trundle beds, air mattresses and cots. */
+  otherBedsCount?: number;
+  /** Sofa beds count. The number of specially designed sofas that can be made to serve as a bed by lowering its hinged upholstered back to horizontal position or by pulling out a concealed mattress. */
+  sofaBedsCount?: number;
+  /** Bunk beds count exception. */
+  bunkBedsCountException?: LivingAreaSleepingBunkBedsCountExceptionEnum | (string & {});
+  /** Queen beds count. The number of medium-large beds measuring 60"W x 80"L (152cm x 102cm). */
+  queenBedsCount?: number;
+  /** King beds count. The number of large beds measuring 76"W x 80"L (193cm x 102cm). Most often meant to accompany two people. Includes California king and super king. */
+  kingBedsCount?: number;
+  /** Queen beds count exception. */
+  queenBedsCountException?: LivingAreaSleepingQueenBedsCountExceptionEnum | (string & {});
+  /** Bunk beds count. The number of furniture pieces in which one framed mattress is fixed directly above another by means of a physical frame. This allows one person(s) to sleep in the bottom bunk and one person(s) to sleep in the top bunk. Also known as double decker bed. */
+  bunkBedsCount?: number;
+}
+export type LivingAreaEatingToasterExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaEatingDishwasherExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaEatingSinkExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaEatingKettleExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaEatingMinibarExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaEatingRefrigeratorExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaEatingOvenExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaEatingTeaStationExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaEatingOutdoorGrillExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaEatingStoveExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaEatingKitchenAvailableExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaEatingMicrowaveExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaEatingIndoorGrillExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaEatingSnackbarExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaEatingCookwareExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaEatingCoffeeMakerExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Information about eating features in the living area. */
+export interface LivingAreaEating {
+  /** Toaster exception. */
+  toasterException?: LivingAreaEatingToasterExceptionEnum | (string & {});
+  /** Dishwasher exception. */
+  dishwasherException?: LivingAreaEatingDishwasherExceptionEnum | (string & {});
+  /** Kettle. A covered container with a handle and a spout used for boiling water. */
+  kettle?: boolean;
+  /** Sink exception. */
+  sinkException?: LivingAreaEatingSinkExceptionEnum | (string & {});
+  /** Kettle exception. */
+  kettleException?: LivingAreaEatingKettleExceptionEnum | (string & {});
+  /** Minibar exception. */
+  minibarException?: LivingAreaEatingMinibarExceptionEnum | (string & {});
+  /** Refrigerator exception. */
+  refrigeratorException?: LivingAreaEatingRefrigeratorExceptionEnum | (string & {});
+  /** Snackbar. A small cabinet in the guestroom containing snacks. The items are most commonly available for a fee. */
+  snackbar?: boolean;
+  /** Oven exception. */
+  ovenException?: LivingAreaEatingOvenExceptionEnum | (string & {});
+  /** Tea station exception. */
+  teaStationException?: LivingAreaEatingTeaStationExceptionEnum | (string & {});
+  /** Outdoor grill exception. */
+  outdoorGrillException?: LivingAreaEatingOutdoorGrillExceptionEnum | (string & {});
+  /** Refrigerator. A large, climate-controlled electrical cabinet with vertical doors. Built for the purpose of chilling and storing perishable foods. */
+  refrigerator?: boolean;
+  /** Dishwasher. A counter-height electrical cabinet containing racks for dirty dishware, cookware and cutlery, and a dispenser for soap built into the pull-down door. The cabinet is attached to the plumbing system to facilitate the automatic cleaning of its contents. */
+  dishwasher?: boolean;
+  /** Stove exception. */
+  stoveException?: LivingAreaEatingStoveExceptionEnum | (string & {});
+  /** Coffee maker. An electric appliance that brews coffee by heating and forcing water through ground coffee. */
+  coffeeMaker?: boolean;
+  /** Kitchen available. An area of the guestroom designated for the preparation and storage of food via the presence of a refrigerator, cook top, oven and sink, as well as cutlery, dishes and cookware. Usually includes small appliances such a coffee maker and a microwave. May or may not include an automatic dishwasher. */
+  kitchenAvailable?: boolean;
+  /** Stove. A kitchen appliance powered by gas or electricity for the purpose of creating a flame or hot surface on which pots of food can be cooked. Also known as cooktop or hob. */
+  stove?: boolean;
+  /** Microwave. An electric oven that quickly cooks and heats food by microwave energy. Smaller than a standing or wall mounted oven. Usually placed on a kitchen counter, a shelf or tabletop or mounted above a cooktop. */
+  microwave?: boolean;
+  /** Kitchen available exception. */
+  kitchenAvailableException?: LivingAreaEatingKitchenAvailableExceptionEnum | (string & {});
+  /** Tea station. A small area with the supplies needed to heat water and make tea. */
+  teaStation?: boolean;
+  /** Oven. A temperature controlled, heated metal cabinet powered by gas or electricity in which food is placed for the purpose of cooking or reheating. */
+  oven?: boolean;
+  /** Microwave exception. */
+  microwaveException?: LivingAreaEatingMicrowaveExceptionEnum | (string & {});
+  /** Indoor grill exception. */
+  indoorGrillException?: LivingAreaEatingIndoorGrillExceptionEnum | (string & {});
+  /** Toaster. A small, temperature controlled electric appliance with rectangular slots at the top that are lined with heated coils for the purpose of browning slices of bread products. */
+  toaster?: boolean;
+  /** Snackbar exception. */
+  snackbarException?: LivingAreaEatingSnackbarExceptionEnum | (string & {});
+  /** Indoor grill. Metal grates built into an indoor cooktop on which food is cooked over an open flame or electric heat source. */
+  indoorGrill?: boolean;
+  /** Sink. A basin with a faucet attached to a water source and used for the purpose of washing and rinsing. */
+  sink?: boolean;
+  /** Cookware exception. */
+  cookwareException?: LivingAreaEatingCookwareExceptionEnum | (string & {});
+  /** Minibar. A small refrigerated cabinet in the guestroom containing bottles/cans of soft drinks, mini bottles of alcohol, and snacks. The items are most commonly available for a fee. */
+  minibar?: boolean;
+  /** Coffee maker exception. */
+  coffeeMakerException?: LivingAreaEatingCoffeeMakerExceptionEnum | (string & {});
+  /** Outdoor grill. Metal grates on which food is cooked over an open flame or electric heat source. Part of an outdoor apparatus that supports the grates. Also known as barbecue grill or barbecue. */
+  outdoorGrill?: boolean;
+  /** Cookware. Kitchen pots, pans and utensils used in connection with the preparation of food. */
+  cookware?: boolean;
+}
+export type LivingAreaFeaturesIroningEquipmentExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaFeaturesTvCastingExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaFeaturesTvStreamingExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaFeaturesAirConditioningExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaFeaturesTvExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaFeaturesDryerExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaFeaturesToiletExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaFeaturesInunitSafeExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaFeaturesElectronicRoomKeyExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaFeaturesBathtubExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaFeaturesHairdryerExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaFeaturesUniversalPowerAdaptersExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaFeaturesPrivateBathroomExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaFeaturesShowerExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaFeaturesHeatingExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaFeaturesInunitWifiAvailableExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaFeaturesBidetExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaFeaturesWasherExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaFeaturesFireplaceExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LivingAreaFeaturesPayPerViewMoviesExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Features in the living area. */
+export interface LivingAreaFeatures {
+  /** Ironing equipment exception. */
+  ironingEquipmentException?: LivingAreaFeaturesIroningEquipmentExceptionEnum | (string & {});
+  /** TV exception. */
+  tvCastingException?: LivingAreaFeaturesTvCastingExceptionEnum | (string & {});
+  /** TV streaming exception. */
+  tvStreamingException?: LivingAreaFeaturesTvStreamingExceptionEnum | (string & {});
+  /** Air conditioning exception. */
+  airConditioningException?: LivingAreaFeaturesAirConditioningExceptionEnum | (string & {});
+  /** In-unit Wifi available. Guests can wirelessly connect to the Internet in the guestroom. Can be free or for a fee. */
+  inunitWifiAvailable?: boolean;
+  /** Dryer. An electrical machine designed to dry clothing. */
+  dryer?: boolean;
+  /** TV exception. */
+  tvException?: LivingAreaFeaturesTvExceptionEnum | (string & {});
+  /** In-unit safe. A strong fireproof cabinet with a programmable lock, used for the protected storage of valuables in a guestroom. Often built into a closet. */
+  inunitSafe?: boolean;
+  /** Universal power adapters. A power supply for electronic devices which plugs into a wall for the purpose of converting AC to a single DC voltage. Also know as AC adapter or charger. */
+  universalPowerAdapters?: boolean;
+  /** Pay per view movies. Televisions with channels that offer films that can be viewed for a fee, and have an interface to allow the viewer to accept the terms and approve payment. */
+  payPerViewMovies?: boolean;
+  /** Dryer exception. */
+  dryerException?: LivingAreaFeaturesDryerExceptionEnum | (string & {});
+  /** Toilet exception. */
+  toiletException?: LivingAreaFeaturesToiletExceptionEnum | (string & {});
+  /** Fireplace. A framed opening (aka hearth) at the base of a chimney in which logs or an electrical fire feature are burned to provide a relaxing ambiance or to heat the room. Often made of bricks or stone. */
+  fireplace?: boolean;
+  /** In-unit safe exception. */
+  inunitSafeException?: LivingAreaFeaturesInunitSafeExceptionEnum | (string & {});
+  /** Electronic room key exception. */
+  electronicRoomKeyException?: LivingAreaFeaturesElectronicRoomKeyExceptionEnum | (string & {});
+  /** Washer. An electrical machine connected to a running water source designed to launder clothing. */
+  washer?: boolean;
+  /** Bidet. A plumbing fixture attached to a toilet or a low, fixed sink designed for the purpose of washing after toilet use. */
+  bidet?: boolean;
+  /** Air conditioning. An electrical machine used to cool the temperature of the guestroom. */
+  airConditioning?: boolean;
+  /** Bathtub exception. */
+  bathtubException?: LivingAreaFeaturesBathtubExceptionEnum | (string & {});
+  /** Hairdryer exception. */
+  hairdryerException?: LivingAreaFeaturesHairdryerExceptionEnum | (string & {});
+  /** Universal power adapters exception. */
+  universalPowerAdaptersException?:
+    | LivingAreaFeaturesUniversalPowerAdaptersExceptionEnum
+    | (string & {});
+  /** TV. A television is available in the guestroom. */
+  tv?: boolean;
+  /** Toilet. A fixed bathroom feature connected to a sewer or septic system and consisting of a water-flushed bowl with a seat, as well as a device that elicites the water-flushing action. Used for the process and disposal of human waste. */
+  toilet?: boolean;
+  /** Private bathroom exception. */
+  privateBathroomException?: LivingAreaFeaturesPrivateBathroomExceptionEnum | (string & {});
+  /** Shower exception. */
+  showerException?: LivingAreaFeaturesShowerExceptionEnum | (string & {});
+  /** Ironing equipment. A device, usually with a flat metal base, that is heated to smooth, finish, or press clothes and a flat, padded, cloth-covered surface on which the clothes are worked. */
+  ironingEquipment?: boolean;
+  /** Shower. A fixed plumbing fixture for standing bathing that features a tall spray spout or faucet through which water flows, a knob or knobs that control the water's temperature, and a drain in the floor. */
+  shower?: boolean;
+  /** Private bathroom. A bathroom designated for the express use of the guests staying in a specific guestroom. */
+  privateBathroom?: boolean;
+  /** TV streaming. Televisions that embed a range of web-based apps to allow for watching media from those apps. */
+  tvStreaming?: boolean;
+  /** TV casting. A television equipped with a device through which the video entertainment accessed on a personal computer, phone or tablet can be wirelessly delivered to and viewed on the guestroom's television. */
+  tvCasting?: boolean;
+  /** Heating exception. */
+  heatingException?: LivingAreaFeaturesHeatingExceptionEnum | (string & {});
+  /** In-unit Wifi available exception. */
+  inunitWifiAvailableException?: LivingAreaFeaturesInunitWifiAvailableExceptionEnum | (string & {});
+  /** Heating. An electrical machine used to warm the temperature of the guestroom. */
+  heating?: boolean;
+  /** Hairdryer. A handheld electric appliance that blows temperature-controlled air for the purpose of drying wet hair. Can be mounted to a bathroom wall or a freestanding device stored in the guestroom's bathroom or closet. */
+  hairdryer?: boolean;
+  /** Electronic room key. A card coded by the check-in computer that is read by the lock on the hotel guestroom door to allow for entry. */
+  electronicRoomKey?: boolean;
+  /** Bathtub. A fixed plumbing feature set on the floor and consisting of a large container that accommodates the body of an adult for the purpose of seated bathing. Includes knobs or fixtures to control the temperature of the water, a faucet through which the water flows, and a drain that can be closed for filling and opened for draining. */
+  bathtub?: boolean;
+  /** Bidet exception. */
+  bidetException?: LivingAreaFeaturesBidetExceptionEnum | (string & {});
+  /** Washer exception. */
+  washerException?: LivingAreaFeaturesWasherExceptionEnum | (string & {});
+  /** Fireplace exception. */
+  fireplaceException?: LivingAreaFeaturesFireplaceExceptionEnum | (string & {});
+  /** Pay per view movies exception. */
+  payPerViewMoviesException?: LivingAreaFeaturesPayPerViewMoviesExceptionEnum | (string & {});
+}
+/** An individual room, such as kitchen, bathroom, bedroom, within a bookable guest unit. */
+export interface LivingArea {
+  /** Information about the layout of the living area. */
+  layout?: LivingAreaLayout;
+  /** Accessibility features of the living area. */
+  accessibility?: LivingAreaAccessibility;
+  /** Information about sleeping features in the living area. */
+  sleeping?: LivingAreaSleeping;
+  /** Information about eating features in the living area. */
+  eating?: LivingAreaEating;
+  /** Features in the living area. */
+  features?: LivingAreaFeatures;
+}
+export type GuestUnitFeaturesSuiteExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type GuestUnitFeaturesPrivateHomeExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
@@ -893,12 +872,12 @@ export type ViewsFromUnitValleyViewExceptionEnum =
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ViewsFromUnitLakeViewExceptionEnum =
+export type ViewsFromUnitCityViewExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ViewsFromUnitCityViewExceptionEnum =
+export type ViewsFromUnitPoolViewExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
@@ -908,51 +887,66 @@ export type ViewsFromUnitLandmarkViewExceptionEnum =
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
+export type ViewsFromUnitOceanViewExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type ViewsFromUnitGardenViewExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
 export type ViewsFromUnitBeachViewExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ViewsFromUnitOceanViewExceptionEnum =
+export type ViewsFromUnitLakeViewExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
 /** Views available from the guest unit itself. */
 export interface ViewsFromUnit {
-  /** Pool view. A guestroom that features a window through which guests can see the hotel's swimming pool. */
-  poolView?: boolean;
-  /** Pool view exception. */
-  poolViewException?: ViewsFromUnitPoolViewExceptionEnum | (string & {});
-  /** Garden view exception. */
-  gardenViewException?: ViewsFromUnitGardenViewExceptionEnum | (string & {});
+  /** Beach view. A guestroom that features a window through which guests can see the beach. */
+  beachView?: boolean;
   /** Valley view exception. */
   valleyViewException?: ViewsFromUnitValleyViewExceptionEnum | (string & {});
   /** Lake view. */
   lakeView?: boolean;
-  /** Beach view. A guestroom that features a window through which guests can see the beach. */
-  beachView?: boolean;
-  /** Garden view. A guestroom that features a window through which guests can see a garden. */
-  gardenView?: boolean;
   /** City view. A guestroom that features a window through which guests can see the buildings, parks and/or streets of the city. */
   cityView?: boolean;
-  /** Lake view exception. */
-  lakeViewException?: ViewsFromUnitLakeViewExceptionEnum | (string & {});
-  /** Ocean view. A guestroom that features a window through which guests can see the ocean. */
-  oceanView?: boolean;
-  /** Valley view. A guestroom that features a window through which guests can see over a valley. */
-  valleyView?: boolean;
   /** City view exception. */
   cityViewException?: ViewsFromUnitCityViewExceptionEnum | (string & {});
-  /** Landmark view exception. */
-  landmarkViewException?: ViewsFromUnitLandmarkViewExceptionEnum | (string & {});
   /** Landmark view. A guestroom that features a window through which guests can see a landmark such as the countryside, a golf course, the forest, a park, a rain forst, a mountain or a slope. */
   landmarkView?: boolean;
-  /** Beach view exception. */
-  beachViewException?: ViewsFromUnitBeachViewExceptionEnum | (string & {});
+  /** Pool view exception. */
+  poolViewException?: ViewsFromUnitPoolViewExceptionEnum | (string & {});
+  /** Landmark view exception. */
+  landmarkViewException?: ViewsFromUnitLandmarkViewExceptionEnum | (string & {});
   /** Ocean view exception. */
   oceanViewException?: ViewsFromUnitOceanViewExceptionEnum | (string & {});
+  /** Garden view exception. */
+  gardenViewException?: ViewsFromUnitGardenViewExceptionEnum | (string & {});
+  /** Beach view exception. */
+  beachViewException?: ViewsFromUnitBeachViewExceptionEnum | (string & {});
+  /** Garden view. A guestroom that features a window through which guests can see a garden. */
+  gardenView?: boolean;
+  /** Pool view. A guestroom that features a window through which guests can see the hotel's swimming pool. */
+  poolView?: boolean;
+  /** Valley view. A guestroom that features a window through which guests can see over a valley. */
+  valleyView?: boolean;
+  /** Ocean view. A guestroom that features a window through which guests can see the ocean. */
+  oceanView?: boolean;
+  /** Lake view exception. */
+  lakeViewException?: ViewsFromUnitLakeViewExceptionEnum | (string & {});
 }
+export type GuestUnitFeaturesTierExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
 export type GuestUnitFeaturesExecutiveFloorExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
@@ -963,37 +957,20 @@ export type GuestUnitFeaturesMaxChildOccupantsCountExceptionEnum =
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type GuestUnitFeaturesSuiteExceptionEnum =
+export type GuestUnitFeaturesBungalowOrVillaExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
+export type GuestUnitFeaturesTierEnum = "UNIT_TIER_UNSPECIFIED" | "STANDARD_UNIT" | "DELUXE_UNIT";
 /** Features and available amenities in the guest unit. */
 export interface GuestUnitFeatures {
-  /** Bungalow or villa. An independent structure that is part of a hotel or resort that is rented to one party for a vacation stay. The hotel or resort may be completely comprised of bungalows or villas, or they may be one of several guestroom options. Guests in the bungalows or villas most often have the same, if not more, amenities and services offered to guests in other guestroom types. */
-  bungalowOrVilla?: boolean;
-  /** Features available in the living areas in the guest unit. */
-  totalLivingAreas?: LivingArea;
+  /** Max occupants count. The total number of guests allowed to stay overnight in the guestroom. */
+  maxOccupantsCount?: number;
   /** Executive floor. A floor of the hotel where the guestrooms are only bookable by members of the hotel's frequent guest membership program. Benefits of this room class include access to a designated lounge which may or may not feature free breakfast, cocktails or other perks specific to members of the program. */
   executiveFloor?: boolean;
-  /** Suite. A guestroom category that implies both a bedroom area and a separate living area. There may or may not be full walls and doors separating the two areas, but regardless, they are very distinct. Does not mean a couch or chair in a bedroom. */
-  suite?: boolean;
-  /** Max adult occupants count. The total number of adult guests allowed to stay overnight in the guestroom. */
-  maxAdultOccupantsCount?: number;
-  /** Tier. Classification of the unit based on available features/amenities. A non-standard tier is only permitted if at least one other unit type falls under the standard tier. */
-  tier?: GuestUnitFeaturesTierEnum | (string & {});
-  /** Connecting unit available. A guestroom type that features access to an adjacent guestroom for the purpose of booking both rooms. Most often used by families who need more than one room to accommodate the number of people in their group. */
-  connectingUnitAvailable?: boolean;
   /** Max occupants count exception. */
   maxOccupantsCountException?: GuestUnitFeaturesMaxOccupantsCountExceptionEnum | (string & {});
-  /** Private home exception. */
-  privateHomeException?: GuestUnitFeaturesPrivateHomeExceptionEnum | (string & {});
-  /** Private home. A privately owned home (house, townhouse, apartment, cabin, bungalow etc) that may or not serve as the owner's residence, but is rented out in its entirety or by the room(s) to paying guest(s) for vacation stays. Not for lease-based, long-term residency. */
-  privateHome?: boolean;
-  /** Max child occupants count. The total number of children allowed to stay overnight in the room. */
-  maxChildOccupantsCount?: number;
-  /** Bungalow or villa exception. */
-  bungalowOrVillaException?: GuestUnitFeaturesBungalowOrVillaExceptionEnum | (string & {});
   /** Connecting unit available exception. */
   connectingUnitAvailableException?:
     | GuestUnitFeaturesConnectingUnitAvailableExceptionEnum
@@ -1002,20 +979,38 @@ export interface GuestUnitFeatures {
   maxAdultOccupantsCountException?:
     | GuestUnitFeaturesMaxAdultOccupantsCountExceptionEnum
     | (string & {});
-  /** Max occupants count. The total number of guests allowed to stay overnight in the guestroom. */
-  maxOccupantsCount?: number;
-  /** Tier exception. */
-  tierException?: GuestUnitFeaturesTierExceptionEnum | (string & {});
+  /** Bungalow or villa. An independent structure that is part of a hotel or resort that is rented to one party for a vacation stay. The hotel or resort may be completely comprised of bungalows or villas, or they may be one of several guestroom options. Guests in the bungalows or villas most often have the same, if not more, amenities and services offered to guests in other guestroom types. */
+  bungalowOrVilla?: boolean;
+  /** Features available in the living areas in the guest unit. */
+  totalLivingAreas?: LivingArea;
+  /** Private home. A privately owned home (house, townhouse, apartment, cabin, bungalow etc) that may or not serve as the owner's residence, but is rented out in its entirety or by the room(s) to paying guest(s) for vacation stays. Not for lease-based, long-term residency. */
+  privateHome?: boolean;
+  /** Suite exception. */
+  suiteException?: GuestUnitFeaturesSuiteExceptionEnum | (string & {});
+  /** Private home exception. */
+  privateHomeException?: GuestUnitFeaturesPrivateHomeExceptionEnum | (string & {});
   /** Views available from the guest unit itself. */
   views?: ViewsFromUnit;
+  /** Tier exception. */
+  tierException?: GuestUnitFeaturesTierExceptionEnum | (string & {});
+  /** Max child occupants count. The total number of children allowed to stay overnight in the room. */
+  maxChildOccupantsCount?: number;
   /** Executive floor exception. */
   executiveFloorException?: GuestUnitFeaturesExecutiveFloorExceptionEnum | (string & {});
+  /** Connecting unit available. A guestroom type that features access to an adjacent guestroom for the purpose of booking both rooms. Most often used by families who need more than one room to accommodate the number of people in their group. */
+  connectingUnitAvailable?: boolean;
+  /** Suite. A guestroom category that implies both a bedroom area and a separate living area. There may or may not be full walls and doors separating the two areas, but regardless, they are very distinct. Does not mean a couch or chair in a bedroom. */
+  suite?: boolean;
   /** Max child occupants count exception. */
   maxChildOccupantsCountException?:
     | GuestUnitFeaturesMaxChildOccupantsCountExceptionEnum
     | (string & {});
-  /** Suite exception. */
-  suiteException?: GuestUnitFeaturesSuiteExceptionEnum | (string & {});
+  /** Bungalow or villa exception. */
+  bungalowOrVillaException?: GuestUnitFeaturesBungalowOrVillaExceptionEnum | (string & {});
+  /** Max adult occupants count. The total number of adult guests allowed to stay overnight in the guestroom. */
+  maxAdultOccupantsCount?: number;
+  /** Tier. Classification of the unit based on available features/amenities. A non-standard tier is only permitted if at least one other unit type falls under the standard tier. */
+  tier?: GuestUnitFeaturesTierEnum | (string & {});
 }
 export type StringList = Array<string>;
 /** A specific type of unit primarily defined by its features. */
@@ -1028,702 +1023,640 @@ export interface GuestUnitType {
   codes?: StringList;
 }
 export type GuestUnitTypeList = Array<GuestUnitType>;
-export type IncreasedFoodSafetyDiningAreasAdditionalSanitationExceptionEnum =
+export type ConnectivityWifiAvailableExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type IncreasedFoodSafetyIndividualPackagedMealsExceptionEnum =
+export type ConnectivityFreeWifiExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type IncreasedFoodSafetySingleUseFoodMenusExceptionEnum =
+export type ConnectivityPublicAreaWifiAvailableExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type IncreasedFoodSafetyFoodPreparationAndServingAdditionalSafetyExceptionEnum =
+export type ConnectivityPublicInternetTerminalExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type IncreasedFoodSafetyDisposableFlatwareExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Increased food safety measures implemented by the hotel during COVID-19. */
-export interface IncreasedFoodSafety {
-  /** Dining areas additional sanitation exception. */
-  diningAreasAdditionalSanitationException?:
-    | IncreasedFoodSafetyDiningAreasAdditionalSanitationExceptionEnum
+/** The ways in which the property provides guests with the ability to access the internet. */
+export interface Connectivity {
+  /** Wifi available. The hotel provides the ability for guests to wirelessly connect to the internet. Can be in the public areas of the hotel and/or in the guest rooms. Can be free or for a fee. */
+  wifiAvailable?: boolean;
+  /** Free wifi. The hotel offers guests wifi for free. */
+  freeWifi?: boolean;
+  /** Wifi available exception. */
+  wifiAvailableException?: ConnectivityWifiAvailableExceptionEnum | (string & {});
+  /** Public internet terminal. An area of the hotel supplied with computers and designated for the purpose of providing guests with the ability to access the internet. */
+  publicInternetTerminal?: boolean;
+  /** Public area wifi available. Guests have the ability to wirelessly connect to the internet in the areas of the hotel accessible to anyone. Can be free or for a fee. */
+  publicAreaWifiAvailable?: boolean;
+  /** Free wifi exception. */
+  freeWifiException?: ConnectivityFreeWifiExceptionEnum | (string & {});
+  /** Public area wifi available exception. */
+  publicAreaWifiAvailableException?:
+    | ConnectivityPublicAreaWifiAvailableExceptionEnum
     | (string & {});
-  /** Individual packaged meals exception. */
-  individualPackagedMealsException?:
-    | IncreasedFoodSafetyIndividualPackagedMealsExceptionEnum
-    | (string & {});
-  /** Additional sanitation in dining areas. */
-  diningAreasAdditionalSanitation?: boolean;
-  /** Individually-packaged meals. */
-  individualPackagedMeals?: boolean;
-  /** Disposable flatware. */
-  disposableFlatware?: boolean;
-  /** Single use food menus exception. */
-  singleUseFoodMenusException?: IncreasedFoodSafetySingleUseFoodMenusExceptionEnum | (string & {});
-  /** Single-use menus. */
-  singleUseFoodMenus?: boolean;
-  /** Additional safety measures during food prep and serving. */
-  foodPreparationAndServingAdditionalSafety?: boolean;
-  /** Food preparation and serving additional safety exception. */
-  foodPreparationAndServingAdditionalSafetyException?:
-    | IncreasedFoodSafetyFoodPreparationAndServingAdditionalSafetyExceptionEnum
-    | (string & {});
-  /** Disposable flatware exception. */
-  disposableFlatwareException?: IncreasedFoodSafetyDisposableFlatwareExceptionEnum | (string & {});
+  /** Public internet terminal exception. */
+  publicInternetTerminalException?: ConnectivityPublicInternetTerminalExceptionEnum | (string & {});
 }
-export type EnhancedCleaningEmployeesTrainedCleaningProceduresExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type EnhancedCleaningEmployeesTrainedThoroughHandWashingExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type EnhancedCleaningCommercialGradeDisinfectantCleaningExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type EnhancedCleaningCommonAreasEnhancedCleaningExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type EnhancedCleaningEmployeesWearProtectiveEquipmentExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type EnhancedCleaningGuestRoomsEnhancedCleaningExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Enhanced cleaning measures implemented by the hotel during COVID-19. */
-export interface EnhancedCleaning {
-  /** Employees trained cleaning procedures exception. */
-  employeesTrainedCleaningProceduresException?:
-    | EnhancedCleaningEmployeesTrainedCleaningProceduresExceptionEnum
-    | (string & {});
-  /** Employees trained thorough hand washing exception. */
-  employeesTrainedThoroughHandWashingException?:
-    | EnhancedCleaningEmployeesTrainedThoroughHandWashingExceptionEnum
-    | (string & {});
-  /** Commercial-grade disinfectant used to clean the property. */
-  commercialGradeDisinfectantCleaning?: boolean;
-  /** Commercial grade disinfectant cleaning exception. */
-  commercialGradeDisinfectantCleaningException?:
-    | EnhancedCleaningCommercialGradeDisinfectantCleaningExceptionEnum
-    | (string & {});
-  /** Enhanced cleaning of guest rooms. */
-  guestRoomsEnhancedCleaning?: boolean;
-  /** Employees wear masks, face shields, and/or gloves. */
-  employeesWearProtectiveEquipment?: boolean;
-  /** Enhanced cleaning of common areas. */
-  commonAreasEnhancedCleaning?: boolean;
-  /** Common areas enhanced cleaning exception. */
-  commonAreasEnhancedCleaningException?:
-    | EnhancedCleaningCommonAreasEnhancedCleaningExceptionEnum
-    | (string & {});
-  /** Employees wear protective equipment exception. */
-  employeesWearProtectiveEquipmentException?:
-    | EnhancedCleaningEmployeesWearProtectiveEquipmentExceptionEnum
-    | (string & {});
-  /** Guest rooms enhanced cleaning exception. */
-  guestRoomsEnhancedCleaningException?:
-    | EnhancedCleaningGuestRoomsEnhancedCleaningExceptionEnum
-    | (string & {});
-  /** Employees trained in thorough hand-washing. */
-  employeesTrainedThoroughHandWashing?: boolean;
-  /** Employees trained in COVID-19 cleaning procedures. */
-  employeesTrainedCleaningProcedures?: boolean;
+/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
+export interface TimeOfDay {
+  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number;
+  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
+  minutes?: number;
+  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number;
+  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
+  nanos?: number;
 }
-export type MinimizedContactContactlessCheckinCheckoutExceptionEnum =
+export type PoliciesAllInclusiveAvailableExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type MinimizedContactRoomBookingsBufferExceptionEnum =
+export type PoliciesKidsStayFreeExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type MinimizedContactNoHighTouchItemsGuestRoomsExceptionEnum =
+export type PoliciesMaxChildAgeExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type MinimizedContactNoHighTouchItemsCommonAreasExceptionEnum =
+export type PaymentOptionsChequeExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type MinimizedContactHousekeepingScheduledRequestOnlyExceptionEnum =
+export type PaymentOptionsDebitCardExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type MinimizedContactPlasticKeycardsDisinfectedExceptionEnum =
+export type PaymentOptionsMobileNfcExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type MinimizedContactDigitalGuestRoomKeysExceptionEnum =
+export type PaymentOptionsCreditCardExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Minimized contact measures implemented by the hotel during COVID-19. */
-export interface MinimizedContact {
-  /** Contactless check-in check-out exception. */
-  contactlessCheckinCheckoutException?:
-    | MinimizedContactContactlessCheckinCheckoutExceptionEnum
-    | (string & {});
-  /** Room bookings buffer exception. */
-  roomBookingsBufferException?: MinimizedContactRoomBookingsBufferExceptionEnum | (string & {});
-  /** No-contact check-in and check-out. */
-  contactlessCheckinCheckout?: boolean;
-  /** High-touch items, such as decorative pillows, removed from guest rooms. */
-  noHighTouchItemsGuestRooms?: boolean;
-  /** Keyless mobile entry to guest rooms. */
-  digitalGuestRoomKeys?: boolean;
-  /** No high touch items guest rooms exception. */
-  noHighTouchItemsGuestRoomsException?:
-    | MinimizedContactNoHighTouchItemsGuestRoomsExceptionEnum
-    | (string & {});
-  /** Buffer maintained between room bookings. */
-  roomBookingsBuffer?: boolean;
-  /** No high touch items common areas exception. */
-  noHighTouchItemsCommonAreasException?:
-    | MinimizedContactNoHighTouchItemsCommonAreasExceptionEnum
-    | (string & {});
-  /** Housekeeping scheduled request only exception. */
-  housekeepingScheduledRequestOnlyException?:
-    | MinimizedContactHousekeepingScheduledRequestOnlyExceptionEnum
-    | (string & {});
-  /** Plastic key cards are disinfected or discarded. */
-  plasticKeycardsDisinfected?: boolean;
-  /** Housekeeping scheduled by request only. */
-  housekeepingScheduledRequestOnly?: boolean;
-  /** High-touch items, such as magazines, removed from common areas. */
-  noHighTouchItemsCommonAreas?: boolean;
-  /** Plastic keycards disinfected exception. */
-  plasticKeycardsDisinfectedException?:
-    | MinimizedContactPlasticKeycardsDisinfectedExceptionEnum
-    | (string & {});
-  /** Digital guest room keys exception. */
-  digitalGuestRoomKeysException?: MinimizedContactDigitalGuestRoomKeysExceptionEnum | (string & {});
+export type PaymentOptionsCashExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Forms of payment accepted at the property. */
+export interface PaymentOptions {
+  /** Mobile nfc. The hotel has the compatible computer hardware terminal that reads and charges a payment app on the guest's smartphone without requiring the two devices to make physical contact. Also known as Apple Pay, Google Pay, Samsung Pay. */
+  mobileNfc?: boolean;
+  /** Cheque exception. */
+  chequeException?: PaymentOptionsChequeExceptionEnum | (string & {});
+  /** Debit card exception. */
+  debitCardException?: PaymentOptionsDebitCardExceptionEnum | (string & {});
+  /** Debit card. The hotel accepts a bank-issued card that immediately deducts the charged funds from the guest's bank account upon processing. */
+  debitCard?: boolean;
+  /** Mobile nfc exception. */
+  mobileNfcException?: PaymentOptionsMobileNfcExceptionEnum | (string & {});
+  /** Credit card. The hotel accepts payment by a card issued by a bank or credit card company. Also known as charge card, debit card, bank card, or charge plate. */
+  creditCard?: boolean;
+  /** Cash. The hotel accepts payment by paper/coin currency. */
+  cash?: boolean;
+  /** Credit card exception. */
+  creditCardException?: PaymentOptionsCreditCardExceptionEnum | (string & {});
+  /** Cash exception. */
+  cashException?: PaymentOptionsCashExceptionEnum | (string & {});
+  /** Cheque. The hotel accepts a printed document issued by the guest's bank in the guest's name as a form of payment. */
+  cheque?: boolean;
 }
-export type PersonalProtectionProtectiveEquipmentAvailableExceptionEnum =
+export type PoliciesMaxKidsStayFreeCountExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PersonalProtectionCommonAreasOfferSanitizingItemsExceptionEnum =
+export type PoliciesCheckinTimeExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PersonalProtectionFaceMaskRequiredExceptionEnum =
+export type PoliciesAllInclusiveOnlyExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PersonalProtectionGuestRoomHygieneKitsAvailableExceptionEnum =
+export type PoliciesCheckoutTimeExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Personal protection measures implemented by the hotel during COVID-19. */
-export interface PersonalProtection {
-  /** Protective equipment available exception. */
-  protectiveEquipmentAvailableException?:
-    | PersonalProtectionProtectiveEquipmentAvailableExceptionEnum
-    | (string & {});
-  /** Common areas offer sanitizing items exception. */
-  commonAreasOfferSanitizingItemsException?:
-    | PersonalProtectionCommonAreasOfferSanitizingItemsExceptionEnum
-    | (string & {});
-  /** In-room hygiene kits with masks, hand sanitizer, and/or antibacterial wipes. */
-  guestRoomHygieneKitsAvailable?: boolean;
-  /** Hand-sanitizer and/or sanitizing wipes are offered in common areas. */
-  commonAreasOfferSanitizingItems?: boolean;
-  /** Masks and/or gloves available for guests. */
-  protectiveEquipmentAvailable?: boolean;
-  /** Face mask required exception. */
-  faceMaskRequiredException?: PersonalProtectionFaceMaskRequiredExceptionEnum | (string & {});
-  /** Guest room hygiene kits available exception. */
-  guestRoomHygieneKitsAvailableException?:
-    | PersonalProtectionGuestRoomHygieneKitsAvailableExceptionEnum
-    | (string & {});
-  /** Masks required on the property. */
-  faceMaskRequired?: boolean;
+export type PoliciesSmokeFreePropertyExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Property rules that impact guests. */
+export interface Policies {
+  /** Check-out time. The time of the day on the last day of a guest's reserved stay at which the guest must vacate their room and settle their bill. Some hotels may offer late or early check out for a fee. */
+  checkoutTime?: TimeOfDay;
+  /** All inclusive available exception. */
+  allInclusiveAvailableException?: PoliciesAllInclusiveAvailableExceptionEnum | (string & {});
+  /** Kids stay free exception. */
+  kidsStayFreeException?: PoliciesKidsStayFreeExceptionEnum | (string & {});
+  /** Max child age exception. */
+  maxChildAgeException?: PoliciesMaxChildAgeExceptionEnum | (string & {});
+  /** Kids stay free. The children of guests are allowed to stay in the room/suite of a parent or adult without an additional fee. The policy may or may not stipulate a limit of the child's age or the overall number of children allowed. */
+  kidsStayFree?: boolean;
+  /** Forms of payment accepted at the property. */
+  paymentOptions?: PaymentOptions;
+  /** Check-in time. The time of the day at which the hotel begins providing guests access to their unit at the beginning of their stay. */
+  checkinTime?: TimeOfDay;
+  /** All inclusive available. The hotel offers a rate option that includes the cost of the room, meals, activities, and other amenities that might otherwise be charged separately. */
+  allInclusiveAvailable?: boolean;
+  /** Smoke free property. Smoking is not allowed inside the building, on balconies, or in outside spaces. Hotels that offer a designated area for guests to smoke are not considered smoke-free properties. */
+  smokeFreeProperty?: boolean;
+  /** Max kids stay free count exception. */
+  maxKidsStayFreeCountException?: PoliciesMaxKidsStayFreeCountExceptionEnum | (string & {});
+  /** All inclusive only. The only rate option offered by the hotel is a rate that includes the cost of the room, meals, activities and other amenities that might otherwise be charged separately. */
+  allInclusiveOnly?: boolean;
+  /** Check-in time exception. */
+  checkinTimeException?: PoliciesCheckinTimeExceptionEnum | (string & {});
+  /** Max child age. The hotel allows children up to a certain age to stay in the room/suite of a parent or adult without an additional fee. */
+  maxChildAge?: number;
+  /** All inclusive only exception. */
+  allInclusiveOnlyException?: PoliciesAllInclusiveOnlyExceptionEnum | (string & {});
+  /** Max kids stay free count. The hotel allows a specific, defined number of children to stay in the room/suite of a parent or adult without an additional fee. */
+  maxKidsStayFreeCount?: number;
+  /** Check-out time exception. */
+  checkoutTimeException?: PoliciesCheckoutTimeExceptionEnum | (string & {});
+  /** Smoke free property exception. */
+  smokeFreePropertyException?: PoliciesSmokeFreePropertyExceptionEnum | (string & {});
 }
-export type PhysicalDistancingCommonAreasPhysicalDistancingArrangedExceptionEnum =
+export type PetsPetsAllowedExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PhysicalDistancingWellnessAreasHavePrivateSpacesExceptionEnum =
+export type PetsCatsAllowedExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PhysicalDistancingSafetyDividersExceptionEnum =
+export type PetsPetsAllowedFreeExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PhysicalDistancingPhysicalDistancingRequiredExceptionEnum =
+export type PetsDogsAllowedExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PhysicalDistancingSharedAreasLimitedOccupancyExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Physical distancing measures implemented by the hotel during COVID-19. */
-export interface PhysicalDistancing {
-  /** Guest occupancy limited within shared facilities. */
-  sharedAreasLimitedOccupancy?: boolean;
-  /** Private spaces designated in spa and wellness areas. */
-  wellnessAreasHavePrivateSpaces?: boolean;
-  /** Common areas physical distancing arranged exception. */
-  commonAreasPhysicalDistancingArrangedException?:
-    | PhysicalDistancingCommonAreasPhysicalDistancingArrangedExceptionEnum
-    | (string & {});
-  /** Wellness areas have private spaces exception. */
-  wellnessAreasHavePrivateSpacesException?:
-    | PhysicalDistancingWellnessAreasHavePrivateSpacesExceptionEnum
-    | (string & {});
-  /** Safety dividers at front desk and other locations. */
-  safetyDividers?: boolean;
-  /** Safety dividers exception. */
-  safetyDividersException?: PhysicalDistancingSafetyDividersExceptionEnum | (string & {});
-  /** Physical distancing required. */
-  physicalDistancingRequired?: boolean;
-  /** Physical distancing required exception. */
-  physicalDistancingRequiredException?:
-    | PhysicalDistancingPhysicalDistancingRequiredExceptionEnum
-    | (string & {});
-  /** Shared areas limited occupancy exception. */
-  sharedAreasLimitedOccupancyException?:
-    | PhysicalDistancingSharedAreasLimitedOccupancyExceptionEnum
-    | (string & {});
-  /** Common areas arranged to maintain physical distancing. */
-  commonAreasPhysicalDistancingArranged?: boolean;
+/** Policies regarding guest-owned animals. */
+export interface Pets {
+  /** Pets allowed exception. */
+  petsAllowedException?: PetsPetsAllowedExceptionEnum | (string & {});
+  /** Cats allowed exception. */
+  catsAllowedException?: PetsCatsAllowedExceptionEnum | (string & {});
+  /** Dogs allowed. Domesticated canines are permitted at the property and allowed to stay in the guest room of their owner. May or may not require a fee. */
+  dogsAllowed?: boolean;
+  /** Pets allowed free. Household animals are allowed at the property and in the specific guest room of their owner for free. May or may not include dogs, cats, reptiles, and/or fish. */
+  petsAllowedFree?: boolean;
+  /** Pets allowed. Household animals are allowed at the property and in the specific guest room of their owner. May or may not include dogs, cats, reptiles and/or fish. May or may not require a fee. Service animals are not considered to be pets, so not governed by this policy. */
+  petsAllowed?: boolean;
+  /** Pets allowed free exception. */
+  petsAllowedFreeException?: PetsPetsAllowedFreeExceptionEnum | (string & {});
+  /** Cats allowed. Domesticated felines are permitted at the property and allowed to stay in the guest room of their owner. May or may not require a fee. */
+  catsAllowed?: boolean;
+  /** Dogs allowed exception. */
+  dogsAllowedException?: PetsDogsAllowedExceptionEnum | (string & {});
 }
-/** Health and safety measures implemented by the hotel during COVID-19. */
-export interface HealthAndSafety {
-  /** Increased food safety measures implemented by the hotel during COVID-19. */
-  increasedFoodSafety?: IncreasedFoodSafety;
-  /** Enhanced cleaning measures implemented by the hotel during COVID-19. */
-  enhancedCleaning?: EnhancedCleaning;
-  /** Minimized contact measures implemented by the hotel during COVID-19. */
-  minimizedContact?: MinimizedContact;
-  /** Personal protection measures implemented by the hotel during COVID-19. */
-  personalProtection?: PersonalProtection;
-  /** Physical distancing measures implemented by the hotel during COVID-19. */
-  physicalDistancing?: PhysicalDistancing;
+export type ServicesConciergeExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type ServicesBaggageStorageExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type ServicesSelfServiceLaundryExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type ServicesGiftShopExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type ServicesElevatorExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type ServicesWakeUpCallsExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type ServicesSocialHourExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type ServicesConvenienceStoreExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type ServicesFrontDeskExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type ServicesFullServiceLaundryExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type ServicesCurrencyExchangeExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type LanguageSpokenSpokenExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Language spoken by at least one staff member. */
+export interface LanguageSpoken {
+  /** Required. The BCP-47 language code for the spoken language. Currently accepted codes: ar, de, en, es, fil, fr, hi, id, it, ja, ko, nl, pt, ru, vi, yue, zh. */
+  languageCode?: string;
+  /** Spoken exception. */
+  spokenException?: LanguageSpokenSpokenExceptionEnum | (string & {});
+  /** At least one member of the staff can speak the language. */
+  spoken?: boolean;
 }
-export type ActivitiesBoutiqueStoresExceptionEnum =
+export type LanguageSpokenList = Array<LanguageSpoken>;
+export type ServicesTwentyFourHourFrontDeskExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ActivitiesBeachFrontExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ActivitiesPrivateBeachExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ActivitiesGameRoomExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ActivitiesHorsebackRidingExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ActivitiesGolfExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ActivitiesNightclubExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ActivitiesBicycleRentalExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ActivitiesFreeWatercraftRentalExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ActivitiesSnorkelingExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ActivitiesTennisExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ActivitiesFreeBicycleRentalExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ActivitiesScubaExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ActivitiesWatercraftRentalExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ActivitiesBeachAccessExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ActivitiesWaterSkiingExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ActivitiesCasinoExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Amenities and features related to leisure and play. */
-export interface Activities {
-  /** Nightclub. There is a room at the hotel with a bar, a dance floor, and seating where designated staffers play dance music. There may also be a designated area for the performance of live music, singing and comedy acts. */
-  nightclub?: boolean;
-  /** Free watercraft rental. The hotel owns watercraft that it permits guests to borrow and use for free. */
-  freeWatercraftRental?: boolean;
-  /** Boutique stores exception. */
-  boutiqueStoresException?: ActivitiesBoutiqueStoresExceptionEnum | (string & {});
-  /** Scuba. The provision for guests to dive under naturally occurring water fitted with a self-contained underwater breathing apparatus (SCUBA) for the purpose of exploring underwater life. Apparatus consists of a tank providing oxygen to the diver through a mask. Requires certification of the diver and supervision. The hotel may have the activity at its own waterfront or have an affiliation with a nearby facility. Required equipment is most often supplied to guests. Can be free or for a fee. Not snorkeling. Not done in a swimming pool. */
-  scuba?: boolean;
-  /** Casino. A space designated for gambling and gaming featuring croupier-run table and card games, as well as electronic slot machines. May be on hotel premises or located nearby. */
-  casino?: boolean;
-  /** Beach front exception. */
-  beachFrontException?: ActivitiesBeachFrontExceptionEnum | (string & {});
-  /** Private beach exception. */
-  privateBeachException?: ActivitiesPrivateBeachExceptionEnum | (string & {});
-  /** Horseback riding. The hotel has a horse barn onsite or an affiliation with a nearby barn to allow for guests to sit astride a horse and direct it to walk, trot, cantor, gallop and/or jump. Can be in a riding ring, on designated paths, or in the wilderness. May or may not involve instruction. */
-  horsebackRiding?: boolean;
-  /** Game room exception. */
-  gameRoomException?: ActivitiesGameRoomExceptionEnum | (string & {});
-  /** Water skiing. The provision of giving guests the opportunity to be pulled across naturally occurring water while standing on skis and holding a tow rope attached to a motorboat. Can occur on hotel premises or at a nearby waterfront. Most often performed in a lake or ocean. */
-  waterSkiing?: boolean;
-  /** Horseback riding exception. */
-  horsebackRidingException?: ActivitiesHorsebackRidingExceptionEnum | (string & {});
-  /** Golf exception. */
-  golfException?: ActivitiesGolfExceptionEnum | (string & {});
-  /** Beach access. The hotel property is in close proximity to a beach and offers a way to get to that beach. This can include a route to the beach such as stairs down if hotel is on a bluff, or a short trail. Not the same as beachfront (with beach access, the hotel's proximity is close to but not right on the beach). */
-  beachAccess?: boolean;
-  /** Breach front. The hotel property is physically located on the beach alongside an ocean, sea, gulf, or bay. It is not on a lake, river, stream, or pond. The hotel is not separated from the beach by a public road allowing vehicular, pedestrian, or bicycle traffic. */
-  beachFront?: boolean;
-  /** Game room. There is a room at the hotel containing electronic machines for play such as pinball, prize machines, driving simulators, and other items commonly found at a family fun center or arcade. May also include non-electronic games like pool, foosball, darts, and more. May or may not be designed for children. Also known as arcade, fun room, or family fun center. */
-  gameRoom?: boolean;
-  /** Free bicycle rental. The hotel owns bicycles that it permits guests to borrow and use for free. */
-  freeBicycleRental?: boolean;
-  /** Nightclub exception. */
-  nightclubException?: ActivitiesNightclubExceptionEnum | (string & {});
-  /** Bicycle rental exception. */
-  bicycleRentalException?: ActivitiesBicycleRentalExceptionEnum | (string & {});
-  /** Free Watercraft rental exception. */
-  freeWatercraftRentalException?: ActivitiesFreeWatercraftRentalExceptionEnum | (string & {});
-  /** Tennis. The hotel has the requisite court(s) on site or has an affiliation with a nearby facility for the purpose of providing guests with the opportunity to play a two-sided court-based game in which players use a stringed racquet to hit a ball across a net to the side of the opposing player. The court can be indoors or outdoors. Instructors, racquets and balls may or may not be provided. */
-  tennis?: boolean;
-  /** Snorkeling exception. */
-  snorkelingException?: ActivitiesSnorkelingExceptionEnum | (string & {});
-  /** Tennis exception. */
-  tennisException?: ActivitiesTennisExceptionEnum | (string & {});
-  /** Boutique stores. There are stores selling clothing, jewelry, art and decor either on hotel premises or very close by. Does not refer to the hotel gift shop or convenience store. */
-  boutiqueStores?: boolean;
-  /** Private beach. The beach which is in close proximity to the hotel is open only to guests. */
-  privateBeach?: boolean;
-  /** Free bicycle rental exception. */
-  freeBicycleRentalException?: ActivitiesFreeBicycleRentalExceptionEnum | (string & {});
-  /** Scuba exception. */
-  scubaException?: ActivitiesScubaExceptionEnum | (string & {});
-  /** Golf. There is a golf course on hotel grounds or there is a nearby, independently run golf course that allows use by hotel guests. Can be free or for a fee. */
-  golf?: boolean;
-  /** Bicycle rental. The hotel owns bicycles that it permits guests to borrow and use. Can be free or for a fee. */
-  bicycleRental?: boolean;
-  /** Watercraft rental exception. */
-  watercraftRentalException?: ActivitiesWatercraftRentalExceptionEnum | (string & {});
-  /** Snorkeling. The provision for guests to participate in a recreational water activity in which swimmers wear a diving mask, a simple, shaped breathing tube and flippers/swim fins for the purpose of exploring below the surface of an ocean, gulf or lake. Does not usually require user certification or professional supervision. Equipment may or may not be available for rent or purchase. Not scuba diving. */
-  snorkeling?: boolean;
-  /** Beach access exception. */
-  beachAccessException?: ActivitiesBeachAccessExceptionEnum | (string & {});
-  /** Watercraft rental. The hotel owns water vessels that it permits guests to borrow and use. Can be free or for a fee. Watercraft may include boats, pedal boats, rowboats, sailboats, powerboats, canoes, kayaks, or personal watercraft (such as a Jet Ski). */
-  watercraftRental?: boolean;
-  /** Water skiing exception. */
-  waterSkiingException?: ActivitiesWaterSkiingExceptionEnum | (string & {});
-  /** Casino exception. */
-  casinoException?: ActivitiesCasinoExceptionEnum | (string & {});
+/** Conveniences or help provided by the property to facilitate an easier, more comfortable stay. */
+export interface Services {
+  /** Concierge exception. */
+  conciergeException?: ServicesConciergeExceptionEnum | (string & {});
+  /** Currency exchange. A staff member or automated machine tasked with the transaction of providing the native currency of the hotel's locale in exchange for the foreign currency provided by a guest. */
+  currencyExchange?: boolean;
+  /** Baggage storage exception. */
+  baggageStorageException?: ServicesBaggageStorageExceptionEnum | (string & {});
+  /** Elevator. A passenger elevator that transports guests from one story to another. Also known as lift. */
+  elevator?: boolean;
+  /** Full service laundry. Laundry and dry cleaning facilitated and handled by the hotel on behalf of the guest. Does not include the provision for guests to do their own laundry in on-site machines. */
+  fullServiceLaundry?: boolean;
+  /** Self service laundry exception. */
+  selfServiceLaundryException?: ServicesSelfServiceLaundryExceptionEnum | (string & {});
+  /** Gift shop exception. */
+  giftShopException?: ServicesGiftShopExceptionEnum | (string & {});
+  /** Elevator exception. */
+  elevatorException?: ServicesElevatorExceptionEnum | (string & {});
+  /** Wake up calls exception. */
+  wakeUpCallsException?: ServicesWakeUpCallsExceptionEnum | (string & {});
+  /** Baggage storage. A provision for guests to leave their bags at the hotel when they arrive for their stay before the official check-in time. May or may not apply for guests who wish to leave their bags after check-out and before departing the locale. Also known as bag dropoff. */
+  baggageStorage?: boolean;
+  /** Social hour exception. */
+  socialHourException?: ServicesSocialHourExceptionEnum | (string & {});
+  /** Concierge. Hotel staff member(s) responsible for facilitating an easy, comfortable stay through making reservations for meals, sourcing theater tickets, arranging tours, finding a doctor, making recommendations, and answering questions. */
+  concierge?: boolean;
+  /** Convenience store exception. */
+  convenienceStoreException?: ServicesConvenienceStoreExceptionEnum | (string & {});
+  /** Gift shop. An on-site store primarily selling souvenirs, mementos and other gift items. May or may not also sell sundries, magazines and newspapers, clothing, or snacks. */
+  giftShop?: boolean;
+  /** Front desk exception. */
+  frontDeskException?: ServicesFrontDeskExceptionEnum | (string & {});
+  /** Full service laundry exception. */
+  fullServiceLaundryException?: ServicesFullServiceLaundryExceptionEnum | (string & {});
+  /** Front desk. A counter or desk in the lobby or the immediate interior of the hotel where a member of the staff greets guests and processes the information related to their stay (including check-in and check-out). May or may not be manned and open 24/7. */
+  frontDesk?: boolean;
+  /** Self service laundry. On-site clothes washers and dryers accessible to guests for the purpose of washing and drying their own clothes. May or may not require payment to use the machines. */
+  selfServiceLaundry?: boolean;
+  /** Social hour. A reception with complimentary soft drinks, tea, coffee, wine and/or cocktails in the afternoon or evening. Can be hosted by hotel staff or guests may serve themselves. Also known as wine hour. The availability of coffee/tea in the lobby throughout the day does not constitute a social or wine hour. */
+  socialHour?: boolean;
+  /** Currency exchange exception. */
+  currencyExchangeException?: ServicesCurrencyExchangeExceptionEnum | (string & {});
+  /** Languages spoken by at least one staff member. */
+  languagesSpoken?: LanguageSpokenList;
+  /** 24hr front desk exception. */
+  twentyFourHourFrontDeskException?: ServicesTwentyFourHourFrontDeskExceptionEnum | (string & {});
+  /** Wake up calls. By direction of the guest, a hotel staff member will phone the guest unit at the requested hour. Also known as morning call. */
+  wakeUpCalls?: boolean;
+  /** 24hr front desk. Front desk is staffed 24 hours a day. */
+  twentyFourHourFrontDesk?: boolean;
+  /** Convenience store. A shop at the hotel primarily selling snacks, drinks, non-prescription medicines, health and beauty aids, magazines and newspapers. */
+  convenienceStore?: boolean;
 }
-export type FamiliesKidsFriendlyExceptionEnum =
+export type ParkingValetParkingAvailableExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type FamiliesKidsActivitiesExceptionEnum =
+export type ParkingFreeParkingExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type FamiliesKidsClubExceptionEnum =
+export type ParkingFreeSelfParkingExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type FamiliesBabysittingExceptionEnum =
+export type ParkingFreeValetParkingExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Services and amenities for families and young guests. */
-export interface Families {
-  /** Kids club. An organized program of group activities held at the hotel and designed for the enjoyment of children. Facilitated by hotel staff (or staff procured by the hotel) in an area(s) designated for the purpose of entertaining children without their parents. May include games, outings, water sports, team sports, arts and crafts, and films. Usually has set hours. Can be free or for a fee. Also known as Kids Camp or Kids program. */
-  kidsClub?: boolean;
-  /** Babysitting. Child care that is offered by hotel staffers or coordinated by hotel staffers with local child care professionals. Can be free or for a fee. */
-  babysitting?: boolean;
-  /** Kids friendly. The hotel has one or more special features for families with children, such as reduced rates, child-sized beds, kids' club, babysitting service, or suitable place to play on premises. */
-  kidsFriendly?: boolean;
-  /** Kids friendly exception. */
-  kidsFriendlyException?: FamiliesKidsFriendlyExceptionEnum | (string & {});
-  /** Kids activities exception. */
-  kidsActivitiesException?: FamiliesKidsActivitiesExceptionEnum | (string & {});
-  /** Kids club exception. */
-  kidsClubException?: FamiliesKidsClubExceptionEnum | (string & {});
-  /** Kids activities. Recreational options such as sports, films, crafts and games designed for the enjoyment of children and offered at the hotel. May or may not be supervised. May or may not be at a designated time or place. Cab be free or for a fee. */
-  kidsActivities?: boolean;
-  /** Babysitting exception. */
-  babysittingException?: FamiliesBabysittingExceptionEnum | (string & {});
+export type ParkingElectricCarChargingStationsExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type ParkingSelfParkingAvailableExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type ParkingParkingAvailableExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Parking options at the property. */
+export interface Parking {
+  /** Valet parking available. Hotel staff member parks the cars of guests. Parking with this service can be free or for a fee. */
+  valetParkingAvailable?: boolean;
+  /** Parking available. The hotel allows the cars of guests to be parked. Can be free or for a fee. Parking facility may be an outdoor lot or an indoor garage, but must be onsite. Nearby parking does not apply. Parking may be performed by the guest or by hotel staff. */
+  parkingAvailable?: boolean;
+  /** Self parking available. Guests park their own cars. Parking facility may be an outdoor lot or an indoor garage, but must be onsite. Nearby parking does not apply. Can be free or for a fee. */
+  selfParkingAvailable?: boolean;
+  /** Valet parking available exception. */
+  valetParkingAvailableException?: ParkingValetParkingAvailableExceptionEnum | (string & {});
+  /** Free parking exception. */
+  freeParkingException?: ParkingFreeParkingExceptionEnum | (string & {});
+  /** Free parking. The hotel allows the cars of guests to be parked for free. Parking facility may be an outdoor lot or an indoor garage, but must be onsite. Nearby parking does not apply. Parking may be performed by the guest or by hotel staff. Free parking must be available to all guests (limited conditions does not apply). */
+  freeParking?: boolean;
+  /** Free self parking. Guests park their own cars for free. Parking facility may be an outdoor lot or an indoor garage, but must be onsite. Nearby parking does not apply. */
+  freeSelfParking?: boolean;
+  /** Free valet parking. Hotel staff member parks the cars of guests. Parking with this service is free. */
+  freeValetParking?: boolean;
+  /** Free self parking exception. */
+  freeSelfParkingException?: ParkingFreeSelfParkingExceptionEnum | (string & {});
+  /** Free valet parking exception. */
+  freeValetParkingException?: ParkingFreeValetParkingExceptionEnum | (string & {});
+  /** Electric car charging stations exception. */
+  electricCarChargingStationsException?:
+    | ParkingElectricCarChargingStationsExceptionEnum
+    | (string & {});
+  /** Self parking available exception. */
+  selfParkingAvailableException?: ParkingSelfParkingAvailableExceptionEnum | (string & {});
+  /** Parking available exception. */
+  parkingAvailableException?: ParkingParkingAvailableExceptionEnum | (string & {});
+  /** Electric car charging stations. Electric power stations, usually located outdoors, into which guests plug their electric cars to receive a charge. */
+  electricCarChargingStations?: boolean;
 }
-export type WellnessWeightMachineExceptionEnum =
+export type AccessibilityMobilityAccessibleElevatorExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WellnessFreeFitnessCenterExceptionEnum =
+export type AccessibilityMobilityAccessiblePoolExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WellnessSaunaExceptionEnum =
+export type AccessibilityMobilityAccessibleExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WellnessSalonExceptionEnum =
+export type AccessibilityMobilityAccessibleParkingExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WellnessDoctorOnCallExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WellnessEllipticalMachineExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WellnessFitnessCenterExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WellnessSpaExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WellnessFreeWeightsExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WellnessTreadmillExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WellnessMassageExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Guest facilities at the property to promote or maintain health, beauty, and fitness. */
-export interface Wellness {
-  /** Free weights. Individual handheld fitness equipment of varied weights used for upper body strength training or bodybuilding. Also known as barbells, dumbbells, or kettlebells. Often stored on a rack with the weights arranged from light to heavy. Commonly found in a gym, fitness room, health center, or health club. */
-  freeWeights?: boolean;
-  /** Doctor on call. The hotel has a contract with a medical professional who provides services to hotel guests should they fall ill during their stay. The doctor may or may not have an on-site office or be at the hotel at all times. */
-  doctorOnCall?: boolean;
-  /** Free fitness center. Guests may use the fitness center for free. */
-  freeFitnessCenter?: boolean;
-  /** Elliptical machine. An electric, stationary fitness machine with pedals that simulates climbing, walking or running and provides a user-controlled range of speeds and tensions. May not have arm-controlled levers to work out the upper body as well. Commonly found in a gym, fitness room, health center, or health club. */
-  ellipticalMachine?: boolean;
-  /** Weight machine. Non-electronic fitness equipment designed for the user to target the exertion of different muscles. Usually incorporates a padded seat, a stack of flat weights and various bars and pulleys. May be designed for toning a specific part of the body or may involve different user-controlled settings, hardware and pulleys so as to provide an overall workout in one machine. Commonly found in a gym, fitness center, fitness room, or health club. */
-  weightMachine?: boolean;
-  /** Weight machine exception. */
-  weightMachineException?: WellnessWeightMachineExceptionEnum | (string & {});
-  /** Salon. A room at the hotel where professionals provide hair styling services such as shampooing, blow drying, hair dos, hair cutting and hair coloring. Also known as hairdresser or beauty salon. */
-  salon?: boolean;
-  /** Free fitness center exception. */
-  freeFitnessCenterException?: WellnessFreeFitnessCenterExceptionEnum | (string & {});
-  /** Sauna exception. */
-  saunaException?: WellnessSaunaExceptionEnum | (string & {});
-  /** Salon exception. */
-  salonException?: WellnessSalonExceptionEnum | (string & {});
-  /** Fitness center. A room or building at the hotel containing equipment to promote physical activity, such as treadmills, elliptical machines, stationary bikes, weight machines, free weights, and/or stretching mats. Use of the fitness center can be free or for a fee. May or may not be staffed. May or may not offer instructor-led classes in various styles of physical conditioning. May or may not be open 24/7. May or may not include locker rooms and showers. Also known as health club, gym, fitness room, health center. */
-  fitnessCenter?: boolean;
-  /** Doctor on call exception. */
-  doctorOnCallException?: WellnessDoctorOnCallExceptionEnum | (string & {});
-  /** Elliptical machine exception. */
-  ellipticalMachineException?: WellnessEllipticalMachineExceptionEnum | (string & {});
-  /** Fitness center exception. */
-  fitnessCenterException?: WellnessFitnessCenterExceptionEnum | (string & {});
-  /** Spa exception. */
-  spaException?: WellnessSpaExceptionEnum | (string & {});
-  /** Free weights exception. */
-  freeWeightsException?: WellnessFreeWeightsExceptionEnum | (string & {});
-  /** Massage. A service provided by a trained massage therapist involving the physical manipulation of a guest's muscles in order to achieve relaxation or pain relief. */
-  massage?: boolean;
-  /** Treadmill exception. */
-  treadmillException?: WellnessTreadmillExceptionEnum | (string & {});
-  /** Massage exception. */
-  massageException?: WellnessMassageExceptionEnum | (string & {});
-  /** Sauna. A wood-paneled room heated to a high temperature where guests sit on built-in wood benches for the purpose of perspiring and relaxing their muscles. Can be dry or slightly wet heat. Not a steam room. */
-  sauna?: boolean;
-  /** Treadmill. An electric stationary fitness machine that simulates a moving path to promote walking or running within a range of user-controlled speeds and inclines. Also known as running machine. Commonly found in a gym, fitness room, health center, or health club. */
-  treadmill?: boolean;
-  /** Spa. A designated area, room or building at the hotel offering health and beauty treatment through such means as steam baths, exercise equipment, and massage. May also offer facials, nail care, and hair care. Services are usually available by appointment and for an additional fee. Does not apply if hotel only offers a steam room; must offer other beauty and/or health treatments as well. */
-  spa?: boolean;
+/** Physical adaptations made to the property in consideration of varying levels of human physical ability. */
+export interface Accessibility {
+  /** Mobility accessible elevator exception. */
+  mobilityAccessibleElevatorException?:
+    | AccessibilityMobilityAccessibleElevatorExceptionEnum
+    | (string & {});
+  /** Mobility accessible pool exception. */
+  mobilityAccessiblePoolException?:
+    | AccessibilityMobilityAccessiblePoolExceptionEnum
+    | (string & {});
+  /** Mobility accessible elevator. A lift that transports people from one level to another and is built to accommodate a wheelchair-using passenger owing to the width of its doors and placement of call buttons. */
+  mobilityAccessibleElevator?: boolean;
+  /** Mobility accessible. Throughout the property there are physical adaptations to ease the stay of a person in a wheelchair, such as auto-opening doors, wide elevators, wide bathrooms or ramps. */
+  mobilityAccessible?: boolean;
+  /** Mobility accessible exception. */
+  mobilityAccessibleException?: AccessibilityMobilityAccessibleExceptionEnum | (string & {});
+  /** Mobility accessible parking. The presence of a marked, designated area of prescribed size in which only registered, labeled vehicles transporting a person with physical challenges may park. */
+  mobilityAccessibleParking?: boolean;
+  /** Mobility accessible pool. A swimming pool equipped with a mechanical chair that can be lowered and raised for the purpose of moving physically challenged guests into and out of the pool. May be powered by electricity or water. Also known as pool lift. */
+  mobilityAccessiblePool?: boolean;
+  /** Mobility accessible parking exception. */
+  mobilityAccessibleParkingException?:
+    | AccessibilityMobilityAccessibleParkingExceptionEnum
+    | (string & {});
 }
-export type SustainableSourcingLocallySourcedFoodAndBeveragesExceptionEnum =
+export type FoodAndDrinkBreakfastAvailableExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type SustainableSourcingOrganicFoodAndBeveragesExceptionEnum =
+export type FoodAndDrinkRestaurantExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type SustainableSourcingResponsiblePurchasingPolicyExceptionEnum =
+export type FoodAndDrinkBreakfastBuffetExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type SustainableSourcingVeganMealsExceptionEnum =
+export type FoodAndDrinkFreeBreakfastExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type SustainableSourcingEcoFriendlyToiletriesExceptionEnum =
+export type FoodAndDrinkBuffetExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type SustainableSourcingResponsiblySourcesSeafoodExceptionEnum =
+export type FoodAndDrinkRestaurantsCountExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type SustainableSourcingOrganicCageFreeEggsExceptionEnum =
+export type FoodAndDrinkRoomServiceExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type SustainableSourcingVegetarianMealsExceptionEnum =
+export type FoodAndDrinkVendingMachineExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Sustainable sourcing practices implemented at the hotel. */
-export interface SustainableSourcing {
-  /** Locally sourced food and beverages exception. */
-  locallySourcedFoodAndBeveragesException?:
-    | SustainableSourcingLocallySourcedFoodAndBeveragesExceptionEnum
+export type FoodAndDrinkTableServiceExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type FoodAndDrinkTwentyFourHourRoomServiceExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type FoodAndDrinkDinnerBuffetExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type FoodAndDrinkBarExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Meals, snacks, and beverages available at the property. */
+export interface FoodAndDrink {
+  /** Breakfast available exception. */
+  breakfastAvailableException?: FoodAndDrinkBreakfastAvailableExceptionEnum | (string & {});
+  /** Room service. A hotel staffer delivers meals prepared onsite to a guest's room as per their request. May or may not be available during specific hours. Services should be available to all guests (not based on rate/room booked/reward program, etc). */
+  roomService?: boolean;
+  /** Buffet. A type of meal where guests serve themselves from a variety of dishes/foods that are put out on a table. Includes lunch and/or dinner meals. A breakfast-only buffet is not sufficient. */
+  buffet?: boolean;
+  /** Restaurant exception. */
+  restaurantException?: FoodAndDrinkRestaurantExceptionEnum | (string & {});
+  /** Breakfast buffet exception. */
+  breakfastBuffetException?: FoodAndDrinkBreakfastBuffetExceptionEnum | (string & {});
+  /** Free breakfast exception. */
+  freeBreakfastException?: FoodAndDrinkFreeBreakfastExceptionEnum | (string & {});
+  /** Buffet exception. */
+  buffetException?: FoodAndDrinkBuffetExceptionEnum | (string & {});
+  /** Restaurants count exception. */
+  restaurantsCountException?: FoodAndDrinkRestaurantsCountExceptionEnum | (string & {});
+  /** Breakfast available. The morning meal is offered to all guests. Can be free or for a fee. */
+  breakfastAvailable?: boolean;
+  /** Restaurants count. The number of restaurants at the hotel. */
+  restaurantsCount?: number;
+  /** Restaurant. A business onsite at the hotel that is open to the public as well as guests, and offers meals and beverages to consume at tables or counters. May or may not include table service. Also known as cafe, buffet, eatery. A "breakfast room" where the hotel serves breakfast only to guests (not the general public) does not count as a restaurant. */
+  restaurant?: boolean;
+  /** Table service. A restaurant in which a staff member is assigned to a guest's table to take their order, deliver and clear away food, and deliver the bill, if applicable. Also known as sit-down restaurant. */
+  tableService?: boolean;
+  /** Vending machine. A glass-fronted mechanized cabinet displaying and dispensing snacks and beverages for purchase by coins, paper money and/or credit cards. */
+  vendingMachine?: boolean;
+  /** Room service exception. */
+  roomServiceException?: FoodAndDrinkRoomServiceExceptionEnum | (string & {});
+  /** Vending machine exception. */
+  vendingMachineException?: FoodAndDrinkVendingMachineExceptionEnum | (string & {});
+  /** Table service exception. */
+  tableServiceException?: FoodAndDrinkTableServiceExceptionEnum | (string & {});
+  /** Free breakfast. Breakfast is offered for free to all guests. Does not apply if limited to certain room packages. */
+  freeBreakfast?: boolean;
+  /** 24hr room service exception. */
+  twentyFourHourRoomServiceException?:
+    | FoodAndDrinkTwentyFourHourRoomServiceExceptionEnum
     | (string & {});
-  /** Responsibly sources seafood. The property does not source seafood from the Monterey Bay Aquarium Seafood Watch "avoid" list, and must sustainably source seafood listed as "good alternative," "eco-certified," and "best choice". The property has a policy outlining a commitment to source Marine Stewardship Council (MSC) and/or Aquaculture Stewardship Council (ASC) Chain of Custody certified seafood. */
-  responsiblySourcesSeafood?: boolean;
-  /** Organic food and beverages exception. */
-  organicFoodAndBeveragesException?:
-    | SustainableSourcingOrganicFoodAndBeveragesExceptionEnum
-    | (string & {});
-  /** Vegan meals. The property provides vegan menu options for guests. Vegan food does not contain animal products or byproducts. */
-  veganMeals?: boolean;
-  /** Organic food and beverages. At least 25% of food and beverages, by spend, are certified organic. Organic means products that are certified to one of the organic standard listed in the IFOAM family of standards. Qualifying certifications include USDA Organic and EU Organic, among others. */
-  organicFoodAndBeverages?: boolean;
-  /** Locally sourced food and beverages. Property sources locally in order to lower the environmental footprint from reduced transportation and to stimulate the local economy. Products produced less than 62 miles from the establishment are normally considered as locally produced. */
-  locallySourcedFoodAndBeverages?: boolean;
-  /** Responsible purchasing policy. The property has a responsible procurement policy in place. Responsible means integration of social, ethical, and/or environmental performance factors into the procurement process when selecting suppliers. */
-  responsiblePurchasingPolicy?: boolean;
-  /** Eco friendly toiletries. Soap, shampoo, lotion, and other toiletries provided for guests have a nationally or internationally recognized sustainability certification, such as USDA Organic, EU Organic, or cruelty-free. */
-  ecoFriendlyToiletries?: boolean;
-  /** Vegetarian meals. The property provides vegetarian menu options for guests. Vegetarian food does not contain meat, poultry, fish, or seafood. */
-  vegetarianMeals?: boolean;
-  /** Responsible purchasing policy exception. */
-  responsiblePurchasingPolicyException?:
-    | SustainableSourcingResponsiblePurchasingPolicyExceptionEnum
-    | (string & {});
-  /** Vegan meals exception. */
-  veganMealsException?: SustainableSourcingVeganMealsExceptionEnum | (string & {});
-  /** Eco friendly toiletries exception. */
-  ecoFriendlyToiletriesException?:
-    | SustainableSourcingEcoFriendlyToiletriesExceptionEnum
-    | (string & {});
-  /** Responsibly sources seafood exception. */
-  responsiblySourcesSeafoodException?:
-    | SustainableSourcingResponsiblySourcesSeafoodExceptionEnum
-    | (string & {});
-  /** Organic cage free eggs. The property sources 100% certified organic and cage-free eggs (shell, liquid, and egg products). Cage-free means hens are able to walk, spread their wings and lay their eggs in nests). */
-  organicCageFreeEggs?: boolean;
-  /** Organic cage free eggs exception. */
-  organicCageFreeEggsException?:
-    | SustainableSourcingOrganicCageFreeEggsExceptionEnum
-    | (string & {});
-  /** Vegetarian meals exception. */
-  vegetarianMealsException?: SustainableSourcingVegetarianMealsExceptionEnum | (string & {});
+  /** Dinner buffet. Dinner meal service where guests serve themselves from a variety of dishes/foods that are put out on a table. */
+  dinnerBuffet?: boolean;
+  /** Dinner buffet exception. */
+  dinnerBuffetException?: FoodAndDrinkDinnerBuffetExceptionEnum | (string & {});
+  /** 24hr room service. Room service is available 24 hours a day. */
+  twentyFourHourRoomService?: boolean;
+  /** Bar. A designated room, lounge or area of an on-site restaurant with seating at a counter behind which a hotel staffer takes the guest's order and provides the requested alcoholic drink. Can be indoors or outdoors. Also known as Pub. */
+  bar?: boolean;
+  /** Breakfast buffet. Breakfast meal service where guests serve themselves from a variety of dishes/foods that are put out on a table. */
+  breakfastBuffet?: boolean;
+  /** Bar exception. */
+  barException?: FoodAndDrinkBarExceptionEnum | (string & {});
+}
+/** Metadata for the Lodging. */
+export interface LodgingMetadata {
+  /** Required. The latest time at which the Lodging data is asserted to be true in the real world. This is not necessarily the time at which the request is made. */
+  updateTime?: string;
+}
+export type BusinessMeetingRoomsExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type BusinessBusinessCenterExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type BusinessMeetingRoomsCountExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Features of the property of specific interest to the business traveler. */
+export interface Business {
+  /** Meeting rooms. Rooms at the hotel designated for business-related gatherings. Rooms are usually equipped with tables or desks, office chairs and audio/visual facilities to allow for presentations and conference calls. Also known as conference rooms. */
+  meetingRooms?: boolean;
+  /** Meeting rooms exception. */
+  meetingRoomsException?: BusinessMeetingRoomsExceptionEnum | (string & {});
+  /** Business center exception. */
+  businessCenterException?: BusinessBusinessCenterExceptionEnum | (string & {});
+  /** Meeting rooms count. The number of meeting rooms at the property. */
+  meetingRoomsCount?: number;
+  /** Meeting rooms count exception. */
+  meetingRoomsCountException?: BusinessMeetingRoomsCountExceptionEnum | (string & {});
+  /** Business center. A designated room at the hotel with one or more desks and equipped with guest-use computers, printers, fax machines and/or photocopiers. May or may not be open 24/7. May or may not require a key to access. Not a meeting room or conference room. */
+  businessCenter?: boolean;
+}
+export type HousekeepingHousekeepingAvailableExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type HousekeepingDailyHousekeepingExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type HousekeepingTurndownServiceExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Conveniences provided in guest units to facilitate an easier, more comfortable stay. */
+export interface Housekeeping {
+  /** Daily housekeeping. Guest units are cleaned by hotel staff daily during guest's stay. */
+  dailyHousekeeping?: boolean;
+  /** Housekeeping available exception. */
+  housekeepingAvailableException?: HousekeepingHousekeepingAvailableExceptionEnum | (string & {});
+  /** Daily housekeeping exception. */
+  dailyHousekeepingException?: HousekeepingDailyHousekeepingExceptionEnum | (string & {});
+  /** Turndown service. Hotel staff enters guest units to prepare the bed for sleep use. May or may not include some light housekeeping. May or may not include an evening snack or candy. Also known as evening service. */
+  turndownService?: boolean;
+  /** Turndown service exception. */
+  turndownServiceException?: HousekeepingTurndownServiceExceptionEnum | (string & {});
+  /** Housekeeping available. Guest units are cleaned by hotel staff during guest's stay. Schedule may vary from daily, weekly, or specific days of the week. */
+  housekeepingAvailable?: boolean;
 }
 export type SustainabilityCertificationsLeedCertificationExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -1738,13 +1671,11 @@ export type SustainabilityCertificationsBreeamCertificationEnum =
   | "BREEAM_VERY_GOOD"
   | "BREEAM_EXCELLENT"
   | "BREEAM_OUTSTANDING";
-export type SustainabilityCertificationsLeedCertificationEnum =
-  | "LEED_CERTIFICATION_UNSPECIFIED"
-  | "NO_LEED_CERTIFICATION"
-  | "LEED_CERTIFIED"
-  | "LEED_SILVER"
-  | "LEED_GOLD"
-  | "LEED_PLATINUM";
+export type SustainabilityCertificationsBreeamCertificationExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
 export type EcoCertificationEcoCertificateEnum =
   | "ECO_CERTIFICATE_UNSPECIFIED"
   | "ISO14001"
@@ -1783,17 +1714,19 @@ export type EcoCertificationAwardedExceptionEnum =
 export interface EcoCertification {
   /** Required. The eco certificate. */
   ecoCertificate?: EcoCertificationEcoCertificateEnum | (string & {});
-  /** Awarded exception. */
-  awardedException?: EcoCertificationAwardedExceptionEnum | (string & {});
   /** Whether the eco certificate was awarded or not. */
   awarded?: boolean;
+  /** Awarded exception. */
+  awardedException?: EcoCertificationAwardedExceptionEnum | (string & {});
 }
 export type EcoCertificationList = Array<EcoCertification>;
-export type SustainabilityCertificationsBreeamCertificationExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type SustainabilityCertificationsLeedCertificationEnum =
+  | "LEED_CERTIFICATION_UNSPECIFIED"
+  | "NO_LEED_CERTIFICATION"
+  | "LEED_CERTIFIED"
+  | "LEED_SILVER"
+  | "LEED_GOLD"
+  | "LEED_PLATINUM";
 /** Sustainability certifications the hotel has been awarded. Deprecated: this message is no longer populated. All certification data is now provided by BeCause. */
 export interface SustainabilityCertifications {
   /** LEED certification exception. */
@@ -1802,36 +1735,162 @@ export interface SustainabilityCertifications {
     | (string & {});
   /** BREEAM certification. */
   breeamCertification?: SustainabilityCertificationsBreeamCertificationEnum | (string & {});
-  /** LEED certification. */
-  leedCertification?: SustainabilityCertificationsLeedCertificationEnum | (string & {});
-  /** The eco certificates awarded to the hotel. */
-  ecoCertifications?: EcoCertificationList;
   /** BREEAM certification exception. */
   breeamCertificationException?:
     | SustainabilityCertificationsBreeamCertificationExceptionEnum
     | (string & {});
+  /** The eco certificates awarded to the hotel. */
+  ecoCertifications?: EcoCertificationList;
+  /** LEED certification. */
+  leedCertification?: SustainabilityCertificationsLeedCertificationEnum | (string & {});
 }
-export type WasteReductionSafelyDisposesLightbulbsExceptionEnum =
+export type WaterConservationTowelReuseProgramExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WasteReductionNoSingleUsePlasticStrawsExceptionEnum =
+export type WaterConservationIndependentOrganizationAuditsWaterUseExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WasteReductionCompostableFoodContainersAndCutleryExceptionEnum =
+export type WaterConservationWaterSavingToiletsExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WasteReductionFoodWasteReductionProgramExceptionEnum =
+export type WaterConservationLinenReuseProgramExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WasteReductionNoSingleUsePlasticWaterBottlesExceptionEnum =
+export type WaterConservationWaterSavingShowersExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type WaterConservationWaterSavingSinksExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Water conservation practices implemented at the hotel. */
+export interface WaterConservation {
+  /** Water saving sinks. All of the property's guest rooms have bathroom faucets that use a maximum of 1.5 gallons per minute (gpm), public restroom faucets do not exceed 0.5 gpm, and kitchen faucets (excluding faucets used exclusively for filling operations) do not exceed 2.2 gpm. */
+  waterSavingSinks?: boolean;
+  /** Water saving showers. All of the property's guest rooms have shower heads that use no more than 2.0 gallons per minute (gpm). */
+  waterSavingShowers?: boolean;
+  /** Towel reuse program exception. */
+  towelReuseProgramException?: WaterConservationTowelReuseProgramExceptionEnum | (string & {});
+  /** Independent organization audits water use exception. */
+  independentOrganizationAuditsWaterUseException?:
+    | WaterConservationIndependentOrganizationAuditsWaterUseExceptionEnum
+    | (string & {});
+  /** Towel reuse program. The property offers a towel reuse program. */
+  towelReuseProgram?: boolean;
+  /** Linen reuse program. The property offers a linen reuse program. */
+  linenReuseProgram?: boolean;
+  /** Water saving toilets exception. */
+  waterSavingToiletsException?: WaterConservationWaterSavingToiletsExceptionEnum | (string & {});
+  /** Linen reuse program exception. */
+  linenReuseProgramException?: WaterConservationLinenReuseProgramExceptionEnum | (string & {});
+  /** Independent organization audits water use. The property conducts a water conservation audit every 5 years, the results of which are either verified by a third-party and/or published in external communications. A water conservation audit is a detailed assessment of the facility, providing recommendations to existing operations and procedures to improve water efficiency, available incentives or rebates, and opportunities for improvements through renovations or upgrades. Examples of organizations who conduct credible third party audits include: Engie Impact, and local utility providers (they often provide energy and water audits). */
+  independentOrganizationAuditsWaterUse?: boolean;
+  /** Water saving showers exception. */
+  waterSavingShowersException?: WaterConservationWaterSavingShowersExceptionEnum | (string & {});
+  /** Water saving sinks exception. */
+  waterSavingSinksException?: WaterConservationWaterSavingSinksExceptionEnum | (string & {});
+  /** Water saving toilets. All of the property's toilets use 1.6 gallons per flush, or less. */
+  waterSavingToilets?: boolean;
+}
+export type SustainableSourcingResponsiblePurchasingPolicyExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type SustainableSourcingVegetarianMealsExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type SustainableSourcingEcoFriendlyToiletriesExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type SustainableSourcingVeganMealsExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type SustainableSourcingOrganicFoodAndBeveragesExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type SustainableSourcingLocallySourcedFoodAndBeveragesExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type SustainableSourcingOrganicCageFreeEggsExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type SustainableSourcingResponsiblySourcesSeafoodExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Sustainable sourcing practices implemented at the hotel. */
+export interface SustainableSourcing {
+  /** Responsibly sources seafood. The property does not source seafood from the Monterey Bay Aquarium Seafood Watch "avoid" list, and must sustainably source seafood listed as "good alternative," "eco-certified," and "best choice". The property has a policy outlining a commitment to source Marine Stewardship Council (MSC) and/or Aquaculture Stewardship Council (ASC) Chain of Custody certified seafood. */
+  responsiblySourcesSeafood?: boolean;
+  /** Vegetarian meals. The property provides vegetarian menu options for guests. Vegetarian food does not contain meat, poultry, fish, or seafood. */
+  vegetarianMeals?: boolean;
+  /** Responsible purchasing policy exception. */
+  responsiblePurchasingPolicyException?:
+    | SustainableSourcingResponsiblePurchasingPolicyExceptionEnum
+    | (string & {});
+  /** Vegetarian meals exception. */
+  vegetarianMealsException?: SustainableSourcingVegetarianMealsExceptionEnum | (string & {});
+  /** Eco friendly toiletries exception. */
+  ecoFriendlyToiletriesException?:
+    | SustainableSourcingEcoFriendlyToiletriesExceptionEnum
+    | (string & {});
+  /** Vegan meals exception. */
+  veganMealsException?: SustainableSourcingVeganMealsExceptionEnum | (string & {});
+  /** Organic food and beverages exception. */
+  organicFoodAndBeveragesException?:
+    | SustainableSourcingOrganicFoodAndBeveragesExceptionEnum
+    | (string & {});
+  /** Organic food and beverages. At least 25% of food and beverages, by spend, are certified organic. Organic means products that are certified to one of the organic standard listed in the IFOAM family of standards. Qualifying certifications include USDA Organic and EU Organic, among others. */
+  organicFoodAndBeverages?: boolean;
+  /** Locally sourced food and beverages. Property sources locally in order to lower the environmental footprint from reduced transportation and to stimulate the local economy. Products produced less than 62 miles from the establishment are normally considered as locally produced. */
+  locallySourcedFoodAndBeverages?: boolean;
+  /** Organic cage free eggs. The property sources 100% certified organic and cage-free eggs (shell, liquid, and egg products). Cage-free means hens are able to walk, spread their wings and lay their eggs in nests). */
+  organicCageFreeEggs?: boolean;
+  /** Eco friendly toiletries. Soap, shampoo, lotion, and other toiletries provided for guests have a nationally or internationally recognized sustainability certification, such as USDA Organic, EU Organic, or cruelty-free. */
+  ecoFriendlyToiletries?: boolean;
+  /** Responsible purchasing policy. The property has a responsible procurement policy in place. Responsible means integration of social, ethical, and/or environmental performance factors into the procurement process when selecting suppliers. */
+  responsiblePurchasingPolicy?: boolean;
+  /** Locally sourced food and beverages exception. */
+  locallySourcedFoodAndBeveragesException?:
+    | SustainableSourcingLocallySourcedFoodAndBeveragesExceptionEnum
+    | (string & {});
+  /** Organic cage free eggs exception. */
+  organicCageFreeEggsException?:
+    | SustainableSourcingOrganicCageFreeEggsExceptionEnum
+    | (string & {});
+  /** Responsibly sources seafood exception. */
+  responsiblySourcesSeafoodException?:
+    | SustainableSourcingResponsiblySourcesSeafoodExceptionEnum
+    | (string & {});
+  /** Vegan meals. The property provides vegan menu options for guests. Vegan food does not contain animal products or byproducts. */
+  veganMeals?: boolean;
+}
+export type WasteReductionToiletryDonationProgramExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
@@ -1841,32 +1900,27 @@ export type WasteReductionRefillableToiletryContainersExceptionEnum =
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WasteReductionDonatesExcessFoodExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WasteReductionSoapDonationProgramExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WasteReductionNoStyrofoamFoodContainersExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WasteReductionToiletryDonationProgramExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
 export type WasteReductionRecyclingProgramExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WasteReductionWaterBottleFillingStationsExceptionEnum =
+export type WasteReductionDonatesExcessFoodExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type WasteReductionNoSingleUsePlasticStrawsExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type WasteReductionSafelyDisposesLightbulbsExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type WasteReductionSafelyDisposesBatteriesExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
@@ -1881,128 +1935,133 @@ export type WasteReductionSafelyDisposesElectronicsExceptionEnum =
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
+export type WasteReductionNoStyrofoamFoodContainersExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
 export type WasteReductionSafelyHandlesHazardousSubstancesExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WasteReductionSafelyDisposesBatteriesExceptionEnum =
+export type WasteReductionSoapDonationProgramExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type WasteReductionFoodWasteReductionProgramExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type WasteReductionCompostableFoodContainersAndCutleryExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type WasteReductionNoSingleUsePlasticWaterBottlesExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type WasteReductionWaterBottleFillingStationsExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
 /** Waste reduction practices implemented at the hotel. */
 export interface WasteReduction {
-  /** Safely disposes electronics. The property has a reputable recycling program that keeps hazardous electronic parts and chemical compounds out of landfills, dumps and other unauthorized abandonment sites, and recycles/reuses applicable materials. (e.g. certified electronics recyclers). */
-  safelyDisposesElectronics?: boolean;
-  /** Safely disposes lightbulbs exception. */
-  safelyDisposesLightbulbsException?:
-    | WasteReductionSafelyDisposesLightbulbsExceptionEnum
-    | (string & {});
-  /** Compostable food containers and cutlery. 100% of food service containers and to-go cutlery are compostable, and reusable utensils are offered wherever possible. Compostable materials are capable of undergoing biological decomposition in a compost site, such that material is not visually distinguishable and breaks down into carbon dioxide, water, inorganic compounds, and biomass. */
-  compostableFoodContainersAndCutlery?: boolean;
-  /** Toiletry donation program. The property participates in a toiletry donation program such as Clean the World or something similar. */
-  toiletryDonationProgram?: boolean;
-  /** Recycling program. The property has a recycling program, aligned with LEED waste requirements, and a policy outlining efforts to send less than 50% of waste to landfill. The recycling program includes storage locations for recyclable materials, including mixed paper, corrugated cardboard, glass, plastics, and metals. */
-  recyclingProgram?: boolean;
-  /** Refillable toiletry containers. The property has replaced miniature individual containers with refillable amenity dispensers for shampoo, conditioner, soap, and lotion. */
-  refillableToiletryContainers?: boolean;
-  /** No single use plastic straws exception. */
-  noSingleUsePlasticStrawsException?:
-    | WasteReductionNoSingleUsePlasticStrawsExceptionEnum
-    | (string & {});
-  /** Compostable food containers and cutlery exception. */
-  compostableFoodContainersAndCutleryException?:
-    | WasteReductionCompostableFoodContainersAndCutleryExceptionEnum
-    | (string & {});
-  /** Food waste reduction program exception. */
-  foodWasteReductionProgramException?:
-    | WasteReductionFoodWasteReductionProgramExceptionEnum
-    | (string & {});
-  /** No single use plastic water bottles exception. */
-  noSingleUsePlasticWaterBottlesException?:
-    | WasteReductionNoSingleUsePlasticWaterBottlesExceptionEnum
-    | (string & {});
-  /** Composts excess food. The property has a program and/or policy for diverting waste from landfill by composting food and yard waste, either through compost collection and off-site processing or on-site compost processing. */
-  compostsExcessFood?: boolean;
-  /** Refillable toiletry containers exception. */
-  refillableToiletryContainersException?:
-    | WasteReductionRefillableToiletryContainersExceptionEnum
-    | (string & {});
-  /** No styrofoam food containers. The property eliminates the use of Styrofoam in disposable food service items. */
-  noStyrofoamFoodContainers?: boolean;
-  /** Donates excess food. The property has a program and/or policy for diverting waste from landfill that may include efforts to donate for human consumption or divert food for animal feed. */
-  donatesExcessFood?: boolean;
-  /** Donates excess food exception. */
-  donatesExcessFoodException?: WasteReductionDonatesExcessFoodExceptionEnum | (string & {});
-  /** Soap donation program exception. */
-  soapDonationProgramException?: WasteReductionSoapDonationProgramExceptionEnum | (string & {});
-  /** No styrofoam food containers exception. */
-  noStyrofoamFoodContainersException?:
-    | WasteReductionNoStyrofoamFoodContainersExceptionEnum
-    | (string & {});
-  /** No single use plastic straws. The property bans single-use plastic straws. */
-  noSingleUsePlasticStraws?: boolean;
-  /** Safely handles hazardous substances. The property has a hazardous waste management program aligned wit GreenSeal and LEED requirements, and meets all regulatory requirements for hazardous waste disposal and recycling. Hazardous means substances that are classified as "hazardous" by an authoritative body (such as OSHA or DOT), are labeled with signal words such as "Danger," "Caution," "Warning," or are flammable, corrosive, or ignitable. Requirements include: - The property shall maintain records of the efforts it has made to replace the hazardous substances it uses with less hazardous alternatives. - An inventory of the hazardous materials stored on-site. - Products intended for cleaning, dishwashing, laundry, and pool maintenance shall be stored in clearly labeled containers. These containers shall be checked regularly for leaks, and replaced a necessary. - Spill containment devices shall be installed to collect spills, drips, or leaching of chemicals. */
-  safelyHandlesHazardousSubstances?: boolean;
-  /** No single use plastic water bottles. The property bans single-use plastic water bottles. */
-  noSingleUsePlasticWaterBottles?: boolean;
   /** Toiletry donation program exception. */
   toiletryDonationProgramException?:
     | WasteReductionToiletryDonationProgramExceptionEnum
     | (string & {});
-  /** Water bottle filling stations. The property offers water stations throughout the building for guest use. */
-  waterBottleFillingStations?: boolean;
+  /** Refillable toiletry containers exception. */
+  refillableToiletryContainersException?:
+    | WasteReductionRefillableToiletryContainersExceptionEnum
+    | (string & {});
+  /** Toiletry donation program. The property participates in a toiletry donation program such as Clean the World or something similar. */
+  toiletryDonationProgram?: boolean;
   /** Recycling program exception. */
   recyclingProgramException?: WasteReductionRecyclingProgramExceptionEnum | (string & {});
-  /** Safely disposes lightbulbs. The property safely stores and disposes lightbulbs. */
-  safelyDisposesLightbulbs?: boolean;
-  /** Food waste reduction program. The property has established a food waste reduction and donation program, aiming to reduce food waste by half. These programs typically use tools such as the Hotel Kitchen Toolkit and others to track waste and measure progress. */
-  foodWasteReductionProgram?: boolean;
-  /** Water bottle filling stations exception. */
-  waterBottleFillingStationsException?:
-    | WasteReductionWaterBottleFillingStationsExceptionEnum
+  /** Donates excess food. The property has a program and/or policy for diverting waste from landfill that may include efforts to donate for human consumption or divert food for animal feed. */
+  donatesExcessFood?: boolean;
+  /** Donates excess food exception. */
+  donatesExcessFoodException?: WasteReductionDonatesExcessFoodExceptionEnum | (string & {});
+  /** No single use plastic straws exception. */
+  noSingleUsePlasticStrawsException?:
+    | WasteReductionNoSingleUsePlasticStrawsExceptionEnum
     | (string & {});
-  /** Safely disposes batteries. The property safely stores and disposes batteries. */
-  safelyDisposesBatteries?: boolean;
-  /** Soap donation program. The property participates in a soap donation program such as Clean the World or something similar. */
-  soapDonationProgram?: boolean;
-  /** Composts excess food exception. */
-  compostsExcessFoodException?: WasteReductionCompostsExcessFoodExceptionEnum | (string & {});
-  /** Safely disposes electronics exception. */
-  safelyDisposesElectronicsException?:
-    | WasteReductionSafelyDisposesElectronicsExceptionEnum
-    | (string & {});
-  /** Safely handles hazardous substances exception. */
-  safelyHandlesHazardousSubstancesException?:
-    | WasteReductionSafelyHandlesHazardousSubstancesExceptionEnum
+  /** Safely disposes lightbulbs exception. */
+  safelyDisposesLightbulbsException?:
+    | WasteReductionSafelyDisposesLightbulbsExceptionEnum
     | (string & {});
   /** Safely disposes batteries exception. */
   safelyDisposesBatteriesException?:
     | WasteReductionSafelyDisposesBatteriesExceptionEnum
     | (string & {});
+  /** Composts excess food exception. */
+  compostsExcessFoodException?: WasteReductionCompostsExcessFoodExceptionEnum | (string & {});
+  /** Food waste reduction program. The property has established a food waste reduction and donation program, aiming to reduce food waste by half. These programs typically use tools such as the Hotel Kitchen Toolkit and others to track waste and measure progress. */
+  foodWasteReductionProgram?: boolean;
+  /** Soap donation program. The property participates in a soap donation program such as Clean the World or something similar. */
+  soapDonationProgram?: boolean;
+  /** No single use plastic water bottles. The property bans single-use plastic water bottles. */
+  noSingleUsePlasticWaterBottles?: boolean;
+  /** Composts excess food. The property has a program and/or policy for diverting waste from landfill by composting food and yard waste, either through compost collection and off-site processing or on-site compost processing. */
+  compostsExcessFood?: boolean;
+  /** Refillable toiletry containers. The property has replaced miniature individual containers with refillable amenity dispensers for shampoo, conditioner, soap, and lotion. */
+  refillableToiletryContainers?: boolean;
+  /** Safely disposes electronics exception. */
+  safelyDisposesElectronicsException?:
+    | WasteReductionSafelyDisposesElectronicsExceptionEnum
+    | (string & {});
+  /** Safely disposes batteries. The property safely stores and disposes batteries. */
+  safelyDisposesBatteries?: boolean;
+  /** No styrofoam food containers exception. */
+  noStyrofoamFoodContainersException?:
+    | WasteReductionNoStyrofoamFoodContainersExceptionEnum
+    | (string & {});
+  /** Safely handles hazardous substances exception. */
+  safelyHandlesHazardousSubstancesException?:
+    | WasteReductionSafelyHandlesHazardousSubstancesExceptionEnum
+    | (string & {});
+  /** No single use plastic straws. The property bans single-use plastic straws. */
+  noSingleUsePlasticStraws?: boolean;
+  /** Safely disposes electronics. The property has a reputable recycling program that keeps hazardous electronic parts and chemical compounds out of landfills, dumps and other unauthorized abandonment sites, and recycles/reuses applicable materials. (e.g. certified electronics recyclers). */
+  safelyDisposesElectronics?: boolean;
+  /** No styrofoam food containers. The property eliminates the use of Styrofoam in disposable food service items. */
+  noStyrofoamFoodContainers?: boolean;
+  /** Safely handles hazardous substances. The property has a hazardous waste management program aligned wit GreenSeal and LEED requirements, and meets all regulatory requirements for hazardous waste disposal and recycling. Hazardous means substances that are classified as "hazardous" by an authoritative body (such as OSHA or DOT), are labeled with signal words such as "Danger," "Caution," "Warning," or are flammable, corrosive, or ignitable. Requirements include: - The property shall maintain records of the efforts it has made to replace the hazardous substances it uses with less hazardous alternatives. - An inventory of the hazardous materials stored on-site. - Products intended for cleaning, dishwashing, laundry, and pool maintenance shall be stored in clearly labeled containers. These containers shall be checked regularly for leaks, and replaced a necessary. - Spill containment devices shall be installed to collect spills, drips, or leaching of chemicals. */
+  safelyHandlesHazardousSubstances?: boolean;
+  /** Soap donation program exception. */
+  soapDonationProgramException?: WasteReductionSoapDonationProgramExceptionEnum | (string & {});
+  /** Recycling program. The property has a recycling program, aligned with LEED waste requirements, and a policy outlining efforts to send less than 50% of waste to landfill. The recycling program includes storage locations for recyclable materials, including mixed paper, corrugated cardboard, glass, plastics, and metals. */
+  recyclingProgram?: boolean;
+  /** Water bottle filling stations. The property offers water stations throughout the building for guest use. */
+  waterBottleFillingStations?: boolean;
+  /** Food waste reduction program exception. */
+  foodWasteReductionProgramException?:
+    | WasteReductionFoodWasteReductionProgramExceptionEnum
+    | (string & {});
+  /** Compostable food containers and cutlery exception. */
+  compostableFoodContainersAndCutleryException?:
+    | WasteReductionCompostableFoodContainersAndCutleryExceptionEnum
+    | (string & {});
+  /** No single use plastic water bottles exception. */
+  noSingleUsePlasticWaterBottlesException?:
+    | WasteReductionNoSingleUsePlasticWaterBottlesExceptionEnum
+    | (string & {});
+  /** Water bottle filling stations exception. */
+  waterBottleFillingStationsException?:
+    | WasteReductionWaterBottleFillingStationsExceptionEnum
+    | (string & {});
+  /** Compostable food containers and cutlery. 100% of food service containers and to-go cutlery are compostable, and reusable utensils are offered wherever possible. Compostable materials are capable of undergoing biological decomposition in a compost site, such that material is not visually distinguishable and breaks down into carbon dioxide, water, inorganic compounds, and biomass. */
+  compostableFoodContainersAndCutlery?: boolean;
+  /** Safely disposes lightbulbs. The property safely stores and disposes lightbulbs. */
+  safelyDisposesLightbulbs?: boolean;
 }
 export type EnergyEfficiencyEnergyConservationProgramExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type EnergyEfficiencyGreenBuildingDesignExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type EnergyEfficiencyEnergyEfficientLightingExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type EnergyEfficiencyCarbonFreeEnergySourcesExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type EnergyEfficiencyEnergySavingThermostatsExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
@@ -2012,7 +2071,27 @@ export type EnergyEfficiencyEnergyEfficientHeatingAndCoolingSystemsExceptionEnum
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
+export type EnergyEfficiencyGreenBuildingDesignExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
 export type EnergyEfficiencyIndependentOrganizationAuditsEnergyUseExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type EnergyEfficiencyEnergyEfficientLightingExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type EnergyEfficiencyEnergySavingThermostatsExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type EnergyEfficiencyCarbonFreeEnergySourcesExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
@@ -2021,31 +2100,9 @@ export type EnergyEfficiencyIndependentOrganizationAuditsEnergyUseExceptionEnum 
 export interface EnergyEfficiency {
   /** Energy efficient lighting. At least 75% of the property's lighting is energy efficient, using lighting that is more than 45 lumens per watt - typically LED or CFL lightbulbs. */
   energyEfficientLighting?: boolean;
-  /** Energy efficient heating and cooling systems. The property doesn't use chlorofluorocarbon (CFC)-based refrigerants in heating, ventilating, and air-conditioning systems unless a third-party audit shows it's not economically feasible. The CFC-based refrigerants which are used should have a Global Warming Potential (GWP) <= 10. The property uses occupancy sensors on HVAC systems in back-of-house spaces, meeting rooms, and other low-traffic areas. */
-  energyEfficientHeatingAndCoolingSystems?: boolean;
   /** Energy conservation program exception. */
   energyConservationProgramException?:
     | EnergyEfficiencyEnergyConservationProgramExceptionEnum
-    | (string & {});
-  /** Output only. Green building design. True if the property has been awarded a relevant certification. */
-  greenBuildingDesign?: boolean;
-  /** Output only. Green building design exception. */
-  greenBuildingDesignException?: EnergyEfficiencyGreenBuildingDesignExceptionEnum | (string & {});
-  /** Energy efficient lighting exception. */
-  energyEfficientLightingException?:
-    | EnergyEfficiencyEnergyEfficientLightingExceptionEnum
-    | (string & {});
-  /** Carbon free energy sources exception. */
-  carbonFreeEnergySourcesException?:
-    | EnergyEfficiencyCarbonFreeEnergySourcesExceptionEnum
-    | (string & {});
-  /** Energy saving thermostats. The property installed energy-saving thermostats throughout the building to conserve energy when rooms or areas are not in use. Energy-saving thermostats are devices that control heating/cooling in the building by learning temperature preferences and automatically adjusting to energy-saving temperatures as the default. The thermostats are automatically set to a temperature between 68-78 degrees F (20-26 °C), depending on seasonality. In the winter, set the thermostat to 68°F (20°C) when the room is occupied, lowering room temperature when unoccupied. In the summer, set the thermostat to 78°F (26°C) when the room is occupied. */
-  energySavingThermostats?: boolean;
-  /** Independent organization audits energy use. The property conducts an energy audit at least every 5 years, the results of which are either verified by a third-party and/or published in external communications. An energy audit is a detailed assessment of the facility which provides recommendations to existing operations and procedures to improve energy efficiency, available incentives or rebates,and opportunities for improvements through renovations or upgrades. Examples of organizations that conduct credible third party audits include: Engie Impact, DNV GL (EU), Dexma, and local utility providers (they often provide energy and water audits). */
-  independentOrganizationAuditsEnergyUse?: boolean;
-  /** Energy saving thermostats exception. */
-  energySavingThermostatsException?:
-    | EnergyEfficiencyEnergySavingThermostatsExceptionEnum
     | (string & {});
   /** Carbon free energy sources. Property sources carbon-free electricity via at least one of the following methods: on-site clean energy generation, power purchase agreement(s) with clean energy generators, green power provided by electricity supplier, or purchases of Energy Attribute Certificates (such as Renewable Energy Certificates or Guarantees of Origin). */
   carbonFreeEnergySources?: boolean;
@@ -2053,627 +2110,58 @@ export interface EnergyEfficiency {
   energyEfficientHeatingAndCoolingSystemsException?:
     | EnergyEfficiencyEnergyEfficientHeatingAndCoolingSystemsExceptionEnum
     | (string & {});
-  /** Energy conservation program. The property tracks corporate-level Scope 1 and 2 GHG emissions, and Scope 3 emissions if available. The property has a commitment to implement initiatives that reduce GHG emissions year over year. The property has shown an absolute reduction in emissions for at least 2 years. Emissions are either verfied by a third-party and/or published in external communications. */
-  energyConservationProgram?: boolean;
+  /** Energy efficient heating and cooling systems. The property doesn't use chlorofluorocarbon (CFC)-based refrigerants in heating, ventilating, and air-conditioning systems unless a third-party audit shows it's not economically feasible. The CFC-based refrigerants which are used should have a Global Warming Potential (GWP) <= 10. The property uses occupancy sensors on HVAC systems in back-of-house spaces, meeting rooms, and other low-traffic areas. */
+  energyEfficientHeatingAndCoolingSystems?: boolean;
+  /** Output only. Green building design exception. */
+  greenBuildingDesignException?: EnergyEfficiencyGreenBuildingDesignExceptionEnum | (string & {});
+  /** Independent organization audits energy use. The property conducts an energy audit at least every 5 years, the results of which are either verified by a third-party and/or published in external communications. An energy audit is a detailed assessment of the facility which provides recommendations to existing operations and procedures to improve energy efficiency, available incentives or rebates,and opportunities for improvements through renovations or upgrades. Examples of organizations that conduct credible third party audits include: Engie Impact, DNV GL (EU), Dexma, and local utility providers (they often provide energy and water audits). */
+  independentOrganizationAuditsEnergyUse?: boolean;
+  /** Energy saving thermostats. The property installed energy-saving thermostats throughout the building to conserve energy when rooms or areas are not in use. Energy-saving thermostats are devices that control heating/cooling in the building by learning temperature preferences and automatically adjusting to energy-saving temperatures as the default. The thermostats are automatically set to a temperature between 68-78 degrees F (20-26 °C), depending on seasonality. In the winter, set the thermostat to 68°F (20°C) when the room is occupied, lowering room temperature when unoccupied. In the summer, set the thermostat to 78°F (26°C) when the room is occupied. */
+  energySavingThermostats?: boolean;
   /** Independent organization audits energy use exception. */
   independentOrganizationAuditsEnergyUseException?:
     | EnergyEfficiencyIndependentOrganizationAuditsEnergyUseExceptionEnum
     | (string & {});
-}
-export type WaterConservationTowelReuseProgramExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WaterConservationWaterSavingToiletsExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WaterConservationIndependentOrganizationAuditsWaterUseExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WaterConservationWaterSavingSinksExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WaterConservationWaterSavingShowersExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type WaterConservationLinenReuseProgramExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Water conservation practices implemented at the hotel. */
-export interface WaterConservation {
-  /** Water saving toilets. All of the property's toilets use 1.6 gallons per flush, or less. */
-  waterSavingToilets?: boolean;
-  /** Towel reuse program. The property offers a towel reuse program. */
-  towelReuseProgram?: boolean;
-  /** Linen reuse program. The property offers a linen reuse program. */
-  linenReuseProgram?: boolean;
-  /** Towel reuse program exception. */
-  towelReuseProgramException?: WaterConservationTowelReuseProgramExceptionEnum | (string & {});
-  /** Water saving toilets exception. */
-  waterSavingToiletsException?: WaterConservationWaterSavingToiletsExceptionEnum | (string & {});
-  /** Independent organization audits water use exception. */
-  independentOrganizationAuditsWaterUseException?:
-    | WaterConservationIndependentOrganizationAuditsWaterUseExceptionEnum
+  /** Energy efficient lighting exception. */
+  energyEfficientLightingException?:
+    | EnergyEfficiencyEnergyEfficientLightingExceptionEnum
     | (string & {});
-  /** Water saving sinks exception. */
-  waterSavingSinksException?: WaterConservationWaterSavingSinksExceptionEnum | (string & {});
-  /** Water saving showers. All of the property's guest rooms have shower heads that use no more than 2.0 gallons per minute (gpm). */
-  waterSavingShowers?: boolean;
-  /** Independent organization audits water use. The property conducts a water conservation audit every 5 years, the results of which are either verified by a third-party and/or published in external communications. A water conservation audit is a detailed assessment of the facility, providing recommendations to existing operations and procedures to improve water efficiency, available incentives or rebates, and opportunities for improvements through renovations or upgrades. Examples of organizations who conduct credible third party audits include: Engie Impact, and local utility providers (they often provide energy and water audits). */
-  independentOrganizationAuditsWaterUse?: boolean;
-  /** Water saving showers exception. */
-  waterSavingShowersException?: WaterConservationWaterSavingShowersExceptionEnum | (string & {});
-  /** Linen reuse program exception. */
-  linenReuseProgramException?: WaterConservationLinenReuseProgramExceptionEnum | (string & {});
-  /** Water saving sinks. All of the property's guest rooms have bathroom faucets that use a maximum of 1.5 gallons per minute (gpm), public restroom faucets do not exceed 0.5 gpm, and kitchen faucets (excluding faucets used exclusively for filling operations) do not exceed 2.2 gpm. */
-  waterSavingSinks?: boolean;
+  /** Energy saving thermostats exception. */
+  energySavingThermostatsException?:
+    | EnergyEfficiencyEnergySavingThermostatsExceptionEnum
+    | (string & {});
+  /** Energy conservation program. The property tracks corporate-level Scope 1 and 2 GHG emissions, and Scope 3 emissions if available. The property has a commitment to implement initiatives that reduce GHG emissions year over year. The property has shown an absolute reduction in emissions for at least 2 years. Emissions are either verfied by a third-party and/or published in external communications. */
+  energyConservationProgram?: boolean;
+  /** Carbon free energy sources exception. */
+  carbonFreeEnergySourcesException?:
+    | EnergyEfficiencyCarbonFreeEnergySourcesExceptionEnum
+    | (string & {});
+  /** Output only. Green building design. True if the property has been awarded a relevant certification. */
+  greenBuildingDesign?: boolean;
 }
 /** Sustainability practices implemented at the hotel. */
 export interface Sustainability {
-  /** Sustainable sourcing practices implemented at the hotel. */
-  sustainableSourcing?: SustainableSourcing;
   /** Sustainability certifications the hotel has been awarded. Deprecated: this field is no longer populated. All certification data is now provided by BeCause. */
   sustainabilityCertifications?: SustainabilityCertifications;
+  /** Water conservation practices implemented at the hotel. */
+  waterConservation?: WaterConservation;
+  /** Sustainable sourcing practices implemented at the hotel. */
+  sustainableSourcing?: SustainableSourcing;
   /** Waste reduction practices implemented at the hotel. */
   wasteReduction?: WasteReduction;
   /** Energy efficiency practices implemented at the hotel. */
   energyEfficiency?: EnergyEfficiency;
-  /** Water conservation practices implemented at the hotel. */
-  waterConservation?: WaterConservation;
 }
-export type ParkingSelfParkingAvailableExceptionEnum =
+export type PropertyRoomsCountExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ParkingValetParkingAvailableExceptionEnum =
+export type PropertyLastRenovatedYearExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ParkingFreeSelfParkingExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ParkingFreeParkingExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ParkingParkingAvailableExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ParkingFreeValetParkingExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ParkingElectricCarChargingStationsExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Parking options at the property. */
-export interface Parking {
-  /** Self parking available exception. */
-  selfParkingAvailableException?: ParkingSelfParkingAvailableExceptionEnum | (string & {});
-  /** Free parking. The hotel allows the cars of guests to be parked for free. Parking facility may be an outdoor lot or an indoor garage, but must be onsite. Nearby parking does not apply. Parking may be performed by the guest or by hotel staff. Free parking must be available to all guests (limited conditions does not apply). */
-  freeParking?: boolean;
-  /** Valet parking available exception. */
-  valetParkingAvailableException?: ParkingValetParkingAvailableExceptionEnum | (string & {});
-  /** Electric car charging stations. Electric power stations, usually located outdoors, into which guests plug their electric cars to receive a charge. */
-  electricCarChargingStations?: boolean;
-  /** Self parking available. Guests park their own cars. Parking facility may be an outdoor lot or an indoor garage, but must be onsite. Nearby parking does not apply. Can be free or for a fee. */
-  selfParkingAvailable?: boolean;
-  /** Valet parking available. Hotel staff member parks the cars of guests. Parking with this service can be free or for a fee. */
-  valetParkingAvailable?: boolean;
-  /** Free valet parking. Hotel staff member parks the cars of guests. Parking with this service is free. */
-  freeValetParking?: boolean;
-  /** Free self parking exception. */
-  freeSelfParkingException?: ParkingFreeSelfParkingExceptionEnum | (string & {});
-  /** Free parking exception. */
-  freeParkingException?: ParkingFreeParkingExceptionEnum | (string & {});
-  /** Parking available exception. */
-  parkingAvailableException?: ParkingParkingAvailableExceptionEnum | (string & {});
-  /** Parking available. The hotel allows the cars of guests to be parked. Can be free or for a fee. Parking facility may be an outdoor lot or an indoor garage, but must be onsite. Nearby parking does not apply. Parking may be performed by the guest or by hotel staff. */
-  parkingAvailable?: boolean;
-  /** Free valet parking exception. */
-  freeValetParkingException?: ParkingFreeValetParkingExceptionEnum | (string & {});
-  /** Free self parking. Guests park their own cars for free. Parking facility may be an outdoor lot or an indoor garage, but must be onsite. Nearby parking does not apply. */
-  freeSelfParking?: boolean;
-  /** Electric car charging stations exception. */
-  electricCarChargingStationsException?:
-    | ParkingElectricCarChargingStationsExceptionEnum
-    | (string & {});
-}
-export type ServicesTwentyFourHourFrontDeskExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ServicesFrontDeskExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ServicesConciergeExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ServicesSelfServiceLaundryExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ServicesConvenienceStoreExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ServicesCurrencyExchangeExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ServicesElevatorExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ServicesFullServiceLaundryExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ServicesGiftShopExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type LanguageSpokenSpokenExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Language spoken by at least one staff member. */
-export interface LanguageSpoken {
-  /** At least one member of the staff can speak the language. */
-  spoken?: boolean;
-  /** Spoken exception. */
-  spokenException?: LanguageSpokenSpokenExceptionEnum | (string & {});
-  /** Required. The BCP-47 language code for the spoken language. Currently accepted codes: ar, de, en, es, fil, fr, hi, id, it, ja, ko, nl, pt, ru, vi, yue, zh. */
-  languageCode?: string;
-}
-export type LanguageSpokenList = Array<LanguageSpoken>;
-export type ServicesSocialHourExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ServicesBaggageStorageExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ServicesWakeUpCallsExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Conveniences or help provided by the property to facilitate an easier, more comfortable stay. */
-export interface Services {
-  /** Baggage storage. A provision for guests to leave their bags at the hotel when they arrive for their stay before the official check-in time. May or may not apply for guests who wish to leave their bags after check-out and before departing the locale. Also known as bag dropoff. */
-  baggageStorage?: boolean;
-  /** Self service laundry. On-site clothes washers and dryers accessible to guests for the purpose of washing and drying their own clothes. May or may not require payment to use the machines. */
-  selfServiceLaundry?: boolean;
-  /** Convenience store. A shop at the hotel primarily selling snacks, drinks, non-prescription medicines, health and beauty aids, magazines and newspapers. */
-  convenienceStore?: boolean;
-  /** Full service laundry. Laundry and dry cleaning facilitated and handled by the hotel on behalf of the guest. Does not include the provision for guests to do their own laundry in on-site machines. */
-  fullServiceLaundry?: boolean;
-  /** 24hr front desk exception. */
-  twentyFourHourFrontDeskException?: ServicesTwentyFourHourFrontDeskExceptionEnum | (string & {});
-  /** Front desk. A counter or desk in the lobby or the immediate interior of the hotel where a member of the staff greets guests and processes the information related to their stay (including check-in and check-out). May or may not be manned and open 24/7. */
-  frontDesk?: boolean;
-  /** Front desk exception. */
-  frontDeskException?: ServicesFrontDeskExceptionEnum | (string & {});
-  /** Concierge exception. */
-  conciergeException?: ServicesConciergeExceptionEnum | (string & {});
-  /** 24hr front desk. Front desk is staffed 24 hours a day. */
-  twentyFourHourFrontDesk?: boolean;
-  /** Self service laundry exception. */
-  selfServiceLaundryException?: ServicesSelfServiceLaundryExceptionEnum | (string & {});
-  /** Concierge. Hotel staff member(s) responsible for facilitating an easy, comfortable stay through making reservations for meals, sourcing theater tickets, arranging tours, finding a doctor, making recommendations, and answering questions. */
-  concierge?: boolean;
-  /** Elevator. A passenger elevator that transports guests from one story to another. Also known as lift. */
-  elevator?: boolean;
-  /** Convenience store exception. */
-  convenienceStoreException?: ServicesConvenienceStoreExceptionEnum | (string & {});
-  /** Social hour. A reception with complimentary soft drinks, tea, coffee, wine and/or cocktails in the afternoon or evening. Can be hosted by hotel staff or guests may serve themselves. Also known as wine hour. The availability of coffee/tea in the lobby throughout the day does not constitute a social or wine hour. */
-  socialHour?: boolean;
-  /** Currency exchange exception. */
-  currencyExchangeException?: ServicesCurrencyExchangeExceptionEnum | (string & {});
-  /** Currency exchange. A staff member or automated machine tasked with the transaction of providing the native currency of the hotel's locale in exchange for the foreign currency provided by a guest. */
-  currencyExchange?: boolean;
-  /** Elevator exception. */
-  elevatorException?: ServicesElevatorExceptionEnum | (string & {});
-  /** Full service laundry exception. */
-  fullServiceLaundryException?: ServicesFullServiceLaundryExceptionEnum | (string & {});
-  /** Gift shop. An on-site store primarily selling souvenirs, mementos and other gift items. May or may not also sell sundries, magazines and newspapers, clothing, or snacks. */
-  giftShop?: boolean;
-  /** Gift shop exception. */
-  giftShopException?: ServicesGiftShopExceptionEnum | (string & {});
-  /** Languages spoken by at least one staff member. */
-  languagesSpoken?: LanguageSpokenList;
-  /** Social hour exception. */
-  socialHourException?: ServicesSocialHourExceptionEnum | (string & {});
-  /** Baggage storage exception. */
-  baggageStorageException?: ServicesBaggageStorageExceptionEnum | (string & {});
-  /** Wake up calls. By direction of the guest, a hotel staff member will phone the guest unit at the requested hour. Also known as morning call. */
-  wakeUpCalls?: boolean;
-  /** Wake up calls exception. */
-  wakeUpCallsException?: ServicesWakeUpCallsExceptionEnum | (string & {});
-}
-export type HousekeepingTurndownServiceExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type HousekeepingHousekeepingAvailableExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type HousekeepingDailyHousekeepingExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Conveniences provided in guest units to facilitate an easier, more comfortable stay. */
-export interface Housekeeping {
-  /** Turndown service. Hotel staff enters guest units to prepare the bed for sleep use. May or may not include some light housekeeping. May or may not include an evening snack or candy. Also known as evening service. */
-  turndownService?: boolean;
-  /** Daily housekeeping. Guest units are cleaned by hotel staff daily during guest's stay. */
-  dailyHousekeeping?: boolean;
-  /** Turndown service exception. */
-  turndownServiceException?: HousekeepingTurndownServiceExceptionEnum | (string & {});
-  /** Housekeeping available. Guest units are cleaned by hotel staff during guest's stay. Schedule may vary from daily, weekly, or specific days of the week. */
-  housekeepingAvailable?: boolean;
-  /** Housekeeping available exception. */
-  housekeepingAvailableException?: HousekeepingHousekeepingAvailableExceptionEnum | (string & {});
-  /** Daily housekeeping exception. */
-  dailyHousekeepingException?: HousekeepingDailyHousekeepingExceptionEnum | (string & {});
-}
-/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
-export interface TimeOfDay {
-  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number;
-  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
-  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  nanos?: number;
-  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
-}
-export type PaymentOptionsChequeExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PaymentOptionsDebitCardExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PaymentOptionsCashExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PaymentOptionsMobileNfcExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PaymentOptionsCreditCardExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Forms of payment accepted at the property. */
-export interface PaymentOptions {
-  /** Cheque exception. */
-  chequeException?: PaymentOptionsChequeExceptionEnum | (string & {});
-  /** Mobile nfc. The hotel has the compatible computer hardware terminal that reads and charges a payment app on the guest's smartphone without requiring the two devices to make physical contact. Also known as Apple Pay, Google Pay, Samsung Pay. */
-  mobileNfc?: boolean;
-  /** Credit card. The hotel accepts payment by a card issued by a bank or credit card company. Also known as charge card, debit card, bank card, or charge plate. */
-  creditCard?: boolean;
-  /** Cheque. The hotel accepts a printed document issued by the guest's bank in the guest's name as a form of payment. */
-  cheque?: boolean;
-  /** Cash. The hotel accepts payment by paper/coin currency. */
-  cash?: boolean;
-  /** Debit card exception. */
-  debitCardException?: PaymentOptionsDebitCardExceptionEnum | (string & {});
-  /** Debit card. The hotel accepts a bank-issued card that immediately deducts the charged funds from the guest's bank account upon processing. */
-  debitCard?: boolean;
-  /** Cash exception. */
-  cashException?: PaymentOptionsCashExceptionEnum | (string & {});
-  /** Mobile nfc exception. */
-  mobileNfcException?: PaymentOptionsMobileNfcExceptionEnum | (string & {});
-  /** Credit card exception. */
-  creditCardException?: PaymentOptionsCreditCardExceptionEnum | (string & {});
-}
-export type PoliciesAllInclusiveAvailableExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PoliciesMaxChildAgeExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PoliciesCheckinTimeExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PoliciesAllInclusiveOnlyExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PoliciesCheckoutTimeExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PoliciesMaxKidsStayFreeCountExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PoliciesKidsStayFreeExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PoliciesSmokeFreePropertyExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Property rules that impact guests. */
-export interface Policies {
-  /** Check-in time. The time of the day at which the hotel begins providing guests access to their unit at the beginning of their stay. */
-  checkinTime?: TimeOfDay;
-  /** Forms of payment accepted at the property. */
-  paymentOptions?: PaymentOptions;
-  /** Smoke free property. Smoking is not allowed inside the building, on balconies, or in outside spaces. Hotels that offer a designated area for guests to smoke are not considered smoke-free properties. */
-  smokeFreeProperty?: boolean;
-  /** All inclusive available exception. */
-  allInclusiveAvailableException?: PoliciesAllInclusiveAvailableExceptionEnum | (string & {});
-  /** All inclusive available. The hotel offers a rate option that includes the cost of the room, meals, activities, and other amenities that might otherwise be charged separately. */
-  allInclusiveAvailable?: boolean;
-  /** Max child age. The hotel allows children up to a certain age to stay in the room/suite of a parent or adult without an additional fee. */
-  maxChildAge?: number;
-  /** Max child age exception. */
-  maxChildAgeException?: PoliciesMaxChildAgeExceptionEnum | (string & {});
-  /** Check-in time exception. */
-  checkinTimeException?: PoliciesCheckinTimeExceptionEnum | (string & {});
-  /** All inclusive only exception. */
-  allInclusiveOnlyException?: PoliciesAllInclusiveOnlyExceptionEnum | (string & {});
-  /** All inclusive only. The only rate option offered by the hotel is a rate that includes the cost of the room, meals, activities and other amenities that might otherwise be charged separately. */
-  allInclusiveOnly?: boolean;
-  /** Check-out time exception. */
-  checkoutTimeException?: PoliciesCheckoutTimeExceptionEnum | (string & {});
-  /** Max kids stay free count exception. */
-  maxKidsStayFreeCountException?: PoliciesMaxKidsStayFreeCountExceptionEnum | (string & {});
-  /** Check-out time. The time of the day on the last day of a guest's reserved stay at which the guest must vacate their room and settle their bill. Some hotels may offer late or early check out for a fee. */
-  checkoutTime?: TimeOfDay;
-  /** Kids stay free exception. */
-  kidsStayFreeException?: PoliciesKidsStayFreeExceptionEnum | (string & {});
-  /** Smoke free property exception. */
-  smokeFreePropertyException?: PoliciesSmokeFreePropertyExceptionEnum | (string & {});
-  /** Max kids stay free count. The hotel allows a specific, defined number of children to stay in the room/suite of a parent or adult without an additional fee. */
-  maxKidsStayFreeCount?: number;
-  /** Kids stay free. The children of guests are allowed to stay in the room/suite of a parent or adult without an additional fee. The policy may or may not stipulate a limit of the child's age or the overall number of children allowed. */
-  kidsStayFree?: boolean;
-}
-export type BusinessMeetingRoomsCountExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type BusinessBusinessCenterExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type BusinessMeetingRoomsExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Features of the property of specific interest to the business traveler. */
-export interface Business {
-  /** Meeting rooms count exception. */
-  meetingRoomsCountException?: BusinessMeetingRoomsCountExceptionEnum | (string & {});
-  /** Meeting rooms. Rooms at the hotel designated for business-related gatherings. Rooms are usually equipped with tables or desks, office chairs and audio/visual facilities to allow for presentations and conference calls. Also known as conference rooms. */
-  meetingRooms?: boolean;
-  /** Business center exception. */
-  businessCenterException?: BusinessBusinessCenterExceptionEnum | (string & {});
-  /** Meeting rooms exception. */
-  meetingRoomsException?: BusinessMeetingRoomsExceptionEnum | (string & {});
-  /** Meeting rooms count. The number of meeting rooms at the property. */
-  meetingRoomsCount?: number;
-  /** Business center. A designated room at the hotel with one or more desks and equipped with guest-use computers, printers, fax machines and/or photocopiers. May or may not be open 24/7. May or may not require a key to access. Not a meeting room or conference room. */
-  businessCenter?: boolean;
-}
-export type TransportationLocalShuttleExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type TransportationTransferExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type TransportationAirportShuttleExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type TransportationFreeAirportShuttleExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type TransportationFreePrivateCarServiceExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type TransportationCarRentalOnPropertyExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type TransportationPrivateCarServiceExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Vehicles or vehicular services facilitated or owned by the property. */
-export interface Transportation {
-  /** Car rental on property. A branch of a rental car company with a processing desk in the hotel. Available cars for rent may be awaiting at the hotel or in a nearby lot. */
-  carRentalOnProperty?: boolean;
-  /** Local shuttle exception. */
-  localShuttleException?: TransportationLocalShuttleExceptionEnum | (string & {});
-  /** Transfer exception. */
-  transferException?: TransportationTransferExceptionEnum | (string & {});
-  /** Private car service. Hotel provides a private chauffeured car to transport guests to destinations. Passengers in the car are either alone or are known to one another and have requested the car together. Service can be free or for a fee and travel distance is usually limited to a specific range. Not a taxi. */
-  privateCarService?: boolean;
-  /** Airport shuttle exception. */
-  airportShuttleException?: TransportationAirportShuttleExceptionEnum | (string & {});
-  /** Free airport shuttle exception. */
-  freeAirportShuttleException?: TransportationFreeAirportShuttleExceptionEnum | (string & {});
-  /** Free private car service. Private chauffeured car service is free to guests. */
-  freePrivateCarService?: boolean;
-  /** Free airport shuttle. Airport shuttle is free to guests. Must be free to all guests without any conditions. */
-  freeAirportShuttle?: boolean;
-  /** Transfer. Hotel provides a shuttle service or car service to take guests to and from the nearest airport or train station. Can be free or for a fee. Guests may share the vehicle with other guests unknown to them. */
-  transfer?: boolean;
-  /** Free private car service exception. */
-  freePrivateCarServiceException?: TransportationFreePrivateCarServiceExceptionEnum | (string & {});
-  /** Car rental on property exception. */
-  carRentalOnPropertyException?: TransportationCarRentalOnPropertyExceptionEnum | (string & {});
-  /** Local shuttle. A car, van or bus provided by the hotel to transport guests to destinations within a specified range of distance around the hotel. Usually shopping and/or convention centers, downtown districts, or beaches. Can be free or for a fee. */
-  localShuttle?: boolean;
-  /** Private car service exception. */
-  privateCarServiceException?: TransportationPrivateCarServiceExceptionEnum | (string & {});
-  /** Airport shuttle. The hotel provides guests with a chauffeured van or bus to and from the airport. Can be free or for a fee. Guests may share the vehicle with other guests unknown to them. Applies if the hotel has a third-party shuttle service (office/desk etc.) within the hotel. As long as hotel provides this service, it doesn't matter if it's directly with them or a third party they work with. Does not apply if guest has to coordinate with an entity outside/other than the hotel. */
-  airportShuttle?: boolean;
-}
-export type PetsPetsAllowedExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PetsPetsAllowedFreeExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PetsDogsAllowedExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PetsCatsAllowedExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Policies regarding guest-owned animals. */
-export interface Pets {
-  /** Cats allowed. Domesticated felines are permitted at the property and allowed to stay in the guest room of their owner. May or may not require a fee. */
-  catsAllowed?: boolean;
-  /** Pets allowed free. Household animals are allowed at the property and in the specific guest room of their owner for free. May or may not include dogs, cats, reptiles, and/or fish. */
-  petsAllowedFree?: boolean;
-  /** Pets allowed exception. */
-  petsAllowedException?: PetsPetsAllowedExceptionEnum | (string & {});
-  /** Dogs allowed. Domesticated canines are permitted at the property and allowed to stay in the guest room of their owner. May or may not require a fee. */
-  dogsAllowed?: boolean;
-  /** Pets allowed. Household animals are allowed at the property and in the specific guest room of their owner. May or may not include dogs, cats, reptiles and/or fish. May or may not require a fee. Service animals are not considered to be pets, so not governed by this policy. */
-  petsAllowed?: boolean;
-  /** Pets allowed free exception. */
-  petsAllowedFreeException?: PetsPetsAllowedFreeExceptionEnum | (string & {});
-  /** Dogs allowed exception. */
-  dogsAllowedException?: PetsDogsAllowedExceptionEnum | (string & {});
-  /** Cats allowed exception. */
-  catsAllowedException?: PetsCatsAllowedExceptionEnum | (string & {});
-}
-export type AccessibilityMobilityAccessibleElevatorExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type AccessibilityMobilityAccessibleParkingExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type AccessibilityMobilityAccessibleExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type AccessibilityMobilityAccessiblePoolExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Physical adaptations made to the property in consideration of varying levels of human physical ability. */
-export interface Accessibility {
-  /** Mobility accessible elevator exception. */
-  mobilityAccessibleElevatorException?:
-    | AccessibilityMobilityAccessibleElevatorExceptionEnum
-    | (string & {});
-  /** Mobility accessible parking. The presence of a marked, designated area of prescribed size in which only registered, labeled vehicles transporting a person with physical challenges may park. */
-  mobilityAccessibleParking?: boolean;
-  /** Mobility accessible parking exception. */
-  mobilityAccessibleParkingException?:
-    | AccessibilityMobilityAccessibleParkingExceptionEnum
-    | (string & {});
-  /** Mobility accessible exception. */
-  mobilityAccessibleException?: AccessibilityMobilityAccessibleExceptionEnum | (string & {});
-  /** Mobility accessible pool exception. */
-  mobilityAccessiblePoolException?:
-    | AccessibilityMobilityAccessiblePoolExceptionEnum
-    | (string & {});
-  /** Mobility accessible elevator. A lift that transports people from one level to another and is built to accommodate a wheelchair-using passenger owing to the width of its doors and placement of call buttons. */
-  mobilityAccessibleElevator?: boolean;
-  /** Mobility accessible pool. A swimming pool equipped with a mechanical chair that can be lowered and raised for the purpose of moving physically challenged guests into and out of the pool. May be powered by electricity or water. Also known as pool lift. */
-  mobilityAccessiblePool?: boolean;
-  /** Mobility accessible. Throughout the property there are physical adaptations to ease the stay of a person in a wheelchair, such as auto-opening doors, wide elevators, wide bathrooms or ramps. */
-  mobilityAccessible?: boolean;
-}
 export type PropertyFloorsCountExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
@@ -2684,237 +2172,749 @@ export type PropertyBuiltYearExceptionEnum =
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PropertyLastRenovatedYearExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
-export type PropertyRoomsCountExceptionEnum =
-  | "EXCEPTION_UNSPECIFIED"
-  | "UNDER_CONSTRUCTION"
-  | "DEPENDENT_ON_SEASON"
-  | "DEPENDENT_ON_DAY_OF_WEEK";
 /** General factual information about the property's physical structure and important dates. */
 export interface Property {
+  /** Rooms count. The total number of rooms and suites bookable by guests for an overnight stay. Does not include event space, public spaces, conference rooms, fitness rooms, business centers, spa, salon, restaurants/bars, or shops. */
+  roomsCount?: number;
+  /** Rooms count exception. */
+  roomsCountException?: PropertyRoomsCountExceptionEnum | (string & {});
+  /** Last renovated year exception. */
+  lastRenovatedYearException?: PropertyLastRenovatedYearExceptionEnum | (string & {});
+  /** Floors count. The number of stories the building has from the ground floor to the top floor that are accessible to guests. */
+  floorsCount?: number;
   /** Floors count exception. */
   floorsCountException?: PropertyFloorsCountExceptionEnum | (string & {});
-  /** Built year exception. */
-  builtYearException?: PropertyBuiltYearExceptionEnum | (string & {});
   /** Built year. The year that construction of the property was completed. */
   builtYear?: number;
   /** Last renovated year. The year when the most recent renovation of the property was completed. Renovation may include all or any combination of the following: the units, the public spaces, the exterior, or the interior. */
   lastRenovatedYear?: number;
-  /** Floors count. The number of stories the building has from the ground floor to the top floor that are accessible to guests. */
-  floorsCount?: number;
-  /** Rooms count. The total number of rooms and suites bookable by guests for an overnight stay. Does not include event space, public spaces, conference rooms, fitness rooms, business centers, spa, salon, restaurants/bars, or shops. */
-  roomsCount?: number;
-  /** Last renovated year exception. */
-  lastRenovatedYearException?: PropertyLastRenovatedYearExceptionEnum | (string & {});
-  /** Rooms count exception. */
-  roomsCountException?: PropertyRoomsCountExceptionEnum | (string & {});
+  /** Built year exception. */
+  builtYearException?: PropertyBuiltYearExceptionEnum | (string & {});
 }
-export type FoodAndDrinkTableServiceExceptionEnum =
+export type ActivitiesBicycleRentalExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type FoodAndDrinkBreakfastAvailableExceptionEnum =
+export type ActivitiesBeachAccessExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type FoodAndDrinkBarExceptionEnum =
+export type ActivitiesGolfExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type FoodAndDrinkBreakfastBuffetExceptionEnum =
+export type ActivitiesNightclubExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type FoodAndDrinkVendingMachineExceptionEnum =
+export type ActivitiesBeachFrontExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type FoodAndDrinkTwentyFourHourRoomServiceExceptionEnum =
+export type ActivitiesFreeBicycleRentalExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type FoodAndDrinkBuffetExceptionEnum =
+export type ActivitiesFreeWatercraftRentalExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type FoodAndDrinkFreeBreakfastExceptionEnum =
+export type ActivitiesTennisExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type FoodAndDrinkRestaurantExceptionEnum =
+export type ActivitiesBoutiqueStoresExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type FoodAndDrinkRestaurantsCountExceptionEnum =
+export type ActivitiesWatercraftRentalExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type FoodAndDrinkDinnerBuffetExceptionEnum =
+export type ActivitiesPrivateBeachExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type FoodAndDrinkRoomServiceExceptionEnum =
+export type ActivitiesCasinoExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-/** Meals, snacks, and beverages available at the property. */
-export interface FoodAndDrink {
-  /** Breakfast buffet. Breakfast meal service where guests serve themselves from a variety of dishes/foods that are put out on a table. */
-  breakfastBuffet?: boolean;
-  /** Table service exception. */
-  tableServiceException?: FoodAndDrinkTableServiceExceptionEnum | (string & {});
-  /** Breakfast available exception. */
-  breakfastAvailableException?: FoodAndDrinkBreakfastAvailableExceptionEnum | (string & {});
-  /** Bar exception. */
-  barException?: FoodAndDrinkBarExceptionEnum | (string & {});
-  /** Restaurants count. The number of restaurants at the hotel. */
-  restaurantsCount?: number;
-  /** Breakfast buffet exception. */
-  breakfastBuffetException?: FoodAndDrinkBreakfastBuffetExceptionEnum | (string & {});
-  /** Room service. A hotel staffer delivers meals prepared onsite to a guest's room as per their request. May or may not be available during specific hours. Services should be available to all guests (not based on rate/room booked/reward program, etc). */
-  roomService?: boolean;
-  /** Vending machine. A glass-fronted mechanized cabinet displaying and dispensing snacks and beverages for purchase by coins, paper money and/or credit cards. */
-  vendingMachine?: boolean;
-  /** Restaurant. A business onsite at the hotel that is open to the public as well as guests, and offers meals and beverages to consume at tables or counters. May or may not include table service. Also known as cafe, buffet, eatery. A "breakfast room" where the hotel serves breakfast only to guests (not the general public) does not count as a restaurant. */
-  restaurant?: boolean;
-  /** Buffet. A type of meal where guests serve themselves from a variety of dishes/foods that are put out on a table. Includes lunch and/or dinner meals. A breakfast-only buffet is not sufficient. */
-  buffet?: boolean;
-  /** Vending machine exception. */
-  vendingMachineException?: FoodAndDrinkVendingMachineExceptionEnum | (string & {});
-  /** Dinner buffet. Dinner meal service where guests serve themselves from a variety of dishes/foods that are put out on a table. */
-  dinnerBuffet?: boolean;
-  /** Free breakfast. Breakfast is offered for free to all guests. Does not apply if limited to certain room packages. */
-  freeBreakfast?: boolean;
-  /** Bar. A designated room, lounge or area of an on-site restaurant with seating at a counter behind which a hotel staffer takes the guest's order and provides the requested alcoholic drink. Can be indoors or outdoors. Also known as Pub. */
-  bar?: boolean;
-  /** 24hr room service exception. */
-  twentyFourHourRoomServiceException?:
-    | FoodAndDrinkTwentyFourHourRoomServiceExceptionEnum
-    | (string & {});
-  /** Buffet exception. */
-  buffetException?: FoodAndDrinkBuffetExceptionEnum | (string & {});
-  /** 24hr room service. Room service is available 24 hours a day. */
-  twentyFourHourRoomService?: boolean;
-  /** Breakfast available. The morning meal is offered to all guests. Can be free or for a fee. */
-  breakfastAvailable?: boolean;
-  /** Table service. A restaurant in which a staff member is assigned to a guest's table to take their order, deliver and clear away food, and deliver the bill, if applicable. Also known as sit-down restaurant. */
-  tableService?: boolean;
-  /** Free breakfast exception. */
-  freeBreakfastException?: FoodAndDrinkFreeBreakfastExceptionEnum | (string & {});
-  /** Restaurant exception. */
-  restaurantException?: FoodAndDrinkRestaurantExceptionEnum | (string & {});
-  /** Restaurants count exception. */
-  restaurantsCountException?: FoodAndDrinkRestaurantsCountExceptionEnum | (string & {});
-  /** Dinner buffet exception. */
-  dinnerBuffetException?: FoodAndDrinkDinnerBuffetExceptionEnum | (string & {});
-  /** Room service exception. */
-  roomServiceException?: FoodAndDrinkRoomServiceExceptionEnum | (string & {});
+export type ActivitiesSnorkelingExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type ActivitiesGameRoomExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type ActivitiesScubaExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type ActivitiesHorsebackRidingExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type ActivitiesWaterSkiingExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Amenities and features related to leisure and play. */
+export interface Activities {
+  /** Scuba. The provision for guests to dive under naturally occurring water fitted with a self-contained underwater breathing apparatus (SCUBA) for the purpose of exploring underwater life. Apparatus consists of a tank providing oxygen to the diver through a mask. Requires certification of the diver and supervision. The hotel may have the activity at its own waterfront or have an affiliation with a nearby facility. Required equipment is most often supplied to guests. Can be free or for a fee. Not snorkeling. Not done in a swimming pool. */
+  scuba?: boolean;
+  /** Bicycle rental. The hotel owns bicycles that it permits guests to borrow and use. Can be free or for a fee. */
+  bicycleRental?: boolean;
+  /** Bicycle rental exception. */
+  bicycleRentalException?: ActivitiesBicycleRentalExceptionEnum | (string & {});
+  /** Boutique stores. There are stores selling clothing, jewelry, art and decor either on hotel premises or very close by. Does not refer to the hotel gift shop or convenience store. */
+  boutiqueStores?: boolean;
+  /** Beach access exception. */
+  beachAccessException?: ActivitiesBeachAccessExceptionEnum | (string & {});
+  /** Golf exception. */
+  golfException?: ActivitiesGolfExceptionEnum | (string & {});
+  /** Game room. There is a room at the hotel containing electronic machines for play such as pinball, prize machines, driving simulators, and other items commonly found at a family fun center or arcade. May also include non-electronic games like pool, foosball, darts, and more. May or may not be designed for children. Also known as arcade, fun room, or family fun center. */
+  gameRoom?: boolean;
+  /** Nightclub exception. */
+  nightclubException?: ActivitiesNightclubExceptionEnum | (string & {});
+  /** Nightclub. There is a room at the hotel with a bar, a dance floor, and seating where designated staffers play dance music. There may also be a designated area for the performance of live music, singing and comedy acts. */
+  nightclub?: boolean;
+  /** Free bicycle rental. The hotel owns bicycles that it permits guests to borrow and use for free. */
+  freeBicycleRental?: boolean;
+  /** Beach front exception. */
+  beachFrontException?: ActivitiesBeachFrontExceptionEnum | (string & {});
+  /** Private beach. The beach which is in close proximity to the hotel is open only to guests. */
+  privateBeach?: boolean;
+  /** Free watercraft rental. The hotel owns watercraft that it permits guests to borrow and use for free. */
+  freeWatercraftRental?: boolean;
+  /** Free bicycle rental exception. */
+  freeBicycleRentalException?: ActivitiesFreeBicycleRentalExceptionEnum | (string & {});
+  /** Free Watercraft rental exception. */
+  freeWatercraftRentalException?: ActivitiesFreeWatercraftRentalExceptionEnum | (string & {});
+  /** Tennis exception. */
+  tennisException?: ActivitiesTennisExceptionEnum | (string & {});
+  /** Boutique stores exception. */
+  boutiqueStoresException?: ActivitiesBoutiqueStoresExceptionEnum | (string & {});
+  /** Snorkeling. The provision for guests to participate in a recreational water activity in which swimmers wear a diving mask, a simple, shaped breathing tube and flippers/swim fins for the purpose of exploring below the surface of an ocean, gulf or lake. Does not usually require user certification or professional supervision. Equipment may or may not be available for rent or purchase. Not scuba diving. */
+  snorkeling?: boolean;
+  /** Breach front. The hotel property is physically located on the beach alongside an ocean, sea, gulf, or bay. It is not on a lake, river, stream, or pond. The hotel is not separated from the beach by a public road allowing vehicular, pedestrian, or bicycle traffic. */
+  beachFront?: boolean;
+  /** Watercraft rental exception. */
+  watercraftRentalException?: ActivitiesWatercraftRentalExceptionEnum | (string & {});
+  /** Private beach exception. */
+  privateBeachException?: ActivitiesPrivateBeachExceptionEnum | (string & {});
+  /** Casino exception. */
+  casinoException?: ActivitiesCasinoExceptionEnum | (string & {});
+  /** Snorkeling exception. */
+  snorkelingException?: ActivitiesSnorkelingExceptionEnum | (string & {});
+  /** Water skiing. The provision of giving guests the opportunity to be pulled across naturally occurring water while standing on skis and holding a tow rope attached to a motorboat. Can occur on hotel premises or at a nearby waterfront. Most often performed in a lake or ocean. */
+  waterSkiing?: boolean;
+  /** Game room exception. */
+  gameRoomException?: ActivitiesGameRoomExceptionEnum | (string & {});
+  /** Casino. A space designated for gambling and gaming featuring croupier-run table and card games, as well as electronic slot machines. May be on hotel premises or located nearby. */
+  casino?: boolean;
+  /** Horseback riding. The hotel has a horse barn onsite or an affiliation with a nearby barn to allow for guests to sit astride a horse and direct it to walk, trot, cantor, gallop and/or jump. Can be in a riding ring, on designated paths, or in the wilderness. May or may not involve instruction. */
+  horsebackRiding?: boolean;
+  /** Scuba exception. */
+  scubaException?: ActivitiesScubaExceptionEnum | (string & {});
+  /** Tennis. The hotel has the requisite court(s) on site or has an affiliation with a nearby facility for the purpose of providing guests with the opportunity to play a two-sided court-based game in which players use a stringed racquet to hit a ball across a net to the side of the opposing player. The court can be indoors or outdoors. Instructors, racquets and balls may or may not be provided. */
+  tennis?: boolean;
+  /** Watercraft rental. The hotel owns water vessels that it permits guests to borrow and use. Can be free or for a fee. Watercraft may include boats, pedal boats, rowboats, sailboats, powerboats, canoes, kayaks, or personal watercraft (such as a Jet Ski). */
+  watercraftRental?: boolean;
+  /** Beach access. The hotel property is in close proximity to a beach and offers a way to get to that beach. This can include a route to the beach such as stairs down if hotel is on a bluff, or a short trail. Not the same as beachfront (with beach access, the hotel's proximity is close to but not right on the beach). */
+  beachAccess?: boolean;
+  /** Golf. There is a golf course on hotel grounds or there is a nearby, independently run golf course that allows use by hotel guests. Can be free or for a fee. */
+  golf?: boolean;
+  /** Horseback riding exception. */
+  horsebackRidingException?: ActivitiesHorsebackRidingExceptionEnum | (string & {});
+  /** Water skiing exception. */
+  waterSkiingException?: ActivitiesWaterSkiingExceptionEnum | (string & {});
 }
-export type ConnectivityWifiAvailableExceptionEnum =
+export type MinimizedContactRoomBookingsBufferExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ConnectivityPublicAreaWifiAvailableExceptionEnum =
+export type MinimizedContactPlasticKeycardsDisinfectedExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ConnectivityFreeWifiExceptionEnum =
+export type MinimizedContactDigitalGuestRoomKeysExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-export type ConnectivityPublicInternetTerminalExceptionEnum =
+export type MinimizedContactNoHighTouchItemsCommonAreasExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
   | "UNDER_CONSTRUCTION"
   | "DEPENDENT_ON_SEASON"
   | "DEPENDENT_ON_DAY_OF_WEEK";
-/** The ways in which the property provides guests with the ability to access the internet. */
-export interface Connectivity {
-  /** Wifi available exception. */
-  wifiAvailableException?: ConnectivityWifiAvailableExceptionEnum | (string & {});
-  /** Public area wifi available exception. */
-  publicAreaWifiAvailableException?:
-    | ConnectivityPublicAreaWifiAvailableExceptionEnum
+export type MinimizedContactNoHighTouchItemsGuestRoomsExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type MinimizedContactHousekeepingScheduledRequestOnlyExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type MinimizedContactContactlessCheckinCheckoutExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Minimized contact measures implemented by the hotel during COVID-19. */
+export interface MinimizedContact {
+  /** Buffer maintained between room bookings. */
+  roomBookingsBuffer?: boolean;
+  /** Housekeeping scheduled by request only. */
+  housekeepingScheduledRequestOnly?: boolean;
+  /** High-touch items, such as decorative pillows, removed from guest rooms. */
+  noHighTouchItemsGuestRooms?: boolean;
+  /** Room bookings buffer exception. */
+  roomBookingsBufferException?: MinimizedContactRoomBookingsBufferExceptionEnum | (string & {});
+  /** Plastic keycards disinfected exception. */
+  plasticKeycardsDisinfectedException?:
+    | MinimizedContactPlasticKeycardsDisinfectedExceptionEnum
     | (string & {});
-  /** Free wifi. The hotel offers guests wifi for free. */
-  freeWifi?: boolean;
-  /** Public internet terminal. An area of the hotel supplied with computers and designated for the purpose of providing guests with the ability to access the internet. */
-  publicInternetTerminal?: boolean;
-  /** Free wifi exception. */
-  freeWifiException?: ConnectivityFreeWifiExceptionEnum | (string & {});
-  /** Public area wifi available. Guests have the ability to wirelessly connect to the internet in the areas of the hotel accessible to anyone. Can be free or for a fee. */
-  publicAreaWifiAvailable?: boolean;
-  /** Wifi available. The hotel provides the ability for guests to wirelessly connect to the internet. Can be in the public areas of the hotel and/or in the guest rooms. Can be free or for a fee. */
-  wifiAvailable?: boolean;
-  /** Public internet terminal exception. */
-  publicInternetTerminalException?: ConnectivityPublicInternetTerminalExceptionEnum | (string & {});
+  /** Digital guest room keys exception. */
+  digitalGuestRoomKeysException?: MinimizedContactDigitalGuestRoomKeysExceptionEnum | (string & {});
+  /** No high touch items common areas exception. */
+  noHighTouchItemsCommonAreasException?:
+    | MinimizedContactNoHighTouchItemsCommonAreasExceptionEnum
+    | (string & {});
+  /** High-touch items, such as magazines, removed from common areas. */
+  noHighTouchItemsCommonAreas?: boolean;
+  /** Keyless mobile entry to guest rooms. */
+  digitalGuestRoomKeys?: boolean;
+  /** No high touch items guest rooms exception. */
+  noHighTouchItemsGuestRoomsException?:
+    | MinimizedContactNoHighTouchItemsGuestRoomsExceptionEnum
+    | (string & {});
+  /** No-contact check-in and check-out. */
+  contactlessCheckinCheckout?: boolean;
+  /** Housekeeping scheduled request only exception. */
+  housekeepingScheduledRequestOnlyException?:
+    | MinimizedContactHousekeepingScheduledRequestOnlyExceptionEnum
+    | (string & {});
+  /** Plastic key cards are disinfected or discarded. */
+  plasticKeycardsDisinfected?: boolean;
+  /** Contactless check-in check-out exception. */
+  contactlessCheckinCheckoutException?:
+    | MinimizedContactContactlessCheckinCheckoutExceptionEnum
+    | (string & {});
+}
+export type PersonalProtectionGuestRoomHygieneKitsAvailableExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type PersonalProtectionProtectiveEquipmentAvailableExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type PersonalProtectionCommonAreasOfferSanitizingItemsExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type PersonalProtectionFaceMaskRequiredExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Personal protection measures implemented by the hotel during COVID-19. */
+export interface PersonalProtection {
+  /** Guest room hygiene kits available exception. */
+  guestRoomHygieneKitsAvailableException?:
+    | PersonalProtectionGuestRoomHygieneKitsAvailableExceptionEnum
+    | (string & {});
+  /** Protective equipment available exception. */
+  protectiveEquipmentAvailableException?:
+    | PersonalProtectionProtectiveEquipmentAvailableExceptionEnum
+    | (string & {});
+  /** Common areas offer sanitizing items exception. */
+  commonAreasOfferSanitizingItemsException?:
+    | PersonalProtectionCommonAreasOfferSanitizingItemsExceptionEnum
+    | (string & {});
+  /** Masks required on the property. */
+  faceMaskRequired?: boolean;
+  /** In-room hygiene kits with masks, hand sanitizer, and/or antibacterial wipes. */
+  guestRoomHygieneKitsAvailable?: boolean;
+  /** Face mask required exception. */
+  faceMaskRequiredException?: PersonalProtectionFaceMaskRequiredExceptionEnum | (string & {});
+  /** Masks and/or gloves available for guests. */
+  protectiveEquipmentAvailable?: boolean;
+  /** Hand-sanitizer and/or sanitizing wipes are offered in common areas. */
+  commonAreasOfferSanitizingItems?: boolean;
+}
+export type EnhancedCleaningGuestRoomsEnhancedCleaningExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type EnhancedCleaningEmployeesTrainedCleaningProceduresExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type EnhancedCleaningEmployeesTrainedThoroughHandWashingExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type EnhancedCleaningCommercialGradeDisinfectantCleaningExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type EnhancedCleaningEmployeesWearProtectiveEquipmentExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type EnhancedCleaningCommonAreasEnhancedCleaningExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Enhanced cleaning measures implemented by the hotel during COVID-19. */
+export interface EnhancedCleaning {
+  /** Employees wear masks, face shields, and/or gloves. */
+  employeesWearProtectiveEquipment?: boolean;
+  /** Guest rooms enhanced cleaning exception. */
+  guestRoomsEnhancedCleaningException?:
+    | EnhancedCleaningGuestRoomsEnhancedCleaningExceptionEnum
+    | (string & {});
+  /** Employees trained cleaning procedures exception. */
+  employeesTrainedCleaningProceduresException?:
+    | EnhancedCleaningEmployeesTrainedCleaningProceduresExceptionEnum
+    | (string & {});
+  /** Employees trained thorough hand washing exception. */
+  employeesTrainedThoroughHandWashingException?:
+    | EnhancedCleaningEmployeesTrainedThoroughHandWashingExceptionEnum
+    | (string & {});
+  /** Employees trained in COVID-19 cleaning procedures. */
+  employeesTrainedCleaningProcedures?: boolean;
+  /** Employees trained in thorough hand-washing. */
+  employeesTrainedThoroughHandWashing?: boolean;
+  /** Commercial grade disinfectant cleaning exception. */
+  commercialGradeDisinfectantCleaningException?:
+    | EnhancedCleaningCommercialGradeDisinfectantCleaningExceptionEnum
+    | (string & {});
+  /** Enhanced cleaning of common areas. */
+  commonAreasEnhancedCleaning?: boolean;
+  /** Employees wear protective equipment exception. */
+  employeesWearProtectiveEquipmentException?:
+    | EnhancedCleaningEmployeesWearProtectiveEquipmentExceptionEnum
+    | (string & {});
+  /** Commercial-grade disinfectant used to clean the property. */
+  commercialGradeDisinfectantCleaning?: boolean;
+  /** Enhanced cleaning of guest rooms. */
+  guestRoomsEnhancedCleaning?: boolean;
+  /** Common areas enhanced cleaning exception. */
+  commonAreasEnhancedCleaningException?:
+    | EnhancedCleaningCommonAreasEnhancedCleaningExceptionEnum
+    | (string & {});
+}
+export type IncreasedFoodSafetySingleUseFoodMenusExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type IncreasedFoodSafetyDiningAreasAdditionalSanitationExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type IncreasedFoodSafetyDisposableFlatwareExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type IncreasedFoodSafetyIndividualPackagedMealsExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type IncreasedFoodSafetyFoodPreparationAndServingAdditionalSafetyExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Increased food safety measures implemented by the hotel during COVID-19. */
+export interface IncreasedFoodSafety {
+  /** Single use food menus exception. */
+  singleUseFoodMenusException?: IncreasedFoodSafetySingleUseFoodMenusExceptionEnum | (string & {});
+  /** Additional safety measures during food prep and serving. */
+  foodPreparationAndServingAdditionalSafety?: boolean;
+  /** Additional sanitation in dining areas. */
+  diningAreasAdditionalSanitation?: boolean;
+  /** Dining areas additional sanitation exception. */
+  diningAreasAdditionalSanitationException?:
+    | IncreasedFoodSafetyDiningAreasAdditionalSanitationExceptionEnum
+    | (string & {});
+  /** Disposable flatware. */
+  disposableFlatware?: boolean;
+  /** Single-use menus. */
+  singleUseFoodMenus?: boolean;
+  /** Disposable flatware exception. */
+  disposableFlatwareException?: IncreasedFoodSafetyDisposableFlatwareExceptionEnum | (string & {});
+  /** Individual packaged meals exception. */
+  individualPackagedMealsException?:
+    | IncreasedFoodSafetyIndividualPackagedMealsExceptionEnum
+    | (string & {});
+  /** Individually-packaged meals. */
+  individualPackagedMeals?: boolean;
+  /** Food preparation and serving additional safety exception. */
+  foodPreparationAndServingAdditionalSafetyException?:
+    | IncreasedFoodSafetyFoodPreparationAndServingAdditionalSafetyExceptionEnum
+    | (string & {});
+}
+export type PhysicalDistancingSafetyDividersExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type PhysicalDistancingSharedAreasLimitedOccupancyExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type PhysicalDistancingCommonAreasPhysicalDistancingArrangedExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type PhysicalDistancingPhysicalDistancingRequiredExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type PhysicalDistancingWellnessAreasHavePrivateSpacesExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Physical distancing measures implemented by the hotel during COVID-19. */
+export interface PhysicalDistancing {
+  /** Safety dividers exception. */
+  safetyDividersException?: PhysicalDistancingSafetyDividersExceptionEnum | (string & {});
+  /** Private spaces designated in spa and wellness areas. */
+  wellnessAreasHavePrivateSpaces?: boolean;
+  /** Guest occupancy limited within shared facilities. */
+  sharedAreasLimitedOccupancy?: boolean;
+  /** Shared areas limited occupancy exception. */
+  sharedAreasLimitedOccupancyException?:
+    | PhysicalDistancingSharedAreasLimitedOccupancyExceptionEnum
+    | (string & {});
+  /** Common areas arranged to maintain physical distancing. */
+  commonAreasPhysicalDistancingArranged?: boolean;
+  /** Physical distancing required. */
+  physicalDistancingRequired?: boolean;
+  /** Safety dividers at front desk and other locations. */
+  safetyDividers?: boolean;
+  /** Common areas physical distancing arranged exception. */
+  commonAreasPhysicalDistancingArrangedException?:
+    | PhysicalDistancingCommonAreasPhysicalDistancingArrangedExceptionEnum
+    | (string & {});
+  /** Physical distancing required exception. */
+  physicalDistancingRequiredException?:
+    | PhysicalDistancingPhysicalDistancingRequiredExceptionEnum
+    | (string & {});
+  /** Wellness areas have private spaces exception. */
+  wellnessAreasHavePrivateSpacesException?:
+    | PhysicalDistancingWellnessAreasHavePrivateSpacesExceptionEnum
+    | (string & {});
+}
+/** Health and safety measures implemented by the hotel during COVID-19. */
+export interface HealthAndSafety {
+  /** Minimized contact measures implemented by the hotel during COVID-19. */
+  minimizedContact?: MinimizedContact;
+  /** Personal protection measures implemented by the hotel during COVID-19. */
+  personalProtection?: PersonalProtection;
+  /** Enhanced cleaning measures implemented by the hotel during COVID-19. */
+  enhancedCleaning?: EnhancedCleaning;
+  /** Increased food safety measures implemented by the hotel during COVID-19. */
+  increasedFoodSafety?: IncreasedFoodSafety;
+  /** Physical distancing measures implemented by the hotel during COVID-19. */
+  physicalDistancing?: PhysicalDistancing;
+}
+export type WellnessDoctorOnCallExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type WellnessWeightMachineExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type WellnessFreeWeightsExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type WellnessFreeFitnessCenterExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type WellnessSpaExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type WellnessMassageExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type WellnessFitnessCenterExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type WellnessSaunaExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type WellnessSalonExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type WellnessTreadmillExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type WellnessEllipticalMachineExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Guest facilities at the property to promote or maintain health, beauty, and fitness. */
+export interface Wellness {
+  /** Doctor on call exception. */
+  doctorOnCallException?: WellnessDoctorOnCallExceptionEnum | (string & {});
+  /** Weight machine exception. */
+  weightMachineException?: WellnessWeightMachineExceptionEnum | (string & {});
+  /** Free weights exception. */
+  freeWeightsException?: WellnessFreeWeightsExceptionEnum | (string & {});
+  /** Free fitness center exception. */
+  freeFitnessCenterException?: WellnessFreeFitnessCenterExceptionEnum | (string & {});
+  /** Sauna. A wood-paneled room heated to a high temperature where guests sit on built-in wood benches for the purpose of perspiring and relaxing their muscles. Can be dry or slightly wet heat. Not a steam room. */
+  sauna?: boolean;
+  /** Spa exception. */
+  spaException?: WellnessSpaExceptionEnum | (string & {});
+  /** Massage exception. */
+  massageException?: WellnessMassageExceptionEnum | (string & {});
+  /** Fitness center. A room or building at the hotel containing equipment to promote physical activity, such as treadmills, elliptical machines, stationary bikes, weight machines, free weights, and/or stretching mats. Use of the fitness center can be free or for a fee. May or may not be staffed. May or may not offer instructor-led classes in various styles of physical conditioning. May or may not be open 24/7. May or may not include locker rooms and showers. Also known as health club, gym, fitness room, health center. */
+  fitnessCenter?: boolean;
+  /** Fitness center exception. */
+  fitnessCenterException?: WellnessFitnessCenterExceptionEnum | (string & {});
+  /** Free weights. Individual handheld fitness equipment of varied weights used for upper body strength training or bodybuilding. Also known as barbells, dumbbells, or kettlebells. Often stored on a rack with the weights arranged from light to heavy. Commonly found in a gym, fitness room, health center, or health club. */
+  freeWeights?: boolean;
+  /** Sauna exception. */
+  saunaException?: WellnessSaunaExceptionEnum | (string & {});
+  /** Free fitness center. Guests may use the fitness center for free. */
+  freeFitnessCenter?: boolean;
+  /** Elliptical machine. An electric, stationary fitness machine with pedals that simulates climbing, walking or running and provides a user-controlled range of speeds and tensions. May not have arm-controlled levers to work out the upper body as well. Commonly found in a gym, fitness room, health center, or health club. */
+  ellipticalMachine?: boolean;
+  /** Massage. A service provided by a trained massage therapist involving the physical manipulation of a guest's muscles in order to achieve relaxation or pain relief. */
+  massage?: boolean;
+  /** Salon exception. */
+  salonException?: WellnessSalonExceptionEnum | (string & {});
+  /** Spa. A designated area, room or building at the hotel offering health and beauty treatment through such means as steam baths, exercise equipment, and massage. May also offer facials, nail care, and hair care. Services are usually available by appointment and for an additional fee. Does not apply if hotel only offers a steam room; must offer other beauty and/or health treatments as well. */
+  spa?: boolean;
+  /** Weight machine. Non-electronic fitness equipment designed for the user to target the exertion of different muscles. Usually incorporates a padded seat, a stack of flat weights and various bars and pulleys. May be designed for toning a specific part of the body or may involve different user-controlled settings, hardware and pulleys so as to provide an overall workout in one machine. Commonly found in a gym, fitness center, fitness room, or health club. */
+  weightMachine?: boolean;
+  /** Treadmill exception. */
+  treadmillException?: WellnessTreadmillExceptionEnum | (string & {});
+  /** Salon. A room at the hotel where professionals provide hair styling services such as shampooing, blow drying, hair dos, hair cutting and hair coloring. Also known as hairdresser or beauty salon. */
+  salon?: boolean;
+  /** Treadmill. An electric stationary fitness machine that simulates a moving path to promote walking or running within a range of user-controlled speeds and inclines. Also known as running machine. Commonly found in a gym, fitness room, health center, or health club. */
+  treadmill?: boolean;
+  /** Elliptical machine exception. */
+  ellipticalMachineException?: WellnessEllipticalMachineExceptionEnum | (string & {});
+  /** Doctor on call. The hotel has a contract with a medical professional who provides services to hotel guests should they fall ill during their stay. The doctor may or may not have an on-site office or be at the hotel at all times. */
+  doctorOnCall?: boolean;
+}
+export type TransportationCarRentalOnPropertyExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type TransportationAirportShuttleExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type TransportationLocalShuttleExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type TransportationFreePrivateCarServiceExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type TransportationPrivateCarServiceExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type TransportationFreeAirportShuttleExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type TransportationTransferExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Vehicles or vehicular services facilitated or owned by the property. */
+export interface Transportation {
+  /** Car rental on property exception. */
+  carRentalOnPropertyException?: TransportationCarRentalOnPropertyExceptionEnum | (string & {});
+  /** Transfer. Hotel provides a shuttle service or car service to take guests to and from the nearest airport or train station. Can be free or for a fee. Guests may share the vehicle with other guests unknown to them. */
+  transfer?: boolean;
+  /** Airport shuttle exception. */
+  airportShuttleException?: TransportationAirportShuttleExceptionEnum | (string & {});
+  /** Local shuttle exception. */
+  localShuttleException?: TransportationLocalShuttleExceptionEnum | (string & {});
+  /** Free airport shuttle. Airport shuttle is free to guests. Must be free to all guests without any conditions. */
+  freeAirportShuttle?: boolean;
+  /** Free private car service exception. */
+  freePrivateCarServiceException?: TransportationFreePrivateCarServiceExceptionEnum | (string & {});
+  /** Private car service exception. */
+  privateCarServiceException?: TransportationPrivateCarServiceExceptionEnum | (string & {});
+  /** Airport shuttle. The hotel provides guests with a chauffeured van or bus to and from the airport. Can be free or for a fee. Guests may share the vehicle with other guests unknown to them. Applies if the hotel has a third-party shuttle service (office/desk etc.) within the hotel. As long as hotel provides this service, it doesn't matter if it's directly with them or a third party they work with. Does not apply if guest has to coordinate with an entity outside/other than the hotel. */
+  airportShuttle?: boolean;
+  /** Car rental on property. A branch of a rental car company with a processing desk in the hotel. Available cars for rent may be awaiting at the hotel or in a nearby lot. */
+  carRentalOnProperty?: boolean;
+  /** Private car service. Hotel provides a private chauffeured car to transport guests to destinations. Passengers in the car are either alone or are known to one another and have requested the car together. Service can be free or for a fee and travel distance is usually limited to a specific range. Not a taxi. */
+  privateCarService?: boolean;
+  /** Local shuttle. A car, van or bus provided by the hotel to transport guests to destinations within a specified range of distance around the hotel. Usually shopping and/or convention centers, downtown districts, or beaches. Can be free or for a fee. */
+  localShuttle?: boolean;
+  /** Free airport shuttle exception. */
+  freeAirportShuttleException?: TransportationFreeAirportShuttleExceptionEnum | (string & {});
+  /** Free private car service. Private chauffeured car service is free to guests. */
+  freePrivateCarService?: boolean;
+  /** Transfer exception. */
+  transferException?: TransportationTransferExceptionEnum | (string & {});
+}
+export type FamiliesKidsFriendlyExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type FamiliesKidsClubExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type FamiliesBabysittingExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+export type FamiliesKidsActivitiesExceptionEnum =
+  | "EXCEPTION_UNSPECIFIED"
+  | "UNDER_CONSTRUCTION"
+  | "DEPENDENT_ON_SEASON"
+  | "DEPENDENT_ON_DAY_OF_WEEK";
+/** Services and amenities for families and young guests. */
+export interface Families {
+  /** Babysitting. Child care that is offered by hotel staffers or coordinated by hotel staffers with local child care professionals. Can be free or for a fee. */
+  babysitting?: boolean;
+  /** Kids friendly. The hotel has one or more special features for families with children, such as reduced rates, child-sized beds, kids' club, babysitting service, or suitable place to play on premises. */
+  kidsFriendly?: boolean;
+  /** Kids friendly exception. */
+  kidsFriendlyException?: FamiliesKidsFriendlyExceptionEnum | (string & {});
+  /** Kids club exception. */
+  kidsClubException?: FamiliesKidsClubExceptionEnum | (string & {});
+  /** Kids club. An organized program of group activities held at the hotel and designed for the enjoyment of children. Facilitated by hotel staff (or staff procured by the hotel) in an area(s) designated for the purpose of entertaining children without their parents. May include games, outings, water sports, team sports, arts and crafts, and films. Usually has set hours. Can be free or for a fee. Also known as Kids Camp or Kids program. */
+  kidsClub?: boolean;
+  /** Kids activities. Recreational options such as sports, films, crafts and games designed for the enjoyment of children and offered at the hotel. May or may not be supervised. May or may not be at a designated time or place. Cab be free or for a fee. */
+  kidsActivities?: boolean;
+  /** Babysitting exception. */
+  babysittingException?: FamiliesBabysittingExceptionEnum | (string & {});
+  /** Kids activities exception. */
+  kidsActivitiesException?: FamiliesKidsActivitiesExceptionEnum | (string & {});
 }
 /** Lodging of a location that provides accomodations. */
 export interface Lodging {
-  /** Required. Metadata for the lodging. */
-  metadata?: LodgingMetadata;
   /** Swimming pool or recreational water facilities available at the hotel. */
   pools?: Pools;
   /** Individual GuestUnitTypes that are available in this Lodging. */
   guestUnits?: GuestUnitTypeList;
-  /** Health and safety measures implemented by the hotel during COVID-19. */
-  healthAndSafety?: HealthAndSafety;
-  /** Output only. Some units on the property have as much as these attributes. */
-  someUnits?: GuestUnitFeatures;
-  /** Amenities and features related to leisure and play. */
-  activities?: Activities;
-  /** Services and amenities for families and young guests. */
-  families?: Families;
-  /** Guest facilities at the property to promote or maintain health, beauty, and fitness. */
-  wellness?: Wellness;
-  /** Sustainability practices implemented at the hotel. */
-  sustainability?: Sustainability;
-  /** Parking options at the property. */
-  parking?: Parking;
-  /** Conveniences or help provided by the property to facilitate an easier, more comfortable stay. */
-  services?: Services;
-  /** Conveniences provided in guest units to facilitate an easier, more comfortable stay. */
-  housekeeping?: Housekeeping;
-  /** Property rules that impact guests. */
-  policies?: Policies;
+  /** The ways in which the property provides guests with the ability to access the internet. */
+  connectivity?: Connectivity;
   /** Required. Google identifier for this location in the form: `locations/{location_id}/lodging` */
   name?: string;
+  /** Output only. Some units on the property have as much as these attributes. */
+  someUnits?: GuestUnitFeatures;
+  /** Property rules that impact guests. */
+  policies?: Policies;
+  /** Policies regarding guest-owned animals. */
+  pets?: Pets;
+  /** Conveniences or help provided by the property to facilitate an easier, more comfortable stay. */
+  services?: Services;
+  /** Parking options at the property. */
+  parking?: Parking;
+  /** Physical adaptations made to the property in consideration of varying levels of human physical ability. */
+  accessibility?: Accessibility;
   /** Output only. All units on the property have at least these attributes. */
   allUnits?: GuestUnitFeatures;
+  /** Meals, snacks, and beverages available at the property. */
+  foodAndDrink?: FoodAndDrink;
+  /** Required. Metadata for the lodging. */
+  metadata?: LodgingMetadata;
   /** Features of the property of specific interest to the business traveler. */
   business?: Business;
+  /** Conveniences provided in guest units to facilitate an easier, more comfortable stay. */
+  housekeeping?: Housekeeping;
+  /** Sustainability practices implemented at the hotel. */
+  sustainability?: Sustainability;
+  /** General factual information about the property's physical structure and important dates. */
+  property?: Property;
+  /** Amenities and features related to leisure and play. */
+  activities?: Activities;
+  /** Health and safety measures implemented by the hotel during COVID-19. */
+  healthAndSafety?: HealthAndSafety;
+  /** Guest facilities at the property to promote or maintain health, beauty, and fitness. */
+  wellness?: Wellness;
   /** Vehicles or vehicular services facilitated or owned by the property. */
   transportation?: Transportation;
   /** Features of the shared living areas available in this Lodging. */
   commonLivingArea?: LivingArea;
-  /** Policies regarding guest-owned animals. */
-  pets?: Pets;
-  /** Physical adaptations made to the property in consideration of varying levels of human physical ability. */
-  accessibility?: Accessibility;
-  /** General factual information about the property's physical structure and important dates. */
-  property?: Property;
-  /** Meals, snacks, and beverages available at the property. */
-  foodAndDrink?: FoodAndDrink;
-  /** The ways in which the property provides guests with the ability to access the internet. */
-  connectivity?: Connectivity;
+  /** Services and amenities for families and young guests. */
+  families?: Families;
 }
 /** Response message for LodgingService.GetGoogleUpdatedLodging */
 export interface GetGoogleUpdatedLodgingResponse {
@@ -3018,812 +3018,812 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
+          lifeguardException: S.optional(S.String),
+          hotTubException: S.optional(S.String),
+          indoorPool: S.optional(S.Boolean),
+          adultPoolException: S.optional(S.String),
+          outdoorPool: S.optional(S.Boolean),
+          indoorPoolsCount: S.optional(S.Number),
+          indoorPoolsCountException: S.optional(S.String),
+          adultPool: S.optional(S.Boolean),
+          wavePool: S.optional(S.Boolean),
+          lazyRiverException: S.optional(S.String),
+          wavePoolException: S.optional(S.String),
+          poolsCountException: S.optional(S.String),
+          poolsCount: S.optional(S.Number),
+          waterParkException: S.optional(S.String),
+          waterPark: S.optional(S.Boolean),
+          waterslide: S.optional(S.Boolean),
+          wadingPoolException: S.optional(S.String),
+          indoorPoolException: S.optional(S.String),
+          hotTub: S.optional(S.Boolean),
+          outdoorPoolException: S.optional(S.String),
+          pool: S.optional(S.Boolean),
+          outdoorPoolsCountException: S.optional(S.String),
+          lifeguard: S.optional(S.Boolean),
+          poolException: S.optional(S.String),
+          wadingPool: S.optional(S.Boolean),
+          waterslideException: S.optional(S.String),
+          lazyRiver: S.optional(S.Boolean),
+          outdoorPoolsCount: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "LodgingMetadata" });
+      ).annotate({ identifier: "Pools" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          poolsCountException: S.optional(S.String),
-          waterParkException: S.optional(S.String),
-          outdoorPool: S.optional(S.Boolean),
-          wadingPool: S.optional(S.Boolean),
-          outdoorPoolsCount: S.optional(S.Number),
-          waterslide: S.optional(S.Boolean),
-          outdoorPoolsCountException: S.optional(S.String),
-          wadingPoolException: S.optional(S.String),
-          poolsCount: S.optional(S.Number),
-          adultPool: S.optional(S.Boolean),
-          indoorPool: S.optional(S.Boolean),
-          waterPark: S.optional(S.Boolean),
-          hotTub: S.optional(S.Boolean),
-          lazyRiver: S.optional(S.Boolean),
-          hotTubException: S.optional(S.String),
-          waterslideException: S.optional(S.String),
-          indoorPoolsCountException: S.optional(S.String),
-          wavePoolException: S.optional(S.String),
-          lifeguard: S.optional(S.Boolean),
-          pool: S.optional(S.Boolean),
-          lazyRiverException: S.optional(S.String),
-          wavePool: S.optional(S.Boolean),
-          adultPoolException: S.optional(S.String),
-          indoorPoolsCount: S.optional(S.Number),
-          outdoorPoolException: S.optional(S.String),
-          poolException: S.optional(S.String),
-          lifeguardException: S.optional(S.String),
-          indoorPoolException: S.optional(S.String),
+          nonSmoking: S.optional(S.Boolean),
+          patioException: S.optional(S.String),
+          patio: S.optional(S.Boolean),
+          loft: S.optional(S.Boolean),
+          loftException: S.optional(S.String),
+          stairs: S.optional(S.Boolean),
+          nonSmokingException: S.optional(S.String),
+          stairsException: S.optional(S.String),
+          livingAreaSqMetersException: S.optional(S.String),
+          balcony: S.optional(S.Boolean),
+          balconyException: S.optional(S.String),
+          livingAreaSqMeters: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "Pools" });
+      ).annotate({ identifier: "LivingAreaLayout" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          patioException: S.optional(S.String),
-          livingAreaSqMeters: S.optional(S.Number),
-          patio: S.optional(S.Boolean),
-          balcony: S.optional(S.Boolean),
-          loft: S.optional(S.Boolean),
-          nonSmokingException: S.optional(S.String),
-          stairsException: S.optional(S.String),
-          loftException: S.optional(S.String),
-          stairs: S.optional(S.Boolean),
-          nonSmoking: S.optional(S.Boolean),
-          balconyException: S.optional(S.String),
-          livingAreaSqMetersException: S.optional(S.String),
+          hearingAccessibleDoorbellException: S.optional(S.String),
+          hearingAccessibleUnitException: S.optional(S.String),
+          mobilityAccessibleUnitException: S.optional(S.String),
+          adaCompliantUnitException: S.optional(S.String),
+          mobilityAccessibleShowerException: S.optional(S.String),
+          hearingAccessibleUnit: S.optional(S.Boolean),
+          mobilityAccessibleBathtub: S.optional(S.Boolean),
+          mobilityAccessibleBathtubException: S.optional(S.String),
+          hearingAccessibleFireAlarm: S.optional(S.Boolean),
+          mobilityAccessibleShower: S.optional(S.Boolean),
+          mobilityAccessibleToilet: S.optional(S.Boolean),
+          hearingAccessibleDoorbell: S.optional(S.Boolean),
+          adaCompliantUnit: S.optional(S.Boolean),
+          hearingAccessibleFireAlarmException: S.optional(S.String),
+          mobilityAccessibleToiletException: S.optional(S.String),
+          mobilityAccessibleUnit: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "LivingAreaLayout" });
+      ).annotate({ identifier: "LivingAreaAccessibility" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          sink: S.optional(S.Boolean),
-          snackbar: S.optional(S.Boolean),
-          minibar: S.optional(S.Boolean),
-          kitchenAvailableException: S.optional(S.String),
-          microwaveException: S.optional(S.String),
-          coffeeMaker: S.optional(S.Boolean),
-          teaStationException: S.optional(S.String),
-          toaster: S.optional(S.Boolean),
-          outdoorGrillException: S.optional(S.String),
-          microwave: S.optional(S.Boolean),
-          stove: S.optional(S.Boolean),
-          refrigerator: S.optional(S.Boolean),
-          sinkException: S.optional(S.String),
-          outdoorGrill: S.optional(S.Boolean),
-          cookwareException: S.optional(S.String),
-          dishwasher: S.optional(S.Boolean),
-          kettleException: S.optional(S.String),
-          cookware: S.optional(S.Boolean),
-          minibarException: S.optional(S.String),
-          teaStation: S.optional(S.Boolean),
-          snackbarException: S.optional(S.String),
-          ovenException: S.optional(S.String),
-          coffeeMakerException: S.optional(S.String),
-          oven: S.optional(S.Boolean),
-          toasterException: S.optional(S.String),
-          stoveException: S.optional(S.String),
-          kitchenAvailable: S.optional(S.Boolean),
-          dishwasherException: S.optional(S.String),
-          indoorGrill: S.optional(S.Boolean),
-          refrigeratorException: S.optional(S.String),
-          kettle: S.optional(S.Boolean),
-          indoorGrillException: S.optional(S.String),
+          hypoallergenicBeddingException: S.optional(S.String),
+          hypoallergenicBedding: S.optional(S.Boolean),
+          doubleBedsCount: S.optional(S.Number),
+          cribsCount: S.optional(S.Number),
+          rollAwayBedsCountException: S.optional(S.String),
+          memoryFoamPillowsException: S.optional(S.String),
+          rollAwayBedsCount: S.optional(S.Number),
+          featherPillowsException: S.optional(S.String),
+          otherBedsCountException: S.optional(S.String),
+          singleOrTwinBedsCount: S.optional(S.Number),
+          singleOrTwinBedsCountException: S.optional(S.String),
+          kingBedsCountException: S.optional(S.String),
+          memoryFoamPillows: S.optional(S.Boolean),
+          bedsCount: S.optional(S.Number),
+          featherPillows: S.optional(S.Boolean),
+          cribsCountException: S.optional(S.String),
+          sofaBedsCountException: S.optional(S.String),
+          doubleBedsCountException: S.optional(S.String),
+          bedsCountException: S.optional(S.String),
+          syntheticPillowsException: S.optional(S.String),
+          syntheticPillows: S.optional(S.Boolean),
+          otherBedsCount: S.optional(S.Number),
+          sofaBedsCount: S.optional(S.Number),
+          bunkBedsCountException: S.optional(S.String),
+          queenBedsCount: S.optional(S.Number),
+          kingBedsCount: S.optional(S.Number),
+          queenBedsCountException: S.optional(S.String),
+          bunkBedsCount: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "LivingAreaEating" });
+      ).annotate({ identifier: "LivingAreaSleeping" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          otherBedsCount: S.optional(S.Number),
-          cribsCountException: S.optional(S.String),
-          sofaBedsCountException: S.optional(S.String),
-          syntheticPillows: S.optional(S.Boolean),
-          queenBedsCountException: S.optional(S.String),
-          queenBedsCount: S.optional(S.Number),
-          featherPillows: S.optional(S.Boolean),
-          featherPillowsException: S.optional(S.String),
-          doubleBedsCountException: S.optional(S.String),
-          otherBedsCountException: S.optional(S.String),
-          rollAwayBedsCountException: S.optional(S.String),
-          cribsCount: S.optional(S.Number),
-          doubleBedsCount: S.optional(S.Number),
-          kingBedsCount: S.optional(S.Number),
-          bunkBedsCount: S.optional(S.Number),
-          bedsCount: S.optional(S.Number),
-          singleOrTwinBedsCountException: S.optional(S.String),
-          hypoallergenicBeddingException: S.optional(S.String),
-          hypoallergenicBedding: S.optional(S.Boolean),
-          rollAwayBedsCount: S.optional(S.Number),
-          kingBedsCountException: S.optional(S.String),
-          bunkBedsCountException: S.optional(S.String),
-          memoryFoamPillows: S.optional(S.Boolean),
-          syntheticPillowsException: S.optional(S.String),
-          singleOrTwinBedsCount: S.optional(S.Number),
-          memoryFoamPillowsException: S.optional(S.String),
-          bedsCountException: S.optional(S.String),
-          sofaBedsCount: S.optional(S.Number),
+          toasterException: S.optional(S.String),
+          dishwasherException: S.optional(S.String),
+          kettle: S.optional(S.Boolean),
+          sinkException: S.optional(S.String),
+          kettleException: S.optional(S.String),
+          minibarException: S.optional(S.String),
+          refrigeratorException: S.optional(S.String),
+          snackbar: S.optional(S.Boolean),
+          ovenException: S.optional(S.String),
+          teaStationException: S.optional(S.String),
+          outdoorGrillException: S.optional(S.String),
+          refrigerator: S.optional(S.Boolean),
+          dishwasher: S.optional(S.Boolean),
+          stoveException: S.optional(S.String),
+          coffeeMaker: S.optional(S.Boolean),
+          kitchenAvailable: S.optional(S.Boolean),
+          stove: S.optional(S.Boolean),
+          microwave: S.optional(S.Boolean),
+          kitchenAvailableException: S.optional(S.String),
+          teaStation: S.optional(S.Boolean),
+          oven: S.optional(S.Boolean),
+          microwaveException: S.optional(S.String),
+          indoorGrillException: S.optional(S.String),
+          toaster: S.optional(S.Boolean),
+          snackbarException: S.optional(S.String),
+          indoorGrill: S.optional(S.Boolean),
+          sink: S.optional(S.Boolean),
+          cookwareException: S.optional(S.String),
+          minibar: S.optional(S.Boolean),
+          coffeeMakerException: S.optional(S.String),
+          outdoorGrill: S.optional(S.Boolean),
+          cookware: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "LivingAreaSleeping" });
+      ).annotate({ identifier: "LivingAreaEating" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          hearingAccessibleFireAlarm: S.optional(S.Boolean),
-          hearingAccessibleDoorbell: S.optional(S.Boolean),
-          mobilityAccessibleShowerException: S.optional(S.String),
-          hearingAccessibleFireAlarmException: S.optional(S.String),
-          mobilityAccessibleBathtubException: S.optional(S.String),
-          adaCompliantUnitException: S.optional(S.String),
-          mobilityAccessibleUnit: S.optional(S.Boolean),
-          adaCompliantUnit: S.optional(S.Boolean),
-          mobilityAccessibleToiletException: S.optional(S.String),
-          mobilityAccessibleShower: S.optional(S.Boolean),
-          hearingAccessibleUnit: S.optional(S.Boolean),
-          hearingAccessibleUnitException: S.optional(S.String),
-          hearingAccessibleDoorbellException: S.optional(S.String),
-          mobilityAccessibleToilet: S.optional(S.Boolean),
-          mobilityAccessibleBathtub: S.optional(S.Boolean),
-          mobilityAccessibleUnitException: S.optional(S.String),
+          ironingEquipmentException: S.optional(S.String),
+          tvCastingException: S.optional(S.String),
+          tvStreamingException: S.optional(S.String),
+          airConditioningException: S.optional(S.String),
+          inunitWifiAvailable: S.optional(S.Boolean),
+          dryer: S.optional(S.Boolean),
+          tvException: S.optional(S.String),
+          inunitSafe: S.optional(S.Boolean),
+          universalPowerAdapters: S.optional(S.Boolean),
+          payPerViewMovies: S.optional(S.Boolean),
+          dryerException: S.optional(S.String),
+          toiletException: S.optional(S.String),
+          fireplace: S.optional(S.Boolean),
+          inunitSafeException: S.optional(S.String),
+          electronicRoomKeyException: S.optional(S.String),
+          washer: S.optional(S.Boolean),
+          bidet: S.optional(S.Boolean),
+          airConditioning: S.optional(S.Boolean),
+          bathtubException: S.optional(S.String),
+          hairdryerException: S.optional(S.String),
+          universalPowerAdaptersException: S.optional(S.String),
+          tv: S.optional(S.Boolean),
+          toilet: S.optional(S.Boolean),
+          privateBathroomException: S.optional(S.String),
+          showerException: S.optional(S.String),
+          ironingEquipment: S.optional(S.Boolean),
+          shower: S.optional(S.Boolean),
+          privateBathroom: S.optional(S.Boolean),
+          tvStreaming: S.optional(S.Boolean),
+          tvCasting: S.optional(S.Boolean),
+          heatingException: S.optional(S.String),
+          inunitWifiAvailableException: S.optional(S.String),
+          heating: S.optional(S.Boolean),
+          hairdryer: S.optional(S.Boolean),
+          electronicRoomKey: S.optional(S.Boolean),
+          bathtub: S.optional(S.Boolean),
+          bidetException: S.optional(S.String),
+          washerException: S.optional(S.String),
+          fireplaceException: S.optional(S.String),
+          payPerViewMoviesException: S.optional(S.String),
         }),
-      ).annotate({ identifier: "LivingAreaAccessibility" });
+      ).annotate({ identifier: "LivingAreaFeatures" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          ironingEquipment: S.optional(S.Boolean),
-          toilet: S.optional(S.Boolean),
-          heating: S.optional(S.Boolean),
-          dryer: S.optional(S.Boolean),
-          airConditioningException: S.optional(S.String),
-          universalPowerAdapters: S.optional(S.Boolean),
-          privateBathroom: S.optional(S.Boolean),
-          tvCasting: S.optional(S.Boolean),
-          inunitWifiAvailable: S.optional(S.Boolean),
-          hairdryer: S.optional(S.Boolean),
-          tvStreamingException: S.optional(S.String),
-          tv: S.optional(S.Boolean),
-          washer: S.optional(S.Boolean),
-          inunitSafe: S.optional(S.Boolean),
-          airConditioning: S.optional(S.Boolean),
-          payPerViewMoviesException: S.optional(S.String),
-          hairdryerException: S.optional(S.String),
-          tvException: S.optional(S.String),
-          toiletException: S.optional(S.String),
-          shower: S.optional(S.Boolean),
-          electronicRoomKeyException: S.optional(S.String),
-          inunitWifiAvailableException: S.optional(S.String),
-          tvStreaming: S.optional(S.Boolean),
-          bathtub: S.optional(S.Boolean),
-          washerException: S.optional(S.String),
-          showerException: S.optional(S.String),
-          bidetException: S.optional(S.String),
-          universalPowerAdaptersException: S.optional(S.String),
-          ironingEquipmentException: S.optional(S.String),
-          fireplaceException: S.optional(S.String),
-          payPerViewMovies: S.optional(S.Boolean),
-          tvCastingException: S.optional(S.String),
-          bidet: S.optional(S.Boolean),
-          bathtubException: S.optional(S.String),
-          privateBathroomException: S.optional(S.String),
-          electronicRoomKey: S.optional(S.Boolean),
-          dryerException: S.optional(S.String),
-          heatingException: S.optional(S.String),
-          inunitSafeException: S.optional(S.String),
-          fireplace: S.optional(S.Boolean),
+          layout: S.optional(__S(33, __c1, 1)),
+          accessibility: S.optional(__S(34, __c1, 2)),
+          sleeping: S.optional(__S(35, __c1, 3)),
+          eating: S.optional(__S(36, __c1, 4)),
+          features: S.optional(__S(37, __c1, 5)),
         }),
-      ).annotate({ identifier: "LivingAreaFeatures" });
+      ).annotate({ identifier: "LivingArea" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          layout: S.optional(__S(34, __c1, 2)),
-          eating: S.optional(__S(35, __c1, 3)),
-          sleeping: S.optional(__S(36, __c1, 4)),
-          accessibility: S.optional(__S(37, __c1, 5)),
-          features: S.optional(__S(38, __c1, 6)),
+          beachView: S.optional(S.Boolean),
+          valleyViewException: S.optional(S.String),
+          lakeView: S.optional(S.Boolean),
+          cityView: S.optional(S.Boolean),
+          cityViewException: S.optional(S.String),
+          landmarkView: S.optional(S.Boolean),
+          poolViewException: S.optional(S.String),
+          landmarkViewException: S.optional(S.String),
+          oceanViewException: S.optional(S.String),
+          gardenViewException: S.optional(S.String),
+          beachViewException: S.optional(S.String),
+          gardenView: S.optional(S.Boolean),
+          poolView: S.optional(S.Boolean),
+          valleyView: S.optional(S.Boolean),
+          oceanView: S.optional(S.Boolean),
+          lakeViewException: S.optional(S.String),
         }),
-      ).annotate({ identifier: "LivingArea" });
+      ).annotate({ identifier: "ViewsFromUnit" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          poolView: S.optional(S.Boolean),
-          poolViewException: S.optional(S.String),
-          gardenViewException: S.optional(S.String),
-          valleyViewException: S.optional(S.String),
-          lakeView: S.optional(S.Boolean),
-          beachView: S.optional(S.Boolean),
-          gardenView: S.optional(S.Boolean),
-          cityView: S.optional(S.Boolean),
-          lakeViewException: S.optional(S.String),
-          oceanView: S.optional(S.Boolean),
-          valleyView: S.optional(S.Boolean),
-          cityViewException: S.optional(S.String),
-          landmarkViewException: S.optional(S.String),
-          landmarkView: S.optional(S.Boolean),
-          beachViewException: S.optional(S.String),
-          oceanViewException: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ViewsFromUnit" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          bungalowOrVilla: S.optional(S.Boolean),
-          totalLivingAreas: S.optional(__S(39, __c1, 7)),
+          maxOccupantsCount: S.optional(S.Number),
           executiveFloor: S.optional(S.Boolean),
-          suite: S.optional(S.Boolean),
-          maxAdultOccupantsCount: S.optional(S.Number),
-          tier: S.optional(S.String),
-          connectingUnitAvailable: S.optional(S.Boolean),
           maxOccupantsCountException: S.optional(S.String),
-          privateHomeException: S.optional(S.String),
-          privateHome: S.optional(S.Boolean),
-          maxChildOccupantsCount: S.optional(S.Number),
-          bungalowOrVillaException: S.optional(S.String),
           connectingUnitAvailableException: S.optional(S.String),
           maxAdultOccupantsCountException: S.optional(S.String),
-          maxOccupantsCount: S.optional(S.Number),
-          tierException: S.optional(S.String),
-          views: S.optional(__S(40, __c1, 8)),
-          executiveFloorException: S.optional(S.String),
-          maxChildOccupantsCountException: S.optional(S.String),
+          bungalowOrVilla: S.optional(S.Boolean),
+          totalLivingAreas: S.optional(__S(38, __c1, 6)),
+          privateHome: S.optional(S.Boolean),
           suiteException: S.optional(S.String),
+          privateHomeException: S.optional(S.String),
+          views: S.optional(__S(39, __c1, 7)),
+          tierException: S.optional(S.String),
+          maxChildOccupantsCount: S.optional(S.Number),
+          executiveFloorException: S.optional(S.String),
+          connectingUnitAvailable: S.optional(S.Boolean),
+          suite: S.optional(S.Boolean),
+          maxChildOccupantsCountException: S.optional(S.String),
+          bungalowOrVillaException: S.optional(S.String),
+          maxAdultOccupantsCount: S.optional(S.Number),
+          tier: S.optional(S.String),
         }),
       ).annotate({ identifier: "GuestUnitFeatures" });
-    case 10:
+    case 9:
       return S.Array(S.String);
-    case 11:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           label: S.optional(S.String),
-          features: S.optional(__S(41, __c1, 9)),
-          codes: S.optional(__S(42, __c1, 10)),
+          features: S.optional(__S(40, __c1, 8)),
+          codes: S.optional(__S(41, __c1, 9)),
         }),
       ).annotate({ identifier: "GuestUnitType" });
-    case 12:
-      return S.Array(__S(43, __c1, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          diningAreasAdditionalSanitationException: S.optional(S.String),
-          individualPackagedMealsException: S.optional(S.String),
-          diningAreasAdditionalSanitation: S.optional(S.Boolean),
-          individualPackagedMeals: S.optional(S.Boolean),
-          disposableFlatware: S.optional(S.Boolean),
-          singleUseFoodMenusException: S.optional(S.String),
-          singleUseFoodMenus: S.optional(S.Boolean),
-          foodPreparationAndServingAdditionalSafety: S.optional(S.Boolean),
-          foodPreparationAndServingAdditionalSafetyException: S.optional(S.String),
-          disposableFlatwareException: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IncreasedFoodSafety" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          employeesTrainedCleaningProceduresException: S.optional(S.String),
-          employeesTrainedThoroughHandWashingException: S.optional(S.String),
-          commercialGradeDisinfectantCleaning: S.optional(S.Boolean),
-          commercialGradeDisinfectantCleaningException: S.optional(S.String),
-          guestRoomsEnhancedCleaning: S.optional(S.Boolean),
-          employeesWearProtectiveEquipment: S.optional(S.Boolean),
-          commonAreasEnhancedCleaning: S.optional(S.Boolean),
-          commonAreasEnhancedCleaningException: S.optional(S.String),
-          employeesWearProtectiveEquipmentException: S.optional(S.String),
-          guestRoomsEnhancedCleaningException: S.optional(S.String),
-          employeesTrainedThoroughHandWashing: S.optional(S.Boolean),
-          employeesTrainedCleaningProcedures: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "EnhancedCleaning" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          contactlessCheckinCheckoutException: S.optional(S.String),
-          roomBookingsBufferException: S.optional(S.String),
-          contactlessCheckinCheckout: S.optional(S.Boolean),
-          noHighTouchItemsGuestRooms: S.optional(S.Boolean),
-          digitalGuestRoomKeys: S.optional(S.Boolean),
-          noHighTouchItemsGuestRoomsException: S.optional(S.String),
-          roomBookingsBuffer: S.optional(S.Boolean),
-          noHighTouchItemsCommonAreasException: S.optional(S.String),
-          housekeepingScheduledRequestOnlyException: S.optional(S.String),
-          plasticKeycardsDisinfected: S.optional(S.Boolean),
-          housekeepingScheduledRequestOnly: S.optional(S.Boolean),
-          noHighTouchItemsCommonAreas: S.optional(S.Boolean),
-          plasticKeycardsDisinfectedException: S.optional(S.String),
-          digitalGuestRoomKeysException: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MinimizedContact" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          protectiveEquipmentAvailableException: S.optional(S.String),
-          commonAreasOfferSanitizingItemsException: S.optional(S.String),
-          guestRoomHygieneKitsAvailable: S.optional(S.Boolean),
-          commonAreasOfferSanitizingItems: S.optional(S.Boolean),
-          protectiveEquipmentAvailable: S.optional(S.Boolean),
-          faceMaskRequiredException: S.optional(S.String),
-          guestRoomHygieneKitsAvailableException: S.optional(S.String),
-          faceMaskRequired: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "PersonalProtection" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          sharedAreasLimitedOccupancy: S.optional(S.Boolean),
-          wellnessAreasHavePrivateSpaces: S.optional(S.Boolean),
-          commonAreasPhysicalDistancingArrangedException: S.optional(S.String),
-          wellnessAreasHavePrivateSpacesException: S.optional(S.String),
-          safetyDividers: S.optional(S.Boolean),
-          safetyDividersException: S.optional(S.String),
-          physicalDistancingRequired: S.optional(S.Boolean),
-          physicalDistancingRequiredException: S.optional(S.String),
-          sharedAreasLimitedOccupancyException: S.optional(S.String),
-          commonAreasPhysicalDistancingArranged: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "PhysicalDistancing" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          increasedFoodSafety: S.optional(__S(45, __c1, 13)),
-          enhancedCleaning: S.optional(__S(46, __c1, 14)),
-          minimizedContact: S.optional(__S(47, __c1, 15)),
-          personalProtection: S.optional(__S(48, __c1, 16)),
-          physicalDistancing: S.optional(__S(49, __c1, 17)),
-        }),
-      ).annotate({ identifier: "HealthAndSafety" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          nightclub: S.optional(S.Boolean),
-          freeWatercraftRental: S.optional(S.Boolean),
-          boutiqueStoresException: S.optional(S.String),
-          scuba: S.optional(S.Boolean),
-          casino: S.optional(S.Boolean),
-          beachFrontException: S.optional(S.String),
-          privateBeachException: S.optional(S.String),
-          horsebackRiding: S.optional(S.Boolean),
-          gameRoomException: S.optional(S.String),
-          waterSkiing: S.optional(S.Boolean),
-          horsebackRidingException: S.optional(S.String),
-          golfException: S.optional(S.String),
-          beachAccess: S.optional(S.Boolean),
-          beachFront: S.optional(S.Boolean),
-          gameRoom: S.optional(S.Boolean),
-          freeBicycleRental: S.optional(S.Boolean),
-          nightclubException: S.optional(S.String),
-          bicycleRentalException: S.optional(S.String),
-          freeWatercraftRentalException: S.optional(S.String),
-          tennis: S.optional(S.Boolean),
-          snorkelingException: S.optional(S.String),
-          tennisException: S.optional(S.String),
-          boutiqueStores: S.optional(S.Boolean),
-          privateBeach: S.optional(S.Boolean),
-          freeBicycleRentalException: S.optional(S.String),
-          scubaException: S.optional(S.String),
-          golf: S.optional(S.Boolean),
-          bicycleRental: S.optional(S.Boolean),
-          watercraftRentalException: S.optional(S.String),
-          snorkeling: S.optional(S.Boolean),
-          beachAccessException: S.optional(S.String),
-          watercraftRental: S.optional(S.Boolean),
-          waterSkiingException: S.optional(S.String),
-          casinoException: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Activities" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          kidsClub: S.optional(S.Boolean),
-          babysitting: S.optional(S.Boolean),
-          kidsFriendly: S.optional(S.Boolean),
-          kidsFriendlyException: S.optional(S.String),
-          kidsActivitiesException: S.optional(S.String),
-          kidsClubException: S.optional(S.String),
-          kidsActivities: S.optional(S.Boolean),
-          babysittingException: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Families" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          freeWeights: S.optional(S.Boolean),
-          doctorOnCall: S.optional(S.Boolean),
-          freeFitnessCenter: S.optional(S.Boolean),
-          ellipticalMachine: S.optional(S.Boolean),
-          weightMachine: S.optional(S.Boolean),
-          weightMachineException: S.optional(S.String),
-          salon: S.optional(S.Boolean),
-          freeFitnessCenterException: S.optional(S.String),
-          saunaException: S.optional(S.String),
-          salonException: S.optional(S.String),
-          fitnessCenter: S.optional(S.Boolean),
-          doctorOnCallException: S.optional(S.String),
-          ellipticalMachineException: S.optional(S.String),
-          fitnessCenterException: S.optional(S.String),
-          spaException: S.optional(S.String),
-          freeWeightsException: S.optional(S.String),
-          massage: S.optional(S.Boolean),
-          treadmillException: S.optional(S.String),
-          massageException: S.optional(S.String),
-          sauna: S.optional(S.Boolean),
-          treadmill: S.optional(S.Boolean),
-          spa: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Wellness" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          locallySourcedFoodAndBeveragesException: S.optional(S.String),
-          responsiblySourcesSeafood: S.optional(S.Boolean),
-          organicFoodAndBeveragesException: S.optional(S.String),
-          veganMeals: S.optional(S.Boolean),
-          organicFoodAndBeverages: S.optional(S.Boolean),
-          locallySourcedFoodAndBeverages: S.optional(S.Boolean),
-          responsiblePurchasingPolicy: S.optional(S.Boolean),
-          ecoFriendlyToiletries: S.optional(S.Boolean),
-          vegetarianMeals: S.optional(S.Boolean),
-          responsiblePurchasingPolicyException: S.optional(S.String),
-          veganMealsException: S.optional(S.String),
-          ecoFriendlyToiletriesException: S.optional(S.String),
-          responsiblySourcesSeafoodException: S.optional(S.String),
-          organicCageFreeEggs: S.optional(S.Boolean),
-          organicCageFreeEggsException: S.optional(S.String),
-          vegetarianMealsException: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SustainableSourcing" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          ecoCertificate: S.optional(S.String),
-          awardedException: S.optional(S.String),
-          awarded: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "EcoCertification" });
-    case 24:
-      return S.Array(__S(55, __c1, 23));
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          leedCertificationException: S.optional(S.String),
-          breeamCertification: S.optional(S.String),
-          leedCertification: S.optional(S.String),
-          ecoCertifications: S.optional(__S(56, __c1, 24)),
-          breeamCertificationException: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SustainabilityCertifications" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          safelyDisposesElectronics: S.optional(S.Boolean),
-          safelyDisposesLightbulbsException: S.optional(S.String),
-          compostableFoodContainersAndCutlery: S.optional(S.Boolean),
-          toiletryDonationProgram: S.optional(S.Boolean),
-          recyclingProgram: S.optional(S.Boolean),
-          refillableToiletryContainers: S.optional(S.Boolean),
-          noSingleUsePlasticStrawsException: S.optional(S.String),
-          compostableFoodContainersAndCutleryException: S.optional(S.String),
-          foodWasteReductionProgramException: S.optional(S.String),
-          noSingleUsePlasticWaterBottlesException: S.optional(S.String),
-          compostsExcessFood: S.optional(S.Boolean),
-          refillableToiletryContainersException: S.optional(S.String),
-          noStyrofoamFoodContainers: S.optional(S.Boolean),
-          donatesExcessFood: S.optional(S.Boolean),
-          donatesExcessFoodException: S.optional(S.String),
-          soapDonationProgramException: S.optional(S.String),
-          noStyrofoamFoodContainersException: S.optional(S.String),
-          noSingleUsePlasticStraws: S.optional(S.Boolean),
-          safelyHandlesHazardousSubstances: S.optional(S.Boolean),
-          noSingleUsePlasticWaterBottles: S.optional(S.Boolean),
-          toiletryDonationProgramException: S.optional(S.String),
-          waterBottleFillingStations: S.optional(S.Boolean),
-          recyclingProgramException: S.optional(S.String),
-          safelyDisposesLightbulbs: S.optional(S.Boolean),
-          foodWasteReductionProgram: S.optional(S.Boolean),
-          waterBottleFillingStationsException: S.optional(S.String),
-          safelyDisposesBatteries: S.optional(S.Boolean),
-          soapDonationProgram: S.optional(S.Boolean),
-          compostsExcessFoodException: S.optional(S.String),
-          safelyDisposesElectronicsException: S.optional(S.String),
-          safelyHandlesHazardousSubstancesException: S.optional(S.String),
-          safelyDisposesBatteriesException: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WasteReduction" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          energyEfficientLighting: S.optional(S.Boolean),
-          energyEfficientHeatingAndCoolingSystems: S.optional(S.Boolean),
-          energyConservationProgramException: S.optional(S.String),
-          greenBuildingDesign: S.optional(S.Boolean),
-          greenBuildingDesignException: S.optional(S.String),
-          energyEfficientLightingException: S.optional(S.String),
-          carbonFreeEnergySourcesException: S.optional(S.String),
-          energySavingThermostats: S.optional(S.Boolean),
-          independentOrganizationAuditsEnergyUse: S.optional(S.Boolean),
-          energySavingThermostatsException: S.optional(S.String),
-          carbonFreeEnergySources: S.optional(S.Boolean),
-          energyEfficientHeatingAndCoolingSystemsException: S.optional(S.String),
-          energyConservationProgram: S.optional(S.Boolean),
-          independentOrganizationAuditsEnergyUseException: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnergyEfficiency" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          waterSavingToilets: S.optional(S.Boolean),
-          towelReuseProgram: S.optional(S.Boolean),
-          linenReuseProgram: S.optional(S.Boolean),
-          towelReuseProgramException: S.optional(S.String),
-          waterSavingToiletsException: S.optional(S.String),
-          independentOrganizationAuditsWaterUseException: S.optional(S.String),
-          waterSavingSinksException: S.optional(S.String),
-          waterSavingShowers: S.optional(S.Boolean),
-          independentOrganizationAuditsWaterUse: S.optional(S.Boolean),
-          waterSavingShowersException: S.optional(S.String),
-          linenReuseProgramException: S.optional(S.String),
-          waterSavingSinks: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "WaterConservation" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          sustainableSourcing: S.optional(__S(54, __c1, 22)),
-          sustainabilityCertifications: S.optional(__S(57, __c1, 25)),
-          wasteReduction: S.optional(__S(58, __c1, 26)),
-          energyEfficiency: S.optional(__S(59, __c1, 27)),
-          waterConservation: S.optional(__S(60, __c1, 28)),
-        }),
-      ).annotate({ identifier: "Sustainability" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          selfParkingAvailableException: S.optional(S.String),
-          freeParking: S.optional(S.Boolean),
-          valetParkingAvailableException: S.optional(S.String),
-          electricCarChargingStations: S.optional(S.Boolean),
-          selfParkingAvailable: S.optional(S.Boolean),
-          valetParkingAvailable: S.optional(S.Boolean),
-          freeValetParking: S.optional(S.Boolean),
-          freeSelfParkingException: S.optional(S.String),
-          freeParkingException: S.optional(S.String),
-          parkingAvailableException: S.optional(S.String),
-          parkingAvailable: S.optional(S.Boolean),
-          freeValetParkingException: S.optional(S.String),
-          freeSelfParking: S.optional(S.Boolean),
-          electricCarChargingStationsException: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Parking" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          spoken: S.optional(S.Boolean),
-          spokenException: S.optional(S.String),
-          languageCode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LanguageSpoken" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(63, __c1, 31));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          baggageStorage: S.optional(S.Boolean),
-          selfServiceLaundry: S.optional(S.Boolean),
-          convenienceStore: S.optional(S.Boolean),
-          fullServiceLaundry: S.optional(S.Boolean),
-          twentyFourHourFrontDeskException: S.optional(S.String),
-          frontDesk: S.optional(S.Boolean),
-          frontDeskException: S.optional(S.String),
-          conciergeException: S.optional(S.String),
-          twentyFourHourFrontDesk: S.optional(S.Boolean),
-          selfServiceLaundryException: S.optional(S.String),
-          concierge: S.optional(S.Boolean),
-          elevator: S.optional(S.Boolean),
-          convenienceStoreException: S.optional(S.String),
-          socialHour: S.optional(S.Boolean),
-          currencyExchangeException: S.optional(S.String),
-          currencyExchange: S.optional(S.Boolean),
-          elevatorException: S.optional(S.String),
-          fullServiceLaundryException: S.optional(S.String),
-          giftShop: S.optional(S.Boolean),
-          giftShopException: S.optional(S.String),
-          languagesSpoken: S.optional(__S(64, __c2, 0)),
-          socialHourException: S.optional(S.String),
-          baggageStorageException: S.optional(S.String),
-          wakeUpCalls: S.optional(S.Boolean),
-          wakeUpCallsException: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Services" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          turndownService: S.optional(S.Boolean),
-          dailyHousekeeping: S.optional(S.Boolean),
-          turndownServiceException: S.optional(S.String),
-          housekeepingAvailable: S.optional(S.Boolean),
-          housekeepingAvailableException: S.optional(S.String),
-          dailyHousekeepingException: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Housekeeping" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          minutes: S.optional(S.Number),
-          hours: S.optional(S.Number),
-          nanos: S.optional(S.Number),
-          seconds: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TimeOfDay" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          chequeException: S.optional(S.String),
-          mobileNfc: S.optional(S.Boolean),
-          creditCard: S.optional(S.Boolean),
-          cheque: S.optional(S.Boolean),
-          cash: S.optional(S.Boolean),
-          debitCardException: S.optional(S.String),
-          debitCard: S.optional(S.Boolean),
-          cashException: S.optional(S.String),
-          mobileNfcException: S.optional(S.String),
-          creditCardException: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PaymentOptions" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          checkinTime: S.optional(__S(67, __c2, 3)),
-          paymentOptions: S.optional(__S(68, __c2, 4)),
-          smokeFreeProperty: S.optional(S.Boolean),
-          allInclusiveAvailableException: S.optional(S.String),
-          allInclusiveAvailable: S.optional(S.Boolean),
-          maxChildAge: S.optional(S.Number),
-          maxChildAgeException: S.optional(S.String),
-          checkinTimeException: S.optional(S.String),
-          allInclusiveOnlyException: S.optional(S.String),
-          allInclusiveOnly: S.optional(S.Boolean),
-          checkoutTimeException: S.optional(S.String),
-          maxKidsStayFreeCountException: S.optional(S.String),
-          checkoutTime: S.optional(__S(67, __c2, 3)),
-          kidsStayFreeException: S.optional(S.String),
-          smokeFreePropertyException: S.optional(S.String),
-          maxKidsStayFreeCount: S.optional(S.Number),
-          kidsStayFree: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Policies" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          meetingRoomsCountException: S.optional(S.String),
-          meetingRooms: S.optional(S.Boolean),
-          businessCenterException: S.optional(S.String),
-          meetingRoomsException: S.optional(S.String),
-          meetingRoomsCount: S.optional(S.Number),
-          businessCenter: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Business" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          carRentalOnProperty: S.optional(S.Boolean),
-          localShuttleException: S.optional(S.String),
-          transferException: S.optional(S.String),
-          privateCarService: S.optional(S.Boolean),
-          airportShuttleException: S.optional(S.String),
-          freeAirportShuttleException: S.optional(S.String),
-          freePrivateCarService: S.optional(S.Boolean),
-          freeAirportShuttle: S.optional(S.Boolean),
-          transfer: S.optional(S.Boolean),
-          freePrivateCarServiceException: S.optional(S.String),
-          carRentalOnPropertyException: S.optional(S.String),
-          localShuttle: S.optional(S.Boolean),
-          privateCarServiceException: S.optional(S.String),
-          airportShuttle: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Transportation" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          catsAllowed: S.optional(S.Boolean),
-          petsAllowedFree: S.optional(S.Boolean),
-          petsAllowedException: S.optional(S.String),
-          dogsAllowed: S.optional(S.Boolean),
-          petsAllowed: S.optional(S.Boolean),
-          petsAllowedFreeException: S.optional(S.String),
-          dogsAllowedException: S.optional(S.String),
-          catsAllowedException: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Pets" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          mobilityAccessibleElevatorException: S.optional(S.String),
-          mobilityAccessibleParking: S.optional(S.Boolean),
-          mobilityAccessibleParkingException: S.optional(S.String),
-          mobilityAccessibleException: S.optional(S.String),
-          mobilityAccessiblePoolException: S.optional(S.String),
-          mobilityAccessibleElevator: S.optional(S.Boolean),
-          mobilityAccessiblePool: S.optional(S.Boolean),
-          mobilityAccessible: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Accessibility" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          floorsCountException: S.optional(S.String),
-          builtYearException: S.optional(S.String),
-          builtYear: S.optional(S.Number),
-          lastRenovatedYear: S.optional(S.Number),
-          floorsCount: S.optional(S.Number),
-          roomsCount: S.optional(S.Number),
-          lastRenovatedYearException: S.optional(S.String),
-          roomsCountException: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Property" });
     case 11:
-      return S.suspend(() =>
-        S.Struct({
-          breakfastBuffet: S.optional(S.Boolean),
-          tableServiceException: S.optional(S.String),
-          breakfastAvailableException: S.optional(S.String),
-          barException: S.optional(S.String),
-          restaurantsCount: S.optional(S.Number),
-          breakfastBuffetException: S.optional(S.String),
-          roomService: S.optional(S.Boolean),
-          vendingMachine: S.optional(S.Boolean),
-          restaurant: S.optional(S.Boolean),
-          buffet: S.optional(S.Boolean),
-          vendingMachineException: S.optional(S.String),
-          dinnerBuffet: S.optional(S.Boolean),
-          freeBreakfast: S.optional(S.Boolean),
-          bar: S.optional(S.Boolean),
-          twentyFourHourRoomServiceException: S.optional(S.String),
-          buffetException: S.optional(S.String),
-          twentyFourHourRoomService: S.optional(S.Boolean),
-          breakfastAvailable: S.optional(S.Boolean),
-          tableService: S.optional(S.Boolean),
-          freeBreakfastException: S.optional(S.String),
-          restaurantException: S.optional(S.String),
-          restaurantsCountException: S.optional(S.String),
-          dinnerBuffetException: S.optional(S.String),
-          roomServiceException: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FoodAndDrink" });
+      return S.Array(__S(42, __c1, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          wifiAvailableException: S.optional(S.String),
-          publicAreaWifiAvailableException: S.optional(S.String),
-          freeWifi: S.optional(S.Boolean),
-          publicInternetTerminal: S.optional(S.Boolean),
-          freeWifiException: S.optional(S.String),
-          publicAreaWifiAvailable: S.optional(S.Boolean),
           wifiAvailable: S.optional(S.Boolean),
+          freeWifi: S.optional(S.Boolean),
+          wifiAvailableException: S.optional(S.String),
+          publicInternetTerminal: S.optional(S.Boolean),
+          publicAreaWifiAvailable: S.optional(S.Boolean),
+          freeWifiException: S.optional(S.String),
+          publicAreaWifiAvailableException: S.optional(S.String),
           publicInternetTerminalException: S.optional(S.String),
         }),
       ).annotate({ identifier: "Connectivity" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(32, __c1, 0)),
-          pools: S.optional(__S(33, __c1, 1)),
-          guestUnits: S.optional(__S(44, __c1, 12)),
-          healthAndSafety: S.optional(__S(50, __c1, 18)),
-          someUnits: S.optional(__S(41, __c1, 9)),
-          activities: S.optional(__S(51, __c1, 19)),
-          families: S.optional(__S(52, __c1, 20)),
-          wellness: S.optional(__S(53, __c1, 21)),
-          sustainability: S.optional(__S(61, __c1, 29)),
-          parking: S.optional(__S(62, __c1, 30)),
-          services: S.optional(__S(65, __c2, 1)),
-          housekeeping: S.optional(__S(66, __c2, 2)),
-          policies: S.optional(__S(69, __c2, 5)),
+          hours: S.optional(S.Number),
+          minutes: S.optional(S.Number),
+          seconds: S.optional(S.Number),
+          nanos: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TimeOfDay" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          mobileNfc: S.optional(S.Boolean),
+          chequeException: S.optional(S.String),
+          debitCardException: S.optional(S.String),
+          debitCard: S.optional(S.Boolean),
+          mobileNfcException: S.optional(S.String),
+          creditCard: S.optional(S.Boolean),
+          cash: S.optional(S.Boolean),
+          creditCardException: S.optional(S.String),
+          cashException: S.optional(S.String),
+          cheque: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "PaymentOptions" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          checkoutTime: S.optional(__S(45, __c1, 13)),
+          allInclusiveAvailableException: S.optional(S.String),
+          kidsStayFreeException: S.optional(S.String),
+          maxChildAgeException: S.optional(S.String),
+          kidsStayFree: S.optional(S.Boolean),
+          paymentOptions: S.optional(__S(46, __c1, 14)),
+          checkinTime: S.optional(__S(45, __c1, 13)),
+          allInclusiveAvailable: S.optional(S.Boolean),
+          smokeFreeProperty: S.optional(S.Boolean),
+          maxKidsStayFreeCountException: S.optional(S.String),
+          allInclusiveOnly: S.optional(S.Boolean),
+          checkinTimeException: S.optional(S.String),
+          maxChildAge: S.optional(S.Number),
+          allInclusiveOnlyException: S.optional(S.String),
+          maxKidsStayFreeCount: S.optional(S.Number),
+          checkoutTimeException: S.optional(S.String),
+          smokeFreePropertyException: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Policies" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          petsAllowedException: S.optional(S.String),
+          catsAllowedException: S.optional(S.String),
+          dogsAllowed: S.optional(S.Boolean),
+          petsAllowedFree: S.optional(S.Boolean),
+          petsAllowed: S.optional(S.Boolean),
+          petsAllowedFreeException: S.optional(S.String),
+          catsAllowed: S.optional(S.Boolean),
+          dogsAllowedException: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Pets" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          languageCode: S.optional(S.String),
+          spokenException: S.optional(S.String),
+          spoken: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "LanguageSpoken" });
+    case 18:
+      return S.Array(__S(49, __c1, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          conciergeException: S.optional(S.String),
+          currencyExchange: S.optional(S.Boolean),
+          baggageStorageException: S.optional(S.String),
+          elevator: S.optional(S.Boolean),
+          fullServiceLaundry: S.optional(S.Boolean),
+          selfServiceLaundryException: S.optional(S.String),
+          giftShopException: S.optional(S.String),
+          elevatorException: S.optional(S.String),
+          wakeUpCallsException: S.optional(S.String),
+          baggageStorage: S.optional(S.Boolean),
+          socialHourException: S.optional(S.String),
+          concierge: S.optional(S.Boolean),
+          convenienceStoreException: S.optional(S.String),
+          giftShop: S.optional(S.Boolean),
+          frontDeskException: S.optional(S.String),
+          fullServiceLaundryException: S.optional(S.String),
+          frontDesk: S.optional(S.Boolean),
+          selfServiceLaundry: S.optional(S.Boolean),
+          socialHour: S.optional(S.Boolean),
+          currencyExchangeException: S.optional(S.String),
+          languagesSpoken: S.optional(__S(50, __c1, 18)),
+          twentyFourHourFrontDeskException: S.optional(S.String),
+          wakeUpCalls: S.optional(S.Boolean),
+          twentyFourHourFrontDesk: S.optional(S.Boolean),
+          convenienceStore: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Services" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          valetParkingAvailable: S.optional(S.Boolean),
+          parkingAvailable: S.optional(S.Boolean),
+          selfParkingAvailable: S.optional(S.Boolean),
+          valetParkingAvailableException: S.optional(S.String),
+          freeParkingException: S.optional(S.String),
+          freeParking: S.optional(S.Boolean),
+          freeSelfParking: S.optional(S.Boolean),
+          freeValetParking: S.optional(S.Boolean),
+          freeSelfParkingException: S.optional(S.String),
+          freeValetParkingException: S.optional(S.String),
+          electricCarChargingStationsException: S.optional(S.String),
+          selfParkingAvailableException: S.optional(S.String),
+          parkingAvailableException: S.optional(S.String),
+          electricCarChargingStations: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Parking" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          mobilityAccessibleElevatorException: S.optional(S.String),
+          mobilityAccessiblePoolException: S.optional(S.String),
+          mobilityAccessibleElevator: S.optional(S.Boolean),
+          mobilityAccessible: S.optional(S.Boolean),
+          mobilityAccessibleException: S.optional(S.String),
+          mobilityAccessibleParking: S.optional(S.Boolean),
+          mobilityAccessiblePool: S.optional(S.Boolean),
+          mobilityAccessibleParkingException: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Accessibility" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          breakfastAvailableException: S.optional(S.String),
+          roomService: S.optional(S.Boolean),
+          buffet: S.optional(S.Boolean),
+          restaurantException: S.optional(S.String),
+          breakfastBuffetException: S.optional(S.String),
+          freeBreakfastException: S.optional(S.String),
+          buffetException: S.optional(S.String),
+          restaurantsCountException: S.optional(S.String),
+          breakfastAvailable: S.optional(S.Boolean),
+          restaurantsCount: S.optional(S.Number),
+          restaurant: S.optional(S.Boolean),
+          tableService: S.optional(S.Boolean),
+          vendingMachine: S.optional(S.Boolean),
+          roomServiceException: S.optional(S.String),
+          vendingMachineException: S.optional(S.String),
+          tableServiceException: S.optional(S.String),
+          freeBreakfast: S.optional(S.Boolean),
+          twentyFourHourRoomServiceException: S.optional(S.String),
+          dinnerBuffet: S.optional(S.Boolean),
+          dinnerBuffetException: S.optional(S.String),
+          twentyFourHourRoomService: S.optional(S.Boolean),
+          bar: S.optional(S.Boolean),
+          breakfastBuffet: S.optional(S.Boolean),
+          barException: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FoodAndDrink" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LodgingMetadata" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          meetingRooms: S.optional(S.Boolean),
+          meetingRoomsException: S.optional(S.String),
+          businessCenterException: S.optional(S.String),
+          meetingRoomsCount: S.optional(S.Number),
+          meetingRoomsCountException: S.optional(S.String),
+          businessCenter: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Business" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          dailyHousekeeping: S.optional(S.Boolean),
+          housekeepingAvailableException: S.optional(S.String),
+          dailyHousekeepingException: S.optional(S.String),
+          turndownService: S.optional(S.Boolean),
+          turndownServiceException: S.optional(S.String),
+          housekeepingAvailable: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Housekeeping" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          ecoCertificate: S.optional(S.String),
+          awarded: S.optional(S.Boolean),
+          awardedException: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EcoCertification" });
+    case 27:
+      return S.Array(__S(58, __c1, 26));
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          leedCertificationException: S.optional(S.String),
+          breeamCertification: S.optional(S.String),
+          breeamCertificationException: S.optional(S.String),
+          ecoCertifications: S.optional(__S(59, __c1, 27)),
+          leedCertification: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SustainabilityCertifications" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          waterSavingSinks: S.optional(S.Boolean),
+          waterSavingShowers: S.optional(S.Boolean),
+          towelReuseProgramException: S.optional(S.String),
+          independentOrganizationAuditsWaterUseException: S.optional(S.String),
+          towelReuseProgram: S.optional(S.Boolean),
+          linenReuseProgram: S.optional(S.Boolean),
+          waterSavingToiletsException: S.optional(S.String),
+          linenReuseProgramException: S.optional(S.String),
+          independentOrganizationAuditsWaterUse: S.optional(S.Boolean),
+          waterSavingShowersException: S.optional(S.String),
+          waterSavingSinksException: S.optional(S.String),
+          waterSavingToilets: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "WaterConservation" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          responsiblySourcesSeafood: S.optional(S.Boolean),
+          vegetarianMeals: S.optional(S.Boolean),
+          responsiblePurchasingPolicyException: S.optional(S.String),
+          vegetarianMealsException: S.optional(S.String),
+          ecoFriendlyToiletriesException: S.optional(S.String),
+          veganMealsException: S.optional(S.String),
+          organicFoodAndBeveragesException: S.optional(S.String),
+          organicFoodAndBeverages: S.optional(S.Boolean),
+          locallySourcedFoodAndBeverages: S.optional(S.Boolean),
+          organicCageFreeEggs: S.optional(S.Boolean),
+          ecoFriendlyToiletries: S.optional(S.Boolean),
+          responsiblePurchasingPolicy: S.optional(S.Boolean),
+          locallySourcedFoodAndBeveragesException: S.optional(S.String),
+          organicCageFreeEggsException: S.optional(S.String),
+          responsiblySourcesSeafoodException: S.optional(S.String),
+          veganMeals: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SustainableSourcing" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          toiletryDonationProgramException: S.optional(S.String),
+          refillableToiletryContainersException: S.optional(S.String),
+          toiletryDonationProgram: S.optional(S.Boolean),
+          recyclingProgramException: S.optional(S.String),
+          donatesExcessFood: S.optional(S.Boolean),
+          donatesExcessFoodException: S.optional(S.String),
+          noSingleUsePlasticStrawsException: S.optional(S.String),
+          safelyDisposesLightbulbsException: S.optional(S.String),
+          safelyDisposesBatteriesException: S.optional(S.String),
+          compostsExcessFoodException: S.optional(S.String),
+          foodWasteReductionProgram: S.optional(S.Boolean),
+          soapDonationProgram: S.optional(S.Boolean),
+          noSingleUsePlasticWaterBottles: S.optional(S.Boolean),
+          compostsExcessFood: S.optional(S.Boolean),
+          refillableToiletryContainers: S.optional(S.Boolean),
+          safelyDisposesElectronicsException: S.optional(S.String),
+          safelyDisposesBatteries: S.optional(S.Boolean),
+          noStyrofoamFoodContainersException: S.optional(S.String),
+          safelyHandlesHazardousSubstancesException: S.optional(S.String),
+          noSingleUsePlasticStraws: S.optional(S.Boolean),
+          safelyDisposesElectronics: S.optional(S.Boolean),
+          noStyrofoamFoodContainers: S.optional(S.Boolean),
+          safelyHandlesHazardousSubstances: S.optional(S.Boolean),
+          soapDonationProgramException: S.optional(S.String),
+          recyclingProgram: S.optional(S.Boolean),
+          waterBottleFillingStations: S.optional(S.Boolean),
+          foodWasteReductionProgramException: S.optional(S.String),
+          compostableFoodContainersAndCutleryException: S.optional(S.String),
+          noSingleUsePlasticWaterBottlesException: S.optional(S.String),
+          waterBottleFillingStationsException: S.optional(S.String),
+          compostableFoodContainersAndCutlery: S.optional(S.Boolean),
+          safelyDisposesLightbulbs: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "WasteReduction" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          energyEfficientLighting: S.optional(S.Boolean),
+          energyConservationProgramException: S.optional(S.String),
+          carbonFreeEnergySources: S.optional(S.Boolean),
+          energyEfficientHeatingAndCoolingSystemsException: S.optional(S.String),
+          energyEfficientHeatingAndCoolingSystems: S.optional(S.Boolean),
+          greenBuildingDesignException: S.optional(S.String),
+          independentOrganizationAuditsEnergyUse: S.optional(S.Boolean),
+          energySavingThermostats: S.optional(S.Boolean),
+          independentOrganizationAuditsEnergyUseException: S.optional(S.String),
+          energyEfficientLightingException: S.optional(S.String),
+          energySavingThermostatsException: S.optional(S.String),
+          energyConservationProgram: S.optional(S.Boolean),
+          carbonFreeEnergySourcesException: S.optional(S.String),
+          greenBuildingDesign: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "EnergyEfficiency" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sustainabilityCertifications: S.optional(__S(60, __c1, 28)),
+          waterConservation: S.optional(__S(61, __c1, 29)),
+          sustainableSourcing: S.optional(__S(62, __c1, 30)),
+          wasteReduction: S.optional(__S(63, __c1, 31)),
+          energyEfficiency: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "Sustainability" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          roomsCount: S.optional(S.Number),
+          roomsCountException: S.optional(S.String),
+          lastRenovatedYearException: S.optional(S.String),
+          floorsCount: S.optional(S.Number),
+          floorsCountException: S.optional(S.String),
+          builtYear: S.optional(S.Number),
+          lastRenovatedYear: S.optional(S.Number),
+          builtYearException: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Property" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          scuba: S.optional(S.Boolean),
+          bicycleRental: S.optional(S.Boolean),
+          bicycleRentalException: S.optional(S.String),
+          boutiqueStores: S.optional(S.Boolean),
+          beachAccessException: S.optional(S.String),
+          golfException: S.optional(S.String),
+          gameRoom: S.optional(S.Boolean),
+          nightclubException: S.optional(S.String),
+          nightclub: S.optional(S.Boolean),
+          freeBicycleRental: S.optional(S.Boolean),
+          beachFrontException: S.optional(S.String),
+          privateBeach: S.optional(S.Boolean),
+          freeWatercraftRental: S.optional(S.Boolean),
+          freeBicycleRentalException: S.optional(S.String),
+          freeWatercraftRentalException: S.optional(S.String),
+          tennisException: S.optional(S.String),
+          boutiqueStoresException: S.optional(S.String),
+          snorkeling: S.optional(S.Boolean),
+          beachFront: S.optional(S.Boolean),
+          watercraftRentalException: S.optional(S.String),
+          privateBeachException: S.optional(S.String),
+          casinoException: S.optional(S.String),
+          snorkelingException: S.optional(S.String),
+          waterSkiing: S.optional(S.Boolean),
+          gameRoomException: S.optional(S.String),
+          casino: S.optional(S.Boolean),
+          horsebackRiding: S.optional(S.Boolean),
+          scubaException: S.optional(S.String),
+          tennis: S.optional(S.Boolean),
+          watercraftRental: S.optional(S.Boolean),
+          beachAccess: S.optional(S.Boolean),
+          golf: S.optional(S.Boolean),
+          horsebackRidingException: S.optional(S.String),
+          waterSkiingException: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Activities" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          roomBookingsBuffer: S.optional(S.Boolean),
+          housekeepingScheduledRequestOnly: S.optional(S.Boolean),
+          noHighTouchItemsGuestRooms: S.optional(S.Boolean),
+          roomBookingsBufferException: S.optional(S.String),
+          plasticKeycardsDisinfectedException: S.optional(S.String),
+          digitalGuestRoomKeysException: S.optional(S.String),
+          noHighTouchItemsCommonAreasException: S.optional(S.String),
+          noHighTouchItemsCommonAreas: S.optional(S.Boolean),
+          digitalGuestRoomKeys: S.optional(S.Boolean),
+          noHighTouchItemsGuestRoomsException: S.optional(S.String),
+          contactlessCheckinCheckout: S.optional(S.Boolean),
+          housekeepingScheduledRequestOnlyException: S.optional(S.String),
+          plasticKeycardsDisinfected: S.optional(S.Boolean),
+          contactlessCheckinCheckoutException: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MinimizedContact" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          guestRoomHygieneKitsAvailableException: S.optional(S.String),
+          protectiveEquipmentAvailableException: S.optional(S.String),
+          commonAreasOfferSanitizingItemsException: S.optional(S.String),
+          faceMaskRequired: S.optional(S.Boolean),
+          guestRoomHygieneKitsAvailable: S.optional(S.Boolean),
+          faceMaskRequiredException: S.optional(S.String),
+          protectiveEquipmentAvailable: S.optional(S.Boolean),
+          commonAreasOfferSanitizingItems: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "PersonalProtection" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          employeesWearProtectiveEquipment: S.optional(S.Boolean),
+          guestRoomsEnhancedCleaningException: S.optional(S.String),
+          employeesTrainedCleaningProceduresException: S.optional(S.String),
+          employeesTrainedThoroughHandWashingException: S.optional(S.String),
+          employeesTrainedCleaningProcedures: S.optional(S.Boolean),
+          employeesTrainedThoroughHandWashing: S.optional(S.Boolean),
+          commercialGradeDisinfectantCleaningException: S.optional(S.String),
+          commonAreasEnhancedCleaning: S.optional(S.Boolean),
+          employeesWearProtectiveEquipmentException: S.optional(S.String),
+          commercialGradeDisinfectantCleaning: S.optional(S.Boolean),
+          guestRoomsEnhancedCleaning: S.optional(S.Boolean),
+          commonAreasEnhancedCleaningException: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnhancedCleaning" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          singleUseFoodMenusException: S.optional(S.String),
+          foodPreparationAndServingAdditionalSafety: S.optional(S.Boolean),
+          diningAreasAdditionalSanitation: S.optional(S.Boolean),
+          diningAreasAdditionalSanitationException: S.optional(S.String),
+          disposableFlatware: S.optional(S.Boolean),
+          singleUseFoodMenus: S.optional(S.Boolean),
+          disposableFlatwareException: S.optional(S.String),
+          individualPackagedMealsException: S.optional(S.String),
+          individualPackagedMeals: S.optional(S.Boolean),
+          foodPreparationAndServingAdditionalSafetyException: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IncreasedFoodSafety" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          safetyDividersException: S.optional(S.String),
+          wellnessAreasHavePrivateSpaces: S.optional(S.Boolean),
+          sharedAreasLimitedOccupancy: S.optional(S.Boolean),
+          sharedAreasLimitedOccupancyException: S.optional(S.String),
+          commonAreasPhysicalDistancingArranged: S.optional(S.Boolean),
+          physicalDistancingRequired: S.optional(S.Boolean),
+          safetyDividers: S.optional(S.Boolean),
+          commonAreasPhysicalDistancingArrangedException: S.optional(S.String),
+          physicalDistancingRequiredException: S.optional(S.String),
+          wellnessAreasHavePrivateSpacesException: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PhysicalDistancing" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          minimizedContact: S.optional(__S(68, __c2, 4)),
+          personalProtection: S.optional(__S(69, __c2, 5)),
+          enhancedCleaning: S.optional(__S(70, __c2, 6)),
+          increasedFoodSafety: S.optional(__S(71, __c2, 7)),
+          physicalDistancing: S.optional(__S(72, __c2, 8)),
+        }),
+      ).annotate({ identifier: "HealthAndSafety" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          doctorOnCallException: S.optional(S.String),
+          weightMachineException: S.optional(S.String),
+          freeWeightsException: S.optional(S.String),
+          freeFitnessCenterException: S.optional(S.String),
+          sauna: S.optional(S.Boolean),
+          spaException: S.optional(S.String),
+          massageException: S.optional(S.String),
+          fitnessCenter: S.optional(S.Boolean),
+          fitnessCenterException: S.optional(S.String),
+          freeWeights: S.optional(S.Boolean),
+          saunaException: S.optional(S.String),
+          freeFitnessCenter: S.optional(S.Boolean),
+          ellipticalMachine: S.optional(S.Boolean),
+          massage: S.optional(S.Boolean),
+          salonException: S.optional(S.String),
+          spa: S.optional(S.Boolean),
+          weightMachine: S.optional(S.Boolean),
+          treadmillException: S.optional(S.String),
+          salon: S.optional(S.Boolean),
+          treadmill: S.optional(S.Boolean),
+          ellipticalMachineException: S.optional(S.String),
+          doctorOnCall: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Wellness" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          carRentalOnPropertyException: S.optional(S.String),
+          transfer: S.optional(S.Boolean),
+          airportShuttleException: S.optional(S.String),
+          localShuttleException: S.optional(S.String),
+          freeAirportShuttle: S.optional(S.Boolean),
+          freePrivateCarServiceException: S.optional(S.String),
+          privateCarServiceException: S.optional(S.String),
+          airportShuttle: S.optional(S.Boolean),
+          carRentalOnProperty: S.optional(S.Boolean),
+          privateCarService: S.optional(S.Boolean),
+          localShuttle: S.optional(S.Boolean),
+          freeAirportShuttleException: S.optional(S.String),
+          freePrivateCarService: S.optional(S.Boolean),
+          transferException: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Transportation" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          babysitting: S.optional(S.Boolean),
+          kidsFriendly: S.optional(S.Boolean),
+          kidsFriendlyException: S.optional(S.String),
+          kidsClubException: S.optional(S.String),
+          kidsClub: S.optional(S.Boolean),
+          kidsActivities: S.optional(S.Boolean),
+          babysittingException: S.optional(S.String),
+          kidsActivitiesException: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Families" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          pools: S.optional(__S(32, __c1, 0)),
+          guestUnits: S.optional(__S(43, __c1, 11)),
+          connectivity: S.optional(__S(44, __c1, 12)),
           name: S.optional(S.String),
-          allUnits: S.optional(__S(41, __c1, 9)),
-          business: S.optional(__S(70, __c2, 6)),
-          transportation: S.optional(__S(71, __c2, 7)),
-          commonLivingArea: S.optional(__S(39, __c1, 7)),
-          pets: S.optional(__S(72, __c2, 8)),
-          accessibility: S.optional(__S(73, __c2, 9)),
-          property: S.optional(__S(74, __c2, 10)),
-          foodAndDrink: S.optional(__S(75, __c2, 11)),
-          connectivity: S.optional(__S(76, __c2, 12)),
+          someUnits: S.optional(__S(40, __c1, 8)),
+          policies: S.optional(__S(47, __c1, 15)),
+          pets: S.optional(__S(48, __c1, 16)),
+          services: S.optional(__S(51, __c1, 19)),
+          parking: S.optional(__S(52, __c1, 20)),
+          accessibility: S.optional(__S(53, __c1, 21)),
+          allUnits: S.optional(__S(40, __c1, 8)),
+          foodAndDrink: S.optional(__S(54, __c1, 22)),
+          metadata: S.optional(__S(55, __c1, 23)),
+          business: S.optional(__S(56, __c1, 24)),
+          housekeeping: S.optional(__S(57, __c1, 25)),
+          sustainability: S.optional(__S(65, __c2, 1)),
+          property: S.optional(__S(66, __c2, 2)),
+          activities: S.optional(__S(67, __c2, 3)),
+          healthAndSafety: S.optional(__S(73, __c2, 9)),
+          wellness: S.optional(__S(74, __c2, 10)),
+          transportation: S.optional(__S(75, __c2, 11)),
+          commonLivingArea: S.optional(__S(38, __c1, 6)),
+          families: S.optional(__S(76, __c2, 12)),
         }),
       ).annotate({ identifier: "Lodging" });
   }

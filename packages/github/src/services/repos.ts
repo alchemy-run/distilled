@@ -134,7 +134,7 @@ export interface AddCollaboratorRequest {
   repo: string;
   /** The handle for the GitHub user account. */
   username: string;
-  /** The permission to grant the collaborator. **Only valid on organization-owned repositories.** We accept the following permissions to be set: `pull`, `triage`, `triage_plus`, `push`, `maintain`, `admin` and you can also specify a custom repository role name, if the owning organization has defined any. */
+  /** The permission to grant the collaborator. **Only valid on organization-owned repositories.** We accept the following permissions to be set: `pull`, `triage`, `moderate`, `push`, `maintain`, `admin` and you can also specify a custom repository role name, if the owning organization has defined any. */
   permission?: string;
 }
 export type MinimalRepositoryTopicsList = Array<string>;
@@ -322,6 +322,7 @@ export interface MinimalRepository {
   updated_at?: string | null;
   permissions?: MinimalRepositoryPermissions;
   role_name?: string;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string;
   delete_branch_on_merge?: boolean;
   subscribers_count?: number;
@@ -345,7 +346,7 @@ export type RepositoryInvitationPermissions =
   | "write"
   | "admin"
   | "triage"
-  | "triage_plus"
+  | "moderate"
   | "maintain";
 /** Repository invitations let you manage who you collaborate with. */
 export interface RepositoryInvitation {
@@ -1287,6 +1288,7 @@ export interface NullableRepository {
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean;
@@ -1441,6 +1443,7 @@ export interface Repository {
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean;
@@ -1568,6 +1571,7 @@ export interface FullRepository {
   permissions?: FullRepositoryPermissions;
   allow_rebase_merge?: boolean;
   template_repository?: NullableRepository | null;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string | null;
   allow_squash_merge?: boolean;
   allow_auto_merge?: boolean;
@@ -1893,7 +1897,7 @@ export interface RepositoryRuleParamsRequiredReviewerConfiguration {
   minimum_approvals: number;
   reviewer: RepositoryRuleParamsReviewer;
 }
-/** > [!NOTE] > `required_reviewers` is in beta and subject to change. A collection of reviewers and associated file patterns. Each reviewer has a list of file patterns which determine the files that reviewer is required to review. */
+/** A collection of reviewers and associated file patterns. Each reviewer has a list of file patterns which determine the files that reviewer is required to review. */
 export type RepositoryRulePullRequestParametersRequiredReviewersList =
   Array<RepositoryRuleParamsRequiredReviewerConfiguration>;
 export interface RepositoryRulePullRequestParameters {
@@ -1904,13 +1908,15 @@ export interface RepositoryRulePullRequestParameters {
   dismissal_restriction?: RepositoryRuleParamsDismissalRestriction;
   /** Require an approving review in pull requests that modify files that have a designated code owner. */
   require_code_owner_review: boolean;
+  /** When Copilot opens a pull request without a human collaborator, require one more approving review if a non-zero approval count is required. */
+  require_extra_approval_for_unattributed_changes?: boolean;
   /** Whether the most recent reviewable push must be approved by someone other than the person who pushed it. */
   require_last_push_approval: boolean;
   /** The number of approving reviews that are required before a pull request can be merged. */
   required_approving_review_count: number;
   /** All conversations on code must be resolved before a pull request can be merged. */
   required_review_thread_resolution: boolean;
-  /** > [!NOTE] > `required_reviewers` is in beta and subject to change. A collection of reviewers and associated file patterns. Each reviewer has a list of file patterns which determine the files that reviewer is required to review. */
+  /** A collection of reviewers and associated file patterns. Each reviewer has a list of file patterns which determine the files that reviewer is required to review. */
   required_reviewers?: RepositoryRulePullRequestParametersRequiredReviewersList;
 }
 /** Require all commits be made to a non-target branch and submitted via a pull request before they can be merged. */
@@ -2058,9 +2064,13 @@ export interface RepositoryRuleTagNamePattern {
   parameters?: RepositoryRuleTagNamePatternParameters;
 }
 export type RepositoryRuleFilePathRestrictionType = "file_path_restriction";
+/** Files matching these patterns are allowed even when they also match a restricted path. */
+export type RepositoryRuleFilePathRestrictionParametersIgnoredFilePathsList = Array<string>;
 /** The file paths that are restricted from being pushed to the commit graph. */
 export type RepositoryRuleFilePathRestrictionParametersRestrictedFilePathsList = Array<string>;
 export interface RepositoryRuleFilePathRestrictionParameters {
+  /** Files matching these patterns are allowed even when they also match a restricted path. */
+  ignored_file_paths?: RepositoryRuleFilePathRestrictionParametersIgnoredFilePathsList;
   /** The file paths that are restricted from being pushed to the commit graph. */
   restricted_file_paths: RepositoryRuleFilePathRestrictionParametersRestrictedFilePathsList;
 }
@@ -2093,7 +2103,11 @@ export interface RepositoryRuleFileExtensionRestriction {
   parameters?: RepositoryRuleFileExtensionRestrictionParameters;
 }
 export type RepositoryRuleMaxFileSizeType = "max_file_size";
+/** Files matching these patterns may exceed the maximum size. */
+export type RepositoryRuleMaxFileSizeParametersIgnoredFilePathsList = Array<string>;
 export interface RepositoryRuleMaxFileSizeParameters {
+  /** Files matching these patterns may exceed the maximum size. */
+  ignored_file_paths?: RepositoryRuleMaxFileSizeParametersIgnoredFilePathsList;
   /** The maximum file size allowed in megabytes. This limit does not apply to Git Large File Storage (Git LFS). */
   max_file_size: number;
 }
@@ -2172,7 +2186,7 @@ export interface RepositoryRuleCopilotCodeReviewParameters {
   /** Copilot automatically reviews each new push to the pull request. */
   review_on_push?: boolean;
 }
-/** Request Copilot code review for new pull requests automatically if the author has access to Copilot code review and their premium requests quota has not reached the limit. */
+/** Request Copilot code review for new pull requests automatically if the author has access to Copilot code review and AI credits. */
 export interface RepositoryRuleCopilotCodeReview {
   type: RepositoryRuleCopilotCodeReviewType;
   parameters?: RepositoryRuleCopilotCodeReviewParameters;
@@ -2300,7 +2314,7 @@ export interface RepositoryRuleCodeCoverageParameters {
   /** The absolute minimum line coverage percentage required. Pull requests with line coverage below this threshold will be blocked. */
   minimum_coverage?: number;
 }
-/** Enforce minimum line coverage thresholds on pull requests. When configured, uploaded coverage data must meet the specified criteria before changes can be merged. */
+/** Enforce minimum line coverage thresholds on pull requests. This rule evaluates uploaded coverage data but does not wait for coverage uploads. To ensure coverage is evaluated before merging, make each status check associated with a coverage upload a required status check. */
 export interface RepositoryRuleCodeCoverage {
   type: RepositoryRuleCodeCoverageType;
   parameters?: RepositoryRuleCodeCoverageParameters;
@@ -3593,7 +3607,7 @@ export type RepositoryRuleDetailedCase7ParametersAllowedMergeMethodsItem =
 /** Array of allowed merge methods. Allowed values include `merge`, `squash`, and `rebase`. At least one option must be enabled. */
 export type RepositoryRuleDetailedCase7ParametersAllowedMergeMethodsList =
   Array<RepositoryRuleDetailedCase7ParametersAllowedMergeMethodsItem>;
-/** > [!NOTE] > `required_reviewers` is in beta and subject to change. A collection of reviewers and associated file patterns. Each reviewer has a list of file patterns which determine the files that reviewer is required to review. */
+/** A collection of reviewers and associated file patterns. Each reviewer has a list of file patterns which determine the files that reviewer is required to review. */
 export type RepositoryRuleDetailedCase7ParametersRequiredReviewersList =
   Array<RepositoryRuleParamsRequiredReviewerConfiguration>;
 export interface RepositoryRuleDetailedCase7Parameters {
@@ -3604,13 +3618,15 @@ export interface RepositoryRuleDetailedCase7Parameters {
   dismissal_restriction?: RepositoryRuleParamsDismissalRestriction;
   /** Require an approving review in pull requests that modify files that have a designated code owner. */
   require_code_owner_review: boolean;
+  /** When Copilot opens a pull request without a human collaborator, require one more approving review if a non-zero approval count is required. */
+  require_extra_approval_for_unattributed_changes?: boolean;
   /** Whether the most recent reviewable push must be approved by someone other than the person who pushed it. */
   require_last_push_approval: boolean;
   /** The number of approving reviews that are required before a pull request can be merged. */
   required_approving_review_count: number;
   /** All conversations on code must be resolved before a pull request can be merged. */
   required_review_thread_resolution: boolean;
-  /** > [!NOTE] > `required_reviewers` is in beta and subject to change. A collection of reviewers and associated file patterns. Each reviewer has a list of file patterns which determine the files that reviewer is required to review. */
+  /** A collection of reviewers and associated file patterns. Each reviewer has a list of file patterns which determine the files that reviewer is required to review. */
   required_reviewers?: RepositoryRuleDetailedCase7ParametersRequiredReviewersList;
 }
 /** The type of source for the ruleset that includes this rule. */
@@ -3848,13 +3864,22 @@ export interface RepositoryRuleDetailedCase16 {
   /** The ID of the ruleset that includes this rule. */
   ruleset_id?: number;
 }
-export type RepositoryRuleDetailedCase17Type = "copilot_code_review";
-export type RepositoryRuleDetailedCase17Parameters = RepositoryRuleCopilotCodeReviewParameters;
+export type RepositoryRuleDetailedCase17Type = "code_quality";
+/** The lowest severity level at which code quality reviews need to be resolved before commits can be merged. */
+export type RepositoryRuleDetailedCase17ParametersSeverity =
+  | "errors"
+  | "warnings"
+  | "notes"
+  | "all";
+export interface RepositoryRuleDetailedCase17Parameters {
+  /** The lowest severity level at which code quality reviews need to be resolved before commits can be merged. */
+  severity: RepositoryRuleDetailedCase17ParametersSeverity;
+}
 /** The type of source for the ruleset that includes this rule. */
 export type RepositoryRuleDetailedCase17RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase17 {
   type: RepositoryRuleDetailedCase17Type;
-  parameters?: RepositoryRuleCopilotCodeReviewParameters;
+  parameters?: RepositoryRuleDetailedCase17Parameters;
   /** The type of source for the ruleset that includes this rule. */
   ruleset_source_type?: RepositoryRuleDetailedCase17RulesetSourceType;
   /** The name of the source of the ruleset that includes this rule. */
@@ -3862,11 +3887,13 @@ export interface RepositoryRuleDetailedCase17 {
   /** The ID of the ruleset that includes this rule. */
   ruleset_id?: number;
 }
-export type RepositoryRuleDetailedCase18Type = "license_compliance_scanning";
+export type RepositoryRuleDetailedCase18Type = "code_coverage";
+export type RepositoryRuleDetailedCase18Parameters = RepositoryRuleCodeCoverageParameters;
 /** The type of source for the ruleset that includes this rule. */
 export type RepositoryRuleDetailedCase18RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase18 {
   type: RepositoryRuleDetailedCase18Type;
+  parameters?: RepositoryRuleCodeCoverageParameters;
   /** The type of source for the ruleset that includes this rule. */
   ruleset_source_type?: RepositoryRuleDetailedCase18RulesetSourceType;
   /** The name of the source of the ruleset that includes this rule. */
@@ -3874,18 +3901,13 @@ export interface RepositoryRuleDetailedCase18 {
   /** The ID of the ruleset that includes this rule. */
   ruleset_id?: number;
 }
-export type RepositoryRuleDetailedCase19Type = "file_path_restriction";
-/** The file paths that are restricted from being pushed to the commit graph. */
-export type RepositoryRuleDetailedCase19ParametersRestrictedFilePathsList = Array<string>;
-export interface RepositoryRuleDetailedCase19Parameters {
-  /** The file paths that are restricted from being pushed to the commit graph. */
-  restricted_file_paths: RepositoryRuleDetailedCase19ParametersRestrictedFilePathsList;
-}
+export type RepositoryRuleDetailedCase19Type = "copilot_code_review";
+export type RepositoryRuleDetailedCase19Parameters = RepositoryRuleCopilotCodeReviewParameters;
 /** The type of source for the ruleset that includes this rule. */
 export type RepositoryRuleDetailedCase19RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase19 {
   type: RepositoryRuleDetailedCase19Type;
-  parameters?: RepositoryRuleDetailedCase19Parameters;
+  parameters?: RepositoryRuleCopilotCodeReviewParameters;
   /** The type of source for the ruleset that includes this rule. */
   ruleset_source_type?: RepositoryRuleDetailedCase19RulesetSourceType;
   /** The name of the source of the ruleset that includes this rule. */
@@ -3893,13 +3915,11 @@ export interface RepositoryRuleDetailedCase19 {
   /** The ID of the ruleset that includes this rule. */
   ruleset_id?: number;
 }
-export type RepositoryRuleDetailedCase20Type = "max_file_path_length";
-export type RepositoryRuleDetailedCase20Parameters = RepositoryRuleMaxFilePathLengthParameters;
+export type RepositoryRuleDetailedCase20Type = "license_compliance_scanning";
 /** The type of source for the ruleset that includes this rule. */
 export type RepositoryRuleDetailedCase20RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase20 {
   type: RepositoryRuleDetailedCase20Type;
-  parameters?: RepositoryRuleMaxFilePathLengthParameters;
   /** The type of source for the ruleset that includes this rule. */
   ruleset_source_type?: RepositoryRuleDetailedCase20RulesetSourceType;
   /** The name of the source of the ruleset that includes this rule. */
@@ -3907,12 +3927,16 @@ export interface RepositoryRuleDetailedCase20 {
   /** The ID of the ruleset that includes this rule. */
   ruleset_id?: number;
 }
-export type RepositoryRuleDetailedCase21Type = "file_extension_restriction";
-/** The file extensions that are restricted from being pushed to the commit graph. */
-export type RepositoryRuleDetailedCase21ParametersRestrictedFileExtensionsList = Array<string>;
+export type RepositoryRuleDetailedCase21Type = "file_path_restriction";
+/** Files matching these patterns are allowed even when they also match a restricted path. */
+export type RepositoryRuleDetailedCase21ParametersIgnoredFilePathsList = Array<string>;
+/** The file paths that are restricted from being pushed to the commit graph. */
+export type RepositoryRuleDetailedCase21ParametersRestrictedFilePathsList = Array<string>;
 export interface RepositoryRuleDetailedCase21Parameters {
-  /** The file extensions that are restricted from being pushed to the commit graph. */
-  restricted_file_extensions: RepositoryRuleDetailedCase21ParametersRestrictedFileExtensionsList;
+  /** Files matching these patterns are allowed even when they also match a restricted path. */
+  ignored_file_paths?: RepositoryRuleDetailedCase21ParametersIgnoredFilePathsList;
+  /** The file paths that are restricted from being pushed to the commit graph. */
+  restricted_file_paths: RepositoryRuleDetailedCase21ParametersRestrictedFilePathsList;
 }
 /** The type of source for the ruleset that includes this rule. */
 export type RepositoryRuleDetailedCase21RulesetSourceType = "Repository" | "Organization";
@@ -3926,15 +3950,55 @@ export interface RepositoryRuleDetailedCase21 {
   /** The ID of the ruleset that includes this rule. */
   ruleset_id?: number;
 }
-export type RepositoryRuleDetailedCase22Type = "max_file_size";
-export type RepositoryRuleDetailedCase22Parameters = RepositoryRuleMaxFileSizeParameters;
+export type RepositoryRuleDetailedCase22Type = "max_file_path_length";
+export type RepositoryRuleDetailedCase22Parameters = RepositoryRuleMaxFilePathLengthParameters;
 /** The type of source for the ruleset that includes this rule. */
 export type RepositoryRuleDetailedCase22RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase22 {
   type: RepositoryRuleDetailedCase22Type;
-  parameters?: RepositoryRuleMaxFileSizeParameters;
+  parameters?: RepositoryRuleMaxFilePathLengthParameters;
   /** The type of source for the ruleset that includes this rule. */
   ruleset_source_type?: RepositoryRuleDetailedCase22RulesetSourceType;
+  /** The name of the source of the ruleset that includes this rule. */
+  ruleset_source?: string;
+  /** The ID of the ruleset that includes this rule. */
+  ruleset_id?: number;
+}
+export type RepositoryRuleDetailedCase23Type = "file_extension_restriction";
+/** The file extensions that are restricted from being pushed to the commit graph. */
+export type RepositoryRuleDetailedCase23ParametersRestrictedFileExtensionsList = Array<string>;
+export interface RepositoryRuleDetailedCase23Parameters {
+  /** The file extensions that are restricted from being pushed to the commit graph. */
+  restricted_file_extensions: RepositoryRuleDetailedCase23ParametersRestrictedFileExtensionsList;
+}
+/** The type of source for the ruleset that includes this rule. */
+export type RepositoryRuleDetailedCase23RulesetSourceType = "Repository" | "Organization";
+export interface RepositoryRuleDetailedCase23 {
+  type: RepositoryRuleDetailedCase23Type;
+  parameters?: RepositoryRuleDetailedCase23Parameters;
+  /** The type of source for the ruleset that includes this rule. */
+  ruleset_source_type?: RepositoryRuleDetailedCase23RulesetSourceType;
+  /** The name of the source of the ruleset that includes this rule. */
+  ruleset_source?: string;
+  /** The ID of the ruleset that includes this rule. */
+  ruleset_id?: number;
+}
+export type RepositoryRuleDetailedCase24Type = "max_file_size";
+/** Files matching these patterns may exceed the maximum size. */
+export type RepositoryRuleDetailedCase24ParametersIgnoredFilePathsList = Array<string>;
+export interface RepositoryRuleDetailedCase24Parameters {
+  /** Files matching these patterns may exceed the maximum size. */
+  ignored_file_paths?: RepositoryRuleDetailedCase24ParametersIgnoredFilePathsList;
+  /** The maximum file size allowed in megabytes. This limit does not apply to Git Large File Storage (Git LFS). */
+  max_file_size: number;
+}
+/** The type of source for the ruleset that includes this rule. */
+export type RepositoryRuleDetailedCase24RulesetSourceType = "Repository" | "Organization";
+export interface RepositoryRuleDetailedCase24 {
+  type: RepositoryRuleDetailedCase24Type;
+  parameters?: RepositoryRuleDetailedCase24Parameters;
+  /** The type of source for the ruleset that includes this rule. */
+  ruleset_source_type?: RepositoryRuleDetailedCase24RulesetSourceType;
   /** The name of the source of the ruleset that includes this rule. */
   ruleset_source?: string;
   /** The ID of the ruleset that includes this rule. */
@@ -3964,7 +4028,9 @@ export type RepositoryRuleDetailed =
   | RepositoryRuleDetailedCase19
   | RepositoryRuleDetailedCase20
   | RepositoryRuleDetailedCase21
-  | RepositoryRuleDetailedCase22;
+  | RepositoryRuleDetailedCase22
+  | RepositoryRuleDetailedCase23
+  | RepositoryRuleDetailedCase24;
 export type GetBranchRulesResponseBodyList = Array<RepositoryRuleDetailed>;
 export type GetBranchRulesResponse = GetBranchRulesResponseBodyList;
 export interface GetByIdRequest {
@@ -4391,6 +4457,8 @@ export interface GetOrgRuleSuiteRequest {
   org: string;
   /** The unique identifier of the rule suite result. To get this ID, you can use [GET /repos/{owner}/{repo}/rulesets/rule-suites](https://docs.github.com/rest/repos/rule-suites#list-repository-rule-suites) for repositories and [GET /orgs/{org}/rulesets/rule-suites](https://docs.github.com/rest/orgs/rule-suites#list-organization-rule-suites) for organizations. */
   rule_suite_id: number;
+  /** When set to `true`, the response will include additional metadata for pull request and required status check rule evaluation. Results are capped at 50 entries. */
+  include_metadata?: boolean;
 }
 /** The result of the rule evaluations for rules with the `active` enforcement status. */
 export type RuleSuiteResult = "pass" | "fail" | "bypass";
@@ -4408,6 +4476,101 @@ export interface RuleSuiteRuleEvaluationsItemRuleSource {
 export type RuleSuiteRuleEvaluationsItemEnforcement = "active" | "evaluate" | "deleted ruleset";
 /** The result of the evaluation of the individual rule. */
 export type RuleSuiteRuleEvaluationsItemResult = "pass" | "fail";
+/** The user who created the pull request. */
+export interface RuleSuitePullRequestPullRequestUser {
+  /** The unique identifier of the user. */
+  id?: number;
+  /** The handle for the GitHub user account. */
+  login?: string;
+  /** The type of the user. */
+  type?: string;
+}
+/** The user who submitted the review. */
+export type RuleSuitePullRequestPullRequestReviewsItemUser = RuleSuitePullRequestPullRequestUser;
+export interface RuleSuitePullRequestPullRequestReviewsItem {
+  /** The unique identifier of the review. */
+  id?: number;
+  /** The user who submitted the review. */
+  user?: RuleSuitePullRequestPullRequestUser;
+  /** The state of the review. */
+  state?: string;
+}
+/** The reviews associated with the pull request. */
+export type RuleSuitePullRequestPullRequestReviewsList =
+  Array<RuleSuitePullRequestPullRequestReviewsItem>;
+/** The user who provided proof of presence. Null if no proof of presence was recorded. */
+export type RuleSuitePullRequestPullRequestProofOfPresenceVerifier =
+  RuleSuitePullRequestPullRequestUser;
+/** The proof of presence evaluation for the pull request. Null if proof of presence was not evaluated. */
+export interface RuleSuitePullRequestPullRequestProofOfPresence {
+  /** The state of the proof of presence evaluation. */
+  state?: string;
+  /** A code describing the reason for the proof of presence state. */
+  code?: string;
+  /** The base commit SHA the proof of presence evaluation applies to. Empty if unavailable. */
+  base_sha?: string;
+  /** The head commit SHA the proof of presence evaluation applies to. Empty if unavailable. */
+  head_sha?: string;
+  /** The authentication level required by the rule. Empty if unavailable. */
+  required_level?: string;
+  /** The authentication level that was verified. Empty if proof of presence has not been completed. */
+  verified_level?: string;
+  /** The time proof of presence was verified, in ISO 8601 format. Empty if proof of presence has not been completed. */
+  verified_at?: string;
+  /** The user who provided proof of presence. Null if no proof of presence was recorded. */
+  verifier?: RuleSuitePullRequestPullRequestUser | null;
+}
+/** The pull request associated with the rule evaluation. */
+export interface RuleSuitePullRequestPullRequest {
+  /** The unique identifier of the pull request. */
+  id?: number;
+  /** The number of the pull request. */
+  number?: number;
+  /** The user who created the pull request. */
+  user?: RuleSuitePullRequestPullRequestUser;
+  /** The reviews associated with the pull request. */
+  reviews?: RuleSuitePullRequestPullRequestReviewsList;
+  /** The proof of presence evaluation for the pull request. Null if proof of presence was not evaluated. */
+  proof_of_presence?: RuleSuitePullRequestPullRequestProofOfPresence | null;
+}
+/** Metadata for a pull request rule evaluation result. */
+export interface RuleSuitePullRequest {
+  /** The pull request associated with the rule evaluation. */
+  pull_request?: RuleSuitePullRequestPullRequest;
+}
+/** The GitHub App associated with the status check. */
+export interface RuleSuiteRequiredStatusChecksChecksItemApp {
+  /** The unique identifier of the GitHub App. */
+  id?: number;
+  /** The slug of the GitHub App. */
+  slug?: string;
+  /** The name of the GitHub App. */
+  name?: string;
+}
+export interface RuleSuiteRequiredStatusChecksChecksItem {
+  /** The unique identifier of the status check. */
+  id?: number;
+  /** The context name of the status check. */
+  context?: string;
+  /** The state of the status check. */
+  state?: string;
+  /** The type of the status check. */
+  type?: string;
+  /** The GitHub App associated with the status check. */
+  app?: RuleSuiteRequiredStatusChecksChecksItemApp | null;
+}
+/** The status checks associated with the rule evaluation. */
+export type RuleSuiteRequiredStatusChecksChecksList =
+  Array<RuleSuiteRequiredStatusChecksChecksItem>;
+/** Metadata for a required status checks rule evaluation result. */
+export interface RuleSuiteRequiredStatusChecks {
+  /** The status checks associated with the rule evaluation. */
+  checks?: RuleSuiteRequiredStatusChecksChecksList;
+}
+/** Additional metadata about the rule evaluation. */
+export type RuleSuiteRuleEvaluationsItemMetadata =
+  | RuleSuitePullRequest
+  | RuleSuiteRequiredStatusChecks;
 export interface RuleSuiteRuleEvaluationsItem {
   rule_source?: RuleSuiteRuleEvaluationsItemRuleSource;
   /** The enforcement level of this rule source. */
@@ -4416,6 +4579,8 @@ export interface RuleSuiteRuleEvaluationsItem {
   result?: RuleSuiteRuleEvaluationsItemResult;
   /** The type of rule. */
   rule_type?: string;
+  /** Additional metadata about the rule evaluation. */
+  metadata?: RuleSuiteRuleEvaluationsItemMetadata | null;
   /** The detailed failure message for the rule. Null if the rule passed. */
   details?: string | null;
 }
@@ -4731,6 +4896,8 @@ export interface GetRepoRuleSuiteRequest {
   repo: string;
   /** The unique identifier of the rule suite result. To get this ID, you can use [GET /repos/{owner}/{repo}/rulesets/rule-suites](https://docs.github.com/rest/repos/rule-suites#list-repository-rule-suites) for repositories and [GET /orgs/{org}/rulesets/rule-suites](https://docs.github.com/rest/orgs/rule-suites#list-organization-rule-suites) for organizations. */
   rule_suite_id: number;
+  /** When set to `true`, the response will include additional metadata for pull request and required status check rule evaluation. Results are capped at 50 entries. */
+  include_metadata?: boolean;
 }
 export type GetRepoRuleSuitesRequestTimePeriod = "hour" | "day" | "week" | "month";
 export type GetRepoRuleSuitesRequestRuleSuiteResult = "pass" | "fail" | "bypass" | "all";
@@ -5067,7 +5234,7 @@ export type ListCollaboratorsRequestAffiliation = "outside" | "direct" | "all";
 export type ListCollaboratorsRequestPermission =
   | "pull"
   | "triage"
-  | "triage_plus"
+  | "moderate"
   | "push"
   | "maintain"
   | "admin";
@@ -6358,8 +6525,14 @@ export interface UpdateInformationAboutPagesSiteRequest {
   source?: UpdateInformationAboutPagesSiteRequestSource;
 }
 export interface UpdateInformationAboutPagesSiteResponse {}
-/** The permissions that the associated user will have on the repository. Valid values are `read`, `write`, `maintain`, `triage`, and `admin`. */
-export type UpdateInvitationRequestPermissions = "read" | "write" | "maintain" | "triage" | "admin";
+/** The permissions that the associated user will have on the repository. Valid values are `read`, `write`, `maintain`, `triage`, `moderate`, and `admin`. */
+export type UpdateInvitationRequestPermissions =
+  | "read"
+  | "write"
+  | "maintain"
+  | "triage"
+  | "moderate"
+  | "admin";
 export interface UpdateInvitationRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -6367,7 +6540,7 @@ export interface UpdateInvitationRequest {
   repo: string;
   /** The unique identifier of the invitation. */
   invitation_id: number;
-  /** The permissions that the associated user will have on the repository. Valid values are `read`, `write`, `maintain`, `triage`, and `admin`. */
+  /** The permissions that the associated user will have on the repository. Valid values are `read`, `write`, `maintain`, `triage`, `moderate`, and `admin`. */
   permissions?: UpdateInvitationRequestPermissions | (string & {});
 }
 /** The target of the ruleset */
@@ -7823,7 +7996,7 @@ export const generateReleaseNotes: API.OperationMethod<
 }));
 
 export type GetError = GithubOpError;
-/** Get a repository The `parent` and `source` objects are present when the repository is a fork. `parent` is the repository this repository was forked from, `source` is the ultimate source for the network. > [!NOTE] > - In order to see the `security_and_analysis` block for a repository you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)." > - To view merge-related settings, you must have the `contents:read` and `contents:write` permissions. */
+/** Get a repository The `parent` and `source` objects are present when the repository is a fork. `parent` is the repository this repository was forked from, `source` is the ultimate source for the network. When present and non-empty, `temp_clone_token` is a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. > [!NOTE] > - In order to see the `security_and_analysis` block for a repository you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)." > - To view merge-related settings, you must have the `contents:read` and `contents:write` permissions. */
 export const get: API.OperationMethod<GetRequest, FullRepository, GetError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(3712, __c232, 0) as any as S.Schema<GetRequest>,
@@ -9443,7 +9616,7 @@ export const listInvitationsForAuthenticatedUser: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListIssueTypesError = GithubOpError;
-/** List issue types for a repository Lists issue types available for a repository (inherited from its organization owner, with any per-repository overrides applied). OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. Fine-grained access tokens require the "Metadata" repository permission (read). */
+/** List issue types for a repository Lists enabled issue types inherited from the repository owner. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. Fine-grained access tokens require the "Metadata" repository permission (read). */
 export const listIssueTypes: API.OperationMethod<
   ListIssueTypesRequest,
   ListIssueTypesResponse,
@@ -10524,6 +10697,7 @@ function __c18(j: number): any {
         S.Struct({
           org: S.String.pipe(T.Label()),
           rule_suite_id: S.Number.pipe(T.Label()),
+          include_metadata: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -10551,6 +10725,7 @@ function __c19(j: number): any {
           enforcement: S.optional(S.String),
           result: S.optional(S.String),
           rule_type: S.optional(S.String),
+          metadata: S.optional(S.NullOr(S.Unknown)),
           details: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "RuleSuiteRuleEvaluationsItem" });
@@ -11028,6 +11203,7 @@ function __c42(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           rule_suite_id: S.Number.pipe(T.Label()),
+          include_metadata: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",

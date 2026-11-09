@@ -100,8 +100,6 @@ export interface GetImageResponseImage {
   rapid_deploy?: boolean;
   /** Protection configuration for the Resource. */
   protection: GetImageResponseImageProtection;
-  /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
-  deprecated: string | null;
   /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
   deprecation: GetImageResponseImageDeprecation | null;
   /** Point in time where the Image was deleted (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
@@ -209,8 +207,6 @@ export interface ListImagesResponseImagesItem {
   rapid_deploy?: boolean;
   /** Protection configuration for the Resource. */
   protection: GetImageResponseImageProtection;
-  /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
-  deprecated: string | null;
   /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
   deprecation: GetImageResponseImageDeprecation | null;
   /** Point in time where the Image was deleted (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
@@ -311,8 +307,6 @@ export interface UpdateImageResponseImage {
   rapid_deploy?: boolean;
   /** Protection configuration for the Resource. */
   protection: GetImageResponseImageProtection;
-  /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
-  deprecated: string | null;
   /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
   deprecation: GetImageResponseImageDeprecation | null;
   /** Point in time where the Image was deleted (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
@@ -468,7 +462,6 @@ function __c2(j: number): any {
           os_version: S.NullOr(S.String),
           rapid_deploy: S.optional(S.Boolean),
           protection: __S(17, __c2, 1),
-          deprecated: S.NullOr(S.String),
           deprecation: S.NullOr(__S(18, __c2, 2)),
           deleted: S.NullOr(S.String),
           labels: __S(19, __c2, 3),

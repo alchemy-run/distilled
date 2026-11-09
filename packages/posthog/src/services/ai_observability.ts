@@ -136,6 +136,8 @@ export interface OfflineExperimentItemPayloadInput {
 export interface ItemSubmission {
   /** Caller-generated UUID for one input/output execution. Reuse for exact retries. */
   id: string;
+  /** Model used for this item. Omitted or null values inherit the experiment's model. */
+  model_version?: string | null;
   /** Stable case identifier for matching inputs across experiments. */
   case_key?: string | null;
   /** Identifier for a repeated execution of the same case. */
@@ -225,6 +227,30 @@ export interface UploadReceipt {
   /** Acknowledgments in the submitted result order. */
   results: UploadReceiptResultsList;
 }
+export interface AiObservabilityTracesSearchRetrieveRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The trace id, sent as the unpadded base64url encoding of its UTF-8 bytes. */
+  id: string;
+  /** The text to find in the trace's steps, ignoring case. */
+  q: string;
+  /** When the trace happened, as carried by links into it. Lets a trace older than the AI events retention load from the shared events table. */
+  timestamp_hint?: string;
+}
+export interface TraceSearchMatch {
+  /** A step whose stored data contains the query. The root's id is the trace id. */
+  nodeId: string;
+  /** How many times the query occurs in the step's stored inputs, outputs, state, tools, name, model, provider and error, ignoring case. Keys of the stored JSON count too. */
+  count: number;
+}
+/** Matching steps in tree order, the root first. Steps without a match are left out. */
+export type TraceSearchResultsMatchesList = Array<TraceSearchMatch>;
+export interface TraceSearchResults {
+  /** Occurrences of the query across every matching step. */
+  total: number;
+  /** Matching steps in tree order, the root first. Steps without a match are left out. */
+  matches: TraceSearchResultsMatchesList;
+}
 export interface ArchiveDatasetRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -233,6 +259,8 @@ export interface ArchiveDatasetRequest {
 }
 /** JSON object with descriptive dataset metadata. */
 export type DatasetReadMetadataMap = { [key: string]: unknown | undefined };
+/** Project tag names assigned to this resource. */
+export type DatasetReadTagsList = Array<string>;
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
 export type RoleAtOrganizationEnum =
@@ -265,7 +293,13 @@ export interface DatasetRead {
   description: string;
   /** JSON object with descriptive dataset metadata. */
   metadata: DatasetReadMetadataMap;
+  /** Project tag names assigned to this resource. */
+  tags: DatasetReadTagsList;
   archived: boolean;
+  /** Earliest cleanup time if the dataset remains unused. */
+  expires_at: string | null;
+  /** Whether the dataset is within seven days of expiry. */
+  expiring_soon: boolean;
   /** Latest dataset revision, or null before the first item is added. */
   current_revision: number | null;
   /** ID of the latest committed dataset revision. */
@@ -408,11 +442,103 @@ export interface CreateAiObservabilityOfflineExperimentsFailRequest {
   /** Experiment UUID. */
   id: string;
 }
+/** Application and evaluator trace IDs to check without loading trace contents. */
+export type CreateAiObservabilityTracesAvailabilityRequestTraceIdsList = Array<string>;
+export interface CreateAiObservabilityTracesAvailabilityRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Application and evaluator trace IDs to check without loading trace contents. */
+  trace_ids: CreateAiObservabilityTracesAvailabilityRequestTraceIdsList;
+}
+/** Requested trace IDs readable from AI events or the shared events table. */
+export type TraceAvailabilityAvailableTraceIdsList = Array<string>;
+export interface TraceAvailability {
+  /** Requested trace IDs readable from AI events or the shared events table. */
+  available_trace_ids: TraceAvailabilityAvailableTraceIdsList;
+}
+export interface CreateAiObservabilityTracesExportRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The trace id, sent as the unpadded base64url encoding of its UTF-8 bytes. */
+  id: string;
+  /** When the trace happened, as carried by links into it. Lets a trace older than the AI events retention load from the shared events table. */
+  timestamp_hint?: string;
+}
+export type ExportStatusEnum = "pending" | "complete" | "failed";
+export interface TraceExport {
+  /** The export id, used to read its status and download the file. */
+  id: number;
+  /** Whether the file is still being written, ready, or failed. */
+  status: ExportStatusEnum;
+  /** The name the downloaded JSON file gets. */
+  filename: string;
+  /** When the export was requested. */
+  createdAt: string;
+  /** When the file is deleted. */
+  expiresAfter: string | null;
+  /** Why the export failed, null unless status is failed. */
+  exception: string | null;
+}
+export interface CreateAiObservabilityTracesSummaryRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The trace id, sent as the unpadded base64url encoding of its UTF-8 bytes. */
+  id: string;
+  /** When the trace happened, as carried by links into it. Lets a trace older than the AI events retention load from the shared events table. */
+  timestamp_hint?: string;
+  /** Replace a ready summary with a new one. A pending summary is never replaced. */
+  regenerate?: boolean;
+}
+export type TraceSummaryStatusEnum = "pending" | "ready" | "failed";
+export interface TraceSummaryItem {
+  text: string;
+  /** The step the item refers to, or null when it names none. */
+  nodeId: string | null;
+}
+export type TraceSummaryContentBulletsList = Array<TraceSummaryItem>;
+/** Details worth a second look, or empty. */
+export type TraceSummaryContentNotesList = Array<TraceSummaryItem>;
+export interface TraceSummaryContent {
+  title: string;
+  bullets: TraceSummaryContentBulletsList;
+  /** Details worth a second look, or empty. */
+  notes: TraceSummaryContentNotesList;
+  /** The main steps of the trace as a small text diagram. */
+  flow: string;
+  /** The model that wrote the summary. */
+  model: string;
+  generatedAt: string;
+}
+export type TraceSummaryFailureReasonEnum =
+  | "trace_not_found"
+  | "too_large"
+  | "timeout"
+  | "provider_error"
+  | "not_approved"
+  | "access_changed"
+  | "error";
+export interface TraceSummaryFailure {
+  reason: TraceSummaryFailureReasonEnum;
+  /** Why the summary failed, ready to show to the user. */
+  message: string;
+}
+export interface TraceSummary {
+  /** `pending` while the summary is written, then `ready` or `failed`. */
+  status: TraceSummaryStatusEnum;
+  /** The summary when `status` is `ready`, else null. */
+  content: TraceSummaryContent | null;
+  /** Why it failed when `status` is `failed`, else null. */
+  failure: TraceSummaryFailure | null;
+}
+/** Tag names. Replaces existing tags; send [] to remove all tags. Names are trimmed and lowercased. */
+export type CreateDatasetRequestTagsList = Array<string>;
 /** Optional JSON object with descriptive dataset metadata. */
 export type CreateDatasetRequestMetadataMap = { [key: string]: unknown | undefined };
 export interface CreateDatasetRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Tag names. Replaces existing tags; send [] to remove all tags. Names are trimmed and lowercased. */
+  tags?: CreateDatasetRequestTagsList;
   /** Dataset name. Names are unique within a project. */
   name: string;
   /** Optional description of what the dataset contains. */
@@ -452,12 +578,11 @@ export interface CreateDatasetsExportRequest {
   /** Dataset revision to export. Defaults to the latest revision when the export is created. */
   revision?: number;
 }
-export type DatasetExportReadStatusEnum = "pending" | "complete" | "failed";
 export interface DatasetExportRead {
   /** Export ID used to check status and download the file. */
   id: number;
   /** Current export state: pending, complete, or failed. */
-  status: DatasetExportReadStatusEnum;
+  status: ExportStatusEnum;
   /** Immutable dataset revision included in the export. */
   dataset_revision: number;
   /** Generated JSONL filename. */
@@ -469,23 +594,25 @@ export interface DatasetExportRead {
   /** Reason the export failed, or null while it is pending or complete. */
   exception: string | null;
 }
-export interface CreateLlmAnalyticsOfflineEvaluationsExperimentItemRequest {
+export interface CreateDatasetsExtendRetentionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** `$ai_experiment_id` whose offline-evaluation items to return. */
-  experiment_id: string;
-  /** Lower bound on `timestamp` (ISO-8601). Omit to leave the lower bound open. */
-  date_from?: string | null;
-  /** Upper bound on `timestamp` (ISO-8601). Omit to leave the upper bound open. */
-  date_to?: string | null;
+  /** A UUID string identifying this dataset. */
+  id: string;
+  /** Revision to extend along with its dataset. Omit to extend only the dataset. */
+  revision?: number;
 }
-export type OfflineExperimentItemsResponseResultsItemList = Array<unknown>;
-/** Tuple-positional rows; positions match `RawOfflineExperimentMetricRow` in the frontend. */
-export type OfflineExperimentItemsResponseResultsList =
-  Array<OfflineExperimentItemsResponseResultsItemList>;
-export interface OfflineExperimentItemsResponse {
-  /** Tuple-positional rows; positions match `RawOfflineExperimentMetricRow` in the frontend. */
-  results: OfflineExperimentItemsResponseResultsList;
+export interface DatasetRetentionEntry {
+  /** Dataset to open or extend. */
+  dataset_id: string;
+  /** Name of the dataset. */
+  dataset_name: string;
+  /** Whether the dataset is archived. */
+  dataset_archived: boolean;
+  /** Historical revision number, or null for a dataset. */
+  revision: number | null;
+  /** Earliest cleanup time if this dataset or revision remains unused. */
+  expires_at: string | null;
 }
 /** * `trace` - trace * `event` - event */
 export type SummarizeTypeEnum = "trace" | "event";
@@ -624,7 +751,13 @@ export interface GetAiObservabilityOfflineExperimentRequest {
   /** Experiment UUID. */
   id: string;
 }
+/** Project tag names assigned to this experiment. */
+export type OfflineExperimentReadTagsList = Array<string>;
 export interface OfflineExperimentRead {
+  /** User who submitted the experiment, or null for service credentials. */
+  created_by: UserBasic | null;
+  /** Project tag names assigned to this experiment. */
+  tags: OfflineExperimentReadTagsList;
   /** Stable experiment UUID. */
   id: string;
   /** Experiment name. */
@@ -702,7 +835,7 @@ export interface OfflineResultCell {
   accepted_at: string;
   /** Result payload storage state. * `not_provided` - Not provided * `available` - Available * `expired` - Expired */
   payload_state: PayloadStateEnum;
-  /** Payload retention deadline; cleanup is not yet enabled. */
+  /** Payload expires 30 days after first acceptance; deletion runs hourly. */
   payload_expires_at: string | null;
   /** Exact scorer-version UUID in the item page's scorer_versions list. */
   scorer_version_id: string;
@@ -710,6 +843,8 @@ export interface OfflineResultCell {
 /** Cells for explicitly selected scorer versions; empty when none selected. */
 export type OfflineItemReadResultsList = Array<OfflineResultCell>;
 export interface OfflineItemRead {
+  /** Model used for the item, falling back to the experiment's model. */
+  model_version?: string | null;
   /** Stable item UUID. */
   id: string;
   /** Owning experiment UUID. */
@@ -730,7 +865,7 @@ export interface OfflineItemRead {
   accepted_at: string;
   /** Item payload storage state. * `not_provided` - Not provided * `available` - Available * `expired` - Expired */
   payload_state: PayloadStateEnum;
-  /** Payload retention deadline; cleanup is not yet enabled. */
+  /** Payload expires 30 days after first acceptance; deletion runs hourly. */
   payload_expires_at: string | null;
   /** Cells for explicitly selected scorer versions; empty when none selected. */
   results: OfflineItemReadResultsList;
@@ -836,6 +971,8 @@ export interface OfflineScorerVersionRead {
   kind: ScoreDefinitionKindEnum;
   /** Current scorer display name. */
   name: string;
+  /** Current compact label. Blank uses the full name. */
+  short_name: string;
   /** Current scorer description. */
   description: string;
   /** Whether the scorer is archived. */
@@ -916,6 +1053,13 @@ export interface TraceTimelineRow {
 }
 export type TraceTimelineList = Array<TraceTimelineRow>;
 export type TraceThreadNodeIdsList = Array<string>;
+export type TraceNodeIdsByAliasMap = { [key: string]: string | undefined };
+export interface TraceGit {
+  /** The git branch checked out when the trace ran. */
+  branch: string;
+  /** The repository as owner/name, or null when the branch's event has none. */
+  repo: string | null;
+}
 export interface Trace {
   id: string;
   name: string | null;
@@ -929,6 +1073,326 @@ export interface Trace {
   timeline: TraceTimelineList;
   totalMs: number;
   threadNodeIds: TraceThreadNodeIdsList;
+  defaultNodeId: string;
+  nodeIdsByAlias: TraceNodeIdsByAliasMap;
+  /** The branch the trace's work ran on: the latest stamped branch other than main or master, else the first stamp. Null when no event carries a branch. */
+  git: TraceGit | null;
+}
+export interface GetAiObservabilityTracesClusterRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The trace id, sent as the unpadded base64url encoding of its UTF-8 bytes. */
+  id: string;
+  /** When the trace started, as the trace resource's createdAt. Bounds which clustering runs are read. */
+  created_at: string;
+}
+export interface TraceCluster {
+  /** The clustering run that put the trace in this cluster. The cluster page is addressed by this id and the cluster id. */
+  runId: string;
+  /** When the run finished. */
+  runAt: string;
+  /** The clustering job the run belongs to, null for a run without a job. */
+  jobId: string | null;
+  jobName: string | null;
+  /** The cluster's id within its run. -1 is the run's outliers. */
+  clusterId: number;
+  title: string | null;
+  description: string | null;
+  /** The trace fit no cluster in this run. */
+  isOutlier: boolean;
+}
+/** The clusters that list the trace: for each clustering job, the newest scheduled run that lists it. Manual runs are left out. Clusters come before outliers, then newest first. */
+export type TraceClustersClustersList = Array<TraceCluster>;
+export interface TraceClusters {
+  /** The clusters that list the trace: for each clustering job, the newest scheduled run that lists it. Manual runs are left out. Clusters come before outliers, then newest first. */
+  clusters: TraceClustersClustersList;
+}
+export interface GetAiObservabilityTracesEvaluationRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The trace id, sent as the unpadded base64url encoding of its UTF-8 bytes. */
+  id: string;
+}
+export type TraceEvaluationResultOutcomeEnum = "pass" | "fail" | "inconclusive" | "unrated";
+export interface TraceEvaluationResult {
+  id: string;
+  evaluationId: string | null;
+  evaluationName: string;
+  /** The tree node the result grades: the generation's event uuid, or the trace id for a trace-level result. */
+  targetNodeId: string;
+  outcome: TraceEvaluationResultOutcomeEnum;
+  /** What the result says, such as "True", "0.82", "Positive" or "Skipped". */
+  label: string;
+  /** The numeric result of a numeric evaluation, null for every other type. */
+  score: number | null;
+  reasoning: string | null;
+  timestamp: string;
+  isBackfill: boolean;
+}
+export type TraceEvaluationResultsResultsList = Array<TraceEvaluationResult>;
+export type TraceNodeEvaluationRollupOutcomeEnum = "pass" | "fail" | "unrated";
+export interface TraceNodeEvaluationRollup {
+  /** The tree node the results grade. */
+  nodeId: string;
+  /** Fail if any evaluation fails on the node, else pass if any passes, else unrated. */
+  outcome: TraceNodeEvaluationRollupOutcomeEnum;
+}
+/** One entry per node with results, sorted by node id. */
+export type TraceEvaluationSummaryNodesList = Array<TraceNodeEvaluationRollup>;
+/** Counts the latest run of each evaluation on each node, by when the run started, so re-runs and backfills count once. Inconclusive results count as unrated. Computed over the results returned, at most 250. */
+export interface TraceEvaluationSummary {
+  passed: number;
+  failed: number;
+  unrated: number;
+  /** One entry per node with results, sorted by node id. */
+  nodes: TraceEvaluationSummaryNodesList;
+}
+export interface TraceEvaluationResults {
+  results: TraceEvaluationResultsResultsList;
+  summary: TraceEvaluationSummary;
+}
+export interface GetAiObservabilityTracesExportRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The trace id, sent as the unpadded base64url encoding of its UTF-8 bytes. */
+  id: string;
+  /** The export id the create call returned. */
+  export_id: number;
+}
+export type GetAiObservabilityTracesExportsContentRequestPurpose = "download" | "copy";
+export interface GetAiObservabilityTracesExportsContentRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The trace id, sent as the unpadded base64url encoding of its UTF-8 bytes. */
+  id: string;
+  /** The export id the create call returned. */
+  export_id: number;
+  /** What the file is read for. Only a download is recorded as one. * `download` - Download * `copy` - Copy */
+  purpose?: GetAiObservabilityTracesExportsContentRequestPurpose | (string & {});
+}
+export interface TraceNodeMetadata {
+  provider: string | null;
+  temperature: number | null;
+  sessionId: string | null;
+  promptName: string | null;
+  promptVersion: number | null;
+}
+/** The event's properties as ingested, including its input and output values. */
+export type TraceNodeEventPropertiesMap = { [key: string]: unknown | undefined };
+export interface TraceNodeIOKeys {
+  input: string | null;
+  output: string | null;
+  tools: string | null;
+}
+export interface TraceNodeEvent {
+  name: string;
+  uuid: string;
+  timestamp: string;
+  /** The event's properties as ingested, including its input and output values. */
+  properties: TraceNodeEventPropertiesMap;
+  /** Which keys of `properties` hold the node's input, output and tools, or null when it has none. */
+  ioKeys: TraceNodeIOKeys;
+}
+export interface TraceNodeDetail {
+  id: string;
+  kind: TraceNodeKindEnum;
+  error: string | null;
+  metadata: TraceNodeMetadata;
+  event: TraceNodeEvent | null;
+}
+/** Every node with its event properties as ingested, inputs and outputs included: the root first, then the tree in pre-order. */
+export type TraceExportFileNodesList = Array<TraceNodeDetail>;
+export interface TraceExportFile {
+  /** The trace as the trace endpoint returns it. */
+  trace: Trace;
+  /** True when the trace has more events than an export reads. The file then holds the earliest events only, and leaves out the later steps. */
+  truncated: boolean;
+  /** Every node with its event properties as ingested, inputs and outputs included: the root first, then the tree in pre-order. */
+  nodes: TraceExportFileNodesList;
+}
+export interface GetAiObservabilityTracesFeedbackRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The trace id, sent as the unpadded base64url encoding of its UTF-8 bytes. */
+  id: string;
+  /** When the trace happened, as carried by links into it. Lets a trace older than the AI events retention load from the shared events table. */
+  timestamp_hint?: string;
+}
+export interface TraceFeedbackScore {
+  id: string;
+  name: string | null;
+  /** The score as text: a string as sent, any other value as compact JSON, such as 0, false or 4.5. */
+  value: string;
+  /** The tree node the score targets: the step's event uuid, or the trace id for a trace-level score. */
+  nodeId: string;
+  timestamp: string;
+}
+/** Oldest first. */
+export type TraceFeedbackScoresList = Array<TraceFeedbackScore>;
+export interface TraceFeedbackText {
+  kind: string;
+  id: string;
+  text: string;
+  /** The tree node the feedback targets: the step's event uuid, or the trace id for trace-level feedback. */
+  nodeId: string;
+  timestamp: string;
+}
+export interface TraceSurvey {
+  id: string;
+  /** Null when the survey no longer exists. */
+  name: string | null;
+}
+export interface TraceThumbsAnswer {
+  kind: string;
+  question: string;
+  up: boolean;
+}
+export interface TraceRatingAnswer {
+  kind: string;
+  question: string;
+  value: string;
+  scale: number | null;
+  lowerLabel: string | null;
+  upperLabel: string | null;
+}
+export type TraceChoiceAnswerChoicesList = Array<string>;
+export interface TraceChoiceAnswer {
+  kind: string;
+  question: string;
+  choices: TraceChoiceAnswerChoicesList;
+}
+export interface TraceTextAnswer {
+  kind: string;
+  question: string;
+  text: string;
+}
+export type TraceSurveyResponseAnswersItem =
+  | TraceThumbsAnswer
+  | TraceRatingAnswer
+  | TraceChoiceAnswer
+  | TraceTextAnswer;
+export type TraceSurveyResponseAnswersList = Array<TraceSurveyResponseAnswersItem>;
+export type TraceSurveyResponseUnavailable = "survey_not_found" | "no_questions";
+export interface TraceSurveyResponse {
+  kind: string;
+  id: string;
+  /** The tree node the response targets: the trace id, as a survey response covers the whole trace. */
+  nodeId: string;
+  timestamp: string;
+  survey: TraceSurvey;
+  answers: TraceSurveyResponseAnswersList;
+  /** False when the user left the survey before its end. */
+  complete: boolean;
+  /** Why the answers cannot be shown: the survey was deleted, or it has no questions. */
+  unavailable: TraceSurveyResponseUnavailable | null;
+}
+export type TraceFeedbackResponsesItem = TraceFeedbackText | TraceSurveyResponse;
+/** What users said, oldest first. */
+export type TraceFeedbackResponsesList = Array<TraceFeedbackResponsesItem>;
+export interface TraceUnansweredSurvey {
+  survey: TraceSurvey;
+  /** When the survey was first shown. */
+  timestamp: string;
+}
+/** Surveys shown with the trace and not answered, oldest first. */
+export type TraceFeedbackUnansweredList = Array<TraceUnansweredSurvey>;
+export type SurveyResponsesStatusEnum = "ok" | "failed" | "not_permitted";
+export interface TraceFeedbackSummary {
+  /** Scores plus responses. */
+  total: number;
+  /** Thumbs up answers to 2-point survey rating questions. */
+  thumbsUp: number;
+  /** Thumbs down answers to 2-point survey rating questions. */
+  thumbsDown: number;
+}
+export interface TraceFeedback {
+  /** Oldest first. */
+  scores: TraceFeedbackScoresList;
+  /** What users said, oldest first. */
+  responses: TraceFeedbackResponsesList;
+  /** Surveys shown with the trace and not answered, oldest first. */
+  unanswered: TraceFeedbackUnansweredList;
+  /** ok when survey responses are included, failed when the survey read failed, not_permitted when the token lacks the survey:read and query:read scopes. */
+  surveyResponsesStatus: SurveyResponsesStatusEnum;
+  summary: TraceFeedbackSummary;
+}
+export interface GetAiObservabilityTracesNodeRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The trace id, sent as the unpadded base64url encoding of its UTF-8 bytes. */
+  id: string;
+  /** The node id, sent as the unpadded base64url encoding of its UTF-8 bytes. The root node's id is the trace id. */
+  node_id: string;
+  /** When the trace happened, as carried by links into it. Lets a trace older than the AI events retention load from the shared events table. */
+  timestamp_hint?: string;
+}
+export interface GetAiObservabilityTracesPullRequestRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The trace id, sent as the unpadded base64url encoding of its UTF-8 bytes. */
+  id: string;
+  /** When the trace happened, as carried by links into it. Lets a trace older than the AI events retention load from the shared events table. */
+  timestamp_hint?: string;
+}
+export interface TracePullRequest {
+  /** The owner of the pull request's repository. */
+  repoOwner: string;
+  /** The name of the pull request's repository. */
+  repoName: string;
+  /** The pull request number. */
+  number: number;
+  /** The pull request title, or null when the synced data has none. */
+  title: string | null;
+}
+export interface TracePullRequestLookup {
+  /** The pull request the trace's git branch belongs to, ranked by engineering analytics, or null when the trace has no branch, the project has no GitHub source, or no pull request matches. */
+  pullRequest: TracePullRequest | null;
+}
+export interface GetAiObservabilityTracesReviewRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The trace id, sent as the unpadded base64url encoding of its UTF-8 bytes. */
+  id: string;
+}
+export interface TraceHumanReviewScore {
+  /** The scorer's name. */
+  name: string;
+  /** The saved score as a reviewer reads it: option labels joined by commas, a number, or the scorer's yes or no label. */
+  value: string;
+  /** The scorer's name and the score together, such as `Tone: 4.5`. */
+  label: string;
+}
+/** Ordered by scorer name. Empty when the review only marks the trace as reviewed. */
+export type TraceHumanReviewScoresList = Array<TraceHumanReviewScore>;
+export interface TraceHumanReview {
+  /** The display name of whoever last saved the review, or null when that user was removed. */
+  reviewedBy: string | null;
+  /** When the review was last saved. */
+  reviewedAt: string;
+  /** The reviewer's reasoning, if any. */
+  comment: string | null;
+  /** Ordered by scorer name. Empty when the review only marks the trace as reviewed. */
+  scores: TraceHumanReviewScoresList;
+}
+export interface TraceReviewQueueAssignment {
+  /** The review queue's id. */
+  id: string;
+  /** The review queue's name. */
+  name: string;
+  /** The queue item that holds the trace, for moving or removing it. */
+  itemId: string;
+}
+export interface TraceReviewStatus {
+  /** The trace's human review, or null when it has none or the user may not see it. */
+  review: TraceHumanReview | null;
+  /** The review queue the trace waits in, or null when it waits in none the user may see. Saving a review normally takes the trace out of its queue. */
+  queue: TraceReviewQueueAssignment | null;
+}
+export interface GetAiObservabilityTracesSummaryRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The trace id, sent as the unpadded base64url encoding of its UTF-8 bytes. */
+  id: string;
 }
 export interface GetDatasetRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -958,11 +1422,39 @@ export interface GetDatasetsExportsContentRequest {
   export_id: string;
 }
 export interface GetDatasetsExportsContentResponse {}
+export type GetDatasetsRetentionRequestKind = "datasets" | "revisions";
+export interface GetDatasetsRetentionRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Whether to return expiring datasets or older revisions. Counts always include both. * `datasets` - Datasets * `revisions` - Older revisions */
+  kind?: GetDatasetsRetentionRequestKind | (string & {});
+  /** Maximum entries to return, up to 50. */
+  limit?: number;
+  /** Number of expiring entries to skip. */
+  offset?: number;
+}
+/** Expiring entries, ordered by earliest cleanup time. */
+export type DatasetRetentionReadResultsList = Array<DatasetRetentionEntry>;
+export interface DatasetRetentionRead {
+  /** Accessible active and archived datasets within seven days of expiry. */
+  datasets_count: number;
+  /** Accessible older revisions within seven days of expiry, excluding the latest revision. */
+  revisions_count: number;
+  /** Total expiring entries of the requested kind. */
+  count: number;
+  /** Expiring entries, ordered by earliest cleanup time. */
+  results: DatasetRetentionReadResultsList;
+}
+export type ListAiObservabilityOfflineExperimentsRequestTagMatch = "any" | "all";
 export interface ListAiObservabilityOfflineExperimentsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Exact application revision. */
   application_version?: string;
+  /** Filter experiments by the author's user ID. */
+  created_by?: number;
+  /** Only include experiments without an author. */
+  created_by_is_null?: boolean;
   /** Continuation cursor returned by the previous page. */
   cursor?: string;
   /** Exact durable dataset identifier. */
@@ -993,10 +1485,19 @@ export interface ListAiObservabilityOfflineExperimentsRequest {
   statuses?: string;
   /** Exact evaluation suite identifier. */
   suite_key?: string;
+  /** Match any selected tag (OR) or all selected tags (AND). * `any` - Any * `all` - All */
+  tag_match?: ListAiObservabilityOfflineExperimentsRequestTagMatch | (string & {});
+  /** JSON array of tag names, for example ["quality","production"]. Up to 20 tags. An empty array disables tag filtering. */
+  tags?: string;
 }
 /** Experiment page. */
 export type OfflineExperimentPageResultsList = Array<OfflineExperimentRead>;
+/** Declares the `next` and `previous` links of a page response that the view fills with `page_link`. */
 export interface OfflineExperimentPage {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page and on lists that page forward only. */
+  previous: string | null;
   /** Total authorized rows matching the filters, independent of this page. */
   count: number;
   /** Continuation cursor, or null after the final page. */
@@ -1020,7 +1521,12 @@ export interface ListAiObservabilityOfflineExperimentsItemsRequest {
 export type OfflineItemPageResultsList = Array<OfflineItemRead>;
 /** Selected scorer versions, each returned once, including versions with no results. */
 export type OfflineItemPageScorerVersionsList = Array<OfflineScorerVersionRead>;
+/** Declares the `next` and `previous` links of a page response that the view fills with `page_link`. */
 export interface OfflineItemPage {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page and on lists that page forward only. */
+  previous: string | null;
   /** Total authorized rows matching the filters, independent of this page. */
   count: number;
   /** Continuation cursor, or null after the final page. */
@@ -1068,14 +1574,19 @@ export interface OfflineResultRead {
   accepted_at: string;
   /** Result payload storage state. * `not_provided` - Not provided * `available` - Available * `expired` - Expired */
   payload_state: PayloadStateEnum;
-  /** Payload retention deadline; cleanup is not yet enabled. */
+  /** Payload expires 30 days after first acceptance; deletion runs hourly. */
   payload_expires_at: string | null;
   /** Pinned scorer version. */
   scorer: OfflineScorerVersionRead;
 }
 /** Result page. */
 export type OfflineResultPageResultsList = Array<OfflineResultRead>;
+/** Declares the `next` and `previous` links of a page response that the view fills with `page_link`. */
 export interface OfflineResultPage {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page and on lists that page forward only. */
+  previous: string | null;
   /** Total authorized rows matching the filters, independent of this page. */
   count: number;
   /** Continuation cursor, or null after the final page. */
@@ -1159,7 +1670,12 @@ export interface OfflineScorerSummary {
 }
 /** Scorer-version summary page; each group includes all matching results. */
 export type OfflineSummaryPageResultsList = Array<OfflineScorerSummary>;
+/** Declares the `next` and `previous` links of a page response that the view fills with `page_link`. */
 export interface OfflineSummaryPage {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page and on lists that page forward only. */
+  previous: string | null;
   /** Total authorized rows matching the filters, independent of this page. */
   count: number;
   /** Continuation cursor, or null after the final page. */
@@ -1167,6 +1683,13 @@ export interface OfflineSummaryPage {
   /** Scorer-version summary page; each group includes all matching results. */
   results: OfflineSummaryPageResultsList;
 }
+export type ListAiObservabilityOfflineScorersHistoryRequestBreakdown =
+  | "model_version"
+  | "prompt_version"
+  | "application_version"
+  | "suite_key"
+  | "run_source";
+export type ListAiObservabilityOfflineScorersHistoryRequestTagMatch = "any" | "all";
 export interface ListAiObservabilityOfflineScorersHistoryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -1174,6 +1697,12 @@ export interface ListAiObservabilityOfflineScorersHistoryRequest {
   id: string;
   /** Exact application revision. */
   application_version?: string;
+  /** Split history by this property. Model uses each item's model, falling back to the experiment's model. * `model_version` - Model * `prompt_version` - Prompt version * `application_version` - Application version * `suite_key` - Suite * `run_source` - Run source */
+  breakdown?: ListAiObservabilityOfflineScorersHistoryRequestBreakdown | (string & {});
+  /** Filter experiments by the author's user ID. */
+  created_by?: number;
+  /** Only include experiments without an author. */
+  created_by_is_null?: boolean;
   /** Continuation cursor returned by the previous page. */
   cursor?: string;
   /** Exact durable dataset identifier. */
@@ -1202,8 +1731,14 @@ export interface ListAiObservabilityOfflineScorersHistoryRequest {
   statuses?: string;
   /** Exact evaluation suite identifier. */
   suite_key?: string;
+  /** Match any selected tag (OR) or all selected tags (AND). * `any` - Any * `all` - All */
+  tag_match?: ListAiObservabilityOfflineScorersHistoryRequestTagMatch | (string & {});
+  /** JSON array of tag names, for example ["quality","production"]. Up to 20 tags. An empty array disables tag filtering. */
+  tags?: string;
 }
 export interface OfflineHistoryPoint {
+  /** Breakdown value for this summary; null when unspecified or no breakdown is selected. */
+  breakdown_value?: string | null;
   /** Experiment execution and cohort context. */
   experiment: OfflineExperimentRead;
   /** Complete summary for one experiment and scorer version. */
@@ -1211,7 +1746,12 @@ export interface OfflineHistoryPoint {
 }
 /** Experiment/scorer-version history page. */
 export type OfflineHistoryPageResultsList = Array<OfflineHistoryPoint>;
+/** Declares the `next` and `previous` links of a page response that the view fills with `page_link`. */
 export interface OfflineHistoryPage {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page and on lists that page forward only. */
+  previous: string | null;
   /** Total authorized rows matching the filters, independent of this page. */
   count: number;
   /** Continuation cursor, or null after the final page. */
@@ -1255,6 +1795,7 @@ export type ListDatasetsRequestOrderBy =
   | "-created_at"
   | "updated_at"
   | "-updated_at";
+export type ListDatasetsRequestTagMatch = "any" | "all";
 export interface ListDatasetsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -1270,6 +1811,10 @@ export interface ListDatasetsRequest {
   order_by?: ListDatasetsRequestOrderBy | (string & {});
   /** Search dataset names, descriptions, and metadata. */
   search?: string;
+  /** Match any selected tag (OR) or all selected tags (AND). Additional tags are allowed. * `any` - Any * `all` - All */
+  tag_match?: ListDatasetsRequestTagMatch | (string & {});
+  /** JSON array of tag names, for example ["quality","production"]. Up to 20 tags. An empty array disables tag filtering. */
+  tags?: string;
 }
 export type PaginatedDatasetReadListResultsList = Array<DatasetRead>;
 export interface PaginatedDatasetReadList {
@@ -1297,6 +1842,10 @@ export interface DatasetRevisionRead {
   created_by: UserBasic | null;
   /** Project that owns the revision. */
   team_id: number;
+  /** Earliest expiry time of this dataset snapshot if unused. */
+  expires_at: string | null;
+  /** Whether this snapshot is within seven days of expiry. */
+  expiring_soon: boolean;
 }
 export type PaginatedDatasetRevisionReadListResultsList = Array<DatasetRevisionRead>;
 export interface PaginatedDatasetRevisionReadList {
@@ -1329,6 +1878,8 @@ export interface Summary {
   product: string;
   /** Total LLM cost in USD across every `ai_product` for the user -- independent of the `product` filter. */
   total_cost_usd: number;
+  /** Raw LLM cost in USD for products eligible for AI or Desktop credit billing, independent of the product filter and breakdown limit. Excludes credit markup and does not represent an invoiced amount. */
+  billable_cost_usd: number;
   /** Total $ai_generation + $ai_embedding events captured across every product. */
   event_count: number;
   /** Total cost in USD for the product filter. Matches the cost summed across `by_tool` / `by_model` for the scoped slice. */
@@ -1343,6 +1894,8 @@ export interface ProductBreakdownRow {
   event_count: number;
   /** Total cost in USD for this product over the lookback window. */
   cost_usd: number;
+  /** Whether this product is eligible for PostHog AI or Desktop credit billing, independent of event-level billing rules. */
+  billable: boolean;
 }
 /** Rows of spend by product, ordered by cost descending. */
 export type ProductBreakdownItemsList = Array<ProductBreakdownRow>;
@@ -1516,6 +2069,16 @@ export interface RestoreDatasetItemRequest {
   /** Historical version to copy. Omit to restore the archived version's content. */
   source_version?: number | null;
 }
+/** Tag names. Replaces existing tags; send [] to remove all tags. Names are trimmed and lowercased. */
+export type UpdateAiObservabilityOfflineExperimentsPartialRequestTagsList = Array<string>;
+export interface UpdateAiObservabilityOfflineExperimentsPartialRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Experiment UUID. */
+  id: string;
+  /** Tag names. Replaces existing tags; send [] to remove all tags. Names are trimmed and lowercased. */
+  tags?: UpdateAiObservabilityOfflineExperimentsPartialRequestTagsList;
+}
 export type UpdateDatasetItemsPartialRequestInputCase0Map = { [key: string]: unknown | undefined };
 export type UpdateDatasetItemsPartialRequestInputCase1List = Array<unknown>;
 /** Replacement input. Omit to keep the current value. */
@@ -1551,6 +2114,8 @@ export interface UpdateDatasetItemsPartialRequest {
   /** Replacement metadata object. Send an empty object to clear it. */
   metadata?: UpdateDatasetItemsPartialRequestMetadataMap;
 }
+/** Tag names. Replaces existing tags; send [] to remove all tags. Names are trimmed and lowercased. */
+export type UpdateDatasetsPartialRequestTagsList = Array<string>;
 /** Replacement JSON object for descriptive dataset metadata. */
 export type UpdateDatasetsPartialRequestMetadataMap = { [key: string]: unknown | undefined };
 export interface UpdateDatasetsPartialRequest {
@@ -1558,6 +2123,8 @@ export interface UpdateDatasetsPartialRequest {
   project_id: string;
   /** A UUID string identifying this dataset. */
   id: string;
+  /** Tag names. Replaces existing tags; send [] to remove all tags. Names are trimmed and lowercased. */
+  tags?: UpdateDatasetsPartialRequestTagsList;
   /** New dataset name. Names are unique within a project. */
   name?: string;
   /** New dataset description. */
@@ -1574,11 +2141,11 @@ export const aiObservabilityInstrumentationChecklistRestoreCreate: API.Operation
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1248,
-    __c39,
+    1344,
+    __c42,
     0,
   ) as any as S.Schema<AiObservabilityInstrumentationChecklistRestoreCreateRequest>,
-  output: __S(1283, __c40, 3) as any as S.Schema<InstrumentationChecklist>,
+  output: __S(1379, __c43, 3) as any as S.Schema<InstrumentationChecklist>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1599,16 +2166,33 @@ export const aiObservabilityOfflineExperimentsUploadCreate: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1444,
-    __c45,
+    1796,
+    __c56,
     4,
   ) as any as S.Schema<AiObservabilityOfflineExperimentsUploadCreateRequest>,
-  output: __S(1449, __c45, 9) as any as S.Schema<UploadReceipt>,
+  output: __S(1801, __c56, 9) as any as S.Schema<UploadReceipt>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AiObservabilityOfflineExperimentsUploadCreate",
+}));
+
+export type AiObservabilityTracesSearchRetrieveError = BadRequest | NotFound | PosthogOpError;
+/** Find text in a trace's steps: each matching step in tree order with its number of occurrences. */
+export const aiObservabilityTracesSearchRetrieve: API.OperationMethod<
+  AiObservabilityTracesSearchRetrieveRequest,
+  TraceSearchResults,
+  AiObservabilityTracesSearchRetrieveError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2208, __c69, 0) as any as S.Schema<AiObservabilityTracesSearchRetrieveRequest>,
+  output: __S(2211, __c69, 3) as any as S.Schema<TraceSearchResults>,
+  errors: [BadRequest, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AiObservabilityTracesSearchRetrieve",
 }));
 
 export type ArchiveDatasetError = PosthogOpError;
@@ -1619,8 +2203,8 @@ export const archiveDataset: API.OperationMethod<
   ArchiveDatasetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<ArchiveDatasetRequest>,
-  output: __S(1600, __c50, 0) as any as S.Schema<DatasetRead>,
+  input: __S(2240, __c70, 0) as any as S.Schema<ArchiveDatasetRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<DatasetRead>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1636,8 +2220,8 @@ export const archiveDatasetItem: API.OperationMethod<
   ArchiveDatasetItemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<ArchiveDatasetItemRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<DatasetItemRead>,
+  input: __S(2368, __c74, 0) as any as S.Schema<ArchiveDatasetItemRequest>,
+  output: __S(2400, __c75, 0) as any as S.Schema<DatasetItemRead>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1654,11 +2238,11 @@ export const createAiObservabilityInstrumentationChecklistDismiss: API.Operation
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1728,
-    __c54,
+    2432,
+    __c76,
     0,
   ) as any as S.Schema<CreateAiObservabilityInstrumentationChecklistDismissRequest>,
-  output: __S(1283, __c40, 3) as any as S.Schema<InstrumentationChecklist>,
+  output: __S(1379, __c43, 3) as any as S.Schema<InstrumentationChecklist>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1678,8 +2262,8 @@ export const createAiObservabilityOfflineExperiment: API.OperationMethod<
   CreateAiObservabilityOfflineExperimentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<CreateAiObservabilityOfflineExperimentRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<ExperimentReceipt>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateAiObservabilityOfflineExperimentRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<ExperimentReceipt>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1699,8 +2283,12 @@ export const createAiObservabilityOfflineExperimentsComplete: API.OperationMetho
   CreateAiObservabilityOfflineExperimentsCompleteError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateAiObservabilityOfflineExperimentsCompleteRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<ExperimentReceipt>,
+  input: __S(
+    64,
+    __c2,
+    0,
+  ) as any as S.Schema<CreateAiObservabilityOfflineExperimentsCompleteRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<ExperimentReceipt>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1720,13 +2308,63 @@ export const createAiObservabilityOfflineExperimentsFail: API.OperationMethod<
   CreateAiObservabilityOfflineExperimentsFailError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<CreateAiObservabilityOfflineExperimentsFailRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<ExperimentReceipt>,
+  input: __S(96, __c3, 0) as any as S.Schema<CreateAiObservabilityOfflineExperimentsFailRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<ExperimentReceipt>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateAiObservabilityOfflineExperimentsFail",
+}));
+
+export type CreateAiObservabilityTracesAvailabilityError = PosthogOpError;
+export const createAiObservabilityTracesAvailability: API.OperationMethod<
+  CreateAiObservabilityTracesAvailabilityRequest,
+  TraceAvailability,
+  CreateAiObservabilityTracesAvailabilityError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c4, 0) as any as S.Schema<CreateAiObservabilityTracesAvailabilityRequest>,
+  output: __S(129, __c4, 1) as any as S.Schema<TraceAvailability>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAiObservabilityTracesAvailability",
+}));
+
+export type CreateAiObservabilityTracesExportError = BadRequest | PosthogOpError;
+/** Starts writing the trace and every node, inputs and outputs included, to a JSON file. Poll the export until it completes, then download it. */
+export const createAiObservabilityTracesExport: API.OperationMethod<
+  CreateAiObservabilityTracesExportRequest,
+  TraceExport,
+  CreateAiObservabilityTracesExportError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(160, __c5, 0) as any as S.Schema<CreateAiObservabilityTracesExportRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<TraceExport>,
+  errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAiObservabilityTracesExport",
+}));
+
+export type CreateAiObservabilityTracesSummaryError = BadRequest | Forbidden | PosthogOpError;
+/** Request an AI summary of the trace. A ready summary is returned as is unless `regenerate` is set; otherwise a job starts writing one, or the request joins the job already writing it. */
+export const createAiObservabilityTracesSummary: API.OperationMethod<
+  CreateAiObservabilityTracesSummaryRequest,
+  TraceSummary,
+  CreateAiObservabilityTracesSummaryError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(224, __c7, 0) as any as S.Schema<CreateAiObservabilityTracesSummaryRequest>,
+  output: __S(260, __c8, 4) as any as S.Schema<TraceSummary>,
+  errors: [BadRequest, Forbidden],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAiObservabilityTracesSummary",
 }));
 
 export type CreateDatasetError = BadRequest | Forbidden | NotFound | Conflict | PosthogOpError;
@@ -1737,8 +2375,8 @@ export const createDataset: API.OperationMethod<
   CreateDatasetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<CreateDatasetRequest>,
-  output: __S(1600, __c50, 0) as any as S.Schema<DatasetRead>,
+  input: __S(288, __c9, 0) as any as S.Schema<CreateDatasetRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<DatasetRead>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1754,8 +2392,8 @@ export const createDatasetItem: API.OperationMethod<
   CreateDatasetItemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<CreateDatasetItemRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<DatasetItemRead>,
+  input: __S(320, __c10, 0) as any as S.Schema<CreateDatasetItemRequest>,
+  output: __S(2400, __c75, 0) as any as S.Schema<DatasetItemRead>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1771,8 +2409,8 @@ export const createDatasetsExport: API.OperationMethod<
   CreateDatasetsExportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<CreateDatasetsExportRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<DatasetExportRead>,
+  input: __S(352, __c11, 0) as any as S.Schema<CreateDatasetsExportRequest>,
+  output: __S(384, __c12, 0) as any as S.Schema<DatasetExportRead>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1780,24 +2418,21 @@ export const createDatasetsExport: API.OperationMethod<
   span: "CreateDatasetsExport",
 }));
 
-export type CreateLlmAnalyticsOfflineEvaluationsExperimentItemError = BadRequest | PosthogOpError;
-export const createLlmAnalyticsOfflineEvaluationsExperimentItem: API.OperationMethod<
-  CreateLlmAnalyticsOfflineEvaluationsExperimentItemRequest,
-  OfflineExperimentItemsResponse,
-  CreateLlmAnalyticsOfflineEvaluationsExperimentItemError,
+export type CreateDatasetsExtendRetentionError = PosthogOpError;
+/** Refresh retention for a dataset and optionally one revision, with the same access required to read them. */
+export const createDatasetsExtendRetention: API.OperationMethod<
+  CreateDatasetsExtendRetentionRequest,
+  DatasetRetentionEntry,
+  CreateDatasetsExtendRetentionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    193,
-    __c6,
-    1,
-  ) as any as S.Schema<CreateLlmAnalyticsOfflineEvaluationsExperimentItemRequest>,
-  output: __S(195, __c6, 3) as any as S.Schema<OfflineExperimentItemsResponse>,
-  errors: [BadRequest],
+  input: __S(416, __c13, 0) as any as S.Schema<CreateDatasetsExtendRetentionRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<DatasetRetentionEntry>,
+  errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "CreateLlmAnalyticsOfflineEvaluationsExperimentItem",
+  span: "CreateDatasetsExtendRetention",
 }));
 
 export type CreateLlmAnalyticsSummarizationError = BadRequest | Forbidden | PosthogOpError;
@@ -1808,8 +2443,8 @@ export const createLlmAnalyticsSummarization: API.OperationMethod<
   CreateLlmAnalyticsSummarizationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<CreateLlmAnalyticsSummarizationRequest>,
-  output: __S(228, __c7, 4) as any as S.Schema<SummarizeResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<CreateLlmAnalyticsSummarizationRequest>,
+  output: __S(484, __c15, 4) as any as S.Schema<SummarizeResponse>,
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1828,8 +2463,8 @@ export const createLlmAnalyticsSummarizationBatchCheck: API.OperationMethod<
   CreateLlmAnalyticsSummarizationBatchCheckError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<CreateLlmAnalyticsSummarizationBatchCheckRequest>,
-  output: __S(259, __c8, 3) as any as S.Schema<BatchCheckResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<CreateLlmAnalyticsSummarizationBatchCheckRequest>,
+  output: __S(515, __c16, 3) as any as S.Schema<BatchCheckResponse>,
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1845,8 +2480,8 @@ export const createLlmAnalyticsTextRepr: API.OperationMethod<
   CreateLlmAnalyticsTextReprError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(321, __c10, 1) as any as S.Schema<CreateLlmAnalyticsTextReprRequest>,
-  output: __S(323, __c10, 3) as any as S.Schema<TextReprResponse>,
+  input: __S(545, __c17, 1) as any as S.Schema<CreateLlmAnalyticsTextReprRequest>,
+  output: __S(547, __c17, 3) as any as S.Schema<TextReprResponse>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1862,8 +2497,8 @@ export const getAiObservabilityInstrumentationChecklist: API.OperationMethod<
   GetAiObservabilityInstrumentationChecklistError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetAiObservabilityInstrumentationChecklistRequest>,
-  output: __S(1283, __c40, 3) as any as S.Schema<InstrumentationChecklist>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetAiObservabilityInstrumentationChecklistRequest>,
+  output: __S(1379, __c43, 3) as any as S.Schema<InstrumentationChecklist>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1882,8 +2517,8 @@ export const getAiObservabilityOfflineExperiment: API.OperationMethod<
   GetAiObservabilityOfflineExperimentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetAiObservabilityOfflineExperimentRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<OfflineExperimentRead>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetAiObservabilityOfflineExperimentRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<OfflineExperimentRead>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1902,8 +2537,8 @@ export const getAiObservabilityOfflineExperimentsItem: API.OperationMethod<
   GetAiObservabilityOfflineExperimentsItemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetAiObservabilityOfflineExperimentsItemRequest>,
-  output: __S(512, __c16, 0) as any as S.Schema<OfflineItemRead>,
+  input: __S(672, __c21, 0) as any as S.Schema<GetAiObservabilityOfflineExperimentsItemRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<OfflineItemRead>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1923,11 +2558,11 @@ export const getAiObservabilityOfflineExperimentsItemsPayload: API.OperationMeth
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    544,
-    __c17,
+    768,
+    __c24,
     0,
   ) as any as S.Schema<GetAiObservabilityOfflineExperimentsItemsPayloadRequest>,
-  output: __S(545, __c17, 1) as any as S.Schema<OfflineItemPayloadRead>,
+  output: __S(769, __c24, 1) as any as S.Schema<OfflineItemPayloadRead>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1947,11 +2582,11 @@ export const getAiObservabilityOfflineExperimentsResultCell: API.OperationMethod
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    576,
-    __c18,
+    800,
+    __c25,
     0,
   ) as any as S.Schema<GetAiObservabilityOfflineExperimentsResultCellRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<OfflineResultCells>,
+  output: __S(801, __c25, 1) as any as S.Schema<OfflineResultCells>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1971,11 +2606,11 @@ export const getAiObservabilityOfflineExperimentsResultsPayload: API.OperationMe
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    672,
-    __c21,
+    896,
+    __c28,
     0,
   ) as any as S.Schema<GetAiObservabilityOfflineExperimentsResultsPayloadRequest>,
-  output: __S(673, __c21, 1) as any as S.Schema<OfflineResultPayloadRead>,
+  output: __S(897, __c28, 1) as any as S.Schema<OfflineResultPayloadRead>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1991,13 +2626,174 @@ export const getAiObservabilityTrace: API.OperationMethod<
   GetAiObservabilityTraceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GetAiObservabilityTraceRequest>,
-  output: __S(712, __c22, 8) as any as S.Schema<Trace>,
+  input: __S(928, __c29, 0) as any as S.Schema<GetAiObservabilityTraceRequest>,
+  output: __S(969, __c30, 9) as any as S.Schema<Trace>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAiObservabilityTrace",
+}));
+
+export type GetAiObservabilityTracesClusterError = BadRequest | PosthogOpError;
+/** The clusters that list this trace, from the newest scheduled run of each clustering job that lists it. */
+export const getAiObservabilityTracesCluster: API.OperationMethod<
+  GetAiObservabilityTracesClusterRequest,
+  TraceClusters,
+  GetAiObservabilityTracesClusterError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(992, __c31, 0) as any as S.Schema<GetAiObservabilityTracesClusterRequest>,
+  output: __S(995, __c31, 3) as any as S.Schema<TraceClusters>,
+  errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiObservabilityTracesCluster",
+}));
+
+export type GetAiObservabilityTracesEvaluationError = BadRequest | PosthogOpError;
+/** A trace's evaluation results, newest first and at most 250, each with its outcome and label ready to render, plus a roll-up of the latest run of each evaluation on each node. */
+export const getAiObservabilityTracesEvaluation: API.OperationMethod<
+  GetAiObservabilityTracesEvaluationRequest,
+  TraceEvaluationResults,
+  GetAiObservabilityTracesEvaluationError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1024, __c32, 0) as any as S.Schema<GetAiObservabilityTracesEvaluationRequest>,
+  output: __S(1030, __c32, 6) as any as S.Schema<TraceEvaluationResults>,
+  errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiObservabilityTracesEvaluation",
+}));
+
+export type GetAiObservabilityTracesExportError = BadRequest | NotFound | PosthogOpError;
+/** The state of one of your exports of this trace. */
+export const getAiObservabilityTracesExport: API.OperationMethod<
+  GetAiObservabilityTracesExportRequest,
+  TraceExport,
+  GetAiObservabilityTracesExportError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1056, __c33, 0) as any as S.Schema<GetAiObservabilityTracesExportRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<TraceExport>,
+  errors: [BadRequest, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiObservabilityTracesExport",
+}));
+
+export type GetAiObservabilityTracesExportsContentError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | PosthogOpError;
+/** Downloads a completed export as a JSON file. */
+export const getAiObservabilityTracesExportsContent: API.OperationMethod<
+  GetAiObservabilityTracesExportsContentRequest,
+  TraceExportFile,
+  GetAiObservabilityTracesExportsContentError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1088, __c34, 0) as any as S.Schema<GetAiObservabilityTracesExportsContentRequest>,
+  output: __S(1090, __c34, 2) as any as S.Schema<TraceExportFile>,
+  errors: [BadRequest, NotFound, Conflict],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiObservabilityTracesExportsContent",
+}));
+
+export type GetAiObservabilityTracesFeedbackError = BadRequest | PosthogOpError;
+/** End-user feedback on a trace: scores and comments from its feedback events, survey responses linked to it, and surveys shown but not answered. */
+export const getAiObservabilityTracesFeedback: API.OperationMethod<
+  GetAiObservabilityTracesFeedbackRequest,
+  TraceFeedback,
+  GetAiObservabilityTracesFeedbackError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1152, __c36, 0) as any as S.Schema<GetAiObservabilityTracesFeedbackRequest>,
+  output: __S(1160, __c36, 8) as any as S.Schema<TraceFeedback>,
+  errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiObservabilityTracesFeedback",
+}));
+
+export type GetAiObservabilityTracesNodeError = BadRequest | NotFound | PosthogOpError;
+/** One node of a trace: its event properties as ingested, the keys that hold its input, output and tools, its error and its metadata. */
+export const getAiObservabilityTracesNode: API.OperationMethod<
+  GetAiObservabilityTracesNodeRequest,
+  TraceNodeDetail,
+  GetAiObservabilityTracesNodeError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1184, __c37, 0) as any as S.Schema<GetAiObservabilityTracesNodeRequest>,
+  output: __S(1123, __c35, 3) as any as S.Schema<TraceNodeDetail>,
+  errors: [BadRequest, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiObservabilityTracesNode",
+}));
+
+export type GetAiObservabilityTracesPullRequestError = BadRequest | Forbidden | PosthogOpError;
+/** The pull request the trace's git branch belongs to, from engineering analytics. */
+export const getAiObservabilityTracesPullRequest: API.OperationMethod<
+  GetAiObservabilityTracesPullRequestRequest,
+  TracePullRequestLookup,
+  GetAiObservabilityTracesPullRequestError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1216, __c38, 0) as any as S.Schema<GetAiObservabilityTracesPullRequestRequest>,
+  output: __S(1218, __c38, 2) as any as S.Schema<TracePullRequestLookup>,
+  errors: [BadRequest, Forbidden],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiObservabilityTracesPullRequest",
+}));
+
+export type GetAiObservabilityTracesReviewError = BadRequest | PosthogOpError;
+/** The trace's human review with its scores ready to render, and the review queue the trace waits in. */
+export const getAiObservabilityTracesReview: API.OperationMethod<
+  GetAiObservabilityTracesReviewRequest,
+  TraceReviewStatus,
+  GetAiObservabilityTracesReviewError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1248, __c39, 0) as any as S.Schema<GetAiObservabilityTracesReviewRequest>,
+  output: __S(1253, __c39, 5) as any as S.Schema<TraceReviewStatus>,
+  errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiObservabilityTracesReview",
+}));
+
+export type GetAiObservabilityTracesSummaryError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+/** The trace's AI summary: pending while it is written, then ready with links to its steps, or failed with the reason. A summary is kept for an hour and shown only to users whose property access matches the requester's. */
+export const getAiObservabilityTracesSummary: API.OperationMethod<
+  GetAiObservabilityTracesSummaryRequest,
+  TraceSummary,
+  GetAiObservabilityTracesSummaryError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1280, __c40, 0) as any as S.Schema<GetAiObservabilityTracesSummaryRequest>,
+  output: __S(260, __c8, 4) as any as S.Schema<TraceSummary>,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiObservabilityTracesSummary",
 }));
 
 export type GetDatasetError = Forbidden | NotFound | PosthogOpError;
@@ -2008,8 +2804,8 @@ export const getDataset: API.OperationMethod<
   GetDatasetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<GetDatasetRequest>,
-  output: __S(1600, __c50, 0) as any as S.Schema<DatasetRead>,
+  input: __S(1312, __c41, 0) as any as S.Schema<GetDatasetRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<DatasetRead>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2025,8 +2821,8 @@ export const getDatasetItem: API.OperationMethod<
   GetDatasetItemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<GetDatasetItemRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<DatasetItemRead>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetDatasetItemRequest>,
+  output: __S(2400, __c75, 0) as any as S.Schema<DatasetItemRead>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2042,8 +2838,8 @@ export const getDatasetsExport: API.OperationMethod<
   GetDatasetsExportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetDatasetsExportRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<DatasetExportRead>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetDatasetsExportRequest>,
+  output: __S(384, __c12, 0) as any as S.Schema<DatasetExportRead>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2059,13 +2855,30 @@ export const getDatasetsExportsContent: API.OperationMethod<
   GetDatasetsExportsContentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<GetDatasetsExportsContentRequest>,
-  output: __S(833, __c26, 1) as any as S.Schema<GetDatasetsExportsContentResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetDatasetsExportsContentRequest>,
+  output: __S(1473, __c46, 1) as any as S.Schema<GetDatasetsExportsContentResponse>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDatasetsExportsContent",
+}));
+
+export type GetDatasetsRetentionError = PosthogOpError;
+/** Find accessible datasets and older revisions within seven days of expiry without refreshing their retention. */
+export const getDatasetsRetention: API.OperationMethod<
+  GetDatasetsRetentionRequest,
+  DatasetRetentionRead,
+  GetDatasetsRetentionError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1504, __c47, 0) as any as S.Schema<GetDatasetsRetentionRequest>,
+  output: __S(1506, __c47, 2) as any as S.Schema<DatasetRetentionRead>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatasetsRetention",
 }));
 
 export type ListAiObservabilityOfflineExperimentsError =
@@ -2079,8 +2892,8 @@ export const listAiObservabilityOfflineExperiments: API.OperationMethod<
   ListAiObservabilityOfflineExperimentsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<ListAiObservabilityOfflineExperimentsRequest>,
-  output: __S(866, __c27, 2) as any as S.Schema<OfflineExperimentPage>,
+  input: __S(1536, __c48, 0) as any as S.Schema<ListAiObservabilityOfflineExperimentsRequest>,
+  output: __S(1538, __c48, 2) as any as S.Schema<OfflineExperimentPage>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2099,8 +2912,8 @@ export const listAiObservabilityOfflineExperimentsItems: API.OperationMethod<
   ListAiObservabilityOfflineExperimentsItemsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<ListAiObservabilityOfflineExperimentsItemsRequest>,
-  output: __S(898, __c28, 2) as any as S.Schema<OfflineItemPage>,
+  input: __S(1568, __c49, 0) as any as S.Schema<ListAiObservabilityOfflineExperimentsItemsRequest>,
+  output: __S(1570, __c49, 2) as any as S.Schema<OfflineItemPage>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2120,11 +2933,11 @@ export const listAiObservabilityOfflineExperimentsItemsResults: API.OperationMet
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    928,
-    __c29,
+    1600,
+    __c50,
     0,
   ) as any as S.Schema<ListAiObservabilityOfflineExperimentsItemsResultsRequest>,
-  output: __S(931, __c29, 3) as any as S.Schema<OfflineResultPage>,
+  output: __S(1603, __c50, 3) as any as S.Schema<OfflineResultPage>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2144,11 +2957,11 @@ export const listAiObservabilityOfflineExperimentsScorerSummaries: API.Operation
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    960,
-    __c30,
+    1632,
+    __c51,
     0,
   ) as any as S.Schema<ListAiObservabilityOfflineExperimentsScorerSummariesRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<OfflineSummaryPage>,
+  output: __S(1634, __c51, 2) as any as S.Schema<OfflineSummaryPage>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2167,8 +2980,8 @@ export const listAiObservabilityOfflineScorersHistory: API.OperationMethod<
   ListAiObservabilityOfflineScorersHistoryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<ListAiObservabilityOfflineScorersHistoryRequest>,
-  output: __S(1027, __c32, 3) as any as S.Schema<OfflineHistoryPage>,
+  input: __S(1696, __c53, 0) as any as S.Schema<ListAiObservabilityOfflineScorersHistoryRequest>,
+  output: __S(1699, __c53, 3) as any as S.Schema<OfflineHistoryPage>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2184,8 +2997,8 @@ export const listDatasetItems: API.OperationMethod<
   ListDatasetItemsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<ListDatasetItemsRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<PaginatedDatasetItemReadList>,
+  input: __S(1728, __c54, 0) as any as S.Schema<ListDatasetItemsRequest>,
+  output: __S(1761, __c55, 1) as any as S.Schema<PaginatedDatasetItemReadList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2201,8 +3014,8 @@ export const listDatasetItemsVersions: API.OperationMethod<
   ListDatasetItemsVersionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<ListDatasetItemsVersionsRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<PaginatedDatasetItemReadList>,
+  input: __S(1920, __c60, 0) as any as S.Schema<ListDatasetItemsVersionsRequest>,
+  output: __S(1761, __c55, 1) as any as S.Schema<PaginatedDatasetItemReadList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2218,8 +3031,8 @@ export const listDatasets: API.OperationMethod<
   ListDatasetsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<ListDatasetsRequest>,
-  output: __S(1154, __c36, 2) as any as S.Schema<PaginatedDatasetReadList>,
+  input: __S(1952, __c61, 0) as any as S.Schema<ListDatasetsRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<PaginatedDatasetReadList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2235,8 +3048,8 @@ export const listDatasetsRevisions: API.OperationMethod<
   ListDatasetsRevisionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<ListDatasetsRevisionsRequest>,
-  output: __S(1187, __c37, 3) as any as S.Schema<PaginatedDatasetRevisionReadList>,
+  input: __S(1984, __c62, 0) as any as S.Schema<ListDatasetsRevisionsRequest>,
+  output: __S(1987, __c62, 3) as any as S.Schema<PaginatedDatasetRevisionReadList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2252,8 +3065,8 @@ export const listLlmAnalyticsPersonalSpend: API.OperationMethod<
   ListLlmAnalyticsPersonalSpendError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<ListLlmAnalyticsPersonalSpendRequest>,
-  output: __S(1240, __c38, 24) as any as S.Schema<ListLlmAnalyticsPersonalSpendResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<ListLlmAnalyticsPersonalSpendRequest>,
+  output: __S(2040, __c63, 24) as any as S.Schema<ListLlmAnalyticsPersonalSpendResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2269,8 +3082,8 @@ export const restoreDataset: API.OperationMethod<
   RestoreDatasetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<RestoreDatasetRequest>,
-  output: __S(1600, __c50, 0) as any as S.Schema<DatasetRead>,
+  input: __S(2048, __c64, 0) as any as S.Schema<RestoreDatasetRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<DatasetRead>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2286,13 +3099,38 @@ export const restoreDatasetItem: API.OperationMethod<
   RestoreDatasetItemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<RestoreDatasetItemRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<DatasetItemRead>,
+  input: __S(2080, __c65, 0) as any as S.Schema<RestoreDatasetItemRequest>,
+  output: __S(2400, __c75, 0) as any as S.Schema<DatasetItemRead>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreDatasetItem",
+}));
+
+export type UpdateAiObservabilityOfflineExperimentsPartialError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | PosthogOpError;
+export const updateAiObservabilityOfflineExperimentsPartial: API.OperationMethod<
+  UpdateAiObservabilityOfflineExperimentsPartialRequest,
+  OfflineExperimentRead,
+  UpdateAiObservabilityOfflineExperimentsPartialError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    2112,
+    __c66,
+    0,
+  ) as any as S.Schema<UpdateAiObservabilityOfflineExperimentsPartialRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<OfflineExperimentRead>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAiObservabilityOfflineExperimentsPartial",
 }));
 
 export type UpdateDatasetItemsPartialError = Conflict | PosthogOpError;
@@ -2303,8 +3141,8 @@ export const updateDatasetItemsPartial: API.OperationMethod<
   UpdateDatasetItemsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<UpdateDatasetItemsPartialRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<DatasetItemRead>,
+  input: __S(2144, __c67, 0) as any as S.Schema<UpdateDatasetItemsPartialRequest>,
+  output: __S(2400, __c75, 0) as any as S.Schema<DatasetItemRead>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2325,8 +3163,8 @@ export const updateDatasetsPartial: API.OperationMethod<
   UpdateDatasetsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<UpdateDatasetsPartialRequest>,
-  output: __S(1600, __c50, 0) as any as S.Schema<DatasetRead>,
+  input: __S(2176, __c68, 0) as any as S.Schema<UpdateDatasetsPartialRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<DatasetRead>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2336,6 +3174,55 @@ export const updateDatasetsPartial: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String,
+          name: S.String,
+          started_at: S.String,
+          run_source: S.optional(S.NullOr(S.String)),
+          expected_item_count: S.optional(S.NullOr(S.Number)),
+          expected_result_count: S.optional(S.NullOr(S.Number)),
+          suite_key: S.optional(S.NullOr(S.String)),
+          dataset_source: S.optional(S.NullOr(S.String)),
+          dataset_identifier: S.optional(S.NullOr(S.String)),
+          dataset_revision_identifier: S.optional(S.NullOr(S.String)),
+          dataset_revision_id: S.optional(S.NullOr(S.String)),
+          application_version: S.optional(S.NullOr(S.String)),
+          model_version: S.optional(S.NullOr(S.String)),
+          prompt_version: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/ai_observability/offline_experiments/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateAiObservabilityOfflineExperimentRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          status: S.String,
+          created: S.Boolean,
+          started_at: S.String,
+          created_at: S.String,
+          finished_at: S.NullOr(S.String),
+          expected_item_count: S.NullOr(S.Number),
+          expected_result_count: S.NullOr(S.Number),
+          accepted_item_count: S.Number,
+          accepted_result_count: S.Number,
+        }),
+      ).annotate({ identifier: "ExperimentReceipt" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2352,7 +3239,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateAiObservabilityOfflineExperimentsCompleteRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2369,20 +3256,135 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateAiObservabilityOfflineExperimentsFailRequest" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          trace_ids: __S(2272, __c71, 0),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/ai_observability/traces/availability/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateAiObservabilityTracesAvailabilityRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          available_trace_ids: __S(2272, __c71, 0),
+        }),
+      ).annotate({ identifier: "TraceAvailability" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          timestamp_hint: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/ai_observability/traces/{id}/exports/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateAiObservabilityTracesExportRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          status: S.String,
+          filename: S.String,
+          createdAt: S.String,
+          expiresAfter: S.NullOr(S.String),
+          exception: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "TraceExport" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          timestamp_hint: S.optional(S.String.pipe(T.Query())),
+          regenerate: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/ai_observability/traces/{id}/summary/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateAiObservabilityTracesSummaryRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          text: S.String,
+          nodeId: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "TraceSummaryItem" });
+    case 1:
+      return S.Array(__S(256, __c8, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          title: S.String,
+          bullets: __S(257, __c8, 1),
+          notes: __S(257, __c8, 1),
+          flow: S.String,
+          model: S.String,
+          generatedAt: S.String,
+        }),
+      ).annotate({ identifier: "TraceSummaryContent" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          reason: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "TraceSummaryFailure" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          content: S.NullOr(__S(258, __c8, 2)),
+          failure: S.NullOr(__S(259, __c8, 3)),
+        }),
+      ).annotate({ identifier: "TraceSummary" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          tags: S.optional(__S(2272, __c71, 0)),
           name: S.String,
           description: S.optional(S.String),
-          metadata: S.optional(__S(1536, __c48, 0)),
+          metadata: S.optional(__S(1888, __c59, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/datasets/", code: 200 })),
       ).annotate({ identifier: "CreateDatasetRequest" });
   }
 }
-function __c3(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2393,7 +3395,7 @@ function __c3(j: number): any {
           input: S.Unknown,
           expected_output: S.optional(S.NullOr(S.Unknown)),
           source_output: S.optional(S.NullOr(S.Unknown)),
-          metadata: S.optional(__S(1536, __c48, 0)),
+          metadata: S.optional(__S(1888, __c59, 0)),
           source_trace_id: S.optional(S.NullOr(S.String)),
           source_event_id: S.optional(S.NullOr(S.String)),
           source_timestamp: S.optional(S.NullOr(S.String)),
@@ -2403,7 +3405,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateDatasetItemRequest" });
   }
 }
-function __c4(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2421,7 +3423,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateDatasetsExportRequest" });
   }
 }
-function __c5(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2437,36 +3439,39 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DatasetExportRead" });
   }
 }
-function __c6(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Unknown);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          experiment_id: S.String,
-          date_from: S.optional(S.NullOr(S.String)),
-          date_to: S.optional(S.NullOr(S.String)),
+          id: S.String.pipe(T.Label()),
+          revision: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/projects/{project_id}/llm_analytics/offline_evaluations/experiment_items/",
+            uri: "/api/projects/{project_id}/datasets/{id}/extend_retention/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "CreateLlmAnalyticsOfflineEvaluationsExperimentItemRequest" });
-    case 2:
-      return S.Array(__S(192, __c6, 0));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          results: __S(194, __c6, 2),
-        }),
-      ).annotate({ identifier: "OfflineExperimentItemsResponse" });
+      ).annotate({ identifier: "CreateDatasetsExtendRetentionRequest" });
   }
 }
-function __c7(j: number): any {
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dataset_id: S.String,
+          dataset_name: S.String,
+          dataset_archived: S.Boolean,
+          revision: S.NullOr(S.Number),
+          expires_at: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "DatasetRetentionEntry" });
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2498,33 +3503,33 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "SummaryBullet" });
     case 2:
-      return S.Array(__S(225, __c7, 1));
+      return S.Array(__S(481, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           title: S.optional(S.String),
           flow_diagram: S.optional(S.String),
-          summary_bullets: S.optional(__S(226, __c7, 2)),
-          interesting_notes: S.optional(__S(226, __c7, 2)),
+          summary_bullets: S.optional(__S(482, __c15, 2)),
+          interesting_notes: S.optional(__S(482, __c15, 2)),
         }),
       ).annotate({ identifier: "StructuredSummary" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          summary: S.optional(__S(227, __c7, 3)),
+          summary: S.optional(__S(483, __c15, 3)),
           text_repr: S.optional(S.String),
           metadata: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "SummarizeResponse" });
   }
 }
-function __c8(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          trace_ids: S.optional(__S(288, __c9, 0)),
+          trace_ids: S.optional(__S(2272, __c71, 0)),
           mode: S.optional(S.String),
           model: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -2544,22 +3549,16 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "CachedSummary" });
     case 2:
-      return S.Array(__S(257, __c8, 1));
+      return S.Array(__S(513, __c16, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          summaries: S.optional(__S(258, __c8, 2)),
+          summaries: S.optional(__S(514, __c16, 2)),
         }),
       ).annotate({ identifier: "BatchCheckResponse" });
   }
 }
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c10(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2582,7 +3581,7 @@ function __c10(j: number): any {
           project_id: S.String.pipe(T.Label()),
           event_type: S.optional(S.String),
           data: S.optional(S.Unknown),
-          options: S.optional(__S(320, __c10, 0)),
+          options: S.optional(__S(544, __c17, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2607,12 +3606,12 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           text: S.optional(S.String),
-          metadata: S.optional(__S(322, __c10, 2)),
+          metadata: S.optional(__S(546, __c17, 2)),
         }),
       ).annotate({ identifier: "TextReprResponse" });
   }
 }
-function __c11(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2629,7 +3628,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetAiObservabilityInstrumentationChecklistRequest" });
   }
 }
-function __c12(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2646,11 +3645,13 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetAiObservabilityOfflineExperimentRequest" });
   }
 }
-function __c13(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          created_by: S.NullOr(__S(2336, __c73, 0)),
+          tags: __S(2272, __c71, 0),
           id: S.String,
           name: S.String,
           run_source: S.NullOr(S.String),
@@ -2677,7 +3678,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "OfflineExperimentRead" });
   }
 }
-function __c14(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2695,7 +3696,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetAiObservabilityOfflineExperimentsItemRequest" });
   }
 }
-function __c15(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2714,14 +3715,15 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "OfflineResultCell" });
     case 1:
-      return S.Array(__S(480, __c15, 0));
+      return S.Array(__S(704, __c22, 0));
   }
 }
-function __c16(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          model_version: S.optional(S.NullOr(S.String)),
           id: S.String,
           experiment_id: S.String,
           case_key: S.NullOr(S.String),
@@ -2733,12 +3735,12 @@ function __c16(j: number): any {
           accepted_at: S.String,
           payload_state: S.String,
           payload_expires_at: S.NullOr(S.String),
-          results: __S(481, __c15, 1),
+          results: __S(705, __c22, 1),
         }),
       ).annotate({ identifier: "OfflineItemRead" });
   }
 }
-function __c17(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2761,12 +3763,12 @@ function __c17(j: number): any {
           payload_state: S.String,
           payload_expires_at: S.NullOr(S.String),
           available: S.Boolean,
-          data: S.NullOr(__S(1472, __c46, 0)),
+          data: S.NullOr(__S(1824, __c57, 0)),
         }),
       ).annotate({ identifier: "OfflineItemPayloadRead" });
   }
 }
-function __c18(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2786,19 +3788,19 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          scorer_versions: __S(608, __c19, 0),
-          results: __S(481, __c15, 1),
+          scorer_versions: __S(832, __c26, 0),
+          results: __S(705, __c22, 1),
         }),
       ).annotate({ identifier: "OfflineResultCells" });
   }
 }
-function __c19(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(640, __c20, 0));
+      return S.Array(__S(864, __c27, 0));
   }
 }
-function __c20(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2808,6 +3810,7 @@ function __c20(j: number): any {
           version: S.Number,
           kind: S.String,
           name: S.String,
+          short_name: S.String,
           description: S.String,
           archived: S.Boolean,
           config: S.Unknown,
@@ -2815,7 +3818,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "OfflineScorerVersionRead" });
   }
 }
-function __c21(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2838,12 +3841,12 @@ function __c21(j: number): any {
           payload_state: S.String,
           payload_expires_at: S.NullOr(S.String),
           available: S.Boolean,
-          data: S.NullOr(__S(1504, __c47, 0)),
+          data: S.NullOr(__S(1856, __c58, 0)),
         }),
       ).annotate({ identifier: "OfflineResultPayloadRead" });
   }
 }
-function __c22(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2859,14 +3862,18 @@ function __c22(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetAiObservabilityTraceRequest" });
-    case 1:
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           distinctId: S.String,
           label: S.String,
         }),
       ).annotate({ identifier: "TracePerson" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           costUsd: S.NullOr(S.Number),
@@ -2877,23 +3884,23 @@ function __c22(j: number): any {
           latencyMs: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "TraceNodeStats" });
+    case 2:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(963, __c30, 3)));
     case 3:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(708, __c22, 4)));
-    case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           kind: S.String,
           name: S.String,
           model: S.NullOr(S.String),
-          stats: __S(706, __c22, 2),
+          stats: __S(961, __c30, 1),
           hasError: S.Boolean,
-          children: __S(707, __c22, 3),
+          children: __S(962, __c30, 2),
         }),
       ).annotate({ identifier: "TraceNode" });
+    case 4:
+      return S.Array(__S(963, __c30, 3));
     case 5:
-      return S.Array(__S(708, __c22, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -2905,28 +3912,413 @@ function __c22(j: number): any {
           hasError: S.Boolean,
         }),
       ).annotate({ identifier: "TraceTimelineRow" });
+    case 6:
+      return S.Array(__S(965, __c30, 5));
     case 7:
-      return S.Array(__S(710, __c22, 6));
+      return S.Record(S.String, S.String);
     case 8:
+      return S.suspend(() =>
+        S.Struct({
+          branch: S.String,
+          repo: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "TraceGit" });
+    case 9:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.NullOr(S.String),
           createdAt: S.String,
           sessionId: S.NullOr(S.String),
-          person: S.NullOr(__S(705, __c22, 1)),
-          totals: __S(706, __c22, 2),
+          person: S.NullOr(__S(960, __c30, 0)),
+          totals: __S(961, __c30, 1),
           hasError: S.Boolean,
           errorCount: S.Number,
-          tree: __S(709, __c22, 5),
-          timeline: __S(711, __c22, 7),
+          tree: __S(964, __c30, 4),
+          timeline: __S(966, __c30, 6),
           totalMs: S.Number,
-          threadNodeIds: __S(288, __c9, 0),
+          threadNodeIds: __S(2272, __c71, 0),
+          defaultNodeId: S.String,
+          nodeIdsByAlias: __S(967, __c30, 7),
+          git: S.NullOr(__S(968, __c30, 8)),
         }),
       ).annotate({ identifier: "Trace" });
   }
 }
-function __c23(j: number): any {
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          created_at: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/ai_observability/traces/{id}/clusters/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetAiObservabilityTracesClusterRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          runId: S.String,
+          runAt: S.String,
+          jobId: S.NullOr(S.String),
+          jobName: S.NullOr(S.String),
+          clusterId: S.Number,
+          title: S.NullOr(S.String),
+          description: S.NullOr(S.String),
+          isOutlier: S.Boolean,
+        }),
+      ).annotate({ identifier: "TraceCluster" });
+    case 2:
+      return S.Array(__S(993, __c31, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          clusters: __S(994, __c31, 2),
+        }),
+      ).annotate({ identifier: "TraceClusters" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/ai_observability/traces/{id}/evaluations/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetAiObservabilityTracesEvaluationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          evaluationId: S.NullOr(S.String),
+          evaluationName: S.String,
+          targetNodeId: S.String,
+          outcome: S.String,
+          label: S.String,
+          score: S.NullOr(S.Number),
+          reasoning: S.NullOr(S.String),
+          timestamp: S.String,
+          isBackfill: S.Boolean,
+        }),
+      ).annotate({ identifier: "TraceEvaluationResult" });
+    case 2:
+      return S.Array(__S(1025, __c32, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          nodeId: S.String,
+          outcome: S.String,
+        }),
+      ).annotate({ identifier: "TraceNodeEvaluationRollup" });
+    case 4:
+      return S.Array(__S(1027, __c32, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          passed: S.Number,
+          failed: S.Number,
+          unrated: S.Number,
+          nodes: __S(1028, __c32, 4),
+        }),
+      ).annotate({ identifier: "TraceEvaluationSummary" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(1026, __c32, 2),
+          summary: __S(1029, __c32, 5),
+        }),
+      ).annotate({ identifier: "TraceEvaluationResults" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          export_id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/ai_observability/traces/{id}/exports/{export_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetAiObservabilityTracesExportRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          export_id: S.Number.pipe(T.Label()),
+          purpose: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/ai_observability/traces/{id}/exports/{export_id}/content/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetAiObservabilityTracesExportsContentRequest" });
+    case 1:
+      return S.Array(__S(1123, __c35, 3));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          trace: __S(969, __c30, 9),
+          truncated: S.Boolean,
+          nodes: __S(1089, __c34, 1),
+        }),
+      ).annotate({ identifier: "TraceExportFile" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          provider: S.NullOr(S.String),
+          temperature: S.NullOr(S.Number),
+          sessionId: S.NullOr(S.String),
+          promptName: S.NullOr(S.String),
+          promptVersion: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "TraceNodeMetadata" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          input: S.NullOr(S.String),
+          output: S.NullOr(S.String),
+          tools: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "TraceNodeIOKeys" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          uuid: S.String,
+          timestamp: S.String,
+          properties: __S(1888, __c59, 0),
+          ioKeys: __S(1121, __c35, 1),
+        }),
+      ).annotate({ identifier: "TraceNodeEvent" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          kind: S.String,
+          error: S.NullOr(S.String),
+          metadata: __S(1120, __c35, 0),
+          event: S.NullOr(__S(1122, __c35, 2)),
+        }),
+      ).annotate({ identifier: "TraceNodeDetail" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          timestamp_hint: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/ai_observability/traces/{id}/feedback/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetAiObservabilityTracesFeedbackRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.NullOr(S.String),
+          value: S.String,
+          nodeId: S.String,
+          timestamp: S.String,
+        }),
+      ).annotate({ identifier: "TraceFeedbackScore" });
+    case 2:
+      return S.Array(__S(1153, __c36, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "TraceSurvey" });
+    case 4:
+      return S.Array(S.Unknown);
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          survey: __S(1155, __c36, 3),
+          timestamp: S.String,
+        }),
+      ).annotate({ identifier: "TraceUnansweredSurvey" });
+    case 6:
+      return S.Array(__S(1157, __c36, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          total: S.Number,
+          thumbsUp: S.Number,
+          thumbsDown: S.Number,
+        }),
+      ).annotate({ identifier: "TraceFeedbackSummary" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          scores: __S(1154, __c36, 2),
+          responses: __S(1156, __c36, 4),
+          unanswered: __S(1158, __c36, 6),
+          surveyResponsesStatus: S.String,
+          summary: __S(1159, __c36, 7),
+        }),
+      ).annotate({ identifier: "TraceFeedback" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          node_id: S.String.pipe(T.Label()),
+          timestamp_hint: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/ai_observability/traces/{id}/nodes/{node_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetAiObservabilityTracesNodeRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          timestamp_hint: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/ai_observability/traces/{id}/pull_request/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetAiObservabilityTracesPullRequestRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          repoOwner: S.String,
+          repoName: S.String,
+          number: S.Number,
+          title: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "TracePullRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          pullRequest: S.NullOr(__S(1217, __c38, 1)),
+        }),
+      ).annotate({ identifier: "TracePullRequestLookup" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/ai_observability/traces/{id}/review/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetAiObservabilityTracesReviewRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          value: S.String,
+          label: S.String,
+        }),
+      ).annotate({ identifier: "TraceHumanReviewScore" });
+    case 2:
+      return S.Array(__S(1249, __c39, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          reviewedBy: S.NullOr(S.String),
+          reviewedAt: S.String,
+          comment: S.NullOr(S.String),
+          scores: __S(1250, __c39, 2),
+        }),
+      ).annotate({ identifier: "TraceHumanReview" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          itemId: S.String,
+        }),
+      ).annotate({ identifier: "TraceReviewQueueAssignment" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          review: S.NullOr(__S(1251, __c39, 3)),
+          queue: S.NullOr(__S(1252, __c39, 4)),
+        }),
+      ).annotate({ identifier: "TraceReviewStatus" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/ai_observability/traces/{id}/summary/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetAiObservabilityTracesSummaryRequest" });
+  }
+}
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2939,7 +4331,50 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetDatasetRequest" });
   }
 }
-function __c24(j: number): any {
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          check: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/ai_observability/instrumentation_checklist/restore/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AiObservabilityInstrumentationChecklistRestoreCreateRequest" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Number);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          status: S.String,
+          title: S.String,
+          detail: S.String,
+          docs_url: S.String,
+          stats: __S(1376, __c43, 0),
+        }),
+      ).annotate({ identifier: "InstrumentationCheck" });
+    case 2:
+      return S.Array(__S(1377, __c43, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          window_days: S.Number,
+          checks: __S(1378, __c43, 2),
+        }),
+      ).annotate({ identifier: "InstrumentationChecklist" });
+  }
+}
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2957,7 +4392,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetDatasetItemRequest" });
   }
 }
-function __c25(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2975,7 +4410,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetDatasetsExportRequest" });
   }
 }
-function __c26(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2997,13 +4432,45 @@ function __c26(j: number): any {
       });
   }
 }
-function __c27(j: number): any {
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          kind: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/datasets/retention/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetDatasetsRetentionRequest" });
+    case 1:
+      return S.Array(__S(448, __c14, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          datasets_count: S.Number,
+          revisions_count: S.Number,
+          count: S.Number,
+          results: __S(1505, __c47, 1),
+        }),
+      ).annotate({ identifier: "DatasetRetentionRead" });
+  }
+}
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           application_version: S.optional(S.String.pipe(T.Query())),
+          created_by: S.optional(S.Number.pipe(T.Query())),
+          created_by_is_null: S.optional(S.Boolean.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           dataset_identifier: S.optional(S.String.pipe(T.Query())),
           dataset_revision_identifier: S.optional(S.String.pipe(T.Query())),
@@ -3019,6 +4486,8 @@ function __c27(j: number): any {
           search: S.optional(S.String.pipe(T.Query())),
           statuses: S.optional(S.String.pipe(T.Query())),
           suite_key: S.optional(S.String.pipe(T.Query())),
+          tag_match: S.optional(S.String.pipe(T.Query())),
+          tags: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3028,18 +4497,20 @@ function __c27(j: number): any {
         ),
       ).annotate({ identifier: "ListAiObservabilityOfflineExperimentsRequest" });
     case 1:
-      return S.Array(__S(416, __c13, 0));
+      return S.Array(__S(640, __c20, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
           count: S.Number,
           next_cursor: S.NullOr(S.String),
-          results: __S(865, __c27, 1),
+          results: __S(1537, __c48, 1),
         }),
       ).annotate({ identifier: "OfflineExperimentPage" });
   }
 }
-function __c28(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3058,19 +4529,21 @@ function __c28(j: number): any {
         ),
       ).annotate({ identifier: "ListAiObservabilityOfflineExperimentsItemsRequest" });
     case 1:
-      return S.Array(__S(512, __c16, 0));
+      return S.Array(__S(736, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
           count: S.Number,
           next_cursor: S.NullOr(S.String),
-          results: __S(897, __c28, 1),
-          scorer_versions: __S(608, __c19, 0),
+          results: __S(1569, __c49, 1),
+          scorer_versions: __S(832, __c26, 0),
         }),
       ).annotate({ identifier: "OfflineItemPage" });
   }
 }
-function __c29(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3103,22 +4576,24 @@ function __c29(j: number): any {
           accepted_at: S.String,
           payload_state: S.String,
           payload_expires_at: S.NullOr(S.String),
-          scorer: __S(640, __c20, 0),
+          scorer: __S(864, __c27, 0),
         }),
       ).annotate({ identifier: "OfflineResultRead" });
     case 2:
-      return S.Array(__S(929, __c29, 1));
+      return S.Array(__S(1601, __c50, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
           count: S.Number,
           next_cursor: S.NullOr(S.String),
-          results: __S(930, __c29, 2),
+          results: __S(1602, __c50, 2),
         }),
       ).annotate({ identifier: "OfflineResultPage" });
   }
 }
-function __c30(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3138,18 +4613,20 @@ function __c30(j: number): any {
         ),
       ).annotate({ identifier: "ListAiObservabilityOfflineExperimentsScorerSummariesRequest" });
     case 1:
-      return S.Array(__S(995, __c31, 3));
+      return S.Array(__S(1667, __c52, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
           count: S.Number,
           next_cursor: S.NullOr(S.String),
-          results: __S(961, __c30, 1),
+          results: __S(1633, __c51, 1),
         }),
       ).annotate({ identifier: "OfflineSummaryPage" });
   }
 }
-function __c31(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3170,14 +4647,14 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "OfflineCategorySummary" });
     case 2:
-      return S.Array(__S(993, __c31, 1));
+      return S.Array(__S(1665, __c52, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          scorer: __S(640, __c20, 0),
+          scorer: __S(864, __c27, 0),
           observed_item_count: S.Number,
           result_count: S.Number,
-          status_counts: __S(992, __c31, 0),
+          status_counts: __S(1664, __c52, 0),
           missing_result_count: S.Number,
           distinct_case_count: S.Number,
           items_with_case_key_count: S.Number,
@@ -3191,12 +4668,12 @@ function __c31(j: number): any {
           pass_count: S.NullOr(S.Number),
           fail_count: S.NullOr(S.Number),
           pass_rate: S.NullOr(S.Number),
-          categories: __S(994, __c31, 2),
+          categories: __S(1666, __c52, 2),
         }),
       ).annotate({ identifier: "OfflineScorerSummary" });
   }
 }
-function __c32(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3204,6 +4681,9 @@ function __c32(j: number): any {
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           application_version: S.optional(S.String.pipe(T.Query())),
+          breakdown: S.optional(S.String.pipe(T.Query())),
+          created_by: S.optional(S.Number.pipe(T.Query())),
+          created_by_is_null: S.optional(S.Boolean.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           dataset_identifier: S.optional(S.String.pipe(T.Query())),
           dataset_revision_identifier: S.optional(S.String.pipe(T.Query())),
@@ -3218,6 +4698,8 @@ function __c32(j: number): any {
           search: S.optional(S.String.pipe(T.Query())),
           statuses: S.optional(S.String.pipe(T.Query())),
           suite_key: S.optional(S.String.pipe(T.Query())),
+          tag_match: S.optional(S.String.pipe(T.Query())),
+          tags: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3229,23 +4711,26 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          experiment: __S(416, __c13, 0),
-          summary: __S(995, __c31, 3),
+          breakdown_value: S.optional(S.NullOr(S.String)),
+          experiment: __S(640, __c20, 0),
+          summary: __S(1667, __c52, 3),
         }),
       ).annotate({ identifier: "OfflineHistoryPoint" });
     case 2:
-      return S.Array(__S(1025, __c32, 1));
+      return S.Array(__S(1697, __c53, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
           count: S.Number,
           next_cursor: S.NullOr(S.String),
-          results: __S(1026, __c32, 2),
+          results: __S(1698, __c53, 2),
         }),
       ).annotate({ identifier: "OfflineHistoryPage" });
   }
 }
-function __c33(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3262,22 +4747,132 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ListDatasetItemsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1696, __c53, 0));
+      return S.Array(__S(2400, __c75, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(1088, __c34, 0),
+          results: __S(1760, __c55, 0),
         }),
       ).annotate({ identifier: "PaginatedDatasetItemReadList" });
   }
 }
-function __c35(j: number): any {
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          model_version: S.optional(S.NullOr(S.String)),
+          case_key: S.optional(S.NullOr(S.String)),
+          trial: S.optional(S.NullOr(S.String)),
+          dataset_item_identifier: S.optional(S.NullOr(S.String)),
+          dataset_item_version_identifier: S.optional(S.NullOr(S.String)),
+          dataset_item_version_id: S.optional(S.NullOr(S.String)),
+          application_trace_id: S.optional(S.NullOr(S.String)),
+          payload: S.optional(__S(1824, __c57, 0)),
+        }),
+      ).annotate({ identifier: "ItemSubmission" });
+    case 1:
+      return S.Array(__S(1792, __c56, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          item_id: S.String,
+          scorer_version_id: S.String,
+          status: S.String,
+          value: S.optional(S.NullOr(S.Unknown)),
+          error_code: S.optional(S.NullOr(S.String)),
+          evaluator_trace_id: S.optional(S.NullOr(S.String)),
+          evaluated_at: S.optional(S.NullOr(S.String)),
+          payload: S.optional(__S(1856, __c58, 0)),
+        }),
+      ).annotate({ identifier: "ResultSubmission" });
+    case 3:
+      return S.Array(__S(1794, __c56, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          items: S.optional(__S(1793, __c56, 1)),
+          results: __S(1795, __c56, 3),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/ai_observability/offline_experiments/{id}/upload/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AiObservabilityOfflineExperimentsUploadCreateRequest" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          created: S.Boolean,
+          accepted_at: S.String,
+        }),
+      ).annotate({ identifier: "ItemReceipt" });
+    case 6:
+      return S.Array(__S(1797, __c56, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          created: S.Boolean,
+          accepted_at: S.String,
+          item_id: S.String,
+          scorer_version_id: S.String,
+        }),
+      ).annotate({ identifier: "ResultReceipt" });
+    case 8:
+      return S.Array(__S(1799, __c56, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(1798, __c56, 6),
+          results: __S(1800, __c56, 8),
+        }),
+      ).annotate({ identifier: "UploadReceipt" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          input: S.optional(S.NullOr(S.Unknown)),
+          output: S.optional(S.NullOr(S.Unknown)),
+          expected_output: S.optional(S.NullOr(S.Unknown)),
+          metadata: S.optional(S.NullOr(__S(1888, __c59, 0))),
+        }),
+      ).annotate({ identifier: "OfflineExperimentItemPayloadInput" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reasoning: S.optional(S.NullOr(S.String)),
+          error_message: S.optional(S.NullOr(S.String)),
+          metadata: S.optional(S.NullOr(__S(1888, __c59, 0))),
+        }),
+      ).annotate({ identifier: "OfflineEvaluationResultPayloadInput" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3296,34 +4891,36 @@ function __c35(j: number): any {
       ).annotate({ identifier: "ListDatasetItemsVersionsRequest" });
   }
 }
-function __c36(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           archived: S.optional(S.Boolean.pipe(T.Query())),
-          id__in: S.optional(__S(288, __c9, 0).pipe(T.Query())),
+          id__in: S.optional(__S(2272, __c71, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           order_by: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
+          tag_match: S.optional(S.String.pipe(T.Query())),
+          tags: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/datasets/", code: 200 })),
       ).annotate({ identifier: "ListDatasetsRequest" });
     case 1:
-      return S.Array(__S(1600, __c50, 0));
+      return S.Array(__S(2304, __c72, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(1153, __c36, 1),
+          results: __S(1953, __c61, 1),
         }),
       ).annotate({ identifier: "PaginatedDatasetReadList" });
   }
 }
-function __c37(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3347,24 +4944,26 @@ function __c37(j: number): any {
           dataset_id: S.String,
           revision: S.Number,
           created_at: S.String,
-          created_by: S.NullOr(__S(1632, __c51, 0)),
+          created_by: S.NullOr(__S(2336, __c73, 0)),
           team_id: S.Number,
+          expires_at: S.NullOr(S.String),
+          expiring_soon: S.Boolean,
         }),
       ).annotate({ identifier: "DatasetRevisionRead" });
     case 2:
-      return S.Array(__S(1185, __c37, 1));
+      return S.Array(__S(1985, __c62, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(1186, __c37, 2),
+          results: __S(1986, __c62, 2),
         }),
       ).annotate({ identifier: "PaginatedDatasetRevisionReadList" });
   }
 }
-function __c38(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3384,6 +4983,7 @@ function __c38(j: number): any {
           date_to: S.String,
           product: S.String,
           total_cost_usd: S.Number,
+          billable_cost_usd: S.Number,
           event_count: S.Number,
           scoped_cost_usd: S.Number,
           scoped_event_count: S.Number,
@@ -3395,14 +4995,15 @@ function __c38(j: number): any {
           product: S.NullOr(S.String),
           event_count: S.Number,
           cost_usd: S.Number,
+          billable: S.Boolean,
         }),
       ).annotate({ identifier: "ProductBreakdownRow" });
     case 3:
-      return S.Array(__S(1218, __c38, 2));
+      return S.Array(__S(2018, __c63, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1219, __c38, 3),
+          items: __S(2019, __c63, 3),
           truncated: S.Boolean,
         }),
       ).annotate({ identifier: "ProductBreakdown" });
@@ -3417,11 +5018,11 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "ToolBreakdownRow" });
     case 6:
-      return S.Array(__S(1221, __c38, 5));
+      return S.Array(__S(2021, __c63, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1222, __c38, 6),
+          items: __S(2022, __c63, 6),
           truncated: S.Boolean,
         }),
       ).annotate({ identifier: "ToolBreakdown" });
@@ -3436,11 +5037,11 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "ModelBreakdownRow" });
     case 9:
-      return S.Array(__S(1224, __c38, 8));
+      return S.Array(__S(2024, __c63, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1225, __c38, 9),
+          items: __S(2025, __c63, 9),
           truncated: S.Boolean,
         }),
       ).annotate({ identifier: "ModelBreakdown" });
@@ -3455,11 +5056,11 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "DayBreakdownRow" });
     case 12:
-      return S.Array(__S(1227, __c38, 11));
+      return S.Array(__S(2027, __c63, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1228, __c38, 12),
+          items: __S(2028, __c63, 12),
           truncated: S.Boolean,
         }),
       ).annotate({ identifier: "DayBreakdown" });
@@ -3475,7 +5076,7 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "DayModelBreakdownRow" });
     case 15:
-      return S.Array(__S(1230, __c38, 14));
+      return S.Array(__S(2030, __c63, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -3493,11 +5094,11 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "BucketBreakdownRow" });
     case 17:
-      return S.Array(__S(1232, __c38, 16));
+      return S.Array(__S(2032, __c63, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1233, __c38, 17),
+          items: __S(2033, __c63, 17),
           bucket_minutes: S.Number,
           truncated: S.Boolean,
         }),
@@ -3512,79 +5113,36 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "TopTraceRow" });
     case 20:
-      return S.Array(__S(1235, __c38, 19));
+      return S.Array(__S(2035, __c63, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1236, __c38, 20),
+          items: __S(2036, __c63, 20),
           truncated: S.Boolean,
         }),
       ).annotate({ identifier: "TopTraces" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          summary: __S(1217, __c38, 1),
-          by_product: __S(1220, __c38, 4),
-          by_tool: __S(1223, __c38, 7),
-          by_model: __S(1226, __c38, 10),
-          by_day: __S(1229, __c38, 13),
-          by_day_model: __S(1231, __c38, 15),
-          by_bucket: S.optional(__S(1234, __c38, 18)),
-          top_traces: __S(1237, __c38, 21),
+          summary: __S(2017, __c63, 1),
+          by_product: __S(2020, __c63, 4),
+          by_tool: __S(2023, __c63, 7),
+          by_model: __S(2026, __c63, 10),
+          by_day: __S(2029, __c63, 13),
+          by_day_model: __S(2031, __c63, 15),
+          by_bucket: S.optional(__S(2034, __c63, 18)),
+          top_traces: __S(2037, __c63, 21),
         }),
       ).annotate({ identifier: "PersonalSpendAnalysisResponse" });
     case 23:
-      return S.Array(__S(1238, __c38, 22));
+      return S.Array(__S(2038, __c63, 22));
     case 24:
-      return S.suspend(() => __S(1239, __c38, 23).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2039, __c63, 23).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListLlmAnalyticsPersonalSpendResponse",
       });
   }
 }
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          check: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/ai_observability/instrumentation_checklist/restore/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AiObservabilityInstrumentationChecklistRestoreCreateRequest" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Number);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.String,
-          status: S.String,
-          title: S.String,
-          detail: S.String,
-          docs_url: S.String,
-          stats: __S(1280, __c40, 0),
-        }),
-      ).annotate({ identifier: "InstrumentationCheck" });
-    case 2:
-      return S.Array(__S(1281, __c40, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          window_days: S.Number,
-          checks: __S(1282, __c40, 2),
-        }),
-      ).annotate({ identifier: "InstrumentationChecklist" });
-  }
-}
-function __c41(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3601,7 +5159,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "RestoreDatasetRequest" });
   }
 }
-function __c42(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3620,7 +5178,25 @@ function __c42(j: number): any {
       ).annotate({ identifier: "RestoreDatasetItemRequest" });
   }
 }
-function __c43(j: number): any {
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          tags: S.optional(__S(2272, __c71, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/ai_observability/offline_experiments/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateAiObservabilityOfflineExperimentsPartialRequest" });
+  }
+}
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3630,7 +5206,7 @@ function __c43(j: number): any {
           base_version: S.Number,
           input: S.optional(S.Unknown),
           expected_output: S.optional(S.NullOr(S.Unknown)),
-          metadata: S.optional(__S(1536, __c48, 0)),
+          metadata: S.optional(__S(1888, __c59, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3641,132 +5217,59 @@ function __c43(j: number): any {
       ).annotate({ identifier: "UpdateDatasetItemsPartialRequest" });
   }
 }
-function __c44(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          tags: S.optional(__S(2272, __c71, 0)),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          metadata: S.optional(__S(1536, __c48, 0)),
+          metadata: S.optional(__S(1888, __c59, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/datasets/{id}/", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateDatasetsPartialRequest" });
   }
 }
-function __c45(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          case_key: S.optional(S.NullOr(S.String)),
-          trial: S.optional(S.NullOr(S.String)),
-          dataset_item_identifier: S.optional(S.NullOr(S.String)),
-          dataset_item_version_identifier: S.optional(S.NullOr(S.String)),
-          dataset_item_version_id: S.optional(S.NullOr(S.String)),
-          application_trace_id: S.optional(S.NullOr(S.String)),
-          payload: S.optional(__S(1472, __c46, 0)),
-        }),
-      ).annotate({ identifier: "ItemSubmission" });
-    case 1:
-      return S.Array(__S(1440, __c45, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          item_id: S.String,
-          scorer_version_id: S.String,
-          status: S.String,
-          value: S.optional(S.NullOr(S.Unknown)),
-          error_code: S.optional(S.NullOr(S.String)),
-          evaluator_trace_id: S.optional(S.NullOr(S.String)),
-          evaluated_at: S.optional(S.NullOr(S.String)),
-          payload: S.optional(__S(1504, __c47, 0)),
-        }),
-      ).annotate({ identifier: "ResultSubmission" });
-    case 3:
-      return S.Array(__S(1442, __c45, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          items: S.optional(__S(1441, __c45, 1)),
-          results: __S(1443, __c45, 3),
+          q: S.String.pipe(T.Query()),
+          timestamp_hint: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/ai_observability/offline_experiments/{id}/upload/",
+            method: "GET",
+            uri: "/api/projects/{project_id}/ai_observability/traces/{id}/search/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "AiObservabilityOfflineExperimentsUploadCreateRequest" });
-    case 5:
+      ).annotate({ identifier: "AiObservabilityTracesSearchRetrieveRequest" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          id: S.String,
-          created: S.Boolean,
-          accepted_at: S.String,
+          nodeId: S.String,
+          count: S.Number,
         }),
-      ).annotate({ identifier: "ItemReceipt" });
-    case 6:
-      return S.Array(__S(1445, __c45, 5));
-    case 7:
+      ).annotate({ identifier: "TraceSearchMatch" });
+    case 2:
+      return S.Array(__S(2209, __c69, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          id: S.String,
-          created: S.Boolean,
-          accepted_at: S.String,
-          item_id: S.String,
-          scorer_version_id: S.String,
+          total: S.Number,
+          matches: __S(2210, __c69, 2),
         }),
-      ).annotate({ identifier: "ResultReceipt" });
-    case 8:
-      return S.Array(__S(1447, __c45, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          items: __S(1446, __c45, 6),
-          results: __S(1448, __c45, 8),
-        }),
-      ).annotate({ identifier: "UploadReceipt" });
+      ).annotate({ identifier: "TraceSearchResults" });
   }
 }
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          input: S.optional(S.NullOr(S.Unknown)),
-          output: S.optional(S.NullOr(S.Unknown)),
-          expected_output: S.optional(S.NullOr(S.Unknown)),
-          metadata: S.optional(S.NullOr(__S(1536, __c48, 0))),
-        }),
-      ).annotate({ identifier: "OfflineExperimentItemPayloadInput" });
-  }
-}
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          reasoning: S.optional(S.NullOr(S.String)),
-          error_message: S.optional(S.NullOr(S.String)),
-          metadata: S.optional(S.NullOr(__S(1536, __c48, 0))),
-        }),
-      ).annotate({ identifier: "OfflineEvaluationResultPayloadInput" });
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c49(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3783,7 +5286,13 @@ function __c49(j: number): any {
       ).annotate({ identifier: "ArchiveDatasetRequest" });
   }
 }
-function __c50(j: number): any {
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3791,20 +5300,23 @@ function __c50(j: number): any {
           id: S.String,
           name: S.String,
           description: S.String,
-          metadata: __S(1536, __c48, 0),
+          metadata: __S(1888, __c59, 0),
+          tags: __S(2272, __c71, 0),
           archived: S.Boolean,
+          expires_at: S.NullOr(S.String),
+          expiring_soon: S.Boolean,
           current_revision: S.NullOr(S.Number),
           current_revision_id: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.NullOr(S.String),
-          created_by: S.NullOr(__S(1632, __c51, 0)),
+          created_by: S.NullOr(__S(2336, __c73, 0)),
           team_id: S.Number,
           user_access_level: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "DatasetRead" });
   }
 }
-function __c51(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3816,13 +5328,13 @@ function __c51(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(1536, __c48, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(1888, __c59, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
   }
 }
-function __c52(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3840,7 +5352,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "ArchiveDatasetItemRequest" });
   }
 }
-function __c53(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3856,21 +5368,21 @@ function __c53(j: number): any {
           input: S.Unknown,
           expected_output: S.NullOr(S.Unknown),
           source_output: S.NullOr(S.Unknown),
-          metadata: __S(1536, __c48, 0),
+          metadata: __S(1888, __c59, 0),
           source_trace_id: S.NullOr(S.String),
           source_event_id: S.NullOr(S.String),
           source_timestamp: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.NullOr(S.String),
-          created_by: S.NullOr(__S(1632, __c51, 0)),
+          created_by: S.NullOr(__S(2336, __c73, 0)),
           version_created_at: S.String,
-          version_created_by: S.NullOr(__S(1632, __c51, 0)),
+          version_created_by: S.NullOr(__S(2336, __c73, 0)),
           team_id: S.Number,
         }),
       ).annotate({ identifier: "DatasetItemRead" });
   }
 }
-function __c54(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3885,55 +5397,6 @@ function __c54(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateAiObservabilityInstrumentationChecklistDismissRequest" });
-  }
-}
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String,
-          name: S.String,
-          started_at: S.String,
-          run_source: S.optional(S.NullOr(S.String)),
-          expected_item_count: S.optional(S.NullOr(S.Number)),
-          expected_result_count: S.optional(S.NullOr(S.Number)),
-          suite_key: S.optional(S.NullOr(S.String)),
-          dataset_source: S.optional(S.NullOr(S.String)),
-          dataset_identifier: S.optional(S.NullOr(S.String)),
-          dataset_revision_identifier: S.optional(S.NullOr(S.String)),
-          dataset_revision_id: S.optional(S.NullOr(S.String)),
-          application_version: S.optional(S.NullOr(S.String)),
-          model_version: S.optional(S.NullOr(S.String)),
-          prompt_version: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/ai_observability/offline_experiments/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateAiObservabilityOfflineExperimentRequest" });
-  }
-}
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          status: S.String,
-          created: S.Boolean,
-          started_at: S.String,
-          created_at: S.String,
-          finished_at: S.NullOr(S.String),
-          expected_item_count: S.NullOr(S.Number),
-          expected_result_count: S.NullOr(S.Number),
-          accepted_item_count: S.Number,
-          accepted_result_count: S.Number,
-        }),
-      ).annotate({ identifier: "ExperimentReceipt" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -58,12 +58,8 @@ export interface GetAuditLogSettingsResponse {
   pageSize: number;
   maxConcurrentRequests: number;
   maxBufferedBuckets: number;
-  maxAttempts: number;
-  retryDelaySecs: number;
-  retryBackoffFactor: number;
   requestTimeoutSecs: number;
   planTimeoutSecs: number;
-  planMaxAttempts: number;
 }
 export interface ListAuditLogRequest {
   q?: string;
@@ -255,12 +251,8 @@ function __c3(j: number): any {
           pageSize: S.Number,
           maxConcurrentRequests: S.Number,
           maxBufferedBuckets: S.Number,
-          maxAttempts: S.Number,
-          retryDelaySecs: S.Number,
-          retryBackoffFactor: S.Number,
           requestTimeoutSecs: S.Number,
           planTimeoutSecs: S.Number,
-          planMaxAttempts: S.Number,
         }),
       ).annotate({ identifier: "GetAuditLogSettingsResponse" });
   }

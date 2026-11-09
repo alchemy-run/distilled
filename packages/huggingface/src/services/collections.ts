@@ -55,17 +55,39 @@ export interface AddItemRequest {
   item: AddItemRequestItem;
   note?: string;
 }
+export interface AddItemResponseGatingCase1Case1ProfileSharingCase0 {
+  username: boolean;
+  email: boolean;
+}
+export type AddItemResponseGatingCase1Case1ProfileSharingCase1 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type AddItemResponseGatingCase1Case1ProfileSharing =
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0;
 export interface AddItemResponseGatingCase1Case1 {
   mode: string;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  profileSharing?: AddItemResponseGatingCase1Case1ProfileSharing;
 }
 export type AddItemResponseGatingCase1Case2NotificationsMode = "bulk" | "real-time";
 export interface AddItemResponseGatingCase1Case2Notifications {
   mode: AddItemResponseGatingCase1Case2NotificationsMode;
   email?: string;
 }
+export type AddItemResponseGatingCase1Case2ProfileSharingCase0 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export type AddItemResponseGatingCase1Case2ProfileSharingCase1 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type AddItemResponseGatingCase1Case2ProfileSharing =
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0;
 export interface AddItemResponseGatingCase1Case2 {
   mode: string;
   notifications: AddItemResponseGatingCase1Case2Notifications;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  profileSharing?: AddItemResponseGatingCase1Case2ProfileSharing;
 }
 export type AddItemResponseGatingCase1 =
   | boolean
@@ -155,7 +177,9 @@ export type AddItemResponseItemsItemCase0DatasetsServerInfoLibrariesItem =
   | "harbor"
   | "verifiers"
   | "openenv"
-  | "nemo-gym";
+  | "nemo-gym"
+  | "agentenv"
+  | "lerobot";
 export type AddItemResponseItemsItemCase0DatasetsServerInfoLibrariesList =
   Array<AddItemResponseItemsItemCase0DatasetsServerInfoLibrariesItem>;
 export type AddItemResponseItemsItemCase0DatasetsServerInfoFormatsItem =
@@ -226,9 +250,11 @@ export type AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProvider
   | "fireworks-ai"
   | "groq"
   | "hf-inference"
+  | "humain-ai"
   | "novita"
   | "nscale"
   | "openai"
+  | "openrouter"
   | "ovhcloud"
   | "publicai"
   | "replicate"
@@ -878,19 +904,41 @@ export interface AddItemBySlugRequest {
   item: AddItemBySlugRequestItem;
   note?: string;
 }
-export type AddItemBySlugResponseGatingCase1Case1 = AddItemResponseGatingCase1Case1;
+export type AddItemBySlugResponseGatingCase1Case1ProfileSharingCase0 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export type AddItemBySlugResponseGatingCase1Case1ProfileSharingCase1 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type AddItemBySlugResponseGatingCase1Case1ProfileSharing =
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export interface AddItemBySlugResponseGatingCase1Case1 {
+  mode: string;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  profileSharing?: AddItemBySlugResponseGatingCase1Case1ProfileSharing;
+}
 export type AddItemBySlugResponseGatingCase1Case2NotificationsMode = "bulk" | "real-time";
 export interface AddItemBySlugResponseGatingCase1Case2Notifications {
   mode: AddItemBySlugResponseGatingCase1Case2NotificationsMode;
   email?: string;
 }
+export type AddItemBySlugResponseGatingCase1Case2ProfileSharingCase0 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export type AddItemBySlugResponseGatingCase1Case2ProfileSharingCase1 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type AddItemBySlugResponseGatingCase1Case2ProfileSharing =
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0;
 export interface AddItemBySlugResponseGatingCase1Case2 {
   mode: string;
   notifications: AddItemBySlugResponseGatingCase1Case2Notifications;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  profileSharing?: AddItemBySlugResponseGatingCase1Case2ProfileSharing;
 }
 export type AddItemBySlugResponseGatingCase1 =
   | boolean
-  | AddItemResponseGatingCase1Case1
+  | AddItemBySlugResponseGatingCase1Case1
   | AddItemBySlugResponseGatingCase1Case2;
 export type AddItemBySlugResponseGating = boolean | AddItemBySlugResponseGatingCase1;
 export type AddItemBySlugResponseOwnerCase0Plan = "team" | "enterprise" | "plus" | "academia";
@@ -974,7 +1022,9 @@ export type AddItemBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesItem =
   | "harbor"
   | "verifiers"
   | "openenv"
-  | "nemo-gym";
+  | "nemo-gym"
+  | "agentenv"
+  | "lerobot";
 export type AddItemBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesList =
   Array<AddItemBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesItem>;
 export type AddItemBySlugResponseItemsItemCase0DatasetsServerInfoFormatsItem =
@@ -1047,9 +1097,11 @@ export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemPr
   | "fireworks-ai"
   | "groq"
   | "hf-inference"
+  | "humain-ai"
   | "novita"
   | "nscale"
   | "openai"
+  | "openrouter"
   | "ovhcloud"
   | "publicai"
   | "replicate"
@@ -1740,19 +1792,41 @@ export interface CreateCollectionRequest {
   /** Assign the collection to a resource group of the owning organization. Only valid for organization-owned collections. */
   resourceGroupId?: string;
 }
-export type CreateCollectionResponseGatingCase1Case1 = AddItemResponseGatingCase1Case1;
+export type CreateCollectionResponseGatingCase1Case1ProfileSharingCase0 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export type CreateCollectionResponseGatingCase1Case1ProfileSharingCase1 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type CreateCollectionResponseGatingCase1Case1ProfileSharing =
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export interface CreateCollectionResponseGatingCase1Case1 {
+  mode: string;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  profileSharing?: CreateCollectionResponseGatingCase1Case1ProfileSharing;
+}
 export type CreateCollectionResponseGatingCase1Case2NotificationsMode = "bulk" | "real-time";
 export interface CreateCollectionResponseGatingCase1Case2Notifications {
   mode: CreateCollectionResponseGatingCase1Case2NotificationsMode;
   email?: string;
 }
+export type CreateCollectionResponseGatingCase1Case2ProfileSharingCase0 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export type CreateCollectionResponseGatingCase1Case2ProfileSharingCase1 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type CreateCollectionResponseGatingCase1Case2ProfileSharing =
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0;
 export interface CreateCollectionResponseGatingCase1Case2 {
   mode: string;
   notifications: CreateCollectionResponseGatingCase1Case2Notifications;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  profileSharing?: CreateCollectionResponseGatingCase1Case2ProfileSharing;
 }
 export type CreateCollectionResponseGatingCase1 =
   | boolean
-  | AddItemResponseGatingCase1Case1
+  | CreateCollectionResponseGatingCase1Case1
   | CreateCollectionResponseGatingCase1Case2;
 export type CreateCollectionResponseGating = boolean | CreateCollectionResponseGatingCase1;
 export type CreateCollectionResponseOwnerCase0Plan = "team" | "enterprise" | "plus" | "academia";
@@ -1842,7 +1916,9 @@ export type CreateCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesIte
   | "harbor"
   | "verifiers"
   | "openenv"
-  | "nemo-gym";
+  | "nemo-gym"
+  | "agentenv"
+  | "lerobot";
 export type CreateCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesList =
   Array<CreateCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesItem>;
 export type CreateCollectionResponseItemsItemCase0DatasetsServerInfoFormatsItem =
@@ -1915,9 +1991,11 @@ export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersIte
   | "fireworks-ai"
   | "groq"
   | "hf-inference"
+  | "humain-ai"
   | "novita"
   | "nscale"
   | "openai"
+  | "openrouter"
   | "ovhcloud"
   | "publicai"
   | "replicate"
@@ -2580,19 +2658,41 @@ export interface GetCollectionRequest {
   slug: string;
   id: string;
 }
-export type GetCollectionResponseGatingCase1Case1 = AddItemResponseGatingCase1Case1;
+export type GetCollectionResponseGatingCase1Case1ProfileSharingCase0 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export type GetCollectionResponseGatingCase1Case1ProfileSharingCase1 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type GetCollectionResponseGatingCase1Case1ProfileSharing =
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export interface GetCollectionResponseGatingCase1Case1 {
+  mode: string;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  profileSharing?: GetCollectionResponseGatingCase1Case1ProfileSharing;
+}
 export type GetCollectionResponseGatingCase1Case2NotificationsMode = "bulk" | "real-time";
 export interface GetCollectionResponseGatingCase1Case2Notifications {
   mode: GetCollectionResponseGatingCase1Case2NotificationsMode;
   email?: string;
 }
+export type GetCollectionResponseGatingCase1Case2ProfileSharingCase0 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export type GetCollectionResponseGatingCase1Case2ProfileSharingCase1 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type GetCollectionResponseGatingCase1Case2ProfileSharing =
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0;
 export interface GetCollectionResponseGatingCase1Case2 {
   mode: string;
   notifications: GetCollectionResponseGatingCase1Case2Notifications;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  profileSharing?: GetCollectionResponseGatingCase1Case2ProfileSharing;
 }
 export type GetCollectionResponseGatingCase1 =
   | boolean
-  | AddItemResponseGatingCase1Case1
+  | GetCollectionResponseGatingCase1Case1
   | GetCollectionResponseGatingCase1Case2;
 export type GetCollectionResponseGating = boolean | GetCollectionResponseGatingCase1;
 export type GetCollectionResponseOwnerCase0Plan = "team" | "enterprise" | "plus" | "academia";
@@ -2676,7 +2776,9 @@ export type GetCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesItem =
   | "harbor"
   | "verifiers"
   | "openenv"
-  | "nemo-gym";
+  | "nemo-gym"
+  | "agentenv"
+  | "lerobot";
 export type GetCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesList =
   Array<GetCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesItem>;
 export type GetCollectionResponseItemsItemCase0DatasetsServerInfoFormatsItem =
@@ -2749,9 +2851,11 @@ export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemPr
   | "fireworks-ai"
   | "groq"
   | "hf-inference"
+  | "humain-ai"
   | "novita"
   | "nscale"
   | "openai"
+  | "openrouter"
   | "ovhcloud"
   | "publicai"
   | "replicate"
@@ -3386,19 +3490,41 @@ export interface GetCollectionBySlugRequest {
   namespace: string;
   slug: string;
 }
-export type GetCollectionBySlugResponseGatingCase1Case1 = AddItemResponseGatingCase1Case1;
+export type GetCollectionBySlugResponseGatingCase1Case1ProfileSharingCase0 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export type GetCollectionBySlugResponseGatingCase1Case1ProfileSharingCase1 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type GetCollectionBySlugResponseGatingCase1Case1ProfileSharing =
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export interface GetCollectionBySlugResponseGatingCase1Case1 {
+  mode: string;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  profileSharing?: GetCollectionBySlugResponseGatingCase1Case1ProfileSharing;
+}
 export type GetCollectionBySlugResponseGatingCase1Case2NotificationsMode = "bulk" | "real-time";
 export interface GetCollectionBySlugResponseGatingCase1Case2Notifications {
   mode: GetCollectionBySlugResponseGatingCase1Case2NotificationsMode;
   email?: string;
 }
+export type GetCollectionBySlugResponseGatingCase1Case2ProfileSharingCase0 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export type GetCollectionBySlugResponseGatingCase1Case2ProfileSharingCase1 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type GetCollectionBySlugResponseGatingCase1Case2ProfileSharing =
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0;
 export interface GetCollectionBySlugResponseGatingCase1Case2 {
   mode: string;
   notifications: GetCollectionBySlugResponseGatingCase1Case2Notifications;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  profileSharing?: GetCollectionBySlugResponseGatingCase1Case2ProfileSharing;
 }
 export type GetCollectionBySlugResponseGatingCase1 =
   | boolean
-  | AddItemResponseGatingCase1Case1
+  | GetCollectionBySlugResponseGatingCase1Case1
   | GetCollectionBySlugResponseGatingCase1Case2;
 export type GetCollectionBySlugResponseGating = boolean | GetCollectionBySlugResponseGatingCase1;
 export type GetCollectionBySlugResponseOwnerCase0Plan = "team" | "enterprise" | "plus" | "academia";
@@ -3488,7 +3614,9 @@ export type GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoLibraries
   | "harbor"
   | "verifiers"
   | "openenv"
-  | "nemo-gym";
+  | "nemo-gym"
+  | "agentenv"
+  | "lerobot";
 export type GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesList =
   Array<GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesItem>;
 export type GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoFormatsItem =
@@ -3561,9 +3689,11 @@ export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProviders
   | "fireworks-ai"
   | "groq"
   | "hf-inference"
+  | "humain-ai"
   | "novita"
   | "nscale"
   | "openai"
+  | "openrouter"
   | "ovhcloud"
   | "publicai"
   | "replicate"
@@ -4241,7 +4371,19 @@ export interface GetCollectionsRequest {
   expand?: string;
   limit?: number;
 }
-export type GetCollectionsResponseBodyCase0ItemGatingCase1Case1 = AddItemResponseGatingCase1Case1;
+export type GetCollectionsResponseBodyCase0ItemGatingCase1Case1ProfileSharingCase0 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export type GetCollectionsResponseBodyCase0ItemGatingCase1Case1ProfileSharingCase1 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type GetCollectionsResponseBodyCase0ItemGatingCase1Case1ProfileSharing =
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export interface GetCollectionsResponseBodyCase0ItemGatingCase1Case1 {
+  mode: string;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  profileSharing?: GetCollectionsResponseBodyCase0ItemGatingCase1Case1ProfileSharing;
+}
 export type GetCollectionsResponseBodyCase0ItemGatingCase1Case2NotificationsMode =
   | "bulk"
   | "real-time";
@@ -4249,13 +4391,23 @@ export interface GetCollectionsResponseBodyCase0ItemGatingCase1Case2Notification
   mode: GetCollectionsResponseBodyCase0ItemGatingCase1Case2NotificationsMode;
   email?: string;
 }
+export type GetCollectionsResponseBodyCase0ItemGatingCase1Case2ProfileSharingCase0 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export type GetCollectionsResponseBodyCase0ItemGatingCase1Case2ProfileSharingCase1 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type GetCollectionsResponseBodyCase0ItemGatingCase1Case2ProfileSharing =
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0;
 export interface GetCollectionsResponseBodyCase0ItemGatingCase1Case2 {
   mode: string;
   notifications: GetCollectionsResponseBodyCase0ItemGatingCase1Case2Notifications;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  profileSharing?: GetCollectionsResponseBodyCase0ItemGatingCase1Case2ProfileSharing;
 }
 export type GetCollectionsResponseBodyCase0ItemGatingCase1 =
   | boolean
-  | AddItemResponseGatingCase1Case1
+  | GetCollectionsResponseBodyCase0ItemGatingCase1Case1
   | GetCollectionsResponseBodyCase0ItemGatingCase1Case2;
 export type GetCollectionsResponseBodyCase0ItemGating =
   | boolean
@@ -4352,7 +4504,9 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoL
   | "harbor"
   | "verifiers"
   | "openenv"
-  | "nemo-gym";
+  | "nemo-gym"
+  | "agentenv"
+  | "lerobot";
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoLibrariesList =
   Array<GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoLibrariesItem>;
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoFormatsItem =
@@ -4427,9 +4581,11 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceP
   | "fireworks-ai"
   | "groq"
   | "hf-inference"
+  | "humain-ai"
   | "novita"
   | "nscale"
   | "openai"
+  | "openrouter"
   | "ovhcloud"
   | "publicai"
   | "replicate"
@@ -5124,19 +5280,41 @@ export type UpdateCollectionRequestTheme =
   | "purple"
   | "pink"
   | "indigo";
-export type UpdateCollectionRequestGatingCase1 = AddItemResponseGatingCase1Case1;
+export type UpdateCollectionRequestGatingCase1ProfileSharingCase0 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export type UpdateCollectionRequestGatingCase1ProfileSharingCase1 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type UpdateCollectionRequestGatingCase1ProfileSharing =
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export interface UpdateCollectionRequestGatingCase1 {
+  mode: string;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  profileSharing?: UpdateCollectionRequestGatingCase1ProfileSharing;
+}
 export type UpdateCollectionRequestGatingCase2NotificationsMode = "bulk" | "real-time";
 export interface UpdateCollectionRequestGatingCase2Notifications {
   mode: UpdateCollectionRequestGatingCase2NotificationsMode | (string & {});
   email?: string;
 }
+export type UpdateCollectionRequestGatingCase2ProfileSharingCase0 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export type UpdateCollectionRequestGatingCase2ProfileSharingCase1 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type UpdateCollectionRequestGatingCase2ProfileSharing =
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0;
 export interface UpdateCollectionRequestGatingCase2 {
   mode: string;
   notifications: UpdateCollectionRequestGatingCase2Notifications;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  profileSharing?: UpdateCollectionRequestGatingCase2ProfileSharing;
 }
 export type UpdateCollectionRequestGating =
   | boolean
-  | AddItemResponseGatingCase1Case1
+  | UpdateCollectionRequestGatingCase1
   | UpdateCollectionRequestGatingCase2;
 export interface UpdateCollectionRequest {
   namespace: string;
@@ -5149,19 +5327,41 @@ export interface UpdateCollectionRequest {
   description?: string;
   gating?: UpdateCollectionRequestGating;
 }
-export type UpdateCollectionResponseDataGatingCase1Case1 = AddItemResponseGatingCase1Case1;
+export type UpdateCollectionResponseDataGatingCase1Case1ProfileSharingCase0 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export type UpdateCollectionResponseDataGatingCase1Case1ProfileSharingCase1 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type UpdateCollectionResponseDataGatingCase1Case1ProfileSharing =
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export interface UpdateCollectionResponseDataGatingCase1Case1 {
+  mode: string;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  profileSharing?: UpdateCollectionResponseDataGatingCase1Case1ProfileSharing;
+}
 export type UpdateCollectionResponseDataGatingCase1Case2NotificationsMode = "bulk" | "real-time";
 export interface UpdateCollectionResponseDataGatingCase1Case2Notifications {
   mode: UpdateCollectionResponseDataGatingCase1Case2NotificationsMode;
   email?: string;
 }
+export type UpdateCollectionResponseDataGatingCase1Case2ProfileSharingCase0 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export type UpdateCollectionResponseDataGatingCase1Case2ProfileSharingCase1 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type UpdateCollectionResponseDataGatingCase1Case2ProfileSharing =
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0;
 export interface UpdateCollectionResponseDataGatingCase1Case2 {
   mode: string;
   notifications: UpdateCollectionResponseDataGatingCase1Case2Notifications;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  profileSharing?: UpdateCollectionResponseDataGatingCase1Case2ProfileSharing;
 }
 export type UpdateCollectionResponseDataGatingCase1 =
   | boolean
-  | AddItemResponseGatingCase1Case1
+  | UpdateCollectionResponseDataGatingCase1Case1
   | UpdateCollectionResponseDataGatingCase1Case2;
 export type UpdateCollectionResponseDataGating = boolean | UpdateCollectionResponseDataGatingCase1;
 export type UpdateCollectionResponseDataOwnerCase0Plan =
@@ -5255,7 +5455,9 @@ export type UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoLibrarie
   | "harbor"
   | "verifiers"
   | "openenv"
-  | "nemo-gym";
+  | "nemo-gym"
+  | "agentenv"
+  | "lerobot";
 export type UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoLibrariesList =
   Array<UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoLibrariesItem>;
 export type UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoFormatsItem =
@@ -5328,9 +5530,11 @@ export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvider
   | "fireworks-ai"
   | "groq"
   | "hf-inference"
+  | "humain-ai"
   | "novita"
   | "nscale"
   | "openai"
+  | "openrouter"
   | "ovhcloud"
   | "publicai"
   | "replicate"
@@ -5979,19 +6183,41 @@ export type UpdateCollectionBySlugRequestTheme =
   | "purple"
   | "pink"
   | "indigo";
-export type UpdateCollectionBySlugRequestGatingCase1 = AddItemResponseGatingCase1Case1;
+export type UpdateCollectionBySlugRequestGatingCase1ProfileSharingCase0 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export type UpdateCollectionBySlugRequestGatingCase1ProfileSharingCase1 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type UpdateCollectionBySlugRequestGatingCase1ProfileSharing =
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export interface UpdateCollectionBySlugRequestGatingCase1 {
+  mode: string;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  profileSharing?: UpdateCollectionBySlugRequestGatingCase1ProfileSharing;
+}
 export type UpdateCollectionBySlugRequestGatingCase2NotificationsMode = "bulk" | "real-time";
 export interface UpdateCollectionBySlugRequestGatingCase2Notifications {
   mode: UpdateCollectionBySlugRequestGatingCase2NotificationsMode | (string & {});
   email?: string;
 }
+export type UpdateCollectionBySlugRequestGatingCase2ProfileSharingCase0 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export type UpdateCollectionBySlugRequestGatingCase2ProfileSharingCase1 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type UpdateCollectionBySlugRequestGatingCase2ProfileSharing =
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0;
 export interface UpdateCollectionBySlugRequestGatingCase2 {
   mode: string;
   notifications: UpdateCollectionBySlugRequestGatingCase2Notifications;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  profileSharing?: UpdateCollectionBySlugRequestGatingCase2ProfileSharing;
 }
 export type UpdateCollectionBySlugRequestGating =
   | boolean
-  | AddItemResponseGatingCase1Case1
+  | UpdateCollectionBySlugRequestGatingCase1
   | UpdateCollectionBySlugRequestGatingCase2;
 export interface UpdateCollectionBySlugRequest {
   namespace: string;
@@ -6003,7 +6229,19 @@ export interface UpdateCollectionBySlugRequest {
   description?: string;
   gating?: UpdateCollectionBySlugRequestGating;
 }
-export type UpdateCollectionBySlugResponseDataGatingCase1Case1 = AddItemResponseGatingCase1Case1;
+export type UpdateCollectionBySlugResponseDataGatingCase1Case1ProfileSharingCase0 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export type UpdateCollectionBySlugResponseDataGatingCase1Case1ProfileSharingCase1 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type UpdateCollectionBySlugResponseDataGatingCase1Case1ProfileSharing =
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export interface UpdateCollectionBySlugResponseDataGatingCase1Case1 {
+  mode: string;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  profileSharing?: UpdateCollectionBySlugResponseDataGatingCase1Case1ProfileSharing;
+}
 export type UpdateCollectionBySlugResponseDataGatingCase1Case2NotificationsMode =
   | "bulk"
   | "real-time";
@@ -6011,13 +6249,23 @@ export interface UpdateCollectionBySlugResponseDataGatingCase1Case2Notifications
   mode: UpdateCollectionBySlugResponseDataGatingCase1Case2NotificationsMode;
   email?: string;
 }
+export type UpdateCollectionBySlugResponseDataGatingCase1Case2ProfileSharingCase0 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+export type UpdateCollectionBySlugResponseDataGatingCase1Case2ProfileSharingCase1 =
+  AddItemResponseGatingCase1Case1ProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type UpdateCollectionBySlugResponseDataGatingCase1Case2ProfileSharing =
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0
+  | AddItemResponseGatingCase1Case1ProfileSharingCase0;
 export interface UpdateCollectionBySlugResponseDataGatingCase1Case2 {
   mode: string;
   notifications: UpdateCollectionBySlugResponseDataGatingCase1Case2Notifications;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  profileSharing?: UpdateCollectionBySlugResponseDataGatingCase1Case2ProfileSharing;
 }
 export type UpdateCollectionBySlugResponseDataGatingCase1 =
   | boolean
-  | AddItemResponseGatingCase1Case1
+  | UpdateCollectionBySlugResponseDataGatingCase1Case1
   | UpdateCollectionBySlugResponseDataGatingCase1Case2;
 export type UpdateCollectionBySlugResponseDataGating =
   | boolean
@@ -6114,7 +6362,9 @@ export type UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoLi
   | "harbor"
   | "verifiers"
   | "openenv"
-  | "nemo-gym";
+  | "nemo-gym"
+  | "agentenv"
+  | "lerobot";
 export type UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoLibrariesList =
   Array<UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoLibrariesItem>;
 export type UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoFormatsItem =
@@ -6189,9 +6439,11 @@ export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferencePr
   | "fireworks-ai"
   | "groq"
   | "hf-inference"
+  | "humain-ai"
   | "novita"
   | "nscale"
   | "openai"
+  | "openrouter"
   | "ovhcloud"
   | "publicai"
   | "replicate"

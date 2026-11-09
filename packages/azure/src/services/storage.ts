@@ -49,12 +49,6 @@ export interface AbortStorageAccountHierarchicalNamespaceMigrationResponse {
 }
 export type AdvancedPlatformMetricsCreateOrUpdateRequestAdvancedPlatformMetricsRuleType =
   "ContainerLevelCapacityMetrics";
-/** The metrics emitted by the advanced platform metrics rule. */
-export type MetricsEmitted = "ContainerBlobCount" | "ContainerUsedSize";
-/** The metrics requested by the caller. If omitted in a create or update request, the service enables all metrics supported by the selected rule type. */
-export type AdvancedPlatformMetricsRulePropertiesInputMetricsToEmitList = Array<
-  MetricsEmitted | (string & {})
->;
 /** The type of filter applied to the advanced platform metrics rule. */
 export type AdvancedPlatformMetricsFilterType =
   | "AllContainersFilter"
@@ -73,8 +67,6 @@ export interface AdvancedPlatformMetricsRuleConfig {
 export interface AdvancedPlatformMetricsRulePropertiesInput {
   /** A boolean flag which enables the advanced platform metrics rule. */
   enabled: boolean;
-  /** The metrics requested by the caller. If omitted in a create or update request, the service enables all metrics supported by the selected rule type. */
-  metricsToEmit?: AdvancedPlatformMetricsRulePropertiesInputMetricsToEmitList;
   /** Configuration for the advanced platform metrics rule. */
   ruleConfig: AdvancedPlatformMetricsRuleConfig;
 }
@@ -113,8 +105,8 @@ export interface SystemData {
 }
 /** The type of the advanced platform metrics rule. */
 export type AdvancedPlatformMetricsRuleType = "ContainerLevelCapacityMetrics";
-/** The metrics requested by the caller. If omitted in a create or update request, the service enables all metrics supported by the selected rule type. */
-export type AdvancedPlatformMetricsRulePropertiesMetricsToEmitList = Array<MetricsEmitted>;
+/** The metrics emitted by the advanced platform metrics rule. */
+export type MetricsEmitted = "ContainerBlobCount" | "ContainerUsedSize";
 /** The metrics emitted by the rule. Metrics are mapped according to the rule type from RuleTypeProperty. Rule type to metrics mapping: ContainerLevelCapacityMetrics => {ContainerUsedSize, ContainerBlobCount}. */
 export type AdvancedPlatformMetricsRulePropertiesMetricsEmittedList = Array<MetricsEmitted>;
 /** An object that defines the advanced platform metrics rule. */
@@ -125,8 +117,6 @@ export interface AdvancedPlatformMetricsRuleProperties {
   enabled: boolean;
   /** Gets the last modification date and time of the advanced platform metrics rule in UTC. */
   lastModifiedTime?: string;
-  /** The metrics requested by the caller. If omitted in a create or update request, the service enables all metrics supported by the selected rule type. */
-  metricsToEmit?: AdvancedPlatformMetricsRulePropertiesMetricsToEmitList;
   /** The metrics emitted by the rule. Metrics are mapped according to the rule type from RuleTypeProperty. Rule type to metrics mapping: ContainerLevelCapacityMetrics => {ContainerUsedSize, ContainerBlobCount}. */
   metricsEmitted?: AdvancedPlatformMetricsRulePropertiesMetricsEmittedList;
   /** Configuration for the advanced platform metrics rule. */
@@ -8752,7 +8742,6 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
-          metricsToEmit: S.optional(__S(128, __c4, 0)),
           ruleConfig: __S(160, __c5, 0),
         }),
       ).annotate({ identifier: "AdvancedPlatformMetricsRulePropertiesInput" });
@@ -8811,7 +8800,6 @@ function __c5(j: number): any {
           ruleType: S.optional(S.String),
           enabled: S.Boolean,
           lastModifiedTime: S.optional(S.String),
-          metricsToEmit: S.optional(__S(128, __c4, 0)),
           metricsEmitted: S.optional(__S(128, __c4, 0)),
           ruleConfig: __S(160, __c5, 0),
         }),

@@ -490,6 +490,8 @@ export interface GetDomainBulkRequest {
   domain?: DomainsBulksGetRequestDomainList;
   /** Whether to include domain ranking data in the response. Defaults to `false` -- ranking lookups are expensive at bulk scale and most callers do not need them. Set to `true` to opt in. This parameter replaces the deprecated `skip_ranking` (see below). */
   includeRanking?: boolean;
+  /** Skip the DNS resolution-history lookup for faster responses. Defaults to `false`. Set to `true` if you only need categorization data; no DNS resolution history is returned for any domain. Matches the `skip_dns` parameter on `/intel/domain`. */
+  skipDns?: boolean;
   /** **Deprecated.** Previously controlled whether the ranking lookup was skipped (defaulted to `false`, meaning ranking ran). The endpoint's default behavior is being flipped -- ranking is now opt-in via `include_ranking=true` -- and this parameter will be silently ignored. Remove it from your callers and use `include_ranking` instead. */
   skipRanking?: boolean;
 }
@@ -2017,6 +2019,7 @@ function __c12(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           domain: S.optional(__S(200, __c25, 0).pipe(T.Query())),
           includeRanking: S.optional(S.Boolean.pipe(T.Query("include_ranking"))),
+          skipDns: S.optional(S.Boolean.pipe(T.Query("skip_dns"))),
           skipRanking: S.optional(S.Boolean.pipe(T.Query("skip_ranking"))),
         })
           .pipe(

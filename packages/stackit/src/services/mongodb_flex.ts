@@ -493,6 +493,11 @@ export type PartialUpdateInstanceRequestRegion = "eu01" | "eu02";
 /** Labels field is not certain/clear */
 export type PartialUpdateInstanceRequestLabelsMap = { [key: string]: string | undefined };
 export type PartialUpdateInstanceRequestOptionsMap = { [key: string]: string | undefined };
+export interface StorageUpdate {
+  /** DEPRECATED: Starting November 2026, the API will reject requests that attempt to modify the storage class. */
+  class?: string;
+  size?: number;
+}
 export interface PartialUpdateInstanceRequest {
   /** project id */
   projectId: string;
@@ -508,7 +513,7 @@ export interface PartialUpdateInstanceRequest {
   name?: string;
   options?: PartialUpdateInstanceRequestOptionsMap;
   replicas?: number;
-  storage?: Storage;
+  storage?: StorageUpdate;
   version?: string;
 }
 export interface UpdateInstanceResponse {
@@ -597,7 +602,7 @@ export interface UpdateInstanceRequest {
   name: string;
   options: UpdateInstanceRequestOptionsMap;
   replicas: number;
-  storage: Storage;
+  storage: StorageUpdate;
   version: string;
 }
 export type UpdateUserRequestRegion = "eu01" | "eu02";

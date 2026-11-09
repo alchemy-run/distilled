@@ -63,6 +63,8 @@ export class NotFound
 export interface BusinessKnowledgeDocumentsSearchListRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Limit retrieval to sources in this library. Pass the same id to repository search and file read. Omit to search every ready source. */
+  library_id?: string;
   /** Maximum number of ranked chunks to return. Defaults to 10, capped at 20. */
   limit?: number;
   /** Natural-language search query. Runs hybrid (semantic + full-text) retrieval over all SAFE, READY knowledge chunks in this project. */
@@ -140,6 +142,12 @@ export interface GapTopicActionResult {
   /** Number of gap rows whose status changed. */
   updated: number;
 }
+export interface BusinessKnowledgeLibrariesDestroyRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+}
+export interface BusinessKnowledgeLibrariesDestroyResponse {}
 export interface BusinessKnowledgePlaygroundChatsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -193,6 +201,8 @@ export type RefreshIntervalEnum = "manual" | "1h" | "6h" | "24h" | "7d";
 export type EmbeddingStatusEnum = "pending" | "completed" | "disabled";
 /** * `single` - Single page * `sitemap` - Sitemap * `same_origin` - Same origin crawl * `github_repo` - GitHub repository */
 export type CrawlModeEnum = "single" | "sitemap" | "same_origin" | "github_repo";
+/** Libraries this source belongs to. Empty when the source is in none. */
+export type KnowledgeSourceLibraryIdsList = Array<string>;
 export interface KnowledgeSource {
   id: string;
   team_id: number;
@@ -229,6 +239,8 @@ export interface KnowledgeSource {
   file_content_type: string;
   file_size_bytes: number | null;
   always_include: boolean;
+  /** Libraries this source belongs to. Empty when the source is in none. */
+  library_ids: KnowledgeSourceLibraryIdsList;
 }
 export interface CreateBusinessKnowledgeGapSuggestionsDismissRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -243,6 +255,54 @@ export interface CreateBusinessKnowledgeGapSuggestionsDismissTopicRequest {
   normalized_topic: string;
   /** Optional knowledge source to link when accepting. */
   resolved_source_id?: string | null;
+}
+export interface CreateBusinessKnowledgeLearningBackfillRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+/** * `running` - Reading past tickets * `completed` - Read every past ticket */
+export type LearningBackfillStatusEnum = "running" | "completed";
+export interface LearningBackfillProgress {
+  /** `running` while PostHog reads past tickets. `completed` once every ticket in the window is read. * `running` - Reading past tickets * `completed` - Read every past ticket */
+  status: LearningBackfillStatusEnum;
+  /** When someone started learning from past tickets. */
+  started_at: string;
+  /** When every past ticket was read. Null while the run continues. */
+  finished_at: string | null;
+  /** Tickets analyzed since the run started, including tickets from the regular 7-day pass. */
+  tickets_read: number;
+  /** Tickets that are being analyzed now. */
+  tickets_in_progress: number;
+  /** Analyzed tickets that added a learned source to business knowledge. */
+  knowledge_created: number;
+}
+export interface BusinessKnowledgeSettings {
+  /** When true, PostHog learns reusable knowledge from public human replies on resolved support tickets. Requires Support to be enabled for this environment. */
+  learn_from_support_enabled: boolean;
+  /** Whether Support is enabled for this environment. Learning cannot be turned on while this is false. */
+  support_enabled: boolean;
+  /** The last run of learning from past tickets. Null when none ran since learning was turned on. */
+  learning_backfill: LearningBackfillProgress | null;
+}
+export interface CreateBusinessKnowledgeLibraryRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Name for the new library. */
+  name: string;
+}
+/** Selected repositories in this library that this environment is allowed to read. */
+export type KnowledgeLibraryReposList = Array<string>;
+export interface KnowledgeLibrary {
+  /** Library id. */
+  id: string;
+  /** Library name. Unique in this project, ignoring case. */
+  name: string;
+  /** True for the library new learned sources join. There is at most one. */
+  is_default: boolean;
+  /** How many sources are in this library. */
+  source_count: number;
+  /** Selected repositories in this library that this environment is allowed to read. */
+  repos: KnowledgeLibraryReposList;
 }
 export interface CreateBusinessKnowledgePlaygroundChatRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -358,6 +418,11 @@ export interface CreateBusinessKnowledgeSourceRequest {
   /** When true, this source's content is injected into every support reply prompt as general context (tone, policies, direction). */
   always_include?: boolean;
 }
+export interface GetBusinessKnowledgeLibraryRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+}
 export interface GetBusinessKnowledgePlaygroundChatRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -367,6 +432,8 @@ export interface GetBusinessKnowledgePlaygroundChatRequest {
 export interface GetBusinessKnowledgeRepositoriesFileRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Require the repository to be in this library. Pass the same id used for document search and repository search. Omit to read any selected repository. */
+  library_id?: string;
   /** File path returned by the repository search. */
   path: string;
   /** owner/repo to read. It must already be selected. */
@@ -397,17 +464,21 @@ export interface GetBusinessKnowledgeSettingsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
 }
-export interface BusinessKnowledgeSettings {
-  /** When true, PostHog learns reusable knowledge from public human replies on resolved support tickets. Requires Support to be enabled for this environment. */
-  learn_from_support_enabled: boolean;
-  /** Whether Support is enabled for this environment. Learning cannot be turned on while this is false. */
-  support_enabled: boolean;
-}
 export interface GetBusinessKnowledgeSourceRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this knowledge source. */
   id: string;
+}
+export interface GetBusinessKnowledgeSourcesAvailabilityRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export interface KnowledgeAvailability {
+  /** True when the project has at least one business knowledge source. */
+  has_sources: boolean;
+  /** True when this environment has at least one GitHub repository selected. */
+  has_repositories: boolean;
 }
 export interface GetBusinessKnowledgeSourcesTextRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -465,9 +536,19 @@ export interface PaginatedKnowledgeGapSuggestionList {
   previous?: string | null;
   results: PaginatedKnowledgeGapSuggestionListResultsList;
 }
+export interface ListBusinessKnowledgeLibrariesRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export type ListBusinessKnowledgeLibrariesResponseBodyList = Array<KnowledgeLibrary>;
+export type ListBusinessKnowledgeLibrariesResponse = ListBusinessKnowledgeLibrariesResponseBodyList;
 export interface ListBusinessKnowledgePlaygroundChatsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Number of results to return per page. */
+  limit?: number;
+  /** The initial index from which to return the results. */
+  offset?: number;
 }
 export interface PlaygroundChatList {
   /** Playground chat id. */
@@ -481,9 +562,13 @@ export interface PlaygroundChatList {
   /** True while an answer in this chat is still running. Another question in this chat returns 409 until it finishes. */
   has_open_turn: boolean;
 }
-export type ListBusinessKnowledgePlaygroundChatsResponseBodyList = Array<PlaygroundChatList>;
-export type ListBusinessKnowledgePlaygroundChatsResponse =
-  ListBusinessKnowledgePlaygroundChatsResponseBodyList;
+export type PaginatedPlaygroundChatListListResultsList = Array<PlaygroundChatList>;
+export interface PaginatedPlaygroundChatListList {
+  count: number;
+  next?: string | null;
+  previous?: string | null;
+  results: PaginatedPlaygroundChatListListResultsList;
+}
 export type ListBusinessKnowledgeSourcesRequestAddedBy = "human" | "learned";
 export type ListBusinessKnowledgeSourcesRequestSourceType = "file" | "text" | "url";
 export interface ListBusinessKnowledgeSourcesRequest {
@@ -491,6 +576,8 @@ export interface ListBusinessKnowledgeSourcesRequest {
   project_id: string;
   /** Filter by who added the source: human (you added it) or learned (from a resolved support ticket). */
   added_by?: ListBusinessKnowledgeSourcesRequestAddedBy | (string & {});
+  /** Return only sources in this library. Do not combine with unfiled. */
+  library_id?: string;
   /** Number of results to return per page. */
   limit?: number;
   /** The initial index from which to return the results. */
@@ -499,6 +586,8 @@ export interface ListBusinessKnowledgeSourcesRequest {
   search?: string;
   /** Filter to a single source type (text, url, or file). */
   source_type?: ListBusinessKnowledgeSourcesRequestSourceType | (string & {});
+  /** When true, return only sources that are in no library. Do not combine with library_id. */
+  unfiled?: boolean;
 }
 export type PaginatedKnowledgeSourceListResultsList = Array<KnowledgeSource>;
 export interface PaginatedKnowledgeSourceList {
@@ -539,6 +628,8 @@ export interface PaginatedKnowledgeSourceDocumentList {
 export interface SearchBusinessKnowledgeRepositoryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Limit the search to repositories in this library. Pass the same id to document search and file read. Omit to search every selected repository. */
+  library_id?: string;
   /** File names, path fragments, or identifiers to match. Not a full sentence. */
   query: string;
   /** Limit the search to this owner/repo. It must already be selected. Omit to search every selected repository. */
@@ -569,6 +660,8 @@ export interface RepositoryCacheState {
   tree_truncated: boolean;
   /** ready means the file list was cached recently. warming means a refresh was just queued. * `ready` - Ready * `warming` - Warming */
   cache_status: RepositoryCacheStatusEnum;
+  /** GitHub description for this repository. Empty when GitHub has none or the cache has not loaded it. */
+  description: string;
 }
 /** Cache state for each repository that was searched. */
 export type RepositorySearchResponseRepositoriesList = Array<RepositoryCacheState>;
@@ -578,12 +671,29 @@ export interface RepositorySearchResponse {
   /** Cache state for each repository that was searched. */
   repositories: RepositorySearchResponseRepositoriesList;
 }
+/** Replaces every source in this library. Omit to leave sources unchanged. An empty list removes them all. */
+export type UpdateBusinessKnowledgeLibrariesPartialRequestSourceIdsList = Array<string>;
+/** Replaces this environment's repositories in the library. Omit to leave them unchanged. Repositories only another environment allows stay. */
+export type UpdateBusinessKnowledgeLibrariesPartialRequestReposList = Array<string>;
+export interface UpdateBusinessKnowledgeLibrariesPartialRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+  /** New name. Omit to keep the current name. */
+  name?: string;
+  /** Replaces every source in this library. Omit to leave sources unchanged. An empty list removes them all. */
+  source_ids?: UpdateBusinessKnowledgeLibrariesPartialRequestSourceIdsList;
+  /** Replaces this environment's repositories in the library. Omit to leave them unchanged. Repositories only another environment allows stay. */
+  repos?: UpdateBusinessKnowledgeLibrariesPartialRequestReposList;
+}
 export interface UpdateBusinessKnowledgeSettingsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** When true, PostHog learns reusable knowledge from public human replies on resolved support tickets. Rejected when Support is off for this environment. */
   learn_from_support_enabled?: boolean;
 }
+/** Replaces the libraries this source belongs to. Omit to leave membership unchanged. An empty list removes it from every library. */
+export type UpdateBusinessKnowledgeSourcesPartialRequestLibraryIdsList = Array<string>;
 export interface UpdateBusinessKnowledgeSourcesPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -595,6 +705,8 @@ export interface UpdateBusinessKnowledgeSourcesPartialRequest {
   text?: string;
   /** When true, this source's content is injected into every support reply prompt as general context. */
   always_include?: boolean;
+  /** Replaces the libraries this source belongs to. Omit to leave membership unchanged. An empty list removes it from every library. */
+  library_ids?: UpdateBusinessKnowledgeSourcesPartialRequestLibraryIdsList;
 }
 export type BusinessKnowledgeDocumentsSearchListError = PosthogOpError;
 /** Read-only access to parsed knowledge documents. Exposes hybrid search (``search``) and a drill-down window (``window``) so an agent (PHAI or MCP) can find and explore business knowledge chunks. */
@@ -604,8 +716,8 @@ export const businessKnowledgeDocumentsSearchList: API.OperationMethod<
   BusinessKnowledgeDocumentsSearchListError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<BusinessKnowledgeDocumentsSearchListRequest>,
-  output: __S(227, __c28, 3) as any as S.Schema<BusinessKnowledgeDocumentsSearchListResponse>,
+  input: __S(280, __c35, 0) as any as S.Schema<BusinessKnowledgeDocumentsSearchListRequest>,
+  output: __S(283, __c35, 3) as any as S.Schema<BusinessKnowledgeDocumentsSearchListResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -621,8 +733,8 @@ export const businessKnowledgeGapSuggestionsAcceptCreate: API.OperationMethod<
   BusinessKnowledgeGapSuggestionsAcceptCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<BusinessKnowledgeGapSuggestionsAcceptCreateRequest>,
-  output: __S(240, __c30, 0) as any as S.Schema<KnowledgeGapSuggestion>,
+  input: __S(296, __c37, 0) as any as S.Schema<BusinessKnowledgeGapSuggestionsAcceptCreateRequest>,
+  output: __S(304, __c38, 0) as any as S.Schema<KnowledgeGapSuggestion>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -639,16 +751,33 @@ export const businessKnowledgeGapSuggestionsAcceptTopicCreate: API.OperationMeth
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    248,
-    __c31,
+    312,
+    __c39,
     0,
   ) as any as S.Schema<BusinessKnowledgeGapSuggestionsAcceptTopicCreateRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<GapTopicActionResult>,
+  output: __S(320, __c40, 0) as any as S.Schema<GapTopicActionResult>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BusinessKnowledgeGapSuggestionsAcceptTopicCreate",
+}));
+
+export type BusinessKnowledgeLibrariesDestroyError = PosthogOpError;
+/** Delete a business knowledge library Removes the library and its links. Sources, documents, and selected repositories stay. */
+export const businessKnowledgeLibrariesDestroy: API.OperationMethod<
+  BusinessKnowledgeLibrariesDestroyRequest,
+  BusinessKnowledgeLibrariesDestroyResponse,
+  BusinessKnowledgeLibrariesDestroyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(328, __c41, 0) as any as S.Schema<BusinessKnowledgeLibrariesDestroyRequest>,
+  output: __S(336, __c42, 0) as any as S.Schema<BusinessKnowledgeLibrariesDestroyResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BusinessKnowledgeLibrariesDestroy",
 }));
 
 export type BusinessKnowledgePlaygroundChatsDestroyError = PosthogOpError;
@@ -659,8 +788,8 @@ export const businessKnowledgePlaygroundChatsDestroy: API.OperationMethod<
   BusinessKnowledgePlaygroundChatsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<BusinessKnowledgePlaygroundChatsDestroyRequest>,
-  output: __S(272, __c34, 0) as any as S.Schema<BusinessKnowledgePlaygroundChatsDestroyResponse>,
+  input: __S(344, __c43, 0) as any as S.Schema<BusinessKnowledgePlaygroundChatsDestroyRequest>,
+  output: __S(336, __c42, 0) as any as S.Schema<BusinessKnowledgePlaygroundChatsDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -676,8 +805,8 @@ export const businessKnowledgeRepositoriesConnectCreate: API.OperationMethod<
   BusinessKnowledgeRepositoriesConnectCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<BusinessKnowledgeRepositoriesConnectCreateRequest>,
-  output: __S(289, __c36, 1) as any as S.Schema<RepositoryConnection>,
+  input: __S(352, __c44, 0) as any as S.Schema<BusinessKnowledgeRepositoriesConnectCreateRequest>,
+  output: __S(368, __c46, 0) as any as S.Schema<RepositoryConnection>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -693,12 +822,8 @@ export const businessKnowledgeRepositoriesDisconnectCreate: API.OperationMethod<
   BusinessKnowledgeRepositoriesDisconnectCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    296,
-    __c37,
-    0,
-  ) as any as S.Schema<BusinessKnowledgeRepositoriesDisconnectCreateRequest>,
-  output: __S(289, __c36, 1) as any as S.Schema<RepositoryConnection>,
+  input: __S(0, __c0, 0) as any as S.Schema<BusinessKnowledgeRepositoriesDisconnectCreateRequest>,
+  output: __S(368, __c46, 0) as any as S.Schema<RepositoryConnection>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -713,8 +838,8 @@ export const businessKnowledgeSourcesDestroy: API.OperationMethod<
   BusinessKnowledgeSourcesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<BusinessKnowledgeSourcesDestroyRequest>,
-  output: __S(272, __c34, 0) as any as S.Schema<BusinessKnowledgeSourcesDestroyResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<BusinessKnowledgeSourcesDestroyRequest>,
+  output: __S(336, __c42, 0) as any as S.Schema<BusinessKnowledgeSourcesDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -729,8 +854,8 @@ export const businessKnowledgeSourcesRefreshCreate: API.OperationMethod<
   BusinessKnowledgeSourcesRefreshCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<BusinessKnowledgeSourcesRefreshCreateRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<KnowledgeSource>,
+  input: __S(16, __c2, 0) as any as S.Schema<BusinessKnowledgeSourcesRefreshCreateRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<KnowledgeSource>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -746,8 +871,8 @@ export const createBusinessKnowledgeGapSuggestionsDismiss: API.OperationMethod<
   CreateBusinessKnowledgeGapSuggestionsDismissError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<CreateBusinessKnowledgeGapSuggestionsDismissRequest>,
-  output: __S(240, __c30, 0) as any as S.Schema<KnowledgeGapSuggestion>,
+  input: __S(32, __c4, 0) as any as S.Schema<CreateBusinessKnowledgeGapSuggestionsDismissRequest>,
+  output: __S(304, __c38, 0) as any as S.Schema<KnowledgeGapSuggestion>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -764,16 +889,50 @@ export const createBusinessKnowledgeGapSuggestionsDismissTopic: API.OperationMet
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    32,
-    __c4,
+    40,
+    __c5,
     0,
   ) as any as S.Schema<CreateBusinessKnowledgeGapSuggestionsDismissTopicRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<GapTopicActionResult>,
+  output: __S(320, __c40, 0) as any as S.Schema<GapTopicActionResult>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateBusinessKnowledgeGapSuggestionsDismissTopic",
+}));
+
+export type CreateBusinessKnowledgeLearningBackfillError = BadRequest | PosthogOpError;
+/** Learn from past support tickets Start learning from resolved support tickets of the last 90 days. Tickets that were already analyzed are skipped. The work runs in the background in small batches and can take a few hours. */
+export const createBusinessKnowledgeLearningBackfill: API.OperationMethod<
+  CreateBusinessKnowledgeLearningBackfillRequest,
+  BusinessKnowledgeSettings,
+  CreateBusinessKnowledgeLearningBackfillError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(48, __c6, 0) as any as S.Schema<CreateBusinessKnowledgeLearningBackfillRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<BusinessKnowledgeSettings>,
+  errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBusinessKnowledgeLearningBackfill",
+}));
+
+export type CreateBusinessKnowledgeLibraryError = PosthogOpError;
+/** Create a business knowledge library */
+export const createBusinessKnowledgeLibrary: API.OperationMethod<
+  CreateBusinessKnowledgeLibraryRequest,
+  KnowledgeLibrary,
+  CreateBusinessKnowledgeLibraryError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(64, __c8, 0) as any as S.Schema<CreateBusinessKnowledgeLibraryRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<KnowledgeLibrary>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBusinessKnowledgeLibrary",
 }));
 
 export type CreateBusinessKnowledgePlaygroundChatError = PosthogOpError;
@@ -784,8 +943,8 @@ export const createBusinessKnowledgePlaygroundChat: API.OperationMethod<
   CreateBusinessKnowledgePlaygroundChatError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<CreateBusinessKnowledgePlaygroundChatRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<PlaygroundChat>,
+  input: __S(80, __c10, 0) as any as S.Schema<CreateBusinessKnowledgePlaygroundChatRequest>,
+  output: __S(90, __c11, 2) as any as S.Schema<PlaygroundChat>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -801,8 +960,8 @@ export const createBusinessKnowledgePlaygroundChatsAsk: API.OperationMethod<
   CreateBusinessKnowledgePlaygroundChatsAskError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<CreateBusinessKnowledgePlaygroundChatsAskRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<PlaygroundChat>,
+  input: __S(104, __c13, 0) as any as S.Schema<CreateBusinessKnowledgePlaygroundChatsAskRequest>,
+  output: __S(90, __c11, 2) as any as S.Schema<PlaygroundChat>,
   errors: [Forbidden, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -818,8 +977,8 @@ export const createBusinessKnowledgeRepositoriesSelection: API.OperationMethod<
   CreateBusinessKnowledgeRepositoriesSelectionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<CreateBusinessKnowledgeRepositoriesSelectionRequest>,
-  output: __S(289, __c36, 1) as any as S.Schema<RepositoryConnection>,
+  input: __S(112, __c14, 0) as any as S.Schema<CreateBusinessKnowledgeRepositoriesSelectionRequest>,
+  output: __S(368, __c46, 0) as any as S.Schema<RepositoryConnection>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -835,8 +994,8 @@ export const createBusinessKnowledgeSandbox: API.OperationMethod<
   CreateBusinessKnowledgeSandboxError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<CreateBusinessKnowledgeSandboxRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<SandboxRunStarted>,
+  input: __S(120, __c15, 0) as any as S.Schema<CreateBusinessKnowledgeSandboxRequest>,
+  output: __S(121, __c15, 1) as any as S.Schema<SandboxRunStarted>,
   errors: [Forbidden, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -851,13 +1010,30 @@ export const createBusinessKnowledgeSource: API.OperationMethod<
   CreateBusinessKnowledgeSourceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<CreateBusinessKnowledgeSourceRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<KnowledgeSource>,
+  input: __S(128, __c16, 0) as any as S.Schema<CreateBusinessKnowledgeSourceRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<KnowledgeSource>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateBusinessKnowledgeSource",
+}));
+
+export type GetBusinessKnowledgeLibraryError = PosthogOpError;
+/** Get a business knowledge library */
+export const getBusinessKnowledgeLibrary: API.OperationMethod<
+  GetBusinessKnowledgeLibraryRequest,
+  KnowledgeLibrary,
+  GetBusinessKnowledgeLibraryError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(136, __c17, 0) as any as S.Schema<GetBusinessKnowledgeLibraryRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<KnowledgeLibrary>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBusinessKnowledgeLibrary",
 }));
 
 export type GetBusinessKnowledgePlaygroundChatError = NotFound | PosthogOpError;
@@ -868,8 +1044,8 @@ export const getBusinessKnowledgePlaygroundChat: API.OperationMethod<
   GetBusinessKnowledgePlaygroundChatError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetBusinessKnowledgePlaygroundChatRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<PlaygroundChat>,
+  input: __S(144, __c18, 0) as any as S.Schema<GetBusinessKnowledgePlaygroundChatRequest>,
+  output: __S(90, __c11, 2) as any as S.Schema<PlaygroundChat>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -885,8 +1061,8 @@ export const getBusinessKnowledgeRepositoriesFile: API.OperationMethod<
   GetBusinessKnowledgeRepositoriesFileError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetBusinessKnowledgeRepositoriesFileRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<RepositoryFile>,
+  input: __S(152, __c19, 0) as any as S.Schema<GetBusinessKnowledgeRepositoriesFileRequest>,
+  output: __S(153, __c19, 1) as any as S.Schema<RepositoryFile>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -902,8 +1078,8 @@ export const getBusinessKnowledgeRepositoriesStatus: API.OperationMethod<
   GetBusinessKnowledgeRepositoriesStatusError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetBusinessKnowledgeRepositoriesStatusRequest>,
-  output: __S(289, __c36, 1) as any as S.Schema<RepositoryConnection>,
+  input: __S(160, __c20, 0) as any as S.Schema<GetBusinessKnowledgeRepositoriesStatusRequest>,
+  output: __S(368, __c46, 0) as any as S.Schema<RepositoryConnection>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -919,8 +1095,8 @@ export const getBusinessKnowledgeSandbox: API.OperationMethod<
   GetBusinessKnowledgeSandboxError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetBusinessKnowledgeSandboxRequest>,
-  output: __S(60, __c7, 4) as any as S.Schema<SandboxRun>,
+  input: __S(168, __c21, 0) as any as S.Schema<GetBusinessKnowledgeSandboxRequest>,
+  output: __S(100, __c12, 4) as any as S.Schema<SandboxRun>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -936,8 +1112,8 @@ export const getBusinessKnowledgeSettings: API.OperationMethod<
   GetBusinessKnowledgeSettingsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetBusinessKnowledgeSettingsRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<BusinessKnowledgeSettings>,
+  input: __S(176, __c22, 0) as any as S.Schema<GetBusinessKnowledgeSettingsRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<BusinessKnowledgeSettings>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -952,13 +1128,30 @@ export const getBusinessKnowledgeSource: API.OperationMethod<
   GetBusinessKnowledgeSourceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetBusinessKnowledgeSourceRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<KnowledgeSource>,
+  input: __S(184, __c23, 0) as any as S.Schema<GetBusinessKnowledgeSourceRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<KnowledgeSource>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBusinessKnowledgeSource",
+}));
+
+export type GetBusinessKnowledgeSourcesAvailabilityError = PosthogOpError;
+/** Check whether business knowledge has content Whether the project has any source and whether this environment has any selected GitHub repository. */
+export const getBusinessKnowledgeSourcesAvailability: API.OperationMethod<
+  GetBusinessKnowledgeSourcesAvailabilityRequest,
+  KnowledgeAvailability,
+  GetBusinessKnowledgeSourcesAvailabilityError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(192, __c24, 0) as any as S.Schema<GetBusinessKnowledgeSourcesAvailabilityRequest>,
+  output: __S(193, __c24, 1) as any as S.Schema<KnowledgeAvailability>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBusinessKnowledgeSourcesAvailability",
 }));
 
 export type GetBusinessKnowledgeSourcesTextError = PosthogOpError;
@@ -968,8 +1161,8 @@ export const getBusinessKnowledgeSourcesText: API.OperationMethod<
   GetBusinessKnowledgeSourcesTextError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetBusinessKnowledgeSourcesTextRequest>,
-  output: __S(153, __c19, 1) as any as S.Schema<GetBusinessKnowledgeSourcesTextResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<GetBusinessKnowledgeSourcesTextRequest>,
+  output: __S(201, __c25, 1) as any as S.Schema<GetBusinessKnowledgeSourcesTextResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -985,8 +1178,8 @@ export const listBusinessKnowledgeDocumentsWindow: API.OperationMethod<
   ListBusinessKnowledgeDocumentsWindowError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<ListBusinessKnowledgeDocumentsWindowRequest>,
-  output: __S(163, __c20, 3) as any as S.Schema<ListBusinessKnowledgeDocumentsWindowResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<ListBusinessKnowledgeDocumentsWindowRequest>,
+  output: __S(211, __c26, 3) as any as S.Schema<ListBusinessKnowledgeDocumentsWindowResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1002,8 +1195,8 @@ export const listBusinessKnowledgeGapSuggestions: API.OperationMethod<
   ListBusinessKnowledgeGapSuggestionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<ListBusinessKnowledgeGapSuggestionsRequest>,
-  output: __S(170, __c21, 2) as any as S.Schema<PaginatedKnowledgeGapSuggestionList>,
+  input: __S(216, __c27, 0) as any as S.Schema<ListBusinessKnowledgeGapSuggestionsRequest>,
+  output: __S(218, __c27, 2) as any as S.Schema<PaginatedKnowledgeGapSuggestionList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1011,16 +1204,33 @@ export const listBusinessKnowledgeGapSuggestions: API.OperationMethod<
   span: "ListBusinessKnowledgeGapSuggestions",
 }));
 
+export type ListBusinessKnowledgeLibrariesError = PosthogOpError;
+/** List business knowledge libraries Libraries in this project. The default library is first. */
+export const listBusinessKnowledgeLibraries: API.OperationMethod<
+  ListBusinessKnowledgeLibrariesRequest,
+  ListBusinessKnowledgeLibrariesResponse,
+  ListBusinessKnowledgeLibrariesError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(224, __c28, 0) as any as S.Schema<ListBusinessKnowledgeLibrariesRequest>,
+  output: __S(226, __c28, 2) as any as S.Schema<ListBusinessKnowledgeLibrariesResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBusinessKnowledgeLibraries",
+}));
+
 export type ListBusinessKnowledgePlaygroundChatsError = PosthogOpError;
 /** List business knowledge playground chats Chats started by the current user in this project. */
 export const listBusinessKnowledgePlaygroundChats: API.OperationMethod<
   ListBusinessKnowledgePlaygroundChatsRequest,
-  ListBusinessKnowledgePlaygroundChatsResponse,
+  PaginatedPlaygroundChatListList,
   ListBusinessKnowledgePlaygroundChatsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<ListBusinessKnowledgePlaygroundChatsRequest>,
-  output: __S(179, __c22, 3) as any as S.Schema<ListBusinessKnowledgePlaygroundChatsResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<ListBusinessKnowledgePlaygroundChatsRequest>,
+  output: __S(235, __c29, 3) as any as S.Schema<PaginatedPlaygroundChatListList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1035,8 +1245,8 @@ export const listBusinessKnowledgeSources: API.OperationMethod<
   ListBusinessKnowledgeSourcesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<ListBusinessKnowledgeSourcesRequest>,
-  output: __S(186, __c23, 2) as any as S.Schema<PaginatedKnowledgeSourceList>,
+  input: __S(240, __c30, 0) as any as S.Schema<ListBusinessKnowledgeSourcesRequest>,
+  output: __S(242, __c30, 2) as any as S.Schema<PaginatedKnowledgeSourceList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1051,8 +1261,8 @@ export const listBusinessKnowledgeSourcesDocuments: API.OperationMethod<
   ListBusinessKnowledgeSourcesDocumentsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<ListBusinessKnowledgeSourcesDocumentsRequest>,
-  output: __S(195, __c24, 3) as any as S.Schema<PaginatedKnowledgeSourceDocumentList>,
+  input: __S(248, __c31, 0) as any as S.Schema<ListBusinessKnowledgeSourcesDocumentsRequest>,
+  output: __S(251, __c31, 3) as any as S.Schema<PaginatedKnowledgeSourceDocumentList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1068,13 +1278,30 @@ export const searchBusinessKnowledgeRepository: API.OperationMethod<
   SearchBusinessKnowledgeRepositoryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<SearchBusinessKnowledgeRepositoryRequest>,
-  output: __S(205, __c25, 5) as any as S.Schema<RepositorySearchResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<SearchBusinessKnowledgeRepositoryRequest>,
+  output: __S(261, __c32, 5) as any as S.Schema<RepositorySearchResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchBusinessKnowledgeRepository",
+}));
+
+export type UpdateBusinessKnowledgeLibrariesPartialError = PosthogOpError;
+/** Rename a library or replace its sources and repositories Send only the fields you want to change. `source_ids` replaces every source in the library. `repos` replaces this environment's repositories and leaves repositories that only another environment allows. */
+export const updateBusinessKnowledgeLibrariesPartial: API.OperationMethod<
+  UpdateBusinessKnowledgeLibrariesPartialRequest,
+  KnowledgeLibrary,
+  UpdateBusinessKnowledgeLibrariesPartialError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(264, __c33, 0) as any as S.Schema<UpdateBusinessKnowledgeLibrariesPartialRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<KnowledgeLibrary>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBusinessKnowledgeLibrariesPartial",
 }));
 
 export type UpdateBusinessKnowledgeSettingsPartialError = BadRequest | PosthogOpError;
@@ -1085,8 +1312,8 @@ export const updateBusinessKnowledgeSettingsPartial: API.OperationMethod<
   UpdateBusinessKnowledgeSettingsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<UpdateBusinessKnowledgeSettingsPartialRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<BusinessKnowledgeSettings>,
+  input: __S(272, __c34, 0) as any as S.Schema<UpdateBusinessKnowledgeSettingsPartialRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<BusinessKnowledgeSettings>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1101,8 +1328,8 @@ export const updateBusinessKnowledgeSourcesPartial: API.OperationMethod<
   UpdateBusinessKnowledgeSourcesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<UpdateBusinessKnowledgeSourcesPartialRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<KnowledgeSource>,
+  input: __S(288, __c36, 0) as any as S.Schema<UpdateBusinessKnowledgeSourcesPartialRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<KnowledgeSource>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1112,6 +1339,22 @@ export const updateBusinessKnowledgeSourcesPartial: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/business_knowledge/repositories/disconnect/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "BusinessKnowledgeRepositoriesDisconnectCreateRequest" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1128,7 +1371,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "BusinessKnowledgeSourcesDestroyRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1145,7 +1388,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "BusinessKnowledgeSourcesRefreshCreateRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1177,11 +1420,12 @@ function __c2(j: number): any {
           file_content_type: S.String,
           file_size_bytes: S.NullOr(S.Number),
           always_include: S.Boolean,
+          library_ids: __S(360, __c45, 0),
         }),
       ).annotate({ identifier: "KnowledgeSource" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1198,7 +1442,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateBusinessKnowledgeGapSuggestionsDismissRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1216,7 +1460,77 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateBusinessKnowledgeGapSuggestionsDismissTopicRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/business_knowledge/learning_backfill/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateBusinessKnowledgeLearningBackfillRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          started_at: S.String,
+          finished_at: S.NullOr(S.String),
+          tickets_read: S.Number,
+          tickets_in_progress: S.Number,
+          knowledge_created: S.Number,
+        }),
+      ).annotate({ identifier: "LearningBackfillProgress" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          learn_from_support_enabled: S.Boolean,
+          support_enabled: S.Boolean,
+          learning_backfill: S.NullOr(__S(56, __c7, 0)),
+        }),
+      ).annotate({ identifier: "BusinessKnowledgeSettings" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          name: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/business_knowledge/libraries/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateBusinessKnowledgeLibraryRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          is_default: S.Boolean,
+          source_count: S.Number,
+          repos: __S(360, __c45, 0),
+        }),
+      ).annotate({ identifier: "KnowledgeLibrary" });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1232,7 +1546,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateBusinessKnowledgePlaygroundChatRequest" });
   }
 }
-function __c6(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1241,12 +1555,12 @@ function __c6(j: number): any {
           question: S.String,
           task_id: S.String,
           position: S.Number,
-          run: S.NullOr(__S(60, __c7, 4)),
+          run: S.NullOr(__S(100, __c12, 4)),
           error: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "PlaygroundTurn" });
     case 1:
-      return S.Array(__S(48, __c6, 0));
+      return S.Array(__S(88, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1255,12 +1569,12 @@ function __c6(j: number): any {
           created_at: S.String,
           updated_at: S.String,
           has_open_turn: S.Boolean,
-          turns: __S(49, __c6, 1),
+          turns: __S(89, __c11, 1),
         }),
       ).annotate({ identifier: "PlaygroundChat" });
   }
 }
-function __c7(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1270,7 +1584,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "SandboxSource" });
     case 1:
-      return S.Array(__S(56, __c7, 0));
+      return S.Array(__S(96, __c12, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1279,7 +1593,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "SandboxSearch" });
     case 3:
-      return S.Array(__S(58, __c7, 2));
+      return S.Array(__S(98, __c12, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1287,15 +1601,15 @@ function __c7(j: number): any {
           run_id: S.String,
           status: S.String,
           reply: S.NullOr(S.String),
-          sources: __S(57, __c7, 1),
-          searches: __S(59, __c7, 3),
+          sources: __S(97, __c12, 1),
+          searches: __S(99, __c12, 3),
           error: S.NullOr(S.String),
           docs_search_called: S.Boolean,
         }),
       ).annotate({ identifier: "SandboxRun" });
   }
 }
-function __c8(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1313,13 +1627,13 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateBusinessKnowledgePlaygroundChatsAskRequest" });
   }
 }
-function __c9(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          repos: __S(288, __c36, 0),
+          repos: __S(360, __c45, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1330,7 +1644,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateBusinessKnowledgeRepositoriesSelectionRequest" });
   }
 }
-function __c10(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1354,7 +1668,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "SandboxRunStarted" });
   }
 }
-function __c11(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1373,7 +1687,24 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateBusinessKnowledgeSourceRequest" });
   }
 }
-function __c12(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/business_knowledge/libraries/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetBusinessKnowledgeLibraryRequest" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1390,12 +1721,13 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetBusinessKnowledgePlaygroundChatRequest" });
   }
 }
-function __c13(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          library_id: S.optional(S.String.pipe(T.Query())),
           path: S.String.pipe(T.Query()),
           repo: S.String.pipe(T.Query()),
         }).pipe(
@@ -1418,7 +1750,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "RepositoryFile" });
   }
 }
-function __c14(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1434,7 +1766,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetBusinessKnowledgeRepositoriesStatusRequest" });
   }
 }
-function __c15(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1451,7 +1783,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetBusinessKnowledgeSandboxRequest" });
   }
 }
-function __c16(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1467,18 +1799,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetBusinessKnowledgeSettingsRequest" });
   }
 }
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          learn_from_support_enabled: S.Boolean,
-          support_enabled: S.Boolean,
-        }),
-      ).annotate({ identifier: "BusinessKnowledgeSettings" });
-  }
-}
-function __c18(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1495,7 +1816,30 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetBusinessKnowledgeSourceRequest" });
   }
 }
-function __c19(j: number): any {
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/business_knowledge/sources/availability/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetBusinessKnowledgeSourcesAvailabilityRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          has_sources: S.Boolean,
+          has_repositories: S.Boolean,
+        }),
+      ).annotate({ identifier: "KnowledgeAvailability" });
+  }
+}
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1518,7 +1862,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetBusinessKnowledgeSourcesTextResponse" });
   }
 }
-function __c20(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1548,14 +1892,14 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "KnowledgeDocumentWindow" });
     case 2:
-      return S.Array(__S(161, __c20, 1));
+      return S.Array(__S(209, __c26, 1));
     case 3:
-      return S.suspend(() => __S(162, __c20, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(210, __c26, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListBusinessKnowledgeDocumentsWindowResponse",
       });
   }
 }
-function __c21(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1573,24 +1917,48 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "ListBusinessKnowledgeGapSuggestionsRequest" });
     case 1:
-      return S.Array(__S(240, __c30, 0));
+      return S.Array(__S(304, __c38, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(169, __c21, 1),
+          results: __S(217, __c27, 1),
         }),
       ).annotate({ identifier: "PaginatedKnowledgeGapSuggestionList" });
   }
 }
-function __c22(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/business_knowledge/libraries/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListBusinessKnowledgeLibrariesRequest" });
+    case 1:
+      return S.Array(__S(72, __c9, 0));
+    case 2:
+      return S.suspend(() => __S(225, __c28, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListBusinessKnowledgeLibrariesResponse",
+      });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1610,24 +1978,31 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "PlaygroundChatList" });
     case 2:
-      return S.Array(__S(177, __c22, 1));
+      return S.Array(__S(233, __c29, 1));
     case 3:
-      return S.suspend(() => __S(178, __c22, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListBusinessKnowledgePlaygroundChatsResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          results: __S(234, __c29, 2),
+        }),
+      ).annotate({ identifier: "PaginatedPlaygroundChatListList" });
   }
 }
-function __c23(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           added_by: S.optional(S.String.pipe(T.Query())),
+          library_id: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           source_type: S.optional(S.String.pipe(T.Query())),
+          unfiled: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1637,19 +2012,19 @@ function __c23(j: number): any {
         ),
       ).annotate({ identifier: "ListBusinessKnowledgeSourcesRequest" });
     case 1:
-      return S.Array(__S(16, __c2, 0));
+      return S.Array(__S(24, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(185, __c23, 1),
+          results: __S(241, __c30, 1),
         }),
       ).annotate({ identifier: "PaginatedKnowledgeSourceList" });
   }
 }
-function __c24(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1676,24 +2051,25 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "KnowledgeSourceDocument" });
     case 2:
-      return S.Array(__S(193, __c24, 1));
+      return S.Array(__S(249, __c31, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(194, __c24, 2),
+          results: __S(250, __c31, 2),
         }),
       ).annotate({ identifier: "PaginatedKnowledgeSourceDocumentList" });
   }
 }
-function __c25(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          library_id: S.optional(S.String.pipe(T.Query())),
           query: S.String.pipe(T.Query()),
           repo: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -1715,27 +2091,48 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "RepositorySearchHit" });
     case 2:
-      return S.Array(__S(201, __c25, 1));
+      return S.Array(__S(257, __c32, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           repo: S.String,
           tree_truncated: S.Boolean,
           cache_status: S.String,
+          description: S.String,
         }),
       ).annotate({ identifier: "RepositoryCacheState" });
     case 4:
-      return S.Array(__S(203, __c25, 3));
+      return S.Array(__S(259, __c32, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          results: __S(202, __c25, 2),
-          repositories: __S(204, __c25, 4),
+          results: __S(258, __c32, 2),
+          repositories: __S(260, __c32, 4),
         }),
       ).annotate({ identifier: "RepositorySearchResponse" });
   }
 }
-function __c26(j: number): any {
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          source_ids: S.optional(__S(360, __c45, 0)),
+          repos: S.optional(__S(360, __c45, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/business_knowledge/libraries/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateBusinessKnowledgeLibrariesPartialRequest" });
+  }
+}
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1752,32 +2149,13 @@ function __c26(j: number): any {
       ).annotate({ identifier: "UpdateBusinessKnowledgeSettingsPartialRequest" });
   }
 }
-function __c27(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          text: S.optional(S.String),
-          always_include: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/projects/{project_id}/business_knowledge/sources/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateBusinessKnowledgeSourcesPartialRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
+          library_id: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           query: S.String.pipe(T.Query()),
           rerank: S.optional(S.Boolean.pipe(T.Query())),
@@ -1806,14 +2184,35 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "KnowledgeSearchResult" });
     case 2:
-      return S.Array(__S(225, __c28, 1));
+      return S.Array(__S(281, __c35, 1));
     case 3:
-      return S.suspend(() => __S(226, __c28, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(282, __c35, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "BusinessKnowledgeDocumentsSearchListResponse",
       });
   }
 }
-function __c29(j: number): any {
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          text: S.optional(S.String),
+          always_include: S.optional(S.Boolean),
+          library_ids: S.optional(__S(360, __c45, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/business_knowledge/sources/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateBusinessKnowledgeSourcesPartialRequest" });
+  }
+}
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1831,7 +2230,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "BusinessKnowledgeGapSuggestionsAcceptCreateRequest" });
   }
 }
-function __c30(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1849,7 +2248,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "KnowledgeGapSuggestion" });
   }
 }
-function __c31(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1867,7 +2266,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "BusinessKnowledgeGapSuggestionsAcceptTopicCreateRequest" });
   }
 }
-function __c32(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1878,7 +2277,32 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GapTopicActionResult" });
   }
 }
-function __c33(j: number): any {
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/business_knowledge/libraries/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "BusinessKnowledgeLibrariesDestroyRequest" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "BusinessKnowledgeLibrariesDestroyResponse",
+      });
+  }
+}
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1895,15 +2319,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "BusinessKnowledgePlaygroundChatsDestroyRequest" });
   }
 }
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "BusinessKnowledgePlaygroundChatsDestroyResponse",
-      });
-  }
-}
-function __c35(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1920,35 +2336,23 @@ function __c35(j: number): any {
       ).annotate({ identifier: "BusinessKnowledgeRepositoriesConnectCreateRequest" });
   }
 }
-function __c36(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
-    case 1:
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           connected: S.Boolean,
           integration_id: S.NullOr(S.Number),
           integration_name: S.String,
-          repos: __S(288, __c36, 0),
+          repos: __S(360, __c45, 0),
         }),
       ).annotate({ identifier: "RepositoryConnection" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/business_knowledge/repositories/disconnect/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "BusinessKnowledgeRepositoriesDisconnectCreateRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

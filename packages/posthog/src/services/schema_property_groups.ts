@@ -51,8 +51,14 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** * `DateTime` - DateTime * `String` - String * `Numeric` - Numeric * `Boolean` - Boolean * `Object` - Object */
-export type SchemaPropertyTypeEnum = "DateTime" | "String" | "Numeric" | "Boolean" | "Object";
+/** * `DateTime` - DateTime * `String` - String * `Numeric` - Numeric * `Boolean` - Boolean * `Object` - Object * `Array` - Array */
+export type SchemaPropertyTypeEnum =
+  | "DateTime"
+  | "String"
+  | "Numeric"
+  | "Boolean"
+  | "Object"
+  | "Array";
 export interface SchemaPropertyGroupPropertyInput {
   name?: string;
   property_type?: SchemaPropertyTypeEnum | (string & {});

@@ -98,8 +98,10 @@ export interface CreateUsersOnboardingSkipRequest {
 }
 /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
 export type UserOutputNotificationSettingsMap = { [key: string]: unknown | undefined };
-/** * `data_catalog_weekly_digest` - data_catalog_weekly_digest * `discussions_mentioned` - discussions_mentioned * `error_tracking_issue_assigned` - error_tracking_issue_assigned * `error_tracking_weekly_digest_project_enabled` - error_tracking_weekly_digest_project_enabled * `materialized_view_sync_failed` - materialized_view_sync_failed * `materialized_view_sync_failed_daily` - materialized_view_sync_failed_daily * `materialized_view_sync_failed_immediate` - materialized_view_sync_failed_immediate * `organization_member_join_email_disabled` - organization_member_join_email_disabled * `pipeline_notifications_disabled` - pipeline_notifications_disabled * `project_weekly_digest_disabled` - project_weekly_digest_disabled * `web_analytics_weekly_digest_project_enabled` - web_analytics_weekly_digest_project_enabled */
+/** * `approval_requested` - approval_requested * `approval_resolved` - approval_resolved * `data_catalog_weekly_digest` - data_catalog_weekly_digest * `discussions_mentioned` - discussions_mentioned * `error_tracking_issue_assigned` - error_tracking_issue_assigned * `error_tracking_weekly_digest_project_enabled` - error_tracking_weekly_digest_project_enabled * `materialized_view_sync_failed` - materialized_view_sync_failed * `materialized_view_sync_failed_daily` - materialized_view_sync_failed_daily * `materialized_view_sync_failed_immediate` - materialized_view_sync_failed_immediate * `organization_member_join_email_disabled` - organization_member_join_email_disabled * `pipeline_notifications_disabled` - pipeline_notifications_disabled * `project_weekly_digest_disabled` - project_weekly_digest_disabled * `web_analytics_weekly_digest_project_enabled` - web_analytics_weekly_digest_project_enabled */
 export type SettingEnum =
+  | "approval_requested"
+  | "approval_resolved"
   | "data_catalog_weekly_digest"
   | "discussions_mentioned"
   | "error_tracking_issue_assigned"
@@ -112,7 +114,7 @@ export type SettingEnum =
   | "project_weekly_digest_disabled"
   | "web_analytics_weekly_digest_project_enabled";
 export interface OrganizationNotificationLock {
-  /** Notification setting this rule enforces. * `data_catalog_weekly_digest` - data_catalog_weekly_digest * `discussions_mentioned` - discussions_mentioned * `error_tracking_issue_assigned` - error_tracking_issue_assigned * `error_tracking_weekly_digest_project_enabled` - error_tracking_weekly_digest_project_enabled * `materialized_view_sync_failed` - materialized_view_sync_failed * `materialized_view_sync_failed_daily` - materialized_view_sync_failed_daily * `materialized_view_sync_failed_immediate` - materialized_view_sync_failed_immediate * `organization_member_join_email_disabled` - organization_member_join_email_disabled * `pipeline_notifications_disabled` - pipeline_notifications_disabled * `project_weekly_digest_disabled` - project_weekly_digest_disabled * `web_analytics_weekly_digest_project_enabled` - web_analytics_weekly_digest_project_enabled */
+  /** Notification setting this rule enforces. * `approval_requested` - approval_requested * `approval_resolved` - approval_resolved * `data_catalog_weekly_digest` - data_catalog_weekly_digest * `discussions_mentioned` - discussions_mentioned * `error_tracking_issue_assigned` - error_tracking_issue_assigned * `error_tracking_weekly_digest_project_enabled` - error_tracking_weekly_digest_project_enabled * `materialized_view_sync_failed` - materialized_view_sync_failed * `materialized_view_sync_failed_daily` - materialized_view_sync_failed_daily * `materialized_view_sync_failed_immediate` - materialized_view_sync_failed_immediate * `organization_member_join_email_disabled` - organization_member_join_email_disabled * `pipeline_notifications_disabled` - pipeline_notifications_disabled * `project_weekly_digest_disabled` - project_weekly_digest_disabled * `web_analytics_weekly_digest_project_enabled` - web_analytics_weekly_digest_project_enabled */
   setting: SettingEnum;
   /** What the setting applies to: a project ID or an organization ID. Empty for a setting that is a single switch. */
   scope_id: string;
@@ -125,7 +127,7 @@ export type UserOutputNotificationLocksList = Array<OrganizationNotificationLock
 export type ToolbarModeEnum = "disabled" | "toolbar";
 export type BlankEnum = "";
 export type UserOutputToolbarMode = ToolbarModeEnum | BlankEnum;
-/** * `Africa/Abidjan` - Africa/Abidjan * `Africa/Accra` - Africa/Accra * `Africa/Addis_Ababa` - Africa/Addis_Ababa * `Africa/Algiers` - Africa/Algiers * `Africa/Asmara` - Africa/Asmara * `Africa/Asmera` - Africa/Asmera * `Africa/Bamako` - Africa/Bamako * `Africa/Bangui` - Africa/Bangui * `Africa/Banjul` - Africa/Banjul * `Africa/Bissau` - Africa/Bissau * `Africa/Blantyre` - Africa/Blantyre * `Africa/Brazzaville` - Africa/Brazzaville * `Africa/Bujumbura` - Africa/Bujumbura * `Africa/Cairo` - Africa/Cairo * `Africa/Casablanca` - Africa/Casablanca * `Africa/Ceuta` - Africa/Ceuta * `Africa/Conakry` - Africa/Conakry * `Africa/Dakar` - Africa/Dakar * `Africa/Dar_es_Salaam` - Africa/Dar_es_Salaam * `Africa/Djibouti` - Africa/Djibouti * `Africa/Douala` - Africa/Douala * `Africa/El_Aaiun` - Africa/El_Aaiun * `Africa/Freetown` - Africa/Freetown * `Africa/Gaborone` - Africa/Gaborone * `Africa/Harare` - Africa/Harare * `Africa/Johannesburg` - Africa/Johannesburg * `Africa/Juba` - Africa/Juba * `Africa/Kampala` - Africa/Kampala * `Africa/Khartoum` - Africa/Khartoum * `Africa/Kigali` - Africa/Kigali * `Africa/Kinshasa` - Africa/Kinshasa * `Africa/Lagos` - Africa/Lagos * `Africa/Libreville` - Africa/Libreville * `Africa/Lome` - Africa/Lome * `Africa/Luanda` - Africa/Luanda * `Africa/Lubumbashi` - Africa/Lubumbashi * `Africa/Lusaka` - Africa/Lusaka * `Africa/Malabo` - Africa/Malabo * `Africa/Maputo` - Africa/Maputo * `Africa/Maseru` - Africa/Maseru * `Africa/Mbabane` - Africa/Mbabane * `Africa/Mogadishu` - Africa/Mogadishu * `Africa/Monrovia` - Africa/Monrovia * `Africa/Nairobi` - Africa/Nairobi * `Africa/Ndjamena` - Africa/Ndjamena * `Africa/Niamey` - Africa/Niamey * `Africa/Nouakchott` - Africa/Nouakchott * `Africa/Ouagadougou` - Africa/Ouagadougou * `Africa/Porto-Novo` - Africa/Porto-Novo * `Africa/Sao_Tome` - Africa/Sao_Tome * `Africa/Timbuktu` - Africa/Timbuktu * `Africa/Tripoli` - Africa/Tripoli * `Africa/Tunis` - Africa/Tunis * `Africa/Windhoek` - Africa/Windhoek * `America/Adak` - America/Adak * `America/Anchorage` - America/Anchorage * `America/Anguilla` - America/Anguilla * `America/Antigua` - America/Antigua * `America/Araguaina` - America/Araguaina * `America/Argentina/Buenos_Aires` - America/Argentina/Buenos_Aires * `America/Argentina/Catamarca` - America/Argentina/Catamarca * `America/Argentina/ComodRivadavia` - America/Argentina/ComodRivadavia * `America/Argentina/Cordoba` - America/Argentina/Cordoba * `America/Argentina/Jujuy` - America/Argentina/Jujuy * `America/Argentina/La_Rioja` - America/Argentina/La_Rioja * `America/Argentina/Mendoza` - America/Argentina/Mendoza * `America/Argentina/Rio_Gallegos` - America/Argentina/Rio_Gallegos * `America/Argentina/Salta` - America/Argentina/Salta * `America/Argentina/San_Juan` - America/Argentina/San_Juan * `America/Argentina/San_Luis` - America/Argentina/San_Luis * `America/Argentina/Tucuman` - America/Argentina/Tucuman * `America/Argentina/Ushuaia` - America/Argentina/Ushuaia * `America/Aruba` - America/Aruba * `America/Asuncion` - America/Asuncion * `America/Atikokan` - America/Atikokan * `America/Atka` - America/Atka * `America/Bahia` - America/Bahia * `America/Bahia_Banderas` - America/Bahia_Banderas * `America/Barbados` - America/Barbados * `America/Belem` - America/Belem * `America/Belize` - America/Belize * `America/Blanc-Sablon` - America/Blanc-Sablon * `America/Boa_Vista` - America/Boa_Vista * `America/Bogota` - America/Bogota * `America/Boise` - America/Boise * `America/Buenos_Aires` - America/Buenos_Aires * `America/Cambridge_Bay` - America/Cambridge_Bay * `America/Campo_Grande` - America/Campo_Grande * `America/Cancun` - America/Cancun * `America/Caracas` - America/Caracas * `America/Catamarca` - America/Catamarca * `America/Cayenne` - America/Cayenne * `America/Cayman` - America/Cayman * `America/Chicago` - America/Chicago * `America/Chihuahua` - America/Chihuahua * `America/Ciudad_Juarez` - America/Ciudad_Juarez * `America/Coral_Harbour` - America/Coral_Harbour * `America/Cordoba` - America/Cordoba * `America/Costa_Rica` - America/Costa_Rica * `America/Creston` - America/Creston * `America/Cuiaba` - America/Cuiaba * `America/Curacao` - America/Curacao * `America/Danmarkshavn` - America/Danmarkshavn * `America/Dawson` - America/Dawson * `America/Dawson_Creek` - America/Dawson_Creek * `America/Denver` - America/Denver * `America/Detroit` - America/Detroit * `America/Dominica` - America/Dominica * `America/Edmonton` - America/Edmonton * `America/Eirunepe` - America/Eirunepe * `America/El_Salvador` - America/El_Salvador * `America/Ensenada` - America/Ensenada * `America/Fort_Nelson` - America/Fort_Nelson * `America/Fort_Wayne` - America/Fort_Wayne * `America/Fortaleza` - America/Fortaleza * `America/Glace_Bay` - America/Glace_Bay * `America/Godthab` - America/Godthab * `America/Goose_Bay` - America/Goose_Bay * `America/Grand_Turk` - America/Grand_Turk * `America/Grenada` - America/Grenada * `America/Guadeloupe` - America/Guadeloupe * `America/Guatemala` - America/Guatemala * `America/Guayaquil` - America/Guayaquil * `America/Guyana` - America/Guyana * `America/Halifax` - America/Halifax * `America/Havana` - America/Havana * `America/Hermosillo` - America/Hermosillo * `America/Indiana/Indianapolis` - America/Indiana/Indianapolis * `America/Indiana/Knox` - America/Indiana/Knox * `America/Indiana/Marengo` - America/Indiana/Marengo * `America/Indiana/Petersburg` - America/Indiana/Petersburg * `America/Indiana/Tell_City` - America/Indiana/Tell_City * `America/Indiana/Vevay` - America/Indiana/Vevay * `America/Indiana/Vincennes` - America/Indiana/Vincennes * `America/Indiana/Winamac` - America/Indiana/Winamac * `America/Indianapolis` - America/Indianapolis * `America/Inuvik` - America/Inuvik * `America/Iqaluit` - America/Iqaluit * `America/Jamaica` - America/Jamaica * `America/Jujuy` - America/Jujuy * `America/Juneau` - America/Juneau * `America/Kentucky/Louisville` - America/Kentucky/Louisville * `America/Kentucky/Monticello` - America/Kentucky/Monticello * `America/Knox_IN` - America/Knox_IN * `America/Kralendijk` - America/Kralendijk * `America/La_Paz` - America/La_Paz * `America/Lima` - America/Lima * `America/Los_Angeles` - America/Los_Angeles * `America/Louisville` - America/Louisville * `America/Lower_Princes` - America/Lower_Princes * `America/Maceio` - America/Maceio * `America/Managua` - America/Managua * `America/Manaus` - America/Manaus * `America/Marigot` - America/Marigot * `America/Martinique` - America/Martinique * `America/Matamoros` - America/Matamoros * `America/Mazatlan` - America/Mazatlan * `America/Mendoza` - America/Mendoza * `America/Menominee` - America/Menominee * `America/Merida` - America/Merida * `America/Metlakatla` - America/Metlakatla * `America/Mexico_City` - America/Mexico_City * `America/Miquelon` - America/Miquelon * `America/Moncton` - America/Moncton * `America/Monterrey` - America/Monterrey * `America/Montevideo` - America/Montevideo * `America/Montreal` - America/Montreal * `America/Montserrat` - America/Montserrat * `America/Nassau` - America/Nassau * `America/New_York` - America/New_York * `America/Nipigon` - America/Nipigon * `America/Nome` - America/Nome * `America/Noronha` - America/Noronha * `America/North_Dakota/Beulah` - America/North_Dakota/Beulah * `America/North_Dakota/Center` - America/North_Dakota/Center * `America/North_Dakota/New_Salem` - America/North_Dakota/New_Salem * `America/Nuuk` - America/Nuuk * `America/Ojinaga` - America/Ojinaga * `America/Panama` - America/Panama * `America/Pangnirtung` - America/Pangnirtung * `America/Paramaribo` - America/Paramaribo * `America/Phoenix` - America/Phoenix * `America/Port-au-Prince` - America/Port-au-Prince * `America/Port_of_Spain` - America/Port_of_Spain * `America/Porto_Acre` - America/Porto_Acre * `America/Porto_Velho` - America/Porto_Velho * `America/Puerto_Rico` - America/Puerto_Rico * `America/Punta_Arenas` - America/Punta_Arenas * `America/Rainy_River` - America/Rainy_River * `America/Rankin_Inlet` - America/Rankin_Inlet * `America/Recife` - America/Recife * `America/Regina` - America/Regina * `America/Resolute` - America/Resolute * `America/Rio_Branco` - America/Rio_Branco * `America/Rosario` - America/Rosario * `America/Santa_Isabel` - America/Santa_Isabel * `America/Santarem` - America/Santarem * `America/Santiago` - America/Santiago * `America/Santo_Domingo` - America/Santo_Domingo * `America/Sao_Paulo` - America/Sao_Paulo * `America/Scoresbysund` - America/Scoresbysund * `America/Shiprock` - America/Shiprock * `America/Sitka` - America/Sitka * `America/St_Barthelemy` - America/St_Barthelemy * `America/St_Johns` - America/St_Johns * `America/St_Kitts` - America/St_Kitts * `America/St_Lucia` - America/St_Lucia * `America/St_Thomas` - America/St_Thomas * `America/St_Vincent` - America/St_Vincent * `America/Swift_Current` - America/Swift_Current * `America/Tegucigalpa` - America/Tegucigalpa * `America/Thule` - America/Thule * `America/Thunder_Bay` - America/Thunder_Bay * `America/Tijuana` - America/Tijuana * `America/Toronto` - America/Toronto * `America/Tortola` - America/Tortola * `America/Vancouver` - America/Vancouver * `America/Virgin` - America/Virgin * `America/Whitehorse` - America/Whitehorse * `America/Winnipeg` - America/Winnipeg * `America/Yakutat` - America/Yakutat * `America/Yellowknife` - America/Yellowknife * `Antarctica/Casey` - Antarctica/Casey * `Antarctica/Davis` - Antarctica/Davis * `Antarctica/DumontDUrville` - Antarctica/DumontDUrville * `Antarctica/Macquarie` - Antarctica/Macquarie * `Antarctica/Mawson` - Antarctica/Mawson * `Antarctica/McMurdo` - Antarctica/McMurdo * `Antarctica/Palmer` - Antarctica/Palmer * `Antarctica/Rothera` - Antarctica/Rothera * `Antarctica/South_Pole` - Antarctica/South_Pole * `Antarctica/Syowa` - Antarctica/Syowa * `Antarctica/Troll` - Antarctica/Troll * `Antarctica/Vostok` - Antarctica/Vostok * `Arctic/Longyearbyen` - Arctic/Longyearbyen * `Asia/Aden` - Asia/Aden * `Asia/Almaty` - Asia/Almaty * `Asia/Amman` - Asia/Amman * `Asia/Anadyr` - Asia/Anadyr * `Asia/Aqtau` - Asia/Aqtau * `Asia/Aqtobe` - Asia/Aqtobe * `Asia/Ashgabat` - Asia/Ashgabat * `Asia/Ashkhabad` - Asia/Ashkhabad * `Asia/Atyrau` - Asia/Atyrau * `Asia/Baghdad` - Asia/Baghdad * `Asia/Bahrain` - Asia/Bahrain * `Asia/Baku` - Asia/Baku * `Asia/Bangkok` - Asia/Bangkok * `Asia/Barnaul` - Asia/Barnaul * `Asia/Beirut` - Asia/Beirut * `Asia/Bishkek` - Asia/Bishkek * `Asia/Brunei` - Asia/Brunei * `Asia/Calcutta` - Asia/Calcutta * `Asia/Chita` - Asia/Chita * `Asia/Choibalsan` - Asia/Choibalsan * `Asia/Chongqing` - Asia/Chongqing * `Asia/Chungking` - Asia/Chungking * `Asia/Colombo` - Asia/Colombo * `Asia/Dacca` - Asia/Dacca * `Asia/Damascus` - Asia/Damascus * `Asia/Dhaka` - Asia/Dhaka * `Asia/Dili` - Asia/Dili * `Asia/Dubai` - Asia/Dubai * `Asia/Dushanbe` - Asia/Dushanbe * `Asia/Famagusta` - Asia/Famagusta * `Asia/Gaza` - Asia/Gaza * `Asia/Harbin` - Asia/Harbin * `Asia/Hebron` - Asia/Hebron * `Asia/Ho_Chi_Minh` - Asia/Ho_Chi_Minh * `Asia/Hong_Kong` - Asia/Hong_Kong * `Asia/Hovd` - Asia/Hovd * `Asia/Irkutsk` - Asia/Irkutsk * `Asia/Istanbul` - Asia/Istanbul * `Asia/Jakarta` - Asia/Jakarta * `Asia/Jayapura` - Asia/Jayapura * `Asia/Jerusalem` - Asia/Jerusalem * `Asia/Kabul` - Asia/Kabul * `Asia/Kamchatka` - Asia/Kamchatka * `Asia/Karachi` - Asia/Karachi * `Asia/Kashgar` - Asia/Kashgar * `Asia/Kathmandu` - Asia/Kathmandu * `Asia/Katmandu` - Asia/Katmandu * `Asia/Khandyga` - Asia/Khandyga * `Asia/Kolkata` - Asia/Kolkata * `Asia/Krasnoyarsk` - Asia/Krasnoyarsk * `Asia/Kuala_Lumpur` - Asia/Kuala_Lumpur * `Asia/Kuching` - Asia/Kuching * `Asia/Kuwait` - Asia/Kuwait * `Asia/Macao` - Asia/Macao * `Asia/Macau` - Asia/Macau * `Asia/Magadan` - Asia/Magadan * `Asia/Makassar` - Asia/Makassar * `Asia/Manila` - Asia/Manila * `Asia/Muscat` - Asia/Muscat * `Asia/Nicosia` - Asia/Nicosia * `Asia/Novokuznetsk` - Asia/Novokuznetsk * `Asia/Novosibirsk` - Asia/Novosibirsk * `Asia/Omsk` - Asia/Omsk * `Asia/Oral` - Asia/Oral * `Asia/Phnom_Penh` - Asia/Phnom_Penh * `Asia/Pontianak` - Asia/Pontianak * `Asia/Pyongyang` - Asia/Pyongyang * `Asia/Qatar` - Asia/Qatar * `Asia/Qostanay` - Asia/Qostanay * `Asia/Qyzylorda` - Asia/Qyzylorda * `Asia/Rangoon` - Asia/Rangoon * `Asia/Riyadh` - Asia/Riyadh * `Asia/Saigon` - Asia/Saigon * `Asia/Sakhalin` - Asia/Sakhalin * `Asia/Samarkand` - Asia/Samarkand * `Asia/Seoul` - Asia/Seoul * `Asia/Shanghai` - Asia/Shanghai * `Asia/Singapore` - Asia/Singapore * `Asia/Srednekolymsk` - Asia/Srednekolymsk * `Asia/Taipei` - Asia/Taipei * `Asia/Tashkent` - Asia/Tashkent * `Asia/Tbilisi` - Asia/Tbilisi * `Asia/Tehran` - Asia/Tehran * `Asia/Tel_Aviv` - Asia/Tel_Aviv * `Asia/Thimbu` - Asia/Thimbu * `Asia/Thimphu` - Asia/Thimphu * `Asia/Tokyo` - Asia/Tokyo * `Asia/Tomsk` - Asia/Tomsk * `Asia/Ujung_Pandang` - Asia/Ujung_Pandang * `Asia/Ulaanbaatar` - Asia/Ulaanbaatar * `Asia/Ulan_Bator` - Asia/Ulan_Bator * `Asia/Urumqi` - Asia/Urumqi * `Asia/Ust-Nera` - Asia/Ust-Nera * `Asia/Vientiane` - Asia/Vientiane * `Asia/Vladivostok` - Asia/Vladivostok * `Asia/Yakutsk` - Asia/Yakutsk * `Asia/Yangon` - Asia/Yangon * `Asia/Yekaterinburg` - Asia/Yekaterinburg * `Asia/Yerevan` - Asia/Yerevan * `Atlantic/Azores` - Atlantic/Azores * `Atlantic/Bermuda` - Atlantic/Bermuda * `Atlantic/Canary` - Atlantic/Canary * `Atlantic/Cape_Verde` - Atlantic/Cape_Verde * `Atlantic/Faeroe` - Atlantic/Faeroe * `Atlantic/Faroe` - Atlantic/Faroe * `Atlantic/Jan_Mayen` - Atlantic/Jan_Mayen * `Atlantic/Madeira` - Atlantic/Madeira * `Atlantic/Reykjavik` - Atlantic/Reykjavik * `Atlantic/South_Georgia` - Atlantic/South_Georgia * `Atlantic/St_Helena` - Atlantic/St_Helena * `Atlantic/Stanley` - Atlantic/Stanley * `Australia/ACT` - Australia/ACT * `Australia/Adelaide` - Australia/Adelaide * `Australia/Brisbane` - Australia/Brisbane * `Australia/Broken_Hill` - Australia/Broken_Hill * `Australia/Canberra` - Australia/Canberra * `Australia/Currie` - Australia/Currie * `Australia/Darwin` - Australia/Darwin * `Australia/Eucla` - Australia/Eucla * `Australia/Hobart` - Australia/Hobart * `Australia/LHI` - Australia/LHI * `Australia/Lindeman` - Australia/Lindeman * `Australia/Lord_Howe` - Australia/Lord_Howe * `Australia/Melbourne` - Australia/Melbourne * `Australia/NSW` - Australia/NSW * `Australia/North` - Australia/North * `Australia/Perth` - Australia/Perth * `Australia/Queensland` - Australia/Queensland * `Australia/South` - Australia/South * `Australia/Sydney` - Australia/Sydney * `Australia/Tasmania` - Australia/Tasmania * `Australia/Victoria` - Australia/Victoria * `Australia/West` - Australia/West * `Australia/Yancowinna` - Australia/Yancowinna * `Brazil/Acre` - Brazil/Acre * `Brazil/DeNoronha` - Brazil/DeNoronha * `Brazil/East` - Brazil/East * `Brazil/West` - Brazil/West * `CET` - CET * `CST6CDT` - CST6CDT * `Canada/Atlantic` - Canada/Atlantic * `Canada/Central` - Canada/Central * `Canada/Eastern` - Canada/Eastern * `Canada/Mountain` - Canada/Mountain * `Canada/Newfoundland` - Canada/Newfoundland * `Canada/Pacific` - Canada/Pacific * `Canada/Saskatchewan` - Canada/Saskatchewan * `Canada/Yukon` - Canada/Yukon * `Chile/Continental` - Chile/Continental * `Chile/EasterIsland` - Chile/EasterIsland * `Cuba` - Cuba * `EET` - EET * `EST` - EST * `EST5EDT` - EST5EDT * `Egypt` - Egypt * `Eire` - Eire * `Etc/GMT` - Etc/GMT * `Etc/GMT+0` - Etc/GMT+0 * `Etc/GMT+1` - Etc/GMT+1 * `Etc/GMT+10` - Etc/GMT+10 * `Etc/GMT+11` - Etc/GMT+11 * `Etc/GMT+12` - Etc/GMT+12 * `Etc/GMT+2` - Etc/GMT+2 * `Etc/GMT+3` - Etc/GMT+3 * `Etc/GMT+4` - Etc/GMT+4 * `Etc/GMT+5` - Etc/GMT+5 * `Etc/GMT+6` - Etc/GMT+6 * `Etc/GMT+7` - Etc/GMT+7 * `Etc/GMT+8` - Etc/GMT+8 * `Etc/GMT+9` - Etc/GMT+9 * `Etc/GMT-0` - Etc/GMT-0 * `Etc/GMT-1` - Etc/GMT-1 * `Etc/GMT-10` - Etc/GMT-10 * `Etc/GMT-11` - Etc/GMT-11 * `Etc/GMT-12` - Etc/GMT-12 * `Etc/GMT-13` - Etc/GMT-13 * `Etc/GMT-14` - Etc/GMT-14 * `Etc/GMT-2` - Etc/GMT-2 * `Etc/GMT-3` - Etc/GMT-3 * `Etc/GMT-4` - Etc/GMT-4 * `Etc/GMT-5` - Etc/GMT-5 * `Etc/GMT-6` - Etc/GMT-6 * `Etc/GMT-7` - Etc/GMT-7 * `Etc/GMT-8` - Etc/GMT-8 * `Etc/GMT-9` - Etc/GMT-9 * `Etc/GMT0` - Etc/GMT0 * `Etc/Greenwich` - Etc/Greenwich * `Etc/UCT` - Etc/UCT * `Etc/UTC` - Etc/UTC * `Etc/Universal` - Etc/Universal * `Etc/Zulu` - Etc/Zulu * `Europe/Amsterdam` - Europe/Amsterdam * `Europe/Andorra` - Europe/Andorra * `Europe/Astrakhan` - Europe/Astrakhan * `Europe/Athens` - Europe/Athens * `Europe/Belfast` - Europe/Belfast * `Europe/Belgrade` - Europe/Belgrade * `Europe/Berlin` - Europe/Berlin * `Europe/Bratislava` - Europe/Bratislava * `Europe/Brussels` - Europe/Brussels * `Europe/Bucharest` - Europe/Bucharest * `Europe/Budapest` - Europe/Budapest * `Europe/Busingen` - Europe/Busingen * `Europe/Chisinau` - Europe/Chisinau * `Europe/Copenhagen` - Europe/Copenhagen * `Europe/Dublin` - Europe/Dublin * `Europe/Gibraltar` - Europe/Gibraltar * `Europe/Guernsey` - Europe/Guernsey * `Europe/Helsinki` - Europe/Helsinki * `Europe/Isle_of_Man` - Europe/Isle_of_Man * `Europe/Istanbul` - Europe/Istanbul * `Europe/Jersey` - Europe/Jersey * `Europe/Kaliningrad` - Europe/Kaliningrad * `Europe/Kiev` - Europe/Kiev * `Europe/Kirov` - Europe/Kirov * `Europe/Kyiv` - Europe/Kyiv * `Europe/Lisbon` - Europe/Lisbon * `Europe/Ljubljana` - Europe/Ljubljana * `Europe/London` - Europe/London * `Europe/Luxembourg` - Europe/Luxembourg * `Europe/Madrid` - Europe/Madrid * `Europe/Malta` - Europe/Malta * `Europe/Mariehamn` - Europe/Mariehamn * `Europe/Minsk` - Europe/Minsk * `Europe/Monaco` - Europe/Monaco * `Europe/Moscow` - Europe/Moscow * `Europe/Nicosia` - Europe/Nicosia * `Europe/Oslo` - Europe/Oslo * `Europe/Paris` - Europe/Paris * `Europe/Podgorica` - Europe/Podgorica * `Europe/Prague` - Europe/Prague * `Europe/Riga` - Europe/Riga * `Europe/Rome` - Europe/Rome * `Europe/Samara` - Europe/Samara * `Europe/San_Marino` - Europe/San_Marino * `Europe/Sarajevo` - Europe/Sarajevo * `Europe/Saratov` - Europe/Saratov * `Europe/Simferopol` - Europe/Simferopol * `Europe/Skopje` - Europe/Skopje * `Europe/Sofia` - Europe/Sofia * `Europe/Stockholm` - Europe/Stockholm * `Europe/Tallinn` - Europe/Tallinn * `Europe/Tirane` - Europe/Tirane * `Europe/Tiraspol` - Europe/Tiraspol * `Europe/Ulyanovsk` - Europe/Ulyanovsk * `Europe/Uzhgorod` - Europe/Uzhgorod * `Europe/Vaduz` - Europe/Vaduz * `Europe/Vatican` - Europe/Vatican * `Europe/Vienna` - Europe/Vienna * `Europe/Vilnius` - Europe/Vilnius * `Europe/Volgograd` - Europe/Volgograd * `Europe/Warsaw` - Europe/Warsaw * `Europe/Zagreb` - Europe/Zagreb * `Europe/Zaporozhye` - Europe/Zaporozhye * `Europe/Zurich` - Europe/Zurich * `GB` - GB * `GB-Eire` - GB-Eire * `GMT` - GMT * `GMT+0` - GMT+0 * `GMT-0` - GMT-0 * `GMT0` - GMT0 * `Greenwich` - Greenwich * `HST` - HST * `Hongkong` - Hongkong * `Iceland` - Iceland * `Indian/Antananarivo` - Indian/Antananarivo * `Indian/Chagos` - Indian/Chagos * `Indian/Christmas` - Indian/Christmas * `Indian/Cocos` - Indian/Cocos * `Indian/Comoro` - Indian/Comoro * `Indian/Kerguelen` - Indian/Kerguelen * `Indian/Mahe` - Indian/Mahe * `Indian/Maldives` - Indian/Maldives * `Indian/Mauritius` - Indian/Mauritius * `Indian/Mayotte` - Indian/Mayotte * `Indian/Reunion` - Indian/Reunion * `Iran` - Iran * `Israel` - Israel * `Jamaica` - Jamaica * `Japan` - Japan * `Kwajalein` - Kwajalein * `Libya` - Libya * `MET` - MET * `MST` - MST * `MST7MDT` - MST7MDT * `Mexico/BajaNorte` - Mexico/BajaNorte * `Mexico/BajaSur` - Mexico/BajaSur * `Mexico/General` - Mexico/General * `NZ` - NZ * `NZ-CHAT` - NZ-CHAT * `Navajo` - Navajo * `PRC` - PRC * `PST8PDT` - PST8PDT * `Pacific/Apia` - Pacific/Apia * `Pacific/Auckland` - Pacific/Auckland * `Pacific/Bougainville` - Pacific/Bougainville * `Pacific/Chatham` - Pacific/Chatham * `Pacific/Chuuk` - Pacific/Chuuk * `Pacific/Easter` - Pacific/Easter * `Pacific/Efate` - Pacific/Efate * `Pacific/Enderbury` - Pacific/Enderbury * `Pacific/Fakaofo` - Pacific/Fakaofo * `Pacific/Fiji` - Pacific/Fiji * `Pacific/Funafuti` - Pacific/Funafuti * `Pacific/Galapagos` - Pacific/Galapagos * `Pacific/Gambier` - Pacific/Gambier * `Pacific/Guadalcanal` - Pacific/Guadalcanal * `Pacific/Guam` - Pacific/Guam * `Pacific/Honolulu` - Pacific/Honolulu * `Pacific/Johnston` - Pacific/Johnston * `Pacific/Kanton` - Pacific/Kanton * `Pacific/Kiritimati` - Pacific/Kiritimati * `Pacific/Kosrae` - Pacific/Kosrae * `Pacific/Kwajalein` - Pacific/Kwajalein * `Pacific/Majuro` - Pacific/Majuro * `Pacific/Marquesas` - Pacific/Marquesas * `Pacific/Midway` - Pacific/Midway * `Pacific/Nauru` - Pacific/Nauru * `Pacific/Niue` - Pacific/Niue * `Pacific/Norfolk` - Pacific/Norfolk * `Pacific/Noumea` - Pacific/Noumea * `Pacific/Pago_Pago` - Pacific/Pago_Pago * `Pacific/Palau` - Pacific/Palau * `Pacific/Pitcairn` - Pacific/Pitcairn * `Pacific/Pohnpei` - Pacific/Pohnpei * `Pacific/Ponape` - Pacific/Ponape * `Pacific/Port_Moresby` - Pacific/Port_Moresby * `Pacific/Rarotonga` - Pacific/Rarotonga * `Pacific/Saipan` - Pacific/Saipan * `Pacific/Samoa` - Pacific/Samoa * `Pacific/Tahiti` - Pacific/Tahiti * `Pacific/Tarawa` - Pacific/Tarawa * `Pacific/Tongatapu` - Pacific/Tongatapu * `Pacific/Truk` - Pacific/Truk * `Pacific/Wake` - Pacific/Wake * `Pacific/Wallis` - Pacific/Wallis * `Pacific/Yap` - Pacific/Yap * `Poland` - Poland * `Portugal` - Portugal * `ROC` - ROC * `ROK` - ROK * `Singapore` - Singapore * `Turkey` - Turkey * `UCT` - UCT * `US/Alaska` - US/Alaska * `US/Aleutian` - US/Aleutian * `US/Arizona` - US/Arizona * `US/Central` - US/Central * `US/East-Indiana` - US/East-Indiana * `US/Eastern` - US/Eastern * `US/Hawaii` - US/Hawaii * `US/Indiana-Starke` - US/Indiana-Starke * `US/Michigan` - US/Michigan * `US/Mountain` - US/Mountain * `US/Pacific` - US/Pacific * `US/Samoa` - US/Samoa * `UTC` - UTC * `Universal` - Universal * `W-SU` - W-SU * `WET` - WET * `Zulu` - Zulu */
+/** * `Africa/Abidjan` - Africa/Abidjan * `Africa/Accra` - Africa/Accra * `Africa/Addis_Ababa` - Africa/Addis_Ababa * `Africa/Algiers` - Africa/Algiers * `Africa/Asmara` - Africa/Asmara * `Africa/Asmera` - Africa/Asmera * `Africa/Bamako` - Africa/Bamako * `Africa/Bangui` - Africa/Bangui * `Africa/Banjul` - Africa/Banjul * `Africa/Bissau` - Africa/Bissau * `Africa/Blantyre` - Africa/Blantyre * `Africa/Brazzaville` - Africa/Brazzaville * `Africa/Bujumbura` - Africa/Bujumbura * `Africa/Cairo` - Africa/Cairo * `Africa/Casablanca` - Africa/Casablanca * `Africa/Ceuta` - Africa/Ceuta * `Africa/Conakry` - Africa/Conakry * `Africa/Dakar` - Africa/Dakar * `Africa/Dar_es_Salaam` - Africa/Dar_es_Salaam * `Africa/Djibouti` - Africa/Djibouti * `Africa/Douala` - Africa/Douala * `Africa/El_Aaiun` - Africa/El_Aaiun * `Africa/Freetown` - Africa/Freetown * `Africa/Gaborone` - Africa/Gaborone * `Africa/Harare` - Africa/Harare * `Africa/Johannesburg` - Africa/Johannesburg * `Africa/Juba` - Africa/Juba * `Africa/Kampala` - Africa/Kampala * `Africa/Khartoum` - Africa/Khartoum * `Africa/Kigali` - Africa/Kigali * `Africa/Kinshasa` - Africa/Kinshasa * `Africa/Lagos` - Africa/Lagos * `Africa/Libreville` - Africa/Libreville * `Africa/Lome` - Africa/Lome * `Africa/Luanda` - Africa/Luanda * `Africa/Lubumbashi` - Africa/Lubumbashi * `Africa/Lusaka` - Africa/Lusaka * `Africa/Malabo` - Africa/Malabo * `Africa/Maputo` - Africa/Maputo * `Africa/Maseru` - Africa/Maseru * `Africa/Mbabane` - Africa/Mbabane * `Africa/Mogadishu` - Africa/Mogadishu * `Africa/Monrovia` - Africa/Monrovia * `Africa/Nairobi` - Africa/Nairobi * `Africa/Ndjamena` - Africa/Ndjamena * `Africa/Niamey` - Africa/Niamey * `Africa/Nouakchott` - Africa/Nouakchott * `Africa/Ouagadougou` - Africa/Ouagadougou * `Africa/Porto-Novo` - Africa/Porto-Novo * `Africa/Sao_Tome` - Africa/Sao_Tome * `Africa/Timbuktu` - Africa/Timbuktu * `Africa/Tripoli` - Africa/Tripoli * `Africa/Tunis` - Africa/Tunis * `Africa/Windhoek` - Africa/Windhoek * `America/Adak` - America/Adak * `America/Anchorage` - America/Anchorage * `America/Anguilla` - America/Anguilla * `America/Antigua` - America/Antigua * `America/Araguaina` - America/Araguaina * `America/Argentina/Buenos_Aires` - America/Argentina/Buenos_Aires * `America/Argentina/Catamarca` - America/Argentina/Catamarca * `America/Argentina/ComodRivadavia` - America/Argentina/ComodRivadavia * `America/Argentina/Cordoba` - America/Argentina/Cordoba * `America/Argentina/Jujuy` - America/Argentina/Jujuy * `America/Argentina/La_Rioja` - America/Argentina/La_Rioja * `America/Argentina/Mendoza` - America/Argentina/Mendoza * `America/Argentina/Rio_Gallegos` - America/Argentina/Rio_Gallegos * `America/Argentina/Salta` - America/Argentina/Salta * `America/Argentina/San_Juan` - America/Argentina/San_Juan * `America/Argentina/San_Luis` - America/Argentina/San_Luis * `America/Argentina/Tucuman` - America/Argentina/Tucuman * `America/Argentina/Ushuaia` - America/Argentina/Ushuaia * `America/Aruba` - America/Aruba * `America/Asuncion` - America/Asuncion * `America/Atikokan` - America/Atikokan * `America/Atka` - America/Atka * `America/Bahia` - America/Bahia * `America/Bahia_Banderas` - America/Bahia_Banderas * `America/Barbados` - America/Barbados * `America/Belem` - America/Belem * `America/Belize` - America/Belize * `America/Blanc-Sablon` - America/Blanc-Sablon * `America/Boa_Vista` - America/Boa_Vista * `America/Bogota` - America/Bogota * `America/Boise` - America/Boise * `America/Buenos_Aires` - America/Buenos_Aires * `America/Cambridge_Bay` - America/Cambridge_Bay * `America/Campo_Grande` - America/Campo_Grande * `America/Cancun` - America/Cancun * `America/Caracas` - America/Caracas * `America/Catamarca` - America/Catamarca * `America/Cayenne` - America/Cayenne * `America/Cayman` - America/Cayman * `America/Chicago` - America/Chicago * `America/Chihuahua` - America/Chihuahua * `America/Ciudad_Juarez` - America/Ciudad_Juarez * `America/Coral_Harbour` - America/Coral_Harbour * `America/Cordoba` - America/Cordoba * `America/Costa_Rica` - America/Costa_Rica * `America/Coyhaique` - America/Coyhaique * `America/Creston` - America/Creston * `America/Cuiaba` - America/Cuiaba * `America/Curacao` - America/Curacao * `America/Danmarkshavn` - America/Danmarkshavn * `America/Dawson` - America/Dawson * `America/Dawson_Creek` - America/Dawson_Creek * `America/Denver` - America/Denver * `America/Detroit` - America/Detroit * `America/Dominica` - America/Dominica * `America/Edmonton` - America/Edmonton * `America/Eirunepe` - America/Eirunepe * `America/El_Salvador` - America/El_Salvador * `America/Ensenada` - America/Ensenada * `America/Fort_Nelson` - America/Fort_Nelson * `America/Fort_Wayne` - America/Fort_Wayne * `America/Fortaleza` - America/Fortaleza * `America/Glace_Bay` - America/Glace_Bay * `America/Godthab` - America/Godthab * `America/Goose_Bay` - America/Goose_Bay * `America/Grand_Turk` - America/Grand_Turk * `America/Grenada` - America/Grenada * `America/Guadeloupe` - America/Guadeloupe * `America/Guatemala` - America/Guatemala * `America/Guayaquil` - America/Guayaquil * `America/Guyana` - America/Guyana * `America/Halifax` - America/Halifax * `America/Havana` - America/Havana * `America/Hermosillo` - America/Hermosillo * `America/Indiana/Indianapolis` - America/Indiana/Indianapolis * `America/Indiana/Knox` - America/Indiana/Knox * `America/Indiana/Marengo` - America/Indiana/Marengo * `America/Indiana/Petersburg` - America/Indiana/Petersburg * `America/Indiana/Tell_City` - America/Indiana/Tell_City * `America/Indiana/Vevay` - America/Indiana/Vevay * `America/Indiana/Vincennes` - America/Indiana/Vincennes * `America/Indiana/Winamac` - America/Indiana/Winamac * `America/Indianapolis` - America/Indianapolis * `America/Inuvik` - America/Inuvik * `America/Iqaluit` - America/Iqaluit * `America/Jamaica` - America/Jamaica * `America/Jujuy` - America/Jujuy * `America/Juneau` - America/Juneau * `America/Kentucky/Louisville` - America/Kentucky/Louisville * `America/Kentucky/Monticello` - America/Kentucky/Monticello * `America/Knox_IN` - America/Knox_IN * `America/Kralendijk` - America/Kralendijk * `America/La_Paz` - America/La_Paz * `America/Lima` - America/Lima * `America/Los_Angeles` - America/Los_Angeles * `America/Louisville` - America/Louisville * `America/Lower_Princes` - America/Lower_Princes * `America/Maceio` - America/Maceio * `America/Managua` - America/Managua * `America/Manaus` - America/Manaus * `America/Marigot` - America/Marigot * `America/Martinique` - America/Martinique * `America/Matamoros` - America/Matamoros * `America/Mazatlan` - America/Mazatlan * `America/Mendoza` - America/Mendoza * `America/Menominee` - America/Menominee * `America/Merida` - America/Merida * `America/Metlakatla` - America/Metlakatla * `America/Mexico_City` - America/Mexico_City * `America/Miquelon` - America/Miquelon * `America/Moncton` - America/Moncton * `America/Monterrey` - America/Monterrey * `America/Montevideo` - America/Montevideo * `America/Montreal` - America/Montreal * `America/Montserrat` - America/Montserrat * `America/Nassau` - America/Nassau * `America/New_York` - America/New_York * `America/Nipigon` - America/Nipigon * `America/Nome` - America/Nome * `America/Noronha` - America/Noronha * `America/North_Dakota/Beulah` - America/North_Dakota/Beulah * `America/North_Dakota/Center` - America/North_Dakota/Center * `America/North_Dakota/New_Salem` - America/North_Dakota/New_Salem * `America/Nuuk` - America/Nuuk * `America/Ojinaga` - America/Ojinaga * `America/Panama` - America/Panama * `America/Pangnirtung` - America/Pangnirtung * `America/Paramaribo` - America/Paramaribo * `America/Phoenix` - America/Phoenix * `America/Port-au-Prince` - America/Port-au-Prince * `America/Port_of_Spain` - America/Port_of_Spain * `America/Porto_Acre` - America/Porto_Acre * `America/Porto_Velho` - America/Porto_Velho * `America/Puerto_Rico` - America/Puerto_Rico * `America/Punta_Arenas` - America/Punta_Arenas * `America/Rainy_River` - America/Rainy_River * `America/Rankin_Inlet` - America/Rankin_Inlet * `America/Recife` - America/Recife * `America/Regina` - America/Regina * `America/Resolute` - America/Resolute * `America/Rio_Branco` - America/Rio_Branco * `America/Rosario` - America/Rosario * `America/Santa_Isabel` - America/Santa_Isabel * `America/Santarem` - America/Santarem * `America/Santiago` - America/Santiago * `America/Santo_Domingo` - America/Santo_Domingo * `America/Sao_Paulo` - America/Sao_Paulo * `America/Scoresbysund` - America/Scoresbysund * `America/Shiprock` - America/Shiprock * `America/Sitka` - America/Sitka * `America/St_Barthelemy` - America/St_Barthelemy * `America/St_Johns` - America/St_Johns * `America/St_Kitts` - America/St_Kitts * `America/St_Lucia` - America/St_Lucia * `America/St_Thomas` - America/St_Thomas * `America/St_Vincent` - America/St_Vincent * `America/Swift_Current` - America/Swift_Current * `America/Tegucigalpa` - America/Tegucigalpa * `America/Thule` - America/Thule * `America/Thunder_Bay` - America/Thunder_Bay * `America/Tijuana` - America/Tijuana * `America/Toronto` - America/Toronto * `America/Tortola` - America/Tortola * `America/Vancouver` - America/Vancouver * `America/Virgin` - America/Virgin * `America/Whitehorse` - America/Whitehorse * `America/Winnipeg` - America/Winnipeg * `America/Yakutat` - America/Yakutat * `America/Yellowknife` - America/Yellowknife * `Antarctica/Casey` - Antarctica/Casey * `Antarctica/Davis` - Antarctica/Davis * `Antarctica/DumontDUrville` - Antarctica/DumontDUrville * `Antarctica/Macquarie` - Antarctica/Macquarie * `Antarctica/Mawson` - Antarctica/Mawson * `Antarctica/McMurdo` - Antarctica/McMurdo * `Antarctica/Palmer` - Antarctica/Palmer * `Antarctica/Rothera` - Antarctica/Rothera * `Antarctica/South_Pole` - Antarctica/South_Pole * `Antarctica/Syowa` - Antarctica/Syowa * `Antarctica/Troll` - Antarctica/Troll * `Antarctica/Vostok` - Antarctica/Vostok * `Arctic/Longyearbyen` - Arctic/Longyearbyen * `Asia/Aden` - Asia/Aden * `Asia/Almaty` - Asia/Almaty * `Asia/Amman` - Asia/Amman * `Asia/Anadyr` - Asia/Anadyr * `Asia/Aqtau` - Asia/Aqtau * `Asia/Aqtobe` - Asia/Aqtobe * `Asia/Ashgabat` - Asia/Ashgabat * `Asia/Ashkhabad` - Asia/Ashkhabad * `Asia/Atyrau` - Asia/Atyrau * `Asia/Baghdad` - Asia/Baghdad * `Asia/Bahrain` - Asia/Bahrain * `Asia/Baku` - Asia/Baku * `Asia/Bangkok` - Asia/Bangkok * `Asia/Barnaul` - Asia/Barnaul * `Asia/Beirut` - Asia/Beirut * `Asia/Bishkek` - Asia/Bishkek * `Asia/Brunei` - Asia/Brunei * `Asia/Calcutta` - Asia/Calcutta * `Asia/Chita` - Asia/Chita * `Asia/Choibalsan` - Asia/Choibalsan * `Asia/Chongqing` - Asia/Chongqing * `Asia/Chungking` - Asia/Chungking * `Asia/Colombo` - Asia/Colombo * `Asia/Dacca` - Asia/Dacca * `Asia/Damascus` - Asia/Damascus * `Asia/Dhaka` - Asia/Dhaka * `Asia/Dili` - Asia/Dili * `Asia/Dubai` - Asia/Dubai * `Asia/Dushanbe` - Asia/Dushanbe * `Asia/Famagusta` - Asia/Famagusta * `Asia/Gaza` - Asia/Gaza * `Asia/Harbin` - Asia/Harbin * `Asia/Hebron` - Asia/Hebron * `Asia/Ho_Chi_Minh` - Asia/Ho_Chi_Minh * `Asia/Hong_Kong` - Asia/Hong_Kong * `Asia/Hovd` - Asia/Hovd * `Asia/Irkutsk` - Asia/Irkutsk * `Asia/Istanbul` - Asia/Istanbul * `Asia/Jakarta` - Asia/Jakarta * `Asia/Jayapura` - Asia/Jayapura * `Asia/Jerusalem` - Asia/Jerusalem * `Asia/Kabul` - Asia/Kabul * `Asia/Kamchatka` - Asia/Kamchatka * `Asia/Karachi` - Asia/Karachi * `Asia/Kashgar` - Asia/Kashgar * `Asia/Kathmandu` - Asia/Kathmandu * `Asia/Katmandu` - Asia/Katmandu * `Asia/Khandyga` - Asia/Khandyga * `Asia/Kolkata` - Asia/Kolkata * `Asia/Krasnoyarsk` - Asia/Krasnoyarsk * `Asia/Kuala_Lumpur` - Asia/Kuala_Lumpur * `Asia/Kuching` - Asia/Kuching * `Asia/Kuwait` - Asia/Kuwait * `Asia/Macao` - Asia/Macao * `Asia/Macau` - Asia/Macau * `Asia/Magadan` - Asia/Magadan * `Asia/Makassar` - Asia/Makassar * `Asia/Manila` - Asia/Manila * `Asia/Muscat` - Asia/Muscat * `Asia/Nicosia` - Asia/Nicosia * `Asia/Novokuznetsk` - Asia/Novokuznetsk * `Asia/Novosibirsk` - Asia/Novosibirsk * `Asia/Omsk` - Asia/Omsk * `Asia/Oral` - Asia/Oral * `Asia/Phnom_Penh` - Asia/Phnom_Penh * `Asia/Pontianak` - Asia/Pontianak * `Asia/Pyongyang` - Asia/Pyongyang * `Asia/Qatar` - Asia/Qatar * `Asia/Qostanay` - Asia/Qostanay * `Asia/Qyzylorda` - Asia/Qyzylorda * `Asia/Rangoon` - Asia/Rangoon * `Asia/Riyadh` - Asia/Riyadh * `Asia/Saigon` - Asia/Saigon * `Asia/Sakhalin` - Asia/Sakhalin * `Asia/Samarkand` - Asia/Samarkand * `Asia/Seoul` - Asia/Seoul * `Asia/Shanghai` - Asia/Shanghai * `Asia/Singapore` - Asia/Singapore * `Asia/Srednekolymsk` - Asia/Srednekolymsk * `Asia/Taipei` - Asia/Taipei * `Asia/Tashkent` - Asia/Tashkent * `Asia/Tbilisi` - Asia/Tbilisi * `Asia/Tehran` - Asia/Tehran * `Asia/Tel_Aviv` - Asia/Tel_Aviv * `Asia/Thimbu` - Asia/Thimbu * `Asia/Thimphu` - Asia/Thimphu * `Asia/Tokyo` - Asia/Tokyo * `Asia/Tomsk` - Asia/Tomsk * `Asia/Ujung_Pandang` - Asia/Ujung_Pandang * `Asia/Ulaanbaatar` - Asia/Ulaanbaatar * `Asia/Ulan_Bator` - Asia/Ulan_Bator * `Asia/Urumqi` - Asia/Urumqi * `Asia/Ust-Nera` - Asia/Ust-Nera * `Asia/Vientiane` - Asia/Vientiane * `Asia/Vladivostok` - Asia/Vladivostok * `Asia/Yakutsk` - Asia/Yakutsk * `Asia/Yangon` - Asia/Yangon * `Asia/Yekaterinburg` - Asia/Yekaterinburg * `Asia/Yerevan` - Asia/Yerevan * `Atlantic/Azores` - Atlantic/Azores * `Atlantic/Bermuda` - Atlantic/Bermuda * `Atlantic/Canary` - Atlantic/Canary * `Atlantic/Cape_Verde` - Atlantic/Cape_Verde * `Atlantic/Faeroe` - Atlantic/Faeroe * `Atlantic/Faroe` - Atlantic/Faroe * `Atlantic/Jan_Mayen` - Atlantic/Jan_Mayen * `Atlantic/Madeira` - Atlantic/Madeira * `Atlantic/Reykjavik` - Atlantic/Reykjavik * `Atlantic/South_Georgia` - Atlantic/South_Georgia * `Atlantic/St_Helena` - Atlantic/St_Helena * `Atlantic/Stanley` - Atlantic/Stanley * `Australia/ACT` - Australia/ACT * `Australia/Adelaide` - Australia/Adelaide * `Australia/Brisbane` - Australia/Brisbane * `Australia/Broken_Hill` - Australia/Broken_Hill * `Australia/Canberra` - Australia/Canberra * `Australia/Currie` - Australia/Currie * `Australia/Darwin` - Australia/Darwin * `Australia/Eucla` - Australia/Eucla * `Australia/Hobart` - Australia/Hobart * `Australia/LHI` - Australia/LHI * `Australia/Lindeman` - Australia/Lindeman * `Australia/Lord_Howe` - Australia/Lord_Howe * `Australia/Melbourne` - Australia/Melbourne * `Australia/NSW` - Australia/NSW * `Australia/North` - Australia/North * `Australia/Perth` - Australia/Perth * `Australia/Queensland` - Australia/Queensland * `Australia/South` - Australia/South * `Australia/Sydney` - Australia/Sydney * `Australia/Tasmania` - Australia/Tasmania * `Australia/Victoria` - Australia/Victoria * `Australia/West` - Australia/West * `Australia/Yancowinna` - Australia/Yancowinna * `Brazil/Acre` - Brazil/Acre * `Brazil/DeNoronha` - Brazil/DeNoronha * `Brazil/East` - Brazil/East * `Brazil/West` - Brazil/West * `CET` - CET * `CST6CDT` - CST6CDT * `Canada/Atlantic` - Canada/Atlantic * `Canada/Central` - Canada/Central * `Canada/Eastern` - Canada/Eastern * `Canada/Mountain` - Canada/Mountain * `Canada/Newfoundland` - Canada/Newfoundland * `Canada/Pacific` - Canada/Pacific * `Canada/Saskatchewan` - Canada/Saskatchewan * `Canada/Yukon` - Canada/Yukon * `Chile/Continental` - Chile/Continental * `Chile/EasterIsland` - Chile/EasterIsland * `Cuba` - Cuba * `EET` - EET * `EST` - EST * `EST5EDT` - EST5EDT * `Egypt` - Egypt * `Eire` - Eire * `Etc/GMT` - Etc/GMT * `Etc/GMT+0` - Etc/GMT+0 * `Etc/GMT+1` - Etc/GMT+1 * `Etc/GMT+10` - Etc/GMT+10 * `Etc/GMT+11` - Etc/GMT+11 * `Etc/GMT+12` - Etc/GMT+12 * `Etc/GMT+2` - Etc/GMT+2 * `Etc/GMT+3` - Etc/GMT+3 * `Etc/GMT+4` - Etc/GMT+4 * `Etc/GMT+5` - Etc/GMT+5 * `Etc/GMT+6` - Etc/GMT+6 * `Etc/GMT+7` - Etc/GMT+7 * `Etc/GMT+8` - Etc/GMT+8 * `Etc/GMT+9` - Etc/GMT+9 * `Etc/GMT-0` - Etc/GMT-0 * `Etc/GMT-1` - Etc/GMT-1 * `Etc/GMT-10` - Etc/GMT-10 * `Etc/GMT-11` - Etc/GMT-11 * `Etc/GMT-12` - Etc/GMT-12 * `Etc/GMT-13` - Etc/GMT-13 * `Etc/GMT-14` - Etc/GMT-14 * `Etc/GMT-2` - Etc/GMT-2 * `Etc/GMT-3` - Etc/GMT-3 * `Etc/GMT-4` - Etc/GMT-4 * `Etc/GMT-5` - Etc/GMT-5 * `Etc/GMT-6` - Etc/GMT-6 * `Etc/GMT-7` - Etc/GMT-7 * `Etc/GMT-8` - Etc/GMT-8 * `Etc/GMT-9` - Etc/GMT-9 * `Etc/GMT0` - Etc/GMT0 * `Etc/Greenwich` - Etc/Greenwich * `Etc/UCT` - Etc/UCT * `Etc/UTC` - Etc/UTC * `Etc/Universal` - Etc/Universal * `Etc/Zulu` - Etc/Zulu * `Europe/Amsterdam` - Europe/Amsterdam * `Europe/Andorra` - Europe/Andorra * `Europe/Astrakhan` - Europe/Astrakhan * `Europe/Athens` - Europe/Athens * `Europe/Belfast` - Europe/Belfast * `Europe/Belgrade` - Europe/Belgrade * `Europe/Berlin` - Europe/Berlin * `Europe/Bratislava` - Europe/Bratislava * `Europe/Brussels` - Europe/Brussels * `Europe/Bucharest` - Europe/Bucharest * `Europe/Budapest` - Europe/Budapest * `Europe/Busingen` - Europe/Busingen * `Europe/Chisinau` - Europe/Chisinau * `Europe/Copenhagen` - Europe/Copenhagen * `Europe/Dublin` - Europe/Dublin * `Europe/Gibraltar` - Europe/Gibraltar * `Europe/Guernsey` - Europe/Guernsey * `Europe/Helsinki` - Europe/Helsinki * `Europe/Isle_of_Man` - Europe/Isle_of_Man * `Europe/Istanbul` - Europe/Istanbul * `Europe/Jersey` - Europe/Jersey * `Europe/Kaliningrad` - Europe/Kaliningrad * `Europe/Kiev` - Europe/Kiev * `Europe/Kirov` - Europe/Kirov * `Europe/Kyiv` - Europe/Kyiv * `Europe/Lisbon` - Europe/Lisbon * `Europe/Ljubljana` - Europe/Ljubljana * `Europe/London` - Europe/London * `Europe/Luxembourg` - Europe/Luxembourg * `Europe/Madrid` - Europe/Madrid * `Europe/Malta` - Europe/Malta * `Europe/Mariehamn` - Europe/Mariehamn * `Europe/Minsk` - Europe/Minsk * `Europe/Monaco` - Europe/Monaco * `Europe/Moscow` - Europe/Moscow * `Europe/Nicosia` - Europe/Nicosia * `Europe/Oslo` - Europe/Oslo * `Europe/Paris` - Europe/Paris * `Europe/Podgorica` - Europe/Podgorica * `Europe/Prague` - Europe/Prague * `Europe/Riga` - Europe/Riga * `Europe/Rome` - Europe/Rome * `Europe/Samara` - Europe/Samara * `Europe/San_Marino` - Europe/San_Marino * `Europe/Sarajevo` - Europe/Sarajevo * `Europe/Saratov` - Europe/Saratov * `Europe/Simferopol` - Europe/Simferopol * `Europe/Skopje` - Europe/Skopje * `Europe/Sofia` - Europe/Sofia * `Europe/Stockholm` - Europe/Stockholm * `Europe/Tallinn` - Europe/Tallinn * `Europe/Tirane` - Europe/Tirane * `Europe/Tiraspol` - Europe/Tiraspol * `Europe/Ulyanovsk` - Europe/Ulyanovsk * `Europe/Uzhgorod` - Europe/Uzhgorod * `Europe/Vaduz` - Europe/Vaduz * `Europe/Vatican` - Europe/Vatican * `Europe/Vienna` - Europe/Vienna * `Europe/Vilnius` - Europe/Vilnius * `Europe/Volgograd` - Europe/Volgograd * `Europe/Warsaw` - Europe/Warsaw * `Europe/Zagreb` - Europe/Zagreb * `Europe/Zaporozhye` - Europe/Zaporozhye * `Europe/Zurich` - Europe/Zurich * `GB` - GB * `GB-Eire` - GB-Eire * `GMT` - GMT * `GMT+0` - GMT+0 * `GMT-0` - GMT-0 * `GMT0` - GMT0 * `Greenwich` - Greenwich * `HST` - HST * `Hongkong` - Hongkong * `Iceland` - Iceland * `Indian/Antananarivo` - Indian/Antananarivo * `Indian/Chagos` - Indian/Chagos * `Indian/Christmas` - Indian/Christmas * `Indian/Cocos` - Indian/Cocos * `Indian/Comoro` - Indian/Comoro * `Indian/Kerguelen` - Indian/Kerguelen * `Indian/Mahe` - Indian/Mahe * `Indian/Maldives` - Indian/Maldives * `Indian/Mauritius` - Indian/Mauritius * `Indian/Mayotte` - Indian/Mayotte * `Indian/Reunion` - Indian/Reunion * `Iran` - Iran * `Israel` - Israel * `Jamaica` - Jamaica * `Japan` - Japan * `Kwajalein` - Kwajalein * `Libya` - Libya * `MET` - MET * `MST` - MST * `MST7MDT` - MST7MDT * `Mexico/BajaNorte` - Mexico/BajaNorte * `Mexico/BajaSur` - Mexico/BajaSur * `Mexico/General` - Mexico/General * `NZ` - NZ * `NZ-CHAT` - NZ-CHAT * `Navajo` - Navajo * `PRC` - PRC * `PST8PDT` - PST8PDT * `Pacific/Apia` - Pacific/Apia * `Pacific/Auckland` - Pacific/Auckland * `Pacific/Bougainville` - Pacific/Bougainville * `Pacific/Chatham` - Pacific/Chatham * `Pacific/Chuuk` - Pacific/Chuuk * `Pacific/Easter` - Pacific/Easter * `Pacific/Efate` - Pacific/Efate * `Pacific/Enderbury` - Pacific/Enderbury * `Pacific/Fakaofo` - Pacific/Fakaofo * `Pacific/Fiji` - Pacific/Fiji * `Pacific/Funafuti` - Pacific/Funafuti * `Pacific/Galapagos` - Pacific/Galapagos * `Pacific/Gambier` - Pacific/Gambier * `Pacific/Guadalcanal` - Pacific/Guadalcanal * `Pacific/Guam` - Pacific/Guam * `Pacific/Honolulu` - Pacific/Honolulu * `Pacific/Johnston` - Pacific/Johnston * `Pacific/Kanton` - Pacific/Kanton * `Pacific/Kiritimati` - Pacific/Kiritimati * `Pacific/Kosrae` - Pacific/Kosrae * `Pacific/Kwajalein` - Pacific/Kwajalein * `Pacific/Majuro` - Pacific/Majuro * `Pacific/Marquesas` - Pacific/Marquesas * `Pacific/Midway` - Pacific/Midway * `Pacific/Nauru` - Pacific/Nauru * `Pacific/Niue` - Pacific/Niue * `Pacific/Norfolk` - Pacific/Norfolk * `Pacific/Noumea` - Pacific/Noumea * `Pacific/Pago_Pago` - Pacific/Pago_Pago * `Pacific/Palau` - Pacific/Palau * `Pacific/Pitcairn` - Pacific/Pitcairn * `Pacific/Pohnpei` - Pacific/Pohnpei * `Pacific/Ponape` - Pacific/Ponape * `Pacific/Port_Moresby` - Pacific/Port_Moresby * `Pacific/Rarotonga` - Pacific/Rarotonga * `Pacific/Saipan` - Pacific/Saipan * `Pacific/Samoa` - Pacific/Samoa * `Pacific/Tahiti` - Pacific/Tahiti * `Pacific/Tarawa` - Pacific/Tarawa * `Pacific/Tongatapu` - Pacific/Tongatapu * `Pacific/Truk` - Pacific/Truk * `Pacific/Wake` - Pacific/Wake * `Pacific/Wallis` - Pacific/Wallis * `Pacific/Yap` - Pacific/Yap * `Poland` - Poland * `Portugal` - Portugal * `ROC` - ROC * `ROK` - ROK * `Singapore` - Singapore * `Turkey` - Turkey * `UCT` - UCT * `US/Alaska` - US/Alaska * `US/Aleutian` - US/Aleutian * `US/Arizona` - US/Arizona * `US/Central` - US/Central * `US/East-Indiana` - US/East-Indiana * `US/Eastern` - US/Eastern * `US/Hawaii` - US/Hawaii * `US/Indiana-Starke` - US/Indiana-Starke * `US/Michigan` - US/Michigan * `US/Mountain` - US/Mountain * `US/Pacific` - US/Pacific * `US/Samoa` - US/Samoa * `UTC` - UTC * `Universal` - Universal * `W-SU` - W-SU * `WET` - WET * `Zulu` - Zulu */
 export type TimezoneEnum =
   | "Africa/Abidjan"
   | "Africa/Accra"
@@ -226,6 +228,7 @@ export type TimezoneEnum =
   | "America/Coral_Harbour"
   | "America/Cordoba"
   | "America/Costa_Rica"
+  | "America/Coyhaique"
   | "America/Creston"
   | "America/Cuiaba"
   | "America/Curacao"
@@ -742,8 +745,24 @@ export interface TeamBasic {
 export type OrganizationMembershipLevelEnum = 1 | 8 | 15;
 /** * `0` - none * `3` - config * `6` - install * `9` - root */
 export type OrganizationPluginsAccessLevelEnum = 0 | 3 | 6 | 9;
-export type OrganizationTeamsItemMap = { [key: string]: unknown | undefined };
-export type OrganizationTeamsList = Array<OrganizationTeamsItemMap>;
+/** Serializer for `Team` model with minimal attributes to speeed up loading and transfer times. Also used for nested serializers. */
+export interface OrganizationTeamBasic {
+  id: number;
+  uuid: string;
+  organization: string;
+  project_id: number;
+  api_token: string | Redacted.Redacted<string>;
+  name: string;
+  completed_snippet_onboarding: boolean;
+  has_completed_onboarding_for: unknown;
+  ingested_event: boolean;
+  is_demo: boolean;
+  timezone: TimezoneEnum;
+  access_control: boolean;
+  /** The project group shown in the organization project switcher, or null if it has no group. */
+  project_group: string | null;
+}
+export type OrganizationTeamsList = Array<OrganizationTeamBasic>;
 export type OrganizationProjectsItemMap = { [key: string]: unknown | undefined };
 export type OrganizationProjectsList = Array<OrganizationProjectsItemMap>;
 export type OrganizationAvailableProductFeaturesList = Array<unknown>;
@@ -768,6 +787,8 @@ export interface Organization {
   created_at?: string;
   updated_at?: string;
   membership_level?: OrganizationMembershipLevelEnum;
+  /** When the requesting user joined this organization. Null if the user is not a member. */
+  membership_joined_at: string | null;
   plugins_access_level?: OrganizationPluginsAccessLevelEnum;
   teams?: OrganizationTeamsList;
   projects?: OrganizationProjectsList;
@@ -851,8 +872,13 @@ export type RoleAtOrganizationEnum =
   | "sales"
   | "student"
   | "other";
-/** * `delegated` - Delegated to teammate * `later` - Skipped for later * `other` - Other * `provisioned` - Account provisioned by a partner */
-export type OnboardingSkippedReasonEnum = "delegated" | "later" | "other" | "provisioned";
+/** * `delegated` - Delegated to teammate * `later` - Skipped for later * `other` - Other * `provisioned` - Account provisioned by a partner * `connector` - Signed up through an OAuth connector */
+export type OnboardingSkippedReasonEnum =
+  | "delegated"
+  | "later"
+  | "other"
+  | "provisioned"
+  | "connector";
 /** Real-time notification types that currently have a live dispatch site. Drives the in-app notifications settings UI. Read-only. */
 export type UserOutputActiveRealtimeNotificationTypesList = Array<string>;
 /** Shape of each item in UserSerializer.pending_invites. */
@@ -911,7 +937,7 @@ export interface UserOutput {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
   ui_configuration?: unknown;
   onboarding_skipped_at?: string | null;
   onboarding_skipped_reason?: OnboardingSkippedReasonEnum | null;
@@ -924,8 +950,10 @@ export interface UserOutput {
   /** Real-time notification types that currently have a live dispatch site. Drives the in-app notifications settings UI. Read-only. */
   active_realtime_notification_types?: UserOutputActiveRealtimeNotificationTypesList;
   pending_invites?: UserOutputPendingInvitesList;
-  /** True if the user has at least one Personal API Key or passkey, or a third-party OAuth application that can currently act as them, and has not yet acknowledged that access. Used to gate a one-shot review screen on first post-provisioning login. Becomes False once the user POSTs to `/api/users/@me/credentials_review_complete/`. Read-only. */
+  /** True if the user belongs to an organization that a partner provisioned, has not yet acknowledged the access on their account, and has at least one Personal API Key or passkey, or a third-party OAuth application that can currently act as them. Used to gate a one-shot review screen on first post-provisioning login. Becomes False once the user POSTs to `/api/users/@me/credentials_review_complete/`. Read-only. */
   requires_credential_review?: boolean;
+  /** How many personal API keys the user may hold, from the `personal_api_keys` billing entitlement of the user's organizations. The highest limit across their organizations applies, and 10 when no organization grants a limit. Creating a key beyond it is rejected with a validation error. Read-only. */
+  personal_api_keys_limit: number;
 }
 /** * `ios` - iOS * `android` - Android * `web` - Web */
 export type UserPushTokenPlatformEnum = "ios" | "android" | "web";
@@ -983,7 +1011,7 @@ export interface CreateUsersRequestEmailVerificationRequest {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
   ui_configuration?: unknown;
 }
 export interface CreateUsersRequestEmailVerificationResponse {}
@@ -1025,7 +1053,7 @@ export interface CreateUsersScenePersonalisationRequest {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
   ui_configuration?: unknown;
 }
 export interface CreateUsersScenePersonalisationResponse {}
@@ -1112,7 +1140,7 @@ export interface CreateUsersTwoFactorBackupCodeRequest {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
   ui_configuration?: unknown;
 }
 export interface CreateUsersTwoFactorBackupCodeResponse {}
@@ -1152,7 +1180,7 @@ export interface CreateUsersValidate2faRequest {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
   ui_configuration?: unknown;
 }
 export interface CreateUsersValidate2faResponse {}
@@ -1187,7 +1215,12 @@ export interface GetUsersIntegrationsGithubBranchRequest {
 }
 /** List of branch names */
 export type GitHubBranchesResponseBranchesList = Array<string>;
+/** Declares the `next` and `previous` links of a page response that the view fills with `page_link`. */
 export interface GitHubBranchesResponse {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page and on lists that page forward only. */
+  previous: string | null;
   /** List of branch names */
   branches?: GitHubBranchesResponseBranchesList;
   /** The default branch of the repository */
@@ -1228,7 +1261,12 @@ export interface GitHubRepo {
   can_push?: boolean;
 }
 export type GitHubReposResponseRepositoriesList = Array<GitHubRepo>;
+/** Declares the `next` and `previous` links of a page response that the view fills with `page_link`. */
 export interface GitHubReposResponse {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page and on lists that page forward only. */
+  previous: string | null;
   repositories?: GitHubReposResponseRepositoriesList;
   /** Whether more repositories are available beyond this page. */
   has_more?: boolean;
@@ -1340,6 +1378,10 @@ export interface UserGitHubIntegrationItem {
   installation_shared: boolean;
   /** `unavailable` means the App was uninstalled or suspended on GitHub and PostHog can no longer mint tokens for it; `connected` otherwise. * `connected` - connected * `unavailable` - unavailable */
   installation_status: InstallationStatusEnum;
+  /** True when GitHub rejected the stored credentials and PostHog dropped them. The installation is still on GitHub, but PostHog cannot act as the user until they authorize it again. */
+  needs_reauthorization: boolean;
+  /** When the stored credentials stopped working, or null while they still work. */
+  needs_reauthorization_at: string | null;
   /** When this integration row was created. */
   created_at: string;
 }
@@ -1424,7 +1466,7 @@ export interface UpdateUserRequest {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
   ui_configuration?: unknown;
 }
 /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
@@ -1465,7 +1507,7 @@ export interface UpdateUsersHedgehogConfigPartialRequest {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
   ui_configuration?: unknown;
 }
 export interface UpdateUsersHedgehogConfigPartialResponse {}
@@ -1505,7 +1547,7 @@ export interface UpdateUsersPartialRequest {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
   ui_configuration?: unknown;
 }
 export interface UpdateUsersProductIntroSeenPartialRequest {
@@ -1559,7 +1601,7 @@ export interface UsersCancelEmailChangeRequestPartialUpdateRequest {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
   ui_configuration?: unknown;
 }
 export interface UsersCancelEmailChangeRequestPartialUpdateResponse {}
@@ -1697,7 +1739,7 @@ export interface UsersTwoFactorDisableCreateRequest {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
   ui_configuration?: unknown;
 }
 export interface UsersTwoFactorDisableCreateResponse {}
@@ -1741,7 +1783,7 @@ export interface UsersTwoFactorValidateCreateRequest {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
   ui_configuration?: unknown;
 }
 export interface UsersTwoFactorValidateCreateResponse {}
@@ -1760,8 +1802,8 @@ export const createUsersCredentialsReviewComplete: API.OperationMethod<
   CreateUsersCredentialsReviewCompleteError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<CreateUsersCredentialsReviewCompleteRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<CreateUsersCredentialsReviewCompleteResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<CreateUsersCredentialsReviewCompleteRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<CreateUsersCredentialsReviewCompleteResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1777,8 +1819,8 @@ export const createUsersIntegrationsCodex: API.OperationMethod<
   CreateUsersIntegrationsCodexError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(545, __c34, 1) as any as S.Schema<CreateUsersIntegrationsCodexRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<UserCodexIntegration>,
+  input: __S(1089, __c34, 1) as any as S.Schema<CreateUsersIntegrationsCodexRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<UserCodexIntegration>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1794,9 +1836,13 @@ export const createUsersIntegrationsGithubPrepareCallback: API.OperationMethod<
   CreateUsersIntegrationsGithubPrepareCallbackError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<CreateUsersIntegrationsGithubPrepareCallbackRequest>,
+  input: __S(
+    1408,
+    __c44,
+    0,
+  ) as any as S.Schema<CreateUsersIntegrationsGithubPrepareCallbackRequest>,
   output: __S(
-    368,
+    736,
     __c23,
     0,
   ) as any as S.Schema<CreateUsersIntegrationsGithubPrepareCallbackResponse>,
@@ -1815,8 +1861,8 @@ export const createUsersOnboardingSkip: API.OperationMethod<
   CreateUsersOnboardingSkipError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<CreateUsersOnboardingSkipRequest>,
-  output: __S(767, __c47, 15) as any as S.Schema<UserOutput>,
+  input: __S(1440, __c45, 0) as any as S.Schema<CreateUsersOnboardingSkipRequest>,
+  output: __S(1521, __c47, 17) as any as S.Schema<UserOutput>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1825,15 +1871,15 @@ export const createUsersOnboardingSkip: API.OperationMethod<
 }));
 
 export type CreateUsersPushTokenError = PosthogOpError;
-/** Register a push notification token Idempotent upsert: if the (user, token) pair already exists, `platform` and `last_seen_at` are refreshed. Otherwise a new row is created. */
+/** Register a push notification token Register the device for the authenticated user, removing registrations for the same token belonging to other users on this instance. Re-registration refreshes `platform` and `last_seen_at`. */
 export const createUsersPushToken: API.OperationMethod<
   CreateUsersPushTokenRequest,
   UserPushTokenItem,
   CreateUsersPushTokenError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<CreateUsersPushTokenRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<UserPushTokenItem>,
+  input: __S(1568, __c49, 0) as any as S.Schema<CreateUsersPushTokenRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<UserPushTokenItem>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1848,8 +1894,8 @@ export const createUsersRequestEmailVerification: API.OperationMethod<
   CreateUsersRequestEmailVerificationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<CreateUsersRequestEmailVerificationRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<CreateUsersRequestEmailVerificationResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<CreateUsersRequestEmailVerificationRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<CreateUsersRequestEmailVerificationResponse>,
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1868,8 +1914,8 @@ export const createUsersScenePersonalisation: API.OperationMethod<
   CreateUsersScenePersonalisationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<CreateUsersScenePersonalisationRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<CreateUsersScenePersonalisationResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<CreateUsersScenePersonalisationRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<CreateUsersScenePersonalisationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1886,7 +1932,7 @@ export const createUsersSignalAutonomy: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateUsersSignalAutonomyRequest>,
-  output: __S(17, __c1, 1) as any as S.Schema<SignalUserAutonomyConfig>,
+  output: __S(33, __c1, 1) as any as S.Schema<SignalUserAutonomyConfig>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1906,8 +1952,8 @@ export const createUsersTwoFactorBackupCode: API.OperationMethod<
   CreateUsersTwoFactorBackupCodeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<CreateUsersTwoFactorBackupCodeRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<CreateUsersTwoFactorBackupCodeResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<CreateUsersTwoFactorBackupCodeRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<CreateUsersTwoFactorBackupCodeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1922,8 +1968,8 @@ export const createUsersValidate2fa: API.OperationMethod<
   CreateUsersValidate2faError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<CreateUsersValidate2faRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<CreateUsersValidate2faResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<CreateUsersValidate2faRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<CreateUsersValidate2faResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1939,8 +1985,8 @@ export const getUser: API.OperationMethod<
   GetUserError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(767, __c47, 15) as any as S.Schema<UserOutput>,
+  input: __S(128, __c4, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(1521, __c47, 17) as any as S.Schema<UserOutput>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1955,8 +2001,8 @@ export const getUsersGithubLogin: API.OperationMethod<
   GetUsersGithubLoginError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetUsersGithubLoginRequest>,
-  output: __S(81, __c5, 1) as any as S.Schema<UserGithubLogin>,
+  input: __S(160, __c5, 0) as any as S.Schema<GetUsersGithubLoginRequest>,
+  output: __S(161, __c5, 1) as any as S.Schema<UserGithubLogin>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1971,8 +2017,8 @@ export const getUsersHedgehogConfig: API.OperationMethod<
   GetUsersHedgehogConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetUsersHedgehogConfigRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<GetUsersHedgehogConfigResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<GetUsersHedgehogConfigRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<GetUsersHedgehogConfigResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1988,8 +2034,8 @@ export const getUsersIntegrationsCodex: API.OperationMethod<
   GetUsersIntegrationsCodexError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetUsersIntegrationsCodexRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<UserCodexIntegration>,
+  input: __S(224, __c7, 0) as any as S.Schema<GetUsersIntegrationsCodexRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<UserCodexIntegration>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2005,8 +2051,8 @@ export const getUsersIntegrationsGithubBranch: API.OperationMethod<
   GetUsersIntegrationsGithubBranchError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetUsersIntegrationsGithubBranchRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<GitHubBranchesResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<GetUsersIntegrationsGithubBranchRequest>,
+  output: __S(257, __c8, 1) as any as S.Schema<GitHubBranchesResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2022,8 +2068,8 @@ export const getUsersIntegrationsGithubRepos: API.OperationMethod<
   GetUsersIntegrationsGithubReposError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetUsersIntegrationsGithubReposRequest>,
-  output: __S(145, __c9, 1) as any as S.Schema<GitHubReposResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetUsersIntegrationsGithubReposRequest>,
+  output: __S(289, __c9, 1) as any as S.Schema<GitHubReposResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2039,8 +2085,8 @@ export const getUsersIntegrationsSlackLinkableWorkspace: API.OperationMethod<
   GetUsersIntegrationsSlackLinkableWorkspaceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetUsersIntegrationsSlackLinkableWorkspaceRequest>,
-  output: __S(179, __c11, 3) as any as S.Schema<UserSlackLinkableWorkspaceListResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetUsersIntegrationsSlackLinkableWorkspaceRequest>,
+  output: __S(355, __c11, 3) as any as S.Schema<UserSlackLinkableWorkspaceListResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2056,8 +2102,8 @@ export const getUsersSignalAutonomy: API.OperationMethod<
   GetUsersSignalAutonomyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetUsersSignalAutonomyRequest>,
-  output: __S(17, __c1, 1) as any as S.Schema<SignalUserAutonomyConfig>,
+  input: __S(384, __c12, 0) as any as S.Schema<GetUsersSignalAutonomyRequest>,
+  output: __S(33, __c1, 1) as any as S.Schema<SignalUserAutonomyConfig>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2072,8 +2118,8 @@ export const getUsersStart2faSetup: API.OperationMethod<
   GetUsersStart2faSetupError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetUsersStart2faSetupRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<GetUsersStart2faSetupResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetUsersStart2faSetupRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<GetUsersStart2faSetupResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2089,8 +2135,8 @@ export const getUsersTwoFactorStatus: API.OperationMethod<
   GetUsersTwoFactorStatusError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetUsersTwoFactorStatusRequest>,
-  output: __S(225, __c14, 1) as any as S.Schema<TwoFactorStatus>,
+  input: __S(448, __c14, 0) as any as S.Schema<GetUsersTwoFactorStatusRequest>,
+  output: __S(449, __c14, 1) as any as S.Schema<TwoFactorStatus>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2107,12 +2153,12 @@ export const installUsersIntegrationsGithubRequestsDestroy: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    240,
+    480,
     __c15,
     0,
   ) as any as S.Schema<InstallUsersIntegrationsGithubRequestsDestroyRequest>,
   output: __S(
-    368,
+    736,
     __c23,
     0,
   ) as any as S.Schema<InstallUsersIntegrationsGithubRequestsDestroyResponse>,
@@ -2130,8 +2176,8 @@ export const listUsers: API.OperationMethod<
   ListUsersError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<ListUsersRequest>,
-  output: __S(258, __c16, 2) as any as S.Schema<PaginatedUserListOutput>,
+  input: __S(512, __c16, 0) as any as S.Schema<ListUsersRequest>,
+  output: __S(514, __c16, 2) as any as S.Schema<PaginatedUserListOutput>,
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2147,8 +2193,8 @@ export const listUsersIntegrations: API.OperationMethod<
   ListUsersIntegrationsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<ListUsersIntegrationsRequest>,
-  output: __S(278, __c17, 6) as any as S.Schema<PaginatedUserGitHubIntegrationListResponseList>,
+  input: __S(544, __c17, 0) as any as S.Schema<ListUsersIntegrationsRequest>,
+  output: __S(550, __c17, 6) as any as S.Schema<PaginatedUserGitHubIntegrationListResponseList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2164,8 +2210,8 @@ export const listUsersLoginSessions: API.OperationMethod<
   ListUsersLoginSessionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<ListUsersLoginSessionsRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<ListUsersLoginSessionsResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<ListUsersLoginSessionsRequest>,
+  output: __S(579, __c18, 3) as any as S.Schema<ListUsersLoginSessionsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2181,8 +2227,8 @@ export const loginUserSessionsDestroy: API.OperationMethod<
   LoginUserSessionsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<LoginUserSessionsDestroyRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<LoginUserSessionsDestroyResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<LoginUserSessionsDestroyRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<LoginUserSessionsDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2198,8 +2244,8 @@ export const signalUserAutonomyDestroy: API.OperationMethod<
   SignalUserAutonomyDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<SignalUserAutonomyDestroyRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<SignalUserAutonomyDestroyResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<SignalUserAutonomyDestroyRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<SignalUserAutonomyDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2215,8 +2261,8 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<UpdateUserRequest>,
-  output: __S(767, __c47, 15) as any as S.Schema<UserOutput>,
+  input: __S(672, __c21, 0) as any as S.Schema<UpdateUserRequest>,
+  output: __S(1521, __c47, 17) as any as S.Schema<UserOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2235,8 +2281,8 @@ export const updateUsersHedgehogConfigPartial: API.OperationMethod<
   UpdateUsersHedgehogConfigPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<UpdateUsersHedgehogConfigPartialRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<UpdateUsersHedgehogConfigPartialResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<UpdateUsersHedgehogConfigPartialRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<UpdateUsersHedgehogConfigPartialResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2252,8 +2298,8 @@ export const updateUsersPartial: API.OperationMethod<
   UpdateUsersPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<UpdateUsersPartialRequest>,
-  output: __S(767, __c47, 15) as any as S.Schema<UserOutput>,
+  input: __S(800, __c25, 0) as any as S.Schema<UpdateUsersPartialRequest>,
+  output: __S(1521, __c47, 17) as any as S.Schema<UserOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2269,8 +2315,8 @@ export const updateUsersProductIntroSeenPartial: API.OperationMethod<
   UpdateUsersProductIntroSeenPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<UpdateUsersProductIntroSeenPartialRequest>,
-  output: __S(418, __c26, 2) as any as S.Schema<UpdateUsersProductIntroSeenPartialResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<UpdateUsersProductIntroSeenPartialRequest>,
+  output: __S(834, __c26, 2) as any as S.Schema<UpdateUsersProductIntroSeenPartialResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2288,8 +2334,8 @@ export const usersCancelEmailChangeRequestPartialUpdate: API.OperationMethod<
   UsersCancelEmailChangeRequestPartialUpdateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<UsersCancelEmailChangeRequestPartialUpdateRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<UsersCancelEmailChangeRequestPartialUpdateResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<UsersCancelEmailChangeRequestPartialUpdateRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<UsersCancelEmailChangeRequestPartialUpdateResponse>,
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2304,8 +2350,8 @@ export const usersDestroy: API.OperationMethod<
   UsersDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<UsersDestroyRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<UsersDestroyResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<UsersDestroyRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<UsersDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2321,8 +2367,8 @@ export const usersIntegrationsCodexDestroy: API.OperationMethod<
   UsersIntegrationsCodexDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<UsersIntegrationsCodexDestroyRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<UsersIntegrationsCodexDestroyResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<UsersIntegrationsCodexDestroyRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<UsersIntegrationsCodexDestroyResponse>,
   errors: [Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2338,8 +2384,8 @@ export const usersIntegrationsGithubDestroy: API.OperationMethod<
   UsersIntegrationsGithubDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<UsersIntegrationsGithubDestroyRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<UsersIntegrationsGithubDestroyResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<UsersIntegrationsGithubDestroyRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<UsersIntegrationsGithubDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2356,11 +2402,11 @@ export const usersIntegrationsGithubInstallRequestsRetrieve: API.OperationMethod
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    496,
+    992,
     __c31,
     0,
   ) as any as S.Schema<UsersIntegrationsGithubInstallRequestsRetrieveRequest>,
-  output: __S(499, __c31, 3) as any as S.Schema<GitHubInstallRequestListResponse>,
+  output: __S(995, __c31, 3) as any as S.Schema<GitHubInstallRequestListResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2376,8 +2422,8 @@ export const usersIntegrationsGithubReposRefreshCreate: API.OperationMethod<
   UsersIntegrationsGithubReposRefreshCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<UsersIntegrationsGithubReposRefreshCreateRequest>,
-  output: __S(513, __c32, 1) as any as S.Schema<GitHubReposRefreshResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<UsersIntegrationsGithubReposRefreshCreateRequest>,
+  output: __S(1025, __c32, 1) as any as S.Schema<GitHubReposRefreshResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2393,8 +2439,8 @@ export const usersIntegrationsGithubStartCreate: API.OperationMethod<
   UsersIntegrationsGithubStartCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<UsersIntegrationsGithubStartCreateRequest>,
-  output: __S(529, __c33, 1) as any as S.Schema<UserGitHubLinkStartResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<UsersIntegrationsGithubStartCreateRequest>,
+  output: __S(1057, __c33, 1) as any as S.Schema<UserGitHubLinkStartResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2410,8 +2456,8 @@ export const usersIntegrationsSlackDestroy: API.OperationMethod<
   UsersIntegrationsSlackDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<UsersIntegrationsSlackDestroyRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<UsersIntegrationsSlackDestroyResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<UsersIntegrationsSlackDestroyRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<UsersIntegrationsSlackDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2427,8 +2473,8 @@ export const usersIntegrationsSlackStartCreate: API.OperationMethod<
   UsersIntegrationsSlackStartCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<UsersIntegrationsSlackStartCreateRequest>,
-  output: __S(593, __c37, 1) as any as S.Schema<UserSlackLinkStartResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<UsersIntegrationsSlackStartCreateRequest>,
+  output: __S(1185, __c37, 1) as any as S.Schema<UserSlackLinkStartResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2444,8 +2490,8 @@ export const usersLoginSessionsRevokeOthersCreate: API.OperationMethod<
   UsersLoginSessionsRevokeOthersCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<UsersLoginSessionsRevokeOthersCreateRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<RevokeOtherSessionsResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<UsersLoginSessionsRevokeOthersCreateRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<RevokeOtherSessionsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2461,8 +2507,8 @@ export const usersPushTokensUnregisterCreate: API.OperationMethod<
   UsersPushTokensUnregisterCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<UsersPushTokensUnregisterCreateRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<UsersPushTokensUnregisterCreateResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<UsersPushTokensUnregisterCreateRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<UsersPushTokensUnregisterCreateResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2478,8 +2524,8 @@ export const usersTwoFactorDisableCreate: API.OperationMethod<
   UsersTwoFactorDisableCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<UsersTwoFactorDisableCreateRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<UsersTwoFactorDisableCreateResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<UsersTwoFactorDisableCreateRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<UsersTwoFactorDisableCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2494,8 +2540,8 @@ export const usersTwoFactorStartSetupRetrieve: API.OperationMethod<
   UsersTwoFactorStartSetupRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<UsersTwoFactorStartSetupRetrieveRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<UsersTwoFactorStartSetupRetrieveResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<UsersTwoFactorStartSetupRetrieveRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<UsersTwoFactorStartSetupRetrieveResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2510,8 +2556,8 @@ export const usersTwoFactorValidateCreate: API.OperationMethod<
   UsersTwoFactorValidateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<UsersTwoFactorValidateCreateRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<UsersTwoFactorValidateCreateResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<UsersTwoFactorValidateCreateRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<UsersTwoFactorValidateCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2526,8 +2572,8 @@ export const usersVerifyEmailCreate: API.OperationMethod<
   UsersVerifyEmailCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<UsersVerifyEmailCreateRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<UsersVerifyEmailCreateResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<UsersVerifyEmailCreateRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<UsersVerifyEmailCreateResponse>,
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2571,7 +2617,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          user: S.optional(__S(16, __c1, 0)),
+          user: S.optional(__S(32, __c1, 0)),
           autostart_priority: S.optional(S.NullOr(S.Unknown)),
           slack_notification_integration_id: S.optional(S.NullOr(S.Number)),
           slack_notification_channel: S.optional(S.NullOr(S.String)),
@@ -2593,7 +2639,7 @@ function __c2(j: number): any {
           first_name: S.optional(S.String),
           last_name: S.optional(S.String),
           email: S.optional(S.String),
-          notification_settings: S.optional(__S(768, __c48, 0)),
+          notification_settings: S.optional(__S(1536, __c48, 0)),
           anonymize_data: S.optional(S.NullOr(S.Boolean)),
           allow_impersonation: S.optional(S.NullOr(S.Boolean)),
           toolbar_mode: S.optional(S.NullOr(S.Unknown)),
@@ -2627,7 +2673,7 @@ function __c3(j: number): any {
           first_name: S.optional(S.String),
           last_name: S.optional(S.String),
           email: S.optional(S.String),
-          notification_settings: S.optional(__S(768, __c48, 0)),
+          notification_settings: S.optional(__S(1536, __c48, 0)),
           anonymize_data: S.optional(S.NullOr(S.Boolean)),
           allow_impersonation: S.optional(S.NullOr(S.Boolean)),
           toolbar_mode: S.optional(S.NullOr(S.Unknown)),
@@ -2718,7 +2764,9 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          branches: S.optional(__S(736, __c46, 0)),
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
+          branches: S.optional(__S(1472, __c46, 0)),
           default_branch: S.optional(S.NullOr(S.String)),
           has_more: S.optional(S.Boolean),
         }),
@@ -2747,7 +2795,9 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          repositories: S.optional(__S(161, __c10, 1)),
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
+          repositories: S.optional(__S(321, __c10, 1)),
           has_more: S.optional(S.Boolean),
           next_offset: S.optional(S.NullOr(S.Number)),
           total: S.optional(S.Number),
@@ -2772,7 +2822,7 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "GitHubRepo" });
     case 1:
-      return S.Array(__S(160, __c10, 0));
+      return S.Array(__S(320, __c10, 0));
   }
 }
 function __c11(j: number): any {
@@ -2800,11 +2850,11 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "UserSlackLinkableWorkspaceItem" });
     case 2:
-      return S.Array(__S(177, __c11, 1));
+      return S.Array(__S(353, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(178, __c11, 2),
+          results: __S(354, __c11, 2),
         }),
       ).annotate({ identifier: "UserSlackLinkableWorkspaceListResponse" });
   }
@@ -2879,14 +2929,14 @@ function __c16(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/users/", code: 200 })),
       ).annotate({ identifier: "ListUsersRequest" });
     case 1:
-      return S.Array(__S(767, __c47, 15));
+      return S.Array(__S(1521, __c47, 17));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(257, __c16, 1)),
+          results: S.optional(__S(513, __c16, 1)),
         }),
       ).annotate({ identifier: "PaginatedUserListOutput" });
   }
@@ -2916,31 +2966,33 @@ function __c17(j: number): any {
           kind: S.String,
           installation_id: S.String,
           repository_selection: S.optional(S.NullOr(S.String)),
-          account: S.optional(S.NullOr(__S(273, __c17, 1))),
+          account: S.optional(S.NullOr(__S(545, __c17, 1))),
           github_login: S.optional(S.NullOr(S.String)),
           uses_shared_installation: S.Boolean,
           installation_shared: S.Boolean,
           installation_status: S.String,
+          needs_reauthorization: S.Boolean,
+          needs_reauthorization_at: S.NullOr(S.String),
           created_at: S.String,
         }),
       ).annotate({ identifier: "UserGitHubIntegrationItem" });
     case 3:
-      return S.Array(__S(274, __c17, 2));
+      return S.Array(__S(546, __c17, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(275, __c17, 3),
+          results: __S(547, __c17, 3),
         }),
       ).annotate({ identifier: "UserGitHubIntegrationListResponse" });
     case 5:
-      return S.Array(__S(276, __c17, 4));
+      return S.Array(__S(548, __c17, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(277, __c17, 5),
+          results: __S(549, __c17, 5),
         }),
       ).annotate({ identifier: "PaginatedUserGitHubIntegrationListResponseList" });
   }
@@ -2968,9 +3020,9 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "UserAuthSession" });
     case 2:
-      return S.Array(__S(289, __c18, 1));
+      return S.Array(__S(577, __c18, 1));
     case 3:
-      return S.suspend(() => __S(290, __c18, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(578, __c18, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListUsersLoginSessionsResponse",
       });
   }
@@ -3013,7 +3065,7 @@ function __c21(j: number): any {
           first_name: S.optional(S.String),
           last_name: S.optional(S.String),
           email: S.optional(S.String),
-          notification_settings: S.optional(__S(768, __c48, 0)),
+          notification_settings: S.optional(__S(1536, __c48, 0)),
           anonymize_data: S.optional(S.NullOr(S.Boolean)),
           allow_impersonation: S.optional(S.NullOr(S.Boolean)),
           toolbar_mode: S.optional(S.NullOr(S.Unknown)),
@@ -3069,7 +3121,7 @@ function __c24(j: number): any {
           first_name: S.optional(S.String),
           last_name: S.optional(S.String),
           email: S.optional(S.String),
-          notification_settings: S.optional(__S(768, __c48, 0)),
+          notification_settings: S.optional(__S(1536, __c48, 0)),
           anonymize_data: S.optional(S.NullOr(S.Boolean)),
           allow_impersonation: S.optional(S.NullOr(S.Boolean)),
           toolbar_mode: S.optional(S.NullOr(S.Unknown)),
@@ -3101,7 +3153,7 @@ function __c25(j: number): any {
           first_name: S.optional(S.String),
           last_name: S.optional(S.String),
           email: S.optional(S.String),
-          notification_settings: S.optional(__S(768, __c48, 0)),
+          notification_settings: S.optional(__S(1536, __c48, 0)),
           anonymize_data: S.optional(S.NullOr(S.Boolean)),
           allow_impersonation: S.optional(S.NullOr(S.Boolean)),
           toolbar_mode: S.optional(S.NullOr(S.Unknown)),
@@ -3139,7 +3191,7 @@ function __c26(j: number): any {
     case 1:
       return S.Record(S.String, S.Boolean);
     case 2:
-      return S.suspend(() => __S(417, __c26, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(833, __c26, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "UpdateUsersProductIntroSeenPartialResponse",
       });
   }
@@ -3152,7 +3204,7 @@ function __c27(j: number): any {
           first_name: S.optional(S.String),
           last_name: S.optional(S.String),
           email: S.optional(S.String),
-          notification_settings: S.optional(__S(768, __c48, 0)),
+          notification_settings: S.optional(__S(1536, __c48, 0)),
           anonymize_data: S.optional(S.NullOr(S.Boolean)),
           allow_impersonation: S.optional(S.NullOr(S.Boolean)),
           toolbar_mode: S.optional(S.NullOr(S.Unknown)),
@@ -3244,11 +3296,11 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "GitHubInstallRequestItem" });
     case 2:
-      return S.Array(__S(497, __c31, 1));
+      return S.Array(__S(993, __c31, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(498, __c31, 2),
+          results: __S(994, __c31, 2),
           install_url: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "GitHubInstallRequestListResponse" });
@@ -3272,7 +3324,7 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          repositories: S.optional(__S(161, __c10, 1)),
+          repositories: S.optional(__S(321, __c10, 1)),
           installation_status: S.optional(S.String),
         }),
       ).annotate({ identifier: "GitHubReposRefreshResponse" });
@@ -3317,7 +3369,7 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-          tokens: __S(544, __c34, 0),
+          tokens: __S(1088, __c34, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/users/{uuid}/integrations/codex/", code: 200 }),
         ),
@@ -3418,7 +3470,7 @@ function __c40(j: number): any {
           first_name: S.optional(S.String),
           last_name: S.optional(S.String),
           email: S.optional(S.String),
-          notification_settings: S.optional(__S(768, __c48, 0)),
+          notification_settings: S.optional(__S(1536, __c48, 0)),
           anonymize_data: S.optional(S.NullOr(S.Boolean)),
           allow_impersonation: S.optional(S.NullOr(S.Boolean)),
           toolbar_mode: S.optional(S.NullOr(S.Unknown)),
@@ -3464,7 +3516,7 @@ function __c42(j: number): any {
           first_name: S.optional(S.String),
           last_name: S.optional(S.String),
           email: S.optional(S.String),
-          notification_settings: S.optional(__S(768, __c48, 0)),
+          notification_settings: S.optional(__S(1536, __c48, 0)),
           anonymize_data: S.optional(S.NullOr(S.Boolean)),
           allow_impersonation: S.optional(S.NullOr(S.Boolean)),
           toolbar_mode: S.optional(S.NullOr(S.Unknown)),
@@ -3546,7 +3598,7 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationNotificationLock" });
     case 1:
-      return S.Array(__S(752, __c47, 0));
+      return S.Array(__S(1504, __c47, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3565,26 +3617,46 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "TeamBasic" });
     case 3:
-      return S.Array(__S(768, __c48, 0));
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          uuid: S.String,
+          organization: S.String,
+          project_id: S.Number,
+          api_token: S.String.pipe(T.SensitiveValue({})),
+          name: S.String,
+          completed_snippet_onboarding: S.Boolean,
+          has_completed_onboarding_for: S.Unknown,
+          ingested_event: S.Boolean,
+          is_demo: S.Boolean,
+          timezone: S.String,
+          access_control: S.Boolean,
+          project_group: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "OrganizationTeamBasic" });
     case 4:
-      return S.Array(S.Unknown);
+      return S.Array(__S(1507, __c47, 3));
     case 5:
-      return S.Record(S.String, S.String);
+      return S.Array(__S(1536, __c48, 0));
     case 6:
+      return S.Array(S.Unknown);
+    case 7:
+      return S.Record(S.String, S.String);
+    case 8:
       return S.suspend(() =>
         S.Struct({
           label: S.String,
           url: S.String,
         }),
       ).annotate({ identifier: "OrganizationMemberNoticeAction" });
-    case 7:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           message: S.String,
-          action: S.optional(S.NullOr(__S(758, __c47, 6))),
+          action: S.optional(S.NullOr(__S(1512, __c47, 8))),
         }),
       ).annotate({ identifier: "OrganizationMemberNotice" });
-    case 8:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -3594,12 +3666,13 @@ function __c47(j: number): any {
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
           membership_level: S.optional(S.Number),
+          membership_joined_at: S.NullOr(S.String),
           plugins_access_level: S.optional(S.Number),
-          teams: S.optional(__S(755, __c47, 3)),
-          projects: S.optional(__S(755, __c47, 3)),
-          available_product_features: S.optional(S.NullOr(__S(756, __c47, 4))),
+          teams: S.optional(__S(1508, __c47, 4)),
+          projects: S.optional(__S(1509, __c47, 5)),
+          available_product_features: S.optional(S.NullOr(__S(1510, __c47, 6))),
           is_member_join_email_enabled: S.optional(S.Boolean),
-          metadata: S.optional(__S(757, __c47, 5)),
+          metadata: S.optional(__S(1511, __c47, 7)),
           customer_id: S.optional(S.NullOr(S.String)),
           enforce_2fa: S.optional(S.NullOr(S.Boolean)),
           enforce_verified_domains: S.optional(S.NullOr(S.Boolean)),
@@ -3609,7 +3682,7 @@ function __c47(j: number): any {
           members_can_see_org_members: S.optional(S.Boolean),
           allow_publicly_shared_resources: S.optional(S.Boolean),
           read_only_mcp_access: S.optional(S.NullOr(S.Boolean)),
-          member_notice: S.optional(S.NullOr(__S(759, __c47, 7))),
+          member_notice: S.optional(S.NullOr(__S(1513, __c47, 9))),
           member_count: S.optional(S.Number),
           is_ai_data_processing_approved: S.optional(S.NullOr(S.Boolean)),
           is_ai_training_opted_in: S.optional(S.NullOr(S.Boolean)),
@@ -3624,7 +3697,7 @@ function __c47(j: number): any {
           uses_most_specific_access_resolution: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "Organization" });
-    case 9:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -3638,18 +3711,18 @@ function __c47(j: number): any {
           is_pending_deletion: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "OrganizationBasic" });
-    case 10:
-      return S.Array(__S(761, __c47, 9));
-    case 11:
+    case 12:
+      return S.Array(__S(1515, __c47, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
           scene: S.optional(S.String),
           dashboard: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "ScenePersonalisationBasic" });
-    case 12:
-      return S.Array(__S(763, __c47, 11));
-    case 13:
+    case 14:
+      return S.Array(__S(1517, __c47, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -3659,9 +3732,9 @@ function __c47(j: number): any {
           created_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "PendingInvite" });
-    case 14:
-      return S.Array(__S(765, __c47, 13));
-    case 15:
+    case 16:
+      return S.Array(__S(1519, __c47, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           date_joined: S.optional(S.String),
@@ -3672,8 +3745,8 @@ function __c47(j: number): any {
           email: S.optional(S.String),
           pending_email: S.optional(S.NullOr(S.String)),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          notification_settings: S.optional(__S(768, __c48, 0)),
-          notification_locks: S.optional(__S(753, __c47, 1)),
+          notification_settings: S.optional(__S(1536, __c48, 0)),
+          notification_locks: S.optional(__S(1505, __c47, 1)),
           anonymize_data: S.optional(S.NullOr(S.Boolean)),
           allow_impersonation: S.optional(S.NullOr(S.Boolean)),
           toolbar_mode: S.optional(S.NullOr(S.Unknown)),
@@ -3686,15 +3759,15 @@ function __c47(j: number): any {
           is_impersonated_reason: S.optional(S.NullOr(S.String)),
           sensitive_session_expires_at: S.optional(S.NullOr(S.String)),
           fresh_reauth_expires_at: S.optional(S.NullOr(S.String)),
-          team: S.optional(__S(754, __c47, 2)),
-          organization: S.optional(__S(760, __c47, 8)),
-          organizations: S.optional(__S(762, __c47, 10)),
+          team: S.optional(__S(1506, __c47, 2)),
+          organization: S.optional(__S(1514, __c47, 10)),
+          organizations: S.optional(__S(1516, __c47, 12)),
           events_column_config: S.optional(S.Unknown),
           is_2fa_enabled: S.optional(S.Boolean),
           has_social_auth: S.optional(S.Boolean),
           has_sso_enforcement: S.optional(S.Boolean),
           has_seen_product_intro_for: S.optional(S.Unknown),
-          scene_personalisation: S.optional(__S(764, __c47, 12)),
+          scene_personalisation: S.optional(__S(1518, __c47, 14)),
           theme_mode: S.optional(S.NullOr(S.Unknown)),
           hedgehog_config: S.optional(S.Unknown),
           allow_sidebar_suggestions: S.optional(S.NullOr(S.Boolean)),
@@ -3710,9 +3783,10 @@ function __c47(j: number): any {
           onboarding_delegated_to_organization_id: S.optional(S.NullOr(S.String)),
           onboarding_delegation_accepted_at: S.optional(S.NullOr(S.String)),
           is_organization_first_user: S.optional(S.NullOr(S.Boolean)),
-          active_realtime_notification_types: S.optional(__S(736, __c46, 0)),
-          pending_invites: S.optional(__S(766, __c47, 14)),
+          active_realtime_notification_types: S.optional(__S(1472, __c46, 0)),
+          pending_invites: S.optional(__S(1520, __c47, 16)),
           requires_credential_review: S.optional(S.Boolean),
+          personal_api_keys_limit: S.Number,
         }),
       ).annotate({ identifier: "UserOutput" });
   }
@@ -3752,7 +3826,7 @@ function __c50(j: number): any {
           first_name: S.optional(S.String),
           last_name: S.optional(S.String),
           email: S.optional(S.String),
-          notification_settings: S.optional(__S(768, __c48, 0)),
+          notification_settings: S.optional(__S(1536, __c48, 0)),
           anonymize_data: S.optional(S.NullOr(S.Boolean)),
           allow_impersonation: S.optional(S.NullOr(S.Boolean)),
           toolbar_mode: S.optional(S.NullOr(S.Unknown)),
@@ -3786,7 +3860,7 @@ function __c51(j: number): any {
           first_name: S.optional(S.String),
           last_name: S.optional(S.String),
           email: S.optional(S.String),
-          notification_settings: S.optional(__S(768, __c48, 0)),
+          notification_settings: S.optional(__S(1536, __c48, 0)),
           anonymize_data: S.optional(S.NullOr(S.Boolean)),
           allow_impersonation: S.optional(S.NullOr(S.Boolean)),
           toolbar_mode: S.optional(S.NullOr(S.Unknown)),

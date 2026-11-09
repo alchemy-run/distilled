@@ -1108,6 +1108,7 @@ export interface DatasetItem {
 export type ProcessingInput =
   | { timeseries: TimeseriesItem[]; dataset?: never }
   | { timeseries?: never; dataset: DatasetItem };
+export type DatasetExportJobNameInput = string;
 export interface ExportErrorReportLocation {
   s3Uri: string;
 }
@@ -1116,6 +1117,7 @@ export interface CreateDatasetExportJobRequest {
   clientToken?: string;
   destinationS3Uri: string;
   input: ProcessingInput;
+  jobName?: string;
   errorReportLocation: ExportErrorReportLocation;
 }
 export type DatasetExportJobId = string;
@@ -1907,6 +1909,7 @@ export interface DescribeDatasetExportJobRequest {
   workspaceName: string;
   jobId: string;
 }
+export type DatasetExportJobName = string;
 export type DatasetExportJobStatus =
   | "SUBMITTED"
   | "RUNNING"
@@ -1917,6 +1920,7 @@ export type DatasetExportJobStatus =
 export interface DescribeDatasetExportJobResponse {
   jobId: string;
   workspaceName: string;
+  jobName?: string;
   status: DatasetExportJobStatus;
   startedAt: Date;
   completedAt?: Date;
@@ -3052,6 +3056,7 @@ export interface ListDatasetExportJobsRequest {
 }
 export interface ExportJobSummary {
   jobId: string;
+  jobName?: string;
   status: DatasetExportJobStatus;
   startedAt: Date;
   completedAt?: Date;
@@ -10378,6 +10383,7 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           jobId: S.String,
+          jobName: S.optional(S.String),
           status: S.String,
           startedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -12730,6 +12736,7 @@ function __c117(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           destinationS3Uri: S.String,
           input: __S(1907, __c119, 3),
+          jobName: S.optional(S.String),
           errorReportLocation: __S(1908, __c119, 4),
         }).pipe(
           T.all(
@@ -14295,6 +14302,7 @@ function __c191(j: number): any {
         S.Struct({
           jobId: S.String,
           workspaceName: S.String,
+          jobName: S.optional(S.String),
           status: S.String,
           startedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),

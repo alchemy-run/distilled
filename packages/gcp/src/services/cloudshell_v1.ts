@@ -98,34 +98,34 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
 }
 /** Request message for AuthorizeEnvironment. */
 export interface AuthorizeEnvironmentRequest {
-  /** The OAuth ID token that should be sent to the environment. */
-  idToken?: string;
-  /** The OAuth access token that should be sent to the environment. */
-  accessToken?: string;
   /** The time when the credentials expire. If not set, defaults to one hour from when the server received the request. */
   expireTime?: string;
+  /** The OAuth access token that should be sent to the environment. */
+  accessToken?: string;
+  /** The OAuth ID token that should be sent to the environment. */
+  idToken?: string;
 }
 export interface AuthorizeUsersEnvironmentsRequest {
   /** Name of the resource that should receive the credentials, for example `users/me/environments/default` or `users/someone@example.com/environments/default`. */
@@ -148,12 +148,12 @@ export interface DeleteOperationsRequest {
   name: string;
 }
 export interface GenerateAccessTokenUsersEnvironmentsRequest {
-  /** Desired expiration time of the access token. This value must be at most 24 hours in the future. If a value is not specified, the token's expiration time will be set to a default value of 1 hour in the future. */
-  expireTime?: string;
   /** Desired lifetime duration of the access token. This value must be at most 24 hours. If a value is not specified, the token's lifetime will be set to a default value of 1 hour. */
   ttl?: string;
   /** Required. The environment to generate the access token for. */
   environment: string;
+  /** Desired expiration time of the access token. This value must be at most 24 hours in the future. If a value is not specified, the token's expiration time will be set to a default value of 1 hour in the future. */
+  expireTime?: string;
 }
 /** Response message for GenerateAccessToken. */
 export interface GenerateAccessTokenResponse {
@@ -177,46 +177,46 @@ export type EnvironmentStateEnum =
 export type StringList = Array<string>;
 /** A Cloud Shell environment, which is defined as the combination of a Docker image specifying what is installed on the environment and a home directory containing the user's data that will remain across sessions. Each user has at least an environment with the ID "default". */
 export interface Environment {
-  /** Output only. Host to which clients can connect to initiate SSH sessions with the environment. */
-  sshHost?: string;
-  /** Output only. The environment's identifier, unique among the user's environments. */
-  id?: string;
-  /** Required. Immutable. Full path to the Docker image used to run this environment, e.g. "gcr.io/dev-con/cloud-devshell:latest". */
-  dockerImage?: string;
-  /** Immutable. Full name of this resource, in the format `users/{owner_email}/environments/{environment_id}`. `{owner_email}` is the email address of the user to whom this environment belongs, and `{environment_id}` is the identifier of this environment. For example, `users/someone@example.com/environments/default`. */
-  name?: string;
-  /** Output only. Port to which clients can connect to initiate SSH sessions with the environment. */
-  sshPort?: number;
-  /** Output only. Current execution state of this environment. */
-  state?: EnvironmentStateEnum;
-  /** Output only. Username that clients should use when initiating SSH sessions with the environment. */
-  sshUsername?: string;
-  /** Output only. Public keys associated with the environment. Clients can connect to this environment via SSH only if they possess a private key corresponding to at least one of these public keys. Keys can be added to or removed from the environment using the AddPublicKey and RemovePublicKey methods. */
-  publicKeys?: StringList;
   /** Output only. Host to which clients can connect to initiate HTTPS or WSS connections with the environment. */
   webHost?: string;
+  /** Output only. Username that clients should use when initiating SSH sessions with the environment. */
+  sshUsername?: string;
+  /** Output only. Port to which clients can connect to initiate SSH sessions with the environment. */
+  sshPort?: number;
+  /** Required. Immutable. Full path to the Docker image used to run this environment, e.g. "gcr.io/dev-con/cloud-devshell:latest". */
+  dockerImage?: string;
+  /** Output only. Current execution state of this environment. */
+  state?: EnvironmentStateEnum;
+  /** Immutable. Full name of this resource, in the format `users/{owner_email}/environments/{environment_id}`. `{owner_email}` is the email address of the user to whom this environment belongs, and `{environment_id}` is the identifier of this environment. For example, `users/someone@example.com/environments/default`. */
+  name?: string;
+  /** Output only. Host to which clients can connect to initiate SSH sessions with the environment. */
+  sshHost?: string;
+  /** Output only. Public keys associated with the environment. Clients can connect to this environment via SSH only if they possess a private key corresponding to at least one of these public keys. Keys can be added to or removed from the environment using the AddPublicKey and RemovePublicKey methods. */
+  publicKeys?: StringList;
+  /** Output only. The environment's identifier, unique among the user's environments. */
+  id?: string;
 }
 export interface ListOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
-  /** The name of the operation's parent resource. */
-  name: string;
-  /** The standard list page size. */
-  pageSize?: number;
   /** The standard list filter. */
   filter?: string;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
+  /** The standard list page token. */
+  pageToken?: string;
+  /** The standard list page size. */
+  pageSize?: number;
+  /** The name of the operation's parent resource. */
+  name: string;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList;
 }
 /** Request message for RemovePublicKey. */
 export interface RemovePublicKeyRequest {
@@ -231,10 +231,10 @@ export interface RemovePublicKeyUsersEnvironmentsRequest {
 }
 /** Request message for StartEnvironment. */
 export interface StartEnvironmentRequest {
-  /** The initial access token passed to the environment. If this is present and valid, the environment will be pre-authenticated with gcloud so that the user can run gcloud commands in Cloud Shell without having to log in. This code can be updated later by calling AuthorizeEnvironment. */
-  accessToken?: string;
   /** Public keys that should be added to the environment before it is started. */
   publicKeys?: StringList;
+  /** The initial access token passed to the environment. If this is present and valid, the environment will be pre-authenticated with gcloud so that the user can run gcloud commands in Cloud Shell without having to log in. This code can be updated later by calling AuthorizeEnvironment. */
+  accessToken?: string;
 }
 export interface StartUsersEnvironmentsRequest {
   /** Name of the resource that should be started, for example `users/me/environments/default` or `users/someone@example.com/environments/default`. */
@@ -447,15 +447,15 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sshHost: S.optional(S.String),
-          id: S.optional(S.String),
-          dockerImage: S.optional(S.String),
-          name: S.optional(S.String),
-          sshPort: S.optional(S.Number),
-          state: S.optional(S.String),
-          sshUsername: S.optional(S.String),
-          publicKeys: S.optional(__S(4, __c1, 0)),
           webHost: S.optional(S.String),
+          sshUsername: S.optional(S.String),
+          sshPort: S.optional(S.Number),
+          dockerImage: S.optional(S.String),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
+          sshHost: S.optional(S.String),
+          publicKeys: S.optional(__S(4, __c1, 0)),
+          id: S.optional(S.String),
         }),
       ).annotate({ identifier: "Environment" });
   }
@@ -471,11 +471,11 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -489,9 +489,9 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(9, __c2, 1)),
           unreachable: S.optional(__S(4, __c1, 0)),
           nextPageToken: S.optional(S.String),
+          operations: S.optional(__S(9, __c2, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -518,8 +518,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accessToken: S.optional(S.String),
           publicKeys: S.optional(__S(4, __c1, 0)),
+          accessToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "StartEnvironmentRequest" });
     case 1:
@@ -573,18 +573,18 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.Number),
           message: S.optional(S.String),
           details: S.optional(__S(29, __c7, 1)),
-          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(28, __c7, 0)),
-          done: S.optional(S.Boolean),
           name: S.optional(S.String),
+          metadata: S.optional(__S(28, __c7, 0)),
           error: S.optional(__S(30, __c7, 2)),
+          done: S.optional(S.Boolean),
           response: S.optional(__S(28, __c7, 0)),
         }),
       ).annotate({ identifier: "Operation" });
@@ -595,9 +595,9 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idToken: S.optional(S.String),
-          accessToken: S.optional(S.String),
           expireTime: S.optional(S.String),
+          accessToken: S.optional(S.String),
+          idToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthorizeEnvironmentRequest" });
     case 1:
@@ -659,9 +659,9 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          expireTime: S.optional(S.String.pipe(T.Query())),
           ttl: S.optional(S.String.pipe(T.Query())),
           environment: S.String.pipe(T.Label()),
+          expireTime: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",

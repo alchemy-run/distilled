@@ -25,7 +25,7 @@ const TELEMETRY = {
 } as const;
 
 export interface AddPinRequest {
-  /** Channel to pin the messsage to. You must also include a `timestamp` when pinning messages. */
+  /** Channel to pin the message to. You must also include a `timestamp` when pinning messages. */
   channel: string;
   /** Timestamp of the message to pin. You must also include the `channel`. */
   timestamp?: string;

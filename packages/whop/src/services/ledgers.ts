@@ -1347,6 +1347,7 @@ export interface LedgerActivitySource {
   to_currency?: string | null;
   /** On-chain transaction hash (onchain_transaction and swap sources only). */
   tx_hash?: string | null;
+  [key: string]: unknown;
 }
 export interface LedgerActivity {
   /** The viewer account that owns this row's ledger. Present only when the response aggregates owned accounts (include_owned_accounts=true); omitted otherwise. */
@@ -1675,33 +1676,36 @@ function __c5(j: number): any {
       ).annotate({ identifier: "LedgerActivitySourcePayoutDestination" });
     case 7:
       return S.suspend(() =>
-        S.Struct({
-          amount_float: S.optional(S.NullOr(S.Number)),
-          card_brand: S.optional(S.NullOr(S.String)),
-          chain: S.optional(S.NullOr(S.String)),
-          claim_url: S.optional(S.NullOr(S.String)),
-          created_at: S.optional(S.NullOr(S.String)),
-          estimated_arrival: S.optional(S.NullOr(S.String)),
-          fee_kind: S.optional(S.NullOr(S.String)),
-          from_amount: S.optional(S.NullOr(S.String)),
-          from_currency: S.optional(S.NullOr(S.String)),
-          id: S.String,
-          notes: S.optional(S.NullOr(S.String)),
-          object: S.String,
-          payer_name: S.optional(S.NullOr(S.String)),
-          payment_amount: S.optional(S.NullOr(__S(32, __c2, 0))),
-          payment_method_type: S.optional(S.NullOr(S.String)),
-          payment_processor: S.optional(S.NullOr(S.String)),
-          payout_destination: S.optional(S.NullOr(__S(86, __c5, 6))),
-          payout_token_nickname: S.optional(S.NullOr(S.String)),
-          reason: S.optional(S.NullOr(S.String)),
-          risk_review_hold: S.optional(S.NullOr(S.Boolean)),
-          sender_address: S.optional(S.NullOr(S.String)),
-          status: S.optional(S.NullOr(S.String)),
-          to_amount: S.optional(S.NullOr(S.String)),
-          to_currency: S.optional(S.NullOr(S.String)),
-          tx_hash: S.optional(S.NullOr(S.String)),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            amount_float: S.optional(S.NullOr(S.Number)),
+            card_brand: S.optional(S.NullOr(S.String)),
+            chain: S.optional(S.NullOr(S.String)),
+            claim_url: S.optional(S.NullOr(S.String)),
+            created_at: S.optional(S.NullOr(S.String)),
+            estimated_arrival: S.optional(S.NullOr(S.String)),
+            fee_kind: S.optional(S.NullOr(S.String)),
+            from_amount: S.optional(S.NullOr(S.String)),
+            from_currency: S.optional(S.NullOr(S.String)),
+            id: S.String,
+            notes: S.optional(S.NullOr(S.String)),
+            object: S.String,
+            payer_name: S.optional(S.NullOr(S.String)),
+            payment_amount: S.optional(S.NullOr(__S(32, __c2, 0))),
+            payment_method_type: S.optional(S.NullOr(S.String)),
+            payment_processor: S.optional(S.NullOr(S.String)),
+            payout_destination: S.optional(S.NullOr(__S(86, __c5, 6))),
+            payout_token_nickname: S.optional(S.NullOr(S.String)),
+            reason: S.optional(S.NullOr(S.String)),
+            risk_review_hold: S.optional(S.NullOr(S.Boolean)),
+            sender_address: S.optional(S.NullOr(S.String)),
+            status: S.optional(S.NullOr(S.String)),
+            to_amount: S.optional(S.NullOr(S.String)),
+            to_currency: S.optional(S.NullOr(S.String)),
+            tx_hash: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "LedgerActivitySource" });
     case 8:
       return S.suspend(() =>

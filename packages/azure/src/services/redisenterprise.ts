@@ -32,20 +32,30 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** Current provisioning status */
+export type ProvisioningState =
+  | "Succeeded"
+  | "Failed"
+  | "Canceled"
+  | "Creating"
+  | "Updating"
+  | "Deleting";
 /** The user associated with the access policy. */
-export interface AccessPolicyAssignmentPropertiesInputUser {
+export interface AccessPolicyAssignmentPropertiesUser {
   /** The object ID of the user. */
   objectId?: string;
 }
 /** Properties of Redis Enterprise database access policy assignment. */
-export interface AccessPolicyAssignmentPropertiesInput {
+export interface AccessPolicyAssignmentProperties {
+  /** Current provisioning status of the access policy assignment. */
+  provisioningState?: ProvisioningState | (string & {});
   /** Name of access policy under specific access policy assignment. Only "default" policy is supported for now. */
   accessPolicyName: string;
   /** The user associated with the access policy. */
-  user: AccessPolicyAssignmentPropertiesInputUser;
+  user: AccessPolicyAssignmentPropertiesUser;
 }
 export interface AccessPolicyAssignmentCreateUpdateRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -56,46 +66,49 @@ export interface AccessPolicyAssignmentCreateUpdateRequest {
   /** The name of the Redis Enterprise database access policy assignment. */
   accessPolicyAssignmentName: string;
   /** Properties of the access policy assignment. */
-  properties?: AccessPolicyAssignmentPropertiesInput;
+  properties?: AccessPolicyAssignmentProperties;
 }
-/** Current provisioning status */
-export type ProvisioningState =
-  | "Succeeded"
-  | "Failed"
-  | "Canceled"
-  | "Creating"
-  | "Updating"
-  | "Deleting";
-/** The user associated with the access policy. */
-export type AccessPolicyAssignmentPropertiesUser = AccessPolicyAssignmentPropertiesInputUser;
-/** Properties of Redis Enterprise database access policy assignment. */
-export interface AccessPolicyAssignmentProperties {
-  /** Current provisioning status of the access policy assignment. */
-  provisioningState?: ProvisioningState;
-  /** Name of access policy under specific access policy assignment. Only "default" policy is supported for now. */
-  accessPolicyName: string;
-  /** The user associated with the access policy. */
-  user: AccessPolicyAssignmentPropertiesInputUser;
+/** The type of identity that created the resource. */
+export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
+/** The type of identity that last modified the resource. */
+export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIdentity" | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: SystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: SystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
 }
 export interface AccessPolicyAssignmentCreateUpdateResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
   /** The name of the resource */
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Properties of the access policy assignment. */
   properties?: AccessPolicyAssignmentProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 /** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
-export type DatabaseCreatePropertiesInputClientProtocol = "Encrypted" | "Plaintext";
+export type Protocol = "Encrypted" | "Plaintext";
 /** Clustering policy - default is OSSCluster. This property can be updated only if the current value is NoCluster. If the value is OSSCluster or EnterpriseCluster, it cannot be updated without deleting the database. */
-export type DatabaseCreatePropertiesInputClusteringPolicy =
-  | "EnterpriseCluster"
-  | "OSSCluster"
-  | "NoCluster";
+export type ClusteringPolicy = "EnterpriseCluster" | "OSSCluster" | "NoCluster";
 /** Redis eviction policy - default is VolatileLRU */
-export type DatabaseCreatePropertiesInputEvictionPolicy =
+export type EvictionPolicy =
   | "AllKeysLFU"
   | "AllKeysLRU"
   | "AllKeysRandom"
@@ -105,9 +118,9 @@ export type DatabaseCreatePropertiesInputEvictionPolicy =
   | "VolatileRandom"
   | "NoEviction";
 /** Sets the frequency at which data is written to disk. Defaults to '1s', meaning 'every second'. Note that the 'always' setting is deprecated, because of its performance impact. */
-export type PersistenceAofFrequency = "1s" | "always";
+export type AofFrequency = "1s" | "always";
 /** Sets the frequency at which a snapshot of the database is created. */
-export type PersistenceRdbFrequency = "1h" | "6h" | "12h";
+export type RdbFrequency = "1h" | "6h" | "12h";
 /** Persistence-related configuration for the Redis Enterprise database */
 export interface Persistence {
   /** Sets whether AOF is enabled. Note that at most one of AOF or RDB persistence may be enabled. */
@@ -115,9 +128,9 @@ export interface Persistence {
   /** Sets whether RDB is enabled. Note that at most one of AOF or RDB persistence may be enabled. */
   rdbEnabled?: boolean;
   /** Sets the frequency at which data is written to disk. Defaults to '1s', meaning 'every second'. Note that the 'always' setting is deprecated, because of its performance impact. */
-  aofFrequency?: PersistenceAofFrequency | (string & {});
+  aofFrequency?: AofFrequency | (string & {});
   /** Sets the frequency at which a snapshot of the database is created. */
-  rdbFrequency?: PersistenceRdbFrequency | (string & {});
+  rdbFrequency?: RdbFrequency | (string & {});
 }
 /** Specifies configuration of a redis module */
 export interface ModuleInput {
@@ -128,48 +141,53 @@ export interface ModuleInput {
 }
 /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
 export type DatabaseCreatePropertiesInputModulesList = Array<ModuleInput>;
+/** State of the link between the database resources. */
+export type LinkState = "Linked" | "Linking" | "Unlinking" | "LinkFailed" | "UnlinkFailed";
 /** Specifies details of a linked database resource. */
-export interface LinkedDatabaseInput {
+export interface LinkedDatabase {
   /** Resource ID of a database resource to link with this database. */
   id?: string;
+  /** State of the link between the database resources. */
+  state?: LinkState | (string & {});
 }
 /** List of database resources to link with this database */
-export type DatabaseCreatePropertiesInputGeoReplicationLinkedDatabasesList =
-  Array<LinkedDatabaseInput>;
+export type DatabasePropertiesGeoReplicationLinkedDatabasesList = Array<LinkedDatabase>;
 /** Optional set of properties to configure geo replication for this database. */
-export interface DatabaseCreatePropertiesInputGeoReplication {
+export interface DatabasePropertiesGeoReplication {
   /** Name for the group of linked database resources */
   groupNickname?: string;
   /** List of database resources to link with this database */
-  linkedDatabases?: DatabaseCreatePropertiesInputGeoReplicationLinkedDatabasesList;
+  linkedDatabases?: DatabasePropertiesGeoReplicationLinkedDatabasesList;
 }
 /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more: https://aka.ms/redisversionupgrade */
-export type DatabaseCreatePropertiesInputDeferUpgrade = "Deferred" | "NotDeferred";
+export type DeferUpgradeSetting = "Deferred" | "NotDeferred";
 /** This property can be Enabled/Disabled to allow or deny access with the current access keys. Can be updated even after database is created. */
-export type DatabaseCreatePropertiesInputAccessKeysAuthentication = "Disabled" | "Enabled";
+export type AccessKeysAuthentication = "Disabled" | "Enabled";
 /** Properties for creating Redis Enterprise databases */
 export interface DatabaseCreatePropertiesInput {
   /** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
-  clientProtocol?: DatabaseCreatePropertiesInputClientProtocol | (string & {});
+  clientProtocol?: Protocol | (string & {});
   /** TCP port of the database endpoint. Specified at create time. Defaults to an available port. */
   port?: number;
   /** Clustering policy - default is OSSCluster. This property can be updated only if the current value is NoCluster. If the value is OSSCluster or EnterpriseCluster, it cannot be updated without deleting the database. */
-  clusteringPolicy?: DatabaseCreatePropertiesInputClusteringPolicy | (string & {});
+  clusteringPolicy?: ClusteringPolicy | (string & {});
   /** Redis eviction policy - default is VolatileLRU */
-  evictionPolicy?: DatabaseCreatePropertiesInputEvictionPolicy | (string & {});
+  evictionPolicy?: EvictionPolicy | (string & {});
   /** Persistence settings */
   persistence?: Persistence;
   /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
   modules?: DatabaseCreatePropertiesInputModulesList;
   /** Optional set of properties to configure geo replication for this database. */
-  geoReplication?: DatabaseCreatePropertiesInputGeoReplication;
+  geoReplication?: DatabasePropertiesGeoReplication;
   /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more: https://aka.ms/redisversionupgrade */
-  deferUpgrade?: DatabaseCreatePropertiesInputDeferUpgrade | (string & {});
+  deferUpgrade?: DeferUpgradeSetting | (string & {});
   /** This property can be Enabled/Disabled to allow or deny access with the current access keys. Can be updated even after database is created. */
-  accessKeysAuthentication?: DatabaseCreatePropertiesInputAccessKeysAuthentication | (string & {});
+  accessKeysAuthentication?: AccessKeysAuthentication | (string & {});
+  /** Specifies which keyspace events should trigger notifications. Default is an empty string, meaning this feature is disabled. When enabled, at least 'K' (keyspace events) or 'E' (keyevent events) must be present. For example, 'AKE' enables all standard events. See https://redis.io/docs/latest/develop/use/keyspace-notifications/ for the complete list of event types. */
+  notifyKeyspaceEvents?: string;
 }
 export interface CreateDatabaseRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -180,8 +198,6 @@ export interface CreateDatabaseRequest {
   /** Other properties of the database. */
   properties?: DatabaseCreatePropertiesInput;
 }
-/** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
-export type DatabaseCreatePropertiesClientProtocol = "Encrypted" | "Plaintext";
 /** Current resource status */
 export type ResourceState =
   | "Running"
@@ -199,21 +215,6 @@ export type ResourceState =
   | "Scaling"
   | "ScalingFailed"
   | "Moving";
-/** Clustering policy - default is OSSCluster. This property can be updated only if the current value is NoCluster. If the value is OSSCluster or EnterpriseCluster, it cannot be updated without deleting the database. */
-export type DatabaseCreatePropertiesClusteringPolicy =
-  | "EnterpriseCluster"
-  | "OSSCluster"
-  | "NoCluster";
-/** Redis eviction policy - default is VolatileLRU */
-export type DatabaseCreatePropertiesEvictionPolicy =
-  | "AllKeysLFU"
-  | "AllKeysLRU"
-  | "AllKeysRandom"
-  | "VolatileLRU"
-  | "VolatileLFU"
-  | "VolatileTTL"
-  | "VolatileRandom"
-  | "NoEviction";
 /** Specifies configuration of a redis module */
 export interface Module {
   /** The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries' */
@@ -225,37 +226,10 @@ export interface Module {
 }
 /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
 export type DatabaseCreatePropertiesModulesList = Array<Module>;
-/** State of the link between the database resources. */
-export type LinkedDatabaseState =
-  | "Linked"
-  | "Linking"
-  | "Unlinking"
-  | "LinkFailed"
-  | "UnlinkFailed";
-/** Specifies details of a linked database resource. */
-export interface LinkedDatabase {
-  /** Resource ID of a database resource to link with this database. */
-  id?: string;
-  /** State of the link between the database resources. */
-  state?: LinkedDatabaseState;
-}
-/** List of database resources to link with this database */
-export type DatabaseCreatePropertiesGeoReplicationLinkedDatabasesList = Array<LinkedDatabase>;
-/** Optional set of properties to configure geo replication for this database. */
-export interface DatabaseCreatePropertiesGeoReplication {
-  /** Name for the group of linked database resources */
-  groupNickname?: string;
-  /** List of database resources to link with this database */
-  linkedDatabases?: DatabaseCreatePropertiesGeoReplicationLinkedDatabasesList;
-}
-/** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more: https://aka.ms/redisversionupgrade */
-export type DatabaseCreatePropertiesDeferUpgrade = "Deferred" | "NotDeferred";
-/** This property can be Enabled/Disabled to allow or deny access with the current access keys. Can be updated even after database is created. */
-export type DatabaseCreatePropertiesAccessKeysAuthentication = "Disabled" | "Enabled";
 /** Properties for creating Redis Enterprise databases */
 export interface DatabaseCreateProperties {
   /** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
-  clientProtocol?: DatabaseCreatePropertiesClientProtocol;
+  clientProtocol?: Protocol;
   /** TCP port of the database endpoint. Specified at create time. Defaults to an available port. */
   port?: number;
   /** Current provisioning status of the database */
@@ -263,34 +237,116 @@ export interface DatabaseCreateProperties {
   /** Current resource status of the database */
   resourceState?: ResourceState;
   /** Clustering policy - default is OSSCluster. This property can be updated only if the current value is NoCluster. If the value is OSSCluster or EnterpriseCluster, it cannot be updated without deleting the database. */
-  clusteringPolicy?: DatabaseCreatePropertiesClusteringPolicy;
+  clusteringPolicy?: ClusteringPolicy;
   /** Redis eviction policy - default is VolatileLRU */
-  evictionPolicy?: DatabaseCreatePropertiesEvictionPolicy;
+  evictionPolicy?: EvictionPolicy;
   /** Persistence settings */
   persistence?: Persistence;
   /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
   modules?: DatabaseCreatePropertiesModulesList;
   /** Optional set of properties to configure geo replication for this database. */
-  geoReplication?: DatabaseCreatePropertiesGeoReplication;
+  geoReplication?: DatabasePropertiesGeoReplication;
   /** Version of Redis the database is running on, e.g. '6.0' */
   redisVersion?: string;
   /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more: https://aka.ms/redisversionupgrade */
-  deferUpgrade?: DatabaseCreatePropertiesDeferUpgrade;
+  deferUpgrade?: DeferUpgradeSetting;
   /** This property can be Enabled/Disabled to allow or deny access with the current access keys. Can be updated even after database is created. */
-  accessKeysAuthentication?: DatabaseCreatePropertiesAccessKeysAuthentication;
+  accessKeysAuthentication?: AccessKeysAuthentication;
+  /** Specifies which keyspace events should trigger notifications. Default is an empty string, meaning this feature is disabled. When enabled, at least 'K' (keyspace events) or 'E' (keyevent events) must be present. For example, 'AKE' enables all standard events. See https://redis.io/docs/latest/develop/use/keyspace-notifications/ for the complete list of event types. */
+  notifyKeyspaceEvents?: string;
 }
 export interface CreateDatabaseResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
   /** The name of the resource */
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Other properties of the database. */
   properties?: DatabaseCreateProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 /** Resource tags. */
 export type CreateRedisEnterpriseRequestTagsMap = { [key: string]: string | undefined };
+/** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
+export type HighAvailability = "Enabled" | "Disabled";
+/** The minimum TLS version for the cluster to support, e.g. '1.2'. Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old API versions. */
+export type TlsVersion = "1.0" | "1.1" | "1.2";
+/** Only userAssignedIdentity is supported in this API version; other types may be supported in the future */
+export type CmkIdentityType = "systemAssignedIdentity" | "userAssignedIdentity";
+/** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
+export interface ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity {
+  /** User assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/<sub uuid>/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. */
+  userAssignedIdentityResourceId?: string;
+  /** Only userAssignedIdentity is supported in this API version; other types may be supported in the future */
+  identityType?: CmkIdentityType | (string & {});
+}
+/** All Customer-managed key encryption properties for the resource. Set this to an empty object to use Microsoft-managed key encryption. */
+export interface ClusterPropertiesEncryptionCustomerManagedKeyEncryption {
+  /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
+  keyEncryptionKeyIdentity?: ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity;
+  /** Key encryption key Url, versioned only. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 */
+  keyEncryptionKeyUrl?: string;
+}
+/** Encryption-at-rest configuration for the cluster. */
+export interface ClusterPropertiesEncryption {
+  /** All Customer-managed key encryption properties for the resource. Set this to an empty object to use Microsoft-managed key encryption. */
+  customerManagedKeyEncryption?: ClusterPropertiesEncryptionCustomerManagedKeyEncryption;
+}
+/** Maintenance window type. */
+export type MaintenanceWindowType = "Weekly";
+/** Day of week. Required when the maintenance window type is 'Weekly'. */
+export type MaintenanceDayOfWeek =
+  | "Sunday"
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday";
+/** Schedule details for a maintenance window. */
+export interface MaintenanceWindowSchedule {
+  /** Day of week. Required when the maintenance window type is 'Weekly'. */
+  dayOfWeek?: MaintenanceDayOfWeek | (string & {});
+}
+/** A single custom maintenance window. */
+export interface MaintenanceWindow {
+  /** Maintenance window type. */
+  type: MaintenanceWindowType | (string & {});
+  /** Duration in ISO-8601 format, for example 'PT5H'. */
+  duration: string;
+  /** Start hour (0-23) in UTC when the maintenance window begins. */
+  startHourUtc: number;
+  /** Recurring schedule for the maintenance window. */
+  schedule: MaintenanceWindowSchedule;
+}
+/** Custom maintenance windows that apply to the cluster. */
+export type MaintenanceConfigurationMaintenanceWindowsList = Array<MaintenanceWindow>;
+/** Cluster-level maintenance configuration. */
+export interface MaintenanceConfiguration {
+  /** Custom maintenance windows that apply to the cluster. */
+  maintenanceWindows?: MaintenanceConfigurationMaintenanceWindowsList;
+}
+/** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
+export type PublicNetworkAccess = "Enabled" | "Disabled";
+/** Properties of Redis Enterprise clusters for create operations */
+export interface ClusterCreatePropertiesInput {
+  /** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
+  highAvailability?: HighAvailability | (string & {});
+  /** The minimum TLS version for the cluster to support, e.g. '1.2'. Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old API versions. */
+  minimumTlsVersion?: TlsVersion | (string & {});
+  /** Encryption-at-rest configuration for the cluster. */
+  encryption?: ClusterPropertiesEncryption;
+  /** Cluster-level maintenance configuration. */
+  maintenanceConfiguration?: MaintenanceConfiguration;
+  /** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
+  publicNetworkAccess: PublicNetworkAccess | (string & {}) | null;
+}
 /** The level of Redis Enterprise cluster to deploy. Possible values: ('Balanced_B5', 'MemoryOptimized_M10', 'ComputeOptimized_X5', etc.). For more information on SKUs see the latest pricing documentation. Note that additional SKUs may become supported in the future. */
 export type SkuName =
   | "Enterprise_E1"
@@ -355,7 +411,7 @@ export interface Sku {
   /** This property is only used with Enterprise and EnterpriseFlash SKUs. Determines the size of the cluster. Valid values are (2, 4, 6, ...) for Enterprise SKUs and (3, 9, 15, ...) for EnterpriseFlash SKUs. */
   capacity?: number;
 }
-/** The Availability Zones where this cluster will be deployed. */
+/** The availability zones. */
 export type CreateRedisEnterpriseRequestZonesList = Array<string>;
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -372,50 +428,8 @@ export interface CreateRedisEnterpriseRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   userAssignedIdentities?: UserAssignedIdentitiesInput;
 }
-/** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
-export type ClusterCreatePropertiesInputHighAvailability = "Enabled" | "Disabled";
-/** The minimum TLS version for the cluster to support, e.g. '1.2'. Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old API versions. */
-export type ClusterCreatePropertiesInputMinimumTlsVersion = "1.0" | "1.1" | "1.2";
-/** Only userAssignedIdentity is supported in this API version; other types may be supported in the future */
-export type ClusterCreatePropertiesInputEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentityIdentityType =
-  | "systemAssignedIdentity"
-  | "userAssignedIdentity";
-/** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-export interface ClusterCreatePropertiesInputEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentity {
-  /** User assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/<sub uuid>/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. */
-  userAssignedIdentityResourceId?: string;
-  /** Only userAssignedIdentity is supported in this API version; other types may be supported in the future */
-  identityType?:
-    | ClusterCreatePropertiesInputEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentityIdentityType
-    | (string & {});
-}
-/** All Customer-managed key encryption properties for the resource. Set this to an empty object to use Microsoft-managed key encryption. */
-export interface ClusterCreatePropertiesInputEncryptionCustomerManagedKeyEncryption {
-  /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-  keyEncryptionKeyIdentity?: ClusterCreatePropertiesInputEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentity;
-  /** Key encryption key Url, versioned only. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 */
-  keyEncryptionKeyUrl?: string;
-}
-/** Encryption-at-rest configuration for the cluster. */
-export interface ClusterCreatePropertiesInputEncryption {
-  /** All Customer-managed key encryption properties for the resource. Set this to an empty object to use Microsoft-managed key encryption. */
-  customerManagedKeyEncryption?: ClusterCreatePropertiesInputEncryptionCustomerManagedKeyEncryption;
-}
-/** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
-export type ClusterCreatePropertiesInputPublicNetworkAccess = "Enabled" | "Disabled";
-/** Properties of Redis Enterprise clusters for create operations */
-export interface ClusterCreatePropertiesInput {
-  /** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
-  highAvailability?: ClusterCreatePropertiesInputHighAvailability | (string & {});
-  /** The minimum TLS version for the cluster to support, e.g. '1.2'. Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old API versions. */
-  minimumTlsVersion?: ClusterCreatePropertiesInputMinimumTlsVersion | (string & {});
-  /** Encryption-at-rest configuration for the cluster. */
-  encryption?: ClusterCreatePropertiesInputEncryption;
-  /** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
-  publicNetworkAccess: ClusterCreatePropertiesInputPublicNetworkAccess | (string & {}) | null;
-}
 export interface CreateRedisEnterpriseRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -425,71 +439,24 @@ export interface CreateRedisEnterpriseRequest {
   tags?: CreateRedisEnterpriseRequestTagsMap;
   /** The geo-location where the resource lives */
   location: string;
+  /** Other properties of the cluster. */
+  properties?: ClusterCreatePropertiesInput;
   /** The SKU to create, which affects price, performance, and features. */
   sku: Sku;
-  /** The Availability Zones where this cluster will be deployed. */
+  /** The availability zones. */
   zones?: CreateRedisEnterpriseRequestZonesList;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: CreateRedisEnterpriseRequestIdentity;
-  /** Other properties of the cluster. */
-  properties?: ClusterCreatePropertiesInput;
 }
 /** Resource tags. */
 export type CreateRedisEnterpriseResponseTagsMap = { [key: string]: string | undefined };
-/** Distinguishes the kind of cluster. Read-only. */
-export type Kind = "v1" | "v2";
-/** The Availability Zones where this cluster will be deployed. */
-export type CreateRedisEnterpriseResponseZonesList = Array<string>;
-/** User assigned identity properties */
-export interface UserAssignedIdentity {
-  /** The principal ID of the assigned identity. */
-  principalId?: string;
-  /** The client ID of the assigned identity. */
-  clientId?: string;
-}
-/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
-/** Managed service identity (system assigned and/or user assigned identities) */
-export interface CreateRedisEnterpriseResponseIdentity {
-  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
-  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
-  type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
-}
-/** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
-export type ClusterCreatePropertiesHighAvailability = "Enabled" | "Disabled";
-/** The minimum TLS version for the cluster to support, e.g. '1.2'. Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old API versions. */
-export type ClusterCreatePropertiesMinimumTlsVersion = "1.0" | "1.1" | "1.2";
-/** Only userAssignedIdentity is supported in this API version; other types may be supported in the future */
-export type ClusterCreatePropertiesEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentityIdentityType =
-  | "systemAssignedIdentity"
-  | "userAssignedIdentity";
-/** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-export interface ClusterCreatePropertiesEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentity {
-  /** User assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/<sub uuid>/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. */
-  userAssignedIdentityResourceId?: string;
-  /** Only userAssignedIdentity is supported in this API version; other types may be supported in the future */
-  identityType?: ClusterCreatePropertiesEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentityIdentityType;
-}
-/** All Customer-managed key encryption properties for the resource. Set this to an empty object to use Microsoft-managed key encryption. */
-export interface ClusterCreatePropertiesEncryptionCustomerManagedKeyEncryption {
-  /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-  keyEncryptionKeyIdentity?: ClusterCreatePropertiesEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentity;
-  /** Key encryption key Url, versioned only. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 */
-  keyEncryptionKeyUrl?: string;
-}
-/** Encryption-at-rest configuration for the cluster. */
-export interface ClusterCreatePropertiesEncryption {
-  /** All Customer-managed key encryption properties for the resource. Set this to an empty object to use Microsoft-managed key encryption. */
-  customerManagedKeyEncryption?: ClusterCreatePropertiesEncryptionCustomerManagedKeyEncryption;
-}
 /** Explains the current redundancy strategy of the cluster, which affects the expected SLA. */
-export type ClusterCreatePropertiesRedundancyMode = "None" | "LR" | "ZR";
-/** The Private Endpoint resource. */
+export type RedundancyMode = "None" | "LR" | "ZR";
+/** The group ids for the private endpoint resource. */
+export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
+/** The private endpoint resource. */
 export interface PrivateEndpoint {
-  /** The ARM identifier for Private Endpoint */
+  /** The ARM identifier for private endpoint. */
   id?: string;
 }
 /** The private endpoint connection status. */
@@ -509,84 +476,118 @@ export type PrivateEndpointConnectionProvisioningState =
   | "Creating"
   | "Deleting"
   | "Failed";
-/** Properties of the PrivateEndpointConnectProperties. */
+/** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
-  /** The resource of private end point. */
+  /** The group ids for the private endpoint resource. */
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  /** The private endpoint resource. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
   provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
-/** The Private Endpoint Connection resource. */
+/** The private endpoint connection resource. */
 export interface ClusterCreatePropertiesPrivateEndpointConnectionsItem {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
   /** The name of the resource */
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource properties. */
   properties?: PrivateEndpointConnectionProperties;
 }
 /** List of private endpoint connections associated with the specified Redis Enterprise cluster */
 export type ClusterCreatePropertiesPrivateEndpointConnectionsList =
   Array<ClusterCreatePropertiesPrivateEndpointConnectionsItem>;
-/** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
-export type ClusterCreatePropertiesPublicNetworkAccess = "Enabled" | "Disabled";
 /** Properties of Redis Enterprise clusters for create operations */
 export interface ClusterCreateProperties {
   /** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
-  highAvailability?: ClusterCreatePropertiesHighAvailability;
+  highAvailability?: HighAvailability;
   /** The minimum TLS version for the cluster to support, e.g. '1.2'. Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old API versions. */
-  minimumTlsVersion?: ClusterCreatePropertiesMinimumTlsVersion;
+  minimumTlsVersion?: TlsVersion;
   /** Encryption-at-rest configuration for the cluster. */
-  encryption?: ClusterCreatePropertiesEncryption;
+  encryption?: ClusterPropertiesEncryption;
+  /** Cluster-level maintenance configuration. */
+  maintenanceConfiguration?: MaintenanceConfiguration;
   /** DNS name of the cluster endpoint */
   hostName?: string;
   /** Current provisioning status of the cluster */
   provisioningState?: ProvisioningState;
   /** Explains the current redundancy strategy of the cluster, which affects the expected SLA. */
-  redundancyMode?: ClusterCreatePropertiesRedundancyMode;
+  redundancyMode?: RedundancyMode;
   /** Current resource status of the cluster */
   resourceState?: ResourceState;
   /** Version of redis the cluster supports, e.g. '6' */
   redisVersion?: string;
   /** List of private endpoint connections associated with the specified Redis Enterprise cluster */
   privateEndpointConnections?: ClusterCreatePropertiesPrivateEndpointConnectionsList;
+  /** The endpoint of the source resource that is currently pointing to this resource as a result of an ACR/ACRE to AMR migration. */
+  migratedEndpoint?: string;
   /** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
-  publicNetworkAccess: ClusterCreatePropertiesPublicNetworkAccess | null;
+  publicNetworkAccess: PublicNetworkAccess | null;
+}
+/** Distinguishes the kind of cluster. Read-only. */
+export type Kind = "v1" | "v2";
+/** The availability zones. */
+export type CreateRedisEnterpriseResponseZonesList = Array<string>;
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /** The principal ID of the assigned identity. */
+  principalId?: string;
+  /** The client ID of the assigned identity. */
+  clientId?: string;
+}
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface CreateRedisEnterpriseResponseIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string;
+  type: ManagedServiceIdentityType;
+  userAssignedIdentities?: UserAssignedIdentities;
 }
 export interface CreateRedisEnterpriseResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
   /** The name of the resource */
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: CreateRedisEnterpriseResponseTagsMap;
   /** The geo-location where the resource lives */
   location: string;
+  /** Other properties of the cluster. */
+  properties?: ClusterCreateProperties;
+  /** Distinguishes the kind of cluster. Read-only. */
   kind?: Kind;
   /** The SKU to create, which affects price, performance, and features. */
   sku: Sku;
-  /** The Availability Zones where this cluster will be deployed. */
+  /** The availability zones. */
   zones?: CreateRedisEnterpriseResponseZonesList;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: CreateRedisEnterpriseResponseIdentity;
-  /** Other properties of the cluster. */
-  properties?: ClusterCreateProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 /** The resource IDs of the databases that are expected to be linked and included in the replication group. This parameter is used to validate that the linking is to the expected (unlinked) part of the replication group, if it is splintered. */
-export type DatabasesForceLinkToReplicationGroupRequestGeoReplicationLinkedDatabasesList =
-  Array<LinkedDatabaseInput>;
+export type ForceLinkParametersGeoReplicationLinkedDatabasesList = Array<LinkedDatabase>;
 /** Properties to configure geo replication for this database. */
-export interface DatabasesForceLinkToReplicationGroupRequestGeoReplication {
+export interface ForceLinkParametersGeoReplication {
   /** The name of the group of linked database resources. This should match the existing replication group name. */
   groupNickname?: string;
   /** The resource IDs of the databases that are expected to be linked and included in the replication group. This parameter is used to validate that the linking is to the expected (unlinked) part of the replication group, if it is splintered. */
-  linkedDatabases?: DatabasesForceLinkToReplicationGroupRequestGeoReplicationLinkedDatabasesList;
+  linkedDatabases?: ForceLinkParametersGeoReplicationLinkedDatabasesList;
 }
 export interface DatabasesForceLinkToReplicationGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -598,16 +599,18 @@ export interface DatabasesForceLinkToReplicationGroupRequest {
   /** The name of the Redis Enterprise database. */
   databaseName: string;
   /** Properties to configure geo replication for this database. */
-  geoReplication: DatabasesForceLinkToReplicationGroupRequestGeoReplication;
+  geoReplication: ForceLinkParametersGeoReplication;
 }
 export interface DatabasesForceLinkToReplicationGroupResponse {
-  /** Location URI to poll for result */
-  location?: string;
-  /** Azure-AsyncOperation URI to poll for result */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export interface DatabasesUpgradeDBRedisVersionRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -617,13 +620,15 @@ export interface DatabasesUpgradeDBRedisVersionRequest {
   databaseName: string;
 }
 export interface DatabasesUpgradeDBRedisVersionResponse {
-  /** Location URI to poll for result */
-  location?: string;
-  /** URI to poll for the operation status */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export interface DeleteAccessPolicyAssignmentRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -635,13 +640,15 @@ export interface DeleteAccessPolicyAssignmentRequest {
   accessPolicyAssignmentName: string;
 }
 export interface DeleteAccessPolicyAssignmentResponse {
-  /** Location URI to poll for result */
-  location?: string;
-  /** Azure-AsyncOperation URI to poll for result */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export interface DeleteDatabaseRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -651,29 +658,31 @@ export interface DeleteDatabaseRequest {
   databaseName: string;
 }
 export interface DeleteDatabaseResponse {
-  /** Location URI to poll for result */
-  location?: string;
-  /** Azure-AsyncOperation URI to poll for result */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export interface DeletePrivateEndpointConnectionRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the Redis Enterprise cluster. Name must be 1-60 characters long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor consecutive hyphens */
   clusterName: string;
-  /** The name of the private endpoint connection associated with the Azure resource */
+  /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
 }
 export interface DeletePrivateEndpointConnectionResponse {
-  /** Location URI to poll for result */
-  location?: string;
-  /** URI to poll for the operation status */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export interface DeleteRedisEnterpriseRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -681,13 +690,15 @@ export interface DeleteRedisEnterpriseRequest {
   clusterName: string;
 }
 export interface DeleteRedisEnterpriseResponse {
-  /** Location URI to poll for result */
-  location?: string;
-  /** Azure-AsyncOperation URI to poll for result */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export interface ExportDatabaseRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -699,15 +710,17 @@ export interface ExportDatabaseRequest {
   sasUri: string;
 }
 export interface ExportDatabaseResponse {
-  /** Location URI to poll for result */
-  location?: string;
-  /** Azure-AsyncOperation URI to poll for result */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 /** The identifiers of all the other database resources in the georeplication group to be flushed. */
 export type FlushDatabaseRequestIdsList = Array<string>;
 export interface FlushDatabaseRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -719,13 +732,15 @@ export interface FlushDatabaseRequest {
   ids?: FlushDatabaseRequestIdsList;
 }
 export interface FlushDatabaseResponse {
-  /** Location URI to poll for result */
-  location?: string;
-  /** URI to poll for the operation status */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export interface GetAccessPolicyAssignmentRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -737,17 +752,19 @@ export interface GetAccessPolicyAssignmentRequest {
   accessPolicyAssignmentName: string;
 }
 export interface GetAccessPolicyAssignmentResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
   /** The name of the resource */
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Properties of the access policy assignment. */
   properties?: AccessPolicyAssignmentProperties;
 }
 export interface GetDatabaseRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -757,19 +774,73 @@ export interface GetDatabaseRequest {
   databaseName: string;
 }
 export interface GetDatabaseResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
   /** The name of the resource */
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Other properties of the database. */
   properties?: DatabaseCreateProperties;
 }
-export interface GetOperationsStatusRequest {
-  /** The ID of the target subscription. */
+export interface GetMigrationRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of Azure region. */
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Redis Enterprise cluster. Name must be 1-60 characters long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor consecutive hyphens */
+  clusterName: string;
+}
+/** Describes the source of the migration operation. */
+export type SourceType = "AzureCacheForRedis";
+/** Current provisioning status */
+export type MigrationProvisioningState =
+  | "Accepted"
+  | "InProgress"
+  | "ReadyForDnsSwitch"
+  | "Succeeded"
+  | "Failed"
+  | "Cancelling"
+  | "Cancelled"
+  | "CancellationFailed"
+  | "Unlinking"
+  | "Unlinked"
+  | "UnlinkFailed";
+/** Properties for Redis Enterprise migration operation. */
+export interface MigrationProperties {
+  /** Describes the source of the migration operation. */
+  sourceType: SourceType;
+  /** The Azure resource ID of the Azure Managed Redis destination cache to migrate. */
+  targetResourceId?: string;
+  /** Current provisioning status of the migration */
+  provisioningState?: MigrationProvisioningState;
+  /** Additional details about the migration operation's status in free text format. */
+  statusDetails?: string | null;
+  /** The timestamp when the migration operation was created. */
+  creationTime?: string;
+  /** The timestamp when the migration operation was last updated. */
+  lastModifiedTime?: string;
+  /** The timestamp until which a successful migration remains eligible to be undone (rolled back) to the source cache. This property is only returned while the migration is in the Succeeded state, and is calculated from the time the migration succeeded plus the rollback window. After this time the source cache is released and the migration can no longer be undone. */
+  rollbackEligibleUntil?: string;
+}
+export interface GetMigrationResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Properties of the migration operation. */
+  properties?: MigrationProperties;
+}
+export interface GetOperationsStatusRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the Azure region. */
   location: string;
   /** The ID of an ongoing async operation. */
   operationId: string;
@@ -819,27 +890,29 @@ export interface OperationStatus {
   error?: OperationStatusError;
 }
 export interface GetPrivateEndpointConnectionRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the Redis Enterprise cluster. Name must be 1-60 characters long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor consecutive hyphens */
   clusterName: string;
-  /** The name of the private endpoint connection associated with the Azure resource */
+  /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
 }
 export interface GetPrivateEndpointConnectionResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
   /** The name of the resource */
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource properties. */
   properties?: PrivateEndpointConnectionProperties;
 }
 export interface GetRedisEnterpriseRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -848,35 +921,38 @@ export interface GetRedisEnterpriseRequest {
 }
 /** Resource tags. */
 export type GetRedisEnterpriseResponseTagsMap = { [key: string]: string | undefined };
-/** The Availability Zones where this cluster will be deployed. */
+/** The availability zones. */
 export type GetRedisEnterpriseResponseZonesList = Array<string>;
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetRedisEnterpriseResponseIdentity = CreateRedisEnterpriseResponseIdentity;
 export interface GetRedisEnterpriseResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
   /** The name of the resource */
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: GetRedisEnterpriseResponseTagsMap;
   /** The geo-location where the resource lives */
   location: string;
+  /** Other properties of the cluster. */
+  properties?: ClusterCreateProperties;
+  /** Distinguishes the kind of cluster. Read-only. */
   kind?: Kind;
   /** The SKU to create, which affects price, performance, and features. */
   sku: Sku;
-  /** The Availability Zones where this cluster will be deployed. */
+  /** The availability zones. */
   zones?: GetRedisEnterpriseResponseZonesList;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: CreateRedisEnterpriseResponseIdentity;
-  /** Other properties of the cluster. */
-  properties?: ClusterCreateProperties;
 }
 /** SAS URIs for the target blobs to import from */
 export type ImportDatabaseRequestSasUrisList = Array<string>;
 export interface ImportDatabaseRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -888,13 +964,15 @@ export interface ImportDatabaseRequest {
   sasUris: ImportDatabaseRequestSasUrisList;
 }
 export interface ImportDatabaseResponse {
-  /** Location URI to poll for result */
-  location?: string;
-  /** Azure-AsyncOperation URI to poll for result */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export interface ListAccessPolicyAssignmentRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -905,26 +983,28 @@ export interface ListAccessPolicyAssignmentRequest {
 }
 /** Describes the access policy assignment of Redis Enterprise database */
 export interface AccessPolicyAssignment {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
   /** The name of the resource */
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Properties of the access policy assignment. */
   properties?: AccessPolicyAssignmentProperties;
 }
-/** List of access policy assignments. */
+/** The AccessPolicyAssignment items on this page */
 export type AccessPolicyAssignmentListValueList = Array<AccessPolicyAssignment>;
 /** The response of a list-all operation. */
 export interface AccessPolicyAssignmentList {
-  /** List of access policy assignments. */
-  value?: AccessPolicyAssignmentListValueList;
-  /** The URI to fetch the next page of results. */
+  /** The AccessPolicyAssignment items on this page */
+  value: AccessPolicyAssignmentListValueList;
+  /** The link to the next page of items */
   nextLink?: string;
 }
 export interface ListDatabaseByClusterRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -933,26 +1013,28 @@ export interface ListDatabaseByClusterRequest {
 }
 /** Describes a database on the Redis Enterprise cluster */
 export interface Database {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
   /** The name of the resource */
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Other properties of the database. */
   properties?: DatabaseCreateProperties;
 }
-/** List of databases */
+/** The Database items on this page */
 export type DatabaseListValueList = Array<Database>;
 /** The response of a list-all operation. */
 export interface DatabaseList {
-  /** List of databases */
-  value?: DatabaseListValueList;
-  /** The URI to fetch the next page of results. */
+  /** The Database items on this page */
+  value: DatabaseListValueList;
+  /** The link to the next page of items */
   nextLink?: string;
 }
 export interface ListDatabaseKeysRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -967,6 +1049,36 @@ export interface AccessKeys {
   primaryKey?: string;
   /** The current secondary key that clients can use to authenticate */
   secondaryKey?: string;
+}
+export interface ListMigrationsRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Redis Enterprise cluster. Name must be 1-60 characters long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor consecutive hyphens */
+  clusterName: string;
+}
+/** Describes the current migration operation on a Redis Enterprise cluster. */
+export interface Migration {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Properties of the migration operation. */
+  properties?: MigrationProperties;
+}
+/** The Migration items on this page */
+export type MigrationListValueList = Array<Migration>;
+/** The response of a list-all migrations. */
+export interface MigrationList {
+  /** The Migration items on this page */
+  value: MigrationListValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
@@ -1006,24 +1118,28 @@ export interface ListOperationsResponse {
   nextLink?: string;
 }
 export interface ListPrivateEndpointConnectionsRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the Redis Enterprise cluster. Name must be 1-60 characters long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor consecutive hyphens */
   clusterName: string;
 }
-/** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnection = ClusterCreatePropertiesPrivateEndpointConnectionsItem;
-/** Array of private endpoint connections */
-export type ListPrivateEndpointConnectionsResponseValueList =
+/** The private endpoint connection resource. */
+export type PrivateEndpointConnectionListResultValueItem =
+  ClusterCreatePropertiesPrivateEndpointConnectionsItem;
+/** The PrivateEndpointConnection items on this page */
+export type PrivateEndpointConnectionListResultValueList =
   Array<ClusterCreatePropertiesPrivateEndpointConnectionsItem>;
-export interface ListPrivateEndpointConnectionsResponse {
-  /** Array of private endpoint connections */
-  value?: ListPrivateEndpointConnectionsResponseValueList;
+/** The response of a PrivateEndpointConnection list operation. */
+export interface PrivateEndpointConnectionListResult {
+  /** The PrivateEndpointConnection items on this page */
+  value: PrivateEndpointConnectionListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 export interface ListPrivateLinkResourceByClusterRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -1032,7 +1148,7 @@ export interface ListPrivateLinkResourceByClusterRequest {
 }
 /** The private link resource required member names. */
 export type PrivateLinkResourcePropertiesRequiredMembersList = Array<string>;
-/** The private link resource Private link DNS zone name. */
+/** The private link resource private link DNS zone name. */
 export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
@@ -1040,17 +1156,19 @@ export interface PrivateLinkResourceProperties {
   groupId?: string;
   /** The private link resource required member names. */
   requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
-  /** The private link resource Private link DNS zone name. */
+  /** The private link resource private link DNS zone name. */
   requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
 }
-/** A private link resource */
+/** A private link resource. */
 export interface PrivateLinkResource {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
   /** The name of the resource */
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource properties. */
   properties?: PrivateLinkResourceProperties;
 }
@@ -1059,56 +1177,61 @@ export type ListPrivateLinkResourceByClusterResponseValueList = Array<PrivateLin
 export interface ListPrivateLinkResourceByClusterResponse {
   /** Array of private link resources */
   value?: ListPrivateLinkResourceByClusterResponseValueList;
+  /** URL to get the next set of operation list results (if there are any). */
+  nextLink?: string;
 }
 export interface ListRedisEnterpriseRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
 }
 /** Resource tags. */
 export type ClusterTagsMap = { [key: string]: string | undefined };
-/** The Availability Zones where this cluster will be deployed. */
+/** The availability zones. */
 export type ClusterZonesList = Array<string>;
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type ClusterIdentity = CreateRedisEnterpriseResponseIdentity;
 /** Describes the Redis Enterprise cluster */
 export interface Cluster {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
   /** The name of the resource */
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: ClusterTagsMap;
   /** The geo-location where the resource lives */
   location: string;
+  /** Other properties of the cluster. */
+  properties?: ClusterCreateProperties;
+  /** Distinguishes the kind of cluster. Read-only. */
   kind?: Kind;
   /** The SKU to create, which affects price, performance, and features. */
   sku: Sku;
-  /** The Availability Zones where this cluster will be deployed. */
+  /** The availability zones. */
   zones?: ClusterZonesList;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: CreateRedisEnterpriseResponseIdentity;
-  /** Other properties of the cluster. */
-  properties?: ClusterCreateProperties;
 }
-/** List of clusters. */
+/** The Cluster items on this page */
 export type ClusterListValueList = Array<Cluster>;
 /** The response of a list-all operation. */
 export interface ClusterList {
-  /** List of clusters. */
-  value?: ClusterListValueList;
-  /** The URI to fetch the next page of results. */
+  /** The Cluster items on this page */
+  value: ClusterListValueList;
+  /** The link to the next page of items */
   nextLink?: string;
 }
 export interface ListRedisEnterpriseByResourceGroupRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
 }
 export interface ListRedisEnterpriseSkusForScalingRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -1129,41 +1252,73 @@ export interface SkuDetailsList {
   /** List of SKUS available to scale up or scale down. */
   skus?: SkuDetailsListSkusList;
 }
-/** The Private Endpoint resource. */
-export type PrivateEndpointInput = UserAssignedIdentityInput;
-/** Properties of the PrivateEndpointConnectProperties. */
-export interface PrivateEndpointConnectionPropertiesInput {
-  /** The resource of private end point. */
-  privateEndpoint?: UserAssignedIdentityInput;
-  /** A collection of information about the state of the connection between service consumer and provider. */
-  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-}
-export interface PutPrivateEndpointConnectionRequest {
-  /** The ID of the target subscription. */
+/** The reason a migration operation is being undone (rolled back). */
+export type MigrationRollbackReason =
+  | "performance"
+  | "compatibility"
+  | "clientConnection"
+  | "cost"
+  | "testing"
+  | "stability"
+  | "dataLoss"
+  | "other";
+export interface MigrationsUndoRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the Redis Enterprise cluster. Name must be 1-60 characters long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor consecutive hyphens */
   clusterName: string;
-  /** The name of the private endpoint connection associated with the Azure resource */
+  /** The reason for undoing (rolling back) the migration. Choose the value that best describes why the rollback is needed. This information helps us improve the migration experience and does not change how the rollback is performed. */
+  rollbackReason?: MigrationRollbackReason | (string & {});
+}
+export interface MigrationsUndoResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+/** The private endpoint resource. */
+export type PrivateEndpointInput = UserAssignedIdentityInput;
+/** Properties of the private endpoint connection. */
+export interface PrivateEndpointConnectionPropertiesInput {
+  /** The private endpoint resource. */
+  privateEndpoint?: UserAssignedIdentityInput;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+}
+export interface PutPrivateEndpointConnectionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Redis Enterprise cluster. Name must be 1-60 characters long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor consecutive hyphens */
+  clusterName: string;
+  /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
   /** Resource properties. */
   properties?: PrivateEndpointConnectionPropertiesInput;
 }
 export interface PutPrivateEndpointConnectionResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
   /** The name of the resource */
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource properties. */
   properties?: PrivateEndpointConnectionProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 /** Which access key to regenerate. */
-export type RegenerateDatabaseKeyRequestKeyType = "Primary" | "Secondary";
+export type AccessKeyType = "Primary" | "Secondary";
 export interface RegenerateDatabaseKeyRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -1172,7 +1327,7 @@ export interface RegenerateDatabaseKeyRequest {
   /** The name of the Redis Enterprise database. */
   databaseName: string;
   /** Which access key to regenerate. */
-  keyType: RegenerateDatabaseKeyRequestKeyType | (string & {});
+  keyType: AccessKeyType | (string & {});
 }
 /** The secret access keys used for authenticating connections to redis */
 export interface RegenerateDatabaseKeyResponse {
@@ -1180,15 +1335,64 @@ export interface RegenerateDatabaseKeyResponse {
   primaryKey?: string;
   /** The current secondary key that clients can use to authenticate */
   secondaryKey?: string;
-  /** Location URI to poll for result */
-  location?: string;
-  /** Azure-AsyncOperation URI to poll for result */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+/** Properties for Redis Enterprise migration operation. */
+export interface MigrationPropertiesInput {
+  /** Describes the source of the migration operation. */
+  sourceType: SourceType | (string & {});
+}
+export interface StartMigrationRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Redis Enterprise cluster. Name must be 1-60 characters long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor consecutive hyphens */
+  clusterName: string;
+  /** Properties of the migration operation. */
+  properties?: MigrationPropertiesInput;
+}
+export interface StartMigrationResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Properties of the migration operation. */
+  properties?: MigrationProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+export interface UnlinkClusterMigratedEndpointRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Redis Enterprise cluster. Name must be 1-60 characters long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor consecutive hyphens */
+  clusterName: string;
+}
+export interface UnlinkClusterMigratedEndpointResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 /** The resource IDs of the database resources to be unlinked. */
 export type UnlinkDatabasesForceRequestIdsList = Array<string>;
 export interface UnlinkDatabasesForceRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -1200,67 +1404,54 @@ export interface UnlinkDatabasesForceRequest {
   ids: UnlinkDatabasesForceRequestIdsList;
 }
 export interface UnlinkDatabasesForceResponse {
-  /** Location URI to poll for result */
-  location?: string;
-  /** Azure-AsyncOperation URI to poll for result */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
-/** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
-export type DatabaseUpdatePropertiesInputClientProtocol = "Encrypted" | "Plaintext";
-/** Clustering policy - default is OSSCluster. This property can be updated only if the current value is NoCluster. If the value is OSSCluster or EnterpriseCluster, it cannot be updated without deleting the database. */
-export type DatabaseUpdatePropertiesInputClusteringPolicy =
-  | "EnterpriseCluster"
-  | "OSSCluster"
-  | "NoCluster";
-/** Redis eviction policy - default is VolatileLRU */
-export type DatabaseUpdatePropertiesInputEvictionPolicy =
-  | "AllKeysLFU"
-  | "AllKeysLRU"
-  | "AllKeysRandom"
-  | "VolatileLRU"
-  | "VolatileLFU"
-  | "VolatileTTL"
-  | "VolatileRandom"
-  | "NoEviction";
+export interface UnlinkMigrationMigratedEndpointRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Redis Enterprise cluster. Name must be 1-60 characters long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor consecutive hyphens */
+  clusterName: string;
+}
+export interface UnlinkMigrationMigratedEndpointResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
 export type DatabaseUpdatePropertiesInputModulesList = Array<ModuleInput>;
-/** List of database resources to link with this database */
-export type DatabaseUpdatePropertiesInputGeoReplicationLinkedDatabasesList =
-  Array<LinkedDatabaseInput>;
-/** Optional set of properties to configure geo replication for this database. */
-export interface DatabaseUpdatePropertiesInputGeoReplication {
-  /** Name for the group of linked database resources */
-  groupNickname?: string;
-  /** List of database resources to link with this database */
-  linkedDatabases?: DatabaseUpdatePropertiesInputGeoReplicationLinkedDatabasesList;
-}
-/** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more: https://aka.ms/redisversionupgrade */
-export type DatabaseUpdatePropertiesInputDeferUpgrade = "Deferred" | "NotDeferred";
-/** This property can be Enabled/Disabled to allow or deny access with the current access keys. Can be updated even after database is created. */
-export type DatabaseUpdatePropertiesInputAccessKeysAuthentication = "Disabled" | "Enabled";
 /** Properties for updating Redis Enterprise databases */
 export interface DatabaseUpdatePropertiesInput {
   /** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
-  clientProtocol?: DatabaseUpdatePropertiesInputClientProtocol | (string & {});
+  clientProtocol?: Protocol | (string & {});
   /** TCP port of the database endpoint. Specified at create time. Defaults to an available port. */
   port?: number;
   /** Clustering policy - default is OSSCluster. This property can be updated only if the current value is NoCluster. If the value is OSSCluster or EnterpriseCluster, it cannot be updated without deleting the database. */
-  clusteringPolicy?: DatabaseUpdatePropertiesInputClusteringPolicy | (string & {});
+  clusteringPolicy?: ClusteringPolicy | (string & {});
   /** Redis eviction policy - default is VolatileLRU */
-  evictionPolicy?: DatabaseUpdatePropertiesInputEvictionPolicy | (string & {});
+  evictionPolicy?: EvictionPolicy | (string & {});
   /** Persistence settings */
   persistence?: Persistence;
   /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
   modules?: DatabaseUpdatePropertiesInputModulesList;
   /** Optional set of properties to configure geo replication for this database. */
-  geoReplication?: DatabaseUpdatePropertiesInputGeoReplication;
+  geoReplication?: DatabasePropertiesGeoReplication;
   /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more: https://aka.ms/redisversionupgrade */
-  deferUpgrade?: DatabaseUpdatePropertiesInputDeferUpgrade | (string & {});
+  deferUpgrade?: DeferUpgradeSetting | (string & {});
   /** This property can be Enabled/Disabled to allow or deny access with the current access keys. Can be updated even after database is created. */
-  accessKeysAuthentication?: DatabaseUpdatePropertiesInputAccessKeysAuthentication | (string & {});
+  accessKeysAuthentication?: AccessKeysAuthentication | (string & {});
+  /** Specifies which keyspace events should trigger notifications. Default is an empty string, meaning this feature is disabled. When enabled, at least 'K' (keyspace events) or 'E' (keyevent events) must be present. For example, 'AKE' enables all standard events. See https://redis.io/docs/latest/develop/use/keyspace-notifications/ for the complete list of event types. */
+  notifyKeyspaceEvents?: string;
 }
 export interface UpdateDatabaseRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -1272,67 +1463,42 @@ export interface UpdateDatabaseRequest {
   properties?: DatabaseUpdatePropertiesInput;
 }
 export interface UpdateDatabaseResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
   /** The name of the resource */
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Other properties of the database. */
   properties?: DatabaseCreateProperties;
-  /** Location URI to poll for result */
-  location?: string;
-  /** Azure-AsyncOperation URI to poll for result */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
-/** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
-export type ClusterUpdatePropertiesInputHighAvailability = "Enabled" | "Disabled";
-/** The minimum TLS version for the cluster to support, e.g. '1.2'. Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old API versions. */
-export type ClusterUpdatePropertiesInputMinimumTlsVersion = "1.0" | "1.1" | "1.2";
-/** Only userAssignedIdentity is supported in this API version; other types may be supported in the future */
-export type ClusterUpdatePropertiesInputEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentityIdentityType =
-  | "systemAssignedIdentity"
-  | "userAssignedIdentity";
-/** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-export interface ClusterUpdatePropertiesInputEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentity {
-  /** User assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/<sub uuid>/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. */
-  userAssignedIdentityResourceId?: string;
-  /** Only userAssignedIdentity is supported in this API version; other types may be supported in the future */
-  identityType?:
-    | ClusterUpdatePropertiesInputEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentityIdentityType
-    | (string & {});
-}
-/** All Customer-managed key encryption properties for the resource. Set this to an empty object to use Microsoft-managed key encryption. */
-export interface ClusterUpdatePropertiesInputEncryptionCustomerManagedKeyEncryption {
-  /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-  keyEncryptionKeyIdentity?: ClusterUpdatePropertiesInputEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentity;
-  /** Key encryption key Url, versioned only. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 */
-  keyEncryptionKeyUrl?: string;
-}
-/** Encryption-at-rest configuration for the cluster. */
-export interface ClusterUpdatePropertiesInputEncryption {
-  /** All Customer-managed key encryption properties for the resource. Set this to an empty object to use Microsoft-managed key encryption. */
-  customerManagedKeyEncryption?: ClusterUpdatePropertiesInputEncryptionCustomerManagedKeyEncryption;
-}
-/** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
-export type ClusterUpdatePropertiesInputPublicNetworkAccess = "Enabled" | "Disabled";
 /** Properties of Redis Enterprise clusters for update operations */
 export interface ClusterUpdatePropertiesInput {
   /** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
-  highAvailability?: ClusterUpdatePropertiesInputHighAvailability | (string & {});
+  highAvailability?: HighAvailability | (string & {});
   /** The minimum TLS version for the cluster to support, e.g. '1.2'. Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old API versions. */
-  minimumTlsVersion?: ClusterUpdatePropertiesInputMinimumTlsVersion | (string & {});
+  minimumTlsVersion?: TlsVersion | (string & {});
   /** Encryption-at-rest configuration for the cluster. */
-  encryption?: ClusterUpdatePropertiesInputEncryption;
+  encryption?: ClusterPropertiesEncryption;
+  /** Cluster-level maintenance configuration. */
+  maintenanceConfiguration?: MaintenanceConfiguration;
   /** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
-  publicNetworkAccess?: ClusterUpdatePropertiesInputPublicNetworkAccess | (string & {}) | null;
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | null;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateRedisEnterpriseRequestIdentity = CreateRedisEnterpriseRequestIdentity;
 /** Resource tags. */
 export type UpdateRedisEnterpriseRequestTagsMap = { [key: string]: string | undefined };
 export interface UpdateRedisEnterpriseRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -1349,34 +1515,85 @@ export interface UpdateRedisEnterpriseRequest {
 }
 /** Resource tags. */
 export type UpdateRedisEnterpriseResponseTagsMap = { [key: string]: string | undefined };
-/** The Availability Zones where this cluster will be deployed. */
+/** The availability zones. */
 export type UpdateRedisEnterpriseResponseZonesList = Array<string>;
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateRedisEnterpriseResponseIdentity = CreateRedisEnterpriseResponseIdentity;
 export interface UpdateRedisEnterpriseResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
   /** The name of the resource */
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: UpdateRedisEnterpriseResponseTagsMap;
   /** The geo-location where the resource lives */
   location: string;
+  /** Other properties of the cluster. */
+  properties?: ClusterCreateProperties;
+  /** Distinguishes the kind of cluster. Read-only. */
   kind?: Kind;
   /** The SKU to create, which affects price, performance, and features. */
   sku: Sku;
-  /** The Availability Zones where this cluster will be deployed. */
+  /** The availability zones. */
   zones?: UpdateRedisEnterpriseResponseZonesList;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: CreateRedisEnterpriseResponseIdentity;
-  /** Other properties of the cluster. */
-  properties?: ClusterCreateProperties;
-  /** Location URI to poll for result */
-  locationHeader?: string;
-  /** Azure-AsyncOperation URI to poll for result */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+export interface ValidateMigrationRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Redis Enterprise cluster. Name must be 1-60 characters long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor consecutive hyphens */
+  clusterName: string;
+  /** The source resource ID to validate migration from. This is the resource ID of the Azure Cache for Redis. */
+  sourceResourceId: string;
+  /** Sets whether the data is migrated from source to target or not. The default value is true. */
+  skipDataMigration?: boolean;
+}
+/** Represents a specific validation issue found during migration validation. */
+export interface MigrationValidationDisparity {
+  /** A localized string denoting the category of the validation issue. Examples are "Region", "Data", "Identity", "Clustering Mode", and "TLS". */
+  category: string;
+  /** Detailed message describing the validation issue. */
+  message: string;
+}
+/** List of specific disparities that cause this error. */
+export type MigrationValidationErrorDisparitiesList = Array<MigrationValidationDisparity>;
+/** Represents a validation error that prevents migration. */
+export interface MigrationValidationError {
+  /** List of specific disparities that cause this error. */
+  disparities: MigrationValidationErrorDisparitiesList;
+}
+/** List of validation errors that prevent migration. */
+export type MigrationValidationResponseErrorsList = Array<MigrationValidationError>;
+/** List of specific disparities that cause this warning. */
+export type MigrationValidationWarningDisparitiesList = Array<MigrationValidationDisparity>;
+/** Represents a validation warning that may impact migration. */
+export interface MigrationValidationWarning {
+  /** List of specific disparities that cause this warning. */
+  disparities: MigrationValidationWarningDisparitiesList;
+}
+/** List of validation warnings that may impact migration. */
+export type MigrationValidationResponseWarningsList = Array<MigrationValidationWarning>;
+/** Response for migration validation operation. */
+export interface MigrationValidationResponse {
+  /** Indicates whether the migration validation passed. */
+  isValid: boolean;
+  /** List of validation errors that prevent migration. */
+  errors?: MigrationValidationResponseErrorsList;
+  /** List of validation warnings that may impact migration. */
+  warnings?: MigrationValidationResponseWarningsList;
 }
 export type AccessPolicyAssignmentCreateUpdateError = AzureOpError;
 /** Creates/Updates a particular access policy assignment for a database */
@@ -1386,8 +1603,8 @@ export const AccessPolicyAssignmentCreateUpdate: API.OperationMethod<
   AccessPolicyAssignmentCreateUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<AccessPolicyAssignmentCreateUpdateRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<AccessPolicyAssignmentCreateUpdateResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<AccessPolicyAssignmentCreateUpdateRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<AccessPolicyAssignmentCreateUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1403,8 +1620,8 @@ export const CreateDatabase: API.OperationMethod<
   CreateDatabaseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<CreateDatabaseRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<CreateDatabaseResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<CreateDatabaseRequest>,
+  output: __S(49, __c3, 1) as any as S.Schema<CreateDatabaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1420,8 +1637,8 @@ export const CreateRedisEnterprise: API.OperationMethod<
   CreateRedisEnterpriseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(289, __c18, 1) as any as S.Schema<CreateRedisEnterpriseRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<CreateRedisEnterpriseResponse>,
+  input: __S(353, __c22, 1) as any as S.Schema<CreateRedisEnterpriseRequest>,
+  output: __S(354, __c22, 2) as any as S.Schema<CreateRedisEnterpriseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1437,8 +1654,8 @@ export const DatabasesForceLinkToReplicationGroup: API.OperationMethod<
   DatabasesForceLinkToReplicationGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<DatabasesForceLinkToReplicationGroupRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<DatabasesForceLinkToReplicationGroupResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<DatabasesForceLinkToReplicationGroupRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<DatabasesForceLinkToReplicationGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1454,8 +1671,8 @@ export const DatabasesUpgradeDBRedisVersion: API.OperationMethod<
   DatabasesUpgradeDBRedisVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<DatabasesUpgradeDBRedisVersionRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<DatabasesUpgradeDBRedisVersionResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<DatabasesUpgradeDBRedisVersionRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<DatabasesUpgradeDBRedisVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1471,8 +1688,8 @@ export const DeleteAccessPolicyAssignment: API.OperationMethod<
   DeleteAccessPolicyAssignmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<DeleteAccessPolicyAssignmentRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<DeleteAccessPolicyAssignmentResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<DeleteAccessPolicyAssignmentRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<DeleteAccessPolicyAssignmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1488,8 +1705,8 @@ export const DeleteDatabase: API.OperationMethod<
   DeleteDatabaseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<DeleteDatabaseRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<DeleteDatabaseResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<DeleteDatabaseRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<DeleteDatabaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1505,8 +1722,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   DeletePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
+  output: __S(880, __c55, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1522,8 +1739,8 @@ export const DeleteRedisEnterprise: API.OperationMethod<
   DeleteRedisEnterpriseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<DeleteRedisEnterpriseRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<DeleteRedisEnterpriseResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<DeleteRedisEnterpriseRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<DeleteRedisEnterpriseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1539,8 +1756,8 @@ export const ExportDatabase: API.OperationMethod<
   ExportDatabaseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<ExportDatabaseRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<ExportDatabaseResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<ExportDatabaseRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<ExportDatabaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1556,8 +1773,8 @@ export const FlushDatabase: API.OperationMethod<
   FlushDatabaseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<FlushDatabaseRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<FlushDatabaseResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<FlushDatabaseRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<FlushDatabaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1573,8 +1790,8 @@ export const GetAccessPolicyAssignment: API.OperationMethod<
   GetAccessPolicyAssignmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetAccessPolicyAssignmentRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<GetAccessPolicyAssignmentResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetAccessPolicyAssignmentRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<GetAccessPolicyAssignmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1591,12 +1808,29 @@ export const GetDatabase: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetDatabaseRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<GetDatabaseResponse>,
+  output: __S(176, __c11, 0) as any as S.Schema<GetDatabaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDatabase",
+}));
+
+export type GetMigrationError = AzureOpError;
+/** Gets information about a migration in a Redis Enterprise cluster. */
+export const GetMigration: API.OperationMethod<
+  GetMigrationRequest,
+  GetMigrationResponse,
+  GetMigrationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(192, __c12, 0) as any as S.Schema<GetMigrationRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<GetMigrationResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMigration",
 }));
 
 export type GetOperationsStatusError = AzureOpError;
@@ -1607,8 +1841,8 @@ export const GetOperationsStatus: API.OperationMethod<
   GetOperationsStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetOperationsStatusRequest>,
-  output: __S(182, __c11, 6) as any as S.Schema<OperationStatus>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetOperationsStatusRequest>,
+  output: __S(246, __c15, 6) as any as S.Schema<OperationStatus>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1624,8 +1858,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   GetPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
-  output: __S(322, __c20, 2) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1641,8 +1875,8 @@ export const GetRedisEnterprise: API.OperationMethod<
   GetRedisEnterpriseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetRedisEnterpriseRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<GetRedisEnterpriseResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetRedisEnterpriseRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<GetRedisEnterpriseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1658,8 +1892,8 @@ export const ImportDatabase: API.OperationMethod<
   ImportDatabaseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ImportDatabaseRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<ImportDatabaseResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<ImportDatabaseRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<ImportDatabaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1675,8 +1909,8 @@ export const ListAccessPolicyAssignment: API.OperationMethod<
   ListAccessPolicyAssignmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ListAccessPolicyAssignmentRequest>,
-  output: __S(242, __c15, 2) as any as S.Schema<AccessPolicyAssignmentList>,
+  input: __S(320, __c20, 0) as any as S.Schema<ListAccessPolicyAssignmentRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<AccessPolicyAssignmentList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1692,8 +1926,8 @@ export const ListDatabaseByCluster: API.OperationMethod<
   ListDatabaseByClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<ListDatabaseByClusterRequest>,
-  output: __S(258, __c16, 2) as any as S.Schema<DatabaseList>,
+  input: __S(336, __c21, 0) as any as S.Schema<ListDatabaseByClusterRequest>,
+  output: __S(338, __c21, 2) as any as S.Schema<DatabaseList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1709,13 +1943,30 @@ export const ListDatabaseKeys: API.OperationMethod<
   ListDatabaseKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<ListDatabaseKeysRequest>,
-  output: __S(273, __c17, 1) as any as S.Schema<AccessKeys>,
+  input: __S(480, __c30, 0) as any as S.Schema<ListDatabaseKeysRequest>,
+  output: __S(481, __c30, 1) as any as S.Schema<AccessKeys>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDatabaseKeys",
+}));
+
+export type ListMigrationsError = AzureOpError;
+/** Gets information about all migrations attempts in a Redis Enterprise cluster. */
+export const ListMigrations: API.OperationMethod<
+  ListMigrationsRequest,
+  MigrationList,
+  ListMigrationsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(496, __c31, 0) as any as S.Schema<ListMigrationsRequest>,
+  output: __S(498, __c31, 2) as any as S.Schema<MigrationList>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMigrations",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1726,8 +1977,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(420, __c26, 4) as any as S.Schema<ListOperationsResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(516, __c32, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1739,12 +1990,12 @@ export type ListPrivateEndpointConnectionsError = AzureOpError;
 /** Lists all the private endpoint connections associated with the Redis Enterprise cluster. */
 export const ListPrivateEndpointConnections: API.OperationMethod<
   ListPrivateEndpointConnectionsRequest,
-  ListPrivateEndpointConnectionsResponse,
+  PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
-  output: __S(433, __c27, 1) as any as S.Schema<ListPrivateEndpointConnectionsResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1760,8 +2011,8 @@ export const ListPrivateLinkResourceByCluster: API.OperationMethod<
   ListPrivateLinkResourceByClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<ListPrivateLinkResourceByClusterRequest>,
-  output: __S(452, __c28, 4) as any as S.Schema<ListPrivateLinkResourceByClusterResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<ListPrivateLinkResourceByClusterRequest>,
+  output: __S(548, __c34, 4) as any as S.Schema<ListPrivateLinkResourceByClusterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1777,8 +2028,8 @@ export const ListRedisEnterprise: API.OperationMethod<
   ListRedisEnterpriseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<ListRedisEnterpriseRequest>,
-  output: __S(481, __c30, 1) as any as S.Schema<ClusterList>,
+  input: __S(560, __c35, 0) as any as S.Schema<ListRedisEnterpriseRequest>,
+  output: __S(577, __c36, 1) as any as S.Schema<ClusterList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1794,8 +2045,8 @@ export const ListRedisEnterpriseByResourceGroup: API.OperationMethod<
   ListRedisEnterpriseByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<ListRedisEnterpriseByResourceGroupRequest>,
-  output: __S(481, __c30, 1) as any as S.Schema<ClusterList>,
+  input: __S(592, __c37, 0) as any as S.Schema<ListRedisEnterpriseByResourceGroupRequest>,
+  output: __S(577, __c36, 1) as any as S.Schema<ClusterList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1811,13 +2062,30 @@ export const ListRedisEnterpriseSkusForScaling: API.OperationMethod<
   ListRedisEnterpriseSkusForScalingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<ListRedisEnterpriseSkusForScalingRequest>,
-  output: __S(515, __c32, 3) as any as S.Schema<SkuDetailsList>,
+  input: __S(608, __c38, 0) as any as S.Schema<ListRedisEnterpriseSkusForScalingRequest>,
+  output: __S(611, __c38, 3) as any as S.Schema<SkuDetailsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRedisEnterpriseSkusForScaling",
+}));
+
+export type MigrationsUndoError = AzureOpError;
+/** Cancel or rollback the migration operation in a Redis Enterprise cluster. */
+export const MigrationsUndo: API.OperationMethod<
+  MigrationsUndoRequest,
+  MigrationsUndoResponse,
+  MigrationsUndoError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(624, __c39, 0) as any as S.Schema<MigrationsUndoRequest>,
+  output: __S(880, __c55, 0) as any as S.Schema<MigrationsUndoResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrationsUndo",
 }));
 
 export type PutPrivateEndpointConnectionError = AzureOpError;
@@ -1828,8 +2096,8 @@ export const PutPrivateEndpointConnection: API.OperationMethod<
   PutPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(529, __c33, 1) as any as S.Schema<PutPrivateEndpointConnectionRequest>,
-  output: __S(322, __c20, 2) as any as S.Schema<PutPrivateEndpointConnectionResponse>,
+  input: __S(641, __c40, 1) as any as S.Schema<PutPrivateEndpointConnectionRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<PutPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1845,13 +2113,47 @@ export const RegenerateDatabaseKey: API.OperationMethod<
   RegenerateDatabaseKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<RegenerateDatabaseKeyRequest>,
-  output: __S(545, __c34, 1) as any as S.Schema<RegenerateDatabaseKeyResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<RegenerateDatabaseKeyRequest>,
+  output: __S(689, __c43, 1) as any as S.Schema<RegenerateDatabaseKeyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RegenerateDatabaseKey",
+}));
+
+export type StartMigrationError = AzureOpError;
+/** Starts a new migration */
+export const StartMigration: API.OperationMethod<
+  StartMigrationRequest,
+  StartMigrationResponse,
+  StartMigrationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(705, __c44, 1) as any as S.Schema<StartMigrationRequest>,
+  output: __S(706, __c44, 2) as any as S.Schema<StartMigrationResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartMigration",
+}));
+
+export type UnlinkClusterMigratedEndpointError = AzureOpError;
+/** Unlinks the migrated endpoint from an Azure Managed Redis cluster that was migrated from Azure Cache for Redis Enterprise, removing the source cache endpoint that was redirected to this cluster during migration. */
+export const UnlinkClusterMigratedEndpoint: API.OperationMethod<
+  UnlinkClusterMigratedEndpointRequest,
+  UnlinkClusterMigratedEndpointResponse,
+  UnlinkClusterMigratedEndpointError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(720, __c45, 0) as any as S.Schema<UnlinkClusterMigratedEndpointRequest>,
+  output: __S(880, __c55, 0) as any as S.Schema<UnlinkClusterMigratedEndpointResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlinkClusterMigratedEndpoint",
 }));
 
 export type UnlinkDatabasesForceError = AzureOpError;
@@ -1862,13 +2164,30 @@ export const UnlinkDatabasesForce: API.OperationMethod<
   UnlinkDatabasesForceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<UnlinkDatabasesForceRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<UnlinkDatabasesForceResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<UnlinkDatabasesForceRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<UnlinkDatabasesForceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UnlinkDatabasesForce",
+}));
+
+export type UnlinkMigrationMigratedEndpointError = AzureOpError;
+/** Unlinks the migrated endpoint from the Azure Managed Redis cluster that was migrated from Azure Cache for Redis, removing the source cache endpoint that was redirected to this cluster during migration. */
+export const UnlinkMigrationMigratedEndpoint: API.OperationMethod<
+  UnlinkMigrationMigratedEndpointRequest,
+  UnlinkMigrationMigratedEndpointResponse,
+  UnlinkMigrationMigratedEndpointError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(752, __c47, 0) as any as S.Schema<UnlinkMigrationMigratedEndpointRequest>,
+  output: __S(880, __c55, 0) as any as S.Schema<UnlinkMigrationMigratedEndpointResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlinkMigrationMigratedEndpoint",
 }));
 
 export type UpdateDatabaseError = AzureOpError;
@@ -1879,8 +2198,8 @@ export const UpdateDatabase: API.OperationMethod<
   UpdateDatabaseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<UpdateDatabaseRequest>,
-  output: __S(577, __c36, 1) as any as S.Schema<UpdateDatabaseResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<UpdateDatabaseRequest>,
+  output: __S(769, __c48, 1) as any as S.Schema<UpdateDatabaseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1896,13 +2215,30 @@ export const UpdateRedisEnterprise: API.OperationMethod<
   UpdateRedisEnterpriseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(625, __c39, 1) as any as S.Schema<UpdateRedisEnterpriseRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<UpdateRedisEnterpriseResponse>,
+  input: __S(785, __c49, 1) as any as S.Schema<UpdateRedisEnterpriseRequest>,
+  output: __S(786, __c49, 2) as any as S.Schema<UpdateRedisEnterpriseResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateRedisEnterprise",
+}));
+
+export type ValidateMigrationError = AzureOpError;
+/** Validates if a source Azure Cache for Redis resource can be migrated to a target Azure Managed Redis resource. */
+export const ValidateMigration: API.OperationMethod<
+  ValidateMigrationRequest,
+  MigrationValidationResponse,
+  ValidateMigrationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(800, __c50, 0) as any as S.Schema<ValidateMigrationRequest>,
+  output: __S(805, __c50, 5) as any as S.Schema<MigrationValidationResponse>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateMigration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -1911,28 +2247,33 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accessPolicyName: S.String,
-          user: __S(16, __c1, 0),
-        }),
-      ).annotate({ identifier: "AccessPolicyAssignmentPropertiesInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
           accessPolicyAssignmentName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(0, __c0, 0)),
+          properties: S.optional(__S(33, __c2, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/accessPolicyAssignments/{accessPolicyAssignmentName}",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "AccessPolicyAssignmentCreateUpdateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(33, __c2, 1)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "AccessPolicyAssignmentCreateUpdateResponse" });
   }
 }
 function __c1(j: number): any {
@@ -1940,29 +2281,35 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          createdBy: S.optional(S.String),
+          createdByType: S.optional(S.String),
+          createdAt: S.optional(S.String),
+          lastModifiedBy: S.optional(S.String),
+          lastModifiedByType: S.optional(S.String),
+          lastModifiedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SystemData" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           objectId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AccessPolicyAssignmentPropertiesInputUser" });
+      ).annotate({ identifier: "AccessPolicyAssignmentPropertiesUser" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
           accessPolicyName: S.String,
-          user: __S(16, __c1, 0),
+          user: __S(32, __c2, 0),
         }),
       ).annotate({ identifier: "AccessPolicyAssignmentProperties" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          properties: S.optional(__S(17, __c1, 1)),
-        }),
-      ).annotate({ identifier: "AccessPolicyAssignmentCreateUpdateResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1977,21 +2324,20 @@ function __c2(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "CreateDatabaseRequest" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(70, __c4, 6)),
+          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(67, __c4, 3)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "CreateDatabaseResponse" });
   }
@@ -2020,22 +2366,6 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LinkedDatabase" });
-    case 4:
-      return S.Array(__S(67, __c4, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          groupNickname: S.optional(S.String),
-          linkedDatabases: S.optional(__S(68, __c4, 4)),
-        }),
-      ).annotate({ identifier: "DatabaseCreatePropertiesGeoReplication" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
           clientProtocol: S.optional(S.String),
           port: S.optional(S.Number),
           provisioningState: S.optional(S.String),
@@ -2044,10 +2374,11 @@ function __c4(j: number): any {
           evictionPolicy: S.optional(S.String),
           persistence: S.optional(__S(64, __c4, 0)),
           modules: S.optional(__S(66, __c4, 2)),
-          geoReplication: S.optional(__S(69, __c4, 5)),
+          geoReplication: S.optional(__S(82, __c5, 2)),
           redisVersion: S.optional(S.String),
           deferUpgrade: S.optional(S.String),
           accessKeysAuthentication: S.optional(S.String),
+          notifyKeyspaceEvents: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseCreateProperties" });
   }
@@ -2058,8 +2389,18 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
+          state: S.optional(S.String),
         }),
-      ).annotate({ identifier: "LinkedDatabaseInput" });
+      ).annotate({ identifier: "LinkedDatabase" });
+    case 1:
+      return S.Array(__S(80, __c5, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          groupNickname: S.optional(S.String),
+          linkedDatabases: S.optional(__S(81, __c5, 1)),
+        }),
+      ).annotate({ identifier: "DatabasePropertiesGeoReplication" });
   }
 }
 function __c6(j: number): any {
@@ -2082,27 +2423,15 @@ function __c6(j: number): any {
           evictionPolicy: S.optional(S.String),
           persistence: S.optional(__S(64, __c4, 0)),
           modules: S.optional(__S(97, __c6, 1)),
-          geoReplication: S.optional(__S(113, __c7, 1)),
+          geoReplication: S.optional(__S(82, __c5, 2)),
           deferUpgrade: S.optional(S.String),
           accessKeysAuthentication: S.optional(S.String),
+          notifyKeyspaceEvents: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseCreatePropertiesInput" });
   }
 }
 function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(80, __c5, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          groupNickname: S.optional(S.String),
-          linkedDatabases: S.optional(__S(112, __c7, 0)),
-        }),
-      ).annotate({ identifier: "DatabaseCreatePropertiesInputGeoReplication" });
-  }
-}
-function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2111,19 +2440,19 @@ function __c8(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
-          ids: S.optional(__S(304, __c19, 0)),
+          ids: S.optional(__S(368, __c23, 0)),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/flush",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "FlushDatabaseRequest" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2138,10 +2467,24 @@ function __c9(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/accessPolicyAssignments/{accessPolicyAssignmentName}",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetAccessPolicyAssignmentRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(33, __c2, 1)),
+        }),
+      ).annotate({ identifier: "GetAccessPolicyAssignmentResponse" });
   }
 }
 function __c10(j: number): any {
@@ -2158,13 +2501,76 @@ function __c10(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetDatabaseRequest" });
   }
 }
 function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(67, __c4, 3)),
+        }),
+      ).annotate({ identifier: "GetDatabaseResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          clusterName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/migrations/default",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetMigrationRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(224, __c14, 0)),
+        }),
+      ).annotate({ identifier: "GetMigrationResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sourceType: S.String,
+          targetResourceId: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          statusDetails: S.optional(S.NullOr(S.String)),
+          creationTime: S.optional(S.String),
+          lastModifiedTime: S.optional(S.String),
+          rollbackEligibleUntil: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MigrationProperties" });
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2177,12 +2583,12 @@ function __c11(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Cache/locations/{location}/operationsStatus/{operationId}",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetOperationsStatusRequest" });
     case 1:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(180, __c11, 4)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(244, __c15, 4)));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2191,21 +2597,21 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "ErrorAdditionalInfo" });
     case 3:
-      return S.Array(__S(178, __c11, 2));
+      return S.Array(__S(242, __c15, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
           target: S.optional(S.String),
-          details: S.optional(__S(177, __c11, 1)),
-          additionalInfo: S.optional(__S(179, __c11, 3)),
+          details: S.optional(__S(241, __c15, 1)),
+          additionalInfo: S.optional(__S(243, __c15, 3)),
         }),
       ).annotate({ identifier: "ErrorDetail" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(180, __c11, 4)),
+          error: S.optional(__S(244, __c15, 4)),
         }),
       ).annotate({ identifier: "OperationStatusError" });
     case 6:
@@ -2216,12 +2622,12 @@ function __c11(j: number): any {
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           status: S.optional(S.String),
-          error: S.optional(__S(181, __c11, 5)),
+          error: S.optional(__S(245, __c15, 5)),
         }),
       ).annotate({ identifier: "OperationStatus" });
   }
 }
-function __c12(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2235,13 +2641,13 @@ function __c12(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateEndpointConnectionRequest" });
   }
 }
-function __c13(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2254,13 +2660,33 @@ function __c13(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetRedisEnterpriseRequest" });
   }
 }
-function __c14(j: number): any {
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(432, __c27, 0)),
+          location: S.String,
+          properties: S.optional(__S(441, __c27, 9)),
+          kind: S.optional(S.String),
+          sku: __S(440, __c27, 8),
+          zones: S.optional(__S(368, __c23, 0)),
+          identity: S.optional(__S(444, __c27, 12)),
+        }),
+      ).annotate({ identifier: "GetRedisEnterpriseResponse" });
+  }
+}
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2269,19 +2695,19 @@ function __c14(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
-          sasUris: __S(304, __c19, 0),
+          sasUris: __S(368, __c23, 0),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/import",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ImportDatabaseRequest" });
   }
 }
-function __c15(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2295,22 +2721,22 @@ function __c15(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/accessPolicyAssignments",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListAccessPolicyAssignmentRequest" });
     case 1:
-      return S.Array(__S(18, __c1, 2));
+      return S.Array(__S(144, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(241, __c15, 1)),
+          value: __S(321, __c20, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AccessPolicyAssignmentList" });
   }
 }
-function __c16(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2323,22 +2749,240 @@ function __c16(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseByClusterRequest" });
     case 1:
-      return S.Array(__S(48, __c3, 0));
+      return S.Array(__S(176, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(257, __c16, 1)),
+          value: __S(337, __c21, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseList" });
   }
 }
-function __c17(j: number): any {
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          highAvailability: S.optional(S.String),
+          minimumTlsVersion: S.optional(S.String),
+          encryption: S.optional(__S(435, __c27, 3)),
+          maintenanceConfiguration: S.optional(__S(439, __c27, 7)),
+          publicNetworkAccess: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ClusterCreatePropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          clusterName: S.String.pipe(T.Label()),
+          tags: S.optional(__S(432, __c27, 0)),
+          location: S.String,
+          properties: S.optional(__S(352, __c22, 0)),
+          sku: __S(440, __c27, 8),
+          zones: S.optional(__S(368, __c23, 0)),
+          identity: S.optional(__S(465, __c29, 1)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "CreateRedisEnterpriseRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(432, __c27, 0)),
+          location: S.String,
+          properties: S.optional(__S(441, __c27, 9)),
+          kind: S.optional(S.String),
+          sku: __S(440, __c27, 8),
+          zones: S.optional(__S(368, __c23, 0)),
+          identity: S.optional(__S(444, __c27, 12)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "CreateRedisEnterpriseResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrivateEndpoint" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          description: S.optional(S.String),
+          actionsRequired: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrivateLinkServiceConnectionState" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          groupIds: S.optional(__S(368, __c23, 0)),
+          privateEndpoint: S.optional(__S(384, __c24, 0)),
+          privateLinkServiceConnectionState: __S(385, __c24, 1),
+          provisioningState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrivateEndpointConnectionProperties" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(386, __c24, 2)),
+        }),
+      ).annotate({ identifier: "ClusterCreatePropertiesPrivateEndpointConnectionsItem" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(400, __c25, 0));
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          userAssignedIdentityResourceId: S.optional(S.String),
+          identityType: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier: "ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          keyEncryptionKeyIdentity: S.optional(__S(433, __c27, 1)),
+          keyEncryptionKeyUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClusterPropertiesEncryptionCustomerManagedKeyEncryption" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          customerManagedKeyEncryption: S.optional(__S(434, __c27, 2)),
+        }),
+      ).annotate({ identifier: "ClusterPropertiesEncryption" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          dayOfWeek: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MaintenanceWindowSchedule" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          duration: S.String,
+          startHourUtc: S.Number,
+          schedule: __S(436, __c27, 4),
+        }),
+      ).annotate({ identifier: "MaintenanceWindow" });
+    case 6:
+      return S.Array(__S(437, __c27, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          maintenanceWindows: S.optional(__S(438, __c27, 6)),
+        }),
+      ).annotate({ identifier: "MaintenanceConfiguration" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          capacity: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Sku" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          highAvailability: S.optional(S.String),
+          minimumTlsVersion: S.optional(S.String),
+          encryption: S.optional(__S(435, __c27, 3)),
+          maintenanceConfiguration: S.optional(__S(439, __c27, 7)),
+          hostName: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          redundancyMode: S.optional(S.String),
+          resourceState: S.optional(S.String),
+          redisVersion: S.optional(S.String),
+          privateEndpointConnections: S.optional(__S(416, __c26, 0)),
+          migratedEndpoint: S.optional(S.String),
+          publicNetworkAccess: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ClusterCreateProperties" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          principalId: S.optional(S.String),
+          clientId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserAssignedIdentity" });
+    case 11:
+      return S.Record(S.String, __S(442, __c27, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          principalId: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          type: S.String,
+          userAssignedIdentities: S.optional(__S(443, __c27, 11)),
+        }),
+      ).annotate({ identifier: "CreateRedisEnterpriseResponseIdentity" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "UserAssignedIdentityInput" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, __S(448, __c28, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          userAssignedIdentities: S.optional(__S(464, __c29, 0)),
+        }),
+      ).annotate({ identifier: "CreateRedisEnterpriseRequestIdentity" });
+  }
+}
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2352,7 +2996,7 @@ function __c17(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/listKeys",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseKeysRequest" });
@@ -2365,191 +3009,35 @@ function __c17(j: number): any {
       ).annotate({ identifier: "AccessKeys" });
   }
 }
-function __c18(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          highAvailability: S.optional(S.String),
-          minimumTlsVersion: S.optional(S.String),
-          encryption: S.optional(__S(372, __c23, 4)),
-          publicNetworkAccess: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "ClusterCreatePropertiesInput" });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(368, __c23, 0)),
-          location: S.String,
-          sku: __S(369, __c23, 1),
-          zones: S.optional(__S(304, __c19, 0)),
-          identity: S.optional(__S(401, __c25, 1)),
-          properties: S.optional(__S(288, __c18, 0)),
         }).pipe(
           T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}",
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/migrations",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
-      ).annotate({ identifier: "CreateRedisEnterpriseRequest" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          description: S.optional(S.String),
-          actionsRequired: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PrivateLinkServiceConnectionState" });
+      ).annotate({ identifier: "ListMigrationsRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          privateEndpoint: S.optional(__S(80, __c5, 0)),
-          privateLinkServiceConnectionState: __S(320, __c20, 0),
-          provisioningState: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PrivateEndpointConnectionProperties" });
+      return S.Array(__S(208, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          properties: S.optional(__S(321, __c20, 1)),
+          value: __S(497, __c31, 1),
+          nextLink: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ClusterCreatePropertiesPrivateEndpointConnectionsItem" });
+      ).annotate({ identifier: "MigrationList" });
   }
 }
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(322, __c20, 2));
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          tags: S.optional(__S(368, __c23, 0)),
-          location: S.String,
-          kind: S.optional(S.String),
-          sku: __S(369, __c23, 1),
-          zones: S.optional(__S(304, __c19, 0)),
-          identity: S.optional(__S(375, __c23, 7)),
-          properties: S.optional(__S(376, __c23, 8)),
-        }),
-      ).annotate({ identifier: "CreateRedisEnterpriseResponse" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          capacity: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Sku" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          userAssignedIdentityResourceId: S.optional(S.String),
-          identityType: S.optional(S.String),
-        }),
-      ).annotate({
-        identifier:
-          "ClusterCreatePropertiesInputEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentity",
-      });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          keyEncryptionKeyIdentity: S.optional(__S(370, __c23, 2)),
-          keyEncryptionKeyUrl: S.optional(S.String),
-        }),
-      ).annotate({
-        identifier: "ClusterCreatePropertiesInputEncryptionCustomerManagedKeyEncryption",
-      });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          customerManagedKeyEncryption: S.optional(__S(371, __c23, 3)),
-        }),
-      ).annotate({ identifier: "ClusterCreatePropertiesInputEncryption" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          principalId: S.optional(S.String),
-          clientId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UserAssignedIdentity" });
-    case 6:
-      return S.Record(S.String, __S(373, __c23, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          principalId: S.optional(S.String),
-          tenantId: S.optional(S.String),
-          type: S.String,
-          userAssignedIdentities: S.optional(__S(374, __c23, 6)),
-        }),
-      ).annotate({ identifier: "CreateRedisEnterpriseResponseIdentity" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          highAvailability: S.optional(S.String),
-          minimumTlsVersion: S.optional(S.String),
-          encryption: S.optional(__S(372, __c23, 4)),
-          hostName: S.optional(S.String),
-          provisioningState: S.optional(S.String),
-          redundancyMode: S.optional(S.String),
-          resourceState: S.optional(S.String),
-          redisVersion: S.optional(S.String),
-          privateEndpointConnections: S.optional(__S(336, __c21, 0)),
-          publicNetworkAccess: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "ClusterCreateProperties" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "UserAssignedIdentityInput" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, __S(384, __c24, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          userAssignedIdentities: S.optional(__S(400, __c25, 0)),
-        }),
-      ).annotate({ identifier: "CreateRedisEnterpriseRequestIdentity" });
-  }
-}
-function __c26(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2558,7 +3046,7 @@ function __c26(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.Cache/operations",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2576,23 +3064,23 @@ function __c26(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(417, __c26, 1)),
+          display: S.optional(__S(513, __c32, 1)),
           origin: S.optional(S.String),
           actionType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(418, __c26, 2));
+      return S.Array(__S(514, __c32, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(419, __c26, 3)),
+          value: S.optional(__S(515, __c32, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c27(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2605,19 +3093,20 @@ function __c27(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/privateEndpointConnections",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(336, __c21, 0)),
+          value: __S(416, __c26, 0),
+          nextLink: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ListPrivateEndpointConnectionsResponse" });
+      ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
   }
 }
-function __c28(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2630,7 +3119,7 @@ function __c28(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/privateLinkResources",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourceByClusterRequest" });
@@ -2638,8 +3127,8 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           groupId: S.optional(S.String),
-          requiredMembers: S.optional(__S(304, __c19, 0)),
-          requiredZoneNames: S.optional(__S(304, __c19, 0)),
+          requiredMembers: S.optional(__S(368, __c23, 0)),
+          requiredZoneNames: S.optional(__S(368, __c23, 0)),
         }),
       ).annotate({ identifier: "PrivateLinkResourceProperties" });
     case 2:
@@ -2648,20 +3137,22 @@ function __c28(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(449, __c28, 1)),
+          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(545, __c34, 1)),
         }),
       ).annotate({ identifier: "PrivateLinkResource" });
     case 3:
-      return S.Array(__S(450, __c28, 2));
+      return S.Array(__S(546, __c34, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(451, __c28, 3)),
+          value: S.optional(__S(547, __c34, 3)),
+          nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPrivateLinkResourceByClusterResponse" });
   }
 }
-function __c29(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2672,26 +3163,26 @@ function __c29(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Cache/redisEnterprise",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListRedisEnterpriseRequest" });
   }
 }
-function __c30(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(352, __c22, 0));
+      return S.Array(__S(288, __c18, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(480, __c30, 0)),
+          value: __S(576, __c36, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterList" });
   }
 }
-function __c31(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2703,13 +3194,13 @@ function __c31(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListRedisEnterpriseByResourceGroupRequest" });
   }
 }
-function __c32(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2722,7 +3213,7 @@ function __c32(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/listSkusForScaling",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListRedisEnterpriseSkusForScalingRequest" });
@@ -2734,22 +3225,42 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "SkuDetails" });
     case 2:
-      return S.Array(__S(513, __c32, 1));
+      return S.Array(__S(609, __c38, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          skus: S.optional(__S(514, __c32, 2)),
+          skus: S.optional(__S(610, __c38, 2)),
         }),
       ).annotate({ identifier: "SkuDetailsList" });
   }
 }
-function __c33(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          privateEndpoint: S.optional(__S(384, __c24, 0)),
-          privateLinkServiceConnectionState: __S(320, __c20, 0),
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          clusterName: S.String.pipe(T.Label()),
+          rollbackReason: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/migrations/default/cancel",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "MigrationsUndoRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          privateEndpoint: S.optional(__S(448, __c28, 0)),
+          privateLinkServiceConnectionState: __S(385, __c24, 1),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionPropertiesInput" });
     case 1:
@@ -2759,19 +3270,64 @@ function __c33(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(528, __c33, 0)),
+          properties: S.optional(__S(640, __c40, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "PutPrivateEndpointConnectionRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(386, __c24, 2)),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "PutPrivateEndpointConnectionResponse" });
   }
 }
-function __c34(j: number): any {
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          clusterName: S.String.pipe(T.Label()),
+          databaseName: S.String.pipe(T.Label()),
+          geoReplication: __S(82, __c5, 2),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/forceLinkToReplicationGroup",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "DatabasesForceLinkToReplicationGroupRequest" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "DatabasesForceLinkToReplicationGroupResponse" });
+  }
+}
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2786,7 +3342,7 @@ function __c34(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/regenerateKey",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RegenerateDatabaseKeyRequest" });
@@ -2795,13 +3351,72 @@ function __c34(j: number): any {
         S.Struct({
           primaryKey: S.optional(S.String),
           secondaryKey: S.optional(S.String),
-          location: S.optional(S.String.pipe(T.Header("Location"))),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "RegenerateDatabaseKeyResponse" });
   }
 }
-function __c35(j: number): any {
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sourceType: S.String,
+        }),
+      ).annotate({ identifier: "MigrationPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          clusterName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(704, __c44, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/migrations/default",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "StartMigrationRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(224, __c14, 0)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "StartMigrationResponse" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          clusterName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/unlinkMigratedEndpoint",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "UnlinkClusterMigratedEndpointRequest" });
+  }
+}
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2810,19 +3425,38 @@ function __c35(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           databaseName: S.String.pipe(T.Label()),
-          ids: __S(304, __c19, 0),
+          ids: __S(368, __c23, 0),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/forceUnlink",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UnlinkDatabasesForceRequest" });
   }
 }
-function __c36(j: number): any {
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          clusterName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/migrations/default/unlinkMigratedEndpoint",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "UnlinkMigrationMigratedEndpointRequest" });
+  }
+}
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2837,7 +3471,7 @@ function __c36(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateDatabaseRequest" });
@@ -2847,53 +3481,24 @@ function __c36(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(70, __c4, 6)),
-          location: S.optional(S.String.pipe(T.Header("Location"))),
+          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(67, __c4, 3)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "UpdateDatabaseResponse" });
   }
 }
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          clusterName: S.String.pipe(T.Label()),
-          databaseName: S.String.pipe(T.Label()),
-          geoReplication: __S(113, __c7, 1),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/forceLinkToReplicationGroup",
-            code: 200,
-            apiVersion: "2025-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "DatabasesForceLinkToReplicationGroupRequest" });
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(S.String.pipe(T.Header("Location"))),
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-        }),
-      ).annotate({ identifier: "DatabasesForceLinkToReplicationGroupResponse" });
-  }
-}
-function __c39(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           highAvailability: S.optional(S.String),
           minimumTlsVersion: S.optional(S.String),
-          encryption: S.optional(__S(372, __c23, 4)),
+          encryption: S.optional(__S(435, __c27, 3)),
+          maintenanceConfiguration: S.optional(__S(439, __c27, 7)),
           publicNetworkAccess: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ClusterUpdatePropertiesInput" });
@@ -2903,16 +3508,16 @@ function __c39(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
-          sku: S.optional(__S(369, __c23, 1)),
-          properties: S.optional(__S(624, __c39, 0)),
-          identity: S.optional(__S(401, __c25, 1)),
-          tags: S.optional(__S(368, __c23, 0)),
+          sku: S.optional(__S(440, __c27, 8)),
+          properties: S.optional(__S(784, __c49, 0)),
+          identity: S.optional(__S(465, __c29, 1)),
+          tags: S.optional(__S(432, __c27, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateRedisEnterpriseRequest" });
@@ -2922,20 +3527,68 @@ function __c39(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          tags: S.optional(__S(368, __c23, 0)),
+          systemData: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(432, __c27, 0)),
           location: S.String,
+          properties: S.optional(__S(441, __c27, 9)),
           kind: S.optional(S.String),
-          sku: __S(369, __c23, 1),
-          zones: S.optional(__S(304, __c19, 0)),
-          identity: S.optional(__S(375, __c23, 7)),
-          properties: S.optional(__S(376, __c23, 8)),
-          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+          sku: __S(440, __c27, 8),
+          zones: S.optional(__S(368, __c23, 0)),
+          identity: S.optional(__S(444, __c27, 12)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "UpdateRedisEnterpriseResponse" });
   }
 }
-function __c40(j: number): any {
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          clusterName: S.String.pipe(T.Label()),
+          sourceResourceId: S.String,
+          skipDataMigration: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/migrations/default/validate",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "ValidateMigrationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          category: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "MigrationValidationDisparity" });
+    case 2:
+      return S.Array(__S(801, __c50, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          disparities: __S(802, __c50, 2),
+        }),
+      ).annotate({ identifier: "MigrationValidationError" });
+    case 4:
+      return S.Array(__S(803, __c50, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          isValid: S.Boolean,
+          errors: S.optional(__S(804, __c50, 4)),
+          warnings: S.optional(__S(804, __c50, 4)),
+        }),
+      ).annotate({ identifier: "MigrationValidationResponse" });
+  }
+}
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2949,13 +3602,13 @@ function __c40(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/upgradeDBRedisVersion",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DatabasesUpgradeDBRedisVersionRequest" });
   }
 }
-function __c41(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2970,13 +3623,13 @@ function __c41(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/accessPolicyAssignments/{accessPolicyAssignmentName}",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteAccessPolicyAssignmentRequest" });
   }
 }
-function __c42(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2990,13 +3643,13 @@ function __c42(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteDatabaseRequest" });
   }
 }
-function __c43(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3010,13 +3663,24 @@ function __c43(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeletePrivateEndpointConnectionRequest" });
   }
 }
-function __c44(j: number): any {
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+        }),
+      ).annotate({ identifier: "DeletePrivateEndpointConnectionResponse" });
+  }
+}
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3029,13 +3693,13 @@ function __c44(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteRedisEnterpriseRequest" });
   }
 }
-function __c45(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3050,7 +3714,7 @@ function __c45(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/export",
             code: 200,
-            apiVersion: "2025-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ExportDatabaseRequest" });

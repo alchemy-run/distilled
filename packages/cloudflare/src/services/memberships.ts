@@ -64,11 +64,27 @@ export interface GetMembershipRequest {
   membershipId: string;
 }
 export type GetResponseAccountType = "standard" | "enterprise";
+export interface GetResponseAccountLegacyFlagsEnterpriseZoneQuota {
+  /** Number of additional Enterprise zones available. Returns 0 if the quota is not allocated or is exhausted. */
+  available?: number | null;
+  /** Current number of Enterprise zones. */
+  current?: number | null;
+  /** Maximum number of Enterprise zones allowed. */
+  maximum?: number | null;
+}
+export interface GetResponseAccountLegacyFlags {
+  /** Enterprise zone quota for standard and enterprise accounts. Accounts without a quota have a maximum of 0. */
+  enterpriseZoneQuota?: GetResponseAccountLegacyFlagsEnterpriseZoneQuota | null;
+}
 export interface GetResponseAccountManagedBy {
   /** ID of the parent Organization, if one exists */
   parentOrgId?: string | null;
   /** Name of the parent Organization, if one exists */
   parentOrgName?: string | null;
+  /** ID of the root Organization, if one exists */
+  rootOrgId?: string | null;
+  /** Indicates whether the parent Organization hierarchy should be displayed */
+  shouldDisplayParentOrgs?: boolean | null;
 }
 export interface GetResponseAccountSettings {
   /** Sets an abuse contact email to notify for abuse reports. */
@@ -84,6 +100,8 @@ export interface GetResponseAccount {
   type: GetResponseAccountType;
   /** Timestamp for the creation of the account */
   createdOn?: string | null;
+  /** Legacy account flags. */
+  legacyFlags?: GetResponseAccountLegacyFlags | null;
   /** Parent container details */
   managedBy?: GetResponseAccountManagedBy | null;
   /** Account settings */
@@ -166,7 +184,7 @@ export interface GetResponsePoliciesItemResourceGroupsItemMeta {
 export interface GetResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
   id: string;
-  /** A scope is a combination of scope objects which provides additional context. */
+  /** The scope associated to the resource group */
   scope: GetResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
   meta?: GetResponsePoliciesItemResourceGroupsItemMeta | null;
@@ -227,6 +245,9 @@ export interface ListMembershipsRequest {
   status?: ListRequestStatus | (string & {});
 }
 export type ListResultItemAccountType = "standard" | "enterprise";
+export type ListResultItemAccountLegacyFlagsEnterpriseZoneQuota =
+  GetResponseAccountLegacyFlagsEnterpriseZoneQuota;
+export type ListResultItemAccountLegacyFlags = GetResponseAccountLegacyFlags;
 export type ListResultItemAccountManagedBy = GetResponseAccountManagedBy;
 export type ListResultItemAccountSettings = GetResponseAccountSettings;
 export interface ListResultItemAccount {
@@ -237,6 +258,8 @@ export interface ListResultItemAccount {
   type: ListResultItemAccountType;
   /** Timestamp for the creation of the account */
   createdOn?: string | null;
+  /** Legacy account flags. */
+  legacyFlags?: GetResponseAccountLegacyFlags | null;
   /** Parent container details */
   managedBy?: GetResponseAccountManagedBy | null;
   /** Account settings */
@@ -285,6 +308,9 @@ export interface PutMembershipRequest {
   status: UpdateRequestStatus | (string & {});
 }
 export type UpdateResponseAccountType = "standard" | "enterprise";
+export type UpdateResponseAccountLegacyFlagsEnterpriseZoneQuota =
+  GetResponseAccountLegacyFlagsEnterpriseZoneQuota;
+export type UpdateResponseAccountLegacyFlags = GetResponseAccountLegacyFlags;
 export type UpdateResponseAccountManagedBy = GetResponseAccountManagedBy;
 export type UpdateResponseAccountSettings = GetResponseAccountSettings;
 export interface UpdateResponseAccount {
@@ -295,6 +321,8 @@ export interface UpdateResponseAccount {
   type: UpdateResponseAccountType;
   /** Timestamp for the creation of the account */
   createdOn?: string | null;
+  /** Legacy account flags. */
+  legacyFlags?: GetResponseAccountLegacyFlags | null;
   /** Parent container details */
   managedBy?: GetResponseAccountManagedBy | null;
   /** Account settings */
@@ -335,7 +363,7 @@ export type UpdateResponsePoliciesItemResourceGroupsItemMeta =
 export interface UpdateResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
   id: string;
-  /** A scope is a combination of scope objects which provides additional context. */
+  /** The scope associated to the resource group */
   scope: UpdateResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
   meta?: GetResponsePoliciesItemResourceGroupsItemMeta | null;
@@ -488,53 +516,74 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          available: S.optional(S.NullOr(S.Number)),
+          current: S.optional(S.NullOr(S.Number)),
+          maximum: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "GetResponseAccountLegacyFlagsEnterpriseZoneQuota" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          enterpriseZoneQuota: S.optional(
+            S.NullOr(__S(32, __c2, 0)).pipe(T.Body("enterprise_zone_quota")),
+          ),
+        }),
+      ).annotate({ identifier: "GetResponseAccountLegacyFlags" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           parentOrgId: S.optional(S.NullOr(S.String).pipe(T.Body("parent_org_id"))),
           parentOrgName: S.optional(S.NullOr(S.String).pipe(T.Body("parent_org_name"))),
+          rootOrgId: S.optional(S.NullOr(S.String).pipe(T.Body("root_org_id"))),
+          shouldDisplayParentOrgs: S.optional(
+            S.NullOr(S.Boolean).pipe(T.Body("should_display_parent_orgs")),
+          ),
         }),
       ).annotate({ identifier: "GetResponseAccountManagedBy" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           abuseContactEmail: S.optional(S.NullOr(S.String).pipe(T.Body("abuse_contact_email"))),
           enforceTwofactor: S.optional(S.NullOr(S.Boolean).pipe(T.Body("enforce_twofactor"))),
         }),
       ).annotate({ identifier: "GetResponseAccountSettings" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.String,
           type: S.String,
           createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
-          managedBy: S.optional(S.NullOr(__S(32, __c2, 0)).pipe(T.Body("managed_by"))),
-          settings: S.optional(S.NullOr(__S(33, __c2, 1))),
+          legacyFlags: S.optional(S.NullOr(__S(33, __c2, 1)).pipe(T.Body("legacy_flags"))),
+          managedBy: S.optional(S.NullOr(__S(34, __c2, 2)).pipe(T.Body("managed_by"))),
+          settings: S.optional(S.NullOr(__S(35, __c2, 3))),
         }),
       ).annotate({ identifier: "GetResponseAccount" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           read: S.optional(S.NullOr(S.Boolean)),
           write: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "GetResponsePermissionsAnalytics" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          analytics: S.optional(S.NullOr(__S(35, __c2, 3))),
-          billing: S.optional(S.NullOr(__S(35, __c2, 3))),
-          cachePurge: S.optional(S.NullOr(__S(35, __c2, 3)).pipe(T.Body("cache_purge"))),
-          dns: S.optional(S.NullOr(__S(35, __c2, 3))),
-          dnsRecords: S.optional(S.NullOr(__S(35, __c2, 3)).pipe(T.Body("dns_records"))),
-          lb: S.optional(S.NullOr(__S(35, __c2, 3))),
-          logs: S.optional(S.NullOr(__S(35, __c2, 3))),
-          organization: S.optional(S.NullOr(__S(35, __c2, 3))),
-          ssl: S.optional(S.NullOr(__S(35, __c2, 3))),
-          waf: S.optional(S.NullOr(__S(35, __c2, 3))),
-          zoneSettings: S.optional(S.NullOr(__S(35, __c2, 3)).pipe(T.Body("zone_settings"))),
-          zones: S.optional(S.NullOr(__S(35, __c2, 3))),
+          analytics: S.optional(S.NullOr(__S(37, __c2, 5))),
+          billing: S.optional(S.NullOr(__S(37, __c2, 5))),
+          cachePurge: S.optional(S.NullOr(__S(37, __c2, 5)).pipe(T.Body("cache_purge"))),
+          dns: S.optional(S.NullOr(__S(37, __c2, 5))),
+          dnsRecords: S.optional(S.NullOr(__S(37, __c2, 5)).pipe(T.Body("dns_records"))),
+          lb: S.optional(S.NullOr(__S(37, __c2, 5))),
+          logs: S.optional(S.NullOr(__S(37, __c2, 5))),
+          organization: S.optional(S.NullOr(__S(37, __c2, 5))),
+          ssl: S.optional(S.NullOr(__S(37, __c2, 5))),
+          waf: S.optional(S.NullOr(__S(37, __c2, 5))),
+          zoneSettings: S.optional(S.NullOr(__S(37, __c2, 5)).pipe(T.Body("zone_settings"))),
+          zones: S.optional(S.NullOr(__S(37, __c2, 5))),
         }),
       ).annotate({ identifier: "GetResponsePermissions" });
-    case 5:
+    case 7:
       return S.Array(S.String);
   }
 }
@@ -613,11 +662,11 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          account: S.optional(S.NullOr(__S(34, __c2, 2))),
+          account: S.optional(S.NullOr(__S(36, __c2, 4))),
           apiAccessEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("api_access_enabled"))),
-          permissions: S.optional(S.NullOr(__S(36, __c2, 4))),
+          permissions: S.optional(S.NullOr(__S(38, __c2, 6))),
           policies: S.optional(S.NullOr(__S(58, __c3, 10))),
-          roles: S.optional(S.NullOr(__S(37, __c2, 5))),
+          roles: S.optional(S.NullOr(__S(39, __c2, 7))),
           status: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetMembershipResponse" });
@@ -649,10 +698,10 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          account: S.optional(S.NullOr(__S(34, __c2, 2))),
+          account: S.optional(S.NullOr(__S(36, __c2, 4))),
           apiAccessEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("api_access_enabled"))),
-          permissions: S.optional(S.NullOr(__S(36, __c2, 4))),
-          roles: S.optional(S.NullOr(__S(37, __c2, 5))),
+          permissions: S.optional(S.NullOr(__S(38, __c2, 6))),
+          roles: S.optional(S.NullOr(__S(39, __c2, 7))),
           status: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ListResultItem" });

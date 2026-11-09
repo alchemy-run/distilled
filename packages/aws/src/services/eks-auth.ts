@@ -187,6 +187,7 @@ export interface AssumeRoleForPodIdentityResponse {
   podIdentityAssociation: PodIdentityAssociation;
   assumedRoleUser: AssumedRoleUser;
   credentials: Credentials;
+  workloadIdentityProviderArn?: string;
 }
 export type AssumeRoleForPodIdentityError =
   | AccessDeniedException
@@ -281,6 +282,7 @@ function __c0(j: number): any {
           podIdentityAssociation: __S(2, __c0, 2),
           assumedRoleUser: __S(3, __c0, 3),
           credentials: __S(4, __c0, 4),
+          workloadIdentityProviderArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "AssumeRoleForPodIdentityResponse" });
   }

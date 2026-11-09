@@ -1099,6 +1099,16 @@ export type UpdateRepoSettingsRequestDiscussionsSorting =
   | "reactions";
 export type UpdateRepoSettingsRequestGatedCase1 = "auto" | "manual";
 export type UpdateRepoSettingsRequestGated = boolean | UpdateRepoSettingsRequestGatedCase1;
+export interface UpdateRepoSettingsRequestGatedProfileSharingCase0 {
+  username: boolean;
+  email: boolean;
+}
+export type UpdateRepoSettingsRequestGatedProfileSharingCase1 =
+  UpdateRepoSettingsRequestGatedProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type UpdateRepoSettingsRequestGatedProfileSharing =
+  | UpdateRepoSettingsRequestGatedProfileSharingCase0
+  | UpdateRepoSettingsRequestGatedProfileSharingCase0;
 export type UpdateRepoSettingsRequestGatedNotificationsMode = "bulk" | "real-time";
 export interface UpdateRepoSettingsRequest {
   namespace: string;
@@ -1111,6 +1121,8 @@ export interface UpdateRepoSettingsRequest {
   gated?: UpdateRepoSettingsRequestGated;
   /** If true, members of the owning org (except admins) must also go through the gated access-request flow. */
   orgMembersGated?: boolean;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  gatedProfileSharing?: UpdateRepoSettingsRequestGatedProfileSharing;
   gatedNotificationsEmail?: string;
   gatedNotificationsMode?: UpdateRepoSettingsRequestGatedNotificationsMode | (string & {});
 }
@@ -1122,6 +1134,14 @@ export type UpdateRepoSettingsResponseDiscussionsSorting =
   | "reactions";
 export type UpdateRepoSettingsResponseGatedCase1 = "auto" | "manual";
 export type UpdateRepoSettingsResponseGated = boolean | UpdateRepoSettingsResponseGatedCase1;
+export type UpdateRepoSettingsResponseGatedProfileSharingCase0 =
+  UpdateRepoSettingsRequestGatedProfileSharingCase0;
+export type UpdateRepoSettingsResponseGatedProfileSharingCase1 =
+  UpdateRepoSettingsRequestGatedProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type UpdateRepoSettingsResponseGatedProfileSharing =
+  | UpdateRepoSettingsRequestGatedProfileSharingCase0
+  | UpdateRepoSettingsRequestGatedProfileSharingCase0;
 export type UpdateRepoSettingsResponseGatedNotificationsMode = "bulk" | "real-time";
 export interface UpdateRepoSettingsResponse {
   private?: boolean;
@@ -1132,6 +1152,8 @@ export interface UpdateRepoSettingsResponse {
   gated?: UpdateRepoSettingsResponseGated;
   /** If true, members of the owning org (except admins) must also go through the gated access-request flow. */
   orgMembersGated?: boolean;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  gatedProfileSharing?: UpdateRepoSettingsResponseGatedProfileSharing;
   gatedNotificationsEmail?: string;
   gatedNotificationsMode?: UpdateRepoSettingsResponseGatedNotificationsMode;
 }
@@ -3072,6 +3094,7 @@ function __c42(j: number): any {
           discussionsSorting: S.optional(S.String),
           gated: S.optional(S.Unknown),
           orgMembersGated: S.optional(S.Boolean),
+          gatedProfileSharing: S.optional(S.Unknown),
           gatedNotificationsEmail: S.optional(S.String),
           gatedNotificationsMode: S.optional(S.String),
         }).pipe(
@@ -3087,6 +3110,7 @@ function __c42(j: number): any {
           discussionsSorting: S.optional(S.String),
           gated: S.optional(S.Unknown),
           orgMembersGated: S.optional(S.Boolean),
+          gatedProfileSharing: S.optional(S.Unknown),
           gatedNotificationsEmail: S.optional(S.String),
           gatedNotificationsMode: S.optional(S.String),
         }),

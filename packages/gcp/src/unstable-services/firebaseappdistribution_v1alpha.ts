@@ -99,16 +99,16 @@ export interface BatchDeleteProjectsAppsTestCasesRequest {
 export interface GoogleProtobufEmpty {}
 /** A step to be accomplished by the AI */
 export interface GoogleFirebaseAppdistroV1alphaAiStep {
-  /** Optional. Hint text containing suggestions to help the agent accomplish the goal */
-  hint?: string;
-  /** An assertion to be checked by the AI */
-  assertion?: string;
-  /** Output only. The test case that contained this step. Note: The test case may have changed or been deleted since this step was created. Format: `projects/{project_number}/apps/{app}/testCases/{test_case}` */
-  testCase?: string;
-  /** Optional. A visual description of the screen's expected state after the step has been successfully completed. This is referred to as the "final screen assertion" in the Firebase console and CLI tools. This field must be provided for the last step in a test case, and is optional for all other steps. */
-  successCriteria?: string;
   /** A goal to be accomplished by the AI */
   goal?: string;
+  /** Optional. Hint text containing suggestions to help the agent accomplish the goal */
+  hint?: string;
+  /** Output only. The test case that contained this step. Note: The test case may have changed or been deleted since this step was created. Format: `projects/{project_number}/apps/{app}/testCases/{test_case}` */
+  testCase?: string;
+  /** An assertion to be checked by the AI */
+  assertion?: string;
+  /** Optional. A visual description of the screen's expected state after the step has been successfully completed. This is referred to as the "final screen assertion" in the Firebase console and CLI tools. This field must be provided for the last step in a test case, and is optional for all other steps. */
+  successCriteria?: string;
 }
 export type GoogleFirebaseAppdistroV1alphaAiStepList = Array<GoogleFirebaseAppdistroV1alphaAiStep>;
 export interface GoogleFirebaseAppdistroV1alphaAiInstructions {
@@ -117,12 +117,12 @@ export interface GoogleFirebaseAppdistroV1alphaAiInstructions {
 }
 /** AI test cases */
 export interface GoogleFirebaseAppdistroV1alphaTestCase {
+  /** Identifier. The name of the test case resource. Format: `projects/{project_number}/apps/{app}/testCases/{test_case}` */
+  name?: string;
   /** Output only. Other test cases that depend on this test case as a prerequisite. */
   dependentTestCases?: StringList;
   /** Optional. Test case that must be run before this test case. */
   prerequisiteTestCase?: string;
-  /** Identifier. The name of the test case resource. Format: `projects/{project_number}/apps/{app}/testCases/{test_case}` */
-  name?: string;
   /** Optional. Instructions for AI driven test. */
   aiInstructions?: GoogleFirebaseAppdistroV1alphaAiInstructions;
   /** Output only. Timestamp when the test case was created */
@@ -165,12 +165,12 @@ export interface CancelProjectsAppsReleasesTestsRequest {
 export interface GoogleFirebaseAppdistroV1alphaCancelReleaseTestResponse {}
 /** A device on which automated tests can be run. */
 export interface GoogleFirebaseAppdistroV1alphaTestDevice {
+  /** Required. The version of the device (API level on Android). */
+  version?: string;
   /** Required. The device model. */
   model?: string;
   /** Optional. The orientation of the device during the test. */
   orientation?: string;
-  /** Required. The version of the device (API level on Android). */
-  version?: string;
   /** Optional. The locale of the device (e.g. "en_US" for US English) during the test. */
   locale?: string;
 }
@@ -209,6 +209,20 @@ export interface CreateAppsReleasesNotesRequest {
 }
 /** The response message for `CreateReleaseNotes`. */
 export interface GoogleFirebaseAppdistroV1alphaCreateReleaseNotesResponse {}
+export type GoogleFirebaseAppdistroV1alphaReleaseTestTestStateEnum =
+  | "TEST_STATE_UNSPECIFIED"
+  | "IN_PROGRESS"
+  | "PASSED"
+  | "FAILED"
+  | "INCONCLUSIVE";
+export type GoogleFirebaseAppdistroV1alphaDeviceExecutionFailedReasonEnum =
+  | "FAILED_REASON_UNSPECIFIED"
+  | "CRASHED"
+  | "NOT_INSTALLED"
+  | "UNABLE_TO_CRAWL"
+  | "DEVICE_OUT_OF_MEMORY"
+  | "FAILED_AI_STEP"
+  | "TIMED_OUT";
 export type GoogleFirebaseAppdistroV1alphaDeviceExecutionExecutionTypeEnum =
   | "EXECUTION_TYPE_UNSPECIFIED"
   | "AI"
@@ -219,12 +233,12 @@ export type GoogleFirebaseAppdistroV1alphaDeviceExecutionExecutionTypeEnum =
 export interface GoogleFirebaseAppdistroV1alphaRoboStats {
   /** Output only. Duration of crawl. */
   crawlDuration?: string;
-  /** Output only. Whether the main activity crawl timed out. */
-  mainActivityCrawlTimedOut?: boolean;
   /** Output only. Number of distinct screens visited. */
   distinctVisitedScreens?: number;
   /** Output only. Number of actions that crawler performed. */
   actionsPerformed?: number;
+  /** Output only. Whether the main activity crawl timed out. */
+  mainActivityCrawlTimedOut?: boolean;
 }
 export type GoogleFirebaseAppdistroV1alphaDeviceExecutionInconclusiveReasonEnum =
   | "INCONCLUSIVE_REASON_UNSPECIFIED"
@@ -243,13 +257,6 @@ export type GoogleFirebaseAppdistroV1alphaDeviceExecutionStateEnum =
   | "PASSED"
   | "FAILED"
   | "INCONCLUSIVE";
-/** An app crash that occurred during an automated test. */
-export interface GoogleFirebaseAppdistroV1alphaAppCrash {
-  /** Output only. The raw stack trace. */
-  stackTrace?: string;
-  /** Output only. The message associated with the crash. */
-  message?: string;
-}
 export type GoogleFirebaseAppdistroV1alphaAiStepResultStateEnum =
   | "STEP_STATE_UNSPECIFIED"
   | "IN_PROGRESS"
@@ -259,115 +266,21 @@ export type GoogleFirebaseAppdistroV1alphaAiStepResultStateEnum =
   | "GOAL_ACTION_LIMIT_REACHED";
 /** A device screenshot taken during a test. */
 export interface GoogleFirebaseAppdistroV1alphaScreenshot {
-  /** Output only. The width of the screenshot, in pixels. */
-  width?: number;
   /** Output only. The URI of the screenshot. */
   uri?: string;
   /** Output only. The height of the screenshot, in pixels. */
   height?: number;
+  /** Output only. The width of the screenshot, in pixels. */
+  width?: number;
 }
 /** Details for an assertion step. */
 export interface GoogleFirebaseAppdistroV1alphaAssertionDetails {
   /** Output only. The result of the assertion. */
   result?: boolean;
-  /** Output only. The screenshot used in the context of this assertion. */
-  screenshot?: GoogleFirebaseAppdistroV1alphaScreenshot;
   /** Output only. An explanation justifying the assertion result. */
   explanation?: string;
-}
-export type GoogleFirebaseAppdistroV1alphaGoalActionCachingTypeEnum =
-  | "CACHING_TYPE_UNSPECIFIED"
-  | "NO_CACHING"
-  | "CACHE_AND_MODEL"
-  | "CACHE_ONLY";
-/** A back action. */
-export interface GoogleFirebaseAppdistroV1alphaDeviceInteractionBack {}
-/** Point for describing bounding boxes tap locations Top left is 0,0 */
-export interface AndroidxCrawlerOutputPoint {
-  xCoordinate?: number;
-  yCoordinate?: number;
-}
-/** A drag and drop action. */
-export interface GoogleFirebaseAppdistroV1alphaDeviceInteractionDragAndDrop {
-  /** Output only. The start point of the drag and drop. */
-  start?: AndroidxCrawlerOutputPoint;
-  /** Output only. The end point of the drag and drop. */
-  end?: AndroidxCrawlerOutputPoint;
-}
-/** A swipe action. */
-export interface GoogleFirebaseAppdistroV1alphaDeviceInteractionSwipe {
-  /** Output only. The start point of the swipe. */
-  start?: AndroidxCrawlerOutputPoint;
-  /** Output only. The end point of the swipe. */
-  end?: AndroidxCrawlerOutputPoint;
-}
-/** A wait action. */
-export interface GoogleFirebaseAppdistroV1alphaDeviceInteractionWait {
-  /** Output only. The duration of the wait. */
-  duration?: string;
-}
-export type GoogleFirebaseAppdistroV1alphaDeviceInteractionTargetOrientationEnum =
-  | "ORIENTATION_UNSPECIFIED"
-  | "PORTRAIT"
-  | "LANDSCAPE";
-/** Rectangle for describing bounding boxes */
-export interface AndroidxCrawlerOutputRectangle {
-  top?: number;
-  bottom?: number;
-  right?: number;
-  left?: number;
-}
-/** A text entry action, that enters text into a particular text field, clearing any existing text in the field. */
-export interface GoogleFirebaseAppdistroV1alphaDeviceInteractionEnterText {
-  /** Output only. The text to enter. */
-  text?: string;
-  /** Output only. The visible bounds of the element to enter text into. */
-  elementBounds?: AndroidxCrawlerOutputRectangle;
-}
-/** An interaction with the device, such as a tap, text entry, wait, etc. */
-export interface GoogleFirebaseAppdistroV1alphaDeviceInteraction {
-  /** Output only. A back action. */
-  backAction?: GoogleFirebaseAppdistroV1alphaDeviceInteractionBack;
-  /** Output only. A tap action. */
-  tap?: AndroidxCrawlerOutputPoint;
-  /** Output only. Key code for a key event action. */
-  keyCode?: string;
-  /** Output only. A drag and drop action. */
-  dragAndDrop?: GoogleFirebaseAppdistroV1alphaDeviceInteractionDragAndDrop;
-  /** Output only. The target folded state of the device in a set folded state action. The valid string values are device-dependent, and can be found using `adb shell cmd device_state print-states`. */
-  targetFoldedState?: string;
-  /** Output only. A swipe action. */
-  swipe?: GoogleFirebaseAppdistroV1alphaDeviceInteractionSwipe;
-  /** Output only. A wait action. */
-  wait?: GoogleFirebaseAppdistroV1alphaDeviceInteractionWait;
-  /** Output only. The screenshot used in the context of this action. The screen may have changed before the action was actually taken. */
+  /** Output only. The screenshot used in the context of this assertion. */
   screenshot?: GoogleFirebaseAppdistroV1alphaScreenshot;
-  /** Output only. A long press (tap and hold) action. */
-  longPress?: AndroidxCrawlerOutputPoint;
-  /** Output only. The target orientation of the device in a set orientation action. */
-  targetOrientation?:
-    | GoogleFirebaseAppdistroV1alphaDeviceInteractionTargetOrientationEnum
-    | (string & {});
-  /** Output only. A text input action, that types some text into whatever field is currently focused, if any. Unlike `enter_text` this action requires that the field be brought into focus first, for example by emitting a tap action before this one. */
-  textInput?: string;
-  /** Output only. A text entry action, that enters text into a particular text field, clearing any existing text in the field. Unlike `text_input` this action does not require any other actions such as a tap to be performed before it can enter the text. */
-  enterText?: GoogleFirebaseAppdistroV1alphaDeviceInteractionEnterText;
-}
-export type GoogleFirebaseAppdistroV1alphaDeviceInteractionList =
-  Array<GoogleFirebaseAppdistroV1alphaDeviceInteraction>;
-/** A high level action taken by the AI on the device, potentially involving multiple taps, text entries, waits, etc. */
-export interface GoogleFirebaseAppdistroV1alphaDeviceAction {
-  /** Output only. The interactions made with the device as part of this higher level action taken by the agent, such as taps, text entries, waits, etc. */
-  deviceInteractions?: GoogleFirebaseAppdistroV1alphaDeviceInteractionList;
-  /** Output only. A short description of the high level action taken by the AI agent. */
-  description?: string;
-}
-/** Information to help the customer understand why the agent took this action. */
-export interface GoogleFirebaseAppdistroV1alphaGoalActionDebugInfo {
-  /** Output only. Structured data explaining the agent's choice. */
-  jsonUri?: string;
-  /** Output only. URI of the screenshot with elements labeled which was used by the agent. */
-  annotatedScreenshotUri?: string;
 }
 export type GoogleFirebaseAppdistroV1alphaTerminalActionReasonEnum =
   | "REASON_UNSPECIFIED"
@@ -380,18 +293,112 @@ export interface GoogleFirebaseAppdistroV1alphaTerminalAction {
   /** Output only. The reason why this goal was ended. */
   reason?: GoogleFirebaseAppdistroV1alphaTerminalActionReasonEnum | (string & {});
 }
+/** Information to help the customer understand why the agent took this action. */
+export interface GoogleFirebaseAppdistroV1alphaGoalActionDebugInfo {
+  /** Output only. Structured data explaining the agent's choice. */
+  jsonUri?: string;
+  /** Output only. URI of the screenshot with elements labeled which was used by the agent. */
+  annotatedScreenshotUri?: string;
+}
+/** Point for describing bounding boxes tap locations Top left is 0,0 */
+export interface AndroidxCrawlerOutputPoint {
+  xCoordinate?: number;
+  yCoordinate?: number;
+}
+/** A back action. */
+export interface GoogleFirebaseAppdistroV1alphaDeviceInteractionBack {}
+export type GoogleFirebaseAppdistroV1alphaDeviceInteractionTargetOrientationEnum =
+  | "ORIENTATION_UNSPECIFIED"
+  | "PORTRAIT"
+  | "LANDSCAPE";
+/** A wait action. */
+export interface GoogleFirebaseAppdistroV1alphaDeviceInteractionWait {
+  /** Output only. The duration of the wait. */
+  duration?: string;
+}
+/** A swipe action. */
+export interface GoogleFirebaseAppdistroV1alphaDeviceInteractionSwipe {
+  /** Output only. The end point of the swipe. */
+  end?: AndroidxCrawlerOutputPoint;
+  /** Output only. The start point of the swipe. */
+  start?: AndroidxCrawlerOutputPoint;
+}
+/** A drag and drop action. */
+export interface GoogleFirebaseAppdistroV1alphaDeviceInteractionDragAndDrop {
+  /** Output only. The start point of the drag and drop. */
+  start?: AndroidxCrawlerOutputPoint;
+  /** Output only. The end point of the drag and drop. */
+  end?: AndroidxCrawlerOutputPoint;
+}
+/** Rectangle for describing bounding boxes */
+export interface AndroidxCrawlerOutputRectangle {
+  right?: number;
+  bottom?: number;
+  left?: number;
+  top?: number;
+}
+/** A text entry action, that enters text into a particular text field, clearing any existing text in the field. */
+export interface GoogleFirebaseAppdistroV1alphaDeviceInteractionEnterText {
+  /** Output only. The text to enter. */
+  text?: string;
+  /** Output only. The visible bounds of the element to enter text into. */
+  elementBounds?: AndroidxCrawlerOutputRectangle;
+}
+/** An interaction with the device, such as a tap, text entry, wait, etc. */
+export interface GoogleFirebaseAppdistroV1alphaDeviceInteraction {
+  /** Output only. A tap action. */
+  tap?: AndroidxCrawlerOutputPoint;
+  /** Output only. The screenshot used in the context of this action. The screen may have changed before the action was actually taken. */
+  screenshot?: GoogleFirebaseAppdistroV1alphaScreenshot;
+  /** Output only. A back action. */
+  backAction?: GoogleFirebaseAppdistroV1alphaDeviceInteractionBack;
+  /** Output only. A text input action, that types some text into whatever field is currently focused, if any. Unlike `enter_text` this action requires that the field be brought into focus first, for example by emitting a tap action before this one. */
+  textInput?: string;
+  /** Output only. The target orientation of the device in a set orientation action. */
+  targetOrientation?:
+    | GoogleFirebaseAppdistroV1alphaDeviceInteractionTargetOrientationEnum
+    | (string & {});
+  /** Output only. A wait action. */
+  wait?: GoogleFirebaseAppdistroV1alphaDeviceInteractionWait;
+  /** Output only. Key code for a key event action. */
+  keyCode?: string;
+  /** Output only. The target folded state of the device in a set folded state action. The valid string values are device-dependent, and can be found using `adb shell cmd device_state print-states`. */
+  targetFoldedState?: string;
+  /** Output only. A swipe action. */
+  swipe?: GoogleFirebaseAppdistroV1alphaDeviceInteractionSwipe;
+  /** Output only. A drag and drop action. */
+  dragAndDrop?: GoogleFirebaseAppdistroV1alphaDeviceInteractionDragAndDrop;
+  /** Output only. A long press (tap and hold) action. */
+  longPress?: AndroidxCrawlerOutputPoint;
+  /** Output only. A text entry action, that enters text into a particular text field, clearing any existing text in the field. Unlike `text_input` this action does not require any other actions such as a tap to be performed before it can enter the text. */
+  enterText?: GoogleFirebaseAppdistroV1alphaDeviceInteractionEnterText;
+}
+export type GoogleFirebaseAppdistroV1alphaDeviceInteractionList =
+  Array<GoogleFirebaseAppdistroV1alphaDeviceInteraction>;
+/** A high level action taken by the AI on the device, potentially involving multiple taps, text entries, waits, etc. */
+export interface GoogleFirebaseAppdistroV1alphaDeviceAction {
+  /** Output only. A short description of the high level action taken by the AI agent. */
+  description?: string;
+  /** Output only. The interactions made with the device as part of this higher level action taken by the agent, such as taps, text entries, waits, etc. */
+  deviceInteractions?: GoogleFirebaseAppdistroV1alphaDeviceInteractionList;
+}
+export type GoogleFirebaseAppdistroV1alphaGoalActionCachingTypeEnum =
+  | "CACHING_TYPE_UNSPECIFIED"
+  | "NO_CACHING"
+  | "CACHE_AND_MODEL"
+  | "CACHE_ONLY";
 /** An action taken by the AI agent while attempting to accomplish a goal. */
 export interface GoogleFirebaseAppdistroV1alphaGoalAction {
-  /** Output only. The type of caching used to determine the action. */
-  cachingType?: GoogleFirebaseAppdistroV1alphaGoalActionCachingTypeEnum | (string & {});
   /** Output only. An explanation justifying why the action was taken. */
   explanation?: string;
-  /** Output only. A high level action taken by the AI on the device. */
-  deviceAction?: GoogleFirebaseAppdistroV1alphaDeviceAction;
-  /** Output only. Debug information explaining why the agent to the specific action. */
-  debugInfo?: GoogleFirebaseAppdistroV1alphaGoalActionDebugInfo;
   /** Output only. An action taken by the AI to end the goal. */
   terminalAction?: GoogleFirebaseAppdistroV1alphaTerminalAction;
+  /** Output only. Debug information explaining why the agent to the specific action. */
+  debugInfo?: GoogleFirebaseAppdistroV1alphaGoalActionDebugInfo;
+  /** Output only. A high level action taken by the AI on the device. */
+  deviceAction?: GoogleFirebaseAppdistroV1alphaDeviceAction;
+  /** Output only. The type of caching used to determine the action. */
+  cachingType?: GoogleFirebaseAppdistroV1alphaGoalActionCachingTypeEnum | (string & {});
   /** Output only. The time at which the action started. */
   startTime?: string;
 }
@@ -415,50 +422,49 @@ export interface GoogleFirebaseAppdistroV1alphaAiStepResult {
 }
 export type GoogleFirebaseAppdistroV1alphaAiStepResultList =
   Array<GoogleFirebaseAppdistroV1alphaAiStepResult>;
-export type GoogleFirebaseAppdistroV1alphaDeviceExecutionFailedReasonEnum =
-  | "FAILED_REASON_UNSPECIFIED"
-  | "CRASHED"
-  | "NOT_INSTALLED"
-  | "UNABLE_TO_CRAWL"
-  | "DEVICE_OUT_OF_MEMORY"
-  | "FAILED_AI_STEP"
-  | "TIMED_OUT";
+/** An app crash that occurred during an automated test. */
+export interface GoogleFirebaseAppdistroV1alphaAppCrash {
+  /** Output only. The message associated with the crash. */
+  message?: string;
+  /** Output only. The raw stack trace. */
+  stackTrace?: string;
+}
 /** The results of running an automated test on a particular device. */
 export interface GoogleFirebaseAppdistroV1alphaDeviceExecution {
+  /** Output only. The reason why the test failed. */
+  failedReason?: GoogleFirebaseAppdistroV1alphaDeviceExecutionFailedReasonEnum | (string & {});
   /** Output only. The type of execution for the test. */
   executionType?: GoogleFirebaseAppdistroV1alphaDeviceExecutionExecutionTypeEnum | (string & {});
-  /** Output only. The device execution from which cached steps were used during this execution. Note: This field is only populated for ACTION_BASED_REPLAY executions. If the original device execution no longer exists, this field will be empty. Format: `projects/{project_number}/apps/{app}/releases/{release}/tests/{test}/deviceExecutions/{device_execution}` */
-  originDeviceExecution?: string;
+  /** Output only. A list of screenshot image URIs taken from the Robo crawl. The file names are numbered by the order in which they were taken. */
+  screenshotUris?: StringList;
+  /** Identifier. The name of the device execution resource. Format: `projects/{project_number}/apps/{app}/releases/{release}/tests/{test}/deviceExecutions/{device_execution}` */
+  name?: string;
+  /** Output only. The time at which the video started recording. */
+  videoStartTime?: string;
   /** Output only. The statistics collected during the Robo test. */
   roboStats?: GoogleFirebaseAppdistroV1alphaRoboStats;
-  /** Output only. A URI to a video of the test run. */
-  videoUri?: string;
-  /** Output only. The path to a directory in Cloud Storage that will eventually contain the results for this execution. For example, gs://bucket/Nexus5-18-en-portrait. */
-  resultsStoragePath?: string;
   /** Output only. The reason why the test was inconclusive. */
   inconclusiveReason?:
     | GoogleFirebaseAppdistroV1alphaDeviceExecutionInconclusiveReasonEnum
     | (string & {});
-  /** Output only. The state of the test. */
-  state?: GoogleFirebaseAppdistroV1alphaDeviceExecutionStateEnum | (string & {});
-  /** Identifier. The name of the device execution resource. Format: `projects/{project_number}/apps/{app}/releases/{release}/tests/{test}/deviceExecutions/{device_execution}` */
-  name?: string;
-  /** Output only. An app crash, if any occurred during the test. */
-  appCrash?: GoogleFirebaseAppdistroV1alphaAppCrash;
-  /** Required. The device that the test was run on. */
-  device?: GoogleFirebaseAppdistroV1alphaTestDevice;
-  /** Output only. A list of screenshot image URIs taken from the Robo crawl. The file names are numbered by the order in which they were taken. */
-  screenshotUris?: StringList;
-  /** Output only. Results of the AI steps if passed in */
-  aiStepResults?: GoogleFirebaseAppdistroV1alphaAiStepResultList;
-  /** Output only. The time at which the video started recording. */
-  videoStartTime?: string;
-  /** Output only. The reason why the test failed. */
-  failedReason?: GoogleFirebaseAppdistroV1alphaDeviceExecutionFailedReasonEnum | (string & {});
-  /** Output only. Indicates that the test replayed saved actions and concluded without a final AI assertion. */
-  finalAiAssertionMissing?: boolean;
   /** Output only. A URI to an image of the Robo crawl graph. */
   crawlGraphUri?: string;
+  /** Output only. The state of the test. */
+  state?: GoogleFirebaseAppdistroV1alphaDeviceExecutionStateEnum | (string & {});
+  /** Required. The device that the test was run on. */
+  device?: GoogleFirebaseAppdistroV1alphaTestDevice;
+  /** Output only. Results of the AI steps if passed in */
+  aiStepResults?: GoogleFirebaseAppdistroV1alphaAiStepResultList;
+  /** Output only. An app crash, if any occurred during the test. */
+  appCrash?: GoogleFirebaseAppdistroV1alphaAppCrash;
+  /** Output only. A URI to a video of the test run. */
+  videoUri?: string;
+  /** Output only. The device execution from which cached steps were used during this execution. Note: This field is only populated for ACTION_BASED_REPLAY executions. If the original device execution no longer exists, this field will be empty. Format: `projects/{project_number}/apps/{app}/releases/{release}/tests/{test}/deviceExecutions/{device_execution}` */
+  originDeviceExecution?: string;
+  /** Output only. The path to a directory in Cloud Storage that will eventually contain the results for this execution. For example, gs://bucket/Nexus5-18-en-portrait. */
+  resultsStoragePath?: string;
+  /** Output only. Indicates that the test replayed saved actions and concluded without a final AI assertion. */
+  finalAiAssertionMissing?: boolean;
 }
 export type GoogleFirebaseAppdistroV1alphaDeviceExecutionList =
   Array<GoogleFirebaseAppdistroV1alphaDeviceExecution>;
@@ -471,47 +477,41 @@ export interface GoogleFirebaseAppdistroV1alphaLoginCredentialFieldHints {
 }
 /** Login credential for automated tests */
 export interface GoogleFirebaseAppdistroV1alphaLoginCredential {
-  /** Optional. Are these credentials for Google? */
-  google?: boolean;
-  /** Optional. Hints to the crawler for identifying input fields */
-  fieldHints?: GoogleFirebaseAppdistroV1alphaLoginCredentialFieldHints;
   /** Optional. Password for automated tests */
   password?: string;
+  /** Optional. Are these credentials for Google? */
+  google?: boolean;
   /** Optional. Username for automated tests */
   username?: string;
+  /** Optional. Hints to the crawler for identifying input fields */
+  fieldHints?: GoogleFirebaseAppdistroV1alphaLoginCredentialFieldHints;
 }
-export type GoogleFirebaseAppdistroV1alphaReleaseTestTestStateEnum =
-  | "TEST_STATE_UNSPECIFIED"
-  | "IN_PROGRESS"
-  | "PASSED"
-  | "FAILED"
-  | "INCONCLUSIVE";
 /** Instance of an automated test for a release. */
 export interface GoogleFirebaseAppdistroV1alphaReleaseTest {
-  /** Output only. Timestamp when the test was run. */
-  createTime?: string;
-  /** The name of the release test resource. Format: `projects/{project_number}/apps/{app}/releases/{release}/tests/{test}` */
-  name?: string;
-  /** Required. The results of the test on each device. */
-  deviceExecutions?: GoogleFirebaseAppdistroV1alphaDeviceExecutionList;
-  /** Optional. Input only. Login credentials for the test. Input only. */
-  loginCredential?: GoogleFirebaseAppdistroV1alphaLoginCredential;
-  /** Optional. Display name of the release test. Required if the release test is created with multiple goals. */
-  displayName?: string;
-  /** Optional. The test case that was used to generate this release test. Note: The test case may have changed or been deleted since the release test was created. Format: `projects/{project_number}/apps/{app}/testCases/{test_case}` */
-  testCase?: string;
   /** Optional. Input only. The custom Cloud Storage bucket where test results are stored. Format: `projects/{project_number}/buckets/{bucket}` If not provided, the default test lab bucket is used. */
   resultsBucket?: string;
   /** Output only. The state of the release test. */
   testState?: GoogleFirebaseAppdistroV1alphaReleaseTestTestStateEnum | (string & {});
+  /** Required. The results of the test on each device. */
+  deviceExecutions?: GoogleFirebaseAppdistroV1alphaDeviceExecutionList;
+  /** Optional. Input only. Login credentials for the test. Input only. */
+  loginCredential?: GoogleFirebaseAppdistroV1alphaLoginCredential;
+  /** Optional. The test case that was used to generate this release test. Note: The test case may have changed or been deleted since the release test was created. Format: `projects/{project_number}/apps/{app}/testCases/{test_case}` */
+  testCase?: string;
+  /** Output only. Timestamp when the test was run. */
+  createTime?: string;
+  /** Optional. Display name of the release test. Required if the release test is created with multiple goals. */
+  displayName?: string;
   /** Optional. Instructions for AI driven test. */
   aiInstructions?: GoogleFirebaseAppdistroV1alphaAiInstructions;
+  /** The name of the release test resource. Format: `projects/{project_number}/apps/{app}/releases/{release}/tests/{test}` */
+  name?: string;
 }
 export interface CreateProjectsAppsReleasesTestsRequest {
-  /** Optional. The ID to use for the test, which will become the final component of the test's resource name. This value should be 4-63 characters, and valid characters are /a-z-/. If it is not provided one will be automatically generated. */
-  releaseTestId?: string;
   /** Required. The name of the release resource, which is the parent of the test Format: `projects/{project_number}/apps/{app}/releases/{release}` */
   parent: string;
+  /** Optional. The ID to use for the test, which will become the final component of the test's resource name. This value should be 4-63 characters, and valid characters are /a-z-/. If it is not provided one will be automatically generated. */
+  releaseTestId?: string;
   /** Request body */
   body?: GoogleFirebaseAppdistroV1alphaReleaseTest;
 }
@@ -533,16 +533,16 @@ export interface GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseRequest {
   groupIds?: StringList;
   /** Optional. Ignored. Used to be display version of the app release if an instance identifier was provided for the release_id. */
   displayVersion?: string;
-  /** Optional. Ignored. Used to be build version of the app release if an instance identifier was provided for the release_id. */
-  buildVersion?: string;
   /** Optional. An email address which should get access to this release, for example rebeccahe@google.com */
   emails?: StringList;
+  /** Optional. Ignored. Used to be build version of the app release if an instance identifier was provided for the release_id. */
+  buildVersion?: string;
 }
 export interface EnableAccessAppsReleasesRequest {
-  /** Required. Unique id for a Firebase app of the format: {version}:{project_number}:{platform}:{hash(bundle_id)} Example: 1:581234567376:android:aa0a3c7b135e90289 */
-  mobilesdkAppId: string;
   /** Required. Release identifier */
   releaseId: string;
+  /** Required. Unique id for a Firebase app of the format: {version}:{project_number}:{platform}:{hash(bundle_id)} Example: 1:581234567376:android:aa0a3c7b135e90289 */
+  mobilesdkAppId: string;
   /** Request body */
   body?: GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseRequest;
 }
@@ -550,19 +550,19 @@ export interface EnableAccessAppsReleasesRequest {
 export interface GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseResponse {}
 export type GetAppsAppViewEnum = "APP_VIEW_UNSPECIFIED" | "BASIC" | "FULL";
 export interface GetAppsRequest {
-  /** Unique id for a Firebase app of the format: {version}:{project_number}:{platform}:{hash(bundle_id)} Example: 1:581234567376:android:aa0a3c7b135e90289 */
-  mobilesdkAppId: string;
   /** App view. When unset or set to BASIC, returns an App with everything set except for aab_state. When set to FULL, returns an App with aab_state set. */
   appView?: GetAppsAppViewEnum | (string & {});
+  /** Unique id for a Firebase app of the format: {version}:{project_number}:{platform}:{hash(bundle_id)} Example: 1:581234567376:android:aa0a3c7b135e90289 */
+  mobilesdkAppId: string;
 }
 /** App bundle test certificate */
 export interface GoogleFirebaseAppdistroV1alphaAabCertificate {
+  /** MD5 hash of the certificate used to resign the AAB */
+  certificateHashMd5?: string;
   /** SHA1 hash of the certificate used to resign the AAB */
   certificateHashSha1?: string;
   /** SHA256 hash of the certificate used to resign the AAB */
   certificateHashSha256?: string;
-  /** MD5 hash of the certificate used to resign the AAB */
-  certificateHashMd5?: string;
 }
 export type GoogleFirebaseAppdistroV1alphaAppAabStateEnum =
   | "AAB_STATE_UNSPECIFIED"
@@ -574,20 +574,20 @@ export type GoogleFirebaseAppdistroV1alphaAppAabStateEnum =
   | "PLAY_IAS_TERMS_NOT_ACCEPTED";
 /** An app. */
 export interface GoogleFirebaseAppdistroV1alphaApp {
-  /** Project number of the Firebase project, for example 300830567303. */
-  projectNumber?: string;
-  /** Firebase gmp app id */
-  appId?: string;
-  /** App bundle test certificate generated for the app. */
-  aabCertificate?: GoogleFirebaseAppdistroV1alphaAabCertificate;
-  /** iOS or Android */
-  platform?: string;
   /** Bundle identifier */
   bundleId?: string;
+  /** iOS or Android */
+  platform?: string;
+  /** App bundle test certificate generated for the app. */
+  aabCertificate?: GoogleFirebaseAppdistroV1alphaAabCertificate;
   /** App bundle state. Only valid for android apps. The app_view field in the request must be set to FULL in order for this to be populated. */
   aabState?: GoogleFirebaseAppdistroV1alphaAppAabStateEnum;
+  /** Project number of the Firebase project, for example 300830567303. */
+  projectNumber?: string;
   /** Developer contact email for testers to reach out to about privacy or support issues. */
   contactEmail?: string;
+  /** Firebase gmp app id */
+  appId?: string;
 }
 export interface GetAppsRelease_by_hashRequest {
   /** Required. Unique id for a Firebase app of the format: {version}:{project_number}:{platform}:{hash(bundle_id)} Example: 1:581234567376:android:aa0a3c7b135e90289 */
@@ -597,28 +597,28 @@ export interface GetAppsRelease_by_hashRequest {
 }
 /** Proto defining a release object */
 export interface GoogleFirebaseAppdistroV1alphaRelease {
-  /** Number of testers who have open invitations for the release */
-  openInvitationCount?: number;
   /** Instance id of the release */
   instanceId?: string;
-  /** Last activity timestamp */
-  lastActivityAt?: string;
-  /** Number of testers who have installed the release */
-  testerWithInstallCount?: number;
-  /** Count of testers added to the release */
-  testerCount?: number;
-  /** Timestamp when the release was created */
-  distributedAt?: string;
   /** Release build version */
   buildVersion?: string;
-  /** unused. */
-  receivedAt?: string;
-  /** Release version */
-  displayVersion?: string;
-  /** Release Id */
-  id?: string;
+  /** Number of testers who have installed the release */
+  testerWithInstallCount?: number;
   /** Release notes summary */
   releaseNotesSummary?: string;
+  /** Last activity timestamp */
+  lastActivityAt?: string;
+  /** unused. */
+  receivedAt?: string;
+  /** Count of testers added to the release */
+  testerCount?: number;
+  /** Release Id */
+  id?: string;
+  /** Release version */
+  displayVersion?: string;
+  /** Timestamp when the release was created */
+  distributedAt?: string;
+  /** Number of testers who have open invitations for the release */
+  openInvitationCount?: number;
 }
 /** Response object to get the release given a upload hash */
 export interface GoogleFirebaseAppdistroV1alphaGetReleaseByUploadHashResponse {
@@ -666,12 +666,12 @@ export type GoogleFirebaseAppdistroV1alphaGetUploadStatusResponseStatusEnum =
   | "ERROR";
 /** The response message for `GetUploadStatus`. */
 export interface GoogleFirebaseAppdistroV1alphaGetUploadStatusResponse {
+  /** The release that was created from the upload (only set on "SUCCESS") */
+  release?: GoogleFirebaseAppdistroV1alphaRelease;
   /** The error code associated with (only set on "FAILURE") */
   errorCode?: GoogleFirebaseAppdistroV1alphaGetUploadStatusResponseErrorCodeEnum;
   /** Any additional context for the given upload status (e.g. error message) Meant to be displayed to the client */
   message?: string;
-  /** The release that was created from the upload (only set on "SUCCESS") */
-  release?: GoogleFirebaseAppdistroV1alphaRelease;
   /** The status of the upload */
   status?: GoogleFirebaseAppdistroV1alphaGetUploadStatusResponseStatusEnum;
 }
@@ -698,38 +698,38 @@ export interface GetTestConfigProjectsAppsRequest {
 }
 /** Configuration for Robo crawler */
 export interface GoogleFirebaseAppdistroV1alphaRoboCrawler {
-  /** Optional. Login credential for automated tests */
-  loginCredential?: GoogleFirebaseAppdistroV1alphaLoginCredential;
   /** Optional. Instructions for AI driven test */
   aiInstructions?: GoogleFirebaseAppdistroV1alphaAiInstructions;
+  /** Optional. Login credential for automated tests */
+  loginCredential?: GoogleFirebaseAppdistroV1alphaLoginCredential;
 }
 /** Configuration for automated tests */
 export interface GoogleFirebaseAppdistroV1alphaTestConfig {
-  /** Optional. Configuration for Robo crawler */
-  roboCrawler?: GoogleFirebaseAppdistroV1alphaRoboCrawler;
   /** Optional. The custom Cloud Storage bucket where test results are stored. Format: `projects/{project_number}/buckets/{bucket}` If not provided, the default test lab bucket is used. */
   resultsBucket?: string;
-  /** Identifier. The name of the test configuration resource. Format: `projects/{project_number}/apps/{app}/testConfig` */
-  name?: string;
-  /** Optional. Display name of the AI driven test. Required if the release test is created with multiple goals. */
-  displayName?: string;
   /** Optional. Tests will be run on this list of devices */
   testDevices?: GoogleFirebaseAppdistroV1alphaTestDeviceList;
+  /** Optional. Display name of the AI driven test. Required if the release test is created with multiple goals. */
+  displayName?: string;
+  /** Optional. Configuration for Robo crawler */
+  roboCrawler?: GoogleFirebaseAppdistroV1alphaRoboCrawler;
+  /** Identifier. The name of the test configuration resource. Format: `projects/{project_number}/apps/{app}/testConfig` */
+  name?: string;
 }
 export interface GetTesterUdidsAppsTestersRequest {
-  /** The name of the project, which is the parent of testers Format: `projects/{project_number}` */
-  project?: string;
   /** Unique id for a Firebase app of the format: {version}:{project_number}:{platform}:{hash(bundle_id)} Example: 1:581234567376:android:aa0a3c7b135e90289 */
   mobilesdkAppId: string;
+  /** The name of the project, which is the parent of testers Format: `projects/{project_number}` */
+  project?: string;
 }
 /** The UDIDs of a tester's iOS device */
 export interface GoogleFirebaseAppdistroV1alphaTesterUdid {
-  /** The name of the tester's device */
-  name?: string;
-  /** The platform of the tester's device */
-  platform?: string;
   /** The UDID of the tester's device */
   udid?: string;
+  /** The platform of the tester's device */
+  platform?: string;
+  /** The name of the tester's device */
+  name?: string;
 }
 export type GoogleFirebaseAppdistroV1alphaTesterUdidList =
   Array<GoogleFirebaseAppdistroV1alphaTesterUdid>;
@@ -775,25 +775,25 @@ export type GoogleFirebaseAppdistroV1alphaReleaseTestList =
   Array<GoogleFirebaseAppdistroV1alphaReleaseTest>;
 /** The response message for `ListReleaseTests`. */
 export interface GoogleFirebaseAppdistroV1alphaListReleaseTestsResponse {
-  /** The tests listed. */
-  releaseTests?: GoogleFirebaseAppdistroV1alphaReleaseTestList;
   /** A short-lived token, which can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** The tests listed. */
+  releaseTests?: GoogleFirebaseAppdistroV1alphaReleaseTestList;
 }
 export interface ListProjectsAppsTestCasesRequest {
+  /** Required. The parent resource from which to list test cases. Format: `projects/{project_number}/apps/{app}` */
+  parent: string;
   /** Optional. A page token, received from a previous `ListTestCases` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTestCases` must match the call that provided the page token. */
   pageToken?: string;
   /** Optional. The maximum number of test cases to return. The service may return fewer than this value. If unspecified, at most 50 test cases will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
-  /** Required. The parent resource from which to list test cases. Format: `projects/{project_number}/apps/{app}` */
-  parent: string;
 }
 /** The response message for `ListTestCases`. */
 export interface GoogleFirebaseAppdistroV1alphaListTestCasesResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** The test cases from the specified app. */
   testCases?: GoogleFirebaseAppdistroV1alphaTestCaseList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export interface PatchProjectsAppsTestCasesRequest {
   /** Optional. If set to true, and the test case is not found, a new test case will be created. */
@@ -946,7 +946,7 @@ export const createProjectsAppsReleasesTests: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<CreateProjectsAppsReleasesTestsRequest>,
-  output: __S(1109, __c34, 21) as any as S.Schema<GoogleFirebaseAppdistroV1alphaReleaseTest>,
+  output: __S(1110, __c34, 22) as any as S.Schema<GoogleFirebaseAppdistroV1alphaReleaseTest>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1109,7 +1109,7 @@ export const getProjectsAppsReleasesTests: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<GetProjectsAppsReleasesTestsRequest>,
-  output: __S(1109, __c34, 21) as any as S.Schema<GoogleFirebaseAppdistroV1alphaReleaseTest>,
+  output: __S(1110, __c34, 22) as any as S.Schema<GoogleFirebaseAppdistroV1alphaReleaseTest>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1342,15 +1342,15 @@ function __c2(j: number): any {
         S.Struct({
           groupIds: S.optional(__S(672, __c21, 0)),
           displayVersion: S.optional(S.String),
-          buildVersion: S.optional(S.String),
           emails: S.optional(__S(672, __c21, 0)),
+          buildVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          mobilesdkAppId: S.String.pipe(T.Label()),
           releaseId: S.String.pipe(T.Label()),
+          mobilesdkAppId: S.String.pipe(T.Label()),
           body: S.optional(__S(64, __c2, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -1367,8 +1367,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          mobilesdkAppId: S.String.pipe(T.Label()),
           appView: S.optional(S.String.pipe(T.Query())),
+          mobilesdkAppId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1380,21 +1380,21 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          certificateHashMd5: S.optional(S.String),
           certificateHashSha1: S.optional(S.String),
           certificateHashSha256: S.optional(S.String),
-          certificateHashMd5: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaAabCertificate" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          projectNumber: S.optional(S.String),
-          appId: S.optional(S.String),
-          aabCertificate: S.optional(__S(97, __c3, 1)),
-          platform: S.optional(S.String),
           bundleId: S.optional(S.String),
+          platform: S.optional(S.String),
+          aabCertificate: S.optional(__S(97, __c3, 1)),
           aabState: S.optional(S.String),
+          projectNumber: S.optional(S.String),
           contactEmail: S.optional(S.String),
+          appId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaApp" });
   }
@@ -1427,17 +1427,17 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          openInvitationCount: S.optional(S.Number),
           instanceId: S.optional(S.String),
-          lastActivityAt: S.optional(S.String),
-          testerWithInstallCount: S.optional(S.Number),
-          testerCount: S.optional(S.Number),
-          distributedAt: S.optional(S.String),
           buildVersion: S.optional(S.String),
-          receivedAt: S.optional(S.String),
-          displayVersion: S.optional(S.String),
-          id: S.optional(S.String),
+          testerWithInstallCount: S.optional(S.Number),
           releaseNotesSummary: S.optional(S.String),
+          lastActivityAt: S.optional(S.String),
+          receivedAt: S.optional(S.String),
+          testerCount: S.optional(S.Number),
+          id: S.optional(S.String),
+          displayVersion: S.optional(S.String),
+          distributedAt: S.optional(S.String),
+          openInvitationCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaRelease" });
   }
@@ -1460,9 +1460,9 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          release: S.optional(__S(160, __c5, 0)),
           errorCode: S.optional(S.String),
           message: S.optional(S.String),
-          release: S.optional(__S(160, __c5, 0)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaGetUploadStatusResponse" });
@@ -1543,18 +1543,18 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          loginCredential: S.optional(__S(1057, __c33, 1)),
           aiInstructions: S.optional(__S(834, __c26, 2)),
+          loginCredential: S.optional(__S(1057, __c33, 1)),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaRoboCrawler" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          roboCrawler: S.optional(__S(352, __c11, 0)),
           resultsBucket: S.optional(S.String),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
           testDevices: S.optional(__S(928, __c29, 0)),
+          displayName: S.optional(S.String),
+          roboCrawler: S.optional(__S(352, __c11, 0)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaTestConfig" });
   }
@@ -1564,8 +1564,8 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project: S.optional(S.String.pipe(T.Query())),
           mobilesdkAppId: S.String.pipe(T.Label()),
+          project: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1581,9 +1581,9 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          platform: S.optional(S.String),
           udid: S.optional(S.String),
+          platform: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaTesterUdid" });
     case 1:
@@ -1655,12 +1655,12 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsAppsReleasesTestsRequest" });
     case 1:
-      return S.Array(__S(1109, __c34, 21));
+      return S.Array(__S(1110, __c34, 22));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          releaseTests: S.optional(__S(513, __c16, 1)),
           nextPageToken: S.optional(S.String),
+          releaseTests: S.optional(__S(513, __c16, 1)),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaListReleaseTestsResponse" });
   }
@@ -1670,9 +1670,9 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1684,8 +1684,8 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           testCases: S.optional(__S(800, __c25, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaListTestCasesResponse" });
   }
@@ -1804,9 +1804,9 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
           dependentTestCases: S.optional(__S(672, __c21, 0)),
           prerequisiteTestCase: S.optional(S.String),
-          name: S.optional(S.String),
           aiInstructions: S.optional(__S(834, __c26, 2)),
           createTime: S.optional(S.String),
           displayName: S.optional(S.String),
@@ -1825,11 +1825,11 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          hint: S.optional(S.String),
-          assertion: S.optional(S.String),
-          testCase: S.optional(S.String),
-          successCriteria: S.optional(S.String),
           goal: S.optional(S.String),
+          hint: S.optional(S.String),
+          testCase: S.optional(S.String),
+          assertion: S.optional(S.String),
+          successCriteria: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaAiStep" });
     case 1:
@@ -1892,9 +1892,9 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          version: S.optional(S.String),
           model: S.optional(S.String),
           orientation: S.optional(S.String),
-          version: S.optional(S.String),
           locale: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaTestDevice" });
@@ -1935,9 +1935,9 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          releaseTestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1109, __c34, 21).pipe(T.HttpBody())),
+          releaseTestId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1110, __c34, 22).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1960,10 +1960,10 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          google: S.optional(S.Boolean),
-          fieldHints: S.optional(__S(1056, __c33, 0)),
           password: S.optional(S.String),
+          google: S.optional(S.Boolean),
           username: S.optional(S.String),
+          fieldHints: S.optional(__S(1056, __c33, 0)),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaLoginCredential" });
   }
@@ -1974,48 +1974,48 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           crawlDuration: S.optional(S.String),
-          mainActivityCrawlTimedOut: S.optional(S.Boolean),
           distinctVisitedScreens: S.optional(S.Number),
           actionsPerformed: S.optional(S.Number),
+          mainActivityCrawlTimedOut: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaRoboStats" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          stackTrace: S.optional(S.String),
-          message: S.optional(S.String),
+          uri: S.optional(S.String),
+          height: S.optional(S.Number),
+          width: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaAppCrash" });
+      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaScreenshot" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          width: S.optional(S.Number),
-          uri: S.optional(S.String),
-          height: S.optional(S.Number),
+          result: S.optional(S.Boolean),
+          explanation: S.optional(S.String),
+          screenshot: S.optional(__S(1089, __c34, 1)),
         }),
-      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaScreenshot" });
+      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaAssertionDetails" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(S.Boolean),
-          screenshot: S.optional(__S(1090, __c34, 2)),
-          explanation: S.optional(S.String),
+          screenshot: S.optional(__S(1089, __c34, 1)),
+          reason: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaAssertionDetails" });
+      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaTerminalAction" });
     case 4:
+      return S.suspend(() =>
+        S.Struct({
+          jsonUri: S.optional(S.String),
+          annotatedScreenshotUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaGoalActionDebugInfo" });
+    case 5:
       return S.suspend(() =>
         S.Struct({
           xCoordinate: S.optional(S.Number),
           yCoordinate: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AndroidxCrawlerOutputPoint" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          start: S.optional(__S(1092, __c34, 4)),
-          end: S.optional(__S(1092, __c34, 4)),
-        }),
-      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaDeviceInteractionDragAndDrop" });
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -2025,67 +2025,67 @@ function __c34(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          top: S.optional(S.Number),
-          bottom: S.optional(S.Number),
-          right: S.optional(S.Number),
-          left: S.optional(S.Number),
+          end: S.optional(__S(1093, __c34, 5)),
+          start: S.optional(__S(1093, __c34, 5)),
         }),
-      ).annotate({ identifier: "AndroidxCrawlerOutputRectangle" });
+      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaDeviceInteractionSwipe" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          text: S.optional(S.String),
-          elementBounds: S.optional(__S(1095, __c34, 7)),
+          start: S.optional(__S(1093, __c34, 5)),
+          end: S.optional(__S(1093, __c34, 5)),
         }),
-      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaDeviceInteractionEnterText" });
+      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaDeviceInteractionDragAndDrop" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          backAction: S.optional(__S(704, __c22, 0)),
-          tap: S.optional(__S(1092, __c34, 4)),
-          keyCode: S.optional(S.String),
-          dragAndDrop: S.optional(__S(1093, __c34, 5)),
-          targetFoldedState: S.optional(S.String),
-          swipe: S.optional(__S(1093, __c34, 5)),
-          wait: S.optional(__S(1094, __c34, 6)),
-          screenshot: S.optional(__S(1090, __c34, 2)),
-          longPress: S.optional(__S(1092, __c34, 4)),
-          targetOrientation: S.optional(S.String),
-          textInput: S.optional(S.String),
-          enterText: S.optional(__S(1096, __c34, 8)),
+          right: S.optional(S.Number),
+          bottom: S.optional(S.Number),
+          left: S.optional(S.Number),
+          top: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaDeviceInteraction" });
+      ).annotate({ identifier: "AndroidxCrawlerOutputRectangle" });
     case 10:
-      return S.Array(__S(1097, __c34, 9));
+      return S.suspend(() =>
+        S.Struct({
+          text: S.optional(S.String),
+          elementBounds: S.optional(__S(1097, __c34, 9)),
+        }),
+      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaDeviceInteractionEnterText" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          deviceInteractions: S.optional(__S(1098, __c34, 10)),
-          description: S.optional(S.String),
+          tap: S.optional(__S(1093, __c34, 5)),
+          screenshot: S.optional(__S(1089, __c34, 1)),
+          backAction: S.optional(__S(704, __c22, 0)),
+          textInput: S.optional(S.String),
+          targetOrientation: S.optional(S.String),
+          wait: S.optional(__S(1094, __c34, 6)),
+          keyCode: S.optional(S.String),
+          targetFoldedState: S.optional(S.String),
+          swipe: S.optional(__S(1095, __c34, 7)),
+          dragAndDrop: S.optional(__S(1096, __c34, 8)),
+          longPress: S.optional(__S(1093, __c34, 5)),
+          enterText: S.optional(__S(1098, __c34, 10)),
         }),
-      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaDeviceAction" });
+      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaDeviceInteraction" });
     case 12:
-      return S.suspend(() =>
-        S.Struct({
-          jsonUri: S.optional(S.String),
-          annotatedScreenshotUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaGoalActionDebugInfo" });
+      return S.Array(__S(1099, __c34, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          screenshot: S.optional(__S(1090, __c34, 2)),
-          reason: S.optional(S.String),
+          description: S.optional(S.String),
+          deviceInteractions: S.optional(__S(1100, __c34, 12)),
         }),
-      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaTerminalAction" });
+      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaDeviceAction" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          cachingType: S.optional(S.String),
           explanation: S.optional(S.String),
-          deviceAction: S.optional(__S(1099, __c34, 11)),
-          debugInfo: S.optional(__S(1100, __c34, 12)),
-          terminalAction: S.optional(__S(1101, __c34, 13)),
+          terminalAction: S.optional(__S(1091, __c34, 3)),
+          debugInfo: S.optional(__S(1092, __c34, 4)),
+          deviceAction: S.optional(__S(1101, __c34, 13)),
+          cachingType: S.optional(S.String),
           startTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaGoalAction" });
@@ -2101,7 +2101,7 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
-          assertionDetails: S.optional(__S(1091, __c34, 3)),
+          assertionDetails: S.optional(__S(1090, __c34, 2)),
           step: S.optional(__S(832, __c26, 0)),
           goalDetails: S.optional(__S(1104, __c34, 16)),
         }),
@@ -2111,38 +2111,45 @@ function __c34(j: number): any {
     case 19:
       return S.suspend(() =>
         S.Struct({
-          executionType: S.optional(S.String),
-          originDeviceExecution: S.optional(S.String),
-          roboStats: S.optional(__S(1088, __c34, 0)),
-          videoUri: S.optional(S.String),
-          resultsStoragePath: S.optional(S.String),
-          inconclusiveReason: S.optional(S.String),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          appCrash: S.optional(__S(1089, __c34, 1)),
-          device: S.optional(__S(960, __c30, 0)),
-          screenshotUris: S.optional(__S(672, __c21, 0)),
-          aiStepResults: S.optional(__S(1106, __c34, 18)),
-          videoStartTime: S.optional(S.String),
-          failedReason: S.optional(S.String),
-          finalAiAssertionMissing: S.optional(S.Boolean),
-          crawlGraphUri: S.optional(S.String),
+          message: S.optional(S.String),
+          stackTrace: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaDeviceExecution" });
+      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaAppCrash" });
     case 20:
-      return S.Array(__S(1107, __c34, 19));
-    case 21:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
+          failedReason: S.optional(S.String),
+          executionType: S.optional(S.String),
+          screenshotUris: S.optional(__S(672, __c21, 0)),
           name: S.optional(S.String),
-          deviceExecutions: S.optional(__S(1108, __c34, 20)),
-          loginCredential: S.optional(__S(1057, __c33, 1)),
-          displayName: S.optional(S.String),
-          testCase: S.optional(S.String),
+          videoStartTime: S.optional(S.String),
+          roboStats: S.optional(__S(1088, __c34, 0)),
+          inconclusiveReason: S.optional(S.String),
+          crawlGraphUri: S.optional(S.String),
+          state: S.optional(S.String),
+          device: S.optional(__S(960, __c30, 0)),
+          aiStepResults: S.optional(__S(1106, __c34, 18)),
+          appCrash: S.optional(__S(1107, __c34, 19)),
+          videoUri: S.optional(S.String),
+          originDeviceExecution: S.optional(S.String),
+          resultsStoragePath: S.optional(S.String),
+          finalAiAssertionMissing: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaDeviceExecution" });
+    case 21:
+      return S.Array(__S(1108, __c34, 20));
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
           resultsBucket: S.optional(S.String),
           testState: S.optional(S.String),
+          deviceExecutions: S.optional(__S(1109, __c34, 21)),
+          loginCredential: S.optional(__S(1057, __c33, 1)),
+          testCase: S.optional(S.String),
+          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
           aiInstructions: S.optional(__S(834, __c26, 2)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaReleaseTest" });
   }

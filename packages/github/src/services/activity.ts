@@ -347,6 +347,7 @@ export interface MinimalRepository {
   updated_at?: string | null;
   permissions?: MinimalRepositoryPermissions;
   role_name?: string;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string;
   delete_branch_on_merge?: boolean;
   subscribers_count?: number;
@@ -781,6 +782,7 @@ export interface Repository {
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean;
@@ -1396,6 +1398,8 @@ export type ListEventsForAuthenticatedUserResponse = ListEventsForAuthenticatedU
 export interface ListNotificationsForAuthenticatedUserRequest {
   /** If `true`, show notifications marked as read. */
   all?: boolean;
+  /** Whether to return only done notifications (`true`) or exclude them (`false`). When omitted, notifications are not filtered by done status. Use `all=true&is_done=true` for done notifications or `all=true&is_done=false` for both read and unread inbox notifications. If `all` is omitted or `false`, `is_done=true` returns no notifications. */
+  is_done?: boolean;
   /** If `true`, only shows notifications in which the user is directly participating or mentioned. */
   participating?: boolean;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
@@ -1503,6 +1507,8 @@ export interface ListRepoNotificationsForAuthenticatedUserRequest {
   repo: string;
   /** If `true`, show notifications marked as read. */
   all?: boolean;
+  /** Whether to return only done notifications (`true`) or exclude them (`false`). When omitted, notifications are not filtered by done status. Use `all=true&is_done=true` for done notifications or `all=true&is_done=false` for both read and unread inbox notifications. If `all` is omitted or `false`, `is_done=true` returns no notifications. */
+  is_done?: boolean;
   /** If `true`, only shows notifications in which the user is directly participating or mentioned. */
   participating?: boolean;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
@@ -2356,6 +2362,7 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           all: S.optional(S.Boolean.pipe(T.Query())),
+          is_done: S.optional(S.Boolean.pipe(T.Query())),
           participating: S.optional(S.Boolean.pipe(T.Query())),
           since: S.optional(S.String.pipe(T.Query())),
           before: S.optional(S.String.pipe(T.Query())),
@@ -2483,6 +2490,7 @@ function __c13(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           all: S.optional(S.Boolean.pipe(T.Query())),
+          is_done: S.optional(S.Boolean.pipe(T.Query())),
           participating: S.optional(S.Boolean.pipe(T.Query())),
           since: S.optional(S.String.pipe(T.Query())),
           before: S.optional(S.String.pipe(T.Query())),

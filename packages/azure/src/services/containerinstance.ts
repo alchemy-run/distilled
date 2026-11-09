@@ -365,7 +365,7 @@ export interface AzureFileVolume {
   /** The reference to the storage account access key used to access the Azure File share. */
   storageAccountKeyReference?: string;
   /** The client id of the user-assigned managed identity that has access to the Azure File share. */
-  userAssignedIdentityClientId?: string;
+  userManagedIdentityClientId?: string;
 }
 /** Defines files for a secret volume. Dictionary keys are file names and values are Base64-encoded secret data used as file contents. The values are sensitive, and the service does not return the contents of this property in GET responses. */
 export type VolumeSecretMap = { [key: string]: string | undefined };
@@ -3244,7 +3244,7 @@ function __c8(j: number): any {
           storageAccountName: S.String,
           storageAccountKey: S.optional(S.String),
           storageAccountKeyReference: S.optional(S.String),
-          userAssignedIdentityClientId: S.optional(S.String),
+          userManagedIdentityClientId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AzureFileVolume" });
   }

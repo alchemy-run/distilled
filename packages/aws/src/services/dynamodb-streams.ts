@@ -400,12 +400,14 @@ export type ShardIteratorType =
   | "LATEST"
   | "AT_SEQUENCE_NUMBER"
   | "AFTER_SEQUENCE_NUMBER"
+  | "AT_TIMESTAMP"
   | (string & {});
 export interface GetShardIteratorInput {
   StreamArn: string;
   ShardId: string;
   ShardIteratorType: ShardIteratorType;
   SequenceNumber?: string;
+  Timestamp?: Date;
 }
 export interface GetShardIteratorOutput {
   ShardIterator?: string;
@@ -707,6 +709,7 @@ function __c2(j: number): any {
           ShardId: S.String,
           ShardIteratorType: S.String,
           SequenceNumber: S.optional(S.String),
+          Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetShardIteratorInput" });
     case 1:

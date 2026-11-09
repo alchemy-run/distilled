@@ -544,7 +544,7 @@ export interface GenerateProductDefaultDeviceGroupsRequest {
   /** Name of product. */
   productName: string;
 }
-/** An device group resource belonging to a product resource. */
+/** A device group resource belonging to a product resource. */
 export interface DeviceGroup {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
@@ -883,7 +883,7 @@ export interface ListCatalogDeploymentsRequest {
   /** The maximum number of result items per page. */
   _maxpagesize?: number;
 }
-/** An deployment resource belonging to a device group resource. */
+/** A deployment resource belonging to a device group resource. */
 export interface Deployment {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
@@ -983,7 +983,7 @@ export interface ListCatalogDevicesRequest {
   /** The maximum number of result items per page. */
   _maxpagesize?: number;
 }
-/** An device resource belonging to a device group resource. */
+/** A device resource belonging to a device group resource. */
 export interface Device {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
@@ -1021,7 +1021,7 @@ export interface ListCertificateByCatalogRequest {
   /** The maximum number of result items per page. */
   _maxpagesize?: number;
 }
-/** An certificate resource belonging to a catalog resource. */
+/** A certificate resource belonging to a catalog resource. */
 export interface Certificate {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
@@ -1163,7 +1163,7 @@ export interface ListProductByCatalogRequest {
   /** Name of catalog */
   catalogName: string;
 }
-/** An product resource belonging to a catalog resource. */
+/** A product resource belonging to a catalog resource. */
 export interface Product {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;

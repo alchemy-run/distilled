@@ -178,9 +178,11 @@ export interface ConversationsKickRequest {
   /** User ID to be removed. */
   user?: string;
 }
+export type ConversationsKickResponseErrorsMap = { [key: string]: unknown | undefined };
 export interface ConversationsKickResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
+  errors?: ConversationsKickResponseErrorsMap;
 }
 export interface ConversationsMarkRequest {
   /** Channel or conversation to set the read cursor for. */
@@ -333,8 +335,10 @@ export interface InviteSharedRequest {
 export interface InviteSharedResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
+  /** Signed accept link for the invite. Omitted for invites addressed to `emails` or `user_ids` (the link is delivered to the recipient directly) and for `external_limited` invites. */
   url?: string;
   invite_id?: string;
+  /** Confirmation code for the invite. Omitted for invites addressed to `emails` or `user_ids` (it is delivered to the recipient directly) and for `external_limited` invites. */
   conf_code?: string;
   is_legacy_shared_channel?: boolean;
 }
@@ -634,7 +638,7 @@ export const conversationsKick: API.OperationMethod<
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(124, __c31, 0) as any as S.Schema<ConversationsKickRequest>,
-  output: __S(56, __c14, 0) as any as S.Schema<ConversationsKickResponse>,
+  output: __S(125, __c31, 1) as any as S.Schema<ConversationsKickResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -733,7 +737,7 @@ export const conversationsReplies: API.PaginatedOperationMethod<
 ) as any;
 
 export type CreateCanvaseError = SlackOpError;
-/** Create a channel canvas for a channel Required scopes -- bot: `canvases:write`; user: `canvases:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `canvas_disabled_user_team` -- Canvas is disabled on user's team - `restricted_action` -- User does not have permission to perform this action. - `channel_canvas_creation_failed` -- Channel canvas was unable to be created. - `channel_canvas_already_exists` -- Channel canvas for the specified channel already exists. - `team_tier_cannot_create_channel_canvases` -- Team tier cannot create channel canvases - `canvas_creation_failed` -- Canvas was unable to be created. - `canvas_tab_creation_failed` -- Canvas tab was unable to be created. - `free_team_canvas_tab_already_exists` -- Canvas tab for specified channel and team tier already exists. - `posting_to_channel_denied` -- Permission to post to a channel denied See https://docs.slack.dev/reference/methods/conversations.canvases.create */
+/** Create a channel canvas for a channel Required scopes -- bot: `canvases:write`; user: `canvases:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `canvas_disabled_user_team` -- Canvas is disabled on user's team - `restricted_action` -- User does not have permission to perform this action. - `channel_canvas_creation_failed` -- Channel canvas was unable to be created. - `channel_canvas_already_exists` -- Channel canvas for the specified channel already exists. - `team_tier_cannot_create_channel_canvases` -- Team tier cannot create channel canvases - `canvas_creation_failed` -- Canvas was unable to be created. - `canvas_tab_creation_failed` -- Canvas tab was unable to be created. - `free_team_canvas_tab_already_exists` -- Canvas tab for specified channel and team tier already exists. - `posting_to_channel_denied` -- Permission to post to a channel denied - `channel_not_found` -- Value passed for `channel_id` was invalid. See https://docs.slack.dev/reference/methods/conversations.canvases.create */
 export const createCanvase: API.OperationMethod<
   CreateCanvaseRequest,
   CreateCanvaseResponse,
@@ -801,7 +805,7 @@ export const inviteDeclineShared: API.OperationMethod<
 }));
 
 export type InviteSharedError = SlackOpError;
-/** Sends an invitation to a Slack Connect channel Required scopes -- bot: `conversations.connect:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `already_in_channel` -- User is already in the channel. - `cannot_share_cross_workspace_channel` -- You cannot share a cross-workspace or org-wide channel. - `cannot_share_mandatory_channel` -- You cannot share #general or mandatory channels. - `channel_archived` -- You cannot share an archived channel. - `channel_not_found` -- The channel provided was not found. - `connection_limit_exceeded` -- This channel has hit the limit of external connections. - `connection_limit_exceeded_pending` -- This channel already has a pending invite. - `invalid_channel_type` -- You cannot share MPDMs or DMs. - `invalid_email` -- At least one email address provided is invalid. - `invite_lookup_error` -- An error occurred while attempting to look for existing invites. - `invite_not_found` -- An error occurred while inviting users. - `legacy_connection_limit_exceeded` -- You cannot share a legacy ESC channel with a third team - `member_limit_exceeded` -- This channel that has hit the limit of members - `message_too_long` -- The provided message was longer than 560 characters. - `not_allowed_for_grid_workspace` -- This workspace does not have Slack Connect enabled. - `not_in_channel` -- The app is not a member of the channel to invite. - `not_owner` -- Only the host organization for a channel can request to share it. - `not_paid` -- This feature is only available to paid teams. - `not_supported` -- This channel cannot be shared. - `ratelimit` -- The rate-limit for this method has been reached. The ratelimit is applied on a per-user basis when you pass the `emails` parameter. - `recipients_not_specified` -- Bots are required to specify which users to invite. - `restricted_action` -- A team preference does not allow this authorization to send invites. - `too_many_emails` -- Too many email recipients were passed in the `emails` parameter. - `url_in_message` -- The message contained a URL. - `user_not_found` -- User lookup failed. - `no_external_invite_permission` -- User does not have permission to invite an external user. See https://docs.slack.dev/reference/methods/conversations.inviteShared */
+/** Sends an invitation to a Slack Connect channel Required scopes -- bot: `conversations.connect:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `already_in_channel` -- User is already in the channel. - `cannot_share_cross_workspace_channel` -- You cannot share a cross-workspace or org-wide channel. - `cannot_share_mandatory_channel` -- You cannot share #general or mandatory channels. - `channel_archived` -- You cannot share an archived channel. - `channel_not_found` -- The channel provided was not found. - `connection_limit_exceeded` -- This channel has hit the limit of external connections. - `connection_limit_exceeded_pending` -- This channel already has a pending invite. - `invalid_channel_type` -- You cannot share MPDMs or DMs. - `invalid_email` -- At least one email address provided is invalid. - `invite_lookup_error` -- An error occurred while attempting to look for existing invites. - `invite_not_found` -- An error occurred while inviting users. - `legacy_connection_limit_exceeded` -- You cannot share a legacy ESC channel with a third team - `member_limit_exceeded` -- This channel that has hit the limit of members - `message_too_long` -- The provided message was longer than 560 characters. - `not_allowed_for_grid_workspace` -- This workspace does not have Slack Connect enabled. - `not_in_channel` -- The app is not a member of the channel to invite. - `not_owner` -- Only the host organization for a channel can request to share it. - `not_paid` -- This feature is only available to paid teams. - `not_supported` -- This channel cannot be shared. - `ratelimit` -- The rate-limit for this method has been reached. The ratelimit is applied on a per-user basis when you pass the `emails` parameter. - `recipients_not_specified` -- Bots are required to specify which users to invite. - `restricted_action` -- A team preference does not allow this authorization to send invites. - `too_many_emails` -- Too many email recipients were passed in the `emails` parameter. - `url_in_message` -- The message contained a URL. - `user_not_found` -- User lookup failed. - `no_external_invite_permission` -- User does not have permission to invite an external user. - `inviter_email_not_verified` -- The inviting user has not verified the email address on their own account. They must verify it before they can send Slack Connect invites, since the invite presents that address as theirs. See https://docs.slack.dev/reference/methods/conversations.inviteShared */
 export const inviteShared: API.OperationMethod<
   InviteSharedRequest,
   InviteSharedResponse,
@@ -969,7 +973,7 @@ export const requestSharedInviteDeny: API.OperationMethod<
 }));
 
 export type SetExternalInvitePermissionsError = SlackOpError;
-/** Upgrade or downgrade Slack Connect channel permissions between 'can post only' and 'can post and invite'. Required scopes -- bot: `conversations.connect:manage` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- Cannot find channel - `not_supported` -- Attempting to upgrade a channel that cannot be upgraded - `restricted_action` -- A team preference prevents the user from taking this action. - `invalid_target_team` -- The target team provided is not valid for the channel. - `invalid_action` -- The user did not provid a valid action. Valid actions are 'upgrade' or 'downgrade'. See https://docs.slack.dev/reference/methods/conversations.externalInvitePermissions.set */
+/** Upgrade or downgrade Slack Connect channel permissions between 'can post only' and 'can post and invite'. Required scopes -- bot: `conversations.connect:manage` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- Cannot find channel - `not_supported` -- Attempting to upgrade a channel that cannot be upgraded - `restricted_action` -- A team preference prevents the user from taking this action. - `invalid_target_team` -- The target team provided is not valid for the channel. - `invalid_action` -- The user did not provide a valid action. Valid actions are 'upgrade' or 'downgrade'. See https://docs.slack.dev/reference/methods/conversations.externalInvitePermissions.set */
 export const setExternalInvitePermissions: API.OperationMethod<
   SetExternalInvitePermissionsRequest,
   SetExternalInvitePermissionsResponse,
@@ -1137,8 +1141,8 @@ function __c3(j: number): any {
         S.Struct({
           ok: S.Boolean,
           has_more: S.optional(S.Boolean),
-          messages: __S(108, __c27, 0),
-          latest_updates: S.optional(__S(104, __c26, 0)),
+          messages: __S(104, __c26, 0),
+          latest_updates: S.optional(__S(108, __c27, 0)),
           unchanged_messages: S.optional(__S(112, __c28, 0)),
           response_metadata: S.optional(__S(116, __c29, 0)),
         }),
@@ -1203,7 +1207,7 @@ function __c7(j: number): any {
           ok: S.Boolean,
           channel: S.optional(S.Unknown),
           group: S.optional(S.Unknown),
-          errors: S.optional(__S(108, __c27, 0)),
+          errors: S.optional(__S(104, __c26, 0)),
         }),
       ).annotate({ identifier: "InviteConversationResponse" });
   }
@@ -1297,7 +1301,7 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          invites: __S(108, __c27, 0),
+          invites: __S(104, __c26, 0),
           response_metadata: S.optional(__S(116, __c29, 0)),
         }),
       ).annotate({ identifier: "ListConnectInvitesResponse" });
@@ -1340,7 +1344,7 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          channels: __S(108, __c27, 0),
+          channels: __S(104, __c26, 0),
           response_metadata: S.optional(__S(116, __c29, 0)),
         }),
       ).annotate({ identifier: "ListConversationsResponse" });
@@ -1366,7 +1370,7 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          invite_requests: __S(108, __c27, 0),
+          invite_requests: __S(104, __c26, 0),
           response_metadata: S.optional(__S(116, __c29, 0)),
         }),
       ).annotate({ identifier: "ListRequestSharedInviteResponse" });
@@ -1501,7 +1505,7 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          messages: __S(108, __c27, 0),
+          messages: __S(104, __c26, 0),
           has_more: S.Boolean,
           pin_count: S.optional(S.Number),
           channel_actions_ts: S.Unknown,
@@ -1511,13 +1515,13 @@ function __c25(j: number): any {
           is_limited: S.optional(S.Boolean),
           latest: S.optional(S.String),
           unread_count_display: S.optional(S.Number),
-          users: S.optional(__S(104, __c26, 0)),
+          users: S.optional(__S(108, __c27, 0)),
           deleted: S.optional(__S(112, __c28, 0)),
           mutation_timestamps: S.optional(__S(101, __c25, 1)),
           deleted_overflow: S.optional(S.Boolean),
           warnings: S.optional(__S(112, __c28, 0)),
           next_ts: S.optional(S.Number),
-          latest_updates: S.optional(__S(104, __c26, 0)),
+          latest_updates: S.optional(__S(108, __c27, 0)),
           unchanged_messages: S.optional(__S(112, __c28, 0)),
           date_joined: S.optional(S.Number),
         }),
@@ -1527,13 +1531,13 @@ function __c25(j: number): any {
 function __c26(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
+      return S.Array(S.Unknown);
   }
 }
 function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Unknown);
+      return S.Record(S.String, S.Unknown);
   }
 }
 function __c28(j: number): any {
@@ -1582,6 +1586,13 @@ function __c31(j: number): any {
           user: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/conversations.kick", code: 200 })),
       ).annotate({ identifier: "ConversationsKickRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          errors: S.optional(__S(108, __c27, 0)),
+        }),
+      ).annotate({ identifier: "ConversationsKickResponse" });
   }
 }
 function __c32(j: number): any {

@@ -23,267 +23,540 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export interface GetTodayBriefingRequest {
+/** Candidate code excerpts, best scored first. */
+export type CreateTodayExcerptChoiceRequestExcerptsList = Array<string>;
+export interface CreateTodayExcerptChoiceRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** IANA timezone of the person's browser, for example Europe/Prague. The briefing day starts at 8:00 in it. Defaults to the project timezone. */
-  timezone?: string;
+  /** The finding the code excerpts should show. */
+  finding: string;
+  /** Candidate code excerpts, best scored first. */
+  excerpts: CreateTodayExcerptChoiceRequestExcerptsList;
 }
-export interface BriefingSegment {
-  /** A run of text in a paragraph. Includes its own spaces. */
-  text: string;
-  /** Key of the item this run links to, or null for plain text. */
-  item_key: string | null;
-  /** True only for the run that names the top item. */
-  highlight: boolean;
+export interface ExcerptChoice {
+  /** The excerpt that shows what the finding describes, or null when unsure. */
+  index: number | null;
 }
-export type BriefingParagraphsItemList = Array<BriefingSegment>;
-/** Up to 3 paragraphs, each a list of text runs; runs with an item_key are links. */
-export type BriefingParagraphsList = Array<BriefingParagraphsItemList>;
-/** * `draft` - draft * `open` - open * `closed` - closed * `merged` - merged */
-export type PullRequestStateEnum = "draft" | "open" | "closed" | "merged";
-/** * `affected_users` - affected_users * `affected_sessions` - affected_sessions * `occurrences` - occurrences * `conversion_rate` - conversion_rate * `error_rate` - error_rate * `duration` - duration * `revenue` - revenue * `custom` - custom */
-export type ReportMetricKindEnum =
-  | "affected_users"
-  | "affected_sessions"
-  | "occurrences"
-  | "conversion_rate"
-  | "error_rate"
-  | "duration"
-  | "revenue"
-  | "custom";
-/** * `primary` - primary * `supporting` - supporting */
-export type RoleEnum = "primary" | "supporting";
-/** Trailing per-bucket values saved with the snapshot, oldest first. Null when none were saved. */
-export type BriefingItemMetricSeriesList = Array<number>;
-/** * `number` - number * `count` - count * `percentage` - percentage * `percentage_scaled` - percentage_scaled * `duration` - duration * `currency` - currency */
-export type ValueFormatEnum =
-  | "number"
-  | "count"
-  | "percentage"
-  | "percentage_scaled"
-  | "duration"
-  | "currency";
-export interface BriefingItemMetric {
-  /** Stable slug of the metric within its report. */
-  metric_id: string;
-  /** Short label of what the metric measures. */
-  title: string;
-  /** What the value measures, for example affected_users. * `affected_users` - affected_users * `affected_sessions` - affected_sessions * `occurrences` - occurrences * `conversion_rate` - conversion_rate * `error_rate` - error_rate * `duration` - duration * `revenue` - revenue * `custom` - custom */
-  kind: ReportMetricKindEnum;
-  /** `primary` for the report's key observation, otherwise `supporting`. * `primary` - primary * `supporting` - supporting */
-  role: RoleEnum;
-  /** The latest saved snapshot of the metric. */
-  value: number;
-  /** Trailing per-bucket values saved with the snapshot, oldest first. Null when none were saved. */
-  series: BriefingItemMetricSeriesList | null;
-  /** How to format the value, for example count. * `number` - number * `count` - count * `percentage` - percentage * `percentage_scaled` - percentage_scaled * `duration` - duration * `currency` - currency */
-  value_format: ValueFormatEnum;
-  /** Optional short suffix or currency code, such as USD. */
-  unit: string | null;
-  /** The metric's live InsightVizNode wrapping one TrendsQuery, as the report stores it. */
-  query: unknown;
+export interface GetTodayHighlightRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Retry failed sources. An active computation is reused. */
+  refresh?: boolean;
 }
-/** The report's metrics that have a saved snapshot, in the report's order. */
-export type BriefingItemReportMetricsList = Array<BriefingItemMetric>;
-export interface BriefingItemChart {
-  /** Stable slug of the chart within its report. */
-  chart_id: string;
-  /** Short heading of the chart. */
-  title: string;
-  /** The query node the report body draws, as the report stores it. */
-  query: unknown;
+/** * `computing` - Computing * `ready` - Ready * `failed` - Failed */
+export type HighlightsStatusEnum = "computing" | "ready" | "failed";
+/** * `events` - Events * `people` - People * `number` - Number */
+export type HighlightUnitEnum = "events" | "people" | "number";
+/** Values oldest first: daily for the last 28 complete days, or one value per week or month. */
+export type HighlightMetricSeriesList = Array<number>;
+/** * `day` - Day * `week` - Week * `month` - Month */
+export type CalendarUnitEnum = "day" | "week" | "month";
+export interface HighlightValueFormat {
+  /** Number format of the insight, for example numeric, percentage or currency. */
+  format: string | null;
+  /** Text the insight shows before each value. */
+  prefix: string | null;
+  /** Text the insight shows after each value. */
+  postfix: string | null;
+  /** Most decimal places the insight shows. */
+  decimal_places: number | null;
 }
-/** The charts in the report body, in the report's order. */
-export type BriefingItemReportChartsList = Array<BriefingItemChart>;
-export interface BriefingItemReport {
-  /** The report's priority, P0 to P4, or null if unset. */
-  priority: string | null;
-  /** The report's summary, shortened to a few sentences. */
-  summary: string;
-  /** State of the report's implementation pull request, or null when it has none. * `draft` - draft * `open` - open * `closed` - closed * `merged` - merged */
-  pull_request_state: PullRequestStateEnum | null;
-  /** URL of the report's implementation pull request, or null when it has none. */
-  pull_request_url: string | null;
-  /** How many signals the report groups. */
-  signal_count: number;
-  /** When the report last changed. */
-  updated_at: string;
-  /** The report's metrics that have a saved snapshot, in the report's order. */
-  metrics: BriefingItemReportMetricsList;
-  /** The charts in the report body, in the report's order. */
-  charts: BriefingItemReportChartsList;
-}
-/** * `report` - REPORT * `dashboard` - DASHBOARD * `other` - OTHER */
-export type TodayItemGroupEnum = "report" | "dashboard" | "other";
-/** * `self_driving` - SELF_DRIVING * `product_analytics` - PRODUCT_ANALYTICS * `alerts` - ALERTS * `support` - SUPPORT * `error_tracking` - ERROR_TRACKING * `github` - GITHUB */
-export type TodayItemSourceEnum =
-  | "self_driving"
-  | "product_analytics"
-  | "alerts"
-  | "support"
-  | "error_tracking"
-  | "github";
-/** * `claimed_by_you` - CLAIMED_BY_YOU * `waiting_for_you` - WAITING_FOR_YOU * `suggested_reviewer` - SUGGESTED_REVIEWER * `urgent_for_project` - URGENT_FOR_PROJECT * `dashboard_you_viewed` - DASHBOARD_YOU_VIEWED * `dashboard_you_starred` - DASHBOARD_YOU_STARRED * `insight_you_viewed` - INSIGHT_YOU_VIEWED * `insight_you_starred` - INSIGHT_YOU_STARRED * `alert_firing` - ALERT_FIRING * `assigned_ticket` - ASSIGNED_TICKET * `assigned_error_issue` - ASSIGNED_ERROR_ISSUE * `review_requested` - REVIEW_REQUESTED * `your_pull_request` - YOUR_PULL_REQUEST */
-export type TodayItemReasonEnum =
-  | "claimed_by_you"
-  | "waiting_for_you"
-  | "suggested_reviewer"
-  | "urgent_for_project"
-  | "dashboard_you_viewed"
-  | "dashboard_you_starred"
-  | "insight_you_viewed"
-  | "insight_you_starred"
-  | "alert_firing"
-  | "assigned_ticket"
-  | "assigned_error_issue"
-  | "review_requested"
-  | "your_pull_request";
-/** * `open` - OPEN * `done` - DONE * `dismissed` - DISMISSED */
-export type BriefingItemStateEnum = "open" | "done" | "dismissed";
-export interface BriefingItem {
-  /** Stable item key, for example report:<uuid>, dashboard:<id> or ticket:<uuid>. */
-  key: string;
-  /** The item's own title, as the source names it. */
-  title: string;
-  /** Short left-bar label of at most 6 words. */
+/** The first day of the period each value in `series` covers, in the project's timezone. Same length and order as `series`. */
+export type HighlightMetricPeriodStartsList = Array<string>;
+/** * `routine` - You open this often * `dashboard` - On a dashboard you open often * `key_metric` - Project key metric * `popular` - Opened often in this project * `watched` - You get updates on this * `built` - You created or edited this */
+export type HighlightMetricReasonEnum =
+  | "routine"
+  | "dashboard"
+  | "key_metric"
+  | "popular"
+  | "watched"
+  | "built";
+export interface HighlightMover {
+  /** Name of one series of the insight, for example a breakdown value. */
   label: string;
-  /** Short fact under the label, at most 40 characters, for example 'Spend down 37%'. */
-  signal: string;
-  /** Where the item opens: an app path, or a GitHub URL for pull requests. */
-  url: string;
-  /** Position in the briefing, 1 is the top item. */
-  rank: number;
-  /** For a report, the product its signals came from, for example error_tracking or session_replay. Null for every other item. */
-  source_product: string | null;
-  /** For a report, its priority, summary, implementation pull request and the metric snapshots the viewer may read. Null for every other item and for a deleted report. */
-  report: BriefingItemReport | null;
-  group: TodayItemGroupEnum;
-  source: TodayItemSourceEnum;
-  reason: TodayItemReasonEnum;
-  /** `done` when the item was resolved since the briefing was written, `dismissed` when it was dismissed or suppressed, else `open`. Pull requests always stay `open`. * `open` - OPEN * `done` - DONE * `dismissed` - DISMISSED */
-  state: BriefingItemStateEnum;
+  /** Value of the series for the last complete period. */
+  value: number;
+  /** Change of the series against the period before, in percent. Null when the period before is 0. */
+  change_pct: number | null;
 }
-/** The items the text names, in rank order: what the page and the left bar show. */
-export type BriefingItemsList = Array<BriefingItem>;
-/** * `collecting` - COLLECTING * `writing` - WRITING * `ready` - READY * `failed` - FAILED */
-export type BriefingStatusEnum = "collecting" | "writing" | "ready" | "failed";
-/** * `agent` - AGENT */
-export type WriterEnum = "agent";
-export interface Briefing {
-  /** Briefing id. */
-  id: string;
-  /** The day this briefing is for, in the person's timezone. */
-  local_day: string;
-  /** One sentence that counts what needs the person. */
-  headline: string;
-  /** Up to 3 paragraphs, each a list of text runs; runs with an item_key are links. */
-  paragraphs: BriefingParagraphsList;
-  /** The items the text names, in rank order: what the page and the left bar show. */
-  items: BriefingItemsList;
-  /** Other open reports for the person, beyond the ones the briefing shows. */
-  more_reports_count: number;
-  /** Open reports in the whole project beyond the ones the briefing shows, whoever they are for. */
-  open_reports_count: number;
-  status: BriefingStatusEnum;
-  writer: WriterEnum | null;
-  created_at: string;
-  ready_at: string | null;
-}
-export interface GetTodayCandidateRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** IANA timezone of the person's browser, for example Europe/Prague. The briefing day starts at 8:00 in it. Defaults to the project timezone. */
-  timezone?: string;
-}
-export interface CandidateFact {
-  /** Fact name, for example pct_change or unread_messages. */
-  name: string;
-  /** Fact value as text. */
-  value: string;
-}
-/** The numbers and short facts the briefing text rests on. */
-export type CandidateFactsList = Array<CandidateFact>;
-export interface Candidate {
-  /** Stable item key, for example report:<uuid> or dashboard:<id>. */
+/** For an insight with several series, the series that changed most last period, biggest change first. Empty otherwise. */
+export type HighlightMetricMoversList = Array<HighlightMover>;
+export interface HighlightMetric {
+  /** Stable key of the metric: a key metric setting such as signup_event, or insight:<short_id>. */
   key: string;
-  /** The item's own title. */
+  /** Name of the key metric or of the insight, for example Sign-ups. */
+  name: string;
+  /** Value for the last complete period: the last 7 complete days, or the last complete week or month. */
+  value: number;
+  /** `events` for a count of events, `people` for unique people, `number` for an insight value. * `events` - Events * `people` - People * `number` - Number */
+  unit: HighlightUnitEnum;
+  /** Change against the period before, in percent. Null when the period before is 0. */
+  change_pct: number | null;
+  /** Values oldest first: daily for the last 28 complete days, or one value per week or month. */
+  series: HighlightMetricSeriesList;
+  /** What one value in `series` covers: a day, a week or a month. * `day` - Day * `week` - Week * `month` - Month */
+  interval: CalendarUnitEnum;
+  /** Path of the insight the metric comes from. For a key metric, a new trends insight of the same days. */
+  url: string | null;
+  /** How the insight formats its values. Null for a key metric and for an insight with plain numbers. */
+  value_format: HighlightValueFormat | null;
+  /** The first day of the period each value in `series` covers, in the project's timezone. Same length and order as `series`. */
+  period_starts: HighlightMetricPeriodStartsList;
+  /** Why the pulse suggests the metric: `routine` for an insight the person opens often, `dashboard` for a tile of a dashboard they open often, `key_metric` for a key metric of the project, `popular` for an insight that many people in the project open, `watched` for an insight the person gets an alert or a subscription for, `built` for an insight the person created or edited recently. Null for metrics computed before this field existed. * `routine` - You open this often * `dashboard` - On a dashboard you open often * `key_metric` - Project key metric * `popular` - Opened often in this project * `watched` - You get updates on this * `built` - You created or edited this */
+  reason: HighlightMetricReasonEnum | null;
+  /** Name of the dashboard the tile comes from when `reason` is `dashboard`, else null. */
+  dashboard_name: string | null;
+  /** Id of the dashboard the tile comes from, with its filters applied. Pass it when pinning the tile. Null otherwise. */
+  dashboard_id: number | null;
+  /** On how many of the last 14 days the person opened the insight, or the dashboard of the tile. Null for a key metric. */
+  opened_days: number | null;
+  /** The last day the person opened the insight, or the dashboard of the tile, in the project's timezone. Null for a key metric. */
+  last_opened: string | null;
+  /** Value for the period before the last complete one, the base of `change_pct`. Null when unknown. */
+  previous_value: number | null;
+  /** For an insight with several series, the series that changed most last period, biggest change first. Empty otherwise. */
+  movers: HighlightMetricMoversList;
+}
+/** Key metrics of the project from its settings. */
+export type HighlightsPulseList = Array<HighlightMetric>;
+/** * `pending` - Loading * `ready` - Ready * `empty` - No data * `error` - Could not load */
+export type PulseSlotStatusEnum = "pending" | "ready" | "empty" | "error";
+export interface PulseSlot {
+  /** Why this number is selected, when known before its value arrives. * `routine` - You open this often * `dashboard` - On a dashboard you open often * `key_metric` - Project key metric * `popular` - Opened often in this project * `watched` - You get updates on this * `built` - You created or edited this */
+  reason?: HighlightMetricReasonEnum | null;
+  /** Stable key of the selected number. */
+  key: string;
+  /** Title available before the number is computed. */
+  name: string;
+  /** Loading state of this number. * `pending` - Loading * `ready` - Ready * `empty` - No data * `error` - Could not load */
+  status: PulseSlotStatusEnum;
+  /** Path to the source, relative to the project. */
+  url: string | null;
+  /** Measurement interval, when known. * `day` - Day * `week` - Week * `month` - Month */
+  interval: CalendarUnitEnum | null;
+}
+/** Selected numbers in stable display order, including unfinished numbers. Ready values are in pulse. Null for clients using complete results. */
+export type HighlightsPulseSlotsList = Array<PulseSlot>;
+/** * `risk` - Risk * `opportunity` - Opportunity */
+export type HighlightLabelEnum = "risk" | "opportunity";
+/** * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
+export type HighlightPriorityEnum = "P1" | "P2" | "P3" | "P4";
+/** Values behind the item for a small trend line, oldest first. Null when the item has no trend. */
+export type HighlightItemSeriesList = Array<number>;
+export interface HighlightItem {
+  /** Stable key of the item for this person and day. */
+  key: string;
+  /** `risk` when something got worse or broke, `opportunity` when the person can act to gain. * `risk` - Risk * `opportunity` - Opportunity */
+  label: HighlightLabelEnum;
+  /** Priority on the same scale as report priorities. `P1` for a risk with a score of 0.75 or more, `P2` for another risk, `P3` for an opportunity with a score of 0.4 or more, `P4` for another opportunity. * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
+  priority: HighlightPriorityEnum;
+  /** One sentence that says what happened, with numbers. */
   title: string;
-  /** Where the item opens. */
-  url: string;
-  /** Position in the briefing, 1 is the top item. */
-  rank: number;
-  /** The numbers and short facts the briefing text rests on. */
-  facts: CandidateFactsList;
-  group: TodayItemGroupEnum;
-  source: TodayItemSourceEnum;
-  reason: TodayItemReasonEnum;
+  /** One or two short sentences with the comparison and the next action. */
+  detail: string;
+  /** Path in the app to open, relative to the project. */
+  url: string | null;
+  /** Values behind the item for a small trend line, oldest first. Null when the item has no trend. */
+  series: HighlightItemSeriesList | null;
+  /** Importance weighted by relevance, from 0 to 1. */
+  score: number;
+  /** Name of the highlight source that found the item, for example alerts. */
+  source: string;
+  /** Product that declares the source, for example feature_flags. Null for items stored before this field existed and for sources that no product declares any more. */
+  product?: string | null;
 }
-/** The briefing's items in rank order, up to 5. */
-export type CandidateListCandidatesList = Array<Candidate>;
-export interface CandidateList {
-  /** The day the list is for, in the person's timezone. */
-  local_day: string;
-  /** The briefing's items in rank order, up to 5. */
-  candidates: CandidateListCandidatesList;
-  /** Other open reports for the person not in the list. */
-  more_reports_count: number;
+/** Up to 6 items, the highest scores across sources, in display order: by `priority`, then by `score`, highest first. */
+export type HighlightsItemsList = Array<HighlightItem>;
+/** * `ready` - Ready * `unavailable` - Unavailable */
+export type HighlightPinStatusEnum = "ready" | "unavailable";
+export interface HighlightPin {
+  /** Key of a number the person keeps on their home. */
+  key: string;
+  /** `ready` when the number is in `pulse`. `unavailable` when it has no number to show, for example a deleted insight, one that is not a trend, or a query that failed or did not finish in time. A pin missing from this list was added after these highlights were computed. * `ready` - Ready * `unavailable` - Unavailable */
+  status: HighlightPinStatusEnum;
 }
-export interface TodayBriefingRefreshCreateRequest {
+/** The numbers the person keeps, in their order, with the state of each one. Pinned numbers lead `pulse`. */
+export type HighlightsPinsList = Array<HighlightPin>;
+export interface Highlights {
+  /** `ready` when the content is fresh. `computing` while new highlights are being computed: the content includes available results and, when enabled, pending number details. Otherwise it is the last ready highlights of the day, or empty. Poll again every 2 seconds until the status changes. `failed` when the last computation failed: the content is the last ready highlights of the day, or empty. * `computing` - Computing * `ready` - Ready * `failed` - Failed */
+  status: HighlightsStatusEnum;
+  /** When the content was computed. Null when no highlights were computed yet today. */
+  generated_at: string | null;
+  /** The day the highlights are for, in the project's timezone. */
+  day: string;
+  /** Midnight at the end of `day` in the project's timezone, when the next day's highlights start. Load them again then. */
+  refresh_at: string;
+  /** Key metrics of the project from its settings. */
+  pulse: HighlightsPulseList;
+  /** Selected numbers in stable display order, including unfinished numbers. Ready values are in pulse. Null for clients using complete results. */
+  pulse_slots?: HighlightsPulseSlotsList | null;
+  /** Up to 6 items, the highest scores across sources, in display order: by `priority`, then by `score`, highest first. */
+  items: HighlightsItemsList;
+  /** The numbers the person keeps, in their order, with the state of each one. Pinned numbers lead `pulse`. */
+  pins: HighlightsPinsList;
+}
+export interface GetTodayPulsePinRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** IANA timezone of the person's browser, for example Europe/Prague. The briefing day starts at 8:00 in it. Defaults to the project timezone. */
-  timezone?: string;
 }
-export type GetTodayBriefingError = PosthogOpError;
-/** Get today's briefing Today's personal briefing: a short text about up to 5 items and the same items for the left bar. A new one is written every morning from 8:00 local time. Starts generating today's when there is none yet and returns it as 'collecting'. While a refresh is being written, the ready briefing is returned as 'writing', so it can stay on screen; poll again after a few seconds. 404 when the person gets no briefing: the flag is off, the organization has not approved AI data processing, or it is out of AI credits. */
-export const getTodayBriefing: API.OperationMethod<
-  GetTodayBriefingRequest,
-  Briefing,
-  GetTodayBriefingError,
+export interface PulsePin {
+  /** Key of the number to keep: a key metric setting such as signup_event, or insight:<short_id>. */
+  key: string;
+  /** Name to show for the number until the highlights compute its value. */
+  name: string;
+  /** For an insight pinned from a dashboard tile, the dashboard whose filters it keeps. Null otherwise. */
+  dashboard_id?: number | null;
+}
+/** Numbers the person keeps at the start of the key numbers, in order. Suggestions fill the free places. Only the first 4 distinct keys are kept. At most 20 entries. */
+export type PulsePinsPinsList = Array<PulsePin>;
+export interface PulsePins {
+  /** Numbers the person keeps at the start of the key numbers, in order. Suggestions fill the free places. Only the first 4 distinct keys are kept. At most 20 entries. */
+  pins: PulsePinsPinsList;
+}
+export interface GetTodayReportsFigureMarkRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  report_id: string;
+}
+/** * `lead` - Lead * `impact` - Impact */
+export type FigureTextEnum = "lead" | "impact";
+/** * `signal` - Signal * `research` - Agent's research */
+export type FigureSourceKindEnum = "signal" | "research";
+/** The emitter's extra fields as it sent them, used to link to the source object. Values are any JSON. */
+export type SignalViewExtraMap = { [key: string]: unknown | undefined };
+/** * `code` - Code * `slack` - Slack */
+export type CitedSourceEnum = "code" | "slack";
+export interface RecordingTarget {
+  /** The recording's session id. */
+  session_id: string;
+  /** Where the player starts, a few seconds before the finding. */
+  start_at: string | null;
+  /** The finding's time in the recording, as MM:SS. */
+  offset: string | null;
+  /** Where the player starts, in seconds from the recording start. Null without an offset. */
+  seek_seconds: number | null;
+}
+export interface PageLink {
+  /** Where the link goes, outside PostHog. */
+  url: string;
+  /** The link text. */
+  text: string;
+}
+export interface CodeFile {
+  /** The repository as owner/name. */
+  repo: string;
+  /** The file path in the repository. */
+  path: string;
+}
+/** Repository files to quote, the finding's own file first. */
+export type SignalPreviewCodeList = Array<CodeFile>;
+export interface PreviewLine {
+  /** One line of the preview block. */
+  text: string;
+  /** Whether the line is secondary, such as a stack frame. */
+  quiet: boolean;
+}
+/** A preformatted block, such as a stack trace or a query. */
+export type SignalPreviewBlockList = Array<PreviewLine>;
+/** Short facts about the source. */
+export type SignalPreviewFactsList = Array<string>;
+export interface SignalPreview {
+  /** What expanding the signal shows, such as 'Show the stack trace'. */
+  hint: string;
+  /** Repository files to quote, the finding's own file first. */
+  code: SignalPreviewCodeList;
+  /** A preformatted block, such as a stack trace or a query. */
+  block: SignalPreviewBlockList;
+  /** The finding's text beyond its first sentence. */
+  text: string;
+  /** Short facts about the source. */
+  facts: SignalPreviewFactsList;
+  /** A link that replaces the signal's own destination. */
+  link: PageLink | null;
+  /** A label that replaces the label of the signal's own destination. */
+  link_label: string | null;
+}
+export interface SignalView {
+  /** The signal's id. */
+  signal_id: string;
+  /** The product that emitted the signal. */
+  source_product: string;
+  /** The kind of signal within its product. */
+  source_type: string;
+  /** The id of the source object, such as an issue or a ticket. */
+  source_id: string;
+  /** The signal's text as emitted. */
+  content: string;
+  /** When the signal happened. */
+  timestamp: string;
+  /** The emitter's extra fields as it sent them, used to link to the source object. Values are any JSON. */
+  extra: SignalViewExtraMap;
+  /** The signal as one short line. */
+  headline: string;
+  /** The signal's first sentence. */
+  lead: string;
+  /** Identifiers such as a pull request or ticket number, joined by dots. */
+  meta: string;
+  /** What a scout finding cites: code or a Slack thread. * `code` - Code * `slack` - Slack */
+  cited: CitedSourceEnum | null;
+  /** The recording the signal plays, if any. */
+  recording: RecordingTarget | null;
+  /** Where a scout finding links outside PostHog, if anywhere. */
+  link: PageLink | null;
+  /** What expanding the signal shows, if anything. */
+  preview: SignalPreview | null;
+}
+export interface FigureQuote {
+  /** Where the number comes from: a signal or the agent's research. * `signal` - Signal * `research` - Agent's research */
+  kind: FigureSourceKindEnum;
+  /** The signal that states the number. Null when the agent's research states it. */
+  signal: SignalView | null;
+  /** When the source was written. */
+  at: string;
+  /** The source sentence that states the number. */
+  sentence: string;
+  /** Where the number starts in the sentence. */
+  start: number;
+  /** Where the number ends in the sentence. */
+  end: number;
+}
+export interface FigureMark {
+  /** The page text the number is in: the lead or the impact sentence. * `lead` - Lead * `impact` - Impact */
+  text: FigureTextEnum;
+  /** Where the number starts in that text, as the reader sees it. */
+  start: number;
+  /** Where the number ends in that text. */
+  end: number;
+  /** The number as the page shows it. */
+  figure: string;
+  /** The sentence that states the same result. */
+  quote: FigureQuote;
+}
+/** The numbers to mark, at most 4, each with its source. */
+export type FigureMarksMarksList = Array<FigureMark>;
+export interface FigureMarks {
+  /** The numbers to mark, at most 4, each with its source. */
+  marks: FigureMarksMarksList;
+}
+export interface GetTodayReportsKeyClauseRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  report_id: string;
+  /** Whether to mark the impact sentence. Pass false when the page shows an impact number instead. */
+  include_impact?: boolean;
+}
+/** * `problem` - Problem * `cause` - Cause * `fix` - Fix */
+export type KeyClauseRoleEnum = "problem" | "cause" | "fix";
+/** Sentences from the report that explain the clause further. */
+export type KeyClauseExpansionList = Array<string>;
+export interface KeyClause {
+  /** Where the clause starts in its text, as the reader sees it. */
+  start: number;
+  /** Where the clause ends in its text. */
+  end: number;
+  /** What the clause tells the reader. * `problem` - Problem * `cause` - Cause * `fix` - Fix */
+  role: KeyClauseRoleEnum;
+  /** Sentences from the report that explain the clause further. */
+  expansion: KeyClauseExpansionList;
+}
+/** The clauses that state the problem or its cause in the lead. */
+export type ReportKeyClausesLeadList = Array<KeyClause>;
+/** The clauses that state the problem or its cause in the impact sentence. */
+export type ReportKeyClausesImpactList = Array<KeyClause>;
+/** The clause that states the fix in the proposal. */
+export type ReportKeyClausesProposalList = Array<KeyClause>;
+export interface ReportKeyClauses {
+  /** The clauses that state the problem or its cause in the lead. */
+  lead: ReportKeyClausesLeadList;
+  /** The clauses that state the problem or its cause in the impact sentence. */
+  impact: ReportKeyClausesImpactList;
+  /** The clause that states the fix in the proposal. */
+  proposal: ReportKeyClausesProposalList;
+}
+export interface GetTodayReportsPageRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  report_id: string;
+}
+export interface PullRequestLink {
+  /** The pull request on GitHub. */
+  url: string;
+  /** The pull request number. */
+  number: number;
+}
+/** The signals to show as evidence, at most 3, newest first, one per source first. */
+export type ReportPageEvidenceList = Array<SignalView>;
+/** * `tickets` - Support tickets * `query-hours` - Database hours */
+export type ImpactNumberKeyEnum = "tickets" | "query-hours";
+/** The figures in the signal's headline to mark. */
+export type ImpactNumberValuesList = Array<string>;
+export interface ImpactWorking {
+  /** How the number is worked out, such as '120 ms × 30,000 calls'. */
+  expression: string;
+  /** What the working comes to, such as '1.00 hours a day'. */
+  result: string;
+}
+export interface ImpactNumber {
+  /** Which number this is: distinct support tickets or database hours a day. * `tickets` - Support tickets * `query-hours` - Database hours */
+  key: ImpactNumberKeyEnum;
+  /** The number as shown, such as '2' or '1 hour'. */
+  value: string;
+  /** The sentence that follows the number. */
+  sentence: string;
+  /** The signal the number comes from, if one does. */
+  signal: SignalView | null;
+  /** The figures in the signal's headline to mark. */
+  values: ImpactNumberValuesList;
+  /** How the number is worked out, if it is. */
+  working: ImpactWorking | null;
+}
+/** Numbers the signals size the problem with, such as distinct support tickets. */
+export type ReportPageImpactNumbersList = Array<ImpactNumber>;
+export interface ReportPage {
+  /** The summary's opening paragraph, as markdown. */
+  lead: string;
+  /** The proposed fix cut to whole sentences, as markdown. Empty when the report proposes none. */
+  proposal: string;
+  /** The impact section cut to whole sentences, as markdown, when it states a measurement. Empty otherwise. */
+  impact_sentence: string;
+  /** The pull request the proposal names, or else the summary, when it names exactly one. */
+  named_pull_request: PullRequestLink | null;
+  /** Whether the proposal names any pull request. */
+  solution_names_pull_request: boolean;
+  /** The signals to show as evidence, at most 3, newest first, one per source first. */
+  evidence: ReportPageEvidenceList;
+  /** How many distinct source objects the report's newest 100 signals come from. The impact numbers and last seen use the same signals. */
+  source_count: number;
+  /** Numbers the signals size the problem with, such as distinct support tickets. */
+  impact_numbers: ReportPageImpactNumbersList;
+  /** When the newest session, ticket or alert behind the report happened. */
+  last_seen: string | null;
+}
+/** Numbers the person keeps at the start of the key numbers, in order. Suggestions fill the free places. Only the first 4 distinct keys are kept. At most 20 entries. */
+export type UpdateTodayPulsePinRequestPinsList = Array<PulsePin>;
+export interface UpdateTodayPulsePinRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Numbers the person keeps at the start of the key numbers, in order. Suggestions fill the free places. Only the first 4 distinct keys are kept. At most 20 entries. */
+  pins: UpdateTodayPulsePinRequestPinsList;
+}
+export type CreateTodayExcerptChoiceError = PosthogOpError;
+/** Pick the code excerpt a finding describes Asks the decision model which of several code excerpts shows what a finding describes. Returns null when it is unsure. 404 when the person may not use Jev. */
+export const createTodayExcerptChoice: API.OperationMethod<
+  CreateTodayExcerptChoiceRequest,
+  ExcerptChoice,
+  CreateTodayExcerptChoiceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetTodayBriefingRequest>,
-  output: __S(27, __c1, 11) as any as S.Schema<Briefing>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateTodayExcerptChoiceRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<ExcerptChoice>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "GetTodayBriefing",
+  span: "CreateTodayExcerptChoice",
 }));
 
-export type GetTodayCandidateError = PosthogOpError;
-/** List today's ranked items The items behind today's briefing, with the facts and the reason for each, without the written text. */
-export const getTodayCandidate: API.OperationMethod<
-  GetTodayCandidateRequest,
-  CandidateList,
-  GetTodayCandidateError,
+export type GetTodayHighlightError = PosthogOpError;
+/** Get today's highlights The project's key metrics and up to 6 ranked items, each labeled risk or opportunity. Queries, rules and copy templates make every item; no AI is used. The highlights are computed in the background and stay fresh for 15 minutes per person, or 1 minute when a source failed. The call never waits: while they are computed, it returns `computing` with the last ready highlights of the day, so poll every 2 seconds until the status is `ready` or `failed`. 404 when the person does not have the new navigation. A scoped key needs query:read as well, because every highlight runs a query. */
+export const getTodayHighlight: API.OperationMethod<
+  GetTodayHighlightRequest,
+  Highlights,
+  GetTodayHighlightError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetTodayCandidateRequest>,
-  output: __S(37, __c2, 5) as any as S.Schema<CandidateList>,
+  input: __S(32, __c2, 0) as any as S.Schema<GetTodayHighlightRequest>,
+  output: __S(45, __c2, 13) as any as S.Schema<Highlights>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "GetTodayCandidate",
+  span: "GetTodayHighlight",
 }));
 
-export type TodayBriefingRefreshCreateError = PosthogOpError;
-/** Refresh today's briefing Regenerate today's briefing. The ready briefing stays on screen until the new one is written. */
-export const todayBriefingRefreshCreate: API.OperationMethod<
-  TodayBriefingRefreshCreateRequest,
-  Briefing,
-  TodayBriefingRefreshCreateError,
+export type GetTodayPulsePinError = PosthogOpError;
+/** Get the numbers the person keeps The numbers the person keeps at the start of the key numbers on their home, in order. Suggestions fill the free places. 404 when the person does not have the new navigation. */
+export const getTodayPulsePin: API.OperationMethod<
+  GetTodayPulsePinRequest,
+  PulsePins,
+  GetTodayPulsePinError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<TodayBriefingRefreshCreateRequest>,
-  output: __S(27, __c1, 11) as any as S.Schema<Briefing>,
+  input: __S(48, __c3, 0) as any as S.Schema<GetTodayPulsePinRequest>,
+  output: __S(66, __c4, 2) as any as S.Schema<PulsePins>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "TodayBriefingRefreshCreate",
+  span: "GetTodayPulsePin",
+}));
+
+export type GetTodayReportsFigureMarkError = PosthogOpError;
+/** Mark the numbers of a report with their sources The numbers in the report's lead and impact sentence that a signal or the agent's research states, each with the sentence that states it. A number is marked only when the decision model is sure it is a measured result and that one source states the same result. 404 when the report is missing or the person may not use Jev. */
+export const getTodayReportsFigureMark: API.OperationMethod<
+  GetTodayReportsFigureMarkRequest,
+  FigureMarks,
+  GetTodayReportsFigureMarkError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(80, __c5, 0) as any as S.Schema<GetTodayReportsFigureMarkRequest>,
+  output: __S(84, __c5, 4) as any as S.Schema<FigureMarks>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTodayReportsFigureMark",
+}));
+
+export type GetTodayReportsKeyClauseError = PosthogOpError;
+/** Mark the key clauses of a report The clauses in the report page's lead, impact sentence and proposal that state the problem, its cause or the fix, each with sentences from the report that explain it. Only clauses the report explains further are returned, at most 2 across all texts. 404 when the report is missing or the person may not use Jev. */
+export const getTodayReportsKeyClause: API.OperationMethod<
+  GetTodayReportsKeyClauseRequest,
+  ReportKeyClauses,
+  GetTodayReportsKeyClauseError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(112, __c7, 0) as any as S.Schema<GetTodayReportsKeyClauseRequest>,
+  output: __S(115, __c7, 3) as any as S.Schema<ReportKeyClauses>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTodayReportsKeyClause",
+}));
+
+export type GetTodayReportsPageError = PosthogOpError;
+/** Get a report's page What the Today report page shows for a report: its lead, the proposal and the impact sentence cut to whole sentences, and the pull request it names. Sample report ids return the built-in sample reports. 404 when the report is missing or the person does not have the new navigation. 403 when the person may not read Inbox reports, and a scoped key needs task:read as well, because the page shows the report's signals. */
+export const getTodayReportsPage: API.OperationMethod<
+  GetTodayReportsPageRequest,
+  ReportPage,
+  GetTodayReportsPageError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c8, 0) as any as S.Schema<GetTodayReportsPageRequest>,
+  output: __S(134, __c8, 6) as any as S.Schema<ReportPage>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTodayReportsPage",
+}));
+
+export type UpdateTodayPulsePinError = PosthogOpError;
+/** Set the numbers the person keeps Replaces the numbers the person keeps at the start of the key numbers, in order. Repeated keys are dropped and only the first 4 are kept. The next highlights request computes the new numbers. 404 when the person does not have the new navigation. */
+export const updateTodayPulsePin: API.OperationMethod<
+  UpdateTodayPulsePinRequest,
+  PulsePins,
+  UpdateTodayPulsePinError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(144, __c9, 0) as any as S.Schema<UpdateTodayPulsePinRequest>,
+  output: __S(66, __c4, 2) as any as S.Schema<PulsePins>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTodayPulsePin",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -293,103 +566,28 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          timezone: S.optional(S.String.pipe(T.Query())),
+          finding: S.String,
+          excerpts: __S(16, __c1, 0),
         }).pipe(
-          T.Http({ method: "GET", uri: "/api/projects/{project_id}/today/briefing/", code: 200 }),
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/today/excerpt_choice/",
+            code: 200,
+          }),
         ),
-      ).annotate({ identifier: "GetTodayBriefingRequest" });
+      ).annotate({ identifier: "CreateTodayExcerptChoiceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "ExcerptChoice" });
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          text: S.String,
-          item_key: S.NullOr(S.String),
-          highlight: S.Boolean,
-        }),
-      ).annotate({ identifier: "BriefingSegment" });
-    case 1:
-      return S.Array(__S(16, __c1, 0));
-    case 2:
-      return S.Array(__S(17, __c1, 1));
-    case 3:
-      return S.Array(S.Number);
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          metric_id: S.String,
-          title: S.String,
-          kind: S.String,
-          role: S.String,
-          value: S.Number,
-          series: S.NullOr(__S(19, __c1, 3)),
-          value_format: S.String,
-          unit: S.NullOr(S.String),
-          query: S.Unknown,
-        }),
-      ).annotate({ identifier: "BriefingItemMetric" });
-    case 5:
-      return S.Array(__S(20, __c1, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          chart_id: S.String,
-          title: S.String,
-          query: S.Unknown,
-        }),
-      ).annotate({ identifier: "BriefingItemChart" });
-    case 7:
-      return S.Array(__S(22, __c1, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          priority: S.NullOr(S.String),
-          summary: S.String,
-          pull_request_state: S.NullOr(S.String),
-          pull_request_url: S.NullOr(S.String),
-          signal_count: S.Number,
-          updated_at: S.String,
-          metrics: __S(21, __c1, 5),
-          charts: __S(23, __c1, 7),
-        }),
-      ).annotate({ identifier: "BriefingItemReport" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.String,
-          title: S.String,
-          label: S.String,
-          signal: S.String,
-          url: S.String,
-          rank: S.Number,
-          source_product: S.NullOr(S.String),
-          report: S.NullOr(__S(24, __c1, 8)),
-          group: S.String,
-          source: S.String,
-          reason: S.String,
-          state: S.String,
-        }),
-      ).annotate({ identifier: "BriefingItem" });
-    case 10:
-      return S.Array(__S(25, __c1, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          local_day: S.String,
-          headline: S.String,
-          paragraphs: __S(18, __c1, 2),
-          items: __S(26, __c1, 10),
-          more_reports_count: S.Number,
-          open_reports_count: S.Number,
-          status: S.String,
-          writer: S.NullOr(S.String),
-          created_at: S.String,
-          ready_at: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "Briefing" });
+      return S.Array(S.String);
   }
 }
 function __c2(j: number): any {
@@ -398,43 +596,108 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          timezone: S.optional(S.String.pipe(T.Query())),
+          refresh: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
-          T.Http({ method: "GET", uri: "/api/projects/{project_id}/today/candidates/", code: 200 }),
+          T.Http({ method: "GET", uri: "/api/projects/{project_id}/today/highlights/", code: 200 }),
         ),
-      ).annotate({ identifier: "GetTodayCandidateRequest" });
+      ).annotate({ identifier: "GetTodayHighlightRequest" });
     case 1:
+      return S.Array(S.Number);
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.String,
-          value: S.String,
+          format: S.NullOr(S.String),
+          prefix: S.NullOr(S.String),
+          postfix: S.NullOr(S.String),
+          decimal_places: S.NullOr(S.Number),
         }),
-      ).annotate({ identifier: "CandidateFact" });
-    case 2:
-      return S.Array(__S(33, __c2, 1));
+      ).annotate({ identifier: "HighlightValueFormat" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          key: S.String,
-          title: S.String,
-          url: S.String,
-          rank: S.Number,
-          facts: __S(34, __c2, 2),
-          group: S.String,
-          source: S.String,
-          reason: S.String,
+          label: S.String,
+          value: S.Number,
+          change_pct: S.NullOr(S.Number),
         }),
-      ).annotate({ identifier: "Candidate" });
+      ).annotate({ identifier: "HighlightMover" });
     case 4:
       return S.Array(__S(35, __c2, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          local_day: S.String,
-          candidates: __S(36, __c2, 4),
-          more_reports_count: S.Number,
+          key: S.String,
+          name: S.String,
+          value: S.Number,
+          unit: S.String,
+          change_pct: S.NullOr(S.Number),
+          series: __S(33, __c2, 1),
+          interval: S.String,
+          url: S.NullOr(S.String),
+          value_format: S.NullOr(__S(34, __c2, 2)),
+          period_starts: __S(16, __c1, 0),
+          reason: S.NullOr(S.String),
+          dashboard_name: S.NullOr(S.String),
+          dashboard_id: S.NullOr(S.Number),
+          opened_days: S.NullOr(S.Number),
+          last_opened: S.NullOr(S.String),
+          previous_value: S.NullOr(S.Number),
+          movers: __S(36, __c2, 4),
         }),
-      ).annotate({ identifier: "CandidateList" });
+      ).annotate({ identifier: "HighlightMetric" });
+    case 6:
+      return S.Array(__S(37, __c2, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          reason: S.optional(S.NullOr(S.String)),
+          key: S.String,
+          name: S.String,
+          status: S.String,
+          url: S.NullOr(S.String),
+          interval: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "PulseSlot" });
+    case 8:
+      return S.Array(__S(39, __c2, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          label: S.String,
+          priority: S.String,
+          title: S.String,
+          detail: S.String,
+          url: S.NullOr(S.String),
+          series: S.NullOr(__S(33, __c2, 1)),
+          score: S.Number,
+          source: S.String,
+          product: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "HighlightItem" });
+    case 10:
+      return S.Array(__S(41, __c2, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "HighlightPin" });
+    case 12:
+      return S.Array(__S(43, __c2, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          generated_at: S.NullOr(S.String),
+          day: S.String,
+          refresh_at: S.String,
+          pulse: __S(38, __c2, 6),
+          pulse_slots: S.optional(S.NullOr(__S(40, __c2, 8))),
+          items: __S(42, __c2, 10),
+          pins: __S(44, __c2, 12),
+        }),
+      ).annotate({ identifier: "Highlights" });
   }
 }
 function __c3(j: number): any {
@@ -443,15 +706,257 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          timezone: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/projects/{project_id}/today/pulse_pins/", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetTodayPulsePinRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          name: S.String,
+          dashboard_id: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "PulsePin" });
+    case 1:
+      return S.Array(__S(64, __c4, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          pins: __S(65, __c4, 1),
+        }),
+      ).annotate({ identifier: "PulsePins" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          report_id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/today/briefing/refresh/",
+            method: "GET",
+            uri: "/api/projects/{project_id}/today/reports/{report_id}/figure_marks/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "TodayBriefingRefreshCreateRequest" });
+      ).annotate({ identifier: "GetTodayReportsFigureMarkRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          signal: S.NullOr(__S(104, __c6, 8)),
+          at: S.String,
+          sentence: S.String,
+          start: S.Number,
+          end: S.Number,
+        }),
+      ).annotate({ identifier: "FigureQuote" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          text: S.String,
+          start: S.Number,
+          end: S.Number,
+          figure: S.String,
+          quote: __S(81, __c5, 1),
+        }),
+      ).annotate({ identifier: "FigureMark" });
+    case 3:
+      return S.Array(__S(82, __c5, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          marks: __S(83, __c5, 3),
+        }),
+      ).annotate({ identifier: "FigureMarks" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          session_id: S.String,
+          start_at: S.NullOr(S.String),
+          offset: S.NullOr(S.String),
+          seek_seconds: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "RecordingTarget" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.String,
+          text: S.String,
+        }),
+      ).annotate({ identifier: "PageLink" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          repo: S.String,
+          path: S.String,
+        }),
+      ).annotate({ identifier: "CodeFile" });
+    case 4:
+      return S.Array(__S(99, __c6, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          text: S.String,
+          quiet: S.Boolean,
+        }),
+      ).annotate({ identifier: "PreviewLine" });
+    case 6:
+      return S.Array(__S(101, __c6, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          hint: S.String,
+          code: __S(100, __c6, 4),
+          block: __S(102, __c6, 6),
+          text: S.String,
+          facts: __S(16, __c1, 0),
+          link: S.NullOr(__S(98, __c6, 2)),
+          link_label: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "SignalPreview" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          signal_id: S.String,
+          source_product: S.String,
+          source_type: S.String,
+          source_id: S.String,
+          content: S.String,
+          timestamp: S.String,
+          extra: __S(96, __c6, 0),
+          headline: S.String,
+          lead: S.String,
+          meta: S.String,
+          cited: S.NullOr(S.String),
+          recording: S.NullOr(__S(97, __c6, 1)),
+          link: S.NullOr(__S(98, __c6, 2)),
+          preview: S.NullOr(__S(103, __c6, 7)),
+        }),
+      ).annotate({ identifier: "SignalView" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          report_id: S.String.pipe(T.Label()),
+          include_impact: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/today/reports/{report_id}/key_clauses/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetTodayReportsKeyClauseRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          start: S.Number,
+          end: S.Number,
+          role: S.String,
+          expansion: __S(16, __c1, 0),
+        }),
+      ).annotate({ identifier: "KeyClause" });
+    case 2:
+      return S.Array(__S(113, __c7, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          lead: __S(114, __c7, 2),
+          impact: __S(114, __c7, 2),
+          proposal: __S(114, __c7, 2),
+        }),
+      ).annotate({ identifier: "ReportKeyClauses" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          report_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/today/reports/{report_id}/page/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetTodayReportsPageRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.String,
+          number: S.Number,
+        }),
+      ).annotate({ identifier: "PullRequestLink" });
+    case 2:
+      return S.Array(__S(104, __c6, 8));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          expression: S.String,
+          result: S.String,
+        }),
+      ).annotate({ identifier: "ImpactWorking" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          value: S.String,
+          sentence: S.String,
+          signal: S.NullOr(__S(104, __c6, 8)),
+          values: __S(16, __c1, 0),
+          working: S.NullOr(__S(131, __c8, 3)),
+        }),
+      ).annotate({ identifier: "ImpactNumber" });
+    case 5:
+      return S.Array(__S(132, __c8, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          lead: S.String,
+          proposal: S.String,
+          impact_sentence: S.String,
+          named_pull_request: S.NullOr(__S(129, __c8, 1)),
+          solution_names_pull_request: S.Boolean,
+          evidence: __S(130, __c8, 2),
+          source_count: S.Number,
+          impact_numbers: __S(133, __c8, 5),
+          last_seen: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ReportPage" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          pins: __S(65, __c4, 1),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/api/projects/{project_id}/today/pulse_pins/", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateTodayPulsePinRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

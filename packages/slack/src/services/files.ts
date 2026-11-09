@@ -384,7 +384,7 @@ export interface UploadFileResponse {
   file: RevokePublicURLResponseFile;
 }
 export type AddRemoteError = SlackOpError;
-/** Adds a file from a remote service Required scopes -- bot: `remote_files:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `bad_image` -- The uploaded image could not be processed - try passing a JPG or PNG - `bad_title` -- The title provided is too long. - `bot_user_required` -- bot user token is required - `invalid_external_id` -- The external_id provided is too long. - `too_large` -- The uploaded image had excessive dimensions See https://docs.slack.dev/reference/methods/files.remote.add */
+/** Adds a file from a remote service Required scopes -- bot: `remote_files:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `bad_image` -- The uploaded image could not be processed - try passing a JPG or PNG - `bad_title` -- The title provided is too long. - `bot_user_required` -- bot user token is required - `invalid_external_id` -- The external_id provided is too long (over 255 characters) or contains non-ASCII characters. - `too_large` -- The uploaded image had excessive dimensions See https://docs.slack.dev/reference/methods/files.remote.add */
 export const addRemote: API.OperationMethod<
   AddRemoteRequest,
   AddRemoteResponse,
@@ -435,7 +435,7 @@ export const deleteComment: API.OperationMethod<
 }));
 
 export type DeleteFileError = SlackOpError;
-/** Deletes a file. Required scopes -- bot: `files:write`; user: `files:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `cant_delete_file` -- Authenticated user does not have permission to delete this file. - `delete_not_allowed` -- Error returned when the requested file does not support deletion; for example, when attempting to delete a canvas template. - `file_deleted` -- The file has already been deleted. - `file_deleting_disabled` -- This functionality is disabled. - `file_not_found` -- The file does not exist, or is not visible to the calling user. See https://docs.slack.dev/reference/methods/files.delete */
+/** Deletes a file. Required scopes -- bot: `files:write`; user: `files:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `cant_delete_file` -- Authenticated user does not have permission to delete this file. - `delete_not_allowed` -- Error returned when the requested file does not support deletion; for example, when attempting to delete a canvas template. - `file_deleted` -- The file has already been deleted. - `file_deleting_disabled` -- This functionality is disabled. - `file_not_found` -- The file does not exist, or is not visible to the calling user. - `use_skills_api` -- This file is a Slackbot skill. Use slackbot.skills.delete with skill_id and a user OAuth token carrying skills:write. See https://docs.slack.dev/reference/methods/files.delete */
 export const deleteFile: API.OperationMethod<
   DeleteFileRequest,
   DeleteFileResponse,

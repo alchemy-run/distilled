@@ -308,19 +308,19 @@ export interface GetPlaywrightWorkspaceRequest {
 }
 /** Resource tags. */
 export type GetPlaywrightWorkspaceResponseTagsMap = { [key: string]: string | undefined };
-/** Controls the connection region for client workers to cloud-hosted browsers. When enabled, workers connect to browsers in the closest Azure region for lower latency. When disabled, workers connect to browsers in the Azure region where the workspace was created. */
+/** Specifies where client workers connect to cloud-hosted browsers. When Enabled, workers connect to browsers in the nearest Azure region to reduce latency. When Disabled, workers connect to browsers in the workspace's Azure region. */
 export type PlaywrightWorkspacePropertiesRegionalAffinity = "Enabled" | "Disabled";
-/** Enables the workspace to use local authentication through service access tokens for operations. */
+/** Specifies whether service access tokens can be used to authenticate workspace operations. */
 export type PlaywrightWorkspacePropertiesLocalAuth = "Enabled" | "Disabled";
 /** Playwright workspace resource properties. */
 export interface PlaywrightWorkspaceProperties {
   /** The status of the last resource operation. */
   provisioningState?: ProvisioningState;
-  /** The workspace data plane service API URI. */
+  /** The API endpoint for workspace data plane operations. */
   dataplaneUri?: string;
-  /** Controls the connection region for client workers to cloud-hosted browsers. When enabled, workers connect to browsers in the closest Azure region for lower latency. When disabled, workers connect to browsers in the Azure region where the workspace was created. */
+  /** Specifies where client workers connect to cloud-hosted browsers. When Enabled, workers connect to browsers in the nearest Azure region to reduce latency. When Disabled, workers connect to browsers in the workspace's Azure region. */
   regionalAffinity?: PlaywrightWorkspacePropertiesRegionalAffinity;
-  /** Enables the workspace to use local authentication through service access tokens for operations. */
+  /** Specifies whether service access tokens can be used to authenticate workspace operations. */
   localAuth?: PlaywrightWorkspacePropertiesLocalAuth;
   /** The workspace ID in GUID format. */
   workspaceId?: string;
@@ -724,15 +724,15 @@ export interface LoadTestsCreateOrUpdateResponse {
 export type PlaywrightWorkspacesCreateOrUpdateRequestTagsMap = {
   [key: string]: string | undefined;
 };
-/** Controls the connection region for client workers to cloud-hosted browsers. When enabled, workers connect to browsers in the closest Azure region for lower latency. When disabled, workers connect to browsers in the Azure region where the workspace was created. */
+/** Specifies where client workers connect to cloud-hosted browsers. When Enabled, workers connect to browsers in the nearest Azure region to reduce latency. When Disabled, workers connect to browsers in the workspace's Azure region. */
 export type PlaywrightWorkspacePropertiesInputRegionalAffinity = "Enabled" | "Disabled";
-/** Enables the workspace to use local authentication through service access tokens for operations. */
+/** Specifies whether service access tokens can be used to authenticate workspace operations. */
 export type PlaywrightWorkspacePropertiesInputLocalAuth = "Enabled" | "Disabled";
 /** Playwright workspace resource properties. */
 export interface PlaywrightWorkspacePropertiesInput {
-  /** Controls the connection region for client workers to cloud-hosted browsers. When enabled, workers connect to browsers in the closest Azure region for lower latency. When disabled, workers connect to browsers in the Azure region where the workspace was created. */
+  /** Specifies where client workers connect to cloud-hosted browsers. When Enabled, workers connect to browsers in the nearest Azure region to reduce latency. When Disabled, workers connect to browsers in the workspace's Azure region. */
   regionalAffinity?: PlaywrightWorkspacePropertiesInputRegionalAffinity | (string & {});
-  /** Enables the workspace to use local authentication through service access tokens for operations. */
+  /** Specifies whether service access tokens can be used to authenticate workspace operations. */
   localAuth?: PlaywrightWorkspacePropertiesInputLocalAuth | (string & {});
 }
 export interface PlaywrightWorkspacesCreateOrUpdateRequest {
@@ -827,9 +827,9 @@ export type UpdatePlaywrightWorkspaceRequestTagsMap = { [key: string]: string | 
 export type EnablementStatus = "Enabled" | "Disabled";
 /** The updatable properties of the PlaywrightWorkspace. */
 export interface PlaywrightWorkspaceUpdateProperties {
-  /** Controls the connection region for client workers to cloud-hosted browsers. When enabled, workers connect to browsers in the closest Azure region for lower latency. When disabled, workers connect to browsers in the Azure region where the workspace was created. */
+  /** Specifies where client workers connect to cloud-hosted browsers. When Enabled, workers connect to browsers in the nearest Azure region to reduce latency. When Disabled, workers connect to browsers in the workspace's Azure region. */
   regionalAffinity?: EnablementStatus | (string & {});
-  /** Enables the workspace to use local authentication through service access tokens for operations. */
+  /** Specifies whether service access tokens can be used to authenticate workspace operations. */
   localAuth?: EnablementStatus | (string & {});
 }
 export interface UpdatePlaywrightWorkspaceRequest {

@@ -50,6 +50,8 @@ export interface MCPToolResponse {
   success: boolean;
   /** Failure category for MCP analytics. */
   error_type?: MCPToolResponseErrorType | null;
+  /** Machine-readable name of the leaf failure for MCP analytics, such as a ClickHouse error name. */
+  error_code?: string | null;
 }
 export type CreateMcpToolError = PosthogOpError;
 /** Invoke an MCP tool by name. This endpoint allows MCP callers to invoke Max AI tools directly without going through the full LangChain conversation flow. Scopes are resolved dynamically per tool via dangerously_get_required_scopes. */
@@ -94,6 +96,7 @@ function __c0(j: number): any {
           structured_content: S.optional(S.NullOr(__S(0, __c0, 0))),
           success: S.Boolean,
           error_type: S.optional(S.NullOr(S.String)),
+          error_code: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "MCPToolResponse" });
   }

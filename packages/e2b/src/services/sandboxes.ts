@@ -30,7 +30,7 @@ export interface ConnectSandboxRequest {
   sandboxID: string;
   /** Timeout in seconds from the current time after which the sandbox should expire */
   timeout?: number;
-  /** Defaults to true. When false and the sandbox is paused, resume from disk state only: the sandbox cold-boots fresh and any memory in the snapshot is ignored, never modified or deleted. Disk state has crash-recovery semantics -- writes not flushed before the pause may be lost. A no-op for snapshots that contain no memory. Rejected with an error in environments where this capability is not enabled, never silently downgraded to a memory restore. */
+  /** Defaults to true. When false and the sandbox is paused, resume from disk state only: the sandbox cold-boots fresh and any memory in the snapshot is ignored, never modified or deleted. Disk state has crash-recovery semantics -- writes not flushed before the pause may be lost. A no-op for snapshots that contain no memory. Rejected with an error in environments where this capability is not enabled, never silently downgraded to a memory restore. A snapshot taken while the sandbox guest agent was not responding (envdUnresponsiveAtPause) can only be resumed this way, and needs no enablement. */
   memory?: boolean;
 }
 export interface Sandbox {
@@ -185,7 +185,7 @@ export interface ForkSandboxRequest {
 export interface Error {
   /** Error code */
   code: number;
-  /** Machine-readable semantic error code. Not a closed set; initial values: sandbox_capacity_unavailable, sandbox_placement_timeout, sandbox_no_compatible_node, sandbox_create_failed (a node could not create the sandbox this time; retry), sandbox_create_refused (a node refused the sandbox for a reason no retry changes, such as a vcpu count out of bounds in the stored build; a server error, since no request field reaches that check), internal_server_error, secret_limit_reached, idempotency_request_mismatch, idempotency_in_progress, idempotency_outcome_unknown. */
+  /** Machine-readable semantic error code. Not a closed set; initial values: sandbox_capacity_unavailable, sandbox_placement_timeout, sandbox_no_compatible_node, sandbox_create_failed (a node could not create the sandbox this time; retry), sandbox_create_refused (a node refused the sandbox for a reason no retry changes, such as a vcpu count out of bounds in the stored build; a server error, since no request field reaches that check), internal_server_error, secret_limit_reached, idempotency_request_mismatch, idempotency_in_progress, idempotency_outcome_unknown, cluster_registration_invalid, cluster_registration_conflict, cluster_assignment_invalid, cluster_assignment_project_not_found, cluster_assignment_cluster_not_found, cluster_assignment_already_assigned, cluster_assignment_cluster_deleting, sandbox_snapshot_guest_agent_unresponsive (a plain resume of a snapshot taken while the sandbox guest agent was not responding; resume it with memory: false). */
   error_code?: string;
   /** Error */
   message: string;
@@ -227,6 +227,7 @@ export interface SandboxDetail {
   /** Time when the sandbox will expire */
   endAt: string;
   envdVersion: string;
+  envdUnresponsiveAtPause?: boolean;
   /** Access token used for envd communication */
   envdAccessToken?: string | Redacted.Redacted<string>;
   /** Whether internet access was explicitly enabled or disabled for the sandbox. Null means it was not explicitly set. */
@@ -282,6 +283,7 @@ export interface ListedSandbox {
   metadata?: SandboxMetadata;
   state: SandboxState;
   envdVersion: string;
+  envdUnresponsiveAtPause?: boolean;
   volumeMounts?: ListedSandboxVolumeMountsList;
 }
 export type ListSandboxesResponseBodyList = Array<ListedSandbox>;
@@ -363,6 +365,8 @@ export interface PauseSandboxRequest {
   sandboxID: string;
   /** Whether to capture a full memory snapshot. When false, only the filesystem is persisted and resuming the sandbox cold-boots (reboots) it from disk, losing in-memory state, running processes, and open connections. Resume it with an explicit request (connect or resume); auto-resume, which can be triggered by arbitrary traffic, refuses such a sandbox. Defaults to true. */
   memory?: boolean;
+  /** The pause checks that the sandbox guest agent answers before it takes the snapshot. By default an unresponsive agent is recorded on the snapshot and the pause proceeds; the sandbox then shows `envdUnresponsiveAtPause` and a later resume must ask for `memory: false`, since restoring that memory would bring the unresponsive agent back. With this true, the pause is instead refused with 503 while the agent does not answer, and the sandbox keeps running. A filesystem-only pause (`memory: false`) is always refused while the agent does not answer, whatever this says. */
+  requireHealthyGuest?: boolean;
 }
 export interface PauseSandboxResponse {}
 export interface RefreshSandboxRequest {
@@ -404,7 +408,7 @@ export interface UpdateSandboxNetworkRequest {
 }
 export interface UpdateSandboxNetworkResponse {}
 export type ConnectSandboxError = E2BOpError;
-/** Connect sandbox (v2) Returns sandbox details. If the sandbox is paused, it will be resumed. TTL is only extended. The request body is optional; an omitted timeout defaults to 300 seconds. */
+/** Connect sandbox (v2) Returns sandbox details. If the sandbox is paused, it will be resumed. TTL is only extended. The request body is optional; an omitted timeout defaults to 300 seconds. Answers 409 with error_code sandbox_snapshot_guest_agent_unresponsive when the paused sandbox's snapshot was taken while its guest agent was not responding and the request did not ask for `memory: false`. */
 export const connectSandbox: API.OperationMethod<
   ConnectSandboxRequest,
   Sandbox,
@@ -584,7 +588,7 @@ export const listSandboxMetrics: API.OperationMethod<
 }));
 
 export type PauseSandboxError = E2BOpError;
-/** Pause sandbox Pause the sandbox */
+/** Pause sandbox Pause the sandbox. Answers 503 and leaves the sandbox running when it cannot be paused right now: its node is busy, it is being snapshotted, or `requireHealthyGuest` was set and the sandbox guest agent is not responding; retry later. */
 export const pauseSandbox: API.OperationMethod<
   PauseSandboxRequest,
   PauseSandboxResponse,
@@ -813,6 +817,7 @@ function __c8(j: number): any {
         S.Struct({
           sandboxID: S.String.pipe(T.Label()),
           memory: S.optional(S.Boolean),
+          requireHealthyGuest: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxID}/pause", code: 200 })),
       ).annotate({ identifier: "PauseSandboxRequest" });
   }
@@ -948,6 +953,7 @@ function __c16(j: number): any {
           startedAt: S.String,
           endAt: S.String,
           envdVersion: S.String,
+          envdUnresponsiveAtPause: S.optional(S.Boolean),
           envdAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           allowInternetAccess: S.optional(S.NullOr(S.Boolean)),
           domain: S.optional(S.NullOr(S.String)),
@@ -995,6 +1001,7 @@ function __c17(j: number): any {
           metadata: S.optional(__S(56, __c7, 0)),
           state: S.String,
           envdVersion: S.String,
+          envdUnresponsiveAtPause: S.optional(S.Boolean),
           volumeMounts: S.optional(__S(49, __c6, 1)),
         }),
       ).annotate({ identifier: "ListedSandbox" });

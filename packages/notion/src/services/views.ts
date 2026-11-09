@@ -37,9 +37,562 @@ export type ViewTypeRequest =
   | "chart"
   | "map"
   | "dashboard";
-export type ViewSortsRequest = Array<unknown>;
+export interface TextPropertyFilterCase0Case0 {
+  equals: string;
+}
+export interface TextPropertyFilterCase0Case1 {
+  does_not_equal: string;
+}
+export interface TextPropertyFilterCase0Case2 {
+  contains: string;
+}
+export interface TextPropertyFilterCase0Case3 {
+  does_not_contain: string;
+}
+export interface TextPropertyFilterCase0Case4 {
+  starts_with: string;
+}
+export interface TextPropertyFilterCase0Case5 {
+  ends_with: string;
+}
+export type TextPropertyFilterCase0 =
+  | TextPropertyFilterCase0Case0
+  | TextPropertyFilterCase0Case1
+  | TextPropertyFilterCase0Case2
+  | TextPropertyFilterCase0Case3
+  | TextPropertyFilterCase0Case4
+  | TextPropertyFilterCase0Case5;
+export interface ExistencePropertyFilterCase0 {
+  is_empty: boolean;
+}
+export interface ExistencePropertyFilterCase1 {
+  is_not_empty: boolean;
+}
+export type ExistencePropertyFilter = ExistencePropertyFilterCase0 | ExistencePropertyFilterCase1;
+export type TextPropertyFilter = TextPropertyFilterCase0 | ExistencePropertyFilter;
+export interface PropertyFilterCase0 {
+  title: TextPropertyFilter;
+  property: string;
+  type?: string;
+}
+export interface PropertyFilterCase1 {
+  rich_text: TextPropertyFilter;
+  property: string;
+  type?: string;
+}
+export interface NumberPropertyFilterCase0Case0 {
+  equals: number;
+}
+export interface NumberPropertyFilterCase0Case1 {
+  does_not_equal: number;
+}
+export interface NumberPropertyFilterCase0Case2 {
+  greater_than: number;
+}
+export interface NumberPropertyFilterCase0Case3 {
+  less_than: number;
+}
+export interface NumberPropertyFilterCase0Case4 {
+  greater_than_or_equal_to: number;
+}
+export interface NumberPropertyFilterCase0Case5 {
+  less_than_or_equal_to: number;
+}
+export type NumberPropertyFilterCase0 =
+  | NumberPropertyFilterCase0Case0
+  | NumberPropertyFilterCase0Case1
+  | NumberPropertyFilterCase0Case2
+  | NumberPropertyFilterCase0Case3
+  | NumberPropertyFilterCase0Case4
+  | NumberPropertyFilterCase0Case5;
+export type NumberPropertyFilter = NumberPropertyFilterCase0 | ExistencePropertyFilter;
+export interface PropertyFilterCase2 {
+  number: NumberPropertyFilter;
+  property: string;
+  type?: string;
+}
+export interface CheckboxPropertyFilterCase0 {
+  equals: boolean;
+}
+export interface CheckboxPropertyFilterCase1 {
+  does_not_equal: boolean;
+}
+export type CheckboxPropertyFilter = CheckboxPropertyFilterCase0 | CheckboxPropertyFilterCase1;
+export interface PropertyFilterCase3 {
+  checkbox: CheckboxPropertyFilter;
+  property: string;
+  type?: string;
+}
+export type StringOrStringArrayCase1List = Array<string>;
+export type StringOrStringArray = string | StringOrStringArrayCase1List;
+export interface SelectPropertyFilterCase0Case0 {
+  equals: StringOrStringArray;
+}
+export interface SelectPropertyFilterCase0Case1 {
+  does_not_equal: StringOrStringArray;
+}
+export type SelectPropertyFilterCase0 =
+  | SelectPropertyFilterCase0Case0
+  | SelectPropertyFilterCase0Case1;
+export type SelectPropertyFilter = SelectPropertyFilterCase0 | ExistencePropertyFilter;
+export interface PropertyFilterCase4 {
+  select: SelectPropertyFilter;
+  property: string;
+  type?: string;
+}
+export interface MultiSelectPropertyFilterCase0Case0 {
+  contains: StringOrStringArray;
+}
+export interface MultiSelectPropertyFilterCase0Case1 {
+  does_not_contain: StringOrStringArray;
+}
+export type MultiSelectPropertyFilterCase0 =
+  | MultiSelectPropertyFilterCase0Case0
+  | MultiSelectPropertyFilterCase0Case1;
+export type MultiSelectPropertyFilter = MultiSelectPropertyFilterCase0 | ExistencePropertyFilter;
+export interface PropertyFilterCase5 {
+  multi_select: MultiSelectPropertyFilter;
+  property: string;
+  type?: string;
+}
+export type StatusValueFilterCase0 = SelectPropertyFilterCase0Case0;
+export type StatusValueFilterCase1 = SelectPropertyFilterCase0Case1;
+export type StatusGroupNamesCase1List = Array<string>;
+export type StatusGroupNames = string | StatusGroupNamesCase1List;
+export interface StatusValueFilterCase2 {
+  group_equals: StatusGroupNames;
+}
+export interface StatusValueFilterCase3 {
+  group_does_not_equal: StatusGroupNames;
+}
+/** The group operators match status groups instead of options. They require the `Notion-Beta: status-group-filters-2026-10-06` header. */
+export type StatusValueFilter =
+  | SelectPropertyFilterCase0Case0
+  | SelectPropertyFilterCase0Case1
+  | StatusValueFilterCase2
+  | StatusValueFilterCase3;
+export type StatusPropertyFilter = StatusValueFilter | ExistencePropertyFilter;
+export interface PropertyFilterCase6 {
+  status: StatusPropertyFilter;
+  property: string;
+  type?: string;
+}
+export type RelativeDateValue =
+  | "today"
+  | "tomorrow"
+  | "yesterday"
+  | "one_week_ago"
+  | "one_week_from_now"
+  | "one_month_ago"
+  | "one_month_from_now";
+export type DateOrRelativeDate = string | RelativeDateValue;
+export interface DatePropertyFilterCase0Case0 {
+  equals: DateOrRelativeDate;
+}
+export interface DatePropertyFilterCase0Case1 {
+  before: DateOrRelativeDate;
+}
+export interface DatePropertyFilterCase0Case2 {
+  after: DateOrRelativeDate;
+}
+export interface DatePropertyFilterCase0Case3 {
+  on_or_before: DateOrRelativeDate;
+}
+export interface DatePropertyFilterCase0Case4 {
+  on_or_after: DateOrRelativeDate;
+}
+export interface DatePropertyFilterCase0Case5 {
+  this_week: unknown;
+}
+export interface DatePropertyFilterCase0Case6 {
+  past_week: unknown;
+}
+export interface DatePropertyFilterCase0Case7 {
+  past_month: unknown;
+}
+export interface DatePropertyFilterCase0Case8 {
+  past_year: unknown;
+}
+export interface DatePropertyFilterCase0Case9 {
+  next_week: unknown;
+}
+export interface DatePropertyFilterCase0Case10 {
+  next_month: unknown;
+}
+export interface DatePropertyFilterCase0Case11 {
+  next_year: unknown;
+}
+export type DatePropertyFilterCase0 =
+  | DatePropertyFilterCase0Case0
+  | DatePropertyFilterCase0Case1
+  | DatePropertyFilterCase0Case2
+  | DatePropertyFilterCase0Case3
+  | DatePropertyFilterCase0Case4
+  | DatePropertyFilterCase0Case5
+  | DatePropertyFilterCase0Case6
+  | DatePropertyFilterCase0Case7
+  | DatePropertyFilterCase0Case8
+  | DatePropertyFilterCase0Case9
+  | DatePropertyFilterCase0Case10
+  | DatePropertyFilterCase0Case11;
+export type DatePropertyFilter = DatePropertyFilterCase0 | ExistencePropertyFilter;
+export interface PropertyFilterCase7 {
+  date: DatePropertyFilter;
+  property: string;
+  type?: string;
+}
+export type PeoplePropertyFilterCase0Case0 = TextPropertyFilterCase0Case2;
+export type PeoplePropertyFilterCase0Case1 = TextPropertyFilterCase0Case3;
+export type PeoplePropertyFilterCase0 = TextPropertyFilterCase0Case2 | TextPropertyFilterCase0Case3;
+export type PeoplePropertyFilter = PeoplePropertyFilterCase0 | ExistencePropertyFilter;
+export interface PropertyFilterCase8 {
+  people: PeoplePropertyFilter;
+  property: string;
+  type?: string;
+}
+export interface PropertyFilterCase9 {
+  files: ExistencePropertyFilter;
+  property: string;
+  type?: string;
+}
+export interface PropertyFilterCase10 {
+  url: TextPropertyFilter;
+  property: string;
+  type?: string;
+}
+export interface PropertyFilterCase11 {
+  email: TextPropertyFilter;
+  property: string;
+  type?: string;
+}
+export interface PropertyFilterCase12 {
+  phone_number: TextPropertyFilter;
+  property: string;
+  type?: string;
+}
+export type RelationPropertyFilterCase0Case0 = TextPropertyFilterCase0Case2;
+export type RelationPropertyFilterCase0Case1 = TextPropertyFilterCase0Case3;
+export type RelationPropertyFilterCase0 =
+  | TextPropertyFilterCase0Case2
+  | TextPropertyFilterCase0Case3;
+export type RelationPropertyFilter = RelationPropertyFilterCase0 | ExistencePropertyFilter;
+export interface PropertyFilterCase13 {
+  relation: RelationPropertyFilter;
+  property: string;
+  type?: string;
+}
+export interface PropertyFilterCase14 {
+  created_by: PeoplePropertyFilter;
+  property: string;
+  type?: string;
+}
+export interface PropertyFilterCase15 {
+  created_time: DatePropertyFilter;
+  property: string;
+  type?: string;
+}
+export interface PropertyFilterCase16 {
+  last_edited_by: PeoplePropertyFilter;
+  property: string;
+  type?: string;
+}
+export interface PropertyFilterCase17 {
+  last_edited_time: DatePropertyFilter;
+  property: string;
+  type?: string;
+}
+export interface FormulaPropertyFilterCase0 {
+  string: TextPropertyFilter;
+}
+export interface FormulaPropertyFilterCase1 {
+  checkbox: CheckboxPropertyFilter;
+}
+export interface FormulaPropertyFilterCase2 {
+  number: NumberPropertyFilter;
+}
+export interface FormulaPropertyFilterCase3 {
+  date: DatePropertyFilter;
+}
+export type FormulaPropertyFilter =
+  | FormulaPropertyFilterCase0
+  | FormulaPropertyFilterCase1
+  | FormulaPropertyFilterCase2
+  | FormulaPropertyFilterCase3;
+export interface PropertyFilterCase18 {
+  formula: FormulaPropertyFilter;
+  property: string;
+  type?: string;
+}
+export interface PropertyFilterCase19 {
+  unique_id: NumberPropertyFilter;
+  property: string;
+  type?: string;
+}
+export interface RollupSubfilterPropertyFilterCase0 {
+  rich_text: TextPropertyFilter;
+}
+export type RollupSubfilterPropertyFilterCase1 = FormulaPropertyFilterCase2;
+export type RollupSubfilterPropertyFilterCase2 = FormulaPropertyFilterCase1;
+export interface RollupSubfilterPropertyFilterCase3 {
+  select: SelectPropertyFilter;
+}
+export interface RollupSubfilterPropertyFilterCase4 {
+  multi_select: MultiSelectPropertyFilter;
+}
+export interface RollupSubfilterPropertyFilterCase5 {
+  relation: RelationPropertyFilter;
+}
+export type RollupSubfilterPropertyFilterCase6 = FormulaPropertyFilterCase3;
+export interface RollupSubfilterPropertyFilterCase7 {
+  people: PeoplePropertyFilter;
+}
+export interface RollupSubfilterPropertyFilterCase8 {
+  files: ExistencePropertyFilter;
+}
+export interface RollupSubfilterPropertyFilterCase9 {
+  status: StatusPropertyFilter;
+}
+export type RollupSubfilterPropertyFilter =
+  | RollupSubfilterPropertyFilterCase0
+  | FormulaPropertyFilterCase2
+  | FormulaPropertyFilterCase1
+  | RollupSubfilterPropertyFilterCase3
+  | RollupSubfilterPropertyFilterCase4
+  | RollupSubfilterPropertyFilterCase5
+  | FormulaPropertyFilterCase3
+  | RollupSubfilterPropertyFilterCase7
+  | RollupSubfilterPropertyFilterCase8
+  | RollupSubfilterPropertyFilterCase9;
+export interface RollupPropertyFilterCase0 {
+  any: RollupSubfilterPropertyFilter;
+}
+export interface RollupPropertyFilterCase1 {
+  none: RollupSubfilterPropertyFilter;
+}
+export interface RollupPropertyFilterCase2 {
+  every: RollupSubfilterPropertyFilter;
+}
+export type RollupPropertyFilterCase3 = FormulaPropertyFilterCase3;
+export type RollupPropertyFilterCase4 = FormulaPropertyFilterCase2;
+export type RollupPropertyFilter =
+  | RollupPropertyFilterCase0
+  | RollupPropertyFilterCase1
+  | RollupPropertyFilterCase2
+  | FormulaPropertyFilterCase3
+  | FormulaPropertyFilterCase2;
+export interface PropertyFilterCase20 {
+  rollup: RollupPropertyFilter;
+  property: string;
+  type?: string;
+}
+export type VerificationPropertyStatusFilterStatus = "verified" | "expired" | "none";
+export interface VerificationPropertyStatusFilter {
+  status: VerificationPropertyStatusFilterStatus | (string & {});
+}
+export type VerificationPropertyDoesNotEqualFilterDoesNotEqual = "verified" | "expired" | "none";
+export interface VerificationPropertyDoesNotEqualFilter {
+  does_not_equal: VerificationPropertyDoesNotEqualFilterDoesNotEqual | (string & {});
+}
+export type PropertyFilterCase21Verification =
+  | VerificationPropertyStatusFilter
+  | VerificationPropertyDoesNotEqualFilter;
+export interface PropertyFilterCase21 {
+  verification: PropertyFilterCase21Verification;
+  property: string;
+  type?: string;
+}
+export type PropertyFilter =
+  | PropertyFilterCase0
+  | PropertyFilterCase1
+  | PropertyFilterCase2
+  | PropertyFilterCase3
+  | PropertyFilterCase4
+  | PropertyFilterCase5
+  | PropertyFilterCase6
+  | PropertyFilterCase7
+  | PropertyFilterCase8
+  | PropertyFilterCase9
+  | PropertyFilterCase10
+  | PropertyFilterCase11
+  | PropertyFilterCase12
+  | PropertyFilterCase13
+  | PropertyFilterCase14
+  | PropertyFilterCase15
+  | PropertyFilterCase16
+  | PropertyFilterCase17
+  | PropertyFilterCase18
+  | PropertyFilterCase19
+  | PropertyFilterCase20
+  | PropertyFilterCase21;
+export interface TimestampCreatedTimeFilter {
+  created_time: DatePropertyFilter;
+  timestamp: string;
+  type?: string;
+}
+export interface TimestampLastEditedTimeFilter {
+  last_edited_time: DatePropertyFilter;
+  timestamp: string;
+  type?: string;
+}
+export type TimestampFilter = TimestampCreatedTimeFilter | TimestampLastEditedTimeFilter;
+export type PropertyOrTimestampFilter = PropertyFilter | TimestampFilter;
+export type PropertyOrTimestampFilterArray = Array<PropertyOrTimestampFilter>;
+export interface GroupFilterOperatorArrayItemCase1Case0 {
+  or: PropertyOrTimestampFilterArray;
+}
+export interface GroupFilterOperatorArrayItemCase1Case1 {
+  and: PropertyOrTimestampFilterArray;
+}
+export type GroupFilterOperatorArrayItemCase1 =
+  | GroupFilterOperatorArrayItemCase1Case0
+  | GroupFilterOperatorArrayItemCase1Case1;
+export type GroupFilterOperatorArrayItem =
+  | PropertyOrTimestampFilter
+  | GroupFilterOperatorArrayItemCase1;
+export type GroupFilterOperatorArray = Array<GroupFilterOperatorArrayItem>;
+export interface ViewFilterRequestCase0Case0 {
+  or: GroupFilterOperatorArray;
+}
+export interface ViewFilterRequestCase0Case1 {
+  and: GroupFilterOperatorArray;
+}
+export type ViewFilterRequestCase0 = ViewFilterRequestCase0Case0 | ViewFilterRequestCase0Case1;
+/** A property filter, timestamp filter, or compound and/or filter. */
+export type ViewFilterRequest = ViewFilterRequestCase0 | PropertyFilter | TimestampFilter;
+export type ViewSortRequestCase0Direction = "ascending" | "descending";
+export interface ViewSortRequestCase0 {
+  property: string;
+  direction: ViewSortRequestCase0Direction | (string & {});
+}
+export type ViewSortRequestCase1Timestamp = "created_time" | "last_edited_time";
+export type ViewSortRequestCase1Direction = "ascending" | "descending";
+export interface ViewSortRequestCase1 {
+  timestamp: ViewSortRequestCase1Timestamp | (string & {});
+  direction: ViewSortRequestCase1Direction | (string & {});
+}
+/** Sort by property name or ID, or by timestamp. */
+export type ViewSortRequest = ViewSortRequestCase0 | ViewSortRequestCase1;
+export type ViewSortsRequest = Array<ViewSortRequest>;
+export interface QuickFilterConditionRequestCase1Case0 {
+  title: TextPropertyFilter;
+  type?: string;
+}
+export interface QuickFilterConditionRequestCase1Case1 {
+  rich_text: TextPropertyFilter;
+  type?: string;
+}
+export interface QuickFilterConditionRequestCase1Case2 {
+  number: NumberPropertyFilter;
+  type?: string;
+}
+export interface QuickFilterConditionRequestCase1Case3 {
+  checkbox: CheckboxPropertyFilter;
+  type?: string;
+}
+export interface QuickFilterConditionRequestCase1Case4 {
+  select: SelectPropertyFilter;
+  type?: string;
+}
+export interface QuickFilterConditionRequestCase1Case5 {
+  multi_select: MultiSelectPropertyFilter;
+  type?: string;
+}
+export interface QuickFilterConditionRequestCase1Case6 {
+  status: StatusPropertyFilter;
+  type?: string;
+}
+export interface QuickFilterConditionRequestCase1Case7 {
+  date: DatePropertyFilter;
+  type?: string;
+}
+export interface QuickFilterConditionRequestCase1Case8 {
+  people: PeoplePropertyFilter;
+  type?: string;
+}
+export interface QuickFilterConditionRequestCase1Case9 {
+  files: ExistencePropertyFilter;
+  type?: string;
+}
+export interface QuickFilterConditionRequestCase1Case10 {
+  url: TextPropertyFilter;
+  type?: string;
+}
+export interface QuickFilterConditionRequestCase1Case11 {
+  email: TextPropertyFilter;
+  type?: string;
+}
+export interface QuickFilterConditionRequestCase1Case12 {
+  phone_number: TextPropertyFilter;
+  type?: string;
+}
+export interface QuickFilterConditionRequestCase1Case13 {
+  relation: RelationPropertyFilter;
+  type?: string;
+}
+export interface QuickFilterConditionRequestCase1Case14 {
+  created_by: PeoplePropertyFilter;
+  type?: string;
+}
+export interface QuickFilterConditionRequestCase1Case15 {
+  created_time: DatePropertyFilter;
+  type?: string;
+}
+export interface QuickFilterConditionRequestCase1Case16 {
+  last_edited_by: PeoplePropertyFilter;
+  type?: string;
+}
+export interface QuickFilterConditionRequestCase1Case17 {
+  last_edited_time: DatePropertyFilter;
+  type?: string;
+}
+export interface QuickFilterConditionRequestCase1Case18 {
+  formula: FormulaPropertyFilter;
+  type?: string;
+}
+export interface QuickFilterConditionRequestCase1Case19 {
+  unique_id: NumberPropertyFilter;
+  type?: string;
+}
+export interface QuickFilterConditionRequestCase1Case20 {
+  rollup: RollupPropertyFilter;
+  type?: string;
+}
+export type QuickFilterConditionRequestCase1Case21Verification =
+  | VerificationPropertyStatusFilter
+  | VerificationPropertyDoesNotEqualFilter;
+export interface QuickFilterConditionRequestCase1Case21 {
+  verification: QuickFilterConditionRequestCase1Case21Verification;
+  type?: string;
+}
+export type QuickFilterConditionRequestCase1 =
+  | QuickFilterConditionRequestCase1Case0
+  | QuickFilterConditionRequestCase1Case1
+  | QuickFilterConditionRequestCase1Case2
+  | QuickFilterConditionRequestCase1Case3
+  | QuickFilterConditionRequestCase1Case4
+  | QuickFilterConditionRequestCase1Case5
+  | QuickFilterConditionRequestCase1Case6
+  | QuickFilterConditionRequestCase1Case7
+  | QuickFilterConditionRequestCase1Case8
+  | QuickFilterConditionRequestCase1Case9
+  | QuickFilterConditionRequestCase1Case10
+  | QuickFilterConditionRequestCase1Case11
+  | QuickFilterConditionRequestCase1Case12
+  | QuickFilterConditionRequestCase1Case13
+  | QuickFilterConditionRequestCase1Case14
+  | QuickFilterConditionRequestCase1Case15
+  | QuickFilterConditionRequestCase1Case16
+  | QuickFilterConditionRequestCase1Case17
+  | QuickFilterConditionRequestCase1Case18
+  | QuickFilterConditionRequestCase1Case19
+  | QuickFilterConditionRequestCase1Case20
+  | QuickFilterConditionRequestCase1Case21;
+/** A property filter condition. The quick filter key identifies the property. Pass an empty object to add the property to the filter bar without criteria. */
+export type QuickFilterConditionRequest = unknown | QuickFilterConditionRequestCase1;
 /** Quick filters to pin in the view's filter bar. Keys are property names or IDs. Values are filter conditions (same shape as a property filter but without the property field). Each quick filter appears as a clickable pill above the view, independent of the advanced filter. */
-export type CreateViewRequestQuickFiltersMap = { [key: string]: unknown | undefined };
+export type CreateViewRequestQuickFiltersMap = {
+  [key: string]: QuickFilterConditionRequest | undefined;
+};
 /** The parent page for the new linked database block. */
 export interface CreateDatabaseForViewRequestParent {
   /** The parent type. Must be "page_id". */
@@ -649,9 +1202,9 @@ export interface CreateViewRequest {
   database_id?: string;
   /** The ID of a dashboard view to add this view to as a widget. Mutually exclusive with database_id and create_database. */
   view_id?: string;
-  /** Filter to apply to the view. Uses the same format as the data source query filter. */
-  filter?: unknown;
-  /** Sorts to apply to the view. Uses the same format as the data source query sorts. */
+  /** Filter to apply to the view. Uses the same format as the data source query filter. Simple property filters appear in the view's filter bar. For example, a status filter can exclude several values with does_not_equal. */
+  filter?: ViewFilterRequest;
+  /** Property sorts to save on the view. Timestamp sorts are accepted but are not saved. */
   sorts?: ViewSortsRequest;
   /** Quick filters to pin in the view's filter bar. Keys are property names or IDs. Values are filter conditions (same shape as a property filter but without the property field). Each quick filter appears as a clickable pill above the view, independent of the advanced filter. */
   quick_filters?: CreateViewRequestQuickFiltersMap;
@@ -1660,13 +2213,15 @@ export interface ViewPropertySortRequest {
   direction: SortDirectionRequest | (string & {});
 }
 export type ViewPropertySortsRequest = Array<ViewPropertySortRequest>;
-export type UpdateViewRequestQuickFiltersMap = { [key: string]: unknown | null | undefined };
+export type UpdateViewRequestQuickFiltersMap = {
+  [key: string]: QuickFilterConditionRequest | null | undefined;
+};
 export interface UpdateViewRequest {
   view_id: string;
   /** New name for the view. */
   name?: string;
   /** Filter to apply to the view. Uses the same format as the data source query filter. Pass null to clear the filter. */
-  filter?: unknown | null;
+  filter?: ViewFilterRequest | null;
   /** Property sorts to apply to the view. Only property-based sorts are supported. Pass null to clear the sorts. */
   sorts?: ViewPropertySortsRequest | null;
   /** Quick filters for the view's filter bar. Keys are property names or IDs. Set a key to a filter condition to add/update that quick filter. Set a key to null to remove it. Pass null for the entire field to clear all quick filters. Unmentioned quick filters are preserved. */
@@ -2052,7 +2607,7 @@ function __c8(j: number): any {
           property: S.String,
           direction: S.String,
         }),
-      ).annotate({ identifier: "PropertySortResponse" });
+      ).annotate({ identifier: "ViewSortRequestCase0" });
     case 1:
       return S.Array(__S(64, __c8, 0));
     case 2:

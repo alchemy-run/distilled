@@ -152,9 +152,22 @@ export interface CreateKmsIssuerRequestPolicyCase1 {
   /** The claims that KMS should include in signed JWTs for this policy. */
   tokenClaims?: CreateKmsIssuerRequestPolicyCase1TokenClaimsMap;
 }
+export type CreateKmsIssuerRequestPolicyCase2Kind = "integration-tokens-grant";
+/** The claims that KMS should include in signed JWTs for this policy. */
+export type CreateKmsIssuerRequestPolicyCase2TokenClaimsMap = {
+  [key: string]: unknown | undefined;
+};
+export interface CreateKmsIssuerRequestPolicyCase2 {
+  kind: CreateKmsIssuerRequestPolicyCase2Kind;
+  /** The marketplace integration ID for the integration tokens grant policy. */
+  integrationId: string;
+  /** The claims that KMS should include in signed JWTs for this policy. */
+  tokenClaims?: CreateKmsIssuerRequestPolicyCase2TokenClaimsMap;
+}
 export type CreateKmsIssuerRequestPolicy =
   | CreateKmsIssuerRequestPolicyCase0
-  | CreateKmsIssuerRequestPolicyCase1;
+  | CreateKmsIssuerRequestPolicyCase1
+  | CreateKmsIssuerRequestPolicyCase2;
 export interface CreateKmsIssuerRequest {
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string;
@@ -183,6 +196,7 @@ export type CreateKmsIssuerResponseAlgorithm =
   | "RS384"
   | "RS512";
 export type CreateKmsIssuerResponseClaimsSchemaMap = { [key: string]: unknown | undefined };
+export type CreateKmsIssuerResponseDiscoveryLayout = "connect" | "kms";
 export type CreateKmsIssuerResponseOrigin = "external" | "vercel";
 /** Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim. */
 export type CreateKmsIssuerResponsePoliciesItemCase0EnvironmentsList = Array<string>;
@@ -211,9 +225,22 @@ export interface CreateKmsIssuerResponsePoliciesItemCase1 {
   tokenClaims?: CreateKmsIssuerResponsePoliciesItemCase1TokenClaimsMap;
   updatedAt: string;
 }
+export type CreateKmsIssuerResponsePoliciesItemCase2Kind = "integration-tokens-grant";
+export type CreateKmsIssuerResponsePoliciesItemCase2TokenClaimsMap = {
+  [key: string]: unknown | undefined;
+};
+/** Lets the integration-tokens service sign marketplace resource tokens for one integration (`oac_...`). */
+export interface CreateKmsIssuerResponsePoliciesItemCase2 {
+  createdAt: string;
+  integrationId: string;
+  kind: CreateKmsIssuerResponsePoliciesItemCase2Kind;
+  tokenClaims?: CreateKmsIssuerResponsePoliciesItemCase2TokenClaimsMap;
+  updatedAt: string;
+}
 export type CreateKmsIssuerResponsePoliciesItem =
   | CreateKmsIssuerResponsePoliciesItemCase0
-  | CreateKmsIssuerResponsePoliciesItemCase1;
+  | CreateKmsIssuerResponsePoliciesItemCase1
+  | CreateKmsIssuerResponsePoliciesItemCase2;
 export type CreateKmsIssuerResponsePoliciesList = Array<CreateKmsIssuerResponsePoliciesItem>;
 export type CreateKmsIssuerResponseSigningKeysItemPublicKeyKeyOpsList = Array<string>;
 /** The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`. */
@@ -256,6 +283,7 @@ export interface CreateKmsIssuerResponse {
   algorithm: CreateKmsIssuerResponseAlgorithm;
   claimsSchema?: CreateKmsIssuerResponseClaimsSchemaMap;
   createdAt: string;
+  discoveryLayout: CreateKmsIssuerResponseDiscoveryLayout;
   id: string;
   managedBy?: string;
   name: string;
@@ -312,9 +340,22 @@ export interface CreateKmsIssuerPolicyResponseBodyCase1 {
   tokenClaims?: CreateKmsIssuerPolicyResponseBodyCase1TokenClaimsMap;
   updatedAt: string;
 }
+export type CreateKmsIssuerPolicyResponseBodyCase2Kind = "integration-tokens-grant";
+export type CreateKmsIssuerPolicyResponseBodyCase2TokenClaimsMap = {
+  [key: string]: unknown | undefined;
+};
+/** Lets the integration-tokens service sign marketplace resource tokens for one integration (`oac_...`). */
+export interface CreateKmsIssuerPolicyResponseBodyCase2 {
+  createdAt: string;
+  integrationId: string;
+  kind: CreateKmsIssuerPolicyResponseBodyCase2Kind;
+  tokenClaims?: CreateKmsIssuerPolicyResponseBodyCase2TokenClaimsMap;
+  updatedAt: string;
+}
 export type CreateKmsIssuerPolicyResponseBody =
   | CreateKmsIssuerPolicyResponseBodyCase0
-  | CreateKmsIssuerPolicyResponseBodyCase1;
+  | CreateKmsIssuerPolicyResponseBodyCase1
+  | CreateKmsIssuerPolicyResponseBodyCase2;
 export type CreateKmsIssuerPolicyResponse = CreateKmsIssuerPolicyResponseBody;
 /** Whether the new key is activated automatically after its public key has propagated, or manually via the activate endpoint. Defaults to `automatic`. */
 export type CreateKmsSigningKeyRequestActivation = "automatic" | "manual";
@@ -384,7 +425,10 @@ export interface DeleteKmsIssuerRequest {
 }
 export interface DeleteKmsIssuerResponse {}
 /** The issuer policy kind. */
-export type DeleteKmsIssuerPolicyRequestKind = "project-grant" | "connex-grant";
+export type DeleteKmsIssuerPolicyRequestKind =
+  | "project-grant"
+  | "connex-grant"
+  | "integration-tokens-grant";
 export interface DeleteKmsIssuerPolicyRequest {
   /** The ID of the issuer. */
   issuerId: string;
@@ -417,6 +461,7 @@ export type GetKmsIssuerResponseAlgorithm =
   | "RS384"
   | "RS512";
 export type GetKmsIssuerResponseClaimsSchemaMap = { [key: string]: unknown | undefined };
+export type GetKmsIssuerResponseDiscoveryLayout = "connect" | "kms";
 export type GetKmsIssuerResponseOrigin = "external" | "vercel";
 /** Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim. */
 export type GetKmsIssuerResponsePoliciesItemCase0EnvironmentsList = Array<string>;
@@ -445,9 +490,22 @@ export interface GetKmsIssuerResponsePoliciesItemCase1 {
   tokenClaims?: GetKmsIssuerResponsePoliciesItemCase1TokenClaimsMap;
   updatedAt: string;
 }
+export type GetKmsIssuerResponsePoliciesItemCase2Kind = "integration-tokens-grant";
+export type GetKmsIssuerResponsePoliciesItemCase2TokenClaimsMap = {
+  [key: string]: unknown | undefined;
+};
+/** Lets the integration-tokens service sign marketplace resource tokens for one integration (`oac_...`). */
+export interface GetKmsIssuerResponsePoliciesItemCase2 {
+  createdAt: string;
+  integrationId: string;
+  kind: GetKmsIssuerResponsePoliciesItemCase2Kind;
+  tokenClaims?: GetKmsIssuerResponsePoliciesItemCase2TokenClaimsMap;
+  updatedAt: string;
+}
 export type GetKmsIssuerResponsePoliciesItem =
   | GetKmsIssuerResponsePoliciesItemCase0
-  | GetKmsIssuerResponsePoliciesItemCase1;
+  | GetKmsIssuerResponsePoliciesItemCase1
+  | GetKmsIssuerResponsePoliciesItemCase2;
 export type GetKmsIssuerResponsePoliciesList = Array<GetKmsIssuerResponsePoliciesItem>;
 export type GetKmsIssuerResponseSigningKeysItemPublicKeyKeyOpsList = Array<string>;
 /** The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`. */
@@ -490,6 +548,7 @@ export interface GetKmsIssuerResponse {
   algorithm: GetKmsIssuerResponseAlgorithm;
   claimsSchema?: GetKmsIssuerResponseClaimsSchemaMap;
   createdAt: string;
+  discoveryLayout: GetKmsIssuerResponseDiscoveryLayout;
   id: string;
   managedBy?: string;
   name: string;
@@ -522,6 +581,7 @@ export type ListKmsIssuersResponseIssuersItemAlgorithm =
 export type ListKmsIssuersResponseIssuersItemClaimsSchemaMap = {
   [key: string]: unknown | undefined;
 };
+export type ListKmsIssuersResponseIssuersItemDiscoveryLayout = "connect" | "kms";
 export type ListKmsIssuersResponseIssuersItemOrigin = "external" | "vercel";
 /** Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim. */
 export type ListKmsIssuersResponseIssuersItemPoliciesItemCase0EnvironmentsList = Array<string>;
@@ -550,9 +610,22 @@ export interface ListKmsIssuersResponseIssuersItemPoliciesItemCase1 {
   tokenClaims?: ListKmsIssuersResponseIssuersItemPoliciesItemCase1TokenClaimsMap;
   updatedAt: string;
 }
+export type ListKmsIssuersResponseIssuersItemPoliciesItemCase2Kind = "integration-tokens-grant";
+export type ListKmsIssuersResponseIssuersItemPoliciesItemCase2TokenClaimsMap = {
+  [key: string]: unknown | undefined;
+};
+/** Lets the integration-tokens service sign marketplace resource tokens for one integration (`oac_...`). */
+export interface ListKmsIssuersResponseIssuersItemPoliciesItemCase2 {
+  createdAt: string;
+  integrationId: string;
+  kind: ListKmsIssuersResponseIssuersItemPoliciesItemCase2Kind;
+  tokenClaims?: ListKmsIssuersResponseIssuersItemPoliciesItemCase2TokenClaimsMap;
+  updatedAt: string;
+}
 export type ListKmsIssuersResponseIssuersItemPoliciesItem =
   | ListKmsIssuersResponseIssuersItemPoliciesItemCase0
-  | ListKmsIssuersResponseIssuersItemPoliciesItemCase1;
+  | ListKmsIssuersResponseIssuersItemPoliciesItemCase1
+  | ListKmsIssuersResponseIssuersItemPoliciesItemCase2;
 export type ListKmsIssuersResponseIssuersItemPoliciesList =
   Array<ListKmsIssuersResponseIssuersItemPoliciesItem>;
 export type ListKmsIssuersResponseIssuersItemSigningKeysItemPublicKeyKeyOpsList = Array<string>;
@@ -600,6 +673,7 @@ export interface ListKmsIssuersResponseIssuersItem {
   algorithm: ListKmsIssuersResponseIssuersItemAlgorithm;
   claimsSchema?: ListKmsIssuersResponseIssuersItemClaimsSchemaMap;
   createdAt: string;
+  discoveryLayout: ListKmsIssuersResponseIssuersItemDiscoveryLayout;
   id: string;
   managedBy?: string;
   name: string;
@@ -639,6 +713,7 @@ export type RevokeKmsSigningKeyResponseAlgorithm =
   | "RS384"
   | "RS512";
 export type RevokeKmsSigningKeyResponseClaimsSchemaMap = { [key: string]: unknown | undefined };
+export type RevokeKmsSigningKeyResponseDiscoveryLayout = "connect" | "kms";
 export type RevokeKmsSigningKeyResponseOrigin = "external" | "vercel";
 /** Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim. */
 export type RevokeKmsSigningKeyResponsePoliciesItemCase0EnvironmentsList = Array<string>;
@@ -667,9 +742,22 @@ export interface RevokeKmsSigningKeyResponsePoliciesItemCase1 {
   tokenClaims?: RevokeKmsSigningKeyResponsePoliciesItemCase1TokenClaimsMap;
   updatedAt: string;
 }
+export type RevokeKmsSigningKeyResponsePoliciesItemCase2Kind = "integration-tokens-grant";
+export type RevokeKmsSigningKeyResponsePoliciesItemCase2TokenClaimsMap = {
+  [key: string]: unknown | undefined;
+};
+/** Lets the integration-tokens service sign marketplace resource tokens for one integration (`oac_...`). */
+export interface RevokeKmsSigningKeyResponsePoliciesItemCase2 {
+  createdAt: string;
+  integrationId: string;
+  kind: RevokeKmsSigningKeyResponsePoliciesItemCase2Kind;
+  tokenClaims?: RevokeKmsSigningKeyResponsePoliciesItemCase2TokenClaimsMap;
+  updatedAt: string;
+}
 export type RevokeKmsSigningKeyResponsePoliciesItem =
   | RevokeKmsSigningKeyResponsePoliciesItemCase0
-  | RevokeKmsSigningKeyResponsePoliciesItemCase1;
+  | RevokeKmsSigningKeyResponsePoliciesItemCase1
+  | RevokeKmsSigningKeyResponsePoliciesItemCase2;
 export type RevokeKmsSigningKeyResponsePoliciesList =
   Array<RevokeKmsSigningKeyResponsePoliciesItem>;
 export type RevokeKmsSigningKeyResponseSigningKeysItemPublicKeyKeyOpsList = Array<string>;
@@ -714,6 +802,7 @@ export interface RevokeKmsSigningKeyResponse {
   algorithm: RevokeKmsSigningKeyResponseAlgorithm;
   claimsSchema?: RevokeKmsSigningKeyResponseClaimsSchemaMap;
   createdAt: string;
+  discoveryLayout: RevokeKmsSigningKeyResponseDiscoveryLayout;
   id: string;
   managedBy?: string;
   name: string;
@@ -784,6 +873,7 @@ export type UpdateKmsIssuerResponseAlgorithm =
   | "RS384"
   | "RS512";
 export type UpdateKmsIssuerResponseClaimsSchemaMap = { [key: string]: unknown | undefined };
+export type UpdateKmsIssuerResponseDiscoveryLayout = "connect" | "kms";
 export type UpdateKmsIssuerResponseOrigin = "external" | "vercel";
 /** Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim. */
 export type UpdateKmsIssuerResponsePoliciesItemCase0EnvironmentsList = Array<string>;
@@ -812,9 +902,22 @@ export interface UpdateKmsIssuerResponsePoliciesItemCase1 {
   tokenClaims?: UpdateKmsIssuerResponsePoliciesItemCase1TokenClaimsMap;
   updatedAt: string;
 }
+export type UpdateKmsIssuerResponsePoliciesItemCase2Kind = "integration-tokens-grant";
+export type UpdateKmsIssuerResponsePoliciesItemCase2TokenClaimsMap = {
+  [key: string]: unknown | undefined;
+};
+/** Lets the integration-tokens service sign marketplace resource tokens for one integration (`oac_...`). */
+export interface UpdateKmsIssuerResponsePoliciesItemCase2 {
+  createdAt: string;
+  integrationId: string;
+  kind: UpdateKmsIssuerResponsePoliciesItemCase2Kind;
+  tokenClaims?: UpdateKmsIssuerResponsePoliciesItemCase2TokenClaimsMap;
+  updatedAt: string;
+}
 export type UpdateKmsIssuerResponsePoliciesItem =
   | UpdateKmsIssuerResponsePoliciesItemCase0
-  | UpdateKmsIssuerResponsePoliciesItemCase1;
+  | UpdateKmsIssuerResponsePoliciesItemCase1
+  | UpdateKmsIssuerResponsePoliciesItemCase2;
 export type UpdateKmsIssuerResponsePoliciesList = Array<UpdateKmsIssuerResponsePoliciesItem>;
 export type UpdateKmsIssuerResponseSigningKeysItemPublicKeyKeyOpsList = Array<string>;
 /** The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`. */
@@ -857,6 +960,7 @@ export interface UpdateKmsIssuerResponse {
   algorithm: UpdateKmsIssuerResponseAlgorithm;
   claimsSchema?: UpdateKmsIssuerResponseClaimsSchemaMap;
   createdAt: string;
+  discoveryLayout: UpdateKmsIssuerResponseDiscoveryLayout;
   id: string;
   managedBy?: string;
   name: string;
@@ -915,9 +1019,22 @@ export interface UpdateKmsIssuerPolicyResponseBodyCase1 {
   tokenClaims?: UpdateKmsIssuerPolicyResponseBodyCase1TokenClaimsMap;
   updatedAt: string;
 }
+export type UpdateKmsIssuerPolicyResponseBodyCase2Kind = "integration-tokens-grant";
+export type UpdateKmsIssuerPolicyResponseBodyCase2TokenClaimsMap = {
+  [key: string]: unknown | undefined;
+};
+/** Lets the integration-tokens service sign marketplace resource tokens for one integration (`oac_...`). */
+export interface UpdateKmsIssuerPolicyResponseBodyCase2 {
+  createdAt: string;
+  integrationId: string;
+  kind: UpdateKmsIssuerPolicyResponseBodyCase2Kind;
+  tokenClaims?: UpdateKmsIssuerPolicyResponseBodyCase2TokenClaimsMap;
+  updatedAt: string;
+}
 export type UpdateKmsIssuerPolicyResponseBody =
   | UpdateKmsIssuerPolicyResponseBodyCase0
-  | UpdateKmsIssuerPolicyResponseBodyCase1;
+  | UpdateKmsIssuerPolicyResponseBodyCase1
+  | UpdateKmsIssuerPolicyResponseBodyCase2;
 export type UpdateKmsIssuerPolicyResponse = UpdateKmsIssuerPolicyResponseBody;
 export type ActivateKmsSigningKeyError =
   | BadRequest
@@ -941,8 +1058,8 @@ export const activateKmsSigningKey: API.OperationMethod<
   span: "ActivateKmsSigningKey",
 }));
 
-export type CreateKmsIssuerError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Create an issuer Create a new KMS issuer for the authenticated team. An issuer owns the asymmetric signing keys that are used to sign tokens and messages. */
+export type CreateKmsIssuerError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
+/** Create an issuer Create a new KMS issuer for the authenticated team, or for the team or organization identified by a Connect policy token. An issuer owns the asymmetric signing keys used to sign tokens and messages. */
 export const createKmsIssuer: API.OperationMethod<
   CreateKmsIssuerRequest,
   CreateKmsIssuerResponse,
@@ -951,7 +1068,7 @@ export const createKmsIssuer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<CreateKmsIssuerRequest>,
   output: __S(82, __c10, 2) as any as S.Schema<CreateKmsIssuerResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1027,7 +1144,7 @@ export const deleteKmsIssuerPolicy: API.OperationMethod<
 }));
 
 export type GetKmsIssuerError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Get an issuer Retrieve a single KMS issuer by its ID. Accepts either a team bearer token (existing path) or an OIDC token authorized by one of the issuer's policies (e.g. a connex-grant token). The OIDC path returns the issuer without policies, since a policy token only proves signing access, not management access. */
+/** Get an issuer Retrieve a single KMS issuer by its ID. Accepts a team or organization bearer token, or an OIDC token authorized by one of the issuer's policies (e.g. a connex-grant token). The OIDC path returns the issuer without policies, since a policy token only proves signing access, not management access. */
 export const getKmsIssuer: API.OperationMethod<
   GetKmsIssuerRequest,
   GetKmsIssuerResponse,
@@ -1044,7 +1161,7 @@ export const getKmsIssuer: API.OperationMethod<
 }));
 
 export type ListKmsIssuersError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** List issuers Retrieve the list of KMS issuers that belong to the authenticated team. The results are paginated. */
+/** List issuers Retrieve the paginated KMS issuers that belong to the authenticated team or organization (`orgId`). */
 export const listKmsIssuers: API.OperationMethod<
   ListKmsIssuersRequest,
   ListKmsIssuersResponse,
@@ -1164,6 +1281,7 @@ function __c0(j: number): any {
           algorithm: S.String,
           claimsSchema: S.optional(__S(96, __c12, 0)),
           createdAt: S.String,
+          discoveryLayout: S.String,
           id: S.String,
           managedBy: S.optional(S.String),
           name: S.String,
@@ -1195,6 +1313,7 @@ function __c1(j: number): any {
           algorithm: S.String,
           claimsSchema: S.optional(__S(96, __c12, 0)),
           createdAt: S.String,
+          discoveryLayout: S.String,
           id: S.String,
           managedBy: S.optional(S.String),
           name: S.String,
@@ -1248,6 +1367,7 @@ function __c2(j: number): any {
           algorithm: S.String,
           claimsSchema: S.optional(__S(96, __c12, 0)),
           createdAt: S.String,
+          discoveryLayout: S.String,
           id: S.String,
           managedBy: S.optional(S.String),
           name: S.String,
@@ -1326,6 +1446,7 @@ function __c5(j: number): any {
           algorithm: S.String,
           claimsSchema: S.optional(__S(96, __c12, 0)),
           createdAt: S.String,
+          discoveryLayout: S.String,
           id: S.String,
           managedBy: S.optional(S.String),
           name: S.String,
@@ -1448,6 +1569,7 @@ function __c10(j: number): any {
           algorithm: S.String,
           claimsSchema: S.optional(__S(96, __c12, 0)),
           createdAt: S.String,
+          discoveryLayout: S.String,
           id: S.String,
           managedBy: S.optional(S.String),
           name: S.String,

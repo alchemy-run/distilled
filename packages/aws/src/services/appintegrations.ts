@@ -197,11 +197,13 @@ export interface IframeConfig {
   Sandbox?: string[];
 }
 export type ApplicationType = "STANDARD" | "SERVICE" | "MCP_SERVER" | "A2A_SERVER" | (string & {});
-export type AuthType = "API_KEY" | (string & {});
+export type AuthType = "API_KEY" | "CONNECT_JWT" | (string & {});
 export type Arn = string;
+export type Identifier = string;
 export interface AuthConfig {
   AuthType?: AuthType;
   CredentialProviderIdentifier?: string;
+  AudienceOverride?: string;
 }
 export interface CreateApplicationRequest {
   Name: string;
@@ -269,7 +271,6 @@ export interface CreateDataIntegrationResponse {
   FileConfiguration?: FileConfiguration;
   ObjectConfiguration?: { [key: string]: { [key: string]: string[] | undefined } | undefined };
 }
-export type Identifier = string;
 export type ClientId = string;
 export type DestinationURI = string;
 export type ClientAssociationMetadata = { [key: string]: string | undefined };
@@ -329,6 +330,7 @@ export interface DeleteEventIntegrationResponse {}
 export interface GetApplicationRequest {
   Arn: string;
 }
+export type RegionName = string;
 export interface GetApplicationResponse {
   Arn?: string;
   Id?: string;
@@ -340,6 +342,7 @@ export interface GetApplicationResponse {
   Publications?: Publication[];
   CreatedTime?: Date;
   LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
   Tags?: { [key: string]: string | undefined };
   Permissions?: string[];
   IsService?: boolean;
@@ -404,6 +407,7 @@ export interface ApplicationSummary {
   Namespace?: string;
   CreatedTime?: Date;
   LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
   IsService?: boolean;
   ApplicationType?: ApplicationType;
 }
@@ -1155,6 +1159,7 @@ export const listEventIntegrations: API.PaginatedOperationMethod<
 })) as any;
 
 export type ListTagsForResourceError =
+  | AccessDeniedException
   | InternalServiceError
   | InvalidRequestException
   | ResourceNotFoundException
@@ -1173,6 +1178,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(400, __c25, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
+    AccessDeniedException,
     InternalServiceError,
     InvalidRequestException,
     ResourceNotFoundException,
@@ -1187,6 +1193,8 @@ export const listTagsForResource: API.OperationMethod<
 }));
 
 export type TagResourceError =
+  | AccessDeniedException
+  | ConflictException
   | InternalServiceError
   | InvalidRequestException
   | ResourceNotFoundException
@@ -1205,6 +1213,8 @@ export const tagResource: API.OperationMethod<
   input: __S(416, __c26, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
+    AccessDeniedException,
+    ConflictException,
     InternalServiceError,
     InvalidRequestException,
     ResourceNotFoundException,
@@ -1219,6 +1229,8 @@ export const tagResource: API.OperationMethod<
 }));
 
 export type UntagResourceError =
+  | AccessDeniedException
+  | ConflictException
   | InternalServiceError
   | InvalidRequestException
   | ResourceNotFoundException
@@ -1237,6 +1249,8 @@ export const untagResource: API.OperationMethod<
   input: __S(432, __c27, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
+    AccessDeniedException,
+    ConflictException,
     InternalServiceError,
     InvalidRequestException,
     ResourceNotFoundException,
@@ -1478,6 +1492,7 @@ function __c3(j: number): any {
         S.Struct({
           AuthType: S.optional(S.String),
           CredentialProviderIdentifier: S.optional(S.String),
+          AudienceOverride: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthConfig" });
   }
@@ -1723,6 +1738,7 @@ function __c16(j: number): any {
           Publications: S.optional(__S(53, __c3, 5)),
           CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastModifiedRegion: S.optional(S.String),
           Tags: S.optional(__S(16, __c1, 0)),
           Permissions: S.optional(__S(32, __c2, 0)),
           IsService: S.optional(S.Boolean),
@@ -1854,6 +1870,7 @@ function __c20(j: number): any {
           Namespace: S.optional(S.String),
           CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastModifiedRegion: S.optional(S.String),
           IsService: S.optional(S.Boolean),
           ApplicationType: S.optional(S.String),
         }),

@@ -62,7 +62,7 @@ export type HogFunctionTypeEnum =
   | "transformation"
   | "transformation_log"
   | "legacy_destination";
-/** * `string` - string * `number` - number * `boolean` - boolean * `dictionary` - dictionary * `choice` - choice * `json` - json * `integration` - integration * `integration_multi` - integration_multi * `integration_field` - integration_field * `email` - email * `native_email` - native_email * `posthog_assignee` - posthog_assignee * `posthog_ticket_tags` - posthog_ticket_tags * `posthog_business_hours` - posthog_business_hours * `non_failure_status_codes` - non_failure_status_codes * `customer_analytics_account_properties` - customer_analytics_account_properties * `customer_analytics_account_relationships` - customer_analytics_account_relationships * `task_model` - task_model * `task_repository` - task_repository * `task_mcp_installations` - task_mcp_installations * `signals_scout` - signals_scout * `task_skills` - task_skills */
+/** * `string` - string * `number` - number * `boolean` - boolean * `dictionary` - dictionary * `choice` - choice * `json` - json * `integration` - integration * `integration_multi` - integration_multi * `integration_field` - integration_field * `email` - email * `native_email` - native_email * `posthog_assignee` - posthog_assignee * `posthog_ticket_tags` - posthog_ticket_tags * `posthog_business_hours` - posthog_business_hours * `non_failure_status_codes` - non_failure_status_codes * `customer_analytics_account_properties` - customer_analytics_account_properties * `customer_analytics_account_relationships` - customer_analytics_account_relationships * `task_model` - task_model * `task_repository` - task_repository * `task_mcp_installations` - task_mcp_installations * `signals_scout` - signals_scout * `posthog_survey` - posthog_survey * `task_skills` - task_skills * `replay_vision_scan` - replay_vision_scan */
 export type InputsSchemaItemTypeEnum =
   | "string"
   | "number"
@@ -85,7 +85,9 @@ export type InputsSchemaItemTypeEnum =
   | "task_repository"
   | "task_mcp_installations"
   | "signals_scout"
-  | "task_skills";
+  | "posthog_survey"
+  | "task_skills"
+  | "replay_vision_scan";
 export type InputsSchemaItemChoicesItemMap = { [key: string]: unknown | undefined };
 export type InputsSchemaItemChoicesList = Array<InputsSchemaItemChoicesItemMap>;
 export type InputsSchemaItemTemplatingCase1 = "hog" | "liquid";
@@ -158,9 +160,9 @@ export interface HogFunctionMasking {
 export type MappingsInputInputsSchemaList = Array<InputsSchemaItem>;
 export type MappingsInputInputsMap = { [key: string]: InputsItemInput | undefined };
 export interface MappingsInput {
-  name?: string;
   inputs_schema?: MappingsInputInputsSchemaList;
   inputs?: MappingsInputInputsMap;
+  name?: string;
   filters?: HogFunctionFilters;
 }
 /** Event-to-destination field mappings. Only for destination and site_destination types. */
@@ -241,9 +243,9 @@ export type HogFunctionOutputInputsMap = { [key: string]: InputsItem | undefined
 export type MappingsInputsSchemaList = Array<InputsSchemaItem>;
 export type MappingsInputsMap = { [key: string]: InputsItem | undefined };
 export interface Mappings {
-  name?: string;
   inputs_schema?: MappingsInputsSchemaList;
   inputs?: MappingsInputsMap;
+  name?: string;
   filters?: HogFunctionFilters;
 }
 /** Event-to-destination field mappings. Only for destination and site_destination types. */
@@ -500,6 +502,8 @@ export interface GetHogFunctionsLogRequest {
   level?: string;
   /** Maximum number of log entries to return (1-500, default 50). */
   limit?: number;
+  /** Number of log entries to skip before the first returned entry (default 0). */
+  offset?: number;
   /** Case-insensitive substring search across log messages. */
   search?: string;
 }
@@ -545,9 +549,9 @@ export interface GetHogFunctionsMetricsRequest {
   instance_id?: string;
   /** Time bucket size for the series. One of: hour, day, week. Defaults to 'day'. * `hour` - hour * `day` - day * `week` - week */
   interval?: GetHogFunctionsMetricsRequestInterval | (string & {});
-  /** Comma-separated metric kinds to filter by, e.g. 'success,failure'. */
+  /** Comma-separated metric kinds to filter by, up to 50, e.g. 'success,failure'. With breakdown_by=kind, each named kind is returned, as zeros when it has no rows. */
   kind?: string;
-  /** Comma-separated metric names to filter by. */
+  /** Comma-separated metric names to filter by, up to 50. With breakdown_by=name, each named metric is returned, as zeros when it has no rows. */
   name?: string;
 }
 export type AppMetricsResponseLabelsList = Array<string>;
@@ -578,9 +582,9 @@ export interface GetHogFunctionsMetricsTotalRequest {
   instance_id?: string;
   /** Time bucket size for the series. One of: hour, day, week. Defaults to 'day'. * `hour` - hour * `day` - day * `week` - week */
   interval?: GetHogFunctionsMetricsTotalRequestInterval | (string & {});
-  /** Comma-separated metric kinds to filter by, e.g. 'success,failure'. */
+  /** Comma-separated metric kinds to filter by, up to 50, e.g. 'success,failure'. With breakdown_by=kind, each named kind is returned, as zeros when it has no rows. */
   kind?: string;
-  /** Comma-separated metric names to filter by. */
+  /** Comma-separated metric names to filter by, up to 50. With breakdown_by=name, each named metric is returned, as zeros when it has no rows. */
   name?: string;
 }
 export type AppMetricsTotalsResponseTotalsMap = { [key: string]: number | undefined };
@@ -844,14 +848,14 @@ export interface UpdateHogFunctionsPartialRequest {
   /** Optimistic concurrency: the updated_at (or draft_updated_at when editing a staged draft) you last read. If the stored side is newer, the write fails with 409 instead of overwriting the concurrent edit. Omit to overwrite unconditionally. */
   base_updated_at?: string;
 }
-/** Map of hog function UUIDs to their new execution_order values. */
+/** Map of hog function UUIDs to their new execution_order values, from 0 to 32767. */
 export type UpdateHogFunctionsRearrangePartialRequestOrdersMap = {
   [key: string]: number | undefined;
 };
 export interface UpdateHogFunctionsRearrangePartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Map of hog function UUIDs to their new execution_order values. */
+  /** Map of hog function UUIDs to their new execution_order values, from 0 to 32767. */
   orders?: UpdateHogFunctionsRearrangePartialRequestOrdersMap;
 }
 export type UpdateHogFunctionsRearrangePartialResponseBodyList = Array<HogFunctionOutput>;
@@ -1218,6 +1222,7 @@ function __c0(j: number): any {
           instance_id: S.optional(S.String.pipe(T.Query())),
           level: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1816,9 +1821,9 @@ function __c21(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           inputs_schema: S.optional(__S(138, __c17, 2)),
           inputs: S.optional(__S(169, __c21, 1)),
+          name: S.optional(S.String),
           filters: S.optional(__S(139, __c17, 3)),
         }),
       ).annotate({ identifier: "Mappings" });
@@ -1870,9 +1875,9 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           inputs_schema: S.optional(__S(138, __c17, 2)),
           inputs: S.optional(__S(177, __c22, 1)),
+          name: S.optional(S.String),
           filters: S.optional(__S(139, __c17, 3)),
         }),
       ).annotate({ identifier: "MappingsInput" });

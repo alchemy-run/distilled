@@ -164,7 +164,16 @@ export type StatusResponseBodyCase1Status = "disabled" | "enabled" | "over_limit
 export interface StatusResponseBodyCase1 {
   status: StatusResponseBodyCase1Status;
 }
-export type StatusResponseBody = StatusResponseBodyCase0 | StatusResponseBodyCase1;
+export type StatusResponseBodyCase2Status = "disabled" | "enabled" | "over_limit" | "paused";
+export interface StatusResponseBodyCase2 {
+  /** Present and `true` when the token can read artifacts but cannot upload them. */
+  readOnly?: boolean;
+  status: StatusResponseBodyCase2Status;
+}
+export type StatusResponseBody =
+  | StatusResponseBodyCase0
+  | StatusResponseBodyCase1
+  | StatusResponseBodyCase2;
 export type StatusResponse = StatusResponseBody;
 export interface UploadArtifactRequest {
   /** The artifact hash */
@@ -188,10 +197,8 @@ export interface UploadArtifactRequest {
   /** A hash representing uncommitted changes in the working directory when this artifact was generated. */
   xArtifactDirtyHash?: string;
 }
-/** Array of URLs where the artifact was updated */
 export type UploadArtifactResponseUrlsList = Array<string>;
 export interface UploadArtifactResponse {
-  /** Array of URLs where the artifact was updated */
   urls: UploadArtifactResponseUrlsList;
 }
 export type ArtifactExistsError =

@@ -5781,8 +5781,6 @@ export type SettingsAccountGetResponseZoneDefaultsZoneMode = "standard" | "cdn_o
 export interface SettingsAccountGetResponseZoneDefaults {
   /** Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattened. */
   flattenAllCnames: boolean;
-  /** foundation_dns is deprecated. Use nameservers.type: cloudflare.advanced to turn on Advanced Nameservers and cloudflare.standard to turn it off. This field will be removed in a future API version. */
-  foundationDns?: boolean | null;
   /** Settings for this internal zone. */
   internalDns: SettingsAccountGetResponseZoneDefaultsInternalDns;
   /** Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect NS records at the zone apex during outbound zone transfers. */
@@ -5944,8 +5942,6 @@ export type SettingsZoneGetResponseZoneMode = "standard" | "cdn_only" | "dns_onl
 export interface GetSettingZoneResponse {
   /** Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattened. */
   flattenAllCnames: boolean;
-  /** foundation_dns is deprecated. Use nameservers.type: cloudflare.advanced to turn on Advanced Nameservers and cloudflare.standard to turn it off. This field will be removed in a future API version. */
-  foundationDns?: boolean | null;
   /** Settings for this internal zone. */
   internalDns: SettingsAccountGetResponseZoneDefaultsInternalDns;
   /** Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect NS records at the zone apex during outbound zone transfers. */
@@ -8357,8 +8353,6 @@ export type SettingsAccountEditResponseZoneDefaultsZoneMode = "standard" | "cdn_
 export interface SettingsAccountEditResponseZoneDefaults {
   /** Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattened. */
   flattenAllCnames: boolean;
-  /** foundation_dns is deprecated. Use nameservers.type: cloudflare.advanced to turn on Advanced Nameservers and cloudflare.standard to turn it off. This field will be removed in a future API version. */
-  foundationDns?: boolean | null;
   /** Settings for this internal zone. */
   internalDns: SettingsAccountGetResponseZoneDefaultsInternalDns;
   /** Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect NS records at the zone apex during outbound zone transfers. */
@@ -8494,8 +8488,6 @@ export type SettingsZoneEditResponseZoneMode = "standard" | "cdn_only" | "dns_on
 export interface PatchSettingZoneResponse {
   /** Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattened. */
   flattenAllCnames: boolean;
-  /** foundation_dns is deprecated. Use nameservers.type: cloudflare.advanced to turn on Advanced Nameservers and cloudflare.standard to turn it off. This field will be removed in a future API version. */
-  foundationDns?: boolean | null;
   /** Settings for this internal zone. */
   internalDns: SettingsAccountGetResponseZoneDefaultsInternalDns;
   /** Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect NS records at the zone apex during outbound zone transfers. */
@@ -11632,7 +11624,7 @@ export const createSettingAccountView: API.OperationMethod<
 }));
 
 export type CreateSettingsAccountNameserverSetError = CloudflareOpError;
-/** Creates a named Custom Nameserver Set. Only the customer-defined name can be changed later. To change nameservers or addresses, create a new set, move any zone assignments, and delete the old set. */
+/** Creates a named Custom Nameserver Set. Only the customer-defined name can be changed later. To change nameservers or addresses, create a new set, move any zone assignments, and delete the old set. For details, refer to [Nameserver sets](https://developers.cloudflare.com/dns/nameservers/custom-nameservers/nameserver-sets/). */
 export const createSettingsAccountNameserverSet: API.OperationMethod<
   CreateSettingsAccountNameserverSetRequest,
   CreateSettingsAccountNameserverSetResponse,
@@ -11802,7 +11794,7 @@ export const deleteSettingAccountView: API.OperationMethod<
 }));
 
 export type DeleteSettingsAccountNameserverSetError = CloudflareOpError;
-/** Deletes an unassigned Custom Nameserver Set. */
+/** Deletes an unassigned Custom Nameserver Set. For details, refer to [Nameserver sets](https://developers.cloudflare.com/dns/nameservers/custom-nameservers/nameserver-sets/). */
 export const deleteSettingsAccountNameserverSet: API.OperationMethod<
   DeleteSettingsAccountNameserverSetRequest,
   DeleteSettingsAccountNameserverSetResponse,
@@ -12082,7 +12074,7 @@ export const getSettingAccountView: API.OperationMethod<
 }));
 
 export type GetSettingsAccountNameserverSetError = CloudflareOpError;
-/** Gets a Custom Nameserver Set owned by an account. */
+/** Gets a Custom Nameserver Set owned by an account. For details, refer to [Nameserver sets](https://developers.cloudflare.com/dns/nameservers/custom-nameservers/nameserver-sets/). */
 export const getSettingsAccountNameserverSet: API.OperationMethod<
   GetSettingsAccountNameserverSetRequest,
   GetSettingsAccountNameserverSetResponse,
@@ -12350,7 +12342,7 @@ export const listSettingAccountViews: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListSettingsAccountNameserverSetsError = CloudflareOpError;
-/** Lists an account's Custom Nameserver Sets. */
+/** Lists an account's Custom Nameserver Sets. For details, refer to [Nameserver sets](https://developers.cloudflare.com/dns/nameservers/custom-nameservers/nameserver-sets/). */
 export const listSettingsAccountNameserverSets: API.OperationMethod<
   ListSettingsAccountNameserverSetsRequest,
   ListSettingsAccountNameserverSetsResponse,
@@ -15366,7 +15358,6 @@ function __c42(j: number): any {
       return S.suspend(() =>
         S.Struct({
           flattenAllCnames: S.Boolean.pipe(T.Body("flatten_all_cnames")),
-          foundationDns: S.optional(S.NullOr(S.Boolean).pipe(T.Body("foundation_dns"))),
           internalDns: __S(656, __c41, 0).pipe(T.Body("internal_dns")),
           multiProvider: S.Boolean.pipe(T.Body("multi_provider")),
           nameservers: __S(672, __c42, 0),
@@ -15452,7 +15443,6 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           flattenAllCnames: S.Boolean.pipe(T.Body("flatten_all_cnames")),
-          foundationDns: S.optional(S.NullOr(S.Boolean).pipe(T.Body("foundation_dns"))),
           internalDns: __S(656, __c41, 0).pipe(T.Body("internal_dns")),
           multiProvider: S.Boolean.pipe(T.Body("multi_provider")),
           nameservers: __S(721, __c45, 1),
@@ -16975,7 +16965,6 @@ function __c69(j: number): any {
       return S.suspend(() =>
         S.Struct({
           flattenAllCnames: S.Boolean.pipe(T.Body("flatten_all_cnames")),
-          foundationDns: S.optional(S.NullOr(S.Boolean).pipe(T.Body("foundation_dns"))),
           internalDns: __S(656, __c41, 0).pipe(T.Body("internal_dns")),
           multiProvider: S.Boolean.pipe(T.Body("multi_provider")),
           nameservers: __S(1106, __c69, 2),

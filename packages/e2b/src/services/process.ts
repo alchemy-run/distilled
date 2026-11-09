@@ -46,19 +46,19 @@ export interface ListRequest {}
 export type StringList = Array<string>;
 export type StringMap = { [key: string]: string | undefined };
 export interface ProcessConfig {
-  cmd?: string;
-  args?: StringList;
-  envs?: StringMap;
+  cmd: string;
+  args: StringList;
+  envs: StringMap;
   cwd?: string;
 }
 export interface ProcessInfo {
   config?: ProcessConfig;
-  pid?: number;
+  pid: number;
   tag?: string;
 }
 export type ProcessInfoList = Array<ProcessInfo>;
 export interface ListResponse {
-  processes?: ProcessInfoList;
+  processes: ProcessInfoList;
 }
 export interface ProcessInput {
   stdin?: string;
@@ -215,9 +215,9 @@ function __c2(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          cmd: S.optional(S.String),
-          args: S.optional(__S(17, __c2, 1)),
-          envs: S.optional(__S(18, __c2, 2)),
+          cmd: S.String,
+          args: __S(17, __c2, 1),
+          envs: __S(18, __c2, 2),
           cwd: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProcessConfig" });
@@ -225,7 +225,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           config: S.optional(__S(19, __c2, 3)),
-          pid: S.optional(S.Number),
+          pid: S.Number,
           tag: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProcessInfo" });
@@ -234,7 +234,7 @@ function __c2(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          processes: S.optional(__S(21, __c2, 5)),
+          processes: __S(21, __c2, 5),
         }),
       ).annotate({ identifier: "ListResponse" });
   }

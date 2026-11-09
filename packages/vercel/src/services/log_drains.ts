@@ -145,7 +145,7 @@ export type CreateLogDrainResponseHeadersMap = { [key: string]: string | undefin
 /** The identifier of the projects this log drain is associated with */
 export type CreateLogDrainResponseProjectIdsList = Array<string>;
 /** Informational marker for a system-owned default drain. */
-export type CreateLogDrainResponseSourceCase0DefaultFor = "eve-tracing";
+export type CreateLogDrainResponseSourceCase0DefaultFor = "eve-tracing" | "nextjs-tracing";
 export type CreateLogDrainResponseSourceCase0Kind = "self-served";
 export interface CreateLogDrainResponseSourceCase0 {
   /** Informational marker for a system-owned default drain. */
@@ -229,6 +229,8 @@ export interface GetAllLogDrainsRequest {
   projectId?: string;
   projectIdOrName?: string;
   includeMetadata?: boolean;
+  /** Include `deliveryStats` with the delivery health of each drain over the last 24 hours. Ignored for teams without drain delivery metrics. */
+  includeDeliveryStats?: boolean;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string;
   /** The Team slug to perform the request on behalf of. */
@@ -453,7 +455,9 @@ export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas {
   trace?: unknown;
 }
 /** Informational marker for a system-owned default drain. */
-export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0DefaultFor = "eve-tracing";
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0DefaultFor =
+  | "eve-tracing"
+  | "nextjs-tracing";
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0Kind = "self-served";
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0 {
   /** Informational marker for a system-owned default drain. */
@@ -475,6 +479,20 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemStatus =
   | "disabled"
   | "enabled"
   | "errored";
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryStatsState =
+  | "failing"
+  | "healthy"
+  | "unknown";
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryStatsWindow = "24h";
+/** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryStats {
+  /** All delivery attempts in the window. */
+  attempts: number;
+  /** Delivery attempts that did not succeed in the window. */
+  failures: number;
+  state: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryStatsState;
+  window: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryStatsWindow;
+}
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0DeploymentEnvironmentsItem =
   | "preview"
   | "production";
@@ -539,6 +557,8 @@ export interface GetAllLogDrainsResponseBodyCase1DrainsCase0Item {
   status?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemStatus;
   teamId?: string | null;
   updatedAt: number;
+  /** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+  deliveryStats?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryStats;
   filterV2?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0List =
@@ -661,7 +681,9 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingList =
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSchemas =
   GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas;
 /** Informational marker for a system-owned default drain. */
-export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0DefaultFor = "eve-tracing";
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0DefaultFor =
+  | "eve-tracing"
+  | "nextjs-tracing";
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0Kind = "self-served";
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0 {
   /** Informational marker for a system-owned default drain. */
@@ -683,6 +705,20 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemStatus =
   | "disabled"
   | "enabled"
   | "errored";
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryStatsState =
+  | "failing"
+  | "healthy"
+  | "unknown";
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryStatsWindow = "24h";
+/** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryStats {
+  /** All delivery attempts in the window. */
+  attempts: number;
+  /** Delivery attempts that did not succeed in the window. */
+  failures: number;
+  state: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryStatsState;
+  window: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryStatsWindow;
+}
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0DeploymentEnvironmentsItem =
   | "preview"
   | "production";
@@ -769,6 +805,8 @@ export interface GetAllLogDrainsResponseBodyCase1DrainsCase1Item {
   status?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemStatus;
   teamId?: string | null;
   updatedAt: number;
+  /** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+  deliveryStats?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryStats;
   filterV2?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2;
   integrationConfigurationUri?: string;
   integrationIcon?: string;
@@ -908,7 +946,9 @@ export type GetIntegrationLogDrainsResponseBodyItemHeadersMap = {
 /** The identifier of the projects this log drain is associated with */
 export type GetIntegrationLogDrainsResponseBodyItemProjectIdsList = Array<string>;
 /** Informational marker for a system-owned default drain. */
-export type GetIntegrationLogDrainsResponseBodyItemSourceCase0DefaultFor = "eve-tracing";
+export type GetIntegrationLogDrainsResponseBodyItemSourceCase0DefaultFor =
+  | "eve-tracing"
+  | "nextjs-tracing";
 export type GetIntegrationLogDrainsResponseBodyItemSourceCase0Kind = "self-served";
 export interface GetIntegrationLogDrainsResponseBodyItemSourceCase0 {
   /** Informational marker for a system-owned default drain. */
@@ -1210,6 +1250,7 @@ function __c6(j: number): any {
           projectId: S.optional(S.String.pipe(T.Query())),
           projectIdOrName: S.optional(S.String.pipe(T.Query())),
           includeMetadata: S.optional(S.Boolean.pipe(T.Query())),
+          includeDeliveryStats: S.optional(S.Boolean.pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/log-drains", code: 200 })),

@@ -344,6 +344,7 @@ export interface Repository {
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean;
@@ -532,6 +533,22 @@ export interface CreateReplyForReviewCommentRequest {
   /** The text of the review comment. */
   body: string;
 }
+/** The kind of contributing source. */
+export type PullRequestReviewCommentCopilotCodeReviewSourcesItemKind =
+  | "SKILL"
+  | "MCP"
+  | "CUSTOM_INSTRUCTIONS";
+export interface PullRequestReviewCommentCopilotCodeReviewSourcesItem {
+  /** The kind of contributing source. */
+  kind: PullRequestReviewCommentCopilotCodeReviewSourcesItemKind;
+  /** The reported source name, or "custom instructions" for CUSTOM_INSTRUCTIONS. */
+  name: string;
+  /** The validated repository-relative source path, if available. Commit OIDs are not exposed. */
+  path?: string;
+}
+/** Sources reported as contributing to this comment; may be incomplete. Not returned for issue timeline events. */
+export type PullRequestReviewCommentCopilotCodeReviewSourcesList =
+  Array<PullRequestReviewCommentCopilotCodeReviewSourcesItem>;
 export type PullRequestReviewCommentLinksSelf = Link;
 export type PullRequestReviewCommentLinksHtml = Link;
 export type PullRequestReviewCommentLinksPullRequest = Link;
@@ -560,6 +577,10 @@ export interface ReactionRollup {
 }
 /** Pull Request Review Comments are comments on a portion of the Pull Request's diff. */
 export interface PullRequestReviewComment {
+  /** Whether this comment was produced by Copilot code review. Not returned for issue timeline events. */
+  is_copilot_code_review?: boolean;
+  /** Sources reported as contributing to this comment; may be incomplete. Not returned for issue timeline events. */
+  copilot_code_review_sources?: PullRequestReviewCommentCopilotCodeReviewSourcesList;
   /** URL for the pull request review comment */
   url: string;
   /** The ID of the pull request review to which the comment belongs. */
@@ -658,6 +679,10 @@ export interface PullRequestReview {
   /** The text of the review. */
   body: string;
   state: string;
+  /** Whether this review was produced by Copilot code review. Bot authorship alone does not establish provenance. */
+  is_copilot_code_review?: boolean;
+  /** The persisted effective effort used to produce this Copilot code review, or null if unavailable. For more information, see [Review effort level](https://docs.github.com/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/code-review#review-effort-level). */
+  copilot_code_review_effort?: string | null;
   html_url: string;
   pull_request_url: string;
   _links: PullRequestReviewLinks;
@@ -1014,6 +1039,19 @@ export interface ListCommentsForReviewRequest {
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
   page?: number;
 }
+/** The kind of contributing source. */
+export type ReviewCommentCopilotCodeReviewSourcesItemKind = "SKILL" | "MCP" | "CUSTOM_INSTRUCTIONS";
+export interface ReviewCommentCopilotCodeReviewSourcesItem {
+  /** The kind of contributing source. */
+  kind: ReviewCommentCopilotCodeReviewSourcesItemKind;
+  /** The reported source name, or "custom instructions" for CUSTOM_INSTRUCTIONS. */
+  name: string;
+  /** The validated repository-relative source path, if available. Commit OIDs are not exposed. */
+  path?: string;
+}
+/** Sources reported as contributing to this comment; may be incomplete. */
+export type ReviewCommentCopilotCodeReviewSourcesList =
+  Array<ReviewCommentCopilotCodeReviewSourcesItem>;
 export type ReviewCommentLinks = PullRequestReviewCommentLinks;
 /** The side of the first line of the range for a multi-line comment. */
 export type ReviewCommentSide = "LEFT" | "RIGHT";
@@ -1023,6 +1061,10 @@ export type ReviewCommentStartSide = "LEFT" | "RIGHT";
 export type ReviewCommentSubjectType = "line" | "file";
 /** Legacy Review Comment */
 export interface ReviewComment {
+  /** Whether this comment was produced by Copilot code review. */
+  is_copilot_code_review?: boolean;
+  /** Sources reported as contributing to this comment; may be incomplete. */
+  copilot_code_review_sources?: ReviewCommentCopilotCodeReviewSourcesList;
   url: string;
   pull_request_review_id: number | null;
   id: number;
@@ -1361,6 +1403,25 @@ export interface RemoveRequestedReviewersRequest {
   /** An array of team `slug`s that will be removed. */
   team_reviewers?: RemoveRequestedReviewersRequestTeamReviewersList;
 }
+export interface RequestCopilotCodeReviewRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The number that identifies the pull request. */
+  pull_number: number;
+  /** The effort level to use for the Copilot code review. Omit to use the default effort level. Only effort levels available for the repository and actor are accepted. For more information, see [Review effort level](https://docs.github.com/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/code-review#review-effort-level). */
+  review_effort?: string;
+}
+/** The current state of the review request. */
+export type CopilotCodeReviewRequestState = "PENDING";
+/** A request for Copilot to review a pull request. */
+export interface CopilotCodeReviewRequest {
+  /** The global node ID of the review request. */
+  node_id: string;
+  /** The current state of the review request. */
+  state: CopilotCodeReviewRequestState;
+}
 /** An array of user `login`s that will be requested. */
 export type RequestReviewersRequestReviewersList = Array<string>;
 /** An array of team `slug`s that will be requested. */
@@ -1534,8 +1595,8 @@ export const createReplyForReviewComment: API.OperationMethod<
   CreateReplyForReviewCommentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<CreateReplyForReviewCommentRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<PullRequestReviewComment>,
+  input: __S(720, __c45, 0) as any as S.Schema<CreateReplyForReviewCommentRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<PullRequestReviewComment>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1551,8 +1612,8 @@ export const createReview: API.OperationMethod<
   CreateReviewError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(754, __c47, 2) as any as S.Schema<CreateReviewRequest>,
-  output: __S(769, __c48, 1) as any as S.Schema<PullRequestReview>,
+  input: __S(770, __c48, 2) as any as S.Schema<CreateReviewRequest>,
+  output: __S(785, __c49, 1) as any as S.Schema<PullRequestReview>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1568,8 +1629,8 @@ export const createReviewComment: API.OperationMethod<
   CreateReviewCommentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<CreateReviewCommentRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<PullRequestReviewComment>,
+  input: __S(800, __c50, 0) as any as S.Schema<CreateReviewCommentRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<PullRequestReviewComment>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1585,8 +1646,8 @@ export const deletePendingReview: API.OperationMethod<
   DeletePendingReviewError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<DeletePendingReviewRequest>,
-  output: __S(769, __c48, 1) as any as S.Schema<PullRequestReview>,
+  input: __S(816, __c51, 0) as any as S.Schema<DeletePendingReviewRequest>,
+  output: __S(785, __c49, 1) as any as S.Schema<PullRequestReview>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1602,7 +1663,7 @@ export const deleteReviewComment: API.OperationMethod<
   DeleteReviewCommentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<DeleteReviewCommentRequest>,
+  input: __S(832, __c52, 0) as any as S.Schema<DeleteReviewCommentRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<DeleteReviewCommentResponse>,
   errors: [],
   protocol: GithubProtocol,
@@ -1619,8 +1680,8 @@ export const dismissReview: API.OperationMethod<
   DismissReviewError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<DismissReviewRequest>,
-  output: __S(769, __c48, 1) as any as S.Schema<PullRequestReview>,
+  input: __S(848, __c53, 0) as any as S.Schema<DismissReviewRequest>,
+  output: __S(785, __c49, 1) as any as S.Schema<PullRequestReview>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1696,7 +1757,7 @@ export const getReview: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetReviewRequest>,
-  output: __S(769, __c48, 1) as any as S.Schema<PullRequestReview>,
+  output: __S(785, __c49, 1) as any as S.Schema<PullRequestReview>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1713,7 +1774,7 @@ export const getReviewComment: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetReviewCommentRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<PullRequestReviewComment>,
+  output: __S(752, __c47, 0) as any as S.Schema<PullRequestReviewComment>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1982,6 +2043,23 @@ export const removeRequestedReviewers: API.OperationMethod<
   span: "RemoveRequestedReviewers",
 }));
 
+export type RequestCopilotCodeReviewError = GithubOpError;
+/** Request a Copilot code review for a pull request Requests a Copilot code review for a pull request. Every call expresses intent to start a new review: if no Copilot review has been requested yet, an initial request is created; if the most recent Copilot review has already completed (including if it was later dismissed or superseded), a new request is created automatically to continue the review lifecycle. If a Copilot code review request is already pending for the pull request, no new request is created and the response is `409`. If the actor or repository is not eligible for Copilot code review, the actor has no quota remaining, or the licensing organization is unavailable, no request is created and the response is `422` with a stable `failure_reason`. A `review_effort` is accepted only when that effort level is available for the repository and actor; an unrecognized or unavailable `review_effort` returns `422` with `failure_reason` `INVALID_REVIEW_EFFORT`. If the actor, repository owner, or requesting application owner has been flagged, the response is `403` with `failure_reason` `ACTOR_FLAGGED`. If the per-actor or per-owner request rate limit is exceeded, the response is `429` with `failure_reason` `RATE_LIMITED`. If Copilot code review cannot be serviced right now, the response is `503`. Existing human and team review requests on the pull request are left unchanged. */
+export const requestCopilotCodeReview: API.OperationMethod<
+  RequestCopilotCodeReviewRequest,
+  CopilotCodeReviewRequest,
+  RequestCopilotCodeReviewError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(576, __c36, 0) as any as S.Schema<RequestCopilotCodeReviewRequest>,
+  output: __S(577, __c36, 1) as any as S.Schema<CopilotCodeReviewRequest>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestCopilotCodeReview",
+}));
+
 export type RequestReviewersError = GithubOpError;
 /** Request reviewers for a pull request Requests reviews for a pull request from a given set of users and/or teams. This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)." */
 export const requestReviewers: API.OperationMethod<
@@ -1990,7 +2068,7 @@ export const requestReviewers: API.OperationMethod<
   RequestReviewersError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<RequestReviewersRequest>,
+  input: __S(592, __c37, 0) as any as S.Schema<RequestReviewersRequest>,
   output: __S(243, __c15, 3) as any as S.Schema<PullRequestSimple>,
   errors: [],
   protocol: GithubProtocol,
@@ -2007,7 +2085,7 @@ export const rerequestReviewers: API.OperationMethod<
   RerequestReviewersError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<RerequestReviewersRequest>,
+  input: __S(624, __c39, 0) as any as S.Schema<RerequestReviewersRequest>,
   output: __S(243, __c15, 3) as any as S.Schema<PullRequestSimple>,
   errors: [],
   protocol: GithubProtocol,
@@ -2024,8 +2102,8 @@ export const submitReview: API.OperationMethod<
   SubmitReviewError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<SubmitReviewRequest>,
-  output: __S(769, __c48, 1) as any as S.Schema<PullRequestReview>,
+  input: __S(640, __c40, 0) as any as S.Schema<SubmitReviewRequest>,
+  output: __S(785, __c49, 1) as any as S.Schema<PullRequestReview>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2037,7 +2115,7 @@ export type UpdateError = GithubOpError;
 /** Update a pull request Draft pull requests are available in public repositories with GitHub Free and GitHub Free for organizations, GitHub Pro, and legacy per-repository billing plans, and in public and private repositories with GitHub Team and GitHub Enterprise Cloud. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation. To open or update a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open or update a pull request. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
 export const update: API.OperationMethod<UpdateRequest, PullRequest, UpdateError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(640, __c40, 0) as any as S.Schema<UpdateRequest>,
+    input: __S(656, __c41, 0) as any as S.Schema<UpdateRequest>,
     output: __S(404, __c25, 4) as any as S.Schema<PullRequest>,
     errors: [],
     protocol: GithubProtocol,
@@ -2054,7 +2132,7 @@ export const updateBranch: API.OperationMethod<
   UpdateBranchError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<UpdateBranchRequest>,
+  input: __S(672, __c42, 0) as any as S.Schema<UpdateBranchRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<UpdateBranchResponse>,
   errors: [],
   protocol: GithubProtocol,
@@ -2071,8 +2149,8 @@ export const updateReview: API.OperationMethod<
   UpdateReviewError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<UpdateReviewRequest>,
-  output: __S(769, __c48, 1) as any as S.Schema<PullRequestReview>,
+  input: __S(688, __c43, 0) as any as S.Schema<UpdateReviewRequest>,
+  output: __S(785, __c49, 1) as any as S.Schema<PullRequestReview>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2088,8 +2166,8 @@ export const updateReviewComment: API.OperationMethod<
   UpdateReviewCommentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<UpdateReviewCommentRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<PullRequestReviewComment>,
+  input: __S(704, __c44, 0) as any as S.Schema<UpdateReviewCommentRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<PullRequestReviewComment>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2496,6 +2574,8 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          is_copilot_code_review: S.optional(S.Boolean),
+          copilot_code_review_sources: S.optional(__S(737, __c46, 1)),
           url: S.String,
           pull_request_review_id: S.NullOr(S.Number),
           id: S.Number,
@@ -2514,10 +2594,10 @@ function __c16(j: number): any {
           html_url: S.String,
           pull_request_url: S.String,
           author_association: S.String,
-          _links: __S(720, __c45, 0),
+          _links: __S(738, __c46, 2),
           body_text: S.optional(S.String),
           body_html: S.optional(S.String),
-          reactions: S.optional(__S(721, __c45, 1)),
+          reactions: S.optional(__S(739, __c46, 3)),
           side: S.optional(S.String),
           start_side: S.optional(S.NullOr(S.String)),
           line: S.optional(S.Number),
@@ -3116,7 +3196,7 @@ function __c28(j: number): any {
 function __c29(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(736, __c46, 0));
+      return S.Array(__S(752, __c47, 0));
     case 1:
       return S.suspend(() => __S(464, __c29, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListReviewCommentsResponse",
@@ -3158,7 +3238,7 @@ function __c31(j: number): any {
         ),
       ).annotate({ identifier: "ListReviewsRequest" });
     case 1:
-      return S.Array(__S(769, __c48, 1));
+      return S.Array(__S(785, __c49, 1));
     case 2:
       return S.suspend(() => __S(497, __c31, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListReviewsResponse",
@@ -3265,16 +3345,22 @@ function __c36(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           pull_number: S.Number.pipe(T.Label()),
-          reviewers: S.optional(__S(387, __c24, 3)),
-          team_reviewers: S.optional(__S(387, __c24, 3)),
+          review_effort: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers",
+            uri: "/repos/{owner}/{repo}/pulls/{pull_number}/copilot-code-review",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "RequestReviewersRequest" });
+      ).annotate({ identifier: "RequestCopilotCodeReviewRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          node_id: S.String,
+          state: S.String,
+        }),
+      ).annotate({ identifier: "CopilotCodeReviewRequest" });
   }
 }
 function __c37(j: number): any {
@@ -3290,11 +3376,11 @@ function __c37(j: number): any {
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers/rerequest",
+            uri: "/repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "RerequestReviewersRequest" });
+      ).annotate({ identifier: "RequestReviewersRequest" });
   }
 }
 function __c38(j: number): any {
@@ -3317,6 +3403,26 @@ function __c39(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           pull_number: S.Number.pipe(T.Label()),
+          reviewers: S.optional(__S(387, __c24, 3)),
+          team_reviewers: S.optional(__S(387, __c24, 3)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers/rerequest",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RerequestReviewersRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          pull_number: S.Number.pipe(T.Label()),
           review_id: S.Number.pipe(T.Label()),
           body: S.optional(S.String),
           event: S.String,
@@ -3330,7 +3436,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "SubmitReviewRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3349,7 +3455,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "UpdateRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3368,7 +3474,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "UpdateBranchRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3388,7 +3494,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "UpdateReviewRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3407,7 +3513,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "UpdateReviewCommentRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3427,9 +3533,19 @@ function __c44(j: number): any {
       ).annotate({ identifier: "CreateReplyForReviewCommentRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          name: S.String,
+          path: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PullRequestReviewCommentCopilotCodeReviewSourcesItem" });
+    case 1:
+      return S.Array(__S(736, __c46, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           self: __S(416, __c26, 0),
@@ -3437,7 +3553,7 @@ function __c45(j: number): any {
           pull_request: __S(416, __c26, 0),
         }),
       ).annotate({ identifier: "PullRequestReviewCommentLinks" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           url: S.String,
@@ -3454,11 +3570,13 @@ function __c45(j: number): any {
       ).annotate({ identifier: "ReactionRollup" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          is_copilot_code_review: S.optional(S.Boolean),
+          copilot_code_review_sources: S.optional(__S(737, __c46, 1)),
           url: S.String,
           pull_request_review_id: S.NullOr(S.Number),
           id: S.Number,
@@ -3477,7 +3595,7 @@ function __c46(j: number): any {
           html_url: S.String,
           pull_request_url: S.String,
           author_association: S.String,
-          _links: __S(720, __c45, 0),
+          _links: __S(738, __c46, 2),
           start_line: S.optional(S.NullOr(S.Number)),
           original_start_line: S.optional(S.NullOr(S.Number)),
           start_side: S.optional(S.NullOr(S.String)),
@@ -3485,14 +3603,14 @@ function __c46(j: number): any {
           original_line: S.optional(S.Number),
           side: S.optional(S.String),
           subject_type: S.optional(S.String),
-          reactions: S.optional(__S(721, __c45, 1)),
+          reactions: S.optional(__S(739, __c46, 3)),
           body_html: S.optional(S.String),
           body_text: S.optional(S.String),
         }),
       ).annotate({ identifier: "PullRequestReviewComment" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3507,7 +3625,7 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "CreateReviewRequestCommentsItem" });
     case 1:
-      return S.Array(__S(752, __c47, 0));
+      return S.Array(__S(768, __c48, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3517,7 +3635,7 @@ function __c47(j: number): any {
           commit_id: S.optional(S.String),
           body: S.optional(S.String),
           event: S.optional(S.String),
-          comments: S.optional(__S(753, __c47, 1)),
+          comments: S.optional(__S(769, __c48, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3528,7 +3646,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "CreateReviewRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3545,9 +3663,11 @@ function __c48(j: number): any {
           user: S.NullOr(__S(16, __c1, 0)),
           body: S.String,
           state: S.String,
+          is_copilot_code_review: S.optional(S.Boolean),
+          copilot_code_review_effort: S.optional(S.NullOr(S.String)),
           html_url: S.String,
           pull_request_url: S.String,
-          _links: __S(768, __c48, 0),
+          _links: __S(784, __c49, 0),
           submitted_at: S.optional(S.String),
           commit_id: S.NullOr(S.String),
           body_html: S.optional(S.String),
@@ -3557,7 +3677,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "PullRequestReview" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3585,7 +3705,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "CreateReviewCommentRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3604,7 +3724,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "DeletePendingReviewRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3622,7 +3742,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "DeleteReviewCommentRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

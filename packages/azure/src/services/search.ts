@@ -449,6 +449,8 @@ export interface DataPlaneAuthOptions {
 }
 /** Specifies the availability and billing plan for semantic search on the Azure AI Search service. This configuration is only available for certain pricing tiers in certain regions. */
 export type SearchSemanticSearch = "disabled" | "free" | "standard";
+/** Specifies the billing plan for agentic retrieval on the Azure AI Search service. This configuration is only available for certain pricing tiers in certain regions. */
+export type KnowledgeRetrieval = "free" | "standard";
 /** Describes an existing private endpoint connection to the Azure AI Search service. */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -539,6 +541,8 @@ export interface SearchServiceProperties {
   authOptions?: DataPlaneAuthOptions;
   /** Specifies the availability and billing plan for semantic search on the Azure AI Search service. This configuration is only available for certain pricing tiers in certain regions. */
   semanticSearch?: SearchSemanticSearch | null;
+  /** Specifies the billing plan for agentic retrieval on the Azure AI Search service. This configuration is only available for certain pricing tiers in certain regions. */
+  knowledgeRetrieval?: KnowledgeRetrieval | null;
   /** The list of private endpoint connections to the Azure AI Search service. */
   privateEndpointConnections?: SearchServicePropertiesPrivateEndpointConnectionsList;
   /** The list of shared private link resources managed by the Azure AI Search service. */
@@ -558,7 +562,8 @@ export type SkuName =
   | "standard2"
   | "standard3"
   | "storage_optimized_l1"
-  | "storage_optimized_l2";
+  | "storage_optimized_l2"
+  | "serverless";
 /** Defines the SKU of a search service, which determines billing rate and capacity limits. */
 export interface Sku {
   /** The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions. 'serverless': Serverless tier with auto-scaling capabilities. */
@@ -958,6 +963,8 @@ export interface SearchServicePropertiesInput {
   authOptions?: DataPlaneAuthOptions;
   /** Specifies the availability and billing plan for semantic search on the Azure AI Search service. This configuration is only available for certain pricing tiers in certain regions. */
   semanticSearch?: SearchSemanticSearch | (string & {}) | null;
+  /** Specifies the billing plan for agentic retrieval on the Azure AI Search service. This configuration is only available for certain pricing tiers in certain regions. */
+  knowledgeRetrieval?: KnowledgeRetrieval | (string & {}) | null;
   /** Indicates if the search service has an upgrade available. */
   upgradeAvailable?: UpgradeAvailable | (string & {});
 }
@@ -1654,7 +1661,7 @@ function __c0(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Search/checkNameAvailability",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CheckServiceNameAvailabilityRequest" });
@@ -1682,7 +1689,7 @@ function __c1(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/createQueryKey/{name}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateQueryKeyRequest" });
@@ -1713,7 +1720,7 @@ function __c3(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetSharedPrivateLinkResourceRequest" });
@@ -1732,7 +1739,7 @@ function __c4(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/networkSecurityPerimeterConfigurations",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListNetworkSecurityPerimeterConfigurationByServiceRequest" });
@@ -1756,7 +1763,7 @@ function __c5(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.Search/operations",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1803,7 +1810,7 @@ function __c6(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByServiceRequest" });
@@ -1829,7 +1836,7 @@ function __c7(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateLinkResources",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourceSupportedRequest" });
@@ -1892,7 +1899,7 @@ function __c8(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListServiceByResourceGroupRequest" });
@@ -1922,7 +1929,7 @@ function __c10(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Search/searchServices",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListServiceBySubscriptionRequest" });
@@ -1941,7 +1948,7 @@ function __c11(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListSharedPrivateLinkResourceByServiceRequest" });
@@ -1966,7 +1973,7 @@ function __c12(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Search/locations/{location}/usages",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListUsageBySubscriptionRequest" });
@@ -2016,7 +2023,7 @@ function __c14(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/networkSecurityPerimeterConfigurations/{nspConfigName}/reconcile",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "NetworkSecurityPerimeterConfigurationsReconcileRequest" });
@@ -2042,7 +2049,7 @@ function __c15(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeletePrivateEndpointConnectionRequest" });
@@ -2119,7 +2126,7 @@ function __c19(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/listQueryKeys",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "QueryKeysListBySearchServiceRequest" });
@@ -2148,7 +2155,7 @@ function __c20(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/regenerateAdminKey/{keyKind}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "RegenerateAdminKeyRequest" });
@@ -2172,7 +2179,7 @@ function __c21(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ServicesCreateOrUpdateRequest" });
@@ -2215,6 +2222,7 @@ function __c23(j: number): any {
           disableLocalAuth: S.optional(S.NullOr(S.Boolean)),
           authOptions: S.optional(__S(711, __c44, 7)),
           semanticSearch: S.optional(S.NullOr(S.String)),
+          knowledgeRetrieval: S.optional(S.NullOr(S.String)),
           upgradeAvailable: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchServicePropertiesInput" });
@@ -2242,7 +2250,7 @@ function __c24(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/upgrade",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ServicesUpgradeRequest" });
@@ -2263,7 +2271,7 @@ function __c25(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "SharedPrivateLinkResourcesCreateOrUpdateRequest" });
@@ -2295,7 +2303,7 @@ function __c26(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdatePrivateEndpointConnectionRequest" });
@@ -2319,7 +2327,7 @@ function __c27(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateServiceRequest" });
@@ -2338,7 +2346,7 @@ function __c28(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Search/locations/{location}/usages/{skuName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UsageBySubscriptionSkuRequest" });
@@ -2358,7 +2366,7 @@ function __c29(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/deleteQueryKey/{key}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteQueryKeyRequest" });
@@ -2383,7 +2391,7 @@ function __c31(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteServiceRequest" });
@@ -2403,7 +2411,7 @@ function __c32(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteSharedPrivateLinkResourceRequest" });
@@ -2429,7 +2437,7 @@ function __c33(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/listAdminKeys",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetAdminKeyRequest" });
@@ -2460,7 +2468,7 @@ function __c35(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/networkSecurityPerimeterConfigurations/{nspConfigName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetNetworkSecurityPerimeterConfigurationRequest" });
@@ -2579,7 +2587,7 @@ function __c38(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateEndpointConnectionRequest" });
@@ -2598,7 +2606,7 @@ function __c39(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetServiceRequest" });
@@ -2704,6 +2712,7 @@ function __c44(j: number): any {
           disableLocalAuth: S.optional(S.NullOr(S.Boolean)),
           authOptions: S.optional(__S(711, __c44, 7)),
           semanticSearch: S.optional(S.NullOr(S.String)),
+          knowledgeRetrieval: S.optional(S.NullOr(S.String)),
           privateEndpointConnections: S.optional(__S(672, __c42, 0)),
           sharedPrivateLinkResources: S.optional(__S(688, __c43, 0)),
           eTag: S.optional(S.String),

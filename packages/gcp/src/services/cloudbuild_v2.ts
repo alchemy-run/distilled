@@ -108,37 +108,37 @@ export interface AccessReadWriteTokenProjectsLocationsConnectionsRepositoriesReq
 }
 /** Message for responding to get read/write token. */
 export interface FetchReadWriteTokenResponse {
-  /** The token content. */
-  token?: string;
   /** Expiration timestamp. Can be empty if unknown or non-expiring. */
   expirationTime?: string;
+  /** The token content. */
+  token?: string;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** A repository associated to a parent connection. */
 export interface Repository {
   /** Output only. External ID of the webhook created for the repository. */
   webhookId?: string;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
   /** Optional. Allows clients to store small amounts of arbitrary data. */
   annotations?: StringMap;
+  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
   /** Required. Git Clone HTTPS URI. */
   remoteUri?: string;
-  /** Immutable. Resource name of the repository, in the format `projects/*\/locations/*\/connections/*\/repositories/*`. */
-  name?: string;
   /** Output only. Server assigned timestamp for when the connection was updated. */
   updateTime?: string;
+  /** Immutable. Resource name of the repository, in the format `projects/*\/locations/*\/connections/*\/repositories/*`. */
+  name?: string;
   /** Output only. Server assigned timestamp for when the connection was created. */
   createTime?: string;
 }
 /** Message for creating a Repository. */
 export interface CreateRepositoryRequest {
-  /** Required. The repository to create. */
-  repository?: Repository;
-  /** Required. The connection to contain the repository. If the request is part of a BatchCreateRepositoriesRequest, this field should be empty or match the parent specified there. */
-  parent?: string;
   /** Required. The ID to use for the repository, which will become the final component of the repository's resource name. This ID should be unique in the connection. Allows alphanumeric characters and any of -._~%!$&'()*+,;=@. */
   repositoryId?: string;
+  /** Required. The connection to contain the repository. If the request is part of a BatchCreateRepositoriesRequest, this field should be empty or match the parent specified there. */
+  parent?: string;
+  /** Required. The repository to create. */
+  repository?: Repository;
 }
 export type CreateRepositoryRequestList = Array<CreateRepositoryRequest>;
 /** Message for creating repositoritories in batch. */
@@ -165,16 +165,16 @@ export interface Status {
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
 }
 /** The request message for Operations.CancelOperation. */
 export type CancelOperationRequest = FetchReadTokenRequest;
@@ -200,10 +200,6 @@ export interface GoogleDevtoolsCloudbuildV2ServiceDirectoryConfig {
 }
 /** Configuration for connections to Bitbucket Data Center. */
 export interface BitbucketDataCenterConfig {
-  /** Required. Immutable. SecretManager resource containing the webhook secret used to verify webhook events, formatted as `projects/*\/secrets/*\/versions/*`. */
-  webhookSecretSecretVersion?: string;
-  /** Output only. Version of the Bitbucket Data Center running on the `host_uri`. */
-  serverVersion?: string;
   /** Required. A http access token with the `REPO_ADMIN` scope access. */
   authorizerCredential?: UserCredential;
   /** Required. A http access token with the `REPO_READ` access. */
@@ -214,46 +210,58 @@ export interface BitbucketDataCenterConfig {
   hostUri?: string;
   /** Optional. Configuration for using Service Directory to privately connect to a Bitbucket Data Center. This should only be set if the Bitbucket Data Center is hosted on-premises and not reachable by public internet. If this field is left empty, calls to the Bitbucket Data Center will be made over the public internet. */
   serviceDirectoryConfig?: GoogleDevtoolsCloudbuildV2ServiceDirectoryConfig;
-}
-/** Configuration for connections to gitlab.com or an instance of GitLab Enterprise. */
-export interface GoogleDevtoolsCloudbuildV2GitLabConfig {
-  /** Required. A GitLab personal access token with the `api` scope access. */
-  authorizerCredential?: UserCredential;
-  /** Output only. Version of the GitLab Enterprise server running on the `host_uri`. */
+  /** Output only. Version of the Bitbucket Data Center running on the `host_uri`. */
   serverVersion?: string;
-  /** Optional. The URI of the GitLab Enterprise host this connection is for. If not specified, the default value is https://gitlab.com. */
-  hostUri?: string;
-  /** Optional. Configuration for using Service Directory to privately connect to a GitLab Enterprise server. This should only be set if the GitLab Enterprise server is hosted on-premises and not reachable by public internet. If this field is left empty, calls to the GitLab Enterprise server will be made over the public internet. */
-  serviceDirectoryConfig?: GoogleDevtoolsCloudbuildV2ServiceDirectoryConfig;
-  /** Required. Immutable. SecretManager resource containing the webhook secret of a GitLab Enterprise project, formatted as `projects/*\/secrets/*\/versions/*`. */
+  /** Required. Immutable. SecretManager resource containing the webhook secret used to verify webhook events, formatted as `projects/*\/secrets/*\/versions/*`. */
   webhookSecretSecretVersion?: string;
-  /** Optional. SSL certificate to use for requests to GitLab Enterprise. */
-  sslCa?: string;
-  /** Required. A GitLab personal access token with the minimum `read_api` scope access. */
-  readAuthorizerCredential?: UserCredential;
 }
 /** Configuration for connections to an instance of GitHub Enterprise. */
 export interface GoogleDevtoolsCloudbuildV2GitHubEnterpriseConfig {
+  /** Optional. ID of the installation of the GitHub App. */
+  appInstallationId?: string;
+  /** Required. API Key used for authentication of webhook events. */
+  apiKey?: string;
+  /** Optional. SecretManager resource containing the private key of the GitHub App, formatted as `projects/*\/secrets/*\/versions/*`. */
+  privateKeySecretVersion?: string;
+  /** Optional. SSL certificate to use for requests to GitHub Enterprise. */
+  sslCa?: string;
+  /** Optional. SecretManager resource containing the webhook secret of the GitHub App, formatted as `projects/*\/secrets/*\/versions/*`. */
+  webhookSecretSecretVersion?: string;
+  /** Optional. Configuration for using Service Directory to privately connect to a GitHub Enterprise server. This should only be set if the GitHub Enterprise server is hosted on-premises and not reachable by public internet. If this field is left empty, calls to the GitHub Enterprise server will be made over the public internet. */
+  serviceDirectoryConfig?: GoogleDevtoolsCloudbuildV2ServiceDirectoryConfig;
+  /** Output only. GitHub Enterprise version installed at the host_uri. */
+  serverVersion?: string;
+  /** Optional. Id of the GitHub App created from the manifest. */
+  appId?: string;
   /** Optional. The URL-friendly name of the GitHub App. */
   appSlug?: string;
   /** Required. The URI of the GitHub Enterprise host this connection is for. */
   hostUri?: string;
-  /** Optional. ID of the installation of the GitHub App. */
+}
+/** Represents an OAuth token of the account that authorized the Connection, and associated metadata. */
+export interface OAuthCredential {
+  /** Optional. A SecretManager resource containing the OAuth token that authorizes the Cloud Build connection. Format: `projects/*\/secrets/*\/versions/*`. */
+  oauthTokenSecretVersion?: string;
+  /** Output only. The username associated to this token. */
+  username?: string;
+}
+/** Configuration for connections to github.com. */
+export interface GitHubConfig {
+  /** Optional. OAuth credential of the account that authorized the Cloud Build GitHub App. It is recommended to use a robot account instead of a human user account. The OAuth token must be tied to the Cloud Build GitHub App. */
+  authorizerCredential?: OAuthCredential;
+  /** Optional. GitHub App installation id. */
   appInstallationId?: string;
-  /** Optional. SecretManager resource containing the private key of the GitHub App, formatted as `projects/*\/secrets/*\/versions/*`. */
-  privateKeySecretVersion?: string;
-  /** Output only. GitHub Enterprise version installed at the host_uri. */
-  serverVersion?: string;
-  /** Optional. Configuration for using Service Directory to privately connect to a GitHub Enterprise server. This should only be set if the GitHub Enterprise server is hosted on-premises and not reachable by public internet. If this field is left empty, calls to the GitHub Enterprise server will be made over the public internet. */
-  serviceDirectoryConfig?: GoogleDevtoolsCloudbuildV2ServiceDirectoryConfig;
-  /** Optional. SecretManager resource containing the webhook secret of the GitHub App, formatted as `projects/*\/secrets/*\/versions/*`. */
+}
+/** Configuration for connections to Bitbucket Cloud. */
+export interface BitbucketCloudConfig {
+  /** Required. SecretManager resource containing the webhook secret used to verify webhook events, formatted as `projects/*\/secrets/*\/versions/*`. */
   webhookSecretSecretVersion?: string;
-  /** Required. API Key used for authentication of webhook events. */
-  apiKey?: string;
-  /** Optional. SSL certificate to use for requests to GitHub Enterprise. */
-  sslCa?: string;
-  /** Optional. Id of the GitHub App created from the manifest. */
-  appId?: string;
+  /** Required. The Bitbucket Cloud Workspace ID to be connected to Google Cloud Platform. */
+  workspace?: string;
+  /** Required. An access token with the `repository` access. It can be either a workspace, project or repository access token. It's recommended to use a system account to generate the credentials. */
+  readAuthorizerCredential?: UserCredential;
+  /** Required. An access token with the `webhook`, `repository`, `repository:admin` and `pullrequest` scope access. It can be either a workspace, project or repository access token. It's recommended to use a system account to generate these credentials. */
+  authorizerCredential?: UserCredential;
 }
 export type InstallationStateStageEnum =
   | "STAGE_UNSPECIFIED"
@@ -263,66 +271,58 @@ export type InstallationStateStageEnum =
   | "COMPLETE";
 /** Describes stage and necessary actions to be taken by the user to complete the installation. Used for GitHub and GitHub Enterprise based connections. */
 export interface InstallationState {
-  /** Output only. Link to follow for next action. Empty string if the installation is already complete. */
-  actionUri?: string;
   /** Output only. Message of what the user should do next to continue the installation. Empty string if the installation is already complete. */
   message?: string;
   /** Output only. Current step of the installation process. */
   stage?: InstallationStateStageEnum | (string & {});
+  /** Output only. Link to follow for next action. Empty string if the installation is already complete. */
+  actionUri?: string;
 }
-/** Configuration for connections to Bitbucket Cloud. */
-export interface BitbucketCloudConfig {
-  /** Required. An access token with the `repository` access. It can be either a workspace, project or repository access token. It's recommended to use a system account to generate the credentials. */
+/** Configuration for connections to gitlab.com or an instance of GitLab Enterprise. */
+export interface GoogleDevtoolsCloudbuildV2GitLabConfig {
+  /** Optional. The URI of the GitLab Enterprise host this connection is for. If not specified, the default value is https://gitlab.com. */
+  hostUri?: string;
+  /** Required. A GitLab personal access token with the minimum `read_api` scope access. */
   readAuthorizerCredential?: UserCredential;
-  /** Required. An access token with the `webhook`, `repository`, `repository:admin` and `pullrequest` scope access. It can be either a workspace, project or repository access token. It's recommended to use a system account to generate these credentials. */
-  authorizerCredential?: UserCredential;
-  /** Required. The Bitbucket Cloud Workspace ID to be connected to Google Cloud Platform. */
-  workspace?: string;
-  /** Required. SecretManager resource containing the webhook secret used to verify webhook events, formatted as `projects/*\/secrets/*\/versions/*`. */
+  /** Optional. SSL certificate to use for requests to GitLab Enterprise. */
+  sslCa?: string;
+  /** Required. Immutable. SecretManager resource containing the webhook secret of a GitLab Enterprise project, formatted as `projects/*\/secrets/*\/versions/*`. */
   webhookSecretSecretVersion?: string;
-}
-/** Represents an OAuth token of the account that authorized the Connection, and associated metadata. */
-export interface OAuthCredential {
-  /** Output only. The username associated to this token. */
-  username?: string;
-  /** Optional. A SecretManager resource containing the OAuth token that authorizes the Cloud Build connection. Format: `projects/*\/secrets/*\/versions/*`. */
-  oauthTokenSecretVersion?: string;
-}
-/** Configuration for connections to github.com. */
-export interface GitHubConfig {
-  /** Optional. OAuth credential of the account that authorized the Cloud Build GitHub App. It is recommended to use a robot account instead of a human user account. The OAuth token must be tied to the Cloud Build GitHub App. */
-  authorizerCredential?: OAuthCredential;
-  /** Optional. GitHub App installation id. */
-  appInstallationId?: string;
+  /** Required. A GitLab personal access token with the `api` scope access. */
+  authorizerCredential?: UserCredential;
+  /** Optional. Configuration for using Service Directory to privately connect to a GitLab Enterprise server. This should only be set if the GitLab Enterprise server is hosted on-premises and not reachable by public internet. If this field is left empty, calls to the GitLab Enterprise server will be made over the public internet. */
+  serviceDirectoryConfig?: GoogleDevtoolsCloudbuildV2ServiceDirectoryConfig;
+  /** Output only. Version of the GitLab Enterprise server running on the `host_uri`. */
+  serverVersion?: string;
 }
 /** A connection to a SCM like GitHub, GitHub Enterprise, Bitbucket Data Center, Bitbucket Cloud or GitLab. */
 export interface Connection {
   /** Configuration for connections to Bitbucket Data Center. */
   bitbucketDataCenterConfig?: BitbucketDataCenterConfig;
+  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
+  /** Optional. If disabled is set to true, functionality is disabled for this connection. Repository based API methods and webhooks processing for repositories in this connection will be disabled. */
+  disabled?: boolean;
+  /** Output only. Set to true when the connection is being set up or updated in the background. */
+  reconciling?: boolean;
+  /** Optional. Allows clients to store small amounts of arbitrary data. */
+  annotations?: StringMap;
+  /** Output only. Server assigned timestamp for when the connection was created. */
+  createTime?: string;
+  /** Configuration for connections to an instance of GitHub Enterprise. */
+  githubEnterpriseConfig?: GoogleDevtoolsCloudbuildV2GitHubEnterpriseConfig;
+  /** Immutable. The resource name of the connection, in the format `projects/{project}/locations/{location}/connections/{connection_id}`. */
+  name?: string;
+  /** Configuration for connections to github.com. */
+  githubConfig?: GitHubConfig;
+  /** Configuration for connections to Bitbucket Cloud. */
+  bitbucketCloudConfig?: BitbucketCloudConfig;
+  /** Output only. Installation state of the Connection. */
+  installationState?: InstallationState;
   /** Output only. Server assigned timestamp for when the connection was updated. */
   updateTime?: string;
   /** Configuration for connections to gitlab.com or an instance of GitLab Enterprise. */
   gitlabConfig?: GoogleDevtoolsCloudbuildV2GitLabConfig;
-  /** Configuration for connections to an instance of GitHub Enterprise. */
-  githubEnterpriseConfig?: GoogleDevtoolsCloudbuildV2GitHubEnterpriseConfig;
-  /** Output only. Server assigned timestamp for when the connection was created. */
-  createTime?: string;
-  /** Immutable. The resource name of the connection, in the format `projects/{project}/locations/{location}/connections/{connection_id}`. */
-  name?: string;
-  /** Output only. Set to true when the connection is being set up or updated in the background. */
-  reconciling?: boolean;
-  /** Output only. Installation state of the Connection. */
-  installationState?: InstallationState;
-  /** Optional. Allows clients to store small amounts of arbitrary data. */
-  annotations?: StringMap;
-  /** Configuration for connections to Bitbucket Cloud. */
-  bitbucketCloudConfig?: BitbucketCloudConfig;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
-  /** Configuration for connections to github.com. */
-  githubConfig?: GitHubConfig;
-  /** Optional. If disabled is set to true, functionality is disabled for this connection. Repository based API methods and webhooks processing for repositories in this connection will be disabled. */
-  disabled?: boolean;
 }
 export interface CreateProjectsLocationsConnectionsRequest {
   /** Required. Project and location where the connection will be created. Format: `projects/*\/locations/*`. */
@@ -333,42 +333,42 @@ export interface CreateProjectsLocationsConnectionsRequest {
   body?: Connection;
 }
 export interface CreateProjectsLocationsConnectionsRepositoriesRequest {
-  /** Required. The connection to contain the repository. If the request is part of a BatchCreateRepositoriesRequest, this field should be empty or match the parent specified there. */
-  parent: string;
   /** Required. The ID to use for the repository, which will become the final component of the repository's resource name. This ID should be unique in the connection. Allows alphanumeric characters and any of -._~%!$&'()*+,;=@. */
   repositoryId?: string;
+  /** Required. The connection to contain the repository. If the request is part of a BatchCreateRepositoriesRequest, this field should be empty or match the parent specified there. */
+  parent: string;
   /** Request body */
   body?: Repository;
 }
 export interface DeleteProjectsLocationsConnectionsRequest {
-  /** If set, validate the request, but do not actually post it. */
-  validateOnly?: boolean;
   /** Required. The name of the Connection to delete. Format: `projects/*\/locations/*\/connections/*`. */
   name: string;
   /** The current etag of the connection. If an etag is provided and does not match the current etag of the connection, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
+  /** If set, validate the request, but do not actually post it. */
+  validateOnly?: boolean;
 }
 export interface DeleteProjectsLocationsConnectionsRepositoriesRequest {
   /** If set, validate the request, but do not actually post it. */
   validateOnly?: boolean;
-  /** Required. The name of the Repository to delete. Format: `projects/*\/locations/*\/connections/*\/repositories/*`. */
-  name: string;
   /** The current etag of the repository. If an etag is provided and does not match the current etag of the repository, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
+  /** Required. The name of the Repository to delete. Format: `projects/*\/locations/*\/connections/*\/repositories/*`. */
+  name: string;
 }
 export type FetchGitRefsProjectsLocationsConnectionsRepositoriesRefTypeEnum =
   | "REF_TYPE_UNSPECIFIED"
   | "TAG"
   | "BRANCH";
 export interface FetchGitRefsProjectsLocationsConnectionsRepositoriesRequest {
-  /** Optional. Page start. */
-  pageToken?: string;
   /** Optional. Number of results to return in the list. Default to 20. */
   pageSize?: number;
   /** Type of refs to fetch */
   refType?: FetchGitRefsProjectsLocationsConnectionsRepositoriesRefTypeEnum | (string & {});
   /** Required. The resource name of the repository in the format `projects/*\/locations/*\/connections/*\/repositories/*`. */
   repository: string;
+  /** Optional. Page start. */
+  pageToken?: string;
 }
 export type StringList = Array<string>;
 /** Response for fetching git refs */
@@ -379,12 +379,12 @@ export interface FetchGitRefsResponse {
   nextPageToken?: string;
 }
 export interface FetchLinkableRepositoriesProjectsLocationsConnectionsRequest {
-  /** Required. The name of the Connection. Format: `projects/*\/locations/*\/connections/*`. */
-  connection: string;
-  /** Page start. */
-  pageToken?: string;
   /** Number of results to return in the list. Default to 20. */
   pageSize?: number;
+  /** Page start. */
+  pageToken?: string;
+  /** Required. The name of the Connection. Format: `projects/*\/locations/*\/connections/*`. */
+  connection: string;
 }
 export type RepositoryList = Array<Repository>;
 /** Response message for FetchLinkableRepositories. */
@@ -400,16 +400,37 @@ export interface GetIamPolicyProjectsLocationsConnectionsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
 }
+export type AuditLogConfigLogTypeEnum =
+  | "LOG_TYPE_UNSPECIFIED"
+  | "ADMIN_READ"
+  | "DATA_WRITE"
+  | "DATA_READ";
+/** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
+export interface AuditLogConfig {
+  /** The log type that this config enables. */
+  logType?: AuditLogConfigLogTypeEnum | (string & {});
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: StringList;
+}
+export type AuditLogConfigList = Array<AuditLogConfig>;
+/** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
+export interface AuditConfig {
+  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
+  service?: string;
+  /** The configuration for logging of each type of permission. */
+  auditLogConfigs?: AuditLogConfigList;
+}
+export type AuditConfigList = Array<AuditConfig>;
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
   title?: string;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
@@ -421,35 +442,14 @@ export interface Binding {
   condition?: Expr;
 }
 export type BindingList = Array<Binding>;
-export type AuditLogConfigLogTypeEnum =
-  | "LOG_TYPE_UNSPECIFIED"
-  | "ADMIN_READ"
-  | "DATA_WRITE"
-  | "DATA_READ";
-/** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
-export interface AuditLogConfig {
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
-  /** The log type that this config enables. */
-  logType?: AuditLogConfigLogTypeEnum | (string & {});
-}
-export type AuditLogConfigList = Array<AuditLogConfig>;
-/** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
-export interface AuditConfig {
-  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
-  /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList;
-}
-export type AuditConfigList = Array<AuditConfig>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
-  /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string;
+  /** Specifies cloud audit logging configuration for this policy. */
+  auditConfigs?: AuditConfigList;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: BindingList;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number;
 }
@@ -459,16 +459,16 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap;
 }
 export interface GetProjectsLocationsConnectionsRequest {
   /** Required. The name of the Connection to retrieve. Format: `projects/*\/locations/*\/connections/*`. */
@@ -483,16 +483,16 @@ export interface GetProjectsLocationsOperationsRequest {
   name: string;
 }
 export interface ListProjectsLocationsRequest {
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
@@ -505,53 +505,53 @@ export interface ListLocationsResponse {
 export interface ListProjectsLocationsConnectionsRequest {
   /** Optional. If set to true, the response will return partial results when some regions are unreachable. If set to false, the response will fail if any region is unreachable. */
   returnPartialSuccess?: boolean;
-  /** Required. The parent, which owns this collection of Connections. Format: `projects/*\/locations/*`. */
-  parent: string;
-  /** Page start. */
-  pageToken?: string;
   /** Number of results to return in the list. */
   pageSize?: number;
+  /** Page start. */
+  pageToken?: string;
+  /** Required. The parent, which owns this collection of Connections. Format: `projects/*\/locations/*`. */
+  parent: string;
 }
 export type ConnectionList = Array<Connection>;
 /** Message for response to listing Connections. */
 export interface ListConnectionsResponse {
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
-  /** The list of Connections. */
-  connections?: ConnectionList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** The list of Connections. */
+  connections?: ConnectionList;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string;
 }
 export interface ListProjectsLocationsConnectionsRepositoriesRequest {
   /** Number of results to return in the list. */
   pageSize?: number;
-  /** Required. The parent, which owns this collection of Repositories. Format: `projects/*\/locations/*\/connections/*`. */
-  parent: string;
-  /** Page start. */
-  pageToken?: string;
   /** A filter expression that filters resources listed in the response. Expressions must follow API improvement proposal [AIP-160](https://google.aip.dev/160). e.g. `remote_uri:"https://github.com*"`. */
   filter?: string;
   /** Optional. If set to true, the response will return partial results when some regions are unreachable. If set to false, the response will fail if any region is unreachable. */
   returnPartialSuccess?: boolean;
+  /** Page start. */
+  pageToken?: string;
+  /** Required. The parent, which owns this collection of Repositories. Format: `projects/*\/locations/*\/connections/*`. */
+  parent: string;
 }
 /** Message for response to listing Repositories. */
 export interface ListRepositoriesResponse {
-  /** The list of Repositories. */
-  repositories?: RepositoryList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** The list of Repositories. */
+  repositories?: RepositoryList;
 }
 export interface PatchProjectsLocationsConnectionsRequest {
-  /** The list of fields to be updated. */
-  updateMask?: string;
   /** Immutable. The resource name of the connection, in the format `projects/{project}/locations/{location}/connections/{connection_id}`. */
   name: string;
   /** The current etag of the connection. If an etag is provided and does not match the current etag of the connection, update will be blocked and an ABORTED error will be returned. */
   etag?: string;
   /** If set to true, and the connection is not found a new connection will be created. In this situation `update_mask` is ignored. The creation will succeed only if the input connection has all the necessary information (e.g a github_config with both user_oauth_token and installation_id properties). */
   allowMissing?: boolean;
+  /** The list of fields to be updated. */
+  updateMask?: string;
   /** Request body */
   body?: Connection;
 }
@@ -559,10 +559,10 @@ export interface PatchProjectsLocationsConnectionsRequest {
 export interface HttpBody {
   /** The HTTP Content-Type header value specifying the content type of the body. */
   contentType?: string;
-  /** The HTTP request/response body as raw binary. */
-  data?: string;
   /** Application specific response metadata. Must be set in the first response for streaming APIs. */
   extensions?: DocumentMapList;
+  /** The HTTP request/response body as raw binary. */
+  data?: string;
 }
 export interface ProcessWebhookProjectsLocationsConnectionsRequest {
   /** Arbitrary additional key to find the matching repository for a webhook event if needed. */
@@ -619,7 +619,7 @@ export const accessReadTokenProjectsLocationsConnectionsRepositories: API.Operat
     __c20,
     0,
   ) as any as S.Schema<AccessReadTokenProjectsLocationsConnectionsRepositoriesRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<FetchReadTokenResponse>,
+  output: __S(336, __c21, 0) as any as S.Schema<FetchReadTokenResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -641,11 +641,11 @@ export const accessReadWriteTokenProjectsLocationsConnectionsRepositories: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    352,
-    __c22,
+    368,
+    __c23,
     0,
   ) as any as S.Schema<AccessReadWriteTokenProjectsLocationsConnectionsRepositoriesRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<FetchReadWriteTokenResponse>,
+  output: __S(336, __c21, 0) as any as S.Schema<FetchReadWriteTokenResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -667,11 +667,11 @@ export const batchCreateProjectsLocationsConnectionsRepositories: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    371,
-    __c23,
+    387,
+    __c24,
     3,
   ) as any as S.Schema<BatchCreateProjectsLocationsConnectionsRepositoriesRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<Operation>,
+  output: __S(417, __c26, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -692,8 +692,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<Empty>,
+  input: __S(480, __c30, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -714,8 +714,8 @@ export const createProjectsLocationsConnections: API.OperationMethod<
   CreateProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<CreateProjectsLocationsConnectionsRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<Operation>,
+  input: __S(496, __c31, 0) as any as S.Schema<CreateProjectsLocationsConnectionsRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -737,11 +737,11 @@ export const createProjectsLocationsConnectionsRepositories: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    512,
-    __c32,
+    528,
+    __c33,
     0,
   ) as any as S.Schema<CreateProjectsLocationsConnectionsRepositoriesRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<Operation>,
+  output: __S(417, __c26, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -763,7 +763,7 @@ export const deleteProjectsLocationsConnections: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsConnectionsRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<Operation>,
+  output: __S(417, __c26, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -785,7 +785,7 @@ export const deleteProjectsLocationsConnectionsRepositories: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<DeleteProjectsLocationsConnectionsRepositoriesRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<Operation>,
+  output: __S(417, __c26, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -888,7 +888,7 @@ export const getProjectsLocationsConnections: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetProjectsLocationsConnectionsRequest>,
-  output: __S(505, __c31, 9) as any as S.Schema<Connection>,
+  output: __S(521, __c32, 9) as any as S.Schema<Connection>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -905,7 +905,7 @@ export const getProjectsLocationsConnectionsRepositories: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetProjectsLocationsConnectionsRepositoriesRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<Repository>,
+  output: __S(464, __c29, 0) as any as S.Schema<Repository>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -922,7 +922,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<Operation>,
+  output: __S(417, __c26, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1001,7 +1001,7 @@ export const patchProjectsLocationsConnections: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<PatchProjectsLocationsConnectionsRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<Operation>,
+  output: __S(417, __c26, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1023,7 +1023,7 @@ export const processWebhookProjectsLocationsConnections: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(273, __c17, 1) as any as S.Schema<ProcessWebhookProjectsLocationsConnectionsRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<Empty>,
+  output: __S(352, __c22, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1085,9 +1085,9 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           etag: S.optional(S.String.pipe(T.Query())),
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -1104,8 +1104,8 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           etag: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -1121,10 +1121,10 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           refType: S.optional(S.String.pipe(T.Query())),
           repository: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1153,9 +1153,9 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          connection: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          connection: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1176,7 +1176,7 @@ function __c4(j: number): any {
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(448, __c28, 0));
+      return S.Array(__S(464, __c29, 0));
   }
 }
 function __c6(j: number): any {
@@ -1201,46 +1201,46 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          expression: S.optional(S.String),
-          location: S.optional(S.String),
+          logType: S.optional(S.String),
+          exemptedMembers: S.optional(__S(48, __c3, 0)),
+        }),
+      ).annotate({ identifier: "AuditLogConfig" });
+    case 1:
+      return S.Array(__S(112, __c7, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          service: S.optional(S.String),
+          auditLogConfigs: S.optional(__S(113, __c7, 1)),
+        }),
+      ).annotate({ identifier: "AuditConfig" });
+    case 3:
+      return S.Array(__S(114, __c7, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           title: S.optional(S.String),
+          location: S.optional(S.String),
+          expression: S.optional(S.String),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Expr" });
-    case 1:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           members: S.optional(__S(48, __c3, 0)),
           role: S.optional(S.String),
-          condition: S.optional(__S(112, __c7, 0)),
+          condition: S.optional(__S(116, __c7, 4)),
         }),
       ).annotate({ identifier: "Binding" });
-    case 2:
-      return S.Array(__S(113, __c7, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          exemptedMembers: S.optional(__S(48, __c3, 0)),
-          logType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuditLogConfig" });
-    case 4:
-      return S.Array(__S(115, __c7, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(116, __c7, 4)),
-        }),
-      ).annotate({ identifier: "AuditConfig" });
     case 6:
       return S.Array(__S(117, __c7, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(114, __c7, 2)),
-          auditConfigs: S.optional(__S(118, __c7, 6)),
           etag: S.optional(S.String),
+          auditConfigs: S.optional(__S(115, __c7, 3)),
+          bindings: S.optional(__S(118, __c7, 6)),
           version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Policy" });
@@ -1267,11 +1267,11 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(432, __c27, 0)),
-          displayName: S.optional(S.String),
           locationId: S.optional(S.String),
-          metadata: S.optional(__S(384, __c24, 0)),
+          metadata: S.optional(__S(400, __c25, 0)),
           name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          labels: S.optional(__S(448, __c28, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1329,11 +1329,11 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(48, __c3, 0).pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          extraLocationTypes: S.optional(__S(48, __c3, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1359,9 +1359,9 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1371,13 +1371,13 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsConnectionsRequest" });
     case 1:
-      return S.Array(__S(505, __c31, 9));
+      return S.Array(__S(521, __c32, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
-          connections: S.optional(__S(225, __c14, 1)),
           unreachable: S.optional(__S(48, __c3, 0)),
+          connections: S.optional(__S(225, __c14, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListConnectionsResponse" });
   }
@@ -1388,10 +1388,10 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1403,9 +1403,9 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          repositories: S.optional(__S(80, __c5, 0)),
           nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(48, __c3, 0)),
+          repositories: S.optional(__S(80, __c5, 0)),
         }),
       ).annotate({ identifier: "ListRepositoriesResponse" });
   }
@@ -1415,11 +1415,11 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           etag: S.optional(S.String.pipe(T.Query())),
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(505, __c31, 9).pipe(T.HttpBody())),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(521, __c32, 9).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1436,8 +1436,8 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           contentType: S.optional(S.String),
+          extensions: S.optional(__S(432, __c27, 0)),
           data: S.optional(S.String),
-          extensions: S.optional(__S(416, __c26, 0)),
         }),
       ).annotate({ identifier: "HttpBody" });
     case 1:
@@ -1509,7 +1509,7 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           repository: S.String.pipe(T.Label()),
-          body: S.optional(__S(336, __c21, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(352, __c22, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1518,7 +1518,11 @@ function __c20(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AccessReadTokenProjectsLocationsConnectionsRepositoriesRequest" });
-    case 1:
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           expirationTime: S.optional(S.String),
@@ -1527,19 +1531,19 @@ function __c20(j: number): any {
       ).annotate({ identifier: "FetchReadTokenResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "FetchReadTokenRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           repository: S.String.pipe(T.Label()),
-          body: S.optional(__S(336, __c21, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(352, __c22, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1550,38 +1554,31 @@ function __c22(j: number): any {
       ).annotate({
         identifier: "AccessReadWriteTokenProjectsLocationsConnectionsRepositoriesRequest",
       });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          token: S.optional(S.String),
-          expirationTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FetchReadWriteTokenResponse" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          repository: S.optional(__S(448, __c28, 0)),
-          parent: S.optional(S.String),
           repositoryId: S.optional(S.String),
+          parent: S.optional(S.String),
+          repository: S.optional(__S(464, __c29, 0)),
         }),
       ).annotate({ identifier: "CreateRepositoryRequest" });
     case 1:
-      return S.Array(__S(368, __c23, 0));
+      return S.Array(__S(384, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          requests: S.optional(__S(369, __c23, 1)),
+          requests: S.optional(__S(385, __c24, 1)),
         }),
       ).annotate({ identifier: "BatchCreateRepositoriesRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(370, __c23, 2).pipe(T.HttpBody())),
+          body: S.optional(__S(386, __c24, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1592,60 +1589,44 @@ function __c23(j: number): any {
       ).annotate({ identifier: "BatchCreateProjectsLocationsConnectionsRepositoriesRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(416, __c26, 0)),
+          details: S.optional(__S(432, __c27, 0)),
         }),
       ).annotate({ identifier: "Status" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          done: S.optional(S.Boolean),
-          response: S.optional(__S(384, __c24, 0)),
-          error: S.optional(__S(400, __c25, 0)),
-          metadata: S.optional(__S(384, __c24, 0)),
           name: S.optional(S.String),
+          error: S.optional(__S(416, __c26, 0)),
+          done: S.optional(S.Boolean),
+          response: S.optional(__S(400, __c25, 0)),
+          metadata: S.optional(__S(400, __c25, 0)),
         }),
       ).annotate({ identifier: "Operation" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(384, __c24, 0));
   }
 }
 function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
+      return S.Array(__S(400, __c25, 0));
   }
 }
 function __c28(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          webhookId: S.optional(S.String),
-          etag: S.optional(S.String),
-          annotations: S.optional(__S(432, __c27, 0)),
-          remoteUri: S.optional(S.String),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Repository" });
+      return S.Record(S.String, S.String);
   }
 }
 function __c29(j: number): any {
@@ -1653,8 +1634,24 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          webhookId: S.optional(S.String),
+          annotations: S.optional(__S(448, __c28, 0)),
+          etag: S.optional(S.String),
+          remoteUri: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Repository" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(336, __c21, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(352, __c22, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1665,14 +1662,14 @@ function __c29(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           connectionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(505, __c31, 9).pipe(T.HttpBody())),
+          body: S.optional(__S(521, __c32, 9).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1683,7 +1680,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsConnectionsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1701,101 +1698,101 @@ function __c31(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          webhookSecretSecretVersion: S.optional(S.String),
-          serverVersion: S.optional(S.String),
-          authorizerCredential: S.optional(__S(496, __c31, 0)),
-          readAuthorizerCredential: S.optional(__S(496, __c31, 0)),
+          authorizerCredential: S.optional(__S(512, __c32, 0)),
+          readAuthorizerCredential: S.optional(__S(512, __c32, 0)),
           sslCa: S.optional(S.String),
           hostUri: S.optional(S.String),
-          serviceDirectoryConfig: S.optional(__S(497, __c31, 1)),
+          serviceDirectoryConfig: S.optional(__S(513, __c32, 1)),
+          serverVersion: S.optional(S.String),
+          webhookSecretSecretVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "BitbucketDataCenterConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          authorizerCredential: S.optional(__S(496, __c31, 0)),
-          serverVersion: S.optional(S.String),
-          hostUri: S.optional(S.String),
-          serviceDirectoryConfig: S.optional(__S(497, __c31, 1)),
-          webhookSecretSecretVersion: S.optional(S.String),
+          appInstallationId: S.optional(S.String),
+          apiKey: S.optional(S.String),
+          privateKeySecretVersion: S.optional(S.String),
           sslCa: S.optional(S.String),
-          readAuthorizerCredential: S.optional(__S(496, __c31, 0)),
+          webhookSecretSecretVersion: S.optional(S.String),
+          serviceDirectoryConfig: S.optional(__S(513, __c32, 1)),
+          serverVersion: S.optional(S.String),
+          appId: S.optional(S.String),
+          appSlug: S.optional(S.String),
+          hostUri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleDevtoolsCloudbuildV2GitLabConfig" });
+      ).annotate({ identifier: "GoogleDevtoolsCloudbuildV2GitHubEnterpriseConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          appSlug: S.optional(S.String),
-          hostUri: S.optional(S.String),
-          appInstallationId: S.optional(S.String),
-          privateKeySecretVersion: S.optional(S.String),
-          serverVersion: S.optional(S.String),
-          serviceDirectoryConfig: S.optional(__S(497, __c31, 1)),
-          webhookSecretSecretVersion: S.optional(S.String),
-          apiKey: S.optional(S.String),
-          sslCa: S.optional(S.String),
-          appId: S.optional(S.String),
+          oauthTokenSecretVersion: S.optional(S.String),
+          username: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleDevtoolsCloudbuildV2GitHubEnterpriseConfig" });
+      ).annotate({ identifier: "OAuthCredential" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          actionUri: S.optional(S.String),
-          message: S.optional(S.String),
-          stage: S.optional(S.String),
+          authorizerCredential: S.optional(__S(516, __c32, 4)),
+          appInstallationId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "InstallationState" });
+      ).annotate({ identifier: "GitHubConfig" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          readAuthorizerCredential: S.optional(__S(496, __c31, 0)),
-          authorizerCredential: S.optional(__S(496, __c31, 0)),
-          workspace: S.optional(S.String),
           webhookSecretSecretVersion: S.optional(S.String),
+          workspace: S.optional(S.String),
+          readAuthorizerCredential: S.optional(__S(512, __c32, 0)),
+          authorizerCredential: S.optional(__S(512, __c32, 0)),
         }),
       ).annotate({ identifier: "BitbucketCloudConfig" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          username: S.optional(S.String),
-          oauthTokenSecretVersion: S.optional(S.String),
+          message: S.optional(S.String),
+          stage: S.optional(S.String),
+          actionUri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OAuthCredential" });
+      ).annotate({ identifier: "InstallationState" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          authorizerCredential: S.optional(__S(503, __c31, 7)),
-          appInstallationId: S.optional(S.String),
+          hostUri: S.optional(S.String),
+          readAuthorizerCredential: S.optional(__S(512, __c32, 0)),
+          sslCa: S.optional(S.String),
+          webhookSecretSecretVersion: S.optional(S.String),
+          authorizerCredential: S.optional(__S(512, __c32, 0)),
+          serviceDirectoryConfig: S.optional(__S(513, __c32, 1)),
+          serverVersion: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GitHubConfig" });
+      ).annotate({ identifier: "GoogleDevtoolsCloudbuildV2GitLabConfig" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          bitbucketDataCenterConfig: S.optional(__S(498, __c31, 2)),
-          updateTime: S.optional(S.String),
-          gitlabConfig: S.optional(__S(499, __c31, 3)),
-          githubEnterpriseConfig: S.optional(__S(500, __c31, 4)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          installationState: S.optional(__S(501, __c31, 5)),
-          annotations: S.optional(__S(432, __c27, 0)),
-          bitbucketCloudConfig: S.optional(__S(502, __c31, 6)),
+          bitbucketDataCenterConfig: S.optional(__S(514, __c32, 2)),
           etag: S.optional(S.String),
-          githubConfig: S.optional(__S(504, __c31, 8)),
           disabled: S.optional(S.Boolean),
+          reconciling: S.optional(S.Boolean),
+          annotations: S.optional(__S(448, __c28, 0)),
+          createTime: S.optional(S.String),
+          githubEnterpriseConfig: S.optional(__S(515, __c32, 3)),
+          name: S.optional(S.String),
+          githubConfig: S.optional(__S(517, __c32, 5)),
+          bitbucketCloudConfig: S.optional(__S(518, __c32, 6)),
+          installationState: S.optional(__S(519, __c32, 7)),
+          updateTime: S.optional(S.String),
+          gitlabConfig: S.optional(__S(520, __c32, 8)),
         }),
       ).annotate({ identifier: "Connection" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           repositoryId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(448, __c28, 0).pipe(T.HttpBody())),
+          parent: S.String.pipe(T.Label()),
+          body: S.optional(__S(464, __c29, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",

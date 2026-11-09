@@ -327,7 +327,7 @@ export interface CreateDrainResponseBodyCase0Schemas {
   trace?: unknown;
 }
 /** Informational marker for a system-owned default drain. */
-export type CreateDrainResponseBodyCase0SourceCase0DefaultFor = "eve-tracing";
+export type CreateDrainResponseBodyCase0SourceCase0DefaultFor = "eve-tracing" | "nextjs-tracing";
 export type CreateDrainResponseBodyCase0SourceCase0Kind = "self-served";
 export interface CreateDrainResponseBodyCase0SourceCase0 {
   /** Informational marker for a system-owned default drain. */
@@ -346,6 +346,17 @@ export type CreateDrainResponseBodyCase0Source =
   | CreateDrainResponseBodyCase0SourceCase0
   | CreateDrainResponseBodyCase0SourceCase1;
 export type CreateDrainResponseBodyCase0Status = "disabled" | "enabled" | "errored";
+export type CreateDrainResponseBodyCase0DeliveryStatsState = "failing" | "healthy" | "unknown";
+export type CreateDrainResponseBodyCase0DeliveryStatsWindow = "24h";
+/** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+export interface CreateDrainResponseBodyCase0DeliveryStats {
+  /** All delivery attempts in the window. */
+  attempts: number;
+  /** Delivery attempts that did not succeed in the window. */
+  failures: number;
+  state: CreateDrainResponseBodyCase0DeliveryStatsState;
+  window: CreateDrainResponseBodyCase0DeliveryStatsWindow;
+}
 export type CreateDrainResponseBodyCase0FilterV2FilterCase0DeploymentEnvironmentsItem =
   | "preview"
   | "production";
@@ -409,6 +420,8 @@ export interface CreateDrainResponseBodyCase0 {
   status?: CreateDrainResponseBodyCase0Status;
   teamId?: string | null;
   updatedAt: number;
+  /** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+  deliveryStats?: CreateDrainResponseBodyCase0DeliveryStats;
   filterV2?: CreateDrainResponseBodyCase0FilterV2;
 }
 export type CreateDrainResponseBodyCase1DeliveryCase0Compression = "gzip" | "none";
@@ -517,7 +530,7 @@ export type CreateDrainResponseBodyCase1SamplingList =
   Array<CreateDrainResponseBodyCase1SamplingItem>;
 export type CreateDrainResponseBodyCase1Schemas = CreateDrainResponseBodyCase0Schemas;
 /** Informational marker for a system-owned default drain. */
-export type CreateDrainResponseBodyCase1SourceCase0DefaultFor = "eve-tracing";
+export type CreateDrainResponseBodyCase1SourceCase0DefaultFor = "eve-tracing" | "nextjs-tracing";
 export type CreateDrainResponseBodyCase1SourceCase0Kind = "self-served";
 export interface CreateDrainResponseBodyCase1SourceCase0 {
   /** Informational marker for a system-owned default drain. */
@@ -536,6 +549,17 @@ export type CreateDrainResponseBodyCase1Source =
   | CreateDrainResponseBodyCase1SourceCase0
   | CreateDrainResponseBodyCase1SourceCase1;
 export type CreateDrainResponseBodyCase1Status = "disabled" | "enabled" | "errored";
+export type CreateDrainResponseBodyCase1DeliveryStatsState = "failing" | "healthy" | "unknown";
+export type CreateDrainResponseBodyCase1DeliveryStatsWindow = "24h";
+/** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+export interface CreateDrainResponseBodyCase1DeliveryStats {
+  /** All delivery attempts in the window. */
+  attempts: number;
+  /** Delivery attempts that did not succeed in the window. */
+  failures: number;
+  state: CreateDrainResponseBodyCase1DeliveryStatsState;
+  window: CreateDrainResponseBodyCase1DeliveryStatsWindow;
+}
 export type CreateDrainResponseBodyCase1FilterV2FilterCase0DeploymentEnvironmentsItem =
   | "preview"
   | "production";
@@ -616,6 +640,8 @@ export interface CreateDrainResponseBodyCase1 {
   status?: CreateDrainResponseBodyCase1Status;
   teamId?: string | null;
   updatedAt: number;
+  /** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+  deliveryStats?: CreateDrainResponseBodyCase1DeliveryStats;
   filterV2?: CreateDrainResponseBodyCase1FilterV2;
   integrationConfigurationUri?: string;
   integrationIcon?: string;
@@ -634,63 +660,56 @@ export interface DeleteDrainRequest {
 export interface DeleteDrainResponse {}
 export interface GetDrainRequest {
   id: string;
+  /** Include `deliveryStats` with the delivery health of the drain over the last 24 hours. */
+  includeDeliveryStats?: boolean;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string;
   /** The Team slug to perform the request on behalf of. */
   slug?: string;
 }
-export type GetDrainResponseBodyCase0DeliveryCase0Compression = "gzip" | "none";
-export type GetDrainResponseBodyCase0DeliveryCase0Encoding = "json" | "ndjson";
-export type GetDrainResponseBodyCase0DeliveryCase0HeadersMap = {
-  [key: string]: string | undefined;
-};
-export type GetDrainResponseBodyCase0DeliveryCase0SecretCase1Kind = "INTEGRATION_SECRET";
-export interface GetDrainResponseBodyCase0DeliveryCase0SecretCase1 {
-  kind: GetDrainResponseBodyCase0DeliveryCase0SecretCase1Kind;
+export type GetDrainResponseDeliveryCase0Compression = "gzip" | "none";
+export type GetDrainResponseDeliveryCase0Encoding = "json" | "ndjson";
+export type GetDrainResponseDeliveryCase0HeadersMap = { [key: string]: string | undefined };
+export type GetDrainResponseDeliveryCase0SecretCase1Kind = "INTEGRATION_SECRET";
+export interface GetDrainResponseDeliveryCase0SecretCase1 {
+  kind: GetDrainResponseDeliveryCase0SecretCase1Kind;
 }
-export type GetDrainResponseBodyCase0DeliveryCase0Secret =
-  | string
-  | GetDrainResponseBodyCase0DeliveryCase0SecretCase1;
-export type GetDrainResponseBodyCase0DeliveryCase0Type = "http";
-export interface GetDrainResponseBodyCase0DeliveryCase0 {
-  compression?: GetDrainResponseBodyCase0DeliveryCase0Compression;
-  encoding: GetDrainResponseBodyCase0DeliveryCase0Encoding;
+export type GetDrainResponseDeliveryCase0Secret = string | GetDrainResponseDeliveryCase0SecretCase1;
+export type GetDrainResponseDeliveryCase0Type = "http";
+export interface GetDrainResponseDeliveryCase0 {
+  compression?: GetDrainResponseDeliveryCase0Compression;
+  encoding: GetDrainResponseDeliveryCase0Encoding;
   endpoint: string;
-  headers: GetDrainResponseBodyCase0DeliveryCase0HeadersMap;
-  secret?: GetDrainResponseBodyCase0DeliveryCase0Secret;
-  type: GetDrainResponseBodyCase0DeliveryCase0Type;
+  headers: GetDrainResponseDeliveryCase0HeadersMap;
+  secret?: GetDrainResponseDeliveryCase0Secret;
+  type: GetDrainResponseDeliveryCase0Type;
 }
-export type GetDrainResponseBodyCase0DeliveryCase1Encoding = "json" | "proto";
-export type GetDrainResponseBodyCase0DeliveryCase1Endpoint =
-  CreateDrainRequestDeliveryCase1Endpoint;
-export type GetDrainResponseBodyCase0DeliveryCase1HeadersMap = {
-  [key: string]: string | undefined;
-};
-export type GetDrainResponseBodyCase0DeliveryCase1SecretCase1Kind = "INTEGRATION_SECRET";
-export interface GetDrainResponseBodyCase0DeliveryCase1SecretCase1 {
-  kind: GetDrainResponseBodyCase0DeliveryCase1SecretCase1Kind;
+export type GetDrainResponseDeliveryCase1Encoding = "json" | "proto";
+export type GetDrainResponseDeliveryCase1Endpoint = CreateDrainRequestDeliveryCase1Endpoint;
+export type GetDrainResponseDeliveryCase1HeadersMap = { [key: string]: string | undefined };
+export type GetDrainResponseDeliveryCase1SecretCase1Kind = "INTEGRATION_SECRET";
+export interface GetDrainResponseDeliveryCase1SecretCase1 {
+  kind: GetDrainResponseDeliveryCase1SecretCase1Kind;
 }
-export type GetDrainResponseBodyCase0DeliveryCase1Secret =
-  | string
-  | GetDrainResponseBodyCase0DeliveryCase1SecretCase1;
-export type GetDrainResponseBodyCase0DeliveryCase1Type = "otlphttp";
-export interface GetDrainResponseBodyCase0DeliveryCase1 {
-  encoding: GetDrainResponseBodyCase0DeliveryCase1Encoding;
+export type GetDrainResponseDeliveryCase1Secret = string | GetDrainResponseDeliveryCase1SecretCase1;
+export type GetDrainResponseDeliveryCase1Type = "otlphttp";
+export interface GetDrainResponseDeliveryCase1 {
+  encoding: GetDrainResponseDeliveryCase1Encoding;
   endpoint: CreateDrainRequestDeliveryCase1Endpoint;
-  headers: GetDrainResponseBodyCase0DeliveryCase1HeadersMap;
-  secret?: GetDrainResponseBodyCase0DeliveryCase1Secret;
-  type: GetDrainResponseBodyCase0DeliveryCase1Type;
+  headers: GetDrainResponseDeliveryCase1HeadersMap;
+  secret?: GetDrainResponseDeliveryCase1Secret;
+  type: GetDrainResponseDeliveryCase1Type;
 }
-export type GetDrainResponseBodyCase0DeliveryCase2Type = "clickhouse";
-export interface GetDrainResponseBodyCase0DeliveryCase2 {
+export type GetDrainResponseDeliveryCase2Type = "clickhouse";
+export interface GetDrainResponseDeliveryCase2 {
   endpoint: string;
   table: string;
-  type: GetDrainResponseBodyCase0DeliveryCase2Type;
+  type: GetDrainResponseDeliveryCase2Type;
 }
-export type GetDrainResponseBodyCase0DeliveryCase3Compression = "none";
-export type GetDrainResponseBodyCase0DeliveryCase3Encoding = "json" | "ndjson";
-export type GetDrainResponseBodyCase0DeliveryCase3FileStructure = "hive";
-export type GetDrainResponseBodyCase0DeliveryCase3ObjectAcl =
+export type GetDrainResponseDeliveryCase3Compression = "none";
+export type GetDrainResponseDeliveryCase3Encoding = "json" | "ndjson";
+export type GetDrainResponseDeliveryCase3FileStructure = "hive";
+export type GetDrainResponseDeliveryCase3ObjectAcl =
   | "authenticated-read"
   | "aws-exec-read"
   | "bucket-owner-full-control"
@@ -698,80 +717,89 @@ export type GetDrainResponseBodyCase0DeliveryCase3ObjectAcl =
   | "private"
   | "public-read"
   | "public-read-write";
-export type GetDrainResponseBodyCase0DeliveryCase3ServerSideEncryption =
+export type GetDrainResponseDeliveryCase3ServerSideEncryption =
   | "AES256"
   | "aws:kms"
   | "aws:kms:dsse";
-export type GetDrainResponseBodyCase0DeliveryCase3Type = "s3";
-export interface GetDrainResponseBodyCase0DeliveryCase3 {
-  compression: GetDrainResponseBodyCase0DeliveryCase3Compression;
-  encoding: GetDrainResponseBodyCase0DeliveryCase3Encoding;
+export type GetDrainResponseDeliveryCase3Type = "s3";
+export interface GetDrainResponseDeliveryCase3 {
+  compression: GetDrainResponseDeliveryCase3Compression;
+  encoding: GetDrainResponseDeliveryCase3Encoding;
   endpoint: string;
-  fileStructure: GetDrainResponseBodyCase0DeliveryCase3FileStructure;
-  objectAcl?: GetDrainResponseBodyCase0DeliveryCase3ObjectAcl;
+  fileStructure: GetDrainResponseDeliveryCase3FileStructure;
+  objectAcl?: GetDrainResponseDeliveryCase3ObjectAcl;
   region: string;
   roleArn: string;
-  serverSideEncryption?: GetDrainResponseBodyCase0DeliveryCase3ServerSideEncryption;
-  type: GetDrainResponseBodyCase0DeliveryCase3Type;
+  serverSideEncryption?: GetDrainResponseDeliveryCase3ServerSideEncryption;
+  type: GetDrainResponseDeliveryCase3Type;
 }
-export type GetDrainResponseBodyCase0DeliveryCase4Target = "vercel-otel-traces-db";
-export type GetDrainResponseBodyCase0DeliveryCase4Type = "internal";
-export interface GetDrainResponseBodyCase0DeliveryCase4 {
-  target: GetDrainResponseBodyCase0DeliveryCase4Target;
-  type: GetDrainResponseBodyCase0DeliveryCase4Type;
+export type GetDrainResponseDeliveryCase4Target = "vercel-otel-traces-db";
+export type GetDrainResponseDeliveryCase4Type = "internal";
+export interface GetDrainResponseDeliveryCase4 {
+  target: GetDrainResponseDeliveryCase4Target;
+  type: GetDrainResponseDeliveryCase4Type;
 }
-export type GetDrainResponseBodyCase0Delivery =
-  | GetDrainResponseBodyCase0DeliveryCase0
-  | GetDrainResponseBodyCase0DeliveryCase1
-  | GetDrainResponseBodyCase0DeliveryCase2
-  | GetDrainResponseBodyCase0DeliveryCase3
-  | GetDrainResponseBodyCase0DeliveryCase4;
-export type GetDrainResponseBodyCase0DisabledReason =
+export type GetDrainResponseDelivery =
+  | GetDrainResponseDeliveryCase0
+  | GetDrainResponseDeliveryCase1
+  | GetDrainResponseDeliveryCase2
+  | GetDrainResponseDeliveryCase3
+  | GetDrainResponseDeliveryCase4;
+export type GetDrainResponseDisabledReason =
   | "account-plan-downgrade"
   | "disabled-by-admin"
   | "disabled-by-owner"
   | "feature-not-available"
   | "limits-exceeded";
-export type GetDrainResponseBodyCase0ProjectIdsList = Array<string>;
-export type GetDrainResponseBodyCase0SamplingItemEnv = "preview" | "production";
-export type GetDrainResponseBodyCase0SamplingItemType = "head_sampling";
-export interface GetDrainResponseBodyCase0SamplingItem {
-  env?: GetDrainResponseBodyCase0SamplingItemEnv;
+export type GetDrainResponseProjectIdsList = Array<string>;
+export type GetDrainResponseSamplingItemEnv = "preview" | "production";
+export type GetDrainResponseSamplingItemType = "head_sampling";
+export interface GetDrainResponseSamplingItem {
+  env?: GetDrainResponseSamplingItemEnv;
   rate: number;
   requestPath?: string;
-  type: GetDrainResponseBodyCase0SamplingItemType;
+  type: GetDrainResponseSamplingItemType;
 }
-export type GetDrainResponseBodyCase0SamplingList = Array<GetDrainResponseBodyCase0SamplingItem>;
-export type GetDrainResponseBodyCase0Schemas = CreateDrainResponseBodyCase0Schemas;
+export type GetDrainResponseSamplingList = Array<GetDrainResponseSamplingItem>;
+export type GetDrainResponseSchemas = CreateDrainResponseBodyCase0Schemas;
 /** Informational marker for a system-owned default drain. */
-export type GetDrainResponseBodyCase0SourceCase0DefaultFor = "eve-tracing";
-export type GetDrainResponseBodyCase0SourceCase0Kind = "self-served";
-export interface GetDrainResponseBodyCase0SourceCase0 {
+export type GetDrainResponseSourceCase0DefaultFor = "eve-tracing" | "nextjs-tracing";
+export type GetDrainResponseSourceCase0Kind = "self-served";
+export interface GetDrainResponseSourceCase0 {
   /** Informational marker for a system-owned default drain. */
-  defaultFor?: GetDrainResponseBodyCase0SourceCase0DefaultFor;
-  kind: GetDrainResponseBodyCase0SourceCase0Kind;
+  defaultFor?: GetDrainResponseSourceCase0DefaultFor;
+  kind: GetDrainResponseSourceCase0Kind;
 }
-export type GetDrainResponseBodyCase0SourceCase1Kind = "integration";
-export interface GetDrainResponseBodyCase0SourceCase1 {
+export type GetDrainResponseSourceCase1Kind = "integration";
+export interface GetDrainResponseSourceCase1 {
   externalResourceId?: string;
   integrationConfigurationId: string;
   integrationId: string;
-  kind: GetDrainResponseBodyCase0SourceCase1Kind;
+  kind: GetDrainResponseSourceCase1Kind;
   resourceId?: string;
 }
-export type GetDrainResponseBodyCase0Source =
-  | GetDrainResponseBodyCase0SourceCase0
-  | GetDrainResponseBodyCase0SourceCase1;
-export type GetDrainResponseBodyCase0Status = "disabled" | "enabled" | "errored";
-export type GetDrainResponseBodyCase0FilterV2FilterCase0DeploymentEnvironmentsItem =
+export type GetDrainResponseSource = GetDrainResponseSourceCase0 | GetDrainResponseSourceCase1;
+export type GetDrainResponseStatus = "disabled" | "enabled" | "errored";
+export type GetDrainResponseDeliveryStatsState = "failing" | "healthy" | "unknown";
+export type GetDrainResponseDeliveryStatsWindow = "24h";
+/** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+export interface GetDrainResponseDeliveryStats {
+  /** All delivery attempts in the window. */
+  attempts: number;
+  /** Delivery attempts that did not succeed in the window. */
+  failures: number;
+  state: GetDrainResponseDeliveryStatsState;
+  window: GetDrainResponseDeliveryStatsWindow;
+}
+export type GetDrainResponseFilterV2FilterCase0DeploymentEnvironmentsItem =
   | "preview"
   | "production";
-export type GetDrainResponseBodyCase0FilterV2FilterCase0DeploymentEnvironmentsList =
-  Array<GetDrainResponseBodyCase0FilterV2FilterCase0DeploymentEnvironmentsItem>;
-export interface GetDrainResponseBodyCase0FilterV2FilterCase0Deployment {
-  environments?: GetDrainResponseBodyCase0FilterV2FilterCase0DeploymentEnvironmentsList;
+export type GetDrainResponseFilterV2FilterCase0DeploymentEnvironmentsList =
+  Array<GetDrainResponseFilterV2FilterCase0DeploymentEnvironmentsItem>;
+export interface GetDrainResponseFilterV2FilterCase0Deployment {
+  environments?: GetDrainResponseFilterV2FilterCase0DeploymentEnvironmentsList;
 }
-export type GetDrainResponseBodyCase0FilterV2FilterCase0LogSourcesItem =
+export type GetDrainResponseFilterV2FilterCase0LogSourcesItem =
   | "build"
   | "edge"
   | "external"
@@ -779,270 +807,62 @@ export type GetDrainResponseBodyCase0FilterV2FilterCase0LogSourcesItem =
   | "lambda"
   | "redirect"
   | "static";
-export type GetDrainResponseBodyCase0FilterV2FilterCase0LogSourcesList =
-  Array<GetDrainResponseBodyCase0FilterV2FilterCase0LogSourcesItem>;
-export interface GetDrainResponseBodyCase0FilterV2FilterCase0Log {
+export type GetDrainResponseFilterV2FilterCase0LogSourcesList =
+  Array<GetDrainResponseFilterV2FilterCase0LogSourcesItem>;
+export interface GetDrainResponseFilterV2FilterCase0Log {
   legacy_excludeCachedStaticAssetLogs?: boolean;
-  sources?: GetDrainResponseBodyCase0FilterV2FilterCase0LogSourcesList;
+  sources?: GetDrainResponseFilterV2FilterCase0LogSourcesList;
 }
-export type GetDrainResponseBodyCase0FilterV2FilterCase0ProjectIdsList = Array<string>;
-export interface GetDrainResponseBodyCase0FilterV2FilterCase0Project {
-  ids?: GetDrainResponseBodyCase0FilterV2FilterCase0ProjectIdsList;
+export type GetDrainResponseFilterV2FilterCase0ProjectIdsList = Array<string>;
+export interface GetDrainResponseFilterV2FilterCase0Project {
+  ids?: GetDrainResponseFilterV2FilterCase0ProjectIdsList;
 }
-export type GetDrainResponseBodyCase0FilterV2FilterCase0Type = "basic";
-export interface GetDrainResponseBodyCase0FilterV2FilterCase0 {
-  deployment?: GetDrainResponseBodyCase0FilterV2FilterCase0Deployment;
-  log?: GetDrainResponseBodyCase0FilterV2FilterCase0Log;
-  project?: GetDrainResponseBodyCase0FilterV2FilterCase0Project;
-  type: GetDrainResponseBodyCase0FilterV2FilterCase0Type;
+export type GetDrainResponseFilterV2FilterCase0Type = "basic";
+export interface GetDrainResponseFilterV2FilterCase0 {
+  deployment?: GetDrainResponseFilterV2FilterCase0Deployment;
+  log?: GetDrainResponseFilterV2FilterCase0Log;
+  project?: GetDrainResponseFilterV2FilterCase0Project;
+  type: GetDrainResponseFilterV2FilterCase0Type;
 }
-export type GetDrainResponseBodyCase0FilterV2FilterCase1Type = "odata";
-export interface GetDrainResponseBodyCase0FilterV2FilterCase1 {
+export type GetDrainResponseFilterV2FilterCase1Type = "odata";
+export interface GetDrainResponseFilterV2FilterCase1 {
   text: string;
-  type: GetDrainResponseBodyCase0FilterV2FilterCase1Type;
+  type: GetDrainResponseFilterV2FilterCase1Type;
 }
-export type GetDrainResponseBodyCase0FilterV2Filter =
-  | GetDrainResponseBodyCase0FilterV2FilterCase0
-  | GetDrainResponseBodyCase0FilterV2FilterCase1;
-export type GetDrainResponseBodyCase0FilterV2Version = "v2";
-export interface GetDrainResponseBodyCase0FilterV2 {
-  filter: GetDrainResponseBodyCase0FilterV2Filter;
-  version: GetDrainResponseBodyCase0FilterV2Version;
+export type GetDrainResponseFilterV2Filter =
+  | GetDrainResponseFilterV2FilterCase0
+  | GetDrainResponseFilterV2FilterCase1;
+export type GetDrainResponseFilterV2Version = "v2";
+export interface GetDrainResponseFilterV2 {
+  filter: GetDrainResponseFilterV2Filter;
+  version: GetDrainResponseFilterV2Version;
 }
-export interface GetDrainResponseBodyCase0 {
+export interface GetDrainResponse {
   createdAt: number;
-  delivery: GetDrainResponseBodyCase0Delivery;
+  delivery: GetDrainResponseDelivery;
   disabledAt?: number;
   disabledBy?: string;
-  disabledReason?: GetDrainResponseBodyCase0DisabledReason;
+  disabledReason?: GetDrainResponseDisabledReason;
   firstErrorTimestamp?: number;
   id: string;
   name: string;
   ownerId: string;
-  projectIds?: GetDrainResponseBodyCase0ProjectIdsList;
-  sampling?: GetDrainResponseBodyCase0SamplingList;
+  projectIds?: GetDrainResponseProjectIdsList;
+  sampling?: GetDrainResponseSamplingList;
   schemas: CreateDrainResponseBodyCase0Schemas;
-  source: GetDrainResponseBodyCase0Source;
-  status?: GetDrainResponseBodyCase0Status;
+  source: GetDrainResponseSource;
+  status?: GetDrainResponseStatus;
   teamId?: string | null;
   updatedAt: number;
-  filterV2?: GetDrainResponseBodyCase0FilterV2;
+  /** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+  deliveryStats?: GetDrainResponseDeliveryStats;
+  filterV2?: GetDrainResponseFilterV2;
 }
-export type GetDrainResponseBodyCase1DeliveryCase0Compression = "gzip" | "none";
-export type GetDrainResponseBodyCase1DeliveryCase0Encoding = "json" | "ndjson";
-export type GetDrainResponseBodyCase1DeliveryCase0HeadersMap = {
-  [key: string]: string | undefined;
-};
-export type GetDrainResponseBodyCase1DeliveryCase0SecretCase1Kind = "INTEGRATION_SECRET";
-export interface GetDrainResponseBodyCase1DeliveryCase0SecretCase1 {
-  kind: GetDrainResponseBodyCase1DeliveryCase0SecretCase1Kind;
-}
-export type GetDrainResponseBodyCase1DeliveryCase0Secret =
-  | string
-  | GetDrainResponseBodyCase1DeliveryCase0SecretCase1;
-export type GetDrainResponseBodyCase1DeliveryCase0Type = "http";
-export interface GetDrainResponseBodyCase1DeliveryCase0 {
-  compression?: GetDrainResponseBodyCase1DeliveryCase0Compression;
-  encoding: GetDrainResponseBodyCase1DeliveryCase0Encoding;
-  endpoint: string;
-  headers: GetDrainResponseBodyCase1DeliveryCase0HeadersMap;
-  secret?: GetDrainResponseBodyCase1DeliveryCase0Secret;
-  type: GetDrainResponseBodyCase1DeliveryCase0Type;
-}
-export type GetDrainResponseBodyCase1DeliveryCase1Encoding = "json" | "proto";
-export type GetDrainResponseBodyCase1DeliveryCase1Endpoint =
-  CreateDrainRequestDeliveryCase1Endpoint;
-export type GetDrainResponseBodyCase1DeliveryCase1HeadersMap = {
-  [key: string]: string | undefined;
-};
-export type GetDrainResponseBodyCase1DeliveryCase1SecretCase1Kind = "INTEGRATION_SECRET";
-export interface GetDrainResponseBodyCase1DeliveryCase1SecretCase1 {
-  kind: GetDrainResponseBodyCase1DeliveryCase1SecretCase1Kind;
-}
-export type GetDrainResponseBodyCase1DeliveryCase1Secret =
-  | string
-  | GetDrainResponseBodyCase1DeliveryCase1SecretCase1;
-export type GetDrainResponseBodyCase1DeliveryCase1Type = "otlphttp";
-export interface GetDrainResponseBodyCase1DeliveryCase1 {
-  encoding: GetDrainResponseBodyCase1DeliveryCase1Encoding;
-  endpoint: CreateDrainRequestDeliveryCase1Endpoint;
-  headers: GetDrainResponseBodyCase1DeliveryCase1HeadersMap;
-  secret?: GetDrainResponseBodyCase1DeliveryCase1Secret;
-  type: GetDrainResponseBodyCase1DeliveryCase1Type;
-}
-export type GetDrainResponseBodyCase1DeliveryCase2Type = "clickhouse";
-export interface GetDrainResponseBodyCase1DeliveryCase2 {
-  endpoint: string;
-  table: string;
-  type: GetDrainResponseBodyCase1DeliveryCase2Type;
-}
-export type GetDrainResponseBodyCase1DeliveryCase3Compression = "none";
-export type GetDrainResponseBodyCase1DeliveryCase3Encoding = "json" | "ndjson";
-export type GetDrainResponseBodyCase1DeliveryCase3FileStructure = "hive";
-export type GetDrainResponseBodyCase1DeliveryCase3ObjectAcl =
-  | "authenticated-read"
-  | "aws-exec-read"
-  | "bucket-owner-full-control"
-  | "bucket-owner-read"
-  | "private"
-  | "public-read"
-  | "public-read-write";
-export type GetDrainResponseBodyCase1DeliveryCase3ServerSideEncryption =
-  | "AES256"
-  | "aws:kms"
-  | "aws:kms:dsse";
-export type GetDrainResponseBodyCase1DeliveryCase3Type = "s3";
-export interface GetDrainResponseBodyCase1DeliveryCase3 {
-  compression: GetDrainResponseBodyCase1DeliveryCase3Compression;
-  encoding: GetDrainResponseBodyCase1DeliveryCase3Encoding;
-  endpoint: string;
-  fileStructure: GetDrainResponseBodyCase1DeliveryCase3FileStructure;
-  objectAcl?: GetDrainResponseBodyCase1DeliveryCase3ObjectAcl;
-  region: string;
-  roleArn: string;
-  serverSideEncryption?: GetDrainResponseBodyCase1DeliveryCase3ServerSideEncryption;
-  type: GetDrainResponseBodyCase1DeliveryCase3Type;
-}
-export type GetDrainResponseBodyCase1DeliveryCase4Target = "vercel-otel-traces-db";
-export type GetDrainResponseBodyCase1DeliveryCase4Type = "internal";
-export interface GetDrainResponseBodyCase1DeliveryCase4 {
-  target: GetDrainResponseBodyCase1DeliveryCase4Target;
-  type: GetDrainResponseBodyCase1DeliveryCase4Type;
-}
-export type GetDrainResponseBodyCase1Delivery =
-  | GetDrainResponseBodyCase1DeliveryCase0
-  | GetDrainResponseBodyCase1DeliveryCase1
-  | GetDrainResponseBodyCase1DeliveryCase2
-  | GetDrainResponseBodyCase1DeliveryCase3
-  | GetDrainResponseBodyCase1DeliveryCase4;
-export type GetDrainResponseBodyCase1DisabledReason =
-  | "account-plan-downgrade"
-  | "disabled-by-admin"
-  | "disabled-by-owner"
-  | "feature-not-available"
-  | "limits-exceeded";
-export type GetDrainResponseBodyCase1ProjectIdsList = Array<string>;
-export type GetDrainResponseBodyCase1SamplingItemEnv = "preview" | "production";
-export type GetDrainResponseBodyCase1SamplingItemType = "head_sampling";
-export interface GetDrainResponseBodyCase1SamplingItem {
-  env?: GetDrainResponseBodyCase1SamplingItemEnv;
-  rate: number;
-  requestPath?: string;
-  type: GetDrainResponseBodyCase1SamplingItemType;
-}
-export type GetDrainResponseBodyCase1SamplingList = Array<GetDrainResponseBodyCase1SamplingItem>;
-export type GetDrainResponseBodyCase1Schemas = CreateDrainResponseBodyCase0Schemas;
-/** Informational marker for a system-owned default drain. */
-export type GetDrainResponseBodyCase1SourceCase0DefaultFor = "eve-tracing";
-export type GetDrainResponseBodyCase1SourceCase0Kind = "self-served";
-export interface GetDrainResponseBodyCase1SourceCase0 {
-  /** Informational marker for a system-owned default drain. */
-  defaultFor?: GetDrainResponseBodyCase1SourceCase0DefaultFor;
-  kind: GetDrainResponseBodyCase1SourceCase0Kind;
-}
-export type GetDrainResponseBodyCase1SourceCase1Kind = "integration";
-export interface GetDrainResponseBodyCase1SourceCase1 {
-  externalResourceId?: string;
-  integrationConfigurationId: string;
-  integrationId: string;
-  kind: GetDrainResponseBodyCase1SourceCase1Kind;
-  resourceId?: string;
-}
-export type GetDrainResponseBodyCase1Source =
-  | GetDrainResponseBodyCase1SourceCase0
-  | GetDrainResponseBodyCase1SourceCase1;
-export type GetDrainResponseBodyCase1Status = "disabled" | "enabled" | "errored";
-export type GetDrainResponseBodyCase1FilterV2FilterCase0DeploymentEnvironmentsItem =
-  | "preview"
-  | "production";
-export type GetDrainResponseBodyCase1FilterV2FilterCase0DeploymentEnvironmentsList =
-  Array<GetDrainResponseBodyCase1FilterV2FilterCase0DeploymentEnvironmentsItem>;
-export interface GetDrainResponseBodyCase1FilterV2FilterCase0Deployment {
-  environments?: GetDrainResponseBodyCase1FilterV2FilterCase0DeploymentEnvironmentsList;
-}
-export type GetDrainResponseBodyCase1FilterV2FilterCase0LogSourcesItem =
-  | "build"
-  | "edge"
-  | "external"
-  | "firewall"
-  | "lambda"
-  | "redirect"
-  | "static";
-export type GetDrainResponseBodyCase1FilterV2FilterCase0LogSourcesList =
-  Array<GetDrainResponseBodyCase1FilterV2FilterCase0LogSourcesItem>;
-export interface GetDrainResponseBodyCase1FilterV2FilterCase0Log {
-  legacy_excludeCachedStaticAssetLogs?: boolean;
-  sources?: GetDrainResponseBodyCase1FilterV2FilterCase0LogSourcesList;
-}
-export type GetDrainResponseBodyCase1FilterV2FilterCase0ProjectIdsList = Array<string>;
-export interface GetDrainResponseBodyCase1FilterV2FilterCase0Project {
-  ids?: GetDrainResponseBodyCase1FilterV2FilterCase0ProjectIdsList;
-}
-export type GetDrainResponseBodyCase1FilterV2FilterCase0Type = "basic";
-export interface GetDrainResponseBodyCase1FilterV2FilterCase0 {
-  deployment?: GetDrainResponseBodyCase1FilterV2FilterCase0Deployment;
-  log?: GetDrainResponseBodyCase1FilterV2FilterCase0Log;
-  project?: GetDrainResponseBodyCase1FilterV2FilterCase0Project;
-  type: GetDrainResponseBodyCase1FilterV2FilterCase0Type;
-}
-export type GetDrainResponseBodyCase1FilterV2FilterCase1Type = "odata";
-export interface GetDrainResponseBodyCase1FilterV2FilterCase1 {
-  text: string;
-  type: GetDrainResponseBodyCase1FilterV2FilterCase1Type;
-}
-export type GetDrainResponseBodyCase1FilterV2Filter =
-  | GetDrainResponseBodyCase1FilterV2FilterCase0
-  | GetDrainResponseBodyCase1FilterV2FilterCase1;
-export type GetDrainResponseBodyCase1FilterV2Version = "v2";
-export interface GetDrainResponseBodyCase1FilterV2 {
-  filter: GetDrainResponseBodyCase1FilterV2Filter;
-  version: GetDrainResponseBodyCase1FilterV2Version;
-}
-export type GetDrainResponseBodyCase1ProjectAccessCase0Access = "all";
-export type GetDrainResponseBodyCase1ProjectAccessCase0ManagedBy = "drain" | "integration";
-export interface GetDrainResponseBodyCase1ProjectAccessCase0 {
-  access: GetDrainResponseBodyCase1ProjectAccessCase0Access;
-  managedBy: GetDrainResponseBodyCase1ProjectAccessCase0ManagedBy;
-}
-export type GetDrainResponseBodyCase1ProjectAccessCase1Access = "some";
-export type GetDrainResponseBodyCase1ProjectAccessCase1ProjectIdsList = Array<string>;
-export type GetDrainResponseBodyCase1ProjectAccessCase1ManagedBy = "drain" | "integration";
-export interface GetDrainResponseBodyCase1ProjectAccessCase1 {
-  access: GetDrainResponseBodyCase1ProjectAccessCase1Access;
-  projectIds: GetDrainResponseBodyCase1ProjectAccessCase1ProjectIdsList;
-  managedBy: GetDrainResponseBodyCase1ProjectAccessCase1ManagedBy;
-}
-export type GetDrainResponseBodyCase1ProjectAccess =
-  | GetDrainResponseBodyCase1ProjectAccessCase0
-  | GetDrainResponseBodyCase1ProjectAccessCase1;
-export interface GetDrainResponseBodyCase1 {
-  createdAt: number;
-  delivery: GetDrainResponseBodyCase1Delivery;
-  disabledAt?: number;
-  disabledBy?: string;
-  disabledReason?: GetDrainResponseBodyCase1DisabledReason;
-  firstErrorTimestamp?: number;
-  id: string;
-  name: string;
-  ownerId: string;
-  projectIds?: GetDrainResponseBodyCase1ProjectIdsList;
-  sampling?: GetDrainResponseBodyCase1SamplingList;
-  schemas: CreateDrainResponseBodyCase0Schemas;
-  source: GetDrainResponseBodyCase1Source;
-  status?: GetDrainResponseBodyCase1Status;
-  teamId?: string | null;
-  updatedAt: number;
-  filterV2?: GetDrainResponseBodyCase1FilterV2;
-  integrationConfigurationUri?: string;
-  integrationIcon?: string;
-  integrationWebsite?: string;
-  projectAccess?: GetDrainResponseBodyCase1ProjectAccess;
-}
-export type GetDrainResponseBody = GetDrainResponseBodyCase0 | GetDrainResponseBodyCase1;
-export type GetDrainResponse = GetDrainResponseBody;
 export interface GetDrainsRequest {
   projectId?: string;
   includeMetadata?: boolean;
+  /** Include `deliveryStats` with the delivery health of each drain over the last 24 hours. Ignored for teams without drain delivery metrics. */
+  includeDeliveryStats?: boolean;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string;
   /** The Team slug to perform the request on behalf of. */
@@ -1154,7 +974,9 @@ export type GetDrainsResponseDrainsCase0ItemSamplingList =
   Array<GetDrainsResponseDrainsCase0ItemSamplingItem>;
 export type GetDrainsResponseDrainsCase0ItemSchemas = CreateDrainResponseBodyCase0Schemas;
 /** Informational marker for a system-owned default drain. */
-export type GetDrainsResponseDrainsCase0ItemSourceCase0DefaultFor = "eve-tracing";
+export type GetDrainsResponseDrainsCase0ItemSourceCase0DefaultFor =
+  | "eve-tracing"
+  | "nextjs-tracing";
 export type GetDrainsResponseDrainsCase0ItemSourceCase0Kind = "self-served";
 export interface GetDrainsResponseDrainsCase0ItemSourceCase0 {
   /** Informational marker for a system-owned default drain. */
@@ -1173,6 +995,17 @@ export type GetDrainsResponseDrainsCase0ItemSource =
   | GetDrainsResponseDrainsCase0ItemSourceCase0
   | GetDrainsResponseDrainsCase0ItemSourceCase1;
 export type GetDrainsResponseDrainsCase0ItemStatus = "disabled" | "enabled" | "errored";
+export type GetDrainsResponseDrainsCase0ItemDeliveryStatsState = "failing" | "healthy" | "unknown";
+export type GetDrainsResponseDrainsCase0ItemDeliveryStatsWindow = "24h";
+/** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+export interface GetDrainsResponseDrainsCase0ItemDeliveryStats {
+  /** All delivery attempts in the window. */
+  attempts: number;
+  /** Delivery attempts that did not succeed in the window. */
+  failures: number;
+  state: GetDrainsResponseDrainsCase0ItemDeliveryStatsState;
+  window: GetDrainsResponseDrainsCase0ItemDeliveryStatsWindow;
+}
 export type GetDrainsResponseDrainsCase0ItemFilterV2FilterCase0DeploymentEnvironmentsItem =
   | "preview"
   | "production";
@@ -1236,6 +1069,8 @@ export interface GetDrainsResponseDrainsCase0Item {
   status?: GetDrainsResponseDrainsCase0ItemStatus;
   teamId?: string | null;
   updatedAt: number;
+  /** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+  deliveryStats?: GetDrainsResponseDrainsCase0ItemDeliveryStats;
   filterV2?: GetDrainsResponseDrainsCase0ItemFilterV2;
 }
 export type GetDrainsResponseDrainsCase0List = Array<GetDrainsResponseDrainsCase0Item>;
@@ -1345,7 +1180,9 @@ export type GetDrainsResponseDrainsCase1ItemSamplingList =
   Array<GetDrainsResponseDrainsCase1ItemSamplingItem>;
 export type GetDrainsResponseDrainsCase1ItemSchemas = CreateDrainResponseBodyCase0Schemas;
 /** Informational marker for a system-owned default drain. */
-export type GetDrainsResponseDrainsCase1ItemSourceCase0DefaultFor = "eve-tracing";
+export type GetDrainsResponseDrainsCase1ItemSourceCase0DefaultFor =
+  | "eve-tracing"
+  | "nextjs-tracing";
 export type GetDrainsResponseDrainsCase1ItemSourceCase0Kind = "self-served";
 export interface GetDrainsResponseDrainsCase1ItemSourceCase0 {
   /** Informational marker for a system-owned default drain. */
@@ -1364,6 +1201,17 @@ export type GetDrainsResponseDrainsCase1ItemSource =
   | GetDrainsResponseDrainsCase1ItemSourceCase0
   | GetDrainsResponseDrainsCase1ItemSourceCase1;
 export type GetDrainsResponseDrainsCase1ItemStatus = "disabled" | "enabled" | "errored";
+export type GetDrainsResponseDrainsCase1ItemDeliveryStatsState = "failing" | "healthy" | "unknown";
+export type GetDrainsResponseDrainsCase1ItemDeliveryStatsWindow = "24h";
+/** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+export interface GetDrainsResponseDrainsCase1ItemDeliveryStats {
+  /** All delivery attempts in the window. */
+  attempts: number;
+  /** Delivery attempts that did not succeed in the window. */
+  failures: number;
+  state: GetDrainsResponseDrainsCase1ItemDeliveryStatsState;
+  window: GetDrainsResponseDrainsCase1ItemDeliveryStatsWindow;
+}
 export type GetDrainsResponseDrainsCase1ItemFilterV2FilterCase0DeploymentEnvironmentsItem =
   | "preview"
   | "production";
@@ -1444,6 +1292,8 @@ export interface GetDrainsResponseDrainsCase1Item {
   status?: GetDrainsResponseDrainsCase1ItemStatus;
   teamId?: string | null;
   updatedAt: number;
+  /** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+  deliveryStats?: GetDrainsResponseDrainsCase1ItemDeliveryStats;
   filterV2?: GetDrainsResponseDrainsCase1ItemFilterV2;
   integrationConfigurationUri?: string;
   integrationIcon?: string;
@@ -1767,7 +1617,7 @@ export type UpdateDrainResponseBodyCase0SamplingList =
   Array<UpdateDrainResponseBodyCase0SamplingItem>;
 export type UpdateDrainResponseBodyCase0Schemas = CreateDrainResponseBodyCase0Schemas;
 /** Informational marker for a system-owned default drain. */
-export type UpdateDrainResponseBodyCase0SourceCase0DefaultFor = "eve-tracing";
+export type UpdateDrainResponseBodyCase0SourceCase0DefaultFor = "eve-tracing" | "nextjs-tracing";
 export type UpdateDrainResponseBodyCase0SourceCase0Kind = "self-served";
 export interface UpdateDrainResponseBodyCase0SourceCase0 {
   /** Informational marker for a system-owned default drain. */
@@ -1786,6 +1636,17 @@ export type UpdateDrainResponseBodyCase0Source =
   | UpdateDrainResponseBodyCase0SourceCase0
   | UpdateDrainResponseBodyCase0SourceCase1;
 export type UpdateDrainResponseBodyCase0Status = "disabled" | "enabled" | "errored";
+export type UpdateDrainResponseBodyCase0DeliveryStatsState = "failing" | "healthy" | "unknown";
+export type UpdateDrainResponseBodyCase0DeliveryStatsWindow = "24h";
+/** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+export interface UpdateDrainResponseBodyCase0DeliveryStats {
+  /** All delivery attempts in the window. */
+  attempts: number;
+  /** Delivery attempts that did not succeed in the window. */
+  failures: number;
+  state: UpdateDrainResponseBodyCase0DeliveryStatsState;
+  window: UpdateDrainResponseBodyCase0DeliveryStatsWindow;
+}
 export type UpdateDrainResponseBodyCase0FilterV2FilterCase0DeploymentEnvironmentsItem =
   | "preview"
   | "production";
@@ -1849,6 +1710,8 @@ export interface UpdateDrainResponseBodyCase0 {
   status?: UpdateDrainResponseBodyCase0Status;
   teamId?: string | null;
   updatedAt: number;
+  /** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+  deliveryStats?: UpdateDrainResponseBodyCase0DeliveryStats;
   filterV2?: UpdateDrainResponseBodyCase0FilterV2;
 }
 export type UpdateDrainResponseBodyCase1DeliveryCase0Compression = "gzip" | "none";
@@ -1957,7 +1820,7 @@ export type UpdateDrainResponseBodyCase1SamplingList =
   Array<UpdateDrainResponseBodyCase1SamplingItem>;
 export type UpdateDrainResponseBodyCase1Schemas = CreateDrainResponseBodyCase0Schemas;
 /** Informational marker for a system-owned default drain. */
-export type UpdateDrainResponseBodyCase1SourceCase0DefaultFor = "eve-tracing";
+export type UpdateDrainResponseBodyCase1SourceCase0DefaultFor = "eve-tracing" | "nextjs-tracing";
 export type UpdateDrainResponseBodyCase1SourceCase0Kind = "self-served";
 export interface UpdateDrainResponseBodyCase1SourceCase0 {
   /** Informational marker for a system-owned default drain. */
@@ -1976,6 +1839,17 @@ export type UpdateDrainResponseBodyCase1Source =
   | UpdateDrainResponseBodyCase1SourceCase0
   | UpdateDrainResponseBodyCase1SourceCase1;
 export type UpdateDrainResponseBodyCase1Status = "disabled" | "enabled" | "errored";
+export type UpdateDrainResponseBodyCase1DeliveryStatsState = "failing" | "healthy" | "unknown";
+export type UpdateDrainResponseBodyCase1DeliveryStatsWindow = "24h";
+/** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+export interface UpdateDrainResponseBodyCase1DeliveryStats {
+  /** All delivery attempts in the window. */
+  attempts: number;
+  /** Delivery attempts that did not succeed in the window. */
+  failures: number;
+  state: UpdateDrainResponseBodyCase1DeliveryStatsState;
+  window: UpdateDrainResponseBodyCase1DeliveryStatsWindow;
+}
 export type UpdateDrainResponseBodyCase1FilterV2FilterCase0DeploymentEnvironmentsItem =
   | "preview"
   | "production";
@@ -2056,6 +1930,8 @@ export interface UpdateDrainResponseBodyCase1 {
   status?: UpdateDrainResponseBodyCase1Status;
   teamId?: string | null;
   updatedAt: number;
+  /** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+  deliveryStats?: UpdateDrainResponseBodyCase1DeliveryStats;
   filterV2?: UpdateDrainResponseBodyCase1FilterV2;
   integrationConfigurationUri?: string;
   integrationIcon?: string;
@@ -2089,8 +1965,8 @@ export const deleteDrain: API.OperationMethod<
   DeleteDrainError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<DeleteDrainRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<DeleteDrainResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<DeleteDrainRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<DeleteDrainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2106,8 +1982,8 @@ export const getDrain: API.OperationMethod<
   GetDrainError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetDrainRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<GetDrainResponse>,
+  input: __S(44, __c5, 4) as any as S.Schema<GetDrainRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<GetDrainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2123,8 +1999,8 @@ export const getDrains: API.OperationMethod<
   GetDrainsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetDrainsRequest>,
-  output: __S(41, __c5, 1) as any as S.Schema<GetDrainsResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetDrainsRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<GetDrainsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2140,8 +2016,8 @@ export const testDrain: API.OperationMethod<
   TestDrainError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<TestDrainRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<TestDrainResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<TestDrainRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<TestDrainResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2157,8 +2033,8 @@ export const updateDrain: API.OperationMethod<
   UpdateDrainError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<UpdateDrainRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<UpdateDrainResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<UpdateDrainRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<UpdateDrainResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2183,12 +2059,12 @@ function __c0(j: number): any {
           slug: S.optional(S.String.pipe(T.Query())),
           name: S.String,
           projects: S.String,
-          projectIds: S.optional(__S(16, __c2, 0)),
+          projectIds: S.optional(__S(8, __c1, 0)),
           filter: S.optional(__S(0, __c0, 0)),
-          schemas: __S(9, __c1, 1),
+          schemas: __S(17, __c2, 1),
           delivery: S.optional(S.Unknown),
-          sampling: S.optional(__S(18, __c2, 2)),
-          transforms: S.optional(__S(20, __c2, 4)),
+          sampling: S.optional(__S(25, __c3, 1)),
+          transforms: S.optional(__S(27, __c3, 3)),
           source: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/drains", code: 200 })),
       ).annotate({ identifier: "CreateDrainRequest" });
@@ -2201,20 +2077,24 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           version: S.String,
         }),
       ).annotate({ identifier: "CreateDrainRequestSchemasValue" });
     case 1:
-      return S.Record(S.String, __S(8, __c1, 0));
+      return S.Record(S.String, __S(16, __c2, 0));
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
@@ -2223,19 +2103,19 @@ function __c2(j: number): any {
           requestPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateDrainRequestSamplingItem" });
+    case 1:
+      return S.Array(__S(24, __c3, 0));
     case 2:
-      return S.Array(__S(17, __c2, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
         }),
       ).annotate({ identifier: "CreateDrainRequestTransformsItem" });
-    case 4:
-      return S.Array(__S(19, __c2, 3));
+    case 3:
+      return S.Array(__S(26, __c3, 2));
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2249,29 +2129,89 @@ function __c3(j: number): any {
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteDrainResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          env: S.optional(S.String),
+          rate: S.Number,
+          requestPath: S.optional(S.String),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "CreateDrainResponseBodyCase0SamplingItem" });
+    case 1:
+      return S.Array(__S(40, __c5, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ai_gateway: S.optional(S.Unknown),
+          analytics: S.optional(S.Unknown),
+          audit_log: S.optional(S.Unknown),
+          connect: S.optional(S.Unknown),
+          log: S.optional(S.Unknown),
+          speed_insights: S.optional(S.Unknown),
+          trace: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "CreateDrainResponseBodyCase0Schemas" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          attempts: S.Number,
+          failures: S.Number,
+          state: S.String,
+          window: S.String,
+        }),
+      ).annotate({ identifier: "CreateDrainResponseBodyCase0DeliveryStats" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
+          includeDeliveryStats: S.optional(S.Boolean.pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/drains/{id}", code: 200 })),
       ).annotate({ identifier: "GetDrainRequest" });
-    case 1:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetDrainResponse",
-      });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.Unknown,
+          version: S.String,
+        }),
+      ).annotate({ identifier: "GetDrainResponseFilterV2" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.Number,
+          delivery: S.Unknown,
+          disabledAt: S.optional(S.Number),
+          disabledBy: S.optional(S.String),
+          disabledReason: S.optional(S.String),
+          firstErrorTimestamp: S.optional(S.Number),
+          id: S.String,
+          name: S.String,
+          ownerId: S.String,
+          projectIds: S.optional(__S(8, __c1, 0)),
+          sampling: S.optional(__S(41, __c5, 1)),
+          schemas: __S(42, __c5, 2),
+          source: S.Unknown,
+          status: S.optional(S.String),
+          teamId: S.optional(S.NullOr(S.String)),
+          updatedAt: S.Number,
+          deliveryStats: S.optional(__S(43, __c5, 3)),
+          filterV2: S.optional(__S(45, __c5, 5)),
+        }),
+      ).annotate({ identifier: "GetDrainResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.optional(S.String.pipe(T.Query())),
           includeMetadata: S.optional(S.Boolean.pipe(T.Query())),
+          includeDeliveryStats: S.optional(S.Boolean.pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/drains", code: 200 })),
@@ -2284,14 +2224,14 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetDrainsResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
-          schemas: __S(9, __c1, 1),
+          schemas: __S(17, __c2, 1),
           delivery: S.Unknown,
         }).pipe(T.Http({ method: "POST", uri: "/v1/drains/test", code: 200 })),
       ).annotate({ identifier: "TestDrainRequest" });
@@ -2301,7 +2241,7 @@ function __c6(j: number): any {
       });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2311,12 +2251,12 @@ function __c7(j: number): any {
           slug: S.optional(S.String.pipe(T.Query())),
           name: S.optional(S.String),
           projects: S.optional(S.String),
-          projectIds: S.optional(S.NullOr(__S(16, __c2, 0))),
+          projectIds: S.optional(S.NullOr(__S(8, __c1, 0))),
           filter: S.optional(S.Unknown),
-          schemas: S.optional(__S(9, __c1, 1)),
+          schemas: S.optional(__S(17, __c2, 1)),
           delivery: S.optional(S.Unknown),
-          sampling: S.optional(S.NullOr(__S(18, __c2, 2))),
-          transforms: S.optional(S.NullOr(__S(20, __c2, 4))),
+          sampling: S.optional(S.NullOr(__S(25, __c3, 1))),
+          transforms: S.optional(S.NullOr(__S(27, __c3, 3))),
           status: S.optional(S.String),
           source: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/drains/{id}", code: 200 })),

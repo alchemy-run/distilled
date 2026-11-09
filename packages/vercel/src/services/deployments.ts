@@ -180,14 +180,12 @@ export interface CancelDeploymentResponseBuildsItem {
 }
 export type CancelDeploymentResponseBuildsList = Array<CancelDeploymentResponseBuildsItem>;
 export type CancelDeploymentResponseChecksDeploymentAliasState = "failed" | "pending" | "succeeded";
-/** Condensed check data. Retrieve individual check and check run data using api-checks v2 routes. */
 export interface CancelDeploymentResponseChecksDeploymentAlias {
   completedAt?: number;
   startedAt: number;
   state: CancelDeploymentResponseChecksDeploymentAliasState;
 }
 export interface CancelDeploymentResponseChecks {
-  /** Condensed check data. Retrieve individual check and check run data using api-checks v2 routes. */
   deployment_alias: CancelDeploymentResponseChecksDeploymentAlias;
 }
 export type CancelDeploymentResponseChecksConclusion =
@@ -218,6 +216,7 @@ export type CancelDeploymentResponseConfigResourceConfigElasticConcurrency =
   | "TEAM_SETTING";
 /** Machine type that was used for the build. */
 export type CancelDeploymentResponseConfigResourceConfigBuildMachinePurchaseType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
@@ -247,7 +246,12 @@ export interface CancelDeploymentResponseConfig {
   version?: number;
 }
 /** Principal type of the deployment creator. */
-export type CancelDeploymentResponseCreatorType = "app" | "integration" | "system" | "user";
+export type CancelDeploymentResponseCreatorType =
+  | "app"
+  | "integration"
+  | "project"
+  | "system"
+  | "user";
 /** Information about the deployment creator */
 export interface CancelDeploymentResponseCreator {
   /** The avatar of the user that created the deployment */
@@ -363,7 +367,6 @@ export interface CancelDeploymentResponseDuration {
   timeToReady?: number;
 }
 export type CancelDeploymentResponseEnvList = Array<string>;
-/** TODO: The following types will eventually be exported by a more relevant package. */
 export type FlagJSONValueCase2List = Array<FlagJSONValue>;
 export type FlagJSONValueCase3Map = { [key: string]: FlagJSONValue | undefined };
 export type FlagJSONValue =
@@ -464,6 +467,8 @@ export interface CancelDeploymentResponseFunctionsValue {
   experimentalTriggers?: CancelDeploymentResponseFunctionsValueExperimentalTriggersList;
   functionFailoverRegions?: CancelDeploymentResponseFunctionsValueFunctionFailoverRegionsList;
   includeFiles?: string;
+  /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
+  installCommand?: string;
   maxConcurrency?: number;
   maxDuration?: CancelDeploymentResponseFunctionsValueMaxDuration;
   memory?: number;
@@ -896,6 +901,7 @@ export type CancelDeploymentResponseNodeVersion =
   | "20.x"
   | "22.x"
   | "24.x"
+  | "26.x"
   | "8.10.x";
 export type CancelDeploymentResponseOidcTokenClaimsMfeGroupIdsList = Array<string>;
 export interface CancelDeploymentResponseOidcTokenClaims {
@@ -1041,6 +1047,7 @@ export type CancelDeploymentResponseProjectSettingsNodeVersion =
   | "20.x"
   | "22.x"
   | "24.x"
+  | "26.x"
   | "8.10.x";
 export interface CancelDeploymentResponseProjectSettingsSpeedInsights {
   canceledAt?: number;
@@ -1051,6 +1058,10 @@ export interface CancelDeploymentResponseProjectSettingsSpeedInsights {
   hasData?: boolean;
   id: string;
   paidAt?: number;
+}
+/** Vercel Flags activation metadata copied from the project at deployment creation. */
+export interface CancelDeploymentResponseProjectSettingsVercelFlags {
+  enabledAt?: number;
 }
 export interface CancelDeploymentResponseProjectSettingsWebAnalytics {
   canceledAt?: number;
@@ -1068,6 +1079,8 @@ export interface CancelDeploymentResponseProjectSettings {
   nodeVersion?: CancelDeploymentResponseProjectSettingsNodeVersion;
   outputDirectory?: string | null;
   speedInsights?: CancelDeploymentResponseProjectSettingsSpeedInsights;
+  /** Vercel Flags activation metadata copied from the project at deployment creation. */
+  vercelFlags?: CancelDeploymentResponseProjectSettingsVercelFlags;
   webAnalytics?: CancelDeploymentResponseProjectSettingsWebAnalytics;
 }
 /** The state of the deployment depending on the process of deploying, or if it is ready or in an error state */
@@ -1083,47 +1096,83 @@ export type CancelDeploymentResponseReadyState =
 export type CancelDeploymentResponseReadySubstate = "PROMOTED" | "ROLLING" | "STAGED";
 /** The regions the deployment exists in */
 export type CancelDeploymentResponseRegionsList = Array<string>;
-/** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
-export type CancelDeploymentResponseResourceConfigBuildMachineDefaultPurchaseType =
-  | "basic"
-  | "enhanced"
-  | "none"
-  | "standard";
-/** Whether the build ran on a fixed or elastic machine. Used to drive billing for the build. */
-export type CancelDeploymentResponseResourceConfigBuildMachineMachineSelectionType =
-  | "elastic"
-  | "fixed";
-/** Machine type which was purchased/selected for this build. `basic` is the 2vCPU tier, recorded on the deployment so the build pipeline can detect a basic build without consulting the project. */
-export type CancelDeploymentResponseResourceConfigBuildMachinePurchaseType =
+/** The build ran on an elastic machine. Drives billing. */
+export type CancelDeploymentResponseResourceConfigBuildMachineCase0MachineSelectionType = "elastic";
+/** Machine type purchased for this build. `basic` is the 2vCPU tier, recorded so the build pipeline can detect a basic build without consulting the project. */
+export type CancelDeploymentResponseResourceConfigBuildMachineCase0PurchaseType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
   | "turbo";
+/** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
+export type CancelDeploymentResponseResourceConfigBuildMachineCase0DefaultPurchaseType =
+  | "basic"
+  | "enhanced"
+  | "none"
+  | "standard";
 /** The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history. */
-export type CancelDeploymentResponseResourceConfigBuildMachineSelectionSource =
+export type CancelDeploymentResponseResourceConfigBuildMachineCase0SelectionSource =
   | "deployment-override"
   | "elastic-algorithm"
   | "plan-default"
   | "project-setting"
   | "team-entitlement"
   | "team-setting";
-/** Build machine configuration recorded for this deployment's build. See {@link DeploymentBuildMachine}. Distinct from the team/user `resourceConfig.buildMachine`, which only carries `default`. */
-export interface CancelDeploymentResponseResourceConfigBuildMachine {
-  /** Number of cores the build machine ran with. Set at dispatch time once the build lands on a hive. */
+export interface CancelDeploymentResponseResourceConfigBuildMachineCase0 {
+  /** The build ran on an elastic machine. Drives billing. */
+  machineSelectionType: CancelDeploymentResponseResourceConfigBuildMachineCase0MachineSelectionType;
+  /** Machine type purchased for this build. `basic` is the 2vCPU tier, recorded so the build pipeline can detect a basic build without consulting the project. */
+  purchaseType?: CancelDeploymentResponseResourceConfigBuildMachineCase0PurchaseType;
+  /** Build cores. Deployment creation sets the requested value; dispatch replaces it with the cores assigned by routing. */
   cores?: number;
   /** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
-  defaultPurchaseType?: CancelDeploymentResponseResourceConfigBuildMachineDefaultPurchaseType;
-  /** Whether the build ran on a fixed or elastic machine. Used to drive billing for the build. */
-  machineSelectionType?: CancelDeploymentResponseResourceConfigBuildMachineMachineSelectionType;
-  /** Memory, in MiB, the build machine ran with. Set at dispatch time once the build lands on a hive. */
+  defaultPurchaseType?: CancelDeploymentResponseResourceConfigBuildMachineCase0DefaultPurchaseType;
+  /** Build memory, in MiB. Deployment creation sets the requested value; dispatch replaces it with the memory assigned by routing. */
   memory?: number;
-  /** Machine type which was purchased/selected for this build. `basic` is the 2vCPU tier, recorded on the deployment so the build pipeline can detect a basic build without consulting the project. */
-  purchaseType?: CancelDeploymentResponseResourceConfigBuildMachinePurchaseType;
   /** The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history. */
-  selectionSource?: CancelDeploymentResponseResourceConfigBuildMachineSelectionSource;
+  selectionSource?: CancelDeploymentResponseResourceConfigBuildMachineCase0SelectionSource;
 }
+/** The build ran on a fixed machine. Drives billing. */
+export type CancelDeploymentResponseResourceConfigBuildMachineCase1MachineSelectionType = "fixed";
+/** Machine type purchased for this build. */
+export type CancelDeploymentResponseResourceConfigBuildMachineCase1PurchaseType =
+  | "basic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+/** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
+export type CancelDeploymentResponseResourceConfigBuildMachineCase1DefaultPurchaseType =
+  | "basic"
+  | "enhanced"
+  | "none"
+  | "standard";
+/** The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history. */
+export type CancelDeploymentResponseResourceConfigBuildMachineCase1SelectionSource =
+  | "deployment-override"
+  | "elastic-algorithm"
+  | "plan-default"
+  | "project-setting"
+  | "team-entitlement"
+  | "team-setting";
+export interface CancelDeploymentResponseResourceConfigBuildMachineCase1 {
+  /** The build ran on a fixed machine. Drives billing. */
+  machineSelectionType?: CancelDeploymentResponseResourceConfigBuildMachineCase1MachineSelectionType;
+  /** Machine type purchased for this build. */
+  purchaseType?: CancelDeploymentResponseResourceConfigBuildMachineCase1PurchaseType;
+  /** Build cores. Deployment creation sets the requested value; dispatch replaces it with the cores assigned by routing. */
+  cores?: number;
+  /** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
+  defaultPurchaseType?: CancelDeploymentResponseResourceConfigBuildMachineCase1DefaultPurchaseType;
+  /** Build memory, in MiB. Deployment creation sets the requested value; dispatch replaces it with the memory assigned by routing. */
+  memory?: number;
+  /** The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history. */
+  selectionSource?: CancelDeploymentResponseResourceConfigBuildMachineCase1SelectionSource;
+}
+export type CancelDeploymentResponseResourceConfigBuildMachine =
+  | CancelDeploymentResponseResourceConfigBuildMachineCase0
+  | CancelDeploymentResponseResourceConfigBuildMachineCase1;
 export interface CancelDeploymentResponseResourceConfig {
-  /** Build machine configuration recorded for this deployment's build. See {@link DeploymentBuildMachine}. Distinct from the team/user `resourceConfig.buildMachine`, which only carries `default`. */
   buildMachine?: CancelDeploymentResponseResourceConfigBuildMachine;
 }
 /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
@@ -1322,6 +1371,8 @@ export type CancelDeploymentResponseRoutesItemCase0TransformsItemCase1Type = "re
 export interface CancelDeploymentResponseRoutesItemCase0TransformsItemCase1 {
   args: string;
   env?: CancelDeploymentResponseRoutesItemCase0TransformsItemCase1EnvList;
+  /** Keep an earlier request.path value. Builders use this for fallback routes. */
+  fallback?: boolean;
   op: CancelDeploymentResponseRoutesItemCase0TransformsItemCase1Op;
   type: CancelDeploymentResponseRoutesItemCase0TransformsItemCase1Type;
 }
@@ -1401,6 +1452,87 @@ export interface CancelDeploymentResponseSeatBlock {
   isVerified?: boolean;
   /** The blocked vercel user ID. */
   userId?: string;
+}
+/** Generated value shape, must be `"url"`. */
+export type CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonBindingsItemFormat = "url";
+/** If present, must be `"service"` for Service-to-Service HTTP bindings. */
+export type CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonBindingsItemType =
+  "service";
+/** Bindings to services in the same deployment. */
+export interface CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonBindingsItem {
+  /** Environment variable name that will store the generated value */
+  env: string;
+  /** Generated value shape, must be `"url"`. */
+  format: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonBindingsItemFormat;
+  /** Target service name from `services`. */
+  service: string;
+  /** If present, must be `"service"` for Service-to-Service HTTP bindings. */
+  type?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonBindingsItemType;
+}
+/** Bindings to services in the same deployment. */
+export type CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonBindingsList =
+  Array<CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonBindingsItem>;
+export type CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonCommandList = Array<string>;
+/** Instance counts by region. */
+export type CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonInstancesMap = {
+  [key: string]: number | undefined;
+};
+export interface CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersItem {
+  name: string;
+  value: string;
+}
+export type CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList =
+  Array<CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersItem>;
+export type CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetScheme =
+  | "HTTP"
+  | "HTTPS";
+export interface CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGet {
+  host?: string;
+  httpHeaders?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList;
+  path?: string;
+  port: number;
+  scheme?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetScheme;
+}
+/** A Kubernetes-style HTTP liveness probe. */
+export interface CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbe {
+  failureThreshold?: number;
+  httpGet: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGet;
+  initialDelaySeconds?: number;
+  periodSeconds?: number;
+  successThreshold?: number;
+  timeoutSeconds?: number;
+}
+/** Instance counts by region. */
+export type CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonReplicasMap = {
+  [key: string]: number | undefined;
+};
+export type CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonResourcesRequestsMemory =
+  | "1Gi"
+  | "2Gi"
+  | "4Gi"
+  | "8Gi";
+export interface CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonResourcesRequests {
+  memory: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonResourcesRequestsMemory;
+}
+export interface CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonResources {
+  requests: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonResourcesRequests;
+}
+/** Set when this build produces the named daemon. */
+export interface CancelDeploymentResponseServicesItemCase0BuilderConfigDaemon {
+  /** Bindings to services in the same deployment. */
+  bindings?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonBindingsList;
+  command?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonCommandList;
+  entrypoint: string;
+  /** Instance counts by region. */
+  instances?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonInstancesMap;
+  /** A Kubernetes-style HTTP liveness probe. */
+  livenessProbe?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbe;
+  /** Instance counts by region. */
+  replicas?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonReplicasMap;
+  resources?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonResources;
+  root: string;
+  terminationGracePeriodSeconds?: number;
+  name: string;
 }
 export type CancelDeploymentResponseServicesItemCase0BuilderConfigExcludeFilesCase1List =
   Array<string>;
@@ -1482,6 +1614,8 @@ export interface CancelDeploymentResponseServicesItemCase0BuilderConfigFunctions
   experimentalTriggers?: CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersList;
   functionFailoverRegions?: CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueFunctionFailoverRegionsList;
   includeFiles?: string;
+  /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
+  installCommand?: string;
   maxConcurrency?: number;
   maxDuration?: CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueMaxDuration;
   memory?: number;
@@ -1508,6 +1642,8 @@ export type CancelDeploymentResponseServicesItemCase0BuilderConfigMiddlewareMatc
   | CancelDeploymentResponseServicesItemCase0BuilderConfigMiddlewareMatcherCase1List;
 /** Enforced runtime for explicitly configured Routing Middleware. */
 export type CancelDeploymentResponseServicesItemCase0BuilderConfigMiddlewareRuntime = "nodejs";
+export type CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettingsVercelFlags =
+  CancelDeploymentResponseProjectSettingsVercelFlags;
 export interface CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings {
   autoExposeSystemEnvs?: boolean;
   buildCommand?: string | null;
@@ -1523,6 +1659,7 @@ export interface CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSe
   outputDirectory?: string | null;
   rootDirectory?: string | null;
   sourceFilesOutsideRootDirectory?: boolean;
+  vercelFlags?: CancelDeploymentResponseProjectSettingsVercelFlags;
 }
 /** Names of the schedules that dispatch to this entrypoint, in config order. */
 export type CancelDeploymentResponseServicesItemCase0BuilderConfigScheduleFunctionEntrypointsItemScheduleNamesList =
@@ -1549,6 +1686,8 @@ export interface CancelDeploymentResponseServicesItemCase0BuilderConfig {
   buildpack?: string;
   bundle?: boolean;
   bunVersion?: string;
+  /** Set when this build produces the named daemon. */
+  daemon?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemon;
   debug?: boolean;
   devCommand?: string;
   excludeFiles?: CancelDeploymentResponseServicesItemCase0BuilderConfigExcludeFiles;
@@ -1647,6 +1786,85 @@ export interface CancelDeploymentResponseServicesItemCase1BindingsItem {
 /** Caller-side bindings to other services. */
 export type CancelDeploymentResponseServicesItemCase1BindingsList =
   Array<CancelDeploymentResponseServicesItemCase1BindingsItem>;
+/** Generated value shape, must be `"url"`. */
+export type CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonBindingsItemFormat = "url";
+/** If present, must be `"service"` for Service-to-Service HTTP bindings. */
+export type CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonBindingsItemType =
+  "service";
+/** Bindings to services in the same deployment. */
+export interface CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonBindingsItem {
+  /** Environment variable name that will store the generated value */
+  env: string;
+  /** Generated value shape, must be `"url"`. */
+  format: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonBindingsItemFormat;
+  /** Target service name from `services`. */
+  service: string;
+  /** If present, must be `"service"` for Service-to-Service HTTP bindings. */
+  type?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonBindingsItemType;
+}
+/** Bindings to services in the same deployment. */
+export type CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonBindingsList =
+  Array<CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonBindingsItem>;
+export type CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonCommandList = Array<string>;
+/** Instance counts by region. */
+export type CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonInstancesMap = {
+  [key: string]: number | undefined;
+};
+export type CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersItem =
+  CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersItem;
+export type CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList =
+  Array<CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersItem>;
+export type CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetScheme =
+  | "HTTP"
+  | "HTTPS";
+export interface CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGet {
+  host?: string;
+  httpHeaders?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList;
+  path?: string;
+  port: number;
+  scheme?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetScheme;
+}
+/** A Kubernetes-style HTTP liveness probe. */
+export interface CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonLivenessProbe {
+  failureThreshold?: number;
+  httpGet: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGet;
+  initialDelaySeconds?: number;
+  periodSeconds?: number;
+  successThreshold?: number;
+  timeoutSeconds?: number;
+}
+/** Instance counts by region. */
+export type CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonReplicasMap = {
+  [key: string]: number | undefined;
+};
+export type CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonResourcesRequestsMemory =
+  | "1Gi"
+  | "2Gi"
+  | "4Gi"
+  | "8Gi";
+export interface CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonResourcesRequests {
+  memory: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonResourcesRequestsMemory;
+}
+export interface CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonResources {
+  requests: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonResourcesRequests;
+}
+/** Set when this build produces the named daemon. */
+export interface CancelDeploymentResponseServicesItemCase1BuilderConfigDaemon {
+  /** Bindings to services in the same deployment. */
+  bindings?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonBindingsList;
+  command?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonCommandList;
+  entrypoint: string;
+  /** Instance counts by region. */
+  instances?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonInstancesMap;
+  /** A Kubernetes-style HTTP liveness probe. */
+  livenessProbe?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonLivenessProbe;
+  /** Instance counts by region. */
+  replicas?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonReplicasMap;
+  resources?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonResources;
+  root: string;
+  terminationGracePeriodSeconds?: number;
+  name: string;
+}
 export type CancelDeploymentResponseServicesItemCase1BuilderConfigExcludeFilesCase1List =
   Array<string>;
 export type CancelDeploymentResponseServicesItemCase1BuilderConfigExcludeFiles =
@@ -1727,6 +1945,8 @@ export interface CancelDeploymentResponseServicesItemCase1BuilderConfigFunctions
   experimentalTriggers?: CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersList;
   functionFailoverRegions?: CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueFunctionFailoverRegionsList;
   includeFiles?: string;
+  /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
+  installCommand?: string;
   maxConcurrency?: number;
   maxDuration?: CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueMaxDuration;
   memory?: number;
@@ -1753,6 +1973,8 @@ export type CancelDeploymentResponseServicesItemCase1BuilderConfigMiddlewareMatc
   | CancelDeploymentResponseServicesItemCase1BuilderConfigMiddlewareMatcherCase1List;
 /** Enforced runtime for explicitly configured Routing Middleware. */
 export type CancelDeploymentResponseServicesItemCase1BuilderConfigMiddlewareRuntime = "nodejs";
+export type CancelDeploymentResponseServicesItemCase1BuilderConfigProjectSettingsVercelFlags =
+  CancelDeploymentResponseProjectSettingsVercelFlags;
 export type CancelDeploymentResponseServicesItemCase1BuilderConfigProjectSettings =
   CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings;
 /** Names of the schedules that dispatch to this entrypoint, in config order. */
@@ -1780,6 +2002,8 @@ export interface CancelDeploymentResponseServicesItemCase1BuilderConfig {
   buildpack?: string;
   bundle?: boolean;
   bunVersion?: string;
+  /** Set when this build produces the named daemon. */
+  daemon?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemon;
   debug?: boolean;
   devCommand?: string;
   excludeFiles?: CancelDeploymentResponseServicesItemCase1BuilderConfigExcludeFiles;
@@ -1886,6 +2110,8 @@ export interface CancelDeploymentResponseServicesItemCase1FunctionsValue {
   experimentalTriggers?: CancelDeploymentResponseServicesItemCase1FunctionsValueExperimentalTriggersList;
   functionFailoverRegions?: CancelDeploymentResponseServicesItemCase1FunctionsValueFunctionFailoverRegionsList;
   includeFiles?: string;
+  /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
+  installCommand?: string;
   maxConcurrency?: number;
   maxDuration?: CancelDeploymentResponseServicesItemCase1FunctionsValueMaxDuration;
   memory?: number;
@@ -2334,6 +2560,8 @@ export type CancelDeploymentResponseServicesItemCase1RewritesItemTransformsItemT
 export interface CancelDeploymentResponseServicesItemCase1RewritesItemTransformsItem {
   args: string;
   env?: CancelDeploymentResponseServicesItemCase1RewritesItemTransformsItemEnvList;
+  /** Keep an earlier request.path value. Builders use this for fallback routes. */
+  fallback?: boolean;
   op: CancelDeploymentResponseServicesItemCase1RewritesItemTransformsItemOp;
   type: CancelDeploymentResponseServicesItemCase1RewritesItemTransformsItemType;
 }
@@ -2570,6 +2798,8 @@ export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsIt
 export interface CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase1 {
   args: string;
   env?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase1EnvList;
+  /** Keep an earlier request.path value. Builders use this for fallback routes. */
+  fallback?: boolean;
   op: CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase1Op;
   type: CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase1Type;
 }
@@ -3054,6 +3284,7 @@ export type CreateDeploymentRequestProjectSettingsFramework =
   | "mastra";
 /** Override the Node.js version that should be used for this deployment */
 export type CreateDeploymentRequestProjectSettingsNodeVersion =
+  | "26.x"
   | "24.x"
   | "22.x"
   | "20.x"
@@ -3244,14 +3475,12 @@ export type CreateDeploymentResponseBodyCase1ChecksDeploymentAliasState =
   | "failed"
   | "pending"
   | "succeeded";
-/** Condensed check data. Retrieve individual check and check run data using api-checks v2 routes. */
 export interface CreateDeploymentResponseBodyCase1ChecksDeploymentAlias {
   completedAt?: number;
   startedAt: number;
   state: CreateDeploymentResponseBodyCase1ChecksDeploymentAliasState;
 }
 export interface CreateDeploymentResponseBodyCase1Checks {
-  /** Condensed check data. Retrieve individual check and check run data using api-checks v2 routes. */
   deployment_alias: CreateDeploymentResponseBodyCase1ChecksDeploymentAlias;
 }
 export type CreateDeploymentResponseBodyCase1ChecksConclusion =
@@ -3282,6 +3511,7 @@ export type CreateDeploymentResponseBodyCase1ConfigResourceConfigElasticConcurre
   | "TEAM_SETTING";
 /** Machine type that was used for the build. */
 export type CreateDeploymentResponseBodyCase1ConfigResourceConfigBuildMachinePurchaseType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
@@ -3314,6 +3544,7 @@ export interface CreateDeploymentResponseBodyCase1Config {
 export type CreateDeploymentResponseBodyCase1CreatorType =
   | "app"
   | "integration"
+  | "project"
   | "system"
   | "user";
 /** Information about the deployment creator */
@@ -3499,6 +3730,8 @@ export interface CreateDeploymentResponseBodyCase1FunctionsValue {
   experimentalTriggers?: CreateDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersList;
   functionFailoverRegions?: CreateDeploymentResponseBodyCase1FunctionsValueFunctionFailoverRegionsList;
   includeFiles?: string;
+  /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
+  installCommand?: string;
   maxConcurrency?: number;
   maxDuration?: CreateDeploymentResponseBodyCase1FunctionsValueMaxDuration;
   memory?: number;
@@ -3923,6 +4156,7 @@ export type CreateDeploymentResponseBodyCase1NodeVersion =
   | "20.x"
   | "22.x"
   | "24.x"
+  | "26.x"
   | "8.10.x";
 export type CreateDeploymentResponseBodyCase1OidcTokenClaimsMfeGroupIdsList = Array<string>;
 export interface CreateDeploymentResponseBodyCase1OidcTokenClaims {
@@ -4060,9 +4294,13 @@ export type CreateDeploymentResponseBodyCase1ProjectSettingsNodeVersion =
   | "20.x"
   | "22.x"
   | "24.x"
+  | "26.x"
   | "8.10.x";
 export type CreateDeploymentResponseBodyCase1ProjectSettingsSpeedInsights =
   CancelDeploymentResponseProjectSettingsSpeedInsights;
+/** Vercel Flags activation metadata copied from the project at deployment creation. */
+export type CreateDeploymentResponseBodyCase1ProjectSettingsVercelFlags =
+  CancelDeploymentResponseProjectSettingsVercelFlags;
 export type CreateDeploymentResponseBodyCase1ProjectSettingsWebAnalytics =
   CancelDeploymentResponseProjectSettingsWebAnalytics;
 export interface CreateDeploymentResponseBodyCase1ProjectSettings {
@@ -4074,6 +4312,8 @@ export interface CreateDeploymentResponseBodyCase1ProjectSettings {
   nodeVersion?: CreateDeploymentResponseBodyCase1ProjectSettingsNodeVersion;
   outputDirectory?: string | null;
   speedInsights?: CancelDeploymentResponseProjectSettingsSpeedInsights;
+  /** Vercel Flags activation metadata copied from the project at deployment creation. */
+  vercelFlags?: CancelDeploymentResponseProjectSettingsVercelFlags;
   webAnalytics?: CancelDeploymentResponseProjectSettingsWebAnalytics;
 }
 /** The state of the deployment depending on the process of deploying, or if it is ready or in an error state */
@@ -4089,47 +4329,85 @@ export type CreateDeploymentResponseBodyCase1ReadyState =
 export type CreateDeploymentResponseBodyCase1ReadySubstate = "PROMOTED" | "ROLLING" | "STAGED";
 /** The regions the deployment exists in */
 export type CreateDeploymentResponseBodyCase1RegionsList = Array<string>;
-/** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
-export type CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineDefaultPurchaseType =
-  | "basic"
-  | "enhanced"
-  | "none"
-  | "standard";
-/** Whether the build ran on a fixed or elastic machine. Used to drive billing for the build. */
-export type CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineMachineSelectionType =
-  | "elastic"
-  | "fixed";
-/** Machine type which was purchased/selected for this build. `basic` is the 2vCPU tier, recorded on the deployment so the build pipeline can detect a basic build without consulting the project. */
-export type CreateDeploymentResponseBodyCase1ResourceConfigBuildMachinePurchaseType =
+/** The build ran on an elastic machine. Drives billing. */
+export type CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0MachineSelectionType =
+  "elastic";
+/** Machine type purchased for this build. `basic` is the 2vCPU tier, recorded so the build pipeline can detect a basic build without consulting the project. */
+export type CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0PurchaseType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
   | "turbo";
+/** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
+export type CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0DefaultPurchaseType =
+  | "basic"
+  | "enhanced"
+  | "none"
+  | "standard";
 /** The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history. */
-export type CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineSelectionSource =
+export type CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0SelectionSource =
   | "deployment-override"
   | "elastic-algorithm"
   | "plan-default"
   | "project-setting"
   | "team-entitlement"
   | "team-setting";
-/** Build machine configuration recorded for this deployment's build. See {@link DeploymentBuildMachine}. Distinct from the team/user `resourceConfig.buildMachine`, which only carries `default`. */
-export interface CreateDeploymentResponseBodyCase1ResourceConfigBuildMachine {
-  /** Number of cores the build machine ran with. Set at dispatch time once the build lands on a hive. */
+export interface CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0 {
+  /** The build ran on an elastic machine. Drives billing. */
+  machineSelectionType: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0MachineSelectionType;
+  /** Machine type purchased for this build. `basic` is the 2vCPU tier, recorded so the build pipeline can detect a basic build without consulting the project. */
+  purchaseType?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0PurchaseType;
+  /** Build cores. Deployment creation sets the requested value; dispatch replaces it with the cores assigned by routing. */
   cores?: number;
   /** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
-  defaultPurchaseType?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineDefaultPurchaseType;
-  /** Whether the build ran on a fixed or elastic machine. Used to drive billing for the build. */
-  machineSelectionType?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineMachineSelectionType;
-  /** Memory, in MiB, the build machine ran with. Set at dispatch time once the build lands on a hive. */
+  defaultPurchaseType?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0DefaultPurchaseType;
+  /** Build memory, in MiB. Deployment creation sets the requested value; dispatch replaces it with the memory assigned by routing. */
   memory?: number;
-  /** Machine type which was purchased/selected for this build. `basic` is the 2vCPU tier, recorded on the deployment so the build pipeline can detect a basic build without consulting the project. */
-  purchaseType?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachinePurchaseType;
   /** The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history. */
-  selectionSource?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineSelectionSource;
+  selectionSource?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0SelectionSource;
 }
+/** The build ran on a fixed machine. Drives billing. */
+export type CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1MachineSelectionType =
+  "fixed";
+/** Machine type purchased for this build. */
+export type CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1PurchaseType =
+  | "basic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+/** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
+export type CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1DefaultPurchaseType =
+  | "basic"
+  | "enhanced"
+  | "none"
+  | "standard";
+/** The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history. */
+export type CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1SelectionSource =
+  | "deployment-override"
+  | "elastic-algorithm"
+  | "plan-default"
+  | "project-setting"
+  | "team-entitlement"
+  | "team-setting";
+export interface CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1 {
+  /** The build ran on a fixed machine. Drives billing. */
+  machineSelectionType?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1MachineSelectionType;
+  /** Machine type purchased for this build. */
+  purchaseType?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1PurchaseType;
+  /** Build cores. Deployment creation sets the requested value; dispatch replaces it with the cores assigned by routing. */
+  cores?: number;
+  /** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
+  defaultPurchaseType?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1DefaultPurchaseType;
+  /** Build memory, in MiB. Deployment creation sets the requested value; dispatch replaces it with the memory assigned by routing. */
+  memory?: number;
+  /** The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history. */
+  selectionSource?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1SelectionSource;
+}
+export type CreateDeploymentResponseBodyCase1ResourceConfigBuildMachine =
+  | CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0
+  | CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1;
 export interface CreateDeploymentResponseBodyCase1ResourceConfig {
-  /** Build machine configuration recorded for this deployment's build. See {@link DeploymentBuildMachine}. Distinct from the team/user `resourceConfig.buildMachine`, which only carries `default`. */
   buildMachine?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachine;
 }
 /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
@@ -4347,6 +4625,8 @@ export type CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1T
 export interface CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1 {
   args: string;
   env?: CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1EnvList;
+  /** Keep an earlier request.path value. Builders use this for fallback routes. */
+  fallback?: boolean;
   op: CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1Op;
   type: CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1Type;
 }
@@ -4431,6 +4711,87 @@ export interface CreateDeploymentResponseBodyCase1SeatBlock {
   /** The blocked vercel user ID. */
   userId?: string;
 }
+/** Generated value shape, must be `"url"`. */
+export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsItemFormat =
+  "url";
+/** If present, must be `"service"` for Service-to-Service HTTP bindings. */
+export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsItemType =
+  "service";
+/** Bindings to services in the same deployment. */
+export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsItem {
+  /** Environment variable name that will store the generated value */
+  env: string;
+  /** Generated value shape, must be `"url"`. */
+  format: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsItemFormat;
+  /** Target service name from `services`. */
+  service: string;
+  /** If present, must be `"service"` for Service-to-Service HTTP bindings. */
+  type?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsItemType;
+}
+/** Bindings to services in the same deployment. */
+export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsList =
+  Array<CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsItem>;
+export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonCommandList =
+  Array<string>;
+/** Instance counts by region. */
+export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonInstancesMap = {
+  [key: string]: number | undefined;
+};
+export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersItem =
+  CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersItem;
+export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList =
+  Array<CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersItem>;
+export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetScheme =
+  | "HTTP"
+  | "HTTPS";
+export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGet {
+  host?: string;
+  httpHeaders?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList;
+  path?: string;
+  port: number;
+  scheme?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetScheme;
+}
+/** A Kubernetes-style HTTP liveness probe. */
+export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbe {
+  failureThreshold?: number;
+  httpGet: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGet;
+  initialDelaySeconds?: number;
+  periodSeconds?: number;
+  successThreshold?: number;
+  timeoutSeconds?: number;
+}
+/** Instance counts by region. */
+export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonReplicasMap = {
+  [key: string]: number | undefined;
+};
+export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonResourcesRequestsMemory =
+  | "1Gi"
+  | "2Gi"
+  | "4Gi"
+  | "8Gi";
+export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonResourcesRequests {
+  memory: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonResourcesRequestsMemory;
+}
+export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonResources {
+  requests: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonResourcesRequests;
+}
+/** Set when this build produces the named daemon. */
+export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemon {
+  /** Bindings to services in the same deployment. */
+  bindings?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsList;
+  command?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonCommandList;
+  entrypoint: string;
+  /** Instance counts by region. */
+  instances?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonInstancesMap;
+  /** A Kubernetes-style HTTP liveness probe. */
+  livenessProbe?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbe;
+  /** Instance counts by region. */
+  replicas?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonReplicasMap;
+  resources?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonResources;
+  root: string;
+  terminationGracePeriodSeconds?: number;
+  name: string;
+}
 export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigExcludeFilesCase1List =
   Array<string>;
 export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigExcludeFiles =
@@ -4511,6 +4872,8 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfig
   experimentalTriggers?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersList;
   functionFailoverRegions?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueFunctionFailoverRegionsList;
   includeFiles?: string;
+  /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
+  installCommand?: string;
   maxConcurrency?: number;
   maxDuration?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueMaxDuration;
   memory?: number;
@@ -4540,6 +4903,8 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigMiddl
 /** Enforced runtime for explicitly configured Routing Middleware. */
 export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigMiddlewareRuntime =
   "nodejs";
+export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigProjectSettingsVercelFlags =
+  CancelDeploymentResponseProjectSettingsVercelFlags;
 export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigProjectSettings =
   CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings;
 /** Names of the schedules that dispatch to this entrypoint, in config order. */
@@ -4567,6 +4932,8 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfig
   buildpack?: string;
   bundle?: boolean;
   bunVersion?: string;
+  /** Set when this build produces the named daemon. */
+  daemon?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemon;
   debug?: boolean;
   devCommand?: string;
   excludeFiles?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigExcludeFiles;
@@ -4671,6 +5038,87 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BindingsItem 
 /** Caller-side bindings to other services. */
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1BindingsList =
   Array<CreateDeploymentResponseBodyCase1ServicesItemCase1BindingsItem>;
+/** Generated value shape, must be `"url"`. */
+export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsItemFormat =
+  "url";
+/** If present, must be `"service"` for Service-to-Service HTTP bindings. */
+export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsItemType =
+  "service";
+/** Bindings to services in the same deployment. */
+export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsItem {
+  /** Environment variable name that will store the generated value */
+  env: string;
+  /** Generated value shape, must be `"url"`. */
+  format: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsItemFormat;
+  /** Target service name from `services`. */
+  service: string;
+  /** If present, must be `"service"` for Service-to-Service HTTP bindings. */
+  type?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsItemType;
+}
+/** Bindings to services in the same deployment. */
+export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsList =
+  Array<CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsItem>;
+export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonCommandList =
+  Array<string>;
+/** Instance counts by region. */
+export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonInstancesMap = {
+  [key: string]: number | undefined;
+};
+export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersItem =
+  CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersItem;
+export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList =
+  Array<CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersItem>;
+export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetScheme =
+  | "HTTP"
+  | "HTTPS";
+export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGet {
+  host?: string;
+  httpHeaders?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList;
+  path?: string;
+  port: number;
+  scheme?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetScheme;
+}
+/** A Kubernetes-style HTTP liveness probe. */
+export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbe {
+  failureThreshold?: number;
+  httpGet: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGet;
+  initialDelaySeconds?: number;
+  periodSeconds?: number;
+  successThreshold?: number;
+  timeoutSeconds?: number;
+}
+/** Instance counts by region. */
+export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonReplicasMap = {
+  [key: string]: number | undefined;
+};
+export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonResourcesRequestsMemory =
+  | "1Gi"
+  | "2Gi"
+  | "4Gi"
+  | "8Gi";
+export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonResourcesRequests {
+  memory: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonResourcesRequestsMemory;
+}
+export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonResources {
+  requests: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonResourcesRequests;
+}
+/** Set when this build produces the named daemon. */
+export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemon {
+  /** Bindings to services in the same deployment. */
+  bindings?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsList;
+  command?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonCommandList;
+  entrypoint: string;
+  /** Instance counts by region. */
+  instances?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonInstancesMap;
+  /** A Kubernetes-style HTTP liveness probe. */
+  livenessProbe?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbe;
+  /** Instance counts by region. */
+  replicas?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonReplicasMap;
+  resources?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonResources;
+  root: string;
+  terminationGracePeriodSeconds?: number;
+  name: string;
+}
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigExcludeFilesCase1List =
   Array<string>;
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigExcludeFiles =
@@ -4751,6 +5199,8 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfig
   experimentalTriggers?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersList;
   functionFailoverRegions?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueFunctionFailoverRegionsList;
   includeFiles?: string;
+  /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
+  installCommand?: string;
   maxConcurrency?: number;
   maxDuration?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueMaxDuration;
   memory?: number;
@@ -4780,6 +5230,8 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigMiddl
 /** Enforced runtime for explicitly configured Routing Middleware. */
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigMiddlewareRuntime =
   "nodejs";
+export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigProjectSettingsVercelFlags =
+  CancelDeploymentResponseProjectSettingsVercelFlags;
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigProjectSettings =
   CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings;
 /** Names of the schedules that dispatch to this entrypoint, in config order. */
@@ -4807,6 +5259,8 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfig
   buildpack?: string;
   bundle?: boolean;
   bunVersion?: string;
+  /** Set when this build produces the named daemon. */
+  daemon?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemon;
   debug?: boolean;
   devCommand?: string;
   excludeFiles?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigExcludeFiles;
@@ -4915,6 +5369,8 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValu
   experimentalTriggers?: CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperimentalTriggersList;
   functionFailoverRegions?: CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueFunctionFailoverRegionsList;
   includeFiles?: string;
+  /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
+  installCommand?: string;
   maxConcurrency?: number;
   maxDuration?: CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueMaxDuration;
   memory?: number;
@@ -5366,6 +5822,8 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransf
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsItem {
   args: string;
   env?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsItemEnvList;
+  /** Keep an earlier request.path value. Builders use this for fallback routes. */
+  fallback?: boolean;
   op: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsItemOp;
   type: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsItemType;
 }
@@ -5607,6 +6065,8 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Tra
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase1 {
   args: string;
   env?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase1EnvList;
+  /** Keep an earlier request.path value. Builders use this for fallback routes. */
+  fallback?: boolean;
   op: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase1Op;
   type: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase1Type;
 }
@@ -6009,14 +6469,12 @@ export type GetDeploymentResponseBodyCase1ChecksDeploymentAliasState =
   | "failed"
   | "pending"
   | "succeeded";
-/** Condensed check data. Retrieve individual check and check run data using api-checks v2 routes. */
 export interface GetDeploymentResponseBodyCase1ChecksDeploymentAlias {
   completedAt?: number;
   startedAt: number;
   state: GetDeploymentResponseBodyCase1ChecksDeploymentAliasState;
 }
 export interface GetDeploymentResponseBodyCase1Checks {
-  /** Condensed check data. Retrieve individual check and check run data using api-checks v2 routes. */
   deployment_alias: GetDeploymentResponseBodyCase1ChecksDeploymentAlias;
 }
 export type GetDeploymentResponseBodyCase1ChecksConclusion =
@@ -6047,6 +6505,7 @@ export type GetDeploymentResponseBodyCase1ConfigResourceConfigElasticConcurrency
   | "TEAM_SETTING";
 /** Machine type that was used for the build. */
 export type GetDeploymentResponseBodyCase1ConfigResourceConfigBuildMachinePurchaseType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
@@ -6076,7 +6535,12 @@ export interface GetDeploymentResponseBodyCase1Config {
   version?: number;
 }
 /** Principal type of the deployment creator. */
-export type GetDeploymentResponseBodyCase1CreatorType = "app" | "integration" | "system" | "user";
+export type GetDeploymentResponseBodyCase1CreatorType =
+  | "app"
+  | "integration"
+  | "project"
+  | "system"
+  | "user";
 /** Information about the deployment creator */
 export interface GetDeploymentResponseBodyCase1Creator {
   /** The avatar of the user that created the deployment */
@@ -6259,6 +6723,8 @@ export interface GetDeploymentResponseBodyCase1FunctionsValue {
   experimentalTriggers?: GetDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersList;
   functionFailoverRegions?: GetDeploymentResponseBodyCase1FunctionsValueFunctionFailoverRegionsList;
   includeFiles?: string;
+  /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
+  installCommand?: string;
   maxConcurrency?: number;
   maxDuration?: GetDeploymentResponseBodyCase1FunctionsValueMaxDuration;
   memory?: number;
@@ -6683,6 +7149,7 @@ export type GetDeploymentResponseBodyCase1NodeVersion =
   | "20.x"
   | "22.x"
   | "24.x"
+  | "26.x"
   | "8.10.x";
 export type GetDeploymentResponseBodyCase1OidcTokenClaimsMfeGroupIdsList = Array<string>;
 export interface GetDeploymentResponseBodyCase1OidcTokenClaims {
@@ -6816,9 +7283,13 @@ export type GetDeploymentResponseBodyCase1ProjectSettingsNodeVersion =
   | "20.x"
   | "22.x"
   | "24.x"
+  | "26.x"
   | "8.10.x";
 export type GetDeploymentResponseBodyCase1ProjectSettingsSpeedInsights =
   CancelDeploymentResponseProjectSettingsSpeedInsights;
+/** Vercel Flags activation metadata copied from the project at deployment creation. */
+export type GetDeploymentResponseBodyCase1ProjectSettingsVercelFlags =
+  CancelDeploymentResponseProjectSettingsVercelFlags;
 export type GetDeploymentResponseBodyCase1ProjectSettingsWebAnalytics =
   CancelDeploymentResponseProjectSettingsWebAnalytics;
 export interface GetDeploymentResponseBodyCase1ProjectSettings {
@@ -6830,6 +7301,8 @@ export interface GetDeploymentResponseBodyCase1ProjectSettings {
   nodeVersion?: GetDeploymentResponseBodyCase1ProjectSettingsNodeVersion;
   outputDirectory?: string | null;
   speedInsights?: CancelDeploymentResponseProjectSettingsSpeedInsights;
+  /** Vercel Flags activation metadata copied from the project at deployment creation. */
+  vercelFlags?: CancelDeploymentResponseProjectSettingsVercelFlags;
   webAnalytics?: CancelDeploymentResponseProjectSettingsWebAnalytics;
 }
 /** The state of the deployment depending on the process of deploying, or if it is ready or in an error state */
@@ -6845,47 +7318,85 @@ export type GetDeploymentResponseBodyCase1ReadyState =
 export type GetDeploymentResponseBodyCase1ReadySubstate = "PROMOTED" | "ROLLING" | "STAGED";
 /** The regions the deployment exists in */
 export type GetDeploymentResponseBodyCase1RegionsList = Array<string>;
-/** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
-export type GetDeploymentResponseBodyCase1ResourceConfigBuildMachineDefaultPurchaseType =
-  | "basic"
-  | "enhanced"
-  | "none"
-  | "standard";
-/** Whether the build ran on a fixed or elastic machine. Used to drive billing for the build. */
-export type GetDeploymentResponseBodyCase1ResourceConfigBuildMachineMachineSelectionType =
-  | "elastic"
-  | "fixed";
-/** Machine type which was purchased/selected for this build. `basic` is the 2vCPU tier, recorded on the deployment so the build pipeline can detect a basic build without consulting the project. */
-export type GetDeploymentResponseBodyCase1ResourceConfigBuildMachinePurchaseType =
+/** The build ran on an elastic machine. Drives billing. */
+export type GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0MachineSelectionType =
+  "elastic";
+/** Machine type purchased for this build. `basic` is the 2vCPU tier, recorded so the build pipeline can detect a basic build without consulting the project. */
+export type GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0PurchaseType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
   | "turbo";
+/** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
+export type GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0DefaultPurchaseType =
+  | "basic"
+  | "enhanced"
+  | "none"
+  | "standard";
 /** The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history. */
-export type GetDeploymentResponseBodyCase1ResourceConfigBuildMachineSelectionSource =
+export type GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0SelectionSource =
   | "deployment-override"
   | "elastic-algorithm"
   | "plan-default"
   | "project-setting"
   | "team-entitlement"
   | "team-setting";
-/** Build machine configuration recorded for this deployment's build. See {@link DeploymentBuildMachine}. Distinct from the team/user `resourceConfig.buildMachine`, which only carries `default`. */
-export interface GetDeploymentResponseBodyCase1ResourceConfigBuildMachine {
-  /** Number of cores the build machine ran with. Set at dispatch time once the build lands on a hive. */
+export interface GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0 {
+  /** The build ran on an elastic machine. Drives billing. */
+  machineSelectionType: GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0MachineSelectionType;
+  /** Machine type purchased for this build. `basic` is the 2vCPU tier, recorded so the build pipeline can detect a basic build without consulting the project. */
+  purchaseType?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0PurchaseType;
+  /** Build cores. Deployment creation sets the requested value; dispatch replaces it with the cores assigned by routing. */
   cores?: number;
   /** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
-  defaultPurchaseType?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachineDefaultPurchaseType;
-  /** Whether the build ran on a fixed or elastic machine. Used to drive billing for the build. */
-  machineSelectionType?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachineMachineSelectionType;
-  /** Memory, in MiB, the build machine ran with. Set at dispatch time once the build lands on a hive. */
+  defaultPurchaseType?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0DefaultPurchaseType;
+  /** Build memory, in MiB. Deployment creation sets the requested value; dispatch replaces it with the memory assigned by routing. */
   memory?: number;
-  /** Machine type which was purchased/selected for this build. `basic` is the 2vCPU tier, recorded on the deployment so the build pipeline can detect a basic build without consulting the project. */
-  purchaseType?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachinePurchaseType;
   /** The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history. */
-  selectionSource?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachineSelectionSource;
+  selectionSource?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0SelectionSource;
 }
+/** The build ran on a fixed machine. Drives billing. */
+export type GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1MachineSelectionType =
+  "fixed";
+/** Machine type purchased for this build. */
+export type GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1PurchaseType =
+  | "basic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+/** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
+export type GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1DefaultPurchaseType =
+  | "basic"
+  | "enhanced"
+  | "none"
+  | "standard";
+/** The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history. */
+export type GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1SelectionSource =
+  | "deployment-override"
+  | "elastic-algorithm"
+  | "plan-default"
+  | "project-setting"
+  | "team-entitlement"
+  | "team-setting";
+export interface GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1 {
+  /** The build ran on a fixed machine. Drives billing. */
+  machineSelectionType?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1MachineSelectionType;
+  /** Machine type purchased for this build. */
+  purchaseType?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1PurchaseType;
+  /** Build cores. Deployment creation sets the requested value; dispatch replaces it with the cores assigned by routing. */
+  cores?: number;
+  /** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
+  defaultPurchaseType?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1DefaultPurchaseType;
+  /** Build memory, in MiB. Deployment creation sets the requested value; dispatch replaces it with the memory assigned by routing. */
+  memory?: number;
+  /** The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history. */
+  selectionSource?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1SelectionSource;
+}
+export type GetDeploymentResponseBodyCase1ResourceConfigBuildMachine =
+  | GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0
+  | GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1;
 export interface GetDeploymentResponseBodyCase1ResourceConfig {
-  /** Build machine configuration recorded for this deployment's build. See {@link DeploymentBuildMachine}. Distinct from the team/user `resourceConfig.buildMachine`, which only carries `default`. */
   buildMachine?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachine;
 }
 /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
@@ -7096,6 +7607,8 @@ export type GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1Type
 export interface GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1 {
   args: string;
   env?: GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1EnvList;
+  /** Keep an earlier request.path value. Builders use this for fallback routes. */
+  fallback?: boolean;
   op: GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1Op;
   type: GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1Type;
 }
@@ -7177,6 +7690,87 @@ export interface GetDeploymentResponseBodyCase1SeatBlock {
   /** The blocked vercel user ID. */
   userId?: string;
 }
+/** Generated value shape, must be `"url"`. */
+export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsItemFormat =
+  "url";
+/** If present, must be `"service"` for Service-to-Service HTTP bindings. */
+export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsItemType =
+  "service";
+/** Bindings to services in the same deployment. */
+export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsItem {
+  /** Environment variable name that will store the generated value */
+  env: string;
+  /** Generated value shape, must be `"url"`. */
+  format: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsItemFormat;
+  /** Target service name from `services`. */
+  service: string;
+  /** If present, must be `"service"` for Service-to-Service HTTP bindings. */
+  type?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsItemType;
+}
+/** Bindings to services in the same deployment. */
+export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsList =
+  Array<GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsItem>;
+export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonCommandList =
+  Array<string>;
+/** Instance counts by region. */
+export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonInstancesMap = {
+  [key: string]: number | undefined;
+};
+export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersItem =
+  CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersItem;
+export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList =
+  Array<CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersItem>;
+export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetScheme =
+  | "HTTP"
+  | "HTTPS";
+export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGet {
+  host?: string;
+  httpHeaders?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList;
+  path?: string;
+  port: number;
+  scheme?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetScheme;
+}
+/** A Kubernetes-style HTTP liveness probe. */
+export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbe {
+  failureThreshold?: number;
+  httpGet: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGet;
+  initialDelaySeconds?: number;
+  periodSeconds?: number;
+  successThreshold?: number;
+  timeoutSeconds?: number;
+}
+/** Instance counts by region. */
+export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonReplicasMap = {
+  [key: string]: number | undefined;
+};
+export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonResourcesRequestsMemory =
+  | "1Gi"
+  | "2Gi"
+  | "4Gi"
+  | "8Gi";
+export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonResourcesRequests {
+  memory: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonResourcesRequestsMemory;
+}
+export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonResources {
+  requests: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonResourcesRequests;
+}
+/** Set when this build produces the named daemon. */
+export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemon {
+  /** Bindings to services in the same deployment. */
+  bindings?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsList;
+  command?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonCommandList;
+  entrypoint: string;
+  /** Instance counts by region. */
+  instances?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonInstancesMap;
+  /** A Kubernetes-style HTTP liveness probe. */
+  livenessProbe?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbe;
+  /** Instance counts by region. */
+  replicas?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonReplicasMap;
+  resources?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonResources;
+  root: string;
+  terminationGracePeriodSeconds?: number;
+  name: string;
+}
 export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigExcludeFilesCase1List =
   Array<string>;
 export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigExcludeFiles =
@@ -7257,6 +7851,8 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFun
   experimentalTriggers?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersList;
   functionFailoverRegions?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueFunctionFailoverRegionsList;
   includeFiles?: string;
+  /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
+  installCommand?: string;
   maxConcurrency?: number;
   maxDuration?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueMaxDuration;
   memory?: number;
@@ -7286,6 +7882,8 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigMiddlewa
 /** Enforced runtime for explicitly configured Routing Middleware. */
 export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigMiddlewareRuntime =
   "nodejs";
+export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigProjectSettingsVercelFlags =
+  CancelDeploymentResponseProjectSettingsVercelFlags;
 export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigProjectSettings =
   CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings;
 /** Names of the schedules that dispatch to this entrypoint, in config order. */
@@ -7313,6 +7911,8 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfig {
   buildpack?: string;
   bundle?: boolean;
   bunVersion?: string;
+  /** Set when this build produces the named daemon. */
+  daemon?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemon;
   debug?: boolean;
   devCommand?: string;
   excludeFiles?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigExcludeFiles;
@@ -7413,6 +8013,87 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase1BindingsItem {
 /** Caller-side bindings to other services. */
 export type GetDeploymentResponseBodyCase1ServicesItemCase1BindingsList =
   Array<GetDeploymentResponseBodyCase1ServicesItemCase1BindingsItem>;
+/** Generated value shape, must be `"url"`. */
+export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsItemFormat =
+  "url";
+/** If present, must be `"service"` for Service-to-Service HTTP bindings. */
+export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsItemType =
+  "service";
+/** Bindings to services in the same deployment. */
+export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsItem {
+  /** Environment variable name that will store the generated value */
+  env: string;
+  /** Generated value shape, must be `"url"`. */
+  format: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsItemFormat;
+  /** Target service name from `services`. */
+  service: string;
+  /** If present, must be `"service"` for Service-to-Service HTTP bindings. */
+  type?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsItemType;
+}
+/** Bindings to services in the same deployment. */
+export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsList =
+  Array<GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsItem>;
+export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonCommandList =
+  Array<string>;
+/** Instance counts by region. */
+export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonInstancesMap = {
+  [key: string]: number | undefined;
+};
+export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersItem =
+  CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersItem;
+export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList =
+  Array<CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersItem>;
+export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetScheme =
+  | "HTTP"
+  | "HTTPS";
+export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGet {
+  host?: string;
+  httpHeaders?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList;
+  path?: string;
+  port: number;
+  scheme?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetScheme;
+}
+/** A Kubernetes-style HTTP liveness probe. */
+export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbe {
+  failureThreshold?: number;
+  httpGet: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGet;
+  initialDelaySeconds?: number;
+  periodSeconds?: number;
+  successThreshold?: number;
+  timeoutSeconds?: number;
+}
+/** Instance counts by region. */
+export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonReplicasMap = {
+  [key: string]: number | undefined;
+};
+export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonResourcesRequestsMemory =
+  | "1Gi"
+  | "2Gi"
+  | "4Gi"
+  | "8Gi";
+export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonResourcesRequests {
+  memory: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonResourcesRequestsMemory;
+}
+export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonResources {
+  requests: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonResourcesRequests;
+}
+/** Set when this build produces the named daemon. */
+export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemon {
+  /** Bindings to services in the same deployment. */
+  bindings?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsList;
+  command?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonCommandList;
+  entrypoint: string;
+  /** Instance counts by region. */
+  instances?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonInstancesMap;
+  /** A Kubernetes-style HTTP liveness probe. */
+  livenessProbe?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbe;
+  /** Instance counts by region. */
+  replicas?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonReplicasMap;
+  resources?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonResources;
+  root: string;
+  terminationGracePeriodSeconds?: number;
+  name: string;
+}
 export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigExcludeFilesCase1List =
   Array<string>;
 export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigExcludeFiles =
@@ -7493,6 +8174,8 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFun
   experimentalTriggers?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersList;
   functionFailoverRegions?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueFunctionFailoverRegionsList;
   includeFiles?: string;
+  /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
+  installCommand?: string;
   maxConcurrency?: number;
   maxDuration?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueMaxDuration;
   memory?: number;
@@ -7522,6 +8205,8 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigMiddlewa
 /** Enforced runtime for explicitly configured Routing Middleware. */
 export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigMiddlewareRuntime =
   "nodejs";
+export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigProjectSettingsVercelFlags =
+  CancelDeploymentResponseProjectSettingsVercelFlags;
 export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigProjectSettings =
   CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings;
 /** Names of the schedules that dispatch to this entrypoint, in config order. */
@@ -7549,6 +8234,8 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfig {
   buildpack?: string;
   bundle?: boolean;
   bunVersion?: string;
+  /** Set when this build produces the named daemon. */
+  daemon?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemon;
   debug?: boolean;
   devCommand?: string;
   excludeFiles?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigExcludeFiles;
@@ -7656,6 +8343,8 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValue {
   experimentalTriggers?: GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperimentalTriggersList;
   functionFailoverRegions?: GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueFunctionFailoverRegionsList;
   includeFiles?: string;
+  /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
+  installCommand?: string;
   maxConcurrency?: number;
   maxDuration?: GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueMaxDuration;
   memory?: number;
@@ -8105,6 +8794,8 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransform
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsItem {
   args: string;
   env?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsItemEnvList;
+  /** Keep an earlier request.path value. Builders use this for fallback routes. */
+  fallback?: boolean;
   op: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsItemOp;
   type: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsItemType;
 }
@@ -8344,6 +9035,8 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Transf
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase1 {
   args: string;
   env?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase1EnvList;
+  /** Keep an earlier request.path value. Builders use this for fallback routes. */
+  fallback?: boolean;
   op: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase1Op;
   type: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase1Type;
 }
@@ -8465,7 +9158,6 @@ export type GetDeploymentResponseBodyCase1Type = "LAMBDAS";
 export type GetDeploymentResponseBodyCase1UserAliasesList = Array<string>;
 /** The platform version that was used to create the deployment. */
 export type GetDeploymentResponseBodyCase1Version = 2;
-/** Returns the deployment object for the authenticated owner, including private fields such as environment variables, build log URLs, and internal metadata. */
 export interface GetDeploymentResponseBodyCase1 {
   /** A list of all the aliases (default aliases, staging aliases and production aliases) that were assigned upon deployment creation */
   alias?: GetDeploymentResponseBodyCase1AliasList;
@@ -8611,7 +9303,12 @@ export type GetDeploymentResponseBodyCase2ChecksConclusion =
   | "succeeded";
 export type GetDeploymentResponseBodyCase2ChecksState = "completed" | "registered" | "running";
 /** Principal type of the deployment creator. */
-export type GetDeploymentResponseBodyCase2CreatorType = "app" | "integration" | "system" | "user";
+export type GetDeploymentResponseBodyCase2CreatorType =
+  | "app"
+  | "integration"
+  | "project"
+  | "system"
+  | "user";
 /** Information about the deployment creator */
 export interface GetDeploymentResponseBodyCase2Creator {
   /** The avatar of the user that created the deployment */
@@ -8957,6 +9654,7 @@ export type GetDeploymentResponseBodyCase2NodeVersion =
   | "20.x"
   | "22.x"
   | "24.x"
+  | "26.x"
   | "8.10.x";
 export type GetDeploymentResponseBodyCase2OidcTokenClaimsMfeGroupIdsList = Array<string>;
 export interface GetDeploymentResponseBodyCase2OidcTokenClaims {
@@ -9459,7 +10157,6 @@ export type GetDeploymentsResponseDeploymentsItemChecksDeploymentAliasState =
   | "failed"
   | "pending"
   | "succeeded";
-/** Detailed information about v2 deployment checks. Includes information about blocked workflows in the deployment lifecycle. */
 export interface GetDeploymentsResponseDeploymentsItemChecksDeploymentAlias {
   completedAt?: number;
   startedAt: number;
@@ -9467,7 +10164,6 @@ export interface GetDeploymentsResponseDeploymentsItemChecksDeploymentAlias {
 }
 /** Detailed information about v2 deployment checks. Includes information about blocked workflows in the deployment lifecycle. */
 export interface GetDeploymentsResponseDeploymentsItemChecks {
-  /** Detailed information about v2 deployment checks. Includes information about blocked workflows in the deployment lifecycle. */
   deployment_alias: GetDeploymentsResponseDeploymentsItemChecksDeploymentAlias;
 }
 /** Conclusion for checks */
@@ -9485,6 +10181,7 @@ export type GetDeploymentsResponseDeploymentsItemChecksState =
 export type GetDeploymentsResponseDeploymentsItemCreatorType =
   | "app"
   | "integration"
+  | "project"
   | "system"
   | "user";
 /** Metadata information of the deployment creator. */
@@ -9643,9 +10340,13 @@ export type GetDeploymentsResponseDeploymentsItemProjectSettingsNodeVersion =
   | "20.x"
   | "22.x"
   | "24.x"
+  | "26.x"
   | "8.10.x";
 export type GetDeploymentsResponseDeploymentsItemProjectSettingsSpeedInsights =
   CancelDeploymentResponseProjectSettingsSpeedInsights;
+/** Vercel Flags activation metadata copied from the project at deployment creation. */
+export type GetDeploymentsResponseDeploymentsItemProjectSettingsVercelFlags =
+  CancelDeploymentResponseProjectSettingsVercelFlags;
 export type GetDeploymentsResponseDeploymentsItemProjectSettingsWebAnalytics =
   CancelDeploymentResponseProjectSettingsWebAnalytics;
 /** The project settings which was used for this deployment */
@@ -9667,6 +10368,8 @@ export interface GetDeploymentsResponseDeploymentsItemProjectSettings {
   skipGitConnectDuringLink?: boolean;
   sourceFilesOutsideRootDirectory?: boolean;
   speedInsights?: CancelDeploymentResponseProjectSettingsSpeedInsights;
+  /** Vercel Flags activation metadata copied from the project at deployment creation. */
+  vercelFlags?: CancelDeploymentResponseProjectSettingsVercelFlags;
   webAnalytics?: CancelDeploymentResponseProjectSettingsWebAnalytics;
 }
 export type GetDeploymentsResponseDeploymentsItemReadyState =
@@ -9853,12 +10556,10 @@ export interface FileTree {
 export type ListDeploymentFilesResponseBodyList = Array<FileTree>;
 export type ListDeploymentFilesResponse = ListDeploymentFilesResponseBodyList;
 export type UpdateIntegrationDeploymentActionRequestStatus = "running" | "succeeded" | "failed";
-export interface UpdateIntegrationDeploymentActionRequestOutcomesItemCase0SecretsItem {
-  name: string;
-  value: string;
-}
+export type UpdateIntegrationDeploymentActionRequestOutcomesItemCase0SecretsItem =
+  CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersItem;
 export type UpdateIntegrationDeploymentActionRequestOutcomesItemCase0SecretsList =
-  Array<UpdateIntegrationDeploymentActionRequestOutcomesItemCase0SecretsItem>;
+  Array<CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersItem>;
 export interface UpdateIntegrationDeploymentActionRequestOutcomesItemCase0 {
   kind: string;
   secrets: UpdateIntegrationDeploymentActionRequestOutcomesItemCase0SecretsList;
@@ -9875,20 +10576,24 @@ export interface UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimR
   /** Applies only when the token is minted for one of these environments: `production`, `preview`, `development`, or a custom environment slug. A custom environment also matches `preview`. */
   environment?: UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItemWhenEnvironmentList;
 }
-export type UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItemClaimsValue =
+export type UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItemClaimsValueCase0 =
   | string
   | number
   | boolean;
-/** Claims to set (string, number, or boolean), shallow-merged over earlier rules and over the default claims. `null` removes a claim. Reserved claims cannot be set; `aud` and `sub` can be overridden with a string but not removed. */
+export type UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItemClaimsValueCase1List =
+  Array<string>;
+export type UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItemClaimsValue =
+  | UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItemClaimsValueCase0
+  | UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItemClaimsValueCase1List;
+/** Claims to set (string, number, boolean, or array of strings), shallow-merged over earlier rules and over the default claims. `null` removes a claim. Reserved claims cannot be set; `aud` and `sub` can be overridden with a string but not removed. */
 export type UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItemClaimsMap = {
   [key: string]:
     | UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItemClaimsValue
-    | null
     | undefined;
 };
 export interface UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItem {
   when?: UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItemWhen;
-  /** Claims to set (string, number, or boolean), shallow-merged over earlier rules and over the default claims. `null` removes a claim. Reserved claims cannot be set; `aud` and `sub` can be overridden with a string but not removed. */
+  /** Claims to set (string, number, boolean, or array of strings), shallow-merged over earlier rules and over the default claims. `null` removes a claim. Reserved claims cannot be set; `aud` and `sub` can be overridden with a string but not removed. */
   claims: UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItemClaimsMap;
 }
 /** Ordered rules resolved at mint time. Later rules win and shallow-merge over earlier ones. */
@@ -9947,7 +10652,7 @@ export const cancelDeployment: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<CancelDeploymentRequest>,
-  output: __S(265, __c8, 9) as any as S.Schema<CancelDeploymentResponse>,
+  output: __S(264, __c8, 8) as any as S.Schema<CancelDeploymentResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -9978,7 +10683,7 @@ export const createDeployment: API.OperationMethod<
   span: "CreateDeployment",
 }));
 
-export type DeleteDeploymentError = BadRequest | Forbidden | NotFound | VercelOpError;
+export type DeleteDeploymentError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
 /** Delete a Deployment This API allows you to delete a deployment, either by supplying its `id` in the URL or the `url` of the deployment as a query parameter. You can obtain the ID, for example, by listing all deployments. */
 export const deleteDeployment: API.OperationMethod<
   DeleteDeploymentRequest,
@@ -9988,7 +10693,7 @@ export const deleteDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<DeleteDeploymentRequest>,
   output: __S(385, __c12, 1) as any as S.Schema<DeleteDeploymentResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10257,7 +10962,8 @@ function __c3(j: number): any {
           skipGitConnectDuringLink: S.optional(S.Boolean),
           sourceFilesOutsideRootDirectory: S.optional(S.Boolean),
           speedInsights: S.optional(__S(299, __c9, 11)),
-          webAnalytics: S.optional(__S(300, __c9, 12)),
+          vercelFlags: S.optional(__S(300, __c9, 12)),
+          webAnalytics: S.optional(__S(301, __c9, 13)),
         }),
       ).annotate({ identifier: "GetDeploymentsResponseDeploymentsItemProjectSettings" });
     case 7:
@@ -10547,6 +11253,7 @@ function __c7(j: number): any {
           experimentalTriggers: S.optional(__S(242, __c7, 18)),
           functionFailoverRegions: S.optional(__S(288, __c9, 0)),
           includeFiles: S.optional(S.String),
+          installCommand: S.optional(S.String),
           maxConcurrency: S.optional(S.Number),
           maxDuration: S.optional(S.Unknown),
           memory: S.optional(S.Number),
@@ -10669,29 +11376,19 @@ function __c8(j: number): any {
           nodeVersion: S.optional(S.String),
           outputDirectory: S.optional(S.NullOr(S.String)),
           speedInsights: S.optional(__S(299, __c9, 11)),
-          webAnalytics: S.optional(__S(300, __c9, 12)),
+          vercelFlags: S.optional(__S(300, __c9, 12)),
+          webAnalytics: S.optional(__S(301, __c9, 13)),
         }),
       ).annotate({ identifier: "CancelDeploymentResponseProjectSettings" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          cores: S.optional(S.Number),
-          defaultPurchaseType: S.optional(S.String),
-          machineSelectionType: S.optional(S.String),
-          memory: S.optional(S.Number),
-          purchaseType: S.optional(S.String),
-          selectionSource: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CancelDeploymentResponseResourceConfigBuildMachine" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          buildMachine: S.optional(__S(259, __c8, 3)),
+          buildMachine: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "CancelDeploymentResponseResourceConfig" });
-    case 5:
+    case 4:
       return S.Array(S.Unknown);
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           blockCode: S.String,
@@ -10701,9 +11398,9 @@ function __c8(j: number): any {
           userId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CancelDeploymentResponseSeatBlock" });
-    case 7:
+    case 6:
       return S.Array(S.Unknown);
-    case 8:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           avatar: S.optional(S.String),
@@ -10712,7 +11409,7 @@ function __c8(j: number): any {
           slug: S.String,
         }),
       ).annotate({ identifier: "CancelDeploymentResponseTeam" });
-    case 9:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           alias: S.optional(__S(288, __c9, 0)),
@@ -10793,15 +11490,15 @@ function __c8(j: number): any {
           readyStateReason: S.optional(S.String),
           readySubstate: S.optional(S.String),
           regions: __S(288, __c9, 0),
-          resourceConfig: S.optional(__S(260, __c8, 4)),
-          routes: S.NullOr(__S(261, __c8, 5)),
-          seatBlock: S.optional(__S(262, __c8, 6)),
-          services: S.optional(__S(263, __c8, 7)),
+          resourceConfig: S.optional(__S(259, __c8, 3)),
+          routes: S.NullOr(__S(260, __c8, 4)),
+          seatBlock: S.optional(__S(261, __c8, 5)),
+          services: S.optional(__S(262, __c8, 6)),
           softDeletedByRetention: S.optional(S.Boolean),
           source: S.optional(S.String),
           status: S.String,
           target: S.optional(S.NullOr(S.String)),
-          team: S.optional(__S(264, __c8, 8)),
+          team: S.optional(__S(263, __c8, 7)),
           ttyBuildLogs: S.optional(S.Boolean),
           type: S.String,
           undeletedAt: S.optional(S.Number),
@@ -10903,6 +11600,12 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "CancelDeploymentResponseProjectSettingsSpeedInsights" });
     case 12:
+      return S.suspend(() =>
+        S.Struct({
+          enabledAt: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CancelDeploymentResponseProjectSettingsVercelFlags" });
+    case 13:
       return S.suspend(() =>
         S.Struct({
           canceledAt: S.optional(S.Number),

@@ -191,6 +191,13 @@ export interface CopilotUsersUsageMetricsRequest {
   /** The slug version of the enterprise name. */
   enterprise: string;
 }
+export interface DeleteCopilotTeamCustomizationsRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The slug of the team name. */
+  team_slug: string;
+}
+export interface DeleteCopilotTeamCustomizationsResponse {}
 export interface DisableCopilotCodingAgentForRepositoryInOrganizationRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -295,7 +302,7 @@ export type CopilotOrganizationDetailsSeatManagementSetting =
   | "disabled"
   | "unconfigured";
 /** The Copilot plan of the organization, or the parent enterprise, when applicable. */
-export type CopilotOrganizationDetailsPlanType = "business" | "enterprise";
+export type CopilotOrganizationDetailsPlanType = "business" | "enterprise" | "access";
 /** Information about the seat breakdown and policies set for an organization with a Copilot Business or Copilot Enterprise subscription. */
 export interface CopilotOrganizationDetails {
   seat_breakdown: CopilotOrganizationSeatBreakdown;
@@ -452,7 +459,7 @@ export interface EnterpriseTeam {
 /** The team through which the assignee is granted access to GitHub Copilot, if applicable. */
 export type CopilotSeatDetailsAssigningTeam = Team | EnterpriseTeam;
 /** The Copilot plan of the organization, or the parent enterprise, when applicable. */
-export type CopilotSeatDetailsPlanType = "business" | "enterprise" | "unknown";
+export type CopilotSeatDetailsPlanType = "business" | "enterprise" | "unknown" | "access";
 /** Information about a Copilot Business seat assignment for a user, team, or organization. */
 export interface CopilotSeatDetails {
   assignee?: NullableSimpleUser | null;
@@ -473,6 +480,153 @@ export interface CopilotSeatDetails {
   updated_at?: string;
   /** The Copilot plan of the organization, or the parent enterprise, when applicable. */
   plan_type?: CopilotSeatDetailsPlanType;
+}
+export interface GetCopilotTeamCustomizationsRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The slug of the team name. */
+  team_slug: string;
+}
+/** The assignment state. */
+export type GetCopilotTeamCustomizationsResponsePluginAssignmentsValueState = "defaultEnabled";
+export interface GetCopilotTeamCustomizationsResponsePluginAssignmentsValue {
+  /** The assignment state. */
+  state?: GetCopilotTeamCustomizationsResponsePluginAssignmentsValueState;
+}
+/** Plugins assigned to the team, keyed by `PLUGIN@MARKETPLACE`. */
+export type GetCopilotTeamCustomizationsResponsePluginAssignmentsMap = {
+  [key: string]: GetCopilotTeamCustomizationsResponsePluginAssignmentsValue | undefined;
+};
+/** Additional plugin marketplaces available to the team, keyed by marketplace name. */
+export type GetCopilotTeamCustomizationsResponseExtraKnownMarketplacesMap = {
+  [key: string]: unknown | undefined;
+};
+export interface GetCopilotTeamCustomizationsResponse {
+  /** Plugins assigned to the team, keyed by `PLUGIN@MARKETPLACE`. */
+  pluginAssignments?: GetCopilotTeamCustomizationsResponsePluginAssignmentsMap;
+  /** Additional plugin marketplaces available to the team, keyed by marketplace name. */
+  extraKnownMarketplaces?: GetCopilotTeamCustomizationsResponseExtraKnownMarketplacesMap;
+}
+export interface GetEnterpriseCodeReviewPolicyRequest {
+  /** The slug version of the enterprise name. */
+  enterprise: string;
+}
+/** The configured policy. Null means the enterprise has not configured a policy. */
+export type EnterpriseCopilotCodeReviewPolicyPolicyState =
+  | "enabled_for_all_organizations"
+  | "disabled_for_all_organizations"
+  | "configured_by_organization_admins";
+/** The configured enterprise policy, rather than a user's effective Copilot code review access. */
+export interface EnterpriseCopilotCodeReviewPolicy {
+  /** The configured policy. Null means the enterprise has not configured a policy. */
+  policy_state: EnterpriseCopilotCodeReviewPolicyPolicyState | null;
+}
+export interface GetOrganizationCodeReviewPolicyRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+}
+/** The policy stored for the organization. Null means the organization has not configured a policy. */
+export type OrganizationCopilotCodeReviewPolicyConfiguredState = "enabled" | "disabled";
+/** The policy that applies to the organization after enterprise policy is considered. */
+export type OrganizationCopilotCodeReviewPolicyEffectiveState = "enabled" | "disabled";
+/** Whether the enterprise or the organization controls the policy. */
+export type OrganizationCopilotCodeReviewPolicyManagedBy = "enterprise" | "organization";
+/** The organization's configured and effective Copilot code review policy. */
+export interface OrganizationCopilotCodeReviewPolicy {
+  /** The policy stored for the organization. Null means the organization has not configured a policy. */
+  configured_state: OrganizationCopilotCodeReviewPolicyConfiguredState | null;
+  /** The policy that applies to the organization after enterprise policy is considered. */
+  effective_state: OrganizationCopilotCodeReviewPolicyEffectiveState;
+  /** Whether organization administrators can update the policy. */
+  editable: boolean;
+  /** Whether the enterprise or the organization controls the policy. */
+  managed_by: OrganizationCopilotCodeReviewPolicyManagedBy;
+}
+export interface GetOrganizationCodeReviewRunnerRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+}
+/** The type of runner. `standard` uses GitHub-hosted runners. `labeled` uses runners that match the configured labels or runner group. */
+export type OrganizationCopilotCodeReviewRunnerRunnerType = "standard" | "labeled";
+/** The runner labels used for a labeled runner. */
+export type OrganizationCopilotCodeReviewRunnerRunnerLabelsList = Array<string>;
+/** Which configuration the values come from. `code_review` means the organization has saved a Copilot code review runner configuration. `coding_agent` means it has not, and the values are inherited from the organization's Copilot coding agent runner configuration. */
+export type OrganizationCopilotCodeReviewRunnerConfiguredBy = "code_review" | "coding_agent";
+/** The effective runner configuration that Copilot code review uses for the organization. */
+export interface OrganizationCopilotCodeReviewRunner {
+  /** The type of runner. `standard` uses GitHub-hosted runners. `labeled` uses runners that match the configured labels or runner group. */
+  runner_type: OrganizationCopilotCodeReviewRunnerRunnerType;
+  /** The runner labels used for a labeled runner. */
+  runner_labels: OrganizationCopilotCodeReviewRunnerRunnerLabelsList;
+  /** The runner group used for a labeled runner, or null when none is set. */
+  runner_group_name: string | null;
+  /** Whether repositories can use their own runner configuration. */
+  allow_repository_customization: boolean;
+  /** Which configuration the values come from. `code_review` means the organization has saved a Copilot code review runner configuration. `coding_agent` means it has not, and the values are inherited from the organization's Copilot coding agent runner configuration. */
+  configured_by: OrganizationCopilotCodeReviewRunnerConfiguredBy;
+}
+export interface GetOrganizationCodeReviewSettingsRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+}
+/** Whether the enterprise or the organization controls the setting. */
+export type OrganizationCopilotCodeReviewSettingsDefaultReviewEffortManagedBy =
+  | "enterprise"
+  | "organization";
+/** The default review effort for repositories in the organization that do not choose their own. For more information, see [Review effort level](https://docs.github.com/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/code-review#review-effort-level). */
+export interface OrganizationCopilotCodeReviewSettingsDefaultReviewEffort {
+  /** The review effort stored for the organization. Null means the organization inherits the default, or has stored a value that is not currently available. */
+  configured: string | null;
+  /** The review effort that repositories without their own setting use. When that effort is not currently available for the organization, this reports the fallback effort instead. */
+  effective: string;
+  /** The review effort the organization inherits when it does not configure one. This is the enterprise default when one applies, otherwise GitHub's default. */
+  github_default: string;
+  /** Whether organization administrators can update the setting. */
+  editable: boolean;
+  /** Whether the enterprise or the organization controls the setting. */
+  managed_by: OrganizationCopilotCodeReviewSettingsDefaultReviewEffortManagedBy;
+}
+/** The review efforts that can currently be set for this organization, in display order. */
+export type OrganizationCopilotCodeReviewSettingsAvailableReviewEffortsList = Array<string>;
+/** The organization's Copilot code review settings. */
+export interface OrganizationCopilotCodeReviewSettings {
+  /** The default review effort for repositories in the organization that do not choose their own. For more information, see [Review effort level](https://docs.github.com/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/code-review#review-effort-level). */
+  default_review_effort: OrganizationCopilotCodeReviewSettingsDefaultReviewEffort;
+  /** The review efforts that can currently be set for this organization, in display order. */
+  available_review_efforts: OrganizationCopilotCodeReviewSettingsAvailableReviewEffortsList;
+}
+export interface GetRepositoryCodeReviewSettingsRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+}
+/** The review effort for the repository. For more information, see [Review effort level](https://docs.github.com/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/code-review#review-effort-level). */
+export interface RepositoryCopilotCodeReviewSettingsReviewEffort {
+  /** The review effort stored for the repository. Null means the repository inherits the default, or has stored a value that is not currently available. */
+  configured: string | null;
+  /** The review effort reviews use when the requester and the pull request do not choose one. When that effort is not currently available for the repository, this reports the effort reviews would use without it. */
+  effective: string;
+}
+/** The review efforts that can currently be set for this repository, in display order. */
+export type RepositoryCopilotCodeReviewSettingsAvailableReviewEffortsList = Array<string>;
+/** Which review comment severities Copilot code review leaves out. `no_filter` keeps every comment, `low` leaves out low-severity comments, and `low_and_medium` leaves out low- and medium-severity comments. */
+export type RepositoryCopilotCodeReviewSettingsSeverityFilter =
+  | "no_filter"
+  | "low"
+  | "low_and_medium";
+/** The repository's Copilot code review settings. These settings tune reviews; they do not enable Copilot code review. */
+export interface RepositoryCopilotCodeReviewSettings {
+  /** The review effort for the repository. For more information, see [Review effort level](https://docs.github.com/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/code-review#review-effort-level). */
+  review_effort: RepositoryCopilotCodeReviewSettingsReviewEffort;
+  /** The review efforts that can currently be set for this repository, in display order. */
+  available_review_efforts: RepositoryCopilotCodeReviewSettingsAvailableReviewEffortsList;
+  /** Which review comment severities Copilot code review leaves out. `no_filter` keeps every comment, `low` leaves out low-severity comments, and `low_and_medium` leaves out low- and medium-severity comments. */
+  severity_filter: RepositoryCopilotCodeReviewSettingsSeverityFilter;
+  /** Whether reviews use the repository's custom instructions. */
+  custom_instructions_enabled: boolean;
+  /** Whether reviews can use MCP servers. */
+  mcp_enabled: boolean;
 }
 export interface ListCopilotCodingAgentSelectedRepositoriesForOrganizationRequest {
   /** The organization name. The name is not case sensitive. */
@@ -669,6 +823,7 @@ export interface MinimalRepository {
   updated_at?: string | null;
   permissions?: MinimalRepositoryPermissions;
   role_name?: string;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string;
   delete_branch_on_merge?: boolean;
   subscribers_count?: number;
@@ -779,6 +934,62 @@ export interface SetCopilotContentExclusionForOrganizationRequest {
 export interface SetCopilotContentExclusionForOrganizationResponse {
   message?: string;
 }
+/** The assignment state. */
+export type SetCopilotTeamCustomizationsRequestPluginAssignmentsValueState = "defaultEnabled";
+export interface SetCopilotTeamCustomizationsRequestPluginAssignmentsValue {
+  /** The assignment state. */
+  state?: SetCopilotTeamCustomizationsRequestPluginAssignmentsValueState | (string & {});
+}
+/** Plugins assigned to the team, keyed by `PLUGIN@MARKETPLACE`. */
+export type SetCopilotTeamCustomizationsRequestPluginAssignmentsMap = {
+  [key: string]: SetCopilotTeamCustomizationsRequestPluginAssignmentsValue | undefined;
+};
+/** Additional plugin marketplaces available to the team, keyed by marketplace name. */
+export type SetCopilotTeamCustomizationsRequestExtraKnownMarketplacesMap = {
+  [key: string]: unknown | undefined;
+};
+export interface SetCopilotTeamCustomizationsRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The slug of the team name. */
+  team_slug: string;
+  /** Plugins assigned to the team, keyed by `PLUGIN@MARKETPLACE`. */
+  pluginAssignments?: SetCopilotTeamCustomizationsRequestPluginAssignmentsMap;
+  /** Additional plugin marketplaces available to the team, keyed by marketplace name. */
+  extraKnownMarketplaces?: SetCopilotTeamCustomizationsRequestExtraKnownMarketplacesMap;
+}
+/** The assignment state. */
+export type SetCopilotTeamCustomizationsResponsePluginAssignmentsValueState = "defaultEnabled";
+export interface SetCopilotTeamCustomizationsResponsePluginAssignmentsValue {
+  /** The assignment state. */
+  state?: SetCopilotTeamCustomizationsResponsePluginAssignmentsValueState;
+}
+/** Plugins assigned to the team, keyed by `PLUGIN@MARKETPLACE`. */
+export type SetCopilotTeamCustomizationsResponsePluginAssignmentsMap = {
+  [key: string]: SetCopilotTeamCustomizationsResponsePluginAssignmentsValue | undefined;
+};
+/** Additional plugin marketplaces available to the team, keyed by marketplace name. */
+export type SetCopilotTeamCustomizationsResponseExtraKnownMarketplacesMap = {
+  [key: string]: unknown | undefined;
+};
+export interface SetCopilotTeamCustomizationsResponse {
+  /** Plugins assigned to the team, keyed by `PLUGIN@MARKETPLACE`. */
+  pluginAssignments?: SetCopilotTeamCustomizationsResponsePluginAssignmentsMap;
+  /** Additional plugin marketplaces available to the team, keyed by marketplace name. */
+  extraKnownMarketplaces?: SetCopilotTeamCustomizationsResponseExtraKnownMarketplacesMap;
+}
+/** The enterprise's Copilot code review policy. */
+export type SetEnterpriseCodeReviewPolicyRequestPolicyState =
+  | "enabled_for_all_organizations"
+  | "disabled_for_all_organizations"
+  | "configured_by_organization_admins";
+export interface SetEnterpriseCodeReviewPolicyRequest {
+  /** The slug version of the enterprise name. */
+  enterprise: string;
+  /** The enterprise's Copilot code review policy. */
+  policy_state: SetEnterpriseCodeReviewPolicyRequestPolicyState | (string & {});
+}
+export interface SetEnterpriseCodeReviewPolicyResponse {}
 /** The policy state for Copilot cloud agent in the enterprise. Can be one of `enabled_for_all_orgs`, `disabled_for_all_orgs`, `enabled_for_selected_orgs`, or `configured_by_org_admins`. */
 export type SetEnterpriseCodingAgentPolicyRequestPolicyState =
   | "enabled_for_all_orgs"
@@ -792,6 +1003,56 @@ export interface SetEnterpriseCodingAgentPolicyRequest {
   policy_state: SetEnterpriseCodingAgentPolicyRequestPolicyState | (string & {});
 }
 export interface SetEnterpriseCodingAgentPolicyResponse {}
+/** The organization's Copilot code review policy. */
+export type SetOrganizationCodeReviewPolicyRequestState = "enabled" | "disabled";
+export interface SetOrganizationCodeReviewPolicyRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The organization's Copilot code review policy. */
+  state: SetOrganizationCodeReviewPolicyRequestState | (string & {});
+}
+export interface SetOrganizationCodeReviewPolicyResponse {}
+/** The type of runner. `standard` uses GitHub-hosted runners. `labeled` uses runners that match the labels or runner group. */
+export type SetOrganizationCodeReviewRunnerRequestRunnerType = "standard" | "labeled";
+/** The runner labels for a labeled runner. */
+export type SetOrganizationCodeReviewRunnerRequestRunnerLabelsList = Array<string>;
+export interface SetOrganizationCodeReviewRunnerRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The type of runner. `standard` uses GitHub-hosted runners. `labeled` uses runners that match the labels or runner group. */
+  runner_type: SetOrganizationCodeReviewRunnerRequestRunnerType | (string & {});
+  /** The runner labels for a labeled runner. */
+  runner_labels?: SetOrganizationCodeReviewRunnerRequestRunnerLabelsList | null;
+  /** The runner group for a labeled runner. */
+  runner_group_name?: string | null;
+  /** Whether repositories can use their own runner configuration. */
+  allow_repository_customization?: boolean;
+}
+export interface UpdateOrganizationCodeReviewSettingsRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The default review effort for repositories that do not choose their own. Use `inherit` to clear the organization's value. Only efforts listed in the settings' `available_review_efforts` are accepted, and a rejected effort's error message lists them. For more information, see [Review effort level](https://docs.github.com/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/code-review#review-effort-level). */
+  default_review_effort?: string;
+}
+/** Which review comment severities Copilot code review leaves out. Can only be set when the severity filter is available for the repository. */
+export type UpdateRepositoryCodeReviewSettingsRequestSeverityFilter =
+  | "no_filter"
+  | "low"
+  | "low_and_medium";
+export interface UpdateRepositoryCodeReviewSettingsRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The review effort for the repository. Use `inherit` to clear the repository's value. Only efforts listed in the settings' `available_review_efforts` are accepted, and a rejected effort's error message lists them. For more information, see [Review effort level](https://docs.github.com/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/code-review#review-effort-level). */
+  review_effort?: string;
+  /** Which review comment severities Copilot code review leaves out. Can only be set when the severity filter is available for the repository. */
+  severity_filter?: UpdateRepositoryCodeReviewSettingsRequestSeverityFilter | (string & {});
+  /** Whether reviews use the repository's custom instructions. */
+  custom_instructions_enabled?: boolean;
+  /** Whether reviews can use MCP servers. */
+  mcp_enabled?: boolean;
+}
 export type AddCopilotSeatsForTeamsError = GithubOpError;
 /** Add teams to the Copilot subscription for an organization > [!NOTE] > This endpoint is in public preview and is subject to change. Purchases a GitHub Copilot seat for all users within each specified team. The organization will be billed for each seat based on the organization's Copilot plan. For more information about Copilot pricing, see "[About billing for GitHub Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-the-copilot-subscription-for-your-organization/about-billing-for-github-copilot-in-your-organization)." Only organization owners can purchase Copilot seats for their organization members. The organization must have a Copilot Business or Copilot Enterprise subscription and a configured suggestion matching policy. For more information about setting up a Copilot subscription, see "[Subscribing to Copilot for your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-the-copilot-subscription-for-your-organization/subscribing-to-copilot-for-your-organization)." For more information about setting a suggestion matching policy, see "[Managing policies for Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/setting-policies-for-copilot-in-your-organization/managing-policies-for-copilot-in-your-organization#policies-for-suggestion-matching)." The response contains the total number of new seats that were created and existing seats that were refreshed. OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `admin:org` scopes to use this endpoint. */
 export const addCopilotSeatsForTeams: API.OperationMethod<
@@ -859,8 +1120,8 @@ export const cancelCopilotSeatAssignmentForTeams: API.OperationMethod<
   CancelCopilotSeatAssignmentForTeamsError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<CancelCopilotSeatAssignmentForTeamsRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<CancelCopilotSeatAssignmentForTeamsResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<CancelCopilotSeatAssignmentForTeamsRequest>,
+  output: __S(544, __c34, 0) as any as S.Schema<CancelCopilotSeatAssignmentForTeamsResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -876,8 +1137,8 @@ export const cancelCopilotSeatAssignmentForUsers: API.OperationMethod<
   CancelCopilotSeatAssignmentForUsersError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<CancelCopilotSeatAssignmentForUsersRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<CancelCopilotSeatAssignmentForUsersResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<CancelCopilotSeatAssignmentForUsersRequest>,
+  output: __S(544, __c34, 0) as any as S.Schema<CancelCopilotSeatAssignmentForUsersResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -893,8 +1154,8 @@ export const copilotContentExclusionForOrganization: API.OperationMethod<
   CopilotContentExclusionForOrganizationError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<CopilotContentExclusionForOrganizationRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<CopilotContentExclusionForOrganizationResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<CopilotContentExclusionForOrganizationRequest>,
+  output: __S(818, __c51, 2) as any as S.Schema<CopilotContentExclusionForOrganizationResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -910,8 +1171,8 @@ export const copilotEnterpriseOneDayUsageMetrics: API.OperationMethod<
   CopilotEnterpriseOneDayUsageMetricsError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<CopilotEnterpriseOneDayUsageMetricsRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<CopilotUsageMetrics1DayReport>,
+  input: __S(832, __c52, 0) as any as S.Schema<CopilotEnterpriseOneDayUsageMetricsRequest>,
+  output: __S(848, __c53, 0) as any as S.Schema<CopilotUsageMetrics1DayReport>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -927,8 +1188,8 @@ export const copilotEnterpriseReposOneDayReport: API.OperationMethod<
   CopilotEnterpriseReposOneDayReportError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<CopilotEnterpriseReposOneDayReportRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<CopilotUsageMetrics1DayReport>,
+  input: __S(864, __c54, 0) as any as S.Schema<CopilotEnterpriseReposOneDayReportRequest>,
+  output: __S(848, __c53, 0) as any as S.Schema<CopilotUsageMetrics1DayReport>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -944,8 +1205,8 @@ export const copilotEnterpriseUsageMetrics: API.OperationMethod<
   CopilotEnterpriseUsageMetricsError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<CopilotEnterpriseUsageMetricsRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<CopilotUsageMetrics28DayReport>,
+  input: __S(880, __c55, 0) as any as S.Schema<CopilotEnterpriseUsageMetricsRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<CopilotUsageMetrics28DayReport>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -961,8 +1222,8 @@ export const copilotEnterpriseUserTeamsOneDayReport: API.OperationMethod<
   CopilotEnterpriseUserTeamsOneDayReportError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<CopilotEnterpriseUserTeamsOneDayReportRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<CopilotUsageMetrics1DayReport>,
+  input: __S(912, __c57, 0) as any as S.Schema<CopilotEnterpriseUserTeamsOneDayReportRequest>,
+  output: __S(848, __c53, 0) as any as S.Schema<CopilotUsageMetrics1DayReport>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -979,7 +1240,7 @@ export const copilotOrganizationOneDayUsageMetrics: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<CopilotOrganizationOneDayUsageMetricsRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<CopilotUsageMetrics1DayReport>,
+  output: __S(848, __c53, 0) as any as S.Schema<CopilotUsageMetrics1DayReport>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -996,7 +1257,7 @@ export const copilotOrganizationReposOneDayReport: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<CopilotOrganizationReposOneDayReportRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<CopilotUsageMetrics1DayReport>,
+  output: __S(848, __c53, 0) as any as S.Schema<CopilotUsageMetrics1DayReport>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1013,7 +1274,7 @@ export const copilotOrganizationUsageMetrics: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<CopilotOrganizationUsageMetricsRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<CopilotUsageMetrics28DayReport>,
+  output: __S(896, __c56, 0) as any as S.Schema<CopilotUsageMetrics28DayReport>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1030,7 +1291,7 @@ export const copilotOrganizationUsersOneDayUsageMetrics: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<CopilotOrganizationUsersOneDayUsageMetricsRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<CopilotUsageMetrics1DayReport>,
+  output: __S(848, __c53, 0) as any as S.Schema<CopilotUsageMetrics1DayReport>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1047,7 +1308,7 @@ export const copilotOrganizationUsersUsageMetrics: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<CopilotOrganizationUsersUsageMetricsRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<CopilotUsageMetrics28DayReport>,
+  output: __S(896, __c56, 0) as any as S.Schema<CopilotUsageMetrics28DayReport>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1064,7 +1325,7 @@ export const copilotOrganizationUserTeamsOneDayReport: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<CopilotOrganizationUserTeamsOneDayReportRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<CopilotUsageMetrics1DayReport>,
+  output: __S(848, __c53, 0) as any as S.Schema<CopilotUsageMetrics1DayReport>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1081,7 +1342,7 @@ export const copilotUsersOneDayUsageMetrics: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<CopilotUsersOneDayUsageMetricsRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<CopilotUsageMetrics1DayReport>,
+  output: __S(848, __c53, 0) as any as S.Schema<CopilotUsageMetrics1DayReport>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1098,12 +1359,29 @@ export const copilotUsersUsageMetrics: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<CopilotUsersUsageMetricsRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<CopilotUsageMetrics28DayReport>,
+  output: __S(896, __c56, 0) as any as S.Schema<CopilotUsageMetrics28DayReport>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CopilotUsersUsageMetrics",
+}));
+
+export type DeleteCopilotTeamCustomizationsError = GithubOpError;
+/** Delete Copilot customizations for a team > [!NOTE] > This endpoint is in public preview and is subject to change. Deletes the GitHub-managed Copilot customizations of a team. Deleting customizations that don't exist succeeds. The authenticated user must be an organization owner or a team maintainer. Teams that keep their customizations in a repository return `409`. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
+export const deleteCopilotTeamCustomizations: API.OperationMethod<
+  DeleteCopilotTeamCustomizationsRequest,
+  DeleteCopilotTeamCustomizationsResponse,
+  DeleteCopilotTeamCustomizationsError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(192, __c12, 0) as any as S.Schema<DeleteCopilotTeamCustomizationsRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<DeleteCopilotTeamCustomizationsResponse>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCopilotTeamCustomizations",
 }));
 
 export type DisableCopilotCodingAgentForRepositoryInOrganizationError = GithubOpError;
@@ -1115,8 +1393,8 @@ export const disableCopilotCodingAgentForRepositoryInOrganization: API.Operation
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    192,
-    __c12,
+    208,
+    __c13,
     0,
   ) as any as S.Schema<DisableCopilotCodingAgentForRepositoryInOrganizationRequest>,
   output: __S(
@@ -1140,8 +1418,8 @@ export const enableCopilotCodingAgentForRepositoryInOrganization: API.OperationM
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    208,
-    __c13,
+    272,
+    __c17,
     0,
   ) as any as S.Schema<EnableCopilotCodingAgentForRepositoryInOrganizationRequest>,
   output: __S(
@@ -1164,8 +1442,8 @@ export const getCopilotCloudAgentConfiguration: API.OperationMethod<
   GetCopilotCloudAgentConfigurationError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetCopilotCloudAgentConfigurationRequest>,
-  output: __S(274, __c17, 2) as any as S.Schema<GetCopilotCloudAgentConfigurationResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetCopilotCloudAgentConfigurationRequest>,
+  output: __S(290, __c18, 2) as any as S.Schema<GetCopilotCloudAgentConfigurationResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1174,17 +1452,17 @@ export const getCopilotCloudAgentConfiguration: API.OperationMethod<
 }));
 
 export type GetCopilotCodingAgentPermissionsOrganizationError = GithubOpError;
-/** Get Copilot cloud agent permissions for an organization > [!NOTE] > This endpoint is in public preview and is subject to change. Gets information about which repositories in an organization have been enabled or disabled for the Copilot cloud agent. Organization owners can configure whether Copilot cloud agent is enabled for all repositories, selected repositories, or no repositories owned by organization. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
+/** Get Copilot cloud agent permissions for an organization > [!NOTE] > This endpoint is in public preview and is subject to change. Gets information about which repositories in an organization have been enabled or disabled for the Copilot cloud agent. Organization owners and members with a custom organization role that includes either the `View organization Copilot cloud agent settings` or `Manage organization Copilot cloud agent settings` permission can use this endpoint to view whether Copilot cloud agent is enabled for all repositories, selected repositories, or no repositories owned by the organization. OAuth app tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint. */
 export const getCopilotCodingAgentPermissionsOrganization: API.OperationMethod<
   GetCopilotCodingAgentPermissionsOrganizationRequest,
   GetCopilotCodingAgentPermissionsOrganizationResponse,
   GetCopilotCodingAgentPermissionsOrganizationError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetCopilotCodingAgentPermissionsOrganizationRequest>,
+  input: __S(320, __c20, 0) as any as S.Schema<GetCopilotCodingAgentPermissionsOrganizationRequest>,
   output: __S(
-    305,
-    __c19,
+    321,
+    __c20,
     1,
   ) as any as S.Schema<GetCopilotCodingAgentPermissionsOrganizationResponse>,
   errors: [],
@@ -1202,8 +1480,8 @@ export const getCopilotOrganizationDetails: API.OperationMethod<
   GetCopilotOrganizationDetailsError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetCopilotOrganizationDetailsRequest>,
-  output: __S(322, __c20, 2) as any as S.Schema<CopilotOrganizationDetails>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetCopilotOrganizationDetailsRequest>,
+  output: __S(338, __c21, 2) as any as S.Schema<CopilotOrganizationDetails>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1219,8 +1497,8 @@ export const getCopilotSeatDetailsForUser: API.OperationMethod<
   GetCopilotSeatDetailsForUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetCopilotSeatDetailsForUserRequest>,
-  output: __S(369, __c23, 1) as any as S.Schema<CopilotSeatDetails>,
+  input: __S(352, __c22, 0) as any as S.Schema<GetCopilotSeatDetailsForUserRequest>,
+  output: __S(385, __c24, 1) as any as S.Schema<CopilotSeatDetails>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1228,8 +1506,110 @@ export const getCopilotSeatDetailsForUser: API.OperationMethod<
   span: "GetCopilotSeatDetailsForUser",
 }));
 
+export type GetCopilotTeamCustomizationsError = GithubOpError;
+/** Get Copilot customizations for a team > [!NOTE] > This endpoint is in public preview and is subject to change. Gets the GitHub-managed Copilot customizations of a team. The authenticated user must be an organization owner or a team maintainer. Teams that keep their customizations in a repository return `409`. OAuth app tokens and personal access tokens (classic) need the `admin:org` or `read:org` scope to use this endpoint. */
+export const getCopilotTeamCustomizations: API.OperationMethod<
+  GetCopilotTeamCustomizationsRequest,
+  GetCopilotTeamCustomizationsResponse,
+  GetCopilotTeamCustomizationsError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(400, __c25, 0) as any as S.Schema<GetCopilotTeamCustomizationsRequest>,
+  output: __S(418, __c26, 2) as any as S.Schema<GetCopilotTeamCustomizationsResponse>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCopilotTeamCustomizations",
+}));
+
+export type GetEnterpriseCodeReviewPolicyError = GithubOpError;
+/** Get the Copilot code review policy for an enterprise Gets the configured Copilot code review policy for an enterprise. This does not return a user's effective access, preview approval controls, or automatic-review rulesets. Enterprise owners and users with the `read_enterprise_ai_controls` permission can use this endpoint. OAuth app tokens and personal access tokens (classic) need the `read:enterprise` scope. GitHub App tokens and fine-grained personal access tokens are not supported. */
+export const getEnterpriseCodeReviewPolicy: API.OperationMethod<
+  GetEnterpriseCodeReviewPolicyRequest,
+  EnterpriseCopilotCodeReviewPolicy,
+  GetEnterpriseCodeReviewPolicyError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(432, __c27, 0) as any as S.Schema<GetEnterpriseCodeReviewPolicyRequest>,
+  output: __S(433, __c27, 1) as any as S.Schema<EnterpriseCopilotCodeReviewPolicy>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnterpriseCodeReviewPolicy",
+}));
+
+export type GetOrganizationCodeReviewPolicyError = GithubOpError;
+/** Get the Copilot code review policy for an organization Gets the configured and effective Copilot code review policy for an organization, whether organization administrators can edit it, and whether the enterprise or the organization manages it. This does not return review effort, repository settings, preview approval controls, or automatic-review rulesets. Organization owners can use this endpoint. OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `read:org` scope. GitHub App tokens and fine-grained personal access tokens are not supported. */
+export const getOrganizationCodeReviewPolicy: API.OperationMethod<
+  GetOrganizationCodeReviewPolicyRequest,
+  OrganizationCopilotCodeReviewPolicy,
+  GetOrganizationCodeReviewPolicyError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(448, __c28, 0) as any as S.Schema<GetOrganizationCodeReviewPolicyRequest>,
+  output: __S(449, __c28, 1) as any as S.Schema<OrganizationCopilotCodeReviewPolicy>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationCodeReviewPolicy",
+}));
+
+export type GetOrganizationCodeReviewRunnerError = GithubOpError;
+/** Get the Copilot code review runner configuration for an organization Gets the runner configuration that Copilot code review uses for an organization. Until the organization saves a Copilot code review runner configuration, the response reports the values inherited from the organization's Copilot coding agent runner configuration, with `configured_by` set to `coding_agent`. Organization owners can use this endpoint. OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `read:org` scope. GitHub App tokens and fine-grained personal access tokens are not supported. */
+export const getOrganizationCodeReviewRunner: API.OperationMethod<
+  GetOrganizationCodeReviewRunnerRequest,
+  OrganizationCopilotCodeReviewRunner,
+  GetOrganizationCodeReviewRunnerError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(464, __c29, 0) as any as S.Schema<GetOrganizationCodeReviewRunnerRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<OrganizationCopilotCodeReviewRunner>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationCodeReviewRunner",
+}));
+
+export type GetOrganizationCodeReviewSettingsError = GithubOpError;
+/** Get Copilot code review settings for an organization Gets the Copilot code review settings for an organization. Currently this is the default review effort that repositories in the organization use when they do not choose their own. For each setting, the response includes the configured value, the effective value, the default inherited when nothing is configured, whether organization administrators can edit it, and whether the enterprise or the organization manages it. Organization owners can use this endpoint. OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `read:org` scope. GitHub App tokens and fine-grained personal access tokens are not supported. */
+export const getOrganizationCodeReviewSettings: API.OperationMethod<
+  GetOrganizationCodeReviewSettingsRequest,
+  OrganizationCopilotCodeReviewSettings,
+  GetOrganizationCodeReviewSettingsError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(496, __c31, 0) as any as S.Schema<GetOrganizationCodeReviewSettingsRequest>,
+  output: __S(513, __c32, 1) as any as S.Schema<OrganizationCopilotCodeReviewSettings>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationCodeReviewSettings",
+}));
+
+export type GetRepositoryCodeReviewSettingsError = GithubOpError;
+/** Get Copilot code review settings for a repository Gets the Copilot code review settings for a repository. These settings tune how Copilot code review reviews pull requests in the repository. They do not enable Copilot code review. `review_effort.configured` is `null` when the repository inherits its review effort from the organization, the enterprise, or GitHub's default. `review_effort.effective` is the review effort that reviews use when the requester and the pull request do not choose one. Only review efforts available for the repository are reported; when reviews would use an unavailable effort, `review_effort.effective` is the review effort they would use without it. Repository administrators can use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
+export const getRepositoryCodeReviewSettings: API.OperationMethod<
+  GetRepositoryCodeReviewSettingsRequest,
+  RepositoryCopilotCodeReviewSettings,
+  GetRepositoryCodeReviewSettingsError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(560, __c35, 0) as any as S.Schema<GetRepositoryCodeReviewSettingsRequest>,
+  output: __S(577, __c36, 1) as any as S.Schema<RepositoryCopilotCodeReviewSettings>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepositoryCodeReviewSettings",
+}));
+
 export type ListCopilotCodingAgentSelectedRepositoriesForOrganizationError = GithubOpError;
-/** List repositories enabled for Copilot cloud agent in an organization > [!NOTE] > This endpoint is in public preview and is subject to change. Lists the selected repositories that are enabled for Copilot cloud agent in an organization. Organization owners can use this endpoint when the coding agent repository policy is set to `selected` to see which repositories have been enabled. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
+/** List repositories enabled for Copilot cloud agent in an organization > [!NOTE] > This endpoint is in public preview and is subject to change. Lists the selected repositories that are enabled for Copilot cloud agent in an organization. Organization owners and members with a custom organization role that includes either the `View organization Copilot cloud agent settings` or `Manage organization Copilot cloud agent settings` permission can use this endpoint when the coding agent repository policy is set to `selected` to see which repositories have been enabled. OAuth app tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint. */
 export const listCopilotCodingAgentSelectedRepositoriesForOrganization: API.PaginatedOperationMethod<
   ListCopilotCodingAgentSelectedRepositoriesForOrganizationRequest,
   ListCopilotCodingAgentSelectedRepositoriesForOrganizationResponse,
@@ -1239,13 +1619,13 @@ export const listCopilotCodingAgentSelectedRepositoriesForOrganization: API.Pagi
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(
-      384,
-      __c24,
+      592,
+      __c37,
       0,
     ) as any as S.Schema<ListCopilotCodingAgentSelectedRepositoriesForOrganizationRequest>,
     output: __S(
-      395,
-      __c24,
+      603,
+      __c37,
       11,
     ) as any as S.Schema<ListCopilotCodingAgentSelectedRepositoriesForOrganizationResponse>,
     errors: [],
@@ -1273,8 +1653,8 @@ export const listCopilotSeats: API.PaginatedOperationMethod<
   CopilotSeatDetails
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(400, __c25, 0) as any as S.Schema<ListCopilotSeatsRequest>,
-    output: __S(402, __c25, 2) as any as S.Schema<ListCopilotSeatsResponse>,
+    input: __S(608, __c38, 0) as any as S.Schema<ListCopilotSeatsRequest>,
+    output: __S(610, __c38, 2) as any as S.Schema<ListCopilotSeatsResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -1294,8 +1674,8 @@ export const removeOrganizationsFromEnterpriseCodingAgentPolicy: API.OperationMe
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    416,
-    __c26,
+    624,
+    __c39,
     0,
   ) as any as S.Schema<RemoveOrganizationsFromEnterpriseCodingAgentPolicyRequest>,
   output: __S(
@@ -1318,7 +1698,7 @@ export const setCopilotCodingAgentPermissionsOrganization: API.OperationMethod<
   SetCopilotCodingAgentPermissionsOrganizationError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<SetCopilotCodingAgentPermissionsOrganizationRequest>,
+  input: __S(640, __c40, 0) as any as S.Schema<SetCopilotCodingAgentPermissionsOrganizationRequest>,
   output: __S(
     240,
     __c15,
@@ -1340,8 +1720,8 @@ export const setCopilotCodingAgentSelectedRepositoriesForOrganization: API.Opera
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    449,
-    __c28,
+    657,
+    __c41,
     1,
   ) as any as S.Schema<SetCopilotCodingAgentSelectedRepositoriesForOrganizationRequest>,
   output: __S(
@@ -1364,13 +1744,47 @@ export const setCopilotContentExclusionForOrganization: API.OperationMethod<
   SetCopilotContentExclusionForOrganizationError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(466, __c29, 2) as any as S.Schema<SetCopilotContentExclusionForOrganizationRequest>,
-  output: __S(467, __c29, 3) as any as S.Schema<SetCopilotContentExclusionForOrganizationResponse>,
+  input: __S(674, __c42, 2) as any as S.Schema<SetCopilotContentExclusionForOrganizationRequest>,
+  output: __S(675, __c42, 3) as any as S.Schema<SetCopilotContentExclusionForOrganizationResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetCopilotContentExclusionForOrganization",
+}));
+
+export type SetCopilotTeamCustomizationsError = GithubOpError;
+/** Set Copilot customizations for a team > [!NOTE] > This endpoint is in public preview and is subject to change. Replaces the GitHub-managed Copilot customizations of a team, creating them on the first write. The authenticated user must be an organization owner or a team maintainer. Teams that keep their customizations in a repository return `409`. Documents that fail validation return `422` with the reason. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
+export const setCopilotTeamCustomizations: API.OperationMethod<
+  SetCopilotTeamCustomizationsRequest,
+  SetCopilotTeamCustomizationsResponse,
+  SetCopilotTeamCustomizationsError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(688, __c43, 0) as any as S.Schema<SetCopilotTeamCustomizationsRequest>,
+  output: __S(418, __c26, 2) as any as S.Schema<SetCopilotTeamCustomizationsResponse>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetCopilotTeamCustomizations",
+}));
+
+export type SetEnterpriseCodeReviewPolicyError = GithubOpError;
+/** Set the Copilot code review policy for an enterprise Sets the configured Copilot code review policy for an enterprise, using the same asynchronous propagation and notifications as enterprise settings. Policies that depend on Copilot code review keep their values. Enterprise owners and users with the `write_enterprise_ai_controls` permission can use this endpoint. OAuth app tokens and personal access tokens (classic) need the `admin:enterprise` scope. GitHub App tokens and fine-grained personal access tokens are not supported. Standalone enterprises support enabled and disabled policies, but cannot delegate policy to organization administrators. Invalid or unsupported input does not change any policy. */
+export const setEnterpriseCodeReviewPolicy: API.OperationMethod<
+  SetEnterpriseCodeReviewPolicyRequest,
+  SetEnterpriseCodeReviewPolicyResponse,
+  SetEnterpriseCodeReviewPolicyError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(704, __c44, 0) as any as S.Schema<SetEnterpriseCodeReviewPolicyRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<SetEnterpriseCodeReviewPolicyResponse>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetEnterpriseCodeReviewPolicy",
 }));
 
 export type SetEnterpriseCodingAgentPolicyError = GithubOpError;
@@ -1381,13 +1795,81 @@ export const setEnterpriseCodingAgentPolicy: API.OperationMethod<
   SetEnterpriseCodingAgentPolicyError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<SetEnterpriseCodingAgentPolicyRequest>,
+  input: __S(720, __c45, 0) as any as S.Schema<SetEnterpriseCodingAgentPolicyRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<SetEnterpriseCodingAgentPolicyResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetEnterpriseCodingAgentPolicy",
+}));
+
+export type SetOrganizationCodeReviewPolicyError = GithubOpError;
+/** Set the Copilot code review policy for an organization Sets the Copilot code review policy for an organization, using the same user settings propagation and notifications as organization settings. Policies that depend on Copilot code review keep their values. Organization owners can use this endpoint. OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `admin:org` scope. GitHub App tokens and fine-grained personal access tokens are not supported. When the enterprise manages the policy, the request fails with `409` and the code `POLICY_MANAGED_BY_ENTERPRISE`, even if the requested state matches the effective state. Invalid input and conflicts do not change any policy. */
+export const setOrganizationCodeReviewPolicy: API.OperationMethod<
+  SetOrganizationCodeReviewPolicyRequest,
+  SetOrganizationCodeReviewPolicyResponse,
+  SetOrganizationCodeReviewPolicyError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(752, __c47, 0) as any as S.Schema<SetOrganizationCodeReviewPolicyRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<SetOrganizationCodeReviewPolicyResponse>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetOrganizationCodeReviewPolicy",
+}));
+
+export type SetOrganizationCodeReviewRunnerError = GithubOpError;
+/** Set the Copilot code review runner configuration for an organization Sets the runner configuration that Copilot code review uses for an organization. After a successful update, Copilot code review uses its own runner configuration and `configured_by` is `code_review`. A `labeled` runner requires at least one label in `runner_labels` or a `runner_group_name`. A `standard` runner does not accept labels or a runner group. When `allow_repository_customization` is omitted, the current effective value is kept. The whole request is validated before any change is made, so invalid input does not change the configuration. Organization owners can use this endpoint. OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `admin:org` scope. GitHub App tokens and fine-grained personal access tokens are not supported. */
+export const setOrganizationCodeReviewRunner: API.OperationMethod<
+  SetOrganizationCodeReviewRunnerRequest,
+  OrganizationCopilotCodeReviewRunner,
+  SetOrganizationCodeReviewRunnerError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(768, __c48, 0) as any as S.Schema<SetOrganizationCodeReviewRunnerRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<OrganizationCopilotCodeReviewRunner>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetOrganizationCodeReviewRunner",
+}));
+
+export type UpdateOrganizationCodeReviewSettingsError = GithubOpError;
+/** Update Copilot code review settings for an organization Updates the Copilot code review settings for an organization. Omitted settings are not changed. Set `default_review_effort` to `inherit` to clear the organization's value so repositories use the inherited default again. Changes use the same audit logging and telemetry as organization settings. Organization owners can use this endpoint. OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `admin:org` scope. GitHub App tokens and fine-grained personal access tokens are not supported. When a submitted setting cannot be changed by the organization, the request fails with `409` and the code `SETTING_NOT_EDITABLE`. The whole request is validated before any change is made, so invalid input and conflicts do not change any setting. */
+export const updateOrganizationCodeReviewSettings: API.OperationMethod<
+  UpdateOrganizationCodeReviewSettingsRequest,
+  OrganizationCopilotCodeReviewSettings,
+  UpdateOrganizationCodeReviewSettingsError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(784, __c49, 0) as any as S.Schema<UpdateOrganizationCodeReviewSettingsRequest>,
+  output: __S(513, __c32, 1) as any as S.Schema<OrganizationCopilotCodeReviewSettings>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationCodeReviewSettings",
+}));
+
+export type UpdateRepositoryCodeReviewSettingsError = GithubOpError;
+/** Update Copilot code review settings for a repository Updates the Copilot code review settings for a repository. These settings tune how Copilot code review reviews pull requests in the repository. They do not enable Copilot code review, and they can be stored while an enterprise or organization policy disables Copilot code review. Omitted settings are not changed. Set `review_effort` to `inherit` to clear the repository's review effort so it inherits the effort from the organization, the enterprise, or GitHub's default. The whole request is validated before any change is made, so invalid input does not change any setting. Changes use the same audit logging and telemetry as the repository settings page. Repository administrators can use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
+export const updateRepositoryCodeReviewSettings: API.OperationMethod<
+  UpdateRepositoryCodeReviewSettingsRequest,
+  RepositoryCopilotCodeReviewSettings,
+  UpdateRepositoryCodeReviewSettingsError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(800, __c50, 0) as any as S.Schema<UpdateRepositoryCodeReviewSettingsRequest>,
+  output: __S(577, __c36, 1) as any as S.Schema<RepositoryCopilotCodeReviewSettings>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRepositoryCodeReviewSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -1572,15 +2054,15 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           org: S.String.pipe(T.Label()),
-          repository_id: S.Number.pipe(T.Label()),
+          team_slug: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
-            uri: "/orgs/{org}/copilot/coding-agent/permissions/repositories/{repository_id}",
+            uri: "/orgs/{org}/teams/{team_slug}/copilot/customizations",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "DisableCopilotCodingAgentForRepositoryInOrganizationRequest" });
+      ).annotate({ identifier: "DeleteCopilotTeamCustomizationsRequest" });
   }
 }
 function __c13(j: number): any {
@@ -1592,12 +2074,12 @@ function __c13(j: number): any {
           repository_id: S.Number.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "PUT",
+            method: "DELETE",
             uri: "/orgs/{org}/copilot/coding-agent/permissions/repositories/{repository_id}",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "EnableCopilotCodingAgentForRepositoryInOrganizationRequest" });
+      ).annotate({ identifier: "DisableCopilotCodingAgentForRepositoryInOrganizationRequest" });
   }
 }
 function __c14(j: number): any {
@@ -1646,6 +2128,23 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          org: S.String.pipe(T.Label()),
+          repository_id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/orgs/{org}/copilot/coding-agent/permissions/repositories/{repository_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "EnableCopilotCodingAgentForRepositoryInOrganizationRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
         }).pipe(
@@ -1668,8 +2167,8 @@ function __c17(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          mcp_configuration: S.NullOr(__S(288, __c18, 0)),
-          enabled_tools: __S(273, __c17, 1),
+          mcp_configuration: S.NullOr(__S(304, __c19, 0)),
+          enabled_tools: __S(289, __c18, 1),
           require_actions_workflow_approval: S.Boolean,
           is_firewall_enabled: S.Boolean,
           is_firewall_recommended_allowlist_enabled: S.Boolean,
@@ -1680,13 +2179,13 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetCopilotCloudAgentConfigurationResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1705,7 +2204,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetCopilotCodingAgentPermissionsOrganizationResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1728,7 +2227,7 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            seat_breakdown: __S(321, __c20, 1),
+            seat_breakdown: __S(337, __c21, 1),
             public_code_suggestions: S.String,
             ide_chat: S.optional(S.String),
             platform_chat: S.optional(S.String),
@@ -1741,7 +2240,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "CopilotOrganizationDetails" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1754,7 +2253,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetCopilotSeatDetailsForUserRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1785,7 +2284,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "NullableSimpleUser" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1807,8 +2306,8 @@ function __c23(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          assignee: S.optional(S.NullOr(__S(352, __c22, 0))),
-          organization: S.optional(S.NullOr(__S(368, __c23, 0))),
+          assignee: S.optional(S.NullOr(__S(368, __c23, 0))),
+          organization: S.optional(S.NullOr(__S(384, __c24, 0))),
           assigning_team: S.optional(S.NullOr(S.Unknown)),
           pending_cancellation_date: S.optional(S.NullOr(S.String)),
           last_activity_at: S.optional(S.NullOr(S.String)),
@@ -1821,7 +2320,210 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CopilotSeatDetails" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org: S.String.pipe(T.Label()),
+          team_slug: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/orgs/{org}/teams/{team_slug}/copilot/customizations",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetCopilotTeamCustomizationsRequest" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetCopilotTeamCustomizationsResponsePluginAssignmentsValue" });
+    case 1:
+      return S.Record(S.String, __S(416, __c26, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          pluginAssignments: S.optional(__S(417, __c26, 1)),
+          extraKnownMarketplaces: S.optional(__S(304, __c19, 0)),
+        }),
+      ).annotate({ identifier: "GetCopilotTeamCustomizationsResponse" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enterprise: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/enterprises/{enterprise}/copilot/policies/code-review",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetEnterpriseCodeReviewPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          policy_state: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCopilotCodeReviewPolicy" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/orgs/{org}/copilot/policies/code-review", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetOrganizationCodeReviewPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          configured_state: S.NullOr(S.String),
+          effective_state: S.String,
+          editable: S.Boolean,
+          managed_by: S.String,
+        }),
+      ).annotate({ identifier: "OrganizationCopilotCodeReviewPolicy" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/orgs/{org}/copilot/code-review/runner", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetOrganizationCodeReviewRunnerRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          runner_type: S.String,
+          runner_labels: __S(32, __c2, 0),
+          runner_group_name: S.NullOr(S.String),
+          allow_repository_customization: S.Boolean,
+          configured_by: S.String,
+        }),
+      ).annotate({ identifier: "OrganizationCopilotCodeReviewRunner" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/orgs/{org}/copilot/code-review/settings", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetOrganizationCodeReviewSettingsRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          configured: S.NullOr(S.String),
+          effective: S.String,
+          github_default: S.String,
+          editable: S.Boolean,
+          managed_by: S.String,
+        }),
+      ).annotate({ identifier: "OrganizationCopilotCodeReviewSettingsDefaultReviewEffort" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          default_review_effort: __S(512, __c32, 0),
+          available_review_efforts: __S(32, __c2, 0),
+        }),
+      ).annotate({ identifier: "OrganizationCopilotCodeReviewSettings" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org: S.String.pipe(T.Label()),
+          selected_teams: __S(32, __c2, 0),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/orgs/{org}/copilot/billing/selected_teams",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CancelCopilotSeatAssignmentForTeamsRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          seats_cancelled: S.Number,
+        }),
+      ).annotate({ identifier: "CancelCopilotSeatAssignmentForTeamsResponse" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/repos/{owner}/{repo}/copilot/code-review/settings",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetRepositoryCodeReviewSettingsRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          configured: S.NullOr(S.String),
+          effective: S.String,
+        }),
+      ).annotate({ identifier: "RepositoryCopilotCodeReviewSettingsReviewEffort" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          review_effort: __S(576, __c36, 0),
+          available_review_efforts: __S(32, __c2, 0),
+          severity_filter: S.String,
+          custom_instructions_enabled: S.Boolean,
+          mcp_enabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "RepositoryCopilotCodeReviewSettings" });
+  }
+}
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1886,26 +2588,26 @@ function __c24(j: number): any {
         identifier: "SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItem",
       });
     case 6:
-      return S.Array(__S(389, __c24, 5));
+      return S.Array(__S(597, __c37, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          reviewers: S.optional(__S(390, __c24, 6)),
+          reviewers: S.optional(__S(598, __c37, 6)),
         }),
       ).annotate({ identifier: "SecurityAndAnalysisSecretScanningDelegatedBypassOptions" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          advanced_security: S.optional(__S(388, __c24, 4)),
-          code_security: S.optional(__S(388, __c24, 4)),
-          dependabot_security_updates: S.optional(__S(388, __c24, 4)),
-          secret_scanning: S.optional(__S(388, __c24, 4)),
-          secret_scanning_push_protection: S.optional(__S(388, __c24, 4)),
-          secret_scanning_non_provider_patterns: S.optional(__S(388, __c24, 4)),
-          secret_scanning_ai_detection: S.optional(__S(388, __c24, 4)),
-          secret_scanning_delegated_alert_dismissal: S.optional(__S(388, __c24, 4)),
-          secret_scanning_delegated_bypass: S.optional(__S(388, __c24, 4)),
-          secret_scanning_delegated_bypass_options: S.optional(__S(391, __c24, 7)),
+          advanced_security: S.optional(__S(596, __c37, 4)),
+          code_security: S.optional(__S(596, __c37, 4)),
+          dependabot_security_updates: S.optional(__S(596, __c37, 4)),
+          secret_scanning: S.optional(__S(596, __c37, 4)),
+          secret_scanning_push_protection: S.optional(__S(596, __c37, 4)),
+          secret_scanning_non_provider_patterns: S.optional(__S(596, __c37, 4)),
+          secret_scanning_ai_detection: S.optional(__S(596, __c37, 4)),
+          secret_scanning_delegated_alert_dismissal: S.optional(__S(596, __c37, 4)),
+          secret_scanning_delegated_bypass: S.optional(__S(596, __c37, 4)),
+          secret_scanning_delegated_bypass_options: S.optional(__S(599, __c37, 7)),
         }),
       ).annotate({ identifier: "SecurityAndAnalysis" });
     case 9:
@@ -1915,7 +2617,7 @@ function __c24(j: number): any {
           node_id: S.String,
           name: S.String,
           full_name: S.String,
-          owner: __S(352, __c22, 0),
+          owner: __S(368, __c23, 0),
           private: S.Boolean,
           html_url: S.String,
           description: S.NullOr(S.String),
@@ -1986,37 +2688,37 @@ function __c24(j: number): any {
           pushed_at: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
-          permissions: S.optional(__S(385, __c24, 1)),
+          permissions: S.optional(__S(593, __c37, 1)),
           role_name: S.optional(S.String),
           temp_clone_token: S.optional(S.String),
           delete_branch_on_merge: S.optional(S.Boolean),
           subscribers_count: S.optional(S.Number),
           network_count: S.optional(S.Number),
-          code_of_conduct: S.optional(__S(386, __c24, 2)),
-          license: S.optional(S.NullOr(__S(387, __c24, 3))),
+          code_of_conduct: S.optional(__S(594, __c37, 2)),
+          license: S.optional(S.NullOr(__S(595, __c37, 3))),
           forks: S.optional(S.Number),
           open_issues: S.optional(S.Number),
           watchers: S.optional(S.Number),
           allow_forking: S.optional(S.Boolean),
           web_commit_signoff_required: S.optional(S.Boolean),
-          security_and_analysis: S.optional(S.NullOr(__S(392, __c24, 8))),
-          custom_properties: S.optional(__S(288, __c18, 0)),
+          security_and_analysis: S.optional(S.NullOr(__S(600, __c37, 8))),
+          custom_properties: S.optional(__S(304, __c19, 0)),
         }),
       ).annotate({ identifier: "MinimalRepository" });
     case 10:
-      return S.Array(__S(393, __c24, 9));
+      return S.Array(__S(601, __c37, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           total_count: S.Number,
-          repositories: __S(394, __c24, 10),
+          repositories: __S(602, __c37, 10),
         }),
       ).annotate({
         identifier: "ListCopilotCodingAgentSelectedRepositoriesForOrganizationResponse",
       });
   }
 }
-function __c25(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2027,17 +2729,17 @@ function __c25(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/copilot/billing/seats", code: 200 })),
       ).annotate({ identifier: "ListCopilotSeatsRequest" });
     case 1:
-      return S.Array(__S(369, __c23, 1));
+      return S.Array(__S(385, __c24, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           total_seats: S.optional(S.Number),
-          seats: __S(401, __c25, 1),
+          seats: __S(609, __c38, 1),
         }),
       ).annotate({ identifier: "ListCopilotSeatsResponse" });
   }
 }
-function __c26(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2055,7 +2757,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "RemoveOrganizationsFromEnterpriseCodingAgentPolicyRequest" });
   }
 }
-function __c27(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2068,7 +2770,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "SetCopilotCodingAgentPermissionsOrganizationRequest" });
   }
 }
-function __c28(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
@@ -2076,7 +2778,7 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           org: S.String.pipe(T.Label()),
-          selected_repository_ids: __S(448, __c28, 0),
+          selected_repository_ids: __S(656, __c41, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2087,17 +2789,17 @@ function __c28(j: number): any {
       ).annotate({ identifier: "SetCopilotCodingAgentSelectedRepositoriesForOrganizationRequest" });
   }
 }
-function __c29(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
     case 1:
-      return S.Record(S.String, __S(464, __c29, 0));
+      return S.Record(S.String, __S(672, __c42, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           org: S.String.pipe(T.Label()),
-          body: __S(465, __c29, 1).pipe(T.HttpBody()),
+          body: __S(673, __c42, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PUT", uri: "/orgs/{org}/copilot/content_exclusion", code: 200 })),
       ).annotate({ identifier: "SetCopilotContentExclusionForOrganizationRequest" });
     case 3:
@@ -2108,34 +2810,43 @@ function __c29(j: number): any {
       ).annotate({ identifier: "SetCopilotContentExclusionForOrganizationResponse" });
   }
 }
-function __c30(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           org: S.String.pipe(T.Label()),
-          selected_teams: __S(32, __c2, 0),
+          team_slug: S.String.pipe(T.Label()),
+          pluginAssignments: S.optional(__S(417, __c26, 1)),
+          extraKnownMarketplaces: S.optional(__S(304, __c19, 0)),
         }).pipe(
           T.Http({
-            method: "DELETE",
-            uri: "/orgs/{org}/copilot/billing/selected_teams",
+            method: "PUT",
+            uri: "/orgs/{org}/teams/{team_slug}/copilot/customizations",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "CancelCopilotSeatAssignmentForTeamsRequest" });
+      ).annotate({ identifier: "SetCopilotTeamCustomizationsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          seats_cancelled: S.Number,
-        }),
-      ).annotate({ identifier: "CancelCopilotSeatAssignmentForTeamsResponse" });
+          enterprise: S.String.pipe(T.Label()),
+          policy_state: S.String,
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/enterprises/{enterprise}/copilot/policies/code-review",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SetEnterpriseCodeReviewPolicyRequest" });
   }
 }
-function __c32(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2152,7 +2863,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "SetEnterpriseCodingAgentPolicyRequest" });
   }
 }
-function __c33(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2169,7 +2880,70 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CancelCopilotSeatAssignmentForUsersRequest" });
   }
 }
-function __c34(j: number): any {
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org: S.String.pipe(T.Label()),
+          state: S.String,
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/orgs/{org}/copilot/policies/code-review", code: 200 }),
+        ),
+      ).annotate({ identifier: "SetOrganizationCodeReviewPolicyRequest" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org: S.String.pipe(T.Label()),
+          runner_type: S.String,
+          runner_labels: S.optional(S.NullOr(__S(32, __c2, 0))),
+          runner_group_name: S.optional(S.NullOr(S.String)),
+          allow_repository_customization: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/orgs/{org}/copilot/code-review/runner", code: 200 }),
+        ),
+      ).annotate({ identifier: "SetOrganizationCodeReviewRunnerRequest" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org: S.String.pipe(T.Label()),
+          default_review_effort: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "/orgs/{org}/copilot/code-review/settings", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateOrganizationCodeReviewSettingsRequest" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          review_effort: S.optional(S.String),
+          severity_filter: S.optional(S.String),
+          custom_instructions_enabled: S.optional(S.Boolean),
+          mcp_enabled: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/repos/{owner}/{repo}/copilot/code-review/settings",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateRepositoryCodeReviewSettingsRequest" });
+  }
+}
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2180,12 +2954,12 @@ function __c34(j: number): any {
     case 1:
       return S.Record(S.String, __S(32, __c2, 0));
     case 2:
-      return S.suspend(() => __S(545, __c34, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(817, __c51, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "CopilotContentExclusionForOrganizationResponse",
       });
   }
 }
-function __c35(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2202,7 +2976,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "CopilotEnterpriseOneDayUsageMetricsRequest" });
   }
 }
-function __c36(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2213,7 +2987,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CopilotUsageMetrics1DayReport" });
   }
 }
-function __c37(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2230,7 +3004,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CopilotEnterpriseReposOneDayReportRequest" });
   }
 }
-function __c38(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2246,7 +3020,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "CopilotEnterpriseUsageMetricsRequest" });
   }
 }
-function __c39(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2258,7 +3032,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CopilotUsageMetrics28DayReport" });
   }
 }
-function __c40(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

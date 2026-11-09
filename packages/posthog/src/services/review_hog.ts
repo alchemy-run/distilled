@@ -60,13 +60,333 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** * `all` - All repositories * `selected` - Only selected repositories */
+export type ReviewInstallationClaimScopeEnum = "all" | "selected";
+export interface CreateReviewHogInstallationClaimRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The GitHub App installation id. */
+  installation_id: string;
+  /** 'all' reviews every repository of the installation that no other project selected. At most one project per installation can choose it. 'selected' reviews only selected repositories. * `all` - All repositories * `selected` - Only selected repositories */
+  scope: ReviewInstallationClaimScopeEnum | (string & {});
+}
+export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
+/** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
+export type RoleAtOrganizationEnum =
+  | "engineering"
+  | "data"
+  | "product"
+  | "founder"
+  | "leadership"
+  | "marketing"
+  | "sales"
+  | "student"
+  | "other";
+export type BlankEnum = "";
+export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
+export interface UserBasic {
+  id: number;
+  uuid: string;
+  distinct_id?: string | null;
+  first_name?: string;
+  last_name?: string;
+  email: string;
+  is_email_verified?: boolean | null;
+  hedgehog_config: UserBasicHedgehogConfigMap | null;
+  role_at_organization?: UserBasicRoleAtOrganization | null;
+}
+export interface ReviewInstallationClaim {
+  /** Id of the claim. */
+  id: string;
+  /** The GitHub App installation id. */
+  installation_id: string;
+  /** 'all' (every repository no other project selected, including future ones) or 'selected'. * `all` - All repositories * `selected` - Only selected repositories */
+  scope: ReviewInstallationClaimScopeEnum;
+  /** The GitHub account (organization or user) of the installation. */
+  account_name: string;
+  /** Who made the claim. */
+  created_by: UserBasic | null;
+  /** When the claim was made. */
+  created_at: string;
+}
+/** * `listed` - Listed * `excepted` - Excepted */
+export type ReviewRepositoryPersonKindEnum = "listed" | "excepted";
+export interface CreateReviewHogProjectSettingsPersonRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Id of the project member to add. Must be an active member. */
+  user_id: number;
+  /** Which list to add the person to: 'listed' or 'excepted'. * `listed` - Listed * `excepted` - Excepted */
+  kind: ReviewRepositoryPersonKindEnum | (string & {});
+}
+/** * `everyone` - Automatic Flash for everyone * `listed` - Automatic Flash for these people * `off` - Automatic Flash opt-in only */
+export type AutomaticFlashForEnum = "everyone" | "listed" | "off";
+/** * `skip` - Not reviewed * `run` - Automatic Flash */
+export type ReviewProjectSettingsBotPullRequestsEnum = "skip" | "run";
+/** * `consider` - Consider (all) * `should_fix` - Should fix * `must_fix` - Must fix */
+export type UrgencyThresholdEnum = "consider" | "should_fix" | "must_fix";
+export interface ReviewRepositoryPerson {
+  /** Id of this list entry. Use it to remove the person. */
+  id: string;
+  /** The project member on the list. */
+  user: UserBasic;
+  /** Which list: 'listed' (gets automatic reviews when the rule reviews only listed people) or 'excepted' (skipped when the rule reviews everyone). * `listed` - Listed * `excepted` - Excepted */
+  kind: ReviewRepositoryPersonKindEnum;
+}
+/** The people on the project rule's two lists. Only the list that matches flash_for has an effect. */
+export type ReviewProjectSettingsPeopleList = Array<ReviewRepositoryPerson>;
+export interface ReviewProjectRef {
+  /** Id of the other project. Null when it belongs to another organization. */
+  id: number | null;
+  /** Name of the other project. Null when it belongs to another organization. */
+  name: string | null;
+}
+export interface ReviewInstallation {
+  /** The GitHub App installation id. */
+  installation_id: string;
+  /** The GitHub account (organization or user) of the installation. */
+  account_name: string;
+  /** Who connected the installation to this project. Automatic Standard reviews of bot pull requests run as this user. */
+  connected_by: UserBasic | null;
+  /** Id of this project's claim. Null when the project reviews nothing there. */
+  claim_id: string | null;
+  /** Which repositories this project reviews: 'all' (every repository no other project selected, including future ones), 'selected' (only the selected ones), or null (none). * `all` - All repositories * `selected` - Only selected repositories */
+  scope: ReviewInstallationClaimScopeEnum | null;
+  /** Another project that takes all repositories of the installation, if any. */
+  all_taken_by_project: ReviewProjectRef | null;
+}
+/** Every GitHub installation connected to this project, and which of its repositories this project reviews. */
+export type ReviewProjectSettingsInstallationsList = Array<ReviewInstallation>;
+export interface ReviewProjectSettings {
+  /** Who gets automatic Standard reviews in the repositories this project reviews: 'everyone' (except the excepted people), 'listed' (only the listed people), or 'off' (only people who opt in, the default). A repository exception or a person's own choice wins over it. * `everyone` - Automatic Flash for everyone * `listed` - Automatic Flash for these people * `off` - Automatic Flash opt-in only */
+  flash_for?: AutomaticFlashForEnum;
+  /** Pull requests from bots, and from authors who are not project members, in every repository this project reviews: 'skip' (not reviewed, the default) or 'run' (an automatic Standard review that runs as the person who connected GitHub, with default settings and no changes to the pull request). * `skip` - Not reviewed * `run` - Automatic Flash */
+  bot_prs?: ReviewProjectSettingsBotPullRequestsEnum;
+  /** Project default for the minimum priority a Deep review publishes: 'consider' (all, the built-in default), 'should_fix', or 'must_fix'. A person's own value wins. * `consider` - Consider (all) * `should_fix` - Should fix * `must_fix` - Must fix */
+  urgency_threshold?: UrgencyThresholdEnum;
+  /** Project default for the image in a Deep review that finds nothing to raise. On by default. A person's own value wins. */
+  celebrate_clean_reviews?: boolean;
+  /** The people on the project rule's two lists. Only the list that matches flash_for has an effect. */
+  people: ReviewProjectSettingsPeopleList;
+  /** Every GitHub installation connected to this project, and which of its repositories this project reviews. */
+  installations: ReviewProjectSettingsInstallationsList;
+  /** Whether the requesting user is a project admin and can change these settings. */
+  can_edit: boolean;
+}
+export interface CreateReviewHogRepositoriesPersonRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this review repository. */
+  id: string;
+  /** Id of the project member to add. Must be an active member. */
+  user_id: number;
+  /** Which list to add the person to: 'listed' or 'excepted'. * `listed` - Listed * `excepted` - Excepted */
+  kind: ReviewRepositoryPersonKindEnum | (string & {});
+}
+/** The people on the exception's two lists. Only the list that matches flash_for has an effect. */
+export type ReviewRepositoryPeopleList = Array<ReviewRepositoryPerson>;
+export interface ReviewRepository {
+  /** Id of the repository entry. */
+  id: string;
+  /** The GitHub App installation that sees it. */
+  installation_id: string;
+  /** GitHub's id of the repository. Null until it is first seen. */
+  github_repo_id: number | null;
+  /** GitHub repository in 'owner/name' form. */
+  full_name: string;
+  /** Whether this project selected the repository. A selected repository belongs to this project even when another project takes all repositories of the installation. */
+  selected: boolean;
+  /** The repository exception: 'everyone', 'listed', or 'off' (opt-in only). Null when the repository follows the project rule. * `everyone` - Automatic Flash for everyone * `listed` - Automatic Flash for these people * `off` - Automatic Flash opt-in only */
+  flash_for: AutomaticFlashForEnum | null;
+  /** Whether draft pull requests in this repository get their automatic review when they open. */
+  review_drafts: boolean;
+  /** The people on the exception's two lists. Only the list that matches flash_for has an effect. */
+  people: ReviewRepositoryPeopleList;
+  /** Who added the repository. */
+  created_by: UserBasic | null;
+  /** When the repository was added. */
+  created_at: string;
+}
+export interface CreateReviewHogRepositoryRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The GitHub App installation that sees the repository, from the overview. */
+  installation_id: string;
+  /** GitHub repository in 'owner/name' form, spelled as GitHub returns it. */
+  full_name: string;
+  /** GitHub's id of the repository, from the overview. Keeps renames. */
+  github_repo_id?: number;
+  /** True includes the repository into this project, also when another project takes all repositories of the installation. False removes it; with an 'only selected' claim its exception goes too. */
+  selected?: boolean;
+  /** The repository exception: 'everyone', 'listed', or 'off'. Null clears it, so the repository follows the project rule again. Omit it to keep the current value. * `everyone` - Automatic Flash for everyone * `listed` - Automatic Flash for these people * `off` - Automatic Flash opt-in only */
+  flash_for?: AutomaticFlashForEnum | (string & {}) | null;
+  /** True lets draft pull requests in this repository get their automatic review when they open. False waits until they are ready for review. Omit it to keep the current value. */
+  review_drafts?: boolean;
+}
+export interface ReviewRepositoryWriteResponse {
+  /** The repository entry after the write. Null when nothing is left to store, so the entry was deleted and the repository follows the project rule or left the project. */
+  repository: ReviewRepository | null;
+  /** The project that took all repositories of the installation, when this write took the repository from it. */
+  taken_from_project: ReviewProjectRef | null;
+}
+/** * `flash` - Flash * `off` - Off */
+export type ReviewUserRepositoryChoiceModeEnum = "flash" | "off";
+export interface CreateReviewHogRepositoryChoiceRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The GitHub App installation. */
+  installation_id: string;
+  /** GitHub repository in 'owner/name' form. */
+  full_name: string;
+  /** GitHub's repository id. */
+  github_repo_id?: number;
+  /** The requesting user's own automatic review for their pull requests in this repository: 'flash' or 'off'. A value equal to what the user inherits clears the choice instead. * `flash` - Flash * `off` - Off */
+  mode: ReviewUserRepositoryChoiceModeEnum | (string & {});
+}
+export interface ReviewRepositoryChoice {
+  /** Id of the choice. Use it to clear the choice. */
+  id: string;
+  /** The GitHub App installation. */
+  installation_id: string;
+  /** GitHub's repository id. */
+  github_repo_id: number | null;
+  /** GitHub repository in 'owner/name' form. */
+  full_name: string;
+  /** 'flash' or 'off' for the user's own pull requests in this repository. * `flash` - Flash * `off` - Off */
+  mode: ReviewUserRepositoryChoiceModeEnum;
+}
+/** * `own_repository_choice` - Own choice for this repository * `own_default` - Own default * `repository_everyone` - The repository exception reviews everyone * `repository_excepted` - Excepted by the repository exception * `repository_listed` - Listed by the repository exception * `repository_not_listed` - Not listed by the repository exception * `repository_opt_in` - The repository exception reviews only people who opt in * `project_everyone` - The project reviews everyone * `project_excepted` - Excepted by the project * `project_listed` - Listed by the project * `project_not_listed` - Not listed by the project * `project_opt_in` - The project reviews only people who opt in * `bot_reviewed` - The project reviews bot pull requests * `bot_skipped` - The project does not review bot pull requests * `not_in_project` - This project does not review the repository */
+export type AutomaticReviewReasonEnum =
+  | "own_repository_choice"
+  | "own_default"
+  | "repository_everyone"
+  | "repository_excepted"
+  | "repository_listed"
+  | "repository_not_listed"
+  | "repository_opt_in"
+  | "project_everyone"
+  | "project_excepted"
+  | "project_listed"
+  | "project_not_listed"
+  | "project_opt_in"
+  | "bot_reviewed"
+  | "bot_skipped"
+  | "not_in_project";
+export interface AutomaticReviewDecision {
+  /** Whether the requesting user's own pull requests get automatic Standard reviews in this repository. */
+  flash: boolean;
+  /** Which rule decided: the user's own choice ('own_repository_choice', 'own_default'), the repository exception ('repository_*'), the project rule ('project_*'), or 'not_in_project' when this project does not review the repository. * `own_repository_choice` - Own choice for this repository * `own_default` - Own default * `repository_everyone` - The repository exception reviews everyone * `repository_excepted` - Excepted by the repository exception * `repository_listed` - Listed by the repository exception * `repository_not_listed` - Not listed by the repository exception * `repository_opt_in` - The repository exception reviews only people who opt in * `project_everyone` - The project reviews everyone * `project_excepted` - Excepted by the project * `project_listed` - Listed by the project * `project_not_listed` - Not listed by the project * `project_opt_in` - The project reviews only people who opt in * `bot_reviewed` - The project reviews bot pull requests * `bot_skipped` - The project does not review bot pull requests * `not_in_project` - This project does not review the repository */
+  reason: AutomaticReviewReasonEnum;
+}
+export interface ReviewRepositoryChoiceWriteResponse {
+  /** The stored choice. Null when the value equals the inherited one. */
+  choice: ReviewRepositoryChoice | null;
+  /** What the requesting user's own pull requests get in this repository after the write. */
+  my_result: AutomaticReviewDecision;
+}
+export interface GetReviewHogProjectSettingsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export type GetReviewHogRepositoryOverviewRequestView =
+  | "all"
+  | "in_project"
+  | "exceptions"
+  | "mine"
+  | "differs";
+export interface GetReviewHogRepositoryOverviewRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The GitHub App installation to list. */
+  installation_id: string;
+  /** Entries per page (max 200). */
+  limit?: number;
+  /** Entries to skip. */
+  offset?: number;
+  /** Only repositories whose name contains this text. */
+  search?: string;
+  /** 'all' repositories, 'in_project' (reviewed by this project), 'exceptions' (with a repository exception), 'mine' (with the requesting user's own choice), or 'differs' (every repository except the ones this project reviews with no exception and no own choice, which the response counts as 'folded'). * `all` - All repositories * `in_project` - In this project * `exceptions` - With exceptions * `mine` - My choices * `differs` - Different from the project */
+  view?: GetReviewHogRepositoryOverviewRequestView | (string & {});
+}
+/** * `this_project` - This project * `other_project` - Another project * `none` - No project */
+export type RepositoryOwnerKindEnum = "this_project" | "other_project" | "none";
+/** The people on the exception's two lists. */
+export type ReviewRepositoryExceptionPeopleList = Array<ReviewRepositoryPerson>;
+export interface ReviewRepositoryException {
+  /** The exception's rule: 'everyone', 'listed', or 'off'. * `everyone` - Automatic Flash for everyone * `listed` - Automatic Flash for these people * `off` - Automatic Flash opt-in only */
+  flash_for: AutomaticFlashForEnum;
+  /** The people on the exception's two lists. */
+  people: ReviewRepositoryExceptionPeopleList;
+}
+export interface ReviewRepositoryOverviewEntry {
+  /** GitHub repository in 'owner/name' form. */
+  full_name: string;
+  /** GitHub's repository id. */
+  github_repo_id: number | null;
+  /** Which project reviews the repository: 'this_project', 'other_project', or 'none'. * `this_project` - This project * `other_project` - Another project * `none` - No project */
+  owner: RepositoryOwnerKindEnum;
+  /** The other project that reviews the repository, when owner is 'other_project'. */
+  owner_project: ReviewProjectRef | null;
+  /** Whether this project reviews the repository. */
+  in_project: boolean;
+  /** Whether this project selected the repository explicitly. */
+  selected: boolean;
+  /** Id of this project's repository entry, for the people list endpoints. */
+  repository_id: string | null;
+  /** This project's repository exception. Null when the repository follows the project. */
+  exception: ReviewRepositoryException | null;
+  /** Whether draft pull requests in this repository get their automatic review when they open. Authors who turned off reviews of their drafts still get none. */
+  review_drafts: boolean;
+  /** The requesting user's own choice for this repository: 'flash', 'off', or null. * `flash` - Flash * `off` - Off */
+  my_choice: ReviewUserRepositoryChoiceModeEnum | null;
+  /** Id of that choice, to clear it. */
+  my_choice_id: string | null;
+  /** What the requesting user's own pull requests get here, and the rule that decided it. */
+  my_result: AutomaticReviewDecision;
+  /** What the requesting user's own pull requests would get here without their choice for this repository. Equals my_result when there is no choice. */
+  inherited_result: AutomaticReviewDecision;
+  /** What the requesting user's own pull requests would get here from the repository exception or the project rule alone, without their default and their choice for this repository. */
+  repository_result: AutomaticReviewDecision;
+}
+/** One page of repositories. */
+export type ReviewRepositoryOverviewResultsList = Array<ReviewRepositoryOverviewEntry>;
+/** With view 'differs', or 'all' without a search: the names of the first left-out repositories, at most 3. Empty otherwise. */
+export type ReviewRepositoryOverviewFoldedPreviewList = Array<string>;
+export interface ReviewRepositoryOverview {
+  /** The listed GitHub App installation. */
+  installation_id: string;
+  /** This project's claim on the installation: 'all', 'selected', or null. * `all` - All repositories * `selected` - Only selected repositories */
+  claim_scope: ReviewInstallationClaimScopeEnum | null;
+  /** One page of repositories. */
+  results: ReviewRepositoryOverviewResultsList;
+  /** Repositories that match the search and the view. */
+  total: number;
+  /** Whether more entries follow this page. */
+  has_more: boolean;
+  /** Offset of the next page, or null. */
+  next_offset: number | null;
+  /** With view 'differs', or 'all' without a search: how many repositories 'differs' leaves out because this project reviews them with no exception, no draft reviews and no own choice. 0 otherwise. */
+  folded: number;
+  /** With view 'differs', or 'all' without a search: the names of the first left-out repositories, at most 3. Empty otherwise. */
+  folded_preview: ReviewRepositoryOverviewFoldedPreviewList;
+  /** With view 'differs', or 'all' without a search: what the requesting user's own pull requests get in every left-out repository, which is the same for all of them. Null otherwise, or when nothing is left out. */
+  folded_result: AutomaticReviewDecision | null;
+  /** How many of the requesting user's own repository choices in this project give something other than their default. Counts every installation, so the search, the view, and the page do not change it. */
+  my_choices_unlike_default: number;
+}
 export interface GetReviewHogReviewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this review report. */
   id: string;
+  /** The completed review turn to read, from 1 to `run_count`. Defaults to the latest completed turn. Use it to read an older turn's findings. */
+  run_index?: number;
 }
-/** * `fetching` - fetching * `chunking` - chunking * `selecting` - selecting * `reviewing` - reviewing * `deduplicating` - deduplicating * `validating` - validating * `finalizing` - finalizing */
+/** * `full` - Deep * `flash` - Standard */
+export type ReviewTriggerReviewModeEnum = "full" | "flash";
+/** * `pipeline` - Pipeline * `single_agent` - Single agent */
+export type ReviewTurnDesignEnum = "pipeline" | "single_agent";
+/** * `fetching` - fetching * `chunking` - chunking * `selecting` - selecting * `reviewing` - reviewing * `deduplicating` - deduplicating * `validating` - validating * `finalizing` - finalizing * `single_agent_preparing` - single_agent_preparing * `single_agent_reviewing` - single_agent_reviewing * `single_agent_finalizing` - single_agent_finalizing */
 export type ReviewStageEnum =
   | "fetching"
   | "chunking"
@@ -74,14 +394,19 @@ export type ReviewStageEnum =
   | "reviewing"
   | "deduplicating"
   | "validating"
-  | "finalizing";
+  | "finalizing"
+  | "single_agent_preparing"
+  | "single_agent_reviewing"
+  | "single_agent_finalizing";
 export interface ReviewProgress {
-  /** How far the in-flight review turn has come: fetching the diff, chunking, picking each chunk's perspectives, reviewing chunks, merging overlapping findings, validating them, or finalizing (building and publishing the review). * `fetching` - fetching * `chunking` - chunking * `selecting` - selecting * `reviewing` - reviewing * `deduplicating` - deduplicating * `validating` - validating * `finalizing` - finalizing */
+  /** How far the in-flight review turn has come: fetching the diff, chunking, picking each chunk's perspectives, reviewing chunks, merging overlapping findings, validating them, or finalizing (building and publishing the review). A single-agent Standard turn reports its own `single_agent_*` stages instead: preparing, reviewing (main and lens sessions), and finalizing (merging, capping, and publishing the findings). * `fetching` - fetching * `chunking` - chunking * `selecting` - selecting * `reviewing` - reviewing * `deduplicating` - deduplicating * `validating` - validating * `finalizing` - finalizing * `single_agent_preparing` - single_agent_preparing * `single_agent_reviewing` - single_agent_reviewing * `single_agent_finalizing` - single_agent_finalizing */
   review_stage: ReviewStageEnum;
   /** Work units finished within the stage; null when the stage has no counter. */
   done: number | null;
   /** Work units the stage expects in total; null when unknown. */
   total: number | null;
+  /** What the in-flight turn runs: 'full' (Deep) or 'flash' (Standard). The row's `review_mode` describes the last completed turn, which can differ. Null until the turn records its mode, shortly before its review sessions start. * `full` - Deep * `flash` - Standard */
+  review_mode: ReviewTriggerReviewModeEnum | null;
 }
 /** * `resolving` - resolving * `stopped` - stopped */
 export type ResolutionStatusEnum = "resolving" | "stopped";
@@ -96,6 +421,26 @@ export interface ReviewResolutionStatus {
   fixed: number;
   /** Settled threads left for the author: judged worth doing but not safe to fix unattended. */
   needs_attention: number;
+}
+/** * `resolving` - Resolving * `stopped` - Stopped * `completed` - Completed */
+export type ReviewLatestResolutionStatusEnum = "resolving" | "stopped" | "completed";
+/** SHAs of the run's fix commits, oldest first. Only commits confirmed on the pull request branch that touch no protected files; the replies on GitHub link the same commits. */
+export type ReviewLatestResolutionCommitsList = Array<string>;
+export interface ReviewLatestResolution {
+  /** Where the run stands: 'resolving' while threads are being settled, 'completed' when it finished, 'stopped' when it died partway or a newer review turn replaced it. * `resolving` - Resolving * `stopped` - Stopped * `completed` - Completed */
+  status: ReviewLatestResolutionStatusEnum;
+  /** When the run queued its threads. */
+  started_at: string;
+  /** When the run finished; null unless the status is 'completed'. */
+  completed_at: string | null;
+  /** Threads queued for this run. */
+  total: number;
+  /** Threads the run fixed with a commit to the branch. */
+  fixed: number;
+  /** Threads left for the author: judged worth doing but not safe to fix unattended. */
+  needs_attention: number;
+  /** SHAs of the run's fix commits, oldest first. Only commits confirmed on the pull request branch that touch no protected files; the replies on GitHub link the same commits. */
+  commits: ReviewLatestResolutionCommitsList;
 }
 /** Every enabled perspective the selector chose from, in pass order. */
 export type ReviewPerspectiveSelectionRosterList = Array<string>;
@@ -127,8 +472,6 @@ export interface ReviewPerspectiveSelection {
   /** Per-chunk picks with reasons, in chunk order. */
   chunks: ReviewPerspectiveSelectionChunksList;
 }
-/** * `must_fix` - must_fix * `should_fix` - should_fix * `consider` - consider */
-export type ReviewIssuePriorityEnum = "must_fix" | "should_fix" | "consider";
 export interface ReviewFindingLineRange {
   /** First affected line. */
   start: number;
@@ -137,6 +480,8 @@ export interface ReviewFindingLineRange {
 }
 /** Affected line ranges within the file. */
 export type ReviewFindingLinesList = Array<ReviewFindingLineRange>;
+/** * `must_fix` - must_fix * `should_fix` - should_fix * `consider` - consider */
+export type ReviewIssuePriorityEnum = "must_fix" | "should_fix" | "consider";
 /** * `bug` - bug * `security` - security * `performance` - performance * `code_quality` - code_quality * `best_practice` - best_practice * `documentation` - documentation * `testing` - testing * `accessibility` - accessibility * `compatibility` - compatibility */
 export type ValidatorCategoryEnum =
   | "bug"
@@ -170,10 +515,49 @@ export interface ReviewFinding {
   /** The validator's argumentation for keeping or dismissing the finding. */
   validator_note: string;
 }
-/** The latest turn's validated findings, most urgent first. */
+/** The returned turn's validated findings, most urgent first. */
 export type ReviewDetailFindingsList = Array<ReviewFinding>;
-/** The latest turn's findings the validator dismissed, with its reasoning. */
+/** The returned turn's findings the validator dismissed, with its reasoning. */
 export type ReviewDetailDismissedFindingsList = Array<ReviewFinding>;
+/** Affected line ranges within the file. */
+export type ReviewDroppedFindingLinesList = Array<ReviewFindingLineRange>;
+/** * `must_fix` - Must fix * `should_fix` - Should fix * `consider` - Consider */
+export type ReviewDroppedFindingPriorityEnum = "must_fix" | "should_fix" | "consider";
+/** * `old_code` - On unchanged code * `dedup_prior` - Repeat of an earlier review * `dedup_comment` - Already in a PR comment * `dedup_anchor` - Same spot as another finding * `dedup_sibling` - Repeat of a finding * `cap` - Over the limit * `budget` - Over the pull request limit */
+export type ReviewDropDispositionEnum =
+  | "old_code"
+  | "dedup_prior"
+  | "dedup_comment"
+  | "dedup_anchor"
+  | "dedup_sibling"
+  | "cap"
+  | "budget";
+export interface ReviewDroppedFinding {
+  /** One-line summary of the finding. */
+  title: string;
+  /** Repository-relative path of the affected file. */
+  file: string;
+  /** Affected line ranges within the file. */
+  lines: ReviewDroppedFindingLinesList;
+  /** Description of the problem. */
+  body: string;
+  /** The specific fix the reviewer proposes. Usually empty: a single-agent finding ends its body with the fix direction instead. */
+  suggestion: string;
+  /** The reviewer's priority for the finding. * `must_fix` - Must fix * `should_fix` - Should fix * `consider` - Consider */
+  priority: ReviewDroppedFindingPriorityEnum;
+  /** The session that raised the finding: the main review or a lens. */
+  source_perspective: string | null;
+  /** Why the turn did not post the finding. `old_code`: a follow-up turn's finding on code that did not change since the last reviewed head. An automatic follow-up (run 2 and later) drops P2 and P3 findings this way, a requested review drops only P3, and a first review drops none. `dedup_prior`: repeats an earlier turn's finding. `dedup_comment`: repeats a PR comment. `dedup_anchor`: repeats a main-review finding at the same spot. `dedup_sibling`: repeats another finding from the same session or lens. `cap`: ranked below the per-review finding limit. * `old_code` - On unchanged code * `dedup_prior` - Repeat of an earlier review * `dedup_comment` - Already in a PR comment * `dedup_anchor` - Same spot as another finding * `dedup_sibling` - Repeat of a finding * `cap` - Over the limit * `budget` - Over the pull request limit */
+  disposition: ReviewDropDispositionEnum;
+  /** For a dedup drop, what it repeats: an issue key, or `comment:<id>` for a PR comment. Null for other dispositions. */
+  duplicate_of: string | null;
+  /** Link to the PR comment the finding repeats, when `duplicate_of` names one and the PR URL is known. Null otherwise. */
+  comment_url: string | null;
+  /** For a `cap` drop, the finding's 1-based position in the turn's ranked findings. Null otherwise. */
+  rank: number | null;
+}
+/** The returned turn's findings a single-agent (Standard) review raised but did not post, each with the reason. Empty for pipeline turns and for turns that predate the record. */
+export type ReviewDetailDroppedFindingsList = Array<ReviewDroppedFinding>;
 export interface ReviewDetail {
   /** The review report's id, for fetching the review's detail. */
   id: string;
@@ -199,14 +583,26 @@ export interface ReviewDetail {
   run_count: number;
   /** When the latest review turn completed; null while the first is in flight. */
   last_run_at: string | null;
-  /** Whether a review has been published back to GitHub. */
+  /** Whether any turn of this report has been published back to GitHub. See `turn_published` for the returned turn. */
   published: boolean;
+  /** Whether the returned turn (the latest completed one, or `run_index` on the detail) was published to GitHub. False when it found nothing to post or publishing was off. */
+  turn_published: boolean;
+  /** What the returned turn ran: 'full' (Deep) or 'flash' (Standard). Null when the turn did not record its mode (turns from before the mode was recorded). * `full` - Deep * `flash` - Standard */
+  review_mode: ReviewTriggerReviewModeEnum | null;
+  /** How the returned turn found its issues. 'pipeline': chunks, perspectives, a blind-spot sweep and a separate validation step. 'single_agent': one main review plus focused lenses, with no separate validation step. Null when the turn recorded no design (turns from before it was recorded ran the pipeline). * `pipeline` - Pipeline * `single_agent` - Single agent */
+  review_design: ReviewTurnDesignEnum | null;
+  /** Link to the review's status comment on the pull request; null when there is no status comment or no pull request URL. */
+  status_comment_url: string | null;
+  /** Whether a Deep review of this pull request has been published. No Standard review runs after one. */
+  full_review_published: boolean;
   /** Whether a run is on this report right now: a review turn or a resolution run (activity within the last 30 minutes). */
   in_progress: boolean;
   /** The in-flight review turn's stage and counters; null unless a review turn is running (a resolving report carries `resolution` instead). */
   progress: ReviewProgress | null;
   /** The report's latest resolution run (settling the PR's review threads): live progress while it runs, or where it stopped when it died partway. Null when there is none, it completed, or a newer review turn superseded it. */
   resolution: ReviewResolutionStatus | null;
+  /** The report's latest resolution run, completed runs included: its status, counts, and fix commits. Null when no resolution run has queued threads on this report. */
+  latest_resolution: ReviewLatestResolution | null;
   /** The latest turn's valid findings at must_fix effective priority. */
   must_fix_count: number;
   /** The latest turn's valid findings at should_fix effective priority. */
@@ -227,24 +623,28 @@ export interface ReviewDetail {
   perspective_issue_count: number | null;
   /** Raw issues the blind-spot sweep added in the latest turn, before dedupe; null if unknown. */
   blind_spot_issue_count: number | null;
-  /** The PR head commit the latest turn reviewed -- anchors GitHub links to the exact code. */
+  /** The review turn this detail describes, from 1 to `run_count`. */
+  run_index: number;
+  /** The PR head commit the returned turn reviewed. Anchors GitHub links to the exact code. Null for an older turn whose head was not recorded. */
   head_sha: string | null;
   /** The selector's per-chunk perspective plan for the latest turn; null when the turn ran without a selection (selector unavailable, failed, or the run predates it). */
   perspective_selection: ReviewPerspectiveSelection | null;
-  /** The rendered review body published to GitHub, as markdown. */
-  report_markdown: string;
-  /** The urgency threshold the completed turn's publishing gated on (stamped at finalize from the run's own resolve snapshot); null for turns that predate its recording -- readers fall back to the viewer's current setting as an approximation. * `must_fix` - must_fix * `should_fix` - should_fix * `consider` - consider */
-  run_urgency_threshold: ReviewIssuePriorityEnum | null;
-  /** The latest turn's validated findings, most urgent first. */
+  /** The rendered review body published to GitHub, as markdown. Only kept for the latest turn, so null when `run_index` selects an older turn. */
+  report_markdown: string | null;
+  /** The urgency threshold the returned turn's publishing gated on (stamped at finalize from the run's own resolve snapshot); null for turns that predate its recording -- readers fall back to the viewer's current setting as an approximation. * `consider` - Consider (all) * `should_fix` - Should fix * `must_fix` - Must fix */
+  run_urgency_threshold: UrgencyThresholdEnum | null;
+  /** The returned turn's validated findings, most urgent first. */
   findings: ReviewDetailFindingsList;
-  /** The latest turn's findings the validator dismissed, with its reasoning. */
+  /** The returned turn's findings the validator dismissed, with its reasoning. */
   dismissed_findings: ReviewDetailDismissedFindingsList;
+  /** The returned turn's findings a single-agent (Standard) review raised but did not post, each with the reason. Empty for pipeline turns and for turns that predate the record. */
+  dropped_findings: ReviewDetailDroppedFindingsList;
 }
-export type GetReviewHogReviewsPerspectiveStatRequestScope = "mine" | "everyone";
+export type GetReviewHogReviewsPerspectiveStatRequestScope = "mine" | "everyone" | "own_deep";
 export interface GetReviewHogReviewsPerspectiveStatRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Whose reviews to aggregate: `mine` (the default) for reviews the requesting user ran plus reviews of pull requests they authored (matched via their linked GitHub login), `everyone` for every review on this project. * `mine` - mine * `everyone` - everyone */
+  /** Whose reviews to aggregate: `mine` (the default) for reviews the requesting user ran plus reviews of pull requests they authored (matched via their linked GitHub login), `everyone` for every review on this project, `own_deep` for the last 10 Deep reviews the requesting user started. The review skills in the settings use `own_deep`, because only the person who starts a Deep review picks its skills. * `mine` - Mine * `everyone` - Everyone * `own_deep` - Own Deep reviews */
   scope?: GetReviewHogReviewsPerspectiveStatRequestScope | (string & {});
 }
 export interface ReviewPerspectiveStatItem {
@@ -265,62 +665,106 @@ export interface ReviewPerspectiveStats {
   /** Per-skill effectiveness across those reviews, most kept findings first. */
   perspectives: ReviewPerspectiveStatsPerspectivesList;
 }
-export interface ListReviewHogBlindSpotsRequest {
+export type GetReviewHogReviewsPrStatusRequestRunMode =
+  | "review"
+  | "review_only"
+  | "resolve_only"
+  | "flash";
+export interface GetReviewHogReviewsPrStatusRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** The `head_sha` the trigger returned. Lets a turn that was already running on that head when the request came in answer the request. Only used with `requested_at`. */
+  head_sha?: string;
+  /** GitHub pull request URL to look up, e.g. 'https://github.com/PostHog/posthog/pull/123'. */
+  pr_url: string;
+  /** The `requested_at` the trigger returned. When set, the response carries `request_outcome` for that request. */
+  requested_at?: string;
+  /** The `run_mode` the trigger was called with (default 'review'). Only used with `requested_at`. * `review` - Review * `review_only` - Review only * `resolve_only` - Resolve only * `flash` - Standard */
+  run_mode?: GetReviewHogReviewsPrStatusRequestRunMode | (string & {});
 }
-export interface ReviewBlindSpotsConfig {
-  /** Name of the `review-hog-blind-spots-*` skill this row represents (the sweep's identity). */
-  skill_name: string;
-  /** Whether this blind-spots skill runs the sweep on the requesting user's PR reviews on this project. */
-  active: boolean;
-  /** The blind-spots skill's description, for display in the config UI. */
-  description: string;
-  /** The blind-spots skill's SKILL.md body, for the read-only skill viewer. */
-  body: string;
+/** * `not_reviewed` - Not reviewed * `queued` - Queued * `reviewing` - Reviewing * `resolving` - Resolving * `idle` - Idle * `unknown` - Unknown */
+export type ReviewPRStateEnum =
+  | "not_reviewed"
+  | "queued"
+  | "reviewing"
+  | "resolving"
+  | "idle"
+  | "unknown";
+export interface ReviewPRStatusLatestReview {
+  /** The review's id, for `review-hog-reviews-get`. */
+  id: string;
+  /** What the turn ran: 'full' (Deep) or 'flash' (Standard). Null when the turn did not record it. * `full` - Deep * `flash` - Standard */
+  review_mode: ReviewTriggerReviewModeEnum | null;
+  /** The PR head commit the turn reviewed. */
+  head_sha: string | null;
+  /** The turn's index, for `review-hog-reviews-get`. */
+  run_index: number;
+  /** When the turn completed. */
+  completed_at: string | null;
+  /** The turn's valid findings at must_fix priority. */
+  must_fix_count: number;
+  /** The turn's valid findings at should_fix priority. */
+  should_fix_count: number;
+  /** The turn's valid findings at consider priority. */
+  consider_count: number;
+  /** Whether the turn was published to GitHub. */
+  turn_published: boolean;
+  /** Link to the review's status comment on the pull request; null when there is none. */
+  status_comment_url: string | null;
 }
-export type ListReviewHogBlindSpotsResponseBodyList = Array<ReviewBlindSpotsConfig>;
-export type ListReviewHogBlindSpotsResponse = ListReviewHogBlindSpotsResponseBodyList;
-export interface ListReviewHogPerspectivesRequest {
+/** * `pending` - Pending * `completed` - Completed * `skipped` - Skipped * `failed` - Failed * `unknown` - Unknown */
+export type ReviewRequestOutcomeStatusEnum =
+  | "pending"
+  | "completed"
+  | "skipped"
+  | "failed"
+  | "unknown";
+export interface ReviewPRStatusRequestOutcome {
+  /** How the request ended: 'pending' while a run for it is queued or running, 'completed' when a turn of the requested mode or deeper finished after `requested_at` and either started after it or reviewed the given `head_sha` (Deep covers Standard), 'skipped' when the run ended without doing the work, 'failed' when the run died or no run answered the request, 'unknown' when the run state could not be read (retry later). * `pending` - Pending * `completed` - Completed * `skipped` - Skipped * `failed` - Failed * `unknown` - Unknown */
+  status: ReviewRequestOutcomeStatusEnum;
+  /** Why it was skipped or failed: 'flash_after_full' (Standard dropped after a Deep review), 'review_failed', 'stopped' (Resolve died partway), 'no_matching_run' (nothing ran for the request and nothing is queued, for example when the queue replaced it), or a Resolve skip reason such as 'pr_not_open', 'resolution_not_opted_in', 'no_unresolved_threads', 'pr_in_merge_queue'. Null otherwise. */
+  reason: string | null;
+  /** The review to read with `review-hog-reviews-get`; null before the PR has one. */
+  review_id: string | null;
+  /** The review turn that answered or failed the request, for `review-hog-reviews-get`. Null for 'resolve_only' and while pending. */
+  run_index: number | null;
+}
+export interface ReviewPRStatus {
+  /** The pull request's repository as 'owner/repo'. */
+  repository: string;
+  /** The pull request number. */
+  pr_number: number;
+  /** The PR's review id, for `review-hog-reviews-get`; null before its first run. */
+  report_id: string | null;
+  /** Where the PR stands now: 'not_reviewed' (no completed review and nothing queued), 'queued' (a run is queued or starting), 'reviewing' (a review turn is running), 'resolving' (Resolve is running), 'idle' (nothing running), 'unknown' (the run state could not be read, retry later). * `not_reviewed` - Not reviewed * `queued` - Queued * `reviewing` - Reviewing * `resolving` - Resolving * `idle` - Idle * `unknown` - Unknown */
+  state: ReviewPRStateEnum;
+  /** The latest completed review turn; null before the first one completes. */
+  latest_review: ReviewPRStatusLatestReview | null;
+  /** The latest Resolve run, finished ones too; null when no Resolve run has queued threads. */
+  latest_resolution: ReviewLatestResolution | null;
+  /** How the request at `requested_at` ended; null without `requested_at`. */
+  request_outcome: ReviewPRStatusRequestOutcome | null;
+}
+export type GetReviewHogReviewsTableRequestReviewMode = "full" | "flash";
+export type GetReviewHogReviewsTableRequestScope = "mine" | "everyone";
+export type GetReviewHogReviewsTableRequestStatus = "running" | "completed";
+export interface GetReviewHogReviewsTableRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-}
-export interface ReviewPerspectiveConfig {
-  /** Name of the `review-hog-perspective-*` skill this row toggles (the perspective's identity). */
-  skill_name: string;
-  /** Whether this perspective runs on the acting user's PR reviews on this project. */
-  enabled: boolean;
-  /** The perspective skill's description, for display in the config UI. */
-  description: string;
-  /** The perspective skill's SKILL.md body, for the read-only skill viewer. */
-  body: string;
-}
-export type ListReviewHogPerspectivesResponseBodyList = Array<ReviewPerspectiveConfig>;
-export type ListReviewHogPerspectivesResponse = ListReviewHogPerspectivesResponseBodyList;
-export interface ListReviewHogResolutionRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-}
-export interface ReviewResolutionConfig {
-  /** Name of the `review-hog-resolution-*` skill this row represents (the criteria's identity). */
-  skill_name: string;
-  /** Whether these criteria drive the resolution stage on the requesting user's PRs on this project. */
-  active: boolean;
-  /** The resolution skill's description, for display in the config UI. */
-  description: string;
-  /** The resolution skill's SKILL.md body, for the read-only skill viewer. */
-  body: string;
-}
-export type ListReviewHogResolutionResponseBodyList = Array<ReviewResolutionConfig>;
-export type ListReviewHogResolutionResponse = ListReviewHogResolutionResponseBodyList;
-export type ListReviewHogReviewsRequestScope = "mine" | "everyone";
-export interface ListReviewHogReviewsRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** Maximum rows to return. The list grows this instead of paging by offset -- in-progress rows reorder the list between refreshes, so offset pages would shift under the reader. */
+  /** Rows per page. Defaults to 25, at most 100. */
   limit?: number;
-  /** Whose reviews to list: `mine` (the default) for reviews the requesting user ran plus reviews of pull requests they authored (matched via their linked GitHub login), `everyone` for every review on this project. * `mine` - mine * `everyone` - everyone */
-  scope?: ListReviewHogReviewsRequestScope | (string & {});
+  /** How many rows to skip, for paging through the table. */
+  offset?: number;
+  /** Only reviews whose latest completed turn was (true) or was not (false) published to GitHub. */
+  published?: boolean;
+  /** Only reviews of this repository, as `owner/repo`. Matched case-insensitively. */
+  repository?: string;
+  /** Only reviews whose latest completed turn ran this mode: 'full' (Deep) or 'flash' (Standard). Turns that did not record their mode match neither value. * `full` - Deep * `flash` - Standard */
+  review_mode?: GetReviewHogReviewsTableRequestReviewMode | (string & {});
+  /** Whose reviews to list: `mine` (the default) for reviews the requesting user ran plus reviews of pull requests they authored (matched via their linked GitHub login), `everyone` for every review on this project. * `mine` - Mine * `everyone` - Everyone */
+  scope?: GetReviewHogReviewsTableRequestScope | (string & {});
+  /** Only reviews in this state: 'running' for reviews with a run in flight (activity within the last 30 minutes), 'completed' for reviews with a completed turn and nothing running now. * `running` - Running * `completed` - Completed */
+  status?: GetReviewHogReviewsTableRequestStatus | (string & {});
 }
 export interface ReviewRecentReview {
   /** The review report's id, for fetching the review's detail. */
@@ -347,14 +791,26 @@ export interface ReviewRecentReview {
   run_count: number;
   /** When the latest review turn completed; null while the first is in flight. */
   last_run_at: string | null;
-  /** Whether a review has been published back to GitHub. */
+  /** Whether any turn of this report has been published back to GitHub. See `turn_published` for the returned turn. */
   published: boolean;
+  /** Whether the returned turn (the latest completed one, or `run_index` on the detail) was published to GitHub. False when it found nothing to post or publishing was off. */
+  turn_published: boolean;
+  /** What the returned turn ran: 'full' (Deep) or 'flash' (Standard). Null when the turn did not record its mode (turns from before the mode was recorded). * `full` - Deep * `flash` - Standard */
+  review_mode: ReviewTriggerReviewModeEnum | null;
+  /** How the returned turn found its issues. 'pipeline': chunks, perspectives, a blind-spot sweep and a separate validation step. 'single_agent': one main review plus focused lenses, with no separate validation step. Null when the turn recorded no design (turns from before it was recorded ran the pipeline). * `pipeline` - Pipeline * `single_agent` - Single agent */
+  review_design: ReviewTurnDesignEnum | null;
+  /** Link to the review's status comment on the pull request; null when there is no status comment or no pull request URL. */
+  status_comment_url: string | null;
+  /** Whether a Deep review of this pull request has been published. No Standard review runs after one. */
+  full_review_published: boolean;
   /** Whether a run is on this report right now: a review turn or a resolution run (activity within the last 30 minutes). */
   in_progress: boolean;
   /** The in-flight review turn's stage and counters; null unless a review turn is running (a resolving report carries `resolution` instead). */
   progress: ReviewProgress | null;
   /** The report's latest resolution run (settling the PR's review threads): live progress while it runs, or where it stopped when it died partway. Null when there is none, it completed, or a newer review turn superseded it. */
   resolution: ReviewResolutionStatus | null;
+  /** The report's latest resolution run, completed runs included: its status, counts, and fix commits. Null when no resolution run has queued threads on this report. */
+  latest_resolution: ReviewLatestResolution | null;
   /** The latest turn's valid findings at must_fix effective priority. */
   must_fix_count: number;
   /** The latest turn's valid findings at should_fix effective priority. */
@@ -375,6 +831,97 @@ export interface ReviewRecentReview {
   perspective_issue_count: number | null;
   /** Raw issues the blind-spot sweep added in the latest turn, before dedupe; null if unknown. */
   blind_spot_issue_count: number | null;
+}
+/** One page of reviews, most recent activity first. */
+export type ReviewReviewsTablePageResultsList = Array<ReviewRecentReview>;
+/** Declares the `next` and `previous` links of a page response that the view fills with `page_link`. */
+export interface ReviewReviewsTablePage {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page and on lists that page forward only. */
+  previous: string | null;
+  /** How many reviews match the scope and every filter, across all pages. */
+  count: number;
+  /** How many reviews have a run in flight under the scope and filters, ignoring `status`. Labels the running quick filter without a second request. */
+  running_count: number;
+  /** One page of reviews, most recent activity first. */
+  results: ReviewReviewsTablePageResultsList;
+}
+export interface ListReviewHogBlindSpotsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export interface ReviewBlindSpotsConfig {
+  /** Name of the `review-hog-blind-spots-*` skill this row represents (the sweep's identity). */
+  skill_name: string;
+  /** Whether this blind-spots skill runs the sweep on the requesting user's PR reviews on this project. */
+  active: boolean;
+  /** The blind-spots skill's description, for display in the config UI. */
+  description: string;
+  /** The blind-spots skill's SKILL.md body, for the read-only skill viewer. */
+  body: string;
+}
+export type ListReviewHogBlindSpotsResponseBodyList = Array<ReviewBlindSpotsConfig>;
+export type ListReviewHogBlindSpotsResponse = ListReviewHogBlindSpotsResponseBodyList;
+export interface ListReviewHogInstallationClaimsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export type ListReviewHogInstallationClaimsResponseBodyList = Array<ReviewInstallationClaim>;
+export type ListReviewHogInstallationClaimsResponse =
+  ListReviewHogInstallationClaimsResponseBodyList;
+export interface ListReviewHogPerspectivesRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export interface ReviewPerspectiveConfig {
+  /** Name of the `review-hog-perspective-*` skill this row toggles (the perspective's identity). */
+  skill_name: string;
+  /** Whether this perspective runs on the acting user's PR reviews on this project. */
+  enabled: boolean;
+  /** The perspective skill's description, for display in the config UI. */
+  description: string;
+  /** The perspective skill's SKILL.md body, for the read-only skill viewer. */
+  body: string;
+}
+export type ListReviewHogPerspectivesResponseBodyList = Array<ReviewPerspectiveConfig>;
+export type ListReviewHogPerspectivesResponse = ListReviewHogPerspectivesResponseBodyList;
+export interface ListReviewHogRepositoriesRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export type ListReviewHogRepositoriesResponseBodyList = Array<ReviewRepository>;
+export type ListReviewHogRepositoriesResponse = ListReviewHogRepositoriesResponseBodyList;
+export interface ListReviewHogRepositoryChoicesRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export type ListReviewHogRepositoryChoicesResponseBodyList = Array<ReviewRepositoryChoice>;
+export type ListReviewHogRepositoryChoicesResponse = ListReviewHogRepositoryChoicesResponseBodyList;
+export interface ListReviewHogResolutionRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export interface ReviewResolutionConfig {
+  /** Name of the `review-hog-resolution-*` skill this row represents (the criteria's identity). */
+  skill_name: string;
+  /** Whether these criteria drive the resolution stage on the requesting user's PRs on this project. */
+  active: boolean;
+  /** The resolution skill's description, for display in the config UI. */
+  description: string;
+  /** The resolution skill's SKILL.md body, for the read-only skill viewer. */
+  body: string;
+}
+export type ListReviewHogResolutionResponseBodyList = Array<ReviewResolutionConfig>;
+export type ListReviewHogResolutionResponse = ListReviewHogResolutionResponseBodyList;
+export type ListReviewHogReviewsRequestScope = "mine" | "everyone";
+export interface ListReviewHogReviewsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Maximum rows to return. The list grows this instead of paging by offset -- in-progress rows reorder the list between refreshes, so offset pages would shift under the reader. */
+  limit?: number;
+  /** Whose reviews to list: `mine` (the default) for reviews the requesting user ran plus reviews of pull requests they authored (matched via their linked GitHub login), `everyone` for every review on this project. * `mine` - mine * `everyone` - everyone */
+  scope?: ListReviewHogReviewsRequestScope | (string & {});
 }
 /** The scoped reviews: in-progress runs first, then completed newest first. */
 export type ReviewRecentReviewsPageResultsList = Array<ReviewRecentReview>;
@@ -400,21 +947,77 @@ export interface ReviewValidatorConfig {
 }
 export type ListReviewHogValidatorsResponseBodyList = Array<ReviewValidatorConfig>;
 export type ListReviewHogValidatorsResponse = ListReviewHogValidatorsResponseBodyList;
-/** * `review` - review * `review_only` - review_only * `resolve_only` - resolve_only * `flash` - flash */
+export interface ReviewHogInstallationClaimsDestroyRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this review installation claim. */
+  id: string;
+}
+export interface ReviewHogInstallationClaimsDestroyResponse {}
+export interface ReviewHogProjectSettingsPeopleDestroyRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Id of the list entry. */
+  person_id: string;
+}
+export interface ReviewHogRepositoriesDestroyRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this review repository. */
+  id: string;
+}
+export interface ReviewHogRepositoriesDestroyResponse {}
+export interface ReviewHogRepositoriesPeopleDestroyRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this review repository. */
+  id: string;
+  /** Id of the list entry. */
+  person_id: string;
+}
+export interface ReviewHogRepositoryChoicesDestroyRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this review user repository choice. */
+  id: string;
+}
+export interface ReviewHogRepositoryChoicesDestroyResponse {}
+/** * `review` - Review * `review_only` - Review only * `resolve_only` - Resolve only * `flash` - Standard */
 export type ReviewTriggerRequestRunModeEnum = "review" | "review_only" | "resolve_only" | "flash";
 export interface ReviewHogReviewsTriggerCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** GitHub pull request URL to review, e.g. 'https://github.com/PostHog/posthog.com/pull/123'. The repository must be accessible to the project's GitHub App installation. */
   pr_url: string;
-  /** What to run on the pull request. 'review' (default) reviews it and, when the requesting user's resolve_comments setting is on, chains the resolution stage; 'review_only' reviews without resolving regardless of that setting; 'resolve_only' skips the review and only runs the resolution stage on the PR's existing unresolved review threads; 'flash' uses a lower-cost model for the review passes and validation, and never resolves comments. * `review` - review * `review_only` - review_only * `resolve_only` - resolve_only * `flash` - flash */
+  /** What to run on the pull request. 'review' (default) reviews it and, when the pull request owner's resolve_comments setting is on, chains the resolution stage; 'review_only' reviews without resolving regardless of that setting; 'resolve_only' skips the review and only runs the resolution stage on the PR's existing unresolved review threads, which needs the owner's opt-in; 'flash' runs a Standard review: a lower-cost model for the review passes and validation, never resolves comments, and is refused once the PR has a published Deep review. The owner is the PR's author, or the Inbox reviewer of a pull request the PostHog app opened. * `review` - Review * `review_only` - Review only * `resolve_only` - Resolve only * `flash` - Standard */
   run_mode?: ReviewTriggerRequestRunModeEnum | (string & {});
 }
+/** * `run_mode_excludes_resolve` - The run mode never resolves comments * `owner_not_opted_in` - The pull request owner has not opted in to resolution * `already_reviewed` - No run starts, because the head already has a review in this mode */
+export type ResolveSkipReasonEnum =
+  | "run_mode_excludes_resolve"
+  | "owner_not_opted_in"
+  | "already_reviewed";
 export interface ReviewTriggerResponse {
   /** Temporal workflow id for the started review run; empty when no run was started. */
   workflow_id: string;
-  /** Run lifecycle marker: 'started' when the review was queued, 'already_reviewed' when the pull request's current commit already has a published review in the requested mode, 'joined_running_review' when a review was already in flight and the request joined its queue. A requested Full review waits for an active Flash review. */
+  /** Run lifecycle marker: 'started' when the review was queued, 'already_reviewed' when the pull request's current commit already has a published review in the requested mode, 'joined_running_review' when a review was already running and the request was queued on that pull request's run, to start after the running turn. A requested Deep review waits for an active Standard review. */
   status: string;
+  /** The pull request's repository as 'owner/repo'. */
+  repository: string;
+  /** The pull request number. */
+  pr_number: number;
+  /** The pull request's head commit when the request was accepted. */
+  head_sha: string | null;
+  /** The review this request runs: 'full' (Deep) or 'flash' (Standard). Null for 'resolve_only', which runs no review. * `full` - Deep * `flash` - Standard */
+  review_mode: ReviewTriggerReviewModeEnum | null;
+  /** Id of the pull request's existing review, for `review-hog-reviews-get`. Null on the pull request's first run, which creates the review later. */
+  report_id: string | null;
+  /** Server time when the request was accepted. */
+  requested_at: string;
+  /** Whether this request plans to run the resolution stage, which can push fix commits to the pull request. It is the plan at request time: a request queued behind a running turn on the same head can be skipped as already published. `review-hog-reviews-pr-status` reports what actually ran. */
+  resolve_will_run: boolean;
+  /** Why the resolution stage does not run: 'run_mode_excludes_resolve' ('review_only' and 'flash' never resolve), 'owner_not_opted_in' (the pull request owner has not turned on resolving comments), 'already_reviewed' (no run starts). Null when it runs. * `run_mode_excludes_resolve` - The run mode never resolves comments * `owner_not_opted_in` - The pull request owner has not opted in to resolution * `already_reviewed` - No run starts, because the head already has a review in this mode */
+  resolve_skip_reason: ResolveSkipReasonEnum | null;
 }
 export interface UpdateReviewHogBlindSpotsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -423,12 +1026,32 @@ export interface UpdateReviewHogBlindSpotsPartialRequest {
   /** Set true to make this the single blind-spots skill that runs on the user's PR reviews. Only true is accepted -- the blind-spot check is single-active, so you switch by selecting a different skill, not by deactivating the current one. */
   active?: boolean;
 }
+export interface UpdateReviewHogInstallationClaimsPartialRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this review installation claim. */
+  id: string;
+  /** 'all' or 'selected'. Switching to 'selected' removes the exceptions of the repositories that leave the project. * `all` - All repositories * `selected` - Only selected repositories */
+  scope?: ReviewInstallationClaimScopeEnum | (string & {});
+}
 export interface UpdateReviewHogPerspectivesPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   skill_name: string;
   /** Set true to run this perspective on the user's PR reviews, false to stop running it. */
   enabled?: boolean;
+}
+export interface UpdateReviewHogProjectSettingsPartialRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Who gets automatic Standard reviews in the repositories this project reviews: 'everyone' (except the excepted people), 'listed' (only the listed people), or 'off' (only people who opt in, the default). A repository exception or a person's own choice wins over it. * `everyone` - Automatic Flash for everyone * `listed` - Automatic Flash for these people * `off` - Automatic Flash opt-in only */
+  flash_for?: AutomaticFlashForEnum | (string & {});
+  /** Pull requests from bots, and from authors who are not project members, in every repository this project reviews: 'skip' (not reviewed, the default) or 'run' (an automatic Standard review that runs as the person who connected GitHub, with default settings and no changes to the pull request). * `skip` - Not reviewed * `run` - Automatic Flash */
+  bot_prs?: ReviewProjectSettingsBotPullRequestsEnum | (string & {});
+  /** Project default for the minimum priority a Deep review publishes: 'consider' (all, the built-in default), 'should_fix', or 'must_fix'. A person's own value wins. * `consider` - Consider (all) * `should_fix` - Should fix * `must_fix` - Must fix */
+  urgency_threshold?: UrgencyThresholdEnum | (string & {});
+  /** Project default for the image in a Deep review that finds nothing to raise. On by default. A person's own value wins. */
+  celebrate_clean_reviews?: boolean;
 }
 export interface UpdateReviewHogResolutionPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -444,16 +1067,135 @@ export interface UpdateReviewHogValidatorsPartialRequest {
   /** Set true to make this the single validator that runs on the user's PR reviews. Only true is accepted -- validators are single-active, so you switch by selecting a different one, not by deactivating the current one. */
   active?: boolean;
 }
+export type CreateReviewHogInstallationClaimError = BadRequest | Conflict | PosthogOpError;
+/** Claim a GitHub installation Choose which repositories of a connected GitHub installation this project reviews. */
+export const createReviewHogInstallationClaim: API.OperationMethod<
+  CreateReviewHogInstallationClaimRequest,
+  ReviewInstallationClaim,
+  CreateReviewHogInstallationClaimError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(528, __c33, 0) as any as S.Schema<CreateReviewHogInstallationClaimRequest>,
+  output: __S(544, __c34, 0) as any as S.Schema<ReviewInstallationClaim>,
+  errors: [BadRequest, Conflict],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReviewHogInstallationClaim",
+}));
+
+export type CreateReviewHogProjectSettingsPersonError = BadRequest | PosthogOpError;
+/** Add a person to a project rule list Add a project member to the project rule's 'listed' or 'excepted' list. Project admins only. */
+export const createReviewHogProjectSettingsPerson: API.OperationMethod<
+  CreateReviewHogProjectSettingsPersonRequest,
+  ReviewProjectSettings,
+  CreateReviewHogProjectSettingsPersonError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(576, __c36, 0) as any as S.Schema<CreateReviewHogProjectSettingsPersonRequest>,
+  output: __S(626, __c39, 2) as any as S.Schema<ReviewProjectSettings>,
+  errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReviewHogProjectSettingsPerson",
+}));
+
+export type CreateReviewHogRepositoriesPersonError = BadRequest | Forbidden | PosthogOpError;
+/** Add a person to a repository exception list Add a project member to the 'listed' or 'excepted' list of the repository exception. A project member who is not an admin can only add themselves to the 'listed' list. */
+export const createReviewHogRepositoriesPerson: API.OperationMethod<
+  CreateReviewHogRepositoriesPersonRequest,
+  ReviewRepository,
+  CreateReviewHogRepositoriesPersonError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(640, __c40, 0) as any as S.Schema<CreateReviewHogRepositoriesPersonRequest>,
+  output: __S(656, __c41, 0) as any as S.Schema<ReviewRepository>,
+  errors: [BadRequest, Forbidden],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReviewHogRepositoriesPerson",
+}));
+
+export type CreateReviewHogRepositoryError = BadRequest | Forbidden | Conflict | PosthogOpError;
+/** Save a repository's settings Include a repository into this project, remove it, set or clear its exception, or turn its draft reviews on or off. Only the provided fields change. Including a repository that another project's 'all repositories' claim covers takes it from that project; the response names it. Project members can only turn reviews up: include a repository, raise its exception, or turn draft reviews on. Everything else needs a project admin. */
+export const createReviewHogRepository: API.OperationMethod<
+  CreateReviewHogRepositoryRequest,
+  ReviewRepositoryWriteResponse,
+  CreateReviewHogRepositoryError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(672, __c42, 0) as any as S.Schema<CreateReviewHogRepositoryRequest>,
+  output: __S(673, __c42, 1) as any as S.Schema<ReviewRepositoryWriteResponse>,
+  errors: [BadRequest, Forbidden, Conflict],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReviewHogRepository",
+}));
+
+export type CreateReviewHogRepositoryChoiceError = BadRequest | PosthogOpError;
+/** Set my choice for a repository Set the requesting user's own automatic review for their pull requests in one repository. It wins over their default and over the repository and project rules. */
+export const createReviewHogRepositoryChoice: API.OperationMethod<
+  CreateReviewHogRepositoryChoiceRequest,
+  ReviewRepositoryChoiceWriteResponse,
+  CreateReviewHogRepositoryChoiceError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(688, __c43, 0) as any as S.Schema<CreateReviewHogRepositoryChoiceRequest>,
+  output: __S(689, __c43, 1) as any as S.Schema<ReviewRepositoryChoiceWriteResponse>,
+  errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReviewHogRepositoryChoice",
+}));
+
+export type GetReviewHogProjectSettingsError = PosthogOpError;
+/** Get the project's code review rule The project rule for automatic Standard reviews, bot pull requests, the Deep review defaults, and the connected GitHub installations. */
+export const getReviewHogProjectSettings: API.OperationMethod<
+  GetReviewHogProjectSettingsRequest,
+  ReviewProjectSettings,
+  GetReviewHogProjectSettingsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(736, __c46, 0) as any as S.Schema<GetReviewHogProjectSettingsRequest>,
+  output: __S(626, __c39, 2) as any as S.Schema<ReviewProjectSettings>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReviewHogProjectSettings",
+}));
+
+export type GetReviewHogRepositoryOverviewError = BadRequest | PosthogOpError;
+/** List the repositories of a GitHub installation with their review settings Every repository the GitHub installation can see, with the project that reviews it, this project's settings, the requesting user's choice, and the automatic review the requesting user gets. */
+export const getReviewHogRepositoryOverview: API.OperationMethod<
+  GetReviewHogRepositoryOverviewRequest,
+  ReviewRepositoryOverview,
+  GetReviewHogRepositoryOverviewError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<GetReviewHogRepositoryOverviewRequest>,
+  output: __S(4, __c0, 4) as any as S.Schema<ReviewRepositoryOverview>,
+  errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReviewHogRepositoryOverview",
+}));
+
 export type GetReviewHogReviewError = NotFound | PosthogOpError;
-/** Retrieve one review's detail One completed ReviewHog review on this project, with the latest turn's validated findings, the findings the validator dismissed (and why), and the review body published to GitHub. Project-wide, so reviews listed under `scope=everyone` can be opened too. */
+/** Retrieve one review's detail One completed code review on this project, with one turn's validated findings, the findings the validator dismissed (and why), and the review body published to GitHub. The latest completed turn by default; `run_index` reads an older one. `in_progress`, `progress`, and the resolution fields describe the report now, whatever the turn. Project-wide, so reviews listed under `scope=everyone` can be opened too. */
 export const getReviewHogReview: API.OperationMethod<
   GetReviewHogReviewRequest,
   ReviewDetail,
   GetReviewHogReviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetReviewHogReviewRequest>,
-  output: __S(105, __c6, 9) as any as S.Schema<ReviewDetail>,
+  input: __S(32, __c2, 0) as any as S.Schema<GetReviewHogReviewRequest>,
+  output: __S(42, __c2, 10) as any as S.Schema<ReviewDetail>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -462,20 +1204,54 @@ export const getReviewHogReview: API.OperationMethod<
 }));
 
 export type GetReviewHogReviewsPerspectiveStatError = PosthogOpError;
-/** Perspective effectiveness stats How many findings each review skill (perspective or blind-spot sweep) raised across the recent completed reviews in scope -- the requesting user's by default, every review on this project with `scope=everyone` -- and how many of those the validator kept vs dismissed. */
+/** Perspective effectiveness stats How many findings each review skill (perspective or blind-spot sweep) raised across the recent completed reviews in scope -- the requesting user's by default, every review on this project with `scope=everyone`, the user's own last Deep reviews with `scope=own_deep` -- and how many of those the validator kept vs dismissed. */
 export const getReviewHogReviewsPerspectiveStat: API.OperationMethod<
   GetReviewHogReviewsPerspectiveStatRequest,
   ReviewPerspectiveStats,
   GetReviewHogReviewsPerspectiveStatError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetReviewHogReviewsPerspectiveStatRequest>,
-  output: __S(131, __c8, 3) as any as S.Schema<ReviewPerspectiveStats>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetReviewHogReviewsPerspectiveStatRequest>,
+  output: __S(83, __c5, 3) as any as S.Schema<ReviewPerspectiveStats>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetReviewHogReviewsPerspectiveStat",
+}));
+
+export type GetReviewHogReviewsPrStatusError = BadRequest | PosthogOpError;
+/** Look up a pull request's review status Where a pull request's review runs stand: `state`, the latest completed review turn, and the latest Resolve run. Works for any pull request on the project, also ones the caller did not trigger. Pass the `requested_at` and `head_sha` the trigger returned, and the `run_mode` it was called with, to get `request_outcome`, which says when that request is done. */
+export const getReviewHogReviewsPrStatus: API.OperationMethod<
+  GetReviewHogReviewsPrStatusRequest,
+  ReviewPRStatus,
+  GetReviewHogReviewsPrStatusError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c6, 0) as any as S.Schema<GetReviewHogReviewsPrStatusRequest>,
+  output: __S(99, __c6, 3) as any as S.Schema<ReviewPRStatus>,
+  errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReviewHogReviewsPrStatus",
+}));
+
+export type GetReviewHogReviewsTableError = PosthogOpError;
+/** List reviews as a paginated table Code reviews on this project as a paginated table: reviews with a completed turn plus reviews with a run in flight, ordered by last activity, so a review that starts or finishes moves to the top. Pages with `limit` and `offset`; `count` is the total across pages. Filters by `repository`, `review_mode`, `status`, and `published`. `running_count` counts the running reviews under every filter except `status`. By default only the requesting user's reviews; `scope=everyone` lists every review on the project. */
+export const getReviewHogReviewsTable: API.OperationMethod<
+  GetReviewHogReviewsTableRequest,
+  ReviewReviewsTablePage,
+  GetReviewHogReviewsTableError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(112, __c7, 0) as any as S.Schema<GetReviewHogReviewsTableRequest>,
+  output: __S(113, __c7, 1) as any as S.Schema<ReviewReviewsTablePage>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReviewHogReviewsTable",
 }));
 
 export type ListReviewHogBlindSpotsError = PosthogOpError;
@@ -495,6 +1271,23 @@ export const listReviewHogBlindSpots: API.OperationMethod<
   span: "ListReviewHogBlindSpots",
 }));
 
+export type ListReviewHogInstallationClaimsError = PosthogOpError;
+/** Which repositories of each connected GitHub installation this project reviews. Project members can read the claims. Only project admins can change them, and every change goes to the activity log. The project settings response lists every connected installation, also the ones without a claim. */
+export const listReviewHogInstallationClaims: API.OperationMethod<
+  ListReviewHogInstallationClaimsRequest,
+  ListReviewHogInstallationClaimsResponse,
+  ListReviewHogInstallationClaimsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(192, __c12, 0) as any as S.Schema<ListReviewHogInstallationClaimsRequest>,
+  output: __S(194, __c12, 2) as any as S.Schema<ListReviewHogInstallationClaimsResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReviewHogInstallationClaims",
+}));
+
 export type ListReviewHogPerspectivesError = PosthogOpError;
 /** List review perspectives and their enablement List the `review-hog-perspective-*` skills visible to the requesting user -- the canonical perspectives plus the customs they authored -- joined with their enable state. The 3 canonical perspectives are auto-seeded enabled on the first read; a custom perspective the user has not switched on shows as disabled. */
 export const listReviewHogPerspectives: API.OperationMethod<
@@ -503,13 +1296,47 @@ export const listReviewHogPerspectives: API.OperationMethod<
   ListReviewHogPerspectivesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<ListReviewHogPerspectivesRequest>,
-  output: __S(194, __c12, 2) as any as S.Schema<ListReviewHogPerspectivesResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<ListReviewHogPerspectivesRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<ListReviewHogPerspectivesResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReviewHogPerspectives",
+}));
+
+export type ListReviewHogRepositoriesError = PosthogOpError;
+/** The repositories this project has settings for: selected repositories and repository exceptions. Project members can read them and turn a repository's reviews up. Only project admins can turn them down or remove them. Every change goes to the activity log. A repository has settings in one project at most. */
+export const listReviewHogRepositories: API.OperationMethod<
+  ListReviewHogRepositoriesRequest,
+  ListReviewHogRepositoriesResponse,
+  ListReviewHogRepositoriesError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(240, __c15, 0) as any as S.Schema<ListReviewHogRepositoriesRequest>,
+  output: __S(242, __c15, 2) as any as S.Schema<ListReviewHogRepositoriesResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReviewHogRepositories",
+}));
+
+export type ListReviewHogRepositoryChoicesError = PosthogOpError;
+/** The requesting user's own automatic review choices for repositories of this project. Any project member can manage their own choices. A choice stores only what differs from what the user inherits, so picking the inherited value clears it. */
+export const listReviewHogRepositoryChoices: API.OperationMethod<
+  ListReviewHogRepositoryChoicesRequest,
+  ListReviewHogRepositoryChoicesResponse,
+  ListReviewHogRepositoryChoicesError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(256, __c16, 0) as any as S.Schema<ListReviewHogRepositoryChoicesRequest>,
+  output: __S(258, __c16, 2) as any as S.Schema<ListReviewHogRepositoryChoicesResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReviewHogRepositoryChoices",
 }));
 
 export type ListReviewHogResolutionError = PosthogOpError;
@@ -520,7 +1347,7 @@ export const listReviewHogResolution: API.OperationMethod<
   ListReviewHogResolutionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ListReviewHogResolutionRequest>,
+  input: __S(272, __c17, 0) as any as S.Schema<ListReviewHogResolutionRequest>,
   output: __S(161, __c10, 1) as any as S.Schema<ListReviewHogResolutionResponse>,
   errors: [],
   protocol: PosthogProtocol,
@@ -530,15 +1357,15 @@ export const listReviewHogResolution: API.OperationMethod<
 }));
 
 export type ListReviewHogReviewsError = PosthogOpError;
-/** List recent reviews Recent ReviewHog reviews on this project: actively running reviews first (with the in-flight turn's stage), then the most recent completed ones -- at most `limit` rows (default 5), plus `has_more` for whether a larger `limit` would reveal more. By default only the requesting user's reviews; `scope=everyone` lists every review on the project. */
+/** List recent reviews Recent code reviews on this project: actively running reviews first (with the in-flight turn's stage), then the most recent completed ones -- at most `limit` rows (default 5), plus `has_more` for whether a larger `limit` would reveal more. By default only the requesting user's reviews; `scope=everyone` lists every review on the project. */
 export const listReviewHogReviews: API.OperationMethod<
   ListReviewHogReviewsRequest,
   ReviewRecentReviewsPage,
   ListReviewHogReviewsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ListReviewHogReviewsRequest>,
-  output: __S(243, __c15, 3) as any as S.Schema<ReviewRecentReviewsPage>,
+  input: __S(288, __c18, 0) as any as S.Schema<ListReviewHogReviewsRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<ReviewRecentReviewsPage>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -554,7 +1381,7 @@ export const listReviewHogValidators: API.OperationMethod<
   ListReviewHogValidatorsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListReviewHogValidatorsRequest>,
+  input: __S(304, __c19, 0) as any as S.Schema<ListReviewHogValidatorsRequest>,
   output: __S(161, __c10, 1) as any as S.Schema<ListReviewHogValidatorsResponse>,
   errors: [],
   protocol: PosthogProtocol,
@@ -563,16 +1390,101 @@ export const listReviewHogValidators: API.OperationMethod<
   span: "ListReviewHogValidators",
 }));
 
+export type ReviewHogInstallationClaimsDestroyError = PosthogOpError;
+/** Stop reviewing a GitHub installation Remove the claim, so this project reviews no repository of the installation. Its selected repositories and exceptions there are removed too. Personal choices stay. */
+export const reviewHogInstallationClaimsDestroy: API.OperationMethod<
+  ReviewHogInstallationClaimsDestroyRequest,
+  ReviewHogInstallationClaimsDestroyResponse,
+  ReviewHogInstallationClaimsDestroyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(320, __c20, 0) as any as S.Schema<ReviewHogInstallationClaimsDestroyRequest>,
+  output: __S(336, __c21, 0) as any as S.Schema<ReviewHogInstallationClaimsDestroyResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReviewHogInstallationClaimsDestroy",
+}));
+
+export type ReviewHogProjectSettingsPeopleDestroyError = NotFound | PosthogOpError;
+/** Remove a person from a project rule list Remove one entry from the project rule's 'listed' or 'excepted' list. Project admins only. */
+export const reviewHogProjectSettingsPeopleDestroy: API.OperationMethod<
+  ReviewHogProjectSettingsPeopleDestroyRequest,
+  ReviewProjectSettings,
+  ReviewHogProjectSettingsPeopleDestroyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(352, __c22, 0) as any as S.Schema<ReviewHogProjectSettingsPeopleDestroyRequest>,
+  output: __S(626, __c39, 2) as any as S.Schema<ReviewProjectSettings>,
+  errors: [NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReviewHogProjectSettingsPeopleDestroy",
+}));
+
+export type ReviewHogRepositoriesDestroyError = PosthogOpError;
+/** Remove a repository's settings Remove the repository from this project and clear its exception and lists. With an 'all repositories' claim the repository stays in the project and follows the project rule. */
+export const reviewHogRepositoriesDestroy: API.OperationMethod<
+  ReviewHogRepositoriesDestroyRequest,
+  ReviewHogRepositoriesDestroyResponse,
+  ReviewHogRepositoriesDestroyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(368, __c23, 0) as any as S.Schema<ReviewHogRepositoriesDestroyRequest>,
+  output: __S(336, __c21, 0) as any as S.Schema<ReviewHogRepositoriesDestroyResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReviewHogRepositoriesDestroy",
+}));
+
+export type ReviewHogRepositoriesPeopleDestroyError = NotFound | PosthogOpError;
+/** Remove a person from a repository exception list Remove one entry from the 'listed' or 'excepted' list of the repository exception. */
+export const reviewHogRepositoriesPeopleDestroy: API.OperationMethod<
+  ReviewHogRepositoriesPeopleDestroyRequest,
+  ReviewRepository,
+  ReviewHogRepositoriesPeopleDestroyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(384, __c24, 0) as any as S.Schema<ReviewHogRepositoriesPeopleDestroyRequest>,
+  output: __S(656, __c41, 0) as any as S.Schema<ReviewRepository>,
+  errors: [NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReviewHogRepositoriesPeopleDestroy",
+}));
+
+export type ReviewHogRepositoryChoicesDestroyError = PosthogOpError;
+/** Clear my choice for a repository Clear the requesting user's own choice for one repository, so their default applies again. */
+export const reviewHogRepositoryChoicesDestroy: API.OperationMethod<
+  ReviewHogRepositoryChoicesDestroyRequest,
+  ReviewHogRepositoryChoicesDestroyResponse,
+  ReviewHogRepositoryChoicesDestroyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(400, __c25, 0) as any as S.Schema<ReviewHogRepositoryChoicesDestroyRequest>,
+  output: __S(336, __c21, 0) as any as S.Schema<ReviewHogRepositoryChoicesDestroyResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReviewHogRepositoryChoicesDestroy",
+}));
+
 export type ReviewHogReviewsTriggerCreateError = BadRequest | Forbidden | Conflict | PosthogOpError;
-/** Start a review of a pull request Start a ReviewHog review of any pull request the project's GitHub App installation can access, and publish it back to the PR. The requesting user is the review's acting user: their enabled perspectives, blind-spot check, validator, urgency threshold, and resolution criteria drive the run, and it appears under their recent reviews. `run_mode` picks the variant: a review (which chains the resolution stage per the user's resolve_comments setting), a review without resolving, resolution only, or a lower-cost Flash review that never resolves comments. Nonexistent, closed, and fork PRs are rejected synchronously; a PR whose current commit already has a published review returns 'already_reviewed' without starting a run (resolve_only skips that check -- settling threads on a reviewed head is its whole point), and triggering a PR whose run is currently in flight joins that run. Otherwise non-blocking: returns the Temporal workflow id immediately while the run executes in the worker. */
+/** Start a review of a pull request Start a PostHog Review run on any pull request the project's GitHub App installation can access, and publish it back to the PR. The run appears under the requesting user's recent reviews. A Deep review uses the requester's enabled perspectives, blind-spot check, validator, and urgency threshold; a Standard review uses none of them. Resolution writes to the branch only when the pull request owner opted in, whoever asks. `run_mode` picks the variant: 'review' is a Deep review that chains the resolution stage per the owner's resolve_comments setting, 'review_only' is a Deep review without resolving, 'resolve_only' runs resolution only, and 'flash' is a lower-cost Standard review that never resolves comments and is refused after a published Deep review. Nonexistent, closed, and fork PRs are rejected synchronously. A PR whose current commit already has a published review in the requested mode returns 'already_reviewed' without starting a run (resolve_only skips that check, because settling threads on a reviewed head is its whole point). A request while a review runs is queued on that PR's run. Otherwise non-blocking: returns immediately with the PR's head, the review's id when one exists, and whether resolution will run, while the run executes in the worker. */
 export const reviewHogReviewsTriggerCreate: API.OperationMethod<
   ReviewHogReviewsTriggerCreateRequest,
   ReviewTriggerResponse,
   ReviewHogReviewsTriggerCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<ReviewHogReviewsTriggerCreateRequest>,
-  output: __S(17, __c1, 1) as any as S.Schema<ReviewTriggerResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<ReviewHogReviewsTriggerCreateRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<ReviewTriggerResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -588,13 +1500,30 @@ export const updateReviewHogBlindSpotsPartial: API.OperationMethod<
   UpdateReviewHogBlindSpotsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<UpdateReviewHogBlindSpotsPartialRequest>,
+  input: __S(432, __c27, 0) as any as S.Schema<UpdateReviewHogBlindSpotsPartialRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<ReviewBlindSpotsConfig>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateReviewHogBlindSpotsPartial",
+}));
+
+export type UpdateReviewHogInstallationClaimsPartialError = Conflict | PosthogOpError;
+/** Change a GitHub installation claim Switch between all repositories and only selected repositories. Switching to selected removes the exceptions of the repositories that leave this project. Personal choices stay. */
+export const updateReviewHogInstallationClaimsPartial: API.OperationMethod<
+  UpdateReviewHogInstallationClaimsPartialRequest,
+  ReviewInstallationClaim,
+  UpdateReviewHogInstallationClaimsPartialError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(448, __c28, 0) as any as S.Schema<UpdateReviewHogInstallationClaimsPartialRequest>,
+  output: __S(544, __c34, 0) as any as S.Schema<ReviewInstallationClaim>,
+  errors: [Conflict],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReviewHogInstallationClaimsPartial",
 }));
 
 export type UpdateReviewHogPerspectivesPartialError = BadRequest | NotFound | PosthogOpError;
@@ -605,13 +1534,30 @@ export const updateReviewHogPerspectivesPartial: API.OperationMethod<
   UpdateReviewHogPerspectivesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<UpdateReviewHogPerspectivesPartialRequest>,
-  output: __S(208, __c13, 0) as any as S.Schema<ReviewPerspectiveConfig>,
+  input: __S(464, __c29, 0) as any as S.Schema<UpdateReviewHogPerspectivesPartialRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<ReviewPerspectiveConfig>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateReviewHogPerspectivesPartial",
+}));
+
+export type UpdateReviewHogProjectSettingsPartialError = BadRequest | Forbidden | PosthogOpError;
+/** Update the project's code review rule Partially update the project rule. Only the provided fields change. Project admins only. */
+export const updateReviewHogProjectSettingsPartial: API.OperationMethod<
+  UpdateReviewHogProjectSettingsPartialRequest,
+  ReviewProjectSettings,
+  UpdateReviewHogProjectSettingsPartialError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(480, __c30, 0) as any as S.Schema<UpdateReviewHogProjectSettingsPartialRequest>,
+  output: __S(626, __c39, 2) as any as S.Schema<ReviewProjectSettings>,
+  errors: [BadRequest, Forbidden],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReviewHogProjectSettingsPartial",
 }));
 
 export type UpdateReviewHogResolutionPartialError = BadRequest | NotFound | PosthogOpError;
@@ -622,7 +1568,7 @@ export const updateReviewHogResolutionPartial: API.OperationMethod<
   UpdateReviewHogResolutionPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<UpdateReviewHogResolutionPartialRequest>,
+  input: __S(496, __c31, 0) as any as S.Schema<UpdateReviewHogResolutionPartialRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<ReviewResolutionConfig>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
@@ -639,7 +1585,7 @@ export const updateReviewHogValidatorsPartial: API.OperationMethod<
   UpdateReviewHogValidatorsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<UpdateReviewHogValidatorsPartialRequest>,
+  input: __S(512, __c32, 0) as any as S.Schema<UpdateReviewHogValidatorsPartialRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<ReviewValidatorConfig>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
@@ -655,39 +1601,68 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          installation_id: S.String.pipe(T.Query()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/projects/{project_id}/review_hog/validators/",
+            uri: "/api/projects/{project_id}/review_hog/repository_overview/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "ListReviewHogValidatorsRequest" });
+      ).annotate({ identifier: "GetReviewHogRepositoryOverviewRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          flash_for: S.String,
+          people: __S(593, __c37, 1),
+        }),
+      ).annotate({ identifier: "ReviewRepositoryException" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          full_name: S.String,
+          github_repo_id: S.NullOr(S.Number),
+          owner: S.String,
+          owner_project: S.NullOr(__S(608, __c38, 0)),
+          in_project: S.Boolean,
+          selected: S.Boolean,
+          repository_id: S.NullOr(S.String),
+          exception: S.NullOr(__S(1, __c0, 1)),
+          review_drafts: S.Boolean,
+          my_choice: S.NullOr(S.String),
+          my_choice_id: S.NullOr(S.String),
+          my_result: __S(704, __c44, 0),
+          inherited_result: __S(704, __c44, 0),
+          repository_result: __S(704, __c44, 0),
+        }),
+      ).annotate({ identifier: "ReviewRepositoryOverviewEntry" });
+    case 3:
+      return S.Array(__S(2, __c0, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          installation_id: S.String,
+          claim_scope: S.NullOr(S.String),
+          results: __S(3, __c0, 3),
+          total: S.Number,
+          has_more: S.Boolean,
+          next_offset: S.NullOr(S.Number),
+          folded: S.Number,
+          folded_preview: __S(16, __c1, 0),
+          folded_result: S.NullOr(__S(704, __c44, 0)),
+          my_choices_unlike_default: S.Number,
+        }),
+      ).annotate({ identifier: "ReviewRepositoryOverview" });
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          pr_url: S.String,
-          run_mode: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/review_hog/reviews/trigger/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReviewHogReviewsTriggerCreateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          workflow_id: S.String,
-          status: S.String,
-        }),
-      ).annotate({ identifier: "ReviewTriggerResponse" });
+      return S.Array(S.String);
   }
 }
 function __c2(j: number): any {
@@ -696,79 +1671,8 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          skill_name: S.String.pipe(T.Label()),
-          active: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/projects/{project_id}/review_hog/blind_spots/{skill_name}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateReviewHogBlindSpotsPartialRequest" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          skill_name: S.String.pipe(T.Label()),
-          enabled: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/projects/{project_id}/review_hog/perspectives/{skill_name}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateReviewHogPerspectivesPartialRequest" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          skill_name: S.String.pipe(T.Label()),
-          active: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/projects/{project_id}/review_hog/resolution/{skill_name}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateReviewHogResolutionPartialRequest" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          skill_name: S.String.pipe(T.Label()),
-          active: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/projects/{project_id}/review_hog/validators/{skill_name}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateReviewHogValidatorsPartialRequest" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          run_index: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -778,42 +1682,40 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "GetReviewHogReviewRequest" });
     case 1:
-      return S.Array(S.String);
-    case 2:
       return S.suspend(() =>
         S.Struct({
           chunk_id: S.Number,
           chunk_type: S.NullOr(S.String),
-          files: __S(97, __c6, 1),
-          perspectives: __S(97, __c6, 1),
-          skipped: __S(97, __c6, 1),
+          files: __S(16, __c1, 0),
+          perspectives: __S(16, __c1, 0),
+          skipped: __S(16, __c1, 0),
           reason: S.String,
         }),
       ).annotate({ identifier: "ReviewSelectionChunk" });
+    case 2:
+      return S.Array(__S(33, __c2, 1));
     case 3:
-      return S.Array(__S(98, __c6, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
-          roster: __S(97, __c6, 1),
-          chunks: __S(99, __c6, 3),
+          roster: __S(16, __c1, 0),
+          chunks: __S(34, __c2, 2),
         }),
       ).annotate({ identifier: "ReviewPerspectiveSelection" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           start: S.Number,
           end: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "ReviewFindingLineRange" });
+    case 5:
+      return S.Array(__S(36, __c2, 4));
     case 6:
-      return S.Array(__S(101, __c6, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
           title: S.String,
           file: S.String,
-          lines: __S(102, __c6, 6),
+          lines: __S(37, __c2, 5),
           body: S.String,
           suggestion: S.String,
           effective_priority: S.String,
@@ -823,9 +1725,27 @@ function __c6(j: number): any {
           validator_note: S.String,
         }),
       ).annotate({ identifier: "ReviewFinding" });
+    case 7:
+      return S.Array(__S(38, __c2, 6));
     case 8:
-      return S.Array(__S(103, __c6, 7));
+      return S.suspend(() =>
+        S.Struct({
+          title: S.String,
+          file: S.String,
+          lines: __S(37, __c2, 5),
+          body: S.String,
+          suggestion: S.String,
+          priority: S.String,
+          source_perspective: S.NullOr(S.String),
+          disposition: S.String,
+          duplicate_of: S.NullOr(S.String),
+          comment_url: S.NullOr(S.String),
+          rank: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "ReviewDroppedFinding" });
     case 9:
+      return S.Array(__S(40, __c2, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -841,9 +1761,15 @@ function __c6(j: number): any {
           run_count: S.Number,
           last_run_at: S.NullOr(S.String),
           published: S.Boolean,
+          turn_published: S.Boolean,
+          review_mode: S.NullOr(S.String),
+          review_design: S.NullOr(S.String),
+          status_comment_url: S.NullOr(S.String),
+          full_review_published: S.Boolean,
           in_progress: S.Boolean,
-          progress: S.NullOr(__S(112, __c7, 0)),
-          resolution: S.NullOr(__S(113, __c7, 1)),
+          progress: S.NullOr(__S(64, __c4, 0)),
+          resolution: S.NullOr(__S(65, __c4, 1)),
+          latest_resolution: S.NullOr(__S(48, __c3, 0)),
           must_fix_count: S.Number,
           should_fix_count: S.Number,
           consider_count: S.Number,
@@ -854,17 +1780,35 @@ function __c6(j: number): any {
           perspective_count: S.NullOr(S.Number),
           perspective_issue_count: S.NullOr(S.Number),
           blind_spot_issue_count: S.NullOr(S.Number),
+          run_index: S.Number,
           head_sha: S.NullOr(S.String),
-          perspective_selection: S.NullOr(__S(100, __c6, 4)),
-          report_markdown: S.String,
+          perspective_selection: S.NullOr(__S(35, __c2, 3)),
+          report_markdown: S.NullOr(S.String),
           run_urgency_threshold: S.NullOr(S.String),
-          findings: __S(104, __c6, 8),
-          dismissed_findings: __S(104, __c6, 8),
+          findings: __S(39, __c2, 7),
+          dismissed_findings: __S(39, __c2, 7),
+          dropped_findings: __S(41, __c2, 9),
         }),
       ).annotate({ identifier: "ReviewDetail" });
   }
 }
-function __c7(j: number): any {
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          started_at: S.String,
+          completed_at: S.NullOr(S.String),
+          total: S.Number,
+          fixed: S.Number,
+          needs_attention: S.Number,
+          commits: __S(16, __c1, 0),
+        }),
+      ).annotate({ identifier: "ReviewLatestResolution" });
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -872,6 +1816,7 @@ function __c7(j: number): any {
           review_stage: S.String,
           done: S.NullOr(S.Number),
           total: S.NullOr(S.Number),
+          review_mode: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ReviewProgress" });
     case 1:
@@ -886,7 +1831,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ReviewResolutionStatus" });
   }
 }
-function __c8(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -911,14 +1856,146 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "ReviewPerspectiveStatItem" });
     case 2:
-      return S.Array(__S(129, __c8, 1));
+      return S.Array(__S(81, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           report_count: S.Number,
-          perspectives: __S(130, __c8, 2),
+          perspectives: __S(82, __c5, 2),
         }),
       ).annotate({ identifier: "ReviewPerspectiveStats" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          head_sha: S.optional(S.String.pipe(T.Query())),
+          pr_url: S.String.pipe(T.Query()),
+          requested_at: S.optional(S.String.pipe(T.Query())),
+          run_mode: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/review_hog/reviews/pr_status/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetReviewHogReviewsPrStatusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          review_mode: S.NullOr(S.String),
+          head_sha: S.NullOr(S.String),
+          run_index: S.Number,
+          completed_at: S.NullOr(S.String),
+          must_fix_count: S.Number,
+          should_fix_count: S.Number,
+          consider_count: S.Number,
+          turn_published: S.Boolean,
+          status_comment_url: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ReviewPRStatusLatestReview" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          reason: S.NullOr(S.String),
+          review_id: S.NullOr(S.String),
+          run_index: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "ReviewPRStatusRequestOutcome" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          repository: S.String,
+          pr_number: S.Number,
+          report_id: S.NullOr(S.String),
+          state: S.String,
+          latest_review: S.NullOr(__S(97, __c6, 1)),
+          latest_resolution: S.NullOr(__S(48, __c3, 0)),
+          request_outcome: S.NullOr(__S(98, __c6, 2)),
+        }),
+      ).annotate({ identifier: "ReviewPRStatus" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          published: S.optional(S.Boolean.pipe(T.Query())),
+          repository: S.optional(S.String.pipe(T.Query())),
+          review_mode: S.optional(S.String.pipe(T.Query())),
+          scope: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/review_hog/reviews/table/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetReviewHogReviewsTableRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
+          count: S.Number,
+          running_count: S.Number,
+          results: __S(129, __c8, 1),
+        }),
+      ).annotate({ identifier: "ReviewReviewsTablePage" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          repository: S.String,
+          pr_number: S.NullOr(S.Number),
+          pr_title: S.NullOr(S.String),
+          pr_author: S.NullOr(S.String),
+          additions: S.NullOr(S.Number),
+          deletions: S.NullOr(S.Number),
+          changed_files: S.NullOr(S.Number),
+          head_branch: S.String,
+          github_url: S.String,
+          run_count: S.Number,
+          last_run_at: S.NullOr(S.String),
+          published: S.Boolean,
+          turn_published: S.Boolean,
+          review_mode: S.NullOr(S.String),
+          review_design: S.NullOr(S.String),
+          status_comment_url: S.NullOr(S.String),
+          full_review_published: S.Boolean,
+          in_progress: S.Boolean,
+          progress: S.NullOr(__S(64, __c4, 0)),
+          resolution: S.NullOr(__S(65, __c4, 1)),
+          latest_resolution: S.NullOr(__S(48, __c3, 0)),
+          must_fix_count: S.Number,
+          should_fix_count: S.Number,
+          consider_count: S.Number,
+          candidate_count: S.Number,
+          dismissed_count: S.Number,
+          files_reviewed: S.NullOr(S.Number),
+          chunk_count: S.NullOr(S.Number),
+          perspective_count: S.NullOr(S.Number),
+          perspective_issue_count: S.NullOr(S.Number),
+          blind_spot_issue_count: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "ReviewRecentReview" });
+    case 1:
+      return S.Array(__S(128, __c8, 0));
   }
 }
 function __c9(j: number): any {
@@ -969,20 +2046,42 @@ function __c12(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
+            uri: "/api/projects/{project_id}/review_hog/installation_claims/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListReviewHogInstallationClaimsRequest" });
+    case 1:
+      return S.Array(__S(544, __c34, 0));
+    case 2:
+      return S.suspend(() => __S(193, __c12, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListReviewHogInstallationClaimsResponse",
+      });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
             uri: "/api/projects/{project_id}/review_hog/perspectives/",
             code: 200,
           }),
         ),
       ).annotate({ identifier: "ListReviewHogPerspectivesRequest" });
     case 1:
-      return S.Array(__S(208, __c13, 0));
+      return S.Array(__S(224, __c14, 0));
     case 2:
-      return S.suspend(() => __S(193, __c12, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(209, __c13, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListReviewHogPerspectivesResponse",
       });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -995,7 +2094,51 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ReviewPerspectiveConfig" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/review_hog/repositories/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListReviewHogRepositoriesRequest" });
+    case 1:
+      return S.Array(__S(656, __c41, 0));
+    case 2:
+      return S.suspend(() => __S(241, __c15, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListReviewHogRepositoriesResponse",
+      });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/review_hog/repository_choices/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListReviewHogRepositoryChoicesRequest" });
+    case 1:
+      return S.Array(__S(720, __c45, 0));
+    case 2:
+      return S.suspend(() => __S(257, __c16, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListReviewHogRepositoryChoicesResponse",
+      });
+  }
+}
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1011,7 +2154,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ListReviewHogResolutionRequest" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1030,43 +2173,523 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          id: S.String,
-          repository: S.String,
-          pr_number: S.NullOr(S.Number),
-          pr_title: S.NullOr(S.String),
-          pr_author: S.NullOr(S.String),
-          additions: S.NullOr(S.Number),
-          deletions: S.NullOr(S.Number),
-          changed_files: S.NullOr(S.Number),
-          head_branch: S.String,
-          github_url: S.String,
-          run_count: S.Number,
-          last_run_at: S.NullOr(S.String),
-          published: S.Boolean,
-          in_progress: S.Boolean,
-          progress: S.NullOr(__S(112, __c7, 0)),
-          resolution: S.NullOr(__S(113, __c7, 1)),
-          must_fix_count: S.Number,
-          should_fix_count: S.Number,
-          consider_count: S.Number,
-          candidate_count: S.Number,
-          dismissed_count: S.Number,
-          files_reviewed: S.NullOr(S.Number),
-          chunk_count: S.NullOr(S.Number),
-          perspective_count: S.NullOr(S.Number),
-          perspective_issue_count: S.NullOr(S.Number),
-          blind_spot_issue_count: S.NullOr(S.Number),
-        }),
-      ).annotate({ identifier: "ReviewRecentReview" });
-    case 2:
-      return S.Array(__S(241, __c15, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          results: __S(242, __c15, 2),
+          results: __S(129, __c8, 1),
           has_more: S.Boolean,
         }),
       ).annotate({ identifier: "ReviewRecentReviewsPage" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/review_hog/validators/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListReviewHogValidatorsRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/review_hog/installation_claims/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReviewHogInstallationClaimsDestroyRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "ReviewHogInstallationClaimsDestroyResponse",
+      });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          person_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/review_hog/project_settings/people/{person_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReviewHogProjectSettingsPeopleDestroyRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/review_hog/repositories/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReviewHogRepositoriesDestroyRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          person_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/review_hog/repositories/{id}/people/{person_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReviewHogRepositoriesPeopleDestroyRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/review_hog/repository_choices/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReviewHogRepositoryChoicesDestroyRequest" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          pr_url: S.String,
+          run_mode: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/review_hog/reviews/trigger/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReviewHogReviewsTriggerCreateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          workflow_id: S.String,
+          status: S.String,
+          repository: S.String,
+          pr_number: S.Number,
+          head_sha: S.NullOr(S.String),
+          review_mode: S.NullOr(S.String),
+          report_id: S.NullOr(S.String),
+          requested_at: S.String,
+          resolve_will_run: S.Boolean,
+          resolve_skip_reason: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ReviewTriggerResponse" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          skill_name: S.String.pipe(T.Label()),
+          active: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/review_hog/blind_spots/{skill_name}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateReviewHogBlindSpotsPartialRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          scope: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/review_hog/installation_claims/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateReviewHogInstallationClaimsPartialRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          skill_name: S.String.pipe(T.Label()),
+          enabled: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/review_hog/perspectives/{skill_name}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateReviewHogPerspectivesPartialRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          flash_for: S.optional(S.String),
+          bot_prs: S.optional(S.String),
+          urgency_threshold: S.optional(S.String),
+          celebrate_clean_reviews: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/review_hog/project_settings/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateReviewHogProjectSettingsPartialRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          skill_name: S.String.pipe(T.Label()),
+          active: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/review_hog/resolution/{skill_name}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateReviewHogResolutionPartialRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          skill_name: S.String.pipe(T.Label()),
+          active: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/review_hog/validators/{skill_name}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateReviewHogValidatorsPartialRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          installation_id: S.String,
+          scope: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/review_hog/installation_claims/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateReviewHogInstallationClaimRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          installation_id: S.String,
+          scope: S.String,
+          account_name: S.String,
+          created_by: S.NullOr(__S(561, __c35, 1)),
+          created_at: S.String,
+        }),
+      ).annotate({ identifier: "ReviewInstallationClaim" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          uuid: S.String,
+          distinct_id: S.optional(S.NullOr(S.String)),
+          first_name: S.optional(S.String),
+          last_name: S.optional(S.String),
+          email: S.String,
+          is_email_verified: S.optional(S.NullOr(S.Boolean)),
+          hedgehog_config: S.NullOr(__S(560, __c35, 0)),
+          role_at_organization: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "UserBasic" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          user_id: S.Number,
+          kind: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/review_hog/project_settings/people/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateReviewHogProjectSettingsPersonRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          user: __S(561, __c35, 1),
+          kind: S.String,
+        }),
+      ).annotate({ identifier: "ReviewRepositoryPerson" });
+    case 1:
+      return S.Array(__S(592, __c37, 0));
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.NullOr(S.Number),
+          name: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ReviewProjectRef" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          installation_id: S.String,
+          account_name: S.String,
+          connected_by: S.NullOr(__S(561, __c35, 1)),
+          claim_id: S.NullOr(S.String),
+          scope: S.NullOr(S.String),
+          all_taken_by_project: S.NullOr(__S(608, __c38, 0)),
+        }),
+      ).annotate({ identifier: "ReviewInstallation" });
+    case 1:
+      return S.Array(__S(624, __c39, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          flash_for: S.optional(S.String),
+          bot_prs: S.optional(S.String),
+          urgency_threshold: S.optional(S.String),
+          celebrate_clean_reviews: S.optional(S.Boolean),
+          people: __S(593, __c37, 1),
+          installations: __S(625, __c39, 1),
+          can_edit: S.Boolean,
+        }),
+      ).annotate({ identifier: "ReviewProjectSettings" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          user_id: S.Number,
+          kind: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/review_hog/repositories/{id}/people/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateReviewHogRepositoriesPersonRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          installation_id: S.String,
+          github_repo_id: S.NullOr(S.Number),
+          full_name: S.String,
+          selected: S.Boolean,
+          flash_for: S.NullOr(S.String),
+          review_drafts: S.Boolean,
+          people: __S(593, __c37, 1),
+          created_by: S.NullOr(__S(561, __c35, 1)),
+          created_at: S.String,
+        }),
+      ).annotate({ identifier: "ReviewRepository" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          installation_id: S.String,
+          full_name: S.String,
+          github_repo_id: S.optional(S.Number),
+          selected: S.optional(S.Boolean),
+          flash_for: S.optional(S.NullOr(S.String)),
+          review_drafts: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/review_hog/repositories/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateReviewHogRepositoryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          repository: S.NullOr(__S(656, __c41, 0)),
+          taken_from_project: S.NullOr(__S(608, __c38, 0)),
+        }),
+      ).annotate({ identifier: "ReviewRepositoryWriteResponse" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          installation_id: S.String,
+          full_name: S.String,
+          github_repo_id: S.optional(S.Number),
+          mode: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/review_hog/repository_choices/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateReviewHogRepositoryChoiceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          choice: S.NullOr(__S(720, __c45, 0)),
+          my_result: __S(704, __c44, 0),
+        }),
+      ).annotate({ identifier: "ReviewRepositoryChoiceWriteResponse" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          flash: S.Boolean,
+          reason: S.String,
+        }),
+      ).annotate({ identifier: "AutomaticReviewDecision" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          installation_id: S.String,
+          github_repo_id: S.NullOr(S.Number),
+          full_name: S.String,
+          mode: S.String,
+        }),
+      ).annotate({ identifier: "ReviewRepositoryChoice" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/review_hog/project_settings/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetReviewHogProjectSettingsRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

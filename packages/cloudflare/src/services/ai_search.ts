@@ -1198,7 +1198,7 @@ export interface CreateInstanceRequest {
   scoreThreshold?: number;
   source?: string;
   sourceParams?: InstancesCreateRequestSourceParams;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: InstancesCreateRequestSyncInterval | (number & {});
   tokenId?: string;
   /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
@@ -1416,7 +1416,7 @@ export interface CreateInstanceResponse {
   source?: string | null;
   sourceParams?: InstancesCreateResponseSourceParams | null;
   status?: string | null;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: InstancesCreateResponseSyncInterval | null;
   tokenId?: string | null;
   /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
@@ -1721,7 +1721,7 @@ export interface CreateNamespaceInstanceRequest {
   scoreThreshold?: number;
   source?: string;
   sourceParams?: NamespacesInstancesCreateRequestSourceParams;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: NamespacesInstancesCreateRequestSyncInterval | (number & {});
   tokenId?: string;
   /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
@@ -1939,7 +1939,7 @@ export interface CreateNamespaceInstanceResponse {
   source?: string | null;
   sourceParams?: NamespacesInstancesCreateResponseSourceParams | null;
   status?: string | null;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: NamespacesInstancesCreateResponseSyncInterval | null;
   tokenId?: string | null;
   /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
@@ -2233,7 +2233,7 @@ export interface DeleteInstanceResponse {
   source?: string | null;
   sourceParams?: InstancesDeleteResponseSourceParams | null;
   status?: string | null;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: InstancesDeleteResponseSyncInterval | null;
   tokenId?: string | null;
   /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
@@ -2461,7 +2461,7 @@ export interface DeleteNamespaceInstanceResponse {
   source?: string | null;
   sourceParams?: NamespacesInstancesDeleteResponseSourceParams | null;
   status?: string | null;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: NamespacesInstancesDeleteResponseSyncInterval | null;
   tokenId?: string | null;
   /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
@@ -3495,7 +3495,7 @@ export interface ReadInstanceResponse {
   source?: string | null;
   sourceParams?: InstancesReadResponseSourceParams | null;
   status?: string | null;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: InstancesReadResponseSyncInterval | null;
   tokenId?: string | null;
   /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
@@ -3755,7 +3755,7 @@ export interface ReadNamespaceInstanceResponse {
   source?: string | null;
   sourceParams?: NamespacesInstancesReadResponseSourceParams | null;
   status?: string | null;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: NamespacesInstancesReadResponseSyncInterval | null;
   tokenId?: string | null;
   /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
@@ -4560,7 +4560,7 @@ export interface UpdateInstanceRequest {
   sourceParams?: InstancesUpdateRequestSourceParams;
   summarization?: boolean;
   summarizationModel?: string;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: InstancesUpdateRequestSyncInterval | (number & {});
   systemPromptAiSearch?: string;
   systemPromptIndexSummarization?: string;
@@ -4772,7 +4772,7 @@ export interface UpdateInstanceResponse {
   source?: string | null;
   sourceParams?: InstancesUpdateResponseSourceParams | null;
   status?: string | null;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: InstancesUpdateResponseSyncInterval | null;
   tokenId?: string | null;
   /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
@@ -5059,7 +5059,7 @@ export interface UpdateNamespaceInstanceRequest {
   sourceParams?: NamespacesInstancesUpdateRequestSourceParams;
   summarization?: boolean;
   summarizationModel?: string;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: NamespacesInstancesUpdateRequestSyncInterval | (number & {});
   systemPromptAiSearch?: string;
   systemPromptIndexSummarization?: string;
@@ -5278,7 +5278,7 @@ export interface UpdateNamespaceInstanceResponse {
   source?: string | null;
   sourceParams?: NamespacesInstancesUpdateResponseSourceParams | null;
   status?: string | null;
-  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400. */
+  /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: NamespacesInstancesUpdateResponseSyncInterval | null;
   tokenId?: string | null;
   /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */

@@ -208,21 +208,21 @@ export interface RichTextItemRequest {
   /** Notion supports inline LaTeX equations as rich text objects with a type value of `equation`. */
   equation?: RichTextItemRequestEquation;
 }
-export type CreatePageRequestPropertiesValueCase0TitleList = Array<RichTextItemRequest>;
-export interface CreatePageRequestPropertiesValueCase0 {
-  title: CreatePageRequestPropertiesValueCase0TitleList;
+export type PagePropertiesRequestValueCase0TitleList = Array<RichTextItemRequest>;
+export interface PagePropertiesRequestValueCase0 {
+  title: PagePropertiesRequestValueCase0TitleList;
   type?: string;
 }
-export type CreatePageRequestPropertiesValueCase1RichTextList = Array<RichTextItemRequest>;
-export interface CreatePageRequestPropertiesValueCase1 {
-  rich_text: CreatePageRequestPropertiesValueCase1RichTextList;
+export type PagePropertiesRequestValueCase1RichTextList = Array<RichTextItemRequest>;
+export interface PagePropertiesRequestValueCase1 {
+  rich_text: PagePropertiesRequestValueCase1RichTextList;
   type?: string;
 }
-export interface CreatePageRequestPropertiesValueCase2 {
+export interface PagePropertiesRequestValueCase2 {
   number: number | null;
   type?: string;
 }
-export interface CreatePageRequestPropertiesValueCase3 {
+export interface PagePropertiesRequestValueCase3 {
   url: string | null;
   type?: string;
 }
@@ -238,36 +238,36 @@ export type SelectColor =
   | "purple"
   | "pink"
   | "red";
-export interface CreatePageRequestPropertiesValueCase4SelectCase0 {
+export interface PagePropertiesRequestValueCase4SelectCase0 {
   id: string;
   name?: string;
   color?: SelectColor | (string & {});
   description?: string | null;
 }
-export interface CreatePageRequestPropertiesValueCase4SelectCase1 {
+export interface PagePropertiesRequestValueCase4SelectCase1 {
   name: string;
   id?: string;
   color?: SelectColor | (string & {});
   description?: string | null;
 }
-export type CreatePageRequestPropertiesValueCase4Select =
-  | CreatePageRequestPropertiesValueCase4SelectCase0
-  | CreatePageRequestPropertiesValueCase4SelectCase1;
-export interface CreatePageRequestPropertiesValueCase4 {
-  select: CreatePageRequestPropertiesValueCase4Select | null;
+export type PagePropertiesRequestValueCase4Select =
+  | PagePropertiesRequestValueCase4SelectCase0
+  | PagePropertiesRequestValueCase4SelectCase1;
+export interface PagePropertiesRequestValueCase4 {
+  select: PagePropertiesRequestValueCase4Select | null;
   type?: string;
 }
-export type CreatePageRequestPropertiesValueCase5MultiSelectItemCase0 =
-  CreatePageRequestPropertiesValueCase4SelectCase0;
-export type CreatePageRequestPropertiesValueCase5MultiSelectItemCase1 =
-  CreatePageRequestPropertiesValueCase4SelectCase1;
-export type CreatePageRequestPropertiesValueCase5MultiSelectItem =
-  | CreatePageRequestPropertiesValueCase4SelectCase0
-  | CreatePageRequestPropertiesValueCase4SelectCase1;
-export type CreatePageRequestPropertiesValueCase5MultiSelectList =
-  Array<CreatePageRequestPropertiesValueCase5MultiSelectItem>;
-export interface CreatePageRequestPropertiesValueCase5 {
-  multi_select: CreatePageRequestPropertiesValueCase5MultiSelectList;
+export type PagePropertiesRequestValueCase5MultiSelectItemCase0 =
+  PagePropertiesRequestValueCase4SelectCase0;
+export type PagePropertiesRequestValueCase5MultiSelectItemCase1 =
+  PagePropertiesRequestValueCase4SelectCase1;
+export type PagePropertiesRequestValueCase5MultiSelectItem =
+  | PagePropertiesRequestValueCase4SelectCase0
+  | PagePropertiesRequestValueCase4SelectCase1;
+export type PagePropertiesRequestValueCase5MultiSelectList =
+  Array<PagePropertiesRequestValueCase5MultiSelectItem>;
+export interface PagePropertiesRequestValueCase5 {
+  multi_select: PagePropertiesRequestValueCase5MultiSelectList;
   type?: string;
 }
 export interface GroupObjectRequest {
@@ -275,38 +275,37 @@ export interface GroupObjectRequest {
   name?: string | null;
   object?: string;
 }
-export type CreatePageRequestPropertiesValueCase6PeopleItem =
+export type PagePropertiesRequestValueCase6PeopleItem =
   | PartialUserObjectRequest
   | GroupObjectRequest;
-export type CreatePageRequestPropertiesValueCase6PeopleList =
-  Array<CreatePageRequestPropertiesValueCase6PeopleItem>;
-export interface CreatePageRequestPropertiesValueCase6 {
-  people: CreatePageRequestPropertiesValueCase6PeopleList;
+export type PagePropertiesRequestValueCase6PeopleList =
+  Array<PagePropertiesRequestValueCase6PeopleItem>;
+export interface PagePropertiesRequestValueCase6 {
+  people: PagePropertiesRequestValueCase6PeopleList;
   type?: string;
 }
-export interface CreatePageRequestPropertiesValueCase7 {
+export interface PagePropertiesRequestValueCase7 {
   email: string | null;
   type?: string;
 }
-export interface CreatePageRequestPropertiesValueCase8 {
+export interface PagePropertiesRequestValueCase8 {
   phone_number: string | null;
   type?: string;
 }
-export interface CreatePageRequestPropertiesValueCase9 {
+export interface PagePropertiesRequestValueCase9 {
   date: DateRequest | null;
   type?: string;
 }
-export interface CreatePageRequestPropertiesValueCase10 {
+export interface PagePropertiesRequestValueCase10 {
   checkbox: boolean;
   type?: string;
 }
 export interface RelationItemPropertyValueResponse {
   id: string;
 }
-export type CreatePageRequestPropertiesValueCase11RelationList =
-  Array<RelationItemPropertyValueResponse>;
-export interface CreatePageRequestPropertiesValueCase11 {
-  relation: CreatePageRequestPropertiesValueCase11RelationList;
+export type PagePropertiesRequestValueCase11RelationList = Array<RelationItemPropertyValueResponse>;
+export interface PagePropertiesRequestValueCase11 {
+  relation: PagePropertiesRequestValueCase11RelationList;
   type?: string;
 }
 export interface InternalFileRequest {
@@ -335,27 +334,27 @@ export interface FileUploadWithOptionalNameRequest {
   type?: string;
   name?: string;
 }
-export type CreatePageRequestPropertiesValueCase12FilesItem =
+export type PagePropertiesRequestValueCase12FilesItem =
   | InternalOrExternalFileWithNameRequest
   | FileUploadWithOptionalNameRequest;
-export type CreatePageRequestPropertiesValueCase12FilesList =
-  Array<CreatePageRequestPropertiesValueCase12FilesItem>;
-export interface CreatePageRequestPropertiesValueCase12 {
-  files: CreatePageRequestPropertiesValueCase12FilesList;
+export type PagePropertiesRequestValueCase12FilesList =
+  Array<PagePropertiesRequestValueCase12FilesItem>;
+export interface PagePropertiesRequestValueCase12 {
+  files: PagePropertiesRequestValueCase12FilesList;
   type?: string;
 }
-export type CreatePageRequestPropertiesValueCase13StatusCase0 =
-  CreatePageRequestPropertiesValueCase4SelectCase0;
-export type CreatePageRequestPropertiesValueCase13StatusCase1 =
-  CreatePageRequestPropertiesValueCase4SelectCase1;
-export type CreatePageRequestPropertiesValueCase13Status =
-  | CreatePageRequestPropertiesValueCase4SelectCase0
-  | CreatePageRequestPropertiesValueCase4SelectCase1;
-export interface CreatePageRequestPropertiesValueCase13 {
-  status: CreatePageRequestPropertiesValueCase13Status | null;
+export type PagePropertiesRequestValueCase13StatusCase0 =
+  PagePropertiesRequestValueCase4SelectCase0;
+export type PagePropertiesRequestValueCase13StatusCase1 =
+  PagePropertiesRequestValueCase4SelectCase1;
+export type PagePropertiesRequestValueCase13Status =
+  | PagePropertiesRequestValueCase4SelectCase0
+  | PagePropertiesRequestValueCase4SelectCase1;
+export interface PagePropertiesRequestValueCase13 {
+  status: PagePropertiesRequestValueCase13Status | null;
   type?: string;
 }
-export interface CreatePageRequestPropertiesValueCase14Place {
+export interface PagePropertiesRequestValueCase14Place {
   lat: number;
   lon: number;
   name?: string | null;
@@ -363,44 +362,42 @@ export interface CreatePageRequestPropertiesValueCase14Place {
   aws_place_id?: string | null;
   google_place_id?: string | null;
 }
-export interface CreatePageRequestPropertiesValueCase14 {
-  place: CreatePageRequestPropertiesValueCase14Place | null;
+export interface PagePropertiesRequestValueCase14 {
+  place: PagePropertiesRequestValueCase14Place | null;
   type?: string;
 }
-export interface CreatePageRequestPropertiesValueCase15VerificationCase0 {
+export interface PagePropertiesRequestValueCase15VerificationCase0 {
   state: string;
   date?: DateRequest;
 }
-export interface CreatePageRequestPropertiesValueCase15VerificationCase1 {
+export interface PagePropertiesRequestValueCase15VerificationCase1 {
   state: string;
 }
-export type CreatePageRequestPropertiesValueCase15Verification =
-  | CreatePageRequestPropertiesValueCase15VerificationCase0
-  | CreatePageRequestPropertiesValueCase15VerificationCase1;
-export interface CreatePageRequestPropertiesValueCase15 {
-  verification: CreatePageRequestPropertiesValueCase15Verification;
+export type PagePropertiesRequestValueCase15Verification =
+  | PagePropertiesRequestValueCase15VerificationCase0
+  | PagePropertiesRequestValueCase15VerificationCase1;
+export interface PagePropertiesRequestValueCase15 {
+  verification: PagePropertiesRequestValueCase15Verification;
   type?: string;
 }
-export type CreatePageRequestPropertiesValue =
-  | CreatePageRequestPropertiesValueCase0
-  | CreatePageRequestPropertiesValueCase1
-  | CreatePageRequestPropertiesValueCase2
-  | CreatePageRequestPropertiesValueCase3
-  | CreatePageRequestPropertiesValueCase4
-  | CreatePageRequestPropertiesValueCase5
-  | CreatePageRequestPropertiesValueCase6
-  | CreatePageRequestPropertiesValueCase7
-  | CreatePageRequestPropertiesValueCase8
-  | CreatePageRequestPropertiesValueCase9
-  | CreatePageRequestPropertiesValueCase10
-  | CreatePageRequestPropertiesValueCase11
-  | CreatePageRequestPropertiesValueCase12
-  | CreatePageRequestPropertiesValueCase13
-  | CreatePageRequestPropertiesValueCase14
-  | CreatePageRequestPropertiesValueCase15;
-export type CreatePageRequestPropertiesMap = {
-  [key: string]: CreatePageRequestPropertiesValue | undefined;
-};
+export type PagePropertiesRequestValue =
+  | PagePropertiesRequestValueCase0
+  | PagePropertiesRequestValueCase1
+  | PagePropertiesRequestValueCase2
+  | PagePropertiesRequestValueCase3
+  | PagePropertiesRequestValueCase4
+  | PagePropertiesRequestValueCase5
+  | PagePropertiesRequestValueCase6
+  | PagePropertiesRequestValueCase7
+  | PagePropertiesRequestValueCase8
+  | PagePropertiesRequestValueCase9
+  | PagePropertiesRequestValueCase10
+  | PagePropertiesRequestValueCase11
+  | PagePropertiesRequestValueCase12
+  | PagePropertiesRequestValueCase13
+  | PagePropertiesRequestValueCase14
+  | PagePropertiesRequestValueCase15;
+export type PagePropertiesRequest = { [key: string]: PagePropertiesRequestValue | undefined };
 export interface FileUploadPageIconRequestFileUpload {
   /** ID of a FileUpload object that has the status `uploaded`. */
   id: string;
@@ -1377,7 +1374,7 @@ export type BlockObjectRequest =
   | BlockObjectRequestCase30;
 export type CreatePageRequestContentList = Array<BlockObjectRequest>;
 export type CreatePageRequestChildrenList = Array<BlockObjectRequest>;
-/** The Markdown syntax to use. `v1` (the default) is enhanced markdown. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown), an opt-in preview. */
+/** The Markdown syntax to use. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown) and is recommended. `v1` is enhanced markdown. It's deprecated. It's the default on current Notion-Versions. The next Notion-Version rejects `v1` with a `400` `validation_error`. */
 export type CreatePageRequestMarkdownVersion = "v1" | "v2";
 export interface CreatePageRequestTemplateCase0 {
   type: string;
@@ -1414,16 +1411,16 @@ export interface PageWriteNotificationsSchema {
 export interface CreatePageRequest {
   filter_properties?: CreatePageRequestFilterPropertiesList;
   parent?: CreatePageRequestParent;
-  properties?: CreatePageRequestPropertiesMap;
+  properties?: PagePropertiesRequest;
   icon?: PageIconRequest | null;
   cover?: PageCoverRequest | null;
   content?: CreatePageRequestContentList;
   children?: CreatePageRequestChildrenList;
-  /** Page content as Markdown, in the syntax set by `markdown_version`: enhanced markdown (`v1`, the default) or Notion-flavored Markdown (`v2`). Mutually exclusive with content/children. */
+  /** Page content as Markdown, in the syntax set by `markdown_version`: Notion-flavored Markdown (`v2`, recommended) or enhanced markdown (`v1`, deprecated, the default on current Notion-Versions). Mutually exclusive with content/children. */
   markdown?: string;
   /** Set to true to receive an async_task response for markdown page creation. Only supported when markdown is provided. */
   allow_async?: boolean;
-  /** The Markdown syntax to use. `v1` (the default) is enhanced markdown. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown), an opt-in preview. */
+  /** The Markdown syntax to use. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown) and is recommended. `v1` is enhanced markdown. It's deprecated. It's the default on current Notion-Versions. The next Notion-Version rejects `v1` with a `400` `validation_error`. */
   markdown_version?: CreatePageRequestMarkdownVersion | (string & {});
   template?: CreatePageRequestTemplate;
   position?: PagePositionSchema;
@@ -1657,7 +1654,7 @@ export interface VerificationPropertyResponse {
 export type VerificationPropertyValueResponse =
   | VerificationPropertyUnverifiedResponse
   | VerificationPropertyResponse;
-export type PlacePropertyValueResponse = CreatePageRequestPropertiesValueCase14Place;
+export type PlacePropertyValueResponse = PagePropertiesRequestValueCase14Place;
 export interface AnnotationResponse {
   bold: boolean;
   italic: boolean;
@@ -1935,7 +1932,7 @@ export interface VerificationSimplePropertyValueResponse {
 export interface PlaceSimplePropertyValueResponse {
   /** Always `place` */
   type: string;
-  place: CreatePageRequestPropertiesValueCase14Place | null;
+  place: PagePropertiesRequestValueCase14Place | null;
 }
 export type SimplePropertyValueResponse =
   | NumberFormulaPropertyValueResponse
@@ -2027,7 +2024,7 @@ export interface PagePropertyValueWithIdResponse {
   button?: unknown;
   unique_id?: UniqueIdPropertyValueResponse;
   verification?: VerificationPropertyValueResponse | null;
-  place?: CreatePageRequestPropertiesValueCase14Place | null;
+  place?: PagePropertiesRequestValueCase14Place | null;
   title?: PagePropertyValueWithIdResponseTitleList;
   rich_text?: PagePropertyValueWithIdResponseRichTextList;
   people?: PagePropertyValueWithIdResponsePeopleList;
@@ -2145,7 +2142,7 @@ export interface GetPageRequest {
 }
 export type GetPageResponseBody = PartialPageObjectResponse | PageObjectResponse;
 export type GetPageResponse = GetPageResponseBody;
-/** The Markdown syntax to use. `v1` (the default) is enhanced markdown. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown), an opt-in preview. */
+/** The Markdown syntax to use. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown) and is recommended. `v1` is enhanced markdown. It's deprecated. It's the default on current Notion-Versions. The next Notion-Version rejects `v1` with a `400` `validation_error`. */
 export type GetPageMarkdownRequestMarkdownVersion = "v1" | "v2";
 export interface GetPageMarkdownRequest {
   page_id: string;
@@ -2167,7 +2164,7 @@ export interface PageMarkdownResponse {
   object: string;
   /** The ID of the page or block. */
   id: string;
-  /** The page content as Markdown, in the syntax set by `markdown_version`: enhanced markdown (`v1`, the default) or Notion-flavored Markdown (`v2`). */
+  /** The page content as Markdown, in the syntax set by `markdown_version`: Notion-flavored Markdown (`v2`, recommended) or enhanced markdown (`v1`, deprecated, the default on current Notion-Versions). */
   markdown: string;
   /** Whether the content was truncated due to exceeding the record count limit. */
   truncated: boolean;
@@ -2331,10 +2328,10 @@ export interface VerificationPropertyItemObjectResponse {
   object: string;
   id: string;
 }
-export type PlacePropertyItemObjectResponsePlace = CreatePageRequestPropertiesValueCase14Place;
+export type PlacePropertyItemObjectResponsePlace = PagePropertiesRequestValueCase14Place;
 export interface PlacePropertyItemObjectResponse {
   type: string;
-  place: CreatePageRequestPropertiesValueCase14Place | null;
+  place: PagePropertiesRequestValueCase14Place | null;
   object: string;
   id: string;
 }
@@ -2520,115 +2517,6 @@ export type MovePageResponseBody = PartialPageObjectResponse | PageObjectRespons
 export type MovePageResponse = MovePageResponseBody;
 /** Property names or IDs to include in each page's `properties` object. Other properties are left out. Repeat the parameter to pass more than one value, for example `filter_properties=title&filter_properties=Status`. Pages that aren't in a data source always return only `title`. */
 export type UpdatePageRequestFilterPropertiesList = Array<string>;
-export type UpdatePageRequestPropertiesValueCase0TitleList = Array<RichTextItemRequest>;
-export interface UpdatePageRequestPropertiesValueCase0 {
-  title: UpdatePageRequestPropertiesValueCase0TitleList;
-  type?: string;
-}
-export type UpdatePageRequestPropertiesValueCase1RichTextList = Array<RichTextItemRequest>;
-export interface UpdatePageRequestPropertiesValueCase1 {
-  rich_text: UpdatePageRequestPropertiesValueCase1RichTextList;
-  type?: string;
-}
-export type UpdatePageRequestPropertiesValueCase2 = CreatePageRequestPropertiesValueCase2;
-export type UpdatePageRequestPropertiesValueCase3 = CreatePageRequestPropertiesValueCase3;
-export type UpdatePageRequestPropertiesValueCase4SelectCase0 =
-  CreatePageRequestPropertiesValueCase4SelectCase0;
-export type UpdatePageRequestPropertiesValueCase4SelectCase1 =
-  CreatePageRequestPropertiesValueCase4SelectCase1;
-export type UpdatePageRequestPropertiesValueCase4Select =
-  | CreatePageRequestPropertiesValueCase4SelectCase0
-  | CreatePageRequestPropertiesValueCase4SelectCase1;
-export interface UpdatePageRequestPropertiesValueCase4 {
-  select: UpdatePageRequestPropertiesValueCase4Select | null;
-  type?: string;
-}
-export type UpdatePageRequestPropertiesValueCase5MultiSelectItemCase0 =
-  CreatePageRequestPropertiesValueCase4SelectCase0;
-export type UpdatePageRequestPropertiesValueCase5MultiSelectItemCase1 =
-  CreatePageRequestPropertiesValueCase4SelectCase1;
-export type UpdatePageRequestPropertiesValueCase5MultiSelectItem =
-  | CreatePageRequestPropertiesValueCase4SelectCase0
-  | CreatePageRequestPropertiesValueCase4SelectCase1;
-export type UpdatePageRequestPropertiesValueCase5MultiSelectList =
-  Array<UpdatePageRequestPropertiesValueCase5MultiSelectItem>;
-export interface UpdatePageRequestPropertiesValueCase5 {
-  multi_select: UpdatePageRequestPropertiesValueCase5MultiSelectList;
-  type?: string;
-}
-export type UpdatePageRequestPropertiesValueCase6PeopleItem =
-  | PartialUserObjectRequest
-  | GroupObjectRequest;
-export type UpdatePageRequestPropertiesValueCase6PeopleList =
-  Array<UpdatePageRequestPropertiesValueCase6PeopleItem>;
-export interface UpdatePageRequestPropertiesValueCase6 {
-  people: UpdatePageRequestPropertiesValueCase6PeopleList;
-  type?: string;
-}
-export type UpdatePageRequestPropertiesValueCase7 = CreatePageRequestPropertiesValueCase7;
-export type UpdatePageRequestPropertiesValueCase8 = CreatePageRequestPropertiesValueCase8;
-export type UpdatePageRequestPropertiesValueCase9 = CreatePageRequestPropertiesValueCase9;
-export type UpdatePageRequestPropertiesValueCase10 = CreatePageRequestPropertiesValueCase10;
-export type UpdatePageRequestPropertiesValueCase11RelationList =
-  Array<RelationItemPropertyValueResponse>;
-export interface UpdatePageRequestPropertiesValueCase11 {
-  relation: UpdatePageRequestPropertiesValueCase11RelationList;
-  type?: string;
-}
-export type UpdatePageRequestPropertiesValueCase12FilesItem =
-  | InternalOrExternalFileWithNameRequest
-  | FileUploadWithOptionalNameRequest;
-export type UpdatePageRequestPropertiesValueCase12FilesList =
-  Array<UpdatePageRequestPropertiesValueCase12FilesItem>;
-export interface UpdatePageRequestPropertiesValueCase12 {
-  files: UpdatePageRequestPropertiesValueCase12FilesList;
-  type?: string;
-}
-export type UpdatePageRequestPropertiesValueCase13StatusCase0 =
-  CreatePageRequestPropertiesValueCase4SelectCase0;
-export type UpdatePageRequestPropertiesValueCase13StatusCase1 =
-  CreatePageRequestPropertiesValueCase4SelectCase1;
-export type UpdatePageRequestPropertiesValueCase13Status =
-  | CreatePageRequestPropertiesValueCase4SelectCase0
-  | CreatePageRequestPropertiesValueCase4SelectCase1;
-export interface UpdatePageRequestPropertiesValueCase13 {
-  status: UpdatePageRequestPropertiesValueCase13Status | null;
-  type?: string;
-}
-export type UpdatePageRequestPropertiesValueCase14Place =
-  CreatePageRequestPropertiesValueCase14Place;
-export type UpdatePageRequestPropertiesValueCase14 = CreatePageRequestPropertiesValueCase14;
-export type UpdatePageRequestPropertiesValueCase15VerificationCase0 =
-  CreatePageRequestPropertiesValueCase15VerificationCase0;
-export type UpdatePageRequestPropertiesValueCase15VerificationCase1 =
-  CreatePageRequestPropertiesValueCase15VerificationCase1;
-export type UpdatePageRequestPropertiesValueCase15Verification =
-  | CreatePageRequestPropertiesValueCase15VerificationCase0
-  | CreatePageRequestPropertiesValueCase15VerificationCase1;
-export interface UpdatePageRequestPropertiesValueCase15 {
-  verification: UpdatePageRequestPropertiesValueCase15Verification;
-  type?: string;
-}
-export type UpdatePageRequestPropertiesValue =
-  | UpdatePageRequestPropertiesValueCase0
-  | UpdatePageRequestPropertiesValueCase1
-  | CreatePageRequestPropertiesValueCase2
-  | CreatePageRequestPropertiesValueCase3
-  | UpdatePageRequestPropertiesValueCase4
-  | UpdatePageRequestPropertiesValueCase5
-  | UpdatePageRequestPropertiesValueCase6
-  | CreatePageRequestPropertiesValueCase7
-  | CreatePageRequestPropertiesValueCase8
-  | CreatePageRequestPropertiesValueCase9
-  | CreatePageRequestPropertiesValueCase10
-  | UpdatePageRequestPropertiesValueCase11
-  | UpdatePageRequestPropertiesValueCase12
-  | UpdatePageRequestPropertiesValueCase13
-  | CreatePageRequestPropertiesValueCase14
-  | UpdatePageRequestPropertiesValueCase15;
-export type UpdatePageRequestPropertiesMap = {
-  [key: string]: UpdatePageRequestPropertiesValue | undefined;
-};
 export type UpdatePageRequestTemplateCase0 = CreatePageRequestTemplateCase1;
 export type UpdatePageRequestTemplateCase1 = CreatePageRequestTemplateCase2;
 export type UpdatePageRequestTemplate =
@@ -2637,7 +2525,7 @@ export type UpdatePageRequestTemplate =
 export interface UpdatePageRequest {
   page_id: string;
   filter_properties?: UpdatePageRequestFilterPropertiesList;
-  properties?: UpdatePageRequestPropertiesMap;
+  properties?: PagePropertiesRequest;
   icon?: PageIconRequest | null;
   cover?: PageCoverRequest | null;
   /** Whether the page should be locked from editing in the Notion app UI. If not provided, the locked state will not be updated. */
@@ -2651,7 +2539,7 @@ export interface UpdatePageRequest {
 }
 export type UpdatePageResponseBody = PageObjectResponse | PartialPageObjectResponse;
 export type UpdatePageResponse = UpdatePageResponseBody;
-/** The Markdown syntax to use. `v1` (the default) is enhanced markdown. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown), an opt-in preview. */
+/** The Markdown syntax to use. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown) and is recommended. `v1` is enhanced markdown. It's deprecated. It's the default on current Notion-Versions. The next Notion-Version rejects `v1` with a `400` `validation_error`. */
 export type UpdatePageMarkdownRequestMarkdownVersion = "v1" | "v2";
 export interface UpdatePageMarkdownRequestInsertContentPositionCase0 {
   /** Insert the content at the start of the page. */
@@ -2667,7 +2555,7 @@ export type UpdatePageMarkdownRequestInsertContentPosition =
   | UpdatePageMarkdownRequestInsertContentPositionCase1;
 /** Insert new content into the page. */
 export interface UpdatePageMarkdownRequestInsertContent {
-  /** The Markdown content to insert into the page, in the syntax set by `markdown_version`: enhanced markdown (`v1`, the default) or Notion-flavored Markdown (`v2`). */
+  /** The Markdown content to insert into the page, in the syntax set by `markdown_version`: Notion-flavored Markdown (`v2`, recommended) or enhanced markdown (`v1`, deprecated, the default on current Notion-Versions). */
   content: string;
   /** Selection of existing content to insert after, using the ellipsis format ("start text...end text"). Omit to append at the end of the page. */
   after?: string;
@@ -2676,7 +2564,7 @@ export interface UpdatePageMarkdownRequestInsertContent {
 }
 /** Replace a range of content in the page. */
 export interface UpdatePageMarkdownRequestReplaceContentRange {
-  /** The new Markdown content to replace the matched range, in the syntax set by `markdown_version`: enhanced markdown (`v1`, the default) or Notion-flavored Markdown (`v2`). */
+  /** The new Markdown content to replace the matched range, in the syntax set by `markdown_version`: Notion-flavored Markdown (`v2`, recommended) or enhanced markdown (`v1`, deprecated, the default on current Notion-Versions). */
   content: string;
   /** Selection of existing content to replace, using the ellipsis format ("start text...end text"). */
   content_range: string;
@@ -2703,7 +2591,7 @@ export interface UpdatePageMarkdownRequestUpdateContent {
 }
 /** Replace the entire page content with new markdown. */
 export interface UpdatePageMarkdownRequestReplaceContent {
-  /** The new Markdown content to replace the entire page content, in the syntax set by `markdown_version`: enhanced markdown (`v1`, the default) or Notion-flavored Markdown (`v2`). */
+  /** The new Markdown content to replace the entire page content, in the syntax set by `markdown_version`: Notion-flavored Markdown (`v2`, recommended) or enhanced markdown (`v1`, deprecated, the default on current Notion-Versions). */
   new_str: string;
   /** Set to true to allow the operation to delete child pages or databases. Defaults to false. */
   allow_deleting_content?: boolean;
@@ -2712,7 +2600,7 @@ export interface UpdatePageMarkdownRequest {
   page_id: string;
   /** Set to true to opt into receiving an async_task result when this update operation is accepted for background execution. If omitted or false, the endpoint keeps the existing synchronous response shape. */
   allow_async?: boolean;
-  /** The Markdown syntax to use. `v1` (the default) is enhanced markdown. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown), an opt-in preview. */
+  /** The Markdown syntax to use. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown) and is recommended. `v1` is enhanced markdown. It's deprecated. It's the default on current Notion-Versions. The next Notion-Version rejects `v1` with a `400` `validation_error`. */
   markdown_version?: UpdatePageMarkdownRequestMarkdownVersion | (string & {});
   /** Always `insert_content` */
   type?: string;
@@ -2733,8 +2621,8 @@ export const createPage: API.OperationMethod<
   CreatePageError,
   NotionOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<CreatePageRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<CreatePageResponse>,
+  input: __S(1, __c0, 1) as any as S.Schema<CreatePageRequest>,
+  output: __S(2, __c0, 2) as any as S.Schema<CreatePageResponse>,
   errors: [UnknownNotionError],
   protocol: NotionProtocol,
   retry: Retry.Retry,
@@ -2818,8 +2706,8 @@ export const updatePage: API.OperationMethod<
   UpdatePageError,
   NotionOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(65, __c8, 1) as any as S.Schema<UpdatePageRequest>,
-  output: __S(66, __c8, 2) as any as S.Schema<UpdatePageResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<UpdatePageRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<UpdatePageResponse>,
   errors: [UnknownNotionError],
   protocol: NotionProtocol,
   retry: Retry.Retry,
@@ -2848,28 +2736,26 @@ export const updatePageMarkdown: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
       return S.Array(S.Unknown);
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           filter_properties: S.optional(__S(8, __c1, 0).pipe(T.Query())),
           parent: S.optional(S.Unknown),
-          properties: S.optional(__S(0, __c0, 0)),
+          properties: S.optional(__S(16, __c2, 0)),
           icon: S.optional(S.NullOr(S.Unknown)),
           cover: S.optional(S.NullOr(S.Unknown)),
-          content: S.optional(__S(1, __c0, 1)),
-          children: S.optional(__S(1, __c0, 1)),
+          content: S.optional(__S(0, __c0, 0)),
+          children: S.optional(__S(0, __c0, 0)),
           markdown: S.optional(S.String),
           allow_async: S.optional(S.Boolean),
           markdown_version: S.optional(S.String),
           template: S.optional(S.Unknown),
           position: S.optional(S.Unknown),
-          notifications: S.optional(__S(16, __c2, 0)),
+          notifications: S.optional(__S(17, __c2, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/pages", code: 200 })),
       ).annotate({ identifier: "CreatePageRequest" });
-    case 3:
+    case 2:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
         identifier: "CreatePageResponse",
       });
@@ -2884,6 +2770,8 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           mode: S.String,
@@ -2979,24 +2867,22 @@ function __c7(j: number): any {
 function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           page_id: S.String.pipe(T.Label()),
           filter_properties: S.optional(__S(8, __c1, 0).pipe(T.Query())),
-          properties: S.optional(__S(64, __c8, 0)),
+          properties: S.optional(__S(16, __c2, 0)),
           icon: S.optional(S.NullOr(S.Unknown)),
           cover: S.optional(S.NullOr(S.Unknown)),
           is_locked: S.optional(S.Boolean),
           template: S.optional(S.Unknown),
           erase_content: S.optional(S.Boolean),
-          notifications: S.optional(__S(16, __c2, 0)),
+          notifications: S.optional(__S(17, __c2, 1)),
           in_trash: S.optional(S.Boolean),
           is_archived: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/pages/{page_id}", code: 200 })),
       ).annotate({ identifier: "UpdatePageRequest" });
-    case 2:
+    case 1:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
         identifier: "UpdatePageResponse",
       });

@@ -44,6 +44,17 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export interface ArchiveBudgetRequest {
+  budgetId: string;
+}
+export interface ArchiveBudgetResponse {}
+export interface AssignTransactionToBudgetRequest {
+  budgetId: string;
+  /** Whether to allow this assignment to exceed the budget. Defaults to false. */
+  allowOverspend?: boolean | null;
+  transactionId: string;
+}
+export interface AssignTransactionToBudgetResponse {}
 export interface CancelCardRequest {
   cardId: string;
 }
@@ -132,6 +143,8 @@ export interface Card {
   id: string;
   /** Whether the card is managed by the agentic spend-management agent. Only agent cards can have their full details revealed. */
   isAgentCard: boolean;
+  /** Whether the card closes automatically after its first approved purchase. A used single-use card reports a @singleUseConsumed@ status. */
+  isSingleUse: boolean;
   kind: unknown;
   /** Last four digits of the card's primary account number (PAN). */
   lastFour: string;
@@ -153,6 +166,22 @@ export interface CancelInvoiceRequest {
   invoiceId: string;
 }
 export interface CancelInvoiceResponse {}
+export type ApiV1BudgetFrequency = "oneTime" | "daily" | "weekly" | "monthly" | "yearly";
+export interface CreateBudgetRequest {
+  amountPerUserPerPeriod?: number | null;
+  description?: string | null;
+  endDate?: string | null;
+  frequency: ApiV1BudgetFrequency | (string & {});
+  name?: string | null;
+  startDate?: string | null;
+}
+export interface ApiV1BudgetIdResponse {
+  id: string;
+}
+export interface CreateCardRequestCardConfiguration {
+  /** Whether this card auto-cancels itself on the first approved non-zero authorization. Must be 'False' for physical cards. */
+  singleUse: boolean;
+}
 export interface CreateCardRequestSpendLimit {
   /** Maximum total spend allowed per interval, in cents. */
   amountCents: number;
@@ -160,6 +189,7 @@ export interface CreateCardRequestSpendLimit {
 }
 export interface CreateCardRequest {
   accountId?: unknown | null;
+  cardConfiguration?: CreateCardRequestCardConfiguration | null;
   kind: unknown;
   /** Optional user-assigned label for the card. */
   nickname?: string | null;
@@ -235,6 +265,14 @@ export interface CreateInternalTransferRequest {
   idempotencyKey: string;
   note?: string | null;
   sourceAccountId: string;
+}
+export interface TransactionAccountingStatus {
+  erroredAt?: unknown | null;
+  excludedAt?: unknown | null;
+  reviewedAt?: unknown | null;
+  status: unknown;
+  syncStartedAt?: unknown | null;
+  syncedAt?: unknown | null;
 }
 export type TransactionAttachmentType = "checkImage" | "receipt" | "other";
 export interface TransactionAttachment {
@@ -436,6 +474,10 @@ export interface TransactionMethodData {
 export interface GlAllocation {
   /** The amount allocated to this GL code */
   amount: number;
+  /** The name of the class from the connected accounting integration, if assigned */
+  className?: string | null;
+  /** The name of the department from the connected accounting integration, if assigned */
+  departmentName?: string | null;
   /** Optional user-provided description for this allocation */
   description?: string | null;
   /** The name of the GL code from the connected accounting integration */
@@ -523,6 +565,7 @@ export type TransactionStatus =
   | "blocked";
 export interface Transaction {
   accountId: unknown;
+  accountingStatus?: TransactionAccountingStatus | null;
   amount: number;
   attachments: TransactionAttachmentsList;
   bankDescription?: string | null;
@@ -650,6 +693,15 @@ export interface ApiV1ArInvoiceResponse {
   updatedAt: unknown;
   /** Whether or not the invoice payment instructions will show the real account and routing number for the destination account or use virtual account numbers instead. */
   useRealAccountNumber: boolean;
+}
+export interface CreateReceiptUploadUrlRequest {
+  fileName: string;
+}
+/** The presigned upload URL plus the id of the receipt now being tracked. Upload the file to @upload@, then start matching via the match endpoint. */
+export interface ApiV1ReceiptUploadUrlResponse {
+  id: string;
+  /** The presigned URL to upload the receipt file to. */
+  upload: string;
 }
 export type CheckInfoRawAddress = AddressWithoutName;
 export interface CheckInfoRaw {
@@ -937,7 +989,14 @@ export type CardNetwork = "visa" | "mastercard";
 export type PhysicalCardStatus = "inactive" | "active" | "locked";
 /** Spending controls applied to a card */
 export type SpendLimit = CardSpendLimit;
-export type CardStatus = "active" | "frozen" | "cancelled" | "inactive" | "expired" | "suspended";
+export type CardStatus =
+  | "active"
+  | "frozen"
+  | "cancelled"
+  | "inactive"
+  | "expired"
+  | "suspended"
+  | "singleUseConsumed";
 export type CardType = "virtual" | "physical";
 /** Deprecated account card representation, used by the @/v1/account\/:id\/cards@ endpoint. */
 export interface AccountCard {
@@ -1048,8 +1107,185 @@ export interface ApiV1ArAttachmentResponseData {
   /** The signed download URL for the file itself. */
   url: string;
 }
+/** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
+export type GetAutoTransferRulesRequestOrder = "asc" | "desc";
+export interface GetAutoTransferRulesRequest {
+  accountId?: string;
+  limit?: number;
+  start_after?: string;
+  end_before?: string;
+  order?: GetAutoTransferRulesRequestOrder | (string & {});
+}
+/** Cursors for navigating to the next and previous pages. */
+export type AutoTransferRulesResponsePage = AccountsPaginatedResponsePage;
+/** A reservoir account and the fixed amount a distribute rule moves to it. */
+export interface AutoTransferRuleDetailsContentsReservoirAccountsItem {
+  accountId: unknown;
+  amount: unknown;
+  /** The percentage, 0 through 100, of the controlled account's balance moved to this account. */
+  percentage: number;
+}
+/** The reservoir accounts and the amount each receives. */
+export type AutoTransferRuleDetailsContentsReservoirAccountsList =
+  Array<AutoTransferRuleDetailsContentsReservoirAccountsItem>;
+/** Distributes fixed amounts from the controlled account to one or more reservoir accounts. */
+export interface AutoTransferRuleDetailsContents {
+  /** The reservoir accounts and the amount each receives. */
+  reservoirAccounts?: AutoTransferRuleDetailsContentsReservoirAccountsList;
+  lowerBound?: unknown | null;
+  reservoirAccountId?: unknown;
+  targetBalance?: unknown;
+  upperBound?: unknown | null;
+}
+export type AutoTransferRuleDetailsKind = "distributeAmount";
+export interface AutoTransferRuleDetails {
+  /** Distributes fixed amounts from the controlled account to one or more reservoir accounts. */
+  contents?: AutoTransferRuleDetailsContents;
+  kind?: AutoTransferRuleDetailsKind;
+}
+/** An active auto-transfer rule. */
+export interface AutoTransferRule {
+  controlledAccountId: unknown;
+  /** A sentence describing what the rule does. */
+  description: string;
+  details: AutoTransferRuleDetails;
+  /** How often the rule runs, e.g. "Every business day". */
+  frequency: string;
+  id: unknown;
+  /** Whether the rule is paused. */
+  isPaused: boolean;
+  /** The rule's name, as shown in the Mercury dashboard. */
+  name: string;
+  nextTransferAt?: unknown | null;
+  /** A nickname the user gave the rule, if any. */
+  nickname?: string | null;
+}
+/** Rules in the current page. */
+export type AutoTransferRulesResponseRulesList = Array<AutoTransferRule>;
+/** A page of the organization's active auto-transfer rules. */
+export interface AutoTransferRulesResponse {
+  /** Cursors for navigating to the next and previous pages. */
+  page: AccountsPaginatedResponsePage;
+  /** Rules in the current page. */
+  rules: AutoTransferRulesResponseRulesList;
+}
+export interface GetBudgetRequest {
+  budgetId: string;
+}
+export type ApiV1BudgetPublishStatus = "draft" | "published" | "archived";
+export interface ApiV1SpendBudgetResponse {
+  amountPerUserPerPeriod?: number | null;
+  description?: string | null;
+  endDate?: string | null;
+  frequency: ApiV1BudgetFrequency;
+  id: string;
+  name?: string | null;
+  startDate?: string | null;
+  status: ApiV1BudgetPublishStatus;
+}
+/** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
+export type GetBudgetExpendituresRequestOrder = "asc" | "desc";
+export interface GetBudgetExpendituresRequest {
+  budgetId: string;
+  limit?: number;
+  start_at?: string;
+  start_after?: string;
+  end_before?: string;
+  order?: GetBudgetExpendituresRequestOrder | (string & {});
+}
+export interface ApiV1BudgetExpenditure {
+  assignedAmount?: unknown | null;
+  expenseId?: string | null;
+  id: string;
+  transactionId?: string | null;
+}
+export type ApiV1BudgetExpendituresResponseExpendituresList = Array<ApiV1BudgetExpenditure>;
+export type ApiV1BudgetExpendituresResponsePage = AccountsPaginatedResponsePage;
+export interface ApiV1BudgetExpendituresResponse {
+  expenditures: ApiV1BudgetExpendituresResponseExpendituresList;
+  page: AccountsPaginatedResponsePage;
+}
+/** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
+export type GetBudgetMembersRequestOrder = "asc" | "desc";
+export interface GetBudgetMembersRequest {
+  budgetId: string;
+  limit?: number;
+  start_at?: string;
+  start_after?: string;
+  end_before?: string;
+  order?: GetBudgetMembersRequestOrder | (string & {});
+}
+export interface ApiV1BudgetMember {
+  cycleRemaining: number;
+  cycleSpent: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  orgUserId: string;
+}
+export type ApiV1BudgetMembersResponseMembersList = Array<ApiV1BudgetMember>;
+export type ApiV1BudgetMembersResponsePage = AccountsPaginatedResponsePage;
+export interface ApiV1BudgetMembersResponse {
+  members: ApiV1BudgetMembersResponseMembersList;
+  page: AccountsPaginatedResponsePage;
+}
 export interface GetCardRequest {
   cardId: string;
+}
+/** Sort order. Can be 'asc' or 'desc'. Defaults to 'desc' */
+export type GetCreditAccountStatementsRequestOrder = "asc" | "desc";
+export interface GetCreditAccountStatementsRequest {
+  accountId: string;
+  limit?: number;
+  order?: GetCreditAccountStatementsRequestOrder | (string & {});
+  start_after?: string;
+  end_before?: string;
+  start?: string;
+  end?: string;
+}
+export type CreditAccountStatementsPaginatedResponsePage = AccountsPaginatedResponsePage;
+export interface DepositoryAccountStatementPayload {
+  accountNumber: string;
+  routingNumber: string;
+}
+export interface CreditAccountStatementPayload {
+  creditLimit: number;
+  creditPeriodId: string;
+  dueDate: string;
+  startingBalance: number;
+  totalAutopayPayments: number;
+  totalCashbackEarned: number;
+  totalOneTimePayments: number;
+  totalTransactions: number;
+}
+/** Account-specific details based on accountType */
+export type AccountStatementPayloadAccountDetails =
+  | DepositoryAccountStatementPayload
+  | CreditAccountStatementPayload;
+export type AccountStatementPayloadAccountType = "depository" | "credit";
+/** Account statement payload with type discriminator */
+export interface AccountStatementPayload {
+  /** Account-specific details based on accountType */
+  accountDetails: AccountStatementPayloadAccountDetails;
+  accountType: AccountStatementPayloadAccountType;
+}
+export type AccountStatementTransactionsList = Array<AccountStatementTransaction>;
+export interface AccountStatement {
+  companyLegalAddress: Address;
+  companyLegalName: string;
+  details: AccountStatementPayload;
+  downloadUrl: string;
+  ein?: string | null;
+  endDate: string;
+  endingBalance: number;
+  id: string;
+  startDate: string;
+  transactions: AccountStatementTransactionsList;
+}
+export type CreditAccountStatementsPaginatedResponseStatementsList = Array<AccountStatement>;
+export interface CreditAccountStatementsPaginatedResponse {
+  page: AccountsPaginatedResponsePage;
+  statements: CreditAccountStatementsPaginatedResponseStatementsList;
 }
 export interface GetCustomerRequest {
   customerId: string;
@@ -1134,6 +1370,19 @@ export interface OrganizationResponseOrganization {
 /** Response containing organization details. */
 export interface OrganizationResponse {
   organization: OrganizationResponseOrganization;
+}
+export interface GetReceiptRequest {
+  receiptId: string;
+}
+export type ApiV1ReceiptStatus = "pending" | "matched" | "unmatched" | "notAttempted" | "failed";
+/** Public view of a receipt and its matching state. */
+export interface ApiV1ReceiptResponse {
+  createdAt: string;
+  fileName: string;
+  id: string;
+  matchedTransactionId?: unknown | null;
+  status: ApiV1ReceiptStatus;
+  uploadedAt?: unknown | null;
 }
 export interface GetRecipientRequest {
   recipientId: string;
@@ -1259,6 +1508,31 @@ export interface GetTransactionRequest {
 }
 export interface GetTransactionByTransactionIdRequest {
   transactionId: string;
+}
+export interface GetTransferMoneyApprovalRequestRequest {
+  requestId: string;
+}
+/** Approval decisions recorded on this request, oldest first. */
+export type TransferMoneyApprovalRequestResponseReviewsList = Array<PaymentApprovalReview>;
+/** An approval request for a transfer between accounts. */
+export interface TransferMoneyApprovalRequestResponse {
+  amount: number;
+  createdAt: unknown;
+  destinationAccountId: unknown;
+  /** Memo that appears on the resulting transaction. */
+  memo?: string | null;
+  /** Internal note recorded on the request. Not shown to any counterparty. */
+  note?: string | null;
+  /** Number of approvals required before the transfer is sent. */
+  numberOfApproversRequired?: number | null;
+  requestId: string;
+  requestedByUserId: unknown;
+  /** Whether the requester may approve this request. Omitted whenever numberOfApproversRequired is omitted. */
+  requesterMayApprove?: boolean | null;
+  /** Approval decisions recorded on this request, oldest first. */
+  reviews: TransferMoneyApprovalRequestResponseReviewsList;
+  sourceAccountId: unknown;
+  status: ReviewRequestStatus;
 }
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type GetTreasuryRequestOrder = "asc" | "desc";
@@ -1408,7 +1682,11 @@ export type TreasuryTransactionType =
   | "oemsMutualFundOrderRejected"
   | "oemsFixedIncomeOrderSettled"
   | "oemsFixedIncomeOrderCanceled"
-  | "oemsFixedIncomeOrderRejected";
+  | "oemsFixedIncomeOrderRejected"
+  | "couponPosted"
+  | "couponCanceled"
+  | "maturityPosted"
+  | "maturityCanceled";
 /** Treasury transaction data for external API consumption */
 export interface TreasuryTxn {
   accountId: string;
@@ -1515,6 +1793,21 @@ export interface TransactionsResponse {
   total: number;
   transactions: TransactionsResponseTransactionsList;
 }
+/** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
+export type ListBudgetsRequestOrder = "asc" | "desc";
+export interface ListBudgetsRequest {
+  limit?: number;
+  start_at?: string;
+  start_after?: string;
+  end_before?: string;
+  order?: ListBudgetsRequestOrder | (string & {});
+}
+export type ApiV1SpendBudgetsResponseBudgetsList = Array<ApiV1SpendBudgetResponse>;
+export type ApiV1SpendBudgetsResponsePage = AccountsPaginatedResponsePage;
+export interface ApiV1SpendBudgetsResponse {
+  budgets: ApiV1SpendBudgetsResponseBudgetsList;
+  page: AccountsPaginatedResponsePage;
+}
 /** Filter cards by one or more account IDs. */
 export type ListCardsRequestAccountIdList = Array<string>;
 export type ListCardsRequestStatusItem =
@@ -1523,7 +1816,8 @@ export type ListCardsRequestStatusItem =
   | "cancelled"
   | "inactive"
   | "expired"
-  | "suspended";
+  | "suspended"
+  | "singleUseConsumed";
 /** Filter cards by one or more statuses. */
 export type ListCardsRequestStatusList = Array<ListCardsRequestStatusItem | (string & {})>;
 export type ListCardsRequestTypeItem = "virtual" | "physical";
@@ -1541,6 +1835,7 @@ export interface ListCardsRequest {
   kind?: ListCardsRequestKindList;
   userId?: string;
   isAgentCard?: boolean;
+  isSingleUse?: boolean;
   limit?: number;
   order?: ListCardsRequestOrder | (string & {});
   start_after?: string;
@@ -1694,8 +1989,24 @@ export interface MerchantsResponse {
   page: AccountsPaginatedResponsePage;
 }
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
+export type ListReceiptsRequestOrder = "asc" | "desc";
+export interface ListReceiptsRequest {
+  limit?: number;
+  start_at?: string;
+  start_after?: string;
+  end_before?: string;
+  order?: ListReceiptsRequestOrder | (string & {});
+}
+export type ApiV1ReceiptsPaginatedResponsePage = AccountsPaginatedResponsePage;
+export type ApiV1ReceiptsPaginatedResponseReceiptsList = Array<ApiV1ReceiptResponse>;
+/** A page of receipts plus the cursor for the next page. */
+export interface ApiV1ReceiptsPaginatedResponse {
+  page: AccountsPaginatedResponsePage;
+  receipts: ApiV1ReceiptsPaginatedResponseReceiptsList;
+}
+/** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type ListRecipientInvitesRequestOrder = "asc" | "desc";
-export type ListRecipientInvitesRequestStatus = "created" | "completed" | "expired";
+export type ListRecipientInvitesRequestStatus = "created" | "completed" | "expired" | "declined";
 export interface ListRecipientInvitesRequest {
   limit?: number;
   start_after?: string;
@@ -1800,6 +2111,35 @@ export interface TransactionsPaginatedResponse {
   page: AccountsPaginatedResponsePage;
   transactions: TransactionsPaginatedResponseTransactionsList;
 }
+export type ListTransferMoneyApprovalRequestsRequestStatus =
+  | "pendingApproval"
+  | "approved"
+  | "rejected"
+  | "cancelled";
+/** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
+export type ListTransferMoneyApprovalRequestsRequestOrder = "asc" | "desc";
+export interface ListTransferMoneyApprovalRequestsRequest {
+  sourceAccountId?: string;
+  destinationAccountId?: string;
+  status?: ListTransferMoneyApprovalRequestsRequestStatus | (string & {});
+  start_at?: string;
+  start_after?: string;
+  end_before?: string;
+  limit?: number;
+  order?: ListTransferMoneyApprovalRequestsRequestOrder | (string & {});
+}
+export type TransferMoneyApprovalRequestsPaginatedResponsePage = AccountsPaginatedResponsePage;
+export type TransferMoneyApprovalRequestsPaginatedResponseRequestsList =
+  Array<TransferMoneyApprovalRequestResponse>;
+/** A page of transfer approval requests. */
+export interface TransferMoneyApprovalRequestsPaginatedResponse {
+  page: AccountsPaginatedResponsePage;
+  requests: TransferMoneyApprovalRequestsPaginatedResponseRequestsList;
+}
+export interface MatchReceiptRequest {
+  receiptId: string;
+}
+export interface MatchReceiptResponse {}
 /** The grant type for the token request. Must be "authorization_code" for the authorization code flow or "refresh_token" when refreshing an access token. */
 export type ObtainAccessTokenRequestGrantType = "authorization_code" | "refresh_token";
 export interface ObtainAccessTokenRequest {
@@ -1856,28 +2196,6 @@ export interface RequestTransferMoneyRequest {
   note?: string | null;
   sourceAccountId: string;
 }
-/** Approval decisions recorded on this request, oldest first. */
-export type TransferMoneyApprovalRequestResponseReviewsList = Array<PaymentApprovalReview>;
-/** An approval request for a transfer between accounts. */
-export interface TransferMoneyApprovalRequestResponse {
-  amount: number;
-  createdAt: unknown;
-  destinationAccountId: unknown;
-  /** Memo that appears on the resulting transaction. */
-  memo?: string | null;
-  /** Internal note recorded on the request. Not shown to any counterparty. */
-  note?: string | null;
-  /** Number of approvals required before the transfer is sent. */
-  numberOfApproversRequired?: number | null;
-  requestId: string;
-  requestedByUserId: unknown;
-  /** Whether the requester may approve this request. Omitted whenever numberOfApproversRequired is omitted. */
-  requesterMayApprove?: boolean | null;
-  /** Approval decisions recorded on this request, oldest first. */
-  reviews: TransferMoneyApprovalRequestResponseReviewsList;
-  sourceAccountId: unknown;
-  status: ReviewRequestStatus;
-}
 export interface RevealCardPanRequest {
   cardId: string;
 }
@@ -1910,10 +2228,19 @@ export interface StartOAuth2FlowResponse {}
 export interface UnfreezeCardRequest {
   cardId: string;
 }
+export interface UpdateBudgetRequest {
+  budgetId: string;
+  amountPerUserPerPeriod?: number | null;
+  description?: string | null;
+  endDate?: string | null;
+  frequency?: ApiV1BudgetFrequency | (string & {}) | null;
+  name?: string | null;
+  startDate?: string | null;
+}
 export type UpdateCardRequestSpendLimit = CardSpendLimit;
 export interface UpdateCardRequest {
   cardId: string;
-  nickname: unknown;
+  nickname?: unknown;
   spendLimit?: CardSpendLimit | null;
 }
 export type UpdateCustomerRequestAddress = CreateCustomerRequestAddress;
@@ -1976,8 +2303,8 @@ export interface UpdateRecipientRequest {
 }
 export interface UpdateTransactionRequest {
   transactionId: string;
-  categoryId: unknown;
-  note: unknown;
+  categoryId?: unknown;
+  note?: unknown;
 }
 /** Event types to subscribe to. Send null to subscribe to all event types. Send an array to subscribe to specific types. Omit to leave unchanged. */
 export type UpdateWebhookRequestEventTypesList = Array<WebhookEventType | (string & {})>;
@@ -2016,6 +2343,40 @@ export interface VerifyWebhookRequest {
   eventType?: unknown | null;
 }
 export interface VerifyWebhookResponse {}
+export type ArchiveBudgetError = BadRequest | NotFound | MercuryOpError;
+/** Archive a budget Archive a budget (a published budget becomes archived; a draft becomes deleted). Returns 409 when the budget has an active Agentic Card link. */
+export const archiveBudget: API.OperationMethod<
+  ArchiveBudgetRequest,
+  ArchiveBudgetResponse,
+  ArchiveBudgetError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(336, __c21, 0) as any as S.Schema<ArchiveBudgetRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<ArchiveBudgetResponse>,
+  errors: [BadRequest, NotFound, UnknownMercuryError],
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveBudget",
+}));
+
+export type AssignTransactionToBudgetError = BadRequest | NotFound | MercuryOpError;
+/** Assign a transaction to a budget Assign a transaction to a budget so its spend counts against the cycle containing the transaction's date. If the assignment would overspend the budget, set allowOverspend to true; omitted and false values enforce the spend limit. */
+export const assignTransactionToBudget: API.OperationMethod<
+  AssignTransactionToBudgetRequest,
+  AssignTransactionToBudgetResponse,
+  AssignTransactionToBudgetError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(592, __c37, 0) as any as S.Schema<AssignTransactionToBudgetRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<AssignTransactionToBudgetResponse>,
+  errors: [BadRequest, NotFound, UnknownMercuryError],
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignTransactionToBudget",
+}));
+
 export type CancelCardError = NotFound | MercuryOpError;
 /** Cancel a card Permanently cancel a card. This action cannot be undone. */
 export const cancelCard: API.OperationMethod<
@@ -2024,8 +2385,8 @@ export const cancelCard: API.OperationMethod<
   CancelCardError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<CancelCardRequest>,
-  output: __S(290, __c18, 2) as any as S.Schema<Card>,
+  input: __S(784, __c49, 0) as any as S.Schema<CancelCardRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<Card>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2041,13 +2402,30 @@ export const cancelInvoice: API.OperationMethod<
   CancelInvoiceError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<CancelInvoiceRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<CancelInvoiceResponse>,
+  input: __S(1104, __c69, 0) as any as S.Schema<CancelInvoiceRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<CancelInvoiceResponse>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelInvoice",
+}));
+
+export type CreateBudgetError = BadRequest | MercuryOpError;
+/** Create a budget Create a budget as a draft. Add members and publish it from the Mercury dashboard. */
+export const createBudget: API.OperationMethod<
+  CreateBudgetRequest,
+  ApiV1BudgetIdResponse,
+  CreateBudgetError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1328, __c83, 0) as any as S.Schema<CreateBudgetRequest>,
+  output: __S(1344, __c84, 0) as any as S.Schema<ApiV1BudgetIdResponse>,
+  errors: [BadRequest, UnknownMercuryError],
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBudget",
 }));
 
 export type CreateCardError = BadRequest | MercuryOpError;
@@ -2058,8 +2436,8 @@ export const createCard: API.OperationMethod<
   CreateCardError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(753, __c47, 1) as any as S.Schema<CreateCardRequest>,
-  output: __S(290, __c18, 2) as any as S.Schema<Card>,
+  input: __S(1522, __c95, 2) as any as S.Schema<CreateCardRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<Card>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2075,8 +2453,8 @@ export const createCategory: API.OperationMethod<
   CreateCategoryError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<CreateCategoryRequest>,
-  output: __S(976, __c61, 0) as any as S.Schema<CategoryData>,
+  input: __S(1696, __c106, 0) as any as S.Schema<CreateCategoryRequest>,
+  output: __S(1712, __c107, 0) as any as S.Schema<CategoryData>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2092,8 +2470,8 @@ export const createCustomer: API.OperationMethod<
   CreateCustomerError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<CreateCustomerRequest>,
-  output: __S(1169, __c73, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
+  input: __S(1888, __c118, 0) as any as S.Schema<CreateCustomerRequest>,
+  output: __S(1905, __c119, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2109,8 +2487,8 @@ export const createInternalTransfer: API.OperationMethod<
   CreateInternalTransferError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<CreateInternalTransferRequest>,
-  output: __S(1361, __c85, 1) as any as S.Schema<InternalTransferAPIResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateInternalTransferRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<InternalTransferAPIResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2126,13 +2504,30 @@ export const createInvoice: API.OperationMethod<
   CreateInvoiceError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<CreateInvoiceRequest>,
-  output: __S(1522, __c95, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<CreateInvoiceRequest>,
+  output: __S(98, __c6, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateInvoice",
+}));
+
+export type CreateReceiptUploadUrlError = BadRequest | MercuryOpError;
+/** Request a receipt upload URL Request a presigned URL to upload a receipt file. The URL expires after five minutes; replay the request with the same Idempotency-Key to receive a fresh URL for the same receipt. Upload the file, then start matching via the match endpoint. */
+export const createReceiptUploadUrl: API.OperationMethod<
+  CreateReceiptUploadUrlRequest,
+  ApiV1ReceiptUploadUrlResponse,
+  CreateReceiptUploadUrlError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(112, __c7, 0) as any as S.Schema<CreateReceiptUploadUrlRequest>,
+  output: __S(113, __c7, 1) as any as S.Schema<ApiV1ReceiptUploadUrlResponse>,
+  errors: [BadRequest, UnknownMercuryError],
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReceiptUploadUrl",
 }));
 
 export type CreateRecipientError = BadRequest | MercuryOpError;
@@ -2143,8 +2538,8 @@ export const createRecipient: API.OperationMethod<
   CreateRecipientError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<CreateRecipientRequest>,
-  output: __S(1587, __c99, 3) as any as S.Schema<RecipientInfo>,
+  input: __S(128, __c8, 0) as any as S.Schema<CreateRecipientRequest>,
+  output: __S(163, __c10, 3) as any as S.Schema<RecipientInfo>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2160,8 +2555,8 @@ export const createRecipientInvite: API.OperationMethod<
   CreateRecipientInviteError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateRecipientInviteRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<RecipientInviteApiResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<CreateRecipientInviteRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<RecipientInviteApiResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2177,8 +2572,8 @@ export const createTransaction: API.OperationMethod<
   CreateTransactionError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<CreateTransactionRequest>,
-  output: __S(1387, __c86, 11) as any as S.Schema<Transaction>,
+  input: __S(224, __c14, 0) as any as S.Schema<CreateTransactionRequest>,
+  output: __S(60, __c3, 12) as any as S.Schema<Transaction>,
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2194,8 +2589,8 @@ export const createWebhook: API.OperationMethod<
   CreateWebhookError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<ApiWebhookResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<ApiWebhookResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2211,8 +2606,8 @@ export const deleteCategory: API.OperationMethod<
   DeleteCategoryError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<DeleteCategoryRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<DeleteCategoryResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<DeleteCategoryRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<DeleteCategoryResponse>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2228,8 +2623,8 @@ export const deleteCustomer: API.OperationMethod<
   DeleteCustomerError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<DeleteCustomerRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<DeleteCustomerResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<DeleteCustomerRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<DeleteCustomerResponse>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2245,8 +2640,8 @@ export const deleteRecipient: API.OperationMethod<
   DeleteRecipientError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<DeleteRecipientRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<DeleteRecipientResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<DeleteRecipientRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<DeleteRecipientResponse>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2262,8 +2657,8 @@ export const deleteRecipientInvite: API.OperationMethod<
   DeleteRecipientInviteError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<DeleteRecipientInviteRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<DeleteRecipientInviteResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<DeleteRecipientInviteRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<DeleteRecipientInviteResponse>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2279,8 +2674,8 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<DeleteWebhookResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<DeleteWebhookResponse>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2296,8 +2691,8 @@ export const editCategory: API.OperationMethod<
   EditCategoryError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<EditCategoryRequest>,
-  output: __S(976, __c61, 0) as any as S.Schema<CategoryData>,
+  input: __S(400, __c25, 0) as any as S.Schema<EditCategoryRequest>,
+  output: __S(1712, __c107, 0) as any as S.Schema<CategoryData>,
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2313,8 +2708,8 @@ export const freezeCard: API.OperationMethod<
   FreezeCardError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<FreezeCardRequest>,
-  output: __S(290, __c18, 2) as any as S.Schema<Card>,
+  input: __S(416, __c26, 0) as any as S.Schema<FreezeCardRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<Card>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2330,8 +2725,8 @@ export const getAccountCards: API.OperationMethod<
   GetAccountCardsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetAccountCardsRequest>,
-  output: __S(307, __c19, 3) as any as S.Schema<AccountCardsResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetAccountCardsRequest>,
+  output: __S(435, __c27, 3) as any as S.Schema<AccountCardsResponse>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2347,8 +2742,8 @@ export const getAccounts: API.OperationMethod<
   GetAccountsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetAccountsRequest>,
-  output: __S(323, __c20, 3) as any as S.Schema<AccountsPaginatedResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<GetAccountsRequest>,
+  output: __S(451, __c28, 3) as any as S.Schema<AccountsPaginatedResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2357,15 +2752,15 @@ export const getAccounts: API.OperationMethod<
 }));
 
 export type GetAccountStatementsError = BadRequest | NotFound | MercuryOpError;
-/** Get account statements Retrieve a paginated list of monthly statements for a specific account. Supports cursor-based pagination with limit, order, start_after, and end_before query parameters, as well as date range filtering with start and end parameters. */
+/** Get account statements Retrieve a paginated list of monthly statements for a depository account. For IO credit accounts, use getCreditAccountStatements. Supports cursor-based pagination with limit, order, start_after, and end_before query parameters, as well as date range filtering with start and end parameters. */
 export const getAccountStatements: API.OperationMethod<
   GetAccountStatementsRequest,
   DepositoryAccountStatementsPaginatedResponse,
   GetAccountStatementsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetAccountStatementsRequest>,
-  output: __S(357, __c22, 5) as any as S.Schema<DepositoryAccountStatementsPaginatedResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetAccountStatementsRequest>,
+  output: __S(483, __c30, 3) as any as S.Schema<DepositoryAccountStatementsPaginatedResponse>,
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2381,8 +2776,8 @@ export const getAttachment: API.OperationMethod<
   GetAttachmentError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetAttachmentRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<ApiV1ArAttachmentResponseData>,
+  input: __S(512, __c32, 0) as any as S.Schema<GetAttachmentRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<ApiV1ArAttachmentResponseData>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2390,18 +2785,103 @@ export const getAttachment: API.OperationMethod<
   span: "GetAttachment",
 }));
 
+export type GetAutoTransferRulesError = BadRequest | MercuryOpError;
+/** Get all auto-transfer rules Retrieve a paginated list of the organization's active auto-transfer rules: rules that distribute fixed amounts or percentages of an account's balance to other accounts, and rules that keep an account at a target balance. Pass accountId to return only the rules that manage that account's balance. */
+export const getAutoTransferRules: API.OperationMethod<
+  GetAutoTransferRulesRequest,
+  AutoTransferRulesResponse,
+  GetAutoTransferRulesError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(544, __c34, 0) as any as S.Schema<GetAutoTransferRulesRequest>,
+  output: __S(551, __c34, 7) as any as S.Schema<AutoTransferRulesResponse>,
+  errors: [BadRequest, UnknownMercuryError],
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoTransferRules",
+}));
+
+export type GetBudgetError = NotFound | MercuryOpError;
+/** Get a budget Retrieve a budget by id, including its lifecycle status, per-user limit, cadence, and effective window. */
+export const getBudget: API.OperationMethod<
+  GetBudgetRequest,
+  ApiV1SpendBudgetResponse,
+  GetBudgetError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(560, __c35, 0) as any as S.Schema<GetBudgetRequest>,
+  output: __S(576, __c36, 0) as any as S.Schema<ApiV1SpendBudgetResponse>,
+  errors: [NotFound, UnknownMercuryError],
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBudget",
+}));
+
+export type GetBudgetExpendituresError = BadRequest | NotFound | MercuryOpError;
+/** List a budget's expenditures List the non-deleted expenditures assigned to a budget, ordered by expenditure creation time, ascending (oldest first) by default. Supports cursor-based pagination with limit, order, start_at, start_after, and end_before query parameters. */
+export const getBudgetExpenditures: API.OperationMethod<
+  GetBudgetExpendituresRequest,
+  ApiV1BudgetExpendituresResponse,
+  GetBudgetExpendituresError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(608, __c38, 0) as any as S.Schema<GetBudgetExpendituresRequest>,
+  output: __S(611, __c38, 3) as any as S.Schema<ApiV1BudgetExpendituresResponse>,
+  errors: [BadRequest, NotFound, UnknownMercuryError],
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBudgetExpenditures",
+}));
+
+export type GetBudgetMembersError = BadRequest | NotFound | MercuryOpError;
+/** List a budget's members List the members of a budget and their current or final cycle spend, ordered by the creation time of each budget member's assignment record, ascending (oldest first) by default. Supports cursor-based pagination with limit, order, start_at, start_after, and end_before query parameters. */
+export const getBudgetMembers: API.OperationMethod<
+  GetBudgetMembersRequest,
+  ApiV1BudgetMembersResponse,
+  GetBudgetMembersError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(624, __c39, 0) as any as S.Schema<GetBudgetMembersRequest>,
+  output: __S(627, __c39, 3) as any as S.Schema<ApiV1BudgetMembersResponse>,
+  errors: [BadRequest, NotFound, UnknownMercuryError],
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBudgetMembers",
+}));
+
 export type GetCardError = NotFound | MercuryOpError;
 /** Get a card Retrieve details of a specific card by its ID. */
 export const getCard: API.OperationMethod<GetCardRequest, Card, GetCardError, MercuryOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(400, __c25, 0) as any as S.Schema<GetCardRequest>,
-    output: __S(290, __c18, 2) as any as S.Schema<Card>,
+    input: __S(640, __c40, 0) as any as S.Schema<GetCardRequest>,
+    output: __S(866, __c54, 2) as any as S.Schema<Card>,
     errors: [NotFound, UnknownMercuryError],
     protocol: MercuryProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetCard",
   }));
+
+export type GetCreditAccountStatementsError = BadRequest | NotFound | MercuryOpError;
+/** Get credit account statements Retrieve historical IO credit statements with cursor-based pagination. Each statement includes its billing period (startDate and endDate), closing balance (endingBalance), and opening balance (details.accountDetails.startingBalance), calculated using the same strict posting-date boundaries as the PDF. Balances use signed account amounts: amounts owed are negative. Filter by statement start date with start and end. Use getAccountStatements for depository accounts. */
+export const getCreditAccountStatements: API.OperationMethod<
+  GetCreditAccountStatementsRequest,
+  CreditAccountStatementsPaginatedResponse,
+  GetCreditAccountStatementsError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(656, __c41, 0) as any as S.Schema<GetCreditAccountStatementsRequest>,
+  output: __S(660, __c41, 4) as any as S.Schema<CreditAccountStatementsPaginatedResponse>,
+  errors: [BadRequest, NotFound, UnknownMercuryError],
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreditAccountStatements",
+}));
 
 export type GetCustomerError = NotFound | MercuryOpError;
 /** Get a customer Retrieve details of a specific customer by their ID */
@@ -2411,8 +2891,8 @@ export const getCustomer: API.OperationMethod<
   GetCustomerError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<GetCustomerRequest>,
-  output: __S(1169, __c73, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
+  input: __S(672, __c42, 0) as any as S.Schema<GetCustomerRequest>,
+  output: __S(1905, __c119, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2428,8 +2908,8 @@ export const getEvent: API.OperationMethod<
   GetEventError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetEventRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<ApiEventResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<GetEventRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<ApiEventResponse>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2445,8 +2925,8 @@ export const getEvents: API.OperationMethod<
   GetEventsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetEventsRequest>,
-  output: __S(466, __c29, 2) as any as S.Schema<ApiEventsPaginatedResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<GetEventsRequest>,
+  output: __S(722, __c45, 2) as any as S.Schema<ApiEventsPaginatedResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2462,8 +2942,8 @@ export const getInvoice: API.OperationMethod<
   GetInvoiceError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetInvoiceRequest>,
-  output: __S(1522, __c95, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<GetInvoiceRequest>,
+  output: __S(98, __c6, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2479,8 +2959,8 @@ export const getInvoicePdf: API.OperationMethod<
   GetInvoicePdfError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<GetInvoicePdfRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<GetInvoicePdfResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<GetInvoicePdfRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<GetInvoicePdfResponse>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2496,13 +2976,30 @@ export const getOrganization: API.OperationMethod<
   GetOrganizationError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<GetOrganizationRequest>,
-  output: __S(548, __c34, 4) as any as S.Schema<OrganizationResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<GetOrganizationRequest>,
+  output: __S(772, __c48, 4) as any as S.Schema<OrganizationResponse>,
   errors: [UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganization",
+}));
+
+export type GetReceiptError = NotFound | MercuryOpError;
+/** Get a receipt Retrieve a directly uploaded receipt and its auto-matching status by id. Uploaders can retrieve their own receipts; reading another uploader's receipt requires see-all expense permission. */
+export const getReceipt: API.OperationMethod<
+  GetReceiptRequest,
+  ApiV1ReceiptResponse,
+  GetReceiptError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(880, __c55, 0) as any as S.Schema<GetReceiptRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<ApiV1ReceiptResponse>,
+  errors: [NotFound, UnknownMercuryError],
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReceipt",
 }));
 
 export type GetRecipientError = NotFound | MercuryOpError;
@@ -2513,8 +3010,8 @@ export const getRecipient: API.OperationMethod<
   GetRecipientError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<GetRecipientRequest>,
-  output: __S(1587, __c99, 3) as any as S.Schema<RecipientInfo>,
+  input: __S(912, __c57, 0) as any as S.Schema<GetRecipientRequest>,
+  output: __S(163, __c10, 3) as any as S.Schema<RecipientInfo>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2530,8 +3027,8 @@ export const getRecipientInvite: API.OperationMethod<
   GetRecipientInviteError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<GetRecipientInviteRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<RecipientInviteApiResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<GetRecipientInviteRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<RecipientInviteApiResponse>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2547,8 +3044,8 @@ export const getRecipients: API.OperationMethod<
   GetRecipientsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<GetRecipientsRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<RecipientsPaginatedResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<GetRecipientsRequest>,
+  output: __S(946, __c59, 2) as any as S.Schema<RecipientsPaginatedResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2564,8 +3061,8 @@ export const getSafeRequest: API.OperationMethod<
   GetSafeRequestError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<GetSafeRequestRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<APISafeRequest>,
+  input: __S(960, __c60, 0) as any as S.Schema<GetSafeRequestRequest>,
+  output: __S(978, __c61, 2) as any as S.Schema<APISafeRequest>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2581,8 +3078,8 @@ export const getSafeRequestDocument: API.OperationMethod<
   GetSafeRequestDocumentError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<GetSafeRequestDocumentRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<GetSafeRequestDocumentResponse>,
+  input: __S(992, __c62, 0) as any as S.Schema<GetSafeRequestDocumentRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<GetSafeRequestDocumentResponse>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2598,8 +3095,8 @@ export const getSafeRequests: API.OperationMethod<
   GetSafeRequestsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<GetSafeRequestsRequest>,
-  output: __S(658, __c41, 2) as any as S.Schema<GetSafeRequestsResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<GetSafeRequestsRequest>,
+  output: __S(1010, __c63, 2) as any as S.Schema<GetSafeRequestsResponse>,
   errors: [UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2615,8 +3112,8 @@ export const getSendMoneyApprovalRequest: API.OperationMethod<
   GetSendMoneyApprovalRequestError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<GetSendMoneyApprovalRequestRequest>,
-  output: __S(688, __c43, 0) as any as S.Schema<SendMoneyApprovalRequestResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<GetSendMoneyApprovalRequestRequest>,
+  output: __S(1056, __c66, 0) as any as S.Schema<SendMoneyApprovalRequestResponse>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2632,8 +3129,8 @@ export const getStatementPdf: API.OperationMethod<
   GetStatementPdfError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<GetStatementPdfRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<GetStatementPdfResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<GetStatementPdfRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<GetStatementPdfResponse>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2649,8 +3146,8 @@ export const getTransaction: API.OperationMethod<
   GetTransactionError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<GetTransactionRequest>,
-  output: __S(1387, __c86, 11) as any as S.Schema<Transaction>,
+  input: __S(1088, __c68, 0) as any as S.Schema<GetTransactionRequest>,
+  output: __S(60, __c3, 12) as any as S.Schema<Transaction>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2666,13 +3163,30 @@ export const getTransactionByTransactionId: API.OperationMethod<
   GetTransactionByTransactionIdError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<GetTransactionByTransactionIdRequest>,
-  output: __S(1387, __c86, 11) as any as S.Schema<Transaction>,
+  input: __S(1120, __c70, 0) as any as S.Schema<GetTransactionByTransactionIdRequest>,
+  output: __S(60, __c3, 12) as any as S.Schema<Transaction>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTransactionByTransactionId",
+}));
+
+export type GetTransferMoneyApprovalRequestError = NotFound | MercuryOpError;
+/** Get transfer approval request by ID Retrieve a specific transfer approval request by ID. */
+export const getTransferMoneyApprovalRequest: API.OperationMethod<
+  GetTransferMoneyApprovalRequestRequest,
+  TransferMoneyApprovalRequestResponse,
+  GetTransferMoneyApprovalRequestError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1136, __c71, 0) as any as S.Schema<GetTransferMoneyApprovalRequestRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<TransferMoneyApprovalRequestResponse>,
+  errors: [NotFound, UnknownMercuryError],
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransferMoneyApprovalRequest",
 }));
 
 export type GetTreasuryError = BadRequest | MercuryOpError;
@@ -2683,8 +3197,8 @@ export const getTreasury: API.OperationMethod<
   GetTreasuryError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<GetTreasuryRequest>,
-  output: __S(791, __c49, 7) as any as S.Schema<TreasuryAccountsPaginatedResponse>,
+  input: __S(1168, __c73, 0) as any as S.Schema<GetTreasuryRequest>,
+  output: __S(1175, __c73, 7) as any as S.Schema<TreasuryAccountsPaginatedResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2700,8 +3214,8 @@ export const getTreasuryStatements: API.OperationMethod<
   GetTreasuryStatementsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<GetTreasuryStatementsRequest>,
-  output: __S(803, __c50, 3) as any as S.Schema<TreasuryStatementsPaginatedResponse>,
+  input: __S(1184, __c74, 0) as any as S.Schema<GetTreasuryStatementsRequest>,
+  output: __S(1187, __c74, 3) as any as S.Schema<TreasuryStatementsPaginatedResponse>,
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2717,8 +3231,8 @@ export const getTreasuryTransactions: API.OperationMethod<
   GetTreasuryTransactionsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<GetTreasuryTransactionsRequest>,
-  output: __S(820, __c51, 4) as any as S.Schema<TreasuryTransactionsResponse>,
+  input: __S(1200, __c75, 0) as any as S.Schema<GetTreasuryTransactionsRequest>,
+  output: __S(1204, __c75, 4) as any as S.Schema<TreasuryTransactionsResponse>,
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2734,8 +3248,8 @@ export const getUser: API.OperationMethod<
   GetUserError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(848, __c53, 0) as any as S.Schema<UserDetails>,
+  input: __S(1216, __c76, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(1232, __c77, 0) as any as S.Schema<UserDetails>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2751,8 +3265,8 @@ export const getUsers: API.OperationMethod<
   GetUsersError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<GetUsersRequest>,
-  output: __S(866, __c54, 2) as any as S.Schema<UsersPaginatedResponse>,
+  input: __S(1248, __c78, 0) as any as S.Schema<GetUsersRequest>,
+  output: __S(1250, __c78, 2) as any as S.Schema<UsersPaginatedResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2768,8 +3282,8 @@ export const getWebhook: API.OperationMethod<
   GetWebhookError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<ApiWebhookResponse>,
+  input: __S(1264, __c79, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<ApiWebhookResponse>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2785,8 +3299,8 @@ export const getWebhooks: API.OperationMethod<
   GetWebhooksError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<GetWebhooksRequest>,
-  output: __S(898, __c56, 2) as any as S.Schema<ApiWebhooksPaginatedResponse>,
+  input: __S(1280, __c80, 0) as any as S.Schema<GetWebhooksRequest>,
+  output: __S(1282, __c80, 2) as any as S.Schema<ApiWebhooksPaginatedResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2802,13 +3316,30 @@ export const listAccountTransactions: API.OperationMethod<
   ListAccountTransactionsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<ListAccountTransactionsRequest>,
-  output: __S(913, __c57, 1) as any as S.Schema<TransactionsResponse>,
+  input: __S(1296, __c81, 0) as any as S.Schema<ListAccountTransactionsRequest>,
+  output: __S(1297, __c81, 1) as any as S.Schema<TransactionsResponse>,
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccountTransactions",
+}));
+
+export type ListBudgetsError = BadRequest | MercuryOpError;
+/** List budgets Retrieve the organization's non-deleted budgets ordered by creation time, ascending (oldest first) by default. Supports cursor-based pagination with limit, order, start_at, start_after, and end_before query parameters. */
+export const listBudgets: API.OperationMethod<
+  ListBudgetsRequest,
+  ApiV1SpendBudgetsResponse,
+  ListBudgetsError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1360, __c85, 0) as any as S.Schema<ListBudgetsRequest>,
+  output: __S(1362, __c85, 2) as any as S.Schema<ApiV1SpendBudgetsResponse>,
+  errors: [BadRequest, UnknownMercuryError],
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBudgets",
 }));
 
 export type ListCardsError = BadRequest | MercuryOpError;
@@ -2819,8 +3350,8 @@ export const listCards: API.OperationMethod<
   ListCardsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<ListCardsRequest>,
-  output: __S(946, __c59, 2) as any as S.Schema<CardListResponse>,
+  input: __S(1376, __c86, 0) as any as S.Schema<ListCardsRequest>,
+  output: __S(1378, __c86, 2) as any as S.Schema<CardListResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2836,8 +3367,8 @@ export const listCategories: API.OperationMethod<
   ListCategoriesError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<ListCategoriesRequest>,
-  output: __S(994, __c62, 2) as any as S.Schema<CategoriesPaginatedResponse>,
+  input: __S(1392, __c87, 0) as any as S.Schema<ListCategoriesRequest>,
+  output: __S(1394, __c87, 2) as any as S.Schema<CategoriesPaginatedResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2853,8 +3384,8 @@ export const listCredit: API.OperationMethod<
   ListCreditError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<ListCreditRequest>,
-  output: __S(1011, __c63, 3) as any as S.Schema<CreditAccountsResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<ListCreditRequest>,
+  output: __S(1411, __c88, 3) as any as S.Schema<CreditAccountsResponse>,
   errors: [UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2870,8 +3401,8 @@ export const listCustomers: API.OperationMethod<
   ListCustomersError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<ListCustomersRequest>,
-  output: __S(1026, __c64, 2) as any as S.Schema<ApiV1ArCustomerPaginatedResponseData>,
+  input: __S(1424, __c89, 0) as any as S.Schema<ListCustomersRequest>,
+  output: __S(1426, __c89, 2) as any as S.Schema<ApiV1ArCustomerPaginatedResponseData>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2887,8 +3418,8 @@ export const listInvoiceAttachments: API.OperationMethod<
   ListInvoiceAttachmentsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<ListInvoiceAttachmentsRequest>,
-  output: __S(1042, __c65, 2) as any as S.Schema<ApiV1ArAttachmentsResponseData>,
+  input: __S(1440, __c90, 0) as any as S.Schema<ListInvoiceAttachmentsRequest>,
+  output: __S(1442, __c90, 2) as any as S.Schema<ApiV1ArAttachmentsResponseData>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2904,8 +3435,8 @@ export const listInvoices: API.OperationMethod<
   ListInvoicesError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<ListInvoicesRequest>,
-  output: __S(1059, __c66, 3) as any as S.Schema<ApiV1ArInvoicesPaginatedResponse>,
+  input: __S(1456, __c91, 0) as any as S.Schema<ListInvoicesRequest>,
+  output: __S(1459, __c91, 3) as any as S.Schema<ApiV1ArInvoicesPaginatedResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2921,13 +3452,30 @@ export const listMerchants: API.OperationMethod<
   ListMerchantsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<ListMerchantsRequest>,
-  output: __S(1074, __c67, 2) as any as S.Schema<MerchantsResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<ListMerchantsRequest>,
+  output: __S(1474, __c92, 2) as any as S.Schema<MerchantsResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMerchants",
+}));
+
+export type ListReceiptsError = BadRequest | MercuryOpError;
+/** List receipts Retrieve directly uploaded receipts whose matching result is pending, ordered by creation time, ascending (oldest first) by default. Upload URL requests do not appear until matching starts. Requires see-all expense permission. Use GET /spend/receipts/{receiptId} to poll terminal outcomes. Supports cursor-based pagination with limit, order, start_at, start_after, and end_before query parameters. */
+export const listReceipts: API.OperationMethod<
+  ListReceiptsRequest,
+  ApiV1ReceiptsPaginatedResponse,
+  ListReceiptsError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1488, __c93, 0) as any as S.Schema<ListReceiptsRequest>,
+  output: __S(1490, __c93, 2) as any as S.Schema<ApiV1ReceiptsPaginatedResponse>,
+  errors: [BadRequest, UnknownMercuryError],
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReceipts",
 }));
 
 export type ListRecipientInvitesError = BadRequest | MercuryOpError;
@@ -2938,8 +3486,8 @@ export const listRecipientInvites: API.OperationMethod<
   ListRecipientInvitesError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<ListRecipientInvitesRequest>,
-  output: __S(1090, __c68, 2) as any as S.Schema<RecipientInviteApiPaginatedResponse>,
+  input: __S(1504, __c94, 0) as any as S.Schema<ListRecipientInvitesRequest>,
+  output: __S(1506, __c94, 2) as any as S.Schema<RecipientInviteApiPaginatedResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2955,8 +3503,8 @@ export const listRecipientsAttachments: API.OperationMethod<
   ListRecipientsAttachmentsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<ListRecipientsAttachmentsRequest>,
-  output: __S(1107, __c69, 3) as any as S.Schema<RecipientsAttachmentsPaginatedResponse>,
+  input: __S(1536, __c96, 0) as any as S.Schema<ListRecipientsAttachmentsRequest>,
+  output: __S(1539, __c96, 3) as any as S.Schema<RecipientsAttachmentsPaginatedResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2972,8 +3520,8 @@ export const listSendMoneyApprovalRequests: API.OperationMethod<
   ListSendMoneyApprovalRequestsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<ListSendMoneyApprovalRequestsRequest>,
-  output: __S(1122, __c70, 2) as any as S.Schema<SendMoneyApprovalRequestsPaginatedResponse>,
+  input: __S(1552, __c97, 0) as any as S.Schema<ListSendMoneyApprovalRequestsRequest>,
+  output: __S(1554, __c97, 2) as any as S.Schema<SendMoneyApprovalRequestsPaginatedResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -2989,13 +3537,47 @@ export const listTransactions: API.OperationMethod<
   ListTransactionsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<ListTransactionsRequest>,
-  output: __S(1137, __c71, 1) as any as S.Schema<TransactionsPaginatedResponse>,
+  input: __S(1568, __c98, 0) as any as S.Schema<ListTransactionsRequest>,
+  output: __S(1569, __c98, 1) as any as S.Schema<TransactionsPaginatedResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTransactions",
+}));
+
+export type ListTransferMoneyApprovalRequestsError = BadRequest | MercuryOpError;
+/** List transfer approval requests Retrieve a paginated list of transfer approval requests for the authenticated organization. Supports filtering by source account, destination account, and status. */
+export const listTransferMoneyApprovalRequests: API.OperationMethod<
+  ListTransferMoneyApprovalRequestsRequest,
+  TransferMoneyApprovalRequestsPaginatedResponse,
+  ListTransferMoneyApprovalRequestsError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1584, __c99, 0) as any as S.Schema<ListTransferMoneyApprovalRequestsRequest>,
+  output: __S(1586, __c99, 2) as any as S.Schema<TransferMoneyApprovalRequestsPaginatedResponse>,
+  errors: [BadRequest, UnknownMercuryError],
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransferMoneyApprovalRequests",
+}));
+
+export type MatchReceiptError = BadRequest | NotFound | MercuryOpError;
+/** Match a receipt Start matching an uploaded receipt against the organization's transactions (OCR + matcher). Only the uploader can start matching. Poll GET /spend/receipts/{receiptId} for the outcome. Returns 409 when matching has already started. Returns 409 when another request restarted matching, and 502 when processing fails; retry both with a new Idempotency-Key. */
+export const matchReceipt: API.OperationMethod<
+  MatchReceiptRequest,
+  MatchReceiptResponse,
+  MatchReceiptError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1600, __c100, 0) as any as S.Schema<MatchReceiptRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<MatchReceiptResponse>,
+  errors: [BadRequest, NotFound, UnknownMercuryError],
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MatchReceipt",
 }));
 
 export type ObtainAccessTokenError = BadRequest | MercuryOpError;
@@ -3006,8 +3588,8 @@ export const obtainAccessToken: API.OperationMethod<
   ObtainAccessTokenError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<ObtainAccessTokenRequest>,
-  output: __S(1201, __c75, 1) as any as S.Schema<OAuth2TokenResponse>,
+  input: __S(1616, __c101, 0) as any as S.Schema<ObtainAccessTokenRequest>,
+  output: __S(1617, __c101, 1) as any as S.Schema<OAuth2TokenResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -3023,8 +3605,8 @@ export const requestSendMoney: API.OperationMethod<
   RequestSendMoneyError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<RequestSendMoneyRequest>,
-  output: __S(688, __c43, 0) as any as S.Schema<SendMoneyApprovalRequestResponse>,
+  input: __S(1632, __c102, 0) as any as S.Schema<RequestSendMoneyRequest>,
+  output: __S(1056, __c66, 0) as any as S.Schema<SendMoneyApprovalRequestResponse>,
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -3040,8 +3622,8 @@ export const requestTransferMoney: API.OperationMethod<
   RequestTransferMoneyError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<RequestTransferMoneyRequest>,
-  output: __S(1233, __c77, 1) as any as S.Schema<TransferMoneyApprovalRequestResponse>,
+  input: __S(1648, __c103, 0) as any as S.Schema<RequestTransferMoneyRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<TransferMoneyApprovalRequestResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -3057,8 +3639,8 @@ export const revealCardPan: API.OperationMethod<
   RevealCardPanError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<RevealCardPanRequest>,
-  output: __S(1249, __c78, 1) as any as S.Schema<CardRevealResponse>,
+  input: __S(1664, __c104, 0) as any as S.Schema<RevealCardPanRequest>,
+  output: __S(1665, __c104, 1) as any as S.Schema<CardRevealResponse>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -3074,8 +3656,8 @@ export const startOAuth2Flow: API.OperationMethod<
   StartOAuth2FlowError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<StartOAuth2FlowRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<StartOAuth2FlowResponse>,
+  input: __S(1680, __c105, 0) as any as S.Schema<StartOAuth2FlowRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<StartOAuth2FlowResponse>,
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -3091,13 +3673,30 @@ export const unfreezeCard: API.OperationMethod<
   UnfreezeCardError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<UnfreezeCardRequest>,
-  output: __S(290, __c18, 2) as any as S.Schema<Card>,
+  input: __S(1728, __c108, 0) as any as S.Schema<UnfreezeCardRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<Card>,
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UnfreezeCard",
+}));
+
+export type UpdateBudgetError = BadRequest | NotFound | MercuryOpError;
+/** Update a budget Update a budget's fields. A draft is edited in place; a published budget gets a new version. Omitted or null fields keep their current value. Frequency cannot change after publication. Effective changes to amountPerUserPerPeriod, frequency, startDate, or endDate return 409 when the budget has an active Agentic Card link; name and description updates remain allowed. */
+export const updateBudget: API.OperationMethod<
+  UpdateBudgetRequest,
+  ApiV1BudgetIdResponse,
+  UpdateBudgetError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1744, __c109, 0) as any as S.Schema<UpdateBudgetRequest>,
+  output: __S(1344, __c84, 0) as any as S.Schema<ApiV1BudgetIdResponse>,
+  errors: [BadRequest, NotFound, UnknownMercuryError],
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBudget",
 }));
 
 export type UpdateCardError = BadRequest | NotFound | MercuryOpError;
@@ -3108,8 +3707,8 @@ export const updateCard: API.OperationMethod<
   UpdateCardError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<UpdateCardRequest>,
-  output: __S(290, __c18, 2) as any as S.Schema<Card>,
+  input: __S(1760, __c110, 0) as any as S.Schema<UpdateCardRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<Card>,
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -3125,8 +3724,8 @@ export const updateCustomer: API.OperationMethod<
   UpdateCustomerError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<UpdateCustomerRequest>,
-  output: __S(1169, __c73, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
+  input: __S(1776, __c111, 0) as any as S.Schema<UpdateCustomerRequest>,
+  output: __S(1905, __c119, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -3142,8 +3741,8 @@ export const updateInvoice: API.OperationMethod<
   UpdateInvoiceError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<UpdateInvoiceRequest>,
-  output: __S(1522, __c95, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
+  input: __S(1792, __c112, 0) as any as S.Schema<UpdateInvoiceRequest>,
+  output: __S(98, __c6, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -3159,8 +3758,8 @@ export const updateRecipient: API.OperationMethod<
   UpdateRecipientError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<UpdateRecipientRequest>,
-  output: __S(1587, __c99, 3) as any as S.Schema<RecipientInfo>,
+  input: __S(1808, __c113, 0) as any as S.Schema<UpdateRecipientRequest>,
+  output: __S(163, __c10, 3) as any as S.Schema<RecipientInfo>,
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -3176,8 +3775,8 @@ export const updateTransaction: API.OperationMethod<
   UpdateTransactionError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<UpdateTransactionRequest>,
-  output: __S(1387, __c86, 11) as any as S.Schema<Transaction>,
+  input: __S(1824, __c114, 0) as any as S.Schema<UpdateTransactionRequest>,
+  output: __S(60, __c3, 12) as any as S.Schema<Transaction>,
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -3193,8 +3792,8 @@ export const updateWebhook: API.OperationMethod<
   UpdateWebhookError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<ApiWebhookResponse>,
+  input: __S(1840, __c115, 0) as any as S.Schema<UpdateWebhookRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<ApiWebhookResponse>,
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -3210,8 +3809,8 @@ export const uploadRecipientAttachment: API.OperationMethod<
   UploadRecipientAttachmentError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<UploadRecipientAttachmentRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<UploadRecipientAttachmentResponse>,
+  input: __S(1856, __c116, 0) as any as S.Schema<UploadRecipientAttachmentRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<UploadRecipientAttachmentResponse>,
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -3227,8 +3826,8 @@ export const uploadTransactionAttachment: API.OperationMethod<
   UploadTransactionAttachmentError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<UploadTransactionAttachmentRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<UploadTransactionAttachmentResponse>,
+  input: __S(1872, __c117, 0) as any as S.Schema<UploadTransactionAttachmentRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<UploadTransactionAttachmentResponse>,
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -3244,8 +3843,8 @@ export const verifyWebhook: API.OperationMethod<
   VerifyWebhookError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<VerifyWebhookRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<VerifyWebhookResponse>,
+  input: __S(1936, __c121, 0) as any as S.Schema<VerifyWebhookRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<VerifyWebhookResponse>,
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
@@ -3255,1623 +3854,6 @@ export const verifyWebhook: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          contactEmail: S.Unknown,
-          name: S.optional(S.NullOr(S.String)),
-          notes: S.optional(S.NullOr(S.String)),
-          organizationNameOnRequest: S.optional(S.NullOr(S.String)),
-          paymentMethods: __S(224, __c14, 0),
-          recipientId: S.optional(S.NullOr(S.Unknown)),
-          requireTaxDocument: S.Boolean,
-          sendEmail: S.Boolean,
-        }).pipe(T.Http({ method: "POST", uri: "/recipients/invites", code: 200 })),
-      ).annotate({ identifier: "CreateRecipientInviteRequest" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          contactEmail: S.Unknown,
-          createdAt: S.Unknown,
-          expiresAt: S.optional(S.NullOr(S.Unknown)),
-          id: S.Unknown,
-          name: S.String,
-          notes: S.optional(S.NullOr(S.String)),
-          onboardingUrl: S.String,
-          paymentMethods: __S(224, __c14, 0),
-          recipientId: S.optional(S.NullOr(S.Unknown)),
-          requireTaxDocument: S.Boolean,
-          status: S.Unknown,
-        }),
-      ).annotate({ identifier: "RecipientInviteApiResponse" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          amount: S.Number,
-          externalMemo: S.optional(S.String),
-          idempotencyKey: S.String,
-          note: S.optional(S.String),
-          paymentMethod: S.String,
-          purpose: S.optional(__S(49, __c3, 1)),
-          recipientId: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/account/{accountId}/transactions", code: 200 })),
-      ).annotate({ identifier: "CreateTransactionRequest" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          additionalInfo: S.optional(S.String),
-          category: S.String,
-        }),
-      ).annotate({ identifier: "SimplePurpose" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          simple: S.optional(S.NullOr(__S(48, __c3, 0))),
-        }),
-      ).annotate({ identifier: "PostTransactionSendMoneyPurpose" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          eventTypes: S.optional(S.NullOr(__S(224, __c14, 0))),
-          filterPaths: S.optional(S.NullOr(__S(224, __c14, 0))),
-          url: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/webhooks", code: 200 })),
-      ).annotate({ identifier: "CreateWebhookRequest" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createdAt: S.Unknown,
-          eventTypes: S.optional(S.NullOr(__S(224, __c14, 0))),
-          filterPaths: S.optional(S.NullOr(__S(224, __c14, 0))),
-          id: S.Unknown,
-          secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          status: S.Unknown,
-          updatedAt: S.Unknown,
-          url: S.String,
-        }),
-      ).annotate({ identifier: "ApiWebhookResponse" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          expenseCategoryId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/categories/{expenseCategoryId}", code: 200 })),
-      ).annotate({ identifier: "DeleteCategoryRequest" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/ar/customers/{customerId}", code: 200 })),
-      ).annotate({ identifier: "DeleteCustomerRequest" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          recipientId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/recipient/{recipientId}", code: 200 })),
-      ).annotate({ identifier: "DeleteRecipientRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          inviteId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/recipients/invites/{inviteId}", code: 200 })),
-      ).annotate({ identifier: "DeleteRecipientInviteRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          webhookEndpointId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/webhooks/{webhookEndpointId}", code: 200 })),
-      ).annotate({ identifier: "DeleteWebhookRequest" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          expenseCategoryId: S.String.pipe(T.Label()),
-          name: S.optional(S.NullOr(S.Unknown)),
-          visibleForCardSpend: S.optional(S.NullOr(S.Boolean)),
-          visibleForOther: S.optional(S.NullOr(S.Boolean)),
-          visibleForReimbursements: S.optional(S.NullOr(S.Boolean)),
-        }).pipe(T.Http({ method: "POST", uri: "/categories/{expenseCategoryId}", code: 200 })),
-      ).annotate({ identifier: "EditCategoryRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cardId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}/freeze", code: 200 })),
-      ).annotate({ identifier: "FreezeCardRequest" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cardId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}/cancel", code: 200 })),
-      ).annotate({ identifier: "CancelCardRequest" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          amountCents: S.Number,
-          atmAmountCents: S.optional(S.NullOr(S.Number)),
-          interval: S.Unknown,
-        }),
-      ).annotate({ identifier: "CardSpendLimit" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "CardMerchantLock" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          month: S.Number,
-          year: S.Number,
-        }),
-      ).annotate({ identifier: "CardExpiration" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          amountCents: S.Number,
-          id: S.String,
-          name: S.String,
-          remainingAmountCents: S.Number,
-        }),
-      ).annotate({ identifier: "CardBudget" });
-    case 1:
-      return S.Array(__S(288, __c18, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String,
-          budgets: __S(289, __c18, 1),
-          categoryLocks: __S(224, __c14, 0),
-          createdAt: S.Unknown,
-          expiration: __S(272, __c17, 0),
-          id: S.String,
-          isAgentCard: S.Boolean,
-          kind: S.Unknown,
-          lastFour: S.String,
-          merchantLock: S.optional(S.NullOr(__S(256, __c16, 0))),
-          nameOnCard: S.String,
-          nickname: S.optional(S.NullOr(S.String)),
-          physicalCardStatus: S.optional(S.NullOr(S.Unknown)),
-          spendLimit: S.optional(S.NullOr(__S(240, __c15, 0))),
-          spendLimitType: S.Unknown,
-          status: S.Unknown,
-          type: S.Unknown,
-          updatedAt: S.Unknown,
-          userId: S.String,
-        }),
-      ).annotate({ identifier: "Card" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/account/{accountId}/cards", code: 200 })),
-      ).annotate({ identifier: "GetAccountCardsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          cardId: S.String,
-          createdAt: S.String,
-          lastFourDigits: S.String,
-          nameOnCard: S.String,
-          network: S.String,
-          physicalCardStatus: S.optional(S.NullOr(S.String)),
-          spendLimit: __S(240, __c15, 0),
-          status: S.String,
-          type: S.String,
-          updatedAt: S.String,
-          userId: S.String,
-        }),
-      ).annotate({ identifier: "AccountCard" });
-    case 2:
-      return S.Array(__S(305, __c19, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          cards: __S(306, __c19, 2),
-        }),
-      ).annotate({ identifier: "AccountCardsResponse" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/accounts", code: 200 })),
-      ).annotate({ identifier: "GetAccountsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          accountNumber: S.String,
-          availableBalance: S.Number,
-          canReceiveTransactions: S.optional(S.NullOr(S.Boolean)),
-          canSendRealTimePayments: S.Boolean,
-          createdAt: S.String,
-          currentBalance: S.Number,
-          dashboardLink: S.String,
-          id: S.String,
-          kind: S.String,
-          legalBusinessName: S.String,
-          name: S.String,
-          nickname: S.optional(S.NullOr(S.String)),
-          routingNumber: S.String,
-          status: S.String,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "Account" });
-    case 2:
-      return S.Array(__S(321, __c20, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          accounts: __S(322, __c20, 2),
-          page: __S(336, __c21, 0),
-        }),
-      ).annotate({ identifier: "AccountsPaginatedResponse" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          nextPage: S.optional(S.String),
-          previousPage: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AccountsPaginatedResponsePage" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          start: S.optional(S.String.pipe(T.Query())),
-          end: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/account/{accountId}/statements", code: 200 })),
-      ).annotate({ identifier: "GetAccountStatementsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          createdAt: S.String,
-          id: S.String,
-          postedAt: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "AccountStatementTransaction" });
-    case 2:
-      return S.Array(__S(353, __c22, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          accountNumber: S.String,
-          companyLegalAddress: __S(1568, __c98, 0),
-          companyLegalName: S.String,
-          downloadUrl: S.String,
-          ein: S.optional(S.NullOr(S.String)),
-          endDate: S.String,
-          endingBalance: S.Number,
-          id: S.String,
-          routingNumber: S.String,
-          startDate: S.String,
-          transactions: __S(354, __c22, 2),
-        }),
-      ).annotate({ identifier: "DepositoryAccountStatement" });
-    case 4:
-      return S.Array(__S(355, __c22, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          page: __S(336, __c21, 0),
-          statements: __S(356, __c22, 4),
-        }),
-      ).annotate({ identifier: "DepositoryAccountStatementsPaginatedResponse" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          attachmentId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/ar/attachments/{attachmentId}", code: 200 })),
-      ).annotate({ identifier: "GetAttachmentRequest" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          fileName: S.String,
-          id: S.Unknown,
-          url: S.String,
-        }),
-      ).annotate({ identifier: "ApiV1ArAttachmentResponseData" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cardId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/cards/{cardId}", code: 200 })),
-      ).annotate({ identifier: "GetCardRequest" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/ar/customers/{customerId}", code: 200 })),
-      ).annotate({ identifier: "GetCustomerRequest" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          eventId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/events/{eventId}", code: 200 })),
-      ).annotate({ identifier: "GetEventRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          changedPaths: __S(1536, __c96, 0),
-          id: S.Unknown,
-          mergePatch: S.Unknown,
-          occurredAt: S.Unknown,
-          operationType: S.Unknown,
-          previousValues: S.optional(S.NullOr(S.Unknown)),
-          resourceId: S.Unknown,
-          resourceType: S.Unknown,
-          resourceVersion: S.Unknown,
-        }),
-      ).annotate({ identifier: "ApiEventResponse" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          resourceType: S.optional(S.String.pipe(T.Query())),
-          resourceId: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/events", code: 200 })),
-      ).annotate({ identifier: "GetEventsRequest" });
-    case 1:
-      return S.Array(__S(448, __c28, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          events: __S(465, __c29, 1),
-          page: __S(336, __c21, 0),
-        }),
-      ).annotate({ identifier: "ApiEventsPaginatedResponse" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          invoiceId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/ar/invoices/{invoiceId}", code: 200 })),
-      ).annotate({ identifier: "GetInvoiceRequest" });
-  }
-}
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          invoiceId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/ar/invoices/{invoiceId}/pdf", code: 200 })),
-      ).annotate({ identifier: "GetInvoicePdfRequest" });
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          invoiceId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/ar/invoices/{invoiceId}/cancel", code: 200 })),
-      ).annotate({ identifier: "CancelInvoiceRequest" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelInvoiceResponse" });
-  }
-}
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/organization", code: 200 })),
-      ).annotate({ identifier: "GetOrganizationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          dbaIsDefault: S.Boolean,
-          dbaName: S.String,
-        }),
-      ).annotate({ identifier: "OrganizationDBA" });
-    case 2:
-      return S.Array(__S(545, __c34, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          billingCadence: S.Unknown,
-          dbas: __S(546, __c34, 2),
-          ein: S.optional(S.NullOr(S.String)),
-          id: S.Unknown,
-          kind: S.Unknown,
-          legalBusinessName: S.String,
-          subscriptionTier: S.Unknown,
-        }),
-      ).annotate({ identifier: "OrganizationResponseOrganization" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          organization: __S(547, __c34, 3),
-        }),
-      ).annotate({ identifier: "OrganizationResponse" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          recipientId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/recipient/{recipientId}", code: 200 })),
-      ).annotate({ identifier: "GetRecipientRequest" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          inviteId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/recipients/invites/{inviteId}", code: 200 })),
-      ).annotate({ identifier: "GetRecipientInviteRequest" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/recipients", code: 200 })),
-      ).annotate({ identifier: "GetRecipientsRequest" });
-    case 1:
-      return S.Array(__S(1587, __c99, 3));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          page: __S(336, __c21, 0),
-          recipients: __S(593, __c37, 1),
-          total: S.Unknown,
-        }),
-      ).annotate({ identifier: "RecipientsPaginatedResponse" });
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          safeRequestId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/safes/{safeRequestId}", code: 200 })),
-      ).annotate({ identifier: "GetSafeRequestRequest" });
-  }
-}
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          additionalBylines: S.optional(S.NullOr(S.String)),
-          address: S.optional(S.NullOr(S.String)),
-          investorType: S.String,
-          legalEntityName: S.String,
-          signatoryEmail: S.String,
-          signatoryName: S.String,
-          signatoryTitle: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "APISafeRequestInvestor" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          legalEntityName: S.String,
-          signatoryEmail: S.String,
-          signatoryName: S.String,
-          signatoryTitle: S.String,
-        }),
-      ).annotate({ identifier: "APISafeRequestOrganization" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          canceledAt: S.optional(S.NullOr(S.String)),
-          discountRate: S.optional(S.NullOr(S.Number)),
-          documentUrl: S.String,
-          expiresAt: S.String,
-          governingState: S.optional(S.NullOr(S.String)),
-          id: S.String,
-          includesMostFavoredNationClause: S.Boolean,
-          includesProRataRightsLetter: S.Boolean,
-          investmentAmount: S.Number,
-          investmentDate: S.String,
-          investor: __S(624, __c39, 0),
-          organization: __S(625, __c39, 1),
-          paidAt: S.optional(S.NullOr(S.String)),
-          signedByInvestorAt: S.optional(S.NullOr(S.String)),
-          signedByOwnerAt: S.optional(S.NullOr(S.String)),
-          valuationCap: S.optional(S.NullOr(S.Number)),
-          valuationType: S.String,
-        }),
-      ).annotate({ identifier: "APISafeRequest" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          safeRequestId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/safes/{safeRequestId}/document", code: 200 })),
-      ).annotate({ identifier: "GetSafeRequestDocumentRequest" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/safes", code: 200 })),
-      ).annotate({ identifier: "GetSafeRequestsRequest" });
-    case 1:
-      return S.Array(__S(626, __c39, 2));
-    case 2:
-      return S.suspend(() => __S(657, __c41, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetSafeRequestsResponse",
-      });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          requestId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/request-send-money/{requestId}", code: 200 })),
-      ).annotate({ identifier: "GetSendMoneyApprovalRequestRequest" });
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String,
-          amount: S.Number,
-          createdAt: S.Unknown,
-          memo: S.optional(S.NullOr(S.String)),
-          numberOfApproversRequired: S.optional(S.NullOr(S.Number)),
-          paymentMethod: S.String,
-          recipientId: S.String,
-          requestId: S.String,
-          requestedByUserId: S.Unknown,
-          requesterMayApprove: S.optional(S.NullOr(S.Boolean)),
-          reviews: __S(705, __c44, 1),
-          scheduledSendDate: S.optional(S.NullOr(S.Unknown)),
-          status: S.String,
-        }),
-      ).annotate({ identifier: "SendMoneyApprovalRequestResponse" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          reviewedAt: S.String,
-          reviewerUserId: S.String,
-          status: S.String,
-        }),
-      ).annotate({ identifier: "PaymentApprovalReview" });
-    case 1:
-      return S.Array(__S(704, __c44, 0));
-  }
-}
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          statementId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/statements/{statementId}/pdf", code: 200 })),
-      ).annotate({ identifier: "GetStatementPdfRequest" });
-  }
-}
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          transactionId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/account/{accountId}/transaction/{transactionId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetTransactionRequest" });
-  }
-}
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          amountCents: S.Number,
-          interval: S.Unknown,
-        }),
-      ).annotate({ identifier: "CreateCardRequestSpendLimit" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.optional(S.NullOr(S.Unknown)),
-          kind: S.Unknown,
-          nickname: S.optional(S.NullOr(S.String)),
-          spendLimit: S.optional(S.NullOr(__S(752, __c47, 0))),
-          type: S.Unknown,
-          userId: S.Unknown,
-        }).pipe(T.Http({ method: "POST", uri: "/cards", code: 200 })),
-      ).annotate({ identifier: "CreateCardRequest" });
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          transactionId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/transaction/{transactionId}", code: 200 })),
-      ).annotate({ identifier: "GetTransactionByTransactionIdRequest" });
-  }
-}
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/treasury", code: 200 })),
-      ).annotate({ identifier: "GetTreasuryRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          amount: S.Number,
-          id: S.String,
-          securityName: S.String,
-          type: S.Unknown,
-        }),
-      ).annotate({ identifier: "TreasuryDividend" });
-    case 2:
-      return S.Array(__S(785, __c49, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          dividends: __S(786, __c49, 2),
-          month: S.Unknown,
-          netAmount: S.Number,
-          status: S.Unknown,
-          treasuryFee: S.Number,
-        }),
-      ).annotate({ identifier: "TreasuryNetReturn" });
-    case 4:
-      return S.Array(__S(787, __c49, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          availableBalance: S.Number,
-          createdAt: S.String,
-          currentBalance: S.Number,
-          id: S.String,
-          netReturns: __S(788, __c49, 4),
-          status: S.String,
-        }),
-      ).annotate({ identifier: "TreasuryAccount" });
-    case 6:
-      return S.Array(__S(789, __c49, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          accounts: __S(790, __c49, 6),
-          page: __S(336, __c21, 0),
-        }),
-      ).annotate({ identifier: "TreasuryAccountsPaginatedResponse" });
-  }
-}
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          treasuryId: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          documentType: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/treasury/{treasuryId}/statements", code: 200 })),
-      ).annotate({ identifier: "GetTreasuryStatementsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.Unknown,
-          createdAt: S.Unknown,
-          creationDate: S.Unknown,
-          description: S.String,
-          documentType: S.Unknown,
-          downloadUrl: S.String,
-          id: S.Unknown,
-          periodEnd: S.Unknown,
-          periodStart: S.Unknown,
-          updatedAt: S.Unknown,
-        }),
-      ).annotate({ identifier: "TreasuryStatement" });
-    case 2:
-      return S.Array(__S(801, __c50, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          page: __S(336, __c21, 0),
-          statements: __S(802, __c50, 2),
-        }),
-      ).annotate({ identifier: "TreasuryStatementsPaginatedResponse" });
-  }
-}
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          treasuryId: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          cursor: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/treasury/{treasuryId}/transactions", code: 200 })),
-      ).annotate({ identifier: "GetTreasuryTransactionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          creditDescription: S.optional(S.NullOr(S.String)),
-          depositCounterpartyId: S.optional(S.NullOr(S.String)),
-          feeDescription: S.optional(S.NullOr(S.String)),
-          manualAmendmentDescription: S.optional(S.NullOr(S.String)),
-          security: S.optional(S.NullOr(S.String)),
-          sweepDirection: S.optional(S.NullOr(S.String)),
-          tradeAction: S.optional(S.NullOr(S.String)),
-          withdrawalCounterpartyId: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "TreasuryTransactionDetails" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String,
-          additionalDetails: S.optional(S.NullOr(S.String)),
-          amount: S.Number,
-          balance: S.Number,
-          canonicalDay: S.String,
-          description: S.String,
-          details: S.optional(S.NullOr(__S(817, __c51, 1))),
-          id: S.String,
-          security: S.optional(S.NullOr(S.String)),
-          type: S.String,
-        }),
-      ).annotate({ identifier: "TreasuryTxn" });
-    case 3:
-      return S.Array(__S(818, __c51, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          cursor: S.optional(S.NullOr(S.Unknown)),
-          transactions: __S(819, __c51, 3),
-        }),
-      ).annotate({ identifier: "TreasuryTransactionsResponse" });
-  }
-}
-function __c52(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/users/{userId}", code: 200 })),
-      ).annotate({ identifier: "GetUserRequest" });
-  }
-}
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          email: S.String,
-          firstName: S.String,
-          lastName: S.String,
-          organizationRole: S.Unknown,
-          userId: S.Unknown,
-        }),
-      ).annotate({ identifier: "UserDetails" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/users", code: 200 })),
-      ).annotate({ identifier: "GetUsersRequest" });
-    case 1:
-      return S.Array(__S(848, __c53, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          page: __S(336, __c21, 0),
-          users: __S(865, __c54, 1),
-        }),
-      ).annotate({ identifier: "UsersPaginatedResponse" });
-  }
-}
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          webhookEndpointId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/webhooks/{webhookEndpointId}", code: 200 })),
-      ).annotate({ identifier: "GetWebhookRequest" });
-  }
-}
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(__S(224, __c14, 0).pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/webhooks", code: 200 })),
-      ).annotate({ identifier: "GetWebhooksRequest" });
-    case 1:
-      return S.Array(__S(80, __c5, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          page: __S(336, __c21, 0),
-          webhooks: __S(897, __c56, 1),
-        }),
-      ).annotate({ identifier: "ApiWebhooksPaginatedResponse" });
-  }
-}
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          start: S.optional(S.String.pipe(T.Query())),
-          end: S.optional(S.String.pipe(T.Query())),
-          search: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(S.String.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          mercuryCategory: S.optional(S.String.pipe(T.Query())),
-          categoryId: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/account/{accountId}/transactions", code: 200 })),
-      ).annotate({ identifier: "ListAccountTransactionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          total: S.Number,
-          transactions: __S(928, __c58, 0),
-        }),
-      ).annotate({ identifier: "TransactionsResponse" });
-  }
-}
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1387, __c86, 11));
-  }
-}
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
-          status: S.optional(__S(224, __c14, 0).pipe(T.Query())),
-          type: S.optional(__S(224, __c14, 0).pipe(T.Query())),
-          kind: S.optional(__S(224, __c14, 0).pipe(T.Query())),
-          userId: S.optional(S.String.pipe(T.Query())),
-          isAgentCard: S.optional(S.Boolean.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/cards", code: 200 })),
-      ).annotate({ identifier: "ListCardsRequest" });
-    case 1:
-      return S.Array(__S(290, __c18, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          cards: __S(945, __c59, 1),
-          page: __S(336, __c21, 0),
-        }),
-      ).annotate({ identifier: "CardListResponse" });
-  }
-}
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.Unknown,
-          visibleForCardSpend: S.Boolean,
-          visibleForOther: S.Boolean,
-          visibleForReimbursements: S.Boolean,
-        }).pipe(T.Http({ method: "POST", uri: "/categories", code: 200 })),
-      ).annotate({ identifier: "CreateCategoryRequest" });
-  }
-}
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Unknown,
-          name: S.String,
-          visibleForCardSpend: S.Boolean,
-          visibleForOther: S.Boolean,
-          visibleForReimbursements: S.Boolean,
-        }),
-      ).annotate({ identifier: "CategoryData" });
-  }
-}
-function __c62(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/categories", code: 200 })),
-      ).annotate({ identifier: "ListCategoriesRequest" });
-    case 1:
-      return S.Array(__S(976, __c61, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          categories: __S(993, __c62, 1),
-          page: __S(336, __c21, 0),
-        }),
-      ).annotate({ identifier: "CategoriesPaginatedResponse" });
-  }
-}
-function __c63(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/credit", code: 200 })),
-      ).annotate({ identifier: "ListCreditRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          availableBalance: S.Number,
-          createdAt: S.String,
-          currentBalance: S.Number,
-          id: S.String,
-          status: S.String,
-        }),
-      ).annotate({ identifier: "CreditAccount" });
-    case 2:
-      return S.Array(__S(1009, __c63, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          accounts: __S(1010, __c63, 2),
-        }),
-      ).annotate({ identifier: "CreditAccountsResponse" });
-  }
-}
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/ar/customers", code: 200 })),
-      ).annotate({ identifier: "ListCustomersRequest" });
-    case 1:
-      return S.Array(__S(1169, __c73, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          customers: __S(1025, __c64, 1),
-          page: __S(336, __c21, 0),
-        }),
-      ).annotate({ identifier: "ApiV1ArCustomerPaginatedResponseData" });
-  }
-}
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          invoiceId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/ar/invoices/{invoiceId}/attachments", code: 200 })),
-      ).annotate({ identifier: "ListInvoiceAttachmentsRequest" });
-    case 1:
-      return S.Array(__S(384, __c24, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          attachments: __S(1041, __c65, 1),
-        }),
-      ).annotate({ identifier: "ApiV1ArAttachmentsResponseData" });
-  }
-}
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/ar/invoices", code: 200 })),
-      ).annotate({ identifier: "ListInvoicesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          achDebitEnabled: S.Boolean,
-          amount: S.Number,
-          canceledAt: S.optional(S.NullOr(S.Unknown)),
-          ccEmails: __S(1536, __c96, 0),
-          createdAt: S.Unknown,
-          creditCardEnabled: S.Boolean,
-          currencyCode: S.Unknown,
-          customerId: S.Unknown,
-          destinationAccountId: S.Unknown,
-          dueDate: S.Unknown,
-          id: S.Unknown,
-          internalNote: S.optional(S.NullOr(S.String)),
-          invoiceDate: S.Unknown,
-          invoiceNumber: S.String,
-          payerMemo: S.optional(S.NullOr(S.String)),
-          poNumber: S.optional(S.NullOr(S.String)),
-          slug: S.String,
-          status: S.Unknown,
-          updatedAt: S.Unknown,
-          useRealAccountNumber: S.Boolean,
-        }),
-      ).annotate({ identifier: "ApiV1ArInvoicesData" });
-    case 2:
-      return S.Array(__S(1057, __c66, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          invoices: __S(1058, __c66, 2),
-          page: __S(336, __c21, 0),
-        }),
-      ).annotate({ identifier: "ApiV1ArInvoicesPaginatedResponse" });
-  }
-}
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          search: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/merchants", code: 200 })),
-      ).annotate({ identifier: "ListMerchantsRequest" });
-    case 1:
-      return S.Array(__S(256, __c16, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1073, __c67, 1),
-          page: __S(336, __c21, 0),
-        }),
-      ).annotate({ identifier: "MerchantsResponse" });
-  }
-}
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/recipients/invites", code: 200 })),
-      ).annotate({ identifier: "ListRecipientInvitesRequest" });
-    case 1:
-      return S.Array(__S(16, __c1, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          invites: __S(1089, __c68, 1),
-          page: __S(336, __c21, 0),
-        }),
-      ).annotate({ identifier: "RecipientInviteApiPaginatedResponse" });
-  }
-}
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/recipients/attachments", code: 200 })),
-      ).annotate({ identifier: "ListRecipientsAttachmentsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          fileName: S.String,
-          formType: S.optional(S.NullOr(S.Unknown)),
-          id: S.Unknown,
-          recipientId: S.Unknown,
-          uploadedAt: S.Unknown,
-          url: S.String,
-        }),
-      ).annotate({ identifier: "RecipientAttachmentWithId" });
-    case 2:
-      return S.Array(__S(1105, __c69, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          attachments: __S(1106, __c69, 2),
-          page: __S(336, __c21, 0),
-          total: S.Unknown,
-        }),
-      ).annotate({ identifier: "RecipientsAttachmentsPaginatedResponse" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(S.String.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/request-send-money", code: 200 })),
-      ).annotate({ identifier: "ListSendMoneyApprovalRequestsRequest" });
-    case 1:
-      return S.Array(__S(688, __c43, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          page: __S(336, __c21, 0),
-          requests: __S(1121, __c70, 1),
-        }),
-      ).annotate({ identifier: "SendMoneyApprovalRequestsPaginatedResponse" });
-  }
-}
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(__S(224, __c14, 0).pipe(T.Query())),
-          search: S.optional(S.String.pipe(T.Query())),
-          start: S.optional(S.String.pipe(T.Query())),
-          end: S.optional(S.String.pipe(T.Query())),
-          postedStart: S.optional(S.String.pipe(T.Query())),
-          postedEnd: S.optional(S.String.pipe(T.Query())),
-          accountId: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
-          cardId: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
-          mercuryCategory: S.optional(S.String.pipe(T.Query())),
-          categoryId: S.optional(S.String.pipe(T.Query())),
-          start_at: S.optional(S.String.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/transactions", code: 200 })),
-      ).annotate({ identifier: "ListTransactionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          page: __S(336, __c21, 0),
-          transactions: __S(928, __c58, 0),
-        }),
-      ).annotate({ identifier: "TransactionsPaginatedResponse" });
-  }
-}
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          address: S.optional(S.NullOr(__S(1184, __c74, 0))),
-          email: S.Unknown,
-          name: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/ar/customers", code: 200 })),
-      ).annotate({ identifier: "CreateCustomerRequest" });
-  }
-}
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          address1: S.String,
-          address2: S.optional(S.NullOr(S.String)),
-          city: S.String,
-          country: S.Unknown,
-          postalCode: S.String,
-          region: S.Unknown,
-        }),
-      ).annotate({ identifier: "ApiV1ArCustomerResponseDataAddress" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          address: S.optional(S.NullOr(__S(1168, __c73, 0))),
-          deletedAt: S.optional(S.NullOr(S.Unknown)),
-          email: S.Unknown,
-          id: S.Unknown,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "ApiV1ArCustomerResponseData" });
-  }
-}
-function __c74(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          address1: S.String,
-          address2: S.optional(S.NullOr(S.String)),
-          city: S.String,
-          country: S.Unknown,
-          name: S.String,
-          postalCode: S.String,
-          region: S.Unknown,
-        }),
-      ).annotate({ identifier: "CreateCustomerRequestAddress" });
-  }
-}
-function __c75(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.String,
-          code_verifier: S.String,
-          grant_type: S.String,
-          redirect_uri: S.String,
-          refresh_token: S.String.pipe(T.SensitiveValue({})),
-          scope: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/oauth2/token", code: 200 })),
-      ).annotate({ identifier: "ObtainAccessTokenRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          access_token: S.String.pipe(T.SensitiveValue({})),
-          expires_in: S.optional(S.Number),
-          refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          scope: S.optional(S.String),
-          token_type: S.String,
-        }),
-      ).annotate({ identifier: "OAuth2TokenResponse" });
-  }
-}
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          amount: S.Number,
-          chargeType: S.optional(S.String),
-          externalMemo: S.optional(S.String),
-          idempotencyKey: S.String,
-          note: S.optional(S.String),
-          paymentMethod: S.String,
-          purpose: S.optional(__S(49, __c3, 1)),
-          recipientId: S.String,
-        }).pipe(
-          T.Http({ method: "POST", uri: "/account/{accountId}/request-send-money", code: 200 }),
-        ),
-      ).annotate({ identifier: "RequestSendMoneyRequest" });
-  }
-}
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          amount: S.Number,
-          destinationAccountId: S.String,
-          idempotencyKey: S.String,
-          note: S.optional(S.NullOr(S.String)),
-          sourceAccountId: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/request-transfer", code: 200 })),
-      ).annotate({ identifier: "RequestTransferMoneyRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          amount: S.Number,
-          createdAt: S.Unknown,
-          destinationAccountId: S.Unknown,
-          memo: S.optional(S.NullOr(S.String)),
-          note: S.optional(S.NullOr(S.String)),
-          numberOfApproversRequired: S.optional(S.NullOr(S.Number)),
-          requestId: S.String,
-          requestedByUserId: S.Unknown,
-          requesterMayApprove: S.optional(S.NullOr(S.Boolean)),
-          reviews: __S(705, __c44, 1),
-          sourceAccountId: S.Unknown,
-          status: S.String,
-        }),
-      ).annotate({ identifier: "TransferMoneyApprovalRequestResponse" });
-  }
-}
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cardId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/cards/{cardId}/reveal", code: 200 })),
-      ).annotate({ identifier: "RevealCardPanRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          cardNumber: S.String,
-          cvc: S.String,
-          expiration: __S(272, __c17, 0),
-        }),
-      ).annotate({ identifier: "CardRevealResponse" });
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.String.pipe(T.Query()),
-          redirect_uri: S.String.pipe(T.Query()),
-          scope: S.String.pipe(T.Query()),
-          state: S.optional(S.String.pipe(T.Query())),
-          response_type: S.String.pipe(T.Query()),
-          code_challenge: S.optional(S.String.pipe(T.Query())),
-          code_challenge_method: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/oauth2/auth", code: 200 })),
-      ).annotate({ identifier: "StartOAuth2FlowRequest" });
-  }
-}
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cardId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}/unfreeze", code: 200 })),
-      ).annotate({ identifier: "UnfreezeCardRequest" });
-  }
-}
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cardId: S.String.pipe(T.Label()),
-          nickname: S.Unknown,
-          spendLimit: S.optional(S.NullOr(__S(240, __c15, 0))),
-        }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}", code: 200 })),
-      ).annotate({ identifier: "UpdateCardRequest" });
-  }
-}
-function __c82(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          address: S.optional(S.NullOr(__S(1184, __c74, 0))),
-          email: S.Unknown,
-          name: S.String,
-          resendOpenInvoices: S.Boolean,
-        }).pipe(T.Http({ method: "POST", uri: "/ar/customers/{customerId}", code: 200 })),
-      ).annotate({ identifier: "UpdateCustomerRequest" });
-  }
-}
-function __c83(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          invoiceId: S.String.pipe(T.Label()),
-          achDebitEnabled: S.Boolean,
-          ccEmails: __S(1536, __c96, 0),
-          creditCardEnabled: S.Boolean,
-          dueDate: S.Unknown,
-          internalNote: S.optional(S.NullOr(S.String)),
-          invoiceDate: S.Unknown,
-          invoiceNumber: S.String,
-          lineItems: __S(1521, __c95, 1),
-          payerMemo: S.optional(S.NullOr(S.String)),
-          poNumber: S.optional(S.NullOr(S.String)),
-          servicePeriodEndDate: S.optional(S.NullOr(S.Unknown)),
-          servicePeriodStartDate: S.optional(S.NullOr(S.Unknown)),
-          useRealAccountNumber: S.Boolean,
-        }).pipe(T.Http({ method: "POST", uri: "/ar/invoices/{invoiceId}", code: 200 })),
-      ).annotate({ identifier: "UpdateInvoiceRequest" });
-  }
-}
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          recipientId: S.String.pipe(T.Label()),
-          address: S.optional(__S(1408, __c88, 0)),
-          checkInfo: S.optional(__S(1584, __c99, 0)),
-          contactEmail: S.optional(S.String),
-          domesticWireRoutingInfo: S.optional(__S(1600, __c100, 0)),
-          electronicRoutingInfo: S.optional(__S(1601, __c100, 1)),
-          emails: S.optional(__S(1536, __c96, 0)),
-          name: S.optional(S.String),
-          nickname: S.optional(S.String),
-          realTimePaymentRoutingInfo: S.optional(__S(1600, __c100, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/recipient/{recipientId}", code: 200 })),
-      ).annotate({ identifier: "UpdateRecipientRequest" });
-  }
-}
-function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4886,135 +3868,13 @@ function __c85(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          creditTransaction: __S(1387, __c86, 11),
-          debitTransaction: __S(1387, __c86, 11),
+          creditTransaction: __S(60, __c3, 12),
+          debitTransaction: __S(60, __c3, 12),
         }),
       ).annotate({ identifier: "InternalTransferAPIResponse" });
   }
 }
-function __c86(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          attachmentType: S.String,
-          fileName: S.String,
-          url: S.String,
-        }),
-      ).annotate({ identifier: "TransactionAttachment" });
-    case 1:
-      return S.Array(__S(1376, __c86, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          convertedFromAmount: S.Number,
-          convertedFromCurrency: S.String,
-          convertedToAmount: S.Number,
-          convertedToCurrency: S.String,
-          exchangeRate: S.Number,
-          feeAmount: S.Number,
-          feePercentage: S.Number,
-          feeTransactionId: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "CurrencyExchangeInfo" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          email: S.optional(S.NullOr(S.String)),
-          id: S.Unknown,
-          paymentMethod: S.String,
-        }),
-      ).annotate({ identifier: "CreditCardInfo" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Unknown,
-        }),
-      ).annotate({ identifier: "DebitCardInfo" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          address: S.optional(S.NullOr(__S(1408, __c88, 0))),
-          creditCardInfo: S.optional(S.NullOr(__S(1379, __c86, 3))),
-          debitCardInfo: S.optional(S.NullOr(__S(1380, __c86, 4))),
-          domesticWireRoutingInfo: S.optional(S.NullOr(__S(1393, __c87, 1))),
-          electronicRoutingInfo: S.optional(S.NullOr(__S(1394, __c87, 2))),
-          internationalWireRoutingInfo: S.optional(S.NullOr(__S(1407, __c87, 15))),
-        }),
-      ).annotate({ identifier: "TransactionMethodData" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          amount: S.Number,
-          description: S.optional(S.NullOr(S.String)),
-          glCodeName: S.String,
-        }),
-      ).annotate({ identifier: "GlAllocation" });
-    case 7:
-      return S.Array(__S(1382, __c86, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          amount: S.optional(S.NullOr(S.Number)),
-          category: S.optional(S.NullOr(S.Unknown)),
-          categoryCode: S.optional(S.NullOr(S.String)),
-          currency: S.optional(S.NullOr(S.Unknown)),
-          id: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "TransactionMerchant" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String,
-          amount: S.Number,
-          id: S.String,
-          relationKind: S.String,
-        }),
-      ).annotate({ identifier: "RelatedTransactionData" });
-    case 10:
-      return S.Array(__S(1385, __c86, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.Unknown,
-          amount: S.Number,
-          attachments: __S(1377, __c86, 1),
-          bankDescription: S.optional(S.NullOr(S.String)),
-          cardId: S.optional(S.NullOr(S.String)),
-          categoryData: S.optional(S.NullOr(__S(976, __c61, 0))),
-          checkNumber: S.optional(S.NullOr(S.String)),
-          compliantWithReceiptPolicy: S.Boolean,
-          counterpartyId: S.String,
-          counterpartyName: S.String,
-          counterpartyNickname: S.optional(S.NullOr(S.String)),
-          createdAt: S.String,
-          creditAccountPeriodId: S.optional(S.NullOr(S.String)),
-          currencyExchangeInfo: S.optional(S.NullOr(__S(1378, __c86, 2))),
-          dashboardLink: S.String,
-          details: S.optional(S.NullOr(__S(1381, __c86, 5))),
-          estimatedDeliveryDate: S.String,
-          externalMemo: S.optional(S.NullOr(S.String)),
-          failedAt: S.optional(S.NullOr(S.String)),
-          feeId: S.optional(S.NullOr(S.String)),
-          generalLedgerCodeName: S.optional(S.NullOr(S.String)),
-          glAllocations: __S(1383, __c86, 7),
-          hasGeneratedReceipt: S.Boolean,
-          id: S.String,
-          kind: S.String,
-          merchant: S.optional(S.NullOr(__S(1384, __c86, 8))),
-          mercuryCategory: S.optional(S.NullOr(S.String)),
-          note: S.optional(S.NullOr(S.String)),
-          postedAt: S.optional(S.NullOr(S.String)),
-          reasonForFailure: S.optional(S.NullOr(S.String)),
-          relatedTransactions: __S(1386, __c86, 10),
-          requestId: S.optional(S.NullOr(S.String)),
-          status: S.String,
-          trackingNumber: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "Transaction" });
-  }
-}
-function __c87(j: number): any {
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5031,7 +3891,7 @@ function __c87(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountNumber: S.String,
-          address: S.optional(S.NullOr(__S(1392, __c87, 0))),
+          address: S.optional(S.NullOr(__S(16, __c1, 0))),
           bankName: S.optional(S.NullOr(S.String)),
           routingNumber: S.String,
         }),
@@ -5040,7 +3900,7 @@ function __c87(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountNumber: S.String,
-          address: S.optional(S.NullOr(__S(1392, __c87, 0))),
+          address: S.optional(S.NullOr(__S(16, __c1, 0))),
           bankName: S.optional(S.NullOr(S.String)),
           electronicAccountType: S.String,
           routingNumber: S.String,
@@ -5122,29 +3982,29 @@ function __c87(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          australia: S.optional(S.NullOr(__S(1397, __c87, 5))),
-          brazil: S.optional(S.NullOr(__S(1398, __c87, 6))),
-          canada: S.optional(S.NullOr(__S(1399, __c87, 7))),
-          chile: S.optional(S.NullOr(__S(1398, __c87, 6))),
-          colombia: S.optional(S.NullOr(__S(1398, __c87, 6))),
-          dominicanRepublic: S.optional(S.NullOr(__S(1400, __c87, 8))),
-          honduras: S.optional(S.NullOr(__S(1400, __c87, 8))),
-          india: S.optional(S.NullOr(__S(1401, __c87, 9))),
-          kazakhstan: S.optional(S.NullOr(__S(1398, __c87, 6))),
-          pakistan: S.optional(S.NullOr(__S(1402, __c87, 10))),
-          paraguay: S.optional(S.NullOr(__S(1398, __c87, 6))),
-          philippines: S.optional(S.NullOr(__S(1403, __c87, 11))),
-          russia: S.optional(S.NullOr(__S(1404, __c87, 12))),
-          southAfrica: S.optional(S.NullOr(__S(1405, __c87, 13))),
+          australia: S.optional(S.NullOr(__S(21, __c1, 5))),
+          brazil: S.optional(S.NullOr(__S(22, __c1, 6))),
+          canada: S.optional(S.NullOr(__S(23, __c1, 7))),
+          chile: S.optional(S.NullOr(__S(22, __c1, 6))),
+          colombia: S.optional(S.NullOr(__S(22, __c1, 6))),
+          dominicanRepublic: S.optional(S.NullOr(__S(24, __c1, 8))),
+          honduras: S.optional(S.NullOr(__S(24, __c1, 8))),
+          india: S.optional(S.NullOr(__S(25, __c1, 9))),
+          kazakhstan: S.optional(S.NullOr(__S(22, __c1, 6))),
+          pakistan: S.optional(S.NullOr(__S(26, __c1, 10))),
+          paraguay: S.optional(S.NullOr(__S(22, __c1, 6))),
+          philippines: S.optional(S.NullOr(__S(27, __c1, 11))),
+          russia: S.optional(S.NullOr(__S(28, __c1, 12))),
+          southAfrica: S.optional(S.NullOr(__S(29, __c1, 13))),
         }),
       ).annotate({ identifier: "InternationalWireCountrySpecificData" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(S.NullOr(__S(1392, __c87, 0))),
-          bankDetails: S.optional(S.NullOr(__S(1395, __c87, 3))),
-          correspondentInfo: S.optional(S.NullOr(__S(1396, __c87, 4))),
-          countrySpecific: __S(1406, __c87, 14),
+          address: S.optional(S.NullOr(__S(16, __c1, 0))),
+          bankDetails: S.optional(S.NullOr(__S(19, __c1, 3))),
+          correspondentInfo: S.optional(S.NullOr(__S(20, __c1, 4))),
+          countrySpecific: __S(30, __c1, 14),
           emailAddress: S.optional(S.NullOr(S.String)),
           iban: S.String,
           phoneNumber: S.optional(S.NullOr(S.String)),
@@ -5153,7 +4013,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "InternationalWireRoutingInfo" });
   }
 }
-function __c88(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5167,16 +4027,1805 @@ function __c88(j: number): any {
       ).annotate({ identifier: "AddressData" });
   }
 }
-function __c89(j: number): any {
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          erroredAt: S.optional(S.NullOr(S.Unknown)),
+          excludedAt: S.optional(S.NullOr(S.Unknown)),
+          reviewedAt: S.optional(S.NullOr(S.Unknown)),
+          status: S.Unknown,
+          syncStartedAt: S.optional(S.NullOr(S.Unknown)),
+          syncedAt: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "TransactionAccountingStatus" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          attachmentType: S.String,
+          fileName: S.String,
+          url: S.String,
+        }),
+      ).annotate({ identifier: "TransactionAttachment" });
+    case 2:
+      return S.Array(__S(49, __c3, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          convertedFromAmount: S.Number,
+          convertedFromCurrency: S.String,
+          convertedToAmount: S.Number,
+          convertedToCurrency: S.String,
+          exchangeRate: S.Number,
+          feeAmount: S.Number,
+          feePercentage: S.Number,
+          feeTransactionId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CurrencyExchangeInfo" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          email: S.optional(S.NullOr(S.String)),
+          id: S.Unknown,
+          paymentMethod: S.String,
+        }),
+      ).annotate({ identifier: "CreditCardInfo" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Unknown,
+        }),
+      ).annotate({ identifier: "DebitCardInfo" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.optional(S.NullOr(__S(32, __c2, 0))),
+          creditCardInfo: S.optional(S.NullOr(__S(52, __c3, 4))),
+          debitCardInfo: S.optional(S.NullOr(__S(53, __c3, 5))),
+          domesticWireRoutingInfo: S.optional(S.NullOr(__S(17, __c1, 1))),
+          electronicRoutingInfo: S.optional(S.NullOr(__S(18, __c1, 2))),
+          internationalWireRoutingInfo: S.optional(S.NullOr(__S(31, __c1, 15))),
+        }),
+      ).annotate({ identifier: "TransactionMethodData" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Number,
+          className: S.optional(S.NullOr(S.String)),
+          departmentName: S.optional(S.NullOr(S.String)),
+          description: S.optional(S.NullOr(S.String)),
+          glCodeName: S.String,
+        }),
+      ).annotate({ identifier: "GlAllocation" });
+    case 8:
+      return S.Array(__S(55, __c3, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.optional(S.NullOr(S.Number)),
+          category: S.optional(S.NullOr(S.Unknown)),
+          categoryCode: S.optional(S.NullOr(S.String)),
+          currency: S.optional(S.NullOr(S.Unknown)),
+          id: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "TransactionMerchant" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String,
+          amount: S.Number,
+          id: S.String,
+          relationKind: S.String,
+        }),
+      ).annotate({ identifier: "RelatedTransactionData" });
+    case 11:
+      return S.Array(__S(58, __c3, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.Unknown,
+          accountingStatus: S.optional(S.NullOr(__S(48, __c3, 0))),
+          amount: S.Number,
+          attachments: __S(50, __c3, 2),
+          bankDescription: S.optional(S.NullOr(S.String)),
+          cardId: S.optional(S.NullOr(S.String)),
+          categoryData: S.optional(S.NullOr(__S(1712, __c107, 0))),
+          checkNumber: S.optional(S.NullOr(S.String)),
+          compliantWithReceiptPolicy: S.Boolean,
+          counterpartyId: S.String,
+          counterpartyName: S.String,
+          counterpartyNickname: S.optional(S.NullOr(S.String)),
+          createdAt: S.String,
+          creditAccountPeriodId: S.optional(S.NullOr(S.String)),
+          currencyExchangeInfo: S.optional(S.NullOr(__S(51, __c3, 3))),
+          dashboardLink: S.String,
+          details: S.optional(S.NullOr(__S(54, __c3, 6))),
+          estimatedDeliveryDate: S.String,
+          externalMemo: S.optional(S.NullOr(S.String)),
+          failedAt: S.optional(S.NullOr(S.String)),
+          feeId: S.optional(S.NullOr(S.String)),
+          generalLedgerCodeName: S.optional(S.NullOr(S.String)),
+          glAllocations: __S(56, __c3, 8),
+          hasGeneratedReceipt: S.Boolean,
+          id: S.String,
+          kind: S.String,
+          merchant: S.optional(S.NullOr(__S(57, __c3, 9))),
+          mercuryCategory: S.optional(S.NullOr(S.String)),
+          note: S.optional(S.NullOr(S.String)),
+          postedAt: S.optional(S.NullOr(S.String)),
+          reasonForFailure: S.optional(S.NullOr(S.String)),
+          relatedTransactions: __S(59, __c3, 11),
+          requestId: S.optional(S.NullOr(S.String)),
+          status: S.String,
+          trackingNumber: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "Transaction" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          achDebitEnabled: S.Boolean,
+          ccEmails: __S(80, __c5, 0),
+          creditCardEnabled: S.Boolean,
+          currencyCode: S.optional(S.NullOr(S.Unknown)),
+          customerId: S.Unknown,
+          destinationAccountId: S.Unknown,
+          dueDate: S.Unknown,
+          internalNote: S.optional(S.NullOr(S.String)),
+          invoiceDate: S.Unknown,
+          invoiceNumber: S.optional(S.NullOr(S.String)),
+          lineItems: __S(97, __c6, 1),
+          payerMemo: S.optional(S.NullOr(S.String)),
+          poNumber: S.optional(S.NullOr(S.String)),
+          sendEmailOption: S.optional(S.NullOr(S.Unknown)),
+          servicePeriodEndDate: S.optional(S.NullOr(S.Unknown)),
+          servicePeriodStartDate: S.optional(S.NullOr(S.Unknown)),
+          useRealAccountNumber: S.Boolean,
+        }).pipe(T.Http({ method: "POST", uri: "/ar/invoices", code: 200 })),
+      ).annotate({ identifier: "CreateInvoiceRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          quantity: S.Number,
+          salesTaxRate: S.optional(S.NullOr(S.Number)),
+          unitPrice: S.Number,
+        }),
+      ).annotate({ identifier: "ApiV1ArLineItemData" });
+    case 1:
+      return S.Array(__S(96, __c6, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          achDebitEnabled: S.Boolean,
+          amount: S.Number,
+          canceledAt: S.optional(S.NullOr(S.Unknown)),
+          ccEmails: __S(80, __c5, 0),
+          createdAt: S.Unknown,
+          creditCardEnabled: S.Boolean,
+          currencyCode: S.Unknown,
+          customerId: S.Unknown,
+          destinationAccountId: S.Unknown,
+          dueDate: S.Unknown,
+          id: S.Unknown,
+          internalNote: S.optional(S.NullOr(S.String)),
+          invoiceDate: S.Unknown,
+          invoiceNumber: S.String,
+          lineItems: __S(97, __c6, 1),
+          payerMemo: S.optional(S.NullOr(S.String)),
+          poNumber: S.optional(S.NullOr(S.String)),
+          servicePeriodEndDate: S.optional(S.NullOr(S.Unknown)),
+          servicePeriodStartDate: S.optional(S.NullOr(S.Unknown)),
+          slug: S.String,
+          status: S.Unknown,
+          updatedAt: S.Unknown,
+          useRealAccountNumber: S.Boolean,
+        }),
+      ).annotate({ identifier: "ApiV1ArInvoiceResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          fileName: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/spend/receipts", code: 200 })),
+      ).annotate({ identifier: "CreateReceiptUploadUrlRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          upload: S.String,
+        }),
+      ).annotate({ identifier: "ApiV1ReceiptUploadUrlResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.optional(__S(32, __c2, 0)),
+          checkInfo: S.optional(__S(160, __c10, 0)),
+          contactEmail: S.optional(S.String),
+          domesticWireRoutingInfo: S.optional(__S(176, __c11, 0)),
+          electronicRoutingInfo: S.optional(__S(177, __c11, 1)),
+          emails: __S(80, __c5, 0),
+          name: S.String,
+          nickname: S.optional(S.String),
+          realTimePaymentRoutingInfo: S.optional(__S(176, __c11, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/recipients", code: 200 })),
+      ).annotate({ identifier: "CreateRecipientRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address1: S.String,
+          address2: S.optional(S.NullOr(S.String)),
+          city: S.String,
+          country: S.String,
+          name: S.String,
+          postalCode: S.String,
+          region: S.String,
+        }),
+      ).annotate({ identifier: "Address" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: __S(16, __c1, 0),
+        }),
+      ).annotate({ identifier: "CheckInfoRaw" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          fileName: S.String,
+          formType: S.optional(S.NullOr(S.Unknown)),
+          uploadedAt: S.Unknown,
+          url: S.String,
+        }),
+      ).annotate({ identifier: "RecipientAttachment" });
+    case 2:
+      return S.Array(__S(161, __c10, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.optional(S.NullOr(__S(144, __c9, 0))),
+          attachments: __S(162, __c10, 2),
+          checkInfo: S.optional(S.NullOr(__S(160, __c10, 0))),
+          contactEmail: S.optional(S.NullOr(S.String)),
+          dateLastPaid: S.optional(S.NullOr(S.String)),
+          defaultAddress: S.optional(S.NullOr(__S(16, __c1, 0))),
+          defaultPaymentMethod: S.String,
+          domesticWireRoutingInfo: S.optional(S.NullOr(__S(17, __c1, 1))),
+          electronicRoutingInfo: S.optional(S.NullOr(__S(18, __c1, 2))),
+          emails: __S(80, __c5, 0),
+          id: S.String,
+          internationalWireRoutingInfo: S.optional(S.NullOr(__S(31, __c1, 15))),
+          inviteId: S.optional(S.NullOr(S.String)),
+          isBusiness: S.optional(S.NullOr(S.Boolean)),
+          name: S.String,
+          nickname: S.optional(S.NullOr(S.String)),
+          realTimePaymentRoutingInfo: S.optional(S.NullOr(__S(17, __c1, 1))),
+          status: S.String,
+        }),
+      ).annotate({ identifier: "RecipientInfo" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountNumber: S.String,
+          address: __S(16, __c1, 0),
+          routingNumber: S.String,
+        }),
+      ).annotate({ identifier: "DomesticWireRoutingInfoRaw" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accountNumber: S.String,
+          address: __S(16, __c1, 0),
+          electronicAccountType: S.Unknown,
+          routingNumber: S.String,
+        }),
+      ).annotate({ identifier: "ElectronicRoutingInfoRaw" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          contactEmail: S.Unknown,
+          name: S.optional(S.NullOr(S.String)),
+          notes: S.optional(S.NullOr(S.String)),
+          organizationNameOnRequest: S.optional(S.NullOr(S.String)),
+          paymentMethods: __S(800, __c50, 0),
+          recipientId: S.optional(S.NullOr(S.Unknown)),
+          requireTaxDocument: S.Boolean,
+          sendEmail: S.Boolean,
+        }).pipe(T.Http({ method: "POST", uri: "/recipients/invites", code: 200 })),
+      ).annotate({ identifier: "CreateRecipientInviteRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          contactEmail: S.Unknown,
+          createdAt: S.Unknown,
+          expiresAt: S.optional(S.NullOr(S.Unknown)),
+          id: S.Unknown,
+          name: S.String,
+          notes: S.optional(S.NullOr(S.String)),
+          onboardingUrl: S.String,
+          paymentMethods: __S(800, __c50, 0),
+          recipientId: S.optional(S.NullOr(S.Unknown)),
+          requireTaxDocument: S.Boolean,
+          status: S.Unknown,
+        }),
+      ).annotate({ identifier: "RecipientInviteApiResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label()),
+          amount: S.Number,
+          externalMemo: S.optional(S.String),
+          idempotencyKey: S.String,
+          note: S.optional(S.String),
+          paymentMethod: S.String,
+          purpose: S.optional(__S(241, __c15, 1)),
+          recipientId: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/account/{accountId}/transactions", code: 200 })),
+      ).annotate({ identifier: "CreateTransactionRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          additionalInfo: S.optional(S.String),
+          category: S.String,
+        }),
+      ).annotate({ identifier: "SimplePurpose" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          simple: S.optional(S.NullOr(__S(240, __c15, 0))),
+        }),
+      ).annotate({ identifier: "PostTransactionSendMoneyPurpose" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          eventTypes: S.optional(S.NullOr(__S(800, __c50, 0))),
+          filterPaths: S.optional(S.NullOr(__S(800, __c50, 0))),
+          url: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/webhooks", code: 200 })),
+      ).annotate({ identifier: "CreateWebhookRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.Unknown,
+          eventTypes: S.optional(S.NullOr(__S(800, __c50, 0))),
+          filterPaths: S.optional(S.NullOr(__S(800, __c50, 0))),
+          id: S.Unknown,
+          secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          status: S.Unknown,
+          updatedAt: S.Unknown,
+          url: S.String,
+        }),
+      ).annotate({ identifier: "ApiWebhookResponse" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          expenseCategoryId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/categories/{expenseCategoryId}", code: 200 })),
+      ).annotate({ identifier: "DeleteCategoryRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          customerId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/ar/customers/{customerId}", code: 200 })),
+      ).annotate({ identifier: "DeleteCustomerRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          recipientId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/recipient/{recipientId}", code: 200 })),
+      ).annotate({ identifier: "DeleteRecipientRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          budgetId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/spend/budgets/{budgetId}/archive", code: 200 })),
+      ).annotate({ identifier: "ArchiveBudgetRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "ArchiveBudgetResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          inviteId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/recipients/invites/{inviteId}", code: 200 })),
+      ).annotate({ identifier: "DeleteRecipientInviteRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          webhookEndpointId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/webhooks/{webhookEndpointId}", code: 200 })),
+      ).annotate({ identifier: "DeleteWebhookRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          expenseCategoryId: S.String.pipe(T.Label()),
+          name: S.optional(S.NullOr(S.Unknown)),
+          visibleForCardSpend: S.optional(S.NullOr(S.Boolean)),
+          visibleForOther: S.optional(S.NullOr(S.Boolean)),
+          visibleForReimbursements: S.optional(S.NullOr(S.Boolean)),
+        }).pipe(T.Http({ method: "POST", uri: "/categories/{expenseCategoryId}", code: 200 })),
+      ).annotate({ identifier: "EditCategoryRequest" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cardId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}/freeze", code: 200 })),
+      ).annotate({ identifier: "FreezeCardRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/account/{accountId}/cards", code: 200 })),
+      ).annotate({ identifier: "GetAccountCardsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          cardId: S.String,
+          createdAt: S.String,
+          lastFourDigits: S.String,
+          nameOnCard: S.String,
+          network: S.String,
+          physicalCardStatus: S.optional(S.NullOr(S.String)),
+          spendLimit: __S(816, __c51, 0),
+          status: S.String,
+          type: S.String,
+          updatedAt: S.String,
+          userId: S.String,
+        }),
+      ).annotate({ identifier: "AccountCard" });
+    case 2:
+      return S.Array(__S(433, __c27, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          cards: __S(434, __c27, 2),
+        }),
+      ).annotate({ identifier: "AccountCardsResponse" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/accounts", code: 200 })),
+      ).annotate({ identifier: "GetAccountsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accountNumber: S.String,
+          availableBalance: S.Number,
+          canReceiveTransactions: S.optional(S.NullOr(S.Boolean)),
+          canSendRealTimePayments: S.Boolean,
+          createdAt: S.String,
+          currentBalance: S.Number,
+          dashboardLink: S.String,
+          id: S.String,
+          kind: S.String,
+          legalBusinessName: S.String,
+          name: S.String,
+          nickname: S.optional(S.NullOr(S.String)),
+          routingNumber: S.String,
+          status: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Account" });
+    case 2:
+      return S.Array(__S(449, __c28, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          accounts: __S(450, __c28, 2),
+          page: __S(464, __c29, 0),
+        }),
+      ).annotate({ identifier: "AccountsPaginatedResponse" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          nextPage: S.optional(S.String),
+          previousPage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AccountsPaginatedResponsePage" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          start: S.optional(S.String.pipe(T.Query())),
+          end: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/account/{accountId}/statements", code: 200 })),
+      ).annotate({ identifier: "GetAccountStatementsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accountNumber: S.String,
+          companyLegalAddress: __S(144, __c9, 0),
+          companyLegalName: S.String,
+          downloadUrl: S.String,
+          ein: S.optional(S.NullOr(S.String)),
+          endDate: S.String,
+          endingBalance: S.Number,
+          id: S.String,
+          routingNumber: S.String,
+          startDate: S.String,
+          transactions: __S(497, __c31, 1),
+        }),
+      ).annotate({ identifier: "DepositoryAccountStatement" });
+    case 2:
+      return S.Array(__S(481, __c30, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          page: __S(464, __c29, 0),
+          statements: __S(482, __c30, 2),
+        }),
+      ).annotate({ identifier: "DepositoryAccountStatementsPaginatedResponse" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.String,
+          id: S.String,
+          postedAt: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "AccountStatementTransaction" });
+    case 1:
+      return S.Array(__S(496, __c31, 0));
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          attachmentId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/ar/attachments/{attachmentId}", code: 200 })),
+      ).annotate({ identifier: "GetAttachmentRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          fileName: S.String,
+          id: S.Unknown,
+          url: S.String,
+        }),
+      ).annotate({ identifier: "ApiV1ArAttachmentResponseData" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/auto-transfer-rules", code: 200 })),
+      ).annotate({ identifier: "GetAutoTransferRulesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.Unknown,
+          amount: S.Unknown,
+          percentage: S.Number,
+        }),
+      ).annotate({ identifier: "AutoTransferRuleDetailsContentsReservoirAccountsItem" });
+    case 2:
+      return S.Array(__S(545, __c34, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          reservoirAccounts: S.optional(__S(546, __c34, 2)),
+          lowerBound: S.optional(S.NullOr(S.Unknown)),
+          reservoirAccountId: S.optional(S.Unknown),
+          targetBalance: S.optional(S.Unknown),
+          upperBound: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "AutoTransferRuleDetailsContents" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          contents: S.optional(__S(547, __c34, 3)),
+          kind: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AutoTransferRuleDetails" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          controlledAccountId: S.Unknown,
+          description: S.String,
+          details: __S(548, __c34, 4),
+          frequency: S.String,
+          id: S.Unknown,
+          isPaused: S.Boolean,
+          name: S.String,
+          nextTransferAt: S.optional(S.NullOr(S.Unknown)),
+          nickname: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "AutoTransferRule" });
+    case 6:
+      return S.Array(__S(549, __c34, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          page: __S(464, __c29, 0),
+          rules: __S(550, __c34, 6),
+        }),
+      ).annotate({ identifier: "AutoTransferRulesResponse" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          budgetId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/spend/budgets/{budgetId}", code: 200 })),
+      ).annotate({ identifier: "GetBudgetRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amountPerUserPerPeriod: S.optional(S.NullOr(S.Number)),
+          description: S.optional(S.NullOr(S.String)),
+          endDate: S.optional(S.NullOr(S.String)),
+          frequency: S.String,
+          id: S.String,
+          name: S.optional(S.NullOr(S.String)),
+          startDate: S.optional(S.NullOr(S.String)),
+          status: S.String,
+        }),
+      ).annotate({ identifier: "ApiV1SpendBudgetResponse" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          budgetId: S.String.pipe(T.Label()),
+          allowOverspend: S.optional(S.NullOr(S.Boolean)),
+          transactionId: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/spend/budgets/{budgetId}/assign-transaction",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AssignTransactionToBudgetRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          budgetId: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_at: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/spend/budgets/{budgetId}/expenditures", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetBudgetExpendituresRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          assignedAmount: S.optional(S.NullOr(S.Unknown)),
+          expenseId: S.optional(S.NullOr(S.String)),
+          id: S.String,
+          transactionId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ApiV1BudgetExpenditure" });
+    case 2:
+      return S.Array(__S(609, __c38, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          expenditures: __S(610, __c38, 2),
+          page: __S(464, __c29, 0),
+        }),
+      ).annotate({ identifier: "ApiV1BudgetExpendituresResponse" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          budgetId: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_at: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/spend/budgets/{budgetId}/members", code: 200 })),
+      ).annotate({ identifier: "GetBudgetMembersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          cycleRemaining: S.Number,
+          cycleSpent: S.Number,
+          email: S.String,
+          firstName: S.String,
+          lastName: S.String,
+          orgUserId: S.String,
+        }),
+      ).annotate({ identifier: "ApiV1BudgetMember" });
+    case 2:
+      return S.Array(__S(625, __c39, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          members: __S(626, __c39, 2),
+          page: __S(464, __c29, 0),
+        }),
+      ).annotate({ identifier: "ApiV1BudgetMembersResponse" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cardId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/cards/{cardId}", code: 200 })),
+      ).annotate({ identifier: "GetCardRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          start: S.optional(S.String.pipe(T.Query())),
+          end: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/credit/{accountId}/statements", code: 200 })),
+      ).annotate({ identifier: "GetCreditAccountStatementsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accountDetails: S.Unknown,
+          accountType: S.String,
+        }),
+      ).annotate({ identifier: "AccountStatementPayload" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          companyLegalAddress: __S(144, __c9, 0),
+          companyLegalName: S.String,
+          details: __S(657, __c41, 1),
+          downloadUrl: S.String,
+          ein: S.optional(S.NullOr(S.String)),
+          endDate: S.String,
+          endingBalance: S.Number,
+          id: S.String,
+          startDate: S.String,
+          transactions: __S(497, __c31, 1),
+        }),
+      ).annotate({ identifier: "AccountStatement" });
+    case 3:
+      return S.Array(__S(658, __c41, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          page: __S(464, __c29, 0),
+          statements: __S(659, __c41, 3),
+        }),
+      ).annotate({ identifier: "CreditAccountStatementsPaginatedResponse" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          customerId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/ar/customers/{customerId}", code: 200 })),
+      ).annotate({ identifier: "GetCustomerRequest" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          eventId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/events/{eventId}", code: 200 })),
+      ).annotate({ identifier: "GetEventRequest" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          changedPaths: __S(80, __c5, 0),
+          id: S.Unknown,
+          mergePatch: S.Unknown,
+          occurredAt: S.Unknown,
+          operationType: S.Unknown,
+          previousValues: S.optional(S.NullOr(S.Unknown)),
+          resourceId: S.Unknown,
+          resourceType: S.Unknown,
+          resourceVersion: S.Unknown,
+        }),
+      ).annotate({ identifier: "ApiEventResponse" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          resourceType: S.optional(S.String.pipe(T.Query())),
+          resourceId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/events", code: 200 })),
+      ).annotate({ identifier: "GetEventsRequest" });
+    case 1:
+      return S.Array(__S(704, __c44, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          events: __S(721, __c45, 1),
+          page: __S(464, __c29, 0),
+        }),
+      ).annotate({ identifier: "ApiEventsPaginatedResponse" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          invoiceId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/ar/invoices/{invoiceId}", code: 200 })),
+      ).annotate({ identifier: "GetInvoiceRequest" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          invoiceId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/ar/invoices/{invoiceId}/pdf", code: 200 })),
+      ).annotate({ identifier: "GetInvoicePdfRequest" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/organization", code: 200 })),
+      ).annotate({ identifier: "GetOrganizationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          dbaIsDefault: S.Boolean,
+          dbaName: S.String,
+        }),
+      ).annotate({ identifier: "OrganizationDBA" });
+    case 2:
+      return S.Array(__S(769, __c48, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          billingCadence: S.Unknown,
+          dbas: __S(770, __c48, 2),
+          ein: S.optional(S.NullOr(S.String)),
+          id: S.Unknown,
+          kind: S.Unknown,
+          legalBusinessName: S.String,
+          subscriptionTier: S.Unknown,
+        }),
+      ).annotate({ identifier: "OrganizationResponseOrganization" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          organization: __S(771, __c48, 3),
+        }),
+      ).annotate({ identifier: "OrganizationResponse" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cardId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}/cancel", code: 200 })),
+      ).annotate({ identifier: "CancelCardRequest" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amountCents: S.Number,
+          atmAmountCents: S.optional(S.NullOr(S.Number)),
+          interval: S.Unknown,
+        }),
+      ).annotate({ identifier: "CardSpendLimit" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "CardMerchantLock" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          month: S.Number,
+          year: S.Number,
+        }),
+      ).annotate({ identifier: "CardExpiration" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amountCents: S.Number,
+          id: S.String,
+          name: S.String,
+          remainingAmountCents: S.Number,
+        }),
+      ).annotate({ identifier: "CardBudget" });
+    case 1:
+      return S.Array(__S(864, __c54, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String,
+          budgets: __S(865, __c54, 1),
+          categoryLocks: __S(800, __c50, 0),
+          createdAt: S.Unknown,
+          expiration: __S(848, __c53, 0),
+          id: S.String,
+          isAgentCard: S.Boolean,
+          isSingleUse: S.Boolean,
+          kind: S.Unknown,
+          lastFour: S.String,
+          merchantLock: S.optional(S.NullOr(__S(832, __c52, 0))),
+          nameOnCard: S.String,
+          nickname: S.optional(S.NullOr(S.String)),
+          physicalCardStatus: S.optional(S.NullOr(S.Unknown)),
+          spendLimit: S.optional(S.NullOr(__S(816, __c51, 0))),
+          spendLimitType: S.Unknown,
+          status: S.Unknown,
+          type: S.Unknown,
+          updatedAt: S.Unknown,
+          userId: S.String,
+        }),
+      ).annotate({ identifier: "Card" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          receiptId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/spend/receipts/{receiptId}", code: 200 })),
+      ).annotate({ identifier: "GetReceiptRequest" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.String,
+          fileName: S.String,
+          id: S.String,
+          matchedTransactionId: S.optional(S.NullOr(S.Unknown)),
+          status: S.String,
+          uploadedAt: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "ApiV1ReceiptResponse" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          recipientId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/recipient/{recipientId}", code: 200 })),
+      ).annotate({ identifier: "GetRecipientRequest" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          inviteId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/recipients/invites/{inviteId}", code: 200 })),
+      ).annotate({ identifier: "GetRecipientInviteRequest" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/recipients", code: 200 })),
+      ).annotate({ identifier: "GetRecipientsRequest" });
+    case 1:
+      return S.Array(__S(163, __c10, 3));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          page: __S(464, __c29, 0),
+          recipients: __S(945, __c59, 1),
+          total: S.Unknown,
+        }),
+      ).annotate({ identifier: "RecipientsPaginatedResponse" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          safeRequestId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/safes/{safeRequestId}", code: 200 })),
+      ).annotate({ identifier: "GetSafeRequestRequest" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          additionalBylines: S.optional(S.NullOr(S.String)),
+          address: S.optional(S.NullOr(S.String)),
+          investorType: S.String,
+          legalEntityName: S.String,
+          signatoryEmail: S.String,
+          signatoryName: S.String,
+          signatoryTitle: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "APISafeRequestInvestor" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          legalEntityName: S.String,
+          signatoryEmail: S.String,
+          signatoryName: S.String,
+          signatoryTitle: S.String,
+        }),
+      ).annotate({ identifier: "APISafeRequestOrganization" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          canceledAt: S.optional(S.NullOr(S.String)),
+          discountRate: S.optional(S.NullOr(S.Number)),
+          documentUrl: S.String,
+          expiresAt: S.String,
+          governingState: S.optional(S.NullOr(S.String)),
+          id: S.String,
+          includesMostFavoredNationClause: S.Boolean,
+          includesProRataRightsLetter: S.Boolean,
+          investmentAmount: S.Number,
+          investmentDate: S.String,
+          investor: __S(976, __c61, 0),
+          organization: __S(977, __c61, 1),
+          paidAt: S.optional(S.NullOr(S.String)),
+          signedByInvestorAt: S.optional(S.NullOr(S.String)),
+          signedByOwnerAt: S.optional(S.NullOr(S.String)),
+          valuationCap: S.optional(S.NullOr(S.Number)),
+          valuationType: S.String,
+        }),
+      ).annotate({ identifier: "APISafeRequest" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          safeRequestId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/safes/{safeRequestId}/document", code: 200 })),
+      ).annotate({ identifier: "GetSafeRequestDocumentRequest" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/safes", code: 200 })),
+      ).annotate({ identifier: "GetSafeRequestsRequest" });
+    case 1:
+      return S.Array(__S(978, __c61, 2));
+    case 2:
+      return S.suspend(() => __S(1009, __c63, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetSafeRequestsResponse",
+      });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          requestId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/request-send-money/{requestId}", code: 200 })),
+      ).annotate({ identifier: "GetSendMoneyApprovalRequestRequest" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reviewedAt: S.String,
+          reviewerUserId: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "PaymentApprovalReview" });
+    case 1:
+      return S.Array(__S(1040, __c65, 0));
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String,
+          amount: S.Number,
+          createdAt: S.Unknown,
+          memo: S.optional(S.NullOr(S.String)),
+          numberOfApproversRequired: S.optional(S.NullOr(S.Number)),
+          paymentMethod: S.String,
+          recipientId: S.String,
+          requestId: S.String,
+          requestedByUserId: S.Unknown,
+          requesterMayApprove: S.optional(S.NullOr(S.Boolean)),
+          reviews: __S(1041, __c65, 1),
+          scheduledSendDate: S.optional(S.NullOr(S.Unknown)),
+          status: S.String,
+        }),
+      ).annotate({ identifier: "SendMoneyApprovalRequestResponse" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          statementId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/statements/{statementId}/pdf", code: 200 })),
+      ).annotate({ identifier: "GetStatementPdfRequest" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label()),
+          transactionId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/account/{accountId}/transaction/{transactionId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetTransactionRequest" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          invoiceId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/ar/invoices/{invoiceId}/cancel", code: 200 })),
+      ).annotate({ identifier: "CancelInvoiceRequest" });
+  }
+}
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           transactionId: S.String.pipe(T.Label()),
-          categoryId: S.Unknown,
-          note: S.Unknown,
-        }).pipe(T.Http({ method: "PATCH", uri: "/transaction/{transactionId}", code: 200 })),
-      ).annotate({ identifier: "UpdateTransactionRequest" });
+        }).pipe(T.Http({ method: "GET", uri: "/transaction/{transactionId}", code: 200 })),
+      ).annotate({ identifier: "GetTransactionByTransactionIdRequest" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          requestId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/request-transfer/{requestId}", code: 200 })),
+      ).annotate({ identifier: "GetTransferMoneyApprovalRequestRequest" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Number,
+          createdAt: S.Unknown,
+          destinationAccountId: S.Unknown,
+          memo: S.optional(S.NullOr(S.String)),
+          note: S.optional(S.NullOr(S.String)),
+          numberOfApproversRequired: S.optional(S.NullOr(S.Number)),
+          requestId: S.String,
+          requestedByUserId: S.Unknown,
+          requesterMayApprove: S.optional(S.NullOr(S.Boolean)),
+          reviews: __S(1041, __c65, 1),
+          sourceAccountId: S.Unknown,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "TransferMoneyApprovalRequestResponse" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/treasury", code: 200 })),
+      ).annotate({ identifier: "GetTreasuryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Number,
+          id: S.String,
+          securityName: S.String,
+          type: S.Unknown,
+        }),
+      ).annotate({ identifier: "TreasuryDividend" });
+    case 2:
+      return S.Array(__S(1169, __c73, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          dividends: __S(1170, __c73, 2),
+          month: S.Unknown,
+          netAmount: S.Number,
+          status: S.Unknown,
+          treasuryFee: S.Number,
+        }),
+      ).annotate({ identifier: "TreasuryNetReturn" });
+    case 4:
+      return S.Array(__S(1171, __c73, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          availableBalance: S.Number,
+          createdAt: S.String,
+          currentBalance: S.Number,
+          id: S.String,
+          netReturns: __S(1172, __c73, 4),
+          status: S.String,
+        }),
+      ).annotate({ identifier: "TreasuryAccount" });
+    case 6:
+      return S.Array(__S(1173, __c73, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          accounts: __S(1174, __c73, 6),
+          page: __S(464, __c29, 0),
+        }),
+      ).annotate({ identifier: "TreasuryAccountsPaginatedResponse" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          treasuryId: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          documentType: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/treasury/{treasuryId}/statements", code: 200 })),
+      ).annotate({ identifier: "GetTreasuryStatementsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.Unknown,
+          createdAt: S.Unknown,
+          creationDate: S.Unknown,
+          description: S.String,
+          documentType: S.Unknown,
+          downloadUrl: S.String,
+          id: S.Unknown,
+          periodEnd: S.Unknown,
+          periodStart: S.Unknown,
+          updatedAt: S.Unknown,
+        }),
+      ).annotate({ identifier: "TreasuryStatement" });
+    case 2:
+      return S.Array(__S(1185, __c74, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          page: __S(464, __c29, 0),
+          statements: __S(1186, __c74, 2),
+        }),
+      ).annotate({ identifier: "TreasuryStatementsPaginatedResponse" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          treasuryId: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          cursor: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/treasury/{treasuryId}/transactions", code: 200 })),
+      ).annotate({ identifier: "GetTreasuryTransactionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          creditDescription: S.optional(S.NullOr(S.String)),
+          depositCounterpartyId: S.optional(S.NullOr(S.String)),
+          feeDescription: S.optional(S.NullOr(S.String)),
+          manualAmendmentDescription: S.optional(S.NullOr(S.String)),
+          security: S.optional(S.NullOr(S.String)),
+          sweepDirection: S.optional(S.NullOr(S.String)),
+          tradeAction: S.optional(S.NullOr(S.String)),
+          withdrawalCounterpartyId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "TreasuryTransactionDetails" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String,
+          additionalDetails: S.optional(S.NullOr(S.String)),
+          amount: S.Number,
+          balance: S.Number,
+          canonicalDay: S.String,
+          description: S.String,
+          details: S.optional(S.NullOr(__S(1201, __c75, 1))),
+          id: S.String,
+          security: S.optional(S.NullOr(S.String)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "TreasuryTxn" });
+    case 3:
+      return S.Array(__S(1202, __c75, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          cursor: S.optional(S.NullOr(S.Unknown)),
+          transactions: __S(1203, __c75, 3),
+        }),
+      ).annotate({ identifier: "TreasuryTransactionsResponse" });
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/users/{userId}", code: 200 })),
+      ).annotate({ identifier: "GetUserRequest" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          email: S.String,
+          firstName: S.String,
+          lastName: S.String,
+          organizationRole: S.Unknown,
+          userId: S.Unknown,
+        }),
+      ).annotate({ identifier: "UserDetails" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/users", code: 200 })),
+      ).annotate({ identifier: "GetUsersRequest" });
+    case 1:
+      return S.Array(__S(1232, __c77, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          page: __S(464, __c29, 0),
+          users: __S(1249, __c78, 1),
+        }),
+      ).annotate({ identifier: "UsersPaginatedResponse" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          webhookEndpointId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/webhooks/{webhookEndpointId}", code: 200 })),
+      ).annotate({ identifier: "GetWebhookRequest" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(__S(800, __c50, 0).pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/webhooks", code: 200 })),
+      ).annotate({ identifier: "GetWebhooksRequest" });
+    case 1:
+      return S.Array(__S(272, __c17, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          page: __S(464, __c29, 0),
+          webhooks: __S(1281, __c80, 1),
+        }),
+      ).annotate({ identifier: "ApiWebhooksPaginatedResponse" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start: S.optional(S.String.pipe(T.Query())),
+          end: S.optional(S.String.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(S.String.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          requestId: S.optional(S.String.pipe(T.Query())),
+          mercuryCategory: S.optional(S.String.pipe(T.Query())),
+          categoryId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/account/{accountId}/transactions", code: 200 })),
+      ).annotate({ identifier: "ListAccountTransactionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          total: S.Number,
+          transactions: __S(1312, __c82, 0),
+        }),
+      ).annotate({ identifier: "TransactionsResponse" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(60, __c3, 12));
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amountPerUserPerPeriod: S.optional(S.NullOr(S.Number)),
+          description: S.optional(S.NullOr(S.String)),
+          endDate: S.optional(S.NullOr(S.String)),
+          frequency: S.String,
+          name: S.optional(S.NullOr(S.String)),
+          startDate: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/spend/budgets", code: 200 })),
+      ).annotate({ identifier: "CreateBudgetRequest" });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+        }),
+      ).annotate({ identifier: "ApiV1BudgetIdResponse" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_at: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/spend/budgets", code: 200 })),
+      ).annotate({ identifier: "ListBudgetsRequest" });
+    case 1:
+      return S.Array(__S(576, __c36, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          budgets: __S(1361, __c85, 1),
+          page: __S(464, __c29, 0),
+        }),
+      ).annotate({ identifier: "ApiV1SpendBudgetsResponse" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.optional(__S(80, __c5, 0).pipe(T.Query())),
+          status: S.optional(__S(800, __c50, 0).pipe(T.Query())),
+          type: S.optional(__S(800, __c50, 0).pipe(T.Query())),
+          kind: S.optional(__S(800, __c50, 0).pipe(T.Query())),
+          userId: S.optional(S.String.pipe(T.Query())),
+          isAgentCard: S.optional(S.Boolean.pipe(T.Query())),
+          isSingleUse: S.optional(S.Boolean.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/cards", code: 200 })),
+      ).annotate({ identifier: "ListCardsRequest" });
+    case 1:
+      return S.Array(__S(866, __c54, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          cards: __S(1377, __c86, 1),
+          page: __S(464, __c29, 0),
+        }),
+      ).annotate({ identifier: "CardListResponse" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/categories", code: 200 })),
+      ).annotate({ identifier: "ListCategoriesRequest" });
+    case 1:
+      return S.Array(__S(1712, __c107, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          categories: __S(1393, __c87, 1),
+          page: __S(464, __c29, 0),
+        }),
+      ).annotate({ identifier: "CategoriesPaginatedResponse" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/credit", code: 200 })),
+      ).annotate({ identifier: "ListCreditRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          availableBalance: S.Number,
+          createdAt: S.String,
+          currentBalance: S.Number,
+          id: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "CreditAccount" });
+    case 2:
+      return S.Array(__S(1409, __c88, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          accounts: __S(1410, __c88, 2),
+        }),
+      ).annotate({ identifier: "CreditAccountsResponse" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/ar/customers", code: 200 })),
+      ).annotate({ identifier: "ListCustomersRequest" });
+    case 1:
+      return S.Array(__S(1905, __c119, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          customers: __S(1425, __c89, 1),
+          page: __S(464, __c29, 0),
+        }),
+      ).annotate({ identifier: "ApiV1ArCustomerPaginatedResponseData" });
   }
 }
 function __c90(j: number): any {
@@ -5184,16 +5833,529 @@ function __c90(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          invoiceId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/ar/invoices/{invoiceId}/attachments", code: 200 })),
+      ).annotate({ identifier: "ListInvoiceAttachmentsRequest" });
+    case 1:
+      return S.Array(__S(528, __c33, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          attachments: __S(1441, __c90, 1),
+        }),
+      ).annotate({ identifier: "ApiV1ArAttachmentsResponseData" });
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/ar/invoices", code: 200 })),
+      ).annotate({ identifier: "ListInvoicesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          achDebitEnabled: S.Boolean,
+          amount: S.Number,
+          canceledAt: S.optional(S.NullOr(S.Unknown)),
+          ccEmails: __S(80, __c5, 0),
+          createdAt: S.Unknown,
+          creditCardEnabled: S.Boolean,
+          currencyCode: S.Unknown,
+          customerId: S.Unknown,
+          destinationAccountId: S.Unknown,
+          dueDate: S.Unknown,
+          id: S.Unknown,
+          internalNote: S.optional(S.NullOr(S.String)),
+          invoiceDate: S.Unknown,
+          invoiceNumber: S.String,
+          payerMemo: S.optional(S.NullOr(S.String)),
+          poNumber: S.optional(S.NullOr(S.String)),
+          slug: S.String,
+          status: S.Unknown,
+          updatedAt: S.Unknown,
+          useRealAccountNumber: S.Boolean,
+        }),
+      ).annotate({ identifier: "ApiV1ArInvoicesData" });
+    case 2:
+      return S.Array(__S(1457, __c91, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          invoices: __S(1458, __c91, 2),
+          page: __S(464, __c29, 0),
+        }),
+      ).annotate({ identifier: "ApiV1ArInvoicesPaginatedResponse" });
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/merchants", code: 200 })),
+      ).annotate({ identifier: "ListMerchantsRequest" });
+    case 1:
+      return S.Array(__S(832, __c52, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1473, __c92, 1),
+          page: __S(464, __c29, 0),
+        }),
+      ).annotate({ identifier: "MerchantsResponse" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_at: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/spend/receipts", code: 200 })),
+      ).annotate({ identifier: "ListReceiptsRequest" });
+    case 1:
+      return S.Array(__S(896, __c56, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          page: __S(464, __c29, 0),
+          receipts: __S(1489, __c93, 1),
+        }),
+      ).annotate({ identifier: "ApiV1ReceiptsPaginatedResponse" });
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/recipients/invites", code: 200 })),
+      ).annotate({ identifier: "ListRecipientInvitesRequest" });
+    case 1:
+      return S.Array(__S(208, __c13, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          invites: __S(1505, __c94, 1),
+          page: __S(464, __c29, 0),
+        }),
+      ).annotate({ identifier: "RecipientInviteApiPaginatedResponse" });
+  }
+}
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          singleUse: S.Boolean,
+        }),
+      ).annotate({ identifier: "CreateCardRequestCardConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          amountCents: S.Number,
+          interval: S.Unknown,
+        }),
+      ).annotate({ identifier: "CreateCardRequestSpendLimit" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.optional(S.NullOr(S.Unknown)),
+          cardConfiguration: S.optional(S.NullOr(__S(1520, __c95, 0))),
+          kind: S.Unknown,
+          nickname: S.optional(S.NullOr(S.String)),
+          spendLimit: S.optional(S.NullOr(__S(1521, __c95, 1))),
+          type: S.Unknown,
+          userId: S.Unknown,
+        }).pipe(T.Http({ method: "POST", uri: "/cards", code: 200 })),
+      ).annotate({ identifier: "CreateCardRequest" });
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/recipients/attachments", code: 200 })),
+      ).annotate({ identifier: "ListRecipientsAttachmentsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          fileName: S.String,
+          formType: S.optional(S.NullOr(S.Unknown)),
+          id: S.Unknown,
+          recipientId: S.Unknown,
+          uploadedAt: S.Unknown,
+          url: S.String,
+        }),
+      ).annotate({ identifier: "RecipientAttachmentWithId" });
+    case 2:
+      return S.Array(__S(1537, __c96, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          attachments: __S(1538, __c96, 2),
+          page: __S(464, __c29, 0),
+          total: S.Unknown,
+        }),
+      ).annotate({ identifier: "RecipientsAttachmentsPaginatedResponse" });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/request-send-money", code: 200 })),
+      ).annotate({ identifier: "ListSendMoneyApprovalRequestsRequest" });
+    case 1:
+      return S.Array(__S(1056, __c66, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          page: __S(464, __c29, 0),
+          requests: __S(1553, __c97, 1),
+        }),
+      ).annotate({ identifier: "SendMoneyApprovalRequestsPaginatedResponse" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(__S(800, __c50, 0).pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+          start: S.optional(S.String.pipe(T.Query())),
+          end: S.optional(S.String.pipe(T.Query())),
+          postedStart: S.optional(S.String.pipe(T.Query())),
+          postedEnd: S.optional(S.String.pipe(T.Query())),
+          accountId: S.optional(__S(80, __c5, 0).pipe(T.Query())),
+          cardId: S.optional(__S(80, __c5, 0).pipe(T.Query())),
+          mercuryCategory: S.optional(S.String.pipe(T.Query())),
+          categoryId: S.optional(S.String.pipe(T.Query())),
+          start_at: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/transactions", code: 200 })),
+      ).annotate({ identifier: "ListTransactionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          page: __S(464, __c29, 0),
+          transactions: __S(1312, __c82, 0),
+        }),
+      ).annotate({ identifier: "TransactionsPaginatedResponse" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sourceAccountId: S.optional(S.String.pipe(T.Query())),
+          destinationAccountId: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(S.String.pipe(T.Query())),
+          start_at: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/request-transfer", code: 200 })),
+      ).annotate({ identifier: "ListTransferMoneyApprovalRequestsRequest" });
+    case 1:
+      return S.Array(__S(1152, __c72, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          page: __S(464, __c29, 0),
+          requests: __S(1585, __c99, 1),
+        }),
+      ).annotate({ identifier: "TransferMoneyApprovalRequestsPaginatedResponse" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          receiptId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/spend/receipts/{receiptId}/match", code: 200 })),
+      ).annotate({ identifier: "MatchReceiptRequest" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          code_verifier: S.String,
+          grant_type: S.String,
+          redirect_uri: S.String,
+          refresh_token: S.String.pipe(T.SensitiveValue({})),
+          scope: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/oauth2/token", code: 200 })),
+      ).annotate({ identifier: "ObtainAccessTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          access_token: S.String.pipe(T.SensitiveValue({})),
+          expires_in: S.optional(S.Number),
+          refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          scope: S.optional(S.String),
+          token_type: S.String,
+        }),
+      ).annotate({ identifier: "OAuth2TokenResponse" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label()),
+          amount: S.Number,
+          chargeType: S.optional(S.String),
+          externalMemo: S.optional(S.String),
+          idempotencyKey: S.String,
+          note: S.optional(S.String),
+          paymentMethod: S.String,
+          purpose: S.optional(__S(241, __c15, 1)),
+          recipientId: S.String,
+        }).pipe(
+          T.Http({ method: "POST", uri: "/account/{accountId}/request-send-money", code: 200 }),
+        ),
+      ).annotate({ identifier: "RequestSendMoneyRequest" });
+  }
+}
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Number,
+          destinationAccountId: S.String,
+          idempotencyKey: S.String,
+          note: S.optional(S.NullOr(S.String)),
+          sourceAccountId: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/request-transfer", code: 200 })),
+      ).annotate({ identifier: "RequestTransferMoneyRequest" });
+  }
+}
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cardId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/cards/{cardId}/reveal", code: 200 })),
+      ).annotate({ identifier: "RevealCardPanRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          cardNumber: S.String,
+          cvc: S.String,
+          expiration: __S(848, __c53, 0),
+        }),
+      ).annotate({ identifier: "CardRevealResponse" });
+  }
+}
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.String.pipe(T.Query()),
+          redirect_uri: S.String.pipe(T.Query()),
+          scope: S.String.pipe(T.Query()),
+          state: S.optional(S.String.pipe(T.Query())),
+          response_type: S.String.pipe(T.Query()),
+          code_challenge: S.optional(S.String.pipe(T.Query())),
+          code_challenge_method: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/oauth2/auth", code: 200 })),
+      ).annotate({ identifier: "StartOAuth2FlowRequest" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.Unknown,
+          visibleForCardSpend: S.Boolean,
+          visibleForOther: S.Boolean,
+          visibleForReimbursements: S.Boolean,
+        }).pipe(T.Http({ method: "POST", uri: "/categories", code: 200 })),
+      ).annotate({ identifier: "CreateCategoryRequest" });
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Unknown,
+          name: S.String,
+          visibleForCardSpend: S.Boolean,
+          visibleForOther: S.Boolean,
+          visibleForReimbursements: S.Boolean,
+        }),
+      ).annotate({ identifier: "CategoryData" });
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cardId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}/unfreeze", code: 200 })),
+      ).annotate({ identifier: "UnfreezeCardRequest" });
+  }
+}
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          budgetId: S.String.pipe(T.Label()),
+          amountPerUserPerPeriod: S.optional(S.NullOr(S.Number)),
+          description: S.optional(S.NullOr(S.String)),
+          endDate: S.optional(S.NullOr(S.String)),
+          frequency: S.optional(S.NullOr(S.String)),
+          name: S.optional(S.NullOr(S.String)),
+          startDate: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/spend/budgets/{budgetId}", code: 200 })),
+      ).annotate({ identifier: "UpdateBudgetRequest" });
+  }
+}
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cardId: S.String.pipe(T.Label()),
+          nickname: S.optional(S.Unknown),
+          spendLimit: S.optional(S.NullOr(__S(816, __c51, 0))),
+        }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}", code: 200 })),
+      ).annotate({ identifier: "UpdateCardRequest" });
+  }
+}
+function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          customerId: S.String.pipe(T.Label()),
+          address: S.optional(S.NullOr(__S(1920, __c120, 0))),
+          email: S.Unknown,
+          name: S.String,
+          resendOpenInvoices: S.Boolean,
+        }).pipe(T.Http({ method: "POST", uri: "/ar/customers/{customerId}", code: 200 })),
+      ).annotate({ identifier: "UpdateCustomerRequest" });
+  }
+}
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          invoiceId: S.String.pipe(T.Label()),
+          achDebitEnabled: S.Boolean,
+          ccEmails: __S(80, __c5, 0),
+          creditCardEnabled: S.Boolean,
+          dueDate: S.Unknown,
+          internalNote: S.optional(S.NullOr(S.String)),
+          invoiceDate: S.Unknown,
+          invoiceNumber: S.String,
+          lineItems: __S(97, __c6, 1),
+          payerMemo: S.optional(S.NullOr(S.String)),
+          poNumber: S.optional(S.NullOr(S.String)),
+          servicePeriodEndDate: S.optional(S.NullOr(S.Unknown)),
+          servicePeriodStartDate: S.optional(S.NullOr(S.Unknown)),
+          useRealAccountNumber: S.Boolean,
+        }).pipe(T.Http({ method: "POST", uri: "/ar/invoices/{invoiceId}", code: 200 })),
+      ).annotate({ identifier: "UpdateInvoiceRequest" });
+  }
+}
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          recipientId: S.String.pipe(T.Label()),
+          address: S.optional(__S(32, __c2, 0)),
+          checkInfo: S.optional(__S(160, __c10, 0)),
+          contactEmail: S.optional(S.String),
+          domesticWireRoutingInfo: S.optional(__S(176, __c11, 0)),
+          electronicRoutingInfo: S.optional(__S(177, __c11, 1)),
+          emails: S.optional(__S(80, __c5, 0)),
+          name: S.optional(S.String),
+          nickname: S.optional(S.String),
+          realTimePaymentRoutingInfo: S.optional(__S(176, __c11, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/recipient/{recipientId}", code: 200 })),
+      ).annotate({ identifier: "UpdateRecipientRequest" });
+  }
+}
+function __c114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          transactionId: S.String.pipe(T.Label()),
+          categoryId: S.optional(S.Unknown),
+          note: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "PATCH", uri: "/transaction/{transactionId}", code: 200 })),
+      ).annotate({ identifier: "UpdateTransactionRequest" });
+  }
+}
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           webhookEndpointId: S.String.pipe(T.Label()),
-          eventTypes: S.optional(S.NullOr(__S(224, __c14, 0))),
-          filterPaths: S.optional(S.NullOr(__S(224, __c14, 0))),
+          eventTypes: S.optional(S.NullOr(__S(800, __c50, 0))),
+          filterPaths: S.optional(S.NullOr(__S(800, __c50, 0))),
           status: S.optional(S.NullOr(S.Unknown)),
           url: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/webhooks/{webhookEndpointId}", code: 200 })),
       ).annotate({ identifier: "UpdateWebhookRequest" });
   }
 }
-function __c91(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5211,7 +6373,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "UploadRecipientAttachmentRequest" });
   }
 }
-function __c92(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5230,7 +6392,60 @@ function __c92(j: number): any {
       ).annotate({ identifier: "UploadTransactionAttachmentRequest" });
   }
 }
-function __c93(j: number): any {
+function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.optional(S.NullOr(__S(1920, __c120, 0))),
+          email: S.Unknown,
+          name: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/ar/customers", code: 200 })),
+      ).annotate({ identifier: "CreateCustomerRequest" });
+  }
+}
+function __c119(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address1: S.String,
+          address2: S.optional(S.NullOr(S.String)),
+          city: S.String,
+          country: S.Unknown,
+          postalCode: S.String,
+          region: S.Unknown,
+        }),
+      ).annotate({ identifier: "ApiV1ArCustomerResponseDataAddress" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.optional(S.NullOr(__S(1904, __c119, 0))),
+          deletedAt: S.optional(S.NullOr(S.Unknown)),
+          email: S.Unknown,
+          id: S.Unknown,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "ApiV1ArCustomerResponseData" });
+  }
+}
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address1: S.String,
+          address2: S.optional(S.NullOr(S.String)),
+          city: S.String,
+          country: S.Unknown,
+          name: S.String,
+          postalCode: S.String,
+          region: S.Unknown,
+        }),
+      ).annotate({ identifier: "CreateCustomerRequestAddress" });
+  }
+}
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5239,180 +6454,6 @@ function __c93(j: number): any {
           eventType: S.optional(S.NullOr(S.Unknown)),
         }).pipe(T.Http({ method: "POST", uri: "/webhooks/{webhookEndpointId}/verify", code: 200 })),
       ).annotate({ identifier: "VerifyWebhookRequest" });
-  }
-}
-function __c94(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          achDebitEnabled: S.Boolean,
-          ccEmails: __S(1536, __c96, 0),
-          creditCardEnabled: S.Boolean,
-          currencyCode: S.optional(S.NullOr(S.Unknown)),
-          customerId: S.Unknown,
-          destinationAccountId: S.Unknown,
-          dueDate: S.Unknown,
-          internalNote: S.optional(S.NullOr(S.String)),
-          invoiceDate: S.Unknown,
-          invoiceNumber: S.optional(S.NullOr(S.String)),
-          lineItems: __S(1521, __c95, 1),
-          payerMemo: S.optional(S.NullOr(S.String)),
-          poNumber: S.optional(S.NullOr(S.String)),
-          sendEmailOption: S.optional(S.NullOr(S.Unknown)),
-          servicePeriodEndDate: S.optional(S.NullOr(S.Unknown)),
-          servicePeriodStartDate: S.optional(S.NullOr(S.Unknown)),
-          useRealAccountNumber: S.Boolean,
-        }).pipe(T.Http({ method: "POST", uri: "/ar/invoices", code: 200 })),
-      ).annotate({ identifier: "CreateInvoiceRequest" });
-  }
-}
-function __c95(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          quantity: S.Number,
-          salesTaxRate: S.optional(S.NullOr(S.Number)),
-          unitPrice: S.Number,
-        }),
-      ).annotate({ identifier: "ApiV1ArLineItemData" });
-    case 1:
-      return S.Array(__S(1520, __c95, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          achDebitEnabled: S.Boolean,
-          amount: S.Number,
-          canceledAt: S.optional(S.NullOr(S.Unknown)),
-          ccEmails: __S(1536, __c96, 0),
-          createdAt: S.Unknown,
-          creditCardEnabled: S.Boolean,
-          currencyCode: S.Unknown,
-          customerId: S.Unknown,
-          destinationAccountId: S.Unknown,
-          dueDate: S.Unknown,
-          id: S.Unknown,
-          internalNote: S.optional(S.NullOr(S.String)),
-          invoiceDate: S.Unknown,
-          invoiceNumber: S.String,
-          lineItems: __S(1521, __c95, 1),
-          payerMemo: S.optional(S.NullOr(S.String)),
-          poNumber: S.optional(S.NullOr(S.String)),
-          servicePeriodEndDate: S.optional(S.NullOr(S.Unknown)),
-          servicePeriodStartDate: S.optional(S.NullOr(S.Unknown)),
-          slug: S.String,
-          status: S.Unknown,
-          updatedAt: S.Unknown,
-          useRealAccountNumber: S.Boolean,
-        }),
-      ).annotate({ identifier: "ApiV1ArInvoiceResponse" });
-  }
-}
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c97(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          address: S.optional(__S(1408, __c88, 0)),
-          checkInfo: S.optional(__S(1584, __c99, 0)),
-          contactEmail: S.optional(S.String),
-          domesticWireRoutingInfo: S.optional(__S(1600, __c100, 0)),
-          electronicRoutingInfo: S.optional(__S(1601, __c100, 1)),
-          emails: __S(1536, __c96, 0),
-          name: S.String,
-          nickname: S.optional(S.String),
-          realTimePaymentRoutingInfo: S.optional(__S(1600, __c100, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/recipients", code: 200 })),
-      ).annotate({ identifier: "CreateRecipientRequest" });
-  }
-}
-function __c98(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          address1: S.String,
-          address2: S.optional(S.NullOr(S.String)),
-          city: S.String,
-          country: S.String,
-          name: S.String,
-          postalCode: S.String,
-          region: S.String,
-        }),
-      ).annotate({ identifier: "Address" });
-  }
-}
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          address: __S(1392, __c87, 0),
-        }),
-      ).annotate({ identifier: "CheckInfoRaw" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          fileName: S.String,
-          formType: S.optional(S.NullOr(S.Unknown)),
-          uploadedAt: S.Unknown,
-          url: S.String,
-        }),
-      ).annotate({ identifier: "RecipientAttachment" });
-    case 2:
-      return S.Array(__S(1585, __c99, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          address: S.optional(S.NullOr(__S(1568, __c98, 0))),
-          attachments: __S(1586, __c99, 2),
-          checkInfo: S.optional(S.NullOr(__S(1584, __c99, 0))),
-          contactEmail: S.optional(S.NullOr(S.String)),
-          dateLastPaid: S.optional(S.NullOr(S.String)),
-          defaultAddress: S.optional(S.NullOr(__S(1392, __c87, 0))),
-          defaultPaymentMethod: S.String,
-          domesticWireRoutingInfo: S.optional(S.NullOr(__S(1393, __c87, 1))),
-          electronicRoutingInfo: S.optional(S.NullOr(__S(1394, __c87, 2))),
-          emails: __S(1536, __c96, 0),
-          id: S.String,
-          internationalWireRoutingInfo: S.optional(S.NullOr(__S(1407, __c87, 15))),
-          inviteId: S.optional(S.NullOr(S.String)),
-          isBusiness: S.optional(S.NullOr(S.Boolean)),
-          name: S.String,
-          nickname: S.optional(S.NullOr(S.String)),
-          realTimePaymentRoutingInfo: S.optional(S.NullOr(__S(1393, __c87, 1))),
-          status: S.String,
-        }),
-      ).annotate({ identifier: "RecipientInfo" });
-  }
-}
-function __c100(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountNumber: S.String,
-          address: __S(1392, __c87, 0),
-          routingNumber: S.String,
-        }),
-      ).annotate({ identifier: "DomesticWireRoutingInfoRaw" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          accountNumber: S.String,
-          address: __S(1392, __c87, 0),
-          electronicAccountType: S.Unknown,
-          routingNumber: S.String,
-        }),
-      ).annotate({ identifier: "ElectronicRoutingInfoRaw" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

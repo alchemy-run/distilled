@@ -91,10 +91,10 @@ export interface ChromeOsDeviceAction {
   deprovisionReason?: string;
 }
 export interface ActionChromeosdevicesRequest {
-  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
-  customerId: string;
   /** The unique ID of the device. The `resourceId`s are returned in the response from the [chromeosdevices.list](https://developers.google.com/workspace/admin/directory/v1/reference/chromeosdevices/list) method. */
   resourceId: string;
+  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
+  customerId: string;
   /** Request body */
   body?: ChromeOsDeviceAction;
 }
@@ -104,10 +104,10 @@ export interface MobileDeviceAction {
   action?: string;
 }
 export interface ActionMobiledevicesRequest {
-  /** The unique ID the API service uses to identify the mobile device. */
-  resourceId: string;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
   customerId: string;
+  /** The unique ID the API service uses to identify the mobile device. */
+  resourceId: string;
   /** Request body */
   body?: MobileDeviceAction;
 }
@@ -124,22 +124,22 @@ export type BatchChangeChromeOsDeviceStatusRequestDeprovisionReasonEnum =
   | "DEPROVISION_REASON_UPGRADE_TRANSFER"
   | "DEPROVISION_REASON_NOT_REQUIRED"
   | "DEPROVISION_REASON_REPAIR_CENTER";
+export type StringList = Array<string>;
 export type BatchChangeChromeOsDeviceStatusRequestChangeChromeOsDeviceStatusActionEnum =
   | "CHANGE_CHROME_OS_DEVICE_STATUS_ACTION_UNSPECIFIED"
   | "CHANGE_CHROME_OS_DEVICE_STATUS_ACTION_DEPROVISION"
   | "CHANGE_CHROME_OS_DEVICE_STATUS_ACTION_DISABLE"
   | "CHANGE_CHROME_OS_DEVICE_STATUS_ACTION_REENABLE";
-export type StringList = Array<string>;
 /** A request for changing the status of a batch of ChromeOS devices. */
 export interface BatchChangeChromeOsDeviceStatusRequest {
   /** Optional. The reason behind a device deprovision. Must be provided if 'changeChromeOsDeviceStatusAction' is set to 'CHANGE_CHROME_OS_DEVICE_STATUS_ACTION_DEPROVISION'. Otherwise, omit this field. */
   deprovisionReason?: BatchChangeChromeOsDeviceStatusRequestDeprovisionReasonEnum | (string & {});
+  /** Required. List of the IDs of the ChromeOS devices to change. Maximum 50. */
+  deviceIds?: StringList;
   /** Required. The action to take on the ChromeOS device in order to change its status. */
   changeChromeOsDeviceStatusAction?:
     | BatchChangeChromeOsDeviceStatusRequestChangeChromeOsDeviceStatusActionEnum
     | (string & {});
-  /** Required. List of the IDs of the ChromeOS devices to change. Maximum 50. */
-  deviceIds?: StringList;
 }
 export interface BatchChangeStatusCustomerDevicesChromeosRequest {
   /** Required. Immutable ID of the Google Workspace account. */
@@ -147,27 +147,27 @@ export interface BatchChangeStatusCustomerDevicesChromeosRequest {
   /** Request body */
   body?: BatchChangeChromeOsDeviceStatusRequest;
 }
+/** Response for a successful ChromeOS device status change. */
+export interface ChangeChromeOsDeviceStatusSucceeded {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
 }
-/** Response for a successful ChromeOS device status change. */
-export interface ChangeChromeOsDeviceStatusSucceeded {}
 /** The result of a single ChromeOS device for a Change state operation. */
 export interface ChangeChromeOsDeviceStatusResult {
-  /** The error result of the operation in case of failure. */
-  error?: Status;
-  /** The device could change its status successfully. */
-  response?: ChangeChromeOsDeviceStatusSucceeded;
   /** The unique ID of the ChromeOS device. */
   deviceId?: string;
+  /** The device could change its status successfully. */
+  response?: ChangeChromeOsDeviceStatusSucceeded;
+  /** The error result of the operation in case of failure. */
+  error?: Status;
 }
 export type ChangeChromeOsDeviceStatusResultList = Array<ChangeChromeOsDeviceStatusResult>;
 /** The response of changing the status of a batch of ChromeOS devices. */
@@ -182,43 +182,43 @@ export type AuxiliaryMessageSeverityEnum =
   | "SEVERITY_ERROR";
 /** Auxiliary message about issues with printers or settings. Example: {message_type:AUXILIARY_MESSAGE_WARNING, field_mask:make_and_model, message:"Given printer is invalid or no longer supported."} */
 export interface AuxiliaryMessage {
-  /** Message severity */
-  severity?: AuxiliaryMessageSeverityEnum | (string & {});
   /** Human readable message in English. Example: "Given printer is invalid or no longer supported." */
   auxiliaryMessage?: string;
   /** Field that this message concerns. */
   fieldMask?: string;
+  /** Message severity */
+  severity?: AuxiliaryMessageSeverityEnum | (string & {});
 }
 export type AuxiliaryMessageList = Array<AuxiliaryMessage>;
 /** Printer configuration. */
 export interface Printer {
-  /** Editable. Description of printer. */
-  description?: string;
+  /** Editable. flag to use driverless configuration or not. If it's set to be true, make_and_model can be ignored */
+  useDriverlessConfig?: boolean;
   /** Output only. Auxiliary messages about issues with the printer configuration if any. */
   auxiliaryMessages?: AuxiliaryMessageList;
+  /** Output only. Time when printer was created. */
+  createTime?: string;
+  /** Editable. Make and model of printer. e.g. Lexmark MS610de Value must be in format as seen in ListPrinterModels response. */
+  makeAndModel?: string;
+  /** Editable. Name of printer. */
+  displayName?: string;
+  /** Editable. Description of printer. */
+  description?: string;
   /** Organization Unit that owns this printer (Only can be set during Printer creation) */
   orgUnitId?: string;
   /** Identifier. The resource name of the Printer object, in the format customers/{customer-id}/printers/{printer-id} (During printer creation leave empty) */
   name?: string;
-  /** Output only. Time when printer was created. */
-  createTime?: string;
   /** Id of the printer. (During printer creation leave empty) */
   id?: string;
-  /** Editable. Make and model of printer. e.g. Lexmark MS610de Value must be in format as seen in ListPrinterModels response. */
-  makeAndModel?: string;
-  /** Editable. flag to use driverless configuration or not. If it's set to be true, make_and_model can be ignored */
-  useDriverlessConfig?: boolean;
   /** Editable. Printer URI. */
   uri?: string;
-  /** Editable. Name of printer. */
-  displayName?: string;
 }
 /** Request for adding a new printer. */
 export interface CreatePrinterRequest {
-  /** Required. The name of the customer. Format: customers/{customer_id} */
-  parent?: string;
   /** Required. A printer to create. If you want to place the printer under particular OU then populate printer.org_unit_id filed. Otherwise the printer will be placed under root OU. */
   printer?: Printer;
+  /** Required. The name of the customer. Format: customers/{customer_id} */
+  parent?: string;
 }
 export type CreatePrinterRequestList = Array<CreatePrinterRequest>;
 /** Request for adding new printers in batch. */
@@ -232,7 +232,6 @@ export interface BatchCreatePrintersCustomersChromePrintersRequest {
   /** Request body */
   body?: BatchCreatePrintersRequest;
 }
-export type PrinterList = Array<Printer>;
 export type FailureInfoErrorCodeEnum =
   | "OK"
   | "CANCELLED"
@@ -253,37 +252,38 @@ export type FailureInfoErrorCodeEnum =
   | "DATA_LOSS";
 /** Info about failures */
 export interface FailureInfo {
-  /** Id of a failed printer. */
-  printerId?: string;
   /** Canonical code for why the update failed to apply. */
   errorCode?: FailureInfoErrorCodeEnum;
-  /** Failed printer. */
-  printer?: Printer;
   /** Failure reason message. */
   errorMessage?: string;
+  /** Failed printer. */
+  printer?: Printer;
+  /** Id of a failed printer. */
+  printerId?: string;
 }
 export type FailureInfoList = Array<FailureInfo>;
+export type PrinterList = Array<Printer>;
 /** Response for adding new printers in batch. */
 export interface BatchCreatePrintersResponse {
-  /** A list of successfully created printers with their IDs populated. */
-  printers?: PrinterList;
   /** A list of create failures. Printer IDs are not populated, as printer were not created. */
   failures?: FailureInfoList;
+  /** A list of successfully created printers with their IDs populated. */
+  printers?: PrinterList;
 }
 /** Configuration for a print server. */
 export interface PrintServer {
+  /** Identifier. Resource name of the print server. Leave empty when creating. Format: `customers/{customer.id}/printServers/{print_server.id}` */
+  name?: string;
   /** Editable. Display name of the print server (as shown in the Admin console). */
   displayName?: string;
+  /** Editable. Description of the print server (as shown in the Admin console). */
+  description?: string;
   /** ID of the organization unit (OU) that owns this print server. This value can only be set when the print server is initially created. If it's not populated, the print server is placed under the root OU. The `org_unit_id` can be retrieved using the [Directory API](https://developers.google.com/workspace/admin/directory/reference/rest/v1/orgunits). */
   orgUnitId?: string;
   /** Immutable. ID of the print server. Leave empty when creating. */
   id?: string;
-  /** Identifier. Resource name of the print server. Leave empty when creating. Format: `customers/{customer.id}/printServers/{print_server.id}` */
-  name?: string;
   /** Editable. Print server URI. */
   uri?: string;
-  /** Editable. Description of the print server (as shown in the Admin console). */
-  description?: string;
   /** Output only. Time when the print server was created. */
   createTime?: string;
 }
@@ -327,12 +327,12 @@ export type PrintServerFailureInfoErrorCodeEnum =
   | "DATA_LOSS";
 /** Info about failures */
 export interface PrintServerFailureInfo {
-  /** ID of a failed print server. */
-  printServerId?: string;
   /** Failure reason message. */
   errorMessage?: string;
   /** Failed print server. */
   printServer?: PrintServer;
+  /** ID of a failed print server. */
+  printServerId?: string;
   /** Canonical code for why the update failed to apply. */
   errorCode?: PrintServerFailureInfoErrorCodeEnum;
 }
@@ -356,10 +356,10 @@ export interface BatchDeletePrintersCustomersChromePrintersRequest {
 }
 /** Response for deleting existing printers in batch. */
 export interface BatchDeletePrintersResponse {
-  /** A list of update failures. */
-  failedPrinters?: FailureInfoList;
   /** A list of Printer.id that were successfully deleted. */
   printerIds?: StringList;
+  /** A list of update failures. */
+  failedPrinters?: FailureInfoList;
 }
 /** Request to delete multiple existing print servers in a batch. */
 export interface BatchDeletePrintServersRequest {
@@ -379,14 +379,14 @@ export interface BatchDeletePrintServersResponse {
   failedPrintServers?: PrintServerFailureInfoList;
 }
 export interface CountChromeOsDevicesCustomerDevicesChromeosRequest {
-  /** Optional. The full path of the organizational unit (minus the leading `/`) or its unique ID. */
-  orgUnitPath?: string;
-  /** Required. Immutable ID of the Google Workspace account. */
-  customerId: string;
   /** Optional. Search string in the format given at [List query operators](https://developers.google.com/workspace/admin/directory/v1/list-query-operators). */
   filter?: string;
   /** Optional. Return devices from all child orgunits, as well as the specified org unit. If this is set to true, 'orgUnitPath' must be provided. */
   includeChildOrgunits?: boolean;
+  /** Optional. The full path of the organizational unit (minus the leading `/`) or its unique ID. */
+  orgUnitPath?: string;
+  /** Required. Immutable ID of the Google Workspace account. */
+  customerId: string;
 }
 /** A response for counting ChromeOS devices. */
 export interface CountChromeOsDevicesResponse {
@@ -417,124 +417,124 @@ export interface CreateGuestUsersRequest {
   body?: DirectoryUsersCreateGuestRequest;
 }
 export interface UserName {
-  /** The user's display name. Limit: 256 characters. */
-  displayName?: string;
-  /** The user's last name. Required when creating a user account. */
-  familyName?: string;
   /** The user's first name. Required when creating a user account. */
   givenName?: string;
+  /** The user's display name. Limit: 256 characters. */
+  displayName?: string;
   /** The user's full name formed by concatenating the first and last name values. */
   fullName?: string;
+  /** The user's last name. Required when creating a user account. */
+  familyName?: string;
 }
+/** JSON template for a set of custom properties (i.e. all fields in a particular schema) */
+export type UserCustomProperties = { [key: string]: unknown | undefined };
+export type UserCustomPropertiesMap = { [key: string]: UserCustomProperties | undefined };
 /** Account info specific to Guest users. */
 export interface GuestAccountInfo {
   /** Immutable. The guest's external email. */
   primaryGuestEmail?: string;
 }
-/** JSON template for a set of custom properties (i.e. all fields in a particular schema) */
-export type UserCustomProperties = { [key: string]: unknown | undefined };
-export type UserCustomPropertiesMap = { [key: string]: UserCustomProperties | undefined };
 /** The Directory API allows you to create and manage your account's users, user aliases, and user Google profile photos. For more information about common tasks, see the [User Accounts Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users.html) and the [User Aliases Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-user-aliases.html). */
 export interface User {
-  /** The user's languages. The maximum allowed data size for this field is 1KB. */
-  languages?: unknown;
-  /** User's password */
-  password?: string;
-  /** The full path of the parent organization associated with the user. If the parent organization is the top-level, it is represented as a forward slash (`/`). */
-  orgUnitPath?: string;
-  /** User's G Suite account creation time. (Read-only) */
-  creationTime?: string;
-  /** Holds the given and family names of the user, and the read-only `fullName` value. The maximum number of characters in the `givenName` and in the `familyName` values is 60. In addition, name values support unicode/UTF-8 characters, and can contain spaces, letters (a-z), numbers (0-9), dashes (-), forward slashes (/), and periods (.). For more information about character usage rules, see the [administration help center](https://support.google.com/a/answer/9193374). Maximum allowed data size for this field is 1KB. */
-  name?: UserName;
-  /** The list of [POSIX](https://www.opengroup.org/austin/papers/posix_faq.html) account information for the user. */
-  posixAccounts?: unknown;
-  /** Immutable. Additional guest-related metadata fields */
-  guestAccountInfo?: GuestAccountInfo;
-  /** Output only. Indicates if the user is a delegated administrator. Delegated administrators are supported by the API but cannot create or undelete users, or make users administrators. These requests are ignored by the API service. Roles and privileges for administrators are assigned using the [Admin console](https://support.google.com/a/answer/33325). */
-  isDelegatedAdmin?: boolean;
-  /** Output only. User's account archival time. (Read-only) */
-  archivalTime?: string;
-  /** The list of the user's keywords. The maximum allowed data size for this field is 1KB. */
-  keywords?: unknown;
-  /** Recovery phone of the user. The phone number must be in the E.164 format, starting with the plus sign (+). Example: *+16506661212*. */
-  recoveryPhone?: string;
-  /** The list of external IDs for the user, such as an employee or network ID. The maximum allowed data size for this field is 2KB. */
-  externalIds?: unknown;
-  /** The list of the user's relationships to other users. The maximum allowed data size for this field is 2KB. */
-  relations?: unknown;
-  /** The user's locations. The maximum allowed data size for this field is 10KB. */
-  locations?: unknown;
-  /** The list of the user's Instant Messenger (IM) accounts. A user account can have multiple ims properties. But, only one of these ims properties can be the primary IM contact. The maximum allowed data size for this field is 2KB. */
-  ims?: unknown;
-  /** Stores the hash format of the `password` property. The following `hashFunction` values are allowed: * `MD5` - Accepts simple hex-encoded values. * `SHA-1` - Accepts simple hex-encoded values. * `crypt` - Compliant with the [C crypt library](https://en.wikipedia.org/wiki/Crypt_%28C%29). Supports the DES, MD5 (hash prefix `$1$`), SHA-256 (hash prefix `$5$`), and SHA-512 (hash prefix `$6$`) hash algorithms. If rounds are specified as part of the prefix, they must be 10,000 or fewer. */
-  hashFunction?: string;
-  /** The user's websites. The maximum allowed data size for this field is 2KB. */
-  websites?: unknown;
-  /** The list of the user's phone numbers. The maximum allowed data size for this field is 1KB. */
-  phones?: unknown;
-  /** The list of organizations the user belongs to. The maximum allowed data size for this field is 10KB. */
-  organizations?: unknown;
-  /** Output only. User's account suspension time. (Read-only) */
-  suspensionTime?: string;
-  /** The list of the user's addresses. The maximum allowed data size for this field is 10KB. */
-  addresses?: unknown;
-  /** Output only. Is 2-step verification enforced (Read-only) */
-  isEnforcedIn2Sv?: boolean;
-  /** Immutable. Indicates if the inserted user is a guest. */
-  isGuestUser?: boolean;
-  /** Output only. The list of the user's alias email addresses. */
-  aliases?: StringList;
-  /** Recovery email of the user. */
-  recoveryEmail?: string;
-  /** The unique ID for the user. A user `id` can be used as a user request URI's `userKey`. */
-  id?: string;
-  /** Output only. ETag of the resource. */
-  etag?: string;
-  /** If `true`, the user's IP address is subject to a deprecated IP address [`allowlist`](https://support.google.com/a/answer/60752) configuration. */
-  ipWhitelisted?: boolean;
-  /** The user's gender. The maximum allowed data size for this field is 1KB. */
-  gender?: unknown;
-  /** Output only. Indicates a user with super administrator privileges. The `isAdmin` property can only be edited in the [Make a user an administrator](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users.html#make_admin) operation ( [makeAdmin](https://developers.google.com/workspace/admin/directory/v1/reference/users/makeAdmin.html) method). If edited in the user [insert](https://developers.google.com/workspace/admin/directory/v1/reference/users/insert.html) or [update](https://developers.google.com/workspace/admin/directory/v1/reference/users/update.html) methods, the edit is ignored by the API service. */
-  isAdmin?: boolean;
-  /** Output only. Indicates if the user's Google mailbox is created. This property is only applicable if the user has been assigned a Gmail license. */
-  isMailboxSetup?: boolean;
-  /** Indicates if user is suspended. */
-  suspended?: boolean;
-  /** A list of SSH public keys. */
-  sshPublicKeys?: unknown;
-  /** Indicates if the user is forced to change their password at next login. This setting doesn't apply when [the user signs in via a third-party identity provider](https://support.google.com/a/answer/60224). */
-  changePasswordAtNextLogin?: boolean;
-  /** Output only. Has the reason a user account is suspended either by the administrator or by Google at the time of suspension. The property is returned only if the `suspended` property is `true`. */
-  suspensionReason?: string;
-  /** The user's primary email address. This property is required in a request to create a user account. The `primaryEmail` must be unique and cannot be an alias of another user. */
-  primaryEmail?: string;
-  /** Output only. The URL of the user's profile photo. The URL might be temporary or private. */
-  thumbnailPhotoUrl?: string;
-  /** Output only. This property is `true` if the user has completed an initial login and accepted the Terms of Service agreement. */
-  agreedToTerms?: boolean;
-  /** Custom fields of the user. The key is a `schema_name` and its values are `'field_name': 'field_value'`. */
-  customSchemas?: UserCustomPropertiesMap;
   /** Notes for the user. */
   notes?: unknown;
-  /** Indicates if user is archived. */
-  archived?: boolean;
-  /** Output only. Is enrolled in 2-step verification (Read-only) */
-  isEnrolledIn2Sv?: boolean;
-  /** Output only. The type of the API resource. For Users resources, the value is `admin#directory#user`. */
-  kind?: string;
-  /** User's last login time. (Read-only) */
-  lastLoginTime?: string;
-  /** The list of the user's email addresses. The maximum allowed data size for this field is 10KB. This excludes `publicKeyEncryptionCertificates`. */
-  emails?: unknown;
+  deletionTime?: string;
+  /** The user's locations. The maximum allowed data size for this field is 10KB. */
+  locations?: unknown;
+  /** The list of external IDs for the user, such as an employee or network ID. The maximum allowed data size for this field is 2KB. */
+  externalIds?: unknown;
+  /** The user's primary email address. This property is required in a request to create a user account. The `primaryEmail` must be unique and cannot be an alias of another user. */
+  primaryEmail?: string;
+  /** The list of [POSIX](https://www.opengroup.org/austin/papers/posix_faq.html) account information for the user. */
+  posixAccounts?: unknown;
+  /** A list of SSH public keys. */
+  sshPublicKeys?: unknown;
+  /** Output only. Indicates a user with super administrator privileges. The `isAdmin` property can only be edited in the [Make a user an administrator](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users.html#make_admin) operation ( [makeAdmin](https://developers.google.com/workspace/admin/directory/v1/reference/users/makeAdmin.html) method). If edited in the user [insert](https://developers.google.com/workspace/admin/directory/v1/reference/users/insert.html) or [update](https://developers.google.com/workspace/admin/directory/v1/reference/users/update.html) methods, the edit is ignored by the API service. */
+  isAdmin?: boolean;
+  /** The user's gender. The maximum allowed data size for this field is 1KB. */
+  gender?: unknown;
+  /** Holds the given and family names of the user, and the read-only `fullName` value. The maximum number of characters in the `givenName` and in the `familyName` values is 60. In addition, name values support unicode/UTF-8 characters, and can contain spaces, letters (a-z), numbers (0-9), dashes (-), forward slashes (/), and periods (.). For more information about character usage rules, see the [administration help center](https://support.google.com/a/answer/9193374). Maximum allowed data size for this field is 1KB. */
+  name?: UserName;
+  /** Output only. Indicates if the user's Google mailbox is created. This property is only applicable if the user has been assigned a Gmail license. */
+  isMailboxSetup?: boolean;
+  /** Indicates if the user is forced to change their password at next login. This setting doesn't apply when [the user signs in via a third-party identity provider](https://support.google.com/a/answer/60224). */
+  changePasswordAtNextLogin?: boolean;
+  /** The list of the user's addresses. The maximum allowed data size for this field is 10KB. */
+  addresses?: unknown;
+  /** The user's languages. The maximum allowed data size for this field is 1KB. */
+  languages?: unknown;
+  /** Output only. Is 2-step verification enforced (Read-only) */
+  isEnforcedIn2Sv?: boolean;
+  /** The list of organizations the user belongs to. The maximum allowed data size for this field is 10KB. */
+  organizations?: unknown;
+  /** Output only. Has the reason a user account is suspended either by the administrator or by Google at the time of suspension. The property is returned only if the `suspended` property is `true`. */
+  suspensionReason?: string;
+  /** Output only. ETag of the resource. */
+  etag?: string;
   /** Indicates if the user's profile is visible in the Google Workspace global address list when the contact sharing feature is enabled for the domain. For more information about excluding user profiles, see the [administration help center](https://support.google.com/a/answer/1285988). */
   includeInGlobalAddressList?: boolean;
-  /** Output only. ETag of the user's photo (Read-only) */
-  thumbnailPhotoEtag?: string;
+  /** Output only. The URL of the user's profile photo. The URL might be temporary or private. */
+  thumbnailPhotoUrl?: string;
+  /** Immutable. Indicates if the inserted user is a guest. */
+  isGuestUser?: boolean;
+  /** Output only. User's account archival time. (Read-only) */
+  archivalTime?: string;
+  /** Output only. The list of the user's alias email addresses. */
+  aliases?: StringList;
+  /** The list of the user's email addresses. The maximum allowed data size for this field is 10KB. This excludes `publicKeyEncryptionCertificates`. */
+  emails?: unknown;
+  /** Custom fields of the user. The key is a `schema_name` and its values are `'field_name': 'field_value'`. */
+  customSchemas?: UserCustomPropertiesMap;
+  /** User's G Suite account creation time. (Read-only) */
+  creationTime?: string;
+  /** User's last login time. (Read-only) */
+  lastLoginTime?: string;
+  /** The full path of the parent organization associated with the user. If the parent organization is the top-level, it is represented as a forward slash (`/`). */
+  orgUnitPath?: string;
+  /** Output only. Is enrolled in 2-step verification (Read-only) */
+  isEnrolledIn2Sv?: boolean;
+  /** User's password */
+  password?: string;
+  /** Indicates if user is archived. */
+  archived?: boolean;
   /** Output only. The customer ID to [retrieve all account users](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users.html#get_all_users). You can use the alias `my_customer` to represent your account's `customerId`. As a reseller administrator, you can use the resold customer account's `customerId`. To get a `customerId`, use the account's primary domain in the `domain` parameter of a [users.list](https://developers.google.com/workspace/admin/directory/v1/reference/users/list) request. */
   customerId?: string;
-  deletionTime?: string;
+  /** Output only. This property is `true` if the user has completed an initial login and accepted the Terms of Service agreement. */
+  agreedToTerms?: boolean;
+  /** Output only. The type of the API resource. For Users resources, the value is `admin#directory#user`. */
+  kind?: string;
+  /** The list of the user's keywords. The maximum allowed data size for this field is 1KB. */
+  keywords?: unknown;
+  /** Recovery email of the user. */
+  recoveryEmail?: string;
+  /** Output only. Indicates if the user is a delegated administrator. Delegated administrators are supported by the API but cannot create or undelete users, or make users administrators. These requests are ignored by the API service. Roles and privileges for administrators are assigned using the [Admin console](https://support.google.com/a/answer/33325). */
+  isDelegatedAdmin?: boolean;
+  /** Output only. User's account suspension time. (Read-only) */
+  suspensionTime?: string;
+  /** Output only. ETag of the user's photo (Read-only) */
+  thumbnailPhotoEtag?: string;
   /** Output only. The list of the user's non-editable alias email addresses. These are typically outside the account's primary domain or sub-domain. */
   nonEditableAliases?: StringList;
+  /** The user's websites. The maximum allowed data size for this field is 2KB. */
+  websites?: unknown;
+  /** The unique ID for the user. A user `id` can be used as a user request URI's `userKey`. */
+  id?: string;
+  /** Indicates if user is suspended. */
+  suspended?: boolean;
+  /** If `true`, the user's IP address is subject to a deprecated IP address [`allowlist`](https://support.google.com/a/answer/60752) configuration. */
+  ipWhitelisted?: boolean;
+  /** Immutable. Additional guest-related metadata fields */
+  guestAccountInfo?: GuestAccountInfo;
+  /** Recovery phone of the user. The phone number must be in the E.164 format, starting with the plus sign (+). Example: *+16506661212*. */
+  recoveryPhone?: string;
+  /** The list of the user's relationships to other users. The maximum allowed data size for this field is 2KB. */
+  relations?: unknown;
+  /** Stores the hash format of the `password` property. The following `hashFunction` values are allowed: * `MD5` - Accepts simple hex-encoded values. * `SHA-1` - Accepts simple hex-encoded values. * `crypt` - Compliant with the [C crypt library](https://en.wikipedia.org/wiki/Crypt_%28C%29). Supports the DES, MD5 (hash prefix `$1$`), SHA-256 (hash prefix `$5$`), and SHA-512 (hash prefix `$6$`) hash algorithms. If rounds are specified as part of the prefix, they must be 10,000 or fewer. */
+  hashFunction?: string;
+  /** The list of the user's Instant Messenger (IM) accounts. A user account can have multiple ims properties. But, only one of these ims properties can be the primary IM contact. The maximum allowed data size for this field is 2KB. */
+  ims?: unknown;
+  /** The list of the user's phone numbers. The maximum allowed data size for this field is 1KB. */
+  phones?: unknown;
 }
 export interface DeleteAspsRequest {
   /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
@@ -554,17 +554,17 @@ export interface DeleteCustomersChromePrintServersRequest {
   name: string;
 }
 export interface DeleteDomainAliasesRequest {
-  /** Name of domain alias to be retrieved. */
-  domainAliasName: string;
   /** Immutable ID of the Google Workspace account. */
   customer: string;
+  /** Name of domain alias to be retrieved. */
+  domainAliasName: string;
 }
 export interface DeleteDomainAliasesResponse {}
 export interface DeleteDomainsRequest {
-  /** Immutable ID of the Google Workspace account. */
-  customer: string;
   /** Name of domain to be deleted */
   domainName: string;
+  /** Immutable ID of the Google Workspace account. */
+  customer: string;
 }
 export interface DeleteDomainsResponse {}
 export interface DeleteGroupsRequest {
@@ -573,10 +573,10 @@ export interface DeleteGroupsRequest {
 }
 export interface DeleteGroupsResponse {}
 export interface DeleteGroupsAliasesRequest {
-  /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
-  groupKey: string;
   /** The alias to be removed */
   alias: string;
+  /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
+  groupKey: string;
 }
 export interface DeleteGroupsAliasesResponse {}
 export interface DeleteMembersRequest {
@@ -601,24 +601,24 @@ export interface DeleteOrgunitsRequest {
 }
 export interface DeleteOrgunitsResponse {}
 export interface DeleteResourcesBuildingsRequest {
-  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
-  customer: string;
   /** The id of the building to delete. */
   buildingId: string;
+  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
+  customer: string;
 }
 export interface DeleteResourcesBuildingsResponse {}
 export interface DeleteResourcesCalendarsRequest {
-  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
-  customer: string;
   /** The unique ID of the calendar resource to delete. */
   calendarResourceId: string;
+  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
+  customer: string;
 }
 export interface DeleteResourcesCalendarsResponse {}
 export interface DeleteResourcesFeaturesRequest {
-  /** The unique ID of the feature to delete. */
-  featureKey: string;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
+  /** The unique ID of the feature to delete. */
+  featureKey: string;
 }
 export interface DeleteResourcesFeaturesResponse {}
 export interface DeleteRoleAssignmentsRequest {
@@ -629,17 +629,17 @@ export interface DeleteRoleAssignmentsRequest {
 }
 export interface DeleteRoleAssignmentsResponse {}
 export interface DeleteRolesRequest {
-  /** Immutable ID of the Google Workspace account. */
-  customer: string;
   /** Immutable ID of the role. */
   roleId: string;
+  /** Immutable ID of the Google Workspace account. */
+  customer: string;
 }
 export interface DeleteRolesResponse {}
 export interface DeleteSchemasRequest {
-  /** Immutable ID of the Google Workspace account. */
-  customerId: string;
   /** Name or immutable ID of the schema. */
   schemaKey: string;
+  /** Immutable ID of the Google Workspace account. */
+  customerId: string;
 }
 export interface DeleteSchemasResponse {}
 export interface DeleteTokensRequest {
@@ -655,10 +655,10 @@ export interface DeleteUsersRequest {
 }
 export interface DeleteUsersResponse {}
 export interface DeleteUsersAliasesRequest {
-  /** The alias to be removed. */
-  alias: string;
   /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
   userKey: string;
+  /** The alias to be removed. */
+  alias: string;
 }
 export interface DeleteUsersAliasesResponse {}
 export interface DeleteUsersPhotosRequest {
@@ -679,20 +679,20 @@ export interface GetAspsRequest {
 }
 /** An application-specific password (ASP) is used with applications that do not accept a verification code when logging into the application on certain devices. The ASP access code is used instead of the login and password you commonly use when accessing an application through a browser. For more information about ASPs and how to create one, see the [help center](https://support.google.com/a/answer/2537800#asp). */
 export interface Asp {
-  /** The name of the application that the user, represented by their `userId`, entered when the ASP was created. */
-  name?: string;
-  /** ETag of the ASP. */
-  etag?: string;
-  /** The unique ID of the ASP. */
-  codeId?: number;
-  /** The time when the ASP was created. Expressed in [Unix time](https://en.wikipedia.org/wiki/Epoch_time) format. */
-  creationTime?: string;
   /** The time when the ASP was last used. Expressed in [Unix time](https://en.wikipedia.org/wiki/Epoch_time) format. */
   lastTimeUsed?: string;
-  /** The unique ID of the user who issued the ASP. */
-  userKey?: string;
+  /** ETag of the ASP. */
+  etag?: string;
   /** The type of the API resource. This is always `admin#directory#asp`. */
   kind?: string;
+  /** The time when the ASP was created. Expressed in [Unix time](https://en.wikipedia.org/wiki/Epoch_time) format. */
+  creationTime?: string;
+  /** The unique ID of the user who issued the ASP. */
+  userKey?: string;
+  /** The name of the application that the user, represented by their `userId`, entered when the ASP was created. */
+  name?: string;
+  /** The unique ID of the ASP. */
+  codeId?: number;
 }
 export type GetChromeosdevicesProjectionEnum = "BASIC" | "FULL";
 export interface GetChromeosdevicesRequest {
@@ -703,12 +703,44 @@ export interface GetChromeosdevicesRequest {
   /** Determines whether the response contains the full list of properties or only a subset. */
   projection?: GetChromeosdevicesProjectionEnum | (string & {});
 }
-/** Information about the device's fan. */
-export interface FanInfo {
-  /** Output only. Fan speed in RPM. */
-  speedRpm?: number;
+export interface ChromeOsDeviceTpmVersionInfo {
+  /** TPM specification level. See Library Specification for TPM 2.0 and Main Specification for TPM 1.2. */
+  specLevel?: string;
+  /** TPM manufacturer code. */
+  manufacturer?: string;
+  /** TPM family. We use the TPM 2.0 style encoding, e.g.: TPM 1.2: "1.2" -> 312e3200 TPM 2.0: "2.0" -> 322e3000 */
+  family?: string;
+  /** Vendor-specific information such as Vendor ID. */
+  vendorSpecific?: string;
+  /** TPM model number. */
+  tpmModel?: string;
+  /** TPM firmware version. */
+  firmwareVersion?: string;
 }
-export type FanInfoList = Array<FanInfo>;
+export type OsUpdateStatusStateEnum =
+  | "updateStateUnspecified"
+  | "updateStateNotStarted"
+  | "updateStateDownloadInProgress"
+  | "updateStateNeedReboot";
+/** Contains information regarding the current OS update status. */
+export interface OsUpdateStatus {
+  /** New required platform version from the pending updated kiosk app. */
+  targetKioskAppVersion?: string;
+  /** New platform version of the OS image being downloaded and applied. It is only set when update status is UPDATE_STATUS_DOWNLOAD_IN_PROGRESS or UPDATE_STATUS_NEED_REBOOT. Note this could be a dummy "0.0.0.0" for UPDATE_STATUS_NEED_REBOOT for some edge cases, e.g. update engine is restarted without a reboot. */
+  targetOsVersion?: string;
+  /** The update state of an OS update. */
+  state?: OsUpdateStatusStateEnum | (string & {});
+  /** Date and time of the last successful OS update. */
+  updateTime?: string;
+  /** Date and time of the last reboot. */
+  rebootTime?: string;
+  /** Date and time of the last update check. */
+  updateCheckTime?: string;
+}
+export type ChromeOsDeviceChromeOsTypeEnum =
+  | "chromeOsTypeUnspecified"
+  | "chromeOsFlex"
+  | "chromeOs";
 export type ChromeOsDeviceDeprovisionReasonEnum =
   | "DEPROVISION_REASON_UNSPECIFIED"
   | "DEPROVISION_REASON_SAME_MODEL_REPLACEMENT"
@@ -721,72 +753,24 @@ export type ChromeOsDeviceDeprovisionReasonEnum =
   | "DEPROVISION_REASON_UPGRADE_TRANSFER"
   | "DEPROVISION_REASON_NOT_REQUIRED"
   | "DEPROVISION_REASON_REPAIR_CENTER";
-export type ChromeOsDeviceOsVersionComplianceEnum =
-  | "complianceUnspecified"
-  | "compliant"
-  | "pending"
-  | "notCompliant";
-export interface ChromeOsDeviceDiskVolumeReportsItemVolumeInfoItem {
-  /** Free disk space [in bytes] */
-  storageFree?: string;
-  /** Total disk space [in bytes] */
-  storageTotal?: string;
-  /** Volume id */
-  volumeId?: string;
-}
-export type ChromeOsDeviceDiskVolumeReportsItemVolumeInfoItemList =
-  Array<ChromeOsDeviceDiskVolumeReportsItemVolumeInfoItem>;
-export interface ChromeOsDeviceDiskVolumeReportsItem {
-  /** Disk volumes */
-  volumeInfo?: ChromeOsDeviceDiskVolumeReportsItemVolumeInfoItemList;
-}
-export type ChromeOsDeviceDiskVolumeReportsItemList = Array<ChromeOsDeviceDiskVolumeReportsItem>;
-/** Information about the device's backlights. */
-export interface BacklightInfo {
-  /** Output only. Path to this backlight on the system. Useful if the caller needs to correlate with other information. */
-  path?: string;
-  /** Output only. Current brightness of the backlight, between 0 and max_brightness. */
-  brightness?: number;
-  /** Output only. Maximum brightness for the backlight. */
-  maxBrightness?: number;
-}
-export type BacklightInfoList = Array<BacklightInfo>;
-export interface ChromeOsDeviceScreenshotFilesItem {
-  /** Date and time the file was created */
-  createTime?: string;
-  /** File name */
-  name?: string;
-  /** File type */
-  type?: string;
-  /** File download URL */
-  downloadUrl?: string;
-}
-export type ChromeOsDeviceScreenshotFilesItemList = Array<ChromeOsDeviceScreenshotFilesItem>;
-export interface ChromeOsDeviceTpmVersionInfo {
-  /** TPM manufacturer code. */
-  manufacturer?: string;
-  /** TPM firmware version. */
-  firmwareVersion?: string;
-  /** TPM family. We use the TPM 2.0 style encoding, e.g.: TPM 1.2: "1.2" -> 312e3200 TPM 2.0: "2.0" -> 322e3000 */
-  family?: string;
-  /** TPM model number. */
-  tpmModel?: string;
-  /** TPM specification level. See Library Specification for TPM 2.0 and Main Specification for TPM 1.2. */
-  specLevel?: string;
-  /** Vendor-specific information such as Vendor ID. */
-  vendorSpecific?: string;
-}
 export interface ChromeOsDeviceDeviceFilesItem {
-  /** File name */
-  name?: string;
-  /** File type */
-  type?: string;
-  /** Date and time the file was created */
-  createTime?: string;
   /** File download URL */
   downloadUrl?: string;
+  /** Date and time the file was created */
+  createTime?: string;
+  /** File type */
+  type?: string;
+  /** File name */
+  name?: string;
 }
 export type ChromeOsDeviceDeviceFilesItemList = Array<ChromeOsDeviceDeviceFilesItem>;
+export interface ChromeOsDeviceActiveTimeRangesItem {
+  /** Duration of usage in milliseconds. */
+  activeTime?: number;
+  /** Date of usage */
+  date?: string;
+}
+export type ChromeOsDeviceActiveTimeRangesItemList = Array<ChromeOsDeviceActiveTimeRangesItem>;
 export interface ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItem {
   /** Time spent in the state since the last reboot. */
   sessionDuration?: string;
@@ -798,89 +782,54 @@ export type ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItemList =
 export interface ChromeOsDeviceCpuInfoItemLogicalCpusItem {
   /** Maximum frequency the CPU is allowed to run at, by policy. */
   maxScalingFrequencyKhz?: number;
-  /** Current frequency the CPU is running at. */
-  currentScalingFrequencyKhz?: number;
   /** Idle time since last boot. */
   idleDuration?: string;
   /** C-States indicate the power consumption state of the CPU. For more information look at documentation published by the CPU maker. */
   cStates?: ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItemList;
+  /** Current frequency the CPU is running at. */
+  currentScalingFrequencyKhz?: number;
 }
 export type ChromeOsDeviceCpuInfoItemLogicalCpusItemList =
   Array<ChromeOsDeviceCpuInfoItemLogicalCpusItem>;
 export interface ChromeOsDeviceCpuInfoItem {
-  /** The max CPU clock speed in kHz. */
-  maxClockSpeedKhz?: number;
   /** Information for the Logical CPUs */
   logicalCpus?: ChromeOsDeviceCpuInfoItemLogicalCpusItemList;
+  /** The max CPU clock speed in kHz. */
+  maxClockSpeedKhz?: number;
   /** The CPU model name. */
   model?: string;
   /** The CPU architecture. */
   architecture?: string;
 }
 export type ChromeOsDeviceCpuInfoItemList = Array<ChromeOsDeviceCpuInfoItem>;
-export interface ChromeOsDeviceRecentUsersItem {
-  /** The user's email address. This is only present if the user type is `USER_TYPE_MANAGED`. */
-  email?: string;
-  /** The type of the user. */
-  type?: string;
+/** Information about the device's fan. */
+export interface FanInfo {
+  /** Output only. Fan speed in RPM. */
+  speedRpm?: number;
 }
-export type ChromeOsDeviceRecentUsersItemList = Array<ChromeOsDeviceRecentUsersItem>;
-export type ChromeOsDeviceChromeOsTypeEnum =
-  | "chromeOsTypeUnspecified"
-  | "chromeOsFlex"
-  | "chromeOs";
-/** Represents a data capacity with some amount of current usage in bytes. */
-export interface ByteUsage {
-  /** Output only. The current usage value, in bytes. */
-  usedBytes?: string;
-  /** Output only. The total capacity value, in bytes. */
-  capacityBytes?: string;
+export type FanInfoList = Array<FanInfo>;
+export interface ChromeOsDeviceDiskVolumeReportsItemVolumeInfoItem {
+  /** Volume id */
+  volumeId?: string;
+  /** Free disk space [in bytes] */
+  storageFree?: string;
+  /** Total disk space [in bytes] */
+  storageTotal?: string;
 }
-export type OsUpdateStatusStateEnum =
-  | "updateStateUnspecified"
-  | "updateStateNotStarted"
-  | "updateStateDownloadInProgress"
-  | "updateStateNeedReboot";
-/** Contains information regarding the current OS update status. */
-export interface OsUpdateStatus {
-  /** The update state of an OS update. */
-  state?: OsUpdateStatusStateEnum | (string & {});
-  /** New required platform version from the pending updated kiosk app. */
-  targetKioskAppVersion?: string;
-  /** Date and time of the last successful OS update. */
-  updateTime?: string;
-  /** New platform version of the OS image being downloaded and applied. It is only set when update status is UPDATE_STATUS_DOWNLOAD_IN_PROGRESS or UPDATE_STATUS_NEED_REBOOT. Note this could be a dummy "0.0.0.0" for UPDATE_STATUS_NEED_REBOOT for some edge cases, e.g. update engine is restarted without a reboot. */
-  targetOsVersion?: string;
-  /** Date and time of the last reboot. */
-  rebootTime?: string;
-  /** Date and time of the last update check. */
-  updateCheckTime?: string;
+export type ChromeOsDeviceDiskVolumeReportsItemVolumeInfoItemList =
+  Array<ChromeOsDeviceDiskVolumeReportsItemVolumeInfoItem>;
+export interface ChromeOsDeviceDiskVolumeReportsItem {
+  /** Disk volumes */
+  volumeInfo?: ChromeOsDeviceDiskVolumeReportsItemVolumeInfoItemList;
 }
-export type IntegerList = Array<number>;
-export interface ChromeOsDeviceCpuStatusReportsItemCpuTemperatureInfoItem {
-  /** Temperature in Celsius degrees. */
-  temperature?: number;
-  /** CPU label */
-  label?: string;
-}
-export type ChromeOsDeviceCpuStatusReportsItemCpuTemperatureInfoItemList =
-  Array<ChromeOsDeviceCpuStatusReportsItemCpuTemperatureInfoItem>;
-export interface ChromeOsDeviceCpuStatusReportsItem {
-  cpuUtilizationPercentageInfo?: IntegerList;
+export type ChromeOsDeviceDiskVolumeReportsItemList = Array<ChromeOsDeviceDiskVolumeReportsItem>;
+export interface ChromeOsDeviceSystemRamFreeReportsItem {
   /** Date and time the report was received. */
   reportTime?: string;
-  /** A list of CPU temperature samples. */
-  cpuTemperatureInfo?: ChromeOsDeviceCpuStatusReportsItemCpuTemperatureInfoItemList;
+  systemRamFreeInfo?: StringList;
 }
-export type ChromeOsDeviceCpuStatusReportsItemList = Array<ChromeOsDeviceCpuStatusReportsItem>;
-/** Information about a device's Bluetooth adapter. */
-export interface BluetoothAdapterInfo {
-  /** Output only. The MAC address of the adapter. */
-  address?: string;
-  /** Output only. The number of devices connected to this adapter. */
-  numConnectedDevices?: number;
-}
-export type BluetoothAdapterInfoList = Array<BluetoothAdapterInfo>;
+export type ChromeOsDeviceSystemRamFreeReportsItemList =
+  Array<ChromeOsDeviceSystemRamFreeReportsItem>;
 export type ChromeOsDeviceDeviceLicenseTypeEnum =
   | "deviceLicenseTypeUnspecified"
   | "enterprise"
@@ -892,161 +841,196 @@ export type ChromeOsDeviceDeviceLicenseTypeEnum =
   | "enterpriseUpgradeFixedTerm"
   | "educationUpgradePerpetual"
   | "educationUpgradeFixedTerm";
-export interface ChromeOsDeviceActiveTimeRangesItem {
-  /** Date of usage */
-  date?: string;
-  /** Duration of usage in milliseconds. */
-  activeTime?: number;
+export interface ChromeOsDeviceCpuStatusReportsItemCpuTemperatureInfoItem {
+  /** CPU label */
+  label?: string;
+  /** Temperature in Celsius degrees. */
+  temperature?: number;
 }
-export type ChromeOsDeviceActiveTimeRangesItemList = Array<ChromeOsDeviceActiveTimeRangesItem>;
-export interface ChromeOsDeviceSystemRamFreeReportsItem {
+export type ChromeOsDeviceCpuStatusReportsItemCpuTemperatureInfoItemList =
+  Array<ChromeOsDeviceCpuStatusReportsItemCpuTemperatureInfoItem>;
+export type IntegerList = Array<number>;
+export interface ChromeOsDeviceCpuStatusReportsItem {
+  /** A list of CPU temperature samples. */
+  cpuTemperatureInfo?: ChromeOsDeviceCpuStatusReportsItemCpuTemperatureInfoItemList;
   /** Date and time the report was received. */
   reportTime?: string;
-  systemRamFreeInfo?: StringList;
+  cpuUtilizationPercentageInfo?: IntegerList;
 }
-export type ChromeOsDeviceSystemRamFreeReportsItemList =
-  Array<ChromeOsDeviceSystemRamFreeReportsItem>;
+export type ChromeOsDeviceCpuStatusReportsItemList = Array<ChromeOsDeviceCpuStatusReportsItem>;
+export interface ChromeOsDeviceRecentUsersItem {
+  /** The user's email address. This is only present if the user type is `USER_TYPE_MANAGED`. */
+  email?: string;
+  /** The type of the user. */
+  type?: string;
+}
+export type ChromeOsDeviceRecentUsersItemList = Array<ChromeOsDeviceRecentUsersItem>;
+/** Represents a data capacity with some amount of current usage in bytes. */
+export interface ByteUsage {
+  /** Output only. The total capacity value, in bytes. */
+  capacityBytes?: string;
+  /** Output only. The current usage value, in bytes. */
+  usedBytes?: string;
+}
+/** Information about the device's backlights. */
+export interface BacklightInfo {
+  /** Output only. Current brightness of the backlight, between 0 and max_brightness. */
+  brightness?: number;
+  /** Output only. Path to this backlight on the system. Useful if the caller needs to correlate with other information. */
+  path?: string;
+  /** Output only. Maximum brightness for the backlight. */
+  maxBrightness?: number;
+}
+export type BacklightInfoList = Array<BacklightInfo>;
 export interface ChromeOsDeviceLastKnownNetworkItem {
-  /** The IP address. */
-  ipAddress?: string;
   /** The WAN IP address. */
   wanIpAddress?: string;
+  /** The IP address. */
+  ipAddress?: string;
 }
 export type ChromeOsDeviceLastKnownNetworkItemList = Array<ChromeOsDeviceLastKnownNetworkItem>;
+export type ChromeOsDeviceOsVersionComplianceEnum =
+  | "complianceUnspecified"
+  | "compliant"
+  | "pending"
+  | "notCompliant";
+export interface ChromeOsDeviceScreenshotFilesItem {
+  /** File name */
+  name?: string;
+  /** File download URL */
+  downloadUrl?: string;
+  /** Date and time the file was created */
+  createTime?: string;
+  /** File type */
+  type?: string;
+}
+export type ChromeOsDeviceScreenshotFilesItemList = Array<ChromeOsDeviceScreenshotFilesItem>;
+/** Information about a device's Bluetooth adapter. */
+export interface BluetoothAdapterInfo {
+  /** Output only. The MAC address of the adapter. */
+  address?: string;
+  /** Output only. The number of devices connected to this adapter. */
+  numConnectedDevices?: number;
+}
+export type BluetoothAdapterInfoList = Array<BluetoothAdapterInfo>;
 /** Google Chrome devices run on the [Chrome OS](https://support.google.com/chromeos). For more information about common API tasks, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-chrome-devices). */
 export interface ChromeOsDevice {
-  /** Output only. Fan information for the device. */
-  fanInfo?: FanInfoList;
-  /** (Read-only) Date and time for the last deprovision of the device. */
-  lastDeprovisionTimestamp?: string;
-  /** (Read-only) Deprovision reason. */
-  deprovisionReason?: ChromeOsDeviceDeprovisionReasonEnum | (string & {});
-  /** Output only. Device policy compliance status of the OS version. */
-  osVersionCompliance?: ChromeOsDeviceOsVersionComplianceEnum | (string & {});
-  /** Reports of disk space and other info about mounted/connected volumes. */
-  diskVolumeReports?: ChromeOsDeviceDiskVolumeReportsItemList;
-  /** Output only. Contains backlight information for the device. */
-  backlightInfo?: BacklightInfoList;
-  /** The device's order number. Only devices directly purchased from Google have an order number. */
-  orderNumber?: string;
-  /** The Chrome device's firmware version. */
-  firmwareVersion?: string;
-  /** Output only. The timestamp after which the device will stop receiving Chrome updates or support. */
-  autoUpdateThrough?: string;
-  /** (Read-only) The date the device was manufactured in yyyy-mm-dd format. */
-  manufactureDate?: string;
-  /** (Read-only) The timestamp after which the device will stop receiving Chrome updates or support. Please use "autoUpdateThrough" instead. */
-  autoUpdateExpiration?: string;
-  /** Date and time for the first time the device was enrolled. */
-  firstEnrollmentTime?: string;
-  /** The Chrome device's platform version. */
-  platformVersion?: string;
-  /** The device's model information. If the device does not have this information, this property is not included in the response. */
-  model?: string;
-  /** A list of screenshot files to download. Type is always "SCREENSHOT_FILE". (Read-only) */
-  screenshotFiles?: ChromeOsDeviceScreenshotFilesItemList;
-  /** Determines if the device will auto renew its support after the support end date. This is a read-only property. */
-  willAutoRenew?: boolean;
-  /** The Chrome device's operating system version. */
-  osVersion?: string;
   /** Trusted Platform Module (TPM) (Read-only) */
   tpmVersionInfo?: ChromeOsDeviceTpmVersionInfo;
-  /** A list of device files to download (Read-only) */
-  deviceFiles?: ChromeOsDeviceDeviceFilesItemList;
-  /** Information regarding CPU specs in the device. */
-  cpuInfo?: ChromeOsDeviceCpuInfoItemList;
-  /** The device's MAC address on the ethernet network interface. */
-  ethernetMacAddress?: string;
-  /** A list of recent device users, in descending order, by last login time. */
-  recentUsers?: ChromeOsDeviceRecentUsersItemList;
-  /** (Read-only) MAC address used by the Chromebook's internal ethernet port, and for onboard network (ethernet) interface. The format is twelve (12) hexadecimal digits without any delimiter (uppercase letters). This is only relevant for some devices. */
-  ethernetMacAddress0?: string;
-  /** Output only. Chrome OS type of the device. */
-  chromeOsType?: ChromeOsDeviceChromeOsTypeEnum | (string & {});
-  /** Output only. Date of the device when extended support policy for automatic updates starts. */
-  extendedSupportStart?: string;
-  /** Total RAM on the device [in bytes] (Read-only) */
-  systemRamTotal?: string;
-  /** The Mobile Equipment Identifier (MEID) or the International Mobile Equipment Identity (IMEI) for the 3G mobile card in a mobile device. A MEID/IMEI is typically used when adding a device to a wireless carrier's post-pay service plan. If the device does not have this information, this property is not included in the response. For more information on how to export a MEID/IMEI list, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-chrome-devices.html#export_meid). */
-  meid?: string;
-  /** The boot mode for the device. The possible values are: * `Verified`: The device is running a valid version of the Chrome OS. * `Dev`: The devices's developer hardware switch is enabled. When booted, the device has a command line shell. For an example of a developer switch, see the [Chromebook developer information](https://www.chromium.org/chromium-os/developer-information-for-chrome-os-devices/samsung-series-5-chromebook#TOC-Developer-switch). */
-  bootMode?: string;
   /** ETag of the resource. */
   etag?: string;
-  /** The status of the device. */
-  status?: string;
-  /** (Read-only) Built-in MAC address for the docking station that the device connected to. Factory sets Media access control address (MAC address) assigned for use by a dock. It is reserved specifically for MAC pass through device policy. The format is twelve (12) hexadecimal digits without any delimiter (uppercase letters). This is only relevant for some devices. */
-  dockMacAddress?: string;
-  /** Output only. Whether or not the device requires the extended support opt in. */
-  extendedSupportEligible?: boolean;
-  /** Output only. How much disk space the device has available and is currently using. */
-  diskSpaceUsage?: ByteUsage;
-  /** The Chrome device serial number entered when the device was enabled. This value is the same as the Admin console's *Serial Number* in the *Chrome OS Devices* tab. */
-  serialNumber?: string;
   /** The status of the OS updates for the device. */
   osUpdateStatus?: OsUpdateStatus;
-  /** Notes about this device added by the administrator. This property can be [searched](https://support.google.com/chrome/a/answer/1698333) with the [list](https://developers.google.com/workspace/admin/directory/v1/reference/chromeosdevices/list) method's `query` parameter. Maximum length is 500 characters. Empty values are allowed. */
-  notes?: string;
-  /** The device's wireless MAC address. If the device does not have this information, it is not included in the response. */
-  macAddress?: string;
-  /** Reports of CPU utilization and temperature (Read-only) */
-  cpuStatusReports?: ChromeOsDeviceCpuStatusReportsItemList;
-  /** Date and time the device was last enrolled (Read-only) */
-  lastEnrollmentTime?: string;
-  /** Final date the device will be supported (Read-only) */
-  supportEndDate?: string;
-  /** The type of resource. For the Chromeosdevices resource, the value is `admin#directory#chromeosdevice`. */
-  kind?: string;
-  /** Output only. Information about Bluetooth adapters of the device. */
-  bluetoothAdapterInfo?: BluetoothAdapterInfoList;
-  /** Date and time the device was last synchronized with the policy settings in the G Suite administrator control panel (Read-only) */
-  lastSync?: string;
-  /** Output only. Whether extended support policy is enabled on the device. */
-  extendedSupportEnabled?: boolean;
-  /** The unique ID of the Chrome device. */
-  deviceId?: string;
-  /** Output only. Device license type. */
-  deviceLicenseType?: ChromeOsDeviceDeviceLicenseTypeEnum | (string & {});
-  /** A list of active time ranges (Read-only). */
-  activeTimeRanges?: ChromeOsDeviceActiveTimeRangesItemList;
-  /** The full parent path with the organizational unit's name associated with the device. Path names are case insensitive. If the parent organizational unit is the top-level organization, it is represented as a forward slash, `/`. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/guides/manage-chrome-devices#move_chrome_devices_to_ou) using the API. For more information about how to create an organizational structure for your device, see the [administration help center](https://support.google.com/a/answer/182433). */
-  orgUnitPath?: string;
-  /** Reports of amounts of available RAM memory (Read-only) */
-  systemRamFreeReports?: ChromeOsDeviceSystemRamFreeReportsItemList;
-  /** The asset identifier as noted by an administrator or specified during enrollment. */
-  annotatedAssetId?: string;
-  /** The unique ID of the organizational unit. orgUnitPath is the human readable version of orgUnitId. While orgUnitPath may change by renaming an organizational unit within the path, orgUnitId is unchangeable for one organizational unit. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/guides/manage-chrome-devices#move_chrome_devices_to_ou) using the API. For more information about how to create an organizational structure for your device, see the [administration help center](https://support.google.com/a/answer/182433). */
-  orgUnitId?: string;
-  /** Contains last known network (Read-only) */
-  lastKnownNetwork?: ChromeOsDeviceLastKnownNetworkItemList;
+  /** (Read-only) Date and time for the last deprovision of the device. */
+  lastDeprovisionTimestamp?: string;
+  /** Output only. Chrome OS type of the device. */
+  chromeOsType?: ChromeOsDeviceChromeOsTypeEnum | (string & {});
+  /** Total RAM on the device [in bytes] (Read-only) */
+  systemRamTotal?: string;
+  /** (Read-only) Deprovision reason. */
+  deprovisionReason?: ChromeOsDeviceDeprovisionReasonEnum | (string & {});
+  /** The Chrome device's firmware version. */
+  firmwareVersion?: string;
+  /** A list of device files to download (Read-only) */
+  deviceFiles?: ChromeOsDeviceDeviceFilesItemList;
   /** The address or location of the device as noted by the administrator. Maximum length is `200` characters. Empty values are allowed. */
   annotatedLocation?: string;
+  /** A list of active time ranges (Read-only). */
+  activeTimeRanges?: ChromeOsDeviceActiveTimeRangesItemList;
+  /** Information regarding CPU specs in the device. */
+  cpuInfo?: ChromeOsDeviceCpuInfoItemList;
+  /** Output only. Fan information for the device. */
+  fanInfo?: FanInfoList;
+  /** Output only. Whether extended support policy is enabled on the device. */
+  extendedSupportEnabled?: boolean;
+  /** The device's wireless MAC address. If the device does not have this information, it is not included in the response. */
+  macAddress?: string;
   /** The user of the device as noted by the administrator. Maximum length is 100 characters. Empty values are allowed. */
   annotatedUser?: string;
+  /** Final date the device will be supported (Read-only) */
+  supportEndDate?: string;
+  /** The Mobile Equipment Identifier (MEID) or the International Mobile Equipment Identity (IMEI) for the 3G mobile card in a mobile device. A MEID/IMEI is typically used when adding a device to a wireless carrier's post-pay service plan. If the device does not have this information, this property is not included in the response. For more information on how to export a MEID/IMEI list, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-chrome-devices.html#export_meid). */
+  meid?: string;
+  /** Date and time the device was last enrolled (Read-only) */
+  lastEnrollmentTime?: string;
+  /** (Read-only) The timestamp after which the device will stop receiving Chrome updates or support. Please use "autoUpdateThrough" instead. */
+  autoUpdateExpiration?: string;
+  /** The full parent path with the organizational unit's name associated with the device. Path names are case insensitive. If the parent organizational unit is the top-level organization, it is represented as a forward slash, `/`. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/guides/manage-chrome-devices#move_chrome_devices_to_ou) using the API. For more information about how to create an organizational structure for your device, see the [administration help center](https://support.google.com/a/answer/182433). */
+  orgUnitPath?: string;
+  /** The Chrome device's operating system version. */
+  osVersion?: string;
+  /** Reports of disk space and other info about mounted/connected volumes. */
+  diskVolumeReports?: ChromeOsDeviceDiskVolumeReportsItemList;
+  /** The unique ID of the Chrome device. */
+  deviceId?: string;
+  /** The Chrome device serial number entered when the device was enabled. This value is the same as the Admin console's *Serial Number* in the *Chrome OS Devices* tab. */
+  serialNumber?: string;
+  /** The status of the device. */
+  status?: string;
+  /** Output only. Date of the device when extended support policy for automatic updates starts. */
+  extendedSupportStart?: string;
+  /** Reports of amounts of available RAM memory (Read-only) */
+  systemRamFreeReports?: ChromeOsDeviceSystemRamFreeReportsItemList;
+  /** Output only. Device license type. */
+  deviceLicenseType?: ChromeOsDeviceDeviceLicenseTypeEnum | (string & {});
+  /** (Read-only) The date the device was manufactured in yyyy-mm-dd format. */
+  manufactureDate?: string;
+  /** The device's order number. Only devices directly purchased from Google have an order number. */
+  orderNumber?: string;
+  /** Reports of CPU utilization and temperature (Read-only) */
+  cpuStatusReports?: ChromeOsDeviceCpuStatusReportsItemList;
+  /** Date and time for the first time the device was enrolled. */
+  firstEnrollmentTime?: string;
+  /** A list of recent device users, in descending order, by last login time. */
+  recentUsers?: ChromeOsDeviceRecentUsersItemList;
+  /** The unique ID of the organizational unit. orgUnitPath is the human readable version of orgUnitId. While orgUnitPath may change by renaming an organizational unit within the path, orgUnitId is unchangeable for one organizational unit. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/guides/manage-chrome-devices#move_chrome_devices_to_ou) using the API. For more information about how to create an organizational structure for your device, see the [administration help center](https://support.google.com/a/answer/182433). */
+  orgUnitId?: string;
+  /** Notes about this device added by the administrator. This property can be [searched](https://support.google.com/chrome/a/answer/1698333) with the [list](https://developers.google.com/workspace/admin/directory/v1/reference/chromeosdevices/list) method's `query` parameter. Maximum length is 500 characters. Empty values are allowed. */
+  notes?: string;
+  /** Output only. How much disk space the device has available and is currently using. */
+  diskSpaceUsage?: ByteUsage;
+  /** Output only. Whether or not the device requires the extended support opt in. */
+  extendedSupportEligible?: boolean;
+  /** The device's MAC address on the ethernet network interface. */
+  ethernetMacAddress?: string;
+  /** (Read-only) MAC address used by the Chromebook's internal ethernet port, and for onboard network (ethernet) interface. The format is twelve (12) hexadecimal digits without any delimiter (uppercase letters). This is only relevant for some devices. */
+  ethernetMacAddress0?: string;
+  /** The boot mode for the device. The possible values are: * `Verified`: The device is running a valid version of the Chrome OS. * `Dev`: The devices's developer hardware switch is enabled. When booted, the device has a command line shell. For an example of a developer switch, see the [Chromebook developer information](https://www.chromium.org/chromium-os/developer-information-for-chrome-os-devices/samsung-series-5-chromebook#TOC-Developer-switch). */
+  bootMode?: string;
+  /** Date and time the device was last synchronized with the policy settings in the G Suite administrator control panel (Read-only) */
+  lastSync?: string;
+  /** The asset identifier as noted by an administrator or specified during enrollment. */
+  annotatedAssetId?: string;
+  /** Output only. The timestamp after which the device will stop receiving Chrome updates or support. */
+  autoUpdateThrough?: string;
+  /** The device's model information. If the device does not have this information, this property is not included in the response. */
+  model?: string;
+  /** The Chrome device's platform version. */
+  platformVersion?: string;
+  /** Output only. Contains backlight information for the device. */
+  backlightInfo?: BacklightInfoList;
+  /** Contains last known network (Read-only) */
+  lastKnownNetwork?: ChromeOsDeviceLastKnownNetworkItemList;
+  /** Output only. Device policy compliance status of the OS version. */
+  osVersionCompliance?: ChromeOsDeviceOsVersionComplianceEnum | (string & {});
+  /** A list of screenshot files to download. Type is always "SCREENSHOT_FILE". (Read-only) */
+  screenshotFiles?: ChromeOsDeviceScreenshotFilesItemList;
+  /** Output only. Information about Bluetooth adapters of the device. */
+  bluetoothAdapterInfo?: BluetoothAdapterInfoList;
+  /** (Read-only) Built-in MAC address for the docking station that the device connected to. Factory sets Media access control address (MAC address) assigned for use by a dock. It is reserved specifically for MAC pass through device policy. The format is twelve (12) hexadecimal digits without any delimiter (uppercase letters). This is only relevant for some devices. */
+  dockMacAddress?: string;
+  /** Determines if the device will auto renew its support after the support end date. This is a read-only property. */
+  willAutoRenew?: boolean;
+  /** The type of resource. For the Chromeosdevices resource, the value is `admin#directory#chromeosdevice`. */
+  kind?: string;
 }
 export interface GetCustomerDevicesChromeosCommandsRequest {
-  /** Immutable. ID of Chrome OS Device. */
-  deviceId: string;
   /** Immutable. ID of Chrome OS Device Command. */
   commandId: string;
   /** Immutable. ID of the Google Workspace account. */
   customerId: string;
-}
-export type DirectoryChromeosdevicesCommandResultResultEnum =
-  | "COMMAND_RESULT_TYPE_UNSPECIFIED"
-  | "IGNORED"
-  | "FAILURE"
-  | "SUCCESS";
-/** The result of executing a command. */
-export interface DirectoryChromeosdevicesCommandResult {
-  /** The payload for the command result. The following commands respond with a payload: * `DEVICE_START_CRD_SESSION`: Payload is a stringified JSON object in the form: { "url": url }. The provided URL links to the Chrome Remote Desktop session and requires authentication using only the `email` associated with the command's issuance. * `FETCH_CRD_AVAILABILITY_INFO`: Payload is a stringified JSON object in the form: { "deviceIdleTimeInSeconds": number, "userSessionType": string, "remoteSupportAvailability": string, "remoteAccessAvailability": string }. The "remoteSupportAvailability" field is set to "AVAILABLE" if `shared` CRD session to the device is available. The "remoteAccessAvailability" field is set to "AVAILABLE" if `private` CRD session to the device is available. */
-  commandResultPayload?: string;
-  /** The result of the command. */
-  result?: DirectoryChromeosdevicesCommandResultResultEnum;
-  /** The time at which the command was executed or failed to execute. */
-  executeTime?: string;
-  /** The error message with a short explanation as to why the command failed. Only present if the command failed. */
-  errorMessage?: string;
+  /** Immutable. ID of Chrome OS Device. */
+  deviceId: string;
 }
 export type DirectoryChromeosdevicesCommandStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1056,6 +1040,22 @@ export type DirectoryChromeosdevicesCommandStateEnum =
   | "SENT_TO_CLIENT"
   | "ACKED_BY_CLIENT"
   | "EXECUTED_BY_CLIENT";
+export type DirectoryChromeosdevicesCommandResultResultEnum =
+  | "COMMAND_RESULT_TYPE_UNSPECIFIED"
+  | "IGNORED"
+  | "FAILURE"
+  | "SUCCESS";
+/** The result of executing a command. */
+export interface DirectoryChromeosdevicesCommandResult {
+  /** The payload for the command result. The following commands respond with a payload: * `DEVICE_START_CRD_SESSION`: Payload is a stringified JSON object in the form: { "url": url }. The provided URL links to the Chrome Remote Desktop session and requires authentication using only the `email` associated with the command's issuance. * `FETCH_CRD_AVAILABILITY_INFO`: Payload is a stringified JSON object in the form: { "deviceIdleTimeInSeconds": number, "userSessionType": string, "remoteSupportAvailability": string, "remoteAccessAvailability": string }. The "remoteSupportAvailability" field is set to "AVAILABLE" if `shared` CRD session to the device is available. The "remoteAccessAvailability" field is set to "AVAILABLE" if `private` CRD session to the device is available. */
+  commandResultPayload?: string;
+  /** The time at which the command was executed or failed to execute. */
+  executeTime?: string;
+  /** The error message with a short explanation as to why the command failed. Only present if the command failed. */
+  errorMessage?: string;
+  /** The result of the command. */
+  result?: DirectoryChromeosdevicesCommandResultResultEnum;
+}
 export type DirectoryChromeosdevicesCommandTypeEnum =
   | "COMMAND_TYPE_UNSPECIFIED"
   | "REBOOT"
@@ -1069,64 +1069,64 @@ export type DirectoryChromeosdevicesCommandTypeEnum =
   | "FETCH_SUPPORT_PACKET";
 /** Information regarding a command that was issued to a device. */
 export interface DirectoryChromeosdevicesCommand {
-  /** The time at which the command will expire. If the device doesn't execute the command within this time the command will become expired. */
-  commandExpireTime?: string;
-  /** The payload that the command specified, if any. */
-  payload?: string;
-  /** Unique ID of a device command. */
-  commandId?: string;
-  /** The result of the command execution. */
-  commandResult?: DirectoryChromeosdevicesCommandResult;
-  /** Indicates the command state. */
-  state?: DirectoryChromeosdevicesCommandStateEnum;
-  /** The type of the command. */
-  type?: DirectoryChromeosdevicesCommandTypeEnum;
   /** The timestamp when the command was issued by the admin. */
   issueTime?: string;
+  /** The time at which the command will expire. If the device doesn't execute the command within this time the command will become expired. */
+  commandExpireTime?: string;
+  /** Unique ID of a device command. */
+  commandId?: string;
+  /** Indicates the command state. */
+  state?: DirectoryChromeosdevicesCommandStateEnum;
+  /** The result of the command execution. */
+  commandResult?: DirectoryChromeosdevicesCommandResult;
+  /** The payload that the command specified, if any. */
+  payload?: string;
+  /** The type of the command. */
+  type?: DirectoryChromeosdevicesCommandTypeEnum;
 }
 export interface GetCustomersRequest {
   /** Id of the customer to be retrieved */
   customerKey: string;
 }
 export interface CustomerPostalAddress {
-  /** The postal code. A postalCode example is a postal zip code such as `10009`. This is in accordance with - http: //portablecontacts.net/draft-spec.html#address_element. */
-  postalCode?: string;
-  /** Name of the locality. An example of a locality value is the city of `San Francisco`. */
-  locality?: string;
-  /** The customer contact's name. */
-  contactName?: string;
-  /** Name of the region. An example of a region value is `NY` for the state of New York. */
-  region?: string;
-  /** Address line 3 of the address. */
-  addressLine3?: string;
-  /** Address line 2 of the address. */
-  addressLine2?: string;
-  /** A customer's physical address. The address can be composed of one to three lines. */
-  addressLine1?: string;
   /** This is a required property. For `countryCode` information see the [ISO 3166 country code elements](https://www.iso.org/iso/country_codes.htm). */
   countryCode?: string;
+  /** The customer contact's name. */
+  contactName?: string;
+  /** A customer's physical address. The address can be composed of one to three lines. */
+  addressLine1?: string;
   /** The company or company division name. */
   organizationName?: string;
+  /** Name of the locality. An example of a locality value is the city of `San Francisco`. */
+  locality?: string;
+  /** Address line 3 of the address. */
+  addressLine3?: string;
+  /** Name of the region. An example of a region value is `NY` for the state of New York. */
+  region?: string;
+  /** The postal code. A postalCode example is a postal zip code such as `10009`. This is in accordance with - http: //portablecontacts.net/draft-spec.html#address_element. */
+  postalCode?: string;
+  /** Address line 2 of the address. */
+  addressLine2?: string;
 }
 export interface Customer {
-  /** ETag of the resource. */
-  etag?: string;
-  /** The customer's postal address information. */
-  postalAddress?: CustomerPostalAddress;
-  /** The customer's secondary contact email address. This email address cannot be on the same domain as the `customerDomain` */
-  alternateEmail?: string;
-  /** The customer's primary domain name string. Do not include the `www` prefix when creating a new customer. */
-  customerDomain?: string;
-  /** Identifies the resource as a customer. Value: `admin#directory#customer` */
-  kind?: string;
-  /** The customer's contact phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format. */
-  phoneNumber?: string;
-  /** The customer's ISO 639-2 language code. See the [Language Codes](https://developers.google.com/workspace/admin/directory/v1/languages) page for the list of supported codes. Valid language codes outside the supported set will be accepted by the API but may lead to unexpected behavior. The default value is `en`. */
-  language?: string;
   /** The unique ID for the customer's Google Workspace account. (Readonly) */
   id?: string;
   /** The customer's creation time (Readonly) */
   customerCreationTime?: string;
+  /** The customer's primary domain name string. Do not include the `www` prefix when creating a new customer. */
+  customerDomain?: string;
+  /** ETag of the resource. */
+  etag?: string;
+  /** The customer's postal address information. */
+  postalAddress?: CustomerPostalAddress;
+  /** Identifies the resource as a customer. Value: `admin#directory#customer` */
+  kind?: string;
+  /** The customer's ISO 639-2 language code. See the [Language Codes](https://developers.google.com/workspace/admin/directory/v1/languages) page for the list of supported codes. Valid language codes outside the supported set will be accepted by the API but may lead to unexpected behavior. The default value is `en`. */
+  language?: string;
+  /** The customer's secondary contact email address. This email address cannot be on the same domain as the `customerDomain` */
+  alternateEmail?: string;
+  /** The customer's contact phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format. */
+  phoneNumber?: string;
 }
 export interface GetCustomersChromePrintersRequest {
   /** Required. The name of the printer to retrieve. Format: customers/{customer_id}/chrome/printers/{printer_id} */
@@ -1143,41 +1143,41 @@ export interface GetDomainAliasesRequest {
   domainAliasName: string;
 }
 export interface DomainAlias {
-  /** Indicates the verification state of a domain alias. (Read-only) */
-  verified?: boolean;
-  /** The parent domain name that the domain alias is associated with. This can either be a primary or secondary domain name within a customer. */
-  parentDomainName?: string;
-  /** The domain alias name. */
-  domainAliasName?: string;
-  /** Kind of resource this is. */
-  kind?: string;
   /** ETag of the resource. */
   etag?: string;
+  /** Indicates the verification state of a domain alias. (Read-only) */
+  verified?: boolean;
+  /** Kind of resource this is. */
+  kind?: string;
+  /** The parent domain name that the domain alias is associated with. This can either be a primary or secondary domain name within a customer. */
+  parentDomainName?: string;
   /** The creation time of the domain alias. (Read-only). */
   creationTime?: string;
+  /** The domain alias name. */
+  domainAliasName?: string;
 }
 export interface GetDomainsRequest {
-  /** Name of domain to be retrieved */
-  domainName: string;
   /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
   customer: string;
+  /** Name of domain to be retrieved */
+  domainName: string;
 }
 export type DomainAliasList = Array<DomainAlias>;
 export interface Domains {
-  /** Kind of resource this is. */
-  kind?: string;
-  /** Indicates the verification state of a domain. (Read-only). */
-  verified?: boolean;
-  /** Creation time of the domain. Expressed in [Unix time](https://en.wikipedia.org/wiki/Epoch_time) format. (Read-only). */
-  creationTime?: string;
+  /** Indicates if the domain is a primary domain (Read-only). */
+  isPrimary?: boolean;
   /** A list of domain alias objects. (Read-only) */
   domainAliases?: DomainAliasList;
+  /** Indicates the verification state of a domain. (Read-only). */
+  verified?: boolean;
   /** The domain name of the customer. */
   domainName?: string;
   /** ETag of the resource. */
   etag?: string;
-  /** Indicates if the domain is a primary domain (Read-only). */
-  isPrimary?: boolean;
+  /** Creation time of the domain. Expressed in [Unix time](https://en.wikipedia.org/wiki/Epoch_time) format. (Read-only). */
+  creationTime?: string;
+  /** Kind of resource this is. */
+  kind?: string;
 }
 export interface GetGroupsRequest {
   /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
@@ -1195,156 +1195,156 @@ export type ExternalIdList = Array<ExternalId>;
 export interface Group {
   /** The group's display name. */
   name?: string;
-  /** An extended description to help users determine the purpose of a group. For example, you can include information about who should join the group, the types of messages to send to the group, links to FAQs about the group, or related groups. Maximum length is `4,096` characters. */
-  description?: string;
-  /** The group's email address. If your account has multiple domains, select the appropriate domain for the email address. The `email` must be unique. This property is required when creating a group. Group email addresses are subject to the same character usage rules as usernames, see the [help center](https://support.google.com/a/answer/9193374) for details. */
-  email?: string;
-  /** The number of users that are direct members of the group. If a group is a member (child) of this group (the parent), members of the child group are not counted in the `directMembersCount` property of the parent group. */
-  directMembersCount?: string;
-  /** Optional. The list of external IDs for the group, such as an immutable identifier from an external identity provider or directory sync client. Each entry contains a namespace and an ID value. */
-  externalIds?: ExternalIdList;
-  /** ETag of the resource. */
-  etag?: string;
-  /** Read-only. The unique ID of a group. A group `id` can be used as a group request URI's `groupKey`. */
-  id?: string;
   /** Read-only. Value is `true` if this group was created by an administrator rather than a user. */
   adminCreated?: boolean;
-  /** Read-only. The list of the group's non-editable alias email addresses that are outside of the account's primary domain or subdomains. These are functioning email addresses used by the group. This is a read-only property returned in the API's response for a group. If edited in a group's POST or PUT request, the edit is ignored. */
-  nonEditableAliases?: StringList;
-  /** The type of the API resource. For Groups resources, the value is `admin#directory#group`. */
-  kind?: string;
+  /** The number of users that are direct members of the group. If a group is a member (child) of this group (the parent), members of the child group are not counted in the `directMembersCount` property of the parent group. */
+  directMembersCount?: string;
   /** Read-only. The list of a group's alias email addresses. To add, update, or remove a group's aliases, use the `groups.aliases` methods. If edited in a group's POST or PUT request, the edit is ignored. */
   aliases?: StringList;
+  /** The type of the API resource. For Groups resources, the value is `admin#directory#group`. */
+  kind?: string;
+  /** The group's email address. If your account has multiple domains, select the appropriate domain for the email address. The `email` must be unique. This property is required when creating a group. Group email addresses are subject to the same character usage rules as usernames, see the [help center](https://support.google.com/a/answer/9193374) for details. */
+  email?: string;
+  /** Read-only. The list of the group's non-editable alias email addresses that are outside of the account's primary domain or subdomains. These are functioning email addresses used by the group. This is a read-only property returned in the API's response for a group. If edited in a group's POST or PUT request, the edit is ignored. */
+  nonEditableAliases?: StringList;
+  /** Read-only. The unique ID of a group. A group `id` can be used as a group request URI's `groupKey`. */
+  id?: string;
+  /** An extended description to help users determine the purpose of a group. For example, you can include information about who should join the group, the types of messages to send to the group, links to FAQs about the group, or related groups. Maximum length is `4,096` characters. */
+  description?: string;
+  /** ETag of the resource. */
+  etag?: string;
+  /** Optional. The list of external IDs for the group, such as an immutable identifier from an external identity provider or directory sync client. Each entry contains a namespace and an ID value. */
+  externalIds?: ExternalIdList;
 }
 export interface GetMembersRequest {
-  /** Identifies the group member in the API request. A group member can be a user or another group. The value can be the member's (group or user) primary email address, alias, or unique ID. */
-  memberKey: string;
   /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
   groupKey: string;
+  /** Identifies the group member in the API request. A group member can be a user or another group. The value can be the member's (group or user) primary email address, alias, or unique ID. */
+  memberKey: string;
 }
 /** A Google Groups member can be a user or another group. This member can be inside or outside of your account's domains. For more information about common group member tasks, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-group-members). */
 export interface Member {
-  /** The type of the API resource. For Members resources, the value is `admin#directory#member`. */
-  kind?: string;
   /** The member's role in a group. The API returns an error for cycles in group memberships. For example, if `group1` is a member of `group2`, `group2` cannot be a member of `group1`. For more information about a member's role, see the [administration help center](https://support.google.com/a/answer/167094). */
   role?: string;
-  /** The unique ID of the group member. A member `id` can be used as a member request URI's `memberKey`. */
-  id?: string;
-  /** The type of group member. */
-  type?: string;
   /** Status of member (Immutable) */
   status?: string;
+  /** The member's email address. A member can be a user or another group. This property is required when adding a member to a group. The `email` must be unique and cannot be an alias of another group. If the email address is changed, the API automatically reflects the email address changes. */
+  email?: string;
+  /** The unique ID of the group member. A member `id` can be used as a member request URI's `memberKey`. */
+  id?: string;
+  /** The type of the API resource. For Members resources, the value is `admin#directory#member`. */
+  kind?: string;
+  /** The type of group member. */
+  type?: string;
   /** Defines mail delivery preferences of member. This field is only supported by `insert`, `update`, and `get` methods. */
   delivery_settings?: string;
   /** ETag of the resource. */
   etag?: string;
-  /** The member's email address. A member can be a user or another group. This property is required when adding a member to a group. The `email` must be unique and cannot be an alias of another group. If the email address is changed, the API automatically reflects the email address changes. */
-  email?: string;
 }
 export type GetMobiledevicesProjectionEnum = "BASIC" | "FULL";
 export interface GetMobiledevicesRequest {
-  /** Restrict information returned to a set of selected fields. */
-  projection?: GetMobiledevicesProjectionEnum | (string & {});
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
   customerId: string;
   /** The unique ID the API service uses to identify the mobile device. */
   resourceId: string;
+  /** Restrict information returned to a set of selected fields. */
+  projection?: GetMobiledevicesProjectionEnum | (string & {});
 }
 export interface MobileDeviceApplicationsItem {
-  /** The application's version code. An example is `13`. */
-  versionCode?: number;
-  /** The list of permissions of this application. These can be either a standard Android permission or one defined by the application, and are found in an application's [Android manifest](https://developer.android.com/guide/topics/manifest/uses-permission-element.html). Examples of a Calendar application's permissions are `READ_CALENDAR`, or `MANAGE_ACCOUNTS`. */
-  permission?: StringList;
-  /** The application's package name. An example is `com.android.browser`. */
-  packageName?: string;
   /** The application's version name. An example is `3.2-140714`. */
   versionName?: string;
   /** The application's display name. An example is `Browser`. */
   displayName?: string;
+  /** The application's package name. An example is `com.android.browser`. */
+  packageName?: string;
+  /** The application's version code. An example is `13`. */
+  versionCode?: number;
+  /** The list of permissions of this application. These can be either a standard Android permission or one defined by the application, and are found in an application's [Android manifest](https://developer.android.com/guide/topics/manifest/uses-permission-element.html). Examples of a Calendar application's permissions are `READ_CALENDAR`, or `MANAGE_ACCOUNTS`. */
+  permission?: StringList;
 }
 export type MobileDeviceApplicationsItemList = Array<MobileDeviceApplicationsItem>;
 /** Google Workspace Mobile Management includes Android, [Google Sync](https://support.google.com/a/answer/135937), and iOS devices. For more information about common group mobile device API tasks, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-mobile-devices.html). */
 export interface MobileDevice {
-  /** The device's IMEI number. */
-  imei?: string;
-  /** The mobile device's operating system, for example IOS 4.3 or Android 2.3.5. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/reference/mobiledevices/update.html). For more information, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-mobile-devices#update_mobile_device). */
-  os?: string;
-  /** Mobile Device Hardware (Read-only) */
-  hardware?: string;
-  /** Date and time the device was last synchronized with the policy settings in the G Suite administrator control panel (Read-only) */
-  lastSync?: string;
-  /** The list of the owner's email addresses. If your application needs the current list of user emails, use the [get](https://developers.google.com/workspace/admin/directory/v1/reference/mobiledevices/get.html) method. For additional information, see the [retrieve a user](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#get_user) method. */
-  email?: StringList;
-  /** The default locale used on the device. */
-  defaultLanguage?: string;
-  /** Mobile Device Brand (Read-only) */
-  brand?: string;
-  /** DevicePasswordStatus (Read-only) */
-  devicePasswordStatus?: string;
-  /** Mobile Device mobile or network operator (if available) (Read-only) */
-  networkOperator?: string;
-  /** DMAgentPermission (Read-only) */
-  privilege?: string;
-  /** The serial number for a Google Sync mobile device. For Android and iOS devices, this is a software generated unique identifier. */
-  deviceId?: string;
-  /** The device's MAC address on Wi-Fi networks. */
-  wifiMacAddress?: string;
-  /** The IMEI/MEID unique identifier for Android hardware. It is not applicable to Google Sync devices. When adding an Android mobile device, this is an optional property. When updating one of these devices, this is a read-only property. */
-  hardwareId?: string;
-  /** Boolean indicating if this account is on owner/primary profile or not. */
-  managedAccountIsOnOwnerProfile?: boolean;
-  /** The device's baseband version. */
-  basebandVersion?: string;
-  /** The type of the API resource. For Mobiledevices resources, the value is `admin#directory#mobiledevice`. */
-  kind?: string;
-  /** Mobile Device release version version (Read-only) */
-  releaseVersion?: string;
-  /** The mobile device's model name, for example Nexus S. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/reference/mobiledevices/update.html). For more information, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-mobile=devices#update_mobile_device). */
-  model?: string;
-  /** Mobile Device Bootloader version (Read-only) */
-  bootloaderVersion?: string;
-  /** The device's serial number. */
-  serialNumber?: string;
-  /** Developer options enabled or disabled on device (Read-only) */
-  developerOptionsStatus?: boolean;
-  /** The compromised device status. */
-  deviceCompromisedStatus?: string;
-  /** Mobile Device Security patch level (Read-only) */
-  securityPatchLevel?: string;
-  /** Work profile supported on device (Read-only) */
-  supportsWorkProfile?: boolean;
-  /** Mobile Device Encryption Status (Read-only) */
-  encryptionStatus?: string;
-  /** Date and time the device was first synchronized with the policy settings in the G Suite administrator control panel (Read-only) */
-  firstSync?: string;
-  /** Adb (USB debugging) enabled or disabled on device (Read-only) */
-  adbStatus?: boolean;
-  /** The device's operating system build number. */
-  buildNumber?: string;
-  /** Unknown sources enabled or disabled on device (Read-only) */
-  unknownSourcesStatus?: boolean;
-  /** The unique ID the API service uses to identify the mobile device. */
-  resourceId?: string;
-  /** The device's kernel version. */
-  kernelVersion?: string;
-  /** The device's status. */
-  status?: string;
-  /** The list of the owner's user names. If your application needs the current list of device owner names, use the [get](https://developers.google.com/workspace/admin/directory/v1/reference/mobiledevices/get.html) method. For more information about retrieving mobile device user information, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#get_user). */
-  name?: StringList;
-  /** The list of accounts added on device (Read-only) */
-  otherAccountsInfo?: StringList;
-  /** The device's MEID number. */
-  meid?: string;
   /** Gives information about the device such as `os` version. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/reference/mobiledevices/update.html). For more information, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-mobile-devices#update_mobile_device). */
   userAgent?: string;
+  /** The list of the owner's email addresses. If your application needs the current list of user emails, use the [get](https://developers.google.com/workspace/admin/directory/v1/reference/mobiledevices/get.html) method. For additional information, see the [retrieve a user](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#get_user) method. */
+  email?: StringList;
   /** ETag of the resource. */
   etag?: string;
   /** The type of mobile device. */
   type?: string;
+  /** Date and time the device was last synchronized with the policy settings in the G Suite administrator control panel (Read-only) */
+  lastSync?: string;
+  /** The compromised device status. */
+  deviceCompromisedStatus?: string;
+  /** The mobile device's model name, for example Nexus S. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/reference/mobiledevices/update.html). For more information, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-mobile=devices#update_mobile_device). */
+  model?: string;
+  /** The serial number for a Google Sync mobile device. For Android and iOS devices, this is a software generated unique identifier. */
+  deviceId?: string;
+  /** Developer options enabled or disabled on device (Read-only) */
+  developerOptionsStatus?: boolean;
+  /** Boolean indicating if this account is on owner/primary profile or not. */
+  managedAccountIsOnOwnerProfile?: boolean;
   /** Mobile Device manufacturer (Read-only) */
   manufacturer?: string;
+  /** The device's serial number. */
+  serialNumber?: string;
+  /** The list of accounts added on device (Read-only) */
+  otherAccountsInfo?: StringList;
+  /** The device's status. */
+  status?: string;
+  /** The IMEI/MEID unique identifier for Android hardware. It is not applicable to Google Sync devices. When adding an Android mobile device, this is an optional property. When updating one of these devices, this is a read-only property. */
+  hardwareId?: string;
+  /** Mobile Device Hardware (Read-only) */
+  hardware?: string;
+  /** Date and time the device was first synchronized with the policy settings in the G Suite administrator control panel (Read-only) */
+  firstSync?: string;
+  /** The device's kernel version. */
+  kernelVersion?: string;
+  /** The device's operating system build number. */
+  buildNumber?: string;
+  /** DevicePasswordStatus (Read-only) */
+  devicePasswordStatus?: string;
+  /** Unknown sources enabled or disabled on device (Read-only) */
+  unknownSourcesStatus?: boolean;
+  /** The unique ID the API service uses to identify the mobile device. */
+  resourceId?: string;
+  /** Mobile Device Encryption Status (Read-only) */
+  encryptionStatus?: string;
+  /** Adb (USB debugging) enabled or disabled on device (Read-only) */
+  adbStatus?: boolean;
+  /** The device's MAC address on Wi-Fi networks. */
+  wifiMacAddress?: string;
+  /** Work profile supported on device (Read-only) */
+  supportsWorkProfile?: boolean;
+  /** Mobile Device Brand (Read-only) */
+  brand?: string;
+  /** Mobile Device Security patch level (Read-only) */
+  securityPatchLevel?: string;
+  /** Mobile Device mobile or network operator (if available) (Read-only) */
+  networkOperator?: string;
+  /** DMAgentPermission (Read-only) */
+  privilege?: string;
+  /** The default locale used on the device. */
+  defaultLanguage?: string;
+  /** The device's MEID number. */
+  meid?: string;
+  /** The mobile device's operating system, for example IOS 4.3 or Android 2.3.5. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/reference/mobiledevices/update.html). For more information, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-mobile-devices#update_mobile_device). */
+  os?: string;
+  /** Mobile Device Bootloader version (Read-only) */
+  bootloaderVersion?: string;
+  /** The list of the owner's user names. If your application needs the current list of device owner names, use the [get](https://developers.google.com/workspace/admin/directory/v1/reference/mobiledevices/get.html) method. For more information about retrieving mobile device user information, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#get_user). */
+  name?: StringList;
+  /** The device's baseband version. */
+  basebandVersion?: string;
+  /** The type of the API resource. For Mobiledevices resources, the value is `admin#directory#mobiledevice`. */
+  kind?: string;
+  /** The device's IMEI number. */
+  imei?: string;
   /** The list of applications installed on an Android mobile device. It is not applicable to Google Sync and iOS devices. The list includes any Android applications that access Google Workspace data. When updating an applications list, it is important to note that updates replace the existing list. If the Android device has two existing applications and the API updates the list with five applications, the is now the updated list of five applications. */
   applications?: MobileDeviceApplicationsItemList;
+  /** Mobile Device release version version (Read-only) */
+  releaseVersion?: string;
 }
 export interface GetOrgunitsRequest {
   /** The full path of the organizational unit (minus the leading `/`) or its unique ID. */
@@ -1354,47 +1354,47 @@ export interface GetOrgunitsRequest {
 }
 /** Managing your account's organizational units allows you to configure your users' access to services and custom settings. For more information about common organizational unit tasks, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-org-units.html). The customer's organizational unit hierarchy is limited to 35 levels of depth. */
 export interface OrgUnit {
-  /** The organizational unit's path name. For example, an organizational unit's name within the /corp/support/sales_support parent path is sales_support. Required. */
-  name?: string;
-  /** This field is deprecated and setting its value has no effect. */
-  blockInheritance?: boolean;
-  /** The unique ID of the organizational unit. */
-  orgUnitId?: string;
-  /** The full path to the organizational unit. The `orgUnitPath` is a derived property. When listed, it is derived from `parentOrgunitPath` and organizational unit's `name`. For example, for an organizational unit named 'apps' under parent organization '/engineering', the orgUnitPath is '/engineering/apps'. In order to edit an `orgUnitPath`, either update the name of the organization or the `parentOrgunitPath`. A user's organizational unit determines which Google Workspace services the user has access to. If the user is moved to a new organization, the user's access changes. For more information about organization structures, see the [administration help center](https://support.google.com/a/answer/4352075). For more information about moving a user to a different organization, see [Update a user](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users.html#update_user). */
-  orgUnitPath?: string;
-  /** The unique ID of the parent organizational unit. Required, unless `parentOrgUnitPath` is set. */
-  parentOrgUnitId?: string;
-  /** Description of the organizational unit. */
-  description?: string;
-  /** ETag of the resource. */
-  etag?: string;
-  /** The type of the API resource. For Orgunits resources, the value is `admin#directory#orgUnit`. */
-  kind?: string;
   /** The organizational unit's parent path. For example, /corp/sales is the parent path for /corp/sales/sales_support organizational unit. Required, unless `parentOrgUnitId` is set. */
   parentOrgUnitPath?: string;
+  /** The type of the API resource. For Orgunits resources, the value is `admin#directory#orgUnit`. */
+  kind?: string;
+  /** This field is deprecated and setting its value has no effect. */
+  blockInheritance?: boolean;
+  /** The organizational unit's path name. For example, an organizational unit's name within the /corp/support/sales_support parent path is sales_support. Required. */
+  name?: string;
+  /** ETag of the resource. */
+  etag?: string;
+  /** The unique ID of the parent organizational unit. Required, unless `parentOrgUnitPath` is set. */
+  parentOrgUnitId?: string;
+  /** The unique ID of the organizational unit. */
+  orgUnitId?: string;
+  /** Description of the organizational unit. */
+  description?: string;
+  /** The full path to the organizational unit. The `orgUnitPath` is a derived property. When listed, it is derived from `parentOrgunitPath` and organizational unit's `name`. For example, for an organizational unit named 'apps' under parent organization '/engineering', the orgUnitPath is '/engineering/apps'. In order to edit an `orgUnitPath`, either update the name of the organization or the `parentOrgunitPath`. A user's organizational unit determines which Google Workspace services the user has access to. If the user is moved to a new organization, the user's access changes. For more information about organization structures, see the [administration help center](https://support.google.com/a/answer/4352075). For more information about moving a user to a different organization, see [Update a user](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users.html#update_user). */
+  orgUnitPath?: string;
 }
 export interface GetResourcesBuildingsRequest {
-  /** The unique ID of the building to retrieve. */
-  buildingId: string;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
+  /** The unique ID of the building to retrieve. */
+  buildingId: string;
 }
 /** Public API: Resources.buildings */
 export interface BuildingAddress {
-  /** Required. CLDR region code of the country/region of the address. */
-  regionCode?: string;
-  /** Optional. Generally refers to the city/town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave locality empty and use addressLines. */
-  locality?: string;
   /** Optional. Postal code of the address. */
   postalCode?: string;
-  /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. */
-  administrativeArea?: string;
+  /** Optional. Sublocality of the address. */
+  sublocality?: string;
   /** Optional. BCP-47 language code of the contents of this address (if known). */
   languageCode?: string;
   /** Unstructured address lines describing the lower levels of an address. */
   addressLines?: StringList;
-  /** Optional. Sublocality of the address. */
-  sublocality?: string;
+  /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. */
+  administrativeArea?: string;
+  /** Optional. Generally refers to the city/town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave locality empty and use addressLines. */
+  locality?: string;
+  /** Required. CLDR region code of the country/region of the address. */
+  regionCode?: string;
 }
 /** Public API: Resources.buildings */
 export interface BuildingCoordinates {
@@ -1405,22 +1405,22 @@ export interface BuildingCoordinates {
 }
 /** Public API: Resources.buildings */
 export interface Building {
-  /** The building name as seen by users in Calendar. Must be unique for the customer. For example, "NYC-CHEL". The maximum length is 100 characters. */
-  buildingName?: string;
-  /** A brief description of the building. For example, "Chelsea Market". */
-  description?: string;
-  /** Unique identifier for the building. The maximum length is 100 characters. */
-  buildingId?: string;
+  /** The display names for all floors in this building. The floors are expected to be sorted in ascending order, from lowest floor to highest floor. For example, ["B2", "B1", "L", "1", "2", "2M", "3", "PH"] Must contain at least one entry. */
+  floorNames?: StringList;
   /** Kind of resource this is. */
   kind?: string;
   /** ETag of the resource. */
   etags?: string;
+  /** A brief description of the building. For example, "Chelsea Market". */
+  description?: string;
   /** The postal address of the building. See [`PostalAddress`](/my-business/reference/rest/v4/PostalAddress) for details. Note that only a single address line and region code are required. */
   address?: BuildingAddress;
+  /** The building name as seen by users in Calendar. Must be unique for the customer. For example, "NYC-CHEL". The maximum length is 100 characters. */
+  buildingName?: string;
+  /** Unique identifier for the building. The maximum length is 100 characters. */
+  buildingId?: string;
   /** The geographic coordinates of the center of the building, expressed as latitude and longitude in decimal degrees. */
   coordinates?: BuildingCoordinates;
-  /** The display names for all floors in this building. The floors are expected to be sorted in ascending order, from lowest floor to highest floor. For example, ["B2", "B1", "L", "1", "2", "2M", "3", "PH"] Must contain at least one entry. */
-  floorNames?: StringList;
 }
 export interface GetResourcesCalendarsRequest {
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
@@ -1430,36 +1430,36 @@ export interface GetResourcesCalendarsRequest {
 }
 /** Public API: Resources.calendars */
 export interface CalendarResource {
+  /** Capacity of a resource, number of seats in a room. */
+  capacity?: number;
+  /** Unique ID for the building a resource is located in. */
+  buildingId?: string;
+  /** The read-only email for the calendar resource. Generated as part of creating a new calendar resource. */
+  resourceEmail?: string;
+  /** The unique ID for the calendar resource. */
+  resourceId?: string;
+  /** Name of the floor a resource is located on. */
+  floorName?: string;
+  /** Name of the section within a floor a resource is located in. */
+  floorSection?: string;
+  /** The read-only auto-generated name of the calendar resource which includes metadata about the resource such as building name, floor, capacity, etc. For example, "NYC-2-Training Room 1A (16)". */
+  generatedResourceName?: string;
+  /** The type of the calendar resource, intended for non-room resources. */
+  resourceType?: string;
   /** The type of the resource. For calendar resources, the value is `admin#directory#resources#calendars#CalendarResource`. */
   kind?: string;
+  /** Description of the resource, visible to users and admins. */
+  userVisibleDescription?: string;
+  /** The name of the calendar resource. For example, "Training Room 1A". */
+  resourceName?: string;
+  /** ETag of the resource. */
+  etags?: string;
   /** The category of the calendar resource. Either CONFERENCE_ROOM or OTHER. Legacy data is set to CATEGORY_UNKNOWN. */
   resourceCategory?: string;
   /** Instances of features for the calendar resource. */
   featureInstances?: unknown;
-  /** ETag of the resource. */
-  etags?: string;
-  /** Unique ID for the building a resource is located in. */
-  buildingId?: string;
-  /** Name of the section within a floor a resource is located in. */
-  floorSection?: string;
-  /** Capacity of a resource, number of seats in a room. */
-  capacity?: number;
-  /** The unique ID for the calendar resource. */
-  resourceId?: string;
-  /** The type of the calendar resource, intended for non-room resources. */
-  resourceType?: string;
   /** Description of the resource, visible only to admins. */
   resourceDescription?: string;
-  /** The read-only auto-generated name of the calendar resource which includes metadata about the resource such as building name, floor, capacity, etc. For example, "NYC-2-Training Room 1A (16)". */
-  generatedResourceName?: string;
-  /** Name of the floor a resource is located on. */
-  floorName?: string;
-  /** The name of the calendar resource. For example, "Training Room 1A". */
-  resourceName?: string;
-  /** The read-only email for the calendar resource. Generated as part of creating a new calendar resource. */
-  resourceEmail?: string;
-  /** Description of the resource, visible to users and admins. */
-  userVisibleDescription?: string;
 }
 export interface GetResourcesFeaturesRequest {
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
@@ -1471,45 +1471,45 @@ export interface GetResourcesFeaturesRequest {
 export interface Feature {
   /** ETag of the resource. */
   etags?: string;
-  /** Kind of resource this is. */
-  kind?: string;
   /** The name of the feature. */
   name?: string;
+  /** Kind of resource this is. */
+  kind?: string;
 }
 export interface GetRoleAssignmentsRequest {
-  /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
-  customer: string;
   /** Immutable ID of the role assignment. */
   roleAssignmentId: string;
+  /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
+  customer: string;
 }
+export type RoleAssignmentAssigneeTypeEnum = "user" | "group";
 /** Details regarding the expiration of this role assignment. Used to automatically revoke access when the time limit is reached. */
 export interface ExpirationDetails {
   /** The specific timestamp when the role assignment expires. */
   expireTime?: string;
 }
-export type RoleAssignmentAssigneeTypeEnum = "user" | "group";
 /** Defines an assignment of a role. */
 export interface RoleAssignment {
-  /** Optional. The condition associated with this role assignment. Note: Feature is available to Enterprise Standard, Enterprise Plus, Google Workspace for Education Plus and Cloud Identity Premium customers. A `RoleAssignment` with the `condition` field set will only take effect when the resource being accessed meets the condition. If `condition` is empty, the role (`role_id`) is applied to the actor (`assigned_to`) at the scope (`scope_type`) unconditionally. Currently, the following conditions are supported: - To make the `RoleAssignment` only applicable to [Security Groups](https://cloud.google.com/identity/docs/groups#group_types): `api.getAttribute('cloudidentity.googleapis.com/groups.labels', []).hasAny(['groups.security']) && resource.type == 'cloudidentity.googleapis.com/Group'` - To make the `RoleAssignment` not applicable to [Security Groups](https://cloud.google.com/identity/docs/groups#group_types): `!api.getAttribute('cloudidentity.googleapis.com/groups.labels', []).hasAny(['groups.security']) && resource.type == 'cloudidentity.googleapis.com/Group'` Currently, the condition strings have to be verbatim and they only work with the following [pre-built administrator roles](https://support.google.com/a/answer/2405986): - Groups Editor - Groups Reader The condition follows [Cloud IAM condition syntax](https://cloud.google.com/iam/docs/conditions-overview). - To make the `RoleAssignment` not applicable to [Locked Groups](https://cloud.google.com/identity/docs/groups#group_types): `!api.getAttribute('cloudidentity.googleapis.com/groups.labels', []).hasAny(['groups.locked']) && resource.type == 'cloudidentity.googleapis.com/Group'` This condition can also be used in conjunction with a Security-related condition. */
-  condition?: string;
-  /** ID of this roleAssignment. */
-  roleAssignmentId?: string;
-  /** Optional. Details regarding the expiration of this role assignment. */
-  expirationDetails?: ExpirationDetails;
-  /** The unique ID of the entity this role is assigned to--either the `user_id` of a user, the `group_id` of a group, or the `uniqueId` of a service account as defined in [Identity and Access Management (IAM)](https://cloud.google.com/iam/docs/reference/rest/v1/projects.serviceAccounts). */
-  assignedTo?: string;
-  /** If the role is restricted to an organization unit, this contains the ID for the organization unit the exercise of this role is restricted to. */
-  orgUnitId?: string;
-  /** Output only. The type of the assignee (`USER` or `GROUP`). */
-  assigneeType?: RoleAssignmentAssigneeTypeEnum | (string & {});
-  /** ETag of the resource. */
-  etag?: string;
-  /** The type of the API resource. This is always `admin#directory#roleAssignment`. */
-  kind?: string;
   /** The ID of the role that is assigned. */
   roleId?: string;
+  /** ETag of the resource. */
+  etag?: string;
   /** The scope in which this role is assigned. */
   scopeType?: string;
+  /** If the role is restricted to an organization unit, this contains the ID for the organization unit the exercise of this role is restricted to. */
+  orgUnitId?: string;
+  /** ID of this roleAssignment. */
+  roleAssignmentId?: string;
+  /** The unique ID of the entity this role is assigned to--either the `user_id` of a user, the `group_id` of a group, or the `uniqueId` of a service account as defined in [Identity and Access Management (IAM)](https://cloud.google.com/iam/docs/reference/rest/v1/projects.serviceAccounts). */
+  assignedTo?: string;
+  /** Output only. The type of the assignee (`USER` or `GROUP`). */
+  assigneeType?: RoleAssignmentAssigneeTypeEnum | (string & {});
+  /** Optional. The condition associated with this role assignment. Note: Feature is available to Enterprise Standard, Enterprise Plus, Google Workspace for Education Plus and Cloud Identity Premium customers. A `RoleAssignment` with the `condition` field set will only take effect when the resource being accessed meets the condition. If `condition` is empty, the role (`role_id`) is applied to the actor (`assigned_to`) at the scope (`scope_type`) unconditionally. Currently, the following conditions are supported: - To make the `RoleAssignment` only applicable to [Security Groups](https://cloud.google.com/identity/docs/groups#group_types): `api.getAttribute('cloudidentity.googleapis.com/groups.labels', []).hasAny(['groups.security']) && resource.type == 'cloudidentity.googleapis.com/Group'` - To make the `RoleAssignment` not applicable to [Security Groups](https://cloud.google.com/identity/docs/groups#group_types): `!api.getAttribute('cloudidentity.googleapis.com/groups.labels', []).hasAny(['groups.security']) && resource.type == 'cloudidentity.googleapis.com/Group'` Currently, the condition strings have to be verbatim and they only work with the following [pre-built administrator roles](https://support.google.com/a/answer/2405986): - Groups Editor - Groups Reader The condition follows [Cloud IAM condition syntax](https://cloud.google.com/iam/docs/conditions-overview). - To make the `RoleAssignment` not applicable to [Locked Groups](https://cloud.google.com/identity/docs/groups#group_types): `!api.getAttribute('cloudidentity.googleapis.com/groups.labels', []).hasAny(['groups.locked']) && resource.type == 'cloudidentity.googleapis.com/Group'` This condition can also be used in conjunction with a Security-related condition. */
+  condition?: string;
+  /** The type of the API resource. This is always `admin#directory#roleAssignment`. */
+  kind?: string;
+  /** Optional. Details regarding the expiration of this role assignment. */
+  expirationDetails?: ExpirationDetails;
 }
 export interface GetRolesRequest {
   /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
@@ -1518,35 +1518,35 @@ export interface GetRolesRequest {
   roleId: string;
 }
 export interface RoleRolePrivilegesItem {
-  /** The name of the privilege. */
-  privilegeName?: string;
   /** The obfuscated ID of the service this privilege is for. This value is returned with [`Privileges.list()`](https://developers.google.com/workspace/admin/directory/v1/reference/privileges/list). */
   serviceId?: string;
+  /** The name of the privilege. */
+  privilegeName?: string;
 }
 export type RoleRolePrivilegesItemList = Array<RoleRolePrivilegesItem>;
 export interface Role {
-  /** The type of the API resource. This is always `admin#directory#role`. */
-  kind?: string;
-  /** The set of privileges that are granted to this role. */
-  rolePrivileges?: RoleRolePrivilegesItemList;
-  /** Returns `true` if this is a pre-defined system role. */
-  isSystemRole?: boolean;
-  /** Returns `true` if the role is a super admin role. */
-  isSuperAdminRole?: boolean;
-  /** A short description of the role. */
-  roleDescription?: string;
-  /** ID of the role. */
-  roleId?: string;
   /** ETag of the resource. */
   etag?: string;
+  /** The type of the API resource. This is always `admin#directory#role`. */
+  kind?: string;
+  /** Returns `true` if the role is a super admin role. */
+  isSuperAdminRole?: boolean;
+  /** ID of the role. */
+  roleId?: string;
+  /** A short description of the role. */
+  roleDescription?: string;
+  /** The set of privileges that are granted to this role. */
+  rolePrivileges?: RoleRolePrivilegesItemList;
   /** Name of the role. */
   roleName?: string;
+  /** Returns `true` if this is a pre-defined system role. */
+  isSystemRole?: boolean;
 }
 export interface GetSchemasRequest {
-  /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
-  customerId: string;
   /** Name or immutable ID of the schema. */
   schemaKey: string;
+  /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
+  customerId: string;
 }
 export interface SchemaFieldSpecNumericIndexingSpec {
   /** Minimum value of this field. This is meant to be indicative rather than enforced. Values outside this range will still be indexed, but search may not be as performant. */
@@ -1558,46 +1558,46 @@ export interface SchemaFieldSpecNumericIndexingSpec {
 export interface SchemaFieldSpec {
   /** Boolean specifying whether the field is indexed or not. Default: `true`. */
   indexed?: boolean;
-  /** A boolean specifying whether this is a multi-valued field or not. Default: `false`. */
-  multiValued?: boolean;
-  /** The type of the field. */
-  fieldType?: string;
-  /** The unique identifier of the field (Read-only) */
-  fieldId?: string;
-  /** The name of the field. */
-  fieldName?: string;
-  /** Specifies who can view values of this field. See [Retrieve users as a non-administrator](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#retrieve_users_non_admin) for more information. Note: It may take up to 24 hours for changes to this field to be reflected. */
-  readAccessType?: string;
-  /** The kind of resource this is. For schema fields this is always `admin#directory#schema#fieldspec`. */
-  kind?: string;
-  /** Indexing spec for a numeric field. By default, only exact match queries will be supported for numeric fields. Setting the `numericIndexingSpec` allows range queries to be supported. */
-  numericIndexingSpec?: SchemaFieldSpecNumericIndexingSpec;
   /** Display Name of the field. */
   displayName?: string;
+  /** The kind of resource this is. For schema fields this is always `admin#directory#schema#fieldspec`. */
+  kind?: string;
+  /** The type of the field. */
+  fieldType?: string;
+  /** A boolean specifying whether this is a multi-valued field or not. Default: `false`. */
+  multiValued?: boolean;
+  /** The name of the field. */
+  fieldName?: string;
+  /** Indexing spec for a numeric field. By default, only exact match queries will be supported for numeric fields. Setting the `numericIndexingSpec` allows range queries to be supported. */
+  numericIndexingSpec?: SchemaFieldSpecNumericIndexingSpec;
   /** The ETag of the field. */
   etag?: string;
+  /** Specifies who can view values of this field. See [Retrieve users as a non-administrator](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#retrieve_users_non_admin) for more information. Note: It may take up to 24 hours for changes to this field to be reflected. */
+  readAccessType?: string;
+  /** The unique identifier of the field (Read-only) */
+  fieldId?: string;
 }
 export type SchemaFieldSpecList = Array<SchemaFieldSpec>;
 /** The type of API resource. For Schema resources, this is always `admin#directory#schema`. */
 export interface Admin_Schema {
+  /** The unique identifier of the schema (Read-only) */
+  schemaId?: string;
+  /** The schema's name. Each `schema_name` must be unique within a customer. Reusing a name results in a `409: Entity already exists` error. */
+  schemaName?: string;
   /** The ETag of the resource. */
   etag?: string;
   /** Display name for the schema. */
   displayName?: string;
-  /** A list of fields in the schema. */
-  fields?: SchemaFieldSpecList;
-  /** The schema's name. Each `schema_name` must be unique within a customer. Reusing a name results in a `409: Entity already exists` error. */
-  schemaName?: string;
-  /** The unique identifier of the schema (Read-only) */
-  schemaId?: string;
   /** Kind of resource this is. */
   kind?: string;
+  /** A list of fields in the schema. */
+  fields?: SchemaFieldSpecList;
 }
 export interface GetTokensRequest {
-  /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
-  userKey: string;
   /** The Client ID of the application the token is issued to. */
   clientId: string;
+  /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
+  userKey: string;
 }
 /** JSON template for token resource in Directory API. */
 export interface Token {
@@ -1605,52 +1605,52 @@ export interface Token {
   clientId?: string;
   /** ETag of the resource. */
   etag?: string;
+  /** A list of authorization scopes the application is granted. */
+  scopes?: StringList;
   /** Whether the token is issued to an installed application. The value is `true` if the application is installed to a desktop or mobile device. */
   nativeApp?: boolean;
+  /** The type of the API resource. This is always `admin#directory#token`. */
+  kind?: string;
+  /** The unique ID of the user that issued the token. */
+  userKey?: string;
   /** The displayable name of the application the token is issued to. */
   displayText?: string;
   /** Whether the application is registered with Google. The value is `true` if the application has an anonymous Client ID. */
   anonymous?: boolean;
-  /** The unique ID of the user that issued the token. */
-  userKey?: string;
-  /** The type of the API resource. This is always `admin#directory#token`. */
-  kind?: string;
-  /** A list of authorization scopes the application is granted. */
-  scopes?: StringList;
 }
-export type GetUsersProjectionEnum = "basic" | "custom" | "full";
 export type GetUsersViewTypeEnum = "admin_view" | "domain_public";
+export type GetUsersProjectionEnum = "basic" | "custom" | "full";
 export interface GetUsersRequest {
   /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
   userKey: string;
-  /** What subset of fields to fetch for this user. */
-  projection?: GetUsersProjectionEnum | (string & {});
   /** A comma-separated list of schema names. All fields from these schemas are fetched. This should only be set when `projection=custom`. */
   customFieldMask?: string;
   /** Whether to fetch the administrator-only or domain-wide public view of the user. For more information, see [Retrieve a user as a non-administrator](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#retrieve_users_non_admin). */
   viewType?: GetUsersViewTypeEnum | (string & {});
+  /** What subset of fields to fetch for this user. */
+  projection?: GetUsersProjectionEnum | (string & {});
 }
 export interface GetUsersPhotosRequest {
   /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
   userKey: string;
 }
 export interface UserPhoto {
-  /** ETag of the resource. */
-  etag?: string;
   /** The user's primary email address. */
   primaryEmail?: string;
-  /** The user photo's upload data in [web-safe Base64](https://en.wikipedia.org/wiki/Base64#URL_applications) format in bytes. This means: * The slash (/) character is replaced with the underscore (_) character. * The plus sign (+) character is replaced with the hyphen (-) character. * The equals sign (=) character is replaced with the asterisk (*). * For padding, the period (.) character is used instead of the RFC-4648 baseURL definition which uses the equals sign (=) for padding. This is done to simplify URL-parsing. * Whatever the size of the photo being uploaded, the API downsizes it to 96x96 pixels. */
-  photoData?: string;
-  /** Width of the photo in pixels. */
-  width?: number;
-  /** The MIME type of the photo. Allowed values are `JPEG`, `PNG`, `GIF`, `BMP`, `TIFF`, and web-safe base64 encoding. */
-  mimeType?: string;
-  /** Height of the photo in pixels. */
-  height?: number;
   /** The ID the API uses to uniquely identify the user. */
   id?: string;
+  /** The user photo's upload data in [web-safe Base64](https://en.wikipedia.org/wiki/Base64#URL_applications) format in bytes. This means: * The slash (/) character is replaced with the underscore (_) character. * The plus sign (+) character is replaced with the hyphen (-) character. * The equals sign (=) character is replaced with the asterisk (*). * For padding, the period (.) character is used instead of the RFC-4648 baseURL definition which uses the equals sign (=) for padding. This is done to simplify URL-parsing. * Whatever the size of the photo being uploaded, the API downsizes it to 96x96 pixels. */
+  photoData?: string;
+  /** The MIME type of the photo. Allowed values are `JPEG`, `PNG`, `GIF`, `BMP`, `TIFF`, and web-safe base64 encoding. */
+  mimeType?: string;
+  /** ETag of the resource. */
+  etag?: string;
+  /** Width of the photo in pixels. */
+  width?: number;
   /** The type of the API resource. For Photo resources, this is `admin#directory#user#photo`. */
   kind?: string;
+  /** Height of the photo in pixels. */
+  height?: number;
 }
 export interface HasMemberMembersRequest {
   /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
@@ -1681,11 +1681,11 @@ export interface InsertGroupsRequest {
 }
 /** JSON template for Alias object in Directory API. */
 export interface Alias {
+  primaryEmail?: string;
+  id?: string;
   alias?: string;
   kind?: string;
-  id?: string;
   etag?: string;
-  primaryEmail?: string;
 }
 export interface InsertGroupsAliasesRequest {
   /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
@@ -1710,10 +1710,10 @@ export type InsertResourcesBuildingsCoordinatesSourceEnum =
   | "RESOLVED_FROM_ADDRESS"
   | "SOURCE_UNSPECIFIED";
 export interface InsertResourcesBuildingsRequest {
-  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
-  customer: string;
   /** Source from which Building.coordinates are derived. */
   coordinatesSource?: InsertResourcesBuildingsCoordinatesSourceEnum | (string & {});
+  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
+  customer: string;
   /** Request body */
   body?: Building;
 }
@@ -1783,10 +1783,10 @@ export interface DirectoryChromeosdevicesIssueCommandRequest {
   payload?: string;
 }
 export interface IssueCommandCustomerDevicesChromeosRequest {
-  /** Immutable. ID of Chrome OS Device. */
-  deviceId: string;
   /** Immutable. ID of the Google Workspace account. */
   customerId: string;
+  /** Immutable. ID of Chrome OS Device. */
+  deviceId: string;
   /** Request body */
   body?: DirectoryChromeosdevicesIssueCommandRequest;
 }
@@ -1801,12 +1801,12 @@ export interface ListAspsRequest {
 }
 export type AspList = Array<Asp>;
 export interface Asps {
-  /** ETag of the resource. */
-  etag?: string;
   /** The type of the API resource. This is always `admin#directory#aspList`. */
   kind?: string;
   /** A list of ASP resources. */
   items?: AspList;
+  /** ETag of the resource. */
+  etag?: string;
 }
 export type ListChromeosdevicesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListChromeosdevicesProjectionEnum = "BASIC" | "FULL";
@@ -1818,24 +1818,24 @@ export type ListChromeosdevicesOrderByEnum =
   | "serialNumber"
   | "status";
 export interface ListChromeosdevicesRequest {
-  /** Return devices from all child orgunits, as well as the specified org unit. If this is set to true, 'orgUnitPath' must be provided. */
-  includeChildOrgunits?: boolean;
-  /** The `pageToken` query parameter is used to request the next page of query results. The follow-on request's `pageToken` query parameter is the `nextPageToken` from your previous response. */
-  pageToken?: string;
-  /** Whether to return results in ascending or descending order. Must be used with the `orderBy` parameter. */
-  sortOrder?: ListChromeosdevicesSortOrderEnum | (string & {});
+  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
+  customerId: string;
   /** Maximum number of results to return. Value should not exceed 300. */
   maxResults?: number;
   /** Search string in the format given at [List query operators](https://developers.google.com/workspace/admin/directory/v1/list-query-operators). */
   query?: string;
-  /** Determines whether the response contains the full list of properties or only a subset. */
-  projection?: ListChromeosdevicesProjectionEnum | (string & {});
-  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
-  customerId: string;
-  /** Device property to use for sorting results. */
-  orderBy?: ListChromeosdevicesOrderByEnum | (string & {});
   /** The full path of the organizational unit (minus the leading `/`) or its unique ID. */
   orgUnitPath?: string;
+  /** Whether to return results in ascending or descending order. Must be used with the `orderBy` parameter. */
+  sortOrder?: ListChromeosdevicesSortOrderEnum | (string & {});
+  /** Determines whether the response contains the full list of properties or only a subset. */
+  projection?: ListChromeosdevicesProjectionEnum | (string & {});
+  /** Device property to use for sorting results. */
+  orderBy?: ListChromeosdevicesOrderByEnum | (string & {});
+  /** The `pageToken` query parameter is used to request the next page of query results. The follow-on request's `pageToken` query parameter is the `nextPageToken` from your previous response. */
+  pageToken?: string;
+  /** Return devices from all child orgunits, as well as the specified org unit. If this is set to true, 'orgUnitPath' must be provided. */
+  includeChildOrgunits?: boolean;
 }
 export type ChromeOsDeviceList = Array<ChromeOsDevice>;
 export interface ChromeOsDevices {
@@ -1849,14 +1849,14 @@ export interface ChromeOsDevices {
   etag?: string;
 }
 export interface ListCustomersChromePrintersRequest {
+  /** Search query. Search syntax is shared between this api and Admin Console printers pages. */
+  filter?: string;
   /** A page token, received from a previous call. */
   pageToken?: string;
   /** Organization Unit that we want to list the printers for. When org_unit is not present in the request then all printers of the customer are returned (or filtered). When org_unit is present in the request then only printers available to this OU will be returned (owned or inherited). You may see if printer is owned or inherited for this OU by looking at Printer.org_unit_id. */
   orgUnitId?: string;
   /** Required. The name of the customer who owns this collection of printers. Format: customers/{customer_id} */
   parent: string;
-  /** Search query. Search syntax is shared between this api and Admin Console printers pages. */
-  filter?: string;
   /** The order to sort results by. Must be one of display_name, description, make_and_model, or create_time. Default order is ascending, but descending order can be returned by appending "desc" to the order_by field. For instance, "description desc" will return the printers sorted by description in descending order. */
   orderBy?: string;
   /** The maximum number of objects to return. The service may return fewer than this value. */
@@ -1864,12 +1864,14 @@ export interface ListCustomersChromePrintersRequest {
 }
 /** Response for listing printers. */
 export interface ListPrintersResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** List of printers. If `org_unit_id` was given in the request, then only printers visible for this OU will be returned. If `org_unit_id` was not given in the request, then all printers will be returned. */
   printers?: PrinterList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export interface ListCustomersChromePrintServersRequest {
+  /** Required. The [unique ID](https://developers.google.com/workspace/admin/directory/reference/rest/v1/customers) of the customer's Google Workspace account. Format: `customers/{id}` */
+  parent: string;
   /** Search query in [Common Expression Language syntax](https://github.com/google/cel-spec). Supported filters are `display_name`, `description`, and `uri`. Example: `printServer.displayName=='marketing-queue'`. */
   filter?: string;
   /** The maximum number of objects to return (default `100`, max `100`). The service might return fewer than this value. */
@@ -1878,8 +1880,6 @@ export interface ListCustomersChromePrintServersRequest {
   pageToken?: string;
   /** If `org_unit_id` is present in the request, only print servers owned or inherited by the organizational unit (OU) are returned. If the `PrintServer` resource's `org_unit_id` matches the one in the request, the OU owns the server. If `org_unit_id` is not specified in the request, all print servers are returned or filtered against. */
   orgUnitId?: string;
-  /** Required. The [unique ID](https://developers.google.com/workspace/admin/directory/reference/rest/v1/customers) of the customer's Google Workspace account. Format: `customers/{id}` */
-  parent: string;
   /** Sort order for results. Supported values are `display_name`, `description`, or `create_time`. Default order is ascending, but descending order can be returned by appending "desc" to the `order_by` field. For instance, `orderBy=='description desc'` returns the print servers sorted by description in descending order. */
   orderBy?: string;
 }
@@ -1896,10 +1896,10 @@ export interface ListDomainAliasesRequest {
   parentDomainName?: string;
 }
 export interface DomainAliases {
-  /** Kind of resource this is. */
-  kind?: string;
   /** A list of domain alias objects. */
   domainAliases?: DomainAliasList;
+  /** Kind of resource this is. */
+  kind?: string;
   /** ETag of the resource. */
   etag?: string;
 }
@@ -1921,31 +1921,31 @@ export type ListGroupsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListGroupsRequest {
   /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
   customer?: string;
-  /** Maximum number of results to return. Max allowed value is 200. */
-  maxResults?: number;
   /** Column to use for sorting results */
   orderBy?: ListGroupsOrderByEnum | (string & {});
-  /** The domain name. Use this field to get groups from only one domain. To return all domains for a customer account, use the `customer` query parameter instead. */
-  domain?: string;
   /** Token to specify next page in the list */
   pageToken?: string;
-  /** Whether to return results in ascending or descending order. Only of use when orderBy is also used */
-  sortOrder?: ListGroupsSortOrderEnum | (string & {});
   /** Query string search. Contains one or more search clauses, each with a field, operator, and value. For complete documentation, go to [Search for groups](https://developers.google.com/workspace/admin/directory/v1/guides/search-groups). */
   query?: string;
+  /** The domain name. Use this field to get groups from only one domain. To return all domains for a customer account, use the `customer` query parameter instead. */
+  domain?: string;
+  /** Maximum number of results to return. Max allowed value is 200. */
+  maxResults?: number;
+  /** Whether to return results in ascending or descending order. Only of use when orderBy is also used */
+  sortOrder?: ListGroupsSortOrderEnum | (string & {});
   /** Email or immutable ID of the user if only those groups are to be listed, the given user is a member of. If it's an ID, it should match with the ID of the user object. Cannot be used with the `customer` parameter. */
   userKey?: string;
 }
 export type GroupList = Array<Group>;
 export interface Groups {
-  /** Token used to access next page of this result. */
-  nextPageToken?: string;
   /** Kind of resource this is. */
   kind?: string;
-  /** ETag of the resource. */
-  etag?: string;
   /** A list of group objects. */
   groups?: GroupList;
+  /** Token used to access next page of this result. */
+  nextPageToken?: string;
+  /** ETag of the resource. */
+  etag?: string;
 }
 export interface ListGroupsAliasesRequest {
   /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
@@ -1959,12 +1959,12 @@ export interface Aliases {
   kind?: string;
 }
 export interface ListMembersRequest {
-  /** The `roles` query parameter allows you to retrieve group members by role. Allowed values are `OWNER`, `MANAGER`, and `MEMBER`. */
-  roles?: string;
   /** Whether to list indirect memberships. Default: false. */
   includeDerivedMembership?: boolean;
   /** Maximum number of results to return. Max allowed value is 200. */
   maxResults?: number;
+  /** The `roles` query parameter allows you to retrieve group members by role. Allowed values are `OWNER`, `MANAGER`, and `MEMBER`. */
+  roles?: string;
   /** Token to specify next page in the list. */
   pageToken?: string;
   /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
@@ -1974,14 +1974,14 @@ export type MemberList = Array<Member>;
 export interface Members {
   /** ETag of the resource. */
   etag?: string;
-  /** A list of member objects. */
-  members?: MemberList;
   /** Token used to access next page of this result. */
   nextPageToken?: string;
+  /** A list of member objects. */
+  members?: MemberList;
   /** Kind of resource this is. */
   kind?: string;
 }
-export type ListMobiledevicesSortOrderEnum = "ASCENDING" | "DESCENDING";
+export type ListMobiledevicesProjectionEnum = "BASIC" | "FULL";
 export type ListMobiledevicesOrderByEnum =
   | "deviceId"
   | "email"
@@ -1991,20 +1991,20 @@ export type ListMobiledevicesOrderByEnum =
   | "os"
   | "status"
   | "type";
-export type ListMobiledevicesProjectionEnum = "BASIC" | "FULL";
+export type ListMobiledevicesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListMobiledevicesRequest {
   /** Token to specify next page in the list */
   pageToken?: string;
-  /** Whether to return results in ascending or descending order. Must be used with the `orderBy` parameter. */
-  sortOrder?: ListMobiledevicesSortOrderEnum | (string & {});
-  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
-  customerId: string;
-  /** Device property to use for sorting results. */
-  orderBy?: ListMobiledevicesOrderByEnum | (string & {});
-  /** Maximum number of results to return. Max allowed value is 100. */
-  maxResults?: number;
   /** Restrict information returned to a set of selected fields. */
   projection?: ListMobiledevicesProjectionEnum | (string & {});
+  /** Device property to use for sorting results. */
+  orderBy?: ListMobiledevicesOrderByEnum | (string & {});
+  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
+  customerId: string;
+  /** Maximum number of results to return. Max allowed value is 100. */
+  maxResults?: number;
+  /** Whether to return results in ascending or descending order. Must be used with the `orderBy` parameter. */
+  sortOrder?: ListMobiledevicesSortOrderEnum | (string & {});
   /** Search string in the format given at https://developers.google.com/workspace/admin/directory/v1/search-operators */
   query?: string;
 }
@@ -2012,77 +2012,77 @@ export type MobileDeviceList = Array<MobileDevice>;
 export interface MobileDevices {
   /** Kind of resource this is. */
   kind?: string;
-  /** Token used to access next page of this result. */
-  nextPageToken?: string;
   /** A list of Mobile Device objects. */
   mobiledevices?: MobileDeviceList;
   /** ETag of the resource. */
   etag?: string;
+  /** Token used to access next page of this result. */
+  nextPageToken?: string;
 }
 export type ListOrgunitsTypeEnum = "all" | "children" | "allIncludingParent";
 export interface ListOrgunitsRequest {
+  /** Whether to return all sub-organizations or just immediate children. */
+  type?: ListOrgunitsTypeEnum | (string & {});
   /** The full path to the organizational unit or its unique ID. Returns the children of the specified organizational unit. */
   orgUnitPath?: string;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
   customerId: string;
-  /** Whether to return all sub-organizations or just immediate children. */
-  type?: ListOrgunitsTypeEnum | (string & {});
 }
 export type OrgUnitList = Array<OrgUnit>;
 export interface OrgUnits {
+  /** The type of the API resource. For Org Unit resources, the type is `admin#directory#orgUnits`. */
+  kind?: string;
   /** ETag of the resource. */
   etag?: string;
   /** A list of organizational unit objects. */
   organizationUnits?: OrgUnitList;
-  /** The type of the API resource. For Org Unit resources, the type is `admin#directory#orgUnits`. */
-  kind?: string;
 }
 export interface ListPrinterModelsCustomersChromePrintersRequest {
+  /** Required. The name of the customer who owns this collection of printers. Format: customers/{customer_id} */
+  parent: string;
+  /** The maximum number of objects to return. The service may return fewer than this value. */
+  pageSize?: number;
   /** Filer to list only models by a given manufacturer in format: "manufacturer:Brother". Search syntax is shared between this api and Admin Console printers pages. */
   filter?: string;
   /** A page token, received from a previous call. */
   pageToken?: string;
-  /** The maximum number of objects to return. The service may return fewer than this value. */
-  pageSize?: number;
-  /** Required. The name of the customer who owns this collection of printers. Format: customers/{customer_id} */
-  parent: string;
 }
 /** Printer manufacturer and model */
 export interface PrinterModel {
-  /** Manufacturer. eq. "Brother" */
-  manufacturer?: string;
   /** Make and model as represented in "make_and_model" field in Printer object. eq. "brother mfc-8840d" */
   makeAndModel?: string;
   /** Display name. eq. "Brother MFC-8840D" */
   displayName?: string;
+  /** Manufacturer. eq. "Brother" */
+  manufacturer?: string;
 }
 export type PrinterModelList = Array<PrinterModel>;
 /** Response for listing allowed printer models. */
 export interface ListPrinterModelsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** Printer models that are currently allowed to be configured for ChromeOs. Some printers may be added or removed over time. */
   printerModels?: PrinterModelList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export interface ListPrivilegesRequest {
   /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
   customer: string;
 }
 export interface Privilege {
-  /** The name of the privilege. */
-  privilegeName?: string;
-  /** The name of the service this privilege is for. */
-  serviceName?: string;
-  /** If the privilege can be restricted to an organization unit. */
-  isOuScopable?: boolean;
+  /** The obfuscated ID of the service this privilege is for. This value is returned with [`Privileges.list()`](https://developers.google.com/workspace/admin/directory/v1/reference/privileges/list). */
+  serviceId?: string;
   /** ETag of the resource. */
   etag?: string;
   /** A list of child privileges. Privileges for a service form a tree. Each privilege can have a list of child privileges; this list is empty for a leaf privilege. */
   childPrivileges?: PrivilegeList;
-  /** The obfuscated ID of the service this privilege is for. This value is returned with [`Privileges.list()`](https://developers.google.com/workspace/admin/directory/v1/reference/privileges/list). */
-  serviceId?: string;
   /** The type of the API resource. This is always `admin#directory#privilege`. */
   kind?: string;
+  /** The name of the service this privilege is for. */
+  serviceName?: string;
+  /** If the privilege can be restricted to an organization unit. */
+  isOuScopable?: boolean;
+  /** The name of the privilege. */
+  privilegeName?: string;
 }
 export type PrivilegeList = Array<Privilege>;
 export interface Privileges {
@@ -2094,110 +2094,110 @@ export interface Privileges {
   etag?: string;
 }
 export interface ListResourcesBuildingsRequest {
+  /** Maximum number of results to return. */
+  maxResults?: number;
   /** Token to specify the next page in the list. */
   pageToken?: string;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
-  /** Maximum number of results to return. */
-  maxResults?: number;
 }
 export type BuildingList = Array<Building>;
 /** Public API: Resources.buildings */
 export interface Buildings {
-  /** ETag of the resource. */
-  etag?: string;
-  /** The continuation token, used to page through large result sets. Provide this value in a subsequent request to return the next page of results. */
-  nextPageToken?: string;
   /** The Buildings in this page of results. */
   buildings?: BuildingList;
+  /** The continuation token, used to page through large result sets. Provide this value in a subsequent request to return the next page of results. */
+  nextPageToken?: string;
   /** Kind of resource this is. */
   kind?: string;
+  /** ETag of the resource. */
+  etag?: string;
 }
 export interface ListResourcesCalendarsRequest {
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
+  /** Maximum number of results to return. */
+  maxResults?: number;
   /** Field(s) to sort results by in either ascending or descending order. Supported fields include `resourceId`, `resourceName`, `capacity`, `buildingId`, and `floorName`. If no order is specified, defaults to ascending. Should be of the form "field [asc|desc], field [asc|desc], ...". For example `buildingId, capacity desc` would return results sorted first by `buildingId` in ascending order then by `capacity` in descending order. */
   orderBy?: string;
   /** String query used to filter results. Contains one or more search clauses, each with a field, operator, and value. A field can be any of supported fields and operators can be any of supported operations. Operators include '=' for exact match, '!=' for mismatch and ':' for prefix match or HAS match where applicable. For prefix match, the value should always be followed by a *. Logical operators NOT and AND are supported (in this order of precedence). Supported fields include `generatedResourceName`, `name`, `buildingId`, `floor_name`, `capacity`, `featureInstances.feature.name`, `resourceEmail`, `resourceCategory`. For example `buildingId=US-NYC-9TH AND featureInstances.feature.name:Phone`. */
   query?: string;
   /** Token to specify the next page in the list. */
   pageToken?: string;
-  /** Maximum number of results to return. */
-  maxResults?: number;
 }
 export type CalendarResourceList = Array<CalendarResource>;
 /** Public API: Resources.calendars */
 export interface CalendarResources {
-  /** ETag of the resource. */
-  etag?: string;
   /** Identifies this as a collection of CalendarResources. This is always `admin#directory#resources#calendars#calendarResourcesList`. */
   kind?: string;
   /** The CalendarResources in this page of results. */
   items: CalendarResourceList;
   /** The continuation token, used to page through large result sets. Provide this value in a subsequent request to return the next page of results. */
   nextPageToken?: string;
+  /** ETag of the resource. */
+  etag?: string;
 }
 export interface ListResourcesFeaturesRequest {
+  /** Maximum number of results to return. */
+  maxResults?: number;
   /** Token to specify the next page in the list. */
   pageToken?: string;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
-  /** Maximum number of results to return. */
-  maxResults?: number;
 }
 export type FeatureList = Array<Feature>;
 /** Public API: Resources.features */
 export interface Features {
   /** Kind of resource this is. */
   kind?: string;
-  /** The continuation token, used to page through large result sets. Provide this value in a subsequent request to return the next page of results. */
-  nextPageToken?: string;
   /** ETag of the resource. */
   etag?: string;
   /** The Features in this page of results. */
   features?: FeatureList;
+  /** The continuation token, used to page through large result sets. Provide this value in a subsequent request to return the next page of results. */
+  nextPageToken?: string;
 }
 export interface ListRoleAssignmentsRequest {
-  /** When set to `true`, fetches indirect role assignments (i.e. role assignment via a group) as well as direct ones. Defaults to `false`. You must specify `user_key` or the indirect role assignments will not be included. */
-  includeIndirectRoleAssignments?: boolean;
+  /** Maximum number of results to return. */
+  maxResults?: number;
   /** The primary email address, alias email address, or unique user or group ID. If included in the request, returns role assignments only for this user or group. */
   userKey?: string;
+  /** Immutable ID of a role. If included in the request, returns only role assignments containing this role ID. */
+  roleId?: string;
+  /** When set to `true`, fetches indirect role assignments (i.e. role assignment via a group) as well as direct ones. Defaults to `false`. You must specify `user_key` or the indirect role assignments will not be included. */
+  includeIndirectRoleAssignments?: boolean;
   /** Token to specify the next page in the list. */
   pageToken?: string;
   /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
   customer: string;
-  /** Maximum number of results to return. */
-  maxResults?: number;
-  /** Immutable ID of a role. If included in the request, returns only role assignments containing this role ID. */
-  roleId?: string;
 }
 export type RoleAssignmentList = Array<RoleAssignment>;
 export interface RoleAssignments {
-  /** The type of the API resource. This is always `admin#directory#roleAssignments`. */
-  kind?: string;
-  nextPageToken?: string;
   /** ETag of the resource. */
   etag?: string;
+  nextPageToken?: string;
+  /** The type of the API resource. This is always `admin#directory#roleAssignments`. */
+  kind?: string;
   /** A list of RoleAssignment resources. */
   items: RoleAssignmentList;
 }
 export interface ListRolesRequest {
-  /** Maximum number of results to return. */
-  maxResults?: number;
   /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
   customer: string;
+  /** Maximum number of results to return. */
+  maxResults?: number;
   /** Token to specify the next page in the list. */
   pageToken?: string;
 }
 export type RoleList = Array<Role>;
 export interface Roles {
-  /** The type of the API resource. This is always `admin#directory#roles`. */
-  kind?: string;
   /** A list of Role resources. */
   items: RoleList;
-  nextPageToken?: string;
   /** ETag of the resource. */
   etag?: string;
+  nextPageToken?: string;
+  /** The type of the API resource. This is always `admin#directory#roles`. */
+  kind?: string;
 }
 export interface ListSchemasRequest {
   /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
@@ -2206,12 +2206,12 @@ export interface ListSchemasRequest {
 export type Admin_SchemaList = Array<Admin_Schema>;
 /** JSON response template for List Schema operation in Directory API. */
 export interface Schemas {
-  /** ETag of the resource. */
-  etag?: string;
   /** Kind of resource this is. */
   kind?: string;
   /** A list of UserSchema objects. */
   schemas?: Admin_SchemaList;
+  /** ETag of the resource. */
+  etag?: string;
 }
 export interface ListTokensRequest {
   /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
@@ -2220,56 +2220,56 @@ export interface ListTokensRequest {
 export type TokenList = Array<Token>;
 /** JSON response template for List tokens operation in Directory API. */
 export interface Tokens {
-  /** ETag of the resource. */
-  etag?: string;
   /** A list of Token resources. */
   items?: TokenList;
+  /** ETag of the resource. */
+  etag?: string;
   /** The type of the API resource. This is always `admin#directory#tokenList`. */
   kind?: string;
 }
-export type ListUsersProjectionEnum = "basic" | "custom" | "full";
 export type ListUsersViewTypeEnum = "admin_view" | "domain_public";
-export type ListUsersEventEnum = "add" | "delete" | "makeAdmin" | "undelete" | "update";
-export type ListUsersOrderByEnum = "email" | "familyName" | "givenName";
 export type ListUsersSortOrderEnum = "ASCENDING" | "DESCENDING";
+export type ListUsersProjectionEnum = "basic" | "custom" | "full";
+export type ListUsersOrderByEnum = "email" | "familyName" | "givenName";
+export type ListUsersEventEnum = "add" | "delete" | "makeAdmin" | "undelete" | "update";
 export interface ListUsersRequest {
-  /** The domain name. Use this field to get users from only one domain. To return all domains for a customer account, use the `customer` query parameter instead. Either the `customer` or the `domain` parameter must be provided. */
-  domain?: string;
-  /** What subset of fields to fetch for this user. */
-  projection?: ListUsersProjectionEnum | (string & {});
+  /** Query string for searching user fields. For more information on constructing user queries, see [Search for Users](https://developers.google.com/workspace/admin/directory/v1/guides/search-users). */
+  query?: string;
+  /** A comma-separated list of schema names. All fields from these schemas are fetched. This should only be set when `projection=custom`. */
+  customFieldMask?: string;
   /** Whether to fetch the administrator-only or domain-wide public view of the user. For more information, see [Retrieve a user as a non-administrator](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#retrieve_users_non_admin). */
   viewType?: ListUsersViewTypeEnum | (string & {});
+  /** Maximum number of results to return. */
+  maxResults?: number;
+  /** Whether to return results in ascending or descending order, ignoring case. */
+  sortOrder?: ListUsersSortOrderEnum | (string & {});
+  /** The domain name. Use this field to get users from only one domain. To return all domains for a customer account, use the `customer` query parameter instead. Either the `customer` or the `domain` parameter must be provided. */
+  domain?: string;
+  /** Token to specify next page in the list. The page token is only valid for three days. */
+  pageToken?: string;
+  /** What subset of fields to fetch for this user. */
+  projection?: ListUsersProjectionEnum | (string & {});
+  /** Property to use for sorting results. */
+  orderBy?: ListUsersOrderByEnum | (string & {});
+  /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all users for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
+  customer?: string;
   /** Event on which subscription is intended (if subscribing) */
   event?: ListUsersEventEnum | (string & {});
   /** If set to `true`, retrieves the list of deleted users. (Default: `false`) */
   showDeleted?: string;
-  /** A comma-separated list of schema names. All fields from these schemas are fetched. This should only be set when `projection=custom`. */
-  customFieldMask?: string;
-  /** Query string for searching user fields. For more information on constructing user queries, see [Search for Users](https://developers.google.com/workspace/admin/directory/v1/guides/search-users). */
-  query?: string;
-  /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all users for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
-  customer?: string;
-  /** Property to use for sorting results. */
-  orderBy?: ListUsersOrderByEnum | (string & {});
-  /** Maximum number of results to return. */
-  maxResults?: number;
-  /** Token to specify next page in the list. The page token is only valid for three days. */
-  pageToken?: string;
-  /** Whether to return results in ascending or descending order, ignoring case. */
-  sortOrder?: ListUsersSortOrderEnum | (string & {});
 }
 export type UserList = Array<User>;
 export interface Users {
-  /** Event that triggered this response (only used in case of Push Response) */
-  trigger_event?: string;
-  /** Kind of resource this is. */
-  kind?: string;
-  /** Token used to access next page of this result. The page token is only valid for three days. */
-  nextPageToken?: string;
-  /** A list of user objects. */
-  users?: UserList;
   /** ETag of the resource. */
   etag?: string;
+  /** Kind of resource this is. */
+  kind?: string;
+  /** Event that triggered this response (only used in case of Push Response) */
+  trigger_event?: string;
+  /** A list of user objects. */
+  users?: UserList;
+  /** Token used to access next page of this result. The page token is only valid for three days. */
+  nextPageToken?: string;
 }
 export type ListUsersAliasesEventEnum = "add" | "delete";
 export interface ListUsersAliasesRequest {
@@ -2286,22 +2286,22 @@ export interface ListVerificationCodesRequest {
 export interface VerificationCode {
   /** ETag of the resource. */
   etag?: string;
-  /** The type of the resource. This is always `admin#directory#verificationCode`. */
-  kind?: string;
   /** The obfuscated unique ID of the user. */
   userId?: string;
   /** A current verification code for the user. Invalidated or used verification codes are not returned as part of the result. */
   verificationCode?: string;
+  /** The type of the resource. This is always `admin#directory#verificationCode`. */
+  kind?: string;
 }
 export type VerificationCodeList = Array<VerificationCode>;
 /** JSON response template for list verification codes operation in Directory API. */
 export interface VerificationCodes {
   /** ETag of the resource. */
   etag?: string;
-  /** The type of the resource. This is always `admin#directory#verificationCodesList`. */
-  kind?: string;
   /** A list of verification code resources. */
   items?: VerificationCodeList;
+  /** The type of the resource. This is always `admin#directory#verificationCodesList`. */
+  kind?: string;
 }
 export interface UserMakeAdmin {
   /** Indicates the administrator status of the user. */
@@ -2319,22 +2319,22 @@ export interface ChromeOsMoveDevicesToOu {
   deviceIds?: StringList;
 }
 export interface MoveDevicesToOuChromeosdevicesRequest {
-  /** Full path of the target organizational unit or its ID */
-  orgUnitPath: string;
   /** Immutable. ID of the Google Workspace account */
   customerId: string;
+  /** Full path of the target organizational unit or its ID */
+  orgUnitPath: string;
   /** Request body */
   body?: ChromeOsMoveDevicesToOu;
 }
 export interface MoveDevicesToOuChromeosdevicesResponse {}
 export type PatchChromeosdevicesProjectionEnum = "BASIC" | "FULL";
 export interface PatchChromeosdevicesRequest {
-  /** Determines whether the response contains the full list of properties or only a subset. */
-  projection?: PatchChromeosdevicesProjectionEnum | (string & {});
   /** The unique ID of the device. The `deviceId`s are returned in the response from the [chromeosdevices.list](https://developers.google.com/workspace/admin/v1/reference/chromeosdevices/list) method. */
   deviceId: string;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
   customerId: string;
+  /** Determines whether the response contains the full list of properties or only a subset. */
+  projection?: PatchChromeosdevicesProjectionEnum | (string & {});
   /** Request body */
   body?: ChromeOsDevice;
 }
@@ -2345,12 +2345,12 @@ export interface PatchCustomersRequest {
   body?: Customer;
 }
 export interface PatchCustomersChromePrintersRequest {
+  /** The list of fields to be updated. Note, some of the fields are read only and cannot be updated. Values for not specified fields will be patched. */
+  updateMask?: string;
   /** The list of fields to be cleared. Note, some of the fields are read only and cannot be updated. Values for not specified fields will be patched. */
   clearMask?: string;
   /** Identifier. The resource name of the Printer object, in the format customers/{customer-id}/printers/{printer-id} (During printer creation leave empty) */
   name: string;
-  /** The list of fields to be updated. Note, some of the fields are read only and cannot be updated. Values for not specified fields will be patched. */
-  updateMask?: string;
   /** Request body */
   body?: Printer;
 }
@@ -2377,10 +2377,10 @@ export interface PatchMembersRequest {
   body?: Member;
 }
 export interface PatchOrgunitsRequest {
-  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
-  customerId: string;
   /** The full path of the organizational unit (minus the leading `/`) or its unique ID. */
   orgUnitPath: string;
+  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
+  customerId: string;
   /** Request body */
   body?: OrgUnit;
 }
@@ -2415,18 +2415,18 @@ export interface PatchResourcesFeaturesRequest {
   body?: Feature;
 }
 export interface PatchRolesRequest {
-  /** Immutable ID of the role. */
-  roleId: string;
   /** Immutable ID of the Google Workspace account. */
   customer: string;
+  /** Immutable ID of the role. */
+  roleId: string;
   /** Request body */
   body?: Role;
 }
 export interface PatchSchemasRequest {
-  /** Immutable ID of the Google Workspace account. */
-  customerId: string;
   /** Name or immutable ID of the schema. */
   schemaKey: string;
+  /** Immutable ID of the Google Workspace account. */
+  customerId: string;
   /** Request body */
   body?: Admin_Schema;
 }
@@ -2447,10 +2447,10 @@ export interface FeatureRename {
   newName?: string;
 }
 export interface RenameResourcesFeaturesRequest {
-  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
-  customer: string;
   /** The unique ID of the feature to rename. */
   oldName: string;
+  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
+  customer: string;
   /** Request body */
   body?: FeatureRename;
 }
@@ -2463,22 +2463,22 @@ export interface SignOutUsersResponse {}
 export type StringMap = { [key: string]: string | undefined };
 /** An notification channel used to watch for resource changes. */
 export interface Channel {
-  /** Additional parameters controlling delivery channel behavior. Optional. For example, `params.ttl` specifies the time-to-live in seconds for the notification channel, where the default is 2 hours and the maximum TTL is 2 days. */
-  params?: StringMap;
-  /** An opaque ID that identifies the resource being watched on this channel. Stable across different API versions. */
-  resourceId?: string;
-  /** The address where notifications are delivered for this channel. */
-  address?: string;
-  /** Identifies this as a notification channel used to watch for changes to a resource, which is `api#channel`. */
-  kind?: string;
   /** A version-specific identifier for the watched resource. */
   resourceUri?: string;
-  /** Date and time of notification channel expiration, expressed as a Unix timestamp, in milliseconds. Optional. */
-  expiration?: string;
   /** A UUID or similar unique string that identifies this channel. */
   id?: string;
+  /** Additional parameters controlling delivery channel behavior. Optional. For example, `params.ttl` specifies the time-to-live in seconds for the notification channel, where the default is 2 hours and the maximum TTL is 2 days. */
+  params?: StringMap;
+  /** Date and time of notification channel expiration, expressed as a Unix timestamp, in milliseconds. Optional. */
+  expiration?: string;
+  /** The address where notifications are delivered for this channel. */
+  address?: string;
   /** The type of delivery mechanism used for this channel. */
   type?: string;
+  /** Identifies this as a notification channel used to watch for changes to a resource, which is `api#channel`. */
+  kind?: string;
+  /** An opaque ID that identifies the resource being watched on this channel. Stable across different API versions. */
+  resourceId?: string;
   /** A Boolean value to indicate whether payload is wanted. Optional. */
   payload?: boolean;
   /** An arbitrary string delivered to the target address with each notification delivered over this channel. Optional. */
@@ -2509,10 +2509,10 @@ export type UpdateChromeosdevicesProjectionEnum = "BASIC" | "FULL";
 export interface UpdateChromeosdevicesRequest {
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
   customerId: string;
-  /** Determines whether the response contains the full list of properties or only a subset. */
-  projection?: UpdateChromeosdevicesProjectionEnum | (string & {});
   /** The unique ID of the device. The `deviceId`s are returned in the response from the [chromeosdevices.list](https://developers.google.com/workspace/admin/v1/reference/chromeosdevices/list) method. */
   deviceId: string;
+  /** Determines whether the response contains the full list of properties or only a subset. */
+  projection?: UpdateChromeosdevicesProjectionEnum | (string & {});
   /** Request body */
   body?: ChromeOsDevice;
 }
@@ -2529,10 +2529,10 @@ export interface UpdateGroupsRequest {
   body?: Group;
 }
 export interface UpdateMembersRequest {
-  /** Identifies the group member in the API request. A group member can be a user or another group. The value can be the member's (group or user) primary email address, alias, or unique ID. */
-  memberKey: string;
   /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
   groupKey: string;
+  /** Identifies the group member in the API request. A group member can be a user or another group. The value can be the member's (group or user) primary email address, alias, or unique ID. */
+  memberKey: string;
   /** Request body */
   body?: Member;
 }
@@ -2549,12 +2549,12 @@ export type UpdateResourcesBuildingsCoordinatesSourceEnum =
   | "RESOLVED_FROM_ADDRESS"
   | "SOURCE_UNSPECIFIED";
 export interface UpdateResourcesBuildingsRequest {
+  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
+  customer: string;
   /** Source from which Building.coordinates are derived. */
   coordinatesSource?: UpdateResourcesBuildingsCoordinatesSourceEnum | (string & {});
   /** The id of the building to update. */
   buildingId: string;
-  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
-  customer: string;
   /** Request body */
   body?: Building;
 }
@@ -2567,18 +2567,18 @@ export interface UpdateResourcesCalendarsRequest {
   body?: CalendarResource;
 }
 export interface UpdateResourcesFeaturesRequest {
-  /** The unique ID of the feature to update. */
-  featureKey: string;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
+  /** The unique ID of the feature to update. */
+  featureKey: string;
   /** Request body */
   body?: Feature;
 }
 export interface UpdateRolesRequest {
-  /** Immutable ID of the role. */
-  roleId: string;
   /** Immutable ID of the Google Workspace account. */
   customer: string;
+  /** Immutable ID of the role. */
+  roleId: string;
   /** Request body */
   body?: Role;
 }
@@ -2602,36 +2602,36 @@ export interface UpdateUsersPhotosRequest {
   /** Request body */
   body?: UserPhoto;
 }
-export type WatchUsersSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type WatchUsersViewTypeEnum = "admin_view" | "domain_public";
-export type WatchUsersOrderByEnum = "email" | "familyName" | "givenName";
 export type WatchUsersProjectionEnum = "basic" | "custom" | "full";
 export type WatchUsersEventEnum = "add" | "delete" | "makeAdmin" | "undelete" | "update";
+export type WatchUsersSortOrderEnum = "ASCENDING" | "DESCENDING";
+export type WatchUsersOrderByEnum = "email" | "familyName" | "givenName";
 export interface WatchUsersRequest {
-  /** If set to true, retrieves the list of deleted users. (Default: false) */
-  showDeleted?: string;
-  /** Query string search. Contains one or more search clauses, each with a field, operator, and value. For complete documentation, go to [Search for users](https://developers.google.com/workspace/admin/directory/v1/guides/search-users). */
-  query?: string;
-  /** Comma-separated list of schema names. All fields from these schemas are fetched. This should only be set when projection=custom. */
-  customFieldMask?: string;
-  /** Token to specify next page in the list */
-  pageToken?: string;
-  /** Whether to return results in ascending or descending order. */
-  sortOrder?: WatchUsersSortOrderEnum | (string & {});
-  /** Maximum number of results to return. */
-  maxResults?: number;
   /** Whether to fetch the administrator-only or domain-wide public view of the user. For more information, see [Retrieve a user as a non-administrator](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#retrieve_users_non_admin). */
   viewType?: WatchUsersViewTypeEnum | (string & {});
-  /** Immutable ID of the Google Workspace account. In case of multi-domain, to fetch all users for a customer, fill this field instead of domain. */
-  customer?: string;
-  /** Column to use for sorting results */
-  orderBy?: WatchUsersOrderByEnum | (string & {});
   /** What subset of fields to fetch for this user. */
   projection?: WatchUsersProjectionEnum | (string & {});
-  /** Name of the domain. Fill this field to get users from only this domain. To return all users in a multi-domain fill customer field instead." */
-  domain?: string;
   /** Events to watch for. */
   event?: WatchUsersEventEnum | (string & {});
+  /** Comma-separated list of schema names. All fields from these schemas are fetched. This should only be set when projection=custom. */
+  customFieldMask?: string;
+  /** Whether to return results in ascending or descending order. */
+  sortOrder?: WatchUsersSortOrderEnum | (string & {});
+  /** Query string search. Contains one or more search clauses, each with a field, operator, and value. For complete documentation, go to [Search for users](https://developers.google.com/workspace/admin/directory/v1/guides/search-users). */
+  query?: string;
+  /** Maximum number of results to return. */
+  maxResults?: number;
+  /** If set to true, retrieves the list of deleted users. (Default: false) */
+  showDeleted?: string;
+  /** Immutable ID of the Google Workspace account. In case of multi-domain, to fetch all users for a customer, fill this field instead of domain. */
+  customer?: string;
+  /** Name of the domain. Fill this field to get users from only this domain. To return all users in a multi-domain fill customer field instead." */
+  domain?: string;
+  /** Token to specify next page in the list */
+  pageToken?: string;
+  /** Column to use for sorting results */
+  orderBy?: WatchUsersOrderByEnum | (string & {});
   /** Request body */
   body?: Channel;
 }
@@ -2858,7 +2858,7 @@ export const createCustomersChromePrintServers: API.OperationMethod<
 }));
 
 export type CreateGuestUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
-/** Create a guest user with access to a [subset of Workspace capabilities](https://support.google.com/a/answer/16558545). This feature is currently in Open Beta. */
+/** Create a guest user with access to a [subset of Workspace capabilities](https://support.google.com/a/answer/16558545). */
 export const createGuestUsers: API.OperationMethod<
   CreateGuestUsersRequest,
   User,
@@ -5023,9 +5023,9 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          updateMask: S.optional(S.String.pipe(T.Query())),
           clearMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(3938, __c123, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -5095,8 +5095,8 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customerId: S.String.pipe(T.Label()),
           orgUnitPath: S.String.pipe(T.Label()),
+          customerId: S.String.pipe(T.Label()),
           body: S.optional(__S(2688, __c84, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -5168,8 +5168,8 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          roleId: S.String.pipe(T.Label()),
           customer: S.String.pipe(T.Label()),
+          roleId: S.String.pipe(T.Label()),
           body: S.optional(__S(3042, __c95, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -5186,10 +5186,10 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orgUnitPath: S.optional(S.String.pipe(T.Query())),
-          customerId: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
           includeChildOrgunits: S.optional(S.Boolean.pipe(T.Query())),
+          orgUnitPath: S.optional(S.String.pipe(T.Query())),
+          customerId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5211,8 +5211,8 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customerId: S.String.pipe(T.Label()),
           schemaKey: S.String.pipe(T.Label()),
+          customerId: S.String.pipe(T.Label()),
           body: S.optional(__S(3107, __c97, 3).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -5269,8 +5269,8 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          customer: S.String.pipe(T.Label()),
           oldName: S.String.pipe(T.Label()),
+          customer: S.String.pipe(T.Label()),
           body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -5321,14 +5321,14 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          params: S.optional(__S(576, __c18, 0)),
-          resourceId: S.optional(S.String),
-          address: S.optional(S.String),
-          kind: S.optional(S.String),
           resourceUri: S.optional(S.String),
-          expiration: S.optional(S.String),
           id: S.optional(S.String),
+          params: S.optional(__S(576, __c18, 0)),
+          expiration: S.optional(S.String),
+          address: S.optional(S.String),
           type: S.optional(S.String),
+          kind: S.optional(S.String),
+          resourceId: S.optional(S.String),
           payload: S.optional(S.Boolean),
           token: S.optional(S.String),
         }),
@@ -5380,8 +5380,8 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           customerId: S.String.pipe(T.Label()),
-          projection: S.optional(S.String.pipe(T.Query())),
           deviceId: S.String.pipe(T.Label()),
+          projection: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(2052, __c64, 4).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -5449,8 +5449,8 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          memberKey: S.String.pipe(T.Label()),
           groupKey: S.String.pipe(T.Label()),
+          memberKey: S.String.pipe(T.Label()),
           body: S.optional(__S(2560, __c80, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -5485,9 +5485,9 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          customer: S.String.pipe(T.Label()),
           coordinatesSource: S.optional(S.String.pipe(T.Query())),
           buildingId: S.String.pipe(T.Label()),
-          customer: S.String.pipe(T.Label()),
           body: S.optional(__S(2754, __c86, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -5522,8 +5522,8 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          featureKey: S.String.pipe(T.Label()),
           customer: S.String.pipe(T.Label()),
+          featureKey: S.String.pipe(T.Label()),
           body: S.optional(__S(2912, __c91, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -5540,8 +5540,8 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          roleId: S.String.pipe(T.Label()),
           customer: S.String.pipe(T.Label()),
+          roleId: S.String.pipe(T.Label()),
           body: S.optional(__S(3042, __c95, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -5627,18 +5627,18 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          showDeleted: S.optional(S.String.pipe(T.Query())),
-          query: S.optional(S.String.pipe(T.Query())),
-          customFieldMask: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
           viewType: S.optional(S.String.pipe(T.Query())),
-          customer: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           projection: S.optional(S.String.pipe(T.Query())),
-          domain: S.optional(S.String.pipe(T.Query())),
           event: S.optional(S.String.pipe(T.Query())),
+          customFieldMask: S.optional(S.String.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
+          query: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          showDeleted: S.optional(S.String.pipe(T.Query())),
+          customer: S.optional(S.String.pipe(T.Query())),
+          domain: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(577, __c18, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -5696,73 +5696,73 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          familyName: S.optional(S.String),
           givenName: S.optional(S.String),
+          displayName: S.optional(S.String),
           fullName: S.optional(S.String),
+          familyName: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserName" });
     case 1:
+      return S.Record(S.String, __S(3424, __c107, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           primaryGuestEmail: S.optional(S.String),
         }),
       ).annotate({ identifier: "GuestAccountInfo" });
-    case 2:
-      return S.Record(S.String, __S(3424, __c107, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          languages: S.optional(S.Unknown),
-          password: S.optional(S.String),
-          orgUnitPath: S.optional(S.String),
-          creationTime: S.optional(S.String),
-          name: S.optional(__S(1216, __c38, 0)),
-          posixAccounts: S.optional(S.Unknown),
-          guestAccountInfo: S.optional(__S(1217, __c38, 1)),
-          isDelegatedAdmin: S.optional(S.Boolean),
-          archivalTime: S.optional(S.String),
-          keywords: S.optional(S.Unknown),
-          recoveryPhone: S.optional(S.String),
-          externalIds: S.optional(S.Unknown),
-          relations: S.optional(S.Unknown),
-          locations: S.optional(S.Unknown),
-          ims: S.optional(S.Unknown),
-          hashFunction: S.optional(S.String),
-          websites: S.optional(S.Unknown),
-          phones: S.optional(S.Unknown),
-          organizations: S.optional(S.Unknown),
-          suspensionTime: S.optional(S.String),
-          addresses: S.optional(S.Unknown),
-          isEnforcedIn2Sv: S.optional(S.Boolean),
-          isGuestUser: S.optional(S.Boolean),
-          aliases: S.optional(__S(3456, __c108, 0)),
-          recoveryEmail: S.optional(S.String),
-          id: S.optional(S.String),
-          etag: S.optional(S.String),
-          ipWhitelisted: S.optional(S.Boolean),
-          gender: S.optional(S.Unknown),
-          isAdmin: S.optional(S.Boolean),
-          isMailboxSetup: S.optional(S.Boolean),
-          suspended: S.optional(S.Boolean),
-          sshPublicKeys: S.optional(S.Unknown),
-          changePasswordAtNextLogin: S.optional(S.Boolean),
-          suspensionReason: S.optional(S.String),
-          primaryEmail: S.optional(S.String),
-          thumbnailPhotoUrl: S.optional(S.String),
-          agreedToTerms: S.optional(S.Boolean),
-          customSchemas: S.optional(__S(1218, __c38, 2)),
           notes: S.optional(S.Unknown),
-          archived: S.optional(S.Boolean),
-          isEnrolledIn2Sv: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          lastLoginTime: S.optional(S.String),
-          emails: S.optional(S.Unknown),
-          includeInGlobalAddressList: S.optional(S.Boolean),
-          thumbnailPhotoEtag: S.optional(S.String),
-          customerId: S.optional(S.String),
           deletionTime: S.optional(S.String),
+          locations: S.optional(S.Unknown),
+          externalIds: S.optional(S.Unknown),
+          primaryEmail: S.optional(S.String),
+          posixAccounts: S.optional(S.Unknown),
+          sshPublicKeys: S.optional(S.Unknown),
+          isAdmin: S.optional(S.Boolean),
+          gender: S.optional(S.Unknown),
+          name: S.optional(__S(1216, __c38, 0)),
+          isMailboxSetup: S.optional(S.Boolean),
+          changePasswordAtNextLogin: S.optional(S.Boolean),
+          addresses: S.optional(S.Unknown),
+          languages: S.optional(S.Unknown),
+          isEnforcedIn2Sv: S.optional(S.Boolean),
+          organizations: S.optional(S.Unknown),
+          suspensionReason: S.optional(S.String),
+          etag: S.optional(S.String),
+          includeInGlobalAddressList: S.optional(S.Boolean),
+          thumbnailPhotoUrl: S.optional(S.String),
+          isGuestUser: S.optional(S.Boolean),
+          archivalTime: S.optional(S.String),
+          aliases: S.optional(__S(3456, __c108, 0)),
+          emails: S.optional(S.Unknown),
+          customSchemas: S.optional(__S(1217, __c38, 1)),
+          creationTime: S.optional(S.String),
+          lastLoginTime: S.optional(S.String),
+          orgUnitPath: S.optional(S.String),
+          isEnrolledIn2Sv: S.optional(S.Boolean),
+          password: S.optional(S.String),
+          archived: S.optional(S.Boolean),
+          customerId: S.optional(S.String),
+          agreedToTerms: S.optional(S.Boolean),
+          kind: S.optional(S.String),
+          keywords: S.optional(S.Unknown),
+          recoveryEmail: S.optional(S.String),
+          isDelegatedAdmin: S.optional(S.Boolean),
+          suspensionTime: S.optional(S.String),
+          thumbnailPhotoEtag: S.optional(S.String),
           nonEditableAliases: S.optional(__S(3456, __c108, 0)),
+          websites: S.optional(S.Unknown),
+          id: S.optional(S.String),
+          suspended: S.optional(S.Boolean),
+          ipWhitelisted: S.optional(S.Boolean),
+          guestAccountInfo: S.optional(__S(1218, __c38, 2)),
+          recoveryPhone: S.optional(S.String),
+          relations: S.optional(S.Unknown),
+          hashFunction: S.optional(S.String),
+          ims: S.optional(S.Unknown),
+          phones: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "User" });
   }
@@ -5821,8 +5821,8 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domainAliasName: S.String.pipe(T.Label()),
           customer: S.String.pipe(T.Label()),
+          domainAliasName: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5838,8 +5838,8 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customer: S.String.pipe(T.Label()),
           domainName: S.String.pipe(T.Label()),
+          customer: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5871,8 +5871,8 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          groupKey: S.String.pipe(T.Label()),
           alias: S.String.pipe(T.Label()),
+          groupKey: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5939,8 +5939,8 @@ function __c49(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customer: S.String.pipe(T.Label()),
           buildingId: S.String.pipe(T.Label()),
+          customer: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5956,8 +5956,8 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customer: S.String.pipe(T.Label()),
           calendarResourceId: S.String.pipe(T.Label()),
+          customer: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5973,8 +5973,8 @@ function __c51(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          featureKey: S.String.pipe(T.Label()),
           customer: S.String.pipe(T.Label()),
+          featureKey: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -6007,8 +6007,8 @@ function __c53(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customer: S.String.pipe(T.Label()),
           roleId: S.String.pipe(T.Label()),
+          customer: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -6024,8 +6024,8 @@ function __c54(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customerId: S.String.pipe(T.Label()),
           schemaKey: S.String.pipe(T.Label()),
+          customerId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -6074,8 +6074,8 @@ function __c57(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          alias: S.String.pipe(T.Label()),
           userKey: S.String.pipe(T.Label()),
+          alias: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -6140,13 +6140,13 @@ function __c61(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          etag: S.optional(S.String),
-          codeId: S.optional(S.Number),
-          creationTime: S.optional(S.String),
           lastTimeUsed: S.optional(S.String),
-          userKey: S.optional(S.String),
+          etag: S.optional(S.String),
           kind: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          userKey: S.optional(S.String),
+          name: S.optional(S.String),
+          codeId: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Asp" });
   }
@@ -6174,167 +6174,165 @@ function __c63(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          speedRpm: S.optional(S.Number),
+          specLevel: S.optional(S.String),
+          manufacturer: S.optional(S.String),
+          family: S.optional(S.String),
+          vendorSpecific: S.optional(S.String),
+          tpmModel: S.optional(S.String),
+          firmwareVersion: S.optional(S.String),
         }),
-      ).annotate({ identifier: "FanInfo" });
+      ).annotate({ identifier: "ChromeOsDeviceTpmVersionInfo" });
     case 1:
-      return S.Array(__S(2016, __c63, 0));
+      return S.suspend(() =>
+        S.Struct({
+          targetKioskAppVersion: S.optional(S.String),
+          targetOsVersion: S.optional(S.String),
+          state: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          rebootTime: S.optional(S.String),
+          updateCheckTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OsUpdateStatus" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          storageFree: S.optional(S.String),
-          storageTotal: S.optional(S.String),
-          volumeId: S.optional(S.String),
+          downloadUrl: S.optional(S.String),
+          createTime: S.optional(S.String),
+          type: S.optional(S.String),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ChromeOsDeviceDiskVolumeReportsItemVolumeInfoItem" });
+      ).annotate({ identifier: "ChromeOsDeviceDeviceFilesItem" });
     case 3:
       return S.Array(__S(2018, __c63, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          volumeInfo: S.optional(__S(2019, __c63, 3)),
+          activeTime: S.optional(S.Number),
+          date: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ChromeOsDeviceDiskVolumeReportsItem" });
+      ).annotate({ identifier: "ChromeOsDeviceActiveTimeRangesItem" });
     case 5:
       return S.Array(__S(2020, __c63, 4));
     case 6:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.optional(S.String),
-          brightness: S.optional(S.Number),
-          maxBrightness: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "BacklightInfo" });
-    case 7:
-      return S.Array(__S(2022, __c63, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          downloadUrl: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ChromeOsDeviceScreenshotFilesItem" });
-    case 9:
-      return S.Array(__S(2024, __c63, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          manufacturer: S.optional(S.String),
-          firmwareVersion: S.optional(S.String),
-          family: S.optional(S.String),
-          tpmModel: S.optional(S.String),
-          specLevel: S.optional(S.String),
-          vendorSpecific: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ChromeOsDeviceTpmVersionInfo" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          createTime: S.optional(S.String),
-          downloadUrl: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ChromeOsDeviceDeviceFilesItem" });
-    case 12:
-      return S.Array(__S(2027, __c63, 11));
-    case 13:
       return S.suspend(() =>
         S.Struct({
           sessionDuration: S.optional(S.String),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItem" });
-    case 14:
-      return S.Array(__S(2029, __c63, 13));
-    case 15:
+    case 7:
+      return S.Array(__S(2022, __c63, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           maxScalingFrequencyKhz: S.optional(S.Number),
-          currentScalingFrequencyKhz: S.optional(S.Number),
           idleDuration: S.optional(S.String),
-          cStates: S.optional(__S(2030, __c63, 14)),
+          cStates: S.optional(__S(2023, __c63, 7)),
+          currentScalingFrequencyKhz: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ChromeOsDeviceCpuInfoItemLogicalCpusItem" });
-    case 16:
-      return S.Array(__S(2031, __c63, 15));
-    case 17:
+    case 9:
+      return S.Array(__S(2024, __c63, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
+          logicalCpus: S.optional(__S(2025, __c63, 9)),
           maxClockSpeedKhz: S.optional(S.Number),
-          logicalCpus: S.optional(__S(2032, __c63, 16)),
           model: S.optional(S.String),
           architecture: S.optional(S.String),
         }),
       ).annotate({ identifier: "ChromeOsDeviceCpuInfoItem" });
+    case 11:
+      return S.Array(__S(2026, __c63, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          speedRpm: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "FanInfo" });
+    case 13:
+      return S.Array(__S(2028, __c63, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          volumeId: S.optional(S.String),
+          storageFree: S.optional(S.String),
+          storageTotal: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ChromeOsDeviceDiskVolumeReportsItemVolumeInfoItem" });
+    case 15:
+      return S.Array(__S(2030, __c63, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          volumeInfo: S.optional(__S(2031, __c63, 15)),
+        }),
+      ).annotate({ identifier: "ChromeOsDeviceDiskVolumeReportsItem" });
+    case 17:
+      return S.Array(__S(2032, __c63, 16));
     case 18:
-      return S.Array(__S(2033, __c63, 17));
+      return S.suspend(() =>
+        S.Struct({
+          reportTime: S.optional(S.String),
+          systemRamFreeInfo: S.optional(__S(3456, __c108, 0)),
+        }),
+      ).annotate({ identifier: "ChromeOsDeviceSystemRamFreeReportsItem" });
     case 19:
+      return S.Array(__S(2034, __c63, 18));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          label: S.optional(S.String),
+          temperature: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ChromeOsDeviceCpuStatusReportsItemCpuTemperatureInfoItem" });
+    case 21:
+      return S.Array(__S(2036, __c63, 20));
+    case 22:
+      return S.Array(S.Number);
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          cpuTemperatureInfo: S.optional(__S(2037, __c63, 21)),
+          reportTime: S.optional(S.String),
+          cpuUtilizationPercentageInfo: S.optional(__S(2038, __c63, 22)),
+        }),
+      ).annotate({ identifier: "ChromeOsDeviceCpuStatusReportsItem" });
+    case 24:
+      return S.Array(__S(2039, __c63, 23));
+    case 25:
       return S.suspend(() =>
         S.Struct({
           email: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "ChromeOsDeviceRecentUsersItem" });
-    case 20:
-      return S.Array(__S(2035, __c63, 19));
-    case 21:
+    case 26:
+      return S.Array(__S(2041, __c63, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
-          usedBytes: S.optional(S.String),
           capacityBytes: S.optional(S.String),
+          usedBytes: S.optional(S.String),
         }),
       ).annotate({ identifier: "ByteUsage" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
-          targetKioskAppVersion: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          targetOsVersion: S.optional(S.String),
-          rebootTime: S.optional(S.String),
-          updateCheckTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OsUpdateStatus" });
-    case 23:
-      return S.Array(S.Number);
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          temperature: S.optional(S.Number),
-          label: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ChromeOsDeviceCpuStatusReportsItemCpuTemperatureInfoItem" });
-    case 25:
-      return S.Array(__S(2040, __c63, 24));
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          cpuUtilizationPercentageInfo: S.optional(__S(2039, __c63, 23)),
-          reportTime: S.optional(S.String),
-          cpuTemperatureInfo: S.optional(__S(2041, __c63, 25)),
-        }),
-      ).annotate({ identifier: "ChromeOsDeviceCpuStatusReportsItem" });
-    case 27:
-      return S.Array(__S(2042, __c63, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(S.String),
-          numConnectedDevices: S.optional(S.Number),
+          brightness: S.optional(S.Number),
+          path: S.optional(S.String),
+          maxBrightness: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "BluetoothAdapterInfo" });
+      ).annotate({ identifier: "BacklightInfo" });
     case 29:
       return S.Array(__S(2044, __c63, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
-          date: S.optional(S.String),
-          activeTime: S.optional(S.Number),
+          wanIpAddress: S.optional(S.String),
+          ipAddress: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ChromeOsDeviceActiveTimeRangesItem" });
+      ).annotate({ identifier: "ChromeOsDeviceLastKnownNetworkItem" });
     case 31:
       return S.Array(__S(2046, __c63, 30));
   }
@@ -6344,78 +6342,80 @@ function __c64(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          reportTime: S.optional(S.String),
-          systemRamFreeInfo: S.optional(__S(3456, __c108, 0)),
+          name: S.optional(S.String),
+          downloadUrl: S.optional(S.String),
+          createTime: S.optional(S.String),
+          type: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ChromeOsDeviceSystemRamFreeReportsItem" });
+      ).annotate({ identifier: "ChromeOsDeviceScreenshotFilesItem" });
     case 1:
       return S.Array(__S(2048, __c64, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ipAddress: S.optional(S.String),
-          wanIpAddress: S.optional(S.String),
+          address: S.optional(S.String),
+          numConnectedDevices: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "ChromeOsDeviceLastKnownNetworkItem" });
+      ).annotate({ identifier: "BluetoothAdapterInfo" });
     case 3:
       return S.Array(__S(2050, __c64, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          fanInfo: S.optional(__S(2017, __c63, 1)),
-          lastDeprovisionTimestamp: S.optional(S.String),
-          deprovisionReason: S.optional(S.String),
-          osVersionCompliance: S.optional(S.String),
-          diskVolumeReports: S.optional(__S(2021, __c63, 5)),
-          backlightInfo: S.optional(__S(2023, __c63, 7)),
-          orderNumber: S.optional(S.String),
-          firmwareVersion: S.optional(S.String),
-          autoUpdateThrough: S.optional(S.String),
-          manufactureDate: S.optional(S.String),
-          autoUpdateExpiration: S.optional(S.String),
-          firstEnrollmentTime: S.optional(S.String),
-          platformVersion: S.optional(S.String),
-          model: S.optional(S.String),
-          screenshotFiles: S.optional(__S(2025, __c63, 9)),
-          willAutoRenew: S.optional(S.Boolean),
-          osVersion: S.optional(S.String),
-          tpmVersionInfo: S.optional(__S(2026, __c63, 10)),
-          deviceFiles: S.optional(__S(2028, __c63, 12)),
-          cpuInfo: S.optional(__S(2034, __c63, 18)),
-          ethernetMacAddress: S.optional(S.String),
-          recentUsers: S.optional(__S(2036, __c63, 20)),
-          ethernetMacAddress0: S.optional(S.String),
-          chromeOsType: S.optional(S.String),
-          extendedSupportStart: S.optional(S.String),
-          systemRamTotal: S.optional(S.String),
-          meid: S.optional(S.String),
-          bootMode: S.optional(S.String),
+          tpmVersionInfo: S.optional(__S(2016, __c63, 0)),
           etag: S.optional(S.String),
-          status: S.optional(S.String),
-          dockMacAddress: S.optional(S.String),
-          extendedSupportEligible: S.optional(S.Boolean),
-          diskSpaceUsage: S.optional(__S(2037, __c63, 21)),
-          serialNumber: S.optional(S.String),
-          osUpdateStatus: S.optional(__S(2038, __c63, 22)),
-          notes: S.optional(S.String),
-          macAddress: S.optional(S.String),
-          cpuStatusReports: S.optional(__S(2043, __c63, 27)),
-          lastEnrollmentTime: S.optional(S.String),
-          supportEndDate: S.optional(S.String),
-          kind: S.optional(S.String),
-          bluetoothAdapterInfo: S.optional(__S(2045, __c63, 29)),
-          lastSync: S.optional(S.String),
-          extendedSupportEnabled: S.optional(S.Boolean),
-          deviceId: S.optional(S.String),
-          deviceLicenseType: S.optional(S.String),
-          activeTimeRanges: S.optional(__S(2047, __c63, 31)),
-          orgUnitPath: S.optional(S.String),
-          systemRamFreeReports: S.optional(__S(2049, __c64, 1)),
-          annotatedAssetId: S.optional(S.String),
-          orgUnitId: S.optional(S.String),
-          lastKnownNetwork: S.optional(__S(2051, __c64, 3)),
+          osUpdateStatus: S.optional(__S(2017, __c63, 1)),
+          lastDeprovisionTimestamp: S.optional(S.String),
+          chromeOsType: S.optional(S.String),
+          systemRamTotal: S.optional(S.String),
+          deprovisionReason: S.optional(S.String),
+          firmwareVersion: S.optional(S.String),
+          deviceFiles: S.optional(__S(2019, __c63, 3)),
           annotatedLocation: S.optional(S.String),
+          activeTimeRanges: S.optional(__S(2021, __c63, 5)),
+          cpuInfo: S.optional(__S(2027, __c63, 11)),
+          fanInfo: S.optional(__S(2029, __c63, 13)),
+          extendedSupportEnabled: S.optional(S.Boolean),
+          macAddress: S.optional(S.String),
           annotatedUser: S.optional(S.String),
+          supportEndDate: S.optional(S.String),
+          meid: S.optional(S.String),
+          lastEnrollmentTime: S.optional(S.String),
+          autoUpdateExpiration: S.optional(S.String),
+          orgUnitPath: S.optional(S.String),
+          osVersion: S.optional(S.String),
+          diskVolumeReports: S.optional(__S(2033, __c63, 17)),
+          deviceId: S.optional(S.String),
+          serialNumber: S.optional(S.String),
+          status: S.optional(S.String),
+          extendedSupportStart: S.optional(S.String),
+          systemRamFreeReports: S.optional(__S(2035, __c63, 19)),
+          deviceLicenseType: S.optional(S.String),
+          manufactureDate: S.optional(S.String),
+          orderNumber: S.optional(S.String),
+          cpuStatusReports: S.optional(__S(2040, __c63, 24)),
+          firstEnrollmentTime: S.optional(S.String),
+          recentUsers: S.optional(__S(2042, __c63, 26)),
+          orgUnitId: S.optional(S.String),
+          notes: S.optional(S.String),
+          diskSpaceUsage: S.optional(__S(2043, __c63, 27)),
+          extendedSupportEligible: S.optional(S.Boolean),
+          ethernetMacAddress: S.optional(S.String),
+          ethernetMacAddress0: S.optional(S.String),
+          bootMode: S.optional(S.String),
+          lastSync: S.optional(S.String),
+          annotatedAssetId: S.optional(S.String),
+          autoUpdateThrough: S.optional(S.String),
+          model: S.optional(S.String),
+          platformVersion: S.optional(S.String),
+          backlightInfo: S.optional(__S(2045, __c63, 29)),
+          lastKnownNetwork: S.optional(__S(2047, __c63, 31)),
+          osVersionCompliance: S.optional(S.String),
+          screenshotFiles: S.optional(__S(2049, __c64, 1)),
+          bluetoothAdapterInfo: S.optional(__S(2051, __c64, 3)),
+          dockMacAddress: S.optional(S.String),
+          willAutoRenew: S.optional(S.Boolean),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "ChromeOsDevice" });
   }
@@ -6425,9 +6425,9 @@ function __c65(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deviceId: S.String.pipe(T.Label()),
           commandId: S.String.pipe(T.Label()),
           customerId: S.String.pipe(T.Label()),
+          deviceId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6440,21 +6440,21 @@ function __c65(j: number): any {
       return S.suspend(() =>
         S.Struct({
           commandResultPayload: S.optional(S.String),
-          result: S.optional(S.String),
           executeTime: S.optional(S.String),
           errorMessage: S.optional(S.String),
+          result: S.optional(S.String),
         }),
       ).annotate({ identifier: "DirectoryChromeosdevicesCommandResult" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          commandExpireTime: S.optional(S.String),
-          payload: S.optional(S.String),
-          commandId: S.optional(S.String),
-          commandResult: S.optional(__S(2081, __c65, 1)),
-          state: S.optional(S.String),
-          type: S.optional(S.String),
           issueTime: S.optional(S.String),
+          commandExpireTime: S.optional(S.String),
+          commandId: S.optional(S.String),
+          state: S.optional(S.String),
+          commandResult: S.optional(__S(2081, __c65, 1)),
+          payload: S.optional(S.String),
+          type: S.optional(S.String),
         }),
       ).annotate({ identifier: "DirectoryChromeosdevicesCommand" });
   }
@@ -6480,29 +6480,29 @@ function __c67(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          postalCode: S.optional(S.String),
-          locality: S.optional(S.String),
-          contactName: S.optional(S.String),
-          region: S.optional(S.String),
-          addressLine3: S.optional(S.String),
-          addressLine2: S.optional(S.String),
-          addressLine1: S.optional(S.String),
           countryCode: S.optional(S.String),
+          contactName: S.optional(S.String),
+          addressLine1: S.optional(S.String),
           organizationName: S.optional(S.String),
+          locality: S.optional(S.String),
+          addressLine3: S.optional(S.String),
+          region: S.optional(S.String),
+          postalCode: S.optional(S.String),
+          addressLine2: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerPostalAddress" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String),
-          postalAddress: S.optional(__S(2144, __c67, 0)),
-          alternateEmail: S.optional(S.String),
-          customerDomain: S.optional(S.String),
-          kind: S.optional(S.String),
-          phoneNumber: S.optional(S.String),
-          language: S.optional(S.String),
           id: S.optional(S.String),
           customerCreationTime: S.optional(S.String),
+          customerDomain: S.optional(S.String),
+          etag: S.optional(S.String),
+          postalAddress: S.optional(__S(2144, __c67, 0)),
+          kind: S.optional(S.String),
+          language: S.optional(S.String),
+          alternateEmail: S.optional(S.String),
+          phoneNumber: S.optional(S.String),
         }),
       ).annotate({ identifier: "Customer" });
   }
@@ -6519,8 +6519,8 @@ function __c68(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          customerId: S.String.pipe(T.Label()),
           resourceId: S.String.pipe(T.Label()),
+          customerId: S.String.pipe(T.Label()),
           body: S.optional(__S(2176, __c68, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -6594,12 +6594,12 @@ function __c73(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          verified: S.optional(S.Boolean),
-          parentDomainName: S.optional(S.String),
-          domainAliasName: S.optional(S.String),
-          kind: S.optional(S.String),
           etag: S.optional(S.String),
+          verified: S.optional(S.Boolean),
+          kind: S.optional(S.String),
+          parentDomainName: S.optional(S.String),
           creationTime: S.optional(S.String),
+          domainAliasName: S.optional(S.String),
         }),
       ).annotate({ identifier: "DomainAlias" });
   }
@@ -6609,8 +6609,8 @@ function __c74(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domainName: S.String.pipe(T.Label()),
           customer: S.String.pipe(T.Label()),
+          domainName: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6632,13 +6632,13 @@ function __c76(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
-          verified: S.optional(S.Boolean),
-          creationTime: S.optional(S.String),
+          isPrimary: S.optional(S.Boolean),
           domainAliases: S.optional(__S(2400, __c75, 0)),
+          verified: S.optional(S.Boolean),
           domainName: S.optional(S.String),
           etag: S.optional(S.String),
-          isPrimary: S.optional(S.Boolean),
+          creationTime: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "Domains" });
   }
@@ -6674,16 +6674,16 @@ function __c78(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          description: S.optional(S.String),
-          email: S.optional(S.String),
-          directMembersCount: S.optional(S.String),
-          externalIds: S.optional(__S(2497, __c78, 1)),
-          etag: S.optional(S.String),
-          id: S.optional(S.String),
           adminCreated: S.optional(S.Boolean),
-          nonEditableAliases: S.optional(__S(3456, __c108, 0)),
-          kind: S.optional(S.String),
+          directMembersCount: S.optional(S.String),
           aliases: S.optional(__S(3456, __c108, 0)),
+          kind: S.optional(S.String),
+          email: S.optional(S.String),
+          nonEditableAliases: S.optional(__S(3456, __c108, 0)),
+          id: S.optional(S.String),
+          description: S.optional(S.String),
+          etag: S.optional(S.String),
+          externalIds: S.optional(__S(2497, __c78, 1)),
         }),
       ).annotate({ identifier: "Group" });
   }
@@ -6693,8 +6693,8 @@ function __c79(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          memberKey: S.String.pipe(T.Label()),
           groupKey: S.String.pipe(T.Label()),
+          memberKey: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6710,14 +6710,14 @@ function __c80(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
           role: S.optional(S.String),
-          id: S.optional(S.String),
-          type: S.optional(S.String),
           status: S.optional(S.String),
+          email: S.optional(S.String),
+          id: S.optional(S.String),
+          kind: S.optional(S.String),
+          type: S.optional(S.String),
           delivery_settings: S.optional(S.String),
           etag: S.optional(S.String),
-          email: S.optional(S.String),
         }),
       ).annotate({ identifier: "Member" });
   }
@@ -6727,9 +6727,9 @@ function __c81(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projection: S.optional(S.String.pipe(T.Query())),
           customerId: S.String.pipe(T.Label()),
           resourceId: S.String.pipe(T.Label()),
+          projection: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6745,11 +6745,11 @@ function __c82(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          versionCode: S.optional(S.Number),
-          permission: S.optional(__S(3456, __c108, 0)),
-          packageName: S.optional(S.String),
           versionName: S.optional(S.String),
           displayName: S.optional(S.String),
+          packageName: S.optional(S.String),
+          versionCode: S.optional(S.Number),
+          permission: S.optional(__S(3456, __c108, 0)),
         }),
       ).annotate({ identifier: "MobileDeviceApplicationsItem" });
     case 1:
@@ -6757,46 +6757,46 @@ function __c82(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          imei: S.optional(S.String),
-          os: S.optional(S.String),
-          hardware: S.optional(S.String),
-          lastSync: S.optional(S.String),
-          email: S.optional(__S(3456, __c108, 0)),
-          defaultLanguage: S.optional(S.String),
-          brand: S.optional(S.String),
-          devicePasswordStatus: S.optional(S.String),
-          networkOperator: S.optional(S.String),
-          privilege: S.optional(S.String),
-          deviceId: S.optional(S.String),
-          wifiMacAddress: S.optional(S.String),
-          hardwareId: S.optional(S.String),
-          managedAccountIsOnOwnerProfile: S.optional(S.Boolean),
-          basebandVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          releaseVersion: S.optional(S.String),
-          model: S.optional(S.String),
-          bootloaderVersion: S.optional(S.String),
-          serialNumber: S.optional(S.String),
-          developerOptionsStatus: S.optional(S.Boolean),
-          deviceCompromisedStatus: S.optional(S.String),
-          securityPatchLevel: S.optional(S.String),
-          supportsWorkProfile: S.optional(S.Boolean),
-          encryptionStatus: S.optional(S.String),
-          firstSync: S.optional(S.String),
-          adbStatus: S.optional(S.Boolean),
-          buildNumber: S.optional(S.String),
-          unknownSourcesStatus: S.optional(S.Boolean),
-          resourceId: S.optional(S.String),
-          kernelVersion: S.optional(S.String),
-          status: S.optional(S.String),
-          name: S.optional(__S(3456, __c108, 0)),
-          otherAccountsInfo: S.optional(__S(3456, __c108, 0)),
-          meid: S.optional(S.String),
           userAgent: S.optional(S.String),
+          email: S.optional(__S(3456, __c108, 0)),
           etag: S.optional(S.String),
           type: S.optional(S.String),
+          lastSync: S.optional(S.String),
+          deviceCompromisedStatus: S.optional(S.String),
+          model: S.optional(S.String),
+          deviceId: S.optional(S.String),
+          developerOptionsStatus: S.optional(S.Boolean),
+          managedAccountIsOnOwnerProfile: S.optional(S.Boolean),
           manufacturer: S.optional(S.String),
+          serialNumber: S.optional(S.String),
+          otherAccountsInfo: S.optional(__S(3456, __c108, 0)),
+          status: S.optional(S.String),
+          hardwareId: S.optional(S.String),
+          hardware: S.optional(S.String),
+          firstSync: S.optional(S.String),
+          kernelVersion: S.optional(S.String),
+          buildNumber: S.optional(S.String),
+          devicePasswordStatus: S.optional(S.String),
+          unknownSourcesStatus: S.optional(S.Boolean),
+          resourceId: S.optional(S.String),
+          encryptionStatus: S.optional(S.String),
+          adbStatus: S.optional(S.Boolean),
+          wifiMacAddress: S.optional(S.String),
+          supportsWorkProfile: S.optional(S.Boolean),
+          brand: S.optional(S.String),
+          securityPatchLevel: S.optional(S.String),
+          networkOperator: S.optional(S.String),
+          privilege: S.optional(S.String),
+          defaultLanguage: S.optional(S.String),
+          meid: S.optional(S.String),
+          os: S.optional(S.String),
+          bootloaderVersion: S.optional(S.String),
+          name: S.optional(__S(3456, __c108, 0)),
+          basebandVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          imei: S.optional(S.String),
           applications: S.optional(__S(2625, __c82, 1)),
+          releaseVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "MobileDevice" });
   }
@@ -6823,15 +6823,15 @@ function __c84(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          blockInheritance: S.optional(S.Boolean),
-          orgUnitId: S.optional(S.String),
-          orgUnitPath: S.optional(S.String),
-          parentOrgUnitId: S.optional(S.String),
-          description: S.optional(S.String),
-          etag: S.optional(S.String),
-          kind: S.optional(S.String),
           parentOrgUnitPath: S.optional(S.String),
+          kind: S.optional(S.String),
+          blockInheritance: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          etag: S.optional(S.String),
+          parentOrgUnitId: S.optional(S.String),
+          orgUnitId: S.optional(S.String),
+          description: S.optional(S.String),
+          orgUnitPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "OrgUnit" });
   }
@@ -6841,8 +6841,8 @@ function __c85(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          buildingId: S.String.pipe(T.Label()),
           customer: S.String.pipe(T.Label()),
+          buildingId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6858,13 +6858,13 @@ function __c86(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          regionCode: S.optional(S.String),
-          locality: S.optional(S.String),
           postalCode: S.optional(S.String),
-          administrativeArea: S.optional(S.String),
+          sublocality: S.optional(S.String),
           languageCode: S.optional(S.String),
           addressLines: S.optional(__S(3456, __c108, 0)),
-          sublocality: S.optional(S.String),
+          administrativeArea: S.optional(S.String),
+          locality: S.optional(S.String),
+          regionCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "BuildingAddress" });
     case 1:
@@ -6877,14 +6877,14 @@ function __c86(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          buildingName: S.optional(S.String),
-          description: S.optional(S.String),
-          buildingId: S.optional(S.String),
+          floorNames: S.optional(__S(3456, __c108, 0)),
           kind: S.optional(S.String),
           etags: S.optional(S.String),
+          description: S.optional(S.String),
           address: S.optional(__S(2752, __c86, 0)),
+          buildingName: S.optional(S.String),
+          buildingId: S.optional(S.String),
           coordinates: S.optional(__S(2753, __c86, 1)),
-          floorNames: S.optional(__S(3456, __c108, 0)),
         }),
       ).annotate({ identifier: "Building" });
   }
@@ -6911,21 +6911,21 @@ function __c88(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          capacity: S.optional(S.Number),
+          buildingId: S.optional(S.String),
+          resourceEmail: S.optional(S.String),
+          resourceId: S.optional(S.String),
+          floorName: S.optional(S.String),
+          floorSection: S.optional(S.String),
+          generatedResourceName: S.optional(S.String),
+          resourceType: S.optional(S.String),
           kind: S.optional(S.String),
+          userVisibleDescription: S.optional(S.String),
+          resourceName: S.optional(S.String),
+          etags: S.optional(S.String),
           resourceCategory: S.optional(S.String),
           featureInstances: S.optional(S.Unknown),
-          etags: S.optional(S.String),
-          buildingId: S.optional(S.String),
-          floorSection: S.optional(S.String),
-          capacity: S.optional(S.Number),
-          resourceId: S.optional(S.String),
-          resourceType: S.optional(S.String),
           resourceDescription: S.optional(S.String),
-          generatedResourceName: S.optional(S.String),
-          floorName: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          resourceEmail: S.optional(S.String),
-          userVisibleDescription: S.optional(S.String),
         }),
       ).annotate({ identifier: "CalendarResource" });
   }
@@ -6941,8 +6941,8 @@ function __c89(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          resourceId: S.String.pipe(T.Label()),
           customerId: S.String.pipe(T.Label()),
+          resourceId: S.String.pipe(T.Label()),
           body: S.optional(__S(2848, __c89, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -6977,8 +6977,8 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           etags: S.optional(S.String),
-          kind: S.optional(S.String),
           name: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "Feature" });
   }
@@ -6988,8 +6988,8 @@ function __c92(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customer: S.String.pipe(T.Label()),
           roleAssignmentId: S.String.pipe(T.Label()),
+          customer: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7011,16 +7011,16 @@ function __c93(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(S.String),
-          roleAssignmentId: S.optional(S.String),
-          expirationDetails: S.optional(__S(2976, __c93, 0)),
-          assignedTo: S.optional(S.String),
-          orgUnitId: S.optional(S.String),
-          assigneeType: S.optional(S.String),
-          etag: S.optional(S.String),
-          kind: S.optional(S.String),
           roleId: S.optional(S.String),
+          etag: S.optional(S.String),
           scopeType: S.optional(S.String),
+          orgUnitId: S.optional(S.String),
+          roleAssignmentId: S.optional(S.String),
+          assignedTo: S.optional(S.String),
+          assigneeType: S.optional(S.String),
+          condition: S.optional(S.String),
+          kind: S.optional(S.String),
+          expirationDetails: S.optional(__S(2976, __c93, 0)),
         }),
       ).annotate({ identifier: "RoleAssignment" });
   }
@@ -7047,8 +7047,8 @@ function __c95(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          privilegeName: S.optional(S.String),
           serviceId: S.optional(S.String),
+          privilegeName: S.optional(S.String),
         }),
       ).annotate({ identifier: "RoleRolePrivilegesItem" });
     case 1:
@@ -7056,14 +7056,14 @@ function __c95(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
-          rolePrivileges: S.optional(__S(3041, __c95, 1)),
-          isSystemRole: S.optional(S.Boolean),
-          isSuperAdminRole: S.optional(S.Boolean),
-          roleDescription: S.optional(S.String),
-          roleId: S.optional(S.String),
           etag: S.optional(S.String),
+          kind: S.optional(S.String),
+          isSuperAdminRole: S.optional(S.Boolean),
+          roleId: S.optional(S.String),
+          roleDescription: S.optional(S.String),
+          rolePrivileges: S.optional(__S(3041, __c95, 1)),
           roleName: S.optional(S.String),
+          isSystemRole: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Role" });
   }
@@ -7073,8 +7073,8 @@ function __c96(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customerId: S.String.pipe(T.Label()),
           schemaKey: S.String.pipe(T.Label()),
+          customerId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7098,15 +7098,15 @@ function __c97(j: number): any {
       return S.suspend(() =>
         S.Struct({
           indexed: S.optional(S.Boolean),
-          multiValued: S.optional(S.Boolean),
-          fieldType: S.optional(S.String),
-          fieldId: S.optional(S.String),
-          fieldName: S.optional(S.String),
-          readAccessType: S.optional(S.String),
-          kind: S.optional(S.String),
-          numericIndexingSpec: S.optional(__S(3104, __c97, 0)),
           displayName: S.optional(S.String),
+          kind: S.optional(S.String),
+          fieldType: S.optional(S.String),
+          multiValued: S.optional(S.Boolean),
+          fieldName: S.optional(S.String),
+          numericIndexingSpec: S.optional(__S(3104, __c97, 0)),
           etag: S.optional(S.String),
+          readAccessType: S.optional(S.String),
+          fieldId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SchemaFieldSpec" });
     case 2:
@@ -7114,12 +7114,12 @@ function __c97(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          schemaId: S.optional(S.String),
+          schemaName: S.optional(S.String),
           etag: S.optional(S.String),
           displayName: S.optional(S.String),
-          fields: S.optional(__S(3106, __c97, 2)),
-          schemaName: S.optional(S.String),
-          schemaId: S.optional(S.String),
           kind: S.optional(S.String),
+          fields: S.optional(__S(3106, __c97, 2)),
         }),
       ).annotate({ identifier: "Admin_Schema" });
   }
@@ -7129,8 +7129,8 @@ function __c98(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userKey: S.String.pipe(T.Label()),
           clientId: S.String.pipe(T.Label()),
+          userKey: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7148,12 +7148,12 @@ function __c99(j: number): any {
         S.Struct({
           clientId: S.optional(S.String),
           etag: S.optional(S.String),
+          scopes: S.optional(__S(3456, __c108, 0)),
           nativeApp: S.optional(S.Boolean),
+          kind: S.optional(S.String),
+          userKey: S.optional(S.String),
           displayText: S.optional(S.String),
           anonymous: S.optional(S.Boolean),
-          userKey: S.optional(S.String),
-          kind: S.optional(S.String),
-          scopes: S.optional(__S(3456, __c108, 0)),
         }),
       ).annotate({ identifier: "Token" });
   }
@@ -7164,9 +7164,9 @@ function __c100(j: number): any {
       return S.suspend(() =>
         S.Struct({
           userKey: S.String.pipe(T.Label()),
-          projection: S.optional(S.String.pipe(T.Query())),
           customFieldMask: S.optional(S.String.pipe(T.Query())),
           viewType: S.optional(S.String.pipe(T.Query())),
+          projection: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7198,14 +7198,14 @@ function __c102(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String),
           primaryEmail: S.optional(S.String),
-          photoData: S.optional(S.String),
-          width: S.optional(S.Number),
-          mimeType: S.optional(S.String),
-          height: S.optional(S.Number),
           id: S.optional(S.String),
+          photoData: S.optional(S.String),
+          mimeType: S.optional(S.String),
+          etag: S.optional(S.String),
+          width: S.optional(S.Number),
           kind: S.optional(S.String),
+          height: S.optional(S.Number),
         }),
       ).annotate({ identifier: "UserPhoto" });
   }
@@ -7273,8 +7273,8 @@ function __c106(j: number): any {
       return S.suspend(() =>
         S.Struct({
           deprovisionReason: S.optional(S.String),
-          changeChromeOsDeviceStatusAction: S.optional(S.String),
           deviceIds: S.optional(__S(3456, __c108, 0)),
+          changeChromeOsDeviceStatusAction: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchChangeChromeOsDeviceStatusRequest" });
     case 1:
@@ -7295,17 +7295,17 @@ function __c106(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(S.String),
           code: S.optional(S.Number),
           details: S.optional(__S(3394, __c106, 2)),
+          message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(3395, __c106, 3)),
-          response: S.optional(__S(2208, __c69, 0)),
           deviceId: S.optional(S.String),
+          response: S.optional(__S(2208, __c69, 0)),
+          error: S.optional(__S(3395, __c106, 3)),
         }),
       ).annotate({ identifier: "ChangeChromeOsDeviceStatusResult" });
     case 5:
@@ -7368,11 +7368,11 @@ function __c111(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          primaryEmail: S.optional(S.String),
+          id: S.optional(S.String),
           alias: S.optional(S.String),
           kind: S.optional(S.String),
-          id: S.optional(S.String),
           etag: S.optional(S.String),
-          primaryEmail: S.optional(S.String),
         }),
       ).annotate({ identifier: "Alias" });
   }
@@ -7416,8 +7416,8 @@ function __c114(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customer: S.String.pipe(T.Label()),
           coordinatesSource: S.optional(S.String.pipe(T.Query())),
+          customer: S.String.pipe(T.Label()),
           body: S.optional(__S(2754, __c86, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -7519,8 +7519,8 @@ function __c120(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.optional(S.String),
           printer: S.optional(__S(3938, __c123, 2)),
+          parent: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreatePrinterRequest" });
     case 1:
@@ -7547,8 +7547,8 @@ function __c120(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          printers: S.optional(__S(3872, __c121, 0)),
           failures: S.optional(__S(3905, __c122, 1)),
+          printers: S.optional(__S(3872, __c121, 0)),
         }),
       ).annotate({ identifier: "BatchCreatePrintersResponse" });
   }
@@ -7564,10 +7564,10 @@ function __c122(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          printerId: S.optional(S.String),
           errorCode: S.optional(S.String),
-          printer: S.optional(__S(3938, __c123, 2)),
           errorMessage: S.optional(S.String),
+          printer: S.optional(__S(3938, __c123, 2)),
+          printerId: S.optional(S.String),
         }),
       ).annotate({ identifier: "FailureInfo" });
     case 1:
@@ -7579,9 +7579,9 @@ function __c123(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          severity: S.optional(S.String),
           auxiliaryMessage: S.optional(S.String),
           fieldMask: S.optional(S.String),
+          severity: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuxiliaryMessage" });
     case 1:
@@ -7589,16 +7589,16 @@ function __c123(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
+          useDriverlessConfig: S.optional(S.Boolean),
           auxiliaryMessages: S.optional(__S(3937, __c123, 1)),
+          createTime: S.optional(S.String),
+          makeAndModel: S.optional(S.String),
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
           orgUnitId: S.optional(S.String),
           name: S.optional(S.String),
-          createTime: S.optional(S.String),
           id: S.optional(S.String),
-          makeAndModel: S.optional(S.String),
-          useDriverlessConfig: S.optional(S.Boolean),
           uri: S.optional(S.String),
-          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Printer" });
   }
@@ -7665,8 +7665,8 @@ function __c127(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          deviceId: S.String.pipe(T.Label()),
           customerId: S.String.pipe(T.Label()),
+          deviceId: S.String.pipe(T.Label()),
           body: S.optional(__S(4064, __c127, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -7703,9 +7703,9 @@ function __c128(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String),
           kind: S.optional(S.String),
           items: S.optional(__S(4097, __c128, 1)),
+          etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "Asps" });
   }
@@ -7715,15 +7715,15 @@ function __c129(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          includeChildOrgunits: S.optional(S.Boolean.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
+          customerId: S.String.pipe(T.Label()),
           maxResults: S.optional(S.Number.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
-          projection: S.optional(S.String.pipe(T.Query())),
-          customerId: S.String.pipe(T.Label()),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           orgUnitPath: S.optional(S.String.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
+          projection: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          includeChildOrgunits: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7750,10 +7750,10 @@ function __c130(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           orgUnitId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
@@ -7767,8 +7767,8 @@ function __c130(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           printers: S.optional(__S(3872, __c121, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPrintersResponse" });
   }
@@ -7778,11 +7778,11 @@ function __c131(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           orgUnitId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -7819,8 +7819,8 @@ function __c132(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
           domainAliases: S.optional(__S(2400, __c75, 0)),
+          kind: S.optional(S.String),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "DomainAliases" });
@@ -7896,9 +7896,9 @@ function __c135(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          printServerId: S.optional(S.String),
           errorMessage: S.optional(S.String),
           printServer: S.optional(__S(4352, __c136, 0)),
+          printServerId: S.optional(S.String),
           errorCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrintServerFailureInfo" });
@@ -7911,12 +7911,12 @@ function __c136(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
           displayName: S.optional(S.String),
+          description: S.optional(S.String),
           orgUnitId: S.optional(S.String),
           id: S.optional(S.String),
-          name: S.optional(S.String),
           uri: S.optional(S.String),
-          description: S.optional(S.String),
           createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrintServer" });
@@ -7934,12 +7934,12 @@ function __c138(j: number): any {
       return S.suspend(() =>
         S.Struct({
           customer: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          domain: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
+          domain: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
           userKey: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -7954,10 +7954,10 @@ function __c138(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           kind: S.optional(S.String),
-          etag: S.optional(S.String),
           groups: S.optional(__S(4417, __c138, 1)),
+          nextPageToken: S.optional(S.String),
+          etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "Groups" });
   }
@@ -7997,9 +7997,9 @@ function __c141(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          roles: S.optional(S.String.pipe(T.Query())),
           includeDerivedMembership: S.optional(S.Boolean.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
+          roles: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           groupKey: S.String.pipe(T.Label()),
         }).pipe(
@@ -8016,8 +8016,8 @@ function __c141(j: number): any {
       return S.suspend(() =>
         S.Struct({
           etag: S.optional(S.String),
-          members: S.optional(__S(4513, __c141, 1)),
           nextPageToken: S.optional(S.String),
+          members: S.optional(__S(4513, __c141, 1)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "Members" });
@@ -8029,11 +8029,11 @@ function __c142(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          customerId: S.String.pipe(T.Label()),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
           projection: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          customerId: S.String.pipe(T.Label()),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -8049,9 +8049,9 @@ function __c142(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          nextPageToken: S.optional(S.String),
           mobiledevices: S.optional(__S(4545, __c142, 1)),
           etag: S.optional(S.String),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "MobileDevices" });
   }
@@ -8061,9 +8061,9 @@ function __c143(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          type: S.optional(S.String.pipe(T.Query())),
           orgUnitPath: S.optional(S.String.pipe(T.Query())),
           customerId: S.String.pipe(T.Label()),
-          type: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8077,9 +8077,9 @@ function __c143(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          kind: S.optional(S.String),
           etag: S.optional(S.String),
           organizationUnits: S.optional(__S(4577, __c143, 1)),
-          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "OrgUnits" });
   }
@@ -8089,10 +8089,10 @@ function __c144(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8104,9 +8104,9 @@ function __c144(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          manufacturer: S.optional(S.String),
           makeAndModel: S.optional(S.String),
           displayName: S.optional(S.String),
+          manufacturer: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrinterModel" });
     case 2:
@@ -8114,8 +8114,8 @@ function __c144(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           printerModels: S.optional(__S(4610, __c144, 2)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPrinterModelsResponse" });
   }
@@ -8137,13 +8137,13 @@ function __c145(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          privilegeName: S.optional(S.String),
-          serviceName: S.optional(S.String),
-          isOuScopable: S.optional(S.Boolean),
+          serviceId: S.optional(S.String),
           etag: S.optional(S.String),
           childPrivileges: S.optional(S.suspend(() => __S(4642, __c145, 2))),
-          serviceId: S.optional(S.String),
           kind: S.optional(S.String),
+          serviceName: S.optional(S.String),
+          isOuScopable: S.optional(S.Boolean),
+          privilegeName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Privilege" });
     case 2:
@@ -8163,9 +8163,9 @@ function __c146(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          maxResults: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           customer: S.String.pipe(T.Label()),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8179,10 +8179,10 @@ function __c146(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String),
-          nextPageToken: S.optional(S.String),
           buildings: S.optional(__S(4673, __c146, 1)),
+          nextPageToken: S.optional(S.String),
           kind: S.optional(S.String),
+          etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "Buildings" });
   }
@@ -8193,10 +8193,10 @@ function __c147(j: number): any {
       return S.suspend(() =>
         S.Struct({
           customer: S.String.pipe(T.Label()),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8210,10 +8210,10 @@ function __c147(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String),
           kind: S.optional(S.String),
           items: __S(4705, __c147, 1),
           nextPageToken: S.optional(S.String),
+          etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "CalendarResources" });
   }
@@ -8223,9 +8223,9 @@ function __c148(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          maxResults: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           customer: S.String.pipe(T.Label()),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8240,9 +8240,9 @@ function __c148(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          nextPageToken: S.optional(S.String),
           etag: S.optional(S.String),
           features: S.optional(__S(4737, __c148, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "Features" });
   }
@@ -8271,8 +8271,8 @@ function __c149(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          failedPrinters: S.optional(__S(3905, __c122, 1)),
           printerIds: S.optional(__S(3456, __c108, 0)),
+          failedPrinters: S.optional(__S(3905, __c122, 1)),
         }),
       ).annotate({ identifier: "BatchDeletePrintersResponse" });
   }
@@ -8282,12 +8282,12 @@ function __c150(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          includeIndirectRoleAssignments: S.optional(S.Boolean.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
           userKey: S.optional(S.String.pipe(T.Query())),
+          roleId: S.optional(S.String.pipe(T.Query())),
+          includeIndirectRoleAssignments: S.optional(S.Boolean.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           customer: S.String.pipe(T.Label()),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          roleId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8301,9 +8301,9 @@ function __c150(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
-          nextPageToken: S.optional(S.String),
           etag: S.optional(S.String),
+          nextPageToken: S.optional(S.String),
+          kind: S.optional(S.String),
           items: __S(4801, __c150, 1),
         }),
       ).annotate({ identifier: "RoleAssignments" });
@@ -8314,8 +8314,8 @@ function __c151(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          maxResults: S.optional(S.Number.pipe(T.Query())),
           customer: S.String.pipe(T.Label()),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -8330,10 +8330,10 @@ function __c151(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
           items: __S(4833, __c151, 1),
-          nextPageToken: S.optional(S.String),
           etag: S.optional(S.String),
+          nextPageToken: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "Roles" });
   }
@@ -8357,9 +8357,9 @@ function __c152(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String),
           kind: S.optional(S.String),
           schemas: S.optional(__S(4865, __c152, 1)),
+          etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "Schemas" });
   }
@@ -8383,8 +8383,8 @@ function __c153(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String),
           items: S.optional(__S(4897, __c153, 1)),
+          etag: S.optional(S.String),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "Tokens" });
@@ -8395,18 +8395,18 @@ function __c154(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domain: S.optional(S.String.pipe(T.Query())),
-          projection: S.optional(S.String.pipe(T.Query())),
+          query: S.optional(S.String.pipe(T.Query())),
+          customFieldMask: S.optional(S.String.pipe(T.Query())),
           viewType: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
+          domain: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          projection: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          customer: S.optional(S.String.pipe(T.Query())),
           event: S.optional(S.String.pipe(T.Query())),
           showDeleted: S.optional(S.String.pipe(T.Query())),
-          customFieldMask: S.optional(S.String.pipe(T.Query())),
-          query: S.optional(S.String.pipe(T.Query())),
-          customer: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8420,11 +8420,11 @@ function __c154(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          trigger_event: S.optional(S.String),
-          kind: S.optional(S.String),
-          nextPageToken: S.optional(S.String),
-          users: S.optional(__S(4929, __c154, 1)),
           etag: S.optional(S.String),
+          kind: S.optional(S.String),
+          trigger_event: S.optional(S.String),
+          users: S.optional(__S(4929, __c154, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "Users" });
   }
@@ -8464,9 +8464,9 @@ function __c156(j: number): any {
       return S.suspend(() =>
         S.Struct({
           etag: S.optional(S.String),
-          kind: S.optional(S.String),
           userId: S.optional(S.String),
           verificationCode: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "VerificationCode" });
     case 2:
@@ -8475,8 +8475,8 @@ function __c156(j: number): any {
       return S.suspend(() =>
         S.Struct({
           etag: S.optional(S.String),
-          kind: S.optional(S.String),
           items: S.optional(__S(4994, __c156, 2)),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "VerificationCodes" });
   }
@@ -8515,8 +8515,8 @@ function __c158(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          orgUnitPath: S.String.pipe(T.Query()),
           customerId: S.String.pipe(T.Label()),
+          orgUnitPath: S.String.pipe(T.Query()),
           body: S.optional(__S(5056, __c158, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -8533,9 +8533,9 @@ function __c159(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projection: S.optional(S.String.pipe(T.Query())),
           deviceId: S.String.pipe(T.Label()),
           customerId: S.String.pipe(T.Label()),
+          projection: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(2052, __c64, 4).pipe(T.HttpBody())),
         }).pipe(
           T.Http({

@@ -299,12 +299,8 @@ export interface CreateResponseSsl {
   bundleMethod?: CreateResponseSslBundleMethod | null;
   /** The Certificate Authority that will issue the certificate. */
   certificateAuthority?: CreateResponseSslCertificateAuthority | null;
-  /** If a custom uploaded certificate is used. */
-  customCertificate?: string | null;
   /** The identifier for the Custom CSR that was used. */
   customCsrId?: string | null;
-  /** The key for a custom uploaded certificate. */
-  customKey?: string | null;
   /** DCV Delegation records for domain validation. */
   dcvDelegationRecords?: CreateResponseSslDcvDelegationRecordsList | null;
   /** The time the custom certificate expires on. */
@@ -535,12 +531,8 @@ export interface GetResponseSsl {
   bundleMethod?: GetResponseSslBundleMethod | null;
   /** The Certificate Authority that will issue the certificate. */
   certificateAuthority?: GetResponseSslCertificateAuthority | null;
-  /** If a custom uploaded certificate is used. */
-  customCertificate?: string | null;
   /** The identifier for the Custom CSR that was used. */
   customCsrId?: string | null;
-  /** The key for a custom uploaded certificate. */
-  customKey?: string | null;
   /** DCV Delegation records for domain validation. */
   dcvDelegationRecords?: GetResponseSslDcvDelegationRecordsList | null;
   /** The time the custom certificate expires on. */
@@ -836,12 +828,8 @@ export interface ListResultItemSsl {
   bundleMethod?: ListResultItemSslBundleMethod | null;
   /** The Certificate Authority that will issue the certificate. */
   certificateAuthority?: ListResultItemSslCertificateAuthority | null;
-  /** If a custom uploaded certificate is used. */
-  customCertificate?: string | null;
   /** The identifier for the Custom CSR that was used. */
   customCsrId?: string | null;
-  /** The key for a custom uploaded certificate. */
-  customKey?: string | null;
   /** DCV Delegation records for domain validation. */
   dcvDelegationRecords?: ListResultItemSslDcvDelegationRecordsList | null;
   /** The time the custom certificate expires on. */
@@ -1088,12 +1076,8 @@ export interface EditResponseSsl {
   bundleMethod?: EditResponseSslBundleMethod | null;
   /** The Certificate Authority that will issue the certificate. */
   certificateAuthority?: EditResponseSslCertificateAuthority | null;
-  /** If a custom uploaded certificate is used. */
-  customCertificate?: string | null;
   /** The identifier for the Custom CSR that was used. */
   customCsrId?: string | null;
-  /** The key for a custom uploaded certificate. */
-  customKey?: string | null;
   /** DCV Delegation records for domain validation. */
   dcvDelegationRecords?: EditResponseSslDcvDelegationRecordsList | null;
   /** The time the custom certificate expires on. */
@@ -1301,12 +1285,8 @@ export interface CertificatePackCertificatesUpdateResponseSsl {
   bundleMethod?: CertificatePackCertificatesUpdateResponseSslBundleMethod | null;
   /** The Certificate Authority that will issue the certificate. */
   certificateAuthority?: CertificatePackCertificatesUpdateResponseSslCertificateAuthority | null;
-  /** If a custom uploaded certificate is used. */
-  customCertificate?: string | null;
   /** The identifier for the Custom CSR that was used. */
   customCsrId?: string | null;
-  /** The key for a custom uploaded certificate. */
-  customKey?: string | null;
   /** DCV Delegation records for domain validation. */
   dcvDelegationRecords?: CertificatePackCertificatesUpdateResponseSslDcvDelegationRecordsList | null;
   /** The time the custom certificate expires on. */
@@ -1922,9 +1902,7 @@ function __c9(j: number): any {
           certificateAuthority: S.optional(
             S.NullOr(S.String).pipe(T.Body("certificate_authority")),
           ),
-          customCertificate: S.optional(S.NullOr(S.String).pipe(T.Body("custom_certificate"))),
           customCsrId: S.optional(S.NullOr(S.String).pipe(T.Body("custom_csr_id"))),
-          customKey: S.optional(S.NullOr(S.String).pipe(T.Body("custom_key"))),
           dcvDelegationRecords: S.optional(
             S.NullOr(__S(148, __c9, 4)).pipe(T.Body("dcv_delegation_records")),
           ),

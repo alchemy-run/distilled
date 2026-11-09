@@ -365,6 +365,71 @@ export interface CreateRequestLocationStrategy {
   preferEcs?: CreateRequestLocationStrategyPreferEcs | (string & {});
 }
 export type CreateRequestNetworksList = Array<string>;
+export interface CreateRequestPoolSetsItemFixedResponse {
+  /** The http 'Content-Type' header to include in the response. */
+  contentType?: string;
+  /** The http 'Location' header to include in the response. */
+  location?: string;
+  /** Text to include as the http body. */
+  messageBody?: string;
+  /** The http status code to respond with. */
+  statusCode?: number;
+}
+export type CreateRequestPoolSetsItemMatchTopologyCountriesList = Array<string>;
+export type CreateRequestPoolSetsItemMatchTopologyPopsList = Array<string>;
+export type CreateRequestPoolSetsItemMatchTopologyRegionsList = Array<string>;
+export interface CreateRequestPoolSetsItemMatchTopology {
+  /** A list of ISO 3166-1 alpha-2 country codes. Matches when the request's country is in this list. */
+  countries?: CreateRequestPoolSetsItemMatchTopologyCountriesList;
+  /** A list of Cloudflare PoP codes. Matches when the request's PoP is in this list. */
+  pops?: CreateRequestPoolSetsItemMatchTopologyPopsList;
+  /** A list of Cloudflare region codes (e.g. `WNAM`, `ENAM`, `WEU`). Matches when the request's region is in this list. */
+  regions?: CreateRequestPoolSetsItemMatchTopologyRegionsList;
+}
+export interface CreateRequestPoolSetsItemMatch {
+  /** When true, matches every request. Cannot be combined with `topology`. */
+  default?: boolean;
+  /** Matches requests by location. Set any combination of `pops`, `countries`, and `regions` (at least one is required); a request matches when its value appears in any populated list (e.g. `regions: ["WNAM"]` with `countries: ["US"]` matches a request in either WNAM or the US). */
+  topology?: CreateRequestPoolSetsItemMatchTopology;
+}
+export type CreateRequestPoolSetsItemOverridesPoolWeightsMap = {
+  [key: string]: number | undefined;
+};
+export type CreateRequestPoolSetsItemOverridesPoolsList = Array<string>;
+export type CreateRequestPoolSetsItemOverridesSteeringPolicy =
+  | "off"
+  | "geo"
+  | "random"
+  | "dynamic_latency"
+  | "proximity"
+  | "least_outstanding_requests"
+  | "least_connections"
+  | "";
+export interface CreateRequestPoolSetsItemOverrides {
+  /** The pool ID to use when all other pools are detected as unhealthy. */
+  fallbackPool?: string;
+  /** The default weight for pools not listed in `pool_weights`. The declarative alternative to `random_steering.default_weight`; mutually exclusive with `random_steering`. */
+  poolDefaultWeight?: number;
+  /** A mapping of pool IDs to custom weights, relative to the other pools. The declarative alternative to `random_steering.pool_weights`; mutually exclusive with `random_steering`. */
+  poolWeights?: CreateRequestPoolSetsItemOverridesPoolWeightsMap;
+  /** A flat, ordered list of pool IDs to route the matched audience to. Replaces the resolved topology with exactly these pools. Mutually exclusive with `fixed_response`. */
+  pools?: CreateRequestPoolSetsItemOverridesPoolsList;
+  /** Steering Policy for this load balancer. */
+  steeringPolicy?: CreateRequestPoolSetsItemOverridesSteeringPolicy | (string & {});
+}
+export interface CreateRequestPoolSetsItem {
+  /** Disable this specific pool set. It will no longer be evaluated. */
+  disabled?: boolean;
+  /** A collection of fields used to directly respond to the client instead of routing to a pool. When supplied on a rule, that rule stops further rule evaluation. */
+  fixedResponse?: CreateRequestPoolSetsItemFixedResponse;
+  /** Determines which requests a pool set applies to. Set `topology` to match by location or `default: true` to match all requests; the two are mutually exclusive. A pool set with no `match` matches all requests. */
+  match?: CreateRequestPoolSetsItemMatch;
+  /** A human-readable name for this pool set. */
+  name?: string;
+  /** The behavior a pool set applies when its `match` succeeds. A strict subset of a rule's `overrides`: a pool set replaces the topology wholesale with a flat pool list (`pools`), so only the declarative pool-routing fields plus `fallback_pool` and `steering_policy` are settable. All fields are optional. */
+  overrides?: CreateRequestPoolSetsItemOverrides;
+}
+export type CreateRequestPoolSetsList = Array<CreateRequestPoolSetsItem>;
 export type CreateRequestPopPoolsValueList = Array<string>;
 export type CreateRequestPopPoolsMap = {
   [key: string]: CreateRequestPopPoolsValueList | undefined;
@@ -380,16 +445,7 @@ export type CreateRequestRegionPoolsValueList = Array<string>;
 export type CreateRequestRegionPoolsMap = {
   [key: string]: CreateRequestRegionPoolsValueList | undefined;
 };
-export interface CreateRequestRulesItemFixedResponse {
-  /** The http 'Content-Type' header to include in the response. */
-  contentType?: string;
-  /** The http 'Location' header to include in the response. */
-  location?: string;
-  /** Text to include as the http body. */
-  messageBody?: string;
-  /** The http status code to respond with. */
-  statusCode?: number;
-}
+export type CreateRequestRulesItemFixedResponse = CreateRequestPoolSetsItemFixedResponse;
 export type CreateRequestRulesItemOverridesAdaptiveRouting = CreateRequestAdaptiveRouting;
 export type CreateRequestRulesItemOverridesCountryPoolsValueList = Array<string>;
 export type CreateRequestRulesItemOverridesCountryPoolsMap = {
@@ -418,7 +474,7 @@ export type CreateRequestRulesItemOverridesRandomSteeringPoolWeightsMap = {
   [key: string]: number | undefined;
 };
 export interface CreateRequestRulesItemOverridesRandomSteering {
-  /** The default weight for pools in the load balancer that are not specified in the pool_weights map. */
+  /** The default weight for pools in the load balancer that are not specified in the pool_weights map. An omitted value inherits the load balancer's default weight. */
   defaultWeight?: number;
   /** A mapping of pool IDs to custom weights. The weight is relative to other pools in the load balancer. */
   poolWeights?: CreateRequestRulesItemOverridesRandomSteeringPoolWeightsMap;
@@ -490,7 +546,7 @@ export interface CreateRequestRulesItemOverrides {
   pools?: CreateRequestRulesItemOverridesPoolsList;
   /** Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter). Any PoPs not explicitly defined will fall back to using the corresponding country_pool, then region_pool mapping if it exists else to default_pools. */
   popPools?: CreateRequestRulesItemOverridesPopPoolsMap;
-  /** Configures pool weights. */
+  /** Configures pool weights for a rule override. An omitted default_weight inherits the load balancer's default weight. */
   randomSteering?: CreateRequestRulesItemOverridesRandomSteering;
   /** A mapping of region codes to a list of pool IDs (ordered by their failover priority) for the given region. Any regions not explicitly defined will fall back to using default_pools. */
   regionPools?: CreateRequestRulesItemOverridesRegionPoolsMap;
@@ -511,12 +567,12 @@ export interface CreateRequestRulesItem {
   /** Disable this specific rule. It will no longer be evaluated by this load balancer. */
   disabled?: boolean;
   /** A collection of fields used to directly respond to the client instead of routing to a pool. When supplied on a rule, that rule stops further rule evaluation. */
-  fixedResponse?: CreateRequestRulesItemFixedResponse;
+  fixedResponse?: CreateRequestPoolSetsItemFixedResponse;
   /** Name of this rule. Only used for human readability. */
   name?: string;
   /** A collection of overrides to apply when this rule's condition (or a pool set's `match`) is true. All fields are optional. */
   overrides?: CreateRequestRulesItemOverrides;
-  /** The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential. If no value is provided for any rule the array order of the rules field will be used to assign a priority. */
+  /** The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential. If all priorities are omitted or zero, the API assigns priorities based on the array order of the rules field. */
   priority?: number;
   /** If this rule's condition is true, this causes rule evaluation to stop after processing this rule. */
   terminates?: boolean;
@@ -574,6 +630,8 @@ export interface CreateLoadBalancerRequest {
   locationStrategy?: CreateRequestLocationStrategy;
   /** List of networks where Load Balancer or Pool is enabled. */
   networks?: CreateRequestNetworksList;
+  /** An optional list of pool sets, evaluated in array order with first match wins. Pool sets are independent from the standard steering fields (`region_pools` / `country_pools` / `pop_pools` / `default_pools` / `steering_policy` / `random_steering` / `fallback_pool` / `rules`). On a PATCH, an empty array (`pool_sets: []`) clears all pool sets, while omitting the field leaves existing pool sets unchanged. */
+  poolSets?: CreateRequestPoolSetsList;
   /** Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter). Any PoPs not explicitly defined will fall back to using the corresponding country_pool, then region_pool mapping if it exists else to default_pools. */
   popPools?: CreateRequestPopPoolsMap;
   /** Whether the hostname should be gray clouded (false) or orange clouded (true). */
@@ -722,7 +780,7 @@ export type CreateResponseRulesItemOverridesRandomSteeringPoolWeightsMap = {
   [key: string]: number | undefined;
 };
 export interface CreateResponseRulesItemOverridesRandomSteering {
-  /** The default weight for pools in the load balancer that are not specified in the pool_weights map. */
+  /** The default weight for pools in the load balancer that are not specified in the pool_weights map. An omitted value inherits the load balancer's default weight. */
   defaultWeight?: number | null;
   /** A mapping of pool IDs to custom weights. The weight is relative to other pools in the load balancer. */
   poolWeights?: CreateResponseRulesItemOverridesRandomSteeringPoolWeightsMap | null;
@@ -792,7 +850,7 @@ export interface CreateResponseRulesItemOverrides {
   pools?: CreateResponseRulesItemOverridesPoolsList | null;
   /** Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter). Any PoPs not explicitly defined will fall back to using the corresponding country_pool, then region_pool mapping if it exists else to default_pools. */
   popPools?: CreateResponseRulesItemOverridesPopPoolsMap | null;
-  /** Configures pool weights. */
+  /** Configures pool weights for a rule override. An omitted default_weight inherits the load balancer's default weight. */
   randomSteering?: CreateResponseRulesItemOverridesRandomSteering | null;
   /** A mapping of region codes to a list of pool IDs (ordered by their failover priority) for the given region. Any regions not explicitly defined will fall back to using default_pools. */
   regionPools?: CreateResponseRulesItemOverridesRegionPoolsMap | null;
@@ -818,7 +876,7 @@ export interface CreateResponseRulesItem {
   name?: string | null;
   /** A collection of overrides to apply when this rule's condition (or a pool set's `match`) is true. All fields are optional. */
   overrides?: CreateResponseRulesItemOverrides | null;
-  /** The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential. If no value is provided for any rule the array order of the rules field will be used to assign a priority. */
+  /** The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential. If all priorities are omitted or zero, the API assigns priorities based on the array order of the rules field. */
   priority?: number | null;
   /** If this rule's condition is true, this causes rule evaluation to stop after processing this rule. */
   terminates?: boolean | null;
@@ -1130,6 +1188,29 @@ export interface PoolsCreateRequestOriginsItem {
   weight?: number;
 }
 export type PoolsCreateRequestOriginsList = Array<PoolsCreateRequestOriginsItem>;
+export type PoolsCreateRequestCheckRegionsItem =
+  | "WNAM"
+  | "ENAM"
+  | "WEU"
+  | "EEU"
+  | "NSAM"
+  | "SSAM"
+  | "OC"
+  | "ME"
+  | "NAF"
+  | "SAF"
+  | "SAS"
+  | "SEAS"
+  | "NEAS"
+  | "CHINA"
+  | "ALL_REGIONS";
+export type PoolsCreateRequestCheckRegionsList = Array<
+  PoolsCreateRequestCheckRegionsItem | (string & {})
+>;
+export type PoolsCreateRequestHealthSourcesItem = "local" | "regional" | "global";
+export type PoolsCreateRequestHealthSourcesList = Array<
+  PoolsCreateRequestHealthSourcesItem | (string & {})
+>;
 export type PoolsCreateRequestLoadSheddingDefaultPolicy = "random" | "hash";
 export type PoolsCreateRequestLoadSheddingSessionPolicy = "hash";
 export interface PoolsCreateRequestLoadShedding {
@@ -1142,6 +1223,7 @@ export interface PoolsCreateRequestLoadShedding {
   /** Only the hash policy is supported for existing sessions (to avoid exponential decay). */
   sessionPolicy?: PoolsCreateRequestLoadSheddingSessionPolicy | (string & {});
 }
+export type PoolsCreateRequestNetworksList = Array<string>;
 export interface PoolsCreateRequestNotificationFilterOrigin {
   /** If set true, disable notifications for this type of resource (pool or origin). */
   disable?: boolean;
@@ -1171,10 +1253,14 @@ export interface CreatePoolRequest {
   name: string;
   /** The list of origins within this pool. Traffic directed at this pool is balanced across all currently healthy origins, provided the pool itself is healthy. */
   origins: PoolsCreateRequestOriginsList;
+  /** A list of regions from which to run health checks. Null means every Cloudflare data center. */
+  checkRegions?: PoolsCreateRequestCheckRegionsList;
   /** A human-readable description of the pool. */
   description?: string;
   /** Whether to enable (the default) or disable this pool. Disabled pools will not receive traffic and are excluded from health checks. Disabling a pool will cause any load balancers using it to failover to the next pool (if any). */
   enabled?: boolean;
+  /** A list of health sources, ordered from highest to lowest priority, used to evaluate individual origin health and overall pool health. The load balancer uses the first source that has data and falls back to the next. Currently accepted values are null or the exact array ["regional", "global"]; any other combination is rejected. Null (the default) behaves like ["local", "global"]. ["regional", "global"] makes each region steer on its own health, falling back to the global decision when a region has no fresh data. Setting regional requires at least one region in check_regions. */
+  healthSources?: PoolsCreateRequestHealthSourcesList;
   /** The latitude of the data center containing the origins used in this pool in decimal degrees. If this is set, longitude must also be set. */
   latitude?: number;
   /** Configures load shedding policies and percentages for the pool. */
@@ -1187,6 +1273,8 @@ export interface CreatePoolRequest {
   monitor?: string;
   /** The ID of the Monitor Group to use for checking the health of origins within this pool. */
   monitorGroup?: string;
+  /** List of networks where Load Balancer or Pool is enabled. */
+  networks?: PoolsCreateRequestNetworksList;
   /** This field is now deprecated. It has been moved to Cloudflare's Centralized Notification service https://developers.cloudflare.com/fundamentals/notifications/. The email address to send health status notifications to. This can be an individual mailbox or a mailing list. Multiple emails can be supplied as a comma delimited list. */
   notificationEmail?: string;
   /** Filter pool and origin health notifications by resource type or health status. Use null to reset. */
@@ -1524,7 +1612,7 @@ export type GetResponseRulesItemOverridesRandomSteeringPoolWeightsMap = {
   [key: string]: number | undefined;
 };
 export interface GetResponseRulesItemOverridesRandomSteering {
-  /** The default weight for pools in the load balancer that are not specified in the pool_weights map. */
+  /** The default weight for pools in the load balancer that are not specified in the pool_weights map. An omitted value inherits the load balancer's default weight. */
   defaultWeight?: number | null;
   /** A mapping of pool IDs to custom weights. The weight is relative to other pools in the load balancer. */
   poolWeights?: GetResponseRulesItemOverridesRandomSteeringPoolWeightsMap | null;
@@ -1594,7 +1682,7 @@ export interface GetResponseRulesItemOverrides {
   pools?: GetResponseRulesItemOverridesPoolsList | null;
   /** Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter). Any PoPs not explicitly defined will fall back to using the corresponding country_pool, then region_pool mapping if it exists else to default_pools. */
   popPools?: GetResponseRulesItemOverridesPopPoolsMap | null;
-  /** Configures pool weights. */
+  /** Configures pool weights for a rule override. An omitted default_weight inherits the load balancer's default weight. */
   randomSteering?: GetResponseRulesItemOverridesRandomSteering | null;
   /** A mapping of region codes to a list of pool IDs (ordered by their failover priority) for the given region. Any regions not explicitly defined will fall back to using default_pools. */
   regionPools?: GetResponseRulesItemOverridesRegionPoolsMap | null;
@@ -1620,7 +1708,7 @@ export interface GetResponseRulesItem {
   name?: string | null;
   /** A collection of overrides to apply when this rule's condition (or a pool set's `match`) is true. All fields are optional. */
   overrides?: GetResponseRulesItemOverrides | null;
-  /** The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential. If no value is provided for any rule the array order of the rules field will be used to assign a priority. */
+  /** The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential. If all priorities are omitted or zero, the API assigns priorities based on the array order of the rules field. */
   priority?: number | null;
   /** If this rule's condition is true, this causes rule evaluation to stop after processing this rule. */
   terminates?: boolean | null;
@@ -2139,7 +2227,7 @@ export type ListResultItemRulesItemOverridesRandomSteeringPoolWeightsMap = {
   [key: string]: number | undefined;
 };
 export interface ListResultItemRulesItemOverridesRandomSteering {
-  /** The default weight for pools in the load balancer that are not specified in the pool_weights map. */
+  /** The default weight for pools in the load balancer that are not specified in the pool_weights map. An omitted value inherits the load balancer's default weight. */
   defaultWeight?: number | null;
   /** A mapping of pool IDs to custom weights. The weight is relative to other pools in the load balancer. */
   poolWeights?: ListResultItemRulesItemOverridesRandomSteeringPoolWeightsMap | null;
@@ -2209,7 +2297,7 @@ export interface ListResultItemRulesItemOverrides {
   pools?: ListResultItemRulesItemOverridesPoolsList | null;
   /** Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter). Any PoPs not explicitly defined will fall back to using the corresponding country_pool, then region_pool mapping if it exists else to default_pools. */
   popPools?: ListResultItemRulesItemOverridesPopPoolsMap | null;
-  /** Configures pool weights. */
+  /** Configures pool weights for a rule override. An omitted default_weight inherits the load balancer's default weight. */
   randomSteering?: ListResultItemRulesItemOverridesRandomSteering | null;
   /** A mapping of region codes to a list of pool IDs (ordered by their failover priority) for the given region. Any regions not explicitly defined will fall back to using default_pools. */
   regionPools?: ListResultItemRulesItemOverridesRegionPoolsMap | null;
@@ -2235,7 +2323,7 @@ export interface ListResultItemRulesItem {
   name?: string | null;
   /** A collection of overrides to apply when this rule's condition (or a pool set's `match`) is true. All fields are optional. */
   overrides?: ListResultItemRulesItemOverrides | null;
-  /** The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential. If no value is provided for any rule the array order of the rules field will be used to assign a priority. */
+  /** The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential. If all priorities are omitted or zero, the API assigns priorities based on the array order of the rules field. */
   priority?: number | null;
   /** If this rule's condition is true, this causes rule evaluation to stop after processing this rule. */
   terminates?: boolean | null;
@@ -2590,6 +2678,60 @@ export interface EditRequestLocationStrategy {
   preferEcs?: EditRequestLocationStrategyPreferEcs | (string & {});
 }
 export type EditRequestNetworksList = Array<string>;
+export type EditRequestPoolSetsItemFixedResponse = CreateRequestPoolSetsItemFixedResponse;
+export type EditRequestPoolSetsItemMatchTopologyCountriesList = Array<string>;
+export type EditRequestPoolSetsItemMatchTopologyPopsList = Array<string>;
+export type EditRequestPoolSetsItemMatchTopologyRegionsList = Array<string>;
+export interface EditRequestPoolSetsItemMatchTopology {
+  /** A list of ISO 3166-1 alpha-2 country codes. Matches when the request's country is in this list. */
+  countries?: EditRequestPoolSetsItemMatchTopologyCountriesList;
+  /** A list of Cloudflare PoP codes. Matches when the request's PoP is in this list. */
+  pops?: EditRequestPoolSetsItemMatchTopologyPopsList;
+  /** A list of Cloudflare region codes (e.g. `WNAM`, `ENAM`, `WEU`). Matches when the request's region is in this list. */
+  regions?: EditRequestPoolSetsItemMatchTopologyRegionsList;
+}
+export interface EditRequestPoolSetsItemMatch {
+  /** When true, matches every request. Cannot be combined with `topology`. */
+  default?: boolean;
+  /** Matches requests by location. Set any combination of `pops`, `countries`, and `regions` (at least one is required); a request matches when its value appears in any populated list (e.g. `regions: ["WNAM"]` with `countries: ["US"]` matches a request in either WNAM or the US). */
+  topology?: EditRequestPoolSetsItemMatchTopology;
+}
+export type EditRequestPoolSetsItemOverridesPoolWeightsMap = { [key: string]: number | undefined };
+export type EditRequestPoolSetsItemOverridesPoolsList = Array<string>;
+export type EditRequestPoolSetsItemOverridesSteeringPolicy =
+  | "off"
+  | "geo"
+  | "random"
+  | "dynamic_latency"
+  | "proximity"
+  | "least_outstanding_requests"
+  | "least_connections"
+  | "";
+export interface EditRequestPoolSetsItemOverrides {
+  /** The pool ID to use when all other pools are detected as unhealthy. */
+  fallbackPool?: string;
+  /** The default weight for pools not listed in `pool_weights`. The declarative alternative to `random_steering.default_weight`; mutually exclusive with `random_steering`. */
+  poolDefaultWeight?: number;
+  /** A mapping of pool IDs to custom weights, relative to the other pools. The declarative alternative to `random_steering.pool_weights`; mutually exclusive with `random_steering`. */
+  poolWeights?: EditRequestPoolSetsItemOverridesPoolWeightsMap;
+  /** A flat, ordered list of pool IDs to route the matched audience to. Replaces the resolved topology with exactly these pools. Mutually exclusive with `fixed_response`. */
+  pools?: EditRequestPoolSetsItemOverridesPoolsList;
+  /** Steering Policy for this load balancer. */
+  steeringPolicy?: EditRequestPoolSetsItemOverridesSteeringPolicy | (string & {});
+}
+export interface EditRequestPoolSetsItem {
+  /** Disable this specific pool set. It will no longer be evaluated. */
+  disabled?: boolean;
+  /** A collection of fields used to directly respond to the client instead of routing to a pool. When supplied on a rule, that rule stops further rule evaluation. */
+  fixedResponse?: CreateRequestPoolSetsItemFixedResponse;
+  /** Determines which requests a pool set applies to. Set `topology` to match by location or `default: true` to match all requests; the two are mutually exclusive. A pool set with no `match` matches all requests. */
+  match?: EditRequestPoolSetsItemMatch;
+  /** A human-readable name for this pool set. */
+  name?: string;
+  /** The behavior a pool set applies when its `match` succeeds. A strict subset of a rule's `overrides`: a pool set replaces the topology wholesale with a flat pool list (`pools`), so only the declarative pool-routing fields plus `fallback_pool` and `steering_policy` are settable. All fields are optional. */
+  overrides?: EditRequestPoolSetsItemOverrides;
+}
+export type EditRequestPoolSetsList = Array<EditRequestPoolSetsItem>;
 export type EditRequestPopPoolsValueList = Array<string>;
 export type EditRequestPopPoolsMap = { [key: string]: EditRequestPopPoolsValueList | undefined };
 export type EditRequestRandomSteeringPoolWeightsMap = { [key: string]: number | undefined };
@@ -2603,7 +2745,7 @@ export type EditRequestRegionPoolsValueList = Array<string>;
 export type EditRequestRegionPoolsMap = {
   [key: string]: EditRequestRegionPoolsValueList | undefined;
 };
-export type EditRequestRulesItemFixedResponse = CreateRequestRulesItemFixedResponse;
+export type EditRequestRulesItemFixedResponse = CreateRequestPoolSetsItemFixedResponse;
 export type EditRequestRulesItemOverridesAdaptiveRouting = CreateRequestAdaptiveRouting;
 export type EditRequestRulesItemOverridesCountryPoolsValueList = Array<string>;
 export type EditRequestRulesItemOverridesCountryPoolsMap = {
@@ -2632,7 +2774,7 @@ export type EditRequestRulesItemOverridesRandomSteeringPoolWeightsMap = {
   [key: string]: number | undefined;
 };
 export interface EditRequestRulesItemOverridesRandomSteering {
-  /** The default weight for pools in the load balancer that are not specified in the pool_weights map. */
+  /** The default weight for pools in the load balancer that are not specified in the pool_weights map. An omitted value inherits the load balancer's default weight. */
   defaultWeight?: number;
   /** A mapping of pool IDs to custom weights. The weight is relative to other pools in the load balancer. */
   poolWeights?: EditRequestRulesItemOverridesRandomSteeringPoolWeightsMap;
@@ -2704,7 +2846,7 @@ export interface EditRequestRulesItemOverrides {
   pools?: EditRequestRulesItemOverridesPoolsList;
   /** Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter). Any PoPs not explicitly defined will fall back to using the corresponding country_pool, then region_pool mapping if it exists else to default_pools. */
   popPools?: EditRequestRulesItemOverridesPopPoolsMap;
-  /** Configures pool weights. */
+  /** Configures pool weights for a rule override. An omitted default_weight inherits the load balancer's default weight. */
   randomSteering?: EditRequestRulesItemOverridesRandomSteering;
   /** A mapping of region codes to a list of pool IDs (ordered by their failover priority) for the given region. Any regions not explicitly defined will fall back to using default_pools. */
   regionPools?: EditRequestRulesItemOverridesRegionPoolsMap;
@@ -2725,12 +2867,12 @@ export interface EditRequestRulesItem {
   /** Disable this specific rule. It will no longer be evaluated by this load balancer. */
   disabled?: boolean;
   /** A collection of fields used to directly respond to the client instead of routing to a pool. When supplied on a rule, that rule stops further rule evaluation. */
-  fixedResponse?: CreateRequestRulesItemFixedResponse;
+  fixedResponse?: CreateRequestPoolSetsItemFixedResponse;
   /** Name of this rule. Only used for human readability. */
   name?: string;
   /** A collection of overrides to apply when this rule's condition (or a pool set's `match`) is true. All fields are optional. */
   overrides?: EditRequestRulesItemOverrides;
-  /** The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential. If no value is provided for any rule the array order of the rules field will be used to assign a priority. */
+  /** The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential. If all priorities are omitted or zero, the API assigns priorities based on the array order of the rules field. */
   priority?: number;
   /** If this rule's condition is true, this causes rule evaluation to stop after processing this rule. */
   terminates?: boolean;
@@ -2789,6 +2931,8 @@ export interface PatchLoadBalancerRequest {
   name?: string;
   /** List of networks where Load Balancer or Pool is enabled. */
   networks?: EditRequestNetworksList;
+  /** An optional list of pool sets, evaluated in array order with first match wins. Pool sets are independent from the standard steering fields (`region_pools` / `country_pools` / `pop_pools` / `default_pools` / `steering_policy` / `random_steering` / `fallback_pool` / `rules`). On a PATCH, an empty array (`pool_sets: []`) clears all pool sets, while omitting the field leaves existing pool sets unchanged. */
+  poolSets?: EditRequestPoolSetsList;
   /** Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter). Any PoPs not explicitly defined will fall back to using the corresponding country_pool, then region_pool mapping if it exists else to default_pools. */
   popPools?: EditRequestPopPoolsMap;
   /** Whether the hostname should be gray clouded (false) or orange clouded (true). */
@@ -2921,7 +3065,7 @@ export type EditResponseRulesItemOverridesRandomSteeringPoolWeightsMap = {
   [key: string]: number | undefined;
 };
 export interface EditResponseRulesItemOverridesRandomSteering {
-  /** The default weight for pools in the load balancer that are not specified in the pool_weights map. */
+  /** The default weight for pools in the load balancer that are not specified in the pool_weights map. An omitted value inherits the load balancer's default weight. */
   defaultWeight?: number | null;
   /** A mapping of pool IDs to custom weights. The weight is relative to other pools in the load balancer. */
   poolWeights?: EditResponseRulesItemOverridesRandomSteeringPoolWeightsMap | null;
@@ -2991,7 +3135,7 @@ export interface EditResponseRulesItemOverrides {
   pools?: EditResponseRulesItemOverridesPoolsList | null;
   /** Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter). Any PoPs not explicitly defined will fall back to using the corresponding country_pool, then region_pool mapping if it exists else to default_pools. */
   popPools?: EditResponseRulesItemOverridesPopPoolsMap | null;
-  /** Configures pool weights. */
+  /** Configures pool weights for a rule override. An omitted default_weight inherits the load balancer's default weight. */
   randomSteering?: EditResponseRulesItemOverridesRandomSteering | null;
   /** A mapping of region codes to a list of pool IDs (ordered by their failover priority) for the given region. Any regions not explicitly defined will fall back to using default_pools. */
   regionPools?: EditResponseRulesItemOverridesRegionPoolsMap | null;
@@ -3017,7 +3161,7 @@ export interface EditResponseRulesItem {
   name?: string | null;
   /** A collection of overrides to apply when this rule's condition (or a pool set's `match`) is true. All fields are optional. */
   overrides?: EditResponseRulesItemOverrides | null;
-  /** The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential. If no value is provided for any rule the array order of the rules field will be used to assign a priority. */
+  /** The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential. If all priorities are omitted or zero, the API assigns priorities based on the array order of the rules field. */
   priority?: number | null;
   /** If this rule's condition is true, this causes rule evaluation to stop after processing this rule. */
   terminates?: boolean | null;
@@ -3247,6 +3391,7 @@ export interface PoolsEditRequestLoadShedding {
   /** Only the hash policy is supported for existing sessions (to avoid exponential decay). */
   sessionPolicy?: PoolsEditRequestLoadSheddingSessionPolicy | (string & {});
 }
+export type PoolsEditRequestNetworksList = Array<string>;
 export type PoolsEditRequestNotificationFilterOrigin = PoolsCreateRequestNotificationFilterOrigin;
 export type PoolsEditRequestNotificationFilterPool = PoolsCreateRequestNotificationFilterOrigin;
 export type PoolsEditRequestNotificationFilter = PoolsCreateRequestNotificationFilter;
@@ -3311,6 +3456,8 @@ export interface PatchPoolRequest {
   monitorGroup?: string;
   /** A short name (tag) for the pool. Only alphanumeric characters, hyphens, and underscores are allowed. */
   name?: string;
+  /** List of networks where Load Balancer or Pool is enabled. */
+  networks?: PoolsEditRequestNetworksList;
   /** This field is now deprecated. It has been moved to Cloudflare's Centralized Notification service https://developers.cloudflare.com/fundamentals/notifications/. The email address to send health status notifications to. This can be an individual mailbox or a mailing list. Multiple emails can be supplied as a comma delimited list. */
   notificationEmail?: string;
   /** Filter pool and origin health notifications by resource type or health status. Use null to reset. */
@@ -3447,6 +3594,62 @@ export interface UpdateRequestLocationStrategy {
   preferEcs?: UpdateRequestLocationStrategyPreferEcs | (string & {});
 }
 export type UpdateRequestNetworksList = Array<string>;
+export type UpdateRequestPoolSetsItemFixedResponse = CreateRequestPoolSetsItemFixedResponse;
+export type UpdateRequestPoolSetsItemMatchTopologyCountriesList = Array<string>;
+export type UpdateRequestPoolSetsItemMatchTopologyPopsList = Array<string>;
+export type UpdateRequestPoolSetsItemMatchTopologyRegionsList = Array<string>;
+export interface UpdateRequestPoolSetsItemMatchTopology {
+  /** A list of ISO 3166-1 alpha-2 country codes. Matches when the request's country is in this list. */
+  countries?: UpdateRequestPoolSetsItemMatchTopologyCountriesList;
+  /** A list of Cloudflare PoP codes. Matches when the request's PoP is in this list. */
+  pops?: UpdateRequestPoolSetsItemMatchTopologyPopsList;
+  /** A list of Cloudflare region codes (e.g. `WNAM`, `ENAM`, `WEU`). Matches when the request's region is in this list. */
+  regions?: UpdateRequestPoolSetsItemMatchTopologyRegionsList;
+}
+export interface UpdateRequestPoolSetsItemMatch {
+  /** When true, matches every request. Cannot be combined with `topology`. */
+  default?: boolean;
+  /** Matches requests by location. Set any combination of `pops`, `countries`, and `regions` (at least one is required); a request matches when its value appears in any populated list (e.g. `regions: ["WNAM"]` with `countries: ["US"]` matches a request in either WNAM or the US). */
+  topology?: UpdateRequestPoolSetsItemMatchTopology;
+}
+export type UpdateRequestPoolSetsItemOverridesPoolWeightsMap = {
+  [key: string]: number | undefined;
+};
+export type UpdateRequestPoolSetsItemOverridesPoolsList = Array<string>;
+export type UpdateRequestPoolSetsItemOverridesSteeringPolicy =
+  | "off"
+  | "geo"
+  | "random"
+  | "dynamic_latency"
+  | "proximity"
+  | "least_outstanding_requests"
+  | "least_connections"
+  | "";
+export interface UpdateRequestPoolSetsItemOverrides {
+  /** The pool ID to use when all other pools are detected as unhealthy. */
+  fallbackPool?: string;
+  /** The default weight for pools not listed in `pool_weights`. The declarative alternative to `random_steering.default_weight`; mutually exclusive with `random_steering`. */
+  poolDefaultWeight?: number;
+  /** A mapping of pool IDs to custom weights, relative to the other pools. The declarative alternative to `random_steering.pool_weights`; mutually exclusive with `random_steering`. */
+  poolWeights?: UpdateRequestPoolSetsItemOverridesPoolWeightsMap;
+  /** A flat, ordered list of pool IDs to route the matched audience to. Replaces the resolved topology with exactly these pools. Mutually exclusive with `fixed_response`. */
+  pools?: UpdateRequestPoolSetsItemOverridesPoolsList;
+  /** Steering Policy for this load balancer. */
+  steeringPolicy?: UpdateRequestPoolSetsItemOverridesSteeringPolicy | (string & {});
+}
+export interface UpdateRequestPoolSetsItem {
+  /** Disable this specific pool set. It will no longer be evaluated. */
+  disabled?: boolean;
+  /** A collection of fields used to directly respond to the client instead of routing to a pool. When supplied on a rule, that rule stops further rule evaluation. */
+  fixedResponse?: CreateRequestPoolSetsItemFixedResponse;
+  /** Determines which requests a pool set applies to. Set `topology` to match by location or `default: true` to match all requests; the two are mutually exclusive. A pool set with no `match` matches all requests. */
+  match?: UpdateRequestPoolSetsItemMatch;
+  /** A human-readable name for this pool set. */
+  name?: string;
+  /** The behavior a pool set applies when its `match` succeeds. A strict subset of a rule's `overrides`: a pool set replaces the topology wholesale with a flat pool list (`pools`), so only the declarative pool-routing fields plus `fallback_pool` and `steering_policy` are settable. All fields are optional. */
+  overrides?: UpdateRequestPoolSetsItemOverrides;
+}
+export type UpdateRequestPoolSetsList = Array<UpdateRequestPoolSetsItem>;
 export type UpdateRequestPopPoolsValueList = Array<string>;
 export type UpdateRequestPopPoolsMap = {
   [key: string]: UpdateRequestPopPoolsValueList | undefined;
@@ -3462,7 +3665,7 @@ export type UpdateRequestRegionPoolsValueList = Array<string>;
 export type UpdateRequestRegionPoolsMap = {
   [key: string]: UpdateRequestRegionPoolsValueList | undefined;
 };
-export type UpdateRequestRulesItemFixedResponse = CreateRequestRulesItemFixedResponse;
+export type UpdateRequestRulesItemFixedResponse = CreateRequestPoolSetsItemFixedResponse;
 export type UpdateRequestRulesItemOverridesAdaptiveRouting = CreateRequestAdaptiveRouting;
 export type UpdateRequestRulesItemOverridesCountryPoolsValueList = Array<string>;
 export type UpdateRequestRulesItemOverridesCountryPoolsMap = {
@@ -3491,7 +3694,7 @@ export type UpdateRequestRulesItemOverridesRandomSteeringPoolWeightsMap = {
   [key: string]: number | undefined;
 };
 export interface UpdateRequestRulesItemOverridesRandomSteering {
-  /** The default weight for pools in the load balancer that are not specified in the pool_weights map. */
+  /** The default weight for pools in the load balancer that are not specified in the pool_weights map. An omitted value inherits the load balancer's default weight. */
   defaultWeight?: number;
   /** A mapping of pool IDs to custom weights. The weight is relative to other pools in the load balancer. */
   poolWeights?: UpdateRequestRulesItemOverridesRandomSteeringPoolWeightsMap;
@@ -3563,7 +3766,7 @@ export interface UpdateRequestRulesItemOverrides {
   pools?: UpdateRequestRulesItemOverridesPoolsList;
   /** Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter). Any PoPs not explicitly defined will fall back to using the corresponding country_pool, then region_pool mapping if it exists else to default_pools. */
   popPools?: UpdateRequestRulesItemOverridesPopPoolsMap;
-  /** Configures pool weights. */
+  /** Configures pool weights for a rule override. An omitted default_weight inherits the load balancer's default weight. */
   randomSteering?: UpdateRequestRulesItemOverridesRandomSteering;
   /** A mapping of region codes to a list of pool IDs (ordered by their failover priority) for the given region. Any regions not explicitly defined will fall back to using default_pools. */
   regionPools?: UpdateRequestRulesItemOverridesRegionPoolsMap;
@@ -3584,12 +3787,12 @@ export interface UpdateRequestRulesItem {
   /** Disable this specific rule. It will no longer be evaluated by this load balancer. */
   disabled?: boolean;
   /** A collection of fields used to directly respond to the client instead of routing to a pool. When supplied on a rule, that rule stops further rule evaluation. */
-  fixedResponse?: CreateRequestRulesItemFixedResponse;
+  fixedResponse?: CreateRequestPoolSetsItemFixedResponse;
   /** Name of this rule. Only used for human readability. */
   name?: string;
   /** A collection of overrides to apply when this rule's condition (or a pool set's `match`) is true. All fields are optional. */
   overrides?: UpdateRequestRulesItemOverrides;
-  /** The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential. If no value is provided for any rule the array order of the rules field will be used to assign a priority. */
+  /** The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential. If all priorities are omitted or zero, the API assigns priorities based on the array order of the rules field. */
   priority?: number;
   /** If this rule's condition is true, this causes rule evaluation to stop after processing this rule. */
   terminates?: boolean;
@@ -3648,6 +3851,8 @@ export interface UpdateLoadBalancerRequest {
   locationStrategy?: UpdateRequestLocationStrategy;
   /** List of networks where Load Balancer or Pool is enabled. */
   networks?: UpdateRequestNetworksList;
+  /** An optional list of pool sets, evaluated in array order with first match wins. Pool sets are independent from the standard steering fields (`region_pools` / `country_pools` / `pop_pools` / `default_pools` / `steering_policy` / `random_steering` / `fallback_pool` / `rules`). On a PATCH, an empty array (`pool_sets: []`) clears all pool sets, while omitting the field leaves existing pool sets unchanged. */
+  poolSets?: UpdateRequestPoolSetsList;
   /** Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter). Any PoPs not explicitly defined will fall back to using the corresponding country_pool, then region_pool mapping if it exists else to default_pools. */
   popPools?: UpdateRequestPopPoolsMap;
   /** Whether the hostname should be gray clouded (false) or orange clouded (true). */
@@ -3784,7 +3989,7 @@ export type UpdateResponseRulesItemOverridesRandomSteeringPoolWeightsMap = {
   [key: string]: number | undefined;
 };
 export interface UpdateResponseRulesItemOverridesRandomSteering {
-  /** The default weight for pools in the load balancer that are not specified in the pool_weights map. */
+  /** The default weight for pools in the load balancer that are not specified in the pool_weights map. An omitted value inherits the load balancer's default weight. */
   defaultWeight?: number | null;
   /** A mapping of pool IDs to custom weights. The weight is relative to other pools in the load balancer. */
   poolWeights?: UpdateResponseRulesItemOverridesRandomSteeringPoolWeightsMap | null;
@@ -3854,7 +4059,7 @@ export interface UpdateResponseRulesItemOverrides {
   pools?: UpdateResponseRulesItemOverridesPoolsList | null;
   /** Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter). Any PoPs not explicitly defined will fall back to using the corresponding country_pool, then region_pool mapping if it exists else to default_pools. */
   popPools?: UpdateResponseRulesItemOverridesPopPoolsMap | null;
-  /** Configures pool weights. */
+  /** Configures pool weights for a rule override. An omitted default_weight inherits the load balancer's default weight. */
   randomSteering?: UpdateResponseRulesItemOverridesRandomSteering | null;
   /** A mapping of region codes to a list of pool IDs (ordered by their failover priority) for the given region. Any regions not explicitly defined will fall back to using default_pools. */
   regionPools?: UpdateResponseRulesItemOverridesRegionPoolsMap | null;
@@ -3880,7 +4085,7 @@ export interface UpdateResponseRulesItem {
   name?: string | null;
   /** A collection of overrides to apply when this rule's condition (or a pool set's `match`) is true. All fields are optional. */
   overrides?: UpdateResponseRulesItemOverrides | null;
-  /** The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential. If no value is provided for any rule the array order of the rules field will be used to assign a priority. */
+  /** The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential. If all priorities are omitted or zero, the API assigns priorities based on the array order of the rules field. */
   priority?: number | null;
   /** If this rule's condition is true, this causes rule evaluation to stop after processing this rule. */
   terminates?: boolean | null;
@@ -4148,6 +4353,7 @@ export interface PoolsUpdateRequestLoadShedding {
   /** Only the hash policy is supported for existing sessions (to avoid exponential decay). */
   sessionPolicy?: PoolsUpdateRequestLoadSheddingSessionPolicy | (string & {});
 }
+export type PoolsUpdateRequestNetworksList = Array<string>;
 export type PoolsUpdateRequestNotificationFilterOrigin = PoolsCreateRequestNotificationFilterOrigin;
 export type PoolsUpdateRequestNotificationFilterPool = PoolsCreateRequestNotificationFilterOrigin;
 export type PoolsUpdateRequestNotificationFilter = PoolsCreateRequestNotificationFilter;
@@ -4188,6 +4394,8 @@ export interface UpdatePoolRequest {
   monitor?: string;
   /** The ID of the Monitor Group to use for checking the health of origins within this pool. */
   monitorGroup?: string;
+  /** List of networks where Load Balancer or Pool is enabled. */
+  networks?: PoolsUpdateRequestNetworksList;
   /** This field is now deprecated. It has been moved to Cloudflare's Centralized Notification service https://developers.cloudflare.com/fundamentals/notifications/. The email address to send health status notifications to. This can be an individual mailbox or a mailing list. Multiple emails can be supplied as a comma delimited list. */
   notificationEmail?: string;
   /** Filter pool and origin health notifications by resource type or health status. Use null to reset. */
@@ -5123,14 +5331,15 @@ function __c4(j: number): any {
           enabled: S.optional(S.Boolean),
           locationStrategy: S.optional(__S(129, __c8, 1).pipe(T.Body("location_strategy"))),
           networks: S.optional(__S(16, __c1, 0)),
+          poolSets: S.optional(__S(135, __c8, 7).pipe(T.Body("pool_sets"))),
           popPools: S.optional(__S(80, __c5, 0).pipe(T.Body("pop_pools"))),
           proxied: S.optional(S.Boolean),
-          randomSteering: S.optional(__S(130, __c8, 2).pipe(T.Body("random_steering"))),
+          randomSteering: S.optional(__S(136, __c8, 8).pipe(T.Body("random_steering"))),
           regionPools: S.optional(__S(80, __c5, 0).pipe(T.Body("region_pools"))),
-          rules: S.optional(__S(135, __c8, 7)),
+          rules: S.optional(__S(140, __c8, 12)),
           sessionAffinity: S.optional(S.String.pipe(T.Body("session_affinity"))),
           sessionAffinityAttributes: S.optional(
-            __S(132, __c8, 4).pipe(T.Body("session_affinity_attributes")),
+            __S(137, __c8, 9).pipe(T.Body("session_affinity_attributes")),
           ),
           sessionAffinityTtl: S.optional(S.Number.pipe(T.Body("session_affinity_ttl"))),
           steeringPolicy: S.optional(S.String.pipe(T.Body("steering_policy"))),
@@ -5328,20 +5537,57 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          defaultWeight: S.optional(S.Number.pipe(T.Body("default_weight"))),
-          poolWeights: S.optional(__S(96, __c6, 0).pipe(T.Body("pool_weights"))),
-        }),
-      ).annotate({ identifier: "CreateRequestRandomSteering" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           contentType: S.optional(S.String.pipe(T.Body("content_type"))),
           location: S.optional(S.String),
           messageBody: S.optional(S.String.pipe(T.Body("message_body"))),
           statusCode: S.optional(S.Number.pipe(T.Body("status_code"))),
         }),
-      ).annotate({ identifier: "CreateRequestRulesItemFixedResponse" });
+      ).annotate({ identifier: "CreateRequestPoolSetsItemFixedResponse" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          countries: S.optional(__S(16, __c1, 0)),
+          pops: S.optional(__S(16, __c1, 0)),
+          regions: S.optional(__S(16, __c1, 0)),
+        }),
+      ).annotate({ identifier: "CreateRequestPoolSetsItemMatchTopology" });
     case 4:
+      return S.suspend(() =>
+        S.Struct({
+          default: S.optional(S.Boolean),
+          topology: S.optional(__S(131, __c8, 3)),
+        }),
+      ).annotate({ identifier: "CreateRequestPoolSetsItemMatch" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          fallbackPool: S.optional(S.String.pipe(T.Body("fallback_pool"))),
+          poolDefaultWeight: S.optional(S.Number.pipe(T.Body("pool_default_weight"))),
+          poolWeights: S.optional(__S(96, __c6, 0).pipe(T.Body("pool_weights"))),
+          pools: S.optional(__S(16, __c1, 0)),
+          steeringPolicy: S.optional(S.String.pipe(T.Body("steering_policy"))),
+        }),
+      ).annotate({ identifier: "CreateRequestPoolSetsItemOverrides" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          disabled: S.optional(S.Boolean),
+          fixedResponse: S.optional(__S(130, __c8, 2).pipe(T.Body("fixed_response"))),
+          match: S.optional(__S(132, __c8, 4)),
+          name: S.optional(S.String),
+          overrides: S.optional(__S(133, __c8, 5)),
+        }),
+      ).annotate({ identifier: "CreateRequestPoolSetsItem" });
+    case 7:
+      return S.Array(__S(134, __c8, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          defaultWeight: S.optional(S.Number.pipe(T.Body("default_weight"))),
+          poolWeights: S.optional(__S(96, __c6, 0).pipe(T.Body("pool_weights"))),
+        }),
+      ).annotate({ identifier: "CreateRequestRandomSteering" });
+    case 9:
       return S.suspend(() =>
         S.Struct({
           drainDuration: S.optional(S.Number.pipe(T.Body("drain_duration"))),
@@ -5352,7 +5598,7 @@ function __c8(j: number): any {
           zeroDowntimeFailover: S.optional(S.String.pipe(T.Body("zero_downtime_failover"))),
         }),
       ).annotate({ identifier: "CreateRequestRulesItemOverridesSessionAffinityAttributes" });
-    case 5:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           adaptiveRouting: S.optional(__S(128, __c8, 0).pipe(T.Body("adaptive_routing"))),
@@ -5364,31 +5610,31 @@ function __c8(j: number): any {
           poolWeights: S.optional(__S(96, __c6, 0).pipe(T.Body("pool_weights"))),
           pools: S.optional(__S(16, __c1, 0)),
           popPools: S.optional(__S(80, __c5, 0).pipe(T.Body("pop_pools"))),
-          randomSteering: S.optional(__S(130, __c8, 2).pipe(T.Body("random_steering"))),
+          randomSteering: S.optional(__S(136, __c8, 8).pipe(T.Body("random_steering"))),
           regionPools: S.optional(__S(80, __c5, 0).pipe(T.Body("region_pools"))),
           sessionAffinity: S.optional(S.String.pipe(T.Body("session_affinity"))),
           sessionAffinityAttributes: S.optional(
-            __S(132, __c8, 4).pipe(T.Body("session_affinity_attributes")),
+            __S(137, __c8, 9).pipe(T.Body("session_affinity_attributes")),
           ),
           sessionAffinityTtl: S.optional(S.Number.pipe(T.Body("session_affinity_ttl"))),
           steeringPolicy: S.optional(S.String.pipe(T.Body("steering_policy"))),
           ttl: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CreateRequestRulesItemOverrides" });
-    case 6:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           condition: S.optional(S.String),
           disabled: S.optional(S.Boolean),
-          fixedResponse: S.optional(__S(131, __c8, 3).pipe(T.Body("fixed_response"))),
+          fixedResponse: S.optional(__S(130, __c8, 2).pipe(T.Body("fixed_response"))),
           name: S.optional(S.String),
-          overrides: S.optional(__S(133, __c8, 5)),
+          overrides: S.optional(__S(138, __c8, 10)),
           priority: S.optional(S.Number),
           terminates: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateRequestRulesItem" });
-    case 7:
-      return S.Array(__S(134, __c8, 6));
+    case 12:
+      return S.Array(__S(139, __c8, 11));
   }
 }
 function __c9(j: number): any {
@@ -5577,14 +5823,17 @@ function __c17(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           name: S.String,
           origins: __S(306, __c19, 2),
+          checkRegions: S.optional(__S(32, __c2, 0).pipe(T.Body("check_regions"))),
           description: S.optional(S.String),
           enabled: S.optional(S.Boolean),
+          healthSources: S.optional(__S(32, __c2, 0).pipe(T.Body("health_sources"))),
           latitude: S.optional(S.Number),
           loadShedding: S.optional(__S(307, __c19, 3).pipe(T.Body("load_shedding"))),
           longitude: S.optional(S.Number),
           minimumOrigins: S.optional(S.Number.pipe(T.Body("minimum_origins"))),
           monitor: S.optional(S.String),
           monitorGroup: S.optional(S.String.pipe(T.Body("monitor_group"))),
+          networks: S.optional(__S(16, __c1, 0)),
           notificationEmail: S.optional(S.String.pipe(T.Body("notification_email"))),
           notificationFilter: S.optional(__S(309, __c19, 5).pipe(T.Body("notification_filter"))),
           originSteering: S.optional(__S(310, __c19, 6).pipe(T.Body("origin_steering"))),
@@ -6319,14 +6568,15 @@ function __c45(j: number): any {
           locationStrategy: S.optional(__S(129, __c8, 1).pipe(T.Body("location_strategy"))),
           name: S.optional(S.String),
           networks: S.optional(__S(16, __c1, 0)),
+          poolSets: S.optional(__S(135, __c8, 7).pipe(T.Body("pool_sets"))),
           popPools: S.optional(__S(80, __c5, 0).pipe(T.Body("pop_pools"))),
           proxied: S.optional(S.Boolean),
-          randomSteering: S.optional(__S(130, __c8, 2).pipe(T.Body("random_steering"))),
+          randomSteering: S.optional(__S(136, __c8, 8).pipe(T.Body("random_steering"))),
           regionPools: S.optional(__S(80, __c5, 0).pipe(T.Body("region_pools"))),
-          rules: S.optional(__S(135, __c8, 7)),
+          rules: S.optional(__S(140, __c8, 12)),
           sessionAffinity: S.optional(S.String.pipe(T.Body("session_affinity"))),
           sessionAffinityAttributes: S.optional(
-            __S(132, __c8, 4).pipe(T.Body("session_affinity_attributes")),
+            __S(137, __c8, 9).pipe(T.Body("session_affinity_attributes")),
           ),
           sessionAffinityTtl: S.optional(S.Number.pipe(T.Body("session_affinity_ttl"))),
           steeringPolicy: S.optional(S.String.pipe(T.Body("steering_policy"))),
@@ -6417,6 +6667,7 @@ function __c48(j: number): any {
           monitor: S.optional(S.String),
           monitorGroup: S.optional(S.String.pipe(T.Body("monitor_group"))),
           name: S.optional(S.String),
+          networks: S.optional(__S(16, __c1, 0)),
           notificationEmail: S.optional(S.String.pipe(T.Body("notification_email"))),
           notificationFilter: S.optional(__S(309, __c19, 5).pipe(T.Body("notification_filter"))),
           originSteering: S.optional(__S(310, __c19, 6).pipe(T.Body("origin_steering"))),
@@ -6449,14 +6700,15 @@ function __c49(j: number): any {
           enabled: S.optional(S.Boolean),
           locationStrategy: S.optional(__S(129, __c8, 1).pipe(T.Body("location_strategy"))),
           networks: S.optional(__S(16, __c1, 0)),
+          poolSets: S.optional(__S(135, __c8, 7).pipe(T.Body("pool_sets"))),
           popPools: S.optional(__S(80, __c5, 0).pipe(T.Body("pop_pools"))),
           proxied: S.optional(S.Boolean),
-          randomSteering: S.optional(__S(130, __c8, 2).pipe(T.Body("random_steering"))),
+          randomSteering: S.optional(__S(136, __c8, 8).pipe(T.Body("random_steering"))),
           regionPools: S.optional(__S(80, __c5, 0).pipe(T.Body("region_pools"))),
-          rules: S.optional(__S(135, __c8, 7)),
+          rules: S.optional(__S(140, __c8, 12)),
           sessionAffinity: S.optional(S.String.pipe(T.Body("session_affinity"))),
           sessionAffinityAttributes: S.optional(
-            __S(132, __c8, 4).pipe(T.Body("session_affinity_attributes")),
+            __S(137, __c8, 9).pipe(T.Body("session_affinity_attributes")),
           ),
           sessionAffinityTtl: S.optional(S.Number.pipe(T.Body("session_affinity_ttl"))),
           steeringPolicy: S.optional(S.String.pipe(T.Body("steering_policy"))),
@@ -6548,6 +6800,7 @@ function __c52(j: number): any {
           minimumOrigins: S.optional(S.Number.pipe(T.Body("minimum_origins"))),
           monitor: S.optional(S.String),
           monitorGroup: S.optional(S.String.pipe(T.Body("monitor_group"))),
+          networks: S.optional(__S(16, __c1, 0)),
           notificationEmail: S.optional(S.String.pipe(T.Body("notification_email"))),
           notificationFilter: S.optional(__S(309, __c19, 5).pipe(T.Body("notification_filter"))),
           originSteering: S.optional(__S(310, __c19, 6).pipe(T.Body("origin_steering"))),

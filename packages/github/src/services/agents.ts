@@ -537,6 +537,7 @@ export interface MinimalRepository {
   updated_at?: string | null;
   permissions?: MinimalRepositoryPermissions;
   role_name?: string;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string;
   delete_branch_on_merge?: boolean;
   subscribers_count?: number;

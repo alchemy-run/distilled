@@ -610,8 +610,8 @@ export interface GetRollingReleaseConfigResponseRollingReleaseGateChecksItem {
   excludeStatusCodes?: GetRollingReleaseConfigResponseRollingReleaseGateChecksItemExcludeStatusCodesList;
   /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
   ingestWatermarkSeconds?: number;
-  /** Minimum number of requests required in the window before the check can fail. Below this, the check is inconclusive rather than failing, so low-traffic stages don't gate on noise. Defaults to `100` when omitted. */
-  minSampleSize?: number;
+  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
+  significanceLevel?: number;
   /** The metric this check evaluates. */
   type: GetRollingReleaseConfigResponseRollingReleaseGateChecksItemType;
 }
@@ -1004,7 +1004,7 @@ function __c0(j: number): any {
           excludePaths: S.optional(__S(0, __c0, 0)),
           excludeStatusCodes: S.optional(__S(2, __c0, 2)),
           ingestWatermarkSeconds: S.optional(S.Number),
-          minSampleSize: S.optional(S.Number),
+          significanceLevel: S.optional(S.Number),
           type: S.String,
         }),
       ).annotate({ identifier: "GetRollingReleaseConfigResponseRollingReleaseGateChecksItem" });

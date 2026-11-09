@@ -59,6 +59,7 @@ export interface CreateEventDefinitionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   name?: string;
+  /** ID of the user responsible for the event. Null removes the owner. */
   owner?: number | null;
   description?: string | null;
   tags?: CreateEventDefinitionRequestTagsList;
@@ -70,7 +71,6 @@ export interface CreateEventDefinitionRequest {
   post_to_slack?: boolean;
   default_columns?: CreateEventDefinitionRequestDefaultColumnsList;
 }
-export type EnterpriseEventDefinitionTagsList = Array<unknown>;
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
 export type RoleAtOrganizationEnum =
@@ -96,13 +96,15 @@ export interface UserBasic {
   hedgehog_config?: UserBasicHedgehogConfigMap | null;
   role_at_organization?: UserBasicRoleAtOrganization | null;
 }
+export type EnterpriseEventDefinitionTagsList = Array<unknown>;
 export type EnterpriseEventDefinitionDefaultColumnsList = Array<string>;
 export type EnterpriseEventDefinitionMediaPreviewUrlsList = Array<string>;
 /** Serializer mixin that handles tags for objects. */
 export interface EnterpriseEventDefinition {
   id?: string;
   name?: string;
-  owner?: number | null;
+  /** The user responsible for the event, or null when it has no owner. */
+  owner?: UserBasic | null;
   description?: string | null;
   tags?: EnterpriseEventDefinitionTagsList;
   created_at?: string | null;
@@ -252,6 +254,8 @@ export interface ListEventDefinitionsRequest {
   exclude_stale?: boolean;
   /** JSON-encoded list of event names to omit. The name matches the property definitions endpoint that shares it. */
   excluded_properties?: string;
+  /** When true, find similar event names only if the filtered search has no matches. */
+  fuzzy_search?: boolean;
   /** Number of results to return per page. */
   limit?: number;
   /** Return exact matches for these event names. Pass names as repeated or comma-separated values. */
@@ -284,6 +288,7 @@ export interface UpdateEventDefinitionRequest {
   /** A UUID string identifying this event definition. */
   id: string;
   name?: string;
+  /** ID of the user responsible for the event. Null removes the owner. */
   owner?: number | null;
   description?: string | null;
   tags?: UpdateEventDefinitionRequestTagsList;
@@ -303,6 +308,7 @@ export interface UpdateEventDefinitionsPartialRequest {
   /** A UUID string identifying this event definition. */
   id: string;
   name?: string;
+  /** ID of the user responsible for the event. Null removes the owner. */
   owner?: number | null;
   description?: string | null;
   tags?: UpdateEventDefinitionsPartialRequestTagsList;
@@ -555,6 +561,7 @@ function __c2(j: number): any {
           exclude_hidden: S.optional(S.Boolean.pipe(T.Query())),
           exclude_stale: S.optional(S.Boolean.pipe(T.Query())),
           excluded_properties: S.optional(S.String.pipe(T.Query())),
+          fuzzy_search: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           names: S.optional(__S(48, __c6, 0).pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
@@ -677,7 +684,7 @@ function __c7(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          owner: S.optional(S.NullOr(S.Number)),
+          owner: S.optional(S.NullOr(__S(66, __c8, 2))),
           description: S.optional(S.NullOr(S.String)),
           tags: S.optional(__S(64, __c8, 0)),
           created_at: S.optional(S.NullOr(S.String)),

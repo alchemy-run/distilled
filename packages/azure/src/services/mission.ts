@@ -250,28 +250,28 @@ export type ServiceIdentifier =
   | "PrivateDNSZones"
   | "ServiceBus"
   | "Storage";
-/** Governance option for this service (Allow, Deny, ExceptionOnly, or NotApplicable). */
-export type GovernedServiceItemInputOption = "Allow" | "Deny" | "ExceptionOnly" | "NotApplicable";
-/** Initiative enforcement (Enabled or Disabled). */
-export type GovernedServiceItemInputEnforcement = "Enabled" | "Disabled";
-/** Enforcement mode for policy. AuditOnly, Enforce, or None. */
-export type GovernedServiceItemInputPolicyAction = "AuditOnly" | "Enforce" | "None";
+/** The governance option for a governed service. */
+export type GovernedServiceItemOption = "Allow" | "Deny" | "ExceptionOnly" | "NotApplicable";
+/** The enforcement state for a governed service. */
+export type GovernedServiceItemEnforcement = "Enabled" | "Disabled";
+/** The policy action for a governed service. */
+export type GovernedServiceItemPolicyAction = "AuditOnly" | "Enforce" | "None";
 /** GovernedServiceItem Properties */
 export interface GovernedServiceItemInput {
   /** Service ID */
   serviceId: ServiceIdentifier | (string & {});
   /** Governance option for this service (Allow, Deny, ExceptionOnly, or NotApplicable). */
-  option?: GovernedServiceItemInputOption | (string & {});
+  option?: GovernedServiceItemOption | (string & {});
   /** Initiative enforcement (Enabled or Disabled). */
-  enforcement?: GovernedServiceItemInputEnforcement | (string & {});
+  enforcement?: GovernedServiceItemEnforcement | (string & {});
   /** Enforcement mode for policy. AuditOnly, Enforce, or None. */
-  policyAction?: GovernedServiceItemInputPolicyAction | (string & {});
+  policyAction?: GovernedServiceItemPolicyAction | (string & {});
 }
 /** List of services governed by a community. */
 export type CommunityPropertiesInputGovernedServiceListList = Array<GovernedServiceItemInput>;
-/** Policy override setting for the community. Specifies whether to apply enclave-specific policies or disable policy enforcement. */
-export type CommunityPropertiesInputPolicyOverride = "Enclave" | "None";
-/** The type of the object id. We currently allow users, groups, and service principals */
+/** The policy override setting for a community. */
+export type CommunityPropertiesPolicyOverride = "Enclave" | "None";
+/** The type of a virtual enclave principal. */
 export type PrincipalType = "User" | "Group" | "ServicePrincipal";
 /** Principal for maintenance mode or role assignments */
 export interface Principal {
@@ -379,7 +379,7 @@ export interface CommunityPropertiesInput {
   /** List of services governed by a community. */
   governedServiceList?: CommunityPropertiesInputGovernedServiceListList;
   /** Policy override setting for the community. Specifies whether to apply enclave-specific policies or disable policy enforcement. */
-  policyOverride?: CommunityPropertiesInputPolicyOverride | (string & {});
+  policyOverride?: CommunityPropertiesPolicyOverride | (string & {});
   /** Community role assignments */
   communityRoleAssignments?: CommunityPropertiesInputCommunityRoleAssignmentsList;
   /** SKU of the community's Azure Firewall (Basic, Standard, Premium). Standard is the default */
@@ -445,12 +445,6 @@ export interface CommunityPropertiesManagedOnBehalfOfConfiguration {
   /** Managed-On-Behalf-Of broker resources */
   moboBrokerResources?: CommunityPropertiesManagedOnBehalfOfConfigurationMoboBrokerResourcesList;
 }
-/** Governance option for this service (Allow, Deny, ExceptionOnly, or NotApplicable). */
-export type GovernedServiceItemOption = "Allow" | "Deny" | "ExceptionOnly" | "NotApplicable";
-/** Initiative enforcement (Enabled or Disabled). */
-export type GovernedServiceItemEnforcement = "Enabled" | "Disabled";
-/** Enforcement mode for policy. AuditOnly, Enforce, or None. */
-export type GovernedServiceItemPolicyAction = "AuditOnly" | "Enforce" | "None";
 /** Initiatives associated with this service. */
 export type GovernedServiceItemInitiativesList = Array<string>;
 /** GovernedServiceItem Properties */
@@ -470,8 +464,6 @@ export interface GovernedServiceItem {
 }
 /** List of services governed by a community. */
 export type CommunityPropertiesGovernedServiceListList = Array<GovernedServiceItem>;
-/** Policy override setting for the community. Specifies whether to apply enclave-specific policies or disable policy enforcement. */
-export type CommunityPropertiesPolicyOverride = "Enclave" | "None";
 /** Community role assignments */
 export type CommunityPropertiesCommunityRoleAssignmentsList = Array<RoleAssignmentItem>;
 /** SKU of the community's Azure Firewall (Basic, Standard, Premium). Standard is the default */
@@ -685,14 +677,10 @@ export interface CommunityEndpointsCreateOrUpdateResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
-/** Resource request action indicating action which needed to be performed upon calling approval-callback post action */
-export type CommunityEndpointsHandleApprovalCreationRequestResourceRequestAction =
-  | "Create"
-  | "Delete"
-  | "Update"
-  | "Reset";
-/** Approval status indicating 'Approved' or 'Rejected' */
-export type CommunityEndpointsHandleApprovalCreationRequestApprovalStatus = "Approved" | "Rejected";
+/** The resource action for an approval callback. */
+export type ApprovalCallbackRequestResourceRequestAction = "Create" | "Delete" | "Update" | "Reset";
+/** The approval status for an approval callback request. */
+export type ApprovalCallbackRequestApprovalStatus = "Approved" | "Rejected";
 export interface CommunityEndpointsHandleApprovalCreationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -703,11 +691,9 @@ export interface CommunityEndpointsHandleApprovalCreationRequest {
   /** The name of the Community Endpoint Resource */
   communityEndpointName: string;
   /** Resource request action indicating action which needed to be performed upon calling approval-callback post action */
-  resourceRequestAction:
-    | CommunityEndpointsHandleApprovalCreationRequestResourceRequestAction
-    | (string & {});
+  resourceRequestAction: ApprovalCallbackRequestResourceRequestAction | (string & {});
   /** Approval status indicating 'Approved' or 'Rejected' */
-  approvalStatus: CommunityEndpointsHandleApprovalCreationRequestApprovalStatus | (string & {});
+  approvalStatus: ApprovalCallbackRequestApprovalStatus | (string & {});
   /** Payload requested by client upon approval action */
   approvalCallbackPayload?: string;
 }
@@ -720,11 +706,8 @@ export interface ApprovalActionResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
-/** Resource request action indicating action which needed to be performed upon calling approval-deletion-callback post action */
-export type CommunityEndpointsHandleApprovalDeletionRequestResourceRequestAction =
-  | "Create"
-  | "Delete"
-  | "Update";
+/** The resource action for an approval deletion callback. */
+export type ApprovalDeletionCallbackRequestResourceRequestAction = "Create" | "Delete" | "Update";
 export interface CommunityEndpointsHandleApprovalDeletionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -735,9 +718,7 @@ export interface CommunityEndpointsHandleApprovalDeletionRequest {
   /** The name of the Community Endpoint Resource */
   communityEndpointName: string;
   /** Resource request action indicating action which needed to be performed upon calling approval-deletion-callback post action */
-  resourceRequestAction:
-    | CommunityEndpointsHandleApprovalDeletionRequestResourceRequestAction
-    | (string & {});
+  resourceRequestAction: ApprovalDeletionCallbackRequestResourceRequestAction | (string & {});
 }
 /** Resource tags. */
 export type DedicatedHubCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -997,14 +978,6 @@ export interface EnclaveConnectionCreateOrUpdateResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
-/** Resource request action indicating action which needed to be performed upon calling approval-callback post action */
-export type EnclaveConnectionHandleApprovalCreationRequestResourceRequestAction =
-  | "Create"
-  | "Delete"
-  | "Update"
-  | "Reset";
-/** Approval status indicating 'Approved' or 'Rejected' */
-export type EnclaveConnectionHandleApprovalCreationRequestApprovalStatus = "Approved" | "Rejected";
 export interface EnclaveConnectionHandleApprovalCreationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -1013,19 +986,12 @@ export interface EnclaveConnectionHandleApprovalCreationRequest {
   /** The name of the Enclave Connection Resource */
   enclaveConnectionName: string;
   /** Resource request action indicating action which needed to be performed upon calling approval-callback post action */
-  resourceRequestAction:
-    | EnclaveConnectionHandleApprovalCreationRequestResourceRequestAction
-    | (string & {});
+  resourceRequestAction: ApprovalCallbackRequestResourceRequestAction | (string & {});
   /** Approval status indicating 'Approved' or 'Rejected' */
-  approvalStatus: EnclaveConnectionHandleApprovalCreationRequestApprovalStatus | (string & {});
+  approvalStatus: ApprovalCallbackRequestApprovalStatus | (string & {});
   /** Payload requested by client upon approval action */
   approvalCallbackPayload?: string;
 }
-/** Resource request action indicating action which needed to be performed upon calling approval-deletion-callback post action */
-export type EnclaveConnectionHandleApprovalDeletionRequestResourceRequestAction =
-  | "Create"
-  | "Delete"
-  | "Update";
 export interface EnclaveConnectionHandleApprovalDeletionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -1034,9 +1000,7 @@ export interface EnclaveConnectionHandleApprovalDeletionRequest {
   /** The name of the Enclave Connection Resource */
   enclaveConnectionName: string;
   /** Resource request action indicating action which needed to be performed upon calling approval-deletion-callback post action */
-  resourceRequestAction:
-    | EnclaveConnectionHandleApprovalDeletionRequestResourceRequestAction
-    | (string & {});
+  resourceRequestAction: ApprovalDeletionCallbackRequestResourceRequestAction | (string & {});
 }
 /** Resource tags. */
 export type EnclaveEndpointsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1120,14 +1084,6 @@ export interface EnclaveEndpointsCreateOrUpdateResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
-/** Resource request action indicating action which needed to be performed upon calling approval-callback post action */
-export type EnclaveEndpointsHandleApprovalCreationRequestResourceRequestAction =
-  | "Create"
-  | "Delete"
-  | "Update"
-  | "Reset";
-/** Approval status indicating 'Approved' or 'Rejected' */
-export type EnclaveEndpointsHandleApprovalCreationRequestApprovalStatus = "Approved" | "Rejected";
 export interface EnclaveEndpointsHandleApprovalCreationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -1138,19 +1094,12 @@ export interface EnclaveEndpointsHandleApprovalCreationRequest {
   /** The name of the Enclave Endpoint Resource */
   enclaveEndpointName: string;
   /** Resource request action indicating action which needed to be performed upon calling approval-callback post action */
-  resourceRequestAction:
-    | EnclaveEndpointsHandleApprovalCreationRequestResourceRequestAction
-    | (string & {});
+  resourceRequestAction: ApprovalCallbackRequestResourceRequestAction | (string & {});
   /** Approval status indicating 'Approved' or 'Rejected' */
-  approvalStatus: EnclaveEndpointsHandleApprovalCreationRequestApprovalStatus | (string & {});
+  approvalStatus: ApprovalCallbackRequestApprovalStatus | (string & {});
   /** Payload requested by client upon approval action */
   approvalCallbackPayload?: string;
 }
-/** Resource request action indicating action which needed to be performed upon calling approval-deletion-callback post action */
-export type EnclaveEndpointsHandleApprovalDeletionRequestResourceRequestAction =
-  | "Create"
-  | "Delete"
-  | "Update";
 export interface EnclaveEndpointsHandleApprovalDeletionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -1161,9 +1110,7 @@ export interface EnclaveEndpointsHandleApprovalDeletionRequest {
   /** The name of the Enclave Endpoint Resource */
   enclaveEndpointName: string;
   /** Resource request action indicating action which needed to be performed upon calling approval-deletion-callback post action */
-  resourceRequestAction:
-    | EnclaveEndpointsHandleApprovalDeletionRequestResourceRequestAction
-    | (string & {});
+  resourceRequestAction: ApprovalDeletionCallbackRequestResourceRequestAction | (string & {});
 }
 export interface GetApprovalRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1969,15 +1916,15 @@ export interface ListWorkloadBySubscriptionRequest {
   /** The name of the enclaveResource Resource */
   virtualEnclaveName: string;
 }
-/** Approval status indicating 'Approved' or 'Rejected' */
-export type NotifyApprovalInitiatorRequestApprovalStatus = "Approved" | "Rejected";
+/** The approval status for an approval action request. */
+export type ApprovalActionRequestApprovalStatus = "Approved" | "Rejected";
 export interface NotifyApprovalInitiatorRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
   /** The name of the approvals resource. */
   approvalName: string;
   /** Approval status indicating 'Approved' or 'Rejected' */
-  approvalStatus: NotifyApprovalInitiatorRequestApprovalStatus | (string & {});
+  approvalStatus: ApprovalActionRequestApprovalStatus | (string & {});
 }
 /** Resource tags. */
 export type TransitHubCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2088,16 +2035,14 @@ export interface UpdateApprovalResponse {
 export type CommunityPatchPropertiesInputDnsServersList = Array<string>;
 /** List of services governed by a community. */
 export type CommunityPatchPropertiesInputGovernedServiceListList = Array<GovernedServiceItemInput>;
-/** Policy override setting for the community. Specifies whether to apply enclave-specific policies or disable policy enforcement. */
-export type CommunityPatchPropertiesInputPolicyOverride = "Enclave" | "None";
 /** Community role assignments */
 export type CommunityPatchPropertiesInputCommunityRoleAssignmentsList = Array<RoleAssignmentItem>;
 /** Azure Firewall SKU */
 export type FirewallSKU = "Basic" | "Standard" | "Premium";
 /** Granular ApprovalSettings Patch Properties */
 export type ApprovalSettingsPatchProperties = ApprovalSettings;
-/** Current mode of Maintenance Mode Configuration */
-export type MaintenanceModeConfigurationPatchModelMode =
+/** The maintenance mode for a virtual enclave. */
+export type MaintenanceModeConfigurationModelMode2 =
   | "On"
   | "CanNotDelete"
   | "Off"
@@ -2105,19 +2050,16 @@ export type MaintenanceModeConfigurationPatchModelMode =
   | "Advanced";
 /** The user, group or service principal object affected by Maintenance Mode */
 export type MaintenanceModeConfigurationPatchModelPrincipalsList = Array<Principal>;
-/** Justification for entering or exiting Maintenance Mode */
-export type MaintenanceModeConfigurationPatchModelJustification =
-  | "Networking"
-  | "Governance"
-  | "Off";
+/** The justification for entering or exiting virtual enclave maintenance mode. */
+export type MaintenanceModeConfigurationModelJustification2 = "Networking" | "Governance" | "Off";
 /** Maintenance Mode Patch Model */
 export interface MaintenanceModeConfigurationPatchModel {
   /** Current mode of Maintenance Mode Configuration */
-  mode?: MaintenanceModeConfigurationPatchModelMode | (string & {});
+  mode?: MaintenanceModeConfigurationModelMode2 | (string & {});
   /** The user, group or service principal object affected by Maintenance Mode */
   principals?: MaintenanceModeConfigurationPatchModelPrincipalsList;
   /** Justification for entering or exiting Maintenance Mode */
-  justification?: MaintenanceModeConfigurationPatchModelJustification | (string & {});
+  justification?: MaintenanceModeConfigurationModelJustification2 | (string & {});
 }
 /** List of destination types for monitoring logs */
 export type MonitoringDestinationType =
@@ -2161,7 +2103,7 @@ export interface CommunityPatchPropertiesInput {
   /** List of services governed by a community. */
   governedServiceList?: CommunityPatchPropertiesInputGovernedServiceListList;
   /** Policy override setting for the community. Specifies whether to apply enclave-specific policies or disable policy enforcement. */
-  policyOverride?: CommunityPatchPropertiesInputPolicyOverride | (string & {});
+  policyOverride?: CommunityPropertiesPolicyOverride | (string & {});
   /** Community role assignments */
   communityRoleAssignments?: CommunityPatchPropertiesInputCommunityRoleAssignmentsList;
   /** SKU of the community's Azure Firewall (Basic, Standard, Premium). Standard is the default */
@@ -2686,14 +2628,6 @@ export interface VirtualEnclaveCreateOrUpdateResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
-/** Resource request action indicating action which needed to be performed upon calling approval-callback post action */
-export type VirtualEnclaveHandleApprovalCreationRequestResourceRequestAction =
-  | "Create"
-  | "Delete"
-  | "Update"
-  | "Reset";
-/** Approval status indicating 'Approved' or 'Rejected' */
-export type VirtualEnclaveHandleApprovalCreationRequestApprovalStatus = "Approved" | "Rejected";
 export interface VirtualEnclaveHandleApprovalCreationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -2702,19 +2636,12 @@ export interface VirtualEnclaveHandleApprovalCreationRequest {
   /** The name of the enclaveResource Resource */
   virtualEnclaveName: string;
   /** Resource request action indicating action which needed to be performed upon calling approval-callback post action */
-  resourceRequestAction:
-    | VirtualEnclaveHandleApprovalCreationRequestResourceRequestAction
-    | (string & {});
+  resourceRequestAction: ApprovalCallbackRequestResourceRequestAction | (string & {});
   /** Approval status indicating 'Approved' or 'Rejected' */
-  approvalStatus: VirtualEnclaveHandleApprovalCreationRequestApprovalStatus | (string & {});
+  approvalStatus: ApprovalCallbackRequestApprovalStatus | (string & {});
   /** Payload requested by client upon approval action */
   approvalCallbackPayload?: string;
 }
-/** Resource request action indicating action which needed to be performed upon calling approval-deletion-callback post action */
-export type VirtualEnclaveHandleApprovalDeletionRequestResourceRequestAction =
-  | "Create"
-  | "Delete"
-  | "Update";
 export interface VirtualEnclaveHandleApprovalDeletionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -2723,9 +2650,7 @@ export interface VirtualEnclaveHandleApprovalDeletionRequest {
   /** The name of the enclaveResource Resource */
   virtualEnclaveName: string;
   /** Resource request action indicating action which needed to be performed upon calling approval-deletion-callback post action */
-  resourceRequestAction:
-    | VirtualEnclaveHandleApprovalDeletionRequestResourceRequestAction
-    | (string & {});
+  resourceRequestAction: ApprovalDeletionCallbackRequestResourceRequestAction | (string & {});
 }
 /** Resource tags. */
 export type WorkloadCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };

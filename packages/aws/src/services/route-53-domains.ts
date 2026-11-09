@@ -205,8 +205,17 @@ export type DomainAvailability =
   | "INVALID_NAME_FOR_TLD"
   | "PENDING"
   | (string & {});
+export type Price = number;
+export type Currency = string;
+export type PriceType = "STANDARD" | "REGISTRY_PREMIUM" | (string & {});
+export interface PriceWithCurrency {
+  Price: number;
+  Currency: string;
+  PriceType?: PriceType;
+}
 export interface CheckDomainAvailabilityResponse {
   Availability?: DomainAvailability;
+  Price?: PriceWithCurrency;
 }
 export type DomainAuthCode = string | redacted.Redacted<string>;
 export interface CheckDomainTransferabilityRequest {
@@ -220,6 +229,7 @@ export type Transferable =
   | "DOMAIN_IN_OWN_ACCOUNT"
   | "DOMAIN_IN_ANOTHER_ACCOUNT"
   | "PREMIUM_DOMAIN"
+  | "PENDING"
   | (string & {});
 export interface DomainTransferability {
   Transferable?: Transferable;
@@ -228,6 +238,7 @@ export type Message = string;
 export interface CheckDomainTransferabilityResponse {
   Transferability?: DomainTransferability;
   Message?: string;
+  Price?: PriceWithCurrency;
 }
 export interface DeleteDomainRequest {
   DomainName: string;
@@ -657,14 +668,31 @@ export interface GetDomainDetailResponse {
   BillingContact?: ContactDetail;
   BillingPrivacy?: boolean;
 }
+export interface GetDomainPricesRequest {
+  DomainName: string;
+}
+export type DomainPriceName = string;
+export interface DomainPrice {
+  Name?: string;
+  RegistrationPrice?: PriceWithCurrency;
+  TransferPrice?: PriceWithCurrency;
+  RenewalPrice?: PriceWithCurrency;
+  ChangeOwnershipPrice?: PriceWithCurrency;
+  RestorationPrice?: PriceWithCurrency;
+}
+export interface GetDomainPricesResponse {
+  DomainPrice?: DomainPrice;
+}
 export interface GetDomainSuggestionsRequest {
   DomainName: string;
   SuggestionCount: number;
   OnlyAvailable: boolean;
+  OnlyStandardPrices?: boolean;
 }
 export interface DomainSuggestion {
   DomainName?: string;
   Availability?: string;
+  Price?: PriceWithCurrency;
 }
 export type DomainSuggestionsList = DomainSuggestion[];
 export interface GetDomainSuggestionsResponse {
@@ -789,21 +817,6 @@ export interface ListPricesRequest {
   Marker?: string;
   MaxItems?: number;
 }
-export type DomainPriceName = string;
-export type Price = number;
-export type Currency = string;
-export interface PriceWithCurrency {
-  Price: number;
-  Currency: string;
-}
-export interface DomainPrice {
-  Name?: string;
-  RegistrationPrice?: PriceWithCurrency;
-  TransferPrice?: PriceWithCurrency;
-  RenewalPrice?: PriceWithCurrency;
-  ChangeOwnershipPrice?: PriceWithCurrency;
-  RestorationPrice?: PriceWithCurrency;
-}
 export type DomainPriceList = DomainPrice[];
 export interface ListPricesResponse {
   Prices?: DomainPrice[];
@@ -828,6 +841,11 @@ export interface PushDomainRequest {
 }
 export interface PushDomainResponse {}
 export type DurationInYears = number;
+export type ConsentPrice = number;
+export interface Consent {
+  MaxPrice: number;
+  Currency: string;
+}
 export interface RegisterDomainRequest {
   DomainName: string;
   IdnLangCode?: string;
@@ -841,6 +859,7 @@ export interface RegisterDomainRequest {
   PrivacyProtectTechContact?: boolean;
   BillingContact?: ContactDetail;
   PrivacyProtectBillingContact?: boolean;
+  Consent?: Consent;
 }
 export interface RegisterDomainResponse {
   OperationId?: string;
@@ -856,6 +875,7 @@ export interface RenewDomainRequest {
   DomainName: string;
   DurationInYears?: number;
   CurrentExpiryYear: number;
+  Consent?: Consent;
 }
 export interface RenewDomainResponse {
   OperationId?: string;
@@ -872,6 +892,13 @@ export interface ResendOperationAuthorizationRequest {
   OperationId: string;
 }
 export interface ResendOperationAuthorizationResponse {}
+export interface RestoreDomainRequest {
+  DomainName: string;
+  Consent?: Consent;
+}
+export interface RestoreDomainResponse {
+  OperationId?: string;
+}
 export interface RetrieveDomainAuthCodeRequest {
   DomainName: string;
 }
@@ -893,6 +920,7 @@ export interface TransferDomainRequest {
   PrivacyProtectTechContact?: boolean;
   BillingContact?: ContactDetail;
   PrivacyProtectBillingContact?: boolean;
+  Consent?: Consent;
 }
 export interface TransferDomainResponse {
   OperationId?: string;
@@ -905,10 +933,6 @@ export interface TransferDomainToAnotherAwsAccountRequest {
 export interface TransferDomainToAnotherAwsAccountResponse {
   OperationId?: string;
   Password?: string | redacted.Redacted<string>;
-}
-export interface Consent {
-  MaxPrice: number;
-  Currency: string;
 }
 export interface UpdateDomainContactRequest {
   DomainName: string;
@@ -988,8 +1012,8 @@ export const acceptDomainTransferFromAnotherAwsAccount: API.OperationMethod<
   AcceptDomainTransferFromAnotherAwsAccountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<AcceptDomainTransferFromAnotherAwsAccountRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<AcceptDomainTransferFromAnotherAwsAccountResponse>,
+  input: __S(344, __c43, 0) as any as S.Schema<AcceptDomainTransferFromAnotherAwsAccountRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<AcceptDomainTransferFromAnotherAwsAccountResponse>,
   errors: [DomainLimitExceeded, InvalidInput, OperationLimitExceeded, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1024,7 +1048,7 @@ export const associateDelegationSignerToDomain: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<AssociateDelegationSignerToDomainRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<AssociateDelegationSignerToDomainResponse>,
+  output: __S(352, __c44, 0) as any as S.Schema<AssociateDelegationSignerToDomainResponse>,
   errors: [
     DnssecLimitExceeded,
     DuplicateRequest,
@@ -1062,7 +1086,7 @@ export const cancelDomainTransferToAnotherAwsAccount: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<CancelDomainTransferToAnotherAwsAccountRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<CancelDomainTransferToAnotherAwsAccountResponse>,
+  output: __S(352, __c44, 0) as any as S.Schema<CancelDomainTransferToAnotherAwsAccountResponse>,
   errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1111,8 +1135,8 @@ export const checkDomainTransferability: API.OperationMethod<
   CheckDomainTransferabilityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<CheckDomainTransferabilityRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<CheckDomainTransferabilityResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<CheckDomainTransferabilityRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<CheckDomainTransferabilityResponse>,
   errors: [InvalidInput, TLDInMaintenance, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1153,8 +1177,8 @@ export const deleteDomain: API.OperationMethod<
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<DeleteDomainRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<DeleteDomainResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<DeleteDomainRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<DeleteDomainResponse>,
   errors: [DuplicateRequest, InvalidInput, TLDRulesViolation, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1180,8 +1204,8 @@ export const deleteTagsForDomain: API.OperationMethod<
   DeleteTagsForDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<DeleteTagsForDomainRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<DeleteTagsForDomainResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<DeleteTagsForDomainRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<DeleteTagsForDomainResponse>,
   errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1201,8 +1225,8 @@ export const disableDomainAutoRenew: API.OperationMethod<
   DisableDomainAutoRenewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<DisableDomainAutoRenewRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<DisableDomainAutoRenewResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<DisableDomainAutoRenewRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<DisableDomainAutoRenewResponse>,
   errors: [InvalidInput, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1232,8 +1256,8 @@ export const disableDomainTransferLock: API.OperationMethod<
   DisableDomainTransferLockError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<DisableDomainTransferLockRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<DisableDomainTransferLockResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<DisableDomainTransferLockRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<DisableDomainTransferLockResponse>,
   errors: [
     DuplicateRequest,
     InvalidInput,
@@ -1265,8 +1289,8 @@ export const disassociateDelegationSignerFromDomain: API.OperationMethod<
   DisassociateDelegationSignerFromDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<DisassociateDelegationSignerFromDomainRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<DisassociateDelegationSignerFromDomainResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<DisassociateDelegationSignerFromDomainRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<DisassociateDelegationSignerFromDomainResponse>,
   errors: [
     DuplicateRequest,
     InvalidInput,
@@ -1303,8 +1327,8 @@ export const enableDomainAutoRenew: API.OperationMethod<
   EnableDomainAutoRenewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<EnableDomainAutoRenewRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<EnableDomainAutoRenewResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<EnableDomainAutoRenewRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<EnableDomainAutoRenewResponse>,
   errors: [InvalidInput, TLDRulesViolation, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1333,8 +1357,8 @@ export const enableDomainTransferLock: API.OperationMethod<
   EnableDomainTransferLockError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<EnableDomainTransferLockRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<EnableDomainTransferLockResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<EnableDomainTransferLockRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<EnableDomainTransferLockResponse>,
   errors: [
     DuplicateRequest,
     InvalidInput,
@@ -1368,8 +1392,8 @@ export const getContactReachabilityStatus: API.OperationMethod<
   GetContactReachabilityStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetContactReachabilityStatusRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<GetContactReachabilityStatusResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetContactReachabilityStatusRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<GetContactReachabilityStatusResponse>,
   errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1390,14 +1414,48 @@ export const getDomainDetail: API.OperationMethod<
   GetDomainDetailError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetDomainDetailRequest>,
-  output: __S(115, __c14, 3) as any as S.Schema<GetDomainDetailResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetDomainDetailRequest>,
+  output: __S(123, __c15, 3) as any as S.Schema<GetDomainDetailResponse>,
   errors: [InvalidInput, UnsupportedTLD, DomainNotFound],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainDetail",
   telemetry: TELEMETRY,
   span: "GetDomainDetail",
+}));
+
+export type GetDomainPricesError = InvalidInput | TLDInMaintenance | UnsupportedTLD | CommonErrors;
+/**
+ * Returns the following prices for the specified domain:
+ *
+ * - Registration
+ *
+ * - Transfer
+ *
+ * - Owner change
+ *
+ * - Renewal
+ *
+ * - Restoration
+ *
+ * For most domains, the prices match the standard prices for the TLD that the ListPrices operation returns. For a premium domain, the registry sets the
+ * price individually. Premium prices might differ from the standard prices and can change
+ * over time.
+ */
+export const getDomainPrices: API.OperationMethod<
+  GetDomainPricesRequest & RegionInput,
+  GetDomainPricesResponse,
+  GetDomainPricesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(144, __c18, 0) as any as S.Schema<GetDomainPricesRequest>,
+  output: __S(145, __c18, 1) as any as S.Schema<GetDomainPricesResponse>,
+  errors: [InvalidInput, TLDInMaintenance, UnsupportedTLD],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetDomainPrices",
+  telemetry: TELEMETRY,
+  span: "GetDomainPrices",
 }));
 
 export type GetDomainSuggestionsError =
@@ -1414,8 +1472,8 @@ export const getDomainSuggestions: API.OperationMethod<
   GetDomainSuggestionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetDomainSuggestionsRequest>,
-  output: __S(139, __c17, 3) as any as S.Schema<GetDomainSuggestionsResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<GetDomainSuggestionsRequest>,
+  output: __S(163, __c20, 3) as any as S.Schema<GetDomainSuggestionsResponse>,
   errors: [InvalidInput, TLDInMaintenance, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1435,8 +1493,8 @@ export const getOperationDetail: API.OperationMethod<
   GetOperationDetailError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetOperationDetailRequest>,
-  output: __S(145, __c18, 1) as any as S.Schema<GetOperationDetailResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<GetOperationDetailRequest>,
+  output: __S(169, __c21, 1) as any as S.Schema<GetOperationDetailResponse>,
   errors: [InvalidInput],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1457,8 +1515,8 @@ export const listDomains: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DomainSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(155, __c19, 3) as any as S.Schema<ListDomainsRequest>,
-  output: __S(158, __c19, 6) as any as S.Schema<ListDomainsResponse>,
+  input: __S(179, __c22, 3) as any as S.Schema<ListDomainsRequest>,
+  output: __S(182, __c22, 6) as any as S.Schema<ListDomainsResponse>,
   errors: [InvalidInput],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1487,8 +1545,8 @@ export const listOperations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OperationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(161, __c20, 1) as any as S.Schema<ListOperationsRequest>,
-  output: __S(164, __c20, 4) as any as S.Schema<ListOperationsResponse>,
+  input: __S(185, __c23, 1) as any as S.Schema<ListOperationsRequest>,
+  output: __S(188, __c23, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [InvalidInput],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1514,9 +1572,14 @@ export type ListPricesError = InvalidInput | UnsupportedTLD | CommonErrors;
  *
  * - Owner change
  *
- * - Domain renewal
+ * - Renewal
  *
- * - Domain restoration
+ * - Restoration
+ *
+ * The prices that `ListPrices` returns are the standard rates for a TLD.
+ * `ListPrices` doesn't return registry premium prices, which apply to
+ * individual domain names rather than to a TLD. To get accurate pricing for a specific
+ * domain name, including premium prices, call `GetDomainPrices`.
  */
 export const listPrices: API.PaginatedOperationMethod<
   ListPricesRequest & RegionInput,
@@ -1525,8 +1588,8 @@ export const listPrices: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DomainPrice
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<ListPricesRequest>,
-  output: __S(172, __c21, 4) as any as S.Schema<ListPricesResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<ListPricesRequest>,
+  output: __S(194, __c24, 2) as any as S.Schema<ListPricesResponse>,
   errors: [InvalidInput, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1559,8 +1622,8 @@ export const listTagsForDomain: API.OperationMethod<
   ListTagsForDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<ListTagsForDomainRequest>,
-  output: __S(177, __c22, 1) as any as S.Schema<ListTagsForDomainResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<ListTagsForDomainRequest>,
+  output: __S(201, __c25, 1) as any as S.Schema<ListTagsForDomainResponse>,
   errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1589,8 +1652,8 @@ export const pushDomain: API.OperationMethod<
   PushDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<PushDomainRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<PushDomainResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<PushDomainRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<PushDomainResponse>,
   errors: [InvalidInput, OperationLimitExceeded, TLDInMaintenance, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1643,8 +1706,8 @@ export const registerDomain: API.OperationMethod<
   RegisterDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<RegisterDomainRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<RegisterDomainResponse>,
+  input: __S(224, __c28, 0) as any as S.Schema<RegisterDomainRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<RegisterDomainResponse>,
   errors: [
     DomainLimitExceeded,
     DuplicateRequest,
@@ -1678,8 +1741,8 @@ export const rejectDomainTransferFromAnotherAwsAccount: API.OperationMethod<
   RejectDomainTransferFromAnotherAwsAccountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<RejectDomainTransferFromAnotherAwsAccountRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<RejectDomainTransferFromAnotherAwsAccountResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<RejectDomainTransferFromAnotherAwsAccountRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<RejectDomainTransferFromAnotherAwsAccountResponse>,
   errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1712,8 +1775,8 @@ export const renewDomain: API.OperationMethod<
   RenewDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<RenewDomainRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<RenewDomainResponse>,
+  input: __S(248, __c31, 0) as any as S.Schema<RenewDomainRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<RenewDomainResponse>,
   errors: [
     DuplicateRequest,
     InvalidInput,
@@ -1746,8 +1809,8 @@ export const resendContactReachabilityEmail: API.OperationMethod<
   ResendContactReachabilityEmailError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<ResendContactReachabilityEmailRequest>,
-  output: __S(225, __c28, 1) as any as S.Schema<ResendContactReachabilityEmailResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<ResendContactReachabilityEmailRequest>,
+  output: __S(257, __c32, 1) as any as S.Schema<ResendContactReachabilityEmailResponse>,
   errors: [InvalidInput, OperationLimitExceeded, TLDInMaintenance, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1766,14 +1829,58 @@ export const resendOperationAuthorization: API.OperationMethod<
   ResendOperationAuthorizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<ResendOperationAuthorizationRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<ResendOperationAuthorizationResponse>,
+  input: __S(264, __c33, 0) as any as S.Schema<ResendOperationAuthorizationRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<ResendOperationAuthorizationResponse>,
   errors: [InvalidInput, TLDInMaintenance],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResendOperationAuthorization",
   telemetry: TELEMETRY,
   span: "ResendOperationAuthorization",
+}));
+
+export type RestoreDomainError =
+  | DuplicateRequest
+  | InvalidInput
+  | OperationLimitExceeded
+  | UnsupportedTLD
+  | CommonErrors;
+/**
+ * Restores a domain that has expired, or was deleted, before it becomes available
+ * for others to register. The cost of restoring your domain is billed to your Amazon Web Services account.
+ *
+ * Not every TLD registry supports restoring domains, and the period during which a
+ * domain can be restored varies by TLD. To find out whether your domain can be restored
+ * and the period during which you can restore it, see Domains that you can
+ * register with Amazon Route 53 in the Amazon Route 53 Developer
+ * Guide.
+ *
+ * Restoring a domain typically costs more, and sometimes much more, than registering
+ * or renewing a domain. To get the restoration price for a domain before you restore
+ * it, use GetDomainPrices.
+ *
+ * Restoration is asynchronous. The response includes an operation ID that you can use
+ * with GetOperationDetail to track the progress of the request. When the restoration
+ * succeeds, the domain reappears in the response to ListDomains.
+ *
+ * For more information, see Restoring an
+ * expired or deleted domain in the Amazon Route 53 Developer
+ * Guide.
+ */
+export const restoreDomain: API.OperationMethod<
+  RestoreDomainRequest & RegionInput,
+  RestoreDomainResponse,
+  RestoreDomainError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(272, __c34, 0) as any as S.Schema<RestoreDomainRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<RestoreDomainResponse>,
+  errors: [DuplicateRequest, InvalidInput, OperationLimitExceeded, UnsupportedTLD],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "RestoreDomain",
+  telemetry: TELEMETRY,
+  span: "RestoreDomain",
 }));
 
 export type RetrieveDomainAuthCodeError =
@@ -1792,8 +1899,8 @@ export const retrieveDomainAuthCode: API.OperationMethod<
   RetrieveDomainAuthCodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<RetrieveDomainAuthCodeRequest>,
-  output: __S(241, __c30, 1) as any as S.Schema<RetrieveDomainAuthCodeResponse>,
+  input: __S(280, __c35, 0) as any as S.Schema<RetrieveDomainAuthCodeRequest>,
+  output: __S(281, __c35, 1) as any as S.Schema<RetrieveDomainAuthCodeResponse>,
   errors: [InvalidInput, TLDInMaintenance, UnsupportedTLD, DomainNotFound],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1852,8 +1959,8 @@ export const transferDomain: API.OperationMethod<
   TransferDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<TransferDomainRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<TransferDomainResponse>,
+  input: __S(288, __c36, 0) as any as S.Schema<TransferDomainRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<TransferDomainResponse>,
   errors: [
     DomainLimitExceeded,
     DuplicateRequest,
@@ -1903,8 +2010,8 @@ export const transferDomainToAnotherAwsAccount: API.OperationMethod<
   TransferDomainToAnotherAwsAccountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<TransferDomainToAnotherAwsAccountRequest>,
-  output: __S(257, __c32, 1) as any as S.Schema<TransferDomainToAnotherAwsAccountResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<TransferDomainToAnotherAwsAccountRequest>,
+  output: __S(297, __c37, 1) as any as S.Schema<TransferDomainToAnotherAwsAccountResponse>,
   errors: [DuplicateRequest, InvalidInput, OperationLimitExceeded, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1935,8 +2042,8 @@ export const updateDomainContact: API.OperationMethod<
   UpdateDomainContactError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(265, __c33, 1) as any as S.Schema<UpdateDomainContactRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<UpdateDomainContactResponse>,
+  input: __S(304, __c38, 0) as any as S.Schema<UpdateDomainContactRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<UpdateDomainContactResponse>,
   errors: [
     DuplicateRequest,
     InvalidInput,
@@ -1987,8 +2094,8 @@ export const updateDomainContactPrivacy: API.OperationMethod<
   UpdateDomainContactPrivacyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<UpdateDomainContactPrivacyRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<UpdateDomainContactPrivacyResponse>,
+  input: __S(312, __c39, 0) as any as S.Schema<UpdateDomainContactPrivacyRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<UpdateDomainContactPrivacyResponse>,
   errors: [
     DuplicateRequest,
     InvalidInput,
@@ -2026,8 +2133,8 @@ export const updateDomainNameservers: API.OperationMethod<
   UpdateDomainNameserversError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<UpdateDomainNameserversRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<UpdateDomainNameserversResponse>,
+  input: __S(320, __c40, 0) as any as S.Schema<UpdateDomainNameserversRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<UpdateDomainNameserversResponse>,
   errors: [
     DuplicateRequest,
     InvalidInput,
@@ -2060,8 +2167,8 @@ export const updateTagsForDomain: API.OperationMethod<
   UpdateTagsForDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<UpdateTagsForDomainRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<UpdateTagsForDomainResponse>,
+  input: __S(328, __c41, 0) as any as S.Schema<UpdateTagsForDomainRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<UpdateTagsForDomainResponse>,
   errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2081,8 +2188,8 @@ export const viewBilling: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BillingRecord
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<ViewBillingRequest>,
-  output: __S(299, __c37, 3) as any as S.Schema<ViewBillingResponse>,
+  input: __S(336, __c42, 0) as any as S.Schema<ViewBillingRequest>,
+  output: __S(339, __c42, 3) as any as S.Schema<ViewBillingResponse>,
   errors: [InvalidInput],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2135,12 +2242,22 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "CheckDomainAvailabilityRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Availability: S.optional(S.String) }).pipe(ns)).annotate({
-        identifier: "CheckDomainAvailabilityResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({ Availability: S.optional(S.String), Price: S.optional(__S(24, __c3, 0)) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "CheckDomainAvailabilityResponse" });
   }
 }
 function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Price: S.Number, Currency: S.String, PriceType: S.optional(S.String) }),
+      ).annotate({ identifier: "PriceWithCurrency" });
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2155,13 +2272,14 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Transferability: S.optional(__S(25, __c3, 1)),
+          Transferability: S.optional(__S(33, __c4, 1)),
           Message: S.optional(S.String),
+          Price: S.optional(__S(24, __c3, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "CheckDomainTransferabilityResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2171,17 +2289,17 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteDomainRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ DomainName: S.String, TagsToDelete: __S(56, __c7, 0) }).pipe(
+        S.Struct({ DomainName: S.String, TagsToDelete: __S(64, __c8, 0) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "DeleteTagsForDomainRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
@@ -2189,20 +2307,10 @@ function __c6(j: number): any {
       });
   }
 }
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
 function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({ DomainName: S.String }).pipe(
-          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "DisableDomainAutoRenewRequest" });
+      return S.Array(S.String);
   }
 }
 function __c9(j: number): any {
@@ -2212,10 +2320,20 @@ function __c9(j: number): any {
         S.Struct({ DomainName: S.String }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
-      ).annotate({ identifier: "DisableDomainTransferLockRequest" });
+      ).annotate({ identifier: "DisableDomainAutoRenewRequest" });
   }
 }
 function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DomainName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DisableDomainTransferLockRequest" });
+  }
+}
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2225,7 +2343,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DisassociateDelegationSignerFromDomainRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2235,7 +2353,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "EnableDomainAutoRenewRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2245,7 +2363,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "EnableDomainTransferLockRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2259,7 +2377,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetContactReachabilityStatusResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2280,16 +2398,16 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "DnssecKey" });
     case 2:
-      return S.Array(__S(113, __c14, 1));
+      return S.Array(__S(121, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           DomainName: S.optional(S.String),
-          Nameservers: S.optional(__S(129, __c16, 1)),
+          Nameservers: S.optional(__S(137, __c17, 1)),
           AutoRenew: S.optional(S.Boolean),
-          AdminContact: S.optional(__S(122, __c15, 2)),
-          RegistrantContact: S.optional(__S(122, __c15, 2)),
-          TechContact: S.optional(__S(122, __c15, 2)),
+          AdminContact: S.optional(__S(130, __c16, 2)),
+          RegistrantContact: S.optional(__S(130, __c16, 2)),
+          TechContact: S.optional(__S(130, __c16, 2)),
           AdminPrivacy: S.optional(S.Boolean),
           RegistrantPrivacy: S.optional(S.Boolean),
           TechPrivacy: S.optional(S.Boolean),
@@ -2304,22 +2422,22 @@ function __c14(j: number): any {
           ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Reseller: S.optional(S.String),
           DnsSec: S.optional(S.String),
-          StatusList: S.optional(__S(56, __c7, 0)),
-          DnssecKeys: S.optional(__S(114, __c14, 2)),
-          BillingContact: S.optional(__S(122, __c15, 2)),
+          StatusList: S.optional(__S(64, __c8, 0)),
+          DnssecKeys: S.optional(__S(122, __c15, 2)),
+          BillingContact: S.optional(__S(130, __c16, 2)),
           BillingPrivacy: S.optional(S.Boolean),
         }).pipe(ns),
       ).annotate({ identifier: "GetDomainDetailResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Name: S.String, Value: SensitiveString })).annotate({
         identifier: "ExtraParam",
       });
     case 1:
-      return S.Array(__S(120, __c15, 0));
+      return S.Array(__S(128, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2336,22 +2454,51 @@ function __c15(j: number): any {
           PhoneNumber: S.optional(SensitiveString),
           Email: S.optional(SensitiveString),
           Fax: S.optional(SensitiveString),
-          ExtraParams: S.optional(__S(121, __c15, 1)),
+          ExtraParams: S.optional(__S(129, __c16, 1)),
         }),
       ).annotate({ identifier: "ContactDetail" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Name: S.String, GlueIps: S.optional(__S(56, __c7, 0)) }),
+        S.Struct({ Name: S.String, GlueIps: S.optional(__S(64, __c8, 0)) }),
       ).annotate({ identifier: "Nameserver" });
     case 1:
-      return S.Array(__S(128, __c16, 0));
+      return S.Array(__S(136, __c17, 0));
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DomainName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetDomainPricesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ DomainPrice: S.optional(__S(152, __c19, 0)) }).pipe(ns),
+      ).annotate({ identifier: "GetDomainPricesResponse" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          RegistrationPrice: S.optional(__S(24, __c3, 0)),
+          TransferPrice: S.optional(__S(24, __c3, 0)),
+          RenewalPrice: S.optional(__S(24, __c3, 0)),
+          ChangeOwnershipPrice: S.optional(__S(24, __c3, 0)),
+          RestorationPrice: S.optional(__S(24, __c3, 0)),
+        }),
+      ).annotate({ identifier: "DomainPrice" });
+  }
+}
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2359,21 +2506,26 @@ function __c17(j: number): any {
           DomainName: S.String,
           SuggestionCount: S.Number,
           OnlyAvailable: S.Boolean,
+          OnlyStandardPrices: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetDomainSuggestionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DomainName: S.optional(S.String), Availability: S.optional(S.String) }),
+        S.Struct({
+          DomainName: S.optional(S.String),
+          Availability: S.optional(S.String),
+          Price: S.optional(__S(24, __c3, 0)),
+        }),
       ).annotate({ identifier: "DomainSuggestion" });
     case 2:
-      return S.Array(__S(137, __c17, 1));
+      return S.Array(__S(161, __c20, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ SuggestionsList: S.optional(__S(138, __c17, 2)) }).pipe(ns),
+        S.Struct({ SuggestionsList: S.optional(__S(162, __c20, 2)) }).pipe(ns),
       ).annotate({ identifier: "GetDomainSuggestionsResponse" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2396,14 +2548,14 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetOperationDetailResponse" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Name: S.String, Operator: S.String, Values: __S(56, __c7, 0) }),
+        S.Struct({ Name: S.String, Operator: S.String, Values: __S(64, __c8, 0) }),
       ).annotate({ identifier: "FilterCondition" });
     case 1:
-      return S.Array(__S(152, __c19, 0));
+      return S.Array(__S(176, __c22, 0));
     case 2:
       return S.suspend(() => S.Struct({ Name: S.String, SortOrder: S.String })).annotate({
         identifier: "SortCondition",
@@ -2411,8 +2563,8 @@ function __c19(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          FilterConditions: S.optional(__S(153, __c19, 1)),
-          SortCondition: S.optional(__S(154, __c19, 2)),
+          FilterConditions: S.optional(__S(177, __c22, 1)),
+          SortCondition: S.optional(__S(178, __c22, 2)),
           Marker: S.optional(S.String),
           MaxItems: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -2427,17 +2579,17 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "DomainSummary" });
     case 5:
-      return S.Array(__S(156, __c19, 4));
+      return S.Array(__S(180, __c22, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          Domains: S.optional(__S(157, __c19, 5)),
+          Domains: S.optional(__S(181, __c22, 5)),
           NextPageMarker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListDomainsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -2447,8 +2599,8 @@ function __c20(j: number): any {
           SubmittedSince: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Marker: S.optional(S.String),
           MaxItems: S.optional(S.Number),
-          Status: S.optional(__S(160, __c20, 0)),
-          Type: S.optional(__S(160, __c20, 0)),
+          Status: S.optional(__S(184, __c23, 0)),
+          Type: S.optional(__S(184, __c23, 0)),
           SortBy: S.optional(S.String),
           SortOrder: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -2467,17 +2619,17 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "OperationSummary" });
     case 3:
-      return S.Array(__S(162, __c20, 2));
+      return S.Array(__S(186, __c23, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Operations: S.optional(__S(163, __c20, 3)),
+          Operations: S.optional(__S(187, __c23, 3)),
           NextPageMarker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2488,32 +2640,17 @@ function __c21(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListPricesRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Price: S.Number, Currency: S.String })).annotate({
-        identifier: "PriceWithCurrency",
-      });
+      return S.Array(__S(152, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Name: S.optional(S.String),
-          RegistrationPrice: S.optional(__S(169, __c21, 1)),
-          TransferPrice: S.optional(__S(169, __c21, 1)),
-          RenewalPrice: S.optional(__S(169, __c21, 1)),
-          ChangeOwnershipPrice: S.optional(__S(169, __c21, 1)),
-          RestorationPrice: S.optional(__S(169, __c21, 1)),
-        }),
-      ).annotate({ identifier: "DomainPrice" });
-    case 3:
-      return S.Array(__S(170, __c21, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          Prices: S.optional(__S(171, __c21, 3)),
+          Prices: S.optional(__S(193, __c24, 1)),
           NextPageMarker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListPricesResponse" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2523,21 +2660,21 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ListTagsForDomainRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ TagList: S.optional(__S(185, __c23, 1)) }).pipe(ns),
+        S.Struct({ TagList: S.optional(__S(209, __c26, 1)) }).pipe(ns),
       ).annotate({ identifier: "ListTagsForDomainResponse" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
       ).annotate({ identifier: "Tag" });
     case 1:
-      return S.Array(__S(184, __c23, 0));
+      return S.Array(__S(208, __c26, 0));
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2547,7 +2684,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "PushDomainRequest" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2556,19 +2693,28 @@ function __c25(j: number): any {
           IdnLangCode: S.optional(S.String),
           DurationInYears: S.Number,
           AutoRenew: S.optional(S.Boolean),
-          AdminContact: __S(122, __c15, 2),
-          RegistrantContact: __S(122, __c15, 2),
-          TechContact: __S(122, __c15, 2),
+          AdminContact: __S(130, __c16, 2),
+          RegistrantContact: __S(130, __c16, 2),
+          TechContact: __S(130, __c16, 2),
           PrivacyProtectAdminContact: S.optional(S.Boolean),
           PrivacyProtectRegistrantContact: S.optional(S.Boolean),
           PrivacyProtectTechContact: S.optional(S.Boolean),
-          BillingContact: S.optional(__S(122, __c15, 2)),
+          BillingContact: S.optional(__S(130, __c16, 2)),
           PrivacyProtectBillingContact: S.optional(S.Boolean),
+          Consent: S.optional(__S(232, __c29, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "RegisterDomainRequest" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ MaxPrice: S.Number, Currency: S.String })).annotate({
+        identifier: "Consent",
+      });
+  }
+}
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2578,7 +2724,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "RejectDomainTransferFromAnotherAwsAccountRequest" });
   }
 }
-function __c27(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2586,11 +2732,12 @@ function __c27(j: number): any {
           DomainName: S.String,
           DurationInYears: S.optional(S.Number),
           CurrentExpiryYear: S.Number,
+          Consent: S.optional(__S(232, __c29, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "RenewDomainRequest" });
   }
 }
-function __c28(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2608,7 +2755,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "ResendContactReachabilityEmailResponse" });
   }
 }
-function __c29(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2618,7 +2765,17 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ResendOperationAuthorizationRequest" });
   }
 }
-function __c30(j: number): any {
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DomainName: S.String, Consent: S.optional(__S(232, __c29, 0)) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "RestoreDomainRequest" });
+  }
+}
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2632,7 +2789,7 @@ function __c30(j: number): any {
       );
   }
 }
-function __c31(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2640,22 +2797,23 @@ function __c31(j: number): any {
           DomainName: S.String,
           IdnLangCode: S.optional(S.String),
           DurationInYears: S.optional(S.Number),
-          Nameservers: S.optional(__S(129, __c16, 1)),
+          Nameservers: S.optional(__S(137, __c17, 1)),
           AuthCode: S.optional(SensitiveString),
           AutoRenew: S.optional(S.Boolean),
-          AdminContact: __S(122, __c15, 2),
-          RegistrantContact: __S(122, __c15, 2),
-          TechContact: __S(122, __c15, 2),
+          AdminContact: __S(130, __c16, 2),
+          RegistrantContact: __S(130, __c16, 2),
+          TechContact: __S(130, __c16, 2),
           PrivacyProtectAdminContact: S.optional(S.Boolean),
           PrivacyProtectRegistrantContact: S.optional(S.Boolean),
           PrivacyProtectTechContact: S.optional(S.Boolean),
-          BillingContact: S.optional(__S(122, __c15, 2)),
+          BillingContact: S.optional(__S(130, __c16, 2)),
           PrivacyProtectBillingContact: S.optional(S.Boolean),
+          Consent: S.optional(__S(232, __c29, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "TransferDomainRequest" });
   }
 }
-function __c32(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2671,26 +2829,22 @@ function __c32(j: number): any {
       ).annotate({ identifier: "TransferDomainToAnotherAwsAccountResponse" });
   }
 }
-function __c33(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ MaxPrice: S.Number, Currency: S.String })).annotate({
-        identifier: "Consent",
-      });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           DomainName: S.String,
-          AdminContact: S.optional(__S(122, __c15, 2)),
-          RegistrantContact: S.optional(__S(122, __c15, 2)),
-          TechContact: S.optional(__S(122, __c15, 2)),
-          Consent: S.optional(__S(264, __c33, 0)),
-          BillingContact: S.optional(__S(122, __c15, 2)),
+          AdminContact: S.optional(__S(130, __c16, 2)),
+          RegistrantContact: S.optional(__S(130, __c16, 2)),
+          TechContact: S.optional(__S(130, __c16, 2)),
+          Consent: S.optional(__S(232, __c29, 0)),
+          BillingContact: S.optional(__S(130, __c16, 2)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateDomainContactRequest" });
   }
 }
-function __c34(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2704,29 +2858,29 @@ function __c34(j: number): any {
       ).annotate({ identifier: "UpdateDomainContactPrivacyRequest" });
   }
 }
-function __c35(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           DomainName: S.String,
           FIAuthKey: S.optional(SensitiveString),
-          Nameservers: __S(129, __c16, 1),
+          Nameservers: __S(137, __c17, 1),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateDomainNameserversRequest" });
   }
 }
-function __c36(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ DomainName: S.String, TagsToUpdate: S.optional(__S(185, __c23, 1)) }).pipe(
+        S.Struct({ DomainName: S.String, TagsToUpdate: S.optional(__S(209, __c26, 1)) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UpdateTagsForDomainRequest" });
   }
 }
-function __c37(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2748,17 +2902,17 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "BillingRecord" });
     case 2:
-      return S.Array(__S(297, __c37, 1));
+      return S.Array(__S(337, __c42, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           NextPageMarker: S.optional(S.String),
-          BillingRecords: S.optional(__S(298, __c37, 2)),
+          BillingRecords: S.optional(__S(338, __c42, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "ViewBillingResponse" });
   }
 }
-function __c38(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2768,7 +2922,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "AcceptDomainTransferFromAnotherAwsAccountRequest" });
   }
 }
-function __c39(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ OperationId: S.optional(S.String) }).pipe(ns)).annotate({

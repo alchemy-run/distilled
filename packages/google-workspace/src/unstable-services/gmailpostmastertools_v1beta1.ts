@@ -62,12 +62,12 @@ export interface GetDomainsRequest {
 export type DomainPermissionEnum = "PERMISSION_UNSPECIFIED" | "OWNER" | "READER" | "NONE";
 /** A registered domain resource in the Postmaster API. */
 export interface Domain {
-  /** The resource name of the Domain. Domain names have the form `domains/{domain_name}`, where domain_name is the fully qualified domain name (i.e., mymail.mydomain.com). */
-  name?: string;
-  /** Timestamp when the user registered this domain. Assigned by the server. */
-  createTime?: string;
   /** User's permission for this domain. Assigned by the server. */
   permission?: DomainPermissionEnum;
+  /** Timestamp when the user registered this domain. Assigned by the server. */
+  createTime?: string;
+  /** The resource name of the Domain. Domain names have the form `domains/{domain_name}`, where domain_name is the fully qualified domain name (i.e., mymail.mydomain.com). */
+  name?: string;
 }
 export interface GetDomainsTrafficStatsRequest {
   /** The resource name of the traffic statistics to get. E.g., domains/mymail.mydomain.com/trafficStats/20160807. */
@@ -79,14 +79,25 @@ export type TrafficStatsDomainReputationEnum =
   | "MEDIUM"
   | "LOW"
   | "BAD";
-/** [Feedback loop](https://support.google.com/mail/answer/6254652) identifier information. */
-export interface FeedbackLoop {
-  /** The ratio of user marked spam messages with the identifier vs the total number of inboxed messages with that identifier. */
-  spamRatio?: number;
-  /** Feedback loop identifier that uniquely identifies individual campaigns. */
-  id?: string;
+export type StringList = Array<string>;
+export type IpReputationReputationEnum =
+  | "REPUTATION_CATEGORY_UNSPECIFIED"
+  | "HIGH"
+  | "MEDIUM"
+  | "LOW"
+  | "BAD";
+/** IP Reputation information for a set of IPs in a specific reputation category. */
+export interface IpReputation {
+  /** Total number of unique IPs in this reputation category. This metric only pertains to traffic that passed [SPF](http://www.openspf.org/) or [DKIM](http://www.dkim.org/). Deprecated to be complied with ApiLinter for Quantities. Use ip_count instead. */
+  numIps?: string;
+  /** Total number of unique IPs in this reputation category. This metric only pertains to traffic that passed [SPF](http://www.openspf.org/) or [DKIM](http://www.dkim.org/). */
+  ipCount?: string;
+  /** A sample of IPs in this reputation category. */
+  sampleIps?: StringList;
+  /** The reputation category this IP reputation represents. */
+  reputation?: IpReputationReputationEnum;
 }
-export type FeedbackLoopList = Array<FeedbackLoop>;
+export type IpReputationList = Array<IpReputation>;
 export type DeliveryErrorErrorTypeEnum =
   | "DELIVERY_ERROR_TYPE_UNSPECIFIED"
   | "RATE_LIMIT_EXCEEDED"
@@ -105,61 +116,50 @@ export type DeliveryErrorErrorClassEnum =
   | "TEMPORARY_ERROR";
 /** Metric on a particular delivery error type. */
 export interface DeliveryError {
-  /** The ratio of messages where the error occurred vs all authenticated traffic. */
-  errorRatio?: number;
   /** The type of delivery error. */
   errorType?: DeliveryErrorErrorTypeEnum;
   /** The class of delivery error. */
   errorClass?: DeliveryErrorErrorClassEnum;
+  /** The ratio of messages where the error occurred vs all authenticated traffic. */
+  errorRatio?: number;
 }
 export type DeliveryErrorList = Array<DeliveryError>;
-export type StringList = Array<string>;
-export type IpReputationReputationEnum =
-  | "REPUTATION_CATEGORY_UNSPECIFIED"
-  | "HIGH"
-  | "MEDIUM"
-  | "LOW"
-  | "BAD";
-/** IP Reputation information for a set of IPs in a specific reputation category. */
-export interface IpReputation {
-  /** A sample of IPs in this reputation category. */
-  sampleIps?: StringList;
-  /** Total number of unique IPs in this reputation category. This metric only pertains to traffic that passed [SPF](http://www.openspf.org/) or [DKIM](http://www.dkim.org/). Deprecated to be complied with ApiLinter for Quantities. Use ip_count instead. */
-  numIps?: string;
-  /** The reputation category this IP reputation represents. */
-  reputation?: IpReputationReputationEnum;
-  /** Total number of unique IPs in this reputation category. This metric only pertains to traffic that passed [SPF](http://www.openspf.org/) or [DKIM](http://www.dkim.org/). */
-  ipCount?: string;
+/** [Feedback loop](https://support.google.com/mail/answer/6254652) identifier information. */
+export interface FeedbackLoop {
+  /** The ratio of user marked spam messages with the identifier vs the total number of inboxed messages with that identifier. */
+  spamRatio?: number;
+  /** Feedback loop identifier that uniquely identifies individual campaigns. */
+  id?: string;
 }
-export type IpReputationList = Array<IpReputation>;
+export type FeedbackLoopList = Array<FeedbackLoop>;
 /** Email traffic statistics pertaining to a specific date. */
 export interface TrafficStats {
   /** The ratio of mail that successfully authenticated with SPF vs. all mail that attempted to authenticate with [SPF](http://www.openspf.org/). Spoofed mail is excluded. */
   spfSuccessRatio?: number;
-  /** The upper bound of the confidence interval for the user reported spam ratio. If this field is set, then the value of userReportedSpamRatio is set to the midpoint of this interval and is thus inexact. However, the true ratio is guaranteed to be in between this upper bound and the corresponding lower bound 95% of the time. This metric only pertains to emails authenticated by [DKIM](http://www.dkim.org/). */
-  userReportedSpamRatioUpperBound?: number;
-  /** The ratio of incoming mail (to Gmail), that passed secure transport (TLS) vs all mail received from that domain. This metric only pertains to traffic that passed [SPF](http://www.openspf.org/) or [DKIM](http://www.dkim.org/). */
-  inboundEncryptionRatio?: number;
-  /** Reputation of the domain. */
-  domainReputation?: TrafficStatsDomainReputationEnum;
-  /** The ratio of mail that passed [DMARC](https://dmarc.org/) alignment checks vs all mail received from the domain that successfully authenticated with either of [SPF](http://www.openspf.org/) or [DKIM](http://www.dkim.org/). */
-  dmarcSuccessRatio?: number;
-  /** The ratio of mail that successfully authenticated with DKIM vs. all mail that attempted to authenticate with [DKIM](http://www.dkim.org/). Spoofed mail is excluded. */
-  dkimSuccessRatio?: number;
-  /** Spammy [Feedback loop identifiers] (https://support.google.com/mail/answer/6254652) with their individual spam rates. This metric only pertains to traffic that is authenticated by [DKIM](http://www.dkim.org/). */
-  spammyFeedbackLoops?: FeedbackLoopList;
   /** The ratio of user-report spam vs. email that was sent to the inbox. This is potentially inexact -- users may want to refer to the description of the interval fields userReportedSpamRatioLowerBound and userReportedSpamRatioUpperBound for more explicit accuracy guarantees. This metric only pertains to emails authenticated by [DKIM](http://www.dkim.org/). */
   userReportedSpamRatio?: number;
-  /** Delivery errors for the domain. This metric only pertains to traffic that passed [SPF](http://www.openspf.org/) or [DKIM](http://www.dkim.org/). */
-  deliveryErrors?: DeliveryErrorList;
-  /** The resource name of the traffic statistics. Traffic statistic names have the form `domains/{domain}/trafficStats/{date}`, where domain_name is the fully qualified domain name (i.e., mymail.mydomain.com) of the domain this traffic statistics pertains to and date is the date in yyyymmdd format that these statistics corresponds to. For example: domains/mymail.mydomain.com/trafficStats/20160807 */
-  name?: string;
-  /** Reputation information pertaining to the IP addresses of the email servers for the domain. There is exactly one entry for each reputation category except REPUTATION_CATEGORY_UNSPECIFIED. */
-  ipReputations?: IpReputationList;
+  /** The ratio of mail that passed [DMARC](https://dmarc.org/) alignment checks vs all mail received from the domain that successfully authenticated with either of [SPF](http://www.openspf.org/) or [DKIM](http://www.dkim.org/). */
+  dmarcSuccessRatio?: number;
+  /** Reputation of the domain. */
+  domainReputation?: TrafficStatsDomainReputationEnum;
+  /** The ratio of incoming mail (to Gmail), that passed secure transport (TLS) vs all mail received from that domain. This metric only pertains to traffic that passed [SPF](http://www.openspf.org/) or [DKIM](http://www.dkim.org/). */
+  inboundEncryptionRatio?: number;
+  /** The upper bound of the confidence interval for the user reported spam ratio. If this field is set, then the value of userReportedSpamRatio is set to the midpoint of this interval and is thus inexact. However, the true ratio is guaranteed to be in between this upper bound and the corresponding lower bound 95% of the time. This metric only pertains to emails authenticated by [DKIM](http://www.dkim.org/). */
+  userReportedSpamRatioUpperBound?: number;
+  /** The ratio of mail that successfully authenticated with DKIM vs. all mail that attempted to authenticate with [DKIM](http://www.dkim.org/). Spoofed mail is excluded. */
+  dkimSuccessRatio?: number;
   /** The lower bound of the confidence interval for the user reported spam ratio. If this field is set, then the value of userReportedSpamRatio is set to the midpoint of this interval and is thus inexact. However, the true ratio is guaranteed to be in between this lower bound and the corresponding upper bound 95% of the time. This metric only pertains to emails authenticated by [DKIM](http://www.dkim.org/). */
   userReportedSpamRatioLowerBound?: number;
+  /** The resource name of the traffic statistics. Traffic statistic names have the form `domains/{domain}/trafficStats/{date}`, where domain_name is the fully qualified domain name (i.e., mymail.mydomain.com) of the domain this traffic statistics pertains to and date is the date in yyyymmdd format that these statistics corresponds to. For example: domains/mymail.mydomain.com/trafficStats/20160807 */
+  name?: string;
   /** The ratio of outgoing mail (from Gmail) that was accepted over secure transport (TLS). */
   outboundEncryptionRatio?: number;
+  /** Reputation information pertaining to the IP addresses of the email servers for the domain. There is exactly one entry for each reputation category except REPUTATION_CATEGORY_UNSPECIFIED. */
+  ipReputations?: IpReputationList;
+  /** Delivery errors for the domain. This metric only pertains to traffic that passed [SPF](http://www.openspf.org/) or [DKIM](http://www.dkim.org/). */
+  deliveryErrors?: DeliveryErrorList;
+  /** Spammy [Feedback loop identifiers] (https://support.google.com/mail/answer/6254652) with their individual spam rates. This metric only pertains to traffic that is authenticated by [DKIM](http://www.dkim.org/). */
+  spammyFeedbackLoops?: FeedbackLoopList;
 }
 export interface ListDomainsRequest {
   /** The next_page_token value returned from a previous List request, if any. This is the value of ListDomainsResponse.next_page_token returned from the previous call to `ListDomains` method. */
@@ -176,32 +176,32 @@ export interface ListDomainsResponse {
   domains?: DomainList;
 }
 export interface ListDomainsTrafficStatsRequest {
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "startDate.month"?: number;
-  /** Requested page size. Server may return fewer TrafficStats than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "endDate.month"?: number;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   "startDate.day"?: number;
   /** The resource name of the domain whose traffic statistics we'd like to list. It should have the form `domains/{domain_name}`, where domain_name is the fully qualified domain name. */
   parent: string;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "startDate.year"?: number;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
   "endDate.year"?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "endDate.day"?: number;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "endDate.month"?: number;
   /** The next_page_token value returned from a previous List request, if any. This is the value of ListTrafficStatsResponse.next_page_token returned from the previous call to `ListTrafficStats` method. */
   pageToken?: string;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "startDate.year"?: number;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "startDate.month"?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  "endDate.day"?: number;
+  /** Requested page size. Server may return fewer TrafficStats than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
 }
 export type TrafficStatsList = Array<TrafficStats>;
 /** Response message for ListTrafficStats. */
 export interface ListTrafficStatsResponse {
-  /** The list of TrafficStats. */
-  trafficStats?: TrafficStatsList;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string;
+  /** The list of TrafficStats. */
+  trafficStats?: TrafficStatsList;
 }
 export type GetDomainsError = NotFound | Forbidden | GoogleWorkspaceOpError;
 /** Gets a specific domain registered by the client. Returns NOT_FOUND if the domain does not exist. */
@@ -297,9 +297,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
           permission: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Domain" });
   }
@@ -323,53 +323,53 @@ function __c2(j: number): any {
 function __c3(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          numIps: S.optional(S.String),
+          ipCount: S.optional(S.String),
+          sampleIps: S.optional(__S(24, __c3, 0)),
+          reputation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IpReputation" });
+    case 2:
+      return S.Array(__S(25, __c3, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          errorType: S.optional(S.String),
+          errorClass: S.optional(S.String),
+          errorRatio: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DeliveryError" });
+    case 4:
+      return S.Array(__S(27, __c3, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           spamRatio: S.optional(S.Number),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "FeedbackLoop" });
-    case 1:
-      return S.Array(__S(24, __c3, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          errorRatio: S.optional(S.Number),
-          errorType: S.optional(S.String),
-          errorClass: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DeliveryError" });
-    case 3:
-      return S.Array(__S(26, __c3, 2));
-    case 4:
-      return S.Array(S.String);
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          sampleIps: S.optional(__S(28, __c3, 4)),
-          numIps: S.optional(S.String),
-          reputation: S.optional(S.String),
-          ipCount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IpReputation" });
     case 6:
       return S.Array(__S(29, __c3, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           spfSuccessRatio: S.optional(S.Number),
-          userReportedSpamRatioUpperBound: S.optional(S.Number),
-          inboundEncryptionRatio: S.optional(S.Number),
-          domainReputation: S.optional(S.String),
-          dmarcSuccessRatio: S.optional(S.Number),
-          dkimSuccessRatio: S.optional(S.Number),
-          spammyFeedbackLoops: S.optional(__S(25, __c3, 1)),
           userReportedSpamRatio: S.optional(S.Number),
-          deliveryErrors: S.optional(__S(27, __c3, 3)),
-          name: S.optional(S.String),
-          ipReputations: S.optional(__S(30, __c3, 6)),
+          dmarcSuccessRatio: S.optional(S.Number),
+          domainReputation: S.optional(S.String),
+          inboundEncryptionRatio: S.optional(S.Number),
+          userReportedSpamRatioUpperBound: S.optional(S.Number),
+          dkimSuccessRatio: S.optional(S.Number),
           userReportedSpamRatioLowerBound: S.optional(S.Number),
+          name: S.optional(S.String),
           outboundEncryptionRatio: S.optional(S.Number),
+          ipReputations: S.optional(__S(26, __c3, 2)),
+          deliveryErrors: S.optional(__S(28, __c3, 4)),
+          spammyFeedbackLoops: S.optional(__S(30, __c3, 6)),
         }),
       ).annotate({ identifier: "TrafficStats" });
   }
@@ -405,15 +405,15 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "startDate.month": S.optional(S.Number.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          "endDate.month": S.optional(S.Number.pipe(T.Query())),
           "startDate.day": S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          "startDate.year": S.optional(S.Number.pipe(T.Query())),
           "endDate.year": S.optional(S.Number.pipe(T.Query())),
-          "endDate.day": S.optional(S.Number.pipe(T.Query())),
+          "endDate.month": S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          "startDate.year": S.optional(S.Number.pipe(T.Query())),
+          "startDate.month": S.optional(S.Number.pipe(T.Query())),
+          "endDate.day": S.optional(S.Number.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -427,8 +427,8 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          trafficStats: S.optional(__S(41, __c5, 1)),
           nextPageToken: S.optional(S.String),
+          trafficStats: S.optional(__S(41, __c5, 1)),
         }),
       ).annotate({ identifier: "ListTrafficStatsResponse" });
   }

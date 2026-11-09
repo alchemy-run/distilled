@@ -84,7 +84,7 @@ export interface CreateNetworkRequest {
   /** The region where the network will be created */
   region: string;
 }
-/** The IDs of the AWS Availability Zones in which the network exists, if specified during creation. */
+/** The IDs of the AWS Availability Zones in which the network exists. */
 export type NetworkAwsAvailabilityZoneIdsList = Array<string>;
 export type NetworkEgressIpAddressesList = Array<string>;
 /** Metadata about any AWS Route53 Hosted Zones associated with the Network. */
@@ -105,7 +105,7 @@ export type NetworkStatus = "create_in_progress" | "delete_in_progress" | "error
 export interface Network {
   /** The ID of the AWS Account in which the network exists. */
   awsAccountId: string;
-  /** The IDs of the AWS Availability Zones in which the network exists, if specified during creation. */
+  /** The IDs of the AWS Availability Zones in which the network exists. */
   awsAvailabilityZoneIds?: NetworkAwsAvailabilityZoneIdsList;
   /** The AWS Region in which the network exists. */
   awsRegion: string;
@@ -341,7 +341,7 @@ export type CreatePrivateLinkEndpointError =
   | NotFound
   | Conflict
   | VercelOpError;
-/** Create a PrivateLink endpoint Creates a PrivateLink endpoint for a project. */
+/** Create a PrivateLink endpoint Creates a PrivateLink endpoint for a project. Changes to endpoints of the same project are serialized. If another change holds them for too long, the request fails with `503 service_unavailable` and can be retried. If the change may have completed but the outcome is unknown, it fails with `409 uncertain_outcome`; read the endpoint before retrying. */
 export const createPrivateLinkEndpoint: API.OperationMethod<
   CreatePrivateLinkEndpointRequest,
   PrivateLinkEndpoint,
@@ -386,7 +386,7 @@ export type DeletePrivateLinkEndpointError =
   | NotFound
   | Conflict
   | VercelOpError;
-/** Delete a PrivateLink endpoint Deletes a PrivateLink endpoint. */
+/** Delete a PrivateLink endpoint Deletes a PrivateLink endpoint. The endpoint is removed asynchronously. Repeating the request for an endpoint that is already being deleted retries its cleanup and also returns `204`. Changes to endpoints of the same project are serialized. If another change holds them for too long, the request fails with `503 service_unavailable` and can be retried. If the change may have completed but the outcome is unknown, it fails with `409 uncertain_outcome`; read the endpoint before retrying. */
 export const deletePrivateLinkEndpoint: API.OperationMethod<
   DeletePrivateLinkEndpointRequest,
   DeletePrivateLinkEndpointResponse,
@@ -493,7 +493,7 @@ export type UpdatePrivateLinkEndpointError =
   | NotFound
   | Conflict
   | VercelOpError;
-/** Update a PrivateLink endpoint Updates a PrivateLink endpoint (name, privateDns). */
+/** Update a PrivateLink endpoint Updates a PrivateLink endpoint (name, privateDns). Changes to endpoints of the same project are serialized. If another change holds them for too long, the request fails with `503 service_unavailable` and can be retried. If the change may have completed but the outcome is unknown, it fails with `409 uncertain_outcome`; read the endpoint before retrying. */
 export const updatePrivateLinkEndpoint: API.OperationMethod<
   UpdatePrivateLinkEndpointRequest,
   PrivateLinkEndpoint,

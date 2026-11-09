@@ -87,12 +87,12 @@ export class NotFound
 export interface SshPublicKey {
   /** Required. Public key text in SSH format, defined by [RFC4253](https://www.ietf.org/rfc/rfc4253.txt) section 6.6. */
   key?: string;
-  /** Output only. The canonical resource name. */
-  name?: string;
-  /** An expiration time in microseconds since epoch. */
-  expirationTimeUsec?: string;
   /** Output only. The SHA-256 fingerprint of the SSH public key. */
   fingerprint?: string;
+  /** An expiration time in microseconds since epoch. */
+  expirationTimeUsec?: string;
+  /** Output only. The canonical resource name. */
+  name?: string;
 }
 export interface CreateUsersSshPublicKeysRequest {
   /** Required. The unique ID for the user in format `users/{user}`. */
@@ -125,16 +125,16 @@ export type GetLoginProfileUsersOperatingSystemTypeEnum =
   | "LINUX"
   | "WINDOWS";
 export interface GetLoginProfileUsersRequest {
+  /** Required. The unique ID for the user in format `users/{user}`. */
+  name: string;
   /** The view configures whether to retrieve security keys information. */
   view?: GetLoginProfileUsersViewEnum | (string & {});
+  /** Optional. The type of operating system associated with the account. */
+  operatingSystemType?: GetLoginProfileUsersOperatingSystemTypeEnum | (string & {});
   /** Required. The project ID of the Google Cloud Platform project. */
   projectId?: string;
   /** Optional. A system ID for filtering the results of the request. */
   systemId?: string;
-  /** Required. The unique ID for the user in format `users/{user}`. */
-  name: string;
-  /** Optional. The type of operating system associated with the account. */
-  operatingSystemType?: GetLoginProfileUsersOperatingSystemTypeEnum | (string & {});
 }
 export type PosixAccountOperatingSystemTypeEnum =
   | "OPERATING_SYSTEM_TYPE_UNSPECIFIED"
@@ -142,26 +142,26 @@ export type PosixAccountOperatingSystemTypeEnum =
   | "WINDOWS";
 /** The POSIX account information associated with a Google account. */
 export interface PosixAccount {
-  /** The user ID. */
-  uid?: string;
-  /** System identifier for which account the username or uid applies to. By default, the empty value is used. */
-  systemId?: string;
-  /** Only one POSIX account can be marked as primary. */
-  primary?: boolean;
-  /** Output only. A POSIX account identifier. */
-  accountId?: string;
   /** The default group ID. */
   gid?: string;
+  /** The operating system type where this account applies. */
+  operatingSystemType?: PosixAccountOperatingSystemTypeEnum;
   /** The path to the home directory for this account. */
   homeDirectory?: string;
   /** The path to the logic shell for this account. */
   shell?: string;
   /** The GECOS (user information) entry for this account. */
   gecos?: string;
-  /** The operating system type where this account applies. */
-  operatingSystemType?: PosixAccountOperatingSystemTypeEnum;
+  /** System identifier for which account the username or uid applies to. By default, the empty value is used. */
+  systemId?: string;
   /** Output only. The canonical resource name. */
   name?: string;
+  /** Output only. A POSIX account identifier. */
+  accountId?: string;
+  /** The user ID. */
+  uid?: string;
+  /** Only one POSIX account can be marked as primary. */
+  primary?: boolean;
   /** The username of the POSIX account. */
   username?: string;
 }
@@ -178,16 +178,16 @@ export interface WebAuthn {
 }
 /** The credential information for a Google registered security key. */
 export interface SecurityKey {
-  /** Public key text in SSH format, defined by [RFC4253]("https://www.ietf.org/rfc/rfc4253.txt") section 6.6. */
-  publicKey?: string;
-  /** Hardware-backed private key text in SSH format. */
-  privateKey?: string;
   /** The security key nickname explicitly set by the user. */
   deviceNickname?: string;
+  /** Public key text in SSH format, defined by [RFC4253]("https://www.ietf.org/rfc/rfc4253.txt") section 6.6. */
+  publicKey?: string;
   /** The U2F protocol type. */
   universalTwoFactor?: UniversalTwoFactor;
   /** The Web Authentication protocol type. */
   webAuthn?: WebAuthn;
+  /** Hardware-backed private key text in SSH format. */
+  privateKey?: string;
 }
 export type SecurityKeyList = Array<SecurityKey>;
 export type SshPublicKeyMap = { [key: string]: SshPublicKey | undefined };
@@ -206,20 +206,20 @@ export interface GetUsersSshPublicKeysRequest {
   /** Required. The fingerprint of the public key to retrieve. Public keys are identified by their SHA-256 fingerprint. The fingerprint of the public key is in format `users/{user}/sshPublicKeys/{fingerprint}`. */
   name: string;
 }
-export type StringList = Array<string>;
 export type ImportSshPublicKeyUsersViewEnum =
   | "LOGIN_PROFILE_VIEW_UNSPECIFIED"
   | "BASIC"
   | "SECURITY_KEY";
+export type StringList = Array<string>;
 export interface ImportSshPublicKeyUsersRequest {
-  /** Optional. The regions to wait for a POSIX account to be written to before returning a response. If unspecified, defaults to all regions. Regions are listed at https://cloud.google.com/about/locations#region. */
-  regions?: StringList;
-  /** The view configures whether to retrieve security keys information. */
-  view?: ImportSshPublicKeyUsersViewEnum | (string & {});
   /** The unique ID for the user in format `users/{user}`. */
   parent: string;
   /** The project ID of the Google Cloud Platform project. */
   projectId?: string;
+  /** The view configures whether to retrieve security keys information. */
+  view?: ImportSshPublicKeyUsersViewEnum | (string & {});
+  /** Optional. The regions to wait for a POSIX account to be written to before returning a response. If unspecified, defaults to all regions. Regions are listed at https://cloud.google.com/about/locations#region. */
+  regions?: StringList;
   /** Request body */
   body?: SshPublicKey;
 }
@@ -251,16 +251,16 @@ export interface ProvisionPosixAccountUsersProjectsRequest {
 }
 /** A request message for signing an SSH public key. */
 export interface GoogleCloudOsloginControlplaneRegionalV1alphaSignSshPublicKeyRequest {
-  /** Required. The SSH public key to sign. */
-  sshPublicKey?: string;
-  /** The Compute instance to sign the SSH public key for. Expected format: projects/{project}/zones/{zone}/instances/{numeric_instance_id} */
-  computeInstance?: string;
   /** Optional. The Cloud Run resource to sign the SSH public key for. Expected formats: - `projects/{project}/locations/{location}/services/{service}` - `projects/{project}/locations/{location}/workerPools/{worker_pool}` - `projects/{project}/locations/{location}/jobs/{job}` - `projects/{project}/locations/{location}/instances/{instance}` */
   cloudRunResource?: string;
-  /** Optional. The service account for the instance. If the instance in question does not have a service account, this field should be left empty. If the wrong service account is provided, this operation will return a signed certificate that will not be accepted by the VM. */
-  serviceAccount?: string;
+  /** The Compute instance to sign the SSH public key for. Expected format: projects/{project}/zones/{zone}/instances/{numeric_instance_id} */
+  computeInstance?: string;
   /** The App Engine instance to sign the SSH public key for. Expected format: apps/{app}/services/{service}/versions/{version}/instances/{instance} */
   appEngineInstance?: string;
+  /** Optional. The service account for the instance. If the instance in question does not have a service account, this field should be left empty. If the wrong service account is provided, this operation will return a signed certificate that will not be accepted by the VM. */
+  serviceAccount?: string;
+  /** Required. The SSH public key to sign. */
+  sshPublicKey?: string;
 }
 export interface SignSshPublicKeyProjectsLocationsRequest {
   /** Required. The parent for the signing request. Format: projects/{project}/locations/{location} */
@@ -571,11 +571,11 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sshPublicKey: S.optional(S.String),
-          computeInstance: S.optional(S.String),
           cloudRunResource: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
+          computeInstance: S.optional(S.String),
           appEngineInstance: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          sshPublicKey: S.optional(S.String),
         }),
       ).annotate({
         identifier: "GoogleCloudOsloginControlplaneRegionalV1alphaSignSshPublicKeyRequest",
@@ -674,9 +674,9 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           key: S.optional(S.String),
-          name: S.optional(S.String),
-          expirationTimeUsec: S.optional(S.String),
           fingerprint: S.optional(S.String),
+          expirationTimeUsec: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "SshPublicKey" });
   }
@@ -725,11 +725,11 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           view: S.optional(S.String.pipe(T.Query())),
+          operatingSystemType: S.optional(S.String.pipe(T.Query())),
           projectId: S.optional(S.String.pipe(T.Query())),
           systemId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          operatingSystemType: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -759,11 +759,11 @@ function __c13(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          publicKey: S.optional(S.String),
-          privateKey: S.optional(S.String),
           deviceNickname: S.optional(S.String),
+          publicKey: S.optional(S.String),
           universalTwoFactor: S.optional(__S(105, __c13, 1)),
           webAuthn: S.optional(__S(106, __c13, 2)),
+          privateKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecurityKey" });
     case 4:
@@ -786,16 +786,16 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          uid: S.optional(S.String),
-          systemId: S.optional(S.String),
-          primary: S.optional(S.Boolean),
-          accountId: S.optional(S.String),
           gid: S.optional(S.String),
+          operatingSystemType: S.optional(S.String),
           homeDirectory: S.optional(S.String),
           shell: S.optional(S.String),
           gecos: S.optional(S.String),
-          operatingSystemType: S.optional(S.String),
+          systemId: S.optional(S.String),
           name: S.optional(S.String),
+          accountId: S.optional(S.String),
+          uid: S.optional(S.String),
+          primary: S.optional(S.Boolean),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "PosixAccount" });
@@ -822,10 +822,10 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          regions: S.optional(__S(136, __c17, 0).pipe(T.Query())),
-          view: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           projectId: S.optional(S.String.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
+          regions: S.optional(__S(136, __c17, 0).pipe(T.Query())),
           body: S.optional(__S(64, __c8, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({

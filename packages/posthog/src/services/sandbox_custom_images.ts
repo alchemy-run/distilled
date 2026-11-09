@@ -87,6 +87,36 @@ export interface GetSandboxCustomImageRequest {
   project_id: string;
   id: string;
 }
+export type ListSandboxCustomImagesRequestOriginProduct =
+  | "onboarding"
+  | "account_audit"
+  | "error_tracking"
+  | "eval_clusters"
+  | "user_created"
+  | "slack"
+  | "support_queue"
+  | "session_summaries"
+  | "posthog_ai"
+  | "experiments"
+  | "signal_report"
+  | "autoresearch"
+  | "signals_scout"
+  | "scout_suggestions"
+  | "support_reply"
+  | "hogdesk"
+  | "review_hog"
+  | "image_builder"
+  | "loop"
+  | "mcp_analytics"
+  | "signals_chat"
+  | "task_analysis"
+  | "workflow"
+  | "space_setup"
+  | "business_knowledge"
+  | "metrics_import"
+  | "knowledge_writer"
+  | "context_layer"
+  | "feature_flags";
 export interface ListSandboxCustomImagesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -94,6 +124,8 @@ export interface ListSandboxCustomImagesRequest {
   limit?: number;
   /** The initial index from which to return the results. */
   offset?: number;
+  /** Return 403 unless tasks from this origin product can run on custom images. Leave it out to only check that custom images are enabled. * `onboarding` - Onboarding * `account_audit` - Account audit * `error_tracking` - Error Tracking * `eval_clusters` - Eval Clusters * `user_created` - User Created * `slack` - Slack * `support_queue` - Support Queue * `session_summaries` - Session Summaries * `posthog_ai` - PostHog AI * `experiments` - Experiments * `signal_report` - Signal Report * `autoresearch` - Autoresearch * `signals_scout` - Signals Scout * `scout_suggestions` - Signals Scout Suggestions * `support_reply` - Support Reply * `hogdesk` - HogDesk * `review_hog` - ReviewHog * `image_builder` - Image Builder * `loop` - Loop * `mcp_analytics` - MCP Analytics * `signals_chat` - Signals Chat * `task_analysis` - Task Analysis * `workflow` - Workflow * `space_setup` - Space Setup * `business_knowledge` - Business Knowledge * `metrics_import` - Metrics Import * `knowledge_writer` - Knowledge Writer * `context_layer` - Context Layer * `feature_flags` - Feature Flags */
+  origin_product?: ListSandboxCustomImagesRequestOriginProduct | (string & {});
 }
 export type PaginatedSandboxCustomImageDTOListResultsList = Array<SandboxCustomImageDTO>;
 export interface PaginatedSandboxCustomImageDTOList {
@@ -359,6 +391,7 @@ function __c5(j: number): any {
           project_id: S.String.pipe(T.Label()),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
+          origin_product: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",

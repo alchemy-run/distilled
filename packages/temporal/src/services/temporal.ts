@@ -5417,6 +5417,7 @@ export type PollWorkflowTaskQueueResponseQueriesMap = { [key: string]: WorkflowQ
 export interface GoogleProtobufAny {
   /** The type of the serialized message. */
   _type?: string;
+  [key: string]: unknown;
 }
 /** (-- api-linter: core::0146::any=disabled aip.dev/not-precedent: We want runtime extensibility for the body field --) */
 export interface Message {
@@ -12748,9 +12749,12 @@ function __c153(j: number): any {
       return S.Record(S.String, __S(3616, __c113, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          _type: S.optional(S.String.pipe(T.Body("@type"))),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            _type: S.optional(S.String.pipe(T.Body("@type"))),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "GoogleProtobufAny" });
     case 3:
       return S.suspend(() =>

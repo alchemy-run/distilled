@@ -1200,6 +1200,8 @@ export interface BackupPolicy {
   type: BackupPolicyType | (string & {});
   /** The object representing the state of the migration between the backup policies. */
   migrationState?: BackupPolicyMigrationState;
+  /** The UTC timestamp until which changes that reduce backup retention are locked. While active, this timestamp can only be extended. */
+  backupRetentionLockExpirationTimestamp?: string;
 }
 /** The CORS policy for the Cosmos DB database account. */
 export interface CorsPolicy {
@@ -1349,6 +1351,8 @@ export interface DatabaseAccountCreateUpdatePropertiesInput {
   enablePerRegionPerPartitionAutoscale?: boolean;
   /** Flag to indicate enabling/disabling of hierarchical partition key ID last level enforcement on the account. */
   enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
+  /** Flag to indicate enabling/disabling of per-partition automatic failover on the account, which automatically fails over individual partitions to available regions during a regional outage. Opt-in; defaults to false. */
+  perPartitionAutomaticFailoverEnabled?: boolean;
 }
 export interface DatabaseAccountsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1561,6 +1565,8 @@ export interface DatabaseAccountGetProperties {
   enablePerRegionPerPartitionAutoscale?: boolean;
   /** Flag to indicate enabling/disabling of hierarchical partition key ID last level enforcement on the account. */
   enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
+  /** Flag to indicate enabling/disabling of per-partition automatic failover on the account, which automatically fails over individual partitions to available regions during a regional outage. Opt-in; defaults to false. */
+  perPartitionAutomaticFailoverEnabled?: boolean;
 }
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type DatabaseAccountsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -2319,6 +2325,18 @@ export interface AutoscaleSettingsResource {
   /** Represents target maximum throughput container can scale up to once offer is no longer in pending state. */
   targetMaxThroughput?: number;
 }
+/** Cosmos DB throughput bucket object */
+export interface ThroughputBucketResource {
+  /** Represents the throughput bucket id */
+  id: number;
+  /** Represents maximum percentage throughput that can be used by the bucket */
+  maxThroughputPercentage: number;
+  /** Indicates whether this is the default throughput bucket */
+  isDefaultBucket?: boolean;
+}
+/** Array of throughput bucket limits to be applied to the Cosmos DB container */
+export type ThroughputSettingsGetPropertiesResourceThroughputBucketsList =
+  Array<ThroughputBucketResource>;
 export interface ThroughputSettingsGetPropertiesResource {
   /** Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required, but not both. */
   throughput?: number;
@@ -2332,6 +2350,8 @@ export interface ThroughputSettingsGetPropertiesResource {
   instantMaximumThroughput?: string;
   /** The maximum throughput value or the maximum maxThroughput value (for autoscale) that can be specified */
   softAllowedMaximumThroughput?: string;
+  /** Array of throughput bucket limits to be applied to the Cosmos DB container */
+  throughputBuckets?: ThroughputSettingsGetPropertiesResourceThroughputBucketsList;
   /** A system generated property. A unique identifier. */
   _rid?: string;
   /** A system generated property that denotes the last updated timestamp of the resource. */
@@ -8779,12 +8799,16 @@ export interface AutoscaleSettingsResourceInput {
   /** Cosmos DB resource auto-upgrade policy */
   autoUpgradePolicy?: AutoUpgradePolicyResource;
 }
+/** Array of throughput bucket limits to be applied to the Cosmos DB container */
+export type ThroughputSettingsResourceInputThroughputBucketsList = Array<ThroughputBucketResource>;
 /** Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not both. */
 export interface ThroughputSettingsResourceInput {
   /** Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required, but not both. */
   throughput?: number;
   /** Cosmos DB resource for autoscale settings. Either throughput is required or autoscaleSettings is required, but not both. */
   autoscaleSettings?: AutoscaleSettingsResourceInput;
+  /** Array of throughput bucket limits to be applied to the Cosmos DB container */
+  throughputBuckets?: ThroughputSettingsResourceInputThroughputBucketsList;
 }
 /** Properties to update Azure Cosmos DB resource throughput. */
 export interface ThroughputSettingsUpdatePropertiesInput {
@@ -8969,6 +8993,8 @@ export interface DatabaseAccountUpdatePropertiesInput {
   enablePerRegionPerPartitionAutoscale?: boolean;
   /** Flag to indicate enabling/disabling of hierarchical partition key ID last level enforcement on the account. */
   enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
+  /** Flag to indicate enabling/disabling of per-partition automatic failover on the account, which automatically fails over individual partitions to available regions during a regional outage. Opt-in; defaults to false. */
+  perPartitionAutomaticFailoverEnabled?: boolean;
 }
 export interface UpdateDatabaseAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13892,7 +13918,7 @@ function __c0(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CassandraClustersCreateUpdateRequest" });
@@ -14075,7 +14101,7 @@ function __c8(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/deallocate",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CassandraClustersDeallocateRequest" });
@@ -14108,7 +14134,7 @@ function __c10(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}/fleetspaces/{fleetspaceName}/fleetspaceAccounts/{fleetspaceAccountName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CreateFleetspaceAccountRequest" });
@@ -14184,7 +14210,7 @@ function __c12(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GremlinResourcesCreateUpdateGremlinGraphRequest" });
@@ -14233,7 +14259,7 @@ function __c14(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GremlinResourcesCreateUpdateGremlinRoleAssignmentRequest" });
@@ -14254,7 +14280,7 @@ function __c15(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GremlinResourcesCreateUpdateGremlinRoleDefinitionRequest" });
@@ -14278,7 +14304,7 @@ function __c16(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/invokeCommand",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "InvokeCassandraClusterCommandRequest" });
@@ -14296,7 +14322,7 @@ function __c17(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCassandraClusterByResourceGroupRequest" });
@@ -14326,7 +14352,7 @@ function __c19(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/cassandraClusters",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCassandraClusterBySubscriptionRequest" });
@@ -14345,7 +14371,7 @@ function __c20(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/dataCenters",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCassandraDataCentersRequest" });
@@ -14373,7 +14399,7 @@ function __c21(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCassandraResourceCassandraKeyspacesRequest" });
@@ -14401,7 +14427,7 @@ function __c22(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraRoleAssignments",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCassandraResourceCassandraRoleAssignmentsRequest" });
@@ -14433,7 +14459,7 @@ function __c24(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraRoleDefinitions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCassandraResourceCassandraRoleDefinitionsRequest" });
@@ -14475,7 +14501,7 @@ function __c26(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/services/{serviceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CreateServiceRequest" });
@@ -14524,7 +14550,7 @@ function __c28(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCassandraResourceCassandraTablesRequest" });
@@ -14554,7 +14580,7 @@ function __c29(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/metricDefinitions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCollectionMetricDefinitionsRequest" });
@@ -14619,7 +14645,7 @@ function __c32(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCollectionMetricsRequest" });
@@ -14682,7 +14708,7 @@ function __c35(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitions/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCollectionPartitionMetricsRequest" });
@@ -14731,7 +14757,7 @@ function __c37(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/databases/{databaseRid}/collections/{collectionRid}/partitions/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCollectionPartitionRegionMetricsRequest" });
@@ -14753,7 +14779,7 @@ function __c38(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitions/usages",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCollectionPartitionUsagesRequest" });
@@ -14797,7 +14823,7 @@ function __c39(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/databases/{databaseRid}/collections/{collectionRid}/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCollectionRegionMetricsRequest" });
@@ -14819,7 +14845,7 @@ function __c40(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/usages",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListCollectionUsagesRequest" });
@@ -14860,7 +14886,7 @@ function __c42(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseAccountByResourceGroupRequest" });
@@ -14892,7 +14918,7 @@ function __c44(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/listConnectionStrings",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseAccountConnectionStringsRequest" });
@@ -14955,6 +14981,7 @@ function __c45(j: number): any {
           defaultPriorityLevel: S.optional(S.String),
           enablePerRegionPerPartitionAutoscale: S.optional(S.Boolean),
           enforceHierarchicalPartitionKeyIdLastLevel: S.optional(S.Boolean),
+          perPartitionAutomaticFailoverEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DatabaseAccountCreateUpdatePropertiesInput" });
     case 1:
@@ -14973,7 +15000,7 @@ function __c45(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DatabaseAccountsCreateOrUpdateRequest" });
@@ -15066,6 +15093,7 @@ function __c48(j: number): any {
         S.Struct({
           type: S.String,
           migrationState: S.optional(__S(1543, __c48, 7)),
+          backupRetentionLockExpirationTimestamp: S.optional(S.String),
         }),
       ).annotate({ identifier: "BackupPolicy" });
     case 9:
@@ -15202,6 +15230,7 @@ function __c48(j: number): any {
           defaultPriorityLevel: S.optional(S.String),
           enablePerRegionPerPartitionAutoscale: S.optional(S.Boolean),
           enforceHierarchicalPartitionKeyIdLastLevel: S.optional(S.Boolean),
+          perPartitionAutomaticFailoverEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DatabaseAccountGetProperties" });
   }
@@ -15260,7 +15289,7 @@ function __c51(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/listKeys",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseAccountKeysRequest" });
@@ -15288,7 +15317,7 @@ function __c52(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/metricDefinitions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseAccountMetricDefinitionsRequest" });
@@ -15308,7 +15337,7 @@ function __c53(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseAccountMetricsRequest" });
@@ -15329,7 +15358,7 @@ function __c54(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseAccountRegionMetricsRequest" });
@@ -15346,7 +15375,7 @@ function __c55(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/databaseAccounts",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseAccountsRequest" });
@@ -15366,7 +15395,7 @@ function __c56(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/usages",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseAccountUsagesRequest" });
@@ -15386,7 +15415,7 @@ function __c57(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/metricDefinitions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseMetricDefinitionsRequest" });
@@ -15407,7 +15436,7 @@ function __c58(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseMetricsRequest" });
@@ -15428,7 +15457,7 @@ function __c59(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/usages",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseUsagesRequest" });
@@ -15445,7 +15474,7 @@ function __c60(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/fleets",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListFleetRequest" });
@@ -15487,7 +15516,7 @@ function __c62(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/failoverPriorityChange",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DatabaseAccountsFailoverPriorityChangeRequest" });
@@ -15517,7 +15546,7 @@ function __c64(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListFleetByResourceGroupRequest" });
@@ -15536,7 +15565,7 @@ function __c65(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}/fleetspaces",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListFleetspaceRequest" });
@@ -15565,7 +15594,7 @@ function __c66(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}/fleetspaces/{fleetspaceName}/fleetspaceAccounts",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListFleetspaceAccountRequest" });
@@ -15593,7 +15622,7 @@ function __c67(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListGremlinResourceGremlinDatabasesRequest" });
@@ -15626,7 +15655,7 @@ function __c69(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListGremlinResourceGremlinGraphsRequest" });
@@ -15654,7 +15683,7 @@ function __c70(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinRoleAssignments",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListGremlinResourceGremlinRoleAssignmentsRequest" });
@@ -15673,7 +15702,7 @@ function __c71(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinRoleDefinitions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListGremlinResourceGremlinRoleDefinitionsRequest" });
@@ -15690,7 +15719,7 @@ function __c72(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListLocationsRequest" });
@@ -15719,7 +15748,7 @@ function __c73(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListMongoDBResourceMongoDBCollectionsRequest" });
@@ -15747,7 +15776,7 @@ function __c74(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListMongoDBResourceMongoDBDatabasesRequest" });
@@ -15766,7 +15795,7 @@ function __c75(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/readonlykeys",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DatabaseAccountsGetReadOnlyKeysRequest" });
@@ -15796,7 +15825,7 @@ function __c77(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbRoleDefinitions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListMongoDBResourceMongoRoleDefinitionsRequest" });
@@ -15824,7 +15853,7 @@ function __c78(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListMongoDBResourceMongoUserDefinitionsRequest" });
@@ -15852,7 +15881,7 @@ function __c79(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongoMIRoleAssignments",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListMongoMIResourceMongoMIRoleAssignmentsRequest" });
@@ -15871,7 +15900,7 @@ function __c80(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongoMIRoleDefinitions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListMongoMIResourceMongoMIRoleDefinitionsRequest" });
@@ -15890,7 +15919,7 @@ function __c81(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListNotebookWorkspaceByDatabaseAccountRequest" });
@@ -15919,7 +15948,7 @@ function __c82(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}/listConnectionInfo",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListNotebookWorkspaceConnectionInfoRequest" });
@@ -15941,7 +15970,7 @@ function __c83(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.DocumentDB/operations",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -15989,7 +16018,7 @@ function __c84(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitionKeyRangeId/{partitionKeyRangeId}/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListPartitionKeyRangeIdMetricsRequest" });
@@ -16013,7 +16042,7 @@ function __c85(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/databases/{databaseRid}/collections/{collectionRid}/partitionKeyRangeId/{partitionKeyRangeId}/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListPartitionKeyRangeIdRegionMetricsRequest" });
@@ -16033,7 +16062,7 @@ function __c86(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/percentile/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListPercentileMetricsRequest" });
@@ -16096,7 +16125,7 @@ function __c88(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/readonlykeys",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DatabaseAccountsListReadOnlyKeysRequest" });
@@ -16118,7 +16147,7 @@ function __c89(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sourceRegion/{sourceRegion}/targetRegion/{targetRegion}/percentile/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListPercentileSourceTargetMetricsRequest" });
@@ -16139,7 +16168,7 @@ function __c90(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/targetRegion/{targetRegion}/percentile/metrics",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListPercentileTargetMetricsRequest" });
@@ -16158,7 +16187,7 @@ function __c91(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByDatabaseAccountRequest" });
@@ -16184,7 +16213,7 @@ function __c92(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateLinkResources",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourceByDatabaseAccountRequest" });
@@ -16211,7 +16240,7 @@ function __c93(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableDatabaseAccountByLocationRequest" });
@@ -16241,7 +16270,7 @@ function __c95(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/restorableDatabaseAccounts",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableDatabaseAccountsRequest" });
@@ -16260,7 +16289,7 @@ function __c96(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableGremlinDatabases",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableGremlinDatabasesRequest" });
@@ -16322,7 +16351,7 @@ function __c98(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableGraphs",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableGremlinGraphsRequest" });
@@ -16343,7 +16372,7 @@ function __c99(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableGremlinResources",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableGremlinResourcesRequest" });
@@ -16384,7 +16413,7 @@ function __c100(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableMongodbCollections",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableMongodbCollectionsRequest" });
@@ -16404,7 +16433,7 @@ function __c101(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/offlineRegion",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DatabaseAccountsOfflineRegionRequest" });
@@ -16423,7 +16452,7 @@ function __c102(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableMongodbDatabases",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableMongodbDatabasesRequest" });
@@ -16444,7 +16473,7 @@ function __c103(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableMongodbResources",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableMongodbResourcesRequest" });
@@ -16489,7 +16518,7 @@ function __c105(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableSqlContainers",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableSqlContainersRequest" });
@@ -16567,7 +16596,7 @@ function __c106(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableSqlDatabases",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableSqlDatabasesRequest" });
@@ -16639,7 +16668,7 @@ function __c107(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableSqlResources",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableSqlResourcesRequest" });
@@ -16660,7 +16689,7 @@ function __c108(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableTableResources",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableTableResourcesRequest" });
@@ -16698,7 +16727,7 @@ function __c109(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableTables",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListRestorableTablesRequest" });
@@ -16717,7 +16746,7 @@ function __c110(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/services",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListServiceRequest" });
@@ -16746,7 +16775,7 @@ function __c111(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListSqlResourceClientEncryptionKeysRequest" });
@@ -16775,7 +16804,7 @@ function __c112(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListSqlResourceSqlContainersRequest" });
@@ -16804,7 +16833,7 @@ function __c113(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/onlineRegion",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DatabaseAccountsOnlineRegionRequest" });
@@ -16823,7 +16852,7 @@ function __c114(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListSqlResourceSqlDatabasesRequest" });
@@ -16851,7 +16880,7 @@ function __c115(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListSqlResourceSqlRoleAssignmentsRequest" });
@@ -16879,7 +16908,7 @@ function __c116(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListSqlResourceSqlRoleDefinitionsRequest" });
@@ -16909,7 +16938,7 @@ function __c117(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListSqlResourceSqlStoredProceduresRequest" });
@@ -16943,7 +16972,7 @@ function __c119(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListSqlResourceSqlTriggersRequest" });
@@ -17012,7 +17041,7 @@ function __c122(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListSqlResourceSqlUserDefinedFunctionsRequest" });
@@ -17031,7 +17060,7 @@ function __c123(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleAssignments",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListTableResourceTableRoleAssignmentsRequest" });
@@ -17050,7 +17079,7 @@ function __c124(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleDefinitions",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListTableResourceTableRoleDefinitionsRequest" });
@@ -17069,7 +17098,7 @@ function __c125(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "ListTableResourceTablesRequest" });
@@ -17089,7 +17118,7 @@ function __c126(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default/migrateToAutoscale",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateCassandraResourceCassandraKeyspaceToAutoscaleRequest" });
@@ -17104,7 +17133,7 @@ function __c127(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(160, __c5, 0)),
-          properties: S.optional(__S(7716, __c241, 4)),
+          properties: S.optional(__S(7718, __c241, 6)),
           location: S.optional(S.String),
           tags: S.optional(__S(64, __c2, 0)),
           identity: S.optional(__S(6914, __c216, 2)),
@@ -17128,7 +17157,7 @@ function __c128(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteCassandraClusterRequest" });
@@ -17148,7 +17177,7 @@ function __c129(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default/migrateToManualThroughput",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({
@@ -17171,7 +17200,7 @@ function __c130(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default/migrateToAutoscale",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateCassandraResourceCassandraTableToAutoscaleRequest" });
@@ -17192,7 +17221,7 @@ function __c131(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default/migrateToManualThroughput",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateCassandraResourceCassandraTableToManualThroughputRequest" });
@@ -17212,7 +17241,7 @@ function __c132(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateGremlinResourceGremlinDatabaseToAutoscaleRequest" });
@@ -17232,7 +17261,7 @@ function __c133(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateGremlinResourceGremlinDatabaseToManualThroughputRequest" });
@@ -17253,7 +17282,7 @@ function __c134(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default/migrateToAutoscale",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateGremlinResourceGremlinGraphToAutoscaleRequest" });
@@ -17274,7 +17303,7 @@ function __c135(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default/migrateToManualThroughput",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateGremlinResourceGremlinGraphToManualThroughputRequest" });
@@ -17295,7 +17324,7 @@ function __c136(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/migrateToAutoscale",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateMongoDBResourceMongoDBCollectionToAutoscaleRequest" });
@@ -17316,7 +17345,7 @@ function __c137(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/migrateToManualThroughput",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({
@@ -17338,7 +17367,7 @@ function __c138(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateMongoDBResourceMongoDBDatabaseToAutoscaleRequest" });
@@ -17358,7 +17387,7 @@ function __c139(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/dataCenters/{dataCenterName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteCassandraDataCenterRequest" });
@@ -17378,7 +17407,7 @@ function __c140(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateMongoDBResourceMongoDBDatabaseToManualThroughputRequest" });
@@ -17399,7 +17428,7 @@ function __c141(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/migrateToAutoscale",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateSqlResourceSqlContainerToAutoscaleRequest" });
@@ -17414,7 +17443,7 @@ function __c142(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(160, __c5, 0)),
-          properties: S.optional(__S(7716, __c241, 4)),
+          properties: S.optional(__S(7718, __c241, 6)),
           location: S.optional(S.String),
           tags: S.optional(__S(64, __c2, 0)),
           identity: S.optional(__S(6914, __c216, 2)),
@@ -17439,7 +17468,7 @@ function __c143(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/migrateToManualThroughput",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateSqlResourceSqlContainerToManualThroughputRequest" });
@@ -17459,7 +17488,7 @@ function __c144(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateSqlResourceSqlDatabaseToAutoscaleRequest" });
@@ -17479,7 +17508,7 @@ function __c145(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateSqlResourceSqlDatabaseToManualThroughputRequest" });
@@ -17499,7 +17528,7 @@ function __c146(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default/migrateToAutoscale",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateTableResourceTableToAutoscaleRequest" });
@@ -17519,7 +17548,7 @@ function __c147(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default/migrateToManualThroughput",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MigrateTableResourceTableToManualThroughputRequest" });
@@ -17562,7 +17591,7 @@ function __c148(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MongoDBResourcesCreateUpdateMongoDBCollectionRequest" });
@@ -17602,7 +17631,7 @@ function __c149(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MongoDBResourcesCreateUpdateMongoDBDatabaseRequest" });
@@ -17623,7 +17652,7 @@ function __c150(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbRoleDefinitions/{mongoRoleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MongoDBResourcesCreateUpdateMongoRoleDefinitionRequest" });
@@ -17654,7 +17683,7 @@ function __c151(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/status",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CassandraClustersStatusRequest" });
@@ -17744,7 +17773,7 @@ function __c152(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteCassandraResourceCassandraKeyspaceRequest" });
@@ -17776,7 +17805,7 @@ function __c154(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions/{mongoUserDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MongoDBResourcesCreateUpdateMongoUserDefinitionRequest" });
@@ -17809,7 +17838,7 @@ function __c155(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongoMIRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MongoMIResourcesCreateUpdateMongoMIRoleAssignmentRequest" });
@@ -17830,7 +17859,7 @@ function __c156(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongoMIRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "MongoMIResourcesCreateUpdateMongoMIRoleDefinitionRequest" });
@@ -17850,7 +17879,7 @@ function __c157(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "NotebookWorkspacesCreateOrUpdateRequest" });
@@ -17898,7 +17927,7 @@ function __c158(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "PrivateEndpointConnectionsCreateOrUpdateRequest" });
@@ -17930,7 +17959,7 @@ function __c159(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/regenerateKey",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "RegenerateDatabaseAccountKeyRequest" });
@@ -17950,7 +17979,7 @@ function __c160(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}/regenerateAuthToken",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "RegenerateNotebookWorkspaceAuthTokenRequest" });
@@ -17987,7 +18016,7 @@ function __c161(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys/{clientEncryptionKeyName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "SqlResourcesCreateUpdateClientEncryptionKeyRequest" });
@@ -18050,7 +18079,7 @@ function __c162(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "SqlResourcesCreateUpdateSqlContainerRequest" });
@@ -18090,7 +18119,7 @@ function __c163(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "SqlResourcesCreateUpdateSqlDatabaseRequest" });
@@ -18126,7 +18155,7 @@ function __c164(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteCassandraResourceCassandraRoleAssignmentRequest" });
@@ -18147,7 +18176,7 @@ function __c165(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "SqlResourcesCreateUpdateSqlRoleAssignmentRequest" });
@@ -18180,7 +18209,7 @@ function __c166(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "SqlResourcesCreateUpdateSqlRoleDefinitionRequest" });
@@ -18218,7 +18247,7 @@ function __c167(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "SqlResourcesCreateUpdateSqlStoredProcedureRequest" });
@@ -18294,7 +18323,7 @@ function __c169(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "SqlResourcesCreateUpdateSqlTriggerRequest" });
@@ -18336,7 +18365,7 @@ function __c170(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "SqlResourcesCreateUpdateSqlUserDefinedFunctionRequest" });
@@ -18358,7 +18387,7 @@ function __c171(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "SqlResourcesDeleteSqlTriggerRequest" });
@@ -18380,7 +18409,7 @@ function __c172(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "SqlResourcesGetSqlTriggerRequest" });
@@ -18399,7 +18428,7 @@ function __c173(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/start",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "StartCassandraClusterRequest" });
@@ -18419,7 +18448,7 @@ function __c174(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}/start",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "StartNotebookWorkspaceRequest" });
@@ -18443,7 +18472,7 @@ function __c175(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "TableResourcesCreateUpdateTableRequest" });
@@ -18463,7 +18492,7 @@ function __c176(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteCassandraResourceCassandraRoleDefinitionRequest" });
@@ -18484,7 +18513,7 @@ function __c177(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "TableResourcesCreateUpdateTableRoleAssignmentRequest" });
@@ -18505,7 +18534,7 @@ function __c178(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "TableResourcesCreateUpdateTableRoleDefinitionRequest" });
@@ -18540,7 +18569,7 @@ function __c179(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateCassandraClusterRequest" });
@@ -18561,7 +18590,7 @@ function __c180(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/dataCenters/{dataCenterName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateCassandraDataCenterRequest" });
@@ -18585,7 +18614,7 @@ function __c181(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateCassandraResourceCassandraKeyspaceThroughputRequest" });
@@ -18605,6 +18634,7 @@ function __c182(j: number): any {
         S.Struct({
           throughput: S.optional(S.Number),
           autoscaleSettings: S.optional(__S(5824, __c182, 0)),
+          throughputBuckets: S.optional(__S(7716, __c241, 4)),
         }),
       ).annotate({ identifier: "ThroughputSettingsResourceInput" });
     case 2:
@@ -18634,7 +18664,7 @@ function __c183(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateCassandraResourceCassandraTableThroughputRequest" });
@@ -18677,6 +18707,7 @@ function __c184(j: number): any {
           defaultPriorityLevel: S.optional(S.String),
           enablePerRegionPerPartitionAutoscale: S.optional(S.Boolean),
           enforceHierarchicalPartitionKeyIdLastLevel: S.optional(S.Boolean),
+          perPartitionAutomaticFailoverEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DatabaseAccountUpdatePropertiesInput" });
     case 1:
@@ -18694,7 +18725,7 @@ function __c184(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateDatabaseAccountRequest" });
@@ -18715,7 +18746,7 @@ function __c185(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateFleetRequest" });
@@ -18736,7 +18767,7 @@ function __c186(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}/fleetspaces/{fleetspaceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateFleetspaceRequest" });
@@ -18773,7 +18804,7 @@ function __c187(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateGremlinResourceGremlinDatabaseThroughputRequest" });
@@ -18794,7 +18825,7 @@ function __c188(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteCassandraResourceCassandraTableRequest" });
@@ -18819,7 +18850,7 @@ function __c189(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateGremlinResourceGremlinGraphThroughputRequest" });
@@ -18844,7 +18875,7 @@ function __c190(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateMongoDBResourceMongoDBCollectionThroughputRequest" });
@@ -18868,7 +18899,7 @@ function __c191(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateMongoDBResourceMongoDBDatabaseThroughputRequest" });
@@ -18893,7 +18924,7 @@ function __c192(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateSqlResourceSqlContainerThroughputRequest" });
@@ -18917,7 +18948,7 @@ function __c193(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateSqlResourceSqlDatabaseThroughputRequest" });
@@ -18941,7 +18972,7 @@ function __c194(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "UpdateTableResourceTableThroughputRequest" });
@@ -18960,7 +18991,7 @@ function __c195(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteDatabaseAccountRequest" });
@@ -18979,7 +19010,7 @@ function __c196(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteFleetRequest" });
@@ -18999,7 +19030,7 @@ function __c197(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}/fleetspaces/{fleetspaceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteFleetspaceRequest" });
@@ -19020,7 +19051,7 @@ function __c198(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}/fleetspaces/{fleetspaceName}/fleetspaceAccounts/{fleetspaceAccountName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteFleetspaceAccountRequest" });
@@ -19040,7 +19071,7 @@ function __c199(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteGremlinResourceGremlinDatabaseRequest" });
@@ -19061,7 +19092,7 @@ function __c200(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteGremlinResourceGremlinGraphRequest" });
@@ -19082,7 +19113,7 @@ function __c201(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/dataCenters/{dataCenterName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CassandraDataCentersCreateUpdateRequest" });
@@ -19176,7 +19207,7 @@ function __c204(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteGremlinResourceGremlinRoleAssignmentRequest" });
@@ -19196,7 +19227,7 @@ function __c205(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteGremlinResourceGremlinRoleDefinitionRequest" });
@@ -19217,7 +19248,7 @@ function __c206(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteMongoDBResourceMongoDBCollectionRequest" });
@@ -19237,7 +19268,7 @@ function __c207(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteMongoDBResourceMongoDBDatabaseRequest" });
@@ -19257,7 +19288,7 @@ function __c208(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbRoleDefinitions/{mongoRoleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteMongoDBResourceMongoRoleDefinitionRequest" });
@@ -19277,7 +19308,7 @@ function __c209(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions/{mongoUserDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteMongoDBResourceMongoUserDefinitionRequest" });
@@ -19297,7 +19328,7 @@ function __c210(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongoMIRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteMongoMIResourceMongoMIRoleAssignmentRequest" });
@@ -19317,7 +19348,7 @@ function __c211(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongoMIRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteMongoMIResourceMongoMIRoleDefinitionRequest" });
@@ -19337,7 +19368,7 @@ function __c212(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteNotebookWorkspaceRequest" });
@@ -19357,7 +19388,7 @@ function __c213(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeletePrivateEndpointConnectionRequest" });
@@ -19394,7 +19425,7 @@ function __c214(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CassandraResourcesCreateUpdateCassandraKeyspaceRequest" });
@@ -19506,7 +19537,7 @@ function __c219(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/services/{serviceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteServiceRequest" });
@@ -19527,7 +19558,7 @@ function __c220(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteSqlResourceSqlContainerRequest" });
@@ -19547,7 +19578,7 @@ function __c221(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteSqlResourceSqlDatabaseRequest" });
@@ -19567,7 +19598,7 @@ function __c222(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteSqlResourceSqlRoleAssignmentRequest" });
@@ -19587,7 +19618,7 @@ function __c223(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteSqlResourceSqlRoleDefinitionRequest" });
@@ -19609,7 +19640,7 @@ function __c224(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteSqlResourceSqlStoredProcedureRequest" });
@@ -19631,7 +19662,7 @@ function __c225(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteSqlResourceSqlUserDefinedFunctionRequest" });
@@ -19651,7 +19682,7 @@ function __c226(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteTableResourceTableRequest" });
@@ -19671,7 +19702,7 @@ function __c227(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteTableResourceTableRoleAssignmentRequest" });
@@ -19691,7 +19722,7 @@ function __c228(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "DeleteTableResourceTableRoleDefinitionRequest" });
@@ -19712,7 +19743,7 @@ function __c229(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CassandraResourcesCreateUpdateCassandraRoleAssignmentRequest" });
@@ -19773,7 +19804,7 @@ function __c233(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetCassandraClusterRequest" });
@@ -19810,7 +19841,7 @@ function __c235(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/dataCenters/{dataCenterName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetCassandraDataCenterRequest" });
@@ -19844,7 +19875,7 @@ function __c237(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetCassandraResourceCassandraKeyspaceRequest" });
@@ -19881,7 +19912,7 @@ function __c239(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetCassandraResourceCassandraKeyspaceThroughputRequest" });
@@ -19896,7 +19927,7 @@ function __c240(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(160, __c5, 0)),
-          properties: S.optional(__S(7716, __c241, 4)),
+          properties: S.optional(__S(7718, __c241, 6)),
           location: S.optional(S.String),
           tags: S.optional(__S(64, __c2, 0)),
           identity: S.optional(__S(6914, __c216, 2)),
@@ -19930,21 +19961,32 @@ function __c241(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          id: S.Number,
+          maxThroughputPercentage: S.Number,
+          isDefaultBucket: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ThroughputBucketResource" });
+    case 4:
+      return S.Array(__S(7715, __c241, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           throughput: S.optional(S.Number),
           autoscaleSettings: S.optional(__S(7714, __c241, 2)),
           minimumThroughput: S.optional(S.String),
           offerReplacePending: S.optional(S.String),
           instantMaximumThroughput: S.optional(S.String),
           softAllowedMaximumThroughput: S.optional(S.String),
+          throughputBuckets: S.optional(__S(7716, __c241, 4)),
           _rid: S.optional(S.String),
           _ts: S.optional(S.Number),
           _etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "ThroughputSettingsGetPropertiesResource" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          resource: S.optional(__S(7715, __c241, 3)),
+          resource: S.optional(__S(7717, __c241, 5)),
         }),
       ).annotate({ identifier: "ThroughputSettingsGetProperties" });
   }
@@ -19963,7 +20005,7 @@ function __c242(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetCassandraResourceCassandraRoleAssignmentRequest" });
@@ -19997,7 +20039,7 @@ function __c244(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetCassandraResourceCassandraRoleDefinitionRequest" });
@@ -20032,7 +20074,7 @@ function __c246(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetCassandraResourceCassandraTableRequest" });
@@ -20070,7 +20112,7 @@ function __c248(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetCassandraResourceCassandraTableThroughputRequest" });
@@ -20089,7 +20131,7 @@ function __c249(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetDatabaseAccountRequest" });
@@ -20126,7 +20168,7 @@ function __c251(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetFleetRequest" });
@@ -20147,7 +20189,7 @@ function __c252(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CassandraResourcesCreateUpdateCassandraRoleDefinitionRequest" });
@@ -20212,7 +20254,7 @@ function __c256(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}/fleetspaces/{fleetspaceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetFleetspaceRequest" });
@@ -20247,7 +20289,7 @@ function __c258(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}/fleetspaces/{fleetspaceName}/fleetspaceAccounts/{fleetspaceAccountName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetFleetspaceAccountRequest" });
@@ -20283,7 +20325,7 @@ function __c260(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/retrieveContinuousBackupInformation",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetGremlinResourceContinuousBackupInformationRequest" });
@@ -20321,7 +20363,7 @@ function __c262(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetGremlinResourceGremlinDatabaseRequest" });
@@ -20392,7 +20434,7 @@ function __c266(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetGremlinResourceGremlinDatabaseThroughputRequest" });
@@ -20413,7 +20455,7 @@ function __c267(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetGremlinResourceGremlinGraphRequest" });
@@ -20600,7 +20642,7 @@ function __c272(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetGremlinResourceGremlinGraphThroughputRequest" });
@@ -20620,7 +20662,7 @@ function __c273(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetGremlinResourceGremlinRoleAssignmentRequest" });
@@ -20640,7 +20682,7 @@ function __c274(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetGremlinResourceGremlinRoleDefinitionRequest" });
@@ -20658,7 +20700,7 @@ function __c275(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetLocationRequest" });
@@ -20724,7 +20766,7 @@ function __c277(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CassandraResourcesCreateUpdateCassandraTableRequest" });
@@ -20823,7 +20865,7 @@ function __c280(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/retrieveContinuousBackupInformation",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetMongoDBResourceContinuousBackupInformationRequest" });
@@ -20844,7 +20886,7 @@ function __c281(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetMongoDBResourceMongoDBCollectionRequest" });
@@ -20929,7 +20971,7 @@ function __c284(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetMongoDBResourceMongoDBCollectionThroughputRequest" });
@@ -20949,7 +20991,7 @@ function __c285(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetMongoDBResourceMongoDBDatabaseRequest" });
@@ -20969,7 +21011,7 @@ function __c286(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetMongoDBResourceMongoDBDatabaseThroughputRequest" });
@@ -20989,7 +21031,7 @@ function __c287(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbRoleDefinitions/{mongoRoleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetMongoDBResourceMongoRoleDefinitionRequest" });
@@ -21066,7 +21108,7 @@ function __c291(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions/{mongoUserDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetMongoDBResourceMongoUserDefinitionRequest" });
@@ -21115,7 +21157,7 @@ function __c294(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongoMIRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetMongoMIResourceMongoMIRoleAssignmentRequest" });
@@ -21135,7 +21177,7 @@ function __c295(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongoMIRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetMongoMIResourceMongoMIRoleDefinitionRequest" });
@@ -21155,7 +21197,7 @@ function __c296(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetNotebookWorkspaceRequest" });
@@ -21202,7 +21244,7 @@ function __c299(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CreateFleetRequest" });
@@ -21244,7 +21286,7 @@ function __c301(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetPrivateEndpointConnectionRequest" });
@@ -21264,7 +21306,7 @@ function __c302(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateLinkResources/{groupName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetPrivateLinkResourceRequest" });
@@ -21305,7 +21347,7 @@ function __c304(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetRestorableDatabaseAccountByLocationRequest" });
@@ -21362,7 +21404,7 @@ function __c306(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/services/{serviceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetServiceRequest" });
@@ -21397,7 +21439,7 @@ function __c308(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys/{clientEncryptionKeyName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetSqlResourceClientEncryptionKeyRequest" });
@@ -21464,7 +21506,7 @@ function __c311(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/retrieveContinuousBackupInformation",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetSqlResourceContinuousBackupInformationRequest" });
@@ -21485,7 +21527,7 @@ function __c312(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetSqlResourceSqlContainerRequest" });
@@ -21619,7 +21661,7 @@ function __c316(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetSqlResourceSqlContainerThroughputRequest" });
@@ -21639,7 +21681,7 @@ function __c317(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetSqlResourceSqlDatabaseRequest" });
@@ -21700,7 +21742,7 @@ function __c320(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetSqlResourceSqlDatabaseThroughputRequest" });
@@ -21721,7 +21763,7 @@ function __c321(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}/fleetspaces/{fleetspaceName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "CreateFleetspaceRequest" });
@@ -21776,7 +21818,7 @@ function __c323(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetSqlResourceSqlRoleAssignmentRequest" });
@@ -21810,7 +21852,7 @@ function __c325(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetSqlResourceSqlRoleDefinitionRequest" });
@@ -21859,7 +21901,7 @@ function __c328(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetSqlResourceSqlStoredProcedureRequest" });
@@ -21918,7 +21960,7 @@ function __c331(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetSqlResourceSqlUserDefinedFunctionRequest" });
@@ -21939,7 +21981,7 @@ function __c332(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/retrieveContinuousBackupInformation",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetTableResourceContinuousBackupInformationRequest" });
@@ -21959,7 +22001,7 @@ function __c333(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetTableResourceTableRequest" });
@@ -21979,7 +22021,7 @@ function __c334(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleAssignments/{roleAssignmentId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetTableResourceTableRoleAssignmentRequest" });
@@ -21999,7 +22041,7 @@ function __c335(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleDefinitions/{roleDefinitionId}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetTableResourceTableRoleDefinitionRequest" });
@@ -22019,7 +22061,7 @@ function __c336(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GetTableResourceTableThroughputRequest" });
@@ -22043,7 +22085,7 @@ function __c337(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}",
             code: 200,
-            apiVersion: "2026-03-15",
+            apiVersion: "2026-07-15",
           }),
         ),
       ).annotate({ identifier: "GremlinResourcesCreateUpdateGremlinDatabaseRequest" });

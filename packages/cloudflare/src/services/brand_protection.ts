@@ -101,18 +101,19 @@ export interface CreateQueryRequest {
 export interface CreateQueryResponse {}
 export interface CreateV2LogoRequest {
   accountId: string;
-  /** Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string. */
+  /** Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string. Supported formats: PNG, JPEG, GIF, WebP, BMP, and SVG. ICO is also accepted when the data includes a `data:image/x-icon;base64,` prefix. */
   imageData: string;
   /** Minimum similarity score (0-1) required for visual matches */
   similarityThreshold: number;
-  /** Unique identifier for the logo query */
+  /** Name of the logo query. Must be unique among the account's logo queries. */
   tag: string;
-  /** If true, search historic scanned images for matches above the similarity threshold */
+  /** If true, also search previously scanned images for matches above the similarity threshold. Defaults to `true`. */
   searchLookback?: boolean;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface CreateV2LogoResponse {
   message: string;
+  /** ID of the created logo query. */
   queryId?: number | null;
 }
 export interface DeleteLogoRequest {
@@ -129,6 +130,7 @@ export interface DeleteQueryRequest {
 export interface DeleteQueryResponse {}
 export interface DeleteV2LogoRequest {
   accountId: string;
+  /** ID of the logo query. */
   queryId: string;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
@@ -196,17 +198,21 @@ export interface GetMatchResponse {
 }
 export interface GetV2LogoRequest {
   accountId: string;
-  /** Optional query ID to retrieve a specific logo query */
+  /** ID of a logo query. When set, `result` is that single query object instead of an array. */
   id?: string;
-  /** If true, include base64-encoded image data in the response */
+  /** Set to `true` to include each logo image as base64 data in `image_data`, with its MIME type in `content_type`. */
   download?: string;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetV2LogoResponse {
+  /** ID of the logo query. */
   id: number;
   r2Path: string;
+  /** Minimum similarity score (0-1) required for a visual match. */
   similarityThreshold: number;
+  /** Name of the logo query. */
   tag: string;
+  /** When the logo was uploaded. */
   uploadedAt: string;
   /** MIME type of the image (only present when download=true) */
   contentType?: string | null;
@@ -221,24 +227,36 @@ export type V2LogoMatchesGetRequestOrderBy =
   | "registrar";
 export interface GetV2LogoMatchRequest {
   accountId: string;
+  /** ID of the logo query whose matches to list. */
   queryId: string;
+  /** Set to `true` to include each matched image as base64 data in `image_data`, with its MIME type in `content_type`. */
   download?: string;
+  /** Maximum number of matches to return. Defaults to 50. */
   limit?: string;
+  /** Number of matches to skip, for pagination. Defaults to 0. */
   offset?: string;
-  /** Sort order. Options: 'asc' (ascending) or 'desc' (descending) */
+  /** Sort direction: `asc` or `desc`. Defaults to `desc`. */
   order?: V2LogoMatchesGetRequestOrder | (string & {});
-  /** Column to sort by. Options: 'matchedAt', 'domain', 'similarityScore', or 'registrar' */
+  /** Field to sort by: `matchedAt`, `domain`, `similarityScore`, or `registrar`. Defaults to `matchedAt`. */
   orderBy?: V2LogoMatchesGetRequestOrderBy | (string & {});
 }
 export interface V2LogoMatchesGetResponseMatchesItem {
+  /** ID of the logo match. */
   id: number;
+  /** Domain where the matching image was found, if known. */
   domain: string;
+  /** When the match was recorded. */
   matchedAt: string;
+  /** ID of the logo query that produced this match. */
   queryId: number;
+  /** Registrar of `domain`, if known. */
   registrar: string;
+  /** Visual similarity between the matched image and the query logo. Higher is closer. */
   similarityScore: number;
   urlScanId: string;
+  /** MIME type of the matched image (only present when download=true) */
   contentType?: string | null;
+  /** Base64-encoded matched image (only present when download=true) */
   imageData?: string | null;
 }
 export type V2LogoMatchesGetResponseMatchesList = Array<V2LogoMatchesGetResponseMatchesItem>;
@@ -252,17 +270,21 @@ export type V2MatchesGetRequestOrder = "asc" | "desc";
 export type V2MatchesGetRequestOrderBy = "domain" | "first_seen" | "registrar";
 export interface GetV2MatchRequest {
   accountId: string;
-  /** Query ID or comma-separated list of Query IDs. When multiple IDs are provided, matches are deduplicated across queries and each match includes a match_details array with per-match query metadata and dismissed state. */
+  /** ID of a domain query, or a comma-separated list of domain query IDs. When you pass several IDs, matches are deduplicated by domain and each match includes a `match_details` array with per-query metadata and dismissed state. */
   queryId: V2MatchesGetRequestQueryIdList;
-  /** Filter matches by domain name (substring match) */
+  /** Return only matches whose domain contains this text (case-insensitive). */
   domainSearch?: string;
+  /** Set to `false` to exclude dismissed matches. Dismissed matches are included when this is omitted or `true`. */
   includeDismissed?: string;
+  /** Set to `true` to include `domain_id` on each match. Required to dismiss or undismiss a match. Defaults to `false`. */
   includeDomainId?: string;
+  /** Maximum number of matches to return. Defaults to 50. */
   limit?: string;
+  /** Number of matches to skip, for pagination. Defaults to 0. */
   offset?: string;
-  /** Sort order. Options: 'asc' (ascending) or 'desc' (descending) */
+  /** Sort direction: `asc` or `desc`. Defaults to `desc`. For single-query requests, `asc` applies only when `orderBy` is set. */
   order?: V2MatchesGetRequestOrder | (string & {});
-  /** Column to sort by. Options: 'domain', 'first_seen', or 'registrar' */
+  /** Field to sort by: `domain`, `first_seen`, or `registrar`. Defaults to `first_seen`. */
   orderBy?: V2MatchesGetRequestOrderBy | (string & {});
 }
 export interface V2MatchesGetResponseMatchesItemPublicScans {
@@ -271,7 +293,9 @@ export interface V2MatchesGetResponseMatchesItemPublicScans {
 export interface V2MatchesGetResponseMatchesItemMatchDetailsItem {
   /** Individual dismissed state for this specific match. */
   dismissed: boolean;
+  /** ID of the match. Accepted by the legacy `match_ids` format. */
   matchId: number;
+  /** ID of the domain query that produced this match. */
   queryId: number;
   /** Tag associated with the query, if one exists. */
   queryTag: string;
@@ -279,15 +303,20 @@ export interface V2MatchesGetResponseMatchesItemMatchDetailsItem {
 export type V2MatchesGetResponseMatchesItemMatchDetailsList =
   Array<V2MatchesGetResponseMatchesItemMatchDetailsItem>;
 export interface V2MatchesGetResponseMatchesItem {
+  /** The matched domain name. */
   domain: string;
+  /** When the domain was matched. For multi-query requests, the most recent match time across the requested queries. */
   firstSeen: string;
   publicScans: V2MatchesGetResponseMatchesItemPublicScans;
+  /** Registrar of the matched domain, if known. */
   registrar: string;
   scanStatus: string;
   scanSubmissionId: number;
   source: string;
   /** Whether the match is dismissed. Only present for single-query requests. For multi-query requests, use the dismissed field in each match_details entry. */
   dismissed?: boolean | null;
+  /** ID of the matched domain. Present only when `include_domain_id=true`. Use it with `query_id` to dismiss or undismiss the match. */
+  domainId?: number | null;
   /** Per-match detail objects with query metadata and individual dismissed state. Only present when multiple query_ids are requested. */
   matchDetails?: V2MatchesGetResponseMatchesItemMatchDetailsList | null;
 }
@@ -295,14 +324,16 @@ export type V2MatchesGetResponseMatchesList = Array<V2MatchesGetResponseMatchesI
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetV2MatchResponse {
   matches: V2MatchesGetResponseMatchesList;
+  /** Number of matching domains available for pagination. For requests with several `query_id` values, matches are deduplicated from at most 5,000 query-domain rows, so `total` can be lower than the actual number of matches. */
   total: number;
 }
 export interface GetV2QueryRequest {
   accountId: string;
+  /** ID of a domain query. When set, `result` is that single query object instead of an array, and `page` and `per_page` are ignored. */
   id?: string;
-  /** Optional page number for paginated list requests. Defaults to 1 when only per_page is supplied. Omit page and per_page to preserve the legacy full-list response. */
+  /** Page number for paginated list requests. Defaults to 1 when only per_page is supplied. Omit page and per_page to return every query. */
   page?: number;
-  /** Optional number of queries per page for paginated list requests. Defaults to 100 when only page is supplied. Maximum 100. Omit page and per_page to preserve the legacy full-list response. */
+  /** Number of queries per page for paginated list requests. Defaults to 100 when only page is supplied. Maximum 100. Omit page and per_page to return every query. */
   perPage?: number;
 }
 export interface V2QueriesGetResultCase0ItemParametersStringMatchesItem {
@@ -418,7 +449,7 @@ export const createQuery: API.OperationMethod<
 }));
 
 export type CreateV2LogoError = CloudflareOpError;
-/** Create a new saved brand protection logo query for visual similarity matching */
+/** Uploads a logo and creates a saved logo query that finds visually similar images on scanned websites. The tag must be unique among the account's logo queries. By default, the new query also searches previously scanned images (see `search_lookback`). Creation fails when the account has reached its Brand Protection query limit, which counts domain and logo queries together. */
 export const createV2Logo: API.OperationMethod<
   CreateV2LogoRequest,
   CreateV2LogoResponse,
@@ -469,7 +500,7 @@ export const deleteQuery: API.OperationMethod<
 }));
 
 export type DeleteV2LogoError = CloudflareOpError;
-/** Delete a saved brand protection logo query. Returns 404 if the query ID doesn't exist. */
+/** Permanently deletes a saved logo query and all of its matches. If the query does not exist in this account, the request fails with error code 404. */
 export const deleteV2Logo: API.OperationMethod<
   DeleteV2LogoRequest,
   DeleteV2LogoResponse,
@@ -554,7 +585,7 @@ export const getMatch: API.OperationMethod<
 }));
 
 export type GetV2LogoError = CloudflareOpError;
-/** Get all saved brand protection logo queries for an account. Optionally specify id to get a single query. Set download=true to include base64-encoded image data. */
+/** Lists the account's saved logo queries. Set `id` to return a single query object instead of an array. Set `download=true` to include each logo image as base64 data. */
 export const getV2Logo: API.OperationMethod<
   GetV2LogoRequest,
   GetV2LogoResponse,
@@ -571,7 +602,7 @@ export const getV2Logo: API.OperationMethod<
 }));
 
 export type GetV2LogoMatchError = CloudflareOpError;
-/** Get paginated list of logo matches for a specific brand protection logo query */
+/** Lists images that matched a saved logo query, most recently matched first by default. Set `download=true` to include each matched image as base64 data. */
 export const getV2LogoMatch: API.OperationMethod<
   GetV2LogoMatchRequest,
   GetV2LogoMatchResponse,
@@ -588,7 +619,7 @@ export const getV2LogoMatch: API.OperationMethod<
 }));
 
 export type GetV2MatchError = CloudflareOpError;
-/** Get paginated list of domain matches for one or more brand protection queries. When multiple query_ids are provided (comma-separated), matches are deduplicated across queries and each match includes a match_details array with per-match query metadata and individual dismissed state. */
+/** Lists domains that matched one or more saved domain queries, most recently matched first by default. When you pass several comma-separated `query_id` values, matches are deduplicated by domain and each match includes a `match_details` array with per-query dismissed state. Set `include_domain_id=true` to get the `domain_id` needed to dismiss or undismiss a match. */
 export const getV2Match: API.OperationMethod<
   GetV2MatchRequest,
   GetV2MatchResponse,
@@ -605,7 +636,7 @@ export const getV2Match: API.OperationMethod<
 }));
 
 export type GetV2QueryError = CloudflareOpError;
-/** Get all saved brand protection queries for an account */
+/** Lists the account's saved domain queries, most recently updated first. Set `id` to return a single query object instead of an array. Set `page` or `per_page` to paginate the list; the response then includes `result_info`. Without them, every query is returned. */
 export const getV2Query: API.OperationMethod<
   GetV2QueryRequest,
   GetV2QueryResponse,
@@ -880,6 +911,7 @@ function __c7(j: number): any {
           scanSubmissionId: S.Number.pipe(T.Body("scan_submission_id")),
           source: S.String,
           dismissed: S.optional(S.NullOr(S.Boolean)),
+          domainId: S.optional(S.NullOr(S.Number).pipe(T.Body("domain_id"))),
           matchDetails: S.optional(S.NullOr(__S(59, __c7, 3)).pipe(T.Body("match_details"))),
         }),
       ).annotate({ identifier: "V2MatchesGetResponseMatchesItem" });

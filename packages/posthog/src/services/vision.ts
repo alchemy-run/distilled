@@ -235,6 +235,21 @@ export interface VisionAlertDestinationResponse {
   /** HogFunctions backing the created destination, one per event kind. */
   hog_function_ids: VisionAlertDestinationResponseHogFunctionIdsList;
 }
+/** * `not_a_real_problem` - Not a real problem * `already_known` - Already known * `not_my_area` - Not my area * `other` - Other */
+export type FeedDismissalReasonEnum =
+  | "not_a_real_problem"
+  | "already_known"
+  | "not_my_area"
+  | "other";
+export interface CreateVisionObservationsFeedDismissalRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this replay observation. */
+  id: string;
+  /** Optional reason the observation was not useful. Omit or send null when the user gave none. * `not_a_real_problem` - Not a real problem * `already_known` - Already known * `not_my_area` - Not my area * `other` - Other */
+  reason?: FeedDismissalReasonEnum | (string & {}) | null;
+}
+export interface CreateVisionObservationsFeedDismissalResponse {}
 export interface CreateVisionObservationsLabelRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -259,21 +274,115 @@ export interface CreateVisionObservationsViewedRequest {
   id: string;
 }
 export interface CreateVisionObservationsViewedResponse {}
-/** Organizational tags for this scanner. Distinct from a classifier's categories in scanner_config. Tags cannot contain commas. */
-export type CreateVisionScannerRequestTagsList = Array<string>;
+/** Session recording IDs to scan, at most 200 per request. Scans start until the in-flight limit or monthly credit quota is reached; the rest are reported as skipped rather than failing the whole request. Duplicates are dropped. */
+export type CreateVisionRequestRequestSessionIdsList = Array<string>;
+/** * `summarize_recording` - Summarize recording */
+export type BuiltInScanKeyEnum = "summarize_recording";
 /** * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer * `experiment` - Experiment */
 export type ScannerTypeEnum = "monitor" | "classifier" | "scorer" | "summarizer" | "experiment";
+/** * `gemini-3.5-flash-lite` - Gemini 3.5 Flash Lite * `gemini-3-flash-preview` - Gemini 3 Flash * `gemini-3.8-flash` - Gemini 3.8 Flash */
+export type ScannerModelEnum =
+  | "gemini-3.5-flash-lite"
+  | "gemini-3-flash-preview"
+  | "gemini-3.8-flash";
+/** A question asked inline, without saving a scanner first. */
+export interface InlineScanConfig {
+  /** Run a scan PostHog defines instead of your own prompt. `summarize_recording` is the AI summary the Summarize button in the replay player runs, so its results are shared with that button. Leave out `prompt`, `scanner_type` and `scanner_config` when this is set. * `summarize_recording` - Summarize recording */
+  built_in?: BuiltInScanKeyEnum | (string & {});
+  /** What to look for in these sessions, in plain language. The same instruction a saved scanner carries. Required unless `built_in` is set. */
+  prompt?: string;
+  /** What the scan produces. Defaults to monitor, an open-ended observation against the prompt. Use `summarizer` for a summary in your own words; use `built_in: summarize_recording` for the Summarize button's summary. An inline scan is keyed by its whole config, so asking the same question again reuses its answers. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer * `experiment` - Experiment */
+  scanner_type?: ScannerTypeEnum | (string & {});
+  /** Type-specific configuration beyond the prompt: `tags` for a classifier, `scale` for a scorer, optional `length` for a summarizer. Omit it for a monitor. `prompt` belongs in the `prompt` field and is rejected here. */
+  scanner_config?: unknown;
+  /** Model to scan with. Determines what each observation costs in credits. * `gemini-3.5-flash-lite` - Gemini 3.5 Flash Lite * `gemini-3-flash-preview` - Gemini 3 Flash * `gemini-3.8-flash` - Gemini 3.8 Flash */
+  model?: ScannerModelEnum | (string & {});
+}
+export interface CreateVisionRequestRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Session recording IDs to scan, at most 200 per request. Scans start until the in-flight limit or monthly credit quota is reached; the rest are reported as skipped rather than failing the whole request. Duplicates are dropped. */
+  session_ids: CreateVisionRequestRequestSessionIdsList;
+  /** A saved scanner to apply to the sessions. Pass this or `inline`, not both. */
+  scanner_id?: string;
+  /** A question to ask without saving a scanner first. Asking the same question again reuses the answers already given for the same sessions. Pass this or `scanner_id`, not both. */
+  inline?: InlineScanConfig;
+  /** Any unique string per logical request, such as a UUID. Sending the same key again returns the first request instead of starting new scans, so a retry after a timeout never charges twice. */
+  idempotency_key?: string;
+  /** Your own id for this request, such as a ticket or job id. Returned unchanged. */
+  reference?: string;
+  /** Hold the scans until every session has been quiet for 35 minutes, so each one is scanned whole. Use it when the sessions may still be recording. A scan of a live session sees only part of it, and its observation can't be replaced later. Sessions still active after 6 hours are scanned as they are. */
+  wait_for_session_end?: boolean;
+}
+/** * `running` - Running * `completed` - Completed */
+export type ObservationRequestStatusEnum = "running" | "completed";
+/** * `started` - Started * `already_running` - Already running * `already_scanned` - Already scanned * `skipped_limit` - Skipped, in-flight limit reached * `skipped_quota` - Skipped, the org's credit quota for this period was reached * `skipped_scanner_limit` - Skipped, scanner's own credit limit reached * `failed` - Failed to start */
+export type ScanOutcomeEnum =
+  | "started"
+  | "already_running"
+  | "already_scanned"
+  | "skipped_limit"
+  | "skipped_quota"
+  | "skipped_scanner_limit"
+  | "failed";
+/** * `pending` - Pending * `running` - Running * `succeeded` - Succeeded * `failed` - Failed * `ineligible` - Ineligible * `skipped` - Skipped * `lost` - Lost */
+export type RequestSessionStateEnum =
+  | "pending"
+  | "running"
+  | "succeeded"
+  | "failed"
+  | "ineligible"
+  | "skipped"
+  | "lost";
+/** Mirrors `temporal.types.ScannerResult` for OpenAPI generation. */
+export interface ScannerResult {
+  /** Validated scanner output. Shape depends on `scanner_snapshot.scanner_type`; always carries `confidence` and `scanner_type`. */
+  model_output: unknown;
+  /** Number of PostHog Signals emitted from this observation. */
+  signals_count: number;
+  /** Experiment scanners only: the variant the exposure data attributes this session's person to. Null on the other types and on rows scanned before variant attribution shipped. */
+  experiment_variant?: string | null;
+  /** Experiment scanners only: the scanned session's duration in seconds. */
+  session_duration_s?: number | null;
+}
+/** One session of a request: how it started and where it stands now. */
+export interface ObservationRequestSession {
+  /** The session recording this outcome is for. */
+  session_id: string;
+  /** How the session's scan started, with the same values as a bulk scan trigger. Null while the request still waits for the session to end, or before its scan has started. * `started` - Started * `already_running` - Already running * `already_scanned` - Already scanned * `skipped_limit` - Skipped, in-flight limit reached * `skipped_quota` - Skipped, the org's credit quota for this period was reached * `skipped_scanner_limit` - Skipped, scanner's own credit limit reached * `failed` - Failed to start */
+  scan_outcome: ScanOutcomeEnum | null;
+  /** Where the session stands now. 'pending' and 'running' are still in progress; 'succeeded' has a result; 'failed' and 'ineligible' finished without one; 'skipped' never started because a limit was reached (`scan_outcome` names which); 'lost' started but produced nothing before the scan timed out. * `pending` - Pending * `running` - Running * `succeeded` - Succeeded * `failed` - Failed * `ineligible` - Ineligible * `skipped` - Skipped * `lost` - Lost */
+  state: RequestSessionStateEnum;
+  /** The observation for this session, once one exists. Null before that. */
+  observation_id: string | null;
+  /** The scanner's answer for this session. Null until the session succeeds. */
+  scanner_result: ScannerResult | null;
+}
+/** One entry per session, in request order. */
+export type ObservationRequestSessionsList = Array<ObservationRequestSession>;
+/** A scan request and the current state of each of its sessions. */
+export interface ObservationRequest {
+  /** Request ID. Poll `GET /vision/requests/{id}/` with it. */
+  id: string;
+  /** 'completed' once every session has settled, whether or not it produced a result. * `running` - Running * `completed` - Completed */
+  status: ObservationRequestStatusEnum;
+  /** The scanner the sessions were scanned with. For an inline question this is a hidden scanner, shared by every request that asks the same question. Null when nothing could start. */
+  scanner_id: string | null;
+  /** The `reference` sent with the request. */
+  reference: string;
+  /** When the request was made. */
+  created_at: string;
+  /** One entry per session, in request order. */
+  sessions: ObservationRequestSessionsList;
+}
+/** Organizational tags for this scanner. Distinct from a classifier's categories in scanner_config. Tags cannot contain commas. */
+export type CreateVisionScannerRequestTagsList = Array<string>;
 /** * `ai` - AI draft * `template` - Template * `scratch` - From scratch */
 export type ScannerCreationMethodEnum = "ai" | "template" | "scratch";
 /** * `focused` - Focused * `balanced` - Balanced * `comprehensive` - Comprehensive */
 export type SamplingModeEnum = "focused" | "balanced" | "comprehensive";
 /** * `google` - Google */
 export type ScannerProviderEnum = "google";
-/** * `gemini-3.5-flash-lite` - Gemini 3.5 Flash Lite * `gemini-3-flash-preview` - Gemini 3 Flash * `gemini-3.8-flash` - Gemini 3.8 Flash */
-export type ScannerModelEnum =
-  | "gemini-3.5-flash-lite"
-  | "gemini-3-flash-preview"
-  | "gemini-3.8-flash";
 /** The experiment a scanner watches. Scans derive their person-scoped exposure filter from this blob at query time, so it is the only place an experiment can enter a scanner's targeting -- which is what lets the write-side access check and read-side redaction cover it. */
 export interface ScannerExperimentTargeting {
   /** The experiment the scanner watches. */
@@ -296,6 +405,10 @@ export interface CreateVisionScannerRequest {
   goal?: string | null;
   /** How the creator built this scanner: from an AI draft, from a template, or from scratch. Reported to product analytics at creation and not stored on the scanner. Independent of any experiment the creator is in, since a person offered the AI flow can still fill the form by hand. Only the app can answer this, so a request from anywhere else reports the calling surface instead of whatever it sends here. Ignored on update. * `ai` - AI draft * `template` - Template * `scratch` - From scratch */
   creation_method?: ScannerCreationMethodEnum | (string & {}) | null;
+  /** The app surface the creator started from, such as `replay_filters`. Reported to product analytics at creation so a scanner can be attributed to its entry point, and not stored on the scanner. Only the app's value is kept: any other caller is reported as its own source, such as `mcp`. Ignored on update. */
+  entry_point?: string | null;
+  /** Set with `enabled: true` to turn on a scanner whose creator can no longer view recordings. The caller becomes the scanner's creator, and scheduled scans then run as the caller. Without it, that request fails with code `scanner_creator_lost_access`. */
+  take_over_as_creator?: boolean;
   /** Type-specific configuration. All scanner types require `prompt`; monitors add optional `allow_inconclusive`, classifiers add `tags`, scorers add `scale`, summarizers add optional `length`. */
   scanner_config: unknown;
   /** Persisted `RecordingsQuery` shape used to pick candidate sessions. `date_from`/`date_to` are stripped on save -- the schedule controls time, not the user. */
@@ -306,6 +419,8 @@ export interface CreateVisionScannerRequest {
   sampling_mode?: SamplingModeEnum | (string & {});
   /** Optional cap on this scanner's own credit spend per billing period. Null means no scanner-level cap. When reached, this scanner stops scanning until the period resets. It stays enabled and does not scan the sessions it skipped. */
   credit_limit?: number | null;
+  /** Run only while the organization has free credits left this billing period, so the scanner never adds spend. */
+  free_only?: boolean;
   /** LLM provider. v1 is Google-only. * `google` - Google */
   provider?: ScannerProviderEnum | (string & {});
   /** Concrete model to use for this scanner. * `gemini-3.5-flash-lite` - Gemini 3.5 Flash Lite * `gemini-3-flash-preview` - Gemini 3 Flash * `gemini-3.8-flash` - Gemini 3.8 Flash */
@@ -319,6 +434,7 @@ export interface CreateVisionScannerRequest {
 }
 /** Organizational tags for this scanner. Distinct from a classifier's categories in scanner_config. Tags cannot contain commas. */
 export type ReplayScannerOutputTagsList = Array<string>;
+export type UnrunnableReasonEnum = "no_ai_consent" | "creator_lost_access";
 /** A Replay Vision scanner: its type, targeting query, and AI configuration. */
 export interface ReplayScannerOutput {
   id: string;
@@ -344,6 +460,8 @@ export interface ReplayScannerOutput {
   sampling_mode?: SamplingModeEnum;
   /** Optional cap on this scanner's own credit spend per billing period. Null means no scanner-level cap. When reached, this scanner stops scanning until the period resets. It stays enabled and does not scan the sessions it skipped. */
   credit_limit?: number | null;
+  /** Run only while the organization has free credits left this billing period, so the scanner never adds spend. */
+  free_only?: boolean;
   /** LLM provider. v1 is Google-only. * `google` - Google */
   provider?: ScannerProviderEnum;
   /** Concrete model to use for this scanner. * `gemini-3.5-flash-lite` - Gemini 3.5 Flash Lite * `gemini-3-flash-preview` - Gemini 3 Flash * `gemini-3.8-flash` - Gemini 3.8 Flash */
@@ -364,18 +482,28 @@ export interface ReplayScannerOutput {
   credits_per_observation: number;
   /** `estimated_monthly_observations` priced at `credits_per_observation`, capped at `credit_limit` when one is set. Null until the estimate is first computed. */
   estimated_monthly_credits: number | null;
-  /** Credits this scanner's succeeded observations consumed in the current billing period (1 credit = $0.01). Matches the window of the org-wide quota meter. */
+  /** Credits billed for this scanner's observations created in the current billing period (1 credit = $0.01), each at the price frozen when it succeeded. Deleted observations still count. */
   credits_this_month: number;
-  /** Succeeded observations this scanner produced in the current billing period. */
+  /** Billed observations this scanner created in the current billing period, including deleted ones. */
   observations_this_month: number;
-  /** Credits counted against `credit_limit` for the current billing period: settled receipts plus in-flight observations, priced from their frozen snapshot model. This is what the limit gate measures, so it includes work still in progress. It is not the same as `credits_this_month`, which counts only succeeded observations. */
+  /** Credits counted against `credit_limit` for the current billing period: settled receipts plus in-flight observations, priced from their frozen snapshot model. This is what the limit gate measures, so it includes work still in progress. It is not the same as `credits_this_month`, which counts only succeeded observations. For a `free_only` scanner bound by the organization's free credits, this is the organization's usage, not the scanner's own. */
   credits_used_against_limit: number;
-  /** Whether this scanner has stopped because of its own credit limit. True when `credit_limit` is set and the budget left cannot cover one more observation, which is the same test the scanner's enforcement gates apply. Always false when no limit is set. */
+  /** True when the organization's free credits bind this `free_only` scanner rather than its own `credit_limit`. `credits_used_against_limit` is then the organization's usage, measured against its free credits. */
+  limit_from_free_credits: boolean;
+  /** Whether this scanner has stopped because of its own credit limit, or, for a `free_only` scanner, because the organization has used its free credits. True when the budget left cannot cover one more observation, which is the same test the scanner's enforcement gates apply. Always false when no limit is set and `free_only` is false. */
   limit_reached: boolean;
   /** How much the scheduled sweep is slowed to keep this scanner inside its daily ClickHouse read budget. 1 means it checks for new recordings on the normal schedule; N means it checks once every N schedule intervals. Expensive filters raise it. */
   sweep_throttle_factor: number;
+  /** Dashboard created for this scanner with the create_dashboard action. Null when none was created or the user deleted it. */
+  dashboard_id: number | null;
+  /** Whether to offer the user a dashboard for this scanner: true when the scanner has no dashboard and at least 20 succeeded observations to chart. Offer it once and do not repeat the offer if the user declines. */
+  dashboard_suggested: boolean;
   /** Watermark for the scanner's last scheduled fire. Mirrors Temporal schedule state for recovery. */
   last_swept_at: string;
+  /** Why the scanner's recording filter cannot run, from the last sweep or estimate that tried it. Cleared when the filter changes or a sweep runs it. */
+  filter_error: string | null;
+  /** Why the scanner can never run, or null when it can. `no_ai_consent`: the organization has not approved AI data processing. `creator_lost_access`: the creator can no longer view recordings, which the sweep reads as them, so turning the scanner on requires `take_over_as_creator`. The sweep turns an enabled scanner off when either applies. */
+  unrunnable_reason: UnrunnableReasonEnum | null;
   created_at: string;
   /** User who created the scanner. */
   created_by: UserBasic | null;
@@ -480,8 +608,14 @@ export interface CreateVisionScannersDraftRequest {
   project_id: string;
   /** What the user wants to accomplish, e.g. 'find out where users get stuck during onboarding'. */
   goal: string;
-  /** Goal-based flow only: credits a month to spend (1 credit = $0.01). The draft picks the `model`, then solves `sampling_mode` and `sampling_rate` so the projected spend lands on this number, and sets `credit_limit` to it as a hard cap. Omitted on the legacy flow, and ignored while the goal-based flow's flag is off for the caller. */
+  /** Credits a month to spend (1 credit = $0.01). The draft picks the `model`, then solves `sampling_mode` and `sampling_rate` so the projected spend lands on this number, and sets `credit_limit` to it as a hard cap. Ask the person for it rather than guessing. Required unless `free_only` is true, and not allowed with it. */
   monthly_credit_budget?: number;
+  /** Draft a scanner that runs only on the organization's free monthly credits, so it never adds to the bill and pauses when they run out. The draft is sized to those free credits and comes back with `free_only` true and no `credit_limit`. Use instead of `monthly_credit_budget`. */
+  free_only?: boolean;
+  /** A launched experiment the person picked for the scanner to watch. The draft is then an `experiment` scanner on it. */
+  experiment_id?: number;
+  /** A `RecordingsQuery` the person already chose, as the replay list holds it. The draft starts from it and never removes or widens it. When the goal asks for narrower recordings, the draft can AND its own page, event, action or cohort filters onto it. It keeps them only when the combined filter still matches recent recordings, returns them in `query_additions`, and sizes the sampling dials against the combined `query`. `experiment_exposure` becomes the scanner's experiment and variants, which the draft keeps as they are. `date_from`/`date_to` are dropped, because a scanner's schedule owns time. `comment_text`, `hide_viewed_recordings` and in-session exposure are refused, because a scanner cannot apply them. A query with no filters starts from every new recording. Omit to let the draft pick the sessions. */
+  query?: unknown;
 }
 /** An AI-drafted scanner configuration, ready to seed the creation wizard. Nothing is persisted. */
 export interface DraftScannerResponse {
@@ -497,17 +631,19 @@ export interface DraftScannerResponse {
   rationale: string;
   /** `RecordingsQuery` narrowing which sessions get scanned; null when the draft targets every session. */
   query: unknown;
-  /** Goal-based flow only: the quality pre-filter the draft chose for the goal. Null on the legacy flow, and null when the costing estimate failed -- the wizard keeps its defaults. * `focused` - Focused * `balanced` - Balanced * `comprehensive` - Comprehensive */
+  /** When the request passed a `query`: the filters the draft ANDed onto it, which `query` already includes. Show them to the person as added by AI. Null when nothing was added or no `query` was passed. */
+  query_additions: unknown;
+  /** The quality pre-filter the draft chose for the goal. Null when the costing estimate failed, in which case the wizard keeps its defaults. * `focused` - Focused * `balanced` - Balanced * `comprehensive` - Comprehensive */
   sampling_mode: SamplingModeEnum | null;
-  /** Goal-based flow only: the random sampling rate solved from `monthly_credit_budget`, 0..1. 1.0 when the budget covers every matching recording. Floored at the minimum rate, so a budget below that floor keeps the minimum. Null whenever `sampling_mode` is. */
+  /** The random sampling rate solved from `monthly_credit_budget`, 0..1. 1.0 when the budget covers every matching recording. Floored at the minimum rate, so a budget below that floor keeps the minimum. Null whenever `sampling_mode` is. */
   sampling_rate: number | null;
-  /** Goal-based flow only: the observation model the draft chose for the goal, by how much judgment it needs. Null on the legacy flow, where the wizard keeps its default model. * `gemini-3.5-flash-lite` - Gemini 3.5 Flash Lite * `gemini-3-flash-preview` - Gemini 3 Flash * `gemini-3.8-flash` - Gemini 3.8 Flash */
+  /** The observation model the draft chose for the goal, by how much judgment it needs. * `gemini-3.5-flash-lite` - Gemini 3.5 Flash Lite * `gemini-3-flash-preview` - Gemini 3 Flash * `gemini-3.8-flash` - Gemini 3.8 Flash */
   model: ScannerModelEnum | null;
-  /** Goal-based flow only: the monthly credit cap, set to `monthly_credit_budget` so a mis-estimate stops the scanner at the credits the user agreed to. Null on the legacy flow. */
+  /** The monthly credit cap, set to `monthly_credit_budget` so a mis-estimate stops the scanner at the credits the user agreed to. Null for a free-only draft. */
   credit_limit: number | null;
-  /** Goal-based flow only: the experiment whose participants the draft watches, when the goal named one of the project's launched experiments. Null when it named none. Carried separately from `query`, which never holds an exposure filter. */
-  experiment_targeting: ScannerExperimentTargeting | null;
-  /** Goal-based flow only: recordings a month the drafted scanner is projected to watch under the solved dials. Its credit cost lands at or under `monthly_credit_budget`, except when the budget is below what the minimum sampling rate can reach, where this is the floor and exceeds the budget. Null whenever `sampling_mode` is. */
+  /** Whether the draft runs only on the organization's free monthly credits. Pass it on to create. */
+  free_only: boolean;
+  /** Recordings a month the drafted scanner is projected to watch under the solved dials. Its credit cost lands at or under `monthly_credit_budget`, except when the budget is below what the minimum sampling rate can reach, where this is the floor and exceeds the budget. Null whenever `sampling_mode` is. */
   estimated_monthly_observations: number | null;
 }
 /** The variant keys it watches. Null or omitted means every variant. */
@@ -552,26 +688,51 @@ export interface EstimateResponse {
   other_enabled_scanners_monthly_credits: number;
   /** Committed-but-unspent credits of the org's active backfills, the same figure the quota snapshot's projection carries. A one-off charge rather than a monthly rate, so the forecast shows it as its own segment instead of adding it to a per-month total. */
   active_backfill_credits: number;
+  /** The monthly credit rate the organization's free credits still cover for one more free-only scanner, after the other free-only scanners and backfills. The forecast caps a free-only scanner at this rate, because free-only scanners share one pool. */
+  free_only_monthly_credits_left: number;
   /** Sampling rate applied to the projection. Echoed from the request. */
   sampling_rate: number;
 }
+/** Observations the calling user saw in the Highlights feed, at most 100. Ids the user cannot read are ignored. */
+export type CreateVisionScannersHighlightFeedImpressionRequestObservationIdsList = Array<string>;
+export interface CreateVisionScannersHighlightFeedImpressionRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The client's id for the feed load that showed these cards. One load counts each card once. */
+  feed_load_id: string;
+  /** Observations the calling user saw in the Highlights feed, at most 100. Ids the user cannot read are ignored. */
+  observation_ids: CreateVisionScannersHighlightFeedImpressionRequestObservationIdsList;
+}
+export interface CreateVisionScannersHighlightFeedImpressionResponse {}
 /** Session recording IDs to scan, at most 200 per request. Scans start until the in-flight limit or monthly credit quota is reached; the rest are reported as skipped rather than failing the whole batch. */
 export type CreateVisionScannersInlineScanRequestSessionIdsList = Array<string>;
 export interface CreateVisionScannersInlineScanRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Session recording IDs to scan, at most 200 per request. Scans start until the in-flight limit or monthly credit quota is reached; the rest are reported as skipped rather than failing the whole batch. */
-  session_ids: CreateVisionScannersInlineScanRequestSessionIdsList;
-  /** What to look for in these sessions, in plain language. The same instruction a saved scanner carries. */
-  prompt: string;
-  /** What the scan produces. Defaults to monitor, an open-ended observation against the prompt. Use `summarizer` to get PostHog's own AI summary of a recording. An inline scan is keyed by its whole config, so the Summarize button in the replay player shares this scan only when the prompt and `scanner_config` match the ones it sends. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer * `experiment` - Experiment */
+  /** Run a scan PostHog defines instead of your own prompt. `summarize_recording` is the AI summary the Summarize button in the replay player runs, so its results are shared with that button. Leave out `prompt`, `scanner_type` and `scanner_config` when this is set. * `summarize_recording` - Summarize recording */
+  built_in?: BuiltInScanKeyEnum | (string & {});
+  /** What to look for in these sessions, in plain language. The same instruction a saved scanner carries. Required unless `built_in` is set. */
+  prompt?: string;
+  /** What the scan produces. Defaults to monitor, an open-ended observation against the prompt. Use `summarizer` for a summary in your own words; use `built_in: summarize_recording` for the Summarize button's summary. An inline scan is keyed by its whole config, so asking the same question again reuses its answers. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer * `experiment` - Experiment */
   scanner_type?: ScannerTypeEnum | (string & {});
   /** Type-specific configuration beyond the prompt: `tags` for a classifier, `scale` for a scorer, optional `length` for a summarizer. Omit it for a monitor. `prompt` belongs in the `prompt` field and is rejected here. */
   scanner_config?: unknown;
   /** Model to scan with. Determines what each observation costs in credits. * `gemini-3.5-flash-lite` - Gemini 3.5 Flash Lite * `gemini-3-flash-preview` - Gemini 3 Flash * `gemini-3.8-flash` - Gemini 3.8 Flash */
   model?: ScannerModelEnum | (string & {});
+  /** Session recording IDs to scan, at most 200 per request. Scans start until the in-flight limit or monthly credit quota is reached; the rest are reported as skipped rather than failing the whole batch. */
+  session_ids: CreateVisionScannersInlineScanRequestSessionIdsList;
 }
 export interface CreateVisionScannersInlineScanResponse {}
+export interface CreateVisionScannersObservationsFeedDismissalRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  scanner_id: string;
+  /** A UUID string identifying this replay observation. */
+  id: string;
+  /** Optional reason the observation was not useful. Omit or send null when the user gave none. * `not_a_real_problem` - Not a real problem * `already_known` - Already known * `not_my_area` - Not my area * `other` - Other */
+  reason?: FeedDismissalReasonEnum | (string & {}) | null;
+}
+export interface CreateVisionScannersObservationsFeedDismissalResponse {}
 export interface CreateVisionScannersObservationsLabelRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -614,8 +775,12 @@ export type SignalScoutConfigOptionsStructuredOutputSchemaMap = {
 export type SignalScoutConfigOptionsMcpGatewayServerIdsList = Array<string>;
 /** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
 export type SignalScoutConfigOptionsRepositoriesList = Array<string>;
-/** Extra write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `customer_task:write`, `dashboard:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `replay_scanner:write`, `warehouse_table:write`, `warehouse_view:write`. Empty (the default) means the scout reads the project and writes only what every scout may write: notebooks, its findings, and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant. Applies from the scout's next run. */
+/** Write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
 export type SignalScoutConfigOptionsWriteScopesList = Array<string>;
+/** Exact MCP tool names selected for this scout, excluding its built-in run context tools. Null means no tool restriction; an empty list selects no additional tools. Write access is derived from selected write tools. Clearing to null preserves the last write scopes. Send this field or tool_preset, never both. Requires the scouts-tool-access feature flag. */
+export type SignalScoutConfigOptionsAllowedMcpToolsList = Array<string>;
+/** * `read_only` - Read only * `support_notes` - Support notes */
+export type ToolPresetEnum = "read_only" | "support_notes";
 /** Slack members to send output to as direct messages, each in `member_id|@display-name` format (a bare member ID like `U0123ABC456` also works). Each member gets their own DM from the PostHog app; at most 5. Set either this or `channel`, not both. Useful for personal scouts where a DM beats a channel. */
 export type SignalScoutSlackDestinationUsersList = Array<string>;
 export interface SignalScoutSlackDestination {
@@ -637,6 +802,8 @@ export interface SignalScoutOutputDestinations {
   slack?: SignalScoutSlackDestination | null;
   /** The CDP destination another product provisioned for this scout's reports. Null or omitted means no webhook. Unlike Slack, Signals does not deliver this itself: the reference lives here so the owning product can manage the destination's lifecycle. */
   webhook?: SignalScoutWebhookDestination | null;
+  /** Whether this scout's reports appear in the shared inbox. Defaults to true. Set false to keep the reports this scout authors out of the inbox and its Slack notifications, for example for a digest scout read in Slack. Reports this scout only edits are not affected. An update that omits this key keeps the stored value. */
+  inbox?: boolean;
 }
 /** * `trusted` - Trusted domains only * `full` - Full */
 export type SignalScoutConfigNetworkAccessEnum = "trusted" | "full";
@@ -652,8 +819,16 @@ export interface SignalScoutConfigOptions {
   mcp_gateway_server_ids?: SignalScoutConfigOptionsMcpGatewayServerIdsList;
   /** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
   repositories?: SignalScoutConfigOptionsRepositoriesList;
-  /** Extra write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `customer_task:write`, `dashboard:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `replay_scanner:write`, `warehouse_table:write`, `warehouse_view:write`. Empty (the default) means the scout reads the project and writes only what every scout may write: notebooks, its findings, and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant. Applies from the scout's next run. */
+  /** Write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
   write_scopes?: SignalScoutConfigOptionsWriteScopesList;
+  /** Opt-in guard on this scout's lifecycle. Off by default, so anyone with scout write access may pause, resume, switch the scout to dry run, or delete it. On, only the person the scout's runs act as or a project admin may do any of those, or change this flag. Use it on a scout whose output people depend on: `signal_scout:write` is a project-wide scope held by people and by unattended agents alike, and a resume has to pass the project's enabled-scout maximum that a pause does not, so a bulk pause is not undone in one step. The lock never stops an automatic pause, such as the inactivity sweep or the repeated-failure breaker. */
+  lifecycle_locked?: boolean;
+  /** Exact MCP tool names selected for this scout, excluding its built-in run context tools. Null means no tool restriction; an empty list selects no additional tools. Write access is derived from selected write tools. Clearing to null preserves the last write scopes. Send this field or tool_preset, never both. Requires the scouts-tool-access feature flag. */
+  allowed_mcp_tools?: SignalScoutConfigOptionsAllowedMcpToolsList | null;
+  /** Expand this named preset into a saved tool list. Later preset changes do not alter the saved list. Send this field or allowed_mcp_tools, never both. Requires the scouts-tool-access feature flag. * `read_only` - Read only * `support_notes` - Support notes */
+  tool_preset?: ToolPresetEnum | (string & {});
+  /** Optional HogQL `SELECT` a scheduled run evaluates before it starts. When it returns no rows, or one row with one false value (`false`, `0`, null or empty), the run is skipped: no sandbox, no model call, and no run row. Any other result starts the run, and the scout reads the rows. A query error also starts the run. Use `{since}` (the start of the last run that ran, or when the scout was created) and `{now}` to look only at what is new, e.g. `SELECT count() FROM events WHERE event = '$exception' AND timestamp > {since}`. To run at least once a week however quiet it is, add `OR {since} < {now} - INTERVAL 7 DAY` to the condition. Only scheduled runs evaluate it: a manual or workflow run always starts. `{interval_minutes}` is the gap between two scheduled runs, so a backstop can follow the schedule: `{since} < {now} - toIntervalMinute(greatest(1440, 2 * {interval_minutes}))` runs at least daily and never more often than every two intervals. The query stops after 10 seconds and reads at most 50 rows. Try a query with `scout-config-precheck-test` before you save it. Null or blank uses the default pre-check the scout's skill ships, if any. To turn every pre-check off, set `precheck_disabled`. */
+  precheck_query?: string | null;
   /** Whether this scout runs on its schedule. Defaults to true. */
   enabled?: boolean;
   /** Whether the scout writes findings to the inbox. False = dry-run: it runs and logs but emits nothing. Defaults to true. */
@@ -669,6 +844,15 @@ export interface SignalScoutConfigOptions {
   /** Optional five-field cron expression, e.g. '30 9 * * *' (daily at 09:30), '0 9,17 * * *' (twice daily), or '0 9 * * 1-5' (weekday mornings). Evaluated in the project timezone. Takes precedence over `run_interval_minutes`; occurrences must be at least 30 minutes apart. */
   run_cron_schedule?: string | null;
 }
+/** * `variant-analysis` - Variant analysis * `daily-digest` - Daily digest * `root-cause` - Root cause * `weekly-themes` - Weekly themes * `trend-watch` - Trend watch * `new-issues` - New issue watch * `scratch` - Start from scratch */
+export type ScoutTemplateKeyEnum =
+  | "variant-analysis"
+  | "daily-digest"
+  | "root-cause"
+  | "weekly-themes"
+  | "trend-watch"
+  | "new-issues"
+  | "scratch";
 export interface CreateVisionScannersScoutRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -685,6 +869,8 @@ export interface CreateVisionScannersScoutRequest {
   config?: SignalScoutConfigOptions;
   /** Make this the experiment scanner's variant analysis scout: its runs record a structured comparison of the variants, which the scanner's variants readout shows. Experiment scanners only. */
   variant_analysis?: boolean;
+  /** The template the body came from. A body left exactly as the template rendered it keeps following later edits to that template; an edited body stays as written. * `variant-analysis` - Variant analysis * `daily-digest` - Daily digest * `root-cause` - Root cause * `weekly-themes` - Weekly themes * `trend-watch` - Trend watch * `new-issues` - New issue watch * `scratch` - Start from scratch */
+  template_key?: ScoutTemplateKeyEnum | (string & {});
 }
 /** * `canonical` - canonical * `custom` - custom */
 export type ScoutOriginEnum = "canonical" | "custom";
@@ -725,8 +911,13 @@ export type SignalScoutConfigStructuredOutputSchemaMap = { [key: string]: unknow
 export type SignalScoutConfigMcpGatewayServerIdsList = Array<string>;
 /** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
 export type SignalScoutConfigRepositoriesList = Array<string>;
-/** Extra write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `customer_task:write`, `dashboard:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `replay_scanner:write`, `warehouse_table:write`, `warehouse_view:write`. Empty (the default) means the scout reads the project and writes only what every scout may write: notebooks, its findings, and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant. Applies from the scout's next run. */
+/** Write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
 export type SignalScoutConfigWriteScopesList = Array<string>;
+/** Exact MCP tool names selected for this scout, excluding its built-in run context tools. Null means no tool restriction; an empty list selects no additional tools. Write access is derived from selected write tools. Clearing to null preserves the last write scopes. Send this field or tool_preset, never both. Requires the scouts-tool-access feature flag. */
+export type SignalScoutConfigAllowedMcpToolsList = Array<string>;
+export type ScoutPrecheckQuerySourceEnum = "config" | "skill_default" | "off";
+/** * `run` - Run * `skip` - Skip * `error` - Error */
+export type SignalScoutConfigPrecheckOutcomeEnum = "run" | "skip" | "error";
 /** Free-form labels for grouping the fleet, e.g. `["revenue", "on-call"]`. Normalized to lowercase kebab-case (`On Call` and `on_call` both become `on-call`), deduped, and stored sorted; at most 10 tags, each at most 50 characters once normalized. Pass the full desired set -- a write replaces the existing tags rather than merging into them. Filter the config list with the `tags` query parameter. */
 export type SignalScoutConfigTagsList = Array<string>;
 /** Read shape for a per-(team, skill) scout config. One row per scout skill on the team. The coordinator auto-creates a row when it discovers a scout skill; this serializer lets agents tune the row. */
@@ -772,8 +963,28 @@ export interface SignalScoutConfig {
   mcp_gateway_server_ids: SignalScoutConfigMcpGatewayServerIdsList;
   /** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
   repositories?: SignalScoutConfigRepositoriesList;
-  /** Extra write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `customer_task:write`, `dashboard:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `replay_scanner:write`, `warehouse_table:write`, `warehouse_view:write`. Empty (the default) means the scout reads the project and writes only what every scout may write: notebooks, its findings, and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant. Applies from the scout's next run. */
+  /** Write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
   write_scopes: SignalScoutConfigWriteScopesList;
+  /** Opt-in guard on this scout's lifecycle. Off by default, so anyone with scout write access may pause, resume, switch the scout to dry run, or delete it. On, only the person the scout's runs act as or a project admin may do any of those, or change this flag. Use it on a scout whose output people depend on: `signal_scout:write` is a project-wide scope held by people and by unattended agents alike, and a resume has to pass the project's enabled-scout maximum that a pause does not, so a bulk pause is not undone in one step. The lock never stops an automatic pause, such as the inactivity sweep or the repeated-failure breaker. */
+  lifecycle_locked: boolean;
+  /** Exact MCP tool names selected for this scout, excluding its built-in run context tools. Null means no tool restriction; an empty list selects no additional tools. Write access is derived from selected write tools. Clearing to null preserves the last write scopes. Send this field or tool_preset, never both. Requires the scouts-tool-access feature flag. */
+  allowed_mcp_tools: SignalScoutConfigAllowedMcpToolsList | null;
+  /** Preset used to select the saved tool list, custom for an explicit list, or null when unrestricted. */
+  tool_preset: string | null;
+  /** Optional HogQL `SELECT` a scheduled run evaluates before it starts. When it returns no rows, or one row with one false value (`false`, `0`, null or empty), the run is skipped: no sandbox, no model call, and no run row. Any other result starts the run, and the scout reads the rows. A query error also starts the run. Use `{since}` (the start of the last run that ran, or when the scout was created) and `{now}` to look only at what is new, e.g. `SELECT count() FROM events WHERE event = '$exception' AND timestamp > {since}`. To run at least once a week however quiet it is, add `OR {since} < {now} - INTERVAL 7 DAY` to the condition. Only scheduled runs evaluate it: a manual or workflow run always starts. `{interval_minutes}` is the gap between two scheduled runs, so a backstop can follow the schedule: `{since} < {now} - toIntervalMinute(greatest(1440, 2 * {interval_minutes}))` runs at least daily and never more often than every two intervals. The query stops after 10 seconds and reads at most 50 rows. Try a query with `scout-config-precheck-test` before you save it. Null or blank uses the default pre-check the scout's skill ships, if any. To turn every pre-check off, set `precheck_disabled`. */
+  precheck_query: string | null;
+  /** True turns off the pre-check, both `precheck_query` and the default the skill ships, so every scheduled run starts. False (the default) uses `precheck_query`, or the skill default when that is null. */
+  precheck_disabled: boolean;
+  /** The pre-check query the next scheduled run uses: `precheck_query`, or the default the scout's skill ships. Null when no pre-check runs. */
+  effective_precheck_query: string | null;
+  /** Where `effective_precheck_query` comes from: `config` (this scout's `precheck_query`), `skill_default` (the default its skill ships), or `off` (no pre-check runs). */
+  precheck_query_source: ScoutPrecheckQuerySourceEnum;
+  /** When a scheduled run last evaluated this scout's pre-check. A skipped run writes no run row, so this stays recent while `last_run_at` ages. Null if no pre-check has run. */
+  last_precheck_at: string | null;
+  /** The outcome of the latest scheduled pre-check: `run` (the query found something new), `skip` (nothing new, so the run did not start), or `error` (the query failed and the run started). Null if no pre-check has run. * `run` - Run * `skip` - Skip * `error` - Error */
+  last_precheck_outcome: SignalScoutConfigPrecheckOutcomeEnum | null;
+  /** How many rows the latest scheduled pre-check returned, at most 50. Null if no pre-check has run. */
+  last_precheck_row_count: number | null;
   /** When the coordinator last dispatched this scout. Null if it has never run. */
   last_run_at: string | null;
   /** How many of this scout's runs have failed in a row. Back to 0 after a successful run or any config edit. At the failure limit the scout pauses itself (`status` becomes `paused_by_system` with `pause_reason` `repeated_failures`) and retries about once a day; a successful retry resumes it, and so does setting `enabled=true`. */
@@ -801,40 +1012,6 @@ export interface ScannerScoutCreateResponse {
   /** The scout's config, including the source recorded for it. */
   config: SignalScoutConfig;
 }
-/** The categories already configured, so suggestions never duplicate one the user has. */
-export type CreateVisionScannersSuggestTagRequestTagsList = Array<string>;
-export interface CreateVisionScannersSuggestTagRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** The classifier's instruction prompt -- the single dimension to categorize sessions by. */
-  prompt: string;
-  /** The categories already configured, so suggestions never duplicate one the user has. */
-  tags?: CreateVisionScannersSuggestTagRequestTagsList;
-  /** Whether the classifier assigns multiple tags per session. */
-  multi_label?: boolean;
-  /** Whether the classifier may emit tags outside the fixed vocabulary. */
-  allow_freeform_tags?: boolean;
-  /** Existing scanner to ground suggestions in its own observations (the tags and reasoning it has already produced on real recordings). Omit for an unsaved scanner. */
-  scanner_id?: string | null;
-}
-/** * `observed` - observed * `product` - product * `prompt` - prompt */
-export type TagSuggestionSourceEnum = "observed" | "product" | "prompt";
-/** One grounded tag suggestion. */
-export interface TagSuggestion {
-  /** Suggested tag to add to the vocabulary, normalized to lowercase. */
-  tag: string;
-  /** One sentence explaining the specific evidence this tag is grounded in. */
-  rationale: string;
-  /** Primary grounding: observed=a category this scanner already emitted on recordings; product=the org's events/screens; prompt=the scanner's stated goal. * `observed` - observed * `product` - product * `prompt` - prompt */
-  source: TagSuggestionSourceEnum;
-}
-/** Suggested tags to add, most relevant first. May be empty when the evidence is too thin. */
-export type SuggestTagsResponseSuggestionsList = Array<TagSuggestion>;
-/** Grounded tag suggestions for the classifier config editor. */
-export interface SuggestTagsResponse {
-  /** Suggested tags to add, most relevant first. May be empty when the evidence is too thin. */
-  suggestions: SuggestTagsResponseSuggestionsList;
-}
 export interface GetEnvironmentVisionQuotaRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -860,6 +1037,8 @@ export interface VisionQuota {
   projected_monthly_credits: number;
   /** Credit-weighted sum of enabled scanners' projected observations/month across the organization. A capped scanner contributes at most what its own credit limit has left this period, folded back into a 30-day rate. A monthly rate: only the part falling in the days left of the period lands this period. Scanners without a computed estimate contribute 0. */
   scanners_monthly_credits: number;
+  /** The part of `scanners_monthly_credits` that lands between now and `period_end`. Use it for rest-of-period forecasts; billing forecasts from the same figure. */
+  scanners_period_credits: number;
   /** Committed-but-unspent credits of the organization's active backfills. A one-off charge rather than a rate, so it lands in full regardless of how much of the period is left. */
   backfills_committed_credits: number;
   /** Credits per period included for free. Already counted inside `credit_limit`; only credits beyond this number are billed. */
@@ -963,6 +1142,65 @@ export interface VisionAlertConfigurationDetail {
   /** This alert's notification destinations, one entry per destination, with credential-bearing URL parts removed. */
   destinations: VisionAlertConfigurationDetailDestinationsList;
 }
+export interface GetVisionGroupRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+  /** Split each group's window counts by experiment variant in `variants`. Use it on experiment scanners. */
+  by_variant?: boolean;
+  /** Count members from this time: ISO 8601 or relative like `-7d`. Defaults to `-30d`. The window spans at most 90 days with `scanner_id`, and at most 30 days without it. */
+  date_from?: string;
+  /** Count members up to this time: ISO 8601, relative, or `now`. Defaults to now. */
+  date_to?: string;
+  /** Also count routine observations, so groups describe ordinary behavior and not only issues. Use it for experiment scanners, where the question is how each variant's users behave. */
+  include_routine?: boolean;
+  /** Only this scanner's clusters. Defaults to every scanner you can read. */
+  scanner_id?: string;
+  /** Experiment scanners only: count only members attributed to these variant keys (comma-separated). `__unattributed__` matches members with no attributed variant. */
+  variant?: string;
+}
+/** * `emerging` - Emerging * `active` - Active * `fading` - Fading * `dormant` - Dormant */
+export type ClusterStatusEnum = "emerging" | "active" | "fading" | "dormant";
+/** Up to 3 of the window's highest-ranked members, best first. */
+export type ClusterExampleObservationIdsList = Array<string>;
+export interface VariantCount {
+  /** The variant key, or `__unattributed__` for members with none. */
+  key: string;
+  /** The group's members in this variant in the window. */
+  observation_count: number;
+  /** Distinct people among them. */
+  people_count: number;
+}
+/** The window's members split by experiment variant, largest first. Empty unless `by_variant` is set. Compare each variant's share of the group with its share of the scanner's sessions, since variants are sampled at different rates. */
+export type ClusterVariantsList = Array<VariantCount>;
+export interface Cluster {
+  /** The cluster id. Pass it as `theme` or `group` to `vision-scanners-observations-list` to read members. */
+  id: string;
+  /** The scanner whose observations the cluster groups. */
+  scanner_id: string;
+  /** The scanner's name. */
+  scanner_name: string;
+  /** A short model-written search phrase for a theme. Null for a group, and for a theme too small to be named; `example_summary` stands in. */
+  name: string | null;
+  /** Where the cluster stands, from its members: `emerging` (first member this week), `active`, `fading` (last week under half of the week before) or `dormant` (no member for two weeks). * `emerging` - Emerging * `active` - Active * `fading` - Fading * `dormant` - Dormant */
+  status: ClusterStatusEnum;
+  /** Readable observations in the window: issue observations, plus routine ones with `include_routine`. */
+  observation_count: number;
+  /** Distinct people among them; a session without an identified person counts as one. */
+  people_count: number;
+  /** Members in the same-length window just before `date_from`, to compare the trend against. */
+  previous_observation_count: number;
+  /** When the window's oldest member was observed. */
+  first_seen: string;
+  /** When the window's newest member was observed. */
+  last_seen: string;
+  /** Up to 3 of the window's highest-ranked members, best first. */
+  example_observation_ids: ClusterExampleObservationIdsList;
+  /** One-line summary of the best example; the readable label for a group, which has no name. */
+  example_summary: string;
+  /** The window's members split by experiment variant, largest first. Empty unless `by_variant` is set. Compare each variant's share of the group with its share of the scanner's sessions, since variants are sampled at different rates. */
+  variants: ClusterVariantsList;
+}
 export type GetVisionObservationRequestOrderBy =
   | "-completed_at"
   | "-created_at"
@@ -995,8 +1233,12 @@ export interface GetVisionObservationRequest {
   date_from?: string;
   /** Only observations created at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone. */
   date_to?: string;
+  /** Only issue observations in this group of near duplicates, an `id` from the groups list. Pair it with the same `date_from`, `date_to`, `include_routine` and `variant` to list the observations the group counted. */
+  group?: string;
+  /** With `group`, also list the group's routine observations, as the groups list does with the same flag. */
+  include_routine?: boolean;
   /** When true, return only observations that have a shared label (thumbs up or down); when false, only unlabeled observations. */
-  labeled?: string;
+  labeled?: boolean;
   /** Filter scorer observations to those scoring at or below this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded. */
   max_score?: number;
   /** Filter scorer observations to those scoring at or above this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded. */
@@ -1011,12 +1253,18 @@ export interface GetVisionObservationRequest {
   status?: string;
   /** Filter classifier observations whose fixed or freeform tags include any of the given values (comma-separated). Matches if the tag appears in either `tags` or `tags_freeform`. */
   tags?: string;
+  /** Only issue observations in this search theme, an `id` from the themes list. Pair it with the same `date_from` and `date_to` to list the observations the theme counted. */
+  theme?: string;
   /** Filter by trigger source (schedule, on_demand, retry, or backfill). Accepts a comma-separated list. */
   triggered_by?: string;
   /** Experiment scanners only: filter to observations attributed to any of the given variant keys (comma-separated). `__unattributed__` matches observations with no attributed variant. */
   variant?: string;
   /** Filter monitor observations by verdict. Accepts a comma-separated list (e.g. `yes,inconclusive`). */
   verdict?: string;
+  /** Only observations the watch feed ranks under any of these kinds (comma-separated: failure, struggle, revenue). Pair it with `watch_group` and the feed's `categories`. */
+  watch_category?: string;
+  /** Only observations the highlight feed groups with this observation as near duplicates, including itself. Pair it with the feed's `date_from` to list the sessions a feed card counts. */
+  watch_group?: string;
 }
 /** * `configured` - Configured * `inline` - Inline */
 export type ScannerOriginEnum = "configured" | "inline";
@@ -1043,39 +1291,25 @@ export interface ScannerSnapshot {
   /** Experiment scanners with balanced sampling: the 0..1 rate each watched variant was sampled at by the tick that dispatched this scan. Null otherwise, so even per-variant counts can be read against the rates that produced them. */
   variant_sampling_rates?: ScannerSnapshotVariantSamplingRatesMap | null;
 }
-/** Mirrors `temporal.types.ScannerResult` for OpenAPI generation. */
-export interface ScannerResult {
-  /** Validated scanner output. Shape depends on `scanner_snapshot.scanner_type`; always carries `confidence` and `scanner_type`. */
-  model_output: unknown;
-  /** Number of PostHog Signals emitted from this observation. */
-  signals_count: number;
-  /** Experiment scanners only: the variant the exposure data attributes this session's person to. Null on the other types and on rows scanned before variant attribution shipped. */
-  experiment_variant?: string | null;
-  /** Experiment scanners only: the scanned session's duration in seconds. */
-  session_duration_s?: number | null;
-}
+export type PromptValenceEnum = "good" | "bad" | "neutral";
 /** * `schedule` - Schedule * `on_demand` - On demand * `retry` - Retry * `backfill` - Backfill */
 export type ObservationTriggerEnum = "schedule" | "on_demand" | "retry" | "backfill";
-/** * `thumbnail` - Thumbnail * `clip` - Clip * `chapter` - Chapter */
-export type ReplayObservationMediaKindEnum = "thumbnail" | "clip" | "chapter";
-/** One thumbnail or clip illustrating an observation. */
+/** * `thumbnail` - Thumbnail * `chapter` - Chapter */
+export type ReplayObservationMediaKindEnum = "thumbnail" | "chapter";
+/** One frame illustrating an observation. */
 export interface ReplayObservationMedia {
   /** Id of this media entry. */
   id: string;
-  /** `thumbnail` for the single frame that illustrates the observation, `chapter` for the frame of one summary chapter, `clip` for a short video. * `thumbnail` - Thumbnail * `clip` - Clip * `chapter` - Chapter */
+  /** `thumbnail` for the single frame that illustrates the observation, `chapter` for the frame of one summary chapter. * `thumbnail` - Thumbnail * `chapter` - Chapter */
   kind: ReplayObservationMediaKindEnum;
   /** Order among media of the same kind. For a `chapter` frame, the index into `model_output.chapters`. */
   position: number;
   /** Export asset holding the bytes; fetch it from the export content endpoint. */
   asset_id: number;
-  /** One sentence saying what the clip shows. Null for thumbnails. */
-  description: string | null;
   /** Where this media starts in the analysis video, in milliseconds. */
   video_start_ms: number;
-  /** Where a clip ends in the analysis video, in milliseconds. Null for thumbnails. */
-  video_end_ms: number | null;
 }
-/** Thumbnails and clips illustrating this observation, in order. Empty until the media render finishes. */
+/** Frames illustrating this observation, in order. Empty until the media render finishes. */
 export type ReplayObservationMediaList = Array<ReplayObservationMedia>;
 export interface ReplayObservation {
   id: string;
@@ -1097,6 +1331,8 @@ export interface ReplayObservation {
   scanner_result: ScannerResult | null;
   /** The scanner's prompt condensed into the one question it answers about a session. Null when the prompt has changed since this observation was scanned, since the question then describes a different prompt; read `scanner_snapshot.scanner_config.prompt` instead. */
   prompt_question: string | null;
+  /** For a monitor or scorer: `good` when a yes or a high score is good news for the team, `bad` when it is a problem, `neutral` when neither. Judged by AI from the prompt. Null for other scanner types, when not judged, or when the prompt has changed since this observation was scanned. */
+  prompt_valence: PromptValenceEnum | null;
   /** Whether this observation came from the schedule, an on-demand request, a retry of a failed or ineligible observation, or a historical backfill. * `schedule` - Schedule * `on_demand` - On demand * `retry` - Retry * `backfill` - Backfill */
   triggered_by: ObservationTriggerEnum;
   /** User who triggered an on-demand observation; null for scheduled observations. */
@@ -1115,7 +1351,7 @@ export interface ReplayObservation {
   label: ReplayObservationLabel | null;
   /** Whether the calling user has opened this observation. */
   viewed: boolean;
-  /** Thumbnails and clips illustrating this observation, in order. Empty until the media render finishes. */
+  /** Frames illustrating this observation, in order. Empty until the media render finishes. */
   media: ReplayObservationMediaList;
   /** One line of plain text saying what the scanner found: its verdict, score, tags or title, then its own words, with markdown flattened and the text truncated. An observation that produced no result carries the reason instead, and one still in flight carries an empty string. Read this in place of `scanner_result` when you scan a list of observations. */
   summary_line: string;
@@ -1123,6 +1359,7 @@ export interface ReplayObservation {
   completed_at?: string | null;
   created_at: string;
 }
+export type GetVisionObservationsThumbnailRequestSize = "large" | "small";
 export interface GetVisionObservationsThumbnailRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -1130,8 +1367,16 @@ export interface GetVisionObservationsThumbnailRequest {
   id: string;
   /** Index into the summary's `model_output.chapters`. Serves that chapter's frame instead of the observation's thumbnail. */
   chapter?: number;
+  /** `large` is up to 1280px wide, for detail views. `small` is up to 480px wide, for lists and grids. A frame rendered before small copies existed serves the large image for both. * `large` - Large * `small` - Small */
+  size?: GetVisionObservationsThumbnailRequestSize | (string & {});
 }
 export interface GetVisionObservationsThumbnailResponse {}
+export interface GetVisionRequestRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this replay observation request. */
+  id: string;
+}
 export interface GetVisionScannerRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -1155,6 +1400,69 @@ export type ScannerCreatorsResponseCreatorsList = Array<UserBasic>;
 export interface ScannerCreatorsResponse {
   /** Users who created at least one scanner on this team. Returned regardless of pagination state so the dropdown stays stable across pages. */
   creators: ScannerCreatorsResponseCreatorsList;
+}
+export type GetVisionScannersHighlightFeedRequestScannerType =
+  | "monitor"
+  | "classifier"
+  | "scorer"
+  | "summarizer"
+  | "experiment";
+export interface GetVisionScannersHighlightFeedRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The time the first page loaded. Later pages rank as of that time: observations, views, dismissals and impressions after it are ignored, so pages do not shift under a reader who scrolls. */
+  as_of?: string;
+  /** Comma-separated kinds of moment to include: `failure` (errors, failed requests, dead ends), `struggle` (repeated attempts, rage clicks, abandoned forms), `revenue` (failed payments, cancellations, usage limits). Defaults to all three. A pick keeps its rank within its scanner, so leaving a kind out drops its sessions without promoting weaker ones. */
+  categories?: string;
+  /** Comma-separated user IDs. Restrict the feed to observations from scanners those users created. */
+  created_by?: string;
+  /** Only observations created at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone. The window between `date_from` and `date_to` may span at most 90 days. */
+  date_from?: string;
+  /** Only observations created at or before this time. Same formats as `date_from`; omit it to query through the current time. */
+  date_to?: string;
+  /** Ceiling on feed items to return per page, at most 50. A page routinely returns fewer: a window is not padded to this number with clips that carry no finding. */
+  limit?: number;
+  /** How many ranked items to skip. Send `as_of` with every page after the first. */
+  offset?: number;
+  /** Comma-separated scanner UUIDs to restrict the feed to. Defaults to every scanner you can read. */
+  scanner_ids?: string;
+  /** Restrict the feed to observations from scanners of this type. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer * `experiment` - Experiment */
+  scanner_type?: GetVisionScannersHighlightFeedRequestScannerType | (string & {});
+  /** Comma-separated scanner tags to restrict the feed to. A team with many scanners uses these to follow one area without naming every scanner in it. */
+  tags?: string;
+}
+/** * `embedding_pick` - Embedding Pick * `unviewed_recent` - Unviewed Recent * `recent` - Recent */
+export type HighlightFeedReasonEnum = "embedding_pick" | "unviewed_recent" | "recent";
+/** * `failure` - Failure * `struggle` - Struggle * `revenue` - Revenue */
+export type HighlightFeedCategoryEnum = "failure" | "struggle" | "revenue";
+/** Machine-readable reason an observation made the feed; the frontend renders the copy. */
+export interface HighlightFeedReason {
+  /** Why the observation is in the feed: `embedding_pick` (the session reads like a failure, struggle, or revenue moment and ranks in its scanner's top fifth), `unviewed_recent` (new to you), `recent` (nothing special, newest available). * `embedding_pick` - Embedding Pick * `unviewed_recent` - Unviewed Recent * `recent` - Recent */
+  kind: HighlightFeedReasonEnum;
+  /** What the session reads like, for `embedding_pick`. * `failure` - Failure * `struggle` - Struggle * `revenue` - Revenue */
+  watch_category?: HighlightFeedCategoryEnum;
+  /** Other sessions from the same scanner in the window that describe nearly the same thing, for `embedding_pick`. The feed shows one session per group. */
+  similar_count?: number | null;
+  /** Distinct people across the session's feed group in the window, for `embedding_pick`. A finding that reached more people ranks higher. */
+  affected_people?: number | null;
+}
+/** One feed entry: the observation plus why it ranked. */
+export interface HighlightFeedItem {
+  /** The observation, in the standard shape. */
+  observation: ReplayObservation;
+  /** Why this observation made the feed. */
+  reason: HighlightFeedReason;
+}
+/** Succeeded observations in the window worth watching, most interesting first, each carrying the reason it ranked. Every observation that carries a finding is returned; observations that carry none (`unviewed_recent`, `recent`) are returned only to pad a near-empty feed to three items, so a quiet window answers with a handful of rows rather than a full page of newest clips. */
+export type HighlightFeedResponseResultsList = Array<HighlightFeedItem>;
+/** Response of GET /vision/scanners/highlight_feed/. */
+export interface HighlightFeedResponse {
+  /** Succeeded observations in the window worth watching, most interesting first, each carrying the reason it ranked. Every observation that carries a finding is returned; observations that carry none (`unviewed_recent`, `recent`) are returned only to pad a near-empty feed to three items, so a quiet window answers with a handful of rows rather than a full page of newest clips. */
+  results: HighlightFeedResponseResultsList;
+  /** Whether a later page holds more ranked items. Request it with `offset` set past this page. */
+  has_more: boolean;
+  /** The time this feed ranks as of. Send it back with later pages. */
+  as_of: string;
 }
 export type GetVisionScannersImpactRequestVerdict = "yes" | "no" | "inconclusive";
 export interface GetVisionScannersImpactRequest {
@@ -1217,8 +1525,12 @@ export interface GetVisionScannersObservationRequest {
   date_from?: string;
   /** Only observations created at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone. */
   date_to?: string;
+  /** Only issue observations in this group of near duplicates, an `id` from the groups list. Pair it with the same `date_from`, `date_to`, `include_routine` and `variant` to list the observations the group counted. */
+  group?: string;
+  /** With `group`, also list the group's routine observations, as the groups list does with the same flag. */
+  include_routine?: boolean;
   /** When true, return only observations that have a shared label (thumbs up or down); when false, only unlabeled observations. */
-  labeled?: string;
+  labeled?: boolean;
   /** Filter scorer observations to those scoring at or below this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded. */
   max_score?: number;
   /** Filter scorer observations to those scoring at or above this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded. */
@@ -1233,12 +1545,18 @@ export interface GetVisionScannersObservationRequest {
   status?: string;
   /** Filter classifier observations whose fixed or freeform tags include any of the given values (comma-separated). Matches if the tag appears in either `tags` or `tags_freeform`. */
   tags?: string;
+  /** Only issue observations in this search theme, an `id` from the themes list. Pair it with the same `date_from` and `date_to` to list the observations the theme counted. */
+  theme?: string;
   /** Filter by trigger source (schedule, on_demand, retry, or backfill). Accepts a comma-separated list. */
   triggered_by?: string;
   /** Experiment scanners only: filter to observations attributed to any of the given variant keys (comma-separated). `__unattributed__` matches observations with no attributed variant. */
   variant?: string;
   /** Filter monitor observations by verdict. Accepts a comma-separated list (e.g. `yes,inconclusive`). */
   verdict?: string;
+  /** Only observations the watch feed ranks under any of these kinds (comma-separated: failure, struggle, revenue). Pair it with `watch_group` and the feed's `categories`. */
+  watch_category?: string;
+  /** Only observations the highlight feed groups with this observation as near duplicates, including itself. Pair it with the feed's `date_from` to list the sessions a feed card counts. */
+  watch_group?: string;
 }
 export interface GetVisionScannersObservationsStatRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1250,8 +1568,12 @@ export interface GetVisionScannersObservationsStatRequest {
   date_from?: string;
   /** Only observations created at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone. */
   date_to?: string;
+  /** Only issue observations in this group of near duplicates, an `id` from the groups list. Pair it with the same `date_from`, `date_to`, `include_routine` and `variant` to list the observations the group counted. */
+  group?: string;
+  /** With `group`, also list the group's routine observations, as the groups list does with the same flag. */
+  include_routine?: boolean;
   /** When true, return only observations that have a shared label (thumbs up or down); when false, only unlabeled observations. */
-  labeled?: string;
+  labeled?: boolean;
   /** Filter scorer observations to those scoring at or below this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded. */
   max_score?: number;
   /** Filter scorer observations to those scoring at or above this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded. */
@@ -1266,12 +1588,18 @@ export interface GetVisionScannersObservationsStatRequest {
   status?: string;
   /** Filter classifier observations whose fixed or freeform tags include any of the given values (comma-separated). Matches if the tag appears in either `tags` or `tags_freeform`. */
   tags?: string;
+  /** Only issue observations in this search theme, an `id` from the themes list. Pair it with the same `date_from` and `date_to` to list the observations the theme counted. */
+  theme?: string;
   /** Filter by trigger source (schedule, on_demand, retry, or backfill). Accepts a comma-separated list. */
   triggered_by?: string;
   /** Experiment scanners only: filter to observations attributed to any of the given variant keys (comma-separated). `__unattributed__` matches observations with no attributed variant. */
   variant?: string;
   /** Filter monitor observations by verdict. Accepts a comma-separated list (e.g. `yes,inconclusive`). */
   verdict?: string;
+  /** Only observations the watch feed ranks under any of these kinds (comma-separated: failure, struggle, revenue). Pair it with `watch_group` and the feed's `categories`. */
+  watch_category?: string;
+  /** Only observations the highlight feed groups with this observation as near duplicates, including itself. Pair it with the feed's `date_from` to list the sessions a feed card counts. */
+  watch_group?: string;
 }
 export interface ObservationStatusCounts {
   /** Total observations in the filtered set. */
@@ -1427,6 +1755,7 @@ export interface ObservationStats {
   /** Scorer-type aggregates; null when the scanner is not a scorer. */
   scorer: ScorerStats | null;
 }
+export type GetVisionScannersObservationsThumbnailRequestSize = "large" | "small";
 export interface GetVisionScannersObservationsThumbnailRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -1435,6 +1764,8 @@ export interface GetVisionScannersObservationsThumbnailRequest {
   id: string;
   /** Index into the summary's `model_output.chapters`. Serves that chapter's frame instead of the observation's thumbnail. */
   chapter?: number;
+  /** `large` is up to 1280px wide, for detail views. `small` is up to 480px wide, for lists and grids. A frame rendered before small copies existed serves the large image for both. * `large` - Large * `small` - Small */
+  size?: GetVisionScannersObservationsThumbnailRequestSize | (string & {});
 }
 export interface GetVisionScannersObservationsThumbnailResponse {}
 export interface GetVisionScannersScoutReportRequest {
@@ -1542,6 +1873,17 @@ export interface ScannerStatsResponse {
   /** Per-scanner-type breakdown (monitor / classifier / scorer / summarizer / experiment). */
   by_type: ScannerStatsByType;
 }
+export interface GetVisionThemeRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+  /** Count members from this time: ISO 8601 or relative like `-7d`. Defaults to `-30d`. The window spans at most 90 days with `scanner_id`, and at most 30 days without it. */
+  date_from?: string;
+  /** Count members up to this time: ISO 8601, relative, or `now`. Defaults to now. */
+  date_to?: string;
+  /** Only this scanner's clusters. Defaults to every scanner you can read. */
+  scanner_id?: string;
+}
 export interface ListVisionAlertsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -1604,6 +1946,37 @@ export interface PaginatedVisionAlertEventList {
   next?: string | null;
   previous?: string | null;
   results: PaginatedVisionAlertEventListResultsList;
+}
+export type ListVisionGroupsRequestOrder = "people" | "observations" | "growth" | "recent";
+export interface ListVisionGroupsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Split each group's window counts by experiment variant in `variants`. Use it on experiment scanners. */
+  by_variant?: boolean;
+  /** Count members from this time: ISO 8601 or relative like `-7d`. Defaults to `-30d`. The window spans at most 90 days with `scanner_id`, and at most 30 days without it. */
+  date_from?: string;
+  /** Count members up to this time: ISO 8601, relative, or `now`. Defaults to now. */
+  date_to?: string;
+  /** Also count routine observations, so groups describe ordinary behavior and not only issues. Use it for experiment scanners, where the question is how each variant's users behave. */
+  include_routine?: boolean;
+  /** Page size. */
+  limit?: number;
+  /** Rows to skip, for the next page. */
+  offset?: number;
+  /** `people` (distinct people affected), `observations` (member count), `growth` (members gained over the same-length window before `date_from`), or `recent` (newest member first). * `people` - People * `observations` - Observations * `growth` - Growth * `recent` - Recent */
+  order?: ListVisionGroupsRequestOrder | (string & {});
+  /** Only this scanner's clusters. Defaults to every scanner you can read. */
+  scanner_id?: string;
+  /** Experiment scanners only: count only members attributed to these variant keys (comma-separated). `__unattributed__` matches members with no attributed variant. */
+  variant?: string;
+}
+/** Clusters with at least one member in the window. */
+export type ClusterListResultsList = Array<Cluster>;
+export interface ClusterList {
+  /** Clusters with at least one member in the window. */
+  results: ClusterListResultsList;
+  /** Whether another page follows at `offset + limit`. */
+  has_more: boolean;
 }
 export type ListVisionObservationsRequestOrderBy =
   | "-completed_at"
@@ -1760,6 +2133,10 @@ export interface ListVisionScannersObservationsRequest {
   date_from?: string;
   /** Only observations created at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone. */
   date_to?: string;
+  /** Only issue observations in this group of near duplicates, an `id` from the groups list. Pair it with the same `date_from`, `date_to`, `include_routine` and `variant` to list the observations the group counted. */
+  group?: string;
+  /** With `group`, also list the group's routine observations, as the groups list does with the same flag. */
+  include_routine?: boolean;
   /** When true, return only observations that have a shared label (thumbs up or down); when false, only unlabeled observations. */
   labeled?: boolean;
   /** Number of results to return per page. */
@@ -1780,12 +2157,18 @@ export interface ListVisionScannersObservationsRequest {
   status?: string;
   /** Filter classifier observations whose fixed or freeform tags include any of the given values (comma-separated). Matches if the tag appears in either `tags` or `tags_freeform`. */
   tags?: string;
+  /** Only issue observations in this search theme, an `id` from the themes list. Pair it with the same `date_from` and `date_to` to list the observations the theme counted. */
+  theme?: string;
   /** Filter by trigger source (schedule, on_demand, retry, or backfill). Accepts a comma-separated list. */
   triggered_by?: string;
   /** Experiment scanners only: filter to observations attributed to any of the given variant keys (comma-separated). `__unattributed__` matches observations with no attributed variant. */
   variant?: string;
   /** Filter monitor observations by verdict. Accepts a comma-separated list (e.g. `yes,inconclusive`). */
   verdict?: string;
+  /** Only observations the watch feed ranks under any of these kinds (comma-separated: failure, struggle, revenue). Pair it with `watch_group` and the feed's `categories`. */
+  watch_category?: string;
+  /** Only observations the highlight feed groups with this observation as near duplicates, including itself. Pair it with the feed's `date_from` to list the sessions a feed card counts. */
+  watch_group?: string;
 }
 export interface ListVisionScannersObservationsSignalReportsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1799,6 +2182,10 @@ export interface ListVisionScannersObservationsSignalReportsRequest {
   date_from?: string;
   /** Only observations created at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone. */
   date_to?: string;
+  /** Only issue observations in this group of near duplicates, an `id` from the groups list. Pair it with the same `date_from`, `date_to`, `include_routine` and `variant` to list the observations the group counted. */
+  group?: string;
+  /** With `group`, also list the group's routine observations, as the groups list does with the same flag. */
+  include_routine?: boolean;
   /** When true, return only observations that have a shared label (thumbs up or down); when false, only unlabeled observations. */
   labeled?: boolean;
   /** Filter scorer observations to those scoring at or below this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded. */
@@ -1815,12 +2202,18 @@ export interface ListVisionScannersObservationsSignalReportsRequest {
   status?: string;
   /** Filter classifier observations whose fixed or freeform tags include any of the given values (comma-separated). Matches if the tag appears in either `tags` or `tags_freeform`. */
   tags?: string;
+  /** Only issue observations in this search theme, an `id` from the themes list. Pair it with the same `date_from` and `date_to` to list the observations the theme counted. */
+  theme?: string;
   /** Filter by trigger source (schedule, on_demand, retry, or backfill). Accepts a comma-separated list. */
   triggered_by?: string;
   /** Experiment scanners only: filter to observations attributed to any of the given variant keys (comma-separated). `__unattributed__` matches observations with no attributed variant. */
   variant?: string;
   /** Filter monitor observations by verdict. Accepts a comma-separated list (e.g. `yes,inconclusive`). */
   verdict?: string;
+  /** Only observations the watch feed ranks under any of these kinds (comma-separated: failure, struggle, revenue). Pair it with `watch_group` and the feed's `categories`. */
+  watch_category?: string;
+  /** Only observations the highlight feed groups with this observation as near duplicates, including itself. Pair it with the feed's `date_from` to list the sessions a feed card counts. */
+  watch_group?: string;
 }
 export type ListVisionScannersObservationsSignalReportsResponseBodyList =
   Array<ObservationSignalReport>;
@@ -1833,6 +2226,28 @@ export interface ListVisionScannersScoutReportsRequest {
 }
 export type ListVisionScannersScoutReportsResponseBodyList = Array<ScoutReport>;
 export type ListVisionScannersScoutReportsResponse = ListVisionScannersScoutReportsResponseBodyList;
+export interface ListVisionScannersScoutsTemplatesRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  scanner_id: string;
+}
+export interface ScannerScoutTemplate {
+  /** The template's id. * `variant-analysis` - Variant analysis * `daily-digest` - Daily digest * `root-cause` - Root cause * `weekly-themes` - Weekly themes * `trend-watch` - Trend watch * `new-issues` - New issue watch * `scratch` - Start from scratch */
+  key: ScoutTemplateKeyEnum;
+  /** The template's name, as the template picker shows it. */
+  title: string;
+  /** What a scout made from this template does. */
+  description: string;
+  /** The name the create form starts with. */
+  default_name: string;
+  /** The default run schedule, as a cron expression in the project timezone. */
+  cron: string;
+  /** The scout's instructions, rendered for this scanner. */
+  body: string;
+}
+export type ListVisionScannersScoutsTemplatesResponseBodyList = Array<ScannerScoutTemplate>;
+export type ListVisionScannersScoutsTemplatesResponse =
+  ListVisionScannersScoutsTemplatesResponseBodyList;
 export interface ListVisionScannersVariantsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -1871,6 +2286,8 @@ export interface VariantAnalysisLine {
   statement: string;
   /** How many of this variant's summaries the analysis read show the theme, as the scout counted them. */
   count: number;
+  /** How many of this variant's summaries the theme was counted over, when that is fewer than the analysis read in total. Null when the theme was counted over every summary the analysis read. */
+  read: number | null;
   /** Observations of this variant the scout cited for the theme. Ids it can't back are dropped. */
   example_observation_ids: VariantAnalysisLineExampleObservationIdsList;
 }
@@ -1900,6 +2317,8 @@ export interface VariantReadout {
 export type ExperimentVariantsReadoutVariantsList = Array<VariantReadout>;
 /** Summaries the analysis read that show the theme, per variant key, as the scout counted them. */
 export type VariantAnalysisDifferenceCountsMap = { [key: string]: number | undefined };
+/** Per variant key, how many summaries the theme was counted over, for a theme counted over fewer summaries than the analysis read in total. Empty when it was counted over all of them. */
+export type VariantAnalysisDifferenceReadMap = { [key: string]: number | undefined };
 export interface VariantAnalysisDifference {
   /** The theme the difference rests on. */
   theme: string;
@@ -1907,6 +2326,8 @@ export interface VariantAnalysisDifference {
   statement: string;
   /** Summaries the analysis read that show the theme, per variant key, as the scout counted them. */
   counts: VariantAnalysisDifferenceCountsMap;
+  /** Per variant key, how many summaries the theme was counted over, for a theme counted over fewer summaries than the analysis read in total. Empty when it was counted over all of them. */
+  read: VariantAnalysisDifferenceReadMap;
 }
 /** What differs between variants, from the variant analysis. Null without a current analysis. */
 export type ExperimentVariantsReadoutDifferencesList = Array<VariantAnalysisDifference>;
@@ -1936,8 +2357,23 @@ export interface ExperimentVariantsReadout {
   /** The scanner's variant analysis scout and its newest run; null when none is set up. */
   analysis: VariantsAnalysisState | null;
 }
-export type ListVisionScannersVariantsResponseBodyList = Array<ExperimentVariantsReadout>;
-export type ListVisionScannersVariantsResponse = ListVisionScannersVariantsResponseBodyList;
+export type ListVisionThemesRequestOrder = "people" | "observations" | "growth" | "recent";
+export interface ListVisionThemesRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Count members from this time: ISO 8601 or relative like `-7d`. Defaults to `-30d`. The window spans at most 90 days with `scanner_id`, and at most 30 days without it. */
+  date_from?: string;
+  /** Count members up to this time: ISO 8601, relative, or `now`. Defaults to now. */
+  date_to?: string;
+  /** Page size. */
+  limit?: number;
+  /** Rows to skip, for the next page. */
+  offset?: number;
+  /** `people` (distinct people affected), `observations` (member count), `growth` (members gained over the same-length window before `date_from`), or `recent` (newest member first). * `people` - People * `observations` - Observations * `growth` - Growth * `recent` - Recent */
+  order?: ListVisionThemesRequestOrder | (string & {});
+  /** Only this scanner's clusters. Defaults to every scanner you can read. */
+  scanner_id?: string;
+}
 export interface UpdateVisionAlertRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -2029,6 +2465,10 @@ export interface UpdateVisionScannersPartialRequest {
   goal?: string | null;
   /** How the creator built this scanner: from an AI draft, from a template, or from scratch. Reported to product analytics at creation and not stored on the scanner. Independent of any experiment the creator is in, since a person offered the AI flow can still fill the form by hand. Only the app can answer this, so a request from anywhere else reports the calling surface instead of whatever it sends here. Ignored on update. * `ai` - AI draft * `template` - Template * `scratch` - From scratch */
   creation_method?: ScannerCreationMethodEnum | (string & {}) | null;
+  /** The app surface the creator started from, such as `replay_filters`. Reported to product analytics at creation so a scanner can be attributed to its entry point, and not stored on the scanner. Only the app's value is kept: any other caller is reported as its own source, such as `mcp`. Ignored on update. */
+  entry_point?: string | null;
+  /** Set with `enabled: true` to turn on a scanner whose creator can no longer view recordings. The caller becomes the scanner's creator, and scheduled scans then run as the caller. Without it, that request fails with code `scanner_creator_lost_access`. */
+  take_over_as_creator?: boolean;
   /** Type-specific configuration. All scanner types require `prompt`; monitors add optional `allow_inconclusive`, classifiers add `tags`, scorers add `scale`, summarizers add optional `length`. */
   scanner_config?: unknown;
   /** Persisted `RecordingsQuery` shape used to pick candidate sessions. `date_from`/`date_to` are stripped on save -- the schedule controls time, not the user. */
@@ -2039,6 +2479,8 @@ export interface UpdateVisionScannersPartialRequest {
   sampling_mode?: SamplingModeEnum | (string & {});
   /** Optional cap on this scanner's own credit spend per billing period. Null means no scanner-level cap. When reached, this scanner stops scanning until the period resets. It stays enabled and does not scan the sessions it skipped. */
   credit_limit?: number | null;
+  /** Run only while the organization has free credits left this billing period, so the scanner never adds spend. */
+  free_only?: boolean;
   /** LLM provider. v1 is Google-only. * `google` - Google */
   provider?: ScannerProviderEnum | (string & {});
   /** Concrete model to use for this scanner. * `gemini-3.5-flash-lite` - Gemini 3.5 Flash Lite * `gemini-3-flash-preview` - Gemini 3 Flash * `gemini-3.8-flash` - Gemini 3.8 Flash */
@@ -2085,6 +2527,13 @@ export interface CreateTaskFromObservationResponse {
   /** ID of the PostHog Task holding this observation's finding, created now (201) or by an earlier call (200). */
   task_id: string;
 }
+export interface VisionObservationsFeedDismissalDestroyRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this replay observation. */
+  id: string;
+}
+export interface VisionObservationsFeedDismissalDestroyResponse {}
 export interface VisionObservationsLabelDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -2145,10 +2594,10 @@ export interface VisionObservationsSearchSuggestionsRetrieveRequest {
   /** Scope to a single scanner's observations. Defaults to every scanner you can read. */
   scanner_id?: string;
 }
-/** Up to 4 example searches naming themes in recent observations. Empty until a scheduled refresh has run for a scanner someone viewed. */
+/** Up to 4 example searches naming the largest active themes in recent issue observations. Empty until a scanner has a named theme. */
 export type SearchSuggestionsResponseQueriesList = Array<string>;
 export interface SearchSuggestionsResponse {
-  /** Up to 4 example searches naming themes in recent observations. Empty until a scheduled refresh has run for a scanner someone viewed. */
+  /** Up to 4 example searches naming the largest active themes in recent issue observations. Empty until a scanner has a named theme. */
   queries: SearchSuggestionsResponseQueriesList;
 }
 export interface VisionObservationsSearchViewedCreateRequest {
@@ -2183,6 +2632,20 @@ export interface VisionScannersBulkObserveCreateRequest {
   session_ids: VisionScannersBulkObserveCreateRequestSessionIdsList;
 }
 export interface VisionScannersBulkObserveCreateResponse {}
+export interface VisionScannersCreateDashboardCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this replay scanner. */
+  id: string;
+}
+export interface ScannerDashboardResponse {
+  /** Id of the scanner's dashboard. */
+  dashboard_id: number;
+  /** Name of the dashboard. */
+  name: string;
+  /** True when this call created the dashboard. False when the scanner already had one, which is returned instead. */
+  created: boolean;
+}
 export interface VisionScannersDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -2203,6 +2666,14 @@ export interface VisionScannersObservationsCreateTaskCreateRequest {
   /** A UUID string identifying this replay observation. */
   id: string;
 }
+export interface VisionScannersObservationsFeedDismissalDestroyRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  scanner_id: string;
+  /** A UUID string identifying this replay observation. */
+  id: string;
+}
+export interface VisionScannersObservationsFeedDismissalDestroyResponse {}
 export interface VisionScannersObservationsLabelDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -2219,101 +2690,6 @@ export interface VisionScannersObservationsRetryCreateRequest {
   id: string;
 }
 export interface VisionScannersObservationsRetryCreateResponse {}
-export type VisionScannersWatchFeedRetrieveRequestScannerType =
-  | "monitor"
-  | "classifier"
-  | "scorer"
-  | "summarizer"
-  | "experiment";
-export interface VisionScannersWatchFeedRetrieveRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** Only observations created at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone. The window between `date_from` and `date_to` may span at most 90 days. */
-  date_from?: string;
-  /** Only observations created at or before this time. Same formats as `date_from`; omit it to query through the current time. */
-  date_to?: string;
-  /** Ceiling on feed items to return, at most 50. The feed is bounded, not paginated, and routinely returns far fewer: a window is not padded to this number with clips that carry no finding. */
-  limit?: number;
-  /** Comma-separated scanner UUIDs to restrict the feed to. Defaults to every scanner you can read. */
-  scanner_ids?: string;
-  /** Restrict the feed to observations from scanners of this type. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer * `experiment` - Experiment */
-  scanner_type?: VisionScannersWatchFeedRetrieveRequestScannerType | (string & {});
-  /** Case-insensitive text to match against the scan's own words (title, summary, reasoning, and the notability sentence) and the scanner's name. Applied before ranking, so it searches the whole window rather than the items that would have surfaced without it. */
-  search?: string;
-  /** Comma-separated scanner tags to restrict the feed to. A team with many scanners uses these to follow one area without naming every scanner in it. */
-  tags?: string;
-}
-/** * `signal_emitted` - Signal Emitted * `unusual_verdict` - Unusual Verdict * `notable` - Notable * `verdict_yes` - Verdict Yes * `outlier_score` - Outlier Score * `rare_tag` - Rare Tag * `novel_summary` - Novel Summary * `friction` - Friction * `jev_watchable` - Jev Watchable * `unviewed_recent` - Unviewed Recent * `recent` - Recent */
-export type WatchFeedReasonEnum =
-  | "signal_emitted"
-  | "unusual_verdict"
-  | "notable"
-  | "verdict_yes"
-  | "outlier_score"
-  | "rare_tag"
-  | "novel_summary"
-  | "friction"
-  | "jev_watchable"
-  | "unviewed_recent"
-  | "recent";
-/** Issue type of each emitted signal (`bug`, `crash`, `design_flaw`, `ux_friction`), one entry per signal in the order raised, for `signal_emitted`. Absent on signals scanned before this shipped. */
-export type WatchFeedReasonProblemTypesList = Array<string>;
-/** One signal an observation raised, named rather than counted. */
-export interface WatchFeedSignal {
-  /** Issue type: `bug`, `crash`, `design_flaw`, or `ux_friction`. */
-  problem_type: string;
-  /** The finding in a few words, written by the scan. The full description lives on the signal itself. */
-  headline: string;
-}
-/** Each emitted signal in the order raised, for `signal_emitted`. Carries what the card needs to name the findings instead of counting them. Absent on sessions scanned before this shipped, which carry `problem_types` alone. */
-export type WatchFeedReasonSignalsList = Array<WatchFeedSignal>;
-/** Machine-readable reason an observation made the feed; the frontend renders the copy. */
-export interface WatchFeedReason {
-  /** Highest-priority rule the observation satisfied: `signal_emitted` (it pushed a signal), `unusual_verdict` (a monitor answer that is the minority for that scanner this window), `verdict_yes` (a monitor hit, when the window is too thin to know which answer is unusual), `outlier_score` (far from the scanner's window average), `rare_tag` (a tag uncommon for the scanner this window), `novel_summary` (a summary that reads unlike the scanner's other sessions this window), `notable` (the scan itself judged the session worth watching), `friction` (the scan describes errors, retries, or dead ends), `jev_watchable` (the decision model judged the session worth watching; teams on the Jev ranker experiment only), `unviewed_recent` (new to you), `recent` (nothing special, newest available). * `signal_emitted` - Signal Emitted * `unusual_verdict` - Unusual Verdict * `notable` - Notable * `verdict_yes` - Verdict Yes * `outlier_score` - Outlier Score * `rare_tag` - Rare Tag * `novel_summary` - Novel Summary * `friction` - Friction * `jev_watchable` - Jev Watchable * `unviewed_recent` - Unviewed Recent * `recent` - Recent */
-  kind: WatchFeedReasonEnum;
-  /** Signals this observation emitted, for `signal_emitted`. */
-  signals_count?: number | null;
-  /** Issue type of each emitted signal (`bug`, `crash`, `design_flaw`, `ux_friction`), one entry per signal in the order raised, for `signal_emitted`. Absent on signals scanned before this shipped. */
-  problem_types?: WatchFeedReasonProblemTypesList;
-  /** Each emitted signal in the order raised, for `signal_emitted`. Carries what the card needs to name the findings instead of counting them. Absent on sessions scanned before this shipped, which carry `problem_types` alone. */
-  signals?: WatchFeedReasonSignalsList;
-  /** The monitor's answer, for `unusual_verdict`. */
-  verdict?: string | null;
-  /** Share (0-1) of the scanner's window observations with this answer, for `unusual_verdict`. */
-  verdict_share?: number | null;
-  /** The scan's own 0-1 judgment of how much a team would benefit from watching, for `notable`. */
-  notability?: number | null;
-  /** The decision model's 0-1 judgment that the session is worth watching, for `jev_watchable`. */
-  jev_probability?: number | null;
-  /** The scan's own sentence naming why the session is worth watching. Present on the `notable` and `jev_watchable` reason kinds when the scan itself found the session notable, and preferred over copy derived from the reason kind. Absent on observations scanned before notability shipped. */
-  notability_reason?: string | null;
-  /** The observation's score, for `outlier_score`. */
-  score?: number | null;
-  /** The scanner's mean score in the window, for `outlier_score`. */
-  window_mean?: number | null;
-  /** The rare tag that ranked the observation, for `rare_tag`. */
-  tag?: string | null;
-  /** Share (0-1) of the scanner's window observations carrying `tag`, for `rare_tag`. */
-  tag_share?: number | null;
-}
-/** One feed entry: the observation plus why it ranked. */
-export interface WatchFeedItem {
-  /** The observation, in the standard shape. */
-  observation: ReplayObservation;
-  /** Why this observation made the feed. */
-  reason: WatchFeedReason;
-}
-/** Succeeded observations in the window worth watching, most interesting first, each carrying the reason it ranked. Every observation that carries a finding is returned; observations that carry none (`unviewed_recent`, `recent`) are returned only to pad a near-empty feed to three items, so a quiet window answers with a handful of rows rather than a full page of newest clips. */
-export type WatchFeedResponseResultsList = Array<WatchFeedItem>;
-/** * `weighted-score` - weighted-score * `jev` - jev */
-export type RankerEnum = "weighted-score" | "jev";
-/** Response of GET /vision/scanners/watch_feed/. */
-export interface WatchFeedResponse {
-  /** Succeeded observations in the window worth watching, most interesting first, each carrying the reason it ranked. Every observation that carries a finding is returned; observations that carry none (`unviewed_recent`, `recent`) are returned only to pad a near-empty feed to three items, so a quiet window answers with a handful of rows rather than a full page of newest clips. */
-  results: WatchFeedResponseResultsList;
-  /** Which ranker ordered this feed: `jev` ranks on the decision model's cached judgments, `weighted-score` on the deterministic blend. The arm is decided server-side per team, so clients read it from here rather than evaluating the flag themselves. * `weighted-score` - weighted-score * `jev` - jev */
-  ranker: RankerEnum;
-}
 export type CreateVisionAlertError = PosthogOpError;
 export const createVisionAlert: API.OperationMethod<
   CreateVisionAlertRequest,
@@ -2322,7 +2698,7 @@ export const createVisionAlert: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<CreateVisionAlertRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<VisionAlertConfiguration>,
+  output: __S(1280, __c40, 0) as any as S.Schema<VisionAlertConfiguration>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2338,13 +2714,30 @@ export const createVisionAlertsDestination: API.OperationMethod<
   CreateVisionAlertsDestinationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<CreateVisionAlertsDestinationRequest>,
-  output: __S(1665, __c52, 1) as any as S.Schema<VisionAlertDestinationResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<CreateVisionAlertsDestinationRequest>,
+  output: __S(1793, __c56, 1) as any as S.Schema<VisionAlertDestinationResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateVisionAlertsDestination",
+}));
+
+export type CreateVisionObservationsFeedDismissalError = PosthogOpError;
+/** Mark this observation not useful for the calling user, with an optional reason. The Highlights feed stops showing it to that user. Sending it again replaces the reason. */
+export const createVisionObservationsFeedDismissal: API.OperationMethod<
+  CreateVisionObservationsFeedDismissalRequest,
+  CreateVisionObservationsFeedDismissalResponse,
+  CreateVisionObservationsFeedDismissalError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2144, __c67, 0) as any as S.Schema<CreateVisionObservationsFeedDismissalRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<CreateVisionObservationsFeedDismissalResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisionObservationsFeedDismissal",
 }));
 
 export type CreateVisionObservationsLabelError = PosthogOpError;
@@ -2355,8 +2748,8 @@ export const createVisionObservationsLabel: API.OperationMethod<
   CreateVisionObservationsLabelError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<CreateVisionObservationsLabelRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<ReplayObservationLabel>,
+  input: __S(2560, __c80, 0) as any as S.Schema<CreateVisionObservationsLabelRequest>,
+  output: __S(2592, __c81, 0) as any as S.Schema<ReplayObservationLabel>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2372,13 +2765,30 @@ export const createVisionObservationsViewed: API.OperationMethod<
   CreateVisionObservationsViewedError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<CreateVisionObservationsViewedRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<CreateVisionObservationsViewedResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<CreateVisionObservationsViewedRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<CreateVisionObservationsViewedResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateVisionObservationsViewed",
+}));
+
+export type CreateVisionRequestError = Conflict | PosthogOpError;
+/** Scan sessions with a saved scanner or an inline question. Poll the returned request for results. */
+export const createVisionRequest: API.OperationMethod<
+  CreateVisionRequestRequest,
+  ObservationRequest,
+  CreateVisionRequestError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2913, __c91, 1) as any as S.Schema<CreateVisionRequestRequest>,
+  output: __S(2978, __c93, 2) as any as S.Schema<ObservationRequest>,
+  errors: [Conflict],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisionRequest",
 }));
 
 export type CreateVisionScannerError = PosthogOpError;
@@ -2389,8 +2799,8 @@ export const createVisionScanner: API.OperationMethod<
   CreateVisionScannerError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<CreateVisionScannerRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<ReplayScannerOutput>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateVisionScannerRequest>,
+  output: __S(64, __c2, 0) as any as S.Schema<ReplayScannerOutput>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2406,8 +2816,8 @@ export const createVisionScannersAffectedCohort: API.OperationMethod<
   CreateVisionScannersAffectedCohortError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<CreateVisionScannersAffectedCohortRequest>,
-  output: __S(2465, __c77, 1) as any as S.Schema<AffectedCohortResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<CreateVisionScannersAffectedCohortRequest>,
+  output: __S(97, __c3, 1) as any as S.Schema<AffectedCohortResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2423,8 +2833,8 @@ export const createVisionScannersBackfill: API.OperationMethod<
   CreateVisionScannersBackfillError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateVisionScannersBackfillRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<ReplayScannerBackfill>,
+  input: __S(128, __c4, 0) as any as S.Schema<CreateVisionScannersBackfillRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<ReplayScannerBackfill>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2440,8 +2850,8 @@ export const createVisionScannersBackfillsEstimate: API.OperationMethod<
   CreateVisionScannersBackfillsEstimateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<CreateVisionScannersBackfillsEstimateRequest>,
-  output: __S(65, __c2, 1) as any as S.Schema<BackfillEstimateResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<CreateVisionScannersBackfillsEstimateRequest>,
+  output: __S(193, __c6, 1) as any as S.Schema<BackfillEstimateResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2450,15 +2860,15 @@ export const createVisionScannersBackfillsEstimate: API.OperationMethod<
 }));
 
 export type CreateVisionScannersDraftError = BadRequest | Forbidden | PosthogOpError;
-/** Draft a full scanner configuration from a natural-language goal, for the goal-based creation flow. */
+/** Draft a full scanner configuration from a natural-language goal and a monthly credit budget. */
 export const createVisionScannersDraft: API.OperationMethod<
   CreateVisionScannersDraftRequest,
   DraftScannerResponse,
   CreateVisionScannersDraftError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<CreateVisionScannersDraftRequest>,
-  output: __S(97, __c3, 1) as any as S.Schema<DraftScannerResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<CreateVisionScannersDraftRequest>,
+  output: __S(225, __c7, 1) as any as S.Schema<DraftScannerResponse>,
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2474,13 +2884,34 @@ export const createVisionScannersEstimate: API.OperationMethod<
   CreateVisionScannersEstimateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(129, __c4, 1) as any as S.Schema<CreateVisionScannersEstimateRequest>,
-  output: __S(130, __c4, 2) as any as S.Schema<EstimateResponse>,
+  input: __S(257, __c8, 1) as any as S.Schema<CreateVisionScannersEstimateRequest>,
+  output: __S(258, __c8, 2) as any as S.Schema<EstimateResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateVisionScannersEstimate",
+}));
+
+export type CreateVisionScannersHighlightFeedImpressionError = PosthogOpError;
+/** Record that the calling user saw these cards in the Highlights feed, so the feed ranks them lower next time. */
+export const createVisionScannersHighlightFeedImpression: API.OperationMethod<
+  CreateVisionScannersHighlightFeedImpressionRequest,
+  CreateVisionScannersHighlightFeedImpressionResponse,
+  CreateVisionScannersHighlightFeedImpressionError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(288, __c9, 0) as any as S.Schema<CreateVisionScannersHighlightFeedImpressionRequest>,
+  output: __S(
+    2176,
+    __c68,
+    0,
+  ) as any as S.Schema<CreateVisionScannersHighlightFeedImpressionResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisionScannersHighlightFeedImpression",
 }));
 
 export type CreateVisionScannersInlineScanError = PosthogOpError;
@@ -2491,13 +2922,38 @@ export const createVisionScannersInlineScan: API.OperationMethod<
   CreateVisionScannersInlineScanError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<CreateVisionScannersInlineScanRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<CreateVisionScannersInlineScanResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<CreateVisionScannersInlineScanRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<CreateVisionScannersInlineScanResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateVisionScannersInlineScan",
+}));
+
+export type CreateVisionScannersObservationsFeedDismissalError = PosthogOpError;
+/** Mark this observation not useful for the calling user, with an optional reason. The Highlights feed stops showing it to that user. Sending it again replaces the reason. */
+export const createVisionScannersObservationsFeedDismissal: API.OperationMethod<
+  CreateVisionScannersObservationsFeedDismissalRequest,
+  CreateVisionScannersObservationsFeedDismissalResponse,
+  CreateVisionScannersObservationsFeedDismissalError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    352,
+    __c11,
+    0,
+  ) as any as S.Schema<CreateVisionScannersObservationsFeedDismissalRequest>,
+  output: __S(
+    2176,
+    __c68,
+    0,
+  ) as any as S.Schema<CreateVisionScannersObservationsFeedDismissalResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisionScannersObservationsFeedDismissal",
 }));
 
 export type CreateVisionScannersObservationsLabelError = PosthogOpError;
@@ -2508,8 +2964,8 @@ export const createVisionScannersObservationsLabel: API.OperationMethod<
   CreateVisionScannersObservationsLabelError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<CreateVisionScannersObservationsLabelRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<ReplayObservationLabel>,
+  input: __S(384, __c12, 0) as any as S.Schema<CreateVisionScannersObservationsLabelRequest>,
+  output: __S(2592, __c81, 0) as any as S.Schema<ReplayObservationLabel>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2525,8 +2981,8 @@ export const createVisionScannersObservationsViewed: API.OperationMethod<
   CreateVisionScannersObservationsViewedError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<CreateVisionScannersObservationsViewedRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<CreateVisionScannersObservationsViewedResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<CreateVisionScannersObservationsViewedRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<CreateVisionScannersObservationsViewedResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2542,8 +2998,8 @@ export const createVisionScannersObserve: API.OperationMethod<
   CreateVisionScannersObserveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<CreateVisionScannersObserveRequest>,
-  output: __S(257, __c8, 1) as any as S.Schema<ObserveAlreadyScanned>,
+  input: __S(448, __c14, 0) as any as S.Schema<CreateVisionScannersObserveRequest>,
+  output: __S(449, __c14, 1) as any as S.Schema<ObserveAlreadyScanned>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2559,30 +3015,13 @@ export const createVisionScannersScout: API.OperationMethod<
   CreateVisionScannersScoutError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(292, __c9, 4) as any as S.Schema<CreateVisionScannersScoutRequest>,
-  output: __S(295, __c9, 7) as any as S.Schema<ScannerScoutCreateResponse>,
+  input: __S(484, __c15, 4) as any as S.Schema<CreateVisionScannersScoutRequest>,
+  output: __S(487, __c15, 7) as any as S.Schema<ScannerScoutCreateResponse>,
   errors: [Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateVisionScannersScout",
-}));
-
-export type CreateVisionScannersSuggestTagError = PosthogOpError;
-/** Suggest classifier tags grounded in the scanner's own observations and the org's product data. */
-export const createVisionScannersSuggestTag: API.OperationMethod<
-  CreateVisionScannersSuggestTagRequest,
-  SuggestTagsResponse,
-  CreateVisionScannersSuggestTagError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<CreateVisionScannersSuggestTagRequest>,
-  output: __S(355, __c11, 3) as any as S.Schema<SuggestTagsResponse>,
-  errors: [],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateVisionScannersSuggestTag",
 }));
 
 export type GetEnvironmentVisionQuotaError = PosthogOpError;
@@ -2592,8 +3031,8 @@ export const getEnvironmentVisionQuota: API.OperationMethod<
   GetEnvironmentVisionQuotaError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetEnvironmentVisionQuotaRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<VisionQuota>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetEnvironmentVisionQuotaRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<VisionQuota>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2608,8 +3047,8 @@ export const getEnvironmentVisionQuotaSpendSeries: API.OperationMethod<
   GetEnvironmentVisionQuotaSpendSeriesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<GetEnvironmentVisionQuotaSpendSeriesRequest>,
-  output: __S(419, __c13, 3) as any as S.Schema<VisionSpendSeries>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetEnvironmentVisionQuotaSpendSeriesRequest>,
+  output: __S(579, __c18, 3) as any as S.Schema<VisionSpendSeries>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2624,13 +3063,30 @@ export const getVisionAlert: API.OperationMethod<
   GetVisionAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetVisionAlertRequest>,
-  output: __S(451, __c14, 3) as any as S.Schema<VisionAlertConfigurationDetail>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetVisionAlertRequest>,
+  output: __S(611, __c19, 3) as any as S.Schema<VisionAlertConfigurationDetail>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetVisionAlert",
+}));
+
+export type GetVisionGroupError = PosthogOpError;
+/** One group's counts and examples over the window. */
+export const getVisionGroup: API.OperationMethod<
+  GetVisionGroupRequest,
+  Cluster,
+  GetVisionGroupError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(640, __c20, 0) as any as S.Schema<GetVisionGroupRequest>,
+  output: __S(674, __c21, 2) as any as S.Schema<Cluster>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisionGroup",
 }));
 
 export type GetVisionObservationError = PosthogOpError;
@@ -2641,8 +3097,8 @@ export const getVisionObservation: API.OperationMethod<
   GetVisionObservationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetVisionObservationRequest>,
-  output: __S(517, __c16, 5) as any as S.Schema<ReplayObservation>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetVisionObservationRequest>,
+  output: __S(740, __c23, 4) as any as S.Schema<ReplayObservation>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2658,13 +3114,30 @@ export const getVisionObservationsThumbnail: API.OperationMethod<
   GetVisionObservationsThumbnailError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetVisionObservationsThumbnailRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<GetVisionObservationsThumbnailResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<GetVisionObservationsThumbnailRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<GetVisionObservationsThumbnailResponse>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetVisionObservationsThumbnail",
+}));
+
+export type GetVisionRequestError = PosthogOpError;
+/** Start scans for named sessions from code, and read their results back through one request id. */
+export const getVisionRequest: API.OperationMethod<
+  GetVisionRequestRequest,
+  ObservationRequest,
+  GetVisionRequestError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(800, __c25, 0) as any as S.Schema<GetVisionRequestRequest>,
+  output: __S(2978, __c93, 2) as any as S.Schema<ObservationRequest>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisionRequest",
 }));
 
 export type GetVisionScannerError = PosthogOpError;
@@ -2675,8 +3148,8 @@ export const getVisionScanner: API.OperationMethod<
   GetVisionScannerError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetVisionScannerRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<ReplayScannerOutput>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetVisionScannerRequest>,
+  output: __S(64, __c2, 0) as any as S.Schema<ReplayScannerOutput>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2692,8 +3165,8 @@ export const getVisionScannersBackfill: API.OperationMethod<
   GetVisionScannersBackfillError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<GetVisionScannersBackfillRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<ReplayScannerBackfill>,
+  input: __S(864, __c27, 0) as any as S.Schema<GetVisionScannersBackfillRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<ReplayScannerBackfill>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2709,13 +3182,30 @@ export const getVisionScannersCreator: API.OperationMethod<
   GetVisionScannersCreatorError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<GetVisionScannersCreatorRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<ScannerCreatorsResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<GetVisionScannersCreatorRequest>,
+  output: __S(897, __c28, 1) as any as S.Schema<ScannerCreatorsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetVisionScannersCreator",
+}));
+
+export type GetVisionScannersHighlightFeedError = PosthogOpError;
+/** Succeeded observations in the window worth watching, ranked for the Highlights tab. */
+export const getVisionScannersHighlightFeed: API.OperationMethod<
+  GetVisionScannersHighlightFeedRequest,
+  HighlightFeedResponse,
+  GetVisionScannersHighlightFeedError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(928, __c29, 0) as any as S.Schema<GetVisionScannersHighlightFeedRequest>,
+  output: __S(932, __c29, 4) as any as S.Schema<HighlightFeedResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisionScannersHighlightFeed",
 }));
 
 export type GetVisionScannersImpactError = PosthogOpError;
@@ -2726,8 +3216,8 @@ export const getVisionScannersImpact: API.OperationMethod<
   GetVisionScannersImpactError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<GetVisionScannersImpactRequest>,
-  output: __S(673, __c21, 1) as any as S.Schema<ScannerImpact>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetVisionScannersImpactRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<ScannerImpact>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2743,8 +3233,8 @@ export const getVisionScannersObservation: API.OperationMethod<
   GetVisionScannersObservationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GetVisionScannersObservationRequest>,
-  output: __S(517, __c16, 5) as any as S.Schema<ReplayObservation>,
+  input: __S(992, __c31, 0) as any as S.Schema<GetVisionScannersObservationRequest>,
+  output: __S(740, __c23, 4) as any as S.Schema<ReplayObservation>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2760,8 +3250,8 @@ export const getVisionScannersObservationsStat: API.OperationMethod<
   GetVisionScannersObservationsStatError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<GetVisionScannersObservationsStatRequest>,
-  output: __S(752, __c23, 16) as any as S.Schema<ObservationStats>,
+  input: __S(1024, __c32, 0) as any as S.Schema<GetVisionScannersObservationsStatRequest>,
+  output: __S(1040, __c32, 16) as any as S.Schema<ObservationStats>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2777,8 +3267,8 @@ export const getVisionScannersObservationsThumbnail: API.OperationMethod<
   GetVisionScannersObservationsThumbnailError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<GetVisionScannersObservationsThumbnailRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<GetVisionScannersObservationsThumbnailResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetVisionScannersObservationsThumbnailRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<GetVisionScannersObservationsThumbnailResponse>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2794,8 +3284,8 @@ export const getVisionScannersScoutReport: API.OperationMethod<
   GetVisionScannersScoutReportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetVisionScannersScoutReportRequest>,
-  output: __S(834, __c26, 2) as any as S.Schema<ScoutReport>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetVisionScannersScoutReportRequest>,
+  output: __S(1122, __c35, 2) as any as S.Schema<ScoutReport>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2811,8 +3301,8 @@ export const getVisionScannersSelfDrivingStat: API.OperationMethod<
   GetVisionScannersSelfDrivingStatError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetVisionScannersSelfDrivingStatRequest>,
-  output: __S(869, __c27, 5) as any as S.Schema<ScannerSelfDrivingStats>,
+  input: __S(1152, __c36, 0) as any as S.Schema<GetVisionScannersSelfDrivingStatRequest>,
+  output: __S(1157, __c36, 5) as any as S.Schema<ScannerSelfDrivingStats>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2828,13 +3318,30 @@ export const getVisionScannersStat: API.OperationMethod<
   GetVisionScannersStatError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<GetVisionScannersStatRequest>,
-  output: __S(899, __c28, 3) as any as S.Schema<ScannerStatsResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<GetVisionScannersStatRequest>,
+  output: __S(1347, __c42, 3) as any as S.Schema<ScannerStatsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetVisionScannersStat",
+}));
+
+export type GetVisionThemeError = PosthogOpError;
+/** One search theme's counts and examples over the window. */
+export const getVisionTheme: API.OperationMethod<
+  GetVisionThemeRequest,
+  Cluster,
+  GetVisionThemeError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1376, __c43, 0) as any as S.Schema<GetVisionThemeRequest>,
+  output: __S(674, __c21, 2) as any as S.Schema<Cluster>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisionTheme",
 }));
 
 export type ListVisionAlertsError = PosthogOpError;
@@ -2844,8 +3351,8 @@ export const listVisionAlerts: API.OperationMethod<
   ListVisionAlertsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<ListVisionAlertsRequest>,
-  output: __S(930, __c29, 2) as any as S.Schema<PaginatedVisionAlertConfigurationList>,
+  input: __S(1408, __c44, 0) as any as S.Schema<ListVisionAlertsRequest>,
+  output: __S(1410, __c44, 2) as any as S.Schema<PaginatedVisionAlertConfigurationList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2861,13 +3368,30 @@ export const listVisionAlertsEvents: API.OperationMethod<
   ListVisionAlertsEventsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<ListVisionAlertsEventsRequest>,
-  output: __S(963, __c30, 3) as any as S.Schema<PaginatedVisionAlertEventList>,
+  input: __S(1440, __c45, 0) as any as S.Schema<ListVisionAlertsEventsRequest>,
+  output: __S(1443, __c45, 3) as any as S.Schema<PaginatedVisionAlertEventList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVisionAlertsEvents",
+}));
+
+export type ListVisionGroupsError = PosthogOpError;
+/** Groups of near-duplicate issue observations, each one scanner's sessions that tell the same story, such as one bug many people hit. Narrower than themes. Use it to find the issues that reach the most people. */
+export const listVisionGroups: API.OperationMethod<
+  ListVisionGroupsRequest,
+  ClusterList,
+  ListVisionGroupsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1472, __c46, 0) as any as S.Schema<ListVisionGroupsRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<ClusterList>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisionGroups",
 }));
 
 export type ListVisionObservationsError = PosthogOpError;
@@ -2878,8 +3402,8 @@ export const listVisionObservations: API.OperationMethod<
   ListVisionObservationsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<ListVisionObservationsRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<PaginatedReplayObservationList>,
+  input: __S(1536, __c48, 0) as any as S.Schema<ListVisionObservationsRequest>,
+  output: __S(1568, __c49, 0) as any as S.Schema<PaginatedReplayObservationList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2895,8 +3419,8 @@ export const listVisionObservationsSignalReports: API.OperationMethod<
   ListVisionObservationsSignalReportsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<ListVisionObservationsSignalReportsRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<ListVisionObservationsSignalReportsResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<ListVisionObservationsSignalReportsRequest>,
+  output: __S(1666, __c52, 2) as any as S.Schema<ListVisionObservationsSignalReportsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2912,8 +3436,8 @@ export const listVisionScanners: API.OperationMethod<
   ListVisionScannersError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<ListVisionScannersRequest>,
-  output: __S(1154, __c36, 2) as any as S.Schema<PaginatedReplayScannerListOutput>,
+  input: __S(1696, __c53, 0) as any as S.Schema<ListVisionScannersRequest>,
+  output: __S(1698, __c53, 2) as any as S.Schema<PaginatedReplayScannerListOutput>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2929,8 +3453,8 @@ export const listVisionScannersBackfills: API.OperationMethod<
   ListVisionScannersBackfillsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<ListVisionScannersBackfillsRequest>,
-  output: __S(1346, __c42, 2) as any as S.Schema<PaginatedReplayScannerBackfillList>,
+  input: __S(1728, __c54, 0) as any as S.Schema<ListVisionScannersBackfillsRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<PaginatedReplayScannerBackfillList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2946,8 +3470,8 @@ export const listVisionScannersObservations: API.OperationMethod<
   ListVisionScannersObservationsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<ListVisionScannersObservationsRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<PaginatedReplayObservationList>,
+  input: __S(1760, __c55, 0) as any as S.Schema<ListVisionScannersObservationsRequest>,
+  output: __S(1568, __c49, 0) as any as S.Schema<PaginatedReplayObservationList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2963,10 +3487,10 @@ export const listVisionScannersObservationsSignalReports: API.OperationMethod<
   ListVisionScannersObservationsSignalReportsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<ListVisionScannersObservationsSignalReportsRequest>,
+  input: __S(1824, __c57, 0) as any as S.Schema<ListVisionScannersObservationsSignalReportsRequest>,
   output: __S(
-    1122,
-    __c35,
+    1666,
+    __c52,
     2,
   ) as any as S.Schema<ListVisionScannersObservationsSignalReportsResponse>,
   errors: [],
@@ -2984,8 +3508,8 @@ export const listVisionScannersScoutReports: API.OperationMethod<
   ListVisionScannersScoutReportsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<ListVisionScannersScoutReportsRequest>,
-  output: __S(1442, __c45, 2) as any as S.Schema<ListVisionScannersScoutReportsResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ListVisionScannersScoutReportsRequest>,
+  output: __S(1858, __c58, 2) as any as S.Schema<ListVisionScannersScoutReportsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2993,21 +3517,55 @@ export const listVisionScannersScoutReports: API.OperationMethod<
   span: "ListVisionScannersScoutReports",
 }));
 
+export type ListVisionScannersScoutsTemplatesError = PosthogOpError;
+/** The scout templates this scanner offers, rendered for it, in the order the picker shows them. */
+export const listVisionScannersScoutsTemplates: API.OperationMethod<
+  ListVisionScannersScoutsTemplatesRequest,
+  ListVisionScannersScoutsTemplatesResponse,
+  ListVisionScannersScoutsTemplatesError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1888, __c59, 0) as any as S.Schema<ListVisionScannersScoutsTemplatesRequest>,
+  output: __S(1891, __c59, 3) as any as S.Schema<ListVisionScannersScoutsTemplatesResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisionScannersScoutsTemplates",
+}));
+
 export type ListVisionScannersVariantsError = BadRequest | PosthogOpError;
 /** Per-variant readout for an experiment scanner: observation counts, distinct people, median session length, sampling rate and latest observations per variant, read live, plus the digests and differences of the scanner's variant analysis scout. */
 export const listVisionScannersVariants: API.OperationMethod<
   ListVisionScannersVariantsRequest,
-  ListVisionScannersVariantsResponse,
+  ExperimentVariantsReadout,
   ListVisionScannersVariantsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<ListVisionScannersVariantsRequest>,
-  output: __S(1484, __c46, 12) as any as S.Schema<ListVisionScannersVariantsResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<ListVisionScannersVariantsRequest>,
+  output: __S(1930, __c60, 10) as any as S.Schema<ExperimentVariantsReadout>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVisionScannersVariants",
+}));
+
+export type ListVisionThemesError = PosthogOpError;
+/** Recurring kinds of issue in replay observations, each a broad cluster of one scanner's issue observations with a short model-written name. Use it to see what comes up often and what is growing. */
+export const listVisionThemes: API.OperationMethod<
+  ListVisionThemesRequest,
+  ClusterList,
+  ListVisionThemesError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1952, __c61, 0) as any as S.Schema<ListVisionThemesRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<ClusterList>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisionThemes",
 }));
 
 export type UpdateVisionAlertError = PosthogOpError;
@@ -3017,8 +3575,8 @@ export const updateVisionAlert: API.OperationMethod<
   UpdateVisionAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<UpdateVisionAlertRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<VisionAlertConfiguration>,
+  input: __S(1984, __c62, 0) as any as S.Schema<UpdateVisionAlertRequest>,
+  output: __S(1280, __c40, 0) as any as S.Schema<VisionAlertConfiguration>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3033,8 +3591,8 @@ export const updateVisionAlertsPartial: API.OperationMethod<
   UpdateVisionAlertsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<UpdateVisionAlertsPartialRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<VisionAlertConfiguration>,
+  input: __S(2016, __c63, 0) as any as S.Schema<UpdateVisionAlertsPartialRequest>,
+  output: __S(1280, __c40, 0) as any as S.Schema<VisionAlertConfiguration>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3050,8 +3608,8 @@ export const updateVisionScannersPartial: API.OperationMethod<
   UpdateVisionScannersPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<UpdateVisionScannersPartialRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<ReplayScannerOutput>,
+  input: __S(2048, __c64, 0) as any as S.Schema<UpdateVisionScannersPartialRequest>,
+  output: __S(64, __c2, 0) as any as S.Schema<ReplayScannerOutput>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3067,8 +3625,8 @@ export const visionAlertsDestinationsDeleteCreate: API.OperationMethod<
   VisionAlertsDestinationsDeleteCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<VisionAlertsDestinationsDeleteCreateRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<VisionAlertsDestinationsDeleteCreateResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<VisionAlertsDestinationsDeleteCreateRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<VisionAlertsDestinationsDeleteCreateResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3083,8 +3641,8 @@ export const visionAlertsDestroy: API.OperationMethod<
   VisionAlertsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<VisionAlertsDestroyRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<VisionAlertsDestroyResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<VisionAlertsDestroyRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<VisionAlertsDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3100,8 +3658,8 @@ export const visionAlertsResetCreate: API.OperationMethod<
   VisionAlertsResetCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<VisionAlertsResetCreateRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<VisionAlertConfiguration>,
+  input: __S(2208, __c69, 0) as any as S.Schema<VisionAlertsResetCreateRequest>,
+  output: __S(1280, __c40, 0) as any as S.Schema<VisionAlertConfiguration>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3117,13 +3675,30 @@ export const visionObservationsCreateTaskCreate: API.OperationMethod<
   VisionObservationsCreateTaskCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<VisionObservationsCreateTaskCreateRequest>,
-  output: __S(1760, __c55, 0) as any as S.Schema<CreateTaskFromObservationResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<VisionObservationsCreateTaskCreateRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<CreateTaskFromObservationResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "VisionObservationsCreateTaskCreate",
+}));
+
+export type VisionObservationsFeedDismissalDestroyError = PosthogOpError;
+/** Undo the calling user's not-useful mark, so the Highlights feed can show the observation again. */
+export const visionObservationsFeedDismissalDestroy: API.OperationMethod<
+  VisionObservationsFeedDismissalDestroyRequest,
+  VisionObservationsFeedDismissalDestroyResponse,
+  VisionObservationsFeedDismissalDestroyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2304, __c72, 0) as any as S.Schema<VisionObservationsFeedDismissalDestroyRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<VisionObservationsFeedDismissalDestroyResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionObservationsFeedDismissalDestroy",
 }));
 
 export type VisionObservationsLabelDestroyError = PosthogOpError;
@@ -3134,8 +3709,8 @@ export const visionObservationsLabelDestroy: API.OperationMethod<
   VisionObservationsLabelDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<VisionObservationsLabelDestroyRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<VisionObservationsLabelDestroyResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<VisionObservationsLabelDestroyRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<VisionObservationsLabelDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3151,8 +3726,8 @@ export const visionObservationsRetryCreate: API.OperationMethod<
   VisionObservationsRetryCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<VisionObservationsRetryCreateRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<VisionObservationsRetryCreateResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<VisionObservationsRetryCreateRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<VisionObservationsRetryCreateResponse>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3168,8 +3743,8 @@ export const visionObservationsSearchRetrieve: API.OperationMethod<
   VisionObservationsSearchRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<VisionObservationsSearchRetrieveRequest>,
-  output: __S(1859, __c58, 3) as any as S.Schema<ObservationSearchResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<VisionObservationsSearchRetrieveRequest>,
+  output: __S(2403, __c75, 3) as any as S.Schema<ObservationSearchResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3178,15 +3753,15 @@ export const visionObservationsSearchRetrieve: API.OperationMethod<
 }));
 
 export type VisionObservationsSearchSuggestionsRetrieveError = PosthogOpError;
-/** Example searches drawn from recent observations, for the Search tab's empty state. Reads what the scheduled refresher stored; `search_viewed` records the view separately so this GET has no side effect. */
+/** Example searches for the Search tab's empty state: the labels of the largest active themes the embedding consumer named from recent issue observations. Reads only, with no side effect. */
 export const visionObservationsSearchSuggestionsRetrieve: API.OperationMethod<
   VisionObservationsSearchSuggestionsRetrieveRequest,
   SearchSuggestionsResponse,
   VisionObservationsSearchSuggestionsRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<VisionObservationsSearchSuggestionsRetrieveRequest>,
-  output: __S(1889, __c59, 1) as any as S.Schema<SearchSuggestionsResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<VisionObservationsSearchSuggestionsRetrieveRequest>,
+  output: __S(2433, __c76, 1) as any as S.Schema<SearchSuggestionsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3195,15 +3770,15 @@ export const visionObservationsSearchSuggestionsRetrieve: API.OperationMethod<
 }));
 
 export type VisionObservationsSearchViewedCreateError = PosthogOpError;
-/** Record that the Search tab showed suggestions for this scope. The scheduled refresher serves viewed scanners first, so the stamp lives on a CSRF-protected POST rather than the read. */
+/** Warm the query vectors for the suggestions the Search tab showed, so a click on one searches at once. It embeds text, so it is a POST rather than part of the read. */
 export const visionObservationsSearchViewedCreate: API.OperationMethod<
   VisionObservationsSearchViewedCreateRequest,
   VisionObservationsSearchViewedCreateResponse,
   VisionObservationsSearchViewedCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<VisionObservationsSearchViewedCreateRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<VisionObservationsSearchViewedCreateResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<VisionObservationsSearchViewedCreateRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<VisionObservationsSearchViewedCreateResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3219,8 +3794,8 @@ export const visionScannersBackfillsCancelCreate: API.OperationMethod<
   VisionScannersBackfillsCancelCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<VisionScannersBackfillsCancelCreateRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<ReplayScannerBackfill>,
+  input: __S(2496, __c78, 0) as any as S.Schema<VisionScannersBackfillsCancelCreateRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<ReplayScannerBackfill>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3236,8 +3811,8 @@ export const visionScannersBackfillsResumeCreate: API.OperationMethod<
   VisionScannersBackfillsResumeCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<VisionScannersBackfillsResumeCreateRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<ReplayScannerBackfill>,
+  input: __S(2528, __c79, 0) as any as S.Schema<VisionScannersBackfillsResumeCreateRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<ReplayScannerBackfill>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3253,13 +3828,30 @@ export const visionScannersBulkObserveCreate: API.OperationMethod<
   VisionScannersBulkObserveCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<VisionScannersBulkObserveCreateRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<VisionScannersBulkObserveCreateResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<VisionScannersBulkObserveCreateRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<VisionScannersBulkObserveCreateResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "VisionScannersBulkObserveCreate",
+}));
+
+export type VisionScannersCreateDashboardCreateError = PosthogOpError;
+/** Create a dashboard that charts this scanner's observations, and link it to the scanner. The tiles depend on the scanner type: who the scanner matched, which accounts they belong to, type-specific breakdowns, and the latest matching recordings. Calling it again returns the existing dashboard rather than a second one. */
+export const visionScannersCreateDashboardCreate: API.OperationMethod<
+  VisionScannersCreateDashboardCreateRequest,
+  ScannerDashboardResponse,
+  VisionScannersCreateDashboardCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2656, __c83, 0) as any as S.Schema<VisionScannersCreateDashboardCreateRequest>,
+  output: __S(2657, __c83, 1) as any as S.Schema<ScannerDashboardResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionScannersCreateDashboardCreate",
 }));
 
 export type VisionScannersDestroyError = PosthogOpError;
@@ -3270,8 +3862,8 @@ export const visionScannersDestroy: API.OperationMethod<
   VisionScannersDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<VisionScannersDestroyRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<VisionScannersDestroyResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<VisionScannersDestroyRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<VisionScannersDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3287,8 +3879,8 @@ export const visionScannersDuplicateCreate: API.OperationMethod<
   VisionScannersDuplicateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<VisionScannersDuplicateCreateRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<ReplayScannerOutput>,
+  input: __S(2720, __c85, 0) as any as S.Schema<VisionScannersDuplicateCreateRequest>,
+  output: __S(64, __c2, 0) as any as S.Schema<ReplayScannerOutput>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3304,13 +3896,38 @@ export const visionScannersObservationsCreateTaskCreate: API.OperationMethod<
   VisionScannersObservationsCreateTaskCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<VisionScannersObservationsCreateTaskCreateRequest>,
-  output: __S(1760, __c55, 0) as any as S.Schema<CreateTaskFromObservationResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<VisionScannersObservationsCreateTaskCreateRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<CreateTaskFromObservationResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "VisionScannersObservationsCreateTaskCreate",
+}));
+
+export type VisionScannersObservationsFeedDismissalDestroyError = PosthogOpError;
+/** Undo the calling user's not-useful mark, so the Highlights feed can show the observation again. */
+export const visionScannersObservationsFeedDismissalDestroy: API.OperationMethod<
+  VisionScannersObservationsFeedDismissalDestroyRequest,
+  VisionScannersObservationsFeedDismissalDestroyResponse,
+  VisionScannersObservationsFeedDismissalDestroyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    2784,
+    __c87,
+    0,
+  ) as any as S.Schema<VisionScannersObservationsFeedDismissalDestroyRequest>,
+  output: __S(
+    2176,
+    __c68,
+    0,
+  ) as any as S.Schema<VisionScannersObservationsFeedDismissalDestroyResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisionScannersObservationsFeedDismissalDestroy",
 }));
 
 export type VisionScannersObservationsLabelDestroyError = PosthogOpError;
@@ -3321,8 +3938,8 @@ export const visionScannersObservationsLabelDestroy: API.OperationMethod<
   VisionScannersObservationsLabelDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<VisionScannersObservationsLabelDestroyRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<VisionScannersObservationsLabelDestroyResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<VisionScannersObservationsLabelDestroyRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<VisionScannersObservationsLabelDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3338,8 +3955,8 @@ export const visionScannersObservationsRetryCreate: API.OperationMethod<
   VisionScannersObservationsRetryCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<VisionScannersObservationsRetryCreateRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<VisionScannersObservationsRetryCreateResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<VisionScannersObservationsRetryCreateRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<VisionScannersObservationsRetryCreateResponse>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3347,25 +3964,128 @@ export const visionScannersObservationsRetryCreate: API.OperationMethod<
   span: "VisionScannersObservationsRetryCreate",
 }));
 
-export type VisionScannersWatchFeedRetrieveError = PosthogOpError;
-/** Succeeded observations in the window worth watching, ranked -- feeds the What to watch tab. */
-export const visionScannersWatchFeedRetrieve: API.OperationMethod<
-  VisionScannersWatchFeedRetrieveRequest,
-  WatchFeedResponse,
-  VisionScannersWatchFeedRetrieveError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<VisionScannersWatchFeedRetrieveRequest>,
-  output: __S(2278, __c71, 6) as any as S.Schema<WatchFeedResponse>,
-  errors: [],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "VisionScannersWatchFeedRetrieve",
-}));
-
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          name: S.String,
+          description: S.optional(S.String),
+          tags: S.optional(__S(1312, __c41, 0)),
+          scanner_type: S.String,
+          goal: S.optional(S.NullOr(S.String)),
+          creation_method: S.optional(S.NullOr(S.String)),
+          entry_point: S.optional(S.NullOr(S.String)),
+          take_over_as_creator: S.optional(S.Boolean),
+          scanner_config: S.Unknown,
+          query: S.optional(S.Unknown),
+          sampling_rate: S.optional(S.Number),
+          sampling_mode: S.optional(S.String),
+          credit_limit: S.optional(S.NullOr(S.Number)),
+          free_only: S.optional(S.Boolean),
+          provider: S.optional(S.String),
+          model: S.String,
+          enabled: S.optional(S.Boolean),
+          emits_signals: S.optional(S.Boolean),
+          experiment_targeting: S.optional(S.NullOr(__S(32, __c1, 0))),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/projects/{project_id}/vision/scanners/", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateVisionScannerRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          experiment_id: S.Number,
+          variant: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ScannerExperimentTargeting" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+          tags: S.optional(__S(1312, __c41, 0)),
+          scanner_type: S.String,
+          goal: S.optional(S.NullOr(S.String)),
+          scanner_config: S.Unknown,
+          prompt_question: S.String,
+          query: S.optional(S.Unknown),
+          sampling_rate: S.optional(S.Number),
+          sampling_mode: S.optional(S.String),
+          credit_limit: S.optional(S.NullOr(S.Number)),
+          free_only: S.optional(S.Boolean),
+          provider: S.optional(S.String),
+          model: S.String,
+          enabled: S.optional(S.Boolean),
+          emits_signals: S.optional(S.Boolean),
+          experiment_targeting: S.optional(S.NullOr(__S(32, __c1, 0))),
+          scanner_version: S.Number,
+          estimated_monthly_observations: S.NullOr(S.Number),
+          estimated_at: S.NullOr(S.String),
+          credits_per_observation: S.Number,
+          estimated_monthly_credits: S.NullOr(S.Number),
+          credits_this_month: S.Number,
+          observations_this_month: S.Number,
+          credits_used_against_limit: S.Number,
+          limit_from_free_credits: S.Boolean,
+          limit_reached: S.Boolean,
+          sweep_throttle_factor: S.Number,
+          dashboard_id: S.NullOr(S.Number),
+          dashboard_suggested: S.Boolean,
+          last_swept_at: S.String,
+          filter_error: S.NullOr(S.String),
+          unrunnable_reason: S.NullOr(S.String),
+          created_at: S.String,
+          created_by: S.NullOr(__S(1217, __c38, 1)),
+          updated_at: S.String,
+          user_access_level: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ReplayScannerOutput" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          window_days: S.optional(S.Number),
+          verdict: S.optional(S.NullOr(S.String)),
+          tag: S.optional(S.NullOr(S.String)),
+          min_score: S.optional(S.NullOr(S.Number)),
+          max_score: S.optional(S.NullOr(S.Number)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/vision/scanners/{id}/affected_cohort/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateVisionScannersAffectedCohortRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          cohort_id: S.Number,
+          name: S.String,
+          users_in_cohort: S.Number,
+          window_days: S.Number,
+        }),
+      ).annotate({ identifier: "AffectedCohortResponse" });
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3385,7 +4105,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateVisionScannersBackfillRequest" });
   }
 }
-function __c1(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3402,14 +4122,14 @@ function __c1(j: number): any {
           failed_count: S.Number,
           ineligible_count: S.Number,
           in_flight_count: S.Number,
-          created_by: S.NullOr(__S(1313, __c41, 1)),
+          created_by: S.NullOr(__S(1217, __c38, 1)),
           created_at: S.String,
           finished_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ReplayScannerBackfill" });
   }
 }
-function __c2(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3439,7 +4159,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "BackfillEstimateResponse" });
   }
 }
-function __c3(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3447,6 +4167,9 @@ function __c3(j: number): any {
           project_id: S.String.pipe(T.Label()),
           goal: S.String,
           monthly_credit_budget: S.optional(S.Number),
+          free_only: S.optional(S.Boolean),
+          experiment_id: S.optional(S.Number),
+          query: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3464,23 +4187,24 @@ function __c3(j: number): any {
           scanner_config: S.Unknown,
           rationale: S.String,
           query: S.Unknown,
+          query_additions: S.Unknown,
           sampling_mode: S.NullOr(S.String),
           sampling_rate: S.NullOr(S.Number),
           model: S.NullOr(S.String),
           credit_limit: S.NullOr(S.Number),
-          experiment_targeting: S.NullOr(__S(2400, __c75, 0)),
+          free_only: S.Boolean,
           estimated_monthly_observations: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "DraftScannerResponse" });
   }
 }
-function __c4(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           experiment_id: S.Number,
-          variants: S.optional(S.NullOr(__S(1280, __c40, 0))),
+          variants: S.optional(S.NullOr(__S(1312, __c41, 0))),
         }),
       ).annotate({ identifier: "EstimateExperimentScope" });
     case 1:
@@ -3492,8 +4216,8 @@ function __c4(j: number): any {
           sampling_mode: S.optional(S.String),
           scanner_id: S.optional(S.NullOr(S.String)),
           model: S.optional(S.String),
-          experiment_targeting: S.optional(S.NullOr(__S(2400, __c75, 0))),
-          experiment: S.optional(S.NullOr(__S(128, __c4, 0))),
+          experiment_targeting: S.optional(S.NullOr(__S(32, __c1, 0))),
+          experiment: S.optional(S.NullOr(__S(256, __c8, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3512,22 +4236,42 @@ function __c4(j: number): any {
           estimated_credits_per_month: S.Number,
           other_enabled_scanners_monthly_credits: S.Number,
           active_backfill_credits: S.Number,
+          free_only_monthly_credits_left: S.Number,
           sampling_rate: S.Number,
         }),
       ).annotate({ identifier: "EstimateResponse" });
   }
 }
-function __c5(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          session_ids: __S(1280, __c40, 0),
-          prompt: S.String,
+          feed_load_id: S.String,
+          observation_ids: __S(1312, __c41, 0),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/vision/scanners/highlight_feed_impressions/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateVisionScannersHighlightFeedImpressionRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          built_in: S.optional(S.String),
+          prompt: S.optional(S.String),
           scanner_type: S.optional(S.String),
           scanner_config: S.optional(S.Unknown),
           model: S.optional(S.String),
+          session_ids: __S(1312, __c41, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3538,7 +4282,26 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateVisionScannersInlineScanRequest" });
   }
 }
-function __c6(j: number): any {
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          scanner_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          reason: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/vision/scanners/{scanner_id}/observations/{id}/feed_dismissal/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateVisionScannersObservationsFeedDismissalRequest" });
+  }
+}
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3558,7 +4321,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateVisionScannersObservationsLabelRequest" });
   }
 }
-function __c7(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3576,7 +4339,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateVisionScannersObservationsViewedRequest" });
   }
 }
-function __c8(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3600,14 +4363,14 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ObserveAlreadyScanned" });
   }
 }
-function __c9(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           integration_id: S.Number,
           channel: S.optional(S.NullOr(S.String)),
-          users: S.optional(S.NullOr(__S(1280, __c40, 0))),
+          users: S.optional(S.NullOr(__S(1312, __c41, 0))),
           thread_reports: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SignalScoutSlackDestination" });
@@ -3620,23 +4383,28 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          slack: S.optional(S.NullOr(__S(288, __c9, 0))),
-          webhook: S.optional(S.NullOr(__S(289, __c9, 1))),
+          slack: S.optional(S.NullOr(__S(480, __c15, 0))),
+          webhook: S.optional(S.NullOr(__S(481, __c15, 1))),
+          inbox: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SignalScoutOutputDestinations" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           model: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(1280, __c40, 0)),
-          structured_output_schema: S.optional(S.NullOr(__S(1312, __c41, 0))),
-          mcp_gateway_server_ids: S.optional(__S(1280, __c40, 0)),
-          repositories: S.optional(__S(1280, __c40, 0)),
-          write_scopes: S.optional(__S(1280, __c40, 0)),
+          tags: S.optional(__S(1312, __c41, 0)),
+          structured_output_schema: S.optional(S.NullOr(__S(1216, __c38, 0))),
+          mcp_gateway_server_ids: S.optional(__S(1312, __c41, 0)),
+          repositories: S.optional(__S(1312, __c41, 0)),
+          write_scopes: S.optional(__S(1312, __c41, 0)),
+          lifecycle_locked: S.optional(S.Boolean),
+          allowed_mcp_tools: S.optional(S.NullOr(__S(1312, __c41, 0))),
+          tool_preset: S.optional(S.String),
+          precheck_query: S.optional(S.NullOr(S.String)),
           enabled: S.optional(S.Boolean),
           emit: S.optional(S.Boolean),
           run_interval_minutes: S.optional(S.Number),
-          output_destinations: S.optional(__S(290, __c9, 2)),
+          output_destinations: S.optional(__S(482, __c15, 2)),
           network_access: S.optional(S.String),
           auto_pause_exempt: S.optional(S.Boolean),
           run_cron_schedule: S.optional(S.NullOr(S.String)),
@@ -3651,8 +4419,9 @@ function __c9(j: number): any {
           name: S.optional(S.String),
           description: S.String,
           body: S.String,
-          config: S.optional(__S(291, __c9, 3)),
+          config: S.optional(__S(483, __c15, 3)),
           variant_analysis: S.optional(S.Boolean),
+          template_key: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3679,8 +4448,8 @@ function __c9(j: number): any {
           display_name: S.optional(S.String),
           scout_origin: S.String,
           scout_role: S.String,
-          deprecation: S.NullOr(__S(293, __c9, 5)),
-          owners: __S(320, __c10, 0),
+          deprecation: S.NullOr(__S(485, __c15, 5)),
+          owners: __S(512, __c16, 0),
           enabled: S.Boolean,
           status: S.String,
           pause_reason: S.NullOr(S.String),
@@ -3688,19 +4457,29 @@ function __c9(j: number): any {
           emit: S.Boolean,
           run_interval_minutes: S.Number,
           run_cron_schedule: S.NullOr(S.String),
-          output_destinations: __S(290, __c9, 2),
-          structured_output_schema: S.NullOr(__S(1312, __c41, 0)),
+          output_destinations: __S(482, __c15, 2),
+          structured_output_schema: S.NullOr(__S(1216, __c38, 0)),
           network_access: S.String,
           model: S.NullOr(S.String),
-          mcp_gateway_server_ids: __S(1280, __c40, 0),
-          repositories: S.optional(__S(1280, __c40, 0)),
-          write_scopes: __S(1280, __c40, 0),
+          mcp_gateway_server_ids: __S(1312, __c41, 0),
+          repositories: S.optional(__S(1312, __c41, 0)),
+          write_scopes: __S(1312, __c41, 0),
+          lifecycle_locked: S.Boolean,
+          allowed_mcp_tools: S.NullOr(__S(1312, __c41, 0)),
+          tool_preset: S.NullOr(S.String),
+          precheck_query: S.NullOr(S.String),
+          precheck_disabled: S.Boolean,
+          effective_precheck_query: S.NullOr(S.String),
+          precheck_query_source: S.String,
+          last_precheck_at: S.NullOr(S.String),
+          last_precheck_outcome: S.NullOr(S.String),
+          last_precheck_row_count: S.NullOr(S.Number),
           last_run_at: S.NullOr(S.String),
           consecutive_failure_count: S.Number,
           status_changed_at: S.NullOr(S.String),
-          status_changed_by: S.NullOr(__S(1313, __c41, 1)),
+          status_changed_by: S.NullOr(__S(1217, __c38, 1)),
           auto_pause_exempt: S.Boolean,
-          tags: S.optional(__S(1280, __c40, 0)),
+          tags: S.optional(__S(1312, __c41, 0)),
           source_product: S.NullOr(S.String),
           source_id: S.NullOr(S.String),
           created_at: S.String,
@@ -3711,55 +4490,18 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           created: S.Boolean,
-          config: __S(294, __c9, 6),
+          config: __S(486, __c15, 6),
         }),
       ).annotate({ identifier: "ScannerScoutCreateResponse" });
   }
 }
-function __c10(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1313, __c41, 1));
+      return S.Array(__S(1217, __c38, 1));
   }
 }
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          prompt: S.String,
-          tags: S.optional(__S(1280, __c40, 0)),
-          multi_label: S.optional(S.Boolean),
-          allow_freeform_tags: S.optional(S.Boolean),
-          scanner_id: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/vision/scanners/suggest_tags/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateVisionScannersSuggestTagRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          tag: S.String,
-          rationale: S.String,
-          source: S.String,
-        }),
-      ).annotate({ identifier: "TagSuggestion" });
-    case 2:
-      return S.Array(__S(353, __c11, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          suggestions: __S(354, __c11, 2),
-        }),
-      ).annotate({ identifier: "SuggestTagsResponse" });
-  }
-}
-function __c12(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3782,13 +4524,14 @@ function __c12(j: number): any {
           period_end: S.String,
           projected_monthly_credits: S.Number,
           scanners_monthly_credits: S.Number,
+          scanners_period_credits: S.Number,
           backfills_committed_credits: S.Number,
           free_monthly_credits: S.Number,
         }),
       ).annotate({ identifier: "VisionQuota" });
   }
 }
-function __c13(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3810,18 +4553,18 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "VisionSpendDay" });
     case 2:
-      return S.Array(__S(417, __c13, 1));
+      return S.Array(__S(577, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           period_start: S.String,
           period_end: S.String,
-          days: __S(418, __c13, 2),
+          days: __S(578, __c18, 2),
         }),
       ).annotate({ identifier: "VisionSpendSeries" });
   }
 }
-function __c14(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3839,7 +4582,7 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          hog_function_ids: __S(1280, __c40, 0),
+          hog_function_ids: __S(1312, __c41, 0),
           type: S.String,
           enabled: S.Boolean,
           slack_workspace_id: S.optional(S.Number),
@@ -3848,7 +4591,7 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "VisionAlertDestinationConfig" });
     case 2:
-      return S.Array(__S(449, __c14, 1));
+      return S.Array(__S(609, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3857,7 +4600,7 @@ function __c14(j: number): any {
           name: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           kind: S.String,
-          selection: S.optional(__S(1216, __c38, 0)),
+          selection: S.optional(__S(1248, __c39, 0)),
           metric: S.optional(S.String),
           direction: S.optional(S.String),
           threshold: S.optional(S.NullOr(S.Number)),
@@ -3867,7 +4610,7 @@ function __c14(j: number): any {
           evaluation_periods: S.optional(S.Number),
           datapoints_to_alarm: S.optional(S.Number),
           cooldown_minutes: S.optional(S.Number),
-          schedule_restriction: S.optional(S.NullOr(__S(1219, __c38, 3))),
+          schedule_restriction: S.optional(S.NullOr(__S(1251, __c39, 3))),
           snooze_until: S.optional(S.NullOr(S.String)),
           next_check_at: S.NullOr(S.String),
           last_notified_at: S.NullOr(S.String),
@@ -3875,14 +4618,69 @@ function __c14(j: number): any {
           consecutive_failures: S.Number,
           first_enabled_at: S.NullOr(S.String),
           created_at: S.String,
-          created_by: S.NullOr(__S(1313, __c41, 1)),
+          created_by: S.NullOr(__S(1217, __c38, 1)),
           updated_at: S.NullOr(S.String),
-          destinations: __S(450, __c14, 2),
+          destinations: __S(610, __c19, 2),
         }),
       ).annotate({ identifier: "VisionAlertConfigurationDetail" });
   }
 }
-function __c15(j: number): any {
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          by_variant: S.optional(S.Boolean.pipe(T.Query())),
+          date_from: S.optional(S.String.pipe(T.Query())),
+          date_to: S.optional(S.String.pipe(T.Query())),
+          include_routine: S.optional(S.Boolean.pipe(T.Query())),
+          scanner_id: S.optional(S.String.pipe(T.Query())),
+          variant: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/vision/groups/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetVisionGroupRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          observation_count: S.Number,
+          people_count: S.Number,
+        }),
+      ).annotate({ identifier: "VariantCount" });
+    case 1:
+      return S.Array(__S(672, __c21, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          scanner_id: S.String,
+          scanner_name: S.String,
+          name: S.NullOr(S.String),
+          status: S.String,
+          observation_count: S.Number,
+          people_count: S.Number,
+          previous_observation_count: S.Number,
+          first_seen: S.String,
+          last_seen: S.String,
+          example_observation_ids: __S(1312, __c41, 0),
+          example_summary: S.String,
+          variants: __S(673, __c21, 1),
+        }),
+      ).annotate({ identifier: "Cluster" });
+  }
+}
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3892,7 +4690,9 @@ function __c15(j: number): any {
           backfill_id: S.optional(S.String.pipe(T.Query())),
           date_from: S.optional(S.String.pipe(T.Query())),
           date_to: S.optional(S.String.pipe(T.Query())),
-          labeled: S.optional(S.String.pipe(T.Query())),
+          group: S.optional(S.String.pipe(T.Query())),
+          include_routine: S.optional(S.Boolean.pipe(T.Query())),
+          labeled: S.optional(S.Boolean.pipe(T.Query())),
           max_score: S.optional(S.Number.pipe(T.Query())),
           min_score: S.optional(S.Number.pipe(T.Query())),
           order_by: S.optional(S.String.pipe(T.Query())),
@@ -3900,9 +4700,12 @@ function __c15(j: number): any {
           session_id: S.optional(S.String.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
           tags: S.optional(S.String.pipe(T.Query())),
+          theme: S.optional(S.String.pipe(T.Query())),
           triggered_by: S.optional(S.String.pipe(T.Query())),
           variant: S.optional(S.String.pipe(T.Query())),
           verdict: S.optional(S.String.pipe(T.Query())),
+          watch_category: S.optional(S.String.pipe(T.Query())),
+          watch_group: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3913,7 +4716,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetVisionObservationRequest" });
   }
 }
-function __c16(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
@@ -3927,33 +4730,22 @@ function __c16(j: number): any {
           provider: S.String,
           emits_signals: S.Boolean,
           scanner_config: S.Unknown,
-          variant_sampling_rates: S.optional(S.NullOr(__S(512, __c16, 0))),
+          variant_sampling_rates: S.optional(S.NullOr(__S(736, __c23, 0))),
         }),
       ).annotate({ identifier: "ScannerSnapshot" });
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          model_output: S.Unknown,
-          signals_count: S.Number,
-          experiment_variant: S.optional(S.NullOr(S.String)),
-          session_duration_s: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "ScannerResult" });
-    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           kind: S.String,
           position: S.Number,
           asset_id: S.Number,
-          description: S.NullOr(S.String),
           video_start_ms: S.Number,
-          video_end_ms: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "ReplayObservationMedia" });
+    case 3:
+      return S.Array(__S(738, __c23, 2));
     case 4:
-      return S.Array(__S(515, __c16, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -3963,19 +4755,20 @@ function __c16(j: number): any {
           status: S.String,
           error_reason: S.String,
           workflow_id: S.String,
-          scanner_snapshot: S.NullOr(__S(513, __c16, 1)),
-          scanner_result: S.NullOr(__S(514, __c16, 2)),
+          scanner_snapshot: S.NullOr(__S(737, __c23, 1)),
+          scanner_result: S.NullOr(__S(2944, __c92, 0)),
           prompt_question: S.NullOr(S.String),
+          prompt_valence: S.NullOr(S.String),
           triggered_by: S.String,
-          triggered_by_user: S.NullOr(__S(1313, __c41, 1)),
+          triggered_by_user: S.NullOr(__S(1217, __c38, 1)),
           backfill_id: S.NullOr(S.String),
           distinct_id: S.NullOr(S.String),
           recording_subject_email: S.NullOr(S.String),
           previous_observation_id: S.NullOr(S.String),
           next_observation_id: S.NullOr(S.String),
-          label: S.NullOr(__S(2080, __c65, 0)),
+          label: S.NullOr(__S(2592, __c81, 0)),
           viewed: S.Boolean,
-          media: __S(516, __c16, 4),
+          media: __S(739, __c23, 3),
           summary_line: S.String,
           started_at: S.optional(S.NullOr(S.String)),
           completed_at: S.optional(S.NullOr(S.String)),
@@ -3984,7 +4777,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ReplayObservation" });
   }
 }
-function __c17(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3992,6 +4785,7 @@ function __c17(j: number): any {
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           chapter: S.optional(S.Number.pipe(T.Query())),
+          size: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4002,7 +4796,24 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetVisionObservationsThumbnailRequest" });
   }
 }
-function __c18(j: number): any {
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/vision/requests/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetVisionRequestRequest" });
+  }
+}
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4019,7 +4830,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetVisionScannerRequest" });
   }
 }
-function __c19(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4037,7 +4848,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetVisionScannersBackfillRequest" });
   }
 }
-function __c20(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4054,12 +4865,64 @@ function __c20(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          creators: __S(320, __c10, 0),
+          creators: __S(512, __c16, 0),
         }),
       ).annotate({ identifier: "ScannerCreatorsResponse" });
   }
 }
-function __c21(j: number): any {
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          as_of: S.optional(S.String.pipe(T.Query())),
+          categories: S.optional(S.String.pipe(T.Query())),
+          created_by: S.optional(S.String.pipe(T.Query())),
+          date_from: S.optional(S.String.pipe(T.Query())),
+          date_to: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          scanner_ids: S.optional(S.String.pipe(T.Query())),
+          scanner_type: S.optional(S.String.pipe(T.Query())),
+          tags: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/vision/scanners/highlight_feed/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetVisionScannersHighlightFeedRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          watch_category: S.optional(S.String),
+          similar_count: S.optional(S.NullOr(S.Number)),
+          affected_people: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "HighlightFeedReason" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          observation: __S(740, __c23, 4),
+          reason: __S(929, __c29, 1),
+        }),
+      ).annotate({ identifier: "HighlightFeedItem" });
+    case 3:
+      return S.Array(__S(930, __c29, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(931, __c29, 3),
+          has_more: S.Boolean,
+          as_of: S.String,
+        }),
+      ).annotate({ identifier: "HighlightFeedResponse" });
+  }
+}
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4090,7 +4953,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ScannerImpact" });
   }
 }
-function __c22(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4101,7 +4964,9 @@ function __c22(j: number): any {
           backfill_id: S.optional(S.String.pipe(T.Query())),
           date_from: S.optional(S.String.pipe(T.Query())),
           date_to: S.optional(S.String.pipe(T.Query())),
-          labeled: S.optional(S.String.pipe(T.Query())),
+          group: S.optional(S.String.pipe(T.Query())),
+          include_routine: S.optional(S.Boolean.pipe(T.Query())),
+          labeled: S.optional(S.Boolean.pipe(T.Query())),
           max_score: S.optional(S.Number.pipe(T.Query())),
           min_score: S.optional(S.Number.pipe(T.Query())),
           order_by: S.optional(S.String.pipe(T.Query())),
@@ -4109,9 +4974,12 @@ function __c22(j: number): any {
           session_id: S.optional(S.String.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
           tags: S.optional(S.String.pipe(T.Query())),
+          theme: S.optional(S.String.pipe(T.Query())),
           triggered_by: S.optional(S.String.pipe(T.Query())),
           variant: S.optional(S.String.pipe(T.Query())),
           verdict: S.optional(S.String.pipe(T.Query())),
+          watch_category: S.optional(S.String.pipe(T.Query())),
+          watch_group: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4122,7 +4990,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetVisionScannersObservationRequest" });
   }
 }
-function __c23(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4132,7 +5000,9 @@ function __c23(j: number): any {
           backfill_id: S.optional(S.String.pipe(T.Query())),
           date_from: S.optional(S.String.pipe(T.Query())),
           date_to: S.optional(S.String.pipe(T.Query())),
-          labeled: S.optional(S.String.pipe(T.Query())),
+          group: S.optional(S.String.pipe(T.Query())),
+          include_routine: S.optional(S.Boolean.pipe(T.Query())),
+          labeled: S.optional(S.Boolean.pipe(T.Query())),
           max_score: S.optional(S.Number.pipe(T.Query())),
           min_score: S.optional(S.Number.pipe(T.Query())),
           recent_days: S.optional(S.Number.pipe(T.Query())),
@@ -4140,9 +5010,12 @@ function __c23(j: number): any {
           session_id: S.optional(S.String.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
           tags: S.optional(S.String.pipe(T.Query())),
+          theme: S.optional(S.String.pipe(T.Query())),
           triggered_by: S.optional(S.String.pipe(T.Query())),
           variant: S.optional(S.String.pipe(T.Query())),
           verdict: S.optional(S.String.pipe(T.Query())),
+          watch_category: S.optional(S.String.pipe(T.Query())),
+          watch_group: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4179,7 +5052,7 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "ObservationLabelDayCount" });
     case 4:
-      return S.Array(__S(739, __c23, 3));
+      return S.Array(__S(1027, __c32, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -4200,15 +5073,15 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "ObservationVersionMarker" });
     case 6:
-      return S.Array(__S(741, __c23, 5));
+      return S.Array(__S(1029, __c32, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           up_total: S.Number,
           down_total: S.Number,
-          by_day: __S(740, __c23, 4),
-          by_rating_day: __S(740, __c23, 4),
-          version_markers: __S(742, __c23, 6),
+          by_day: __S(1028, __c32, 4),
+          by_rating_day: __S(1028, __c32, 4),
+          version_markers: __S(1030, __c32, 6),
         }),
       ).annotate({ identifier: "ObservationLabelStats" });
     case 8:
@@ -4227,12 +5100,12 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "TagCount" });
     case 10:
-      return S.Array(__S(745, __c23, 9));
+      return S.Array(__S(1033, __c32, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          fixed_ranked: __S(746, __c23, 10),
-          freeform_ranked: __S(746, __c23, 10),
+          fixed_ranked: __S(1034, __c32, 10),
+          freeform_ranked: __S(1034, __c32, 10),
           total_with_tags: S.Number,
         }),
       ).annotate({ identifier: "ClassifierStats" });
@@ -4253,32 +5126,32 @@ function __c23(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          labels: __S(1280, __c40, 0),
-          counts: __S(749, __c23, 13),
+          labels: __S(1312, __c41, 0),
+          counts: __S(1037, __c32, 13),
         }),
       ).annotate({ identifier: "ScorerHistogram" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          summary: S.NullOr(__S(748, __c23, 12)),
-          histogram: S.NullOr(__S(750, __c23, 14)),
+          summary: S.NullOr(__S(1036, __c32, 12)),
+          histogram: S.NullOr(__S(1038, __c32, 14)),
         }),
       ).annotate({ identifier: "ScorerStats" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          status_counts: __S(737, __c23, 1),
-          coverage: __S(738, __c23, 2),
-          labels: __S(743, __c23, 7),
-          available_tags: __S(1280, __c40, 0),
-          monitor: S.NullOr(__S(744, __c23, 8)),
-          classifier: S.NullOr(__S(747, __c23, 11)),
-          scorer: S.NullOr(__S(751, __c23, 15)),
+          status_counts: __S(1025, __c32, 1),
+          coverage: __S(1026, __c32, 2),
+          labels: __S(1031, __c32, 7),
+          available_tags: __S(1312, __c41, 0),
+          monitor: S.NullOr(__S(1032, __c32, 8)),
+          classifier: S.NullOr(__S(1035, __c32, 11)),
+          scorer: S.NullOr(__S(1039, __c32, 15)),
         }),
       ).annotate({ identifier: "ObservationStats" });
   }
 }
-function __c24(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4287,6 +5160,7 @@ function __c24(j: number): any {
           scanner_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           chapter: S.optional(S.Number.pipe(T.Query())),
+          size: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4297,7 +5171,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetVisionScannersObservationsThumbnailRequest" });
   }
 }
-function __c25(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4315,7 +5189,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetVisionScannersScoutReportRequest" });
   }
 }
-function __c26(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4328,7 +5202,7 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "ReportChart" });
     case 1:
-      return S.Array(__S(832, __c26, 0));
+      return S.Array(__S(1120, __c35, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4337,12 +5211,12 @@ function __c26(j: number): any {
           filed_at: S.String,
           title: S.String,
           summary: S.String,
-          charts: __S(833, __c26, 1),
+          charts: __S(1121, __c35, 1),
         }),
       ).annotate({ identifier: "ScoutReport" });
   }
 }
-function __c27(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4366,7 +5240,7 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "SelfDrivingReport" });
     case 2:
-      return S.Array(__S(865, __c27, 1));
+      return S.Array(__S(1153, __c36, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4375,7 +5249,7 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "SelfDrivingPullRequest" });
     case 4:
-      return S.Array(__S(867, __c27, 3));
+      return S.Array(__S(1155, __c36, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -4383,13 +5257,128 @@ function __c27(j: number): any {
           reports_contributed: S.Number,
           prs_opened: S.Number,
           prs_merged: S.Number,
-          reports: __S(866, __c27, 2),
-          pull_requests: __S(868, __c27, 4),
+          reports: __S(1154, __c36, 2),
+          pull_requests: __S(1156, __c36, 4),
         }),
       ).annotate({ identifier: "ScannerSelfDrivingStats" });
   }
 }
-function __c28(j: number): any {
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          scanner_id: S.String,
+          name: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          kind: S.String,
+          selection: S.optional(__S(1248, __c39, 0)),
+          metric: S.optional(S.String),
+          direction: S.optional(S.String),
+          threshold: S.optional(S.NullOr(S.Number)),
+          window_days: S.optional(S.Number),
+          check_interval_minutes: S.optional(S.Number),
+          evaluation_periods: S.optional(S.Number),
+          datapoints_to_alarm: S.optional(S.Number),
+          cooldown_minutes: S.optional(S.Number),
+          schedule_restriction: S.optional(S.NullOr(__S(1251, __c39, 3))),
+          snooze_until: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/projects/{project_id}/vision/alerts/", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateVisionAlertRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          uuid: S.optional(S.String),
+          distinct_id: S.optional(S.NullOr(S.String)),
+          first_name: S.optional(S.String),
+          last_name: S.optional(S.String),
+          email: S.optional(S.String),
+          is_email_verified: S.optional(S.NullOr(S.Boolean)),
+          hedgehog_config: S.optional(S.NullOr(__S(1216, __c38, 0))),
+          role_at_organization: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "UserBasic" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          verdict: S.optional(__S(1312, __c41, 0)),
+          tags: S.optional(__S(1312, __c41, 0)),
+          min_score: S.optional(S.Number),
+          max_score: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "VisionAlertSelection" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          start: S.optional(S.String),
+          end: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AlertScheduleRestrictionWindow" });
+    case 2:
+      return S.Array(__S(1249, __c39, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          blocked_windows: S.optional(__S(1250, __c39, 2)),
+        }),
+      ).annotate({ identifier: "AlertScheduleRestriction" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          scanner_id: S.String,
+          name: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          kind: S.String,
+          selection: S.optional(__S(1248, __c39, 0)),
+          metric: S.optional(S.String),
+          direction: S.optional(S.String),
+          threshold: S.optional(S.NullOr(S.Number)),
+          window_days: S.optional(S.Number),
+          check_interval_minutes: S.optional(S.Number),
+          state: S.String,
+          evaluation_periods: S.optional(S.Number),
+          datapoints_to_alarm: S.optional(S.Number),
+          cooldown_minutes: S.optional(S.Number),
+          schedule_restriction: S.optional(S.NullOr(__S(1251, __c39, 3))),
+          snooze_until: S.optional(S.NullOr(S.String)),
+          next_check_at: S.NullOr(S.String),
+          last_notified_at: S.NullOr(S.String),
+          last_checked_at: S.NullOr(S.String),
+          consecutive_failures: S.Number,
+          first_enabled_at: S.NullOr(S.String),
+          created_at: S.String,
+          created_by: S.NullOr(__S(1217, __c38, 1)),
+          updated_at: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "VisionAlertConfiguration" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4413,11 +5402,11 @@ function __c28(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          monitor: __S(897, __c28, 1),
-          classifier: __S(897, __c28, 1),
-          scorer: __S(897, __c28, 1),
-          summarizer: __S(897, __c28, 1),
-          experiment: __S(897, __c28, 1),
+          monitor: __S(1345, __c42, 1),
+          classifier: __S(1345, __c42, 1),
+          scorer: __S(1345, __c42, 1),
+          summarizer: __S(1345, __c42, 1),
+          experiment: __S(1345, __c42, 1),
         }),
       ).annotate({ identifier: "ScannerStatsByType" });
     case 3:
@@ -4425,12 +5414,32 @@ function __c28(j: number): any {
         S.Struct({
           total: S.Number,
           enabled: S.Number,
-          by_type: __S(898, __c28, 2),
+          by_type: __S(1346, __c42, 2),
         }),
       ).annotate({ identifier: "ScannerStatsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          date_from: S.optional(S.String.pipe(T.Query())),
+          date_to: S.optional(S.String.pipe(T.Query())),
+          scanner_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/vision/themes/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetVisionThemeRequest" });
+  }
+}
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4444,19 +5453,19 @@ function __c29(j: number): any {
         ),
       ).annotate({ identifier: "ListVisionAlertsRequest" });
     case 1:
-      return S.Array(__S(1248, __c39, 0));
+      return S.Array(__S(1280, __c40, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(929, __c29, 1),
+          results: __S(1409, __c44, 1),
         }),
       ).annotate({ identifier: "PaginatedVisionAlertConfigurationList" });
   }
 }
-function __c30(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4488,19 +5497,53 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "VisionAlertEvent" });
     case 2:
-      return S.Array(__S(961, __c30, 1));
+      return S.Array(__S(1441, __c45, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(962, __c30, 2),
+          results: __S(1442, __c45, 2),
         }),
       ).annotate({ identifier: "PaginatedVisionAlertEventList" });
   }
 }
-function __c31(j: number): any {
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          by_variant: S.optional(S.Boolean.pipe(T.Query())),
+          date_from: S.optional(S.String.pipe(T.Query())),
+          date_to: S.optional(S.String.pipe(T.Query())),
+          include_routine: S.optional(S.Boolean.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          scanner_id: S.optional(S.String.pipe(T.Query())),
+          variant: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/projects/{project_id}/vision/groups/", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListVisionGroupsRequest" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(674, __c21, 2));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(1504, __c47, 0),
+          has_more: S.Boolean,
+        }),
+      ).annotate({ identifier: "ClusterList" });
+  }
+}
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4520,7 +5563,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "ListVisionObservationsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4528,18 +5571,18 @@ function __c32(j: number): any {
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(1056, __c33, 0),
+          results: __S(1600, __c50, 0),
         }),
       ).annotate({ identifier: "PaginatedReplayObservationList" });
   }
 }
-function __c33(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(517, __c16, 5));
+      return S.Array(__S(740, __c23, 4));
   }
 }
-function __c34(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4556,7 +5599,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "ListVisionObservationsSignalReportsRequest" });
   }
 }
-function __c35(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4568,14 +5611,14 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "ObservationSignalReport" });
     case 1:
-      return S.Array(__S(1120, __c35, 0));
+      return S.Array(__S(1664, __c52, 0));
     case 2:
-      return S.suspend(() => __S(1121, __c35, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1665, __c52, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListVisionObservationsSignalReportsResponse",
       });
   }
 }
-function __c36(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4596,134 +5639,19 @@ function __c36(j: number): any {
         ),
       ).annotate({ identifier: "ListVisionScannersRequest" });
     case 1:
-      return S.Array(__S(2432, __c76, 0));
+      return S.Array(__S(64, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(1153, __c36, 1),
+          results: __S(1697, __c53, 1),
         }),
       ).annotate({ identifier: "PaginatedReplayScannerListOutput" });
   }
 }
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          scanner_id: S.String,
-          name: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-          kind: S.String,
-          selection: S.optional(__S(1216, __c38, 0)),
-          metric: S.optional(S.String),
-          direction: S.optional(S.String),
-          threshold: S.optional(S.NullOr(S.Number)),
-          window_days: S.optional(S.Number),
-          check_interval_minutes: S.optional(S.Number),
-          evaluation_periods: S.optional(S.Number),
-          datapoints_to_alarm: S.optional(S.Number),
-          cooldown_minutes: S.optional(S.Number),
-          schedule_restriction: S.optional(S.NullOr(__S(1219, __c38, 3))),
-          snooze_until: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/projects/{project_id}/vision/alerts/", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateVisionAlertRequest" });
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          verdict: S.optional(__S(1280, __c40, 0)),
-          tags: S.optional(__S(1280, __c40, 0)),
-          min_score: S.optional(S.Number),
-          max_score: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "VisionAlertSelection" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          start: S.optional(S.String),
-          end: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AlertScheduleRestrictionWindow" });
-    case 2:
-      return S.Array(__S(1217, __c38, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          blocked_windows: S.optional(__S(1218, __c38, 2)),
-        }),
-      ).annotate({ identifier: "AlertScheduleRestriction" });
-  }
-}
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          scanner_id: S.String,
-          name: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-          kind: S.String,
-          selection: S.optional(__S(1216, __c38, 0)),
-          metric: S.optional(S.String),
-          direction: S.optional(S.String),
-          threshold: S.optional(S.NullOr(S.Number)),
-          window_days: S.optional(S.Number),
-          check_interval_minutes: S.optional(S.Number),
-          state: S.String,
-          evaluation_periods: S.optional(S.Number),
-          datapoints_to_alarm: S.optional(S.Number),
-          cooldown_minutes: S.optional(S.Number),
-          schedule_restriction: S.optional(S.NullOr(__S(1219, __c38, 3))),
-          snooze_until: S.optional(S.NullOr(S.String)),
-          next_check_at: S.NullOr(S.String),
-          last_notified_at: S.NullOr(S.String),
-          last_checked_at: S.NullOr(S.String),
-          consecutive_failures: S.Number,
-          first_enabled_at: S.NullOr(S.String),
-          created_at: S.String,
-          created_by: S.NullOr(__S(1313, __c41, 1)),
-          updated_at: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "VisionAlertConfiguration" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          uuid: S.optional(S.String),
-          distinct_id: S.optional(S.NullOr(S.String)),
-          first_name: S.optional(S.String),
-          last_name: S.optional(S.String),
-          email: S.optional(S.String),
-          is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(1312, __c41, 0))),
-          role_at_organization: S.optional(S.NullOr(S.Unknown)),
-        }),
-      ).annotate({ identifier: "UserBasic" });
-  }
-}
-function __c42(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4741,19 +5669,19 @@ function __c42(j: number): any {
         ),
       ).annotate({ identifier: "ListVisionScannersBackfillsRequest" });
     case 1:
-      return S.Array(__S(32, __c1, 0));
+      return S.Array(__S(160, __c5, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(1345, __c42, 1),
+          results: __S(1729, __c54, 1),
         }),
       ).annotate({ identifier: "PaginatedReplayScannerBackfillList" });
   }
 }
-function __c43(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4763,6 +5691,8 @@ function __c43(j: number): any {
           backfill_id: S.optional(S.String.pipe(T.Query())),
           date_from: S.optional(S.String.pipe(T.Query())),
           date_to: S.optional(S.String.pipe(T.Query())),
+          group: S.optional(S.String.pipe(T.Query())),
+          include_routine: S.optional(S.Boolean.pipe(T.Query())),
           labeled: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           max_score: S.optional(S.Number.pipe(T.Query())),
@@ -4773,9 +5703,12 @@ function __c43(j: number): any {
           session_id: S.optional(S.String.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
           tags: S.optional(S.String.pipe(T.Query())),
+          theme: S.optional(S.String.pipe(T.Query())),
           triggered_by: S.optional(S.String.pipe(T.Query())),
           variant: S.optional(S.String.pipe(T.Query())),
           verdict: S.optional(S.String.pipe(T.Query())),
+          watch_category: S.optional(S.String.pipe(T.Query())),
+          watch_group: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4786,7 +5719,35 @@ function __c43(j: number): any {
       ).annotate({ identifier: "ListVisionScannersObservationsRequest" });
   }
 }
-function __c44(j: number): any {
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          type: S.String,
+          slack_workspace_id: S.optional(S.Number),
+          slack_channel_id: S.optional(S.String),
+          slack_channel_name: S.optional(S.String),
+          webhook_url: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/vision/alerts/{id}/destinations/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateVisionAlertsDestinationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          hog_function_ids: __S(1312, __c41, 0),
+        }),
+      ).annotate({ identifier: "VisionAlertDestinationResponse" });
+  }
+}
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4797,6 +5758,8 @@ function __c44(j: number): any {
           backfill_id: S.optional(S.String.pipe(T.Query())),
           date_from: S.optional(S.String.pipe(T.Query())),
           date_to: S.optional(S.String.pipe(T.Query())),
+          group: S.optional(S.String.pipe(T.Query())),
+          include_routine: S.optional(S.Boolean.pipe(T.Query())),
           labeled: S.optional(S.Boolean.pipe(T.Query())),
           max_score: S.optional(S.Number.pipe(T.Query())),
           min_score: S.optional(S.Number.pipe(T.Query())),
@@ -4805,9 +5768,12 @@ function __c44(j: number): any {
           session_id: S.optional(S.String.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
           tags: S.optional(S.String.pipe(T.Query())),
+          theme: S.optional(S.String.pipe(T.Query())),
           triggered_by: S.optional(S.String.pipe(T.Query())),
           variant: S.optional(S.String.pipe(T.Query())),
           verdict: S.optional(S.String.pipe(T.Query())),
+          watch_category: S.optional(S.String.pipe(T.Query())),
+          watch_group: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4818,7 +5784,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "ListVisionScannersObservationsSignalReportsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4834,14 +5800,48 @@ function __c45(j: number): any {
         ),
       ).annotate({ identifier: "ListVisionScannersScoutReportsRequest" });
     case 1:
-      return S.Array(__S(834, __c26, 2));
+      return S.Array(__S(1122, __c35, 2));
     case 2:
-      return S.suspend(() => __S(1441, __c45, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1857, __c58, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListVisionScannersScoutReportsResponse",
       });
   }
 }
-function __c46(j: number): any {
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          scanner_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/vision/scanners/{scanner_id}/scouts/templates/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListVisionScannersScoutsTemplatesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          title: S.String,
+          description: S.String,
+          default_name: S.String,
+          cron: S.String,
+          body: S.String,
+        }),
+      ).annotate({ identifier: "ScannerScoutTemplate" });
+    case 2:
+      return S.Array(__S(1889, __c59, 1));
+    case 3:
+      return S.suspend(() => __S(1890, __c59, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListVisionScannersScoutsTemplatesResponse",
+      });
+  }
+}
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4882,11 +5882,12 @@ function __c46(j: number): any {
           theme: S.String,
           statement: S.String,
           count: S.Number,
-          example_observation_ids: __S(1280, __c40, 0),
+          read: S.NullOr(S.Number),
+          example_observation_ids: __S(1312, __c41, 0),
         }),
       ).annotate({ identifier: "VariantAnalysisLine" });
     case 4:
-      return S.Array(__S(1475, __c46, 3));
+      return S.Array(__S(1923, __c60, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -4896,22 +5897,23 @@ function __c46(j: number): any {
           median_session_duration_s: S.NullOr(S.Number),
           sampling_rate: S.NullOr(S.Number),
           analysis_observations: S.NullOr(S.Number),
-          digest: S.NullOr(__S(1476, __c46, 4)),
-          latest_observations: __S(1056, __c33, 0),
+          digest: S.NullOr(__S(1924, __c60, 4)),
+          latest_observations: __S(1600, __c50, 0),
         }),
       ).annotate({ identifier: "VariantReadout" });
     case 6:
-      return S.Array(__S(1477, __c46, 5));
+      return S.Array(__S(1925, __c60, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           theme: S.String,
           statement: S.String,
-          counts: __S(512, __c16, 0),
+          counts: __S(736, __c23, 0),
+          read: __S(736, __c23, 0),
         }),
       ).annotate({ identifier: "VariantAnalysisDifference" });
     case 8:
-      return S.Array(__S(1479, __c46, 7));
+      return S.Array(__S(1927, __c60, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -4925,23 +5927,35 @@ function __c46(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          experiment: S.NullOr(__S(1473, __c46, 1)),
-          window: __S(1474, __c46, 2),
-          variants: __S(1478, __c46, 6),
-          differences: S.NullOr(__S(1480, __c46, 8)),
+          experiment: S.NullOr(__S(1921, __c60, 1)),
+          window: __S(1922, __c60, 2),
+          variants: __S(1926, __c60, 6),
+          differences: S.NullOr(__S(1928, __c60, 8)),
           unattributed_count: S.Number,
-          analysis: S.NullOr(__S(1481, __c46, 9)),
+          analysis: S.NullOr(__S(1929, __c60, 9)),
         }),
       ).annotate({ identifier: "ExperimentVariantsReadout" });
-    case 11:
-      return S.Array(__S(1482, __c46, 10));
-    case 12:
-      return S.suspend(() => __S(1483, __c46, 11).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListVisionScannersVariantsResponse",
-      });
   }
 }
-function __c47(j: number): any {
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          date_from: S.optional(S.String.pipe(T.Query())),
+          date_to: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          scanner_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/projects/{project_id}/vision/themes/", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListVisionThemesRequest" });
+  }
+}
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4952,7 +5966,7 @@ function __c47(j: number): any {
           name: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           kind: S.String,
-          selection: S.optional(__S(1216, __c38, 0)),
+          selection: S.optional(__S(1248, __c39, 0)),
           metric: S.optional(S.String),
           direction: S.optional(S.String),
           threshold: S.optional(S.NullOr(S.Number)),
@@ -4961,7 +5975,7 @@ function __c47(j: number): any {
           evaluation_periods: S.optional(S.Number),
           datapoints_to_alarm: S.optional(S.Number),
           cooldown_minutes: S.optional(S.Number),
-          schedule_restriction: S.optional(S.NullOr(__S(1219, __c38, 3))),
+          schedule_restriction: S.optional(S.NullOr(__S(1251, __c39, 3))),
           snooze_until: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -4973,7 +5987,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "UpdateVisionAlertRequest" });
   }
 }
-function __c48(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4984,7 +5998,7 @@ function __c48(j: number): any {
           name: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           kind: S.optional(S.String),
-          selection: S.optional(__S(1216, __c38, 0)),
+          selection: S.optional(__S(1248, __c39, 0)),
           metric: S.optional(S.String),
           direction: S.optional(S.String),
           threshold: S.optional(S.NullOr(S.Number)),
@@ -4993,7 +6007,7 @@ function __c48(j: number): any {
           evaluation_periods: S.optional(S.Number),
           datapoints_to_alarm: S.optional(S.Number),
           cooldown_minutes: S.optional(S.Number),
-          schedule_restriction: S.optional(S.NullOr(__S(1219, __c38, 3))),
+          schedule_restriction: S.optional(S.NullOr(__S(1251, __c39, 3))),
           snooze_until: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -5005,7 +6019,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "UpdateVisionAlertsPartialRequest" });
   }
 }
-function __c49(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5014,20 +6028,23 @@ function __c49(j: number): any {
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          tags: S.optional(__S(1280, __c40, 0)),
+          tags: S.optional(__S(1312, __c41, 0)),
           scanner_type: S.optional(S.String),
           goal: S.optional(S.NullOr(S.String)),
           creation_method: S.optional(S.NullOr(S.String)),
+          entry_point: S.optional(S.NullOr(S.String)),
+          take_over_as_creator: S.optional(S.Boolean),
           scanner_config: S.optional(S.Unknown),
           query: S.optional(S.Unknown),
           sampling_rate: S.optional(S.Number),
           sampling_mode: S.optional(S.String),
           credit_limit: S.optional(S.NullOr(S.Number)),
+          free_only: S.optional(S.Boolean),
           provider: S.optional(S.String),
           model: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           emits_signals: S.optional(S.Boolean),
-          experiment_targeting: S.optional(S.NullOr(__S(2400, __c75, 0))),
+          experiment_targeting: S.optional(S.NullOr(__S(32, __c1, 0))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5038,14 +6055,14 @@ function __c49(j: number): any {
       ).annotate({ identifier: "UpdateVisionScannersPartialRequest" });
   }
 }
-function __c50(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          hog_function_ids: __S(1280, __c40, 0),
+          hog_function_ids: __S(1312, __c41, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5056,7 +6073,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "VisionAlertsDestinationsDeleteCreateRequest" });
   }
 }
-function __c51(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5073,35 +6090,33 @@ function __c51(j: number): any {
       ).annotate({ identifier: "VisionAlertsDestroyRequest" });
   }
 }
-function __c52(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          type: S.String,
-          slack_workspace_id: S.optional(S.Number),
-          slack_channel_id: S.optional(S.String),
-          slack_channel_name: S.optional(S.String),
-          webhook_url: S.optional(S.String),
+          reason: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/projects/{project_id}/vision/alerts/{id}/destinations/",
+            uri: "/api/projects/{project_id}/vision/observations/{id}/feed_dismissal/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "CreateVisionAlertsDestinationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          hog_function_ids: __S(1280, __c40, 0),
-        }),
-      ).annotate({ identifier: "VisionAlertDestinationResponse" });
+      ).annotate({ identifier: "CreateVisionObservationsFeedDismissalRequest" });
   }
 }
-function __c53(j: number): any {
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "CreateVisionObservationsFeedDismissalResponse",
+      });
+  }
+}
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5118,7 +6133,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "VisionAlertsResetCreateRequest" });
   }
 }
-function __c54(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5135,7 +6150,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "VisionObservationsCreateTaskCreateRequest" });
   }
 }
-function __c55(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5145,7 +6160,24 @@ function __c55(j: number): any {
       ).annotate({ identifier: "CreateTaskFromObservationResponse" });
   }
 }
-function __c56(j: number): any {
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/vision/observations/{id}/feed_dismissal/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "VisionObservationsFeedDismissalDestroyRequest" });
+  }
+}
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5162,7 +6194,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "VisionObservationsLabelDestroyRequest" });
   }
 }
-function __c57(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5179,7 +6211,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "VisionObservationsRetryCreateRequest" });
   }
 }
-function __c58(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5205,24 +6237,24 @@ function __c58(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          observation: __S(517, __c16, 5),
+          observation: __S(740, __c23, 4),
           distance: S.Number,
           matched_content: S.String,
         }),
       ).annotate({ identifier: "ObservationSearchResult" });
     case 2:
-      return S.Array(__S(1857, __c58, 1));
+      return S.Array(__S(2401, __c75, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1858, __c58, 2),
+          results: __S(2402, __c75, 2),
           truncated: S.Boolean,
           reranked: S.Boolean,
         }),
       ).annotate({ identifier: "ObservationSearchResponse" });
   }
 }
-function __c59(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5240,12 +6272,12 @@ function __c59(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          queries: __S(1280, __c40, 0),
+          queries: __S(1312, __c41, 0),
         }),
       ).annotate({ identifier: "SearchSuggestionsResponse" });
   }
 }
-function __c60(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5262,7 +6294,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "VisionObservationsSearchViewedCreateRequest" });
   }
 }
-function __c61(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5280,7 +6312,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "VisionScannersBackfillsCancelCreateRequest" });
   }
 }
-function __c62(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5298,25 +6330,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "VisionScannersBackfillsResumeCreateRequest" });
   }
 }
-function __c63(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          session_ids: __S(1280, __c40, 0),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/vision/scanners/{id}/bulk_observe/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "VisionScannersBulkObserveCreateRequest" });
-  }
-}
-function __c64(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5335,7 +6349,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "CreateVisionObservationsLabelRequest" });
   }
 }
-function __c65(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5346,7 +6360,50 @@ function __c65(j: number): any {
       ).annotate({ identifier: "ReplayObservationLabel" });
   }
 }
-function __c66(j: number): any {
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          session_ids: __S(1312, __c41, 0),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/vision/scanners/{id}/bulk_observe/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "VisionScannersBulkObserveCreateRequest" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/vision/scanners/{id}/create_dashboard/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "VisionScannersCreateDashboardCreateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          dashboard_id: S.Number,
+          name: S.String,
+          created: S.Boolean,
+        }),
+      ).annotate({ identifier: "ScannerDashboardResponse" });
+  }
+}
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5363,7 +6420,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "VisionScannersDestroyRequest" });
   }
 }
-function __c67(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5380,7 +6437,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "VisionScannersDuplicateCreateRequest" });
   }
 }
-function __c68(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5398,7 +6455,25 @@ function __c68(j: number): any {
       ).annotate({ identifier: "VisionScannersObservationsCreateTaskCreateRequest" });
   }
 }
-function __c69(j: number): any {
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          scanner_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/vision/scanners/{scanner_id}/observations/{id}/feed_dismissal/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "VisionScannersObservationsFeedDismissalDestroyRequest" });
+  }
+}
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5416,7 +6491,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "VisionScannersObservationsLabelDestroyRequest" });
   }
 }
-function __c70(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5434,73 +6509,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "VisionScannersObservationsRetryCreateRequest" });
   }
 }
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          date_from: S.optional(S.String.pipe(T.Query())),
-          date_to: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          scanner_ids: S.optional(S.String.pipe(T.Query())),
-          scanner_type: S.optional(S.String.pipe(T.Query())),
-          search: S.optional(S.String.pipe(T.Query())),
-          tags: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/vision/scanners/watch_feed/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "VisionScannersWatchFeedRetrieveRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          problem_type: S.String,
-          headline: S.String,
-        }),
-      ).annotate({ identifier: "WatchFeedSignal" });
-    case 2:
-      return S.Array(__S(2273, __c71, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.String,
-          signals_count: S.optional(S.NullOr(S.Number)),
-          problem_types: S.optional(__S(1280, __c40, 0)),
-          signals: S.optional(__S(2274, __c71, 2)),
-          verdict: S.optional(S.NullOr(S.String)),
-          verdict_share: S.optional(S.NullOr(S.Number)),
-          notability: S.optional(S.NullOr(S.Number)),
-          jev_probability: S.optional(S.NullOr(S.Number)),
-          notability_reason: S.optional(S.NullOr(S.String)),
-          score: S.optional(S.NullOr(S.Number)),
-          window_mean: S.optional(S.NullOr(S.Number)),
-          tag: S.optional(S.NullOr(S.String)),
-          tag_share: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "WatchFeedReason" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          observation: __S(517, __c16, 5),
-          reason: __S(2275, __c71, 3),
-        }),
-      ).annotate({ identifier: "WatchFeedItem" });
-    case 5:
-      return S.Array(__S(2276, __c71, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          results: __S(2277, __c71, 5),
-          ranker: S.String,
-        }),
-      ).annotate({ identifier: "WatchFeedResponse" });
-  }
-}
-function __c72(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5517,123 +6526,72 @@ function __c72(j: number): any {
       ).annotate({ identifier: "CreateVisionObservationsViewedRequest" });
   }
 }
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "CreateVisionObservationsViewedResponse",
-      });
-  }
-}
-function __c74(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          name: S.String,
-          description: S.optional(S.String),
-          tags: S.optional(__S(1280, __c40, 0)),
-          scanner_type: S.String,
-          goal: S.optional(S.NullOr(S.String)),
-          creation_method: S.optional(S.NullOr(S.String)),
-          scanner_config: S.Unknown,
-          query: S.optional(S.Unknown),
-          sampling_rate: S.optional(S.Number),
-          sampling_mode: S.optional(S.String),
-          credit_limit: S.optional(S.NullOr(S.Number)),
-          provider: S.optional(S.String),
-          model: S.String,
-          enabled: S.optional(S.Boolean),
-          emits_signals: S.optional(S.Boolean),
-          experiment_targeting: S.optional(S.NullOr(__S(2400, __c75, 0))),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/projects/{project_id}/vision/scanners/", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateVisionScannerRequest" });
-  }
-}
-function __c75(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          experiment_id: S.Number,
-          variant: S.optional(S.NullOr(S.String)),
+          built_in: S.optional(S.String),
+          prompt: S.optional(S.String),
+          scanner_type: S.optional(S.String),
+          scanner_config: S.optional(S.Unknown),
+          model: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ScannerExperimentTargeting" });
-  }
-}
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          description: S.optional(S.String),
-          tags: S.optional(__S(1280, __c40, 0)),
-          scanner_type: S.String,
-          goal: S.optional(S.NullOr(S.String)),
-          scanner_config: S.Unknown,
-          prompt_question: S.String,
-          query: S.optional(S.Unknown),
-          sampling_rate: S.optional(S.Number),
-          sampling_mode: S.optional(S.String),
-          credit_limit: S.optional(S.NullOr(S.Number)),
-          provider: S.optional(S.String),
-          model: S.String,
-          enabled: S.optional(S.Boolean),
-          emits_signals: S.optional(S.Boolean),
-          experiment_targeting: S.optional(S.NullOr(__S(2400, __c75, 0))),
-          scanner_version: S.Number,
-          estimated_monthly_observations: S.NullOr(S.Number),
-          estimated_at: S.NullOr(S.String),
-          credits_per_observation: S.Number,
-          estimated_monthly_credits: S.NullOr(S.Number),
-          credits_this_month: S.Number,
-          observations_this_month: S.Number,
-          credits_used_against_limit: S.Number,
-          limit_reached: S.Boolean,
-          sweep_throttle_factor: S.Number,
-          last_swept_at: S.String,
-          created_at: S.String,
-          created_by: S.NullOr(__S(1313, __c41, 1)),
-          updated_at: S.String,
-          user_access_level: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "ReplayScannerOutput" });
-  }
-}
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          window_days: S.optional(S.Number),
-          verdict: S.optional(S.NullOr(S.String)),
-          tag: S.optional(S.NullOr(S.String)),
-          min_score: S.optional(S.NullOr(S.Number)),
-          max_score: S.optional(S.NullOr(S.Number)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/vision/scanners/{id}/affected_cohort/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateVisionScannersAffectedCohortRequest" });
+      ).annotate({ identifier: "InlineScanConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          cohort_id: S.Number,
-          name: S.String,
-          users_in_cohort: S.Number,
-          window_days: S.Number,
+          project_id: S.String.pipe(T.Label()),
+          session_ids: __S(1312, __c41, 0),
+          scanner_id: S.optional(S.String),
+          inline: S.optional(__S(2912, __c91, 0)),
+          idempotency_key: S.optional(S.String),
+          reference: S.optional(S.String),
+          wait_for_session_end: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/projects/{project_id}/vision/requests/", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateVisionRequestRequest" });
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          model_output: S.Unknown,
+          signals_count: S.Number,
+          experiment_variant: S.optional(S.NullOr(S.String)),
+          session_duration_s: S.optional(S.NullOr(S.Number)),
         }),
-      ).annotate({ identifier: "AffectedCohortResponse" });
+      ).annotate({ identifier: "ScannerResult" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          session_id: S.String,
+          scan_outcome: S.NullOr(S.String),
+          state: S.String,
+          observation_id: S.NullOr(S.String),
+          scanner_result: S.NullOr(__S(2944, __c92, 0)),
+        }),
+      ).annotate({ identifier: "ObservationRequestSession" });
+    case 1:
+      return S.Array(__S(2976, __c93, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          status: S.String,
+          scanner_id: S.NullOr(S.String),
+          reference: S.String,
+          created_at: S.String,
+          sessions: __S(2977, __c93, 1),
+        }),
+      ).annotate({ identifier: "ObservationRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

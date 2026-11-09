@@ -51,9 +51,10 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** * `anthropic` - Anthropic * `apns` - Apple Push * `aws-redshift` - Aws Redshift * `aws-s3` - Aws S3 * `azure-blob` - Azure Blob * `bing-ads` - Bing Ads * `clickup` - Clickup * `customerio-app` - Customerio App * `customerio-track` - Customerio Track * `customerio-webhook` - Customerio Webhook * `databricks` - Databricks * `email` - Email * `firebase` - Firebase * `github` - Github * `gitlab` - Gitlab * `google-ads` - Google Ads * `google-analytics` - Google Analytics * `google-calendar` - Google Calendar * `google-cloud-service-account` - Google Cloud Service Account * `google-cloud-storage` - Google Cloud Storage * `google-pubsub` - Google Pubsub * `google-search-console` - Google Search Console * `google-sheets` - Google Sheets * `helpscout` - Helpscout * `hubspot` - Hubspot * `instagram` - Instagram * `intercom` - Intercom * `jira` - Jira * `linear` - Linear * `linkedin-ads` - Linkedin Ads * `meta-ads` - Meta Ads * `pardot` - Pardot * `pinterest-ads` - Pinterest Ads * `postgresql` - Postgresql * `posthog` - Posthog * `reddit-ads` - Reddit Ads * `twitter-ads` - Twitter Ads * `resend` - Resend * `s3-compatible` - S3 Compatible * `salesforce` - Salesforce * `slack` - Slack * `slack-posthog-code` - Slack Posthog Code * `snapchat` - Snapchat * `snowflake` - Snowflake * `stripe` - Stripe * `tiktok-ads` - Tiktok Ads * `twilio` - Twilio * `vercel` - Vercel * `youtube-analytics` - Youtube Analytics */
+/** * `anthropic` - Anthropic * `apple-ads` - Apple Ads * `apns` - Apple Push * `aws-redshift` - Aws Redshift * `aws-s3` - Aws S3 * `azure-blob` - Azure Blob * `bing-ads` - Bing Ads * `clickup` - Clickup * `customerio-app` - Customerio App * `customerio-track` - Customerio Track * `customerio-webhook` - Customerio Webhook * `databricks` - Databricks * `email` - Email * `firebase` - Firebase * `github` - Github * `gitlab` - Gitlab * `google-ads` - Google Ads * `google-analytics` - Google Analytics * `google-calendar` - Google Calendar * `google-cloud-service-account` - Google Cloud Service Account * `google-cloud-storage` - Google Cloud Storage * `google-pubsub` - Google Pubsub * `google-search-console` - Google Search Console * `google-sheets` - Google Sheets * `helpscout` - Helpscout * `hubspot` - Hubspot * `instagram` - Instagram * `intercom` - Intercom * `jira` - Jira * `linear` - Linear * `linkedin-ads` - Linkedin Ads * `meta-ads` - Meta Ads * `pardot` - Pardot * `pinterest-ads` - Pinterest Ads * `postgresql` - Postgresql * `posthog` - Posthog * `reddit-ads` - Reddit Ads * `twitter-ads` - Twitter Ads * `resend` - Resend * `s3-compatible` - S3 Compatible * `salesforce` - Salesforce * `slack` - Slack * `slack-posthog-code` - Slack Posthog Code * `snapchat` - Snapchat * `snowflake` - Snowflake * `stripe` - Stripe * `tiktok-ads` - Tiktok Ads * `twilio` - Twilio * `vercel` - Vercel * `youtube-analytics` - Youtube Analytics */
 export type IntegrationKindEnum =
   | "anthropic"
+  | "apple-ads"
   | "apns"
   | "aws-redshift"
   | "aws-s3"
@@ -108,6 +109,8 @@ export interface CreateIntegrationRequest {
   kind?: IntegrationKindEnum | (string & {});
   config?: unknown;
 }
+/** * `oauth` - OAuth * `token` - Token * `credentials` - Credentials */
+export type IntegrationAuthTypeEnum = "oauth" | "token" | "credentials";
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
 export type RoleAtOrganizationEnum =
@@ -138,7 +141,9 @@ export type InstallationStatusEnum = "connected" | "unavailable";
 /** Standard Integration serializer. */
 export interface IntegrationConfig {
   id?: number;
-  kind?: IntegrationKindEnum;
+  kind?: string;
+  /** How this integration authenticates with the provider: `oauth` for a connection the provider manages (an OAuth grant or an app installation), `token` for one static secret, or `credentials` for several typed-in fields. A kind can have several auth types. * `oauth` - OAuth * `token` - Token * `credentials` - Credentials */
+  auth_type: IntegrationAuthTypeEnum;
   config?: unknown;
   created_at?: string;
   created_by?: UserBasic | null;
@@ -150,6 +155,8 @@ export interface IntegrationConfig {
   installation_shared?: boolean | null;
   /** GitHub only, null otherwise. `unavailable` means the App was uninstalled or suspended on GitHub and PostHog can no longer mint tokens for it; `connected` otherwise. */
   installation_status?: InstallationStatusEnum | null;
+  /** Linear only, null otherwise. True when the workspace last authorized PostHog before the Linear app had webhooks, so linked error tracking issues may not follow their tickets until someone reconnects it. */
+  needs_webhook_reconnect: boolean | null;
 }
 export interface CreateIntegrationsGithubLinkExistingRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -170,10 +177,64 @@ export interface CreateIntegrationsGithubPrepareCallbackRequest {
   installation_id?: string;
 }
 export interface CreateIntegrationsGithubPrepareCallbackResponse {}
+export interface PushTokenSubscription {
+  /** The person's distinct ID in this project: the ID your app passes to `identify`. */
+  distinct_id: string;
+  /** The token of one device. An APNs channel takes the hex APNs device token. A Firebase channel takes the FCM registration token. Expo push tokens are not accepted. */
+  device_token: string;
+}
+/** Up to 1000 devices to register on this push channel. List a person once per device. */
+export type CreateIntegrationsPushTokenRequestSubscriptionsList = Array<PushTokenSubscription>;
+export interface CreateIntegrationsPushTokenRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A unique integer value identifying this integration. */
+  id: number;
+  /** Up to 1000 devices to register on this push channel. List a person once per device. */
+  subscriptions: CreateIntegrationsPushTokenRequestSubscriptionsList;
+  /** Check every row and report what would fail, without storing anything. Run this first and fix the failed rows before importing. */
+  dry_run?: boolean;
+  /** A new UUID for each batch. Send the same value when you retry that batch, so a retried batch can be recognized as a repeat. */
+  import_id?: string | null;
+  /** Create a person for a distinct ID that has none. Off by default, because a distinct ID that does not match your app's identify call creates a person that never gets a push. */
+  create_missing_persons?: boolean;
+}
+/** * `unknown_person` - No person has this distinct ID * `token_mismatch` - The token does not fit this channel * `not_stored` - The device was not stored * `person_processing_disabled` - Person processing is off for this person */
+export type PushTokenImportFailureReasonEnum =
+  | "unknown_person"
+  | "token_mismatch"
+  | "not_stored"
+  | "person_processing_disabled";
+export interface PushTokenImportFailure {
+  /** Position of the row in the request's `subscriptions`, from 0. */
+  index: number;
+  /** The distinct ID of the row. */
+  distinct_id: string;
+  /** The last 6 characters of the row's device token, to find the row. */
+  device_token_suffix: string;
+  /** Why the device was not stored. `unknown_person`: no person has this distinct ID, so check the ID or set `create_missing_persons`. `token_mismatch`: the token is the wrong kind for this channel, for example an Expo token, or an APNs token on a Firebase channel. `not_stored` and `person_processing_disabled`: ingestion did not store the device. * `unknown_person` - No person has this distinct ID * `token_mismatch` - The token does not fit this channel * `not_stored` - The device was not stored * `person_processing_disabled` - Person processing is off for this person */
+  reason: PushTokenImportFailureReasonEnum;
+  /** A sentence a person can act on. */
+  detail: string;
+}
+/** One entry per device that was not stored. */
+export type PushTokenImportResponseFailedList = Array<PushTokenImportFailure>;
+/** Distinct IDs with at least one device that was not stored. Prefer `failed`, which says why. */
+export type PushTokenImportResponseFailedDistinctIdsList = Array<string>;
+export interface PushTokenImportResponse {
+  /** Number of devices stored on their person. On a dry run, the number that would be stored. */
+  imported: number;
+  /** True when nothing was stored. */
+  dry_run: boolean;
+  /** One entry per device that was not stored. */
+  failed: PushTokenImportResponseFailedList;
+  /** Distinct IDs with at least one device that was not stored. Prefer `failed`, which says why. */
+  failed_distinct_ids: PushTokenImportResponseFailedDistinctIdsList;
+}
 export interface CreateIntegrationsRequestAccessRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** The kind of integration the member is requesting be connected (e.g. 'slack', 'github'). * `anthropic` - Anthropic * `apns` - Apple Push * `aws-redshift` - Aws Redshift * `aws-s3` - Aws S3 * `azure-blob` - Azure Blob * `bing-ads` - Bing Ads * `clickup` - Clickup * `customerio-app` - Customerio App * `customerio-track` - Customerio Track * `customerio-webhook` - Customerio Webhook * `databricks` - Databricks * `email` - Email * `firebase` - Firebase * `github` - Github * `gitlab` - Gitlab * `google-ads` - Google Ads * `google-analytics` - Google Analytics * `google-calendar` - Google Calendar * `google-cloud-service-account` - Google Cloud Service Account * `google-cloud-storage` - Google Cloud Storage * `google-pubsub` - Google Pubsub * `google-search-console` - Google Search Console * `google-sheets` - Google Sheets * `helpscout` - Helpscout * `hubspot` - Hubspot * `instagram` - Instagram * `intercom` - Intercom * `jira` - Jira * `linear` - Linear * `linkedin-ads` - Linkedin Ads * `meta-ads` - Meta Ads * `pardot` - Pardot * `pinterest-ads` - Pinterest Ads * `postgresql` - Postgresql * `posthog` - Posthog * `reddit-ads` - Reddit Ads * `twitter-ads` - Twitter Ads * `resend` - Resend * `s3-compatible` - S3 Compatible * `salesforce` - Salesforce * `slack` - Slack * `slack-posthog-code` - Slack Posthog Code * `snapchat` - Snapchat * `snowflake` - Snowflake * `stripe` - Stripe * `tiktok-ads` - Tiktok Ads * `twilio` - Twilio * `vercel` - Vercel * `youtube-analytics` - Youtube Analytics */
+  /** The kind of integration the member is requesting be connected (e.g. 'slack', 'github'). * `anthropic` - Anthropic * `apple-ads` - Apple Ads * `apns` - Apple Push * `aws-redshift` - Aws Redshift * `aws-s3` - Aws S3 * `azure-blob` - Azure Blob * `bing-ads` - Bing Ads * `clickup` - Clickup * `customerio-app` - Customerio App * `customerio-track` - Customerio Track * `customerio-webhook` - Customerio Webhook * `databricks` - Databricks * `email` - Email * `firebase` - Firebase * `github` - Github * `gitlab` - Gitlab * `google-ads` - Google Ads * `google-analytics` - Google Analytics * `google-calendar` - Google Calendar * `google-cloud-service-account` - Google Cloud Service Account * `google-cloud-storage` - Google Cloud Storage * `google-pubsub` - Google Pubsub * `google-search-console` - Google Search Console * `google-sheets` - Google Sheets * `helpscout` - Helpscout * `hubspot` - Hubspot * `instagram` - Instagram * `intercom` - Intercom * `jira` - Jira * `linear` - Linear * `linkedin-ads` - Linkedin Ads * `meta-ads` - Meta Ads * `pardot` - Pardot * `pinterest-ads` - Pinterest Ads * `postgresql` - Postgresql * `posthog` - Posthog * `reddit-ads` - Reddit Ads * `twitter-ads` - Twitter Ads * `resend` - Resend * `s3-compatible` - S3 Compatible * `salesforce` - Salesforce * `slack` - Slack * `slack-posthog-code` - Slack Posthog Code * `snapchat` - Snapchat * `snowflake` - Snowflake * `stripe` - Stripe * `tiktok-ads` - Tiktok Ads * `twilio` - Twilio * `vercel` - Vercel * `youtube-analytics` - Youtube Analytics */
   kind: IntegrationKindEnum | (string & {});
   /** Explanation from the requester of why this integration is needed. Shown to admins in the notification email. */
   reason: string;
@@ -214,6 +275,10 @@ export interface GetIntegrationsChannelRequest {
   project_id: string;
   /** A unique integer value identifying this integration. */
   id: number;
+  /** Look up one channel directly by Slack channel ID (e.g. C0123ABC). When set, `search`, `limit`, and `offset` are ignored and the response holds at most that channel. */
+  channel_id?: string;
+  /** Bypass the 1 hour channel cache, including for a `channel_id` lookup, which is how a caller reads the channel's current membership after inviting the app to it. Honored only for browser session callers; API key, OAuth, and MCP callers always read through the cache. */
+  force_refresh?: boolean;
   /** Maximum number of channels to return per request (max 200). */
   limit?: number;
   /** Number of channels to skip before returning results. */
@@ -237,7 +302,12 @@ export interface SlackChannel {
 }
 /** Slack channels visible to the PostHog Slack app. */
 export type SlackChannelsResponseChannelsList = Array<SlackChannel>;
+/** Declares the `next` and `previous` links of a page response that the view fills with `page_link`. */
 export interface SlackChannelsResponse {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page and on lists that page forward only. */
+  previous: string | null;
   /** Slack channels visible to the PostHog Slack app. */
   channels: SlackChannelsResponseChannelsList;
   /** ISO 8601 timestamp of the last full Slack API refresh (only set on full lists, not single-channel lookups). */
@@ -266,6 +336,98 @@ export interface GetIntegrationsClickupWorkspaceRequest {
   id: number;
 }
 export interface GetIntegrationsClickupWorkspaceResponse {}
+export interface GetIntegrationsEmailStatusRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A unique integer value identifying this integration. */
+  id: number;
+  /** Skip the 10 second status cache and read SES and DNS again. Use it after changing DNS records. */
+  refresh?: boolean;
+}
+/** * `not_started` - Not started * `pending` - Waiting for DNS records * `records_found` - Records found, waiting for verification * `verified` - Verified * `temporary_failure` - Temporary failure * `failed` - Failed */
+export type EmailDomainSetupStatusEnum =
+  | "not_started"
+  | "pending"
+  | "records_found"
+  | "verified"
+  | "temporary_failure"
+  | "failed";
+/** * `domain_added` - Domain added * `records_found` - DNS records found * `verified` - Verified */
+export type EmailDomainSetupStepKeyEnum = "domain_added" | "records_found" | "verified";
+/** * `done` - Done * `pending` - Pending * `failed` - Failed */
+export type EmailDomainSetupStepStateEnum = "done" | "pending" | "failed";
+export interface EmailDomainStatusStep {
+  /** The setup step: domain_added (SES knows the domain), records_found (every DNS record is published), verified (SES verified the domain and the sender can send). * `domain_added` - Domain added * `records_found` - DNS records found * `verified` - Verified */
+  key: EmailDomainSetupStepKeyEnum;
+  /** Progress of this step. * `done` - Done * `pending` - Pending * `failed` - Failed */
+  state: EmailDomainSetupStepStateEnum;
+}
+/** The three setup steps, in order. */
+export type EmailDomainStatusStepsList = Array<EmailDomainStatusStep>;
+/** * `verification` - Domain ownership * `dkim` - DKIM signing * `spf` - SPF * `mail_from_mx` - MAIL FROM MX * `mail_from_spf` - MAIL FROM SPF * `dmarc` - DMARC */
+export type EmailDomainSetupRecordKindEnum =
+  | "verification"
+  | "dkim"
+  | "spf"
+  | "mail_from_mx"
+  | "mail_from_spf"
+  | "dmarc";
+/** * `TXT` - TXT * `CNAME` - CNAME * `MX` - MX */
+export type EmailDomainSetupRecordTypeEnum = "TXT" | "CNAME" | "MX";
+/** * `pending` - Not found yet * `found` - Found in DNS * `verified` - Verified */
+export type EmailDomainSetupRecordStatusEnum = "pending" | "found" | "verified";
+export interface EmailDomainStatusRecord {
+  /** What the record does: verification proves domain ownership, dkim signs email, spf and mail_from_spf list SES as an allowed sender, mail_from_mx routes bounces, dmarc sets the policy for unauthenticated mail. * `verification` - Domain ownership * `dkim` - DKIM signing * `spf` - SPF * `mail_from_mx` - MAIL FROM MX * `mail_from_spf` - MAIL FROM SPF * `dmarc` - DMARC */
+  kind: EmailDomainSetupRecordKindEnum;
+  /** Full DNS name to create the record at, including the domain. */
+  hostname: string;
+  /** DNS record type. * `TXT` - TXT * `CNAME` - CNAME * `MX` - MX */
+  type: EmailDomainSetupRecordTypeEnum;
+  /** Value to publish. For an SPF record, add the include to an existing SPF record instead of creating a second one. For DMARC, any existing v=DMARC1 record counts. */
+  value: string;
+  /** MX priority. Null for other record types. */
+  priority: number | null;
+  /** pending: not found in DNS yet. found: published in DNS, SES has not confirmed it yet. verified: SES confirmed the record, or for DMARC a v=DMARC1 record exists. * `pending` - Not found yet * `found` - Found in DNS * `verified` - Verified */
+  status: EmailDomainSetupRecordStatusEnum;
+}
+/** DNS records to publish at the domain's DNS host, with the status of each. Empty when status is not_started. */
+export type EmailDomainStatusRecordsList = Array<EmailDomainStatusRecord>;
+export interface EmailDomainStatus {
+  /** Overall setup status. records_found means every record is published and SES has not confirmed yet. temporary_failure means SES could not see the records, usually because DNS changes have not spread yet. failed means SES gave up after 72 hours; start verification again. * `not_started` - Not started * `pending` - Waiting for DNS records * `records_found` - Records found, waiting for verification * `verified` - Verified * `temporary_failure` - Temporary failure * `failed` - Failed */
+  status: EmailDomainSetupStatusEnum;
+  /** Whether the sender can send email. Set by email/verify once SES verifies the domain. */
+  verified: boolean;
+  /** When SES and DNS were read. Responses are cached for 10 seconds unless refresh is set. */
+  checked_at: string;
+  /** The three setup steps, in order. */
+  steps: EmailDomainStatusStepsList;
+  /** DNS records to publish at the domain's DNS host, with the status of each. Empty when status is not_started. */
+  records: EmailDomainStatusRecordsList;
+}
+export interface GetIntegrationsGithubAssigneeRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A unique integer value identifying this integration. */
+  id: number;
+  /** Repository name, or owner/name, whose assignable users to list. */
+  repository: string;
+  /** Optional case-insensitive name search. Leave blank to list the first users. */
+  search?: string;
+}
+export interface IntegrationAssignee {
+  /** Provider user identifier to pass as error tracking config.assignee: a Linear user ID, a GitHub login, a GitLab user ID, or a Jira account ID. */
+  id: string;
+  /** User display name. */
+  name: string;
+}
+/** Users who can be assigned an issue, up to 100. */
+export type IntegrationAssigneesResponseUsersList = Array<IntegrationAssignee>;
+export interface IntegrationAssigneesResponse {
+  /** Users who can be assigned an issue, up to 100. */
+  users: IntegrationAssigneesResponseUsersList;
+  /** True when the connection lacks the permission to list users. Reconnecting the integration grants it. */
+  reconnect_required: boolean;
+}
 export interface GetIntegrationsGithubAvailableInstallationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -317,7 +479,12 @@ export interface GetIntegrationsGithubBranchRequest {
 }
 /** List of branch names */
 export type GitHubBranchesResponseBranchesList = Array<string>;
+/** Declares the `next` and `previous` links of a page response that the view fills with `page_link`. */
 export interface GitHubBranchesResponse {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page and on lists that page forward only. */
+  previous: string | null;
   /** List of branch names */
   branches?: GitHubBranchesResponseBranchesList;
   /** The default branch of the repository */
@@ -360,7 +527,12 @@ export interface GitHubRepo {
   can_push?: boolean;
 }
 export type GitHubReposResponseRepositoriesList = Array<GitHubRepo>;
+/** Declares the `next` and `previous` links of a page response that the view fills with `page_link`. */
 export interface GitHubReposResponse {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page and on lists that page forward only. */
+  previous: string | null;
   repositories?: GitHubReposResponseRepositoriesList;
   /** Whether more repositories are available beyond this page. */
   has_more?: boolean;
@@ -368,6 +540,18 @@ export interface GitHubReposResponse {
   next_offset?: number | null;
   /** Total number of repositories matching the search query, across all pages. */
   total?: number;
+}
+export interface GetIntegrationsGithubRepositoryAccessRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A unique integer value identifying this integration. */
+  id: number;
+  /** Repository in owner/repo format. Omit to check access to any repository. */
+  repository?: string;
+}
+export interface GitHubRepositoryAccessResponse {
+  /** Whether a live GitHub request confirmed repository access. */
+  available: boolean;
 }
 export interface GetIntegrationsGithubTeamRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -391,11 +575,24 @@ export interface GitHubTeam {
 }
 /** List of GitHub teams available to the installation organization. */
 export type GitHubTeamsResponseTeamsList = Array<GitHubTeam>;
+/** Declares the `next` and `previous` links of a page response that the view fills with `page_link`. */
 export interface GitHubTeamsResponse {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page and on lists that page forward only. */
+  previous: string | null;
   /** List of GitHub teams available to the installation organization. */
   teams: GitHubTeamsResponseTeamsList;
   /** Whether more teams are available beyond this page. */
   has_more: boolean;
+}
+export interface GetIntegrationsGitlabMemberRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A unique integer value identifying this integration. */
+  id: number;
+  /** Optional case-insensitive name search. Leave blank to list the first users. */
+  search?: string;
 }
 export interface GetIntegrationsGoogleAccessibleAccountRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -411,6 +608,16 @@ export interface GetIntegrationsGoogleConversionActionRequest {
   id: number;
 }
 export interface GetIntegrationsGoogleConversionActionResponse {}
+export interface GetIntegrationsJiraAssignableUserRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A unique integer value identifying this integration. */
+  id: number;
+  /** Jira project key whose assignable users to list. */
+  project_key: string;
+  /** Optional case-insensitive name search. Leave blank to list the first users. */
+  search?: string;
+}
 export interface GetIntegrationsJiraProjectRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -448,6 +655,16 @@ export type LinearTeamsResponseTeamsList = Array<LinearTeam>;
 export interface LinearTeamsResponse {
   /** Linear teams available to this integration. */
   teams: LinearTeamsResponseTeamsList;
+}
+export interface GetIntegrationsLinearTeamMemberRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A unique integer value identifying this integration. */
+  id: number;
+  /** Optional case-insensitive name search. Leave blank to list the first users. */
+  search?: string;
+  /** Linear team ID whose members to list. */
+  team_id: string;
 }
 export interface GetIntegrationsLinkedinAdsAccountRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -496,7 +713,12 @@ export interface SlackUser {
 }
 /** Human Slack workspace members the PostHog Slack app can DM. */
 export type SlackUsersResponseUsersList = Array<SlackUser>;
+/** Declares the `next` and `previous` links of a page response that the view fills with `page_link`. */
 export interface SlackUsersResponse {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page and on lists that page forward only. */
+  previous: string | null;
   /** Human Slack workspace members the PostHog Slack app can DM. */
   users: SlackUsersResponseUsersList;
   /** ISO 8601 timestamp of the last full Slack API refresh (only set on full lists, not single-member lookups). */
@@ -519,24 +741,76 @@ export interface IntegrationsDestroyResponse {}
 export interface IntegrationsDomainConnectApplyUrlCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  kind?: IntegrationKindEnum | (string & {});
+  kind?: string;
   config?: unknown;
 }
 export interface IntegrationsDomainConnectApplyUrlCreateResponse {}
 export interface IntegrationsDomainConnectCheckRetrieveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Domain to check, such as mail.example.com. Its root domain is checked. */
+  domain: string;
+  /** Also look up the DNS host and the email tools that already send for the domain. Email domain setup needs these. Leave it off for other setups, because the lookups add DNS queries. */
+  include_email_setup?: boolean;
 }
-export interface IntegrationsDomainConnectCheckRetrieveResponse {}
+export interface EmailDomainConnectProvider {
+  /** Domain Connect endpoint of the provider. */
+  endpoint: string;
+  /** Display name of the provider. */
+  name: string;
+}
+/** Providers the user can pick manually when automatic detection fails. Empty when supported. */
+export type EmailDomainConnectCheckAvailableProvidersList = Array<EmailDomainConnectProvider>;
+export interface EmailDomainDnsHost {
+  /** Name of the company that hosts the domain's DNS, such as Cloudflare. */
+  name: string;
+  /** Link to the DNS settings page at that host. */
+  dns_settings_url: string;
+}
+/** Email tools that already send for the root domain, detected from SPF and DKIM records. Best effort, empty when none are found or when include_email_setup is off. */
+export type EmailDomainConnectCheckExistingEmailToolsList = Array<string>;
+export interface EmailDomainConnectCheck {
+  /** Whether the domain's DNS provider supports automatic setup through Domain Connect. */
+  supported: boolean;
+  /** Domain Connect provider that hosts the domain. Null when not supported. */
+  provider_name: string | null;
+  /** Providers the user can pick manually when automatic detection fails. Empty when supported. */
+  available_providers: EmailDomainConnectCheckAvailableProvidersList;
+  /** The detected DNS host of the root domain, from its nameservers. Null when unknown. */
+  dns_host: EmailDomainDnsHost | null;
+  /** Email tools that already send for the root domain, detected from SPF and DKIM records. Best effort, empty when none are found or when include_email_setup is off. */
+  existing_email_tools: EmailDomainConnectCheckExistingEmailToolsList;
+}
 export interface IntegrationsEmailVerifyCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A unique integer value identifying this integration. */
   id: number;
-  kind?: IntegrationKindEnum | (string & {});
-  config?: unknown;
 }
-export interface IntegrationsEmailVerifyCreateResponse {}
+/** * `success` - Success * `pending` - Pending * `failed` - Failed */
+export type EmailDomainVerificationStatusEnum = "success" | "pending" | "failed";
+export interface EmailDomainVerificationRecord {
+  /** What the record does: verification, dkim, mail_from or dmarc. */
+  type: string;
+  /** DNS record type: TXT, CNAME or MX. */
+  recordType: string;
+  /** DNS name to create the record at. */
+  recordHostname: string;
+  /** Value to publish. */
+  recordValue: string;
+  /** success once SES or DNS confirms the record, else pending. */
+  status: string;
+  /** MX priority. Only set on MX records. */
+  priority?: number;
+}
+/** DNS records the domain needs. */
+export type EmailDomainVerificationDnsRecordsList = Array<EmailDomainVerificationRecord>;
+export interface EmailDomainVerification {
+  /** success when SES verified the domain and its senders are now marked verified. * `success` - Success * `pending` - Pending * `failed` - Failed */
+  status: EmailDomainVerificationStatusEnum;
+  /** DNS records the domain needs. */
+  dnsRecords: EmailDomainVerificationDnsRecordsList;
+}
 /** * `posthog_code` - posthog_code */
 export type ConnectFromEnum = "posthog_code";
 export interface IntegrationsGithubOauthAuthorizeCreateRequest {
@@ -570,6 +844,7 @@ export interface GitHubReposRefreshResponse {
 export type ListIntegrationsRequestKind =
   | "anthropic"
   | "apns"
+  | "apple-ads"
   | "aws-redshift"
   | "aws-s3"
   | "azure-blob"
@@ -620,7 +895,7 @@ export type ListIntegrationsRequestKind =
 export interface ListIntegrationsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** * `anthropic` - Anthropic * `apns` - Apple Push * `aws-redshift` - Aws Redshift * `aws-s3` - Aws S3 * `azure-blob` - Azure Blob * `bing-ads` - Bing Ads * `clickup` - Clickup * `customerio-app` - Customerio App * `customerio-track` - Customerio Track * `customerio-webhook` - Customerio Webhook * `databricks` - Databricks * `email` - Email * `firebase` - Firebase * `github` - Github * `gitlab` - Gitlab * `google-ads` - Google Ads * `google-analytics` - Google Analytics * `google-calendar` - Google Calendar * `google-cloud-service-account` - Google Cloud Service Account * `google-cloud-storage` - Google Cloud Storage * `google-pubsub` - Google Pubsub * `google-search-console` - Google Search Console * `google-sheets` - Google Sheets * `helpscout` - Helpscout * `hubspot` - Hubspot * `instagram` - Instagram * `intercom` - Intercom * `jira` - Jira * `linear` - Linear * `linkedin-ads` - Linkedin Ads * `meta-ads` - Meta Ads * `pardot` - Pardot * `pinterest-ads` - Pinterest Ads * `postgresql` - Postgresql * `posthog` - Posthog * `reddit-ads` - Reddit Ads * `twitter-ads` - Twitter Ads * `resend` - Resend * `s3-compatible` - S3 Compatible * `salesforce` - Salesforce * `slack` - Slack * `slack-posthog-code` - Slack Posthog Code * `snapchat` - Snapchat * `snowflake` - Snowflake * `stripe` - Stripe * `tiktok-ads` - Tiktok Ads * `twilio` - Twilio * `vercel` - Vercel * `youtube-analytics` - Youtube Analytics */
+  /** * `anthropic` - Anthropic * `apple-ads` - Apple Ads * `apns` - Apple Push * `aws-redshift` - Aws Redshift * `aws-s3` - Aws S3 * `azure-blob` - Azure Blob * `bing-ads` - Bing Ads * `clickup` - Clickup * `customerio-app` - Customerio App * `customerio-track` - Customerio Track * `customerio-webhook` - Customerio Webhook * `databricks` - Databricks * `email` - Email * `firebase` - Firebase * `github` - Github * `gitlab` - Gitlab * `google-ads` - Google Ads * `google-analytics` - Google Analytics * `google-calendar` - Google Calendar * `google-cloud-service-account` - Google Cloud Service Account * `google-cloud-storage` - Google Cloud Storage * `google-pubsub` - Google Pubsub * `google-search-console` - Google Search Console * `google-sheets` - Google Sheets * `helpscout` - Helpscout * `hubspot` - Hubspot * `instagram` - Instagram * `intercom` - Intercom * `jira` - Jira * `linear` - Linear * `linkedin-ads` - Linkedin Ads * `meta-ads` - Meta Ads * `pardot` - Pardot * `pinterest-ads` - Pinterest Ads * `postgresql` - Postgresql * `posthog` - Posthog * `reddit-ads` - Reddit Ads * `twitter-ads` - Twitter Ads * `resend` - Resend * `s3-compatible` - S3 Compatible * `salesforce` - Salesforce * `slack` - Slack * `slack-posthog-code` - Slack Posthog Code * `snapchat` - Snapchat * `snowflake` - Snowflake * `stripe` - Stripe * `tiktok-ads` - Tiktok Ads * `twilio` - Twilio * `vercel` - Vercel * `youtube-analytics` - Youtube Analytics */
   kind?: ListIntegrationsRequestKind | (string & {});
   /** Number of results to return per page. */
   limit?: number;
@@ -639,7 +914,8 @@ export interface UpdateIntegrationsEmailPartialRequest {
   project_id: string;
   /** A unique integer value identifying this integration. */
   id: number;
-  kind?: IntegrationKindEnum | (string & {});
+  /** The provider of the integration, for example 'slack' or 'github'. A create accepts only the kinds that PostHog connects here. Data warehouse sources also store their typed-in credentials as integrations, under a kind per source type. */
+  kind?: string;
   config?: unknown;
 }
 export type CreateIntegrationError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -649,8 +925,8 @@ export const createIntegration: API.OperationMethod<
   CreateIntegrationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<CreateIntegrationRequest>,
-  output: __S(90, __c22, 2) as any as S.Schema<IntegrationConfig>,
+  input: __S(184, __c23, 0) as any as S.Schema<CreateIntegrationRequest>,
+  output: __S(194, __c24, 2) as any as S.Schema<IntegrationConfig>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -666,8 +942,8 @@ export const createIntegrationsGithubLinkExisting: API.OperationMethod<
   CreateIntegrationsGithubLinkExistingError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(116, __c29, 0) as any as S.Schema<CreateIntegrationsGithubLinkExistingRequest>,
-  output: __S(90, __c22, 2) as any as S.Schema<IntegrationConfig>,
+  input: __S(280, __c35, 0) as any as S.Schema<CreateIntegrationsGithubLinkExistingRequest>,
+  output: __S(194, __c24, 2) as any as S.Schema<IntegrationConfig>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -683,13 +959,30 @@ export const createIntegrationsGithubPrepareCallback: API.OperationMethod<
   CreateIntegrationsGithubPrepareCallbackError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c30, 0) as any as S.Schema<CreateIntegrationsGithubPrepareCallbackRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<CreateIntegrationsGithubPrepareCallbackResponse>,
+  input: __S(312, __c39, 0) as any as S.Schema<CreateIntegrationsGithubPrepareCallbackRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<CreateIntegrationsGithubPrepareCallbackResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateIntegrationsGithubPrepareCallback",
+}));
+
+export type CreateIntegrationsPushTokenError = BadRequest | PosthogOpError;
+/** Import push device tokens Register existing device tokens, for example exported from another provider, on this push channel. Each token is stored encrypted on its person, as the mobile SDK stores it. A row fails when no person has its distinct ID, unless create_missing_persons is set, or when the token is the wrong kind for the channel. Send dry_run first to see every failure without storing anything. */
+export const createIntegrationsPushToken: API.OperationMethod<
+  CreateIntegrationsPushTokenRequest,
+  PushTokenImportResponse,
+  CreateIntegrationsPushTokenError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(330, __c41, 2) as any as S.Schema<CreateIntegrationsPushTokenRequest>,
+  output: __S(333, __c41, 5) as any as S.Schema<PushTokenImportResponse>,
+  errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIntegrationsPushToken",
 }));
 
 export type CreateIntegrationsRequestAccessError = PosthogOpError;
@@ -700,8 +993,8 @@ export const createIntegrationsRequestAccess: API.OperationMethod<
   CreateIntegrationsRequestAccessError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c32, 0) as any as S.Schema<CreateIntegrationsRequestAccessRequest>,
-  output: __S(129, __c32, 1) as any as S.Schema<IntegrationAccessRequestResponse>,
+  input: __S(344, __c43, 0) as any as S.Schema<CreateIntegrationsRequestAccessRequest>,
+  output: __S(345, __c43, 1) as any as S.Schema<IntegrationAccessRequestResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -716,8 +1009,8 @@ export const getIntegration: API.OperationMethod<
   GetIntegrationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(132, __c33, 0) as any as S.Schema<GetIntegrationRequest>,
-  output: __S(90, __c22, 2) as any as S.Schema<IntegrationConfig>,
+  input: __S(352, __c44, 0) as any as S.Schema<GetIntegrationRequest>,
+  output: __S(194, __c24, 2) as any as S.Schema<IntegrationConfig>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -732,8 +1025,8 @@ export const getIntegrationsAnthropicManagedAgent: API.OperationMethod<
   GetIntegrationsAnthropicManagedAgentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c34, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentResponse>,
+  input: __S(360, __c45, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -748,8 +1041,8 @@ export const getIntegrationsAnthropicManagedAgentEnv: API.OperationMethod<
   GetIntegrationsAnthropicManagedAgentEnvError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(140, __c35, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentEnvRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentEnvResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentEnvRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentEnvResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -764,8 +1057,8 @@ export const getIntegrationsAnthropicManagedAgentVault: API.OperationMethod<
   GetIntegrationsAnthropicManagedAgentVaultError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentVaultRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentVaultResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentVaultRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentVaultResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -780,8 +1073,8 @@ export const getIntegrationsChannel: API.OperationMethod<
   GetIntegrationsChannelError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<GetIntegrationsChannelRequest>,
-  output: __S(7, __c1, 3) as any as S.Schema<SlackChannelsResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<GetIntegrationsChannelRequest>,
+  output: __S(19, __c2, 3) as any as S.Schema<SlackChannelsResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -796,8 +1089,8 @@ export const getIntegrationsClickupList: API.OperationMethod<
   GetIntegrationsClickupListError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<GetIntegrationsClickupListRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<GetIntegrationsClickupListResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<GetIntegrationsClickupListRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsClickupListResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -812,8 +1105,8 @@ export const getIntegrationsClickupSpace: API.OperationMethod<
   GetIntegrationsClickupSpaceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<GetIntegrationsClickupSpaceRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<GetIntegrationsClickupSpaceResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetIntegrationsClickupSpaceRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsClickupSpaceResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -828,13 +1121,46 @@ export const getIntegrationsClickupWorkspace: API.OperationMethod<
   GetIntegrationsClickupWorkspaceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<GetIntegrationsClickupWorkspaceRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<GetIntegrationsClickupWorkspaceResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetIntegrationsClickupWorkspaceRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsClickupWorkspaceResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIntegrationsClickupWorkspace",
+}));
+
+export type GetIntegrationsEmailStatusError = PosthogOpError;
+/** Get email sending domain status Read the setup progress of an email sender's domain from SES and public DNS without changing either. Poll this until status is verified, then call email/verify once so the sender can send. */
+export const getIntegrationsEmailStatus: API.OperationMethod<
+  GetIntegrationsEmailStatusRequest,
+  EmailDomainStatus,
+  GetIntegrationsEmailStatusError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(48, __c6, 0) as any as S.Schema<GetIntegrationsEmailStatusRequest>,
+  output: __S(53, __c6, 5) as any as S.Schema<EmailDomainStatus>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsEmailStatus",
+}));
+
+export type GetIntegrationsGithubAssigneeError = PosthogOpError;
+export const getIntegrationsGithubAssignee: API.OperationMethod<
+  GetIntegrationsGithubAssigneeRequest,
+  IntegrationAssigneesResponse,
+  GetIntegrationsGithubAssigneeError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(56, __c7, 0) as any as S.Schema<GetIntegrationsGithubAssigneeRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<IntegrationAssigneesResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsGithubAssignee",
 }));
 
 export type GetIntegrationsGithubAvailableInstallationError = PosthogOpError;
@@ -845,8 +1171,8 @@ export const getIntegrationsGithubAvailableInstallation: API.OperationMethod<
   GetIntegrationsGithubAvailableInstallationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<GetIntegrationsGithubAvailableInstallationRequest>,
-  output: __S(23, __c5, 3) as any as S.Schema<GitHubAvailableInstallationsResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<GetIntegrationsGithubAvailableInstallationRequest>,
+  output: __S(83, __c10, 3) as any as S.Schema<GitHubAvailableInstallationsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -861,8 +1187,8 @@ export const getIntegrationsGithubBranch: API.OperationMethod<
   GetIntegrationsGithubBranchError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<GetIntegrationsGithubBranchRequest>,
-  output: __S(26, __c6, 2) as any as S.Schema<GitHubBranchesResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetIntegrationsGithubBranchRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<GitHubBranchesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -877,13 +1203,29 @@ export const getIntegrationsGithubRepos: API.OperationMethod<
   GetIntegrationsGithubReposError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<GetIntegrationsGithubReposRequest>,
-  output: __S(29, __c7, 1) as any as S.Schema<GitHubReposResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetIntegrationsGithubReposRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<GitHubReposResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIntegrationsGithubRepos",
+}));
+
+export type GetIntegrationsGithubRepositoryAccessError = PosthogOpError;
+export const getIntegrationsGithubRepositoryAccess: API.OperationMethod<
+  GetIntegrationsGithubRepositoryAccessRequest,
+  GitHubRepositoryAccessResponse,
+  GetIntegrationsGithubRepositoryAccessError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(112, __c14, 0) as any as S.Schema<GetIntegrationsGithubRepositoryAccessRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<GitHubRepositoryAccessResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsGithubRepositoryAccess",
 }));
 
 export type GetIntegrationsGithubTeamError = PosthogOpError;
@@ -893,13 +1235,29 @@ export const getIntegrationsGithubTeam: API.OperationMethod<
   GetIntegrationsGithubTeamError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<GetIntegrationsGithubTeamRequest>,
-  output: __S(39, __c9, 3) as any as S.Schema<GitHubTeamsResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetIntegrationsGithubTeamRequest>,
+  output: __S(123, __c15, 3) as any as S.Schema<GitHubTeamsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIntegrationsGithubTeam",
+}));
+
+export type GetIntegrationsGitlabMemberError = PosthogOpError;
+export const getIntegrationsGitlabMember: API.OperationMethod<
+  GetIntegrationsGitlabMemberRequest,
+  IntegrationAssigneesResponse,
+  GetIntegrationsGitlabMemberError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c16, 0) as any as S.Schema<GetIntegrationsGitlabMemberRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<IntegrationAssigneesResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsGitlabMember",
 }));
 
 export type GetIntegrationsGoogleAccessibleAccountError = Forbidden | NotFound | PosthogOpError;
@@ -909,8 +1267,8 @@ export const getIntegrationsGoogleAccessibleAccount: API.OperationMethod<
   GetIntegrationsGoogleAccessibleAccountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<GetIntegrationsGoogleAccessibleAccountRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<GetIntegrationsGoogleAccessibleAccountResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetIntegrationsGoogleAccessibleAccountRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsGoogleAccessibleAccountResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -925,13 +1283,29 @@ export const getIntegrationsGoogleConversionAction: API.OperationMethod<
   GetIntegrationsGoogleConversionActionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<GetIntegrationsGoogleConversionActionRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<GetIntegrationsGoogleConversionActionResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<GetIntegrationsGoogleConversionActionRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsGoogleConversionActionResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIntegrationsGoogleConversionAction",
+}));
+
+export type GetIntegrationsJiraAssignableUserError = PosthogOpError;
+export const getIntegrationsJiraAssignableUser: API.OperationMethod<
+  GetIntegrationsJiraAssignableUserRequest,
+  IntegrationAssigneesResponse,
+  GetIntegrationsJiraAssignableUserError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(152, __c19, 0) as any as S.Schema<GetIntegrationsJiraAssignableUserRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<IntegrationAssigneesResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsJiraAssignableUser",
 }));
 
 export type GetIntegrationsJiraProjectError = Forbidden | NotFound | PosthogOpError;
@@ -941,8 +1315,8 @@ export const getIntegrationsJiraProject: API.OperationMethod<
   GetIntegrationsJiraProjectError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<GetIntegrationsJiraProjectRequest>,
-  output: __S(51, __c12, 3) as any as S.Schema<JiraProjectsResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<GetIntegrationsJiraProjectRequest>,
+  output: __S(163, __c20, 3) as any as S.Schema<JiraProjectsResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -957,13 +1331,29 @@ export const getIntegrationsLinearTeam: API.OperationMethod<
   GetIntegrationsLinearTeamError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<GetIntegrationsLinearTeamRequest>,
-  output: __S(55, __c13, 3) as any as S.Schema<LinearTeamsResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<GetIntegrationsLinearTeamRequest>,
+  output: __S(169, __c21, 1) as any as S.Schema<LinearTeamsResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIntegrationsLinearTeam",
+}));
+
+export type GetIntegrationsLinearTeamMemberError = PosthogOpError;
+export const getIntegrationsLinearTeamMember: API.OperationMethod<
+  GetIntegrationsLinearTeamMemberRequest,
+  IntegrationAssigneesResponse,
+  GetIntegrationsLinearTeamMemberError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(176, __c22, 0) as any as S.Schema<GetIntegrationsLinearTeamMemberRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<IntegrationAssigneesResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsLinearTeamMember",
 }));
 
 export type GetIntegrationsLinkedinAdsAccountError = Forbidden | NotFound | PosthogOpError;
@@ -973,8 +1363,8 @@ export const getIntegrationsLinkedinAdsAccount: API.OperationMethod<
   GetIntegrationsLinkedinAdsAccountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<GetIntegrationsLinkedinAdsAccountRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<GetIntegrationsLinkedinAdsAccountResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<GetIntegrationsLinkedinAdsAccountRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsLinkedinAdsAccountResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -989,8 +1379,8 @@ export const getIntegrationsLinkedinAdsConversionRule: API.OperationMethod<
   GetIntegrationsLinkedinAdsConversionRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<GetIntegrationsLinkedinAdsConversionRuleRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<GetIntegrationsLinkedinAdsConversionRuleResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<GetIntegrationsLinkedinAdsConversionRuleRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsLinkedinAdsConversionRuleResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1005,8 +1395,8 @@ export const getIntegrationsTwilioPhoneNumber: API.OperationMethod<
   GetIntegrationsTwilioPhoneNumberError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<GetIntegrationsTwilioPhoneNumberRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<GetIntegrationsTwilioPhoneNumberResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<GetIntegrationsTwilioPhoneNumberRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsTwilioPhoneNumberResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1021,8 +1411,8 @@ export const getIntegrationsUser: API.OperationMethod<
   GetIntegrationsUserError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<GetIntegrationsUserRequest>,
-  output: __S(71, __c17, 3) as any as S.Schema<SlackUsersResponse>,
+  input: __S(224, __c28, 0) as any as S.Schema<GetIntegrationsUserRequest>,
+  output: __S(227, __c28, 3) as any as S.Schema<SlackUsersResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1037,8 +1427,8 @@ export const integrationsAuthorizeRetrieve: API.OperationMethod<
   IntegrationsAuthorizeRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<IntegrationsAuthorizeRetrieveRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<IntegrationsAuthorizeRetrieveResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<IntegrationsAuthorizeRetrieveRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<IntegrationsAuthorizeRetrieveResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1053,8 +1443,8 @@ export const integrationsDestroy: API.OperationMethod<
   IntegrationsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<IntegrationsDestroyRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<IntegrationsDestroyResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<IntegrationsDestroyRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<IntegrationsDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1074,8 +1464,8 @@ export const integrationsDomainConnectApplyUrlCreate: API.OperationMethod<
   IntegrationsDomainConnectApplyUrlCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<IntegrationsDomainConnectApplyUrlCreateRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<IntegrationsDomainConnectApplyUrlCreateResponse>,
+  input: __S(248, __c31, 0) as any as S.Schema<IntegrationsDomainConnectApplyUrlCreateRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<IntegrationsDomainConnectApplyUrlCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1086,12 +1476,12 @@ export const integrationsDomainConnectApplyUrlCreate: API.OperationMethod<
 export type IntegrationsDomainConnectCheckRetrieveError = Forbidden | NotFound | PosthogOpError;
 export const integrationsDomainConnectCheckRetrieve: API.OperationMethod<
   IntegrationsDomainConnectCheckRetrieveRequest,
-  IntegrationsDomainConnectCheckRetrieveResponse,
+  EmailDomainConnectCheck,
   IntegrationsDomainConnectCheckRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<IntegrationsDomainConnectCheckRetrieveRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<IntegrationsDomainConnectCheckRetrieveResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<IntegrationsDomainConnectCheckRetrieveRequest>,
+  output: __S(260, __c32, 4) as any as S.Schema<EmailDomainConnectCheck>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1100,14 +1490,15 @@ export const integrationsDomainConnectCheckRetrieve: API.OperationMethod<
 }));
 
 export type IntegrationsEmailVerifyCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
+/** Verify an email sending domain Ask SES to check the domain's DNS records again. When SES has verified the domain, mark the domain's senders as verified so they can send. Call it once email/status reports status verified. */
 export const integrationsEmailVerifyCreate: API.OperationMethod<
   IntegrationsEmailVerifyCreateRequest,
-  IntegrationsEmailVerifyCreateResponse,
+  EmailDomainVerification,
   IntegrationsEmailVerifyCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c24, 0) as any as S.Schema<IntegrationsEmailVerifyCreateRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<IntegrationsEmailVerifyCreateResponse>,
+  input: __S(264, __c33, 0) as any as S.Schema<IntegrationsEmailVerifyCreateRequest>,
+  output: __S(267, __c33, 3) as any as S.Schema<EmailDomainVerification>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1123,8 +1514,8 @@ export const integrationsGithubOauthAuthorizeCreate: API.OperationMethod<
   IntegrationsGithubOauthAuthorizeCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(100, __c25, 0) as any as S.Schema<IntegrationsGithubOauthAuthorizeCreateRequest>,
-  output: __S(101, __c25, 1) as any as S.Schema<GitHubOAuthAuthorizeResponse>,
+  input: __S(272, __c34, 0) as any as S.Schema<IntegrationsGithubOauthAuthorizeCreateRequest>,
+  output: __S(273, __c34, 1) as any as S.Schema<GitHubOAuthAuthorizeResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1139,8 +1530,8 @@ export const integrationsGithubReposRefreshCreate: API.OperationMethod<
   IntegrationsGithubReposRefreshCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c26, 0) as any as S.Schema<IntegrationsGithubReposRefreshCreateRequest>,
-  output: __S(105, __c26, 1) as any as S.Schema<GitHubReposRefreshResponse>,
+  input: __S(288, __c36, 0) as any as S.Schema<IntegrationsGithubReposRefreshCreateRequest>,
+  output: __S(289, __c36, 1) as any as S.Schema<GitHubReposRefreshResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1155,8 +1546,8 @@ export const listIntegrations: API.OperationMethod<
   ListIntegrationsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(108, __c27, 0) as any as S.Schema<ListIntegrationsRequest>,
-  output: __S(110, __c27, 2) as any as S.Schema<PaginatedIntegrationConfigList>,
+  input: __S(296, __c37, 0) as any as S.Schema<ListIntegrationsRequest>,
+  output: __S(298, __c37, 2) as any as S.Schema<PaginatedIntegrationConfigList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1175,8 +1566,8 @@ export const updateIntegrationsEmailPartial: API.OperationMethod<
   UpdateIntegrationsEmailPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c28, 0) as any as S.Schema<UpdateIntegrationsEmailPartialRequest>,
-  output: __S(90, __c22, 2) as any as S.Schema<IntegrationConfig>,
+  input: __S(304, __c38, 0) as any as S.Schema<UpdateIntegrationsEmailPartialRequest>,
+  output: __S(194, __c24, 2) as any as S.Schema<IntegrationConfig>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1195,11 +1586,11 @@ function __c0(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/projects/{project_id}/integrations/{id}/anthropic_managed_agent_vaults/",
+            uri: "/api/projects/{project_id}/integrations/{id}/anthropic_managed_agent_environments/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "GetIntegrationsAnthropicManagedAgentVaultRequest" });
+      ).annotate({ identifier: "GetIntegrationsAnthropicManagedAgentEnvRequest" });
   }
 }
 function __c1(j: number): any {
@@ -1209,6 +1600,25 @@ function __c1(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/integrations/{id}/anthropic_managed_agent_vaults/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetIntegrationsAnthropicManagedAgentVaultRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          channel_id: S.optional(S.String.pipe(T.Query())),
+          force_refresh: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
@@ -1232,18 +1642,20 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "SlackChannel" });
     case 2:
-      return S.Array(__S(5, __c1, 1));
+      return S.Array(__S(17, __c2, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          channels: __S(6, __c1, 2),
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
+          channels: __S(18, __c2, 2),
           lastRefreshedAt: S.optional(S.NullOr(S.String)),
           has_more: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SlackChannelsResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1260,7 +1672,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetIntegrationsClickupListRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1277,7 +1689,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetIntegrationsClickupSpaceRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1294,7 +1706,100 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetIntegrationsClickupWorkspaceRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          refresh: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/integrations/{id}/email/status/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetIntegrationsEmailStatusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          state: S.String,
+        }),
+      ).annotate({ identifier: "EmailDomainStatusStep" });
+    case 2:
+      return S.Array(__S(49, __c6, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          hostname: S.String,
+          type: S.String,
+          value: S.String,
+          priority: S.NullOr(S.Number),
+          status: S.String,
+        }),
+      ).annotate({ identifier: "EmailDomainStatusRecord" });
+    case 4:
+      return S.Array(__S(51, __c6, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          verified: S.Boolean,
+          checked_at: S.String,
+          steps: __S(50, __c6, 2),
+          records: __S(52, __c6, 4),
+        }),
+      ).annotate({ identifier: "EmailDomainStatus" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          repository: S.String.pipe(T.Query()),
+          search: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/integrations/{id}/github_assignees/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetIntegrationsGithubAssigneeRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "IntegrationAssignee" });
+    case 1:
+      return S.Array(__S(64, __c8, 0));
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          users: __S(65, __c8, 1),
+          reconnect_required: S.Boolean,
+        }),
+      ).annotate({ identifier: "IntegrationAssigneesResponse" });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1319,7 +1824,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "GitHubAvailableInstallation" });
     case 2:
-      return S.Array(__S(21, __c5, 1));
+      return S.Array(__S(81, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1327,13 +1832,13 @@ function __c5(j: number): any {
           discovered_at: S.String,
           personal_github_login: S.NullOr(S.String),
           personal_discovery_status: S.String,
-          installations: __S(22, __c5, 2),
+          installations: __S(82, __c10, 2),
           personal_github_connected: S.Boolean,
         }),
       ).annotate({ identifier: "GitHubAvailableInstallationsResponse" });
   }
 }
-function __c6(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1353,18 +1858,18 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "GetIntegrationsGithubBranchRequest" });
     case 1:
-      return S.Array(S.String);
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          branches: S.optional(__S(25, __c6, 1)),
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
+          branches: S.optional(__S(336, __c42, 0)),
           default_branch: S.optional(S.NullOr(S.String)),
           has_more: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GitHubBranchesResponse" });
   }
 }
-function __c7(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1386,7 +1891,9 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          repositories: S.optional(__S(33, __c8, 1)),
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
+          repositories: S.optional(__S(105, __c13, 1)),
           has_more: S.optional(S.Boolean),
           next_offset: S.optional(S.NullOr(S.Number)),
           total: S.optional(S.Number),
@@ -1394,7 +1901,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GitHubReposResponse" });
   }
 }
-function __c8(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1411,10 +1918,34 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "GitHubRepo" });
     case 1:
-      return S.Array(__S(32, __c8, 0));
+      return S.Array(__S(104, __c13, 0));
   }
 }
-function __c9(j: number): any {
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          repository: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/integrations/{id}/github_repository_access/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetIntegrationsGithubRepositoryAccessRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          available: S.Boolean,
+        }),
+      ).annotate({ identifier: "GitHubRepositoryAccessResponse" });
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1441,17 +1972,37 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "GitHubTeam" });
     case 2:
-      return S.Array(__S(37, __c9, 1));
+      return S.Array(__S(121, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          teams: __S(38, __c9, 2),
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
+          teams: __S(122, __c15, 2),
           has_more: S.Boolean,
         }),
       ).annotate({ identifier: "GitHubTeamsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          search: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/integrations/{id}/gitlab_members/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetIntegrationsGitlabMemberRequest" });
+  }
+}
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1468,7 +2019,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetIntegrationsGoogleAccessibleAccountRequest" });
   }
 }
-function __c11(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1485,7 +2036,26 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetIntegrationsGoogleConversionActionRequest" });
   }
 }
-function __c12(j: number): any {
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          project_key: S.String.pipe(T.Query()),
+          search: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/integrations/{id}/jira_assignable_users/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetIntegrationsJiraAssignableUserRequest" });
+  }
+}
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1509,16 +2079,16 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "JiraProject" });
     case 2:
-      return S.Array(__S(49, __c12, 1));
+      return S.Array(__S(161, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          projects: __S(50, __c12, 2),
+          projects: __S(162, __c20, 2),
         }),
       ).annotate({ identifier: "JiraProjectsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1536,21 +2106,82 @@ function __c13(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          id: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "LinearTeam" });
-    case 2:
-      return S.Array(__S(53, __c13, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          teams: __S(54, __c13, 2),
+          teams: __S(65, __c8, 1),
         }),
       ).annotate({ identifier: "LinearTeamsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          search: S.optional(S.String.pipe(T.Query())),
+          team_id: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/integrations/{id}/linear_team_members/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetIntegrationsLinearTeamMemberRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          kind: S.optional(S.String),
+          config: S.optional(S.Unknown),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/projects/{project_id}/integrations/", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateIntegrationRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          uuid: S.optional(S.String),
+          distinct_id: S.optional(S.NullOr(S.String)),
+          first_name: S.optional(S.String),
+          last_name: S.optional(S.String),
+          email: S.optional(S.String),
+          is_email_verified: S.optional(S.NullOr(S.Boolean)),
+          hedgehog_config: S.optional(S.NullOr(__S(192, __c24, 0))),
+          role_at_organization: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "UserBasic" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          kind: S.optional(S.String),
+          auth_type: S.String,
+          config: S.optional(S.Unknown),
+          created_at: S.optional(S.String),
+          created_by: S.optional(S.NullOr(__S(193, __c24, 1))),
+          errors: S.optional(S.String),
+          display_name: S.optional(S.String),
+          files_write_requestable: S.optional(S.Boolean),
+          installation_shared: S.optional(S.NullOr(S.Boolean)),
+          installation_status: S.optional(S.NullOr(S.String)),
+          needs_webhook_reconnect: S.NullOr(S.Boolean),
+        }),
+      ).annotate({ identifier: "IntegrationConfig" });
+  }
+}
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1567,7 +2198,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetIntegrationsLinkedinAdsAccountRequest" });
   }
 }
-function __c15(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1584,7 +2215,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetIntegrationsLinkedinAdsConversionRuleRequest" });
   }
 }
-function __c16(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1601,7 +2232,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetIntegrationsTwilioPhoneNumberRequest" });
   }
 }
-function __c17(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1630,18 +2261,20 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "SlackUser" });
     case 2:
-      return S.Array(__S(69, __c17, 1));
+      return S.Array(__S(225, __c28, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          users: __S(70, __c17, 2),
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
+          users: __S(226, __c28, 2),
           lastRefreshedAt: S.optional(S.NullOr(S.String)),
           has_more: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SlackUsersResponse" });
   }
 }
-function __c18(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1657,7 +2290,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "IntegrationsAuthorizeRetrieveRequest" });
   }
 }
-function __c19(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1674,7 +2307,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "IntegrationsDestroyRequest" });
   }
 }
-function __c20(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1692,61 +2325,14 @@ function __c20(j: number): any {
       ).annotate({ identifier: "IntegrationsDomainConnectApplyUrlCreateRequest" });
   }
 }
-function __c21(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          kind: S.optional(S.String),
-          config: S.optional(S.Unknown),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/projects/{project_id}/integrations/", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateIntegrationRequest" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          uuid: S.optional(S.String),
-          distinct_id: S.optional(S.NullOr(S.String)),
-          first_name: S.optional(S.String),
-          last_name: S.optional(S.String),
-          email: S.optional(S.String),
-          is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(88, __c22, 0))),
-          role_at_organization: S.optional(S.NullOr(S.Unknown)),
-        }),
-      ).annotate({ identifier: "UserBasic" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          kind: S.optional(S.String),
-          config: S.optional(S.Unknown),
-          created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(89, __c22, 1))),
-          errors: S.optional(S.String),
-          display_name: S.optional(S.String),
-          files_write_requestable: S.optional(S.Boolean),
-          installation_shared: S.optional(S.NullOr(S.Boolean)),
-          installation_status: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "IntegrationConfig" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
+          domain: S.String.pipe(T.Query()),
+          include_email_setup: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1755,17 +2341,41 @@ function __c23(j: number): any {
           }),
         ),
       ).annotate({ identifier: "IntegrationsDomainConnectCheckRetrieveRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          endpoint: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "EmailDomainConnectProvider" });
+    case 2:
+      return S.Array(__S(257, __c32, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          dns_settings_url: S.String,
+        }),
+      ).annotate({ identifier: "EmailDomainDnsHost" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          supported: S.Boolean,
+          provider_name: S.NullOr(S.String),
+          available_providers: __S(258, __c32, 2),
+          dns_host: S.NullOr(__S(259, __c32, 3)),
+          existing_email_tools: __S(336, __c42, 0),
+        }),
+      ).annotate({ identifier: "EmailDomainConnectCheck" });
   }
 }
-function __c24(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.Number.pipe(T.Label()),
-          kind: S.optional(S.String),
-          config: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1774,9 +2384,29 @@ function __c24(j: number): any {
           }),
         ),
       ).annotate({ identifier: "IntegrationsEmailVerifyCreateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          recordType: S.String,
+          recordHostname: S.String,
+          recordValue: S.String,
+          status: S.String,
+          priority: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "EmailDomainVerificationRecord" });
+    case 2:
+      return S.Array(__S(265, __c33, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          dnsRecords: __S(266, __c33, 2),
+        }),
+      ).annotate({ identifier: "EmailDomainVerification" });
   }
 }
-function __c25(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1801,76 +2431,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GitHubOAuthAuthorizeResponse" });
   }
 }
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/integrations/{id}/github_repos/refresh/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "IntegrationsGithubReposRefreshCreateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          repositories: S.optional(__S(33, __c8, 1)),
-          installation_status: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GitHubReposRefreshResponse" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          kind: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/projects/{project_id}/integrations/", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListIntegrationsRequest" });
-    case 1:
-      return S.Array(__S(90, __c22, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.optional(S.Number),
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(109, __c27, 1)),
-        }),
-      ).annotate({ identifier: "PaginatedIntegrationConfigList" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-          kind: S.optional(S.String),
-          config: S.optional(S.Unknown),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/projects/{project_id}/integrations/{id}/email/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateIntegrationsEmailPartialRequest" });
-  }
-}
-function __c29(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1889,7 +2450,76 @@ function __c29(j: number): any {
       ).annotate({ identifier: "CreateIntegrationsGithubLinkExistingRequest" });
   }
 }
-function __c30(j: number): any {
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/integrations/{id}/github_repos/refresh/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "IntegrationsGithubReposRefreshCreateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          repositories: S.optional(__S(105, __c13, 1)),
+          installation_status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GitHubReposRefreshResponse" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          kind: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/projects/{project_id}/integrations/", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListIntegrationsRequest" });
+    case 1:
+      return S.Array(__S(194, __c24, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.optional(S.Number),
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          results: S.optional(__S(297, __c37, 1)),
+        }),
+      ).annotate({ identifier: "PaginatedIntegrationConfigList" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          kind: S.optional(S.String),
+          config: S.optional(S.Unknown),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/integrations/{id}/email/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateIntegrationsEmailPartialRequest" });
+  }
+}
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1907,7 +2537,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateIntegrationsGithubPrepareCallbackRequest" });
   }
 }
-function __c31(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1915,7 +2545,64 @@ function __c31(j: number): any {
       });
   }
 }
-function __c32(j: number): any {
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          distinct_id: S.String,
+          device_token: S.String,
+        }),
+      ).annotate({ identifier: "PushTokenSubscription" });
+    case 1:
+      return S.Array(__S(328, __c41, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          subscriptions: __S(329, __c41, 1),
+          dry_run: S.optional(S.Boolean),
+          import_id: S.optional(S.NullOr(S.String)),
+          create_missing_persons: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/integrations/{id}/push_tokens/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateIntegrationsPushTokenRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.Number,
+          distinct_id: S.String,
+          device_token_suffix: S.String,
+          reason: S.String,
+          detail: S.String,
+        }),
+      ).annotate({ identifier: "PushTokenImportFailure" });
+    case 4:
+      return S.Array(__S(331, __c41, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          imported: S.Number,
+          dry_run: S.Boolean,
+          failed: __S(332, __c41, 4),
+          failed_distinct_ids: __S(336, __c42, 0),
+        }),
+      ).annotate({ identifier: "PushTokenImportResponse" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1939,7 +2626,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "IntegrationAccessRequestResponse" });
   }
 }
-function __c33(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1956,7 +2643,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetIntegrationRequest" });
   }
 }
-function __c34(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1971,23 +2658,6 @@ function __c34(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetIntegrationsAnthropicManagedAgentRequest" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/integrations/{id}/anthropic_managed_agent_environments/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetIntegrationsAnthropicManagedAgentEnvRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -75,6 +75,10 @@ export interface GetHeatmapsEventRequest {
   offset?: number;
   /** JSON array of the heatmap coordinates to drill into, e.g. '[{"x": 0.5, "y": 100}]'. Each point needs 'x' (relative x, 0..1) and 'y' (absolute client-y pixels) matching values returned by the heatmaps list endpoint; an optional 'target_fixed' boolean matches fixed-position elements. Returns the individual session interactions behind those spots. */
   points: string;
+  /** Inclusive UTC instant. Supply with timestamp_to to override date bounds. */
+  timestamp_from?: string;
+  /** Exclusive UTC instant. Supply with timestamp_from to override date bounds. */
+  timestamp_to?: string;
   /** The interaction type to return. One of: 'click' (default), 'rageclick', 'mousemove', or 'scrolldepth'. Scrolldepth returns scroll buckets instead of x/y coordinates. */
   type?: string;
   /** Match a single page by exact URL (trailing slash is ignored). Mutually exclusive with url_pattern. */
@@ -123,6 +127,10 @@ export interface ListHeatmapsRequest {
   limit?: number;
   /** Number of hottest-first points to skip, for paging through cooler coordinates. Ignored for the 'scrolldepth' type. */
   offset?: number;
+  /** Inclusive UTC instant. Supply with timestamp_to to override date bounds. */
+  timestamp_from?: string;
+  /** Exclusive UTC instant. Supply with timestamp_from to override date bounds. */
+  timestamp_to?: string;
   /** The interaction type to return. One of: 'click' (default), 'rageclick', 'mousemove', or 'scrolldepth'. Scrolldepth returns scroll buckets instead of x/y coordinates. */
   type?: string;
   /** Match a single page by exact URL (trailing slash is ignored). Mutually exclusive with url_pattern. */
@@ -211,6 +219,8 @@ function __c0(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           points: S.String.pipe(T.Query()),
+          timestamp_from: S.optional(S.String.pipe(T.Query())),
+          timestamp_to: S.optional(S.String.pipe(T.Query())),
           type: S.optional(S.String.pipe(T.Query())),
           url_exact: S.optional(S.String.pipe(T.Query())),
           url_pattern: S.optional(S.String.pipe(T.Query())),
@@ -259,6 +269,8 @@ function __c1(j: number): any {
           hide_zero_coordinates: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
+          timestamp_from: S.optional(S.String.pipe(T.Query())),
+          timestamp_to: S.optional(S.String.pipe(T.Query())),
           type: S.optional(S.String.pipe(T.Query())),
           url_exact: S.optional(S.String.pipe(T.Query())),
           url_pattern: S.optional(S.String.pipe(T.Query())),

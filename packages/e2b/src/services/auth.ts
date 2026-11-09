@@ -53,6 +53,8 @@ export interface TeamLimits {
   apiTeamRpsList: number;
   /** Requests per second the team may make to delete endpoints */
   apiTeamRpsDelete: number;
+  /** Maximum number of secrets the team may store */
+  maxSecrets: number;
 }
 export interface TeamLimitsResponse {
   limits: TeamLimits;
@@ -229,6 +231,7 @@ function __c0(j: number): any {
           maxFreeDiskSizeMb: S.Number,
           apiTeamRpsList: S.Number,
           apiTeamRpsDelete: S.Number,
+          maxSecrets: S.Number,
         }),
       ).annotate({ identifier: "TeamLimits" });
     case 2:

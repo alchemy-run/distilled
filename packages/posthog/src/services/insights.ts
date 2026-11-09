@@ -61,6 +61,7 @@ export type BreakdownType =
   | "person"
   | "event"
   | "event_metadata"
+  | "element"
   | "group"
   | "session"
   | "hogql"
@@ -72,6 +73,7 @@ export type MultipleBreakdownType =
   | "person"
   | "event"
   | "event_metadata"
+  | "element"
   | "group"
   | "session"
   | "hogql"
@@ -135,6 +137,7 @@ export type PropertyOperator =
   | "in"
   | "not_in"
   | "is_cleaned_path_exact"
+  | "is_cleaned_path_not_exact"
   | "flag_evaluates_to"
   | "semver_eq"
   | "semver_neq"
@@ -192,6 +195,10 @@ export interface SessionPropertyFilter {
   value?: SessionPropertyFilterValue | null;
 }
 export interface CohortPropertyFilter {
+  /** Set by the feature flag API when the cohort is deleted or does not exist. */
+  cohort_deleted?: boolean | null;
+  /** Set by the feature flag API when the cohort does not exist, so it cannot be restored. */
+  cohort_missing?: boolean | null;
   cohort_name?: string | null;
   key?: string;
   label?: string | null;
@@ -245,165 +252,6 @@ export type IntervalType =
   | "month"
   | "quarter"
   | "year";
-export type BounceRatePageViewMode =
-  | "count_pageviews"
-  | "uniq_urls"
-  | "uniq_page_screen_autocaptures";
-export type FilterLogicalOperator = "AND" | "OR";
-export type CustomBotField =
-  | "$raw_user_agent"
-  | "$ip"
-  | "$lib"
-  | "$host"
-  | "$pathname"
-  | "$current_url"
-  | "$browser"
-  | "$os"
-  | "$browser_language"
-  | "$screen_width"
-  | "$screen_height"
-  | "$geoip_country_code"
-  | "$referrer"
-  | "$referring_domain";
-export type CustomBotMatcher = "contains" | "regex" | "exact" | "cidr";
-export interface CustomBotCondition {
-  id: string;
-  /** The event property this condition reads. */
-  key: CustomBotField | (string & {});
-  matcher: CustomBotMatcher | (string & {});
-  /** Matched against the property named by `key`. */
-  pattern: string;
-}
-export type CustomBotRuleItemsList = Array<CustomBotCondition>;
-export interface CustomBotRule {
-  /** Reported by `$virt_traffic_category`. Defaults to `custom`. */
-  category?: string | null;
-  /** Whether every condition must match (AND) or any one of them (OR). */
-  combiner: FilterLogicalOperator | (string & {});
-  id: string;
-  items: CustomBotRuleItemsList;
-  /** Reported by `$virt_bot_name` and `$virt_bot_operator` when the rule matches. */
-  name: string;
-}
-export type HogQLQueryModifiersCustomBotDefinitionsList = Array<CustomBotRule>;
-export type CustomChannelField =
-  | "utm_source"
-  | "utm_medium"
-  | "utm_campaign"
-  | "referring_domain"
-  | "url"
-  | "pathname"
-  | "hostname";
-export type CustomChannelOperator =
-  | "exact"
-  | "is_not"
-  | "is_set"
-  | "is_not_set"
-  | "icontains"
-  | "not_icontains"
-  | "regex"
-  | "not_regex";
-export type CustomChannelConditionValueCase1List = Array<string>;
-export type CustomChannelConditionValue = string | CustomChannelConditionValueCase1List;
-export interface CustomChannelCondition {
-  id?: string;
-  key?: CustomChannelField | (string & {});
-  op?: CustomChannelOperator | (string & {});
-  value?: CustomChannelConditionValue | null;
-}
-export type CustomChannelRuleItemsList = Array<CustomChannelCondition>;
-export interface CustomChannelRule {
-  channel_type?: string;
-  combiner?: FilterLogicalOperator | (string & {});
-  id?: string;
-  items?: CustomChannelRuleItemsList;
-}
-export type HogQLQueryModifiersCustomChannelTypeRulesList = Array<CustomChannelRule>;
-export interface DataWarehouseEventsModifier {
-  distinct_id_field?: string;
-  id_field?: string;
-  table_name?: string;
-  timestamp_field?: string;
-}
-export type HogQLQueryModifiersDataWarehouseEventsModifiersList =
-  Array<DataWarehouseEventsModifier>;
-export type HogQLQueryModifiersForceClickhouseDataSkippingIndexesList = Array<string>;
-export type InCohortVia = "auto" | "leftjoin" | "subquery" | "leftjoin_conjoined";
-export type InlineCohortCalculation = "off" | "auto" | "always";
-export type MaterializationMode =
-  | "auto"
-  | "legacy_null_as_string"
-  | "legacy_null_as_null"
-  | "disabled";
-export type MaterializedColumnsOptimizationMode = "disabled" | "optimized";
-export type ParserMode =
-  | "cpp_only"
-  | "cpp_with_rust_shadow"
-  | "cpp_with_rust_py_shadow"
-  | "rust_with_cpp_shadow"
-  | "rust_only"
-  | "rust_py_only"
-  | "rust_py_with_cpp_shadow";
-export type PersonsArgMaxVersion = "auto" | "v1" | "v2";
-export type PersonsJoinMode = "inner" | "left";
-export type PersonsOnEventsMode =
-  | "disabled"
-  | "person_id_no_override_properties_on_events"
-  | "person_id_override_properties_on_events"
-  | "person_id_override_properties_joined";
-export type PropertyGroupsMode = "enabled" | "disabled" | "optimized";
-export type SessionTableVersion = "auto" | "v1" | "v2" | "v3";
-export type SessionsV2JoinMode = "string" | "uuid";
-export interface HogQLQueryModifiers {
-  bounceRateDurationSeconds?: number | null;
-  bounceRatePageViewMode?: BounceRatePageViewMode | (string & {}) | null;
-  convertToProjectTimezone?: boolean | null;
-  /** Do not treat a missing user agent as automation on cookieless events. Positive bot signals and custom project rules still apply. Resolved server-side; not intended to be set by clients. */
-  cookielessTrafficIsRegular?: boolean | null;
-  customBotDefinitions?: HogQLQueryModifiersCustomBotDefinitionsList | null;
-  customChannelTypeRules?: HogQLQueryModifiersCustomChannelTypeRulesList | null;
-  dataWarehouseEventsModifiers?: HogQLQueryModifiersDataWarehouseEventsModifiersList | null;
-  debug?: boolean | null;
-  /** If these are provided, the query will fail if these skip indexes are not used */
-  forceClickhouseDataSkippingIndexes?: HogQLQueryModifiersForceClickhouseDataSkippingIndexesList | null;
-  formatCsvAllowDoubleQuotes?: boolean | null;
-  inCohortVia?: InCohortVia | (string & {}) | null;
-  inlineCohortCalculation?: InlineCohortCalculation | (string & {}) | null;
-  materializationMode?: MaterializationMode | (string & {}) | null;
-  materializedColumnsOptimizationMode?: MaterializedColumnsOptimizationMode | (string & {}) | null;
-  /** Merge sibling aggregating LEFT JOINs over federated Postgres tables into one UNION ALL join, so their scans overlap */
-  mergeFederatedAggregateJoins?: boolean | null;
-  optimizeJoinedFilters?: boolean | null;
-  optimizeProjections?: boolean | null;
-  /** HogQL parser backend; absent -> `rust_py_with_cpp_shadow` (rust-py is primary, cpp runs as a sampled shadow). `*_shadow` modes return the primary result and sample-compare against the other parser, reporting divergences without failing the request. The `rust_py_*` modes drive the same hand-rolled Rust parser as `rust_*` but build `posthog.hogql.ast` dataclass instances directly via PyO3, skipping the JSON round-trip. */
-  parserMode?: ParserMode | (string & {}) | null;
-  /** Push an `id IN (SELECT person_id FROM <left table> WHERE ...)` predicate into the joined persons subquery, so the latest-version lookup only reads persons that the outer query's left-table filters can reach. Applies only to a persons join from the query's own FROM table. */
-  personIdPushdown?: boolean | null;
-  personsArgMaxVersion?: PersonsArgMaxVersion | (string & {}) | null;
-  personsJoinMode?: PersonsJoinMode | (string & {}) | null;
-  personsOnEventsMode?: PersonsOnEventsMode | (string & {}) | null;
-  propertyGroupsMode?: PropertyGroupsMode | (string & {}) | null;
-  pushDownPredicates?: boolean | null;
-  s3TableUseInvalidColumns?: boolean | null;
-  /** Push a `session_id_v7 IN (SELECT ... FROM events WHERE ...)` predicate into the raw_sessions subquery to limit aggregation to sessions that participate in the outer events filter. */
-  sessionIdPushdown?: boolean | null;
-  /** Pre-filter raw_sessions aggregation by `session_id_v7 IN (cheap pre-aggregation that only materializes the columns referenced by the outer-WHERE session predicate)`. Useful when the breakdown/SELECT pulls in many session columns (e.g. `$channel_type`) but the filter only references one (e.g. `$entry_current_url`). */
-  sessionPropertyPreAggregation?: boolean | null;
-  sessionTableVersion?: SessionTableVersion | (string & {}) | null;
-  sessionsV2JoinMode?: SessionsV2JoinMode | (string & {}) | null;
-  timings?: boolean | null;
-  /** Remove provably redundant casts and nullability wrappers (e.g. `toString(String)`, `assumeNotNull(non_nullable)`, dead `ifNull` fallbacks) using inferred expression types */
-  typeAwareCastSimplification?: boolean | null;
-  useMaterializedViews?: boolean | null;
-  /** Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, the project's stored value applies, then the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA` instance settings. This is an internal rollout switch. PostHog staff set the project value in Django admin and the project settings API ignores it. */
-  useNewEventsSchema?: boolean | null;
-  usePreaggregatedIntermediateResults?: boolean | null;
-  /** Try to automatically convert HogQL queries to use preaggregated tables at the AST level * */
-  usePreaggregatedTableTransforms?: boolean | null;
-  useWebAnalyticsPreAggregatedTables?: boolean | null;
-  /** Serve filters on the stored session-entry attribution properties (`$channel_type`, `$entry_utm_*`, `$entry_referring_domain`) by recomputing the value from the session's first pageview. Resolved server-side; not intended to be set by clients. */
-  webAnalyticsFirstPageviewFilters?: boolean | null;
-}
 export type PersonMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export type PersonMetadataPropertyFilterValueCase0List =
   Array<PersonMetadataPropertyFilterValueCase0Item>;
@@ -701,7 +549,7 @@ export interface BehavioralPropertyFilter {
   type?: string;
   value: InlineBehavioralType | (string & {});
 }
-export type TrendsQueryPropertiesCase0Item =
+export type DataWarehouseNodeFixedPropertiesItem =
   | EventPropertyFilter
   | PersonPropertyFilter
   | PersonMetadataPropertyFilter
@@ -726,245 +574,7 @@ export type TrendsQueryPropertiesCase0Item =
   | AccountCustomPropertyFilter
   | WorkflowVariablePropertyFilter
   | BehavioralPropertyFilter;
-export type TrendsQueryPropertiesCase0List = Array<TrendsQueryPropertiesCase0Item>;
-export type PropertyGroupFilterValueValuesItem =
-  | PropertyGroupFilterValue
-  | EventPropertyFilter
-  | PersonPropertyFilter
-  | PersonMetadataPropertyFilter
-  | ElementPropertyFilter
-  | EventMetadataPropertyFilter
-  | SessionPropertyFilter
-  | CohortPropertyFilter
-  | RecordingPropertyFilter
-  | LogEntryPropertyFilter
-  | GroupPropertyFilter
-  | FeaturePropertyFilter
-  | FlagPropertyFilter
-  | HogQLPropertyFilter
-  | EmptyPropertyFilter
-  | DataWarehousePropertyFilter
-  | DataWarehousePersonPropertyFilter
-  | ErrorTrackingIssueFilter
-  | LogPropertyFilter
-  | MetricPropertyFilter
-  | SpanPropertyFilter
-  | RevenueAnalyticsPropertyFilter
-  | AccountCustomPropertyFilter
-  | WorkflowVariablePropertyFilter
-  | BehavioralPropertyFilter;
-export type PropertyGroupFilterValueValuesList = Array<PropertyGroupFilterValueValuesItem>;
-export interface PropertyGroupFilterValue {
-  type?: FilterLogicalOperator | (string & {});
-  values?: PropertyGroupFilterValueValuesList;
-}
-export type PropertyGroupFilterValuesList = Array<PropertyGroupFilterValue>;
-export interface PropertyGroupFilter {
-  type?: FilterLogicalOperator | (string & {});
-  values?: PropertyGroupFilterValuesList;
-}
-/** Property filters for all series */
-export type TrendsQueryProperties = TrendsQueryPropertiesCase0List | PropertyGroupFilter;
-export interface BoxPlotDatum {
-  day?: string;
-  label?: string;
-  max?: number;
-  mean?: number;
-  median?: number;
-  min?: number;
-  p25?: number;
-  p75?: number;
-  series_index?: number | null;
-  series_label?: string | null;
-}
-export type TrendsQueryResponseBoxplotDataList = Array<BoxPlotDatum>;
-export type QueryStatusLabelsList = Array<string>;
-export interface ClickhouseQueryProgress {
-  active_cpu_time?: number;
-  bytes_read?: number;
-  estimated_rows_total?: number;
-  rows_read?: number;
-  time_elapsed?: number;
-}
-export type QueryScanFixLocation =
-  | "query"
-  | "subquery"
-  | "view"
-  | "insight_date_range"
-  | "dashboard_date_filter";
-export type QueryScanFindingKind = "no_event_filter" | "no_start_date" | "persons_join";
-export interface QueryScanWarning {
-  /** Whether the person can change the query so it reads less and still answers the same question. Surfaces show the full advice and "Fix with AI" only when a finding is actionable. */
-  actionable: boolean;
-  /** True when the query reads this much on purpose, so reading less would change the answer. Absent means no. */
-  by_design?: boolean | null;
-  /** A label for what in the query text kept the read wide, such as `in_or`. Only analytics and the assistant read it, and the labels can change. */
-  cause?: string | null;
-  /** The one fact the finding rests on. */
-  evidence?: string | null;
-  /** What "Fix with AI" and the assistant are told to do. */
-  fix: string;
-  /** Where the change goes. Absent means the query itself. */
-  fix_location?: QueryScanFixLocation | (string & {}) | null;
-  kind: QueryScanFindingKind | (string & {});
-  /** Shown to the person: what happened and what to do. */
-  message: string;
-}
-/** Every finding, fixable or not. Empty when the analysis found none. */
-export type QueryScanAnalysisFindingsList = Array<QueryScanWarning>;
-export interface QueryScanAnalysis {
-  /** The message the Fix with AI button sends to the assistant. Absent when no finding can be fixed in the query. */
-  assistant_prompt?: string | null;
-  /** Every finding, fixable or not. Empty when the analysis found none. */
-  findings: QueryScanAnalysisFindingsList;
-  /** How much of all the project's events the query read, 0 to 1. */
-  project_share?: number | null;
-  /** How much of the project's events in the query's date range the query read, 0 to 1. */
-  range_share?: number | null;
-}
-export interface QueryScanSummary {
-  /** The stored analysis, put on the response when it is served. Absent while the analysis runs, and when none was requested. */
-  analysis?: QueryScanAnalysis | null;
-  /** True when the run asked for an analysis, or found one stored. While `analysis` is absent, poll `GET /query/scan/{cache_key}` for it. */
-  analysis_requested?: boolean | null;
-  /** ClickHouse time for the last fresh run, summed over its ClickHouse queries. */
-  duration_ms: number;
-  /** True when ClickHouse stopped the run instead of finishing it. */
-  killed?: boolean | null;
-  /** Rows ClickHouse read for the last fresh run, all tables included. */
-  rows_read: number;
-}
-export interface QueryStatus {
-  budget_remaining_bytes?: number | null;
-  bytes_read?: number | null;
-  /** Cache key of the run that failed, so clients can ask for its query scan. */
-  cache_key?: string | null;
-  /** Whether the query is still running. Will be true if the query is complete, even if it errored. Either result or error will be set. */
-  complete?: boolean | null;
-  dashboard_id?: number | null;
-  /** When did the query execution task finish (whether successfully or not). */
-  end_time?: string | null;
-  /** If the query failed, this will be set to true. More information can be found in the error_message field. */
-  error?: boolean | null;
-  /** Stable machine-readable code for the error (the DRF exception code), when known. */
-  error_code?: string | null;
-  error_message?: string | null;
-  expiration_time?: string | null;
-  id?: string;
-  insight_id?: number | null;
-  labels?: QueryStatusLabelsList | null;
-  /** When was the query execution task picked up by a worker. */
-  pickup_time?: string | null;
-  /** ONLY async queries use QueryStatus. */
-  query_async?: boolean;
-  query_progress?: ClickhouseQueryProgress | null;
-  query_scan?: QueryScanSummary | null;
-  results?: unknown;
-  /** When was query execution task enqueued. */
-  start_time?: string | null;
-  task_id?: string | null;
-  team_id?: number;
-}
-export interface ResolvedDateRangeResponse {
-  date_from?: string;
-  date_to?: string;
-}
-export type TrendsQueryResponseResultsItemMap = { [key: string]: unknown | undefined };
-export type TrendsQueryResponseResultsList = Array<TrendsQueryResponseResultsItemMap>;
-export interface QueryTiming {
-  /** Key. Shortened to 'k' to save on data. */
-  k?: string;
-  /** Time in seconds. Shortened to 't' to save on data. */
-  t?: number;
-}
-export type TrendsQueryResponseTimingsList = Array<QueryTiming>;
-export interface DataWarehouseSourceUsage {
-  /** ExternalDataSource id */
-  id: string;
-  /** Connector type of the source (e.g. Stripe, Postgres), if known */
-  source_type?: string | null;
-  /** Warehouse table name that was referenced */
-  table_name: string;
-}
-export type TrendsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export interface DataWarehouseSyncWarning {
-  /** Human-readable warning shown to the user */
-  message: string;
-  /** Name of the ExternalDataSchema responsible for syncing the table */
-  schema_name: string;
-  /** ID of the ExternalDataSource, used to link to its management page. Null for self-managed tables. */
-  source_id?: string | null;
-  /** Source type, e.g. "Stripe", "Hubspot" */
-  source_type: string;
-  /** Sync status that triggered the warning, e.g. "Failed", "Paused", "BillingLimitReached" */
-  status: string;
-  /** Name of the warehouse table the warning refers to */
-  table_name: string;
-  /** Tells warning kinds apart in the shared `warnings` list */
-  type?: string;
-}
-/** Resource types the user has access restrictions on, referenced by the query, e.g. ["insight", "dashboard"] */
-export type AccessControlFilterWarningResourcesList = Array<string>;
-export interface AccessControlFilterWarning {
-  /** Human-readable warning shown to the user */
-  message: string;
-  /** Resource types the user has access restrictions on, referenced by the query, e.g. ["insight", "dashboard"] */
-  resources: AccessControlFilterWarningResourcesList;
-  /** Tells warning kinds apart in the shared `warnings` list */
-  type?: string;
-}
-export type TrendsQueryResponseWarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
-export type TrendsQueryResponseWarningsList = Array<TrendsQueryResponseWarningsItem>;
-export interface TrendsQueryResponse {
-  boxplot_data?: TrendsQueryResponseBoxplotDataList | null;
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  /** Wether more breakdown values are available. */
-  hasMore?: boolean | null;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: TrendsQueryResponseResultsList;
-  /** Measured timings for different parts of the query generation process */
-  timings?: TrendsQueryResponseTimingsList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: TrendsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: TrendsQueryResponseWarningsList | null;
-}
-export type EventsNodeFixedPropertiesItem =
-  | EventPropertyFilter
-  | PersonPropertyFilter
-  | PersonMetadataPropertyFilter
-  | ElementPropertyFilter
-  | EventMetadataPropertyFilter
-  | SessionPropertyFilter
-  | CohortPropertyFilter
-  | RecordingPropertyFilter
-  | LogEntryPropertyFilter
-  | GroupPropertyFilter
-  | FeaturePropertyFilter
-  | FlagPropertyFilter
-  | HogQLPropertyFilter
-  | EmptyPropertyFilter
-  | DataWarehousePropertyFilter
-  | DataWarehousePersonPropertyFilter
-  | ErrorTrackingIssueFilter
-  | LogPropertyFilter
-  | MetricPropertyFilter
-  | SpanPropertyFilter
-  | RevenueAnalyticsPropertyFilter
-  | AccountCustomPropertyFilter
-  | WorkflowVariablePropertyFilter
-  | BehavioralPropertyFilter;
-export type EventsNodeFixedPropertiesList = Array<EventsNodeFixedPropertiesItem>;
+export type DataWarehouseNodeFixedPropertiesList = Array<DataWarehouseNodeFixedPropertiesItem>;
 export type BaseMathType =
   | "total"
   | "dau"
@@ -1008,7 +618,7 @@ export type ExperimentMetricMathType =
   | "unique_group"
   | "hogql";
 export type CalendarHeatmapMathType = "total" | "dau";
-export type EventsNodeMath =
+export type DataWarehouseNodeMath =
   | BaseMathType
   | FunnelMathType
   | PropertyMathType
@@ -1175,6 +785,522 @@ export interface RevenueCurrencyPropertyConfig {
   property?: string | null;
   static?: CurrencyCode | (string & {}) | null;
 }
+export type DataWarehouseNodePropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type DataWarehouseNodePropertiesList = Array<DataWarehouseNodePropertiesItem>;
+export type DataWarehouseNodeResponseMap = { [key: string]: unknown | undefined };
+export interface DataWarehouseNode {
+  custom_name?: string | null;
+  distinct_id_field?: string;
+  dw_source_type?: string | null;
+  /** Fixed properties in the query, can't be edited in the interface (e.g. scoping down by person) */
+  fixedProperties?: DataWarehouseNodeFixedPropertiesList | null;
+  id?: string;
+  id_field?: string;
+  kind?: string;
+  math?: DataWarehouseNodeMath | null;
+  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null;
+  math_hogql?: string | null;
+  math_multiplier?: number | null;
+  math_property?: string | null;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null;
+  math_property_type?: string | null;
+  name?: string | null;
+  optionalInFunnel?: boolean | null;
+  /** Properties configurable in the interface */
+  properties?: DataWarehouseNodePropertiesList | null;
+  response?: DataWarehouseNodeResponseMap | null;
+  table_name?: string;
+  timestamp_field?: string;
+  /** version of the node, used for schema migrations */
+  version?: number | null;
+}
+export type MarketingAnalyticsCostFallbackSeriesList = Array<DataWarehouseNode>;
+export type MarketingAnalyticsCostFallbackSourceIdsList = Array<string>;
+export interface MarketingAnalyticsCostFallback {
+  series: MarketingAnalyticsCostFallbackSeriesList;
+  sourceIds: MarketingAnalyticsCostFallbackSourceIdsList;
+}
+export type BounceRatePageViewMode =
+  | "count_pageviews"
+  | "uniq_urls"
+  | "uniq_page_screen_autocaptures";
+export type FilterLogicalOperator = "AND" | "OR";
+export type CustomBotField =
+  | "$raw_user_agent"
+  | "$ip"
+  | "$lib"
+  | "$host"
+  | "$pathname"
+  | "$current_url"
+  | "$browser"
+  | "$os"
+  | "$browser_language"
+  | "$screen_width"
+  | "$screen_height"
+  | "$geoip_country_code"
+  | "$referrer"
+  | "$referring_domain";
+export type CustomBotMatcher = "contains" | "regex" | "exact" | "cidr";
+export interface CustomBotCondition {
+  id: string;
+  /** The event property this condition reads. */
+  key: CustomBotField | (string & {});
+  matcher: CustomBotMatcher | (string & {});
+  /** Matched against the property named by `key`. */
+  pattern: string;
+}
+export type CustomBotRuleItemsList = Array<CustomBotCondition>;
+export interface CustomBotRule {
+  /** Reported by `$virt_traffic_category`. Defaults to `custom`. */
+  category?: string | null;
+  /** Whether every condition must match (AND) or any one of them (OR). */
+  combiner: FilterLogicalOperator | (string & {});
+  id: string;
+  items: CustomBotRuleItemsList;
+  /** Reported by `$virt_bot_name` and `$virt_bot_operator` when the rule matches. */
+  name: string;
+}
+export type HogQLQueryModifiersCustomBotDefinitionsList = Array<CustomBotRule>;
+export type CustomChannelField =
+  | "utm_source"
+  | "utm_medium"
+  | "utm_campaign"
+  | "referring_domain"
+  | "url"
+  | "pathname"
+  | "hostname";
+export type CustomChannelOperator =
+  | "exact"
+  | "is_not"
+  | "is_set"
+  | "is_not_set"
+  | "icontains"
+  | "not_icontains"
+  | "regex"
+  | "not_regex";
+export type CustomChannelConditionValueCase1List = Array<string>;
+export type CustomChannelConditionValue = string | CustomChannelConditionValueCase1List;
+export interface CustomChannelCondition {
+  id?: string;
+  key?: CustomChannelField | (string & {});
+  op?: CustomChannelOperator | (string & {});
+  value?: CustomChannelConditionValue | null;
+}
+export type CustomChannelRuleItemsList = Array<CustomChannelCondition>;
+export interface CustomChannelRule {
+  channel_type?: string;
+  combiner?: FilterLogicalOperator | (string & {});
+  id?: string;
+  items?: CustomChannelRuleItemsList;
+}
+export type HogQLQueryModifiersCustomChannelTypeRulesList = Array<CustomChannelRule>;
+export interface DataWarehouseEventsModifier {
+  distinct_id_field?: string;
+  id_field?: string;
+  table_name?: string;
+  timestamp_field?: string;
+}
+export type HogQLQueryModifiersDataWarehouseEventsModifiersList =
+  Array<DataWarehouseEventsModifier>;
+export type HogQLQueryModifiersForceClickhouseDataSkippingIndexesList = Array<string>;
+export type InCohortVia = "auto" | "leftjoin" | "subquery" | "leftjoin_conjoined";
+export type InlineCohortCalculation = "off" | "auto" | "always";
+export type MaterializationMode =
+  | "auto"
+  | "legacy_null_as_string"
+  | "legacy_null_as_null"
+  | "disabled";
+export type MaterializedColumnsOptimizationMode = "disabled" | "optimized";
+export type ParserMode =
+  | "cpp_only"
+  | "cpp_with_rust_shadow"
+  | "cpp_with_rust_py_shadow"
+  | "rust_with_cpp_shadow"
+  | "rust_only"
+  | "rust_py_only"
+  | "rust_py_with_cpp_shadow";
+export type PersonsArgMaxVersion = "auto" | "v1" | "v2";
+export type PersonsJoinMode = "inner" | "left";
+export type PersonsOnEventsMode =
+  | "disabled"
+  | "person_id_no_override_properties_on_events"
+  | "person_id_override_properties_on_events"
+  | "person_id_override_properties_joined";
+export type PropertyGroupsMode = "enabled" | "disabled" | "optimized";
+export type SessionTableVersion = "auto" | "v1" | "v2" | "v3";
+export type SessionsV2JoinMode = "string" | "uuid";
+export interface HogQLQueryModifiers {
+  bounceRateDurationSeconds?: number | null;
+  bounceRatePageViewMode?: BounceRatePageViewMode | (string & {}) | null;
+  convertToProjectTimezone?: boolean | null;
+  /** Do not treat a missing user agent as automation on cookieless events. Positive bot signals and custom project rules still apply. Resolved server-side; not intended to be set by clients. */
+  cookielessTrafficIsRegular?: boolean | null;
+  customBotDefinitions?: HogQLQueryModifiersCustomBotDefinitionsList | null;
+  customChannelTypeRules?: HogQLQueryModifiersCustomChannelTypeRulesList | null;
+  dataWarehouseEventsModifiers?: HogQLQueryModifiersDataWarehouseEventsModifiersList | null;
+  debug?: boolean | null;
+  /** If these are provided, the query will fail if these skip indexes are not used */
+  forceClickhouseDataSkippingIndexes?: HogQLQueryModifiersForceClickhouseDataSkippingIndexesList | null;
+  formatCsvAllowDoubleQuotes?: boolean | null;
+  inCohortVia?: InCohortVia | (string & {}) | null;
+  inlineCohortCalculation?: InlineCohortCalculation | (string & {}) | null;
+  materializationMode?: MaterializationMode | (string & {}) | null;
+  /** Reuse eligible bounded event aggregates within one query execution. When unset, the server may enable it via the cloud feature flag. */
+  materializeRepeatedCTEs?: boolean | null;
+  materializedColumnsOptimizationMode?: MaterializedColumnsOptimizationMode | (string & {}) | null;
+  /** Merge sibling aggregating LEFT JOINs over federated Postgres tables into one UNION ALL join, so their scans overlap */
+  mergeFederatedAggregateJoins?: boolean | null;
+  /** Replace negated person-property filters in the WHERE of an `events` query (such as `email not_icontains`) with `person_id NOT IN (SELECT id FROM persons WHERE <the filters fail>)`, so the query no longer joins every person. Applies only when every filtered person property has a materialized column, nothing else in the query reads that persons join, and the join would be a LEFT JOIN. */
+  negatedPersonFiltersNotIn?: boolean | null;
+  optimizeJoinedFilters?: boolean | null;
+  optimizeProjections?: boolean | null;
+  /** HogQL parser backend; absent -> `rust_py_with_cpp_shadow` (rust-py is primary, cpp runs as a sampled shadow). `*_shadow` modes return the primary result and sample-compare against the other parser, reporting divergences without failing the request. The `rust_py_*` modes drive the same hand-rolled Rust parser as `rust_*` but build `posthog.hogql.ast` dataclass instances directly via PyO3, skipping the JSON round-trip. */
+  parserMode?: ParserMode | (string & {}) | null;
+  /** Push an `id IN (SELECT person_id FROM <left table> WHERE ...)` predicate into the joined persons subquery, so the latest-version lookup only reads persons that the outer query's left-table filters can reach. Applies only to a persons join from the query's own FROM table. */
+  personIdPushdown?: boolean | null;
+  personsArgMaxVersion?: PersonsArgMaxVersion | (string & {}) | null;
+  personsJoinMode?: PersonsJoinMode | (string & {}) | null;
+  personsOnEventsMode?: PersonsOnEventsMode | (string & {}) | null;
+  propertyGroupsMode?: PropertyGroupsMode | (string & {}) | null;
+  pushDownPredicates?: boolean | null;
+  s3TableUseInvalidColumns?: boolean | null;
+  /** Push a `session_id_v7 IN (SELECT ... FROM events WHERE ...)` predicate into the raw_sessions subquery to limit aggregation to sessions that participate in the outer events filter. */
+  sessionIdPushdown?: boolean | null;
+  /** Pre-filter raw_sessions aggregation by `session_id_v7 IN (cheap pre-aggregation that only materializes the columns referenced by the outer-WHERE session predicate)`. Useful when the breakdown/SELECT pulls in many session columns (e.g. `$channel_type`) but the filter only references one (e.g. `$entry_current_url`). */
+  sessionPropertyPreAggregation?: boolean | null;
+  sessionTableVersion?: SessionTableVersion | (string & {}) | null;
+  /** Padding, in minutes, on each side of the event time range when it filters the sessions table by session start. Defaults to 3 days. It can only narrow the range: values above the default are ignored. Lower it only for a query that keeps just the sessions that start inside its own time range. */
+  sessionTimestampBufferMinutes?: number | null;
+  sessionsV2JoinMode?: SessionsV2JoinMode | (string & {}) | null;
+  timings?: boolean | null;
+  /** Remove provably redundant casts and nullability wrappers (e.g. `toString(String)`, `assumeNotNull(non_nullable)`, dead `ifNull` fallbacks) using inferred expression types */
+  typeAwareCastSimplification?: boolean | null;
+  useMaterializedViews?: boolean | null;
+  /** Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, a staff person's `ph_new_events_schema` cookie applies, then the project's listing in the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA_TEAMS` instance setting, then the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA` instance setting. This is an internal rollout switch, and the project settings API ignores it. */
+  useNewEventsSchema?: boolean | null;
+  usePreaggregatedIntermediateResults?: boolean | null;
+  /** Try to automatically convert HogQL queries to use preaggregated tables at the AST level * */
+  usePreaggregatedTableTransforms?: boolean | null;
+  useWebAnalyticsPreAggregatedTables?: boolean | null;
+  /** Serve filters on the stored session-entry attribution properties (`$channel_type`, `$entry_utm_*`, `$entry_referring_domain`) by recomputing the value from the session's first pageview. Resolved server-side; not intended to be set by clients. */
+  webAnalyticsFirstPageviewFilters?: boolean | null;
+}
+export type TrendsQueryPropertiesCase0Item =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type TrendsQueryPropertiesCase0List = Array<TrendsQueryPropertiesCase0Item>;
+export type PropertyGroupFilterValueValuesItem =
+  | PropertyGroupFilterValue
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type PropertyGroupFilterValueValuesList = Array<PropertyGroupFilterValueValuesItem>;
+export interface PropertyGroupFilterValue {
+  type?: FilterLogicalOperator | (string & {});
+  values?: PropertyGroupFilterValueValuesList;
+}
+export type PropertyGroupFilterValuesList = Array<PropertyGroupFilterValue>;
+export interface PropertyGroupFilter {
+  type?: FilterLogicalOperator | (string & {});
+  values?: PropertyGroupFilterValuesList;
+}
+/** Property filters for all series */
+export type TrendsQueryProperties = TrendsQueryPropertiesCase0List | PropertyGroupFilter;
+export type TrendsQueryResponseActionNamesMap = { [key: string]: string | undefined };
+export interface BoxPlotDatum {
+  count?: number | null;
+  day?: string;
+  label?: string;
+  max?: number;
+  mean?: number;
+  median?: number;
+  min?: number;
+  p25?: number;
+  p75?: number;
+  series_index?: number | null;
+  series_label?: string | null;
+}
+export type TrendsQueryResponseBoxplotDataList = Array<BoxPlotDatum>;
+export type QueryStatusLabelsList = Array<string>;
+export interface ClickhouseQueryProgress {
+  active_cpu_time?: number;
+  bytes_read?: number;
+  estimated_rows_total?: number;
+  rows_read?: number;
+  time_elapsed?: number;
+}
+export type QueryScanFixLocation =
+  | "query"
+  | "subquery"
+  | "view"
+  | "insight_date_range"
+  | "dashboard_date_filter";
+export type QueryScanFindingKind = "no_event_filter" | "no_start_date" | "persons_join";
+export interface QueryScanWarning {
+  /** Whether the person can change the query so it reads less and still answers the same question. Surfaces show the full advice and "Fix with AI" only when a finding is actionable. */
+  actionable: boolean;
+  /** True when the query reads this much on purpose, so reading less would change the answer. Absent means no. */
+  by_design?: boolean | null;
+  /** A label for what in the query text kept the read wide, such as `in_or`. Only analytics and the assistant read it, and the labels can change. */
+  cause?: string | null;
+  /** The one fact the finding rests on. */
+  evidence?: string | null;
+  /** What "Fix with AI" and the assistant are told to do. */
+  fix: string;
+  /** Where the change goes. Absent means the query itself. */
+  fix_location?: QueryScanFixLocation | (string & {}) | null;
+  kind: QueryScanFindingKind | (string & {});
+  /** Shown to the person: what happened and what to do. */
+  message: string;
+}
+/** Every finding, fixable or not. Empty when the analysis found none. */
+export type QueryScanAnalysisFindingsList = Array<QueryScanWarning>;
+export interface QueryScanAnalysis {
+  /** The message the Fix with AI button sends to the assistant. Absent when no finding can be fixed in the query. */
+  assistant_prompt?: string | null;
+  /** Every finding, fixable or not. Empty when the analysis found none. */
+  findings: QueryScanAnalysisFindingsList;
+  /** How much of all the project's events the query read, 0 to 1. */
+  project_share?: number | null;
+  /** How much of the project's events in the query's date range the query read, 0 to 1. */
+  range_share?: number | null;
+}
+export interface QueryScanSummary {
+  /** The stored analysis, put on the response when it is served. Absent while the analysis runs, and when none was requested. */
+  analysis?: QueryScanAnalysis | null;
+  /** True when the run asked for an analysis, or found one stored. While `analysis` is absent, poll `GET /query/scan/{cache_key}` for it. */
+  analysis_requested?: boolean | null;
+  /** ClickHouse time for the last fresh run, summed over its ClickHouse queries. */
+  duration_ms: number;
+  /** True when ClickHouse stopped the run instead of finishing it. */
+  killed?: boolean | null;
+  /** Rows ClickHouse read for the last fresh run, all tables included. */
+  rows_read: number;
+}
+export interface QueryStatus {
+  budget_remaining_bytes?: number | null;
+  bytes_read?: number | null;
+  /** Cache key of the run that failed, so clients can ask for its query scan. */
+  cache_key?: string | null;
+  /** Whether the query is still running. Will be true if the query is complete, even if it errored. Either result or error will be set. */
+  complete?: boolean | null;
+  dashboard_id?: number | null;
+  /** When did the query execution task finish (whether successfully or not). */
+  end_time?: string | null;
+  /** If the query failed, this will be set to true. More information can be found in the error_message field. */
+  error?: boolean | null;
+  /** Stable machine-readable code for the error, when known: the DRF exception code, the ClickHouse error name, the HogQL error code, or `unhandled_<exception class>` for a failure that no handler classified. */
+  error_code?: string | null;
+  error_message?: string | null;
+  expiration_time?: string | null;
+  id?: string;
+  insight_id?: number | null;
+  labels?: QueryStatusLabelsList | null;
+  /** When was the query execution task picked up by a worker. */
+  pickup_time?: string | null;
+  /** ONLY async queries use QueryStatus. */
+  query_async?: boolean;
+  query_progress?: ClickhouseQueryProgress | null;
+  query_scan?: QueryScanSummary | null;
+  results?: unknown;
+  /** When was query execution task enqueued. */
+  start_time?: string | null;
+  task_id?: string | null;
+  team_id?: number;
+}
+export interface ResolvedDateRangeResponse {
+  date_from?: string;
+  date_to?: string;
+  /** The earliest timestamp the query reads, when only its first interval depends on rows from before date_from. Lifecycle sets it to the start of the interval before the range. */
+  read_from?: string | null;
+}
+export type TrendsQueryResponseResultsItemMap = { [key: string]: unknown | undefined };
+export type TrendsQueryResponseResultsList = Array<TrendsQueryResponseResultsItemMap>;
+export interface QueryTiming {
+  /** Key. Shortened to 'k' to save on data. */
+  k?: string;
+  /** Time in seconds. Shortened to 't' to save on data. */
+  t?: number;
+}
+export type TrendsQueryResponseTimingsList = Array<QueryTiming>;
+export interface DataWarehouseSourceUsage {
+  /** ExternalDataSource id */
+  id: string;
+  /** Connector type of the source (e.g. Stripe, Postgres), if known */
+  source_type?: string | null;
+  /** Warehouse table name that was referenced */
+  table_name: string;
+  /** Whether the query read a history table of this source */
+  uses_history_table?: boolean | null;
+}
+export type TrendsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export interface DataWarehouseSyncWarning {
+  /** True when the last sync is still within the table's sync interval, so the data is current and the warning only says it will stop updating (a sync paused recently). False or absent when the data is out of date. */
+  data_is_current?: boolean | null;
+  /** Human-readable warning shown to the user */
+  message: string;
+  /** Name of the ExternalDataSchema responsible for syncing the table */
+  schema_name: string;
+  /** ID of the ExternalDataSource, used to link to its management page. Null for self-managed tables. */
+  source_id?: string | null;
+  /** Source type, e.g. "Stripe", "Hubspot" */
+  source_type: string;
+  /** Sync status that triggered the warning, e.g. "Failed", "Paused", "BillingLimitReached" */
+  status: string;
+  /** Name of the warehouse table the warning refers to */
+  table_name: string;
+  /** Tells warning kinds apart in the shared `warnings` list */
+  type?: string;
+}
+/** Resource types the user has access restrictions on, referenced by the query, e.g. ["insight", "dashboard"] */
+export type AccessControlFilterWarningResourcesList = Array<string>;
+export interface AccessControlFilterWarning {
+  /** Human-readable warning shown to the user */
+  message: string;
+  /** Resource types the user has access restrictions on, referenced by the query, e.g. ["insight", "dashboard"] */
+  resources: AccessControlFilterWarningResourcesList;
+  /** Tells warning kinds apart in the shared `warnings` list */
+  type?: string;
+}
+export interface BreakdownNotAppliedWarning {
+  /** Human-readable warning shown to the user */
+  message: string;
+  /** Tells warning kinds apart in the shared `warnings` list */
+  type?: string;
+}
+export type TrendsQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type TrendsQueryResponseWarningsList = Array<TrendsQueryResponseWarningsItem>;
+export interface TrendsQueryResponse {
+  /** The name of each action the query's series reference, keyed by action id. A series saved without a `name` displays this name, because the query holds only the action's id. */
+  action_names?: TrendsQueryResponseActionNamesMap | null;
+  boxplot_data?: TrendsQueryResponseBoxplotDataList | null;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  /** Wether more breakdown values are available. */
+  hasMore?: boolean | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results?: TrendsQueryResponseResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: TrendsQueryResponseTimingsList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: TrendsQueryResponseUsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: TrendsQueryResponseWarningsList | null;
+}
+export type EventsNodeFixedPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | PersonMetadataPropertyFilter
+  | ElementPropertyFilter
+  | EventMetadataPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter
+  | RecordingPropertyFilter
+  | LogEntryPropertyFilter
+  | GroupPropertyFilter
+  | FeaturePropertyFilter
+  | FlagPropertyFilter
+  | HogQLPropertyFilter
+  | EmptyPropertyFilter
+  | DataWarehousePropertyFilter
+  | DataWarehousePersonPropertyFilter
+  | ErrorTrackingIssueFilter
+  | LogPropertyFilter
+  | MetricPropertyFilter
+  | SpanPropertyFilter
+  | RevenueAnalyticsPropertyFilter
+  | AccountCustomPropertyFilter
+  | WorkflowVariablePropertyFilter
+  | BehavioralPropertyFilter;
+export type EventsNodeFixedPropertiesList = Array<EventsNodeFixedPropertiesItem>;
+export type EventsNodeMath =
+  | BaseMathType
+  | FunnelMathType
+  | PropertyMathType
+  | CountPerActorMathType
+  | GroupMathType
+  | ExperimentMetricMathType
+  | CalendarHeatmapMathType
+  | string;
 export type EventsNodeOrderByList = Array<string>;
 export type EventsNodePropertiesItem =
   | EventPropertyFilter
@@ -1308,94 +1434,6 @@ export interface ActionsNode {
   /** Properties configurable in the interface */
   properties?: ActionsNodePropertiesList | null;
   response?: ActionsNodeResponseMap | null;
-  /** version of the node, used for schema migrations */
-  version?: number | null;
-}
-export type DataWarehouseNodeFixedPropertiesItem =
-  | EventPropertyFilter
-  | PersonPropertyFilter
-  | PersonMetadataPropertyFilter
-  | ElementPropertyFilter
-  | EventMetadataPropertyFilter
-  | SessionPropertyFilter
-  | CohortPropertyFilter
-  | RecordingPropertyFilter
-  | LogEntryPropertyFilter
-  | GroupPropertyFilter
-  | FeaturePropertyFilter
-  | FlagPropertyFilter
-  | HogQLPropertyFilter
-  | EmptyPropertyFilter
-  | DataWarehousePropertyFilter
-  | DataWarehousePersonPropertyFilter
-  | ErrorTrackingIssueFilter
-  | LogPropertyFilter
-  | MetricPropertyFilter
-  | SpanPropertyFilter
-  | RevenueAnalyticsPropertyFilter
-  | AccountCustomPropertyFilter
-  | WorkflowVariablePropertyFilter
-  | BehavioralPropertyFilter;
-export type DataWarehouseNodeFixedPropertiesList = Array<DataWarehouseNodeFixedPropertiesItem>;
-export type DataWarehouseNodeMath =
-  | BaseMathType
-  | FunnelMathType
-  | PropertyMathType
-  | CountPerActorMathType
-  | GroupMathType
-  | ExperimentMetricMathType
-  | CalendarHeatmapMathType
-  | string;
-export type DataWarehouseNodePropertiesItem =
-  | EventPropertyFilter
-  | PersonPropertyFilter
-  | PersonMetadataPropertyFilter
-  | ElementPropertyFilter
-  | EventMetadataPropertyFilter
-  | SessionPropertyFilter
-  | CohortPropertyFilter
-  | RecordingPropertyFilter
-  | LogEntryPropertyFilter
-  | GroupPropertyFilter
-  | FeaturePropertyFilter
-  | FlagPropertyFilter
-  | HogQLPropertyFilter
-  | EmptyPropertyFilter
-  | DataWarehousePropertyFilter
-  | DataWarehousePersonPropertyFilter
-  | ErrorTrackingIssueFilter
-  | LogPropertyFilter
-  | MetricPropertyFilter
-  | SpanPropertyFilter
-  | RevenueAnalyticsPropertyFilter
-  | AccountCustomPropertyFilter
-  | WorkflowVariablePropertyFilter
-  | BehavioralPropertyFilter;
-export type DataWarehouseNodePropertiesList = Array<DataWarehouseNodePropertiesItem>;
-export type DataWarehouseNodeResponseMap = { [key: string]: unknown | undefined };
-export interface DataWarehouseNode {
-  custom_name?: string | null;
-  distinct_id_field?: string;
-  dw_source_type?: string | null;
-  /** Fixed properties in the query, can't be edited in the interface (e.g. scoping down by person) */
-  fixedProperties?: DataWarehouseNodeFixedPropertiesList | null;
-  id?: string;
-  id_field?: string;
-  kind?: string;
-  math?: DataWarehouseNodeMath | null;
-  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null;
-  math_hogql?: string | null;
-  math_multiplier?: number | null;
-  math_property?: string | null;
-  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null;
-  math_property_type?: string | null;
-  name?: string | null;
-  optionalInFunnel?: boolean | null;
-  /** Properties configurable in the interface */
-  properties?: DataWarehouseNodePropertiesList | null;
-  response?: DataWarehouseNodeResponseMap | null;
-  table_name?: string;
-  timestamp_field?: string;
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
@@ -1536,6 +1574,7 @@ export type ChartDisplayType =
   | "Metric"
   | "ActionsPie"
   | "ActionsDonut"
+  | "ActionsProportionBar"
   | "ActionsBarValue"
   | "ActionsTable"
   | "WorldMap"
@@ -1551,13 +1590,19 @@ export interface TrendsFormulaNode {
 }
 export type TrendsFilterFormulaNodesList = Array<TrendsFormulaNode>;
 export type TrendsFilterFormulasList = Array<string>;
+export type Calculation = "fixed" | "mean" | "median" | "min" | "max";
 export type Position = "start" | "end";
+export type Scope = "all" | "series";
 export interface GoalLine {
   borderColor?: string | null;
+  /** Recalculate from returned chart marks. An absent calculation uses the fixed value. */
+  calculation?: Calculation | (string & {}) | null;
   displayIfCrossed?: boolean | null;
   displayLabel?: boolean | null;
   label?: string;
   position?: Position | (string & {}) | null;
+  /** SQL chart calculations use the primary axis, across all series or separately per series. */
+  scope?: Scope | (string & {}) | null;
   value?: number;
 }
 export type TrendsFilterGoalLinesList = Array<GoalLine>;
@@ -1584,14 +1629,19 @@ export type DataColorToken =
 export interface ResultCustomizationByValue {
   assignmentBy?: string;
   color?: DataColorToken | (string & {}) | null;
+  customColor?: string | null;
   hidden?: boolean | null;
 }
 export type TrendsFilterResultCustomizationsCase0Map = {
   [key: string]: ResultCustomizationByValue | undefined;
 };
-export type ResultCustomizationByPosition = ResultCustomizationByValue;
+export interface ResultCustomizationByPosition {
+  assignmentBy?: string;
+  color?: DataColorToken | (string & {}) | null;
+  hidden?: boolean | null;
+}
 export type TrendsFilterResultCustomizationsCase1Map = {
-  [key: string]: ResultCustomizationByValue | undefined;
+  [key: string]: ResultCustomizationByPosition | undefined;
 };
 /** Customizations for the appearance of result datasets. */
 export type TrendsFilterResultCustomizations =
@@ -1693,6 +1743,8 @@ export interface TrendsQuery {
   /** Granularity of the response. Can be one of `hour`, `day`, `week` or `month` */
   interval?: IntervalType | (string & {}) | null;
   kind?: string;
+  /** Live series for a Marketing cost trend when materialization coverage is incomplete. */
+  marketingAnalyticsCostFallback?: MarketingAnalyticsCostFallback | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
   /** Property filters for all series */
@@ -1980,7 +2032,8 @@ export type FunnelsQueryResponseTimingsList = Array<QueryTiming>;
 export type FunnelsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type FunnelsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type FunnelsQueryResponseWarningsList = Array<FunnelsQueryResponseWarningsItem>;
 export interface FunnelsQueryResponse {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -2002,7 +2055,7 @@ export interface FunnelsQueryResponse {
   total_median_conversion_time?: number | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: FunnelsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: FunnelsQueryResponseWarningsList | null;
 }
 export type FunnelsDataWarehouseNodeFixedPropertiesItem =
@@ -2181,7 +2234,8 @@ export type RetentionQueryResponseTimingsList = Array<QueryTiming>;
 export type RetentionQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type RetentionQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type RetentionQueryResponseWarningsList = Array<RetentionQueryResponseWarningsItem>;
 export interface RetentionQueryResponse {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -2201,7 +2255,7 @@ export interface RetentionQueryResponse {
   timings?: RetentionQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: RetentionQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: RetentionQueryResponseWarningsList | null;
 }
 export type AggregationPropertyType = "event" | "person" | "data_warehouse";
@@ -2406,7 +2460,10 @@ export interface PathsLink {
 export type PathsQueryResponseResultsList = Array<PathsLink>;
 export type PathsQueryResponseTimingsList = Array<QueryTiming>;
 export type PathsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type PathsQueryResponseWarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type PathsQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type PathsQueryResponseWarningsList = Array<PathsQueryResponseWarningsItem>;
 export interface PathsQueryResponse {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -2426,7 +2483,7 @@ export interface PathsQueryResponse {
   timings?: PathsQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: PathsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: PathsQueryResponseWarningsList | null;
 }
 export interface PathsQuery {
@@ -2580,7 +2637,8 @@ export type PathsV2QueryResponseTimingsList = Array<QueryTiming>;
 export type PathsV2QueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type PathsV2QueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type PathsV2QueryResponseWarningsList = Array<PathsV2QueryResponseWarningsItem>;
 export interface PathsV2QueryResponse {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -2600,7 +2658,7 @@ export interface PathsV2QueryResponse {
   timings?: PathsV2QueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: PathsV2QueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: PathsV2QueryResponseWarningsList | null;
 }
 export interface PathsV2Query {
@@ -2651,15 +2709,19 @@ export type StickinessQueryPropertiesCase0Item =
 export type StickinessQueryPropertiesCase0List = Array<StickinessQueryPropertiesCase0Item>;
 /** Property filters for all series */
 export type StickinessQueryProperties = StickinessQueryPropertiesCase0List | PropertyGroupFilter;
+export type StickinessQueryResponseActionNamesMap = { [key: string]: string | undefined };
 export type StickinessQueryResponseResultsItemMap = { [key: string]: unknown | undefined };
 export type StickinessQueryResponseResultsList = Array<StickinessQueryResponseResultsItemMap>;
 export type StickinessQueryResponseTimingsList = Array<QueryTiming>;
 export type StickinessQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type StickinessQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type StickinessQueryResponseWarningsList = Array<StickinessQueryResponseWarningsItem>;
 export interface StickinessQueryResponse {
+  /** The name of each action the query's series reference, keyed by action id. A series saved without a `name` displays this name, because the query holds only the action's id. */
+  action_names?: StickinessQueryResponseActionNamesMap | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Generated HogQL query. */
@@ -2677,7 +2739,7 @@ export interface StickinessQueryResponse {
   timings?: StickinessQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: StickinessQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: StickinessQueryResponseWarningsList | null;
 }
 export type StickinessQuerySeriesItem = EventsNode | ActionsNode | DataWarehouseNode;
@@ -2689,7 +2751,7 @@ export type StickinessFilterResultCustomizationsCase0Map = {
   [key: string]: ResultCustomizationByValue | undefined;
 };
 export type StickinessFilterResultCustomizationsCase1Map = {
-  [key: string]: ResultCustomizationByValue | undefined;
+  [key: string]: ResultCustomizationByPosition | undefined;
 };
 /** Customizations for the appearance of result datasets. */
 export type StickinessFilterResultCustomizations =
@@ -2787,15 +2849,19 @@ export type LifecycleQueryPropertiesCase0Item =
 export type LifecycleQueryPropertiesCase0List = Array<LifecycleQueryPropertiesCase0Item>;
 /** Property filters for all series */
 export type LifecycleQueryProperties = LifecycleQueryPropertiesCase0List | PropertyGroupFilter;
+export type LifecycleQueryResponseActionNamesMap = { [key: string]: string | undefined };
 export type LifecycleQueryResponseResultsItemMap = { [key: string]: unknown | undefined };
 export type LifecycleQueryResponseResultsList = Array<LifecycleQueryResponseResultsItemMap>;
 export type LifecycleQueryResponseTimingsList = Array<QueryTiming>;
 export type LifecycleQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type LifecycleQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type LifecycleQueryResponseWarningsList = Array<LifecycleQueryResponseWarningsItem>;
 export interface LifecycleQueryResponse {
+  /** The name of each action the query's series reference, keyed by action id. A series saved without a `name` displays this name, because the query holds only the action's id. */
+  action_names?: LifecycleQueryResponseActionNamesMap | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Generated HogQL query. */
@@ -2813,7 +2879,7 @@ export interface LifecycleQueryResponse {
   timings?: LifecycleQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: LifecycleQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: LifecycleQueryResponseWarningsList | null;
 }
 export type LifecycleDataWarehouseNodeFixedPropertiesItem =
@@ -3013,7 +3079,8 @@ export type WebStatsTableQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type WebStatsTableQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type WebStatsTableQueryResponseWarningsList = Array<WebStatsTableQueryResponseWarningsItem>;
 export interface WebStatsTableQueryResponse {
   columns?: WebStatsTableQueryResponseColumnsList | null;
@@ -3031,6 +3098,8 @@ export interface WebStatsTableQueryResponse {
   /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
   preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | (string & {}) | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -3044,12 +3113,16 @@ export interface WebStatsTableQueryResponse {
   types?: WebStatsTableQueryResponseTypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: WebStatsTableQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: WebStatsTableQueryResponseWarningsList | null;
 }
 export interface WebAnalyticsSampling {
   enabled?: boolean | null;
   forceSamplingRate?: SamplingRate | null;
+}
+export interface WebAnalyticsQueryModifiers {
+  /** Serve web overview and stats table queries from the dimensional precompute tables when they hold ready data for the whole date range. Falls back to the normal path otherwise. */
+  useDimensionalTables?: boolean | null;
 }
 export interface WebStatsTableQuery {
   /** Groups aggregation - not used in Web Analytics but required for type compatibility */
@@ -3087,6 +3160,8 @@ export interface WebStatsTableQuery {
   useWebAnalyticsPrecompute?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type WebOverviewQueryConversionGoal = ActionConversionGoal | CustomEventConversionGoal;
 export type WebOverviewQueryOrderByItem = WebAnalyticsOrderByFields | WebAnalyticsOrderByDirection;
@@ -3111,7 +3186,8 @@ export type WebOverviewQueryResponseTimingsList = Array<QueryTiming>;
 export type WebOverviewQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type WebOverviewQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type WebOverviewQueryResponseWarningsList = Array<WebOverviewQueryResponseWarningsItem>;
 export interface WebOverviewQueryResponse {
   dateFrom?: string | null;
@@ -3124,7 +3200,11 @@ export interface WebOverviewQueryResponse {
   modifiers?: HogQLQueryModifiers | null;
   /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
   preComputeIneligibleReason?: string | null;
+  /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
+  preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | (string & {}) | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -3137,7 +3217,7 @@ export interface WebOverviewQueryResponse {
   timings?: WebOverviewQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: WebOverviewQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: WebOverviewQueryResponseWarningsList | null;
 }
 export interface WebOverviewQuery {
@@ -3168,6 +3248,8 @@ export interface WebOverviewQuery {
   useWebAnalyticsPrecompute?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type InsightVizNodeSource =
   | TrendsQuery
@@ -3229,7 +3311,10 @@ export type ResponseResultsList = Array<ResponseResultsItemList>;
 export type ResponseTimingsList = Array<QueryTiming>;
 export type ResponseTypesList = Array<string>;
 export type ResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type ResponseWarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type ResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type ResponseWarningsList = Array<ResponseWarningsItem>;
 export interface Response {
   columns?: ResponseColumnsList;
@@ -3256,7 +3341,7 @@ export interface Response {
   types?: ResponseTypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: ResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: ResponseWarningsList | null;
 }
 export type Response1ColumnsList = Array<unknown>;
@@ -3265,7 +3350,10 @@ export type Response1ResultsList = Array<Response1ResultsItemList>;
 export type Response1TimingsList = Array<QueryTiming>;
 export type Response1TypesList = Array<string>;
 export type Response1UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response1WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response1WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response1WarningsList = Array<Response1WarningsItem>;
 export interface Response1 {
   columns?: Response1ColumnsList;
@@ -3291,7 +3379,7 @@ export interface Response1 {
   types?: Response1TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response1UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response1WarningsList | null;
 }
 export type Response2ColumnsList = Array<unknown>;
@@ -3300,7 +3388,10 @@ export type Response2ResultsList = Array<Response2ResultsItemList>;
 export type Response2TimingsList = Array<QueryTiming>;
 export type Response2TypesList = Array<string>;
 export type Response2UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response2WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response2WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response2WarningsList = Array<Response2WarningsItem>;
 export interface Response2 {
   columns?: Response2ColumnsList;
@@ -3326,9 +3417,10 @@ export interface Response2 {
   types?: Response2TypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response2UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response2WarningsList | null;
 }
+export type Response3ColumnFormatsList = Array<string | null>;
 export type Response3ColumnsList = Array<unknown>;
 export type Response3ExplainList = Array<string>;
 export type HogQLMetadataResponseChTableNamesList = Array<string>;
@@ -3337,6 +3429,8 @@ export interface HogQLNotice {
   fix?: string | null;
   message?: string;
   start?: number | null;
+  /** An https page with more detail about the notice. The editor links to it from the notice's hover. */
+  url?: string | null;
 }
 export type HogQLMetadataResponseErrorsList = Array<HogQLNotice>;
 export type PredicateFixAction = "edit_query" | "edit_property_type" | "materialize";
@@ -3400,6 +3494,8 @@ export interface HogQLMetadataResponse {
   errors?: HogQLMetadataResponseErrorsList;
   /** One entry per property filter, in query order. */
   index_usage?: HogQLMetadataResponseIndexUsageList | null;
+  /** The validator raised an internal error, such as a database failure, so the errors do not prove that the query is invalid. */
+  internalError?: boolean | null;
   isUsingIndices?: QueryIndexUsage | (string & {}) | null;
   isValid?: boolean | null;
   notices?: HogQLMetadataResponseNoticesList;
@@ -3418,6 +3514,8 @@ export type Response3WarningsList = Array<Response3WarningsItem>;
 export interface Response3 {
   /** Executed ClickHouse query */
   clickhouse?: string | null;
+  /** Display formats for directly selected virtual properties, aligned with columns. */
+  column_formats?: Response3ColumnFormatsList | null;
   /** Returned columns */
   columns?: Response3ColumnsList | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -3454,7 +3552,10 @@ export interface Response3 {
 export type Response4ResultsList = Array<WebOverviewItem>;
 export type Response4TimingsList = Array<QueryTiming>;
 export type Response4UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response4WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response4WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response4WarningsList = Array<Response4WarningsItem>;
 export interface Response4 {
   dateFrom?: string | null;
@@ -3467,7 +3568,11 @@ export interface Response4 {
   modifiers?: HogQLQueryModifiers | null;
   /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
   preComputeIneligibleReason?: string | null;
+  /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
+  preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | (string & {}) | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -3480,7 +3585,7 @@ export interface Response4 {
   timings?: Response4TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response4UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response4WarningsList | null;
 }
 export type Response5ColumnsList = Array<unknown>;
@@ -3488,7 +3593,10 @@ export type Response5ResultsList = Array<unknown>;
 export type Response5TimingsList = Array<QueryTiming>;
 export type Response5TypesList = Array<unknown>;
 export type Response5UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response5WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response5WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response5WarningsList = Array<Response5WarningsItem>;
 export interface Response5 {
   columns?: Response5ColumnsList | null;
@@ -3506,6 +3614,8 @@ export interface Response5 {
   /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
   preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | (string & {}) | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -3519,7 +3629,7 @@ export interface Response5 {
   types?: Response5TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response5UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response5WarningsList | null;
 }
 export type Response6ColumnsList = Array<unknown>;
@@ -3527,7 +3637,10 @@ export type Response6ResultsList = Array<unknown>;
 export type Response6TimingsList = Array<QueryTiming>;
 export type Response6TypesList = Array<unknown>;
 export type Response6UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response6WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response6WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response6WarningsList = Array<Response6WarningsItem>;
 export interface Response6 {
   columns?: Response6ColumnsList | null;
@@ -3553,7 +3666,7 @@ export interface Response6 {
   types?: Response6TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response6UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response6WarningsList | null;
 }
 export type Response7ColumnsList = Array<unknown>;
@@ -3561,7 +3674,10 @@ export type Response7ResultsList = Array<unknown>;
 export type Response7TimingsList = Array<QueryTiming>;
 export type Response7TypesList = Array<unknown>;
 export type Response7UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response7WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response7WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response7WarningsList = Array<Response7WarningsItem>;
 export interface Response7 {
   columns?: Response7ColumnsList | null;
@@ -3586,7 +3702,7 @@ export interface Response7 {
   types?: Response7TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response7UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response7WarningsList | null;
 }
 export type Response8ColumnsList = Array<unknown>;
@@ -3594,7 +3710,10 @@ export type Response8ResultsList = Array<unknown>;
 export type Response8TimingsList = Array<QueryTiming>;
 export type Response8TypesList = Array<unknown>;
 export type Response8UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response8WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response8WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response8WarningsList = Array<Response8WarningsItem>;
 export interface Response8 {
   columns?: Response8ColumnsList | null;
@@ -3609,7 +3728,11 @@ export interface Response8 {
   offset?: number | null;
   /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
   preComputeIneligibleReason?: string | null;
+  /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
+  preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | (string & {}) | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -3623,7 +3746,7 @@ export interface Response8 {
   types?: Response8TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response8UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response8WarningsList | null;
 }
 export interface WebVitalsPathBreakdownResultItem {
@@ -3642,7 +3765,10 @@ export interface WebVitalsPathBreakdownResult {
 export type Response9ResultsList = Array<WebVitalsPathBreakdownResult>;
 export type Response9TimingsList = Array<QueryTiming>;
 export type Response9UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response9WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response9WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response9WarningsList = Array<Response9WarningsItem>;
 export interface Response9 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -3653,7 +3779,11 @@ export interface Response9 {
   modifiers?: HogQLQueryModifiers | null;
   /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
   preComputeIneligibleReason?: string | null;
+  /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
+  preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | (string & {}) | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -3665,14 +3795,17 @@ export interface Response9 {
   timings?: Response9TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response9UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response9WarningsList | null;
 }
 export type Response10ColumnsList = Array<unknown>;
 export type Response10TimingsList = Array<QueryTiming>;
 export type Response10TypesList = Array<unknown>;
 export type Response10UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response10WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response10WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response10WarningsList = Array<Response10WarningsItem>;
 export interface Response10 {
   columns?: Response10ColumnsList | null;
@@ -3697,7 +3830,7 @@ export interface Response10 {
   types?: Response10TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response10UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response10WarningsList | null;
 }
 export type Response11ColumnsList = Array<unknown>;
@@ -3706,7 +3839,10 @@ export type Response11ResultsList = Array<Response11ResultsItemList>;
 export type Response11TimingsList = Array<QueryTiming>;
 export type Response11TypesList = Array<string>;
 export type Response11UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response11WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response11WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response11WarningsList = Array<Response11WarningsItem>;
 export interface Response11 {
   columns?: Response11ColumnsList;
@@ -3731,7 +3867,7 @@ export interface Response11 {
   types?: Response11TypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response11UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response11WarningsList | null;
 }
 export type Response12ColumnsList = Array<unknown>;
@@ -3751,17 +3887,22 @@ export type Response12ResultsList = Array<Response12ResultsItemList>;
 export type Response12TimingsList = Array<QueryTiming>;
 export type Response12TypesList = Array<unknown>;
 export type Response12UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response12WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response12WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response12WarningsList = Array<Response12WarningsItem>;
 export interface Response12 {
   columns?: Response12ColumnsList | null;
-  /** ISO timestamp of the oldest precompute window backing this result -- surfaced as "data as of X". */
+  /** ISO timestamp of the oldest precompute window backing this result. */
   dataComputedAt?: string | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
   /** Generated HogQL query. */
   hogql?: string | null;
+  /** ISO timestamp of when the numbers for the most recent day in the range were computed, at this time or later. It is the oldest stamp among the precompute windows that hold that day, across costs and conversion goals. Unset when no precompute was read or a window has no stamp. */
+  latestDayComputedAt?: string | null;
   limit?: number | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
@@ -3781,21 +3922,26 @@ export interface Response12 {
   types?: Response12TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response12UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response12WarningsList | null;
 }
 export type Response13ResultsMap = { [key: string]: MarketingAnalyticsItem | undefined };
 export type Response13TimingsList = Array<QueryTiming>;
 export type Response13UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response13WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response13WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response13WarningsList = Array<Response13WarningsItem>;
 export interface Response13 {
-  /** ISO timestamp of the oldest precompute window backing this result -- surfaced as "data as of X". */
+  /** ISO timestamp of the oldest precompute window backing this result. */
   dataComputedAt?: string | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Generated HogQL query. */
   hogql?: string | null;
+  /** ISO timestamp of when the numbers for the most recent day in the range were computed, at this time or later. It is the oldest stamp among the precompute windows that hold that day, across costs and conversion goals. Unset when no precompute was read or a window has no stamp. */
+  latestDayComputedAt?: string | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
   /** True when a conversion goal's precompute has not been warmed for this window yet -- the UI shows a "computing" state rather than empty results. Marketing analytics serves exclusively from precompute. */
@@ -3812,7 +3958,7 @@ export interface Response13 {
   timings?: Response13TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response13UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response13WarningsList | null;
 }
 export type Response14ColumnsList = Array<string>;
@@ -3878,6 +4024,7 @@ export type IntegrationKind =
   | "customerio-webhook"
   | "customerio-track"
   | "apns"
+  | "apple-ads"
   | "postgresql"
   | "aws-s3"
   | "aws-redshift"
@@ -3933,7 +4080,10 @@ export interface ErrorTrackingIssue {
 export type Response14ResultsList = Array<ErrorTrackingIssue>;
 export type Response14TimingsList = Array<QueryTiming>;
 export type Response14UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response14WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response14WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response14WarningsList = Array<Response14WarningsItem>;
 export interface Response14 {
   columns?: Response14ColumnsList | null;
@@ -3957,7 +4107,7 @@ export interface Response14 {
   timings?: Response14TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response14UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response14WarningsList | null;
 }
 export type Response15ColumnsList = Array<string>;
@@ -3987,7 +4137,10 @@ export interface ErrorTrackingCorrelatedIssue {
 export type Response15ResultsList = Array<ErrorTrackingCorrelatedIssue>;
 export type Response15TimingsList = Array<QueryTiming>;
 export type Response15UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response15WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response15WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response15WarningsList = Array<Response15WarningsItem>;
 export interface Response15 {
   columns?: Response15ColumnsList | null;
@@ -4011,75 +4164,10 @@ export interface Response15 {
   timings?: Response15TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response15UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response15WarningsList | null;
 }
-export type Response16CredibleIntervalsValueList = Array<number>;
-export type Response16CredibleIntervalsMap = {
-  [key: string]: Response16CredibleIntervalsValueList | undefined;
-};
-export type Response16InsightItemItemMap = { [key: string]: unknown | undefined };
-export type Response16InsightItemList = Array<Response16InsightItemItemMap>;
-export type Response16InsightList = Array<Response16InsightItemList>;
-export type Response16ProbabilityMap = { [key: string]: number | undefined };
-export type ExperimentSignificanceCode =
-  | "significant"
-  | "not_enough_exposure"
-  | "low_win_probability"
-  | "high_loss"
-  | "high_p_value";
-export interface ExperimentVariantFunnelsBaseStats {
-  failure_count?: number;
-  key?: string;
-  success_count?: number;
-}
-export type Response16VariantsList = Array<ExperimentVariantFunnelsBaseStats>;
-export type Response16WarningsList = Array<DataWarehouseSyncWarning>;
-export interface Response16 {
-  credible_intervals?: Response16CredibleIntervalsMap;
-  expected_loss?: number;
-  funnels_query?: FunnelsQuery | null;
-  insight?: Response16InsightList;
-  kind?: string;
-  probability?: Response16ProbabilityMap;
-  significance_code?: ExperimentSignificanceCode | (string & {});
-  significant?: boolean;
-  stats_version?: number | null;
-  variants?: Response16VariantsList;
-  /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
-  warnings?: Response16WarningsList | null;
-}
-export type Response17CredibleIntervalsValueList = Array<number>;
-export type Response17CredibleIntervalsMap = {
-  [key: string]: Response17CredibleIntervalsValueList | undefined;
-};
-export type Response17InsightItemMap = { [key: string]: unknown | undefined };
-export type Response17InsightList = Array<Response17InsightItemMap>;
-export type Response17ProbabilityMap = { [key: string]: number | undefined };
-export interface ExperimentVariantTrendsBaseStats {
-  absolute_exposure?: number;
-  count?: number;
-  exposure?: number;
-  key?: string;
-}
-export type Response17VariantsList = Array<ExperimentVariantTrendsBaseStats>;
-export type Response17WarningsList = Array<DataWarehouseSyncWarning>;
-export interface Response17 {
-  count_query?: TrendsQuery | null;
-  credible_intervals: Response17CredibleIntervalsMap;
-  exposure_query?: TrendsQuery | null;
-  insight: Response17InsightList;
-  kind?: string;
-  p_value: number;
-  probability: Response17ProbabilityMap;
-  significance_code: ExperimentSignificanceCode | (string & {});
-  significant: boolean;
-  stats_version?: number | null;
-  variants: Response17VariantsList;
-  /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
-  warnings?: Response17WarningsList | null;
-}
-export type Response18ColumnsList = Array<string>;
+export type Response16ColumnsList = Array<string>;
 export type AIEventType =
   | "$ai_generation"
   | "$ai_embedding"
@@ -4149,10 +4237,48 @@ export interface LLMTrace {
   traceName?: string | null;
   webSearchCost?: number | null;
 }
-export type Response18ResultsList = Array<LLMTrace>;
+export type Response16ResultsList = Array<LLMTrace>;
+export type Response16TimingsList = Array<QueryTiming>;
+export type Response16UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type Response16WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type Response16WarningsList = Array<Response16WarningsItem>;
+export interface Response16 {
+  columns?: Response16ColumnsList | null;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  hasMore?: boolean | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  limit?: number | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  offset?: number | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results: Response16ResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: Response16TimingsList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: Response16UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: Response16WarningsList | null;
+}
+export type Response18ColumnsList = Array<unknown>;
+export type Response18ResultsList = Array<unknown>;
 export type Response18TimingsList = Array<QueryTiming>;
+export type Response18TypesList = Array<unknown>;
 export type Response18UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response18WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response18WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response18WarningsList = Array<Response18WarningsItem>;
 export interface Response18 {
   columns?: Response18ColumnsList | null;
@@ -4174,83 +4300,140 @@ export interface Response18 {
   results?: Response18ResultsList;
   /** Measured timings for different parts of the query generation process */
   timings?: Response18TimingsList | null;
+  types?: Response18TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response18UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response18WarningsList | null;
 }
-export type Response20ColumnsList = Array<unknown>;
-export type Response20ResultsList = Array<unknown>;
-export type Response20TimingsList = Array<QueryTiming>;
-export type Response20TypesList = Array<unknown>;
-export type Response20UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response20WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
-export type Response20WarningsList = Array<Response20WarningsItem>;
-export interface Response20 {
-  columns?: Response20ColumnsList | null;
+export type Response19ColumnsList = Array<unknown>;
+export type Response19MetricsResultsList = Array<number | null>;
+export type Response19ResultsItemList = Array<unknown>;
+export type Response19ResultsList = Array<Response19ResultsItemList>;
+export type Response19TimingsList = Array<QueryTiming>;
+export type Response19TypesList = Array<string>;
+export type Response19UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type Response19WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type Response19WarningsList = Array<Response19WarningsItem>;
+export interface Response19 {
+  columns: Response19ColumnsList;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
   /** Generated HogQL query. */
-  hogql?: string | null;
-  limit?: number | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  offset?: number | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: Response20ResultsList;
-  /** Measured timings for different parts of the query generation process */
-  timings?: Response20TimingsList | null;
-  types?: Response20TypesList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: Response20UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: Response20WarningsList | null;
-}
-export type Response21ColumnsList = Array<unknown>;
-export type Response21MetricsResultsList = Array<number | null>;
-export type Response21ResultsItemList = Array<unknown>;
-export type Response21ResultsList = Array<Response21ResultsItemList>;
-export type Response21TimingsList = Array<QueryTiming>;
-export type Response21TypesList = Array<string>;
-export type Response21UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response21WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
-export type Response21WarningsList = Array<Response21WarningsItem>;
-export interface Response21 {
-  columns?: Response21ColumnsList;
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  hasMore?: boolean | null;
-  /** Generated HogQL query. */
-  hogql?: string;
+  hogql: string;
   kind?: string;
-  limit?: number;
+  limit: number;
   /** When `metrics` is set on the query, the aggregated values in the same order. */
-  metricsResults?: Response21MetricsResultsList | null;
+  metricsResults?: Response19MetricsResultsList | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
-  offset?: number;
+  offset: number;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: Response21ResultsList;
+  results: Response19ResultsList;
   /** Measured timings for different parts of the query generation process */
-  timings?: Response21TimingsList | null;
-  types?: Response21TypesList;
+  timings?: Response19TimingsList | null;
+  types: Response19TypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: Response21UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: Response21WarningsList | null;
+  used_data_warehouse_sources?: Response19UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: Response19WarningsList | null;
 }
-export type Response22MetricsResultsList = Array<number | null>;
+export type AccountsTableAccountField =
+  | "name"
+  | "external_id"
+  | "created_at"
+  | "updated_at"
+  | "churned_at"
+  | "ignored_at"
+  | "stripe_customer_id"
+  | "hubspot_deal_id"
+  | "billing_id"
+  | "sfdc_id"
+  | "zendesk_id";
+export interface AccountsTableAccountFieldColumn {
+  field: AccountsTableAccountField | (string & {});
+  kind?: string;
+}
+export interface AccountsTableTagsColumn {
+  kind?: string;
+}
+export type AccountsTableNoteCountColumn = AccountsTableTagsColumn;
+export interface AccountsTableRelationshipColumn {
+  /** Team-scoped relationship definition to return for each account. */
+  definitionId: string;
+  kind?: string;
+}
+export interface AccountsTableCustomPropertyColumn {
+  /** Team-scoped custom property definition to return for each account. */
+  definitionId: string;
+  kind?: string;
+}
+export type WindowDays = 7 | 14 | 30 | 90;
+export interface AccountsTableCustomPropertyHistoryColumn {
+  /** Team-scoped numeric custom property definition whose write history should be returned. */
+  definitionId: string;
+  kind?: string;
+  /** Number of days of history to return. The current value is included even when it is older. */
+  windowDays: WindowDays | (number & {});
+}
+export type Response20ColumnsItem =
+  | AccountsTableAccountFieldColumn
+  | AccountsTableTagsColumn
+  | AccountsTableTagsColumn
+  | AccountsTableRelationshipColumn
+  | AccountsTableCustomPropertyColumn
+  | AccountsTableCustomPropertyHistoryColumn;
+export type Response20ColumnsList = Array<Response20ColumnsItem>;
+export type AccountsTableCustomPropertyDisplayType =
+  | "text"
+  | "link"
+  | "number"
+  | "currency"
+  | "percent"
+  | "date"
+  | "datetime"
+  | "boolean"
+  | "select";
+export interface AccountsTableCustomPropertyOption {
+  color: string;
+  id?: string | null;
+  label: string;
+}
+export type AccountsTableCustomPropertyDefinitionOptionsList =
+  Array<AccountsTableCustomPropertyOption>;
+export interface AccountsTableCustomPropertySource {
+  id: string;
+}
+export interface AccountsTableCustomPropertyDefinition {
+  description?: string | null;
+  display_type: AccountsTableCustomPropertyDisplayType | (string & {});
+  has_workflow_reference: boolean;
+  id: string;
+  is_big_number?: boolean | null;
+  is_canonical: boolean;
+  name: string;
+  options?: AccountsTableCustomPropertyDefinitionOptionsList | null;
+  source?: AccountsTableCustomPropertySource | null;
+}
+export type Response20CustomPropertyDefinitionsList = Array<AccountsTableCustomPropertyDefinition>;
+export type Response20MetricsResultsList = Array<number | null>;
+export interface AccountsTableRelationshipDefinition {
+  description?: string | null;
+  id: string;
+  is_controlled: boolean;
+  is_single_holder?: boolean | null;
+  name: string;
+}
+export type Response20RelationshipDefinitionsList = Array<AccountsTableRelationshipDefinition>;
 /** Requested direct Account fields, keyed by their typed field reference. */
 export type AccountsTableRowAccountFieldsMap = { [key: string]: string | null | undefined };
 export type AccountsTableRowCustomPropertiesValue = string | number | boolean;
@@ -4293,37 +4476,43 @@ export interface AccountsTableRow {
   /** Sorted tag names. Omitted when the request does not select tags. */
   tags?: AccountsTableRowTagsList | null;
 }
-export type Response22ResultsList = Array<AccountsTableRow>;
-export type Response22TimingsList = Array<QueryTiming>;
-export type Response22UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response22WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
-export type Response22WarningsList = Array<Response22WarningsItem>;
-export interface Response22 {
+export type Response20ResultsList = Array<AccountsTableRow>;
+export type Response20TimingsList = Array<QueryTiming>;
+export type Response20UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type Response20WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type Response20WarningsList = Array<Response20WarningsItem>;
+export interface Response20 {
+  columns?: Response20ColumnsList | null;
+  customPropertyDefinitions?: Response20CustomPropertyDefinitionsList | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
-  hasMore?: boolean;
+  hasMore: boolean;
   /** Generated HogQL query. */
   hogql?: string | null;
   kind?: string;
-  limit?: number;
+  limit: number;
   /** Aggregated values in the same order as the requested metrics. */
-  metricsResults?: Response22MetricsResultsList | null;
+  metricsResults?: Response20MetricsResultsList | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
-  offset?: number;
+  offset: number;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
+  relationshipDefinitions?: Response20RelationshipDefinitionsList | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: Response22ResultsList;
+  results?: Response20ResultsList;
   /** Measured timings for different parts of the query generation process */
-  timings?: Response22TimingsList | null;
+  timings?: Response20TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: Response22UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: Response22WarningsList | null;
+  used_data_warehouse_sources?: Response20UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: Response20WarningsList | null;
 }
 export type DataTableNodeResponse =
   | DataTableNodeResponseCase0Map
@@ -4344,11 +4533,9 @@ export type DataTableNodeResponse =
   | Response14
   | Response15
   | Response16
-  | Response17
   | Response18
-  | Response20
-  | Response21
-  | Response22;
+  | Response19
+  | Response20;
 export type TaxonomicFilterGroupType =
   | "metadata"
   | "actions"
@@ -4524,7 +4711,10 @@ export type EventsQueryResponseResultsList = Array<EventsQueryResponseResultsIte
 export type EventsQueryResponseTimingsList = Array<QueryTiming>;
 export type EventsQueryResponseTypesList = Array<string>;
 export type EventsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type EventsQueryResponseWarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type EventsQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type EventsQueryResponseWarningsList = Array<EventsQueryResponseWarningsItem>;
 export interface EventsQueryResponse {
   columns?: EventsQueryResponseColumnsList;
@@ -4551,7 +4741,7 @@ export interface EventsQueryResponse {
   types?: EventsQueryResponseTypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: EventsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: EventsQueryResponseWarningsList | null;
 }
 /** Return a limited set of data. Required. */
@@ -4566,7 +4756,10 @@ export type ActorsQueryResponseResultsList = Array<ActorsQueryResponseResultsIte
 export type ActorsQueryResponseTimingsList = Array<QueryTiming>;
 export type ActorsQueryResponseTypesList = Array<string>;
 export type ActorsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type ActorsQueryResponseWarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type ActorsQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type ActorsQueryResponseWarningsList = Array<ActorsQueryResponseWarningsItem>;
 export interface ActorsQueryResponse {
   columns?: ActorsQueryResponseColumnsList;
@@ -4592,7 +4785,7 @@ export interface ActorsQueryResponse {
   types?: ActorsQueryResponseTypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: ActorsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: ActorsQueryResponseWarningsList | null;
 }
 export type InsightActorsQuerySource =
@@ -4783,124 +4976,6 @@ export interface FunnelsActorsQuery {
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
-export type FunnelCorrelationActorsQueryFunnelCorrelationPersonEntity =
-  | EventsNode
-  | ActionsNode
-  | DataWarehouseNode;
-export type FunnelCorrelationActorsQueryFunnelCorrelationPropertyValuesItem =
-  | EventPropertyFilter
-  | PersonPropertyFilter
-  | PersonMetadataPropertyFilter
-  | ElementPropertyFilter
-  | EventMetadataPropertyFilter
-  | SessionPropertyFilter
-  | CohortPropertyFilter
-  | RecordingPropertyFilter
-  | LogEntryPropertyFilter
-  | GroupPropertyFilter
-  | FeaturePropertyFilter
-  | FlagPropertyFilter
-  | HogQLPropertyFilter
-  | EmptyPropertyFilter
-  | DataWarehousePropertyFilter
-  | DataWarehousePersonPropertyFilter
-  | ErrorTrackingIssueFilter
-  | LogPropertyFilter
-  | MetricPropertyFilter
-  | SpanPropertyFilter
-  | RevenueAnalyticsPropertyFilter
-  | AccountCustomPropertyFilter
-  | WorkflowVariablePropertyFilter
-  | BehavioralPropertyFilter;
-export type FunnelCorrelationActorsQueryFunnelCorrelationPropertyValuesList =
-  Array<FunnelCorrelationActorsQueryFunnelCorrelationPropertyValuesItem>;
-export type FunnelCorrelationQueryFunnelCorrelationEventExcludePropertyNamesList = Array<string>;
-export type FunnelCorrelationQueryFunnelCorrelationEventNamesList = Array<string>;
-export type FunnelCorrelationQueryFunnelCorrelationExcludeEventNamesList = Array<string>;
-export type FunnelCorrelationQueryFunnelCorrelationExcludeNamesList = Array<string>;
-export type FunnelCorrelationQueryFunnelCorrelationNamesList = Array<string>;
-export type FunnelCorrelationResultsType = "events" | "properties" | "event_with_properties";
-export type FunnelCorrelationResponseColumnsList = Array<unknown>;
-export type CorrelationType = "success" | "failure";
-export type EventDefinitionElementsList = Array<unknown>;
-export type EventDefinitionPropertiesMap = { [key: string]: unknown | undefined };
-export interface EventDefinition {
-  elements?: EventDefinitionElementsList;
-  event?: string;
-  properties?: EventDefinitionPropertiesMap;
-}
-export interface EventOddsRatioSerialized {
-  correlation_type?: CorrelationType | (string & {});
-  event?: EventDefinition;
-  failure_count?: number;
-  odds_ratio?: number;
-  success_count?: number;
-}
-export type FunnelCorrelationResultEventsList = Array<EventOddsRatioSerialized>;
-export interface FunnelCorrelationResult {
-  events?: FunnelCorrelationResultEventsList;
-  skewed?: boolean;
-}
-export type FunnelCorrelationResponseTimingsList = Array<QueryTiming>;
-export type FunnelCorrelationResponseTypesList = Array<unknown>;
-export type FunnelCorrelationResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type FunnelCorrelationResponseWarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type FunnelCorrelationResponseWarningsList = Array<FunnelCorrelationResponseWarningsItem>;
-export interface FunnelCorrelationResponse {
-  columns?: FunnelCorrelationResponseColumnsList | null;
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  hasMore?: boolean | null;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  limit?: number | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  offset?: number | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: FunnelCorrelationResult;
-  /** Measured timings for different parts of the query generation process */
-  timings?: FunnelCorrelationResponseTimingsList | null;
-  types?: FunnelCorrelationResponseTypesList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: FunnelCorrelationResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: FunnelCorrelationResponseWarningsList | null;
-}
-export interface FunnelCorrelationQuery {
-  funnelCorrelationEventExcludePropertyNames?: FunnelCorrelationQueryFunnelCorrelationEventExcludePropertyNamesList | null;
-  funnelCorrelationEventNames?: FunnelCorrelationQueryFunnelCorrelationEventNamesList | null;
-  funnelCorrelationExcludeEventNames?: FunnelCorrelationQueryFunnelCorrelationExcludeEventNamesList | null;
-  funnelCorrelationExcludeNames?: FunnelCorrelationQueryFunnelCorrelationExcludeNamesList | null;
-  funnelCorrelationNames?: FunnelCorrelationQueryFunnelCorrelationNamesList | null;
-  funnelCorrelationType?: FunnelCorrelationResultsType | (string & {});
-  kind?: string;
-  response?: FunnelCorrelationResponse | null;
-  source?: FunnelsActorsQuery;
-  /** version of the node, used for schema migrations */
-  version?: number | null;
-}
-export interface FunnelCorrelationActorsQuery {
-  funnelCorrelationPersonConverted?: boolean | null;
-  funnelCorrelationPersonEntity?: FunnelCorrelationActorsQueryFunnelCorrelationPersonEntity | null;
-  funnelCorrelationPropertyValues?: FunnelCorrelationActorsQueryFunnelCorrelationPropertyValuesList | null;
-  includeRecordings?: boolean | null;
-  kind?: string;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  response?: ActorsQueryResponse | null;
-  source?: FunnelCorrelationQuery;
-  tags?: QueryLogTags | null;
-  /** version of the node, used for schema migrations */
-  version?: number | null;
-}
 export type ExperimentEventExposureConfigPropertiesItem =
   | EventPropertyFilter
   | PersonPropertyFilter
@@ -4937,8 +5012,31 @@ export interface ExperimentEventExposureConfig {
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
+export type ExperimentWarehouseNativeExposureConfigResponseMap = {
+  [key: string]: unknown | undefined;
+};
+export interface ExperimentWarehouseNativeUnitBinding {
+  /** Which ids represent that unit, such as `billing_customer_id`. */
+  id_namespace: string;
+  /** What was randomized, as a stable project-scoped label such as `customer` or `account`. */
+  unit_type: string;
+}
+export interface ExperimentWarehouseNativeExposureConfig {
+  /** The direct-query source (an ExternalDataSource id) the SQL is written for. */
+  connection_id: string;
+  kind?: string;
+  /** Read-only SQL in the warehouse's dialect, returning one row per exposure with `entity_id`, `variant` and `timestamp` columns. PostHog keeps the first exposure per entity and applies the experiment's date range and multiple-variant handling. */
+  query: string;
+  response?: ExperimentWarehouseNativeExposureConfigResponseMap | null;
+  unit: ExperimentWarehouseNativeUnitBinding;
+  /** version of the node, used for schema migrations */
+  version?: number | null;
+}
 /** Exposure configuration for filtering events. Defines when users were first exposed to the experiment. */
-export type ExperimentActorsQueryExposureConfig = ExperimentEventExposureConfig | ActionsNode;
+export type ExperimentActorsQueryExposureConfig =
+  | ExperimentEventExposureConfig
+  | ActionsNode
+  | ExperimentWarehouseNativeExposureConfig;
 export type ExperimentActorsQueryFunnelStepBreakdownCase3Item = number | string | number;
 export type ExperimentActorsQueryFunnelStepBreakdownCase3List =
   Array<ExperimentActorsQueryFunnelStepBreakdownCase3Item>;
@@ -5039,7 +5137,29 @@ export interface ExperimentDataWarehouseNode {
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
-export type ExperimentMeanMetricSource = EventsNode | ActionsNode | ExperimentDataWarehouseNode;
+export type ExperimentWarehouseNativeMathType = "total" | "sum";
+export type ExperimentWarehouseNativeNodeResponseMap = { [key: string]: unknown | undefined };
+export interface ExperimentWarehouseNativeNode {
+  /** The direct-query source (an ExternalDataSource id) the SQL is written for. */
+  connection_id: string;
+  custom_name?: string | null;
+  kind?: string;
+  /** How to aggregate the rows per entity. Defaults to `total` (row count). */
+  math?: ExperimentWarehouseNativeMathType | (string & {}) | null;
+  /** The numeric column `math` reads. Required when `math` is `sum`. One SQL relation can serve several metrics, each reading a different column. */
+  math_property?: string | null;
+  /** Read-only SQL in the warehouse's dialect, returning one row per outcome with `entity_id` and `timestamp` columns plus any numeric columns a metric can measure. */
+  query: string;
+  response?: ExperimentWarehouseNativeNodeResponseMap | null;
+  unit: ExperimentWarehouseNativeUnitBinding;
+  /** version of the node, used for schema migrations */
+  version?: number | null;
+}
+export type ExperimentMeanMetricSource =
+  | EventsNode
+  | ActionsNode
+  | ExperimentDataWarehouseNode
+  | ExperimentWarehouseNativeNode;
 export interface ExperimentMeanMetric {
   breakdownFilter?: BreakdownFilter | null;
   conversion_window?: number | null;
@@ -5095,7 +5215,8 @@ export interface ExperimentFunnelMetric {
 export type ExperimentRatioMetricDenominator =
   | EventsNode
   | ActionsNode
-  | ExperimentDataWarehouseNode;
+  | ExperimentDataWarehouseNode
+  | ExperimentWarehouseNativeNode;
 export interface ExperimentMetricOutlierHandling {
   ignore_zeros?: boolean | null;
   /** Winsorization lower percentile bound, as a fraction in [0, 1] (e.g. 0.01 for the 1st percentile). */
@@ -5103,7 +5224,11 @@ export interface ExperimentMetricOutlierHandling {
   /** Winsorization upper percentile bound, as a fraction in [0, 1] (e.g. 0.99 for the 99th percentile). */
   upper_bound_percentile?: number | null;
 }
-export type ExperimentRatioMetricNumerator = EventsNode | ActionsNode | ExperimentDataWarehouseNode;
+export type ExperimentRatioMetricNumerator =
+  | EventsNode
+  | ActionsNode
+  | ExperimentDataWarehouseNode
+  | ExperimentWarehouseNativeNode;
 export type ExperimentRatioMetricResponseMap = { [key: string]: unknown | undefined };
 export interface ExperimentRatioMetric {
   breakdownFilter?: BreakdownFilter | null;
@@ -5276,49 +5401,23 @@ export interface ExperimentBreakdownResult {
   variants?: ExperimentBreakdownResultVariants;
 }
 export type ExperimentQueryResponseBreakdownResultsList = Array<ExperimentBreakdownResult>;
-export type ExperimentQueryResponseCredibleIntervalsValueList = Array<number>;
-export type ExperimentQueryResponseCredibleIntervalsMap = {
-  [key: string]: ExperimentQueryResponseCredibleIntervalsValueList | undefined;
-};
-export type ExperimentQueryResponseInsightItemMap = { [key: string]: unknown | undefined };
-export type ExperimentQueryResponseInsightList = Array<ExperimentQueryResponseInsightItemMap>;
-export type ExperimentQueryResponseMetric =
-  | ExperimentMeanMetric
-  | ExperimentFunnelMetric
-  | ExperimentRatioMetric
-  | ExperimentRetentionMetric;
-export type ExperimentQueryResponseProbabilityMap = { [key: string]: number | undefined };
 export type ExperimentQueryResponseVariantResultsCase0List =
   Array<ExperimentVariantResultFrequentist>;
 export type ExperimentQueryResponseVariantResultsCase1List = Array<ExperimentVariantResultBayesian>;
 export type ExperimentQueryResponseVariantResults =
   | ExperimentQueryResponseVariantResultsCase0List
   | ExperimentQueryResponseVariantResultsCase1List;
-export type ExperimentQueryResponseVariantsCase0List = Array<ExperimentVariantTrendsBaseStats>;
-export type ExperimentQueryResponseVariantsCase1List = Array<ExperimentVariantFunnelsBaseStats>;
-export type ExperimentQueryResponseVariants =
-  | ExperimentQueryResponseVariantsCase0List
-  | ExperimentQueryResponseVariantsCase1List;
 export type ExperimentQueryResponseWarningsList = Array<DataWarehouseSyncWarning>;
 export interface ExperimentQueryResponse {
   baseline?: ExperimentStatsBaseValidated | null;
   /** Results grouped by breakdown value. When present, baseline and variant_results contain aggregated data. */
   breakdown_results?: ExperimentQueryResponseBreakdownResultsList | null;
   clickhouse_sql?: string | null;
-  credible_intervals?: ExperimentQueryResponseCredibleIntervalsMap | null;
   hogql?: string | null;
-  insight?: ExperimentQueryResponseInsightList | null;
   /** Whether exposures were served from the precomputation system */
   is_precomputed?: boolean | null;
   kind?: string;
-  metric?: ExperimentQueryResponseMetric | null;
-  p_value?: number | null;
-  probability?: ExperimentQueryResponseProbabilityMap | null;
-  significance_code?: ExperimentSignificanceCode | (string & {}) | null;
-  significant?: boolean | null;
-  stats_version?: number | null;
   variant_results?: ExperimentQueryResponseVariantResults | null;
-  variants?: ExperimentQueryResponseVariants | null;
   /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
   warnings?: ExperimentQueryResponseWarningsList | null;
 }
@@ -5401,6 +5500,18 @@ export interface PathsV2ActorsQuery {
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
+export interface AccountUsersQuery {
+  /** ID of the account whose users to list. */
+  accountId: string;
+  kind?: string;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  response?: ActorsQueryResponse | null;
+  tags?: QueryLogTags | null;
+  /** version of the node, used for schema migrations */
+  version?: number | null;
+}
+export type ExecutionTarget = "default" | "managed_trino";
 export type HogQLFiltersPropertiesItem =
   | EventPropertyFilter
   | PersonPropertyFilter
@@ -5430,12 +5541,15 @@ export type HogQLFiltersPropertiesList = Array<HogQLFiltersPropertiesItem>;
 export interface HogQLFilters {
   /** Breakdown consumed by the {filters.breakdown(...)} placeholder. Set from the dashboard-level breakdown. */
   breakdownFilter?: BreakdownFilter | null;
+  /** Comparison range consumed by {filters.previous} and {filters.compareDate(expr)}. */
+  compareFilter?: CompareFilter | null;
   dateRange?: DateRange | null;
   filterTestAccounts?: boolean | null;
   /** Time granularity consumed by the {filters.interval} placeholder. Set from the dashboard-level interval. */
   interval?: IntervalType | (string & {}) | null;
   properties?: HogQLFiltersPropertiesList | null;
 }
+export type HogQLQueryResponseColumnFormatsList = Array<string | null>;
 export type HogQLQueryResponseColumnsList = Array<unknown>;
 export type HogQLQueryResponseExplainList = Array<string>;
 export type HogQLQueryResponseResultsList = Array<unknown>;
@@ -5447,6 +5561,8 @@ export type HogQLQueryResponseWarningsList = Array<HogQLQueryResponseWarningsIte
 export interface HogQLQueryResponse {
   /** Executed ClickHouse query */
   clickhouse?: string | null;
+  /** Display formats for directly selected virtual properties, aligned with columns. */
+  column_formats?: HogQLQueryResponseColumnFormatsList | null;
   /** Returned columns */
   columns?: HogQLQueryResponseColumnsList | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -5491,6 +5607,8 @@ export type HogQLQueryVariablesMap = { [key: string]: HogQLVariable | undefined 
 export interface HogQLQuery {
   /** Optional id of a direct-query-capable external data source to run against instead of ClickHouse -- a pure-direct source, or a synced source with direct query enabled. */
   connectionId?: string | null;
+  /** Compile and run this query against the hosted Trino target. */
+  executionTarget?: ExecutionTarget | (string & {}) | null;
   explain?: boolean | null;
   /** Extra filters applied to query via {filters} or the column-bound {filters(expr AS key, ...)} placeholder */
   filters?: HogQLFilters | null;
@@ -5499,6 +5617,8 @@ export interface HogQLQuery {
   modifiers?: HogQLQueryModifiers | null;
   /** Client provided name of the query */
   name?: string | null;
+  /** Rows to skip before the default row limit applies. Rejected when the query sets its own LIMIT, uses UNION, or runs as raw SQL. */
+  offset?: number | null;
   query?: string;
   response?: HogQLQueryResponse | null;
   /** Run the selected connection query directly without translating it through HogQL first */
@@ -5514,10 +5634,10 @@ export interface HogQLQuery {
 export type ActorsQuerySource =
   | InsightActorsQuery
   | FunnelsActorsQuery
-  | FunnelCorrelationActorsQuery
   | ExperimentActorsQuery
   | StickinessActorsQuery
   | PathsV2ActorsQuery
+  | AccountUsersQuery
   | HogQLQuery;
 export interface ActorsQuery {
   /** Exclude persons matching the team's "internal and test account" filters. Only person-scoped filters (person properties, cohorts) are applied. Event-scoped test account filters have no meaning in a persons query and are ignored. */
@@ -5549,7 +5669,10 @@ export type GroupsQueryResponseResultsList = Array<GroupsQueryResponseResultsIte
 export type GroupsQueryResponseTimingsList = Array<QueryTiming>;
 export type GroupsQueryResponseTypesList = Array<string>;
 export type GroupsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type GroupsQueryResponseWarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type GroupsQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type GroupsQueryResponseWarningsList = Array<GroupsQueryResponseWarningsItem>;
 export interface GroupsQueryResponse {
   columns?: GroupsQueryResponseColumnsList;
@@ -5575,7 +5698,7 @@ export interface GroupsQueryResponse {
   types?: GroupsQueryResponseTypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: GroupsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: GroupsQueryResponseWarningsList | null;
 }
 export type GroupsQuerySelectList = Array<string>;
@@ -5617,7 +5740,8 @@ export type WebExternalClicksTableQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type WebExternalClicksTableQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type WebExternalClicksTableQueryResponseWarningsList =
   Array<WebExternalClicksTableQueryResponseWarningsItem>;
 export interface WebExternalClicksTableQueryResponse {
@@ -5644,7 +5768,7 @@ export interface WebExternalClicksTableQueryResponse {
   types?: WebExternalClicksTableQueryResponseTypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: WebExternalClicksTableQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: WebExternalClicksTableQueryResponseWarningsList | null;
 }
 export interface WebExternalClicksTableQuery {
@@ -5675,6 +5799,8 @@ export interface WebExternalClicksTableQuery {
   useSessionsTable?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type WebBotsBreakdown = "Crawler" | "Path";
 export type WebBotsTableQueryConversionGoal = ActionConversionGoal | CustomEventConversionGoal;
@@ -5693,7 +5819,8 @@ export type WebBotsTableQueryResponseTypesList = Array<unknown>;
 export type WebBotsTableQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type WebBotsTableQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type WebBotsTableQueryResponseWarningsList = Array<WebBotsTableQueryResponseWarningsItem>;
 export interface WebBotsTableQueryResponse {
   columns?: WebBotsTableQueryResponseColumnsList | null;
@@ -5718,7 +5845,7 @@ export interface WebBotsTableQueryResponse {
   types?: WebBotsTableQueryResponseTypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: WebBotsTableQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: WebBotsTableQueryResponseWarningsList | null;
 }
 export interface WebBotsTableQuery {
@@ -5749,6 +5876,8 @@ export interface WebBotsTableQuery {
   useSessionsTable?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type WebGoalsQueryConversionGoal = ActionConversionGoal | CustomEventConversionGoal;
 export type WebGoalsQueryOrderByItem = WebAnalyticsOrderByFields | WebAnalyticsOrderByDirection;
@@ -5766,7 +5895,8 @@ export type WebGoalsQueryResponseTypesList = Array<unknown>;
 export type WebGoalsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type WebGoalsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type WebGoalsQueryResponseWarningsList = Array<WebGoalsQueryResponseWarningsItem>;
 export interface WebGoalsQueryResponse {
   columns?: WebGoalsQueryResponseColumnsList | null;
@@ -5781,7 +5911,11 @@ export interface WebGoalsQueryResponse {
   offset?: number | null;
   /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
   preComputeIneligibleReason?: string | null;
+  /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
+  preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | (string & {}) | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -5795,7 +5929,7 @@ export interface WebGoalsQueryResponse {
   types?: WebGoalsQueryResponseTypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: WebGoalsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: WebGoalsQueryResponseWarningsList | null;
 }
 export interface WebGoalsQuery {
@@ -5827,6 +5961,8 @@ export interface WebGoalsQuery {
   useWebAnalyticsPrecompute?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type WebVitalsQueryConversionGoal = ActionConversionGoal | CustomEventConversionGoal;
 export type WebVitalsQueryOrderByItem = WebAnalyticsOrderByFields | WebAnalyticsOrderByDirection;
@@ -5874,6 +6010,8 @@ export interface WebVitalsQuery {
   useSessionsTable?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type WebVitalsPathBreakdownQueryConversionGoal =
   | ActionConversionGoal
@@ -5897,7 +6035,8 @@ export type WebVitalsPathBreakdownQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type WebVitalsPathBreakdownQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type WebVitalsPathBreakdownQueryResponseWarningsList =
   Array<WebVitalsPathBreakdownQueryResponseWarningsItem>;
 export interface WebVitalsPathBreakdownQueryResponse {
@@ -5909,7 +6048,11 @@ export interface WebVitalsPathBreakdownQueryResponse {
   modifiers?: HogQLQueryModifiers | null;
   /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
   preComputeIneligibleReason?: string | null;
+  /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
+  preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | (string & {}) | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -5921,7 +6064,7 @@ export interface WebVitalsPathBreakdownQueryResponse {
   timings?: WebVitalsPathBreakdownQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: WebVitalsPathBreakdownQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: WebVitalsPathBreakdownQueryResponseWarningsList | null;
 }
 export type WebVitalsPathBreakdownQueryThresholdsList = Array<number>;
@@ -5956,6 +6099,8 @@ export interface WebVitalsPathBreakdownQuery {
   useWebAnalyticsPrecompute?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type FiltersPropertiesList = Array<SessionPropertyFilter>;
 export interface Filters {
@@ -5980,7 +6125,8 @@ export type SessionAttributionExplorerQueryResponseUsedDataWarehouseSourcesList 
   Array<DataWarehouseSourceUsage>;
 export type SessionAttributionExplorerQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type SessionAttributionExplorerQueryResponseWarningsList =
   Array<SessionAttributionExplorerQueryResponseWarningsItem>;
 export interface SessionAttributionExplorerQueryResponse {
@@ -6006,7 +6152,7 @@ export interface SessionAttributionExplorerQueryResponse {
   types?: SessionAttributionExplorerQueryResponseTypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: SessionAttributionExplorerQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: SessionAttributionExplorerQueryResponseWarningsList | null;
 }
 export interface SessionAttributionExplorerQuery {
@@ -6113,7 +6259,8 @@ export type SessionsQueryResponseTypesList = Array<string>;
 export type SessionsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type SessionsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type SessionsQueryResponseWarningsList = Array<SessionsQueryResponseWarningsItem>;
 export interface SessionsQueryResponse {
   columns?: SessionsQueryResponseColumnsList;
@@ -6138,7 +6285,7 @@ export interface SessionsQueryResponse {
   types?: SessionsQueryResponseTypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: SessionsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: SessionsQueryResponseWarningsList | null;
 }
 /** Return a limited set of data. Required. */
@@ -6524,18 +6671,21 @@ export type MarketingAnalyticsTableQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MarketingAnalyticsTableQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MarketingAnalyticsTableQueryResponseWarningsList =
   Array<MarketingAnalyticsTableQueryResponseWarningsItem>;
 export interface MarketingAnalyticsTableQueryResponse {
   columns?: MarketingAnalyticsTableQueryResponseColumnsList | null;
-  /** ISO timestamp of the oldest precompute window backing this result -- surfaced as "data as of X". */
+  /** ISO timestamp of the oldest precompute window backing this result. */
   dataComputedAt?: string | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
   /** Generated HogQL query. */
   hogql?: string | null;
+  /** ISO timestamp of when the numbers for the most recent day in the range were computed, at this time or later. It is the oldest stamp among the precompute windows that hold that day, across costs and conversion goals. Unset when no precompute was read or a window has no stamp. */
+  latestDayComputedAt?: string | null;
   limit?: number | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
@@ -6555,7 +6705,7 @@ export interface MarketingAnalyticsTableQueryResponse {
   types?: MarketingAnalyticsTableQueryResponseTypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MarketingAnalyticsTableQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MarketingAnalyticsTableQueryResponseWarningsList | null;
 }
 export type MarketingAnalyticsTableQuerySelectList = Array<string>;
@@ -6600,6 +6750,8 @@ export interface MarketingAnalyticsTableQuery {
   useSessionsTable?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type MarketingAnalyticsAggregatedQueryConversionGoal =
   | ActionConversionGoal
@@ -6624,16 +6776,19 @@ export type MarketingAnalyticsAggregatedQueryResponseUsedDataWarehouseSourcesLis
   Array<DataWarehouseSourceUsage>;
 export type MarketingAnalyticsAggregatedQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MarketingAnalyticsAggregatedQueryResponseWarningsList =
   Array<MarketingAnalyticsAggregatedQueryResponseWarningsItem>;
 export interface MarketingAnalyticsAggregatedQueryResponse {
-  /** ISO timestamp of the oldest precompute window backing this result -- surfaced as "data as of X". */
+  /** ISO timestamp of the oldest precompute window backing this result. */
   dataComputedAt?: string | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Generated HogQL query. */
   hogql?: string | null;
+  /** ISO timestamp of when the numbers for the most recent day in the range were computed, at this time or later. It is the oldest stamp among the precompute windows that hold that day, across costs and conversion goals. Unset when no precompute was read or a window has no stamp. */
+  latestDayComputedAt?: string | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
   /** True when a conversion goal's precompute has not been warmed for this window yet -- the UI shows a "computing" state rather than empty results. Marketing analytics serves exclusively from precompute. */
@@ -6650,7 +6805,7 @@ export interface MarketingAnalyticsAggregatedQueryResponse {
   timings?: MarketingAnalyticsAggregatedQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MarketingAnalyticsAggregatedQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MarketingAnalyticsAggregatedQueryResponseWarningsList | null;
 }
 export type MarketingAnalyticsAggregatedQuerySelectList = Array<string>;
@@ -6687,13 +6842,16 @@ export interface MarketingAnalyticsAggregatedQuery {
   useSessionsTable?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type ErrorTrackingOrderBy =
   | "last_seen"
   | "first_seen"
   | "occurrences"
   | "users"
-  | "sessions";
+  | "sessions"
+  | "severity";
 export type OrderDirection2 = "ASC" | "DESC";
 export interface ErrorTrackingPendingFingerprintIssueStateUpdate {
   assigned_role_id?: string | null;
@@ -6719,7 +6877,8 @@ export type ErrorTrackingQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type ErrorTrackingQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type ErrorTrackingQueryResponseWarningsList = Array<ErrorTrackingQueryResponseWarningsItem>;
 export interface ErrorTrackingQueryResponse {
   columns?: ErrorTrackingQueryResponseColumnsList | null;
@@ -6743,7 +6902,7 @@ export interface ErrorTrackingQueryResponse {
   timings?: ErrorTrackingQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: ErrorTrackingQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: ErrorTrackingQueryResponseWarningsList | null;
 }
 /** Filter by issue status. */
@@ -6774,6 +6933,8 @@ export interface ErrorTrackingQuery {
   response?: ErrorTrackingQueryResponse | null;
   /** Free-text search across exception type, message, and stack frames. */
   searchQuery?: string | null;
+  /** Filter by issue severity. */
+  severity?: ErrorTrackingQueryIssueSeverity | (string & {}) | null;
   /** Filter by issue status. */
   status?: ErrorTrackingQueryStatus | null;
   tags?: QueryLogTags | null;
@@ -6795,7 +6956,8 @@ export type ErrorTrackingIssueCorrelationQueryResponseUsedDataWarehouseSourcesLi
   Array<DataWarehouseSourceUsage>;
 export type ErrorTrackingIssueCorrelationQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type ErrorTrackingIssueCorrelationQueryResponseWarningsList =
   Array<ErrorTrackingIssueCorrelationQueryResponseWarningsItem>;
 export interface ErrorTrackingIssueCorrelationQueryResponse {
@@ -6820,7 +6982,7 @@ export interface ErrorTrackingIssueCorrelationQueryResponse {
   timings?: ErrorTrackingIssueCorrelationQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: ErrorTrackingIssueCorrelationQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: ErrorTrackingIssueCorrelationQueryResponseWarningsList | null;
 }
 export interface ErrorTrackingIssueCorrelationQuery {
@@ -6830,88 +6992,6 @@ export interface ErrorTrackingIssueCorrelationQuery {
   modifiers?: HogQLQueryModifiers | null;
   response?: ErrorTrackingIssueCorrelationQueryResponse | null;
   tags?: QueryLogTags | null;
-  /** version of the node, used for schema migrations */
-  version?: number | null;
-}
-export type ExperimentFunnelsQueryResponseCredibleIntervalsValueList = Array<number>;
-export type ExperimentFunnelsQueryResponseCredibleIntervalsMap = {
-  [key: string]: ExperimentFunnelsQueryResponseCredibleIntervalsValueList | undefined;
-};
-export type ExperimentFunnelsQueryResponseInsightItemItemMap = {
-  [key: string]: unknown | undefined;
-};
-export type ExperimentFunnelsQueryResponseInsightItemList =
-  Array<ExperimentFunnelsQueryResponseInsightItemItemMap>;
-export type ExperimentFunnelsQueryResponseInsightList =
-  Array<ExperimentFunnelsQueryResponseInsightItemList>;
-export type ExperimentFunnelsQueryResponseProbabilityMap = { [key: string]: number | undefined };
-export type ExperimentFunnelsQueryResponseVariantsList = Array<ExperimentVariantFunnelsBaseStats>;
-export type ExperimentFunnelsQueryResponseWarningsList = Array<DataWarehouseSyncWarning>;
-export interface ExperimentFunnelsQueryResponse {
-  credible_intervals?: ExperimentFunnelsQueryResponseCredibleIntervalsMap;
-  expected_loss?: number;
-  funnels_query?: FunnelsQuery | null;
-  insight?: ExperimentFunnelsQueryResponseInsightList;
-  kind?: string;
-  probability?: ExperimentFunnelsQueryResponseProbabilityMap;
-  significance_code?: ExperimentSignificanceCode | (string & {});
-  significant?: boolean;
-  stats_version?: number | null;
-  variants?: ExperimentFunnelsQueryResponseVariantsList;
-  /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
-  warnings?: ExperimentFunnelsQueryResponseWarningsList | null;
-}
-export interface ExperimentFunnelsQuery {
-  experiment_id?: number | null;
-  fingerprint?: string | null;
-  funnels_query?: FunnelsQuery;
-  kind?: string;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  name?: string | null;
-  response?: ExperimentFunnelsQueryResponse | null;
-  tags?: QueryLogTags | null;
-  uuid?: string | null;
-  /** version of the node, used for schema migrations */
-  version?: number | null;
-}
-export type ExperimentTrendsQueryResponseCredibleIntervalsValueList = Array<number>;
-export type ExperimentTrendsQueryResponseCredibleIntervalsMap = {
-  [key: string]: ExperimentTrendsQueryResponseCredibleIntervalsValueList | undefined;
-};
-export type ExperimentTrendsQueryResponseInsightItemMap = { [key: string]: unknown | undefined };
-export type ExperimentTrendsQueryResponseInsightList =
-  Array<ExperimentTrendsQueryResponseInsightItemMap>;
-export type ExperimentTrendsQueryResponseProbabilityMap = { [key: string]: number | undefined };
-export type ExperimentTrendsQueryResponseVariantsList = Array<ExperimentVariantTrendsBaseStats>;
-export type ExperimentTrendsQueryResponseWarningsList = Array<DataWarehouseSyncWarning>;
-export interface ExperimentTrendsQueryResponse {
-  count_query?: TrendsQuery | null;
-  credible_intervals?: ExperimentTrendsQueryResponseCredibleIntervalsMap;
-  exposure_query?: TrendsQuery | null;
-  insight?: ExperimentTrendsQueryResponseInsightList;
-  kind?: string;
-  p_value?: number;
-  probability?: ExperimentTrendsQueryResponseProbabilityMap;
-  significance_code?: ExperimentSignificanceCode | (string & {});
-  significant?: boolean;
-  stats_version?: number | null;
-  variants?: ExperimentTrendsQueryResponseVariantsList;
-  /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
-  warnings?: ExperimentTrendsQueryResponseWarningsList | null;
-}
-export interface ExperimentTrendsQuery {
-  count_query?: TrendsQuery;
-  experiment_id?: number | null;
-  exposure_query?: TrendsQuery | null;
-  fingerprint?: string | null;
-  kind?: string;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  name?: string | null;
-  response?: ExperimentTrendsQueryResponse | null;
-  tags?: QueryLogTags | null;
-  uuid?: string | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
@@ -6945,7 +7025,10 @@ export type TracesQueryResponseColumnsList = Array<string>;
 export type TracesQueryResponseResultsList = Array<LLMTrace>;
 export type TracesQueryResponseTimingsList = Array<QueryTiming>;
 export type TracesQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type TracesQueryResponseWarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type TracesQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type TracesQueryResponseWarningsList = Array<TracesQueryResponseWarningsItem>;
 export interface TracesQueryResponse {
   columns?: TracesQueryResponseColumnsList | null;
@@ -6969,7 +7052,7 @@ export interface TracesQueryResponse {
   timings?: TracesQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: TracesQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: TracesQueryResponseWarningsList | null;
 }
 export interface TracesQuery {
@@ -7028,7 +7111,10 @@ export type TraceQueryResponseColumnsList = Array<string>;
 export type TraceQueryResponseResultsList = Array<LLMTrace>;
 export type TraceQueryResponseTimingsList = Array<QueryTiming>;
 export type TraceQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type TraceQueryResponseWarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type TraceQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type TraceQueryResponseWarningsList = Array<TraceQueryResponseWarningsItem>;
 export interface TraceQueryResponse {
   columns?: TraceQueryResponseColumnsList | null;
@@ -7052,7 +7138,7 @@ export interface TraceQueryResponse {
   timings?: TraceQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: TraceQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: TraceQueryResponseWarningsList | null;
 }
 export interface TraceQuery {
@@ -7076,7 +7162,8 @@ export type SessionQueryResponseTimingsList = Array<QueryTiming>;
 export type SessionQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type SessionQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type SessionQueryResponseWarningsList = Array<SessionQueryResponseWarningsItem>;
 export interface SessionQueryResponse {
   columns?: SessionQueryResponseColumnsList | null;
@@ -7100,7 +7187,7 @@ export interface SessionQueryResponse {
   timings?: SessionQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: SessionQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: SessionQueryResponseWarningsList | null;
 }
 export interface SessionQuery {
@@ -7140,7 +7227,8 @@ export type EndpointsUsageTableQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type EndpointsUsageTableQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type EndpointsUsageTableQueryResponseWarningsList =
   Array<EndpointsUsageTableQueryResponseWarningsItem>;
 export interface EndpointsUsageTableQueryResponse {
@@ -7166,7 +7254,7 @@ export interface EndpointsUsageTableQueryResponse {
   types?: EndpointsUsageTableQueryResponseTypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: EndpointsUsageTableQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: EndpointsUsageTableQueryResponseWarningsList | null;
 }
 export interface EndpointsUsageTableQuery {
@@ -7199,7 +7287,8 @@ export type AccountsQueryResponseTypesList = Array<string>;
 export type AccountsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type AccountsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type AccountsQueryResponseWarningsList = Array<AccountsQueryResponseWarningsItem>;
 export interface AccountsQueryResponse {
   columns: AccountsQueryResponseColumnsList;
@@ -7227,7 +7316,7 @@ export interface AccountsQueryResponse {
   types: AccountsQueryResponseTypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: AccountsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: AccountsQueryResponseWarningsList | null;
 }
 export type AccountsQuerySelectList = Array<string>;
@@ -7258,44 +7347,6 @@ export interface AccountsQuery {
   tags?: QueryLogTags | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
-}
-export type AccountsTableAccountField =
-  | "name"
-  | "external_id"
-  | "created_at"
-  | "updated_at"
-  | "churned_at"
-  | "ignored_at"
-  | "stripe_customer_id"
-  | "hubspot_deal_id"
-  | "billing_id"
-  | "sfdc_id"
-  | "zendesk_id";
-export interface AccountsTableAccountFieldColumn {
-  field: AccountsTableAccountField | (string & {});
-  kind?: string;
-}
-export interface AccountsTableTagsColumn {
-  kind?: string;
-}
-export type AccountsTableNoteCountColumn = AccountsTableTagsColumn;
-export interface AccountsTableRelationshipColumn {
-  /** Team-scoped relationship definition to return for each account. */
-  definitionId: string;
-  kind?: string;
-}
-export interface AccountsTableCustomPropertyColumn {
-  /** Team-scoped custom property definition to return for each account. */
-  definitionId: string;
-  kind?: string;
-}
-export type WindowDays = 7 | 14 | 30 | 90;
-export interface AccountsTableCustomPropertyHistoryColumn {
-  /** Team-scoped numeric custom property definition whose write history should be returned. */
-  definitionId: string;
-  kind?: string;
-  /** Number of days of history to return. The current value is included even when it is older. */
-  windowDays: WindowDays | (number & {});
 }
 export type AccountsTableQueryColumnsItem =
   | AccountsTableAccountFieldColumn
@@ -7418,16 +7469,31 @@ export type AccountsTableQueryMetricsItem =
   | AccountsTableAggregateMetric
   | AccountsTableCountThresholdMetric;
 export type AccountsTableQueryMetricsList = Array<AccountsTableQueryMetricsItem>;
+export type AccountsTableQueryResponseColumnsItem =
+  | AccountsTableAccountFieldColumn
+  | AccountsTableTagsColumn
+  | AccountsTableTagsColumn
+  | AccountsTableRelationshipColumn
+  | AccountsTableCustomPropertyColumn
+  | AccountsTableCustomPropertyHistoryColumn;
+export type AccountsTableQueryResponseColumnsList = Array<AccountsTableQueryResponseColumnsItem>;
+export type AccountsTableQueryResponseCustomPropertyDefinitionsList =
+  Array<AccountsTableCustomPropertyDefinition>;
 export type AccountsTableQueryResponseMetricsResultsList = Array<number | null>;
+export type AccountsTableQueryResponseRelationshipDefinitionsList =
+  Array<AccountsTableRelationshipDefinition>;
 export type AccountsTableQueryResponseResultsList = Array<AccountsTableRow>;
 export type AccountsTableQueryResponseTimingsList = Array<QueryTiming>;
 export type AccountsTableQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type AccountsTableQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type AccountsTableQueryResponseWarningsList = Array<AccountsTableQueryResponseWarningsItem>;
 export interface AccountsTableQueryResponse {
+  columns?: AccountsTableQueryResponseColumnsList | null;
+  customPropertyDefinitions?: AccountsTableQueryResponseCustomPropertyDefinitionsList | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore: boolean;
@@ -7442,6 +7508,7 @@ export interface AccountsTableQueryResponse {
   offset: number;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
+  relationshipDefinitions?: AccountsTableQueryResponseRelationshipDefinitionsList | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
@@ -7451,7 +7518,7 @@ export interface AccountsTableQueryResponse {
   timings?: AccountsTableQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: AccountsTableQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: AccountsTableQueryResponseWarningsList | null;
 }
 /** A typed column that supports server-side sorting. */
@@ -7474,6 +7541,8 @@ export interface AccountsTableQuery {
   filterGroups?: AccountsTableQueryFilterGroupsList | null;
   /** Filters are combined with AND. Values within tag and assignment filters use OR. */
   filters?: AccountsTableQueryFiltersList | null;
+  /** Omit missing definitions and custom-property filters incompatible with their current types. */
+  ignoreMissingDefinitions?: boolean | null;
   /** Include churned accounts. Churned accounts are hidden by default. */
   includeChurned?: boolean | null;
   /** Include ignored accounts. Ignored accounts are hidden by default. */
@@ -7488,6 +7557,7 @@ export interface AccountsTableQuery {
   response?: AccountsTableQueryResponse | null;
   sort?: AccountsTableSort | null;
   tags?: QueryLogTags | null;
+  useDefaultColumns?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
@@ -7512,8 +7582,6 @@ export type DataTableNodeSource =
   | MarketingAnalyticsAggregatedQuery
   | ErrorTrackingQuery
   | ErrorTrackingIssueCorrelationQuery
-  | ExperimentFunnelsQuery
-  | ExperimentTrendsQuery
   | TracesQuery
   | TraceQuery
   | SessionQuery
@@ -7659,9 +7727,9 @@ export interface MetricChartSettings {
 export type SliceContent = "labels" | "values" | "none";
 export type ValueDisplay = "absolute" | "percentage";
 export interface PieChartSettings {
-  /** Whether to show the aggregation total below the chart. Defaults to on. */
+  /** Whether to show the aggregation total. Defaults to on only when slices show values. */
   showTotal?: boolean | null;
-  /** What to render on each slice. Defaults to labels. */
+  /** What to render on each slice. Defaults to values. */
   sliceContent?: SliceContent | (string & {}) | null;
   /** Whether slice values show as absolute amounts or shares of the total. Only applies when `sliceContent` is `values`. */
   valueDisplay?: ValueDisplay | (string & {}) | null;
@@ -7678,13 +7746,20 @@ export interface ScatterChartSettings {
   /** Whether the X axis should start at zero. Off by default, because pinning either axis of two independent measures to zero squashes the correlation into a corner. */
   xStartAtZero?: boolean | null;
 }
+export type ValueLabelPosition = "end" | "center";
 export type DisplayType = "auto" | "line" | "bar" | "area";
+export type ValueLabels = "auto" | "show" | "hide";
 export type YAxisPosition = "left" | "right";
 export interface ChartSettingsDisplay {
   color?: string | null;
+  description?: string | null;
   displayType?: DisplayType | (string & {}) | null;
+  /** Keep this series out of the tooltip's total row, e.g. a target line over stacked bars. */
+  excludeFromTotal?: boolean | null;
   label?: string | null;
   trendLine?: boolean | null;
+  /** Overrides the chart's "Show values on series" for this series. Unset or 'auto' follows the chart setting. */
+  valueLabels?: ValueLabels | (string & {}) | null;
   yAxisPosition?: YAxisPosition | (string & {}) | null;
 }
 export type Style = "none" | "number" | "short" | "percent";
@@ -7704,13 +7779,16 @@ export interface ChartAxis {
 }
 export type ChartSettingsYAxisList = Array<ChartAxis>;
 export interface ChartSettings {
+  /** Shows only the annotations saved at this level. Unset shows every level. */
+  annotationsScope?: AnnotationScope | (string & {}) | null;
+  barGap?: number | null;
   boxPlot?: BoxPlotSettings | null;
   /** Chart rendering style overrides (line shape). Only applies to line and area charts. */
   chartStyle?: ChartStyle | null;
   goalLines?: ChartSettingsGoalLinesList | null;
   heatmap?: HeatmapSettings | null;
   leftYAxisSettings?: YAxisSettings | null;
-  /** Where the legend sits relative to the chart. Unset falls back per chart type: right for pie, top for the rest. */
+  /** Where the legend sits relative to the chart. Unset falls back per chart type: right for pie and donut, bottom for proportion bar, top for the rest. */
   legendPosition?: LegendPosition | (string & {}) | null;
   metric?: MetricChartSettings | null;
   pie?: PieChartSettings | null;
@@ -7730,8 +7808,14 @@ export interface ChartSettings {
   showYAxisBorder?: boolean | null;
   /** Whether we fill the bars to 100% in stacked mode */
   stackBars100?: boolean | null;
+  valueLabelBackground?: boolean | null;
+  valueLabelFontSize?: number | null;
+  valueLabelPosition?: ValueLabelPosition | (string & {}) | null;
+  valueLabelRotation?: number | null;
   xAxis?: ChartAxis | null;
+  xAxisDateFormat?: string | null;
   xAxisLabel?: string | null;
+  xAxisTickRotation?: number | null;
   yAxis?: ChartSettingsYAxisList | null;
   /** Deprecated: use `[left|right]YAxisSettings`. Whether the Y axis should start at zero */
   yAxisAtZero?: boolean | null;
@@ -7765,6 +7849,277 @@ export interface DataVisualizationNode {
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
+export type BICatalogMetricStatus = "approved" | "proposed";
+export interface CatalogMetricContext {
+  id: string;
+  isDrifted: boolean;
+  owner?: string | null;
+  status: BICatalogMetricStatus | (string & {});
+  unit: string;
+  updatedAt?: string | null;
+}
+export type BIDateBucket = "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year";
+export type DatePart = "month" | "quarter" | "day_of_week";
+export interface BILocalFieldDefinition1 {
+  aggregate: boolean;
+  expression: string;
+  kind?: string;
+}
+export type BICategoryGroupValuesList = Array<string>;
+export interface BICategoryGroup {
+  name: string;
+  values: BICategoryGroupValuesList;
+}
+export type BILocalFieldDefinition2GroupsList = Array<BICategoryGroup>;
+export interface BILocalFieldDefinition2 {
+  expression: string;
+  groups: BILocalFieldDefinition2GroupsList;
+  kind?: string;
+  other: string;
+  preserveUngrouped?: boolean | null;
+}
+export interface BILocalFieldDefinition3 {
+  expression: string;
+  kind?: string;
+  origin: number;
+  width: number;
+}
+export type BIFieldLocalDefinition =
+  | BILocalFieldDefinition1
+  | BILocalFieldDefinition2
+  | BILocalFieldDefinition3;
+export interface BIDataSource {
+  connectionId?: string | null;
+  table: string;
+}
+export type DatabaseSerializedFieldType =
+  | "integer"
+  | "float"
+  | "decimal"
+  | "string"
+  | "datetime"
+  | "date"
+  | "boolean"
+  | "array"
+  | "json"
+  | "lazy_table"
+  | "virtual_table"
+  | "field_traverser"
+  | "expression"
+  | "view"
+  | "materialized_view"
+  | "unknown";
+export interface BIField {
+  dateBucket?: BIDateBucket | (string & {}) | null;
+  datePart?: DatePart | (string & {}) | null;
+  expression: string;
+  id: string;
+  label?: string | null;
+  localDefinition?: BIFieldLocalDefinition | null;
+  localFieldId?: string | null;
+  name: string;
+  source: BIDataSource;
+  type: DatabaseSerializedFieldType | (string & {});
+}
+export type BIConfigColumnsList = Array<BIField>;
+export type ComparisonPeriod = "previous";
+export type BIFilterOperator =
+  | "equals"
+  | "not_equals"
+  | "contains"
+  | "in"
+  | "not_in"
+  | "between"
+  | "greater_than"
+  | "less_than"
+  | "last_7_days"
+  | "is_set"
+  | "is_not_set"
+  | "custom";
+export type BIFilterValuesList = Array<string>;
+export interface BIFilter {
+  customExpression?: string | null;
+  enabled?: boolean | null;
+  field: BIField;
+  label?: string | null;
+  operator: BIFilterOperator | (string & {});
+  value: string;
+  valueTo?: string | null;
+  values?: BIFilterValuesList | null;
+}
+export type BIConfigFiltersList = Array<BIFilter>;
+/** Ordered from the broadest dimension to the most detailed. */
+export type BIHierarchyLevelsList = Array<BIField>;
+export interface BIHierarchy {
+  id: string;
+  /** Ordered from the broadest dimension to the most detailed. */
+  levels: BIHierarchyLevelsList;
+  name: string;
+}
+export type BIConfigHierarchiesList = Array<BIHierarchy>;
+export type HierarchyDrillPathItemFilterIdsList = Array<string>;
+export interface HierarchyDrillPathItem {
+  filterIds: HierarchyDrillPathItemFilterIdsList;
+  hierarchyId: string;
+  nextField: BIField;
+  previousField: BIField;
+}
+export type BIConfigHierarchyDrillPathList = Array<HierarchyDrillPathItem>;
+export type BIQueryLimit = 100 | 1000 | 10000 | 50000;
+export type BIConfigLocalFieldsList = Array<BIField>;
+export interface Alias {
+  label: string;
+  value?: string | null;
+}
+export type MemberAliaseAliasesList = Array<Alias>;
+export interface MemberAliase {
+  aliases: MemberAliaseAliasesList;
+  field: BIField;
+}
+export type BIConfigMemberAliasesList = Array<MemberAliase>;
+export type MissingDates = "gap" | "zero";
+/** Ordered dimension IDs used to split returned groups into separate charts. */
+export type BIPaneSettingsFieldsList = Array<string>;
+export type ReferenceLines = "pane" | "worksheet";
+export interface BIPaneSettings {
+  /** Ordered dimension IDs used to split returned groups into separate charts. */
+  fields: BIPaneSettingsFieldsList;
+  /** Use a separate value scale for each pane instead of a shared primary scale. */
+  independentAxes?: boolean | null;
+  /** Calculate reference lines from each pane or from all returned worksheet marks. */
+  referenceLines?: ReferenceLines | (string & {}) | null;
+}
+export type BIConditionGroupFiltersList = Array<string>;
+export type BIConditionGroupGroupsList = Array<BIConditionGroup>;
+export type Operator1 = "AND" | "OR";
+export interface BIConditionGroup {
+  filters: BIConditionGroupFiltersList;
+  groups: BIConditionGroupGroupsList;
+  operator: Operator1 | (string & {});
+}
+export type Operator2 =
+  | "equals"
+  | "not_equals"
+  | "greater_than"
+  | "less_than"
+  | "greater_than_or_equal"
+  | "less_than_or_equal"
+  | "between"
+  | "is_set"
+  | "is_not_set";
+export interface BIResultFilter {
+  enabled?: boolean | null;
+  id: string;
+  label?: string | null;
+  measureIndex: number;
+  operator: Operator2 | (string & {});
+  value: string;
+  valueTo?: string | null;
+}
+export type BIConfigResultFiltersList = Array<BIResultFilter>;
+export type BIConfigRowsList = Array<BIField>;
+export type BISortDirection = "asc" | "desc";
+export interface BISort {
+  direction: BISortDirection | (string & {});
+  key: string;
+}
+export interface BITopN {
+  count: number;
+  fieldId: string;
+  includeOther: boolean;
+  measureIndex: number;
+}
+export interface BITotals {
+  columns?: boolean | null;
+  rows?: boolean | null;
+  subtotals?: boolean | null;
+}
+export type BIAggregation =
+  | "count"
+  | "count_distinct"
+  | "sum"
+  | "average"
+  | "minimum"
+  | "maximum"
+  | "custom";
+export type Shelf = "rows" | "columns";
+export type BITableCalculationType =
+  | "percent_of_total"
+  | "running_total"
+  | "difference"
+  | "percent_change"
+  | "moving_average"
+  | "rank";
+export interface BITableCalculation {
+  /** Dimension ID to traverse. Unset chooses the date dimension; 'table' traverses all dimensions. */
+  computeUsing?: string | null;
+  /** Require a complete window of non-null values before displaying a moving average. */
+  requireFullWindow?: boolean | null;
+  type: BITableCalculationType | (string & {});
+  /** Number of points, including the current point, in a trailing moving average. */
+  window?: number | null;
+}
+export interface BIValue {
+  aggregation: BIAggregation | (string & {});
+  customExpression?: string | null;
+  display?: ChartSettingsDisplay | null;
+  field: BIField;
+  formatting?: ChartSettingsFormatting | null;
+  label?: string | null;
+  /** Measures in older worksheets belong to rows. */
+  shelf?: Shelf | (string & {}) | null;
+  tableCalculation?: BITableCalculation | null;
+}
+export type BIConfigValuesList = Array<BIValue>;
+export interface BIConfig {
+  /** Catalog provenance only: the snapshot does not track subsequent definition edits. */
+  catalogMetric?: string | null;
+  /** Catalog metadata at copy time, not a live approval of the worksheet. */
+  catalogMetricContext?: CatalogMetricContext | null;
+  chartType: ChartDisplayType | (string & {});
+  colorBy?: string | null;
+  columns: BIConfigColumnsList;
+  compareFilter?: CompareFilter | null;
+  /** Explore only the comparison window, using dateRange as its reference window. */
+  comparisonPeriod?: ComparisonPeriod | (string & {}) | null;
+  /** Column that receives the worksheet and dashboard date range. */
+  dateField?: BIField | null;
+  dateRange?: DateRange | null;
+  filters: BIConfigFiltersList;
+  /** Named dimension sequences saved with the worksheet; imports are independent copies. */
+  hierarchies?: BIConfigHierarchiesList | null;
+  hierarchyDrillPath?: BIConfigHierarchyDrillPathList | null;
+  limit: BIQueryLimit | (number & {});
+  /** Reusable expressions owned by this worksheet only. */
+  localFields?: BIConfigLocalFieldsList | null;
+  memberAliases?: BIConfigMemberAliasesList | null;
+  /** Fill missing date buckets before table calculations. Unset preserves observed points only. */
+  missingDates?: MissingDates | (string & {}) | null;
+  /** Split the returned groups into charts using these ordered dimension IDs. */
+  panes?: BIPaneSettings | null;
+  /** Executable catalog query snapshot. Dates and grouping belong to the definition, not the shelves. */
+  querySnapshot?: HogQLQuery | null;
+  resultFilterGroup?: BIConditionGroup | null;
+  resultFilters?: BIConfigResultFiltersList | null;
+  rowFilterGroup?: BIConditionGroup | null;
+  rows: BIConfigRowsList;
+  /** null sorts automatically: newest date or highest value first, so top rows survive the LIMIT. */
+  sort?: BISort | null;
+  source?: BIDataSource | null;
+  topN?: BITopN | null;
+  totals?: BITotals | null;
+  values: BIConfigValuesList;
+}
+export interface BIVisualizationNode {
+  chartSettings?: ChartSettings | null;
+  config: BIConfig;
+  display?: ChartDisplayType | (string & {}) | null;
+  kind?: string;
+  source: HogQLQuery;
+  tableSettings?: TableSettings | null;
+  /** version of the node, used for schema migrations */
+  version?: number | null;
+}
 export type HogQueryResponseBytecodeList = Array<unknown>;
 export type HogQueryResponseColoredBytecodeList = Array<unknown>;
 export interface HogQueryResponse {
@@ -7783,8 +8138,13 @@ export interface HogQuery {
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
-/** The query definition for this insight. The `kind` field determines the query type: - `InsightVizNode` -- product analytics (trends, funnels, retention, paths, stickiness, lifecycle) - `DataVisualizationNode` -- SQL insights using HogQL - `DataTableNode` -- raw data tables - `HogQuery` -- Hog language queries */
-export type InsightQuerySchema = InsightVizNode | DataTableNode | DataVisualizationNode | HogQuery;
+/** The query definition for this insight. The `kind` field determines the query type: - `InsightVizNode` -- product analytics (trends, funnels, retention, paths, stickiness, lifecycle) - `DataVisualizationNode` -- SQL insights using HogQL - `BIVisualizationNode` -- business intelligence worksheets with a HogQL source - `DataTableNode` -- raw data tables - `HogQuery` -- Hog language queries */
+export type InsightQuerySchema =
+  | InsightVizNode
+  | DataTableNode
+  | DataVisualizationNode
+  | BIVisualizationNode
+  | HogQuery;
 /** DEPRECATED. Will be removed in a future release. Use dashboard_tiles instead. A dashboard ID for each of the dashboards that this insight is displayed on. This field is omitted from session-authenticated responses unless `include_dashboards=true` is passed. Once opt-in enforcement is enabled, API-token callers (personal API keys, OAuth) must opt in the same way. Do not rely on it being present. */
 export type CreateInsightRequestDashboardsList = Array<number>;
 export type CreateInsightRequestTagsList = Array<unknown>;
@@ -7811,6 +8171,7 @@ export type InsightOutputDashboardsList = Array<number>;
 export interface DashboardTileBasic {
   id?: number;
   dashboard_id?: number;
+  /** Whether the tile was removed from the dashboard. */
   deleted?: boolean | null;
 }
 /** A dashboard tile ID and dashboard_id for each of the dashboards that this insight is displayed on. */
@@ -7842,16 +8203,60 @@ export interface UserBasic {
   role_at_organization?: UserBasicRoleAtOrganization | null;
 }
 export type InsightOutputTagsList = Array<unknown>;
-/** * `21` - Everyone in the project can edit * `37` - Only those invited to this dashboard can edit */
-export type RestrictionLevelEnum = 21 | 37;
-/** * `21` - Can view dashboard * `37` - Can edit dashboard */
-export type PrivilegeLevelEnum = 21 | 37;
 export type InsightOutputTypesList = Array<unknown>;
-export type InsightOutputResolvedDateRange = ResolvedDateRangeResponse;
-export type InsightResultWarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+/** The period that this insight's query covered, with both ends resolved to timestamps. Null when the insight has no result yet or its query type does not report the range. */
+export interface InsightOutputResolvedDateRange {
+  date_from?: string;
+  date_to?: string;
+}
+/** The earlier period that this insight's query compared against, with both ends resolved to timestamps. Null when comparison is off, when the insight has no result yet, or when its query type does not report the range. */
+export type InsightOutputResolvedCompareDateRange = InsightOutputResolvedDateRange;
+/** The name of each action the insight's series reference, keyed by action id. A series saved without a name displays this name. */
+export type InsightOutputActionNamesMap = { [key: string]: string | undefined };
+export type InsightResultWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 /** Warnings attached to the query response that produced an insight's results. */
 export type InsightResultWarnings = Array<InsightResultWarningsItem>;
 export type InsightOutputAlertsList = Array<unknown>;
+export type MetricsFilterOp = "eq" | "neq" | "regex" | "not_regex";
+export type MetricsAttributeScope = "resource" | "attribute" | "auto";
+export interface MetricsQueryFilter {
+  key: string;
+  op: MetricsFilterOp;
+  scope?: MetricsAttributeScope | null;
+  value: string;
+}
+export type DashboardFilterMetricFiltersList = Array<MetricsQueryFilter>;
+/** The selected values. Empty when `all` is true: All stands for every option of the variable. */
+export type MetricsDashboardVariableSelectionValuesList = Array<string>;
+export interface MetricsDashboardVariableSelection {
+  all?: boolean | null;
+  /** The selected values. Empty when `all` is true: All stands for every option of the variable. */
+  values: MetricsDashboardVariableSelectionValuesList;
+}
+export type MetricsDashboardVariableCustomValuesList = Array<string>;
+export type MetricsDashboardVariableSource = "custom" | "promql" | "sql" | "textbox";
+export interface MetricsDashboardVariable {
+  /** The text that All puts in a PromQL query. `.*` when it is empty. */
+  allValue?: string | null;
+  current?: MetricsDashboardVariableSelection | null;
+  /** The options when `source` is `custom`. */
+  customValues?: MetricsDashboardVariableCustomValuesList | null;
+  includeAll?: boolean | null;
+  /** Shown in the dashboard filter bar. The name is shown when it is empty. */
+  label?: string | null;
+  multi?: boolean | null;
+  /** Letters, digits and underscores. Tiles refer to it as `$name`. */
+  name: string;
+  /** The options query when `source` is `promql` or `sql`. It can refer to other variables. PromQL supports `label_values(label)`, `label_values(selector, label)`, `label_names()`, `metrics(regex)` and `query_result(expr)`. SQL returns the options in its first column. */
+  query?: string | null;
+  /** RE2 pattern that options must match. When it has a capture group, the option is the first group. */
+  regex?: string | null;
+  source: MetricsDashboardVariableSource;
+}
+export type DashboardFilterMetricVariablesList = Array<MetricsDashboardVariable>;
 export type DashboardFilterPropertiesItem =
   | EventPropertyFilter
   | PersonPropertyFilter
@@ -7880,6 +8285,8 @@ export type DashboardFilterPropertiesItem =
 export type DashboardFilterPropertiesList = Array<DashboardFilterPropertiesItem>;
 export interface DashboardFilter {
   breakdown_filter?: BreakdownFilter | null;
+  /** Period comparison forced onto every insight that supports one. Absent/null = inherit. */
+  compareFilter?: CompareFilter | null;
   date_from?: string | null;
   date_to?: string | null;
   explicitDate?: boolean | null;
@@ -7887,6 +8294,9 @@ export interface DashboardFilter {
   filterTestAccounts?: boolean | null;
   /** Time granularity forced onto every insight that supports one. Absent/null = inherit. */
   interval?: IntervalType | null;
+  metricFilters?: DashboardFilterMetricFiltersList | null;
+  /** Variables that metrics tiles refer to as `$name`. Other tiles ignore them. */
+  metricVariables?: DashboardFilterMetricVariablesList | null;
   properties?: DashboardFilterPropertiesList | null;
 }
 export type TileFiltersPropertiesItem =
@@ -7917,6 +8327,7 @@ export type TileFiltersPropertiesItem =
 export type TileFiltersPropertiesList = Array<TileFiltersPropertiesItem>;
 export interface TileFilters {
   breakdown_filter?: BreakdownFilter | null;
+  compareFilter?: CompareFilter | null;
   date_from?: string | null;
   date_to?: string | null;
   explicitDate?: boolean | null;
@@ -7966,8 +8377,6 @@ export interface InsightOutput {
   last_modified_at?: string;
   last_modified_by?: UserBasic | null;
   is_sample?: boolean;
-  effective_restriction_level?: RestrictionLevelEnum;
-  effective_privilege_level?: PrivilegeLevelEnum;
   /** The effective access level the user has for this object */
   user_access_level?: string | null;
   /** The timezone this chart is displayed in. */
@@ -7976,7 +8385,12 @@ export interface InsightOutput {
   query_status?: unknown;
   hogql?: string | null;
   types?: InsightOutputTypesList | null;
-  resolved_date_range?: ResolvedDateRangeResponse | null;
+  /** The period that this insight's query covered, with both ends resolved to timestamps. Null when the insight has no result yet or its query type does not report the range. */
+  resolved_date_range?: InsightOutputResolvedDateRange | null;
+  /** The earlier period that this insight's query compared against, with both ends resolved to timestamps. Null when comparison is off, when the insight has no result yet, or when its query type does not report the range. */
+  resolved_compare_date_range: InsightOutputResolvedDateRange | null;
+  /** The name of each action the insight's series reference, keyed by action id. A series saved without a name displays this name. */
+  action_names: InsightOutputActionNamesMap | null;
   /** What ClickHouse read for this insight's last slow run, with the findings of its query scan. */
   query_scan?: unknown;
   /** Warnings from the run that produced these results. A `warehouse_sync` warning means the query read a data warehouse table whose sync failed, is paused, or is overdue, so the results can be out of date. Reflects the sync state when the results were computed. Null for shared insights. */
@@ -7987,6 +8401,294 @@ export interface InsightOutput {
   last_viewed_at?: string | null;
   /** How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of a searched field) or `similar` (a fuzzy trigram match, returned only when no exact match exists). Null when the list is not filtered by `search`. */
   search_match_type?: SearchMatchTypeEnum | null;
+}
+export type CreateInsightsDataCheckRequestFormat = "csv" | "json";
+/** * `quick` - Read within a small budget, so the checks can run on every load * `full` - Read with the same limits as the insight's own query */
+export type InsightDataChecksDepthEnum = "quick" | "full";
+export interface CreateInsightsDataCheckRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  format?: CreateInsightsDataCheckRequestFormat | (string & {});
+  /** The insight query to check, in the shape an insight stores it: an `InsightVizNode` with its `source`. Pass the query of a saved insight, or one that is not saved yet. */
+  query: InsightQuerySchema;
+  /** An id for this run, chosen by the client. To stop the queries of the run, send a DELETE request to `query/{client_query_id}/`. */
+  client_query_id?: string;
+  /** `quick`, the default, reads within a small budget so the checks can run on every load. On an insight they would read a lot of data for, a quick check does not run and `status` is `on_request`. `full` runs the checks with the same limits as the insight's own query. * `quick` - Read within a small budget, so the checks can run on every load * `full` - Read with the same limits as the insight's own query */
+  depth?: InsightDataChecksDepthEnum | (string & {});
+}
+/** * `passed` - No data issues found * `warning` - A check found a small issue * `problem` - A check found a large issue * `partial` - Some checks could not run, and the others found no issue * `on_request` - The checks would read a lot of data, so they run only on request * `no_events` - No events to check * `unsupported` - This kind of insight cannot be checked * `inconclusive` - No check could run */
+export type InsightDataChecksStatusEnum =
+  | "passed"
+  | "warning"
+  | "problem"
+  | "partial"
+  | "on_request"
+  | "no_events"
+  | "unsupported"
+  | "inconclusive";
+/** * `internal_users` - Internal and test users * `local_development` - Local development events * `bot_traffic` - Bot and crawler traffic * `duplicate_events` - Events sent twice */
+export type InsightDataCheckKeyEnum =
+  | "internal_users"
+  | "local_development"
+  | "bot_traffic"
+  | "duplicate_events";
+/** * `passed` - Passed * `warning` - Warning * `problem` - Problem * `skipped` - Not checked */
+export type InsightDataCheckLevelEnum = "passed" | "warning" | "problem" | "skipped";
+/** * `too_many_events` - The days checked hold too many events to count * `read_limit` - The check would read more data than it is allowed * `time_limit` - The check took longer than it is allowed * `memory_limit` - The check needed more memory than it is allowed * `too_few_sampled_events` - The sample has too few events to give a share * `filtered_by_traffic_type` - The insight already filters on traffic type * `hidden_property` - A property the check reads is hidden from you * `invalid_filter` - The project's internal and test users filter cannot run * `on_request` - The check would read a lot of data, so it runs only on request */
+export type InsightDataCheckSkipReasonEnum =
+  | "too_many_events"
+  | "read_limit"
+  | "time_limit"
+  | "memory_limit"
+  | "too_few_sampled_events"
+  | "filtered_by_traffic_type"
+  | "hidden_property"
+  | "invalid_filter"
+  | "on_request";
+/** * `counted` - Counted every event on the days checked * `sampled` - Checked a sample of the events on the days checked */
+export type InsightDataCheckMethodEnum = "counted" | "sampled";
+/** * `filter_internal_users` - Turn on the internal and test users filter for the insight * `open_filter_settings` - Change the project's internal and test users filter */
+export type InsightDataCheckActionEnum = "filter_internal_users" | "open_filter_settings";
+/** The event names the check found most often, most affected first. */
+export type InsightDataCheckTopEventsList = Array<string>;
+/** For the local development check, the local hosts whose events the project's internal and test users filter keeps, most affected first. */
+export type InsightDataCheckTopHostsList = Array<string>;
+/** For the bot traffic check, the bots and crawlers found most often, most affected first. */
+export type InsightDataCheckTopBotsList = Array<string>;
+/** For the internal users check, the team emails whose events the project's internal and test users filter keeps, most affected first. Only emails the caller may see as the team's are matched. Empty for a token without the `person:read` scope. */
+export type InsightDataCheckTopEmailsList = Array<string>;
+/** The values the rule compares the property to. */
+export type InsightDataCheckFilterValueList = Array<string>;
+export interface InsightDataCheckFilter {
+  /** The property the rule reads, such as `$host`. */
+  key: string;
+  /** The kind of property, such as `event` or `person`. */
+  type: string;
+  /** How the rule compares the property, such as `not_regex`. */
+  operator: string;
+  /** The values the rule compares the property to. */
+  value: InsightDataCheckFilterValueList;
+}
+export interface InsightDataCheck {
+  /** Which check this is. * `internal_users` - Internal and test users * `local_development` - Local development events * `bot_traffic` - Bot and crawler traffic * `duplicate_events` - Events sent twice */
+  key: InsightDataCheckKeyEnum;
+  /** `passed` when the check found nothing worth acting on, `warning` for a small share of the events, `problem` for a fifth of the events or more, and `skipped` when the check could not run. The local development check is never a `problem`, because some apps serve real users from a local host. * `passed` - Passed * `warning` - Warning * `problem` - Problem * `skipped` - Not checked */
+  level: InsightDataCheckLevelEnum;
+  /** Why the check did not run. Null unless `level` is `skipped`. * `too_many_events` - The days checked hold too many events to count * `read_limit` - The check would read more data than it is allowed * `time_limit` - The check took longer than it is allowed * `memory_limit` - The check needed more memory than it is allowed * `too_few_sampled_events` - The sample has too few events to give a share * `filtered_by_traffic_type` - The insight already filters on traffic type * `hidden_property` - A property the check reads is hidden from you * `invalid_filter` - The project's internal and test users filter cannot run * `on_request` - The check would read a lot of data, so it runs only on request */
+  skip_reason: InsightDataCheckSkipReasonEnum | null;
+  /** `counted` when the check counted every event on the days checked, `sampled` when it read a sample. Null when the check did not run. * `counted` - Counted every event on the days checked * `sampled` - Checked a sample of the events on the days checked */
+  method: InsightDataCheckMethodEnum | null;
+  /** How many events on the days checked the check found. Null when the check did not run. */
+  events: number | null;
+  /** `events` as a share of the events checked, from 0 to 1. Null when the check did not run, or when the sample is too small to give a share. */
+  share: number | null;
+  /** True when `events` is an estimate scaled up from a sample, rather than a count of every event. */
+  scaled: boolean;
+  /** The change that fixes it. `filter_internal_users`: set `filterTestAccounts` to true on the insight's query. `open_filter_settings`: change the project's internal and test users filter, for example by adding `filter_to_add`. Null when there is no single change. * `filter_internal_users` - Turn on the internal and test users filter for the insight * `open_filter_settings` - Change the project's internal and test users filter */
+  action: InsightDataCheckActionEnum | null;
+  /** The event names the check found most often, most affected first. */
+  top_events: InsightDataCheckTopEventsList;
+  /** For the local development check, the local hosts whose events the project's internal and test users filter keeps, most affected first. */
+  top_hosts: InsightDataCheckTopHostsList;
+  /** For the local development check, how many local hosts sent the events in `events`. Null for the other checks and when the check did not run. */
+  distinct_hosts: number | null;
+  /** For the bot traffic check, the bots and crawlers found most often, most affected first. */
+  top_bots: InsightDataCheckTopBotsList;
+  /** For the bot traffic check, how many named bots and crawlers sent the sampled events. Null for the other checks and when the check did not run. */
+  distinct_bots: number | null;
+  /** For the internal users check, the part of `events` that the project's internal and test users filter removes. It is 0 when the insight already applies the filter. Null for the other checks and when the check did not run. */
+  removed_by_filter: number | null;
+  /** For the internal users check, the part of `events` from team emails that the project's internal and test users filter keeps. Null for the other checks and when the check did not run. */
+  missed_by_filter: number | null;
+  /** For the internal users check, the team emails whose events the project's internal and test users filter keeps, most affected first. Only emails the caller may see as the team's are matched. Empty for a token without the `person:read` scope. */
+  top_emails: InsightDataCheckTopEmailsList;
+  /** For the internal users check, how many team emails sent events that the project's internal and test users filter keeps. Null for the other checks and when the check did not run. */
+  distinct_emails: number | null;
+  /** A rule for the project's internal and test users filter that removes what the check found: the local hosts or team emails it found, up to 50 values, or bot and AI agent traffic. Null when the check found none, and for the internal users check for a token without the `person:read` scope. */
+  filter_to_add: InsightDataCheckFilter | null;
+}
+/** Every check, in a fixed order, whatever its result. */
+export type InsightDataChecksChecksList = Array<InsightDataCheck>;
+export interface InsightDataChecksSample {
+  /** The share of the events on the days checked that the sample read, from 0 to 1. */
+  rate: number;
+  /** How many events the sample read. */
+  events: number;
+  /** How many distinct IDs sent the events the sample read. */
+  distinct_ids: number;
+}
+export interface InsightDataChecksCoverage {
+  /** The first day of the insight's date range. */
+  date_from: string;
+  /** The last day of the insight's date range. */
+  date_to: string;
+  /** How many days the insight's date range holds. */
+  days_in_range: number;
+  /** The first day the checks read. */
+  checked_date_from: string;
+  /** The last day the checks read. */
+  checked_date_to: string;
+  /** How many days the checks read. The checks read the newest days of the range, up to 7. */
+  days_checked: number;
+  /** True when the insight filters out the project's internal and test users. */
+  filters_test_accounts: boolean;
+  /** How many events the insight reads on the days checked. Counted exactly, or scaled up from the sample when the days hold too many events to count. Null when neither ran. */
+  events_checked: number | null;
+  /** The sample the bot and duplicate checks read. Null when the sample did not run. */
+  sample: InsightDataChecksSample | null;
+}
+export interface InsightDataChecks {
+  /** The worst result across the checks. `no_events` when no event matches the insight's events, filters and date range. `unsupported` when the insight has no event series to check, such as a SQL insight, and when a property the checks read is hidden from the caller. `inconclusive` when no check could run. `partial` when some checks could not run and the others found nothing. `on_request` when the checks would read a lot of data for a quick check, so they did not run: send `depth` `full` to run them. * `passed` - No data issues found * `warning` - A check found a small issue * `problem` - A check found a large issue * `partial` - Some checks could not run, and the others found no issue * `on_request` - The checks would read a lot of data, so they run only on request * `no_events` - No events to check * `unsupported` - This kind of insight cannot be checked * `inconclusive` - No check could run */
+  status: InsightDataChecksStatusEnum;
+  /** Every check, in a fixed order, whatever its result. */
+  checks: InsightDataChecksChecksList;
+  /** Which days and how many events the checks read. Null when the checks could not choose the days to read, such as for an `unsupported` insight. */
+  coverage: InsightDataChecksCoverage | null;
+}
+/** * `time_series` - Time series */
+export type ChartExplanationShapeEnum = "time_series";
+/** The insight query the explanation follows. */
+export type ExplainChartDataQueryMap = { [key: string]: unknown | undefined };
+/** One value per point. Saved for the followed series only. */
+export type StorySeriesResultDataList = Array<number>;
+/** The date of each point, in the query's timezone. Saved for the followed series only. */
+export type StorySeriesResultDaysList = Array<string>;
+export interface StorySeriesResult {
+  /** The series name. */
+  label?: string;
+  /** One value per point. Saved for the followed series only. */
+  data?: StorySeriesResultDataList;
+  /** The date of each point, in the query's timezone. Saved for the followed series only. */
+  days?: StorySeriesResultDaysList;
+}
+/** Every series on the chart when it was explained. */
+export type ExplainChartDataResultsList = Array<StorySeriesResult>;
+/** Inclusive indexes into the series' points. Null when the chapter's dates match no point. */
+export type StoryChapterRangeList = Array<number>;
+/** * `high` - High confidence * `medium` - Medium confidence * `low` - Low confidence */
+export type StoryConfidenceEnum = "high" | "medium" | "low";
+/** The query that shows the fact. The page links to it. */
+export type StoryEvidenceQueryMap = { [key: string]: unknown | undefined };
+/** * `query-trends` - Trends * `query-funnel` - Funnel * `query-retention` - Retention * `query-stickiness` - Stickiness * `query-paths` - Paths * `query-lifecycle` - Lifecycle */
+export type StoryEvidenceQueryToolEnum =
+  | "query-trends"
+  | "query-funnel"
+  | "query-retention"
+  | "query-stickiness"
+  | "query-paths"
+  | "query-lifecycle";
+/** * `line` - Line * `bar` - Bar */
+export type StoryEvidenceChartTypeEnum = "line" | "bar";
+/** The x-axis points. */
+export type StoryEvidenceChartLabelsList = Array<string>;
+/** The axis label of each point, which leaves out a date that repeats. */
+export type StoryEvidenceChartTicksList = Array<string>;
+/** One value per label. Null where the breakdown value has no row for that point. */
+export type StoryEvidenceSeriesValuesList = Array<number | null>;
+export interface StoryEvidenceSeries {
+  /** The breakdown value or column this line draws. */
+  name: string;
+  /** One value per label. Null where the breakdown value has no row for that point. */
+  values: StoryEvidenceSeriesValuesList;
+}
+/** The lines or bars to draw. */
+export type StoryEvidenceChartSeriesList = Array<StoryEvidenceSeries>;
+export interface StoryEvidenceChart {
+  /** How the evidence chart draws its series. * `line` - Line * `bar` - Bar */
+  type: StoryEvidenceChartTypeEnum | (string & {});
+  /** The x-axis points. */
+  labels: StoryEvidenceChartLabelsList;
+  /** The axis label of each point, which leaves out a date that repeats. */
+  ticks?: StoryEvidenceChartTicksList;
+  /** The lines or bars to draw. */
+  series: StoryEvidenceChartSeriesList;
+  /** The y-axis label, if any. */
+  yAxisLabel: string | null;
+}
+export interface StoryEvidence {
+  /** One fact that supports the chapter, in one sentence. */
+  text: string;
+  /** The query that shows the fact. The page links to it. */
+  query?: StoryEvidenceQueryMap | null;
+  /** The short id of a saved insight that shows the fact. The page links to it. */
+  insightShortId?: string | null;
+  /** A link to the GitHub pull request or commit behind the fact. No other links are accepted. */
+  url?: string | null;
+  /** The MCP query tool that can redraw `query`. The page redraws the query only when this is set. * `query-trends` - Trends * `query-funnel` - Funnel * `query-retention` - Retention * `query-stickiness` - Stickiness * `query-paths` - Paths * `query-lifecycle` - Lifecycle */
+  queryTool?: StoryEvidenceQueryToolEnum | (string & {}) | null;
+  /** The fact drawn as a chart, from its SQL. */
+  chart?: StoryEvidenceChart | null;
+}
+/** The facts behind the cause. */
+export type StoryChapterEvidenceList = Array<StoryEvidence>;
+export interface StoryChapter {
+  /** The moment on the chart this chapter explains. */
+  title: string;
+  /** Inclusive indexes into the series' points. Null when the chapter's dates match no point. */
+  range: StoryChapterRangeList | null;
+  /** What happened in this moment. */
+  summary: string | null;
+  /** The likely cause of this moment. */
+  cause: string | null;
+  /** How sure the investigation is of the cause. * `high` - High confidence * `medium` - Medium confidence * `low` - Low confidence */
+  confidence: StoryConfidenceEnum | (string & {}) | null;
+  /** Why the confidence is what it is. */
+  confidenceReason: string | null;
+  /** The facts behind the cause. */
+  evidence: StoryChapterEvidenceList;
+}
+/** The moments that stand out, in reading order. */
+export type ExplainChartDataChaptersList = Array<StoryChapter>;
+/** Warnings the chart's query came back with. */
+export type ExplainChartDataWarningsList = Array<unknown>;
+export interface ExplainChartData {
+  /** What the explanation walks through, whichever insight drew the chart. A funnel over time is a time series too. * `time_series` - Time series */
+  shape?: ChartExplanationShapeEnum | (string & {});
+  /** The insight query the explanation follows. */
+  query: ExplainChartDataQueryMap;
+  /** Every series on the chart when it was explained. */
+  results: ExplainChartDataResultsList;
+  /** The index in `results` the explanation follows. */
+  seriesIndex: number;
+  /** The insight's name. */
+  insightName: string | null;
+  /** Whether the last point's period had not ended yet. */
+  lastPointInProgress: boolean;
+  /** One sentence a person could read in place of the whole explanation. */
+  headline: string;
+  /** The moments that stand out, in reading order. */
+  chapters: ExplainChartDataChaptersList;
+  /** Warnings the chart's query came back with. */
+  warnings?: ExplainChartDataWarningsList;
+}
+export interface CreateInsightsExplanationRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  insight_id: number;
+  /** The chart explanation, as the insight page shows it. */
+  data: ExplainChartData;
+}
+export interface ChartExplanationAuthor {
+  /** The user's id. */
+  id: number;
+  /** The user's first name. */
+  first_name: string;
+  /** The user's last name. */
+  last_name: string;
+  /** The user's email address. */
+  email: string;
+}
+export interface ChartExplanation {
+  /** The chart explanation, as the insight page shows it. */
+  data: ExplainChartData;
+  /** Who saved the explanation, directly or through an agent. */
+  created_by: ChartExplanationAuthor | null;
+  /** The explanation's id, which its link carries. */
+  id: string;
+  /** The insight the explanation belongs to. */
+  insight_id: number;
+  /** When the explanation was first saved. */
+  created_at: string;
 }
 export interface CreateInsightsSharingPasswordRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -8014,6 +8716,8 @@ export interface SharingConfiguration {
   share_passwords?: SharingConfigurationSharePasswordsList;
   /** The effective access level the user has for this object */
   user_access_level?: string | null;
+  /** Whether the project has configured access controls for shared content or its underlying data. */
+  has_relevant_access_controls: boolean;
 }
 export type CreateInsightsViewedRequestFormat = "csv" | "json";
 /** Insight IDs that were just viewed by the current user. At most 2500 ids per request. */
@@ -8123,6 +8827,23 @@ export interface GetInsightsAllActivityRequest {
   limit?: number;
   /** 1-indexed page number. Defaults to 1. */
   page?: number;
+}
+export type GetInsightsDataCheckRequestDepth = "quick" | "full";
+export type GetInsightsDataCheckRequestFormat = "csv" | "json";
+export interface GetInsightsDataCheckRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Numeric primary key or 8-character `short_id` (for example `AaVQ8Ijw`) identifying the insight. */
+  id: string;
+  /** `quick`, the default, reads within a small budget so the checks can run on every load. On an insight they would read a lot of data for, a quick check does not run and `status` is `on_request`. `full` runs the checks with the same limits as the insight's own query. * `quick` - Read within a small budget, so the checks can run on every load * `full` - Read with the same limits as the insight's own query */
+  depth?: GetInsightsDataCheckRequestDepth | (string & {});
+  format?: GetInsightsDataCheckRequestFormat | (string & {});
+}
+export interface GetInsightsExplanationRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  insight_id: number;
+  id: string;
 }
 export type GetInsightsMyLastViewedRequestFormat = "csv" | "json";
 export interface GetInsightsMyLastViewedRequest {
@@ -8239,10 +8960,15 @@ export interface FunnelsAlertConfig {
   metric: FunnelConversionMetric;
   type?: string;
 }
+export type MetricsAlertConfigVariablesMap = {
+  [key: string]: MetricsDashboardVariableSelection | undefined;
+};
 export interface MetricsAlertConfig {
   /** When true, anchor on the trailing (possibly still accumulating) bucket instead of the last complete one. */
   check_ongoing_interval?: boolean | null;
   type?: string;
+  /** Values for the `$name` variables in the insight's query. */
+  variables?: MetricsAlertConfigVariablesMap | null;
 }
 /** Per-insight-kind alert config, discriminated by ``type`` -- keeps the OpenAPI (and the generated frontend types and MCP tool schemas) in sync with every kind alerts support. */
 export type AlertConfigUnion =
@@ -8391,11 +9117,7 @@ export interface EnsembleDetectorConfig {
 export interface LLMDetectorConfig {
   /** What counts as unusual or interesting for this metric, in your own words. Optional. */
   instructions?: string | null;
-  /** Minimum confidence [0-1] the model must report before the alert fires (default: 0.7) */
-  threshold?: number | null;
   type?: string;
-  /** How many recent points the model is shown (default: 90) */
-  window?: number | null;
 }
 /** Detector configuration types */
 export type DetectorConfig =
@@ -8731,6 +9453,7 @@ export interface InsightsSharingRefreshCreateRequest {
 }
 export type ListInsightsRequestFormat = "csv" | "json";
 export type ListInsightsRequestInsight =
+  | "BI"
   | "FUNNELS"
   | "JOURNEYS"
   | "JSON"
@@ -8765,12 +9488,16 @@ export interface ListInsightsRequest {
   date_from?: string;
   /** Filter by `last_modified_at < date_to`. Accepts absolute dates or relative strings. */
   date_to?: string;
+  /** Comma-separated chart types, e.g. `ActionsLineGraph,ActionsBar`. Only returns trends and SQL insights shown as one of them. A trends insight with no chart type set counts as `ActionsLineGraph`. */
+  display?: string;
+  /** Exclude Business intelligence worksheets from the insight list. */
+  exclude_bi?: boolean;
   /** Include this parameter (any value) to restrict results to insights marked as favorited. */
   favorited?: boolean;
   format?: ListInsightsRequestFormat | (string & {});
   /** Opt in to receiving the deprecated `dashboards` field in insight payloads. Once opt-in enforcement is enabled, API-token callers stop receiving it by default; use `dashboard_tiles` instead. */
   include_dashboards?: boolean;
-  /** Restrict to a single insight type. `JSON` matches non-wrapper query insights; `SQL` matches HogQL queries. */
+  /** Restrict to a single insight type. `JSON` matches non-wrapper query insights; `SQL` matches HogQL queries; `BI` matches editable worksheets. */
   insight?: ListInsightsRequestInsight | (string & {});
   /** Filter by `last_viewed_at > last_viewed_date_from`. Accepts absolute or relative dates. */
   last_viewed_date_from?: string;
@@ -8780,6 +9507,8 @@ export interface ListInsightsRequest {
   limit?: number;
   /** The initial index from which to return the results. */
   offset?: number;
+  /** Sort by an insight field, with a leading minus for descending order. Supports last_modified_at and last_viewed_at. */
+  order?: string;
   /** Whether to refresh the retrieved insights, how aggressively, and if sync or async: - `'force_cache'` - return cached data or a cache miss; always completes immediately as it never calculates - `'blocking'` - calculate synchronously (returning only when the query is done), UNLESS there are very fresh results in the cache - `'async'` - kick off background calculation (returning immediately with a query status), UNLESS there are very fresh results in the cache - `'lazy_async'` - kick off background calculation, UNLESS there are somewhat fresh results in the cache - `'force_blocking'` - calculate synchronously, even if fresh results are already cached - `'force_async'` - kick off background calculation, even if fresh results are already cached Background calculation can be tracked using the `query_status` response field. */
   refresh?: ListInsightsRequestRefresh | (string & {});
   /** When truthy, restricts results to insights that are saved (or attached to a visible dashboard). When falsy, only unsaved insights. */
@@ -8846,6 +9575,14 @@ export interface UpdateInsightRequest {
   favorited?: boolean;
   _create_in_folder?: string;
 }
+export interface UpdateInsightsExplanationRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  insight_id: number;
+  id: string;
+  /** The chart explanation, as the insight page shows it. */
+  data: ExplainChartData;
+}
 export type UpdateInsightsPartialRequestFormat = "csv" | "json";
 /** DEPRECATED. Will be removed in a future release. Use dashboard_tiles instead. A dashboard ID for each of the dashboards that this insight is displayed on. This field is omitted from session-authenticated responses unless `include_dashboards=true` is passed. Once opt-in enforcement is enabled, API-token callers (personal API keys, OAuth) must opt in the same way. Do not rely on it being present. */
 export type UpdateInsightsPartialRequestDashboardsList = Array<number>;
@@ -8877,13 +9614,46 @@ export const createInsight: API.OperationMethod<
   CreateInsightError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<CreateInsightRequest>,
-  output: __S(394, __c24, 10) as any as S.Schema<InsightOutput>,
+  input: __S(704, __c22, 0) as any as S.Schema<CreateInsightRequest>,
+  output: __S(976, __c30, 16) as any as S.Schema<InsightOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateInsight",
+}));
+
+export type CreateInsightsDataCheckError = PosthogOpError;
+/** Check the events behind an insight for the common ways they mislead: internal and test users, local development traffic, bots and crawlers, and events sent twice. Works for trends, funnels, stickiness and lifecycle insights whose series are events. The checks apply the insight's own filters, and read the newest days of its date range, up to 7. The bot and duplicate checks read a sample of those days. For a token, the internal users check matches the emails of the organization's members only with the `organization_member:read` scope, and its verified domains only with `organization:read`. It names the emails it finds only with `person:read`. Nothing is stored. This route runs the query it is sent, so it needs query access as well as insight access. To check a saved insight by its id, send a GET request to `insights/{id}/data_checks/`. */
+export const createInsightsDataCheck: API.OperationMethod<
+  CreateInsightsDataCheckRequest,
+  InsightDataChecks,
+  CreateInsightsDataCheckError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1024, __c32, 0) as any as S.Schema<CreateInsightsDataCheckRequest>,
+  output: __S(1061, __c33, 5) as any as S.Schema<InsightDataChecks>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInsightsDataCheck",
+}));
+
+export type CreateInsightsExplanationError = PosthogOpError;
+export const createInsightsExplanation: API.OperationMethod<
+  CreateInsightsExplanationRequest,
+  ChartExplanation,
+  CreateInsightsExplanationError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1088, __c34, 0) as any as S.Schema<CreateInsightsExplanationRequest>,
+  output: __S(1132, __c35, 12) as any as S.Schema<ChartExplanation>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInsightsExplanation",
 }));
 
 export type CreateInsightsSharingPasswordError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -8894,8 +9664,8 @@ export const createInsightsSharingPassword: API.OperationMethod<
   CreateInsightsSharingPasswordError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<CreateInsightsSharingPasswordRequest>,
-  output: __S(418, __c26, 2) as any as S.Schema<SharingConfiguration>,
+  input: __S(1152, __c36, 0) as any as S.Schema<CreateInsightsSharingPasswordRequest>,
+  output: __S(1186, __c37, 2) as any as S.Schema<SharingConfiguration>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -8911,8 +9681,8 @@ export const createInsightsViewed: API.OperationMethod<
   CreateInsightsViewedError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<CreateInsightsViewedRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<CreateInsightsViewedResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<CreateInsightsViewedRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<CreateInsightsViewedResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -8927,8 +9697,8 @@ export const getInsight: API.OperationMethod<
   GetInsightError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetInsightRequest>,
-  output: __S(394, __c24, 10) as any as S.Schema<InsightOutput>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GetInsightRequest>,
+  output: __S(976, __c30, 16) as any as S.Schema<InsightOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -8944,8 +9714,8 @@ export const getInsightsActivity: API.OperationMethod<
   GetInsightsActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetInsightsActivityRequest>,
-  output: __S(503, __c31, 7) as any as S.Schema<ActivityLogPaginatedResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<GetInsightsActivityRequest>,
+  output: __S(1351, __c42, 7) as any as S.Schema<ActivityLogPaginatedResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -8961,13 +9731,46 @@ export const getInsightsAllActivity: API.OperationMethod<
   GetInsightsAllActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<GetInsightsAllActivityRequest>,
-  output: __S(503, __c31, 7) as any as S.Schema<ActivityLogPaginatedResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<GetInsightsAllActivityRequest>,
+  output: __S(1351, __c42, 7) as any as S.Schema<ActivityLogPaginatedResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetInsightsAllActivity",
+}));
+
+export type GetInsightsDataCheckError = PosthogOpError;
+/** Run the data checks on a saved insight, found by its numeric id or its `short_id`. The checks read the query the insight stores, and work the same way as the checks on a query that is not saved. The `status` is `unsupported` for an insight that still stores legacy `filters` and no query. Nothing is stored. */
+export const getInsightsDataCheck: API.OperationMethod<
+  GetInsightsDataCheckRequest,
+  InsightDataChecks,
+  GetInsightsDataCheckError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(32, __c1, 0) as any as S.Schema<GetInsightsDataCheckRequest>,
+  output: __S(1061, __c33, 5) as any as S.Schema<InsightDataChecks>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightsDataCheck",
+}));
+
+export type GetInsightsExplanationError = PosthogOpError;
+export const getInsightsExplanation: API.OperationMethod<
+  GetInsightsExplanationRequest,
+  ChartExplanation,
+  GetInsightsExplanationError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(64, __c2, 0) as any as S.Schema<GetInsightsExplanationRequest>,
+  output: __S(1132, __c35, 12) as any as S.Schema<ChartExplanation>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightsExplanation",
 }));
 
 export type GetInsightsMyLastViewedError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -8978,8 +9781,8 @@ export const getInsightsMyLastViewed: API.OperationMethod<
   GetInsightsMyLastViewedError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<GetInsightsMyLastViewedRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GetInsightsMyLastViewedResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<GetInsightsMyLastViewedRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<GetInsightsMyLastViewedResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -8994,8 +9797,8 @@ export const getInsightsThreshold: API.OperationMethod<
   GetInsightsThresholdError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetInsightsThresholdRequest>,
-  output: __S(30, __c1, 14) as any as S.Schema<ThresholdWithAlert>,
+  input: __S(128, __c4, 0) as any as S.Schema<GetInsightsThresholdRequest>,
+  output: __S(173, __c5, 13) as any as S.Schema<ThresholdWithAlert>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -9011,8 +9814,8 @@ export const getInsightsTrending: API.OperationMethod<
   GetInsightsTrendingError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetInsightsTrendingRequest>,
-  output: __S(36, __c2, 4) as any as S.Schema<PaginatedTrendingInsightList>,
+  input: __S(192, __c6, 0) as any as S.Schema<GetInsightsTrendingRequest>,
+  output: __S(196, __c6, 4) as any as S.Schema<PaginatedTrendingInsightList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -9028,8 +9831,8 @@ export const insightsBulkDeleteCreate: API.OperationMethod<
   InsightsBulkDeleteCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<InsightsBulkDeleteCreateRequest>,
-  output: __S(49, __c3, 1) as any as S.Schema<InsightBulkDeleteResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<InsightsBulkDeleteCreateRequest>,
+  output: __S(225, __c7, 1) as any as S.Schema<InsightBulkDeleteResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -9045,8 +9848,8 @@ export const insightsBulkRestoreCreate: API.OperationMethod<
   InsightsBulkRestoreCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<InsightsBulkRestoreCreateRequest>,
-  output: __S(81, __c5, 1) as any as S.Schema<InsightBulkRestoreResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<InsightsBulkRestoreCreateRequest>,
+  output: __S(289, __c9, 1) as any as S.Schema<InsightBulkRestoreResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -9062,8 +9865,8 @@ export const insightsBulkSetTestAccountFilterCreate: API.OperationMethod<
   InsightsBulkSetTestAccountFilterCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<InsightsBulkSetTestAccountFilterCreateRequest>,
-  output: __S(97, __c6, 1) as any as S.Schema<InsightBulkSetTestAccountFilterResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<InsightsBulkSetTestAccountFilterCreateRequest>,
+  output: __S(321, __c10, 1) as any as S.Schema<InsightBulkSetTestAccountFilterResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -9079,8 +9882,8 @@ export const insightsBulkUpdateTagsCreate: API.OperationMethod<
   InsightsBulkUpdateTagsCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<InsightsBulkUpdateTagsCreateRequest>,
-  output: __S(117, __c7, 5) as any as S.Schema<BulkUpdateTagsResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<InsightsBulkUpdateTagsCreateRequest>,
+  output: __S(357, __c11, 5) as any as S.Schema<BulkUpdateTagsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -9095,8 +9898,8 @@ export const insightsCancelCreate: API.OperationMethod<
   InsightsCancelCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<InsightsCancelCreateRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<InsightsCancelCreateResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<InsightsCancelCreateRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<InsightsCancelCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -9112,8 +9915,8 @@ export const insightsDestroy: API.OperationMethod<
   InsightsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<InsightsDestroyRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<InsightsDestroyResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<InsightsDestroyRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<InsightsDestroyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -9133,8 +9936,8 @@ export const insightsGenerateMetadataCreate: API.OperationMethod<
   InsightsGenerateMetadataCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<InsightsGenerateMetadataCreateRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<InsightsGenerateMetadataCreateResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<InsightsGenerateMetadataCreateRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<InsightsGenerateMetadataCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -9150,8 +9953,8 @@ export const insightsSharingPasswordsDestroy: API.OperationMethod<
   InsightsSharingPasswordsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<InsightsSharingPasswordsDestroyRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<InsightsSharingPasswordsDestroyResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<InsightsSharingPasswordsDestroyRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<InsightsSharingPasswordsDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -9166,8 +9969,8 @@ export const insightsSharingRefreshCreate: API.OperationMethod<
   InsightsSharingRefreshCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<InsightsSharingRefreshCreateRequest>,
-  output: __S(418, __c26, 2) as any as S.Schema<SharingConfiguration>,
+  input: __S(512, __c16, 0) as any as S.Schema<InsightsSharingRefreshCreateRequest>,
+  output: __S(1186, __c37, 2) as any as S.Schema<SharingConfiguration>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -9182,8 +9985,8 @@ export const listInsights: API.OperationMethod<
   ListInsightsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<ListInsightsRequest>,
-  output: __S(210, __c13, 2) as any as S.Schema<PaginatedInsightListOutput>,
+  input: __S(544, __c17, 0) as any as S.Schema<ListInsightsRequest>,
+  output: __S(546, __c17, 2) as any as S.Schema<PaginatedInsightListOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -9198,8 +10001,8 @@ export const listInsightsSharing: API.OperationMethod<
   ListInsightsSharingError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ListInsightsSharingRequest>,
-  output: __S(226, __c14, 2) as any as S.Schema<ListInsightsSharingResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<ListInsightsSharingRequest>,
+  output: __S(578, __c18, 2) as any as S.Schema<ListInsightsSharingResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -9214,8 +10017,8 @@ export const listInsightsThresholds: API.OperationMethod<
   ListInsightsThresholdsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ListInsightsThresholdsRequest>,
-  output: __S(242, __c15, 2) as any as S.Schema<PaginatedThresholdWithAlertList>,
+  input: __S(608, __c19, 0) as any as S.Schema<ListInsightsThresholdsRequest>,
+  output: __S(610, __c19, 2) as any as S.Schema<PaginatedThresholdWithAlertList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -9230,13 +10033,29 @@ export const updateInsight: API.OperationMethod<
   UpdateInsightError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<UpdateInsightRequest>,
-  output: __S(394, __c24, 10) as any as S.Schema<InsightOutput>,
+  input: __S(640, __c20, 0) as any as S.Schema<UpdateInsightRequest>,
+  output: __S(976, __c30, 16) as any as S.Schema<InsightOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateInsight",
+}));
+
+export type UpdateInsightsExplanationError = PosthogOpError;
+export const updateInsightsExplanation: API.OperationMethod<
+  UpdateInsightsExplanationRequest,
+  ChartExplanation,
+  UpdateInsightsExplanationError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(672, __c21, 0) as any as S.Schema<UpdateInsightsExplanationRequest>,
+  output: __S(1132, __c35, 12) as any as S.Schema<ChartExplanation>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInsightsExplanation",
 }));
 
 export type UpdateInsightsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -9246,8 +10065,8 @@ export const updateInsightsPartial: API.OperationMethod<
   UpdateInsightsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<UpdateInsightsPartialRequest>,
-  output: __S(394, __c24, 10) as any as S.Schema<InsightOutput>,
+  input: __S(992, __c31, 0) as any as S.Schema<UpdateInsightsPartialRequest>,
+  output: __S(976, __c30, 16) as any as S.Schema<InsightOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -9257,6 +10076,79 @@ export const updateInsightsPartial: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          format: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/insights/activity/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetInsightsAllActivityRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          depth: S.optional(S.String.pipe(T.Query())),
+          format: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/insights/{id}/data_checks/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetInsightsDataCheckRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          insight_id: S.Number.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/insights/{insight_id}/explanations/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetInsightsExplanationRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          format: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/insights/my_last_viewed/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetInsightsMyLastViewedRequest" });
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9274,40 +10166,38 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GetInsightsThresholdRequest" });
   }
 }
-function __c1(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           lower: S.optional(S.NullOr(S.Number)),
           upper: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "InsightsThresholdBounds" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          bounds: S.optional(S.NullOr(__S(17, __c1, 1))),
+          bounds: S.optional(S.NullOr(__S(160, __c5, 0))),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "InsightThreshold" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           created_at: S.optional(S.String),
           name: S.optional(S.String),
-          configuration: S.optional(__S(18, __c1, 2)),
+          configuration: S.optional(__S(161, __c5, 1)),
         }),
       ).annotate({ identifier: "Threshold" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "AlertCondition" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           channel: S.String,
@@ -9319,16 +10209,16 @@ function __c1(j: number): any {
           display_label: S.String,
         }),
       ).annotate({ identifier: "AlertDelivery" });
+    case 5:
+      return S.Array(__S(164, __c5, 4));
     case 6:
-      return S.Array(__S(21, __c1, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           created_at: S.optional(S.String),
           calculated_value: S.optional(S.NullOr(S.Number)),
           state: S.optional(S.String),
-          error: S.optional(S.NullOr(__S(16, __c1, 0))),
+          error: S.optional(S.NullOr(__S(896, __c28, 0))),
           targets_notified: S.optional(S.Boolean),
           anomaly_scores: S.optional(S.Unknown),
           triggered_points: S.optional(S.Unknown),
@@ -9341,47 +10231,47 @@ function __c1(j: number): any {
           investigation_notebook_short_id: S.optional(S.NullOr(S.String)),
           notification_sent_at: S.optional(S.NullOr(S.String)),
           notification_suppressed_by_agent: S.optional(S.Boolean),
-          deliveries: S.optional(S.NullOr(__S(22, __c1, 6))),
+          deliveries: S.optional(S.NullOr(__S(165, __c5, 5))),
         }),
       ).annotate({ identifier: "AlertCheck" });
+    case 7:
+      return S.Array(__S(166, __c5, 6));
     case 8:
-      return S.Array(__S(23, __c1, 7));
-    case 9:
       return S.suspend(() =>
         S.Struct({
           start: S.optional(S.String),
           end: S.optional(S.String),
         }),
       ).annotate({ identifier: "AlertScheduleRestrictionWindow" });
+    case 9:
+      return S.Array(__S(168, __c5, 8));
     case 10:
-      return S.Array(__S(25, __c1, 9));
+      return S.suspend(() =>
+        S.Struct({
+          blocked_windows: S.optional(__S(169, __c5, 9)),
+        }),
+      ).annotate({ identifier: "AlertScheduleRestriction" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          blocked_windows: S.optional(__S(26, __c1, 10)),
-        }),
-      ).annotate({ identifier: "AlertScheduleRestriction" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
           id: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(321, __c20, 1))),
+          created_by: S.optional(S.NullOr(__S(864, __c27, 0))),
           created_at: S.optional(S.String),
           insight: S.optional(S.Number),
           insight_short_id: S.optional(S.String),
           insight_display_name: S.optional(S.String),
           llm_detector_available: S.optional(S.NullOr(S.Boolean)),
           name: S.optional(S.String),
-          subscribed_users: S.optional(__S(304, __c19, 0)),
-          threshold: S.optional(__S(19, __c1, 3)),
-          condition: S.optional(S.NullOr(__S(20, __c1, 4))),
+          subscribed_users: S.optional(__S(768, __c24, 0)),
+          threshold: S.optional(__S(162, __c5, 2)),
+          condition: S.optional(S.NullOr(__S(163, __c5, 3))),
           state: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           last_notified_at: S.optional(S.NullOr(S.String)),
           last_checked_at: S.optional(S.NullOr(S.String)),
           schedule_start_time: S.optional(S.NullOr(S.String)),
           next_check_at: S.optional(S.NullOr(S.String)),
-          checks: S.optional(__S(24, __c1, 8)),
+          checks: S.optional(__S(167, __c5, 7)),
           checks_total: S.optional(S.NullOr(S.Number)),
           config: S.optional(S.NullOr(S.Unknown)),
           detector_config: S.optional(S.NullOr(S.Unknown)),
@@ -9389,7 +10279,7 @@ function __c1(j: number): any {
           calculation_interval: S.optional(S.String),
           snoozed_until: S.optional(S.NullOr(S.String)),
           skip_weekend: S.optional(S.NullOr(S.Boolean)),
-          schedule_restriction: S.optional(S.NullOr(__S(27, __c1, 11))),
+          schedule_restriction: S.optional(S.NullOr(__S(170, __c5, 10))),
           last_value: S.optional(S.NullOr(S.Number)),
           investigation_agent_enabled: S.optional(S.Boolean),
           investigation_gates_notifications: S.optional(S.Boolean),
@@ -9397,21 +10287,21 @@ function __c1(j: number): any {
           search_match_type: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "Alert" });
+    case 12:
+      return S.Array(__S(171, __c5, 11));
     case 13:
-      return S.Array(__S(28, __c1, 12));
-    case 14:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           created_at: S.optional(S.String),
           name: S.optional(S.String),
-          configuration: S.optional(__S(18, __c1, 2)),
-          alerts: S.optional(__S(29, __c1, 13)),
+          configuration: S.optional(__S(161, __c5, 1)),
+          alerts: S.optional(__S(172, __c5, 12)),
         }),
       ).annotate({ identifier: "ThresholdWithAlert" });
   }
 }
-function __c2(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9431,7 +10321,7 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "GetInsightsTrendingRequest" });
     case 1:
-      return S.Array(__S(321, __c20, 1));
+      return S.Array(__S(864, __c27, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9440,14 +10330,14 @@ function __c2(j: number): any {
           name: S.optional(S.NullOr(S.String)),
           derived_name: S.optional(S.NullOr(S.String)),
           query: S.optional(S.Unknown),
-          dashboards: S.optional(__S(304, __c19, 0)),
-          dashboard_tiles: __S(353, __c22, 1),
+          dashboards: S.optional(__S(768, __c24, 0)),
+          dashboard_tiles: __S(929, __c29, 1),
           description: S.optional(S.NullOr(S.String)),
           last_refresh: S.NullOr(S.String),
           refreshing: S.Boolean,
-          tags: S.optional(__S(336, __c21, 0)),
+          tags: S.optional(__S(832, __c26, 0)),
           updated_at: S.String,
-          created_by: __S(321, __c20, 1),
+          created_by: __S(864, __c27, 0),
           created_at: S.NullOr(S.String),
           last_modified_at: S.optional(S.String),
           favorited: S.optional(S.Boolean),
@@ -9455,31 +10345,31 @@ function __c2(j: number): any {
           last_viewed_at: S.NullOr(S.String),
           search_match_type: S.NullOr(S.String),
           view_count: S.Number,
-          viewers: __S(33, __c2, 1),
-          last_modified_by: __S(321, __c20, 1),
+          viewers: __S(193, __c6, 1),
+          last_modified_by: __S(864, __c27, 0),
         }),
       ).annotate({ identifier: "TrendingInsight" });
     case 3:
-      return S.Array(__S(34, __c2, 2));
+      return S.Array(__S(194, __c6, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(35, __c2, 3),
+          results: __S(195, __c6, 3),
         }),
       ).annotate({ identifier: "PaginatedTrendingInsightList" });
   }
 }
-function __c3(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           format: S.optional(S.String.pipe(T.Query())),
-          ids: __S(304, __c19, 0),
+          ids: __S(768, __c24, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9491,13 +10381,13 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          deleted: __S(65, __c4, 1),
-          skipped: __S(67, __c4, 3),
+          deleted: __S(257, __c8, 1),
+          skipped: __S(259, __c8, 3),
         }),
       ).annotate({ identifier: "InsightBulkDeleteResponse" });
   }
 }
-function __c4(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9507,7 +10397,7 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "InsightBulkOperationResult" });
     case 1:
-      return S.Array(__S(64, __c4, 0));
+      return S.Array(__S(256, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9516,17 +10406,17 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "InsightBulkOperationSkipped" });
     case 3:
-      return S.Array(__S(66, __c4, 2));
+      return S.Array(__S(258, __c8, 2));
   }
 }
-function __c5(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           format: S.optional(S.String.pipe(T.Query())),
-          ids: __S(304, __c19, 0),
+          ids: __S(768, __c24, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9538,13 +10428,13 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          restored: __S(65, __c4, 1),
-          skipped: __S(67, __c4, 3),
+          restored: __S(257, __c8, 1),
+          skipped: __S(259, __c8, 3),
         }),
       ).annotate({ identifier: "InsightBulkRestoreResponse" });
   }
 }
-function __c6(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9572,16 +10462,16 @@ function __c6(j: number): any {
       ).annotate({ identifier: "InsightBulkSetTestAccountFilterResponse" });
   }
 }
-function __c7(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           format: S.optional(S.String.pipe(T.Query())),
-          ids: S.optional(__S(304, __c19, 0)),
+          ids: S.optional(__S(768, __c24, 0)),
           action: S.optional(S.String),
-          tags: S.optional(__S(368, __c23, 0)),
+          tags: S.optional(__S(736, __c23, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9594,11 +10484,11 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          tags: S.optional(__S(368, __c23, 0)),
+          tags: S.optional(__S(736, __c23, 0)),
         }),
       ).annotate({ identifier: "BulkUpdateTagsItem" });
     case 2:
-      return S.Array(__S(113, __c7, 1));
+      return S.Array(__S(353, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9607,17 +10497,17 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "BulkUpdateTagsError" });
     case 4:
-      return S.Array(__S(115, __c7, 3));
+      return S.Array(__S(355, __c11, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          updated: S.optional(__S(114, __c7, 2)),
-          skipped: S.optional(__S(116, __c7, 4)),
+          updated: S.optional(__S(354, __c11, 2)),
+          skipped: S.optional(__S(356, __c11, 4)),
         }),
       ).annotate({ identifier: "BulkUpdateTagsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9629,9 +10519,9 @@ function __c8(j: number): any {
           query: S.optional(S.NullOr(S.Unknown)),
           order: S.optional(S.NullOr(S.Number)),
           deleted: S.optional(S.Boolean),
-          dashboards: S.optional(__S(304, __c19, 0)),
+          dashboards: S.optional(__S(768, __c24, 0)),
           description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(336, __c21, 0)),
+          tags: S.optional(__S(832, __c26, 0)),
           favorited: S.optional(S.Boolean),
           _create_in_folder: S.optional(S.String),
         }).pipe(
@@ -9640,7 +10530,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "InsightsCancelCreateRequest" });
   }
 }
-function __c9(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9654,7 +10544,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "InsightsDestroyRequest" });
   }
 }
-function __c10(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9666,9 +10556,9 @@ function __c10(j: number): any {
           query: S.optional(S.NullOr(S.Unknown)),
           order: S.optional(S.NullOr(S.Number)),
           deleted: S.optional(S.Boolean),
-          dashboards: S.optional(__S(304, __c19, 0)),
+          dashboards: S.optional(__S(768, __c24, 0)),
           description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(336, __c21, 0)),
+          tags: S.optional(__S(832, __c26, 0)),
           favorited: S.optional(S.Boolean),
           _create_in_folder: S.optional(S.String),
         }).pipe(
@@ -9681,7 +10571,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "InsightsGenerateMetadataCreateRequest" });
   }
 }
-function __c11(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9699,7 +10589,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "InsightsSharingPasswordsDestroyRequest" });
   }
 }
-function __c12(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9719,7 +10609,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "InsightsSharingRefreshCreateRequest" });
   }
 }
-function __c13(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9732,6 +10622,8 @@ function __c13(j: number): any {
           dashboards: S.optional(S.String.pipe(T.Query())),
           date_from: S.optional(S.String.pipe(T.Query())),
           date_to: S.optional(S.String.pipe(T.Query())),
+          display: S.optional(S.String.pipe(T.Query())),
+          exclude_bi: S.optional(S.Boolean.pipe(T.Query())),
           favorited: S.optional(S.Boolean.pipe(T.Query())),
           format: S.optional(S.String.pipe(T.Query())),
           include_dashboards: S.optional(S.Boolean.pipe(T.Query())),
@@ -9740,6 +10632,7 @@ function __c13(j: number): any {
           last_viewed_date_to: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
           refresh: S.optional(S.String.pipe(T.Query())),
           saved: S.optional(S.Boolean.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
@@ -9749,19 +10642,19 @@ function __c13(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/insights/", code: 200 })),
       ).annotate({ identifier: "ListInsightsRequest" });
     case 1:
-      return S.Array(__S(394, __c24, 10));
+      return S.Array(__S(976, __c30, 16));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(209, __c13, 1)),
+          results: S.optional(__S(545, __c17, 1)),
         }),
       ).annotate({ identifier: "PaginatedInsightListOutput" });
   }
 }
-function __c14(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9777,14 +10670,14 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "ListInsightsSharingRequest" });
     case 1:
-      return S.Array(__S(418, __c26, 2));
+      return S.Array(__S(1186, __c37, 2));
     case 2:
-      return S.suspend(() => __S(225, __c14, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(577, __c18, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListInsightsSharingResponse",
       });
   }
 }
-function __c15(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9802,19 +10695,19 @@ function __c15(j: number): any {
         ),
       ).annotate({ identifier: "ListInsightsThresholdsRequest" });
     case 1:
-      return S.Array(__S(30, __c1, 14));
+      return S.Array(__S(173, __c5, 13));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(241, __c15, 1)),
+          results: S.optional(__S(609, __c19, 1)),
         }),
       ).annotate({ identifier: "PaginatedThresholdWithAlertList" });
   }
 }
-function __c16(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9828,9 +10721,9 @@ function __c16(j: number): any {
           query: S.optional(S.NullOr(S.Unknown)),
           order: S.optional(S.NullOr(S.Number)),
           deleted: S.optional(S.Boolean),
-          dashboards: S.optional(__S(304, __c19, 0)),
+          dashboards: S.optional(__S(768, __c24, 0)),
           description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(336, __c21, 0)),
+          tags: S.optional(__S(832, __c26, 0)),
           favorited: S.optional(S.Boolean),
           _create_in_folder: S.optional(S.String),
         }).pipe(
@@ -9839,32 +10732,26 @@ function __c16(j: number): any {
       ).annotate({ identifier: "UpdateInsightRequest" });
   }
 }
-function __c17(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          insight_id: S.Number.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          format: S.optional(S.String.pipe(T.Query())),
-          include_dashboards: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.optional(S.NullOr(S.String)),
-          derived_name: S.optional(S.NullOr(S.String)),
-          query: S.optional(S.NullOr(S.Unknown)),
-          order: S.optional(S.NullOr(S.Number)),
-          deleted: S.optional(S.Boolean),
-          dashboards: S.optional(__S(304, __c19, 0)),
-          description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(336, __c21, 0)),
-          favorited: S.optional(S.Boolean),
-          _create_in_folder: S.optional(S.String),
+          data: __S(1130, __c35, 10),
         }).pipe(
-          T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/insights/{id}/", code: 200 }),
+          T.Http({
+            method: "PUT",
+            uri: "/api/projects/{project_id}/insights/{insight_id}/explanations/{id}/",
+            code: 200,
+          }),
         ),
-      ).annotate({ identifier: "UpdateInsightsPartialRequest" });
+      ).annotate({ identifier: "UpdateInsightsExplanationRequest" });
   }
 }
-function __c18(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9877,26 +10764,42 @@ function __c18(j: number): any {
           query: S.optional(S.NullOr(S.Unknown)),
           order: S.optional(S.NullOr(S.Number)),
           deleted: S.optional(S.Boolean),
-          dashboards: S.optional(__S(304, __c19, 0)),
+          dashboards: S.optional(__S(768, __c24, 0)),
           description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(336, __c21, 0)),
+          tags: S.optional(__S(832, __c26, 0)),
           favorited: S.optional(S.Boolean),
           _create_in_folder: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/insights/", code: 200 })),
       ).annotate({ identifier: "CreateInsightRequest" });
   }
 }
-function __c19(j: number): any {
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c20(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
-    case 1:
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
@@ -9906,19 +10809,19 @@ function __c20(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(320, __c20, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(800, __c25, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
   }
 }
-function __c21(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Unknown);
+      return S.Record(S.String, S.String);
   }
 }
-function __c22(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9929,16 +10832,10 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "DashboardTileBasic" });
     case 1:
-      return S.Array(__S(352, __c22, 0));
+      return S.Array(__S(928, __c29, 0));
   }
 }
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c24(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9951,7 +10848,7 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "Breakdown" });
     case 1:
-      return S.Array(__S(384, __c24, 0));
+      return S.Array(__S(960, __c30, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9963,56 +10860,102 @@ function __c24(j: number): any {
           breakdown_normalize_url: S.optional(S.NullOr(S.Boolean)),
           breakdown_path_cleaning: S.optional(S.NullOr(S.Boolean)),
           breakdown_type: S.optional(S.NullOr(S.String)),
-          breakdowns: S.optional(S.NullOr(__S(385, __c24, 1))),
+          breakdowns: S.optional(S.NullOr(__S(961, __c30, 1))),
         }),
       ).annotate({ identifier: "BreakdownFilter" });
     case 3:
       return S.suspend(() =>
         S.Struct({
+          compare: S.optional(S.NullOr(S.Boolean)),
+          compare_to: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CompareFilter" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           date_from: S.optional(S.String),
           date_to: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ResolvedDateRangeResponse" });
-    case 4:
-      return S.Array(S.Unknown);
+      ).annotate({ identifier: "InsightOutputResolvedDateRange" });
     case 5:
       return S.Array(S.Unknown);
     case 6:
       return S.suspend(() =>
         S.Struct({
-          breakdown_filter: S.optional(S.NullOr(__S(386, __c24, 2))),
+          key: S.String,
+          op: S.String,
+          scope: S.optional(S.NullOr(S.String)),
+          value: S.String,
+        }),
+      ).annotate({ identifier: "MetricsQueryFilter" });
+    case 7:
+      return S.Array(__S(966, __c30, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          all: S.optional(S.NullOr(S.Boolean)),
+          values: __S(736, __c23, 0),
+        }),
+      ).annotate({ identifier: "MetricsDashboardVariableSelection" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          allValue: S.optional(S.NullOr(S.String)),
+          current: S.optional(S.NullOr(__S(968, __c30, 8))),
+          customValues: S.optional(S.NullOr(__S(736, __c23, 0))),
+          includeAll: S.optional(S.NullOr(S.Boolean)),
+          label: S.optional(S.NullOr(S.String)),
+          multi: S.optional(S.NullOr(S.Boolean)),
+          name: S.String,
+          query: S.optional(S.NullOr(S.String)),
+          regex: S.optional(S.NullOr(S.String)),
+          source: S.String,
+        }),
+      ).annotate({ identifier: "MetricsDashboardVariable" });
+    case 10:
+      return S.Array(__S(969, __c30, 9));
+    case 11:
+      return S.Array(S.Unknown);
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          breakdown_filter: S.optional(S.NullOr(__S(962, __c30, 2))),
+          compareFilter: S.optional(S.NullOr(__S(963, __c30, 3))),
           date_from: S.optional(S.NullOr(S.String)),
           date_to: S.optional(S.NullOr(S.String)),
           explicitDate: S.optional(S.NullOr(S.Boolean)),
           filterTestAccounts: S.optional(S.NullOr(S.Boolean)),
           interval: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(389, __c24, 5))),
+          metricFilters: S.optional(S.NullOr(__S(967, __c30, 7))),
+          metricVariables: S.optional(S.NullOr(__S(970, __c30, 10))),
+          properties: S.optional(S.NullOr(__S(971, __c30, 11))),
         }),
       ).annotate({ identifier: "DashboardFilter" });
-    case 7:
+    case 13:
       return S.Array(S.Unknown);
-    case 8:
+    case 14:
       return S.suspend(() =>
         S.Struct({
-          breakdown_filter: S.optional(S.NullOr(__S(386, __c24, 2))),
+          breakdown_filter: S.optional(S.NullOr(__S(962, __c30, 2))),
+          compareFilter: S.optional(S.NullOr(__S(963, __c30, 3))),
           date_from: S.optional(S.NullOr(S.String)),
           date_to: S.optional(S.NullOr(S.String)),
           explicitDate: S.optional(S.NullOr(S.Boolean)),
           filterTestAccounts: S.optional(S.NullOr(S.Boolean)),
           ignoreDashboardFilters: S.optional(S.NullOr(S.Boolean)),
           interval: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(391, __c24, 7))),
+          properties: S.optional(S.NullOr(__S(973, __c30, 13))),
         }),
       ).annotate({ identifier: "TileFilters" });
-    case 9:
+    case 15:
       return S.suspend(() =>
         S.Struct({
-          dashboard: S.optional(S.NullOr(__S(390, __c24, 6))),
-          tile: S.optional(S.NullOr(__S(392, __c24, 8))),
-          overridden_dashboard: S.optional(S.NullOr(__S(390, __c24, 6))),
+          dashboard: S.optional(S.NullOr(__S(972, __c30, 12))),
+          tile: S.optional(S.NullOr(__S(974, __c30, 14))),
+          overridden_dashboard: S.optional(S.NullOr(__S(972, __c30, 12))),
         }),
       ).annotate({ identifier: "InsightFilterOverrideContext" });
-    case 10:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
@@ -10022,43 +10965,269 @@ function __c24(j: number): any {
           query: S.optional(S.NullOr(S.Unknown)),
           order: S.optional(S.NullOr(S.Number)),
           deleted: S.optional(S.Boolean),
-          dashboards: S.optional(__S(304, __c19, 0)),
-          dashboard_tiles: S.optional(__S(353, __c22, 1)),
+          dashboards: S.optional(__S(768, __c24, 0)),
+          dashboard_tiles: S.optional(__S(929, __c29, 1)),
           last_refresh: S.optional(S.NullOr(S.String)),
           cache_target_age: S.optional(S.NullOr(S.String)),
           next_allowed_client_refresh: S.optional(S.NullOr(S.String)),
           result: S.optional(S.Unknown),
           hasMore: S.optional(S.NullOr(S.Boolean)),
-          columns: S.optional(S.NullOr(__S(368, __c23, 0))),
+          columns: S.optional(S.NullOr(__S(736, __c23, 0))),
           created_at: S.optional(S.NullOr(S.String)),
-          created_by: S.optional(S.NullOr(__S(321, __c20, 1))),
+          created_by: S.optional(S.NullOr(__S(864, __c27, 0))),
           description: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.String),
-          tags: S.optional(__S(336, __c21, 0)),
+          tags: S.optional(__S(832, __c26, 0)),
           favorited: S.optional(S.Boolean),
           last_modified_at: S.optional(S.String),
-          last_modified_by: S.optional(S.NullOr(__S(321, __c20, 1))),
+          last_modified_by: S.optional(S.NullOr(__S(864, __c27, 0))),
           is_sample: S.optional(S.Boolean),
-          effective_restriction_level: S.optional(S.Number),
-          effective_privilege_level: S.optional(S.Number),
           user_access_level: S.optional(S.NullOr(S.String)),
           timezone: S.optional(S.NullOr(S.String)),
           is_cached: S.optional(S.Boolean),
           query_status: S.optional(S.Unknown),
           hogql: S.optional(S.NullOr(S.String)),
-          types: S.optional(S.NullOr(__S(336, __c21, 0))),
-          resolved_date_range: S.optional(S.NullOr(__S(387, __c24, 3))),
+          types: S.optional(S.NullOr(__S(832, __c26, 0))),
+          resolved_date_range: S.optional(S.NullOr(__S(964, __c30, 4))),
+          resolved_compare_date_range: S.NullOr(__S(964, __c30, 4)),
+          action_names: S.NullOr(__S(896, __c28, 0)),
           query_scan: S.optional(S.Unknown),
-          warnings: S.optional(S.NullOr(__S(388, __c24, 4))),
-          alerts: S.optional(__S(336, __c21, 0)),
-          filter_override_context: S.optional(S.NullOr(__S(393, __c24, 9))),
+          warnings: S.optional(S.NullOr(__S(965, __c30, 5))),
+          alerts: S.optional(__S(832, __c26, 0)),
+          filter_override_context: S.optional(S.NullOr(__S(975, __c30, 15))),
           last_viewed_at: S.optional(S.NullOr(S.String)),
           search_match_type: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "InsightOutput" });
   }
 }
-function __c25(j: number): any {
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          format: S.optional(S.String.pipe(T.Query())),
+          include_dashboards: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.optional(S.NullOr(S.String)),
+          derived_name: S.optional(S.NullOr(S.String)),
+          query: S.optional(S.NullOr(S.Unknown)),
+          order: S.optional(S.NullOr(S.Number)),
+          deleted: S.optional(S.Boolean),
+          dashboards: S.optional(__S(768, __c24, 0)),
+          description: S.optional(S.NullOr(S.String)),
+          tags: S.optional(__S(832, __c26, 0)),
+          favorited: S.optional(S.Boolean),
+          _create_in_folder: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/insights/{id}/", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateInsightsPartialRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          format: S.optional(S.String.pipe(T.Query())),
+          query: S.Unknown,
+          client_query_id: S.optional(S.String),
+          depth: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/insights/data_checks/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateInsightsDataCheckRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          type: S.String,
+          operator: S.String,
+          value: __S(736, __c23, 0),
+        }),
+      ).annotate({ identifier: "InsightDataCheckFilter" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          level: S.String,
+          skip_reason: S.NullOr(S.String),
+          method: S.NullOr(S.String),
+          events: S.NullOr(S.Number),
+          share: S.NullOr(S.Number),
+          scaled: S.Boolean,
+          action: S.NullOr(S.String),
+          top_events: __S(736, __c23, 0),
+          top_hosts: __S(736, __c23, 0),
+          distinct_hosts: S.NullOr(S.Number),
+          top_bots: __S(736, __c23, 0),
+          distinct_bots: S.NullOr(S.Number),
+          removed_by_filter: S.NullOr(S.Number),
+          missed_by_filter: S.NullOr(S.Number),
+          top_emails: __S(736, __c23, 0),
+          distinct_emails: S.NullOr(S.Number),
+          filter_to_add: S.NullOr(__S(1056, __c33, 0)),
+        }),
+      ).annotate({ identifier: "InsightDataCheck" });
+    case 2:
+      return S.Array(__S(1057, __c33, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          rate: S.Number,
+          events: S.Number,
+          distinct_ids: S.Number,
+        }),
+      ).annotate({ identifier: "InsightDataChecksSample" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          date_from: S.String,
+          date_to: S.String,
+          days_in_range: S.Number,
+          checked_date_from: S.String,
+          checked_date_to: S.String,
+          days_checked: S.Number,
+          filters_test_accounts: S.Boolean,
+          events_checked: S.NullOr(S.Number),
+          sample: S.NullOr(__S(1059, __c33, 3)),
+        }),
+      ).annotate({ identifier: "InsightDataChecksCoverage" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          checks: __S(1058, __c33, 2),
+          coverage: S.NullOr(__S(1060, __c33, 4)),
+        }),
+      ).annotate({ identifier: "InsightDataChecks" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          insight_id: S.Number.pipe(T.Label()),
+          data: __S(1130, __c35, 10),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/insights/{insight_id}/explanations/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateInsightsExplanationRequest" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.NullOr(S.Number));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          label: S.optional(S.String),
+          data: S.optional(__S(768, __c24, 0)),
+          days: S.optional(__S(736, __c23, 0)),
+        }),
+      ).annotate({ identifier: "StorySeriesResult" });
+    case 2:
+      return S.Array(__S(1121, __c35, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          values: __S(1120, __c35, 0),
+        }),
+      ).annotate({ identifier: "StoryEvidenceSeries" });
+    case 4:
+      return S.Array(__S(1123, __c35, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          labels: __S(736, __c23, 0),
+          ticks: S.optional(__S(736, __c23, 0)),
+          series: __S(1124, __c35, 4),
+          yAxisLabel: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "StoryEvidenceChart" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          text: S.String,
+          query: S.optional(S.NullOr(__S(800, __c25, 0))),
+          insightShortId: S.optional(S.NullOr(S.String)),
+          url: S.optional(S.NullOr(S.String)),
+          queryTool: S.optional(S.NullOr(S.String)),
+          chart: S.optional(S.NullOr(__S(1125, __c35, 5))),
+        }),
+      ).annotate({ identifier: "StoryEvidence" });
+    case 7:
+      return S.Array(__S(1126, __c35, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          title: S.String,
+          range: S.NullOr(__S(768, __c24, 0)),
+          summary: S.NullOr(S.String),
+          cause: S.NullOr(S.String),
+          confidence: S.NullOr(S.String),
+          confidenceReason: S.NullOr(S.String),
+          evidence: __S(1127, __c35, 7),
+        }),
+      ).annotate({ identifier: "StoryChapter" });
+    case 9:
+      return S.Array(__S(1128, __c35, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          shape: S.optional(S.String),
+          query: __S(800, __c25, 0),
+          results: __S(1122, __c35, 2),
+          seriesIndex: S.Number,
+          insightName: S.NullOr(S.String),
+          lastPointInProgress: S.Boolean,
+          headline: S.String,
+          chapters: __S(1129, __c35, 9),
+          warnings: S.optional(__S(832, __c26, 0)),
+        }),
+      ).annotate({ identifier: "ExplainChartData" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          first_name: S.String,
+          last_name: S.String,
+          email: S.String,
+        }),
+      ).annotate({ identifier: "ChartExplanationAuthor" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1130, __c35, 10),
+          created_by: S.NullOr(__S(1131, __c35, 11)),
+          id: S.String,
+          insight_id: S.Number,
+          created_at: S.String,
+        }),
+      ).annotate({ identifier: "ChartExplanation" });
+  }
+}
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10078,7 +11247,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CreateInsightsSharingPasswordRequest" });
   }
 }
-function __c26(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10091,7 +11260,7 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "SharePassword" });
     case 1:
-      return S.Array(__S(416, __c26, 0));
+      return S.Array(__S(1184, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10100,33 +11269,34 @@ function __c26(j: number): any {
           access_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           settings: S.optional(S.Unknown),
           password_required: S.optional(S.Boolean),
-          share_passwords: S.optional(__S(417, __c26, 1)),
+          share_passwords: S.optional(__S(1185, __c37, 1)),
           user_access_level: S.optional(S.NullOr(S.String)),
+          has_relevant_access_controls: S.Boolean,
         }),
       ).annotate({ identifier: "SharingConfiguration" });
   }
 }
-function __c27(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           format: S.optional(S.String.pipe(T.Query())),
-          insight_ids: __S(304, __c19, 0),
+          insight_ids: __S(768, __c24, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/insights/viewed/", code: 200 }),
         ),
       ).annotate({ identifier: "CreateInsightsViewedRequest" });
   }
 }
-function __c28(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateInsightsViewedResponse" });
   }
 }
-function __c29(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10145,7 +11315,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetInsightRequest" });
   }
 }
-function __c30(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10165,7 +11335,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetInsightsActivityRequest" });
   }
 }
-function __c31(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10178,7 +11348,7 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "Change" });
     case 1:
-      return S.Array(__S(496, __c31, 0));
+      return S.Array(__S(1344, __c42, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10199,9 +11369,9 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          changes: S.optional(__S(497, __c31, 1)),
-          merge: S.optional(__S(498, __c31, 2)),
-          trigger: S.optional(__S(499, __c31, 3)),
+          changes: S.optional(__S(1345, __c42, 1)),
+          merge: S.optional(__S(1346, __c42, 2)),
+          trigger: S.optional(__S(1347, __c42, 3)),
           name: S.optional(S.String),
           short_id: S.optional(S.String),
           type: S.optional(S.String),
@@ -10215,7 +11385,7 @@ function __c31(j: number): any {
           activity: S.optional(S.String),
           scope: S.optional(S.String),
           item_id: S.optional(S.String),
-          detail: S.optional(__S(500, __c31, 4)),
+          detail: S.optional(__S(1348, __c42, 4)),
           created_at: S.optional(S.String),
           is_system: S.optional(S.Boolean),
           was_impersonated: S.optional(S.Boolean),
@@ -10223,52 +11393,16 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "ActivityLogEntry" });
     case 6:
-      return S.Array(__S(501, __c31, 5));
+      return S.Array(__S(1349, __c42, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(502, __c31, 6)),
+          results: S.optional(__S(1350, __c42, 6)),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ActivityLogPaginatedResponse" });
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          format: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          page: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/insights/activity/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetInsightsAllActivityRequest" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          format: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/insights/my_last_viewed/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetInsightsMyLastViewedRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

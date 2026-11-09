@@ -241,20 +241,37 @@ export interface CreateRequestUnit {
 }
 export interface CreateAccountRequest {
   idempotencyKey?: string;
-  /** Account name */
+  /** Account name, limited to 65 UTF-8 bytes. */
   name: string;
   /** Set to `true` and omit `unit` to create a standalone Free Account. If provided, this field must be `true`. */
   standalone?: boolean;
+  /** The 'type' field should no longer be set through the API. */
   type?: CreateRequestType | (string & {});
   /** Information related to the tenant unit. Provide its ID and omit `standalone` to create the Account within an Organization. See https://developers.cloudflare.com/tenant/how-to/manage-accounts/. */
   unit?: CreateRequestUnit;
 }
 export type CreateResponseType = "standard" | "enterprise";
+export interface CreateResponseLegacyFlagsEnterpriseZoneQuota {
+  /** Number of additional Enterprise zones available. Returns 0 if the quota is not allocated or is exhausted. */
+  available?: number | null;
+  /** Current number of Enterprise zones. */
+  current?: number | null;
+  /** Maximum number of Enterprise zones allowed. */
+  maximum?: number | null;
+}
+export interface CreateResponseLegacyFlags {
+  /** Enterprise zone quota for standard and enterprise accounts. Accounts without a quota have a maximum of 0. */
+  enterpriseZoneQuota?: CreateResponseLegacyFlagsEnterpriseZoneQuota | null;
+}
 export interface CreateResponseManagedBy {
   /** ID of the parent Organization, if one exists */
   parentOrgId?: string | null;
   /** Name of the parent Organization, if one exists */
   parentOrgName?: string | null;
+  /** ID of the root Organization, if one exists */
+  rootOrgId?: string | null;
+  /** Indicates whether the parent Organization hierarchy should be displayed */
+  shouldDisplayParentOrgs?: boolean | null;
 }
 export interface CreateResponseSettings {
   /** Sets an abuse contact email to notify for abuse reports. */
@@ -271,6 +288,8 @@ export interface CreateAccountResponse {
   type: CreateResponseType;
   /** Timestamp for the creation of the account */
   createdOn?: string | null;
+  /** Legacy account flags. */
+  legacyFlags?: CreateResponseLegacyFlags | null;
   /** Parent container details */
   managedBy?: CreateResponseManagedBy | null;
   /** Account settings */
@@ -285,6 +304,7 @@ export interface CreateAccountOrganizationRequest {
 export interface CreateAccountOrganizationResponse {
   accountId: string;
   destinationOrganizationId: string;
+  /** Empty string when the account did not belong to an organization before the move. */
   sourceOrganizationId: string;
 }
 export interface CreateClientSecretRequest {
@@ -378,7 +398,7 @@ export interface MembersCreateResponsePoliciesItemResourceGroupsItemMeta {
 export interface MembersCreateResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
   id: string;
-  /** A scope is a combination of scope objects which provides additional context. */
+  /** The scope associated to the resource group */
   scope: MembersCreateResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
   meta?: MembersCreateResponsePoliciesItemResourceGroupsItemMeta | null;
@@ -849,6 +869,10 @@ export interface CreateTokenResponse {
   provisionerType?: string | null;
   /** Status of the token. */
   status?: TokensCreateResponseStatus | null;
+  /** The prefix of the token value, before the first underscore. Use it with `token_suffix` to identify a token. Only present for tokens created or rolled after this field was added. */
+  tokenPrefix?: string | null;
+  /** The last 4 characters of the token value. Use it with `token_prefix` to identify a token. It is not unique. Only present for tokens created or rolled after this field was added. */
+  tokenSuffix?: string | null;
   /** The token value. */
   value?: string | null;
 }
@@ -913,6 +937,9 @@ export interface GetAccountRequest {
   accountId: string;
 }
 export type GetResponseType = "standard" | "enterprise";
+export type GetResponseLegacyFlagsEnterpriseZoneQuota =
+  CreateResponseLegacyFlagsEnterpriseZoneQuota;
+export type GetResponseLegacyFlags = CreateResponseLegacyFlags;
 export type GetResponseManagedBy = CreateResponseManagedBy;
 export type GetResponseSettings = CreateResponseSettings;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -924,6 +951,8 @@ export interface GetAccountResponse {
   type: GetResponseType;
   /** Timestamp for the creation of the account */
   createdOn?: string | null;
+  /** Legacy account flags. */
+  legacyFlags?: CreateResponseLegacyFlags | null;
   /** Parent container details */
   managedBy?: CreateResponseManagedBy | null;
   /** Account settings */
@@ -968,7 +997,7 @@ export type MembersGetResponsePoliciesItemResourceGroupsItemMeta =
 export interface MembersGetResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
   id: string;
-  /** A scope is a combination of scope objects which provides additional context. */
+  /** The scope associated to the resource group */
   scope: MembersGetResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
   meta?: MembersCreateResponsePoliciesItemResourceGroupsItemMeta | null;
@@ -1290,6 +1319,10 @@ export interface GetTokenResponse {
   provisionerType?: string | null;
   /** Status of the token. */
   status?: TokensGetResponseStatus | null;
+  /** The prefix of the token value, before the first underscore. Use it with `token_suffix` to identify a token. Only present for tokens created or rolled after this field was added. */
+  tokenPrefix?: string | null;
+  /** The last 4 characters of the token value. Use it with `token_prefix` to identify a token. It is not unique. Only present for tokens created or rolled after this field was added. */
+  tokenSuffix?: string | null;
 }
 export interface GetTokenPermissionGroupRequest {
   /** Account identifier tag. */
@@ -1346,6 +1379,9 @@ export interface ListAccountsRequest {
   perPage?: number;
 }
 export type ListResultItemType = "standard" | "enterprise";
+export type ListResultItemLegacyFlagsEnterpriseZoneQuota =
+  CreateResponseLegacyFlagsEnterpriseZoneQuota;
+export type ListResultItemLegacyFlags = CreateResponseLegacyFlags;
 export type ListResultItemManagedBy = CreateResponseManagedBy;
 export type ListResultItemSettings = CreateResponseSettings;
 export interface ListResultItem {
@@ -1356,6 +1392,8 @@ export interface ListResultItem {
   type: ListResultItemType;
   /** Timestamp for the creation of the account */
   createdOn?: string | null;
+  /** Legacy account flags. */
+  legacyFlags?: CreateResponseLegacyFlags | null;
   /** Parent container details */
   managedBy?: CreateResponseManagedBy | null;
   /** Account settings */
@@ -1742,7 +1780,7 @@ export type MembersListResultItemPoliciesItemResourceGroupsItemMeta =
 export interface MembersListResultItemPoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
   id: string;
-  /** A scope is a combination of scope objects which provides additional context. */
+  /** The scope associated to the resource group */
   scope: MembersListResultItemPoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
   meta?: MembersCreateResponsePoliciesItemResourceGroupsItemMeta | null;
@@ -1996,6 +2034,10 @@ export interface TokensListResultItem {
   provisionerType?: string | null;
   /** Status of the token. */
   status?: TokensListResultItemStatus | null;
+  /** The prefix of the token value, before the first underscore. Use it with `token_suffix` to identify a token. Only present for tokens created or rolled after this field was added. */
+  tokenPrefix?: string | null;
+  /** The last 4 characters of the token value. Use it with `token_prefix` to identify a token. It is not unique. Only present for tokens created or rolled after this field was added. */
+  tokenSuffix?: string | null;
 }
 export type TokensListResultList = Array<TokensListResultItem>;
 export interface ListTokensResponse {
@@ -2522,12 +2564,15 @@ export interface SubscriptionsGetByIdentifierResponse {
   /** The state that the subscription is in. */
   state?: SubscriptionsGetByIdentifierResponseState | null;
 }
-export type UpdateRequestType = "standard" | "enterprise";
 export interface UpdateRequestManagedBy {
   /** ID of the parent Organization, if one exists */
   parentOrgId?: string;
   /** Name of the parent Organization, if one exists */
   parentOrgName?: string;
+  /** ID of the root Organization, if one exists */
+  rootOrgId?: string;
+  /** Indicates whether the parent Organization hierarchy should be displayed */
+  shouldDisplayParentOrgs?: boolean;
 }
 export interface UpdateRequestSettings {
   /** Sets an abuse contact email to notify for abuse reports. */
@@ -2540,15 +2585,17 @@ export interface UpdateAccountRequest {
   accountId: string;
   /** Identifier */
   id: string;
-  /** Account name */
+  /** Account name, limited to 65 UTF-8 bytes. */
   name: string;
-  type?: UpdateRequestType | (string & {});
   /** Parent container details */
   managedBy?: UpdateRequestManagedBy;
   /** Account settings */
   settings?: UpdateRequestSettings;
 }
 export type UpdateResponseType = "standard" | "enterprise";
+export type UpdateResponseLegacyFlagsEnterpriseZoneQuota =
+  CreateResponseLegacyFlagsEnterpriseZoneQuota;
+export type UpdateResponseLegacyFlags = CreateResponseLegacyFlags;
 export type UpdateResponseManagedBy = CreateResponseManagedBy;
 export type UpdateResponseSettings = CreateResponseSettings;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -2560,6 +2607,8 @@ export interface UpdateAccountResponse {
   type: UpdateResponseType;
   /** Timestamp for the creation of the account */
   createdOn?: string | null;
+  /** Legacy account flags. */
+  legacyFlags?: CreateResponseLegacyFlags | null;
   /** Parent container details */
   managedBy?: CreateResponseManagedBy | null;
   /** Account settings */
@@ -2567,11 +2616,11 @@ export interface UpdateAccountResponse {
 }
 export interface UpdateAccountProfileRequest {
   accountId: string;
-  businessAddress: string;
-  businessEmail: string;
-  businessName: string;
-  businessPhone: string;
-  externalMetadata: string;
+  businessAddress?: string;
+  businessEmail?: string;
+  businessName?: string;
+  businessPhone?: string;
+  externalMetadata?: string;
 }
 export interface UpdateAccountProfileResponse {}
 export interface MembersUpdateRequestRolesItemPermissionsAnalytics {
@@ -2695,7 +2744,7 @@ export type MembersUpdateResponsePoliciesItemResourceGroupsItemMeta =
 export interface MembersUpdateResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
   id: string;
-  /** A scope is a combination of scope objects which provides additional context. */
+  /** The scope associated to the resource group */
   scope: MembersUpdateResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
   meta?: MembersCreateResponsePoliciesItemResourceGroupsItemMeta | null;
@@ -3093,6 +3142,10 @@ export interface UpdateTokenResponse {
   provisionerType?: string | null;
   /** Status of the token. */
   status?: TokensUpdateResponseStatus | null;
+  /** The prefix of the token value, before the first underscore. Use it with `token_suffix` to identify a token. Only present for tokens created or rolled after this field was added. */
+  tokenPrefix?: string | null;
+  /** The last 4 characters of the token value. Use it with `token_prefix` to identify a token. It is not unique. Only present for tokens created or rolled after this field was added. */
+  tokenSuffix?: string | null;
 }
 export interface VerifyTokenRequest {
   /** Account identifier tag. */
@@ -3111,7 +3164,7 @@ export interface VerifyTokenResponse {
   notBefore?: string | null;
 }
 export type CreateAccountError = AccountCreationForbidden | MissingName | CloudflareOpError;
-/** Create an Account. To create the Account within an Organization, provide `unit.id` and omit `standalone`. To create a standalone Free Account, provide `standalone: true` and omit `unit`. Providing both fields is invalid. If you omit both fields, Cloudflare can determine the destination only when the User is an administrator of exactly one Organization. Cloudflare creates the Account in that Organization; otherwise, the request returns an error. */
+/** Create an Account. To create the Account within an Organization, provide `unit.id` and omit `standalone`. To create a standalone Free Account, provide `standalone: true` and omit `unit`. Providing both fields is invalid. If you omit both fields, Cloudflare can determine the destination only when the User is an administrator of exactly one Organization. Cloudflare creates the Account in that Organization; otherwise, the request returns an error. Account names are limited to 65 UTF-8 bytes. */
 export const createAccount: API.OperationMethod<
   CreateAccountRequest,
   CreateAccountResponse,
@@ -3415,7 +3468,7 @@ export const getAccount: API.OperationMethod<
 }));
 
 export type GetAccountProfileError = CloudflareOpError;
-/** Retrieves the business profile (name, email, phone, address, and external metadata) associated with this account's parent organization customer record. Profiles can be shared across accounts and organizations. Only available to members of an organization that contains the account. */
+/** Retrieves the business profile (name, email, phone, address, and external metadata) associated with this account's customer record. Profiles can be shared across accounts and organizations. Only available to members of an organization that contains the account. */
 export const getAccountProfile: API.OperationMethod<
   GetAccountProfileRequest,
   GetAccountProfileResponse,
@@ -3939,7 +3992,7 @@ export type UpdateAccountError =
   | InvalidRoute
   | MethodNotAllowed
   | CloudflareOpError;
-/** Update an existing account. */
+/** Update an existing account. Account names are limited to 65 UTF-8 bytes. */
 export const updateAccount: API.OperationMethod<
   UpdateAccountRequest,
   UpdateAccountResponse,
@@ -3964,7 +4017,7 @@ export const updateAccount: API.OperationMethod<
 }));
 
 export type UpdateAccountProfileError = CloudflareOpError;
-/** Updates the business profile (name, email, phone, address, and external metadata) associated with this account's parent organization customer record. Changes apply to every account and organization sharing that profile. Omitted or empty fields are left unchanged. Only available to members of an organization that contains the account. */
+/** Partially updates the business profile (name, email, phone, address, and external metadata) associated with this account's parent organization customer record, creating the profile if it does not exist. Changes apply to every account and organization sharing that profile. Omitted, empty, or null fields are left unchanged. Each profile field is limited to 1,000 UTF-8 bytes. Only available to members of an organization that contains the account. */
 export const updateAccountProfile: API.OperationMethod<
   UpdateAccountProfileRequest,
   UpdateAccountProfileResponse,
@@ -4133,11 +4186,31 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          available: S.optional(S.NullOr(S.Number)),
+          current: S.optional(S.NullOr(S.Number)),
+          maximum: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "CreateResponseLegacyFlagsEnterpriseZoneQuota" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          enterpriseZoneQuota: S.optional(
+            S.NullOr(__S(16, __c1, 0)).pipe(T.Body("enterprise_zone_quota")),
+          ),
+        }),
+      ).annotate({ identifier: "CreateResponseLegacyFlags" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           parentOrgId: S.optional(S.NullOr(S.String).pipe(T.Body("parent_org_id"))),
           parentOrgName: S.optional(S.NullOr(S.String).pipe(T.Body("parent_org_name"))),
+          rootOrgId: S.optional(S.NullOr(S.String).pipe(T.Body("root_org_id"))),
+          shouldDisplayParentOrgs: S.optional(
+            S.NullOr(S.Boolean).pipe(T.Body("should_display_parent_orgs")),
+          ),
         }),
       ).annotate({ identifier: "CreateResponseManagedBy" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           abuseContactEmail: S.optional(S.NullOr(S.String).pipe(T.Body("abuse_contact_email"))),
@@ -4155,8 +4228,9 @@ function __c2(j: number): any {
           name: S.String,
           type: S.String,
           createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
-          managedBy: S.optional(S.NullOr(__S(16, __c1, 0)).pipe(T.Body("managed_by"))),
-          settings: S.optional(S.NullOr(__S(17, __c1, 1))),
+          legacyFlags: S.optional(S.NullOr(__S(17, __c1, 1)).pipe(T.Body("legacy_flags"))),
+          managedBy: S.optional(S.NullOr(__S(18, __c1, 2)).pipe(T.Body("managed_by"))),
+          settings: S.optional(S.NullOr(__S(19, __c1, 3))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateAccountResponse" });
   }
@@ -4620,6 +4694,8 @@ function __c22(j: number): any {
           provisionerId: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_id"))),
           provisionerType: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_type"))),
           status: S.optional(S.NullOr(S.String)),
+          tokenPrefix: S.optional(S.NullOr(S.String).pipe(T.Body("token_prefix"))),
+          tokenSuffix: S.optional(S.NullOr(S.String).pipe(T.Body("token_suffix"))),
           value: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateTokenResponse" });
@@ -5015,6 +5091,8 @@ function __c41(j: number): any {
           provisionerId: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_id"))),
           provisionerType: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_type"))),
           status: S.optional(S.NullOr(S.String)),
+          tokenPrefix: S.optional(S.NullOr(S.String).pipe(T.Body("token_prefix"))),
+          tokenSuffix: S.optional(S.NullOr(S.String).pipe(T.Body("token_suffix"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetTokenResponse" });
   }
@@ -5085,8 +5163,9 @@ function __c45(j: number): any {
           name: S.String,
           type: S.String,
           createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
-          managedBy: S.optional(S.NullOr(__S(16, __c1, 0)).pipe(T.Body("managed_by"))),
-          settings: S.optional(S.NullOr(__S(17, __c1, 1))),
+          legacyFlags: S.optional(S.NullOr(__S(17, __c1, 1)).pipe(T.Body("legacy_flags"))),
+          managedBy: S.optional(S.NullOr(__S(18, __c1, 2)).pipe(T.Body("managed_by"))),
+          settings: S.optional(S.NullOr(__S(19, __c1, 3))),
         }),
       ).annotate({ identifier: "ListResultItem" });
     case 2:
@@ -5472,6 +5551,8 @@ function __c52(j: number): any {
           provisionerId: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_id"))),
           provisionerType: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_type"))),
           status: S.optional(S.NullOr(S.String)),
+          tokenPrefix: S.optional(S.NullOr(S.String).pipe(T.Body("token_prefix"))),
+          tokenSuffix: S.optional(S.NullOr(S.String).pipe(T.Body("token_suffix"))),
         }),
       ).annotate({ identifier: "TokensListResultItem" });
     case 6:
@@ -5802,6 +5883,8 @@ function __c67(j: number): any {
         S.Struct({
           parentOrgId: S.optional(S.String.pipe(T.Body("parent_org_id"))),
           parentOrgName: S.optional(S.String.pipe(T.Body("parent_org_name"))),
+          rootOrgId: S.optional(S.String.pipe(T.Body("root_org_id"))),
+          shouldDisplayParentOrgs: S.optional(S.Boolean.pipe(T.Body("should_display_parent_orgs"))),
         }),
       ).annotate({ identifier: "UpdateRequestManagedBy" });
     case 1:
@@ -5817,7 +5900,6 @@ function __c67(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           id: S.String,
           name: S.String,
-          type: S.optional(S.String),
           managedBy: S.optional(__S(1072, __c67, 0).pipe(T.Body("managed_by"))),
           settings: S.optional(__S(1073, __c67, 1)),
         })
@@ -5832,11 +5914,11 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
-          businessAddress: S.String.pipe(T.Body("business_address")),
-          businessEmail: S.String.pipe(T.Body("business_email")),
-          businessName: S.String.pipe(T.Body("business_name")),
-          businessPhone: S.String.pipe(T.Body("business_phone")),
-          externalMetadata: S.String.pipe(T.Body("external_metadata")),
+          businessAddress: S.optional(S.String.pipe(T.Body("business_address"))),
+          businessEmail: S.optional(S.String.pipe(T.Body("business_email"))),
+          businessName: S.optional(S.String.pipe(T.Body("business_name"))),
+          businessPhone: S.optional(S.String.pipe(T.Body("business_phone"))),
+          externalMetadata: S.optional(S.String.pipe(T.Body("external_metadata"))),
         })
           .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/profile", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -6049,6 +6131,8 @@ function __c72(j: number): any {
           provisionerId: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_id"))),
           provisionerType: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_type"))),
           status: S.optional(S.NullOr(S.String)),
+          tokenPrefix: S.optional(S.NullOr(S.String).pipe(T.Body("token_prefix"))),
+          tokenSuffix: S.optional(S.NullOr(S.String).pipe(T.Body("token_suffix"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UpdateTokenResponse" });
   }

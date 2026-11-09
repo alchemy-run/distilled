@@ -56,7 +56,7 @@ export type CreateCommentRequestDisplayName =
   | CreateCommentRequestDisplayNameCase0
   | CreateCommentRequestDisplayNameCase1
   | CreateCommentRequestDisplayNameCase2;
-/** The Markdown syntax to use. `v1` (the default) is enhanced markdown. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown), an opt-in preview. */
+/** The Markdown syntax to use. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown) and is recommended. `v1` is enhanced markdown. It's deprecated. It's the default on current Notion-Versions. The next Notion-Version rejects `v1` with a `400` `validation_error`. */
 export type CreateCommentRequestMarkdownVersion = "v1" | "v2";
 export interface CreateCommentRequestParentCase0 {
   /** The ID of the parent page (with or without dashes), for example, 195de9221179449fab8075a27c979105 */
@@ -241,7 +241,7 @@ export interface CreateCommentRequest {
   attachments?: CreateCommentRequestAttachmentsList;
   /** Display name for the comment. */
   display_name?: CreateCommentRequestDisplayName;
-  /** The Markdown syntax to use. `v1` (the default) is enhanced markdown. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown), an opt-in preview. */
+  /** The Markdown syntax to use. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown) and is recommended. `v1` is enhanced markdown. It's deprecated. It's the default on current Notion-Versions. The next Notion-Version rejects `v1` with a `400` `validation_error`. */
   markdown_version?: CreateCommentRequestMarkdownVersion | (string & {});
   /** The parent of the comment. This can be a page or a block. */
   parent?: CreateCommentRequestParent;
@@ -561,6 +561,8 @@ export interface CommentObjectResponse {
   has_pending_attachments: boolean;
   /** Any file attachments associated with the comment. */
   attachments?: CommentObjectResponseAttachmentsList;
+  /** The ID of the database property the comment is on, for comments on a page property. Matches the property's `id` in the page object. Omitted for other comments. */
+  property_id?: string;
 }
 export type CreateCommentResponseBody = PartialCommentObjectResponse | CommentObjectResponse;
 export type CreateCommentResponse = CreateCommentResponseBody;
@@ -599,13 +601,13 @@ export interface ListCommentsResponse {
   comment: unknown;
   request_status?: RequestStatusResponse;
 }
-/** The Markdown syntax to use. `v1` (the default) is enhanced markdown. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown), an opt-in preview. */
+/** The Markdown syntax to use. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown) and is recommended. `v1` is enhanced markdown. It's deprecated. It's the default on current Notion-Versions. The next Notion-Version rejects `v1` with a `400` `validation_error`. */
 export type UpdateCommentRequestMarkdownVersion = "v1" | "v2";
 /** An array of rich text objects that represent the updated content of the comment. */
 export type UpdateCommentRequestRichTextList = Array<RichTextItemRequest>;
 export interface UpdateCommentRequest {
   comment_id: string;
-  /** The Markdown syntax to use. `v1` (the default) is enhanced markdown. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown), an opt-in preview. */
+  /** The Markdown syntax to use. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown) and is recommended. `v1` is enhanced markdown. It's deprecated. It's the default on current Notion-Versions. The next Notion-Version rejects `v1` with a `400` `validation_error`. */
   markdown_version?: UpdateCommentRequestMarkdownVersion | (string & {});
   /** An array of rich text objects that represent the updated content of the comment. */
   rich_text?: UpdateCommentRequestRichTextList;
@@ -896,6 +898,7 @@ function __c5(j: number): any {
           original_content_deleted: S.Boolean,
           has_pending_attachments: S.Boolean,
           attachments: S.optional(__S(88, __c5, 8)),
+          property_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "CommentObjectResponse" });
     case 10:

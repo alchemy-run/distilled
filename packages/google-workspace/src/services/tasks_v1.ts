@@ -87,7 +87,7 @@ export interface ClearTasksRequest {
 }
 export interface ClearTasksResponse {}
 export interface DeleteTasklistsRequest {
-  /** Task list identifier. */
+  /** Task list identifier. The default task list cannot be deleted. */
   tasklist: string;
 }
 export interface DeleteTasklistsResponse {}
@@ -99,22 +99,22 @@ export interface DeleteTasksRequest {
 }
 export interface DeleteTasksResponse {}
 export interface GetTasklistsRequest {
-  /** Task list identifier. */
+  /** Task list identifier. Use "@default" to get the authenticated user's default task list. */
   tasklist: string;
 }
 export interface TaskList {
-  /** Output only. URL pointing to this task list. Used to retrieve, update, or delete this task list. */
-  selfLink?: string;
   /** Output only. Last modification time of the task list (as a RFC 3339 timestamp). */
   updated?: string;
-  /** ETag of the resource. */
-  etag?: string;
-  /** Output only. Type of the resource. This is always "tasks#taskList". */
-  kind?: string;
-  /** Task list identifier. */
-  id?: string;
   /** Title of the task list. Maximum length allowed: 1024 characters. */
   title?: string;
+  /** Output only. Type of the resource. This is always "tasks#taskList". */
+  kind?: string;
+  /** Output only. URL pointing to this task list. Used to retrieve, update, or delete this task list. */
+  selfLink?: string;
+  /** ETag of the resource. */
+  etag?: string;
+  /** Task list identifier. In requests, the authenticated user's default task list can also be referred to as "@default". */
+  id?: string;
 }
 export interface GetTasksRequest {
   /** Task identifier. */
@@ -122,78 +122,78 @@ export interface GetTasksRequest {
   /** Task list identifier. */
   tasklist: string;
 }
-export type AssignmentInfoSurfaceTypeEnum =
-  | "CONTEXT_TYPE_UNSPECIFIED"
-  | "GMAIL"
-  | "DOCUMENT"
-  | "SPACE";
+export interface TaskLinksItem {
+  /** The description (might be empty). */
+  description?: string;
+  /** The URL. */
+  link?: string;
+  /** Type of the link, e.g. "email", "generic", "chat_message", "keep_note". */
+  type?: string;
+}
+export type TaskLinksItemList = Array<TaskLinksItem>;
+/** Information about the Drive resource where a task was assigned from (the document, sheet, etc.). */
+export interface DriveResourceInfo {
+  /** Output only. Identifier of the file in the Drive API. */
+  driveFileId?: string;
+  /** Output only. Resource key required to access files shared via a shared link. Not required for all files. See also developers.google.com/drive/api/guides/resource-keys. */
+  resourceKey?: string;
+}
 /** Information about the Chat Space where a task was assigned from. */
 export interface SpaceInfo {
   /** Output only. The Chat space where this task originates from. The format is "spaces/{space}". */
   space?: string;
 }
-/** Information about the Drive resource where a task was assigned from (the document, sheet, etc.). */
-export interface DriveResourceInfo {
-  /** Output only. Resource key required to access files shared via a shared link. Not required for all files. See also developers.google.com/drive/api/guides/resource-keys. */
-  resourceKey?: string;
-  /** Output only. Identifier of the file in the Drive API. */
-  driveFileId?: string;
-}
+export type AssignmentInfoSurfaceTypeEnum =
+  | "CONTEXT_TYPE_UNSPECIFIED"
+  | "GMAIL"
+  | "DOCUMENT"
+  | "SPACE";
 /** Information about the source of the task assignment (Document, Chat Space). */
 export interface AssignmentInfo {
+  /** Output only. Information about the Drive file where this task originates from. Currently, the Drive file can only be a document. This field is read-only. */
+  driveResourceInfo?: DriveResourceInfo;
+  /** Output only. Information about the Chat Space where this task originates from. This field is read-only. */
+  spaceInfo?: SpaceInfo;
   /** Output only. An absolute link to the original task in the surface of assignment (Docs, Chat spaces, etc.). */
   linkToTask?: string;
   /** Output only. The type of surface this assigned task originates from. Currently limited to DOCUMENT or SPACE. */
   surfaceType?: AssignmentInfoSurfaceTypeEnum | (string & {});
-  /** Output only. Information about the Chat Space where this task originates from. This field is read-only. */
-  spaceInfo?: SpaceInfo;
-  /** Output only. Information about the Drive file where this task originates from. Currently, the Drive file can only be a document. This field is read-only. */
-  driveResourceInfo?: DriveResourceInfo;
 }
-export interface TaskLinksItem {
-  /** Type of the link, e.g. "email", "generic", "chat_message", "keep_note". */
-  type?: string;
-  /** The URL. */
-  link?: string;
-  /** The description (might be empty). */
-  description?: string;
-}
-export type TaskLinksItemList = Array<TaskLinksItem>;
 export interface Task {
-  /** Output only. String indicating the position of the task among its sibling tasks under the same parent task or at the top level. If this string is greater than another task's corresponding position string according to lexicographical ordering, the task is positioned after the other task under the same parent task (or at the top level). Use the "move" method to move the task to another position. */
-  position?: string;
-  /** Output only. Last modification time of the task (as a RFC 3339 timestamp). */
-  updated?: string;
-  /** Title of the task. Maximum length allowed: 1024 characters. */
-  title?: string;
-  /** Output only. Context information for assigned tasks. A task can be assigned to a user, currently possible from surfaces like Docs and Chat Spaces. This field is populated for tasks assigned to the current user and identifies where the task was assigned from. This field is read-only. */
-  assignmentInfo?: AssignmentInfo;
-  /** Output only. Collection of links. This collection is read-only. */
-  links?: TaskLinksItemList;
+  /** Output only. An absolute link to the task in the Google Tasks Web UI. */
+  webViewLink?: string;
   /** Completion date of the task (as a RFC 3339 timestamp). This field is omitted if the task has not been completed. */
   completed?: string;
   /** Task identifier. */
   id?: string;
-  /** Status of the task. This is either "needsAction" or "completed". */
-  status?: string;
-  /** Notes describing the task. Tasks assigned from Google Docs cannot have notes. Optional. Maximum length allowed: 8192 characters. */
-  notes?: string;
+  /** Output only. String indicating the position of the task among its sibling tasks under the same parent task or at the top level. If this string is greater than another task's corresponding position string according to lexicographical ordering, the task is positioned after the other task under the same parent task (or at the top level). Use the "move" method to move the task to another position. */
+  position?: string;
+  /** Output only. Collection of links. This collection is read-only. */
+  links?: TaskLinksItemList;
+  /** Title of the task. Maximum length allowed: 1024 characters. */
+  title?: string;
   /** Output only. Type of the resource. This is always "tasks#task". */
   kind?: string;
-  /** Scheduled date for the task (as an RFC 3339 timestamp). Optional. This represents the day that the task should be done, or that the task is visible on the calendar grid. It doesn't represent the deadline of the task. Only date information is recorded; the time portion of the timestamp is discarded when setting this field. It isn't possible to read or write the time that a task is scheduled for using the API. */
-  due?: string;
+  /** Output only. Last modification time of the task (as a RFC 3339 timestamp). */
+  updated?: string;
   /** Output only. Parent task identifier. This field is omitted if it is a top-level task. Use the "move" method to move the task under a different parent or to the top level. A parent task can never be an assigned task (from Chat Spaces, Docs). This field is read-only. */
   parent?: string;
-  /** ETag of the resource. */
-  etag?: string;
+  /** Status of the task. This is either "needsAction" or "completed". */
+  status?: string;
   /** Output only. URL pointing to this task. Used to retrieve, update, or delete this task. */
   selfLink?: string;
-  /** Flag indicating whether the task has been deleted. For assigned tasks this field is read-only. They can only be deleted by calling tasks.delete, in which case both the assigned task and the original task (in Docs or Chat Spaces) are deleted. To delete the assigned task only, navigate to the assignment surface and unassign the task from there. The default is False. */
-  deleted?: boolean;
-  /** Output only. An absolute link to the task in the Google Tasks Web UI. */
-  webViewLink?: string;
   /** Flag indicating whether the task is hidden. This is the case if the task had been marked completed when the task list was last cleared. The default is False. This field is read-only. */
   hidden?: boolean;
+  /** Notes describing the task. Tasks assigned from Google Docs cannot have notes. Optional. Maximum length allowed: 8192 characters. */
+  notes?: string;
+  /** Scheduled date for the task (as an RFC 3339 timestamp). Optional. This represents the day that the task should be done, or that the task is visible on the calendar grid. It doesn't represent the deadline of the task. Only date information is recorded; the time portion of the timestamp is discarded when setting this field. It isn't possible to read or write the time that a task is scheduled for using the API. */
+  due?: string;
+  /** Flag indicating whether the task has been deleted. For assigned tasks this field is read-only. They can only be deleted by calling tasks.delete, in which case both the assigned task and the original task (in Docs or Chat Spaces) are deleted. To delete the assigned task only, navigate to the assignment surface and unassign the task from there. The default is False. */
+  deleted?: boolean;
+  /** ETag of the resource. */
+  etag?: string;
+  /** Output only. Context information for assigned tasks. A task can be assigned to a user, currently possible from surfaces like Docs and Chat Spaces. This field is populated for tasks assigned to the current user and identifies where the task was assigned from. This field is read-only. */
+  assignmentInfo?: AssignmentInfo;
 }
 export interface InsertTasklistsRequest {
   /** Request body */
@@ -202,78 +202,78 @@ export interface InsertTasklistsRequest {
 export interface InsertTasksRequest {
   /** Task list identifier. */
   tasklist: string;
-  /** Parent task identifier. If the task is created at the top level, this parameter is omitted. An assigned task cannot be a parent task, nor can it have a parent. Setting the parent to an assigned task results in failure of the request. Optional. */
-  parent?: string;
-  /** Previous sibling task identifier. If the task is created at the first position among its siblings, this parameter is omitted. Optional. */
+  /** Optional. Previous sibling task identifier. If the task is created at the first position among its siblings, this parameter is omitted. */
   previous?: string;
+  /** Optional. Parent task identifier. If the task is created at the top level, this parameter is omitted. An assigned task cannot be a parent task, nor can it have a parent. Setting the parent to an assigned task results in failure of the request. */
+  parent?: string;
   /** Request body */
   body?: Task;
 }
 export interface ListTasklistsRequest {
-  /** Token specifying the result page to return. Optional. */
+  /** Optional. Token specifying the result page to return. */
   pageToken?: string;
-  /** Maximum number of task lists returned on one page. Optional. The default is 1000 (max allowed: 1000). */
+  /** Optional. Maximum number of task lists returned on one page. The default is 1000 (max allowed: 1000). */
   maxResults?: number;
 }
 export type TaskListList = Array<TaskList>;
 export interface TaskLists {
   /** ETag of the resource. */
   etag?: string;
-  /** Token that can be used to request the next page of this result. */
-  nextPageToken?: string;
-  /** Type of the resource. This is always "tasks#taskLists". */
-  kind?: string;
   /** Collection of task lists. */
   items: TaskListList;
+  /** Type of the resource. This is always "tasks#taskLists". */
+  kind?: string;
+  /** Token that can be used to request the next page of this result. */
+  nextPageToken?: string;
 }
 export interface ListTasksRequest {
-  /** Maximum number of tasks returned on one page. Optional. The default is 20 (max allowed: 100). */
-  maxResults?: number;
+  /** Optional. Lower bound for a task's last modification time (as a RFC 3339 timestamp) to filter by. The default is not to filter by last modification time. */
+  updatedMin?: string;
+  /** Optional. Flag indicating whether tasks assigned to the current user are returned in the result. The default is False. */
+  showAssigned?: boolean;
+  /** Optional. Flag indicating whether completed tasks are returned in the result. Note that showHidden must also be True to show tasks completed in first party clients, such as the web UI and Google's mobile apps. The default is True. */
+  showCompleted?: boolean;
+  /** Optional. Lower bound for a task's completion date (as a RFC 3339 timestamp) to filter by. The default is not to filter by completion date. */
+  completedMin?: string;
+  /** Optional. Lower bound for a task's due date (as a RFC 3339 timestamp) to filter by. The default is not to filter by due date. */
+  dueMin?: string;
+  /** Optional. Token specifying the result page to return. */
+  pageToken?: string;
+  /** Optional. Upper bound for a task's due date (as a RFC 3339 timestamp) to filter by. The default is not to filter by due date. */
+  dueMax?: string;
   /** Task list identifier. */
   tasklist: string;
-  /** Lower bound for a task's completion date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by completion date. */
-  completedMin?: string;
-  /** Token specifying the result page to return. Optional. */
-  pageToken?: string;
-  /** Flag indicating whether completed tasks are returned in the result. Note that showHidden must also be True to show tasks completed in first party clients, such as the web UI and Google's mobile apps. Optional. The default is True. */
-  showCompleted?: boolean;
-  /** Flag indicating whether deleted tasks are returned in the result. Optional. The default is False. */
-  showDeleted?: boolean;
-  /** Upper bound for a task's completion date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by completion date. */
-  completedMax?: string;
-  /** Optional. Flag indicating whether tasks assigned to the current user are returned in the result. Optional. The default is False. */
-  showAssigned?: boolean;
-  /** Lower bound for a task's due date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by due date. */
-  dueMin?: string;
-  /** Flag indicating whether hidden tasks are returned in the result. Optional. The default is False. */
+  /** Optional. Maximum number of tasks returned on one page. The default is 20 (max allowed: 100). */
+  maxResults?: number;
+  /** Optional. Flag indicating whether hidden tasks are returned in the result. The default is False. */
   showHidden?: boolean;
-  /** Upper bound for a task's due date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by due date. */
-  dueMax?: string;
-  /** Lower bound for a task's last modification time (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by last modification time. */
-  updatedMin?: string;
+  /** Optional. Upper bound for a task's completion date (as a RFC 3339 timestamp) to filter by. The default is not to filter by completion date. */
+  completedMax?: string;
+  /** Optional. Flag indicating whether deleted tasks are returned in the result. The default is False. */
+  showDeleted?: boolean;
 }
 export type TaskList_ = Array<Task>;
 export interface Tasks {
+  /** Type of the resource. This is always "tasks#tasks". */
+  kind?: string;
+  /** Collection of tasks. */
+  items: TaskList_;
   /** Token used to access the next page of this result. */
   nextPageToken?: string;
   /** ETag of the resource. */
   etag?: string;
-  /** Collection of tasks. */
-  items: TaskList_;
-  /** Type of the resource. This is always "tasks#tasks". */
-  kind?: string;
 }
 export interface MoveTasksRequest {
-  /** Task identifier. */
-  task: string;
-  /** Optional. New previous sibling task identifier. If the task is moved to the first position among its siblings, this parameter is omitted. The task set as previous must exist in the task list and can not be hidden. Exceptions: 1. Tasks that are both completed and hidden can only be moved to position 0, so the previous field must be empty. */
-  previous?: string;
-  /** Task list identifier. */
-  tasklist: string;
   /** Optional. Destination task list identifier. If set, the task is moved from tasklist to the destinationTasklist list. Otherwise the task is moved within its current list. Recurrent tasks cannot currently be moved between lists. */
   destinationTasklist?: string;
+  /** Optional. New previous sibling task identifier. If the task is moved to the first position among its siblings, this parameter is omitted. The task set as previous must exist in the task list and can not be hidden. Exceptions: 1. Tasks that are both completed and hidden can only be moved to position 0, so the previous field must be empty. */
+  previous?: string;
+  /** Task identifier. */
+  task: string;
   /** Optional. New parent task identifier. If the task is moved to the top level, this parameter is omitted. The task set as parent must exist in the task list and can not be hidden. Exceptions: 1. Assigned and repeating tasks cannot be set as parent tasks (have subtasks), or be moved under a parent task (become subtasks). 2. Tasks that are both completed and hidden cannot be nested, so the parent field must be empty. */
   parent?: string;
+  /** Task list identifier. */
+  tasklist: string;
 }
 export interface PatchTasklistsRequest {
   /** Task list identifier. */
@@ -282,10 +282,10 @@ export interface PatchTasklistsRequest {
   body?: TaskList;
 }
 export interface PatchTasksRequest {
-  /** Task list identifier. */
-  tasklist: string;
   /** Task identifier. */
   task: string;
+  /** Task list identifier. */
+  tasklist: string;
   /** Request body */
   body?: Task;
 }
@@ -296,10 +296,10 @@ export interface UpdateTasklistsRequest {
   body?: TaskList;
 }
 export interface UpdateTasksRequest {
-  /** Task list identifier. */
-  tasklist: string;
   /** Task identifier. */
   task: string;
+  /** Task list identifier. */
+  tasklist: string;
   /** Request body */
   body?: Task;
 }
@@ -326,7 +326,7 @@ export type DeleteTasklistsError =
   | BadRequest
   | Conflict
   | GoogleWorkspaceOpError;
-/** Deletes the authenticated user's specified task list. If the list contains assigned tasks, both the assigned tasks and the original tasks in the assignment surface (Docs, Chat Spaces) are deleted. */
+/** Deletes the authenticated user's specified task list. If the list contains assigned tasks, both the assigned tasks and the original tasks in the assignment surface (Docs, Chat Spaces) are deleted. The user's default task list cannot be deleted. */
 export const deleteTasklists: API.OperationMethod<
   DeleteTasklistsRequest,
   DeleteTasklistsResponse,
@@ -587,8 +587,8 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           tasklist: S.String.pipe(T.Label()),
-          parent: S.optional(S.String.pipe(T.Query())),
           previous: S.optional(S.String.pipe(T.Query())),
+          parent: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(125, __c15, 5).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -621,9 +621,9 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           etag: S.optional(S.String),
-          nextPageToken: S.optional(S.String),
-          kind: S.optional(S.String),
           items: __S(9, __c1, 1),
+          kind: S.optional(S.String),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "TaskLists" });
   }
@@ -633,18 +633,18 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          tasklist: S.String.pipe(T.Label()),
-          completedMin: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          showCompleted: S.optional(S.Boolean.pipe(T.Query())),
-          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
-          completedMax: S.optional(S.String.pipe(T.Query())),
-          showAssigned: S.optional(S.Boolean.pipe(T.Query())),
-          dueMin: S.optional(S.String.pipe(T.Query())),
-          showHidden: S.optional(S.Boolean.pipe(T.Query())),
-          dueMax: S.optional(S.String.pipe(T.Query())),
           updatedMin: S.optional(S.String.pipe(T.Query())),
+          showAssigned: S.optional(S.Boolean.pipe(T.Query())),
+          showCompleted: S.optional(S.Boolean.pipe(T.Query())),
+          completedMin: S.optional(S.String.pipe(T.Query())),
+          dueMin: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          dueMax: S.optional(S.String.pipe(T.Query())),
+          tasklist: S.String.pipe(T.Label()),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          showHidden: S.optional(S.Boolean.pipe(T.Query())),
+          completedMax: S.optional(S.String.pipe(T.Query())),
+          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -658,10 +658,10 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          kind: S.optional(S.String),
+          items: __S(17, __c2, 1),
           nextPageToken: S.optional(S.String),
           etag: S.optional(S.String),
-          items: __S(17, __c2, 1),
-          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "Tasks" });
   }
@@ -671,11 +671,11 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          task: S.String.pipe(T.Label()),
-          previous: S.optional(S.String.pipe(T.Query())),
-          tasklist: S.String.pipe(T.Label()),
           destinationTasklist: S.optional(S.String.pipe(T.Query())),
+          previous: S.optional(S.String.pipe(T.Query())),
+          task: S.String.pipe(T.Label()),
           parent: S.optional(S.String.pipe(T.Query())),
+          tasklist: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -708,8 +708,8 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tasklist: S.String.pipe(T.Label()),
           task: S.String.pipe(T.Label()),
+          tasklist: S.String.pipe(T.Label()),
           body: S.optional(__S(125, __c15, 5).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -743,8 +743,8 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tasklist: S.String.pipe(T.Label()),
           task: S.String.pipe(T.Label()),
+          tasklist: S.String.pipe(T.Label()),
           body: S.optional(__S(125, __c15, 5).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -832,12 +832,12 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          selfLink: S.optional(S.String),
           updated: S.optional(S.String),
-          etag: S.optional(S.String),
-          kind: S.optional(S.String),
-          id: S.optional(S.String),
           title: S.optional(S.String),
+          kind: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          etag: S.optional(S.String),
+          id: S.optional(S.String),
         }),
       ).annotate({ identifier: "TaskList" });
   }
@@ -864,55 +864,55 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          space: S.optional(S.String),
+          description: S.optional(S.String),
+          link: S.optional(S.String),
+          type: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SpaceInfo" });
+      ).annotate({ identifier: "TaskLinksItem" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          resourceKey: S.optional(S.String),
-          driveFileId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DriveResourceInfo" });
+      return S.Array(__S(120, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          linkToTask: S.optional(S.String),
-          surfaceType: S.optional(S.String),
-          spaceInfo: S.optional(__S(120, __c15, 0)),
-          driveResourceInfo: S.optional(__S(121, __c15, 1)),
+          driveFileId: S.optional(S.String),
+          resourceKey: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AssignmentInfo" });
+      ).annotate({ identifier: "DriveResourceInfo" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          link: S.optional(S.String),
-          description: S.optional(S.String),
+          space: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TaskLinksItem" });
+      ).annotate({ identifier: "SpaceInfo" });
     case 4:
-      return S.Array(__S(123, __c15, 3));
+      return S.suspend(() =>
+        S.Struct({
+          driveResourceInfo: S.optional(__S(122, __c15, 2)),
+          spaceInfo: S.optional(__S(123, __c15, 3)),
+          linkToTask: S.optional(S.String),
+          surfaceType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AssignmentInfo" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          position: S.optional(S.String),
-          updated: S.optional(S.String),
-          title: S.optional(S.String),
-          assignmentInfo: S.optional(__S(122, __c15, 2)),
-          links: S.optional(__S(124, __c15, 4)),
+          webViewLink: S.optional(S.String),
           completed: S.optional(S.String),
           id: S.optional(S.String),
-          status: S.optional(S.String),
-          notes: S.optional(S.String),
+          position: S.optional(S.String),
+          links: S.optional(__S(121, __c15, 1)),
+          title: S.optional(S.String),
           kind: S.optional(S.String),
-          due: S.optional(S.String),
+          updated: S.optional(S.String),
           parent: S.optional(S.String),
-          etag: S.optional(S.String),
+          status: S.optional(S.String),
           selfLink: S.optional(S.String),
-          deleted: S.optional(S.Boolean),
-          webViewLink: S.optional(S.String),
           hidden: S.optional(S.Boolean),
+          notes: S.optional(S.String),
+          due: S.optional(S.String),
+          deleted: S.optional(S.Boolean),
+          etag: S.optional(S.String),
+          assignmentInfo: S.optional(__S(124, __c15, 4)),
         }),
       ).annotate({ identifier: "Task" });
   }

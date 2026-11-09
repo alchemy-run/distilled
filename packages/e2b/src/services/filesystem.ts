@@ -43,7 +43,7 @@ export interface CreateWatcherRequest {
   allowNetworkMounts?: boolean;
 }
 export interface CreateWatcherResponse {
-  watcherId?: string;
+  watcherId: string;
 }
 export interface GetWatcherEventsRequest {
   watcherId?: string;
@@ -62,31 +62,31 @@ export type FileType =
   | "FILE_TYPE_SYMLINK";
 export type StringMap = { [key: string]: string | undefined };
 export interface EntryInfo {
-  name?: string;
-  type?: FileType;
-  path?: string;
-  size?: string;
-  mode?: number;
-  permissions?: string;
-  owner?: string;
-  group?: string;
+  name: string;
+  type: FileType;
+  path: string;
+  size: string;
+  mode: number;
+  permissions: string;
+  owner: string;
+  group: string;
   modifiedTime?: string;
   /** If the entry is a symlink, this field contains the target of the symlink. */
   symlinkTarget?: string;
   /** User-defined metadata stored as extended attributes (xattrs) on the file. Keys live under the `user.e2b.` xattr namespace; the prefix is stripped here. Plain `user.*` xattrs written by other tooling are not reflected. */
-  metadata?: StringMap;
+  metadata: StringMap;
   /** True when the entry itself is a symlink; type then describes the symlink's target. */
-  isSymlink?: boolean;
+  isSymlink: boolean;
 }
 export interface FilesystemEvent {
-  name?: string;
-  type?: EventType;
+  name: string;
+  type: EventType;
   /** Info of the entry that triggered the event. Only populated when include_entry was requested and the entry could be stat-ed (e.g. not set for remove/rename-away events, where the entry no longer exists at this path). */
   entry?: EntryInfo;
 }
 export type FilesystemEventList = Array<FilesystemEvent>;
 export interface GetWatcherEventsResponse {
-  events?: FilesystemEventList;
+  events: FilesystemEventList;
 }
 export interface ListDirRequest {
   path?: string;
@@ -94,7 +94,7 @@ export interface ListDirRequest {
 }
 export type EntryInfoList = Array<EntryInfo>;
 export interface ListDirResponse {
-  entries?: EntryInfoList;
+  entries: EntryInfoList;
 }
 export interface MakeDirRequest {
   path?: string;
@@ -275,7 +275,7 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          watcherId: S.optional(S.String),
+          watcherId: S.String,
         }),
       ).annotate({ identifier: "CreateWatcherResponse" });
   }
@@ -293,8 +293,8 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          type: S.optional(S.String),
+          name: S.String,
+          type: S.String,
           entry: S.optional(__S(9, __c2, 1)),
         }),
       ).annotate({ identifier: "FilesystemEvent" });
@@ -303,7 +303,7 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          events: S.optional(__S(6, __c1, 2)),
+          events: __S(6, __c1, 2),
         }),
       ).annotate({ identifier: "GetWatcherEventsResponse" });
   }
@@ -315,18 +315,18 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          path: S.optional(S.String),
-          size: S.optional(S.String),
-          mode: S.optional(S.Number),
-          permissions: S.optional(S.String),
-          owner: S.optional(S.String),
-          group: S.optional(S.String),
+          name: S.String,
+          type: S.String,
+          path: S.String,
+          size: S.String,
+          mode: S.Number,
+          permissions: S.String,
+          owner: S.String,
+          group: S.String,
           modifiedTime: S.optional(S.String),
           symlinkTarget: S.optional(S.String),
-          metadata: S.optional(__S(8, __c2, 0)),
-          isSymlink: S.optional(S.Boolean),
+          metadata: __S(8, __c2, 0),
+          isSymlink: S.Boolean,
         }),
       ).annotate({ identifier: "EntryInfo" });
   }
@@ -345,7 +345,7 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(13, __c3, 1)),
+          entries: __S(13, __c3, 1),
         }),
       ).annotate({ identifier: "ListDirResponse" });
   }

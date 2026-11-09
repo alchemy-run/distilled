@@ -227,6 +227,7 @@ export interface ListCommentsRequest {
 }
 export type PaginatedCommentListOutputResultsList = Array<CommentOutput>;
 export interface PaginatedCommentListOutput {
+  count: number;
   next?: string | null;
   previous?: string | null;
   results?: PaginatedCommentListOutputResultsList;
@@ -287,7 +288,7 @@ export const commentsDestroy: API.OperationMethod<
 }));
 
 export type CommentsSendToSlackCreateError = PosthogOpError;
-/** Mirror this discussion thread to a Slack channel. Posts the comment (and its existing replies) as a new Slack thread; later replies on either side sync across. A discussion mirrors to exactly one Slack thread: re-calling with the same channel returns the existing mirror; a different channel is a 400 naming the existing one. 409 while a concurrent send is in flight. 404 when the feature is not enabled for the team. */
+/** Mirror this discussion thread to a Slack channel. Posts the comment (and its existing replies) as a new Slack thread; later replies on either side sync across. A discussion mirrors to exactly one Slack thread: re-calling with the same channel returns the existing mirror; a different channel is a 400 naming the existing one. 409 while a concurrent send is in flight. 404 when the feature is not enabled for the team. Only the person who started a ticket discussion can send it (403), and it cannot go to a channel shared with another Slack workspace (400). 429 when the Slack integration has made too many channel lookups in the last minute. */
 export const commentsSendToSlackCreate: API.OperationMethod<
   CommentsSendToSlackCreateRequest,
   CommentSlackThread,
@@ -502,6 +503,7 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
           results: S.optional(__S(9, __c2, 1)),

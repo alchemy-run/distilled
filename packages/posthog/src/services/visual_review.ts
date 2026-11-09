@@ -165,7 +165,7 @@ export interface CreateVisualReviewRunsCompleteRequest {
   check_run_id?: string;
 }
 /** * `review` - review * `observe` - observe */
-export type PurposeEnum = "review" | "observe";
+export type RunPurposeEnum = "review" | "observe";
 export type SearchMatchTypeEnum = "exact" | "similar";
 export interface RunSummary {
   total?: number;
@@ -180,7 +180,7 @@ export type RunMetadataMap = { [key: string]: unknown | undefined };
 export interface Run {
   approved_by?: UserBasicInfo | null;
   /** Why CI submitted the run. `review` runs gate the PR and need approval. `observe` runs are tracking-only, for example default-branch pushes and merge-queue runs, and can never be approved. * `review` - review * `observe` - observe */
-  purpose?: PurposeEnum;
+  purpose?: RunPurposeEnum;
   /** How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of branch/run type, a commit SHA prefix, or an exact PR number) or `similar` (a fuzzy trigram match, returned only when no exact match exists). Null when the list is not filtered by `search`. * `exact` - exact * `similar` - similar */
   search_match_type?: SearchMatchTypeEnum | null;
   id?: string;
@@ -331,6 +331,8 @@ export interface Snapshot {
   reviewed_by?: UserBasicInfo | null;
   cluster_summary?: ClusterSummary | null;
   row_shift?: RowShift | null;
+  /** Whether a quarantine covered this snapshot when the run was last gated, so its diff did not block the pull request. It keeps that value after the quarantine ends or a new one starts. */
+  is_quarantined?: boolean;
   id?: string;
   run_id?: string;
   identifier?: string;
@@ -342,7 +344,6 @@ export interface Snapshot {
   reviewed_at?: string | null;
   approved_hash?: string;
   tolerated_hash_id?: string | null;
-  is_quarantined?: boolean;
   metadata?: SnapshotMetadataMap;
   ssim_score?: number | null;
   change_kind?: string;
@@ -411,8 +412,8 @@ export interface GetVisualReviewReposFlakinessRequest {
 export type FlakinessEntryDailyHardCountsList = Array<number>;
 /** Absorbed runs per day over the same 30 days, oldest first. */
 export type FlakinessEntryDailySoftCountsList = Array<number>;
-/** * `broken` - broken * `unstable` - unstable * `at_risk` - at_risk * `noisy` - noisy * `clean` - clean */
-export type FlakinessStateEnum = "broken" | "unstable" | "at_risk" | "noisy" | "clean";
+/** * `broken` - broken * `unstable` - unstable * `at_risk` - at_risk * `clean` - clean */
+export type FlakinessStateEnum = "broken" | "unstable" | "at_risk" | "clean";
 export interface FlakinessEntry {
   /** Distinct alternate hashes the classifier can still match for this snapshot's current baseline. Reads as how many different images this snapshot is currently allowed to produce. Resets when the baseline moves, because tolerations recorded against an old baseline hash can never match again. */
   variant_count: number;
@@ -442,7 +443,7 @@ export interface FlakinessEntry {
   daily_soft_counts: FlakinessEntryDailySoftCountsList;
   /** Index into the daily series where the baseline moved. Null when it moved before the window opened, which is the common case. */
   baseline_moved_day_index?: number | null;
-  /** An urgency ladder, where each rung asks for a different fix. `broken` fails nearly every run, so its baseline is wrong and quarantining it only hides that. `unstable` fails some runs and not others, the classic flake. `at_risk` never fails, but its worst absorbed diff is already touching the threshold, so the next unrelated change turns it red. `noisy` renders variants and absorbs them with room to spare. `clean` matched its baseline on every run in the window. * `broken` - broken * `unstable` - unstable * `at_risk` - at_risk * `noisy` - noisy * `clean` - clean */
+  /** An urgency ladder, where each rung asks for a different fix. `broken` fails nearly every run, so its baseline is wrong and quarantining it only hides that. `unstable` fails some runs and not others, the classic flake. `at_risk` never fails, but its worst absorbed diff is already touching the threshold, so the next unrelated change turns it red. `clean` has no gate failure inside the rate span, and any diff it absorbed sits far below the threshold. * `broken` - broken * `unstable` - unstable * `at_risk` - at_risk * `clean` - clean */
   flakiness_state: FlakinessStateEnum;
   /** True when an active quarantine has run out, is about to, or covers a snapshot that has stopped failing the gate. All three mean a human has to extend it or lift it. */
   needs_decision: boolean;
@@ -472,9 +473,7 @@ export interface FlakinessTotals {
   unstable: number;
   /** Identifiers whose `flakiness_state` is `at_risk`. */
   at_risk: number;
-  /** Identifiers whose `flakiness_state` is `noisy`. */
-  noisy: number;
-  /** Identifiers whose `flakiness_state` is `clean`. They are listed because they carry live variants or older history, and reported here so every listed entry is reachable. */
+  /** Identifiers whose `flakiness_state` is `clean`. They are listed because they carry a quarantine or older gate failures, and reported here so every listed entry is reachable. */
   clean: number;
   /** Listed identifiers per run type, so one suite's noise can be told from another's. */
   by_run_type: FlakinessTotalsByRunTypeMap;
@@ -598,6 +597,11 @@ export interface PaginatedQuarantinedIdentifierEntryList {
   previous?: string | null;
   results?: PaginatedQuarantinedIdentifierEntryListResultsList;
 }
+export type ListVisualReviewReposRunsRequestReviewState =
+  | "clean"
+  | "needs_review"
+  | "processing"
+  | "stale";
 export interface ListVisualReviewReposRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -606,8 +610,8 @@ export interface ListVisualReviewReposRunsRequest {
   limit?: number;
   /** The initial index from which to return the results. */
   offset?: number;
-  /** Filter by review state */
-  review_state?: string;
+  /** Filter by where the run stands in review. `needs_review`: a completed pull request run with changes nobody approved yet. `clean`: no changes, or approved. `processing`: diffs still computing. `stale`: superseded by a newer run while its changes were unapproved. */
+  review_state?: ListVisualReviewReposRunsRequestReviewState | (string & {});
   /** Free-text search over branch, commit SHA, run type, and PR number */
   search?: string;
 }
@@ -654,6 +658,11 @@ export interface PaginatedSnapshotHistoryEntryList {
   previous?: string | null;
   results?: PaginatedSnapshotHistoryEntryListResultsList;
 }
+export type ListVisualReviewRunsRequestReviewState =
+  | "clean"
+  | "needs_review"
+  | "processing"
+  | "stale";
 export interface ListVisualReviewRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -667,8 +676,8 @@ export interface ListVisualReviewRunsRequest {
   offset?: number;
   /** Filter by GitHub PR number */
   pr_number?: number;
-  /** Filter by review state */
-  review_state?: string;
+  /** Filter by where the run stands in review. `needs_review`: a completed pull request run with changes nobody approved yet. `clean`: no changes, or approved. `processing`: diffs still computing. `stale`: superseded by a newer run while its changes were unapproved. */
+  review_state?: ListVisualReviewRunsRequestReviewState | (string & {});
   /** Free-text search over branch, commit SHA, run type, and PR number */
   search?: string;
 }
@@ -698,13 +707,13 @@ export interface ListVisualReviewRunsSnapshotsRequest {
   id: string;
   /** Whether to leave out snapshots whose result is `unchanged`. Defaults to false. Pass true to list only the changed, new and removed snapshots, which is what a review needs. A large run holds thousands of unchanged snapshots and few changes. */
   exclude_unchanged?: boolean;
-  /** Whether to include snapshots whose identifier is currently quarantined. Defaults to false: quarantined snapshots are excluded from results and reported in quarantined_count instead, since they are noise when reviewing real changes. */
+  /** Whether to include snapshots whose identifier is currently quarantined. Defaults to false: quarantined snapshots are excluded from results and reported in quarantined_count instead, since they are noise when reviewing real changes. This filter uses the quarantines active now. Each snapshot's `is_quarantined` flag holds the state when the run was gated, so for an older run pass true and read the flag. */
   include_quarantined?: boolean;
   /** Number of results to return per page. */
   limit?: number;
   /** The initial index from which to return the results. */
   offset?: number;
-  /** Whether to list only the snapshots whose identifier is currently quarantined. Defaults to false. When true, `include_quarantined` is ignored and quarantined snapshots are returned. Combine with `exclude_unchanged=false` to find a quarantined story that rendered `unchanged`, which is the snapshot to request a lift on merge for. */
+  /** Whether to list only the snapshots whose identifier is currently quarantined. Defaults to false. When true, `include_quarantined` is ignored and quarantined snapshots are returned. Combine with `exclude_unchanged=false` to find a quarantined story that rendered `unchanged`, which is the snapshot to request a lift on merge for. This uses the quarantines active now, not each snapshot's `is_quarantined` flag, so on an older run it misses stories whose quarantine has ended since. */
   quarantined_only?: boolean;
   /** Return only the snapshot with this id, read from the `id` field of a snapshot in the run. Use it to fetch one snapshot without listing the whole run. */
   snapshot_id?: string;
@@ -715,7 +724,7 @@ export interface PaginatedSnapshotList {
   next?: string | null;
   previous?: string | null;
   results?: PaginatedSnapshotListResultsList;
-  /** Count of this run's snapshots that match the other filters and whose identifier is currently quarantined. Excluded from results unless include_quarantined=true is passed. */
+  /** Count of this run's snapshots that match the other filters and whose identifier is quarantined now. Excluded from results unless include_quarantined=true is passed. This can differ from the run's own counts, which use the quarantines at gating time. */
   quarantined_count?: number;
 }
 export interface ListVisualReviewRunsToleratedHashesRequest {
@@ -1002,7 +1011,7 @@ export const getVisualReviewReposBaseline: API.OperationMethod<
 }));
 
 export type GetVisualReviewReposFlakinessError = PosthogOpError;
-/** Snapshots in a repo whose rendering cannot be trusted: those that failed the gate or were absorbed by a toleration on a recent default-branch run, and those under an active quarantine. Everything else is omitted, so this is far smaller than the baselines universe; `totals.tracked` gives the full denominator. Each entry carries the share of the last 7 days of default-branch runs that failed the gate (`hard_rate`) and the share a toleration absorbed (`soft_rate`), plus `headroom`, the fraction of the diff threshold its worst absorbed run leaves free. Capped at 2000 entries, which sets `truncated`. Filtering, faceting and search are done client-side; this endpoint takes no filter query params. */
+/** Snapshots in a repo whose rendering cannot be trusted: those that failed the gate on a recent default-branch run, those whose absorbed diff is close to the threshold, and those under an active quarantine. Small absorbed diffs well under the threshold are omitted, as is everything else, so this is far smaller than the baselines universe; `totals.tracked` gives the full denominator. Each entry carries the share of the last 7 days of default-branch runs that failed the gate (`hard_rate`) and the share a toleration absorbed (`soft_rate`), plus `headroom`, the fraction of the diff threshold its worst absorbed run leaves free. Capped at 2000 entries, which sets `truncated`. Filtering, faceting and search are done client-side; this endpoint takes no filter query params. */
 export const getVisualReviewReposFlakiness: API.OperationMethod<
   GetVisualReviewReposFlakinessRequest,
   FlakinessOverview,
@@ -1461,6 +1470,7 @@ function __c3(j: number): any {
           reviewed_by: S.optional(S.NullOr(__S(280, __c35, 0))),
           cluster_summary: S.optional(S.NullOr(__S(26, __c3, 2))),
           row_shift: S.optional(S.NullOr(__S(19, __c2, 3))),
+          is_quarantined: S.optional(S.Boolean),
           id: S.optional(S.String),
           run_id: S.optional(S.String),
           identifier: S.optional(S.String),
@@ -1472,7 +1482,6 @@ function __c3(j: number): any {
           reviewed_at: S.optional(S.NullOr(S.String)),
           approved_hash: S.optional(S.String),
           tolerated_hash_id: S.optional(S.NullOr(S.String)),
-          is_quarantined: S.optional(S.Boolean),
           metadata: S.optional(__S(320, __c40, 0)),
           ssim_score: S.optional(S.NullOr(S.Number)),
           change_kind: S.optional(S.String),
@@ -1631,7 +1640,6 @@ function __c7(j: number): any {
           broken: S.Number,
           unstable: S.Number,
           at_risk: S.Number,
-          noisy: S.Number,
           clean: S.Number,
           by_run_type: __S(49, __c6, 1),
           quarantined: S.Number,

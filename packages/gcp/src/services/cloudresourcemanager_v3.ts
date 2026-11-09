@@ -139,33 +139,33 @@ export class TagValueNotFound
     [{ status: 403, message: { includes: "(or it may not exist)" } }],
   ) {}
 
+export type StringList = Array<string>;
 export type StringMap = { [key: string]: string | undefined };
 export type FolderStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETE_REQUESTED";
-export type StringList = Array<string>;
 /** A folder in an organization's resource hierarchy, used to organize that organization's resources. */
 export interface Folder {
-  /** Identifier. The resource name of the folder. Its format is `folders/{folder_id}`, for example: "folders/1234". */
-  name?: string;
-  /** Output only. Management Project associated with this folder (if app-management capability is enabled). Example: `projects/google-mp-123` OUTPUT ONLY. */
-  managementProject?: string;
-  /** Output only. A checksum computed by the server based on the current value of the folder resource. This may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
-  /** Optional. Input only. Immutable. Tag keys/values directly bound to this folder. Each item in the map must be expressed as " : ". For example: "123/environment" : "production", "123/costCenter" : "marketing" Note: Currently this field is in Preview. */
-  tags?: StringMap;
-  /** Output only. Timestamp when the folder was last modified. */
-  updateTime?: string;
-  /** Output only. The lifecycle state of the folder. Updates to the state must be performed using DeleteFolder and UndeleteFolder. */
-  state?: FolderStateEnum | (string & {});
-  /** The folder's display name. A folder's display name must be unique amongst its siblings. For example, no two folders with the same parent can share the same display name. The display name must start and end with a letter or digit, may contain letters, digits, spaces, hyphens and underscores and can be no longer than 30 characters. This is captured by the regular expression: `[\p{L}\p{N}]([\p{L}\p{N}_- ]{0,28}[\p{L}\p{N}])?`. */
-  displayName?: string;
   /** Output only. Timestamp when the folder was requested to be deleted. */
   deleteTime?: string;
-  /** Output only. Timestamp when the folder was created. */
-  createTime?: string;
-  /** Required. The folder's parent's resource name. Updates to the folder's parent must be performed using MoveFolder. */
-  parent?: string;
   /** Output only. Optional capabilities configured for this folder (via UpdateCapability API). Example: `folders/123/capabilities/app-management`. */
   configuredCapabilities?: StringList;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this folder. Each item in the map must be expressed as " : ". For example: "123/environment" : "production", "123/costCenter" : "marketing" Note: Currently this field is in Preview. */
+  tags?: StringMap;
+  /** Identifier. The resource name of the folder. Its format is `folders/{folder_id}`, for example: "folders/1234". */
+  name?: string;
+  /** Required. The folder's parent's resource name. Updates to the folder's parent must be performed using MoveFolder. */
+  parent?: string;
+  /** Output only. The lifecycle state of the folder. Updates to the state must be performed using DeleteFolder and UndeleteFolder. */
+  state?: FolderStateEnum | (string & {});
+  /** Output only. Management Project associated with this folder (if app-management capability is enabled). Example: `projects/google-mp-123` OUTPUT ONLY. */
+  managementProject?: string;
+  /** Output only. Timestamp when the folder was created. */
+  createTime?: string;
+  /** Output only. Timestamp when the folder was last modified. */
+  updateTime?: string;
+  /** The folder's display name. A folder's display name must be unique amongst its siblings. For example, no two folders with the same parent can share the same display name. The display name must start and end with a letter or digit, may contain letters, digits, spaces, hyphens and underscores and can be no longer than 30 characters. This is captured by the regular expression: `[\p{L}\p{N}]([\p{L}\p{N}_- ]{0,28}[\p{L}\p{N}])?`. */
+  displayName?: string;
+  /** Output only. A checksum computed by the server based on the current value of the folder resource. This may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
 }
 export interface CreateFoldersRequest {
   /** Request body */
@@ -177,23 +177,63 @@ export type DocumentMapList = Array<DocumentMap>;
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
+}
+export type BoundaryStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE";
+/** Matches projects based on a specific tag key and a specific tag value. */
+export interface TagFilter {
+  /** Required. Immutable. The namespaced name of the tag key. Format: `{parent_id}/{tag_key_short_name}` Example: `123456789012/env` (where 123456789012 is the organization ID). */
+  tagKey?: string;
+  /** Required. The allowed value for the tag key. A project matches this tag filter if its effective tag value for the given `tag_key` matches this value. Format: short name of the tag value. Example: `production` or `staging`. */
+  tagValue?: string;
+}
+/** Filter to define the criteria for including projects in the Boundary. */
+export interface ResourceFilter {
+  /** A tag based filter. A project must match it to be included. */
+  tagFilter?: TagFilter;
+}
+/** A Boundary is a collection of projects defined by a filtering criteria on an organization or a folder. */
+export interface Boundary {
+  /** Optional. Human-readable display name of the Boundary. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, single-quote, double-quote, space, and exclamation point. Example: `My Production Boundary` */
+  displayName?: string;
+  /** Output only. The Management Project of the CapabilityConfig this Boundary is associated with. Will be empty if the Boundary is not associated with any CapabilityConfig. Format: `projects/{project_number}` Example: `projects/123456789012` */
+  managementProject?: string;
+  /** Identifier. The unique resource name of the Boundary. Format: - `organizations/{organization_id}/boundaries/{boundary_id}` - `folders/{folder_id}/boundaries/{boundary_id}` Example: `folders/123456789/boundaries/my-boundary` */
+  name?: string;
+  /** Output only. The lifecycle state of the Boundary. */
+  state?: BoundaryStateEnum | (string & {});
+  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
+  /** Output only. The most recent time this Boundary was modified. */
+  updateTime?: string;
+  /** Optional. The filter defining the criteria for descendant projects to be included in the Boundary. Descendant projects are dynamically included in the Boundary based on this filter. */
+  resourceFilter?: ResourceFilter;
+  /** Output only. The creation time of the Boundary. */
+  createTime?: string;
+}
+export interface CreateFoldersBoundariesRequest {
+  /** Required. The parent resource under which the Boundary will be created. Format: `organizations/{organization_id}` or `folders/{folder_id}` */
+  parent: string;
+  /** Required. The user-assigned ID for the Boundary, which will become the final component of the Boundary's resource name. Must be unique within the parent resource. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `my-boundary-123` */
+  boundaryId?: string;
+  /** Request body */
+  body?: Boundary;
 }
 export type CapabilityConfigStateEnum = "STATE_UNSPECIFIED" | "ACTIVE";
 export type CapabilityConfigTypesItemEnum =
@@ -205,87 +245,98 @@ export type CapabilityConfigTypesItemEnumList = Array<
 >;
 /** A CapabilityConfig allows managing experiences like applications and agents on a logical administrative perimeter of Projects (Boundary). */
 export interface CapabilityConfig {
-  /** Output only. The creation time of the CapabilityConfig. */
-  createTime?: string;
-  /** Optional. Human-readable non-unique display name of the CapabilityConfig. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, single-quote, double-quote, space, and exclamation point. Example: `My CapabilityConfig` */
-  displayName?: string;
-  /** Output only. The lifecycle state of the CapabilityConfig. */
-  state?: CapabilityConfigStateEnum | (string & {});
-  /** Required. The CapabilityConfig types. */
-  types?: CapabilityConfigTypesItemEnumList;
-  /** Optional. Immutable. The Management Project associated with this CapabilityConfig. If not provided during creation, a management project will be automatically created. Cannot be modified after creation. Format: `projects/{project_number}` Example: `projects/123456789012` */
-  managementProject?: string;
   /** Optional. The list of Boundaries associated with this CapabilityConfig. Format: `organizations/{organization}/boundaries/{boundary}` or, `folders/{folder}/boundaries/{boundary}` or, `projects/{project}/boundaries/{boundary}` */
   boundaries?: StringList;
-  /** Output only. The most recent time this CapabilityConfig was modified. */
-  updateTime?: string;
-  /** Identifier. The unique resource name of the CapabilityConfig. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` */
-  name?: string;
   /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
   etag?: string;
+  /** Output only. The most recent time this CapabilityConfig was modified. */
+  updateTime?: string;
+  /** Output only. The creation time of the CapabilityConfig. */
+  createTime?: string;
+  /** Optional. Immutable. The Management Project associated with this CapabilityConfig. If not provided during creation, a management project will be automatically created. Cannot be modified after creation. Format: `projects/{project_number}` Example: `projects/123456789012` */
+  managementProject?: string;
+  /** Output only. The lifecycle state of the CapabilityConfig. */
+  state?: CapabilityConfigStateEnum | (string & {});
+  /** Identifier. The unique resource name of the CapabilityConfig. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` */
+  name?: string;
+  /** Optional. Human-readable non-unique display name of the CapabilityConfig. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, single-quote, double-quote, space, and exclamation point. Example: `My CapabilityConfig` */
+  displayName?: string;
+  /** Required. The CapabilityConfig types. */
+  types?: CapabilityConfigTypesItemEnumList;
 }
 export interface CreateFoldersCapabilityConfigsRequest {
-  /** Required. The user-assigned ID for the CapabilityConfig, which will become the final component of the CapabilityConfig's resource name. Must be unique within the parent resource. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `my-capability-config-123` */
-  capabilityConfigId?: string;
   /** Required. The parent resource under which the CapabilityConfig will be created. Format: `organizations/{organization_id}` or `folders/{folder_id}` or `projects/{project_number}` */
   parent: string;
+  /** Required. The user-assigned ID for the CapabilityConfig, which will become the final component of the CapabilityConfig's resource name. Must be unique within the parent resource. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `my-capability-config-123` */
+  capabilityConfigId?: string;
   /** Request body */
   body?: CapabilityConfig;
 }
 /** A Lien represents an encumbrance on the actions that can be performed on a resource. */
 export interface Lien {
+  /** A system-generated unique identifier for this Lien. Example: `liens/1234abcd` */
+  name?: string;
+  /** The creation time of this Lien. */
+  createTime?: string;
+  /** The types of operations which should be blocked as a result of this Lien. Each value should correspond to an IAM permission. The server will validate the permissions against those for which Liens are supported. An empty list is meaningless and will be rejected. Example: ['resourcemanager.projects.delete'] */
+  restrictions?: StringList;
   /** A reference to the resource this Lien is attached to. The server will validate the parent against those for which Liens are supported. Example: `projects/1234` */
   parent?: string;
   /** A stable, user-visible/meaningful string identifying the origin of the Lien, intended to be inspected programmatically. Maximum length of 200 characters. Example: 'compute.googleapis.com' */
   origin?: string;
-  /** A system-generated unique identifier for this Lien. Example: `liens/1234abcd` */
-  name?: string;
-  /** The types of operations which should be blocked as a result of this Lien. Each value should correspond to an IAM permission. The server will validate the permissions against those for which Liens are supported. An empty list is meaningless and will be rejected. Example: ['resourcemanager.projects.delete'] */
-  restrictions?: StringList;
   /** Concise user-visible strings indicating why an action cannot be performed on a resource. Maximum length of 200 characters. Example: 'Holds production API key' */
   reason?: string;
-  /** The creation time of this Lien. */
-  createTime?: string;
 }
 export interface CreateLiensRequest {
   /** Request body */
   body?: Lien;
 }
-export interface CreateOrganizationsCapabilityConfigsRequest {
-  /** Required. The parent resource under which the CapabilityConfig will be created. Format: `organizations/{organization_id}` or `folders/{folder_id}` or `projects/{project_number}` */
+export interface CreateOrganizationsBoundariesRequest {
+  /** Required. The parent resource under which the Boundary will be created. Format: `organizations/{organization_id}` or `folders/{folder_id}` */
   parent: string;
+  /** Required. The user-assigned ID for the Boundary, which will become the final component of the Boundary's resource name. Must be unique within the parent resource. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `my-boundary-123` */
+  boundaryId?: string;
+  /** Request body */
+  body?: Boundary;
+}
+export interface CreateOrganizationsCapabilityConfigsRequest {
   /** Required. The user-assigned ID for the CapabilityConfig, which will become the final component of the CapabilityConfig's resource name. Must be unique within the parent resource. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `my-capability-config-123` */
   capabilityConfigId?: string;
+  /** Required. The parent resource under which the CapabilityConfig will be created. Format: `organizations/{organization_id}` or `folders/{folder_id}` or `projects/{project_number}` */
+  parent: string;
   /** Request body */
   body?: CapabilityConfig;
 }
+export type ProjectManagementTypeEnum = "MANAGEMENT_TYPE_UNSPECIFIED" | "SELF_MANAGED" | "HUB";
 export type ProjectStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETE_REQUESTED";
 /** A project is a high-level Google Cloud entity. It is a container for ACLs, APIs, App Engine Apps, VMs, and other Google Cloud Platform resources. */
 export interface Project {
-  /** Output only. If this project is a Management Project, list of capabilities configured on the parent folder. Note, presence of any capability implies that this is a Management Project. Example: `folders/123/capabilities/app-management`. OUTPUT ONLY. */
-  configuredCapabilities?: StringList;
-  /** Optional. The labels associated with this project. Label keys must be between 1 and 63 characters long and must conform to the following regular expression: \[a-z\](\[-a-z0-9\]*\[a-z0-9\])?. Label values must be between 0 and 63 characters long and must conform to the regular expression (\[a-z\](\[-a-z0-9\]*\[a-z0-9\])?)?. No more than 64 labels can be associated with a given resource. Clients should store labels in a representation such as JSON that does not depend on specific characters being disallowed. Example: `"myBusinessDimension" : "businessValue"` */
-  labels?: StringMap;
-  /** Optional. A reference to a parent Resource. eg., `organizations/123` or `folders/876`. */
-  parent?: string;
-  /** Immutable. The unique, user-assigned id of the project. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `tokyo-rain-123` */
-  projectId?: string;
   /** Output only. The unique resource name of the project. It is an int64 generated number prefixed by "projects/". Example: `projects/415104041262` */
   name?: string;
-  /** Output only. Creation time. */
-  createTime?: string;
+  /** Output only. If this project is a Management Project, list of capabilities configured on the parent folder. Note, presence of any capability implies that this is a Management Project. Example: `folders/123/capabilities/app-management`. OUTPUT ONLY. */
+  configuredCapabilities?: StringList;
+  /** Output only. The most recent time this resource was modified. */
+  updateTime?: string;
+  /** Optional. A reference to a parent Resource. eg., `organizations/123` or `folders/876`. */
+  parent?: string;
+  /** Optional. A user-assigned display name of the project. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, single-quote, double-quote, space, and exclamation point. Example: `My Project` */
+  displayName?: string;
+  /** Optional. The labels associated with this project. Label keys must be between 1 and 63 characters long and must conform to the following regular expression: \[a-z\](\[-a-z0-9\]*\[a-z0-9\])?. Label values must be between 0 and 63 characters long and must conform to the regular expression (\[a-z\](\[-a-z0-9\]*\[a-z0-9\])?)?. No more than 64 labels can be associated with a given resource. Clients should store labels in a representation such as JSON that does not depend on specific characters being disallowed. Example: `"myBusinessDimension" : "businessValue"` */
+  labels?: StringMap;
   /** Output only. If `true`, this project is a Management Project. A Management Project manages dedicated project groups for specific purposes (e.g., agent management or app management). */
   isManagementProject?: boolean;
+  /** Output only. The type of Management Project. This field is only populated if `is_management_project` is `true`. */
+  managementType?: ProjectManagementTypeEnum | (string & {});
+  /** Output only. Creation time. */
+  createTime?: string;
+  /** Immutable. The unique, user-assigned id of the project. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `tokyo-rain-123` */
+  projectId?: string;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this project. Each item in the map must be expressed as " : ". For example: "123/environment" : "production", "123/costCenter" : "marketing" Note: Currently this field is in Preview. */
+  tags?: StringMap;
   /** Output only. The time at which this resource was requested for deletion. */
   deleteTime?: string;
   /** Output only. A checksum computed by the server based on the current value of the Project resource. This may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
   etag?: string;
-  /** Optional. Input only. Immutable. Tag keys/values directly bound to this project. Each item in the map must be expressed as " : ". For example: "123/environment" : "production", "123/costCenter" : "marketing" Note: Currently this field is in Preview. */
-  tags?: StringMap;
-  /** Optional. A user-assigned display name of the project. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, single-quote, double-quote, space, and exclamation point. Example: `My Project` */
-  displayName?: string;
-  /** Output only. The most recent time this resource was modified. */
-  updateTime?: string;
   /** Output only. The project lifecycle state. */
   state?: ProjectStateEnum | (string & {});
 }
@@ -294,19 +345,19 @@ export interface CreateProjectsRequest {
   body?: Project;
 }
 export interface CreateProjectsCapabilityConfigsRequest {
-  /** Required. The user-assigned ID for the CapabilityConfig, which will become the final component of the CapabilityConfig's resource name. Must be unique within the parent resource. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `my-capability-config-123` */
-  capabilityConfigId?: string;
   /** Required. The parent resource under which the CapabilityConfig will be created. Format: `organizations/{organization_id}` or `folders/{folder_id}` or `projects/{project_number}` */
   parent: string;
+  /** Required. The user-assigned ID for the CapabilityConfig, which will become the final component of the CapabilityConfig's resource name. Must be unique within the parent resource. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `my-capability-config-123` */
+  capabilityConfigId?: string;
   /** Request body */
   body?: CapabilityConfig;
 }
 /** A TagBinding represents a connection between a TagValue and a cloud resource. When a TagBinding is created, the TagValue is applied to all the descendants of the Google Cloud resource. */
 export interface TagBinding {
-  /** The full resource name of the resource the TagValue is bound to. E.g. `//cloudresourcemanager.googleapis.com/projects/123` */
-  parent?: string;
   /** Output only. The name of the TagBinding. This is a String of the form: `tagBindings/{full-resource-name}/{tag-value-name}` (e.g. `tagBindings/%2F%2Fcloudresourcemanager.googleapis.com%2Fprojects%2F123/tagValues/456`) or `tagBindings/{full-resource-name}/{tag-key-name}` (e.g. `tagBindings/%2F%2Fcloudresourcemanager.googleapis.com%2Fprojects%2F123/tagKeys/123`). */
   name?: string;
+  /** The full resource name of the resource the TagValue is bound to. E.g. `//cloudresourcemanager.googleapis.com/projects/123` */
+  parent?: string;
   /** The namespaced name for the TagValue of the TagBinding. Must be in the format `{parent_id}/{tag_key_short_name}/{short_name}`. For methods that support TagValue namespaced name, only one of tag_value_namespaced_name or tag_value may be filled. Requests with both fields will be rejected. */
   tagValueNamespacedName?: string;
   /** The TagValue of the TagBinding. Must be of the form `tagValues/456`. */
@@ -321,28 +372,28 @@ export interface CreateTagBindingsRequest {
 export type TagKeyPurposeEnum = "PURPOSE_UNSPECIFIED" | "GCE_FIREWALL" | "DATA_GOVERNANCE";
 /** A TagKey, used to group a set of TagValues. */
 export interface TagKey {
-  /** Optional. User-assigned description of the TagKey. Must not exceed 256 characters. Read-write. */
-  description?: string;
-  /** Optional. A purpose denotes that this Tag is intended for use in policies of a specific policy engine, and will involve that policy engine in management operations involving this Tag. A purpose does not grant a policy engine exclusive rights to the Tag, and it may be referenced by other policy engines. A purpose cannot be changed once set. */
-  purpose?: TagKeyPurposeEnum | (string & {});
-  /** Output only. Creation time. */
-  createTime?: string;
-  /** Output only. Immutable. Namespaced name of the TagKey. */
-  namespacedName?: string;
-  /** Optional. Regular expression constraint for freeform tag values. If present, it implicitly allows freeform values (constrained by the regex). */
-  allowedValuesRegex?: string;
-  /** Required. Immutable. The user friendly name for a TagKey. The short name should be unique for TagKeys within the same tag namespace. The short name must be 1-256 characters, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  shortName?: string;
-  /** Output only. Update time. */
-  updateTime?: string;
-  /** Immutable. The resource name of the TagKey's parent. A TagKey can be parented by an Organization or a Project. For a TagKey parented by an Organization, its parent must be in the form `organizations/{org_id}`. For a TagKey parented by a Project, its parent can be in the form `projects/{project_id}` or `projects/{project_number}`. */
-  parent?: string;
-  /** Immutable. The resource name for a TagKey. Must be in the format `tagKeys/{tag_key_id}`, where `tag_key_id` is the generated numeric id for the TagKey. */
-  name?: string;
-  /** Optional. Purpose data corresponds to the policy system that the tag is intended for. See documentation for `Purpose` for formatting of this field. Purpose data cannot be changed once set. */
-  purposeData?: StringMap;
   /** Optional. Entity tag which users can pass to prevent race conditions. This field is always set in server responses. See UpdateTagKeyRequest for details. */
   etag?: string;
+  /** Optional. Regular expression constraint for freeform tag values. If present, it implicitly allows freeform values (constrained by the regex). */
+  allowedValuesRegex?: string;
+  /** Immutable. The resource name of the TagKey's parent. A TagKey can be parented by an Organization or a Project. For a TagKey parented by an Organization, its parent must be in the form `organizations/{org_id}`. For a TagKey parented by a Project, its parent can be in the form `projects/{project_id}` or `projects/{project_number}`. */
+  parent?: string;
+  /** Optional. A purpose denotes that this Tag is intended for use in policies of a specific policy engine, and will involve that policy engine in management operations involving this Tag. A purpose does not grant a policy engine exclusive rights to the Tag, and it may be referenced by other policy engines. A purpose cannot be changed once set. */
+  purpose?: TagKeyPurposeEnum | (string & {});
+  /** Optional. User-assigned description of the TagKey. Must not exceed 256 characters. Read-write. */
+  description?: string;
+  /** Output only. Creation time. */
+  createTime?: string;
+  /** Immutable. The resource name for a TagKey. Must be in the format `tagKeys/{tag_key_id}`, where `tag_key_id` is the generated numeric id for the TagKey. */
+  name?: string;
+  /** Output only. Update time. */
+  updateTime?: string;
+  /** Required. Immutable. The user friendly name for a TagKey. The short name should be unique for TagKeys within the same tag namespace. The short name must be 1-256 characters, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.), and alphanumerics between. */
+  shortName?: string;
+  /** Optional. Purpose data corresponds to the policy system that the tag is intended for. See documentation for `Purpose` for formatting of this field. Purpose data cannot be changed once set. */
+  purposeData?: StringMap;
+  /** Output only. Immutable. Namespaced name of the TagKey. */
+  namespacedName?: string;
 }
 export interface CreateTagKeysRequest {
   /** Optional. Set to true to perform validations necessary for creating the resource, but not actually perform the action. */
@@ -354,20 +405,20 @@ export interface CreateTagKeysRequest {
 export interface TagValue {
   /** Immutable. Resource name for TagValue in the format `tagValues/456`. */
   name?: string;
-  /** Required. Immutable. User-assigned short name for TagValue. The short name should be unique for TagValues within the same parent TagKey. The short name must be 256 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  shortName?: string;
-  /** Immutable. The resource name of the new TagValue's parent TagKey. Must be of the form `tagKeys/{tag_key_id}`. */
-  parent?: string;
-  /** Optional. Entity tag which users can pass to prevent race conditions. This field is always set in server responses. See UpdateTagValueRequest for details. */
-  etag?: string;
-  /** Output only. The namespaced name of the TagValue. Can be in the form `{organization_id}/{tag_key_short_name}/{tag_value_short_name}` or `{project_id}/{tag_key_short_name}/{tag_value_short_name}` or `{project_number}/{tag_key_short_name}/{tag_value_short_name}`. */
-  namespacedName?: string;
   /** Output only. Creation time. */
   createTime?: string;
   /** Optional. User-assigned description of the TagValue. Must not exceed 256 characters. Read-write. */
   description?: string;
   /** Output only. Update time. */
   updateTime?: string;
+  /** Optional. Entity tag which users can pass to prevent race conditions. This field is always set in server responses. See UpdateTagValueRequest for details. */
+  etag?: string;
+  /** Output only. The namespaced name of the TagValue. Can be in the form `{organization_id}/{tag_key_short_name}/{tag_value_short_name}` or `{project_id}/{tag_key_short_name}/{tag_value_short_name}` or `{project_number}/{tag_key_short_name}/{tag_value_short_name}`. */
+  namespacedName?: string;
+  /** Required. Immutable. User-assigned short name for TagValue. The short name should be unique for TagValues within the same parent TagKey. The short name must be 256 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.), and alphanumerics between. */
+  shortName?: string;
+  /** Immutable. The resource name of the new TagValue's parent TagKey. Must be of the form `tagKeys/{tag_key_id}`. */
+  parent?: string;
 }
 export interface CreateTagValuesRequest {
   /** Optional. Set as true to perform the validations necessary for creating the resource, but not actually perform the action. */
@@ -377,27 +428,31 @@ export interface CreateTagValuesRequest {
 }
 /** A TagHold represents the use of a TagValue that is not captured by TagBindings. If a TagValue has any TagHolds, deletion will be blocked. This resource is intended to be created in the same cloud location as the `holder`. */
 export interface TagHold {
-  /** Output only. The resource name of a TagHold. This is a String of the form: `tagValues/{tag-value-id}/tagHolds/{tag-hold-id}` (e.g. `tagValues/123/tagHolds/456`). This resource name is generated by the server. */
-  name?: string;
-  /** Output only. The time this TagHold was created. */
-  createTime?: string;
-  /** Required. The name of the resource where the TagValue is being used. Must be less than 200 characters. E.g. `//compute.googleapis.com/compute/projects/myproject/regions/us-east-1/instanceGroupManagers/instance-group` */
-  holder?: string;
-  /** Optional. A URL where an end user can learn more about removing this hold. E.g. `https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing` */
-  helpLink?: string;
   /** Optional. An optional string representing the origin of this request. This field should include human-understandable information to distinguish origins from each other. Must be less than 200 characters. E.g. `migs-35678234` */
   origin?: string;
+  /** Required. The name of the resource where the TagValue is being used. Must be less than 200 characters. E.g. `//compute.googleapis.com/compute/projects/myproject/regions/us-east-1/instanceGroupManagers/instance-group` */
+  holder?: string;
+  /** Output only. The resource name of a TagHold. This is a String of the form: `tagValues/{tag-value-id}/tagHolds/{tag-hold-id}` (e.g. `tagValues/123/tagHolds/456`). This resource name is generated by the server. */
+  name?: string;
+  /** Optional. A URL where an end user can learn more about removing this hold. E.g. `https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing` */
+  helpLink?: string;
+  /** Output only. The time this TagHold was created. */
+  createTime?: string;
 }
 export interface CreateTagValuesTagHoldsRequest {
-  /** Required. The resource name of the TagHold's parent TagValue. Must be of the form: `tagValues/{tag-value-id}`. */
-  parent: string;
   /** Optional. Set to true to perform the validations necessary for creating the resource, but not actually perform the action. */
   validateOnly?: boolean;
+  /** Required. The resource name of the TagHold's parent TagValue. Must be of the form: `tagValues/{tag-value-id}`. */
+  parent: string;
   /** Request body */
   body?: TagHold;
 }
 export interface DeleteFoldersRequest {
   /** Required. The resource name of the folder to be deleted. Must be of the form `folders/{folder_id}`. */
+  name: string;
+}
+export interface DeleteFoldersBoundariesRequest {
+  /** Required. The name of the Boundary to delete. Format: `organizations/{organization_id}/boundaries/{boundary_id}` or `folders/{folder_id}/boundaries/{boundary_id}` */
   name: string;
 }
 export interface DeleteFoldersCapabilityConfigsRequest {
@@ -410,6 +465,10 @@ export interface DeleteLiensRequest {
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
+export interface DeleteOrganizationsBoundariesRequest {
+  /** Required. The name of the Boundary to delete. Format: `organizations/{organization_id}/boundaries/{boundary_id}` or `folders/{folder_id}/boundaries/{boundary_id}` */
+  name: string;
+}
 export interface DeleteOrganizationsCapabilityConfigsRequest {
   /** Required. The name of the CapabilityConfig to delete. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` */
   name: string;
@@ -427,20 +486,20 @@ export interface DeleteTagBindingsRequest {
   name: string;
 }
 export interface DeleteTagKeysRequest {
-  /** Optional. The etag known to the client for the expected state of the TagKey. This is to be used for optimistic concurrency. */
-  etag?: string;
   /** Required. The resource name of a TagKey to be deleted in the format `tagKeys/123`. The TagKey cannot be a parent of any existing TagValues or it will not be deleted successfully. */
   name: string;
   /** Optional. Set as true to perform validations necessary for deletion, but not actually perform the action. */
   validateOnly?: boolean;
+  /** Optional. The etag known to the client for the expected state of the TagKey. This is to be used for optimistic concurrency. */
+  etag?: string;
 }
 export interface DeleteTagValuesRequest {
   /** Optional. Set as true to perform the validations necessary for deletion, but not actually perform the action. */
   validateOnly?: boolean;
-  /** Optional. The etag known to the client for the expected state of the TagValue. This is to be used for optimistic concurrency. */
-  etag?: string;
   /** Required. Resource name for TagValue to be deleted in the format tagValues/456. */
   name: string;
+  /** Optional. The etag known to the client for the expected state of the TagValue. This is to be used for optimistic concurrency. */
+  etag?: string;
 }
 export interface DeleteTagValuesTagHoldsRequest {
   /** Optional. Set to true to perform the validations necessary for deleting the resource, but not actually perform the action. */
@@ -459,8 +518,31 @@ export interface FetchResourceSemanticsResponse {
   /** Map of resource semantics (e.g., `"ENVIRONMENT": "PRODUCTION"`). */
   semantics?: StringMap;
 }
+export interface GetBoundaryConfigFoldersRequest {
+  /** Required. The name of the BoundaryConfig to retrieve. Format: `organizations/{organization}/boundaryConfig` or `folders/{folder}/boundaryConfig` Example: `folders/123456789/boundaryConfig` */
+  name: string;
+}
+/** A BoundaryConfig defines the common configurations regarding Boundaries defined under a parent CRM node (Folder or Organization), such as the partitioning tag key. */
+export interface BoundaryConfig {
+  /** Identifier. The unique resource name of the BoundaryConfig. Format: - `organizations/{organization}/boundaryConfig` - `folders/{folder}/boundaryConfig` Example: `folders/123456789/boundaryConfig` */
+  name?: string;
+  /** Optional. The namespaced name of the tag key. Format: `{parent_id}/{tag_key_short_name}` Example: `123456789012/env` (where 123456789012 is the organization ID). */
+  tagKey?: string;
+  /** This checksum is computed by the server based on the value of other fields, and may be sent on update requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
+  /** Output only. The most recent time this BoundaryConfig was modified. */
+  updateTime?: string;
+}
+export interface GetBoundaryConfigOrganizationsRequest {
+  /** Required. The name of the BoundaryConfig to retrieve. Format: `organizations/{organization}/boundaryConfig` or `folders/{folder}/boundaryConfig` Example: `folders/123456789/boundaryConfig` */
+  name: string;
+}
 export interface GetFoldersRequest {
   /** Required. The resource name of the folder to retrieve. Must be of the form `folders/{folder_id}`. */
+  name: string;
+}
+export interface GetFoldersBoundariesRequest {
+  /** Required. The name of the Boundary to retrieve. Format: `organizations/{organization_id}/boundaries/{boundary_id}` or `folders/{folder_id}/boundaries/{boundary_id}` Example: `folders/123456789/boundaries/my-boundary` */
   name: string;
 }
 export interface GetFoldersCapabilitiesRequest {
@@ -501,30 +583,30 @@ export type AuditLogConfigLogTypeEnum =
   | "DATA_READ";
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
   /** The log type that this config enables. */
   logType?: AuditLogConfigLogTypeEnum | (string & {});
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: StringList;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
-  /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList;
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
   service?: string;
+  /** The configuration for logging of each type of permission. */
+  auditLogConfigs?: AuditLogConfigList;
 }
 export type AuditConfigList = Array<AuditConfig>;
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
   /** Textual representation of an expression in Common Expression Language syntax. */
   expression?: string;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
   location?: string;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
@@ -540,12 +622,12 @@ export type BindingList = Array<Binding>;
 export interface Policy {
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: AuditConfigList;
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList;
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number;
 }
 export interface GetIamPolicyOrganizationsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -581,10 +663,10 @@ export interface GetLocationsEffectiveTagBindingCollectionsRequest {
 }
 /** Represents a collection of effective tag bindings for a GCP resource. */
 export interface EffectiveTagBindingCollection {
-  /** Identifier. The name of the EffectiveTagBindingCollection, following the convention: `locations/{location}/effectiveTagBindingCollections/{encoded-full-resource-name}` where the encoded-full-resource-name is the UTF-8 encoded name of the GCP resource the TagBindings are bound to. E.g. "locations/global/effectiveTagBindingCollections/%2f%2fcloudresourcemanager.googleapis.com%2fprojects%2f123" */
-  name?: string;
   /** The full resource name of the resource the TagBindings are bound to. E.g. `//cloudresourcemanager.googleapis.com/projects/123` */
   fullResourceName?: string;
+  /** Identifier. The name of the EffectiveTagBindingCollection, following the convention: `locations/{location}/effectiveTagBindingCollections/{encoded-full-resource-name}` where the encoded-full-resource-name is the UTF-8 encoded name of the GCP resource the TagBindings are bound to. E.g. "locations/global/effectiveTagBindingCollections/%2f%2fcloudresourcemanager.googleapis.com%2fprojects%2f123" */
+  name?: string;
   /** Tag keys/values effectively bound to this resource, specified in namespaced format. For example: "123/environment": "production" */
   effectiveTags?: StringMap;
 }
@@ -598,10 +680,10 @@ export interface TagBindingCollection {
   name?: string;
   /** The full resource name of the resource the TagBindings are bound to. E.g. `//cloudresourcemanager.googleapis.com/projects/123` */
   fullResourceName?: string;
-  /** Tag keys/values directly bound to this resource, specified in namespaced format. For example: "123/environment": "production" */
-  tags?: StringMap;
   /** Optional. A checksum based on the current bindings which can be passed to prevent race conditions. This field is always set in server responses. */
   etag?: string;
+  /** Tag keys/values directly bound to this resource, specified in namespaced format. For example: "123/environment": "production" */
+  tags?: StringMap;
 }
 export interface GetNamespacedTagKeysRequest {
   /** Required. A namespaced tag key name in the format `{parentId}/{tagKeyShort}`, such as `42/foo` for a key with short name "foo" under the organization with ID 42 or `r2-d2/bar` for a key with short name "bar" under the project `r2-d2`. */
@@ -622,22 +704,26 @@ export interface GetOrganizationsRequest {
 export type OrganizationStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETE_REQUESTED";
 /** The root node in the resource hierarchy to which a particular entity's (a company, for example) resources belong. */
 export interface Organization {
-  /** Output only. The organization's current lifecycle state. */
-  state?: OrganizationStateEnum;
-  /** Output only. Timestamp when the Organization was requested for deletion. */
-  deleteTime?: string;
-  /** Output only. Timestamp when the Organization was last modified. */
-  updateTime?: string;
-  /** Output only. Timestamp when the Organization was created. */
-  createTime?: string;
-  /** Output only. A checksum computed by the server based on the current value of the Organization resource. This may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
-  /** Output only. A human-readable string that refers to the organization in the Google Cloud Console. This string is set by the server and cannot be changed. The string will be set to the primary domain (for example, "google.com") of the Google Workspace customer that owns the organization. */
-  displayName?: string;
   /** Immutable. The G Suite / Workspace customer id used in the Directory API. */
   directoryCustomerId?: string;
+  /** Output only. A human-readable string that refers to the organization in the Google Cloud Console. This string is set by the server and cannot be changed. The string will be set to the primary domain (for example, "google.com") of the Google Workspace customer that owns the organization. */
+  displayName?: string;
+  /** Output only. Timestamp when the Organization was created. */
+  createTime?: string;
+  /** Output only. The organization's current lifecycle state. */
+  state?: OrganizationStateEnum;
+  /** Output only. Timestamp when the Organization was last modified. */
+  updateTime?: string;
   /** Output only. The resource name of the organization. This is the organization's relative path in the API. Its format is "organizations/[organization_id]". For example, "organizations/1234". */
   name?: string;
+  /** Output only. Timestamp when the Organization was requested for deletion. */
+  deleteTime?: string;
+  /** Output only. A checksum computed by the server based on the current value of the Organization resource. This may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
+}
+export interface GetOrganizationsBoundariesRequest {
+  /** Required. The name of the Boundary to retrieve. Format: `organizations/{organization_id}/boundaries/{boundary_id}` or `folders/{folder_id}/boundaries/{boundary_id}` Example: `folders/123456789/boundaries/my-boundary` */
+  name: string;
 }
 export interface GetOrganizationsCapabilityConfigsRequest {
   /** Required. The name of the CapabilityConfig to retrieve. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` Example: `folders/123456789/capabilityConfigs/my-capability-config` */
@@ -660,10 +746,10 @@ export interface GetTagValuesRequest {
   name: string;
 }
 export interface ListEffectiveTagsRequest {
-  /** Optional. A pagination token returned from a previous call to `ListEffectiveTags` that indicates from where this listing should continue. */
-  pageToken?: string;
   /** Optional. The maximum number of effective tags to return in the response. The server allows a maximum of 300 effective tags to return in a single page. If unspecified, the server will use 100 as the default. */
   pageSize?: number;
+  /** Optional. A pagination token returned from a previous call to `ListEffectiveTags` that indicates from where this listing should continue. */
+  pageToken?: string;
   /** Required. The full resource name of a resource for which you want to list the effective tags. E.g. "//cloudresourcemanager.googleapis.com/projects/123" */
   parent?: string;
 }
@@ -671,16 +757,16 @@ export interface ListEffectiveTagsRequest {
 export interface EffectiveTag {
   /** The namespaced name of the TagKey. Can be in the form `{organization_id}/{tag_key_short_name}` or `{project_id}/{tag_key_short_name}` or `{project_number}/{tag_key_short_name}`. */
   namespacedTagKey?: string;
-  /** Resource name for TagValue in the format `tagValues/456`. */
-  tagValue?: string;
-  /** The parent name of the tag key. Must be in the format `organizations/{organization_id}` or `projects/{project_number}` */
-  tagKeyParentName?: string;
-  /** The name of the TagKey, in the format `tagKeys/{id}`, such as `tagKeys/123`. */
-  tagKey?: string;
-  /** Indicates the inheritance status of a tag value attached to the given resource. If the tag value is inherited from one of the resource's ancestors, inherited will be true. If false, then the tag value is directly attached to the resource, inherited will be false. */
-  inherited?: boolean;
   /** The namespaced name of the TagValue. Can be in the form `{organization_id}/{tag_key_short_name}/{tag_value_short_name}` or `{project_id}/{tag_key_short_name}/{tag_value_short_name}` or `{project_number}/{tag_key_short_name}/{tag_value_short_name}`. */
   namespacedTagValue?: string;
+  /** The name of the TagKey, in the format `tagKeys/{id}`, such as `tagKeys/123`. */
+  tagKey?: string;
+  /** Resource name for TagValue in the format `tagValues/456`. */
+  tagValue?: string;
+  /** Indicates the inheritance status of a tag value attached to the given resource. If the tag value is inherited from one of the resource's ancestors, inherited will be true. If false, then the tag value is directly attached to the resource, inherited will be false. */
+  inherited?: boolean;
+  /** The parent name of the tag key. Must be in the format `organizations/{organization_id}` or `projects/{project_number}` */
+  tagKeyParentName?: string;
 }
 export type EffectiveTagList = Array<EffectiveTag>;
 /** The response of ListEffectiveTags. */
@@ -691,38 +777,54 @@ export interface ListEffectiveTagsResponse {
   nextPageToken?: string;
 }
 export interface ListFoldersRequest {
-  /** Optional. Controls whether folders in the DELETE_REQUESTED state should be returned. Defaults to false. */
-  showDeleted?: boolean;
-  /** Optional. A pagination token returned from a previous call to `ListFolders` that indicates where this listing should continue from. */
-  pageToken?: string;
   /** Optional. The maximum number of folders to return in the response. The server can return fewer folders than requested. If unspecified, server picks an appropriate default. */
   pageSize?: number;
   /** Required. The name of the parent resource whose folders are being listed. Only children of this parent resource are listed; descendants are not listed. If the parent is a folder, use the value `folders/{folder_id}`. If the parent is an organization, use the value `organizations/{org_id}`. Access to this method is controlled by checking the `resourcemanager.folders.list` permission on the `parent`. */
   parent?: string;
+  /** Optional. A pagination token returned from a previous call to `ListFolders` that indicates where this listing should continue from. */
+  pageToken?: string;
+  /** Optional. Controls whether folders in the DELETE_REQUESTED state should be returned. Defaults to false. */
+  showDeleted?: boolean;
 }
 export type FolderList = Array<Folder>;
 /** The ListFolders response message. */
 export interface ListFoldersResponse {
-  /** A pagination token returned from a previous call to `ListFolders` that indicates from where listing should continue. */
-  nextPageToken?: string;
   /** A possibly paginated list of folders that are direct descendants of the specified parent resource. */
   folders?: FolderList;
+  /** A pagination token returned from a previous call to `ListFolders` that indicates from where listing should continue. */
+  nextPageToken?: string;
+}
+export interface ListFoldersBoundariesRequest {
+  /** Required. The name of the parent resource whose Boundaries are being listed. Format: `organizations/{organization_id}` or `folders/{folder_id}` */
+  parent: string;
+  /** Optional. A pagination token received from a previous call to `ListBoundaries` that indicates from where listing should continue. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
+  /** Optional. The maximum number of Boundaries to return in the response. The service may return fewer Boundaries than requested. If unspecified, at most 100 Boundaries will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
+  pageSize?: number;
+}
+export type BoundaryList = Array<Boundary>;
+/** A page of the response received from the ListBoundaries method. A paginated response where more pages are available has `next_page_token` set. This token can be used in a subsequent request to retrieve the next page. NOTE: A response may contain fewer elements than the request `page_size` and still have a `next_page_token`. */
+export interface ListBoundariesResponse {
+  /** The list of Boundaries under the parent. This list can be paginated. */
+  boundaries?: BoundaryList;
+  /** Pagination token. If the result set is too large to fit in a single response, this token is returned. It encodes the position of the current result cursor. Feeding this value into a new list request with the `page_token` parameter gives the next page of the results. When `next_page_token` is not filled in, there is no next page and the list returned is the last page in the result set. */
+  nextPageToken?: string;
 }
 export interface ListFoldersCapabilityConfigsRequest {
-  /** Optional. A pagination token received from a previous call to `ListCapabilityConfigs` that indicates from where listing should continue. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
   /** Required. The name of the parent resource whose CapabilityConfigs are being listed. Format: `organizations/{organization_id}` or `folders/{folder_id}` */
   parent: string;
+  /** Optional. A pagination token received from a previous call to `ListCapabilityConfigs` that indicates from where listing should continue. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
   /** Optional. The maximum number of CapabilityConfigs to return in the response. The service may return fewer CapabilityConfigs than requested. If unspecified, at most 100 CapabilityConfigs will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
   pageSize?: number;
 }
 export type CapabilityConfigList = Array<CapabilityConfig>;
 /** A page of the response received from the ListCapabilityConfigs method. A paginated response where more pages are available has `next_page_token` set. This token can be used in a subsequent request to retrieve the next page. NOTE: A response may contain fewer elements than the request `page_size` and still have a `next_page_token`. */
 export interface ListCapabilityConfigsResponse {
-  /** The list of CapabilityConfigs under the parent. This list can be paginated. */
-  capabilityConfigs?: CapabilityConfigList;
   /** Pagination token. If the result set is too large to fit in a single response, this token is returned. It encodes the position of the current result cursor. Feeding this value into a new list request with the `page_token` parameter gives the next page of the results. When `next_page_token` is not filled in, there is no next page and the list returned is the last page in the result set. */
   nextPageToken?: string;
+  /** The list of CapabilityConfigs under the parent. This list can be paginated. */
+  capabilityConfigs?: CapabilityConfigList;
 }
 export interface ListLiensRequest {
   /** Required. The name of the resource to list all attached Liens. For example, `projects/1234`. (google.api.field_policy).resource_type annotation is not set since the parent depends on the meta api implementation. This field could be a project or other sub project resources. */
@@ -735,10 +837,18 @@ export interface ListLiensRequest {
 export type LienList = Array<Lien>;
 /** The response message for Liens.ListLiens. */
 export interface ListLiensResponse {
-  /** A list of Liens. */
-  liens?: LienList;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string;
+  /** A list of Liens. */
+  liens?: LienList;
+}
+export interface ListOrganizationsBoundariesRequest {
+  /** Optional. The maximum number of Boundaries to return in the response. The service may return fewer Boundaries than requested. If unspecified, at most 100 Boundaries will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
+  pageSize?: number;
+  /** Required. The name of the parent resource whose Boundaries are being listed. Format: `organizations/{organization_id}` or `folders/{folder_id}` */
+  parent: string;
+  /** Optional. A pagination token received from a previous call to `ListBoundaries` that indicates from where listing should continue. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
 }
 export interface ListOrganizationsCapabilityConfigsRequest {
   /** Optional. The maximum number of CapabilityConfigs to return in the response. The service may return fewer CapabilityConfigs than requested. If unspecified, at most 100 CapabilityConfigs will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
@@ -751,12 +861,12 @@ export interface ListOrganizationsCapabilityConfigsRequest {
 export interface ListProjectsRequest {
   /** Optional. Indicate that projects in the `DELETE_REQUESTED` state should also be returned. Normally only `ACTIVE` projects are returned. */
   showDeleted?: boolean;
-  /** Required. The name of the parent resource whose projects are being listed. Only children of this parent resource are listed; descendants are not listed. If the parent is a folder, use the value `folders/{folder_id}`. If the parent is an organization, use the value `organizations/{org_id}`. */
-  parent?: string;
   /** Optional. The maximum number of projects to return in the response. The server can return fewer projects than requested. If unspecified, server picks an appropriate default. */
   pageSize?: number;
   /** Optional. A pagination token returned from a previous call to ListProjects that indicates from where listing should continue. */
   pageToken?: string;
+  /** Required. The name of the parent resource whose projects are being listed. Only children of this parent resource are listed; descendants are not listed. If the parent is a folder, use the value `folders/{folder_id}`. If the parent is an organization, use the value `organizations/{org_id}`. */
+  parent?: string;
 }
 export type ProjectList = Array<Project>;
 /** A page of the response received from the ListProjects method. A paginated response where more pages are available has `next_page_token` set. This token can be used in a subsequent request to retrieve the next request page. NOTE: A response may contain fewer elements than the request `page_size` and still have a `next_page_token`. */
@@ -767,20 +877,20 @@ export interface ListProjectsResponse {
   nextPageToken?: string;
 }
 export interface ListProjectsCapabilityConfigsRequest {
-  /** Optional. The maximum number of CapabilityConfigs to return in the response. The service may return fewer CapabilityConfigs than requested. If unspecified, at most 100 CapabilityConfigs will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number;
-  /** Required. The name of the parent resource whose CapabilityConfigs are being listed. Format: `organizations/{organization_id}` or `folders/{folder_id}` */
-  parent: string;
   /** Optional. A pagination token received from a previous call to `ListCapabilityConfigs` that indicates from where listing should continue. Provide this to retrieve the subsequent page. */
   pageToken?: string;
+  /** Required. The name of the parent resource whose CapabilityConfigs are being listed. Format: `organizations/{organization_id}` or `folders/{folder_id}` */
+  parent: string;
+  /** Optional. The maximum number of CapabilityConfigs to return in the response. The service may return fewer CapabilityConfigs than requested. If unspecified, at most 100 CapabilityConfigs will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
+  pageSize?: number;
 }
 export interface ListTagBindingsRequest {
-  /** Required. The full resource name of a resource for which you want to list existing TagBindings. E.g. "//cloudresourcemanager.googleapis.com/projects/123" */
-  parent?: string;
   /** Optional. A pagination token returned from a previous call to `ListTagBindings` that indicates where this listing should continue from. */
   pageToken?: string;
   /** Optional. The maximum number of TagBindings to return in the response. The server allows a maximum of 300 TagBindings to return. If unspecified, the server will use 100 as the default. */
   pageSize?: number;
+  /** Required. The full resource name of a resource for which you want to list existing TagBindings. E.g. "//cloudresourcemanager.googleapis.com/projects/123" */
+  parent?: string;
 }
 export type TagBindingList = Array<TagBinding>;
 /** The ListTagBindings response. */
@@ -791,46 +901,46 @@ export interface ListTagBindingsResponse {
   nextPageToken?: string;
 }
 export interface ListTagKeysRequest {
-  /** Optional. The maximum number of TagKeys to return in the response. The server allows a maximum of 300 TagKeys to return. If unspecified, the server will use 100 as the default. */
-  pageSize?: number;
   /** Required. The resource name of the TagKey's parent. Must be of the form `organizations/{org_id}` or `projects/{project_id}` or `projects/{project_number}` */
   parent?: string;
+  /** Optional. The maximum number of TagKeys to return in the response. The server allows a maximum of 300 TagKeys to return. If unspecified, the server will use 100 as the default. */
+  pageSize?: number;
   /** Optional. A pagination token returned from a previous call to `ListTagKey` that indicates where this listing should continue from. */
   pageToken?: string;
 }
 export type TagKeyList = Array<TagKey>;
 /** The ListTagKeys response message. */
 export interface ListTagKeysResponse {
-  /** List of TagKeys that live under the specified parent in the request. */
-  tagKeys?: TagKeyList;
   /** A pagination token returned from a previous call to `ListTagKeys` that indicates from where listing should continue. */
   nextPageToken?: string;
+  /** List of TagKeys that live under the specified parent in the request. */
+  tagKeys?: TagKeyList;
 }
 export interface ListTagValuesRequest {
-  /** Optional. The maximum number of TagValues to return in the response. The server allows a maximum of 300 TagValues to return. If unspecified, the server will use 100 as the default. */
-  pageSize?: number;
-  /** Optional. A pagination token returned from a previous call to `ListTagValues` that indicates where this listing should continue from. */
-  pageToken?: string;
   /** Required. Resource name for the parent of the TagValues to be listed, in the format `tagKeys/123` or `tagValues/123`. */
   parent?: string;
+  /** Optional. A pagination token returned from a previous call to `ListTagValues` that indicates where this listing should continue from. */
+  pageToken?: string;
+  /** Optional. The maximum number of TagValues to return in the response. The server allows a maximum of 300 TagValues to return. If unspecified, the server will use 100 as the default. */
+  pageSize?: number;
 }
 export type TagValueList = Array<TagValue>;
 /** The ListTagValues response. */
 export interface ListTagValuesResponse {
-  /** A pagination token returned from a previous call to `ListTagValues` that indicates from where listing should continue. */
-  nextPageToken?: string;
   /** A possibly paginated list of TagValues that are direct descendants of the specified parent TagKey. */
   tagValues?: TagValueList;
+  /** A pagination token returned from a previous call to `ListTagValues` that indicates from where listing should continue. */
+  nextPageToken?: string;
 }
 export interface ListTagValuesTagHoldsRequest {
-  /** Required. The resource name of the parent TagValue. Must be of the form: `tagValues/{tag-value-id}`. */
-  parent: string;
-  /** Optional. The maximum number of TagHolds to return in the response. The server allows a maximum of 300 TagHolds to return. If unspecified, the server will use 100 as the default. */
-  pageSize?: number;
   /** Optional. A pagination token returned from a previous call to `ListTagHolds` that indicates where this listing should continue from. */
   pageToken?: string;
   /** Optional. Criteria used to select a subset of TagHolds parented by the TagValue to return. This field follows the syntax defined by aip.dev/160; the `holder` and `origin` fields are supported for filtering. Currently only `AND` syntax is supported. Some example queries are: * `holder = //compute.googleapis.com/compute/projects/myproject/regions/us-east-1/instanceGroupManagers/instance-group` * `origin = 35678234` * `holder = //compute.googleapis.com/compute/projects/myproject/regions/us-east-1/instanceGroupManagers/instance-group AND origin = 35678234` */
   filter?: string;
+  /** Required. The resource name of the parent TagValue. Must be of the form: `tagValues/{tag-value-id}`. */
+  parent: string;
+  /** Optional. The maximum number of TagHolds to return in the response. The server allows a maximum of 300 TagHolds to return. If unspecified, the server will use 100 as the default. */
+  pageSize?: number;
 }
 export type TagHoldList = Array<TagHold>;
 /** The ListTagHolds response. */
@@ -863,42 +973,58 @@ export interface MoveProjectsRequest {
   body?: MoveProjectRequest;
 }
 export interface PatchFoldersRequest {
-  /** Required. Fields to be updated. Only the `display_name` can be updated. */
-  updateMask?: string;
   /** Identifier. The resource name of the folder. Its format is `folders/{folder_id}`, for example: "folders/1234". */
   name: string;
+  /** Required. Fields to be updated. Only the `display_name` can be updated. */
+  updateMask?: string;
   /** Request body */
   body?: Folder;
 }
-export interface PatchFoldersCapabilitiesRequest {
-  /** Immutable. Identifier. The resource name of the capability. Must be in the following form: * `folders/{folder_id}/capabilities/{capability_name}` For example, `folders/123/capabilities/app-management` Following are the allowed {capability_name} values: * `app-management` */
+export interface PatchFoldersBoundariesRequest {
+  /** Optional. The list of fields to update. */
+  updateMask?: string;
+  /** Identifier. The unique resource name of the Boundary. Format: - `organizations/{organization_id}/boundaries/{boundary_id}` - `folders/{folder_id}/boundaries/{boundary_id}` Example: `folders/123456789/boundaries/my-boundary` */
   name: string;
+  /** Request body */
+  body?: Boundary;
+}
+export interface PatchFoldersCapabilitiesRequest {
   /** Optional. The list of fields to update. Only [Capability.value] can be updated. */
   updateMask?: string;
+  /** Immutable. Identifier. The resource name of the capability. Must be in the following form: * `folders/{folder_id}/capabilities/{capability_name}` For example, `folders/123/capabilities/app-management` Following are the allowed {capability_name} values: * `app-management` */
+  name: string;
   /** Request body */
   body?: Capability;
 }
 export interface PatchFoldersCapabilityConfigsRequest {
-  /** Optional. The list of fields to update. */
-  updateMask?: string;
   /** Identifier. The unique resource name of the CapabilityConfig. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` */
   name: string;
+  /** Optional. The list of fields to update. */
+  updateMask?: string;
   /** Request body */
   body?: CapabilityConfig;
 }
 export interface PatchLocationsTagBindingCollectionsRequest {
-  /** Optional. An update mask to selectively update fields. */
-  updateMask?: string;
   /** Identifier. The name of the TagBindingCollection, following the convention: `locations/{location}/tagBindingCollections/{encoded-full-resource-name}` where the encoded-full-resource-name is the UTF-8 encoded name of the GCP resource the TagBindings are bound to. "locations/global/tagBindingCollections/%2f%2fcloudresourcemanager.googleapis.com%2fprojects%2f123" */
   name: string;
+  /** Optional. An update mask to selectively update fields. */
+  updateMask?: string;
   /** Request body */
   body?: TagBindingCollection;
 }
-export interface PatchOrganizationsCapabilityConfigsRequest {
+export interface PatchOrganizationsBoundariesRequest {
+  /** Identifier. The unique resource name of the Boundary. Format: - `organizations/{organization_id}/boundaries/{boundary_id}` - `folders/{folder_id}/boundaries/{boundary_id}` Example: `folders/123456789/boundaries/my-boundary` */
+  name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string;
+  /** Request body */
+  body?: Boundary;
+}
+export interface PatchOrganizationsCapabilityConfigsRequest {
   /** Identifier. The unique resource name of the CapabilityConfig. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` */
   name: string;
+  /** Optional. The list of fields to update. */
+  updateMask?: string;
   /** Request body */
   body?: CapabilityConfig;
 }
@@ -929,37 +1055,37 @@ export interface PatchTagKeysRequest {
   body?: TagKey;
 }
 export interface PatchTagValuesRequest {
-  /** Immutable. Resource name for TagValue in the format `tagValues/456`. */
-  name: string;
   /** Optional. True to perform validations necessary for updating the resource, but not actually perform the action. */
   validateOnly?: boolean;
   /** Optional. Fields to be updated. */
   updateMask?: string;
+  /** Immutable. Resource name for TagValue in the format `tagValues/456`. */
+  name: string;
   /** Request body */
   body?: TagValue;
 }
 export interface SearchFoldersRequest {
   /** Optional. Search criteria used to select the folders to return. If no search criteria is specified then all accessible folders will be returned. Query expressions can be used to restrict results based upon displayName, state and parent, where the operators `=` (`:`) `NOT`, `AND` and `OR` can be used along with the suffix wildcard symbol `*`. The `displayName` field in a query expression should use escaped quotes for values that include whitespace to prevent unexpected behavior. ``` | Field | Description | |-------------------------|----------------------------------------| | displayName | Filters by displayName. | | parent | Filters by parent (for example: folders/123). | | state, lifecycleState | Filters by state. | ``` Some example queries are: * Query `displayName=Test*` returns Folder resources whose display name starts with "Test". * Query `state=ACTIVE` returns Folder resources with `state` set to `ACTIVE`. * Query `parent=folders/123` returns Folder resources that have `folders/123` as a parent resource. * Query `parent=folders/123 AND state=ACTIVE` returns active Folder resources that have `folders/123` as a parent resource. * Query `displayName=\\"Test String\\"` returns Folder resources with display names that include both "Test" and "String". */
   query?: string;
-  /** Optional. The maximum number of folders to return in the response. The server can return fewer folders than requested. If unspecified, server picks an appropriate default. */
-  pageSize?: number;
   /** Optional. A pagination token returned from a previous call to `SearchFolders` that indicates from where search should continue. */
   pageToken?: string;
+  /** Optional. The maximum number of folders to return in the response. The server can return fewer folders than requested. If unspecified, server picks an appropriate default. */
+  pageSize?: number;
 }
 /** The response message for searching folders. */
 export interface SearchFoldersResponse {
-  /** A pagination token returned from a previous call to `SearchFolders` that indicates from where searching should continue. */
-  nextPageToken?: string;
   /** A possibly paginated folder search results. the specified parent resource. */
   folders?: FolderList;
+  /** A pagination token returned from a previous call to `SearchFolders` that indicates from where searching should continue. */
+  nextPageToken?: string;
 }
 export interface SearchOrganizationsRequest {
-  /** Optional. An optional query string used to filter the Organizations to return in the response. Query rules are case-insensitive. ``` | Field | Description | |------------------|--------------------------------------------| | directoryCustomerId, owner.directoryCustomerId | Filters by directory customer id. | | domain | Filters by domain. | ``` Organizations may be queried by `directoryCustomerId` or by `domain`, where the domain is a G Suite domain, for example: * Query `directorycustomerid:123456789` returns Organization resources with `owner.directory_customer_id` equal to `123456789`. * Query `domain:google.com` returns Organization resources corresponding to the domain `google.com`. */
-  query?: string;
   /** Optional. The maximum number of organizations to return in the response. The server can return fewer organizations than requested. If unspecified, server picks an appropriate default. */
   pageSize?: number;
   /** Optional. A pagination token returned from a previous call to `SearchOrganizations` that indicates from where listing should continue. */
   pageToken?: string;
+  /** Optional. An optional query string used to filter the Organizations to return in the response. Query rules are case-insensitive. ``` | Field | Description | |------------------|--------------------------------------------| | directoryCustomerId, owner.directoryCustomerId | Filters by directory customer id. | | domain | Filters by domain. | ``` Organizations may be queried by `directoryCustomerId` or by `domain`, where the domain is a G Suite domain, for example: * Query `directorycustomerid:123456789` returns Organization resources with `owner.directory_customer_id` equal to `123456789`. * Query `domain:google.com` returns Organization resources corresponding to the domain `google.com`. */
+  query?: string;
 }
 export type OrganizationList = Array<Organization>;
 /** The response returned from the `SearchOrganizations` method. */
@@ -979,10 +1105,10 @@ export interface SearchProjectsRequest {
 }
 /** A page of the response received from the SearchProjects method. A paginated response where more pages are available has `next_page_token` set. This token can be used in a subsequent request to retrieve the next request page. */
 export interface SearchProjectsResponse {
-  /** The list of Projects that matched the list filter query. This list can be paginated. */
-  projects?: ProjectList;
   /** Pagination token. If the result set is too large to fit in a single response, this token is returned. It encodes the position of the current result cursor. Feeding this value into a new list request with the `page_token` parameter gives the next page of the results. When `next_page_token` is not filled in, there is no next page and the list returned is the last page in the result set. Pagination tokens have a limited lifetime. */
   nextPageToken?: string;
+  /** The list of Projects that matched the list filter query. This list can be paginated. */
+  projects?: ProjectList;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -1077,6 +1203,22 @@ export interface UndeleteProjectsRequest {
   /** Request body */
   body?: UndeleteFolderRequest;
 }
+export interface UpdateBoundaryConfigFoldersRequest {
+  /** Identifier. The unique resource name of the BoundaryConfig. Format: - `organizations/{organization}/boundaryConfig` - `folders/{folder}/boundaryConfig` Example: `folders/123456789/boundaryConfig` */
+  name: string;
+  /** Optional. The list of fields to update. */
+  updateMask?: string;
+  /** Request body */
+  body?: BoundaryConfig;
+}
+export interface UpdateBoundaryConfigOrganizationsRequest {
+  /** Optional. The list of fields to update. */
+  updateMask?: string;
+  /** Identifier. The unique resource name of the BoundaryConfig. Format: - `organizations/{organization}/boundaryConfig` - `folders/{folder}/boundaryConfig` Example: `folders/123456789/boundaryConfig` */
+  name: string;
+  /** Request body */
+  body?: BoundaryConfig;
+}
 export type CreateFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a folder in the resource hierarchy. Returns an `Operation` which can be used to track the progress of the folder creation workflow. Upon success, the `Operation.response` field will be populated with the created Folder. In order to succeed, the addition of this new folder must not violate the folder naming, height, or fanout constraints. + The folder's `display_name` must be distinct from all other folders that share its parent. + The addition of the folder must not cause the active folder hierarchy to exceed a height of 10. Note, the full active + deleted folder hierarchy is allowed to reach a height of 20; this provides additional headroom when moving folders that contain deleted folders. + The addition of the folder must not cause the total number of folders under its parent to exceed 300. If the operation fails due to a folder constraint violation, some errors may be returned by the `CreateFolder` request, with status code `FAILED_PRECONDITION` and an error description. Other folder constraint violations will be communicated in the `Operation`, with the specific `PreconditionFailure` returned in the details list in the `Operation.error` field. The caller must have `resourcemanager.folders.create` permission on the identified parent. */
 export const createFolders: API.OperationMethod<
@@ -1085,13 +1227,35 @@ export const createFolders: API.OperationMethod<
   CreateFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c88, 0) as any as S.Schema<CreateFoldersRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(712, __c89, 0) as any as S.Schema<CreateFoldersRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateFolders",
+}));
+
+export type CreateFoldersBoundariesError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Creates a Boundary under a parent Folder or Organization. Creating a Boundary triggers the creation of a Management Project if one is not supplied. */
+export const createFoldersBoundaries: API.OperationMethod<
+  CreateFoldersBoundariesRequest,
+  Operation,
+  CreateFoldersBoundariesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(840, __c105, 0) as any as S.Schema<CreateFoldersBoundariesRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFoldersBoundaries",
 }));
 
 export type CreateFoldersCapabilityConfigsError =
@@ -1107,8 +1271,8 @@ export const createFoldersCapabilityConfigs: API.OperationMethod<
   CreateFoldersCapabilityConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(792, __c99, 0) as any as S.Schema<CreateFoldersCapabilityConfigsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateFoldersCapabilityConfigsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1124,13 +1288,35 @@ export const createLiens: API.OperationMethod<
   CreateLiensError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateLiensRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<Lien>,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateLiensRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<Lien>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateLiens",
+}));
+
+export type CreateOrganizationsBoundariesError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Creates a Boundary under a parent Folder or Organization. Creating a Boundary triggers the creation of a Management Project if one is not supplied. */
+export const createOrganizationsBoundaries: API.OperationMethod<
+  CreateOrganizationsBoundariesRequest,
+  Operation,
+  CreateOrganizationsBoundariesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(32, __c4, 0) as any as S.Schema<CreateOrganizationsBoundariesRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsBoundaries",
 }));
 
 export type CreateOrganizationsCapabilityConfigsError =
@@ -1146,8 +1332,8 @@ export const createOrganizationsCapabilityConfigs: API.OperationMethod<
   CreateOrganizationsCapabilityConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<CreateOrganizationsCapabilityConfigsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(40, __c5, 0) as any as S.Schema<CreateOrganizationsCapabilityConfigsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1163,8 +1349,8 @@ export const createProjects: API.OperationMethod<
   CreateProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<CreateProjectsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(48, __c6, 0) as any as S.Schema<CreateProjectsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1185,8 +1371,8 @@ export const createProjectsCapabilityConfigs: API.OperationMethod<
   CreateProjectsCapabilityConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<CreateProjectsCapabilityConfigsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(64, __c8, 0) as any as S.Schema<CreateProjectsCapabilityConfigsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1202,8 +1388,8 @@ export const createTagBindings: API.OperationMethod<
   CreateTagBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<CreateTagBindingsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(72, __c9, 0) as any as S.Schema<CreateTagBindingsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1219,8 +1405,8 @@ export const createTagKeys: API.OperationMethod<
   CreateTagKeysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<CreateTagKeysRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(88, __c11, 0) as any as S.Schema<CreateTagKeysRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1236,8 +1422,8 @@ export const createTagValues: API.OperationMethod<
   CreateTagValuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<CreateTagValuesRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(104, __c13, 0) as any as S.Schema<CreateTagValuesRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1258,8 +1444,8 @@ export const createTagValuesTagHolds: API.OperationMethod<
   CreateTagValuesTagHoldsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<CreateTagValuesTagHoldsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(120, __c15, 0) as any as S.Schema<CreateTagValuesTagHoldsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1281,13 +1467,35 @@ export const deleteFolders: API.OperationMethod<
   DeleteFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<DeleteFoldersRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(136, __c17, 0) as any as S.Schema<DeleteFoldersRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, FolderNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteFolders",
+}));
+
+export type DeleteFoldersBoundariesError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Deletes the Boundary identified by the specified `name` (for example, `folders/123456789/boundaries/my-boundary`). */
+export const deleteFoldersBoundaries: API.OperationMethod<
+  DeleteFoldersBoundariesRequest,
+  Operation,
+  DeleteFoldersBoundariesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(144, __c18, 0) as any as S.Schema<DeleteFoldersBoundariesRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFoldersBoundaries",
 }));
 
 export type DeleteFoldersCapabilityConfigsError =
@@ -1303,8 +1511,8 @@ export const deleteFoldersCapabilityConfigs: API.OperationMethod<
   DeleteFoldersCapabilityConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<DeleteFoldersCapabilityConfigsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(152, __c19, 0) as any as S.Schema<DeleteFoldersCapabilityConfigsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1320,13 +1528,35 @@ export const deleteLiens: API.OperationMethod<
   DeleteLiensError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<DeleteLiensRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<Empty>,
+  input: __S(160, __c20, 0) as any as S.Schema<DeleteLiensRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteLiens",
+}));
+
+export type DeleteOrganizationsBoundariesError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Deletes the Boundary identified by the specified `name` (for example, `folders/123456789/boundaries/my-boundary`). */
+export const deleteOrganizationsBoundaries: API.OperationMethod<
+  DeleteOrganizationsBoundariesRequest,
+  Operation,
+  DeleteOrganizationsBoundariesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(176, __c22, 0) as any as S.Schema<DeleteOrganizationsBoundariesRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsBoundaries",
 }));
 
 export type DeleteOrganizationsCapabilityConfigsError =
@@ -1342,8 +1572,8 @@ export const deleteOrganizationsCapabilityConfigs: API.OperationMethod<
   DeleteOrganizationsCapabilityConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<DeleteOrganizationsCapabilityConfigsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(184, __c23, 0) as any as S.Schema<DeleteOrganizationsCapabilityConfigsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1365,8 +1595,8 @@ export const deleteProjects: API.OperationMethod<
   DeleteProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<DeleteProjectsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(192, __c24, 0) as any as S.Schema<DeleteProjectsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ProjectNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1387,8 +1617,8 @@ export const deleteProjectsCapabilityConfigs: API.OperationMethod<
   DeleteProjectsCapabilityConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<DeleteProjectsCapabilityConfigsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(200, __c25, 0) as any as S.Schema<DeleteProjectsCapabilityConfigsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1404,8 +1634,8 @@ export const deleteTagBindings: API.OperationMethod<
   DeleteTagBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<DeleteTagBindingsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(208, __c26, 0) as any as S.Schema<DeleteTagBindingsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1427,8 +1657,8 @@ export const deleteTagKeys: API.OperationMethod<
   DeleteTagKeysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<DeleteTagKeysRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(216, __c27, 0) as any as S.Schema<DeleteTagKeysRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, TagKeyNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1450,8 +1680,8 @@ export const deleteTagValues: API.OperationMethod<
   DeleteTagValuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<DeleteTagValuesRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(224, __c28, 0) as any as S.Schema<DeleteTagValuesRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, TagValueNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1472,8 +1702,8 @@ export const deleteTagValuesTagHolds: API.OperationMethod<
   DeleteTagValuesTagHoldsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<DeleteTagValuesTagHoldsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(232, __c29, 0) as any as S.Schema<DeleteTagValuesTagHoldsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1489,13 +1719,47 @@ export const fetchResourceSemanticsV3: API.OperationMethod<
   FetchResourceSemanticsV3Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<FetchResourceSemanticsV3Request>,
-  output: __S(201, __c25, 1) as any as S.Schema<FetchResourceSemanticsResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<FetchResourceSemanticsV3Request>,
+  output: __S(241, __c30, 1) as any as S.Schema<FetchResourceSemanticsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchResourceSemanticsV3",
+}));
+
+export type GetBoundaryConfigFoldersError = NotFound | Forbidden | GcpOpError;
+/** Retrieves the BoundaryConfig identified by the specified `name` (for example, `folders/123456789/boundaryConfig`). */
+export const getBoundaryConfigFolders: API.OperationMethod<
+  GetBoundaryConfigFoldersRequest,
+  BoundaryConfig,
+  GetBoundaryConfigFoldersError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(248, __c31, 0) as any as S.Schema<GetBoundaryConfigFoldersRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<BoundaryConfig>,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBoundaryConfigFolders",
+}));
+
+export type GetBoundaryConfigOrganizationsError = NotFound | Forbidden | GcpOpError;
+/** Retrieves the BoundaryConfig identified by the specified `name` (for example, `folders/123456789/boundaryConfig`). */
+export const getBoundaryConfigOrganizations: API.OperationMethod<
+  GetBoundaryConfigOrganizationsRequest,
+  BoundaryConfig,
+  GetBoundaryConfigOrganizationsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(264, __c33, 0) as any as S.Schema<GetBoundaryConfigOrganizationsRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<BoundaryConfig>,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBoundaryConfigOrganizations",
 }));
 
 export type GetFoldersError = NotFound | Forbidden | FolderNotFound | GcpOpError;
@@ -1506,13 +1770,30 @@ export const getFolders: API.OperationMethod<
   GetFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<GetFoldersRequest>,
-  output: __S(720, __c90, 0) as any as S.Schema<Folder>,
+  input: __S(272, __c34, 0) as any as S.Schema<GetFoldersRequest>,
+  output: __S(736, __c92, 0) as any as S.Schema<Folder>,
   errors: [NotFound, Forbidden, FolderNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFolders",
+}));
+
+export type GetFoldersBoundariesError = NotFound | Forbidden | GcpOpError;
+/** Retrieves the Boundary identified by the specified `name` (for example, `folders/123456789/boundaries/my-boundary`). */
+export const getFoldersBoundaries: API.OperationMethod<
+  GetFoldersBoundariesRequest,
+  Boundary,
+  GetFoldersBoundariesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(280, __c35, 0) as any as S.Schema<GetFoldersBoundariesRequest>,
+  output: __S(850, __c106, 2) as any as S.Schema<Boundary>,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFoldersBoundaries",
 }));
 
 export type GetFoldersCapabilitiesError = NotFound | Forbidden | GcpOpError;
@@ -1523,8 +1804,8 @@ export const getFoldersCapabilities: API.OperationMethod<
   GetFoldersCapabilitiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<GetFoldersCapabilitiesRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<Capability>,
+  input: __S(288, __c36, 0) as any as S.Schema<GetFoldersCapabilitiesRequest>,
+  output: __S(296, __c37, 0) as any as S.Schema<Capability>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1540,8 +1821,8 @@ export const getFoldersCapabilityConfigs: API.OperationMethod<
   GetFoldersCapabilityConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<GetFoldersCapabilityConfigsRequest>,
-  output: __S(801, __c100, 1) as any as S.Schema<CapabilityConfig>,
+  input: __S(304, __c38, 0) as any as S.Schema<GetFoldersCapabilityConfigsRequest>,
+  output: __S(9, __c1, 1) as any as S.Schema<CapabilityConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1563,8 +1844,8 @@ export const getIamPolicyFolders: API.OperationMethod<
   GetIamPolicyFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<GetIamPolicyFoldersRequest>,
-  output: __S(263, __c32, 7) as any as S.Schema<Policy>,
+  input: __S(312, __c39, 0) as any as S.Schema<GetIamPolicyFoldersRequest>,
+  output: __S(335, __c41, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, FolderNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1585,8 +1866,8 @@ export const getIamPolicyOrganizations: API.OperationMethod<
   GetIamPolicyOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<GetIamPolicyOrganizationsRequest>,
-  output: __S(263, __c32, 7) as any as S.Schema<Policy>,
+  input: __S(336, __c42, 0) as any as S.Schema<GetIamPolicyOrganizationsRequest>,
+  output: __S(335, __c41, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1608,8 +1889,8 @@ export const getIamPolicyProjects: API.OperationMethod<
   GetIamPolicyProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<GetIamPolicyProjectsRequest>,
-  output: __S(263, __c32, 7) as any as S.Schema<Policy>,
+  input: __S(344, __c43, 0) as any as S.Schema<GetIamPolicyProjectsRequest>,
+  output: __S(335, __c41, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ProjectNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1631,8 +1912,8 @@ export const getIamPolicyTagKeys: API.OperationMethod<
   GetIamPolicyTagKeysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<GetIamPolicyTagKeysRequest>,
-  output: __S(263, __c32, 7) as any as S.Schema<Policy>,
+  input: __S(352, __c44, 0) as any as S.Schema<GetIamPolicyTagKeysRequest>,
+  output: __S(335, __c41, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, TagKeyNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1648,8 +1929,8 @@ export const getIamPolicyTagValues: API.OperationMethod<
   GetIamPolicyTagValuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<GetIamPolicyTagValuesRequest>,
-  output: __S(263, __c32, 7) as any as S.Schema<Policy>,
+  input: __S(360, __c45, 0) as any as S.Schema<GetIamPolicyTagValuesRequest>,
+  output: __S(335, __c41, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1661,8 +1942,8 @@ export type GetLiensError = NotFound | Forbidden | GcpOpError;
 /** Retrieve a Lien by `name`. Callers of this method will require permission on the `parent` resource. For example, a Lien with a `parent` of `projects/1234` requires permission `resourcemanager.projects.get` */
 export const getLiens: API.OperationMethod<GetLiensRequest, Lien, GetLiensError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(296, __c37, 0) as any as S.Schema<GetLiensRequest>,
-    output: __S(8, __c1, 0) as any as S.Schema<Lien>,
+    input: __S(368, __c46, 0) as any as S.Schema<GetLiensRequest>,
+    output: __S(24, __c3, 0) as any as S.Schema<Lien>,
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
@@ -1678,8 +1959,8 @@ export const getLocationsEffectiveTagBindingCollections: API.OperationMethod<
   GetLocationsEffectiveTagBindingCollectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<GetLocationsEffectiveTagBindingCollectionsRequest>,
-  output: __S(305, __c38, 1) as any as S.Schema<EffectiveTagBindingCollection>,
+  input: __S(376, __c47, 0) as any as S.Schema<GetLocationsEffectiveTagBindingCollectionsRequest>,
+  output: __S(377, __c47, 1) as any as S.Schema<EffectiveTagBindingCollection>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1695,8 +1976,8 @@ export const getLocationsTagBindingCollections: API.OperationMethod<
   GetLocationsTagBindingCollectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<GetLocationsTagBindingCollectionsRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<TagBindingCollection>,
+  input: __S(384, __c48, 0) as any as S.Schema<GetLocationsTagBindingCollectionsRequest>,
+  output: __S(392, __c49, 0) as any as S.Schema<TagBindingCollection>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1712,8 +1993,8 @@ export const getNamespacedTagKeys: API.OperationMethod<
   GetNamespacedTagKeysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<GetNamespacedTagKeysRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<TagKey>,
+  input: __S(400, __c50, 0) as any as S.Schema<GetNamespacedTagKeysRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<TagKey>,
   errors: [NotFound, Forbidden, TagKeyNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1729,8 +2010,8 @@ export const getNamespacedTagValues: API.OperationMethod<
   GetNamespacedTagValuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<GetNamespacedTagValuesRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<TagValue>,
+  input: __S(408, __c51, 0) as any as S.Schema<GetNamespacedTagValuesRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<TagValue>,
   errors: [NotFound, Forbidden, TagValueNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1746,8 +2027,8 @@ export const getOperations: API.OperationMethod<
   GetOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<GetOperationsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(416, __c52, 0) as any as S.Schema<GetOperationsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1763,13 +2044,30 @@ export const getOrganizations: API.OperationMethod<
   GetOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<GetOrganizationsRequest>,
-  output: __S(360, __c45, 0) as any as S.Schema<Organization>,
+  input: __S(424, __c53, 0) as any as S.Schema<GetOrganizationsRequest>,
+  output: __S(432, __c54, 0) as any as S.Schema<Organization>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizations",
+}));
+
+export type GetOrganizationsBoundariesError = NotFound | Forbidden | GcpOpError;
+/** Retrieves the Boundary identified by the specified `name` (for example, `folders/123456789/boundaries/my-boundary`). */
+export const getOrganizationsBoundaries: API.OperationMethod<
+  GetOrganizationsBoundariesRequest,
+  Boundary,
+  GetOrganizationsBoundariesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(440, __c55, 0) as any as S.Schema<GetOrganizationsBoundariesRequest>,
+  output: __S(850, __c106, 2) as any as S.Schema<Boundary>,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsBoundaries",
 }));
 
 export type GetOrganizationsCapabilityConfigsError = NotFound | Forbidden | GcpOpError;
@@ -1780,8 +2078,8 @@ export const getOrganizationsCapabilityConfigs: API.OperationMethod<
   GetOrganizationsCapabilityConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<GetOrganizationsCapabilityConfigsRequest>,
-  output: __S(801, __c100, 1) as any as S.Schema<CapabilityConfig>,
+  input: __S(448, __c56, 0) as any as S.Schema<GetOrganizationsCapabilityConfigsRequest>,
+  output: __S(9, __c1, 1) as any as S.Schema<CapabilityConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1797,8 +2095,8 @@ export const getProjects: API.OperationMethod<
   GetProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<GetProjectsRequest>,
-  output: __S(32, __c4, 0) as any as S.Schema<Project>,
+  input: __S(456, __c57, 0) as any as S.Schema<GetProjectsRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<Project>,
   errors: [NotFound, Forbidden, ProjectNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1814,8 +2112,8 @@ export const getProjectsCapabilityConfigs: API.OperationMethod<
   GetProjectsCapabilityConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<GetProjectsCapabilityConfigsRequest>,
-  output: __S(801, __c100, 1) as any as S.Schema<CapabilityConfig>,
+  input: __S(464, __c58, 0) as any as S.Schema<GetProjectsCapabilityConfigsRequest>,
+  output: __S(9, __c1, 1) as any as S.Schema<CapabilityConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1831,8 +2129,8 @@ export const getTagKeys: API.OperationMethod<
   GetTagKeysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<GetTagKeysRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<TagKey>,
+  input: __S(472, __c59, 0) as any as S.Schema<GetTagKeysRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<TagKey>,
   errors: [NotFound, Forbidden, TagKeyNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1848,8 +2146,8 @@ export const getTagValues: API.OperationMethod<
   GetTagValuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<GetTagValuesRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<TagValue>,
+  input: __S(480, __c60, 0) as any as S.Schema<GetTagValuesRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<TagValue>,
   errors: [NotFound, Forbidden, TagValueNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1866,8 +2164,8 @@ export const listEffectiveTags: API.PaginatedOperationMethod<
   GcpOpContext,
   ListEffectiveTagsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<ListEffectiveTagsRequest>,
-  output: __S(411, __c51, 3) as any as S.Schema<ListEffectiveTagsResponse>,
+  input: __S(488, __c61, 0) as any as S.Schema<ListEffectiveTagsRequest>,
+  output: __S(491, __c61, 3) as any as S.Schema<ListEffectiveTagsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1885,13 +2183,32 @@ export const listFolders: API.PaginatedOperationMethod<
   GcpOpContext,
   ListFoldersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<ListFoldersRequest>,
-  output: __S(425, __c53, 1) as any as S.Schema<ListFoldersResponse>,
+  input: __S(496, __c62, 0) as any as S.Schema<ListFoldersRequest>,
+  output: __S(505, __c63, 1) as any as S.Schema<ListFoldersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFolders",
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
+})) as any;
+
+export type ListFoldersBoundariesError = NotFound | Forbidden | GcpOpError;
+/** Lists Boundaries that are direct children of the specified organization or folder resource. */
+export const listFoldersBoundaries: API.PaginatedOperationMethod<
+  ListFoldersBoundariesRequest,
+  ListBoundariesResponse,
+  ListFoldersBoundariesError,
+  GcpOpContext,
+  ListBoundariesResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(512, __c64, 0) as any as S.Schema<ListFoldersBoundariesRequest>,
+  output: __S(521, __c65, 1) as any as S.Schema<ListBoundariesResponse>,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFoldersBoundaries",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1904,8 +2221,8 @@ export const listFoldersCapabilityConfigs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListCapabilityConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<ListFoldersCapabilityConfigsRequest>,
-  output: __S(441, __c55, 1) as any as S.Schema<ListCapabilityConfigsResponse>,
+  input: __S(528, __c66, 0) as any as S.Schema<ListFoldersCapabilityConfigsRequest>,
+  output: __S(537, __c67, 1) as any as S.Schema<ListCapabilityConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1923,13 +2240,32 @@ export const listLiens: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLiensResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<ListLiensRequest>,
-  output: __S(450, __c56, 2) as any as S.Schema<ListLiensResponse>,
+  input: __S(544, __c68, 0) as any as S.Schema<ListLiensRequest>,
+  output: __S(546, __c68, 2) as any as S.Schema<ListLiensResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLiens",
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
+})) as any;
+
+export type ListOrganizationsBoundariesError = NotFound | Forbidden | GcpOpError;
+/** Lists Boundaries that are direct children of the specified organization or folder resource. */
+export const listOrganizationsBoundaries: API.PaginatedOperationMethod<
+  ListOrganizationsBoundariesRequest,
+  ListBoundariesResponse,
+  ListOrganizationsBoundariesError,
+  GcpOpContext,
+  ListBoundariesResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(552, __c69, 0) as any as S.Schema<ListOrganizationsBoundariesRequest>,
+  output: __S(521, __c65, 1) as any as S.Schema<ListBoundariesResponse>,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsBoundaries",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1942,8 +2278,8 @@ export const listOrganizationsCapabilityConfigs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListCapabilityConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(456, __c57, 0) as any as S.Schema<ListOrganizationsCapabilityConfigsRequest>,
-  output: __S(441, __c55, 1) as any as S.Schema<ListCapabilityConfigsResponse>,
+  input: __S(560, __c70, 0) as any as S.Schema<ListOrganizationsCapabilityConfigsRequest>,
+  output: __S(537, __c67, 1) as any as S.Schema<ListCapabilityConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1961,8 +2297,8 @@ export const listProjects: API.PaginatedOperationMethod<
   GcpOpContext,
   ListProjectsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(464, __c58, 0) as any as S.Schema<ListProjectsRequest>,
-  output: __S(473, __c59, 1) as any as S.Schema<ListProjectsResponse>,
+  input: __S(568, __c71, 0) as any as S.Schema<ListProjectsRequest>,
+  output: __S(569, __c71, 1) as any as S.Schema<ListProjectsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1980,8 +2316,8 @@ export const listProjectsCapabilityConfigs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListCapabilityConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(480, __c60, 0) as any as S.Schema<ListProjectsCapabilityConfigsRequest>,
-  output: __S(441, __c55, 1) as any as S.Schema<ListCapabilityConfigsResponse>,
+  input: __S(584, __c73, 0) as any as S.Schema<ListProjectsCapabilityConfigsRequest>,
+  output: __S(537, __c67, 1) as any as S.Schema<ListCapabilityConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1999,8 +2335,8 @@ export const listTagBindings: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTagBindingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(488, __c61, 0) as any as S.Schema<ListTagBindingsRequest>,
-  output: __S(490, __c61, 2) as any as S.Schema<ListTagBindingsResponse>,
+  input: __S(592, __c74, 0) as any as S.Schema<ListTagBindingsRequest>,
+  output: __S(594, __c74, 2) as any as S.Schema<ListTagBindingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2018,8 +2354,8 @@ export const listTagKeys: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTagKeysResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(496, __c62, 0) as any as S.Schema<ListTagKeysRequest>,
-  output: __S(498, __c62, 2) as any as S.Schema<ListTagKeysResponse>,
+  input: __S(600, __c75, 0) as any as S.Schema<ListTagKeysRequest>,
+  output: __S(602, __c75, 2) as any as S.Schema<ListTagKeysResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2037,8 +2373,8 @@ export const listTagValues: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTagValuesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(504, __c63, 0) as any as S.Schema<ListTagValuesRequest>,
-  output: __S(506, __c63, 2) as any as S.Schema<ListTagValuesResponse>,
+  input: __S(608, __c76, 0) as any as S.Schema<ListTagValuesRequest>,
+  output: __S(610, __c76, 2) as any as S.Schema<ListTagValuesResponse>,
   errors: [NotFound, Forbidden, TagValueNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2056,8 +2392,8 @@ export const listTagValuesTagHolds: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTagHoldsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<ListTagValuesTagHoldsRequest>,
-  output: __S(514, __c64, 2) as any as S.Schema<ListTagHoldsResponse>,
+  input: __S(616, __c77, 0) as any as S.Schema<ListTagValuesTagHoldsRequest>,
+  output: __S(618, __c77, 2) as any as S.Schema<ListTagHoldsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2080,8 +2416,8 @@ export const moveFolders: API.OperationMethod<
   MoveFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c65, 0) as any as S.Schema<MoveFoldersRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(624, __c78, 0) as any as S.Schema<MoveFoldersRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, FolderNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2103,8 +2439,8 @@ export const moveProjects: API.OperationMethod<
   MoveProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(536, __c67, 0) as any as S.Schema<MoveProjectsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(640, __c80, 0) as any as S.Schema<MoveProjectsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ProjectNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2126,13 +2462,30 @@ export const patchFolders: API.OperationMethod<
   PatchFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c68, 0) as any as S.Schema<PatchFoldersRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(648, __c81, 0) as any as S.Schema<PatchFoldersRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, FolderNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchFolders",
+}));
+
+export type PatchFoldersBoundariesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+/** Updates the `display_name` and `resource_filter.tag_filter.tag_value` of the Boundary identified by the specified `name` (for example, `folders/123456789/boundaries/my-boundary`). */
+export const patchFoldersBoundaries: API.OperationMethod<
+  PatchFoldersBoundariesRequest,
+  Operation,
+  PatchFoldersBoundariesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(656, __c82, 0) as any as S.Schema<PatchFoldersBoundariesRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFoldersBoundaries",
 }));
 
 export type PatchFoldersCapabilitiesError =
@@ -2148,8 +2501,8 @@ export const patchFoldersCapabilities: API.OperationMethod<
   PatchFoldersCapabilitiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(552, __c69, 0) as any as S.Schema<PatchFoldersCapabilitiesRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(664, __c83, 0) as any as S.Schema<PatchFoldersCapabilitiesRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2170,8 +2523,8 @@ export const patchFoldersCapabilityConfigs: API.OperationMethod<
   PatchFoldersCapabilityConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c70, 0) as any as S.Schema<PatchFoldersCapabilityConfigsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(672, __c84, 0) as any as S.Schema<PatchFoldersCapabilityConfigsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2192,13 +2545,35 @@ export const patchLocationsTagBindingCollections: API.OperationMethod<
   PatchLocationsTagBindingCollectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(568, __c71, 0) as any as S.Schema<PatchLocationsTagBindingCollectionsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(680, __c85, 0) as any as S.Schema<PatchLocationsTagBindingCollectionsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchLocationsTagBindingCollections",
+}));
+
+export type PatchOrganizationsBoundariesError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Updates the `display_name` and `resource_filter.tag_filter.tag_value` of the Boundary identified by the specified `name` (for example, `folders/123456789/boundaries/my-boundary`). */
+export const patchOrganizationsBoundaries: API.OperationMethod<
+  PatchOrganizationsBoundariesRequest,
+  Operation,
+  PatchOrganizationsBoundariesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(688, __c86, 0) as any as S.Schema<PatchOrganizationsBoundariesRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsBoundaries",
 }));
 
 export type PatchOrganizationsCapabilityConfigsError =
@@ -2214,8 +2589,8 @@ export const patchOrganizationsCapabilityConfigs: API.OperationMethod<
   PatchOrganizationsCapabilityConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c72, 0) as any as S.Schema<PatchOrganizationsCapabilityConfigsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(696, __c87, 0) as any as S.Schema<PatchOrganizationsCapabilityConfigsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2237,8 +2612,8 @@ export const patchProjects: API.OperationMethod<
   PatchProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(584, __c73, 0) as any as S.Schema<PatchProjectsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(704, __c88, 0) as any as S.Schema<PatchProjectsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ProjectNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2259,8 +2634,8 @@ export const patchProjectsCapabilityConfigs: API.OperationMethod<
   PatchProjectsCapabilityConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c74, 0) as any as S.Schema<PatchProjectsCapabilityConfigsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(752, __c94, 0) as any as S.Schema<PatchProjectsCapabilityConfigsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2282,8 +2657,8 @@ export const patchTagKeys: API.OperationMethod<
   PatchTagKeysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(600, __c75, 0) as any as S.Schema<PatchTagKeysRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(760, __c95, 0) as any as S.Schema<PatchTagKeysRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, TagKeyNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2305,8 +2680,8 @@ export const patchTagValues: API.OperationMethod<
   PatchTagValuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c76, 0) as any as S.Schema<PatchTagValuesRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(768, __c96, 0) as any as S.Schema<PatchTagValuesRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, TagValueNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2323,8 +2698,8 @@ export const searchFolders: API.PaginatedOperationMethod<
   GcpOpContext,
   SearchFoldersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(616, __c77, 0) as any as S.Schema<SearchFoldersRequest>,
-  output: __S(425, __c53, 1) as any as S.Schema<SearchFoldersResponse>,
+  input: __S(776, __c97, 0) as any as S.Schema<SearchFoldersRequest>,
+  output: __S(505, __c63, 1) as any as S.Schema<SearchFoldersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2342,8 +2717,8 @@ export const searchOrganizations: API.PaginatedOperationMethod<
   GcpOpContext,
   SearchOrganizationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(624, __c78, 0) as any as S.Schema<SearchOrganizationsRequest>,
-  output: __S(626, __c78, 2) as any as S.Schema<SearchOrganizationsResponse>,
+  input: __S(784, __c98, 0) as any as S.Schema<SearchOrganizationsRequest>,
+  output: __S(786, __c98, 2) as any as S.Schema<SearchOrganizationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2361,8 +2736,8 @@ export const searchProjects: API.PaginatedOperationMethod<
   GcpOpContext,
   SearchProjectsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(632, __c79, 0) as any as S.Schema<SearchProjectsRequest>,
-  output: __S(473, __c59, 1) as any as S.Schema<SearchProjectsResponse>,
+  input: __S(792, __c99, 0) as any as S.Schema<SearchProjectsRequest>,
+  output: __S(793, __c99, 1) as any as S.Schema<SearchProjectsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2379,8 +2754,8 @@ export const setIamPolicyFolders: API.OperationMethod<
   SetIamPolicyFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c80, 0) as any as S.Schema<SetIamPolicyFoldersRequest>,
-  output: __S(263, __c32, 7) as any as S.Schema<Policy>,
+  input: __S(800, __c100, 0) as any as S.Schema<SetIamPolicyFoldersRequest>,
+  output: __S(335, __c41, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2401,8 +2776,8 @@ export const setIamPolicyOrganizations: API.OperationMethod<
   SetIamPolicyOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c82, 0) as any as S.Schema<SetIamPolicyOrganizationsRequest>,
-  output: __S(263, __c32, 7) as any as S.Schema<Policy>,
+  input: __S(816, __c102, 0) as any as S.Schema<SetIamPolicyOrganizationsRequest>,
+  output: __S(335, __c41, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2418,8 +2793,8 @@ export const setIamPolicyProjects: API.OperationMethod<
   SetIamPolicyProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(664, __c83, 0) as any as S.Schema<SetIamPolicyProjectsRequest>,
-  output: __S(263, __c32, 7) as any as S.Schema<Policy>,
+  input: __S(824, __c103, 0) as any as S.Schema<SetIamPolicyProjectsRequest>,
+  output: __S(335, __c41, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2435,8 +2810,8 @@ export const setIamPolicyTagKeys: API.OperationMethod<
   SetIamPolicyTagKeysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c84, 0) as any as S.Schema<SetIamPolicyTagKeysRequest>,
-  output: __S(263, __c32, 7) as any as S.Schema<Policy>,
+  input: __S(832, __c104, 0) as any as S.Schema<SetIamPolicyTagKeysRequest>,
+  output: __S(335, __c41, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2452,8 +2827,8 @@ export const setIamPolicyTagValues: API.OperationMethod<
   SetIamPolicyTagValuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(680, __c85, 0) as any as S.Schema<SetIamPolicyTagValuesRequest>,
-  output: __S(263, __c32, 7) as any as S.Schema<Policy>,
+  input: __S(856, __c107, 0) as any as S.Schema<SetIamPolicyTagValuesRequest>,
+  output: __S(335, __c41, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2474,8 +2849,8 @@ export const testIamPermissionsFolders: API.OperationMethod<
   TestIamPermissionsFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c86, 0) as any as S.Schema<TestIamPermissionsFoldersRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(864, __c108, 0) as any as S.Schema<TestIamPermissionsFoldersRequest>,
+  output: __S(872, __c109, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2496,8 +2871,8 @@ export const testIamPermissionsOrganizations: API.OperationMethod<
   TestIamPermissionsOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(744, __c93, 0) as any as S.Schema<TestIamPermissionsOrganizationsRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(880, __c110, 0) as any as S.Schema<TestIamPermissionsOrganizationsRequest>,
+  output: __S(872, __c109, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2518,8 +2893,8 @@ export const testIamPermissionsProjects: API.OperationMethod<
   TestIamPermissionsProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c94, 0) as any as S.Schema<TestIamPermissionsProjectsRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(888, __c111, 0) as any as S.Schema<TestIamPermissionsProjectsRequest>,
+  output: __S(872, __c109, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2540,8 +2915,8 @@ export const testIamPermissionsTagKeys: API.OperationMethod<
   TestIamPermissionsTagKeysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(760, __c95, 0) as any as S.Schema<TestIamPermissionsTagKeysRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(896, __c112, 0) as any as S.Schema<TestIamPermissionsTagKeysRequest>,
+  output: __S(872, __c109, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2562,8 +2937,8 @@ export const testIamPermissionsTagValues: API.OperationMethod<
   TestIamPermissionsTagValuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c96, 0) as any as S.Schema<TestIamPermissionsTagValuesRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(904, __c113, 0) as any as S.Schema<TestIamPermissionsTagValuesRequest>,
+  output: __S(872, __c109, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2585,8 +2960,8 @@ export const undeleteFolders: API.OperationMethod<
   UndeleteFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(776, __c97, 0) as any as S.Schema<UndeleteFoldersRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(912, __c114, 0) as any as S.Schema<UndeleteFoldersRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, FolderNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2608,13 +2983,57 @@ export const undeleteProjects: API.OperationMethod<
   UndeleteProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c98, 0) as any as S.Schema<UndeleteProjectsRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<Operation>,
+  input: __S(920, __c115, 0) as any as S.Schema<UndeleteProjectsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ProjectNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeleteProjects",
+}));
+
+export type UpdateBoundaryConfigFoldersError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Updates the BoundaryConfig identified by the specified `name` (for example, `folders/123456789/boundaryConfig`). */
+export const updateBoundaryConfigFolders: API.OperationMethod<
+  UpdateBoundaryConfigFoldersRequest,
+  Operation,
+  UpdateBoundaryConfigFoldersError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(928, __c116, 0) as any as S.Schema<UpdateBoundaryConfigFoldersRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBoundaryConfigFolders",
+}));
+
+export type UpdateBoundaryConfigOrganizationsError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Updates the BoundaryConfig identified by the specified `name` (for example, `folders/123456789/boundaryConfig`). */
+export const updateBoundaryConfigOrganizations: API.OperationMethod<
+  UpdateBoundaryConfigOrganizationsRequest,
+  Operation,
+  UpdateBoundaryConfigOrganizationsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(936, __c117, 0) as any as S.Schema<UpdateBoundaryConfigOrganizationsRequest>,
+  output: __S(747, __c93, 3) as any as S.Schema<Operation>,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBoundaryConfigOrganizations",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -2623,7 +3042,45 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(8, __c1, 0).pipe(T.HttpBody())),
+          parent: S.String.pipe(T.Label()),
+          capabilityConfigId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(9, __c1, 1).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v3/{+parent}/capabilityConfigs",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateFoldersCapabilityConfigsRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          boundaries: S.optional(__S(720, __c90, 0)),
+          etag: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          managementProject: S.optional(S.String),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          types: S.optional(__S(8, __c1, 0)),
+        }),
+      ).annotate({ identifier: "CapabilityConfig" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          body: S.optional(__S(24, __c3, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2634,29 +3091,47 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateLiensRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          restrictions: S.optional(__S(720, __c90, 0)),
           parent: S.optional(S.String),
           origin: S.optional(S.String),
-          name: S.optional(S.String),
-          restrictions: S.optional(__S(728, __c91, 0)),
           reason: S.optional(S.String),
-          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Lien" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
+          boundaryId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(850, __c106, 2).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v3/{+parent}/boundaries",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateOrganizationsBoundariesRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           capabilityConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(801, __c100, 1).pipe(T.HttpBody())),
+          parent: S.String.pipe(T.Label()),
+          body: S.optional(__S(9, __c1, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2667,12 +3142,12 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsCapabilityConfigsRequest" });
   }
 }
-function __c3(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(32, __c4, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(56, __c7, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2683,36 +3158,37 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateProjectsRequest" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          configuredCapabilities: S.optional(__S(728, __c91, 0)),
-          labels: S.optional(__S(712, __c89, 0)),
-          parent: S.optional(S.String),
-          projectId: S.optional(S.String),
           name: S.optional(S.String),
-          createTime: S.optional(S.String),
+          configuredCapabilities: S.optional(__S(720, __c90, 0)),
+          updateTime: S.optional(S.String),
+          parent: S.optional(S.String),
+          displayName: S.optional(S.String),
+          labels: S.optional(__S(728, __c91, 0)),
           isManagementProject: S.optional(S.Boolean),
+          managementType: S.optional(S.String),
+          createTime: S.optional(S.String),
+          projectId: S.optional(S.String),
+          tags: S.optional(__S(728, __c91, 0)),
           deleteTime: S.optional(S.String),
           etag: S.optional(S.String),
-          tags: S.optional(__S(712, __c89, 0)),
-          displayName: S.optional(S.String),
-          updateTime: S.optional(S.String),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "Project" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          capabilityConfigId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(801, __c100, 1).pipe(T.HttpBody())),
+          capabilityConfigId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(9, __c1, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2723,13 +3199,13 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateProjectsCapabilityConfigsRequest" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(56, __c7, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(80, __c10, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2740,26 +3216,26 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateTagBindingsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.optional(S.String),
           name: S.optional(S.String),
+          parent: S.optional(S.String),
           tagValueNamespacedName: S.optional(S.String),
           tagValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "TagBinding" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(72, __c9, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(96, __c12, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2770,33 +3246,33 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateTagKeysRequest" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          purpose: S.optional(S.String),
-          createTime: S.optional(S.String),
-          namespacedName: S.optional(S.String),
-          allowedValuesRegex: S.optional(S.String),
-          shortName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          parent: S.optional(S.String),
-          name: S.optional(S.String),
-          purposeData: S.optional(__S(712, __c89, 0)),
           etag: S.optional(S.String),
+          allowedValuesRegex: S.optional(S.String),
+          parent: S.optional(S.String),
+          purpose: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          shortName: S.optional(S.String),
+          purposeData: S.optional(__S(728, __c91, 0)),
+          namespacedName: S.optional(S.String),
         }),
       ).annotate({ identifier: "TagKey" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(88, __c11, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(112, __c14, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2807,31 +3283,31 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateTagValuesRequest" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          shortName: S.optional(S.String),
-          parent: S.optional(S.String),
-          etag: S.optional(S.String),
-          namespacedName: S.optional(S.String),
           createTime: S.optional(S.String),
           description: S.optional(S.String),
           updateTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          namespacedName: S.optional(S.String),
+          shortName: S.optional(S.String),
+          parent: S.optional(S.String),
         }),
       ).annotate({ identifier: "TagValue" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(104, __c13, 0).pipe(T.HttpBody())),
+          parent: S.String.pipe(T.Label()),
+          body: S.optional(__S(128, __c16, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2842,21 +3318,21 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateTagValuesTagHoldsRequest" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          holder: S.optional(S.String),
-          helpLink: S.optional(S.String),
           origin: S.optional(S.String),
+          holder: S.optional(S.String),
+          name: S.optional(S.String),
+          helpLink: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "TagHold" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2872,44 +3348,6 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DeleteFoldersRequest" });
   }
 }
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v3/{+name}",
-            baseUrl: "https://cloudresourcemanager.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteFoldersCapabilityConfigsRequest" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v3/{+name}",
-            baseUrl: "https://cloudresourcemanager.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteLiensRequest" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
-  }
-}
 function __c18(j: number): any {
   switch (j) {
     case 0:
@@ -2923,7 +3361,7 @@ function __c18(j: number): any {
             baseUrl: "https://cloudresourcemanager.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteOrganizationsCapabilityConfigsRequest" });
+      ).annotate({ identifier: "DeleteFoldersBoundariesRequest" });
   }
 }
 function __c19(j: number): any {
@@ -2939,7 +3377,7 @@ function __c19(j: number): any {
             baseUrl: "https://cloudresourcemanager.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsRequest" });
+      ).annotate({ identifier: "DeleteFoldersCapabilityConfigsRequest" });
   }
 }
 function __c20(j: number): any {
@@ -2955,10 +3393,80 @@ function __c20(j: number): any {
             baseUrl: "https://cloudresourcemanager.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsCapabilityConfigsRequest" });
+      ).annotate({ identifier: "DeleteLiensRequest" });
   }
 }
 function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v3/{+name}",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteOrganizationsBoundariesRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v3/{+name}",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteOrganizationsCapabilityConfigsRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v3/{+name}",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v3/{+name}",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsCapabilityConfigsRequest" });
+  }
+}
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2974,14 +3482,14 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteTagBindingsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          etag: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2992,14 +3500,14 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DeleteTagKeysRequest" });
   }
 }
-function __c23(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          etag: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          etag: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3010,7 +3518,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeleteTagValuesRequest" });
   }
 }
-function __c24(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3027,7 +3535,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DeleteTagValuesTagHoldsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3045,12 +3553,57 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           fullResourceName: S.optional(S.String),
-          semantics: S.optional(__S(712, __c89, 0)),
+          semantics: S.optional(__S(728, __c91, 0)),
         }),
       ).annotate({ identifier: "FetchResourceSemanticsResponse" });
   }
 }
-function __c26(j: number): any {
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v3/{+name}",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetBoundaryConfigFoldersRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          tagKey: S.optional(S.String),
+          etag: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BoundaryConfig" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v3/{+name}",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetBoundaryConfigOrganizationsRequest" });
+  }
+}
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3066,7 +3619,23 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetFoldersRequest" });
   }
 }
-function __c27(j: number): any {
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v3/{+name}",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetFoldersBoundariesRequest" });
+  }
+}
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3082,7 +3651,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetFoldersCapabilitiesRequest" });
   }
 }
-function __c28(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3093,7 +3662,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "Capability" });
   }
 }
-function __c29(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3109,13 +3678,13 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetFoldersCapabilityConfigsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(249, __c31, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(321, __c40, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3126,7 +3695,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetIamPolicyFoldersRequest" });
   }
 }
-function __c31(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3137,68 +3706,68 @@ function __c31(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(248, __c31, 0)),
+          options: S.optional(__S(320, __c40, 0)),
         }),
       ).annotate({ identifier: "GetIamPolicyRequest" });
   }
 }
-function __c32(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(728, __c91, 0)),
           logType: S.optional(S.String),
+          exemptedMembers: S.optional(__S(720, __c90, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 1:
-      return S.Array(__S(256, __c32, 0));
+      return S.Array(__S(328, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          auditLogConfigs: S.optional(__S(257, __c32, 1)),
           service: S.optional(S.String),
+          auditLogConfigs: S.optional(__S(329, __c41, 1)),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 3:
-      return S.Array(__S(258, __c32, 2));
+      return S.Array(__S(330, __c41, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          title: S.optional(S.String),
-          description: S.optional(S.String),
           expression: S.optional(S.String),
           location: S.optional(S.String),
+          description: S.optional(S.String),
+          title: S.optional(S.String),
         }),
       ).annotate({ identifier: "Expr" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           role: S.optional(S.String),
-          members: S.optional(__S(728, __c91, 0)),
-          condition: S.optional(__S(260, __c32, 4)),
+          members: S.optional(__S(720, __c90, 0)),
+          condition: S.optional(__S(332, __c41, 4)),
         }),
       ).annotate({ identifier: "Binding" });
     case 6:
-      return S.Array(__S(261, __c32, 5));
+      return S.Array(__S(333, __c41, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          auditConfigs: S.optional(__S(259, __c32, 3)),
-          version: S.optional(S.Number),
+          auditConfigs: S.optional(__S(331, __c41, 3)),
           etag: S.optional(S.String),
-          bindings: S.optional(__S(262, __c32, 6)),
+          bindings: S.optional(__S(334, __c41, 6)),
+          version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c33(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(249, __c31, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(321, __c40, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3209,13 +3778,13 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetIamPolicyOrganizationsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(249, __c31, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(321, __c40, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3226,13 +3795,13 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsRequest" });
   }
 }
-function __c35(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(249, __c31, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(321, __c40, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3243,13 +3812,13 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GetIamPolicyTagKeysRequest" });
   }
 }
-function __c36(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(249, __c31, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(321, __c40, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3260,7 +3829,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetIamPolicyTagValuesRequest" });
   }
 }
-function __c37(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3276,7 +3845,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetLiensRequest" });
   }
 }
-function __c38(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3293,153 +3862,11 @@ function __c38(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           fullResourceName: S.optional(S.String),
-          effectiveTags: S.optional(__S(712, __c89, 0)),
+          name: S.optional(S.String),
+          effectiveTags: S.optional(__S(728, __c91, 0)),
         }),
       ).annotate({ identifier: "EffectiveTagBindingCollection" });
-  }
-}
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v3/{+name}",
-            baseUrl: "https://cloudresourcemanager.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetLocationsTagBindingCollectionsRequest" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          fullResourceName: S.optional(S.String),
-          tags: S.optional(__S(712, __c89, 0)),
-          etag: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TagBindingCollection" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v3/tagKeys/namespaced",
-            baseUrl: "https://cloudresourcemanager.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetNamespacedTagKeysRequest" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v3/tagValues/namespaced",
-            baseUrl: "https://cloudresourcemanager.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetNamespacedTagValuesRequest" });
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v3/{+name}",
-            baseUrl: "https://cloudresourcemanager.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetOperationsRequest" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v3/{+name}",
-            baseUrl: "https://cloudresourcemanager.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetOrganizationsRequest" });
-  }
-}
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          displayName: S.optional(S.String),
-          directoryCustomerId: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Organization" });
-  }
-}
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v3/{+name}",
-            baseUrl: "https://cloudresourcemanager.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetOrganizationsCapabilityConfigsRequest" });
-  }
-}
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v3/{+name}",
-            baseUrl: "https://cloudresourcemanager.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsRequest" });
   }
 }
 function __c48(j: number): any {
@@ -3455,10 +3882,168 @@ function __c48(j: number): any {
             baseUrl: "https://cloudresourcemanager.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsCapabilityConfigsRequest" });
+      ).annotate({ identifier: "GetLocationsTagBindingCollectionsRequest" });
   }
 }
 function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          fullResourceName: S.optional(S.String),
+          etag: S.optional(S.String),
+          tags: S.optional(__S(728, __c91, 0)),
+        }),
+      ).annotate({ identifier: "TagBindingCollection" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v3/tagKeys/namespaced",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetNamespacedTagKeysRequest" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v3/tagValues/namespaced",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetNamespacedTagValuesRequest" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v3/{+name}",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetOperationsRequest" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v3/{+name}",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetOrganizationsRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          directoryCustomerId: S.optional(S.String),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          etag: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Organization" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v3/{+name}",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetOrganizationsBoundariesRequest" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v3/{+name}",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetOrganizationsCapabilityConfigsRequest" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v3/{+name}",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsRequest" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v3/{+name}",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsCapabilityConfigsRequest" });
+  }
+}
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3474,7 +4059,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetTagKeysRequest" });
   }
 }
-function __c50(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3490,13 +4075,13 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetTagValuesRequest" });
   }
 }
-function __c51(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -3510,33 +4095,33 @@ function __c51(j: number): any {
       return S.suspend(() =>
         S.Struct({
           namespacedTagKey: S.optional(S.String),
-          tagValue: S.optional(S.String),
-          tagKeyParentName: S.optional(S.String),
-          tagKey: S.optional(S.String),
-          inherited: S.optional(S.Boolean),
           namespacedTagValue: S.optional(S.String),
+          tagKey: S.optional(S.String),
+          tagValue: S.optional(S.String),
+          inherited: S.optional(S.Boolean),
+          tagKeyParentName: S.optional(S.String),
         }),
       ).annotate({ identifier: "EffectiveTag" });
     case 2:
-      return S.Array(__S(409, __c51, 1));
+      return S.Array(__S(489, __c61, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          effectiveTags: S.optional(__S(410, __c51, 2)),
+          effectiveTags: S.optional(__S(490, __c61, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEffectiveTagsResponse" });
   }
 }
-function __c52(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3547,26 +4132,57 @@ function __c52(j: number): any {
       ).annotate({ identifier: "ListFoldersRequest" });
   }
 }
-function __c53(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(720, __c90, 0));
+      return S.Array(__S(736, __c92, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
+          folders: S.optional(__S(504, __c63, 0)),
           nextPageToken: S.optional(S.String),
-          folders: S.optional(__S(424, __c53, 0)),
         }),
       ).annotate({ identifier: "ListFoldersResponse" });
   }
 }
-function __c54(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v3/{+parent}/boundaries",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListFoldersBoundariesRequest" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(850, __c106, 2));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          boundaries: S.optional(__S(520, __c65, 0)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListBoundariesResponse" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -3578,20 +4194,20 @@ function __c54(j: number): any {
       ).annotate({ identifier: "ListFoldersCapabilityConfigsRequest" });
   }
 }
-function __c55(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(801, __c100, 1));
+      return S.Array(__S(9, __c1, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          capabilityConfigs: S.optional(__S(440, __c55, 0)),
           nextPageToken: S.optional(S.String),
+          capabilityConfigs: S.optional(__S(536, __c67, 0)),
         }),
       ).annotate({ identifier: "ListCapabilityConfigsResponse" });
   }
 }
-function __c56(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3608,17 +4224,35 @@ function __c56(j: number): any {
         ),
       ).annotate({ identifier: "ListLiensRequest" });
     case 1:
-      return S.Array(__S(8, __c1, 0));
+      return S.Array(__S(24, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          liens: S.optional(__S(449, __c56, 1)),
           nextPageToken: S.optional(S.String),
+          liens: S.optional(__S(545, __c68, 1)),
         }),
       ).annotate({ identifier: "ListLiensResponse" });
   }
 }
-function __c57(j: number): any {
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v3/{+parent}/boundaries",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListOrganizationsBoundariesRequest" });
+  }
+}
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3636,15 +4270,15 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ListOrganizationsCapabilityConfigsRequest" });
   }
 }
-function __c58(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           showDeleted: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3653,29 +4287,29 @@ function __c58(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListProjectsRequest" });
-  }
-}
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(32, __c4, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          projects: S.optional(__S(472, __c59, 0)),
+          projects: S.optional(__S(576, __c72, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProjectsResponse" });
   }
 }
-function __c60(j: number): any {
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(56, __c7, 0));
+  }
+}
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3686,14 +4320,14 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ListProjectsCapabilityConfigsRequest" });
   }
 }
-function __c61(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3703,23 +4337,23 @@ function __c61(j: number): any {
         ),
       ).annotate({ identifier: "ListTagBindingsRequest" });
     case 1:
-      return S.Array(__S(56, __c7, 0));
+      return S.Array(__S(80, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tagBindings: S.optional(__S(489, __c61, 1)),
+          tagBindings: S.optional(__S(593, __c74, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTagBindingsResponse" });
   }
 }
-function __c62(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -3730,24 +4364,24 @@ function __c62(j: number): any {
         ),
       ).annotate({ identifier: "ListTagKeysRequest" });
     case 1:
-      return S.Array(__S(72, __c9, 0));
+      return S.Array(__S(96, __c12, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tagKeys: S.optional(__S(497, __c62, 1)),
           nextPageToken: S.optional(S.String),
+          tagKeys: S.optional(__S(601, __c75, 1)),
         }),
       ).annotate({ identifier: "ListTagKeysResponse" });
   }
 }
-function __c63(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3757,25 +4391,25 @@ function __c63(j: number): any {
         ),
       ).annotate({ identifier: "ListTagValuesRequest" });
     case 1:
-      return S.Array(__S(88, __c11, 0));
+      return S.Array(__S(112, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          tagValues: S.optional(__S(609, __c76, 1)),
           nextPageToken: S.optional(S.String),
-          tagValues: S.optional(__S(505, __c63, 1)),
         }),
       ).annotate({ identifier: "ListTagValuesResponse" });
   }
 }
-function __c64(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3785,23 +4419,23 @@ function __c64(j: number): any {
         ),
       ).annotate({ identifier: "ListTagValuesTagHoldsRequest" });
     case 1:
-      return S.Array(__S(104, __c13, 0));
+      return S.Array(__S(128, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tagHolds: S.optional(__S(513, __c64, 1)),
+          tagHolds: S.optional(__S(617, __c77, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTagHoldsResponse" });
   }
 }
-function __c65(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(528, __c66, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(632, __c79, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3812,7 +4446,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "MoveFoldersRequest" });
   }
 }
-function __c66(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3822,13 +4456,13 @@ function __c66(j: number): any {
       ).annotate({ identifier: "MoveFolderRequest" });
   }
 }
-function __c67(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(528, __c66, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(632, __c79, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3839,14 +4473,14 @@ function __c67(j: number): any {
       ).annotate({ identifier: "MoveProjectsRequest" });
   }
 }
-function __c68(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(720, __c90, 0).pipe(T.HttpBody())),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(736, __c92, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3857,14 +4491,32 @@ function __c68(j: number): any {
       ).annotate({ identifier: "PatchFoldersRequest" });
   }
 }
-function __c69(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(224, __c28, 0).pipe(T.HttpBody())),
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(850, __c106, 2).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v3/{+name}",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchFoldersBoundariesRequest" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(296, __c37, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3875,14 +4527,14 @@ function __c69(j: number): any {
       ).annotate({ identifier: "PatchFoldersCapabilitiesRequest" });
   }
 }
-function __c70(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(801, __c100, 1).pipe(T.HttpBody())),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(9, __c1, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3893,14 +4545,14 @@ function __c70(j: number): any {
       ).annotate({ identifier: "PatchFoldersCapabilityConfigsRequest" });
   }
 }
-function __c71(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(320, __c40, 0).pipe(T.HttpBody())),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(392, __c49, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3911,14 +4563,32 @@ function __c71(j: number): any {
       ).annotate({ identifier: "PatchLocationsTagBindingCollectionsRequest" });
   }
 }
-function __c72(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(801, __c100, 1).pipe(T.HttpBody())),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(850, __c106, 2).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v3/{+name}",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchOrganizationsBoundariesRequest" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(9, __c1, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3929,14 +4599,14 @@ function __c72(j: number): any {
       ).annotate({ identifier: "PatchOrganizationsCapabilityConfigsRequest" });
   }
 }
-function __c73(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(32, __c4, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(56, __c7, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3947,14 +4617,88 @@ function __c73(j: number): any {
       ).annotate({ identifier: "PatchProjectsRequest" });
   }
 }
-function __c74(j: number): any {
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          body: S.optional(__S(736, __c92, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v3/folders",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateFoldersRequest" });
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deleteTime: S.optional(S.String),
+          configuredCapabilities: S.optional(__S(720, __c90, 0)),
+          tags: S.optional(__S(728, __c91, 0)),
+          name: S.optional(S.String),
+          parent: S.optional(S.String),
+          state: S.optional(S.String),
+          managementProject: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          etag: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Folder" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.Array(__S(744, __c93, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          code: S.optional(S.Number),
+          details: S.optional(__S(745, __c93, 1)),
+        }),
+      ).annotate({ identifier: "Status" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          response: S.optional(__S(744, __c93, 0)),
+          done: S.optional(S.Boolean),
+          metadata: S.optional(__S(744, __c93, 0)),
+          error: S.optional(__S(746, __c93, 2)),
+        }),
+      ).annotate({ identifier: "Operation" });
+  }
+}
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(801, __c100, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(9, __c1, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3965,7 +4709,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "PatchProjectsCapabilityConfigsRequest" });
   }
 }
-function __c75(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3973,7 +4717,7 @@ function __c75(j: number): any {
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(72, __c9, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(96, __c12, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3984,15 +4728,15 @@ function __c75(j: number): any {
       ).annotate({ identifier: "PatchTagKeysRequest" });
   }
 }
-function __c76(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(88, __c11, 0).pipe(T.HttpBody())),
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(112, __c14, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4003,14 +4747,14 @@ function __c76(j: number): any {
       ).annotate({ identifier: "PatchTagValuesRequest" });
   }
 }
-function __c77(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           query: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4021,14 +4765,14 @@ function __c77(j: number): any {
       ).annotate({ identifier: "SearchFoldersRequest" });
   }
 }
-function __c78(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          query: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          query: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4038,17 +4782,17 @@ function __c78(j: number): any {
         ),
       ).annotate({ identifier: "SearchOrganizationsRequest" });
     case 1:
-      return S.Array(__S(360, __c45, 0));
+      return S.Array(__S(432, __c54, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          organizations: S.optional(__S(625, __c78, 1)),
+          organizations: S.optional(__S(785, __c98, 1)),
         }),
       ).annotate({ identifier: "SearchOrganizationsResponse" });
   }
 }
-function __c79(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4064,15 +4808,22 @@ function __c79(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchProjectsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          projects: S.optional(__S(576, __c72, 0)),
+        }),
+      ).annotate({ identifier: "SearchProjectsResponse" });
   }
 }
-function __c80(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(648, __c81, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(808, __c101, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4083,24 +4834,24 @@ function __c80(j: number): any {
       ).annotate({ identifier: "SetIamPolicyFoldersRequest" });
   }
 }
-function __c81(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String),
-          policy: S.optional(__S(263, __c32, 7)),
+          policy: S.optional(__S(335, __c41, 7)),
         }),
       ).annotate({ identifier: "SetIamPolicyRequest" });
   }
 }
-function __c82(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(648, __c81, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(808, __c101, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4111,13 +4862,13 @@ function __c82(j: number): any {
       ).annotate({ identifier: "SetIamPolicyOrganizationsRequest" });
   }
 }
-function __c83(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(648, __c81, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(808, __c101, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4128,13 +4879,13 @@ function __c83(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsRequest" });
   }
 }
-function __c84(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(648, __c81, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(808, __c101, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4145,13 +4896,61 @@ function __c84(j: number): any {
       ).annotate({ identifier: "SetIamPolicyTagKeysRequest" });
   }
 }
-function __c85(j: number): any {
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          boundaryId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(850, __c106, 2).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v3/{+parent}/boundaries",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateFoldersBoundariesRequest" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tagKey: S.optional(S.String),
+          tagValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TagFilter" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          tagFilter: S.optional(__S(848, __c106, 0)),
+        }),
+      ).annotate({ identifier: "ResourceFilter" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          managementProject: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          etag: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          resourceFilter: S.optional(__S(849, __c106, 1)),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Boundary" });
+  }
+}
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(648, __c81, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(808, __c101, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4162,13 +4961,13 @@ function __c85(j: number): any {
       ).annotate({ identifier: "SetIamPolicyTagValuesRequest" });
   }
 }
-function __c86(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(696, __c87, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(872, __c109, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4179,97 +4978,23 @@ function __c86(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsFoldersRequest" });
   }
 }
-function __c87(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(728, __c91, 0)),
+          permissions: S.optional(__S(720, __c90, 0)),
         }),
       ).annotate({ identifier: "TestIamPermissionsRequest" });
   }
 }
-function __c88(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(720, __c90, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v3/folders",
-            baseUrl: "https://cloudresourcemanager.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateFoldersRequest" });
-  }
-}
-function __c89(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c90(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          managementProject: S.optional(S.String),
-          etag: S.optional(S.String),
-          tags: S.optional(__S(712, __c89, 0)),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          displayName: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          parent: S.optional(S.String),
-          configuredCapabilities: S.optional(__S(728, __c91, 0)),
-        }),
-      ).annotate({ identifier: "Folder" });
-  }
-}
-function __c91(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
-      return S.Array(__S(736, __c92, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          details: S.optional(__S(737, __c92, 1)),
-          code: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Status" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          response: S.optional(__S(736, __c92, 0)),
-          done: S.optional(S.Boolean),
-          metadata: S.optional(__S(736, __c92, 0)),
-          name: S.optional(S.String),
-          error: S.optional(__S(738, __c92, 2)),
-        }),
-      ).annotate({ identifier: "Operation" });
-  }
-}
-function __c93(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(696, __c87, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(872, __c109, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4280,13 +5005,13 @@ function __c93(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsOrganizationsRequest" });
   }
 }
-function __c94(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(696, __c87, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(872, __c109, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4297,13 +5022,13 @@ function __c94(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsRequest" });
   }
 }
-function __c95(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(696, __c87, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(872, __c109, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4314,13 +5039,13 @@ function __c95(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsTagKeysRequest" });
   }
 }
-function __c96(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(696, __c87, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(872, __c109, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4331,13 +5056,13 @@ function __c96(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsTagValuesRequest" });
   }
 }
-function __c97(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(136, __c17, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(168, __c21, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4348,13 +5073,13 @@ function __c97(j: number): any {
       ).annotate({ identifier: "UndeleteFoldersRequest" });
   }
 }
-function __c98(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(136, __c17, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(168, __c21, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4365,42 +5090,40 @@ function __c98(j: number): any {
       ).annotate({ identifier: "UndeleteProjectsRequest" });
   }
 }
-function __c99(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          capabilityConfigId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(801, __c100, 1).pipe(T.HttpBody())),
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(256, __c32, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
-            method: "POST",
-            uri: "v3/{+parent}/capabilityConfigs",
+            method: "PATCH",
+            uri: "v3/{+name}",
             baseUrl: "https://cloudresourcemanager.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "CreateFoldersCapabilityConfigsRequest" });
+      ).annotate({ identifier: "UpdateBoundaryConfigFoldersRequest" });
   }
 }
-function __c100(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          state: S.optional(S.String),
-          types: S.optional(__S(800, __c100, 0)),
-          managementProject: S.optional(S.String),
-          boundaries: S.optional(__S(728, __c91, 0)),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          etag: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CapabilityConfig" });
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(256, __c32, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v3/{+name}",
+            baseUrl: "https://cloudresourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateBoundaryConfigOrganizationsRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

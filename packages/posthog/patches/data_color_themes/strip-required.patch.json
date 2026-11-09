@@ -3,14 +3,6 @@
   "patches": [
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.data_color_themes#PaginatedDataColorThemeList/members/count/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.data_color_themes#PaginatedDataColorThemeList/members/results/traits"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.data_color_themes#DataColorTheme/members/id/traits"
     },
     {

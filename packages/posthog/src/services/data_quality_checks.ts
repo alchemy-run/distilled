@@ -538,9 +538,24 @@ export interface DataQualitySubjectSchedule {
 }
 export type ListDataQualityChecksSchedulesResponseBodyList = Array<DataQualitySubjectSchedule>;
 export type ListDataQualityChecksSchedulesResponse = ListDataQualityChecksSchedulesResponseBodyList;
+export type ListDataQualityChecksSubjectsRequestSubjectType =
+  | "table"
+  | "view"
+  | "metric"
+  | "posthog_table";
 export interface ListDataQualityChecksSubjectsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Set to false to return an empty columns map for every subject. Use it to find a subject id without reading every column schema. */
+  include_columns?: boolean;
+  /** Maximum number of subjects to return. Omit to return every match. */
+  limit?: number;
+  /** Number of matching subjects to skip. Subjects are sorted by subject_type, then name. When a response has limit rows, call again with offset increased by limit to read the next page. */
+  offset?: number;
+  /** Return only subjects whose name or display name contains this text, ignoring case. */
+  search?: string;
+  /** Return only subjects of this kind: 'table', 'view', 'metric', or 'posthog_table'. * `table` - table * `view` - view * `metric` - metric * `posthog_table` - posthog_table */
+  subject_type?: ListDataQualityChecksSubjectsRequestSubjectType | (string & {});
 }
 /** Column name to ClickHouse type. Empty for a metric, and for a view that has not run yet. */
 export type DataQualitySubjectColumnsMap = { [key: string]: string | undefined };
@@ -848,7 +863,7 @@ export const listDataQualityChecksSchedules: API.OperationMethod<
 }));
 
 export type ListDataQualityChecksSubjectsError = PosthogOpError;
-/** Everything in this project you can author a check on, with each subject's columns. */
+/** Everything in this project you can author a check on, with each subject's columns. Filter by subject_type or search, and page with limit and offset. */
 export const listDataQualityChecksSubjects: API.OperationMethod<
   ListDataQualityChecksSubjectsRequest,
   ListDataQualityChecksSubjectsResponse,
@@ -1129,6 +1144,11 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          include_columns: S.optional(S.Boolean.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+          subject_type: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",

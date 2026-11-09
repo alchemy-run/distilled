@@ -78,7 +78,7 @@ export interface CreatePrivateEndpointConnectionRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the mongo cluster. */
+  /** The name of the DocumentDB cluster. */
   mongoClusterName: string;
   /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
@@ -149,9 +149,9 @@ export interface DeleteFirewallRuleRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the mongo cluster. */
+  /** The name of the DocumentDB cluster. */
   mongoClusterName: string;
-  /** The name of the mongo cluster firewall rule. */
+  /** The name of the DocumentDB cluster firewall rule. */
   firewallRuleName: string;
 }
 export interface DeleteFirewallRuleResponse {
@@ -165,7 +165,7 @@ export interface DeleteMongoClusterRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the mongo cluster. */
+  /** The name of the DocumentDB cluster. */
   mongoClusterName: string;
 }
 export interface DeleteMongoClusterResponse {
@@ -179,7 +179,7 @@ export interface DeletePrivateEndpointConnectionRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the mongo cluster. */
+  /** The name of the DocumentDB cluster. */
   mongoClusterName: string;
   /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
@@ -195,9 +195,9 @@ export interface DeleteUserRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the mongo cluster. */
+  /** The name of the DocumentDB cluster. */
   mongoClusterName: string;
-  /** The name of the mongo cluster user. */
+  /** The name of the DocumentDB cluster user. */
   userName: string;
 }
 export interface DeleteUserResponse {
@@ -206,11 +206,11 @@ export interface DeleteUserResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
-/** The properties of a mongo cluster firewall rule. */
+/** The properties of a DocumentDB cluster firewall rule. */
 export interface FirewallRulePropertiesInput {
-  /** The start IP address of the mongo cluster firewall rule. Must be IPv4 format. */
+  /** The start IP address of the DocumentDB cluster firewall rule. Must be IPv4 format. */
   startIpAddress: string;
-  /** The end IP address of the mongo cluster firewall rule. Must be IPv4 format. */
+  /** The end IP address of the DocumentDB cluster firewall rule. Must be IPv4 format. */
   endIpAddress: string;
 }
 export interface FirewallRulesCreateOrUpdateRequest {
@@ -218,9 +218,9 @@ export interface FirewallRulesCreateOrUpdateRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the mongo cluster. */
+  /** The name of the DocumentDB cluster. */
   mongoClusterName: string;
-  /** The name of the mongo cluster firewall rule. */
+  /** The name of the DocumentDB cluster firewall rule. */
   firewallRuleName: string;
   /** The resource-specific properties for this resource. */
   properties?: FirewallRulePropertiesInput;
@@ -233,13 +233,13 @@ export type ProvisioningState =
   | "InProgress"
   | "Updating"
   | "Dropping";
-/** The properties of a mongo cluster firewall rule. */
+/** The properties of a DocumentDB cluster firewall rule. */
 export interface FirewallRuleProperties {
   /** The provisioning state of the firewall rule. */
   provisioningState?: ProvisioningState;
-  /** The start IP address of the mongo cluster firewall rule. Must be IPv4 format. */
+  /** The start IP address of the DocumentDB cluster firewall rule. Must be IPv4 format. */
   startIpAddress: string;
-  /** The end IP address of the mongo cluster firewall rule. Must be IPv4 format. */
+  /** The end IP address of the DocumentDB cluster firewall rule. Must be IPv4 format. */
   endIpAddress: string;
 }
 export interface FirewallRulesCreateOrUpdateResponse {
@@ -263,9 +263,9 @@ export interface GetFirewallRuleRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the mongo cluster. */
+  /** The name of the DocumentDB cluster. */
   mongoClusterName: string;
-  /** The name of the mongo cluster firewall rule. */
+  /** The name of the DocumentDB cluster firewall rule. */
   firewallRuleName: string;
 }
 export interface GetFirewallRuleResponse {
@@ -285,16 +285,16 @@ export interface GetMongoClusterRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the mongo cluster. */
+  /** The name of the DocumentDB cluster. */
   mongoClusterName: string;
 }
 /** Resource tags. */
 export type GetMongoClusterResponseTagsMap = { [key: string]: string | undefined };
-/** The mode that the Mongo Cluster is created with. */
+/** The mode that the DocumentDB cluster is created with. */
 export type CreateMode = "Default" | "PointInTimeRestore" | "GeoReplica" | "Replica";
 /** Parameters used for restore operations */
 export interface MongoClusterRestoreParameters {
-  /** UTC point in time to restore a mongo cluster */
+  /** UTC point in time to restore a DocumentDB cluster */
   pointInTimeUTC?: string;
   /** Resource ID to locate the source cluster to restore */
   sourceResourceId?: string;
@@ -313,7 +313,7 @@ export interface AdministratorProperties {
   /** The administrator password. */
   password?: string | Redacted.Redacted<string>;
 }
-/** The status of the Mongo cluster resource. */
+/** The status of the DocumentDB cluster resource. */
 export type MongoClusterStatus =
   | "Ready"
   | "Provisioning"
@@ -322,7 +322,7 @@ export type MongoClusterStatus =
   | "Stopping"
   | "Stopped"
   | "Dropping";
-/** Whether or not public endpoint access is allowed for this Mongo cluster. Value is optional and default value is 'Enabled' */
+/** Whether or not public endpoint access is allowed for this DocumentDB cluster. Value is optional and default value is 'Enabled' */
 export type PublicNetworkAccess = "Enabled" | "Disabled";
 /** The high availability modes for a cluster. */
 export type HighAvailabilityMode = "Disabled" | "SameZone" | "ZoneRedundantPreferred";
@@ -331,7 +331,7 @@ export interface HighAvailabilityProperties {
   /** The target high availability mode requested for the cluster. */
   targetMode?: HighAvailabilityMode | (string & {});
 }
-/** The type of storage that a mongo cluster can be provisioned with. */
+/** The type of storage that a DocumentDB cluster can be provisioned with. */
 export type StorageType = "PremiumSSD" | "PremiumSSDv2";
 /** The storage properties of the cluster. This includes the data storage size and scaling applied to servers in the cluster. */
 export interface StorageProperties {
@@ -391,11 +391,11 @@ export interface MongoClusterPropertiesPrivateEndpointConnectionsItem {
 /** List of private endpoint connections. */
 export type MongoClusterPropertiesPrivateEndpointConnectionsList =
   Array<MongoClusterPropertiesPrivateEndpointConnectionsItem>;
-/** Preview features that can be enabled on a mongo cluster. */
+/** Preview features that can be enabled on a DocumentDB cluster. */
 export type PreviewFeature = "GeoReplicas";
 /** List of private endpoint connections. */
 export type MongoClusterPropertiesPreviewFeaturesList = Array<PreviewFeature>;
-/** Replication role of the mongo cluster. */
+/** Replication role of the DocumentDB cluster. */
 export type ReplicationRole = "Primary" | "AsyncReplica" | "GeoAsyncReplica";
 /** The state of the replication link between the replica and source cluster. */
 export type ReplicationState =
@@ -405,7 +405,7 @@ export type ReplicationState =
   | "Updating"
   | "Broken"
   | "Reconfiguring";
-/** Replica properties of the mongo cluster. */
+/** Replica properties of the DocumentDB cluster. */
 export interface ReplicationProperties {
   /** The resource id the source cluster for the replica cluster. */
   sourceResourceId?: string;
@@ -414,11 +414,11 @@ export interface ReplicationProperties {
   /** The replication link state of the replica cluster. */
   replicationState?: ReplicationState;
 }
-/** The authentication modes supporting on the Mongo cluster. */
+/** The authentication modes supporting on the DocumentDB cluster. */
 export type AuthenticationMode = "NativeAuth" | "MicrosoftEntraID";
 /** Allowed authentication modes for data access on the cluster. */
 export type AuthConfigPropertiesAllowedModesList = Array<AuthenticationMode | (string & {})>;
-/** The authentication configuration for the Mongo cluster. */
+/** The authentication configuration for the DocumentDB cluster. */
 export interface AuthConfigProperties {
   /** Allowed authentication modes for data access on the cluster. */
   allowedModes?: AuthConfigPropertiesAllowedModesList;
@@ -439,50 +439,50 @@ export interface CustomerManagedKeyEncryptionProperties {
   /** The URI of the key vault key used for encryption. */
   keyEncryptionKeyUrl?: string;
 }
-/** The encryption configuration for the mongo cluster. */
+/** The encryption configuration for the DocumentDB cluster. */
 export interface EncryptionProperties {
   /** Customer managed key encryption settings. */
   customerManagedKeyEncryption?: CustomerManagedKeyEncryptionProperties;
 }
-/** The network bypass mode for the Mongo cluster. */
+/** The network bypass mode for the DocumentDB cluster. */
 export type NetworkBypassMode = "None" | "AzureCosmosDB";
-/** The properties of a mongo cluster. */
+/** The properties of a DocumentDB cluster. */
 export interface MongoClusterProperties {
-  /** The mode to create a mongo cluster. */
+  /** The mode to create a DocumentDB cluster. */
   createMode?: CreateMode;
-  /** The parameters to create a point-in-time restore mongo cluster. */
+  /** The parameters to create a point-in-time restore DocumentDB cluster. */
   restoreParameters?: MongoClusterRestoreParameters;
-  /** The parameters to create a replica mongo cluster. */
+  /** The parameters to create a replica DocumentDB cluster. */
   replicaParameters?: MongoClusterReplicaParameters;
-  /** The local administrator properties for the mongo cluster. */
+  /** The local administrator properties for the DocumentDB cluster. */
   administrator?: AdministratorProperties;
   /** The Mongo DB server version. Defaults to the latest available version if not specified. */
   serverVersion?: string;
   /** The default mongo connection string for the cluster. */
   connectionString?: string | Redacted.Redacted<string>;
-  /** The provisioning state of the mongo cluster. */
+  /** The provisioning state of the DocumentDB cluster. */
   provisioningState?: ProvisioningState;
-  /** The status of the mongo cluster. */
+  /** The status of the DocumentDB cluster. */
   clusterStatus?: MongoClusterStatus;
-  /** Whether or not public endpoint access is allowed for this mongo cluster. */
+  /** Whether or not public endpoint access is allowed for this DocumentDB cluster. */
   publicNetworkAccess?: PublicNetworkAccess;
-  /** The high availability properties of the mongo cluster. */
+  /** The high availability properties of the DocumentDB cluster. */
   highAvailability?: HighAvailabilityProperties;
-  /** The storage properties of the mongo cluster. */
+  /** The storage properties of the DocumentDB cluster. */
   storage?: StorageProperties;
-  /** The sharding properties of the mongo cluster. */
+  /** The sharding properties of the DocumentDB cluster. */
   sharding?: ShardingProperties;
-  /** The compute properties of the mongo cluster. */
+  /** The compute properties of the DocumentDB cluster. */
   compute?: ComputeProperties;
-  /** The backup properties of the mongo cluster. */
+  /** The backup properties of the DocumentDB cluster. */
   backup?: BackupProperties;
-  /** The Data API properties of the mongo cluster. */
+  /** The Data API properties of the DocumentDB cluster. */
   dataApi?: DataApiProperties;
   /** List of private endpoint connections. */
   privateEndpointConnections?: MongoClusterPropertiesPrivateEndpointConnectionsList;
   /** List of private endpoint connections. */
   previewFeatures?: MongoClusterPropertiesPreviewFeaturesList;
-  /** The replication properties for the mongo cluster */
+  /** The replication properties for the DocumentDB cluster */
   replica?: ReplicationProperties;
   /** The infrastructure version the cluster is provisioned on. */
   infrastructureVersion?: string;
@@ -490,7 +490,7 @@ export interface MongoClusterProperties {
   authConfig?: AuthConfigProperties;
   /** The encryption configuration for the cluster. Depends on identity being configured. */
   encryption?: EncryptionProperties;
-  /** The network bypass mode for the cluster. Setting to 'AzureCosmosDB' allows Azure Cosmos DB service to bypass network restrictions. */
+  /** The network bypass mode for the cluster. Setting to 'AzureCosmosDB' allows the Azure Cosmos DB service to bypass network restrictions. */
   networkBypassMode?: NetworkBypassMode;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
@@ -540,7 +540,7 @@ export interface GetPrivateEndpointConnectionRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the mongo cluster. */
+  /** The name of the DocumentDB cluster. */
   mongoClusterName: string;
   /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
@@ -575,9 +575,9 @@ export interface GetUserRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the mongo cluster. */
+  /** The name of the DocumentDB cluster. */
   mongoClusterName: string;
-  /** The name of the mongo cluster user. */
+  /** The name of the DocumentDB cluster user. */
   userName: string;
 }
 /** Identity provider types that a a user identity can belong to. */
@@ -631,10 +631,10 @@ export interface ListFirewallRuleByMongoClusterRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the mongo cluster. */
+  /** The name of the DocumentDB cluster. */
   mongoClusterName: string;
 }
-/** Represents a mongo cluster firewall rule. */
+/** Represents a DocumentDB cluster firewall rule. */
 export interface FirewallRule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
@@ -666,7 +666,7 @@ export interface ListMongoClusterByResourceGroupRequest {
 export type MongoClusterTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type MongoClusterIdentity = GetMongoClusterResponseIdentity;
-/** Represents a mongo cluster resource. */
+/** Represents a DocumentDB cluster resource. */
 export interface MongoCluster {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
@@ -699,10 +699,10 @@ export interface ListMongoClusterConnectionStringsRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the mongo cluster. */
+  /** The name of the DocumentDB cluster. */
   mongoClusterName: string;
 }
-/** Connection string for the mongo cluster */
+/** Connection string for the DocumentDB cluster */
 export interface ConnectionString {
   /** Value of the connection string */
   connectionString?: string | Redacted.Redacted<string>;
@@ -711,11 +711,11 @@ export interface ConnectionString {
   /** Name of the connection string. */
   name?: string;
 }
-/** An array that contains the connection strings for a mongo cluster. */
+/** An array that contains the connection strings for a DocumentDB cluster. */
 export type ListConnectionStringsResultConnectionStringsList = Array<ConnectionString>;
-/** The connection strings for the given mongo cluster. */
+/** The connection strings for the given DocumentDB cluster. */
 export interface ListConnectionStringsResult {
-  /** An array that contains the connection strings for a mongo cluster. */
+  /** An array that contains the connection strings for a DocumentDB cluster. */
   connectionStrings?: ListConnectionStringsResultConnectionStringsList;
 }
 export interface ListMongoClustersRequest {
@@ -764,7 +764,7 @@ export interface ListPrivateEndpointConnectionByMongoClusterRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the mongo cluster. */
+  /** The name of the DocumentDB cluster. */
   mongoClusterName: string;
 }
 /** The group ids for the private endpoint resource. */
@@ -808,7 +808,7 @@ export interface ListPrivateLinkByMongoClusterRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the mongo cluster. */
+  /** The name of the DocumentDB cluster. */
   mongoClusterName: string;
 }
 /** The private link resource required member names. */
@@ -851,10 +851,10 @@ export interface ListReplicasByParentRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the mongo cluster. */
+  /** The name of the DocumentDB cluster. */
   mongoClusterName: string;
 }
-/** Represents a mongo cluster replica. */
+/** Represents a DocumentDB cluster replica. */
 export interface Replica {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
@@ -881,10 +881,10 @@ export interface ListUserByMongoClusterRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the mongo cluster. */
+  /** The name of the DocumentDB cluster. */
   mongoClusterName: string;
 }
-/** Represents a Mongo cluster user. */
+/** Represents a DocumentDB cluster user. */
 export interface User {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
@@ -912,31 +912,31 @@ export type MongoClustersCreateOrUpdateRequestTagsMap = { [key: string]: string 
 export type BackupPropertiesInput = PrivateEndpointInput;
 /** List of private endpoint connections. */
 export type MongoClusterPropertiesInputPreviewFeaturesList = Array<PreviewFeature | (string & {})>;
-/** The properties of a mongo cluster. */
+/** The properties of a DocumentDB cluster. */
 export interface MongoClusterPropertiesInput {
-  /** The mode to create a mongo cluster. */
+  /** The mode to create a DocumentDB cluster. */
   createMode?: CreateMode | (string & {});
-  /** The parameters to create a point-in-time restore mongo cluster. */
+  /** The parameters to create a point-in-time restore DocumentDB cluster. */
   restoreParameters?: MongoClusterRestoreParameters;
-  /** The parameters to create a replica mongo cluster. */
+  /** The parameters to create a replica DocumentDB cluster. */
   replicaParameters?: MongoClusterReplicaParameters;
-  /** The local administrator properties for the mongo cluster. */
+  /** The local administrator properties for the DocumentDB cluster. */
   administrator?: AdministratorProperties;
   /** The Mongo DB server version. Defaults to the latest available version if not specified. */
   serverVersion?: string;
-  /** Whether or not public endpoint access is allowed for this mongo cluster. */
+  /** Whether or not public endpoint access is allowed for this DocumentDB cluster. */
   publicNetworkAccess?: PublicNetworkAccess | (string & {});
-  /** The high availability properties of the mongo cluster. */
+  /** The high availability properties of the DocumentDB cluster. */
   highAvailability?: HighAvailabilityProperties;
-  /** The storage properties of the mongo cluster. */
+  /** The storage properties of the DocumentDB cluster. */
   storage?: StorageProperties;
-  /** The sharding properties of the mongo cluster. */
+  /** The sharding properties of the DocumentDB cluster. */
   sharding?: ShardingProperties;
-  /** The compute properties of the mongo cluster. */
+  /** The compute properties of the DocumentDB cluster. */
   compute?: ComputeProperties;
-  /** The backup properties of the mongo cluster. */
+  /** The backup properties of the DocumentDB cluster. */
   backup?: PrivateEndpointInput;
-  /** The Data API properties of the mongo cluster. */
+  /** The Data API properties of the DocumentDB cluster. */
   dataApi?: DataApiProperties;
   /** List of private endpoint connections. */
   previewFeatures?: MongoClusterPropertiesInputPreviewFeaturesList;
@@ -944,7 +944,7 @@ export interface MongoClusterPropertiesInput {
   authConfig?: AuthConfigProperties;
   /** The encryption configuration for the cluster. Depends on identity being configured. */
   encryption?: EncryptionProperties;
-  /** The network bypass mode for the cluster. Setting to 'AzureCosmosDB' allows Azure Cosmos DB service to bypass network restrictions. */
+  /** The network bypass mode for the cluster. Setting to 'AzureCosmosDB' allows the Azure Cosmos DB service to bypass network restrictions. */
   networkBypassMode?: NetworkBypassMode | (string & {});
 }
 /** User assigned identity properties */
@@ -963,7 +963,7 @@ export interface MongoClustersCreateOrUpdateRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the mongo cluster. */
+  /** The name of the DocumentDB cluster. */
   mongoClusterName: string;
   /** Resource tags. */
   tags?: MongoClustersCreateOrUpdateRequestTagsMap;
@@ -1007,7 +1007,7 @@ export interface PromoteMongoClusterRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the mongo cluster. */
+  /** The name of the DocumentDB cluster. */
   mongoClusterName: string;
   /** The promote option to apply to the operation. */
   promoteOption: PromoteOption | (string & {});
@@ -1030,23 +1030,23 @@ export type MongoClusterUpdatePropertiesInputPreviewFeaturesList = Array<
 >;
 /** The updatable properties of the MongoCluster. */
 export interface MongoClusterUpdatePropertiesInput {
-  /** The local administrator properties for the mongo cluster. */
+  /** The local administrator properties for the DocumentDB cluster. */
   administrator?: AdministratorProperties;
   /** The Mongo DB server version. Defaults to the latest available version if not specified. */
   serverVersion?: string;
-  /** Whether or not public endpoint access is allowed for this mongo cluster. */
+  /** Whether or not public endpoint access is allowed for this DocumentDB cluster. */
   publicNetworkAccess?: PublicNetworkAccess | (string & {});
-  /** The high availability properties of the mongo cluster. */
+  /** The high availability properties of the DocumentDB cluster. */
   highAvailability?: HighAvailabilityProperties;
-  /** The storage properties of the mongo cluster. */
+  /** The storage properties of the DocumentDB cluster. */
   storage?: StorageProperties;
-  /** The sharding properties of the mongo cluster. */
+  /** The sharding properties of the DocumentDB cluster. */
   sharding?: ShardingProperties;
-  /** The compute properties of the mongo cluster. */
+  /** The compute properties of the DocumentDB cluster. */
   compute?: ComputeProperties;
-  /** The backup properties of the mongo cluster. */
+  /** The backup properties of the DocumentDB cluster. */
   backup?: PrivateEndpointInput;
-  /** The Data API properties of the mongo cluster. */
+  /** The Data API properties of the DocumentDB cluster. */
   dataApi?: DataApiProperties;
   /** List of private endpoint connections. */
   previewFeatures?: MongoClusterUpdatePropertiesInputPreviewFeaturesList;
@@ -1054,7 +1054,7 @@ export interface MongoClusterUpdatePropertiesInput {
   authConfig?: AuthConfigProperties;
   /** The encryption configuration for the cluster. Depends on identity being configured. */
   encryption?: EncryptionProperties;
-  /** The network bypass mode for the cluster. Setting to 'AzureCosmosDB' allows Azure Cosmos DB service to bypass network restrictions. */
+  /** The network bypass mode for the cluster. Setting to 'AzureCosmosDB' allows the Azure Cosmos DB service to bypass network restrictions. */
   networkBypassMode?: NetworkBypassMode | (string & {});
 }
 export interface UpdateMongoClusterRequest {
@@ -1062,7 +1062,7 @@ export interface UpdateMongoClusterRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the mongo cluster. */
+  /** The name of the DocumentDB cluster. */
   mongoClusterName: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: MongoClustersCreateOrUpdateRequestIdentity;
@@ -1111,9 +1111,9 @@ export interface UsersCreateOrUpdateRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the mongo cluster. */
+  /** The name of the DocumentDB cluster. */
   mongoClusterName: string;
-  /** The name of the mongo cluster user. */
+  /** The name of the DocumentDB cluster user. */
   userName: string;
   /** The resource-specific properties for this resource. */
   properties?: UserPropertiesInput;
@@ -1133,7 +1133,7 @@ export interface UsersCreateOrUpdateResponse {
   retryAfter?: number;
 }
 export type CheckMongoClusterNameAvailabilityError = AzureOpError;
-/** Check if mongo cluster name is available for use. */
+/** Check if DocumentDB cluster name is available for use. */
 export const CheckMongoClusterNameAvailability: API.OperationMethod<
   CheckMongoClusterNameAvailabilityRequest,
   CheckMongoClusterNameAvailabilityResponse,
@@ -1167,7 +1167,7 @@ export const CreatePrivateEndpointConnection: API.OperationMethod<
 }));
 
 export type DeleteFirewallRuleError = AzureOpError;
-/** Deletes a mongo cluster firewall rule. */
+/** Deletes a DocumentDB cluster firewall rule. */
 export const DeleteFirewallRule: API.OperationMethod<
   DeleteFirewallRuleRequest,
   DeleteFirewallRuleResponse,
@@ -1184,7 +1184,7 @@ export const DeleteFirewallRule: API.OperationMethod<
 }));
 
 export type DeleteMongoClusterError = AzureOpError;
-/** Deletes a mongo cluster. */
+/** Deletes a DocumentDB cluster. */
 export const DeleteMongoCluster: API.OperationMethod<
   DeleteMongoClusterRequest,
   DeleteMongoClusterResponse,
@@ -1218,7 +1218,7 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
 }));
 
 export type DeleteUserError = AzureOpError;
-/** Deletes a mongo cluster user. */
+/** Deletes a DocumentDB cluster user. */
 export const DeleteUser: API.OperationMethod<
   DeleteUserRequest,
   DeleteUserResponse,
@@ -1235,7 +1235,7 @@ export const DeleteUser: API.OperationMethod<
 }));
 
 export type FirewallRulesCreateOrUpdateError = AzureOpError;
-/** Creates a new firewall rule or updates an existing firewall rule on a mongo cluster. */
+/** Creates a new firewall rule or updates an existing firewall rule on a DocumentDB cluster. */
 export const FirewallRulesCreateOrUpdate: API.OperationMethod<
   FirewallRulesCreateOrUpdateRequest,
   FirewallRulesCreateOrUpdateResponse,
@@ -1252,7 +1252,7 @@ export const FirewallRulesCreateOrUpdate: API.OperationMethod<
 }));
 
 export type GetFirewallRuleError = AzureOpError;
-/** Gets information about a mongo cluster firewall rule. */
+/** Gets information about a DocumentDB cluster firewall rule. */
 export const GetFirewallRule: API.OperationMethod<
   GetFirewallRuleRequest,
   GetFirewallRuleResponse,
@@ -1269,7 +1269,7 @@ export const GetFirewallRule: API.OperationMethod<
 }));
 
 export type GetMongoClusterError = AzureOpError;
-/** Gets information about a mongo cluster. */
+/** Gets information about a DocumentDB cluster. */
 export const GetMongoCluster: API.OperationMethod<
   GetMongoClusterRequest,
   GetMongoClusterResponse,
@@ -1303,7 +1303,7 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
 }));
 
 export type GetUserError = AzureOpError;
-/** Gets the defintion of a Mongo cluster user. */
+/** Gets the defintion of a DocumentDB cluster user. */
 export const GetUser: API.OperationMethod<
   GetUserRequest,
   GetUserResponse,
@@ -1320,7 +1320,7 @@ export const GetUser: API.OperationMethod<
 }));
 
 export type ListFirewallRuleByMongoClusterError = AzureOpError;
-/** List all the firewall rules in a given mongo cluster. */
+/** List all the firewall rules in a given DocumentDB cluster. */
 export const ListFirewallRuleByMongoCluster: API.OperationMethod<
   ListFirewallRuleByMongoClusterRequest,
   FirewallRuleListResult,
@@ -1337,7 +1337,7 @@ export const ListFirewallRuleByMongoCluster: API.OperationMethod<
 }));
 
 export type ListMongoClusterByResourceGroupError = AzureOpError;
-/** List all the mongo clusters in a given resource group. */
+/** List all the DocumentDB clusters in a given resource group. */
 export const ListMongoClusterByResourceGroup: API.OperationMethod<
   ListMongoClusterByResourceGroupRequest,
   MongoClusterListResult,
@@ -1354,7 +1354,7 @@ export const ListMongoClusterByResourceGroup: API.OperationMethod<
 }));
 
 export type ListMongoClusterConnectionStringsError = AzureOpError;
-/** List mongo cluster connection strings. This includes the default connection string using SCRAM-SHA-256, as well as other connection strings supported by the cluster. */
+/** List DocumentDB cluster connection strings. This includes the default connection string using SCRAM-SHA-256, as well as other connection strings supported by the cluster. */
 export const ListMongoClusterConnectionStrings: API.OperationMethod<
   ListMongoClusterConnectionStringsRequest,
   ListConnectionStringsResult,
@@ -1371,7 +1371,7 @@ export const ListMongoClusterConnectionStrings: API.OperationMethod<
 }));
 
 export type ListMongoClustersError = AzureOpError;
-/** List all the mongo clusters in a given subscription. */
+/** List all the DocumentDB clusters in a given subscription. */
 export const ListMongoClusters: API.OperationMethod<
   ListMongoClustersRequest,
   MongoClusterListResult,
@@ -1439,7 +1439,7 @@ export const ListPrivateLinkByMongoCluster: API.OperationMethod<
 }));
 
 export type ListReplicasByParentError = AzureOpError;
-/** List all the replicas for the mongo cluster. */
+/** List all the replicas for the DocumentDB cluster. */
 export const ListReplicasByParent: API.OperationMethod<
   ListReplicasByParentRequest,
   ReplicaListResult,
@@ -1456,7 +1456,7 @@ export const ListReplicasByParent: API.OperationMethod<
 }));
 
 export type ListUserByMongoClusterError = AzureOpError;
-/** List all the users on a mongo cluster. */
+/** List all the users on a DocumentDB cluster. */
 export const ListUserByMongoCluster: API.OperationMethod<
   ListUserByMongoClusterRequest,
   UserListResult,
@@ -1473,7 +1473,7 @@ export const ListUserByMongoCluster: API.OperationMethod<
 }));
 
 export type MongoClustersCreateOrUpdateError = AzureOpError;
-/** Create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH. */
+/** Create or update a DocumentDB cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH. */
 export const MongoClustersCreateOrUpdate: API.OperationMethod<
   MongoClustersCreateOrUpdateRequest,
   MongoClustersCreateOrUpdateResponse,
@@ -1490,7 +1490,7 @@ export const MongoClustersCreateOrUpdate: API.OperationMethod<
 }));
 
 export type PromoteMongoClusterError = AzureOpError;
-/** Promotes a replica mongo cluster to a primary role. */
+/** Promotes a replica DocumentDB cluster to a primary role. */
 export const PromoteMongoCluster: API.OperationMethod<
   PromoteMongoClusterRequest,
   PromoteMongoClusterResponse,
@@ -1507,7 +1507,7 @@ export const PromoteMongoCluster: API.OperationMethod<
 }));
 
 export type UpdateMongoClusterError = AzureOpError;
-/** Updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition. */
+/** Updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition. */
 export const UpdateMongoCluster: API.OperationMethod<
   UpdateMongoClusterRequest,
   UpdateMongoClusterResponse,
@@ -1524,7 +1524,7 @@ export const UpdateMongoCluster: API.OperationMethod<
 }));
 
 export type UsersCreateOrUpdateError = AzureOpError;
-/** Creates a new user or updates an existing user on a mongo cluster. */
+/** Creates a new user or updates an existing user on a DocumentDB cluster. */
 export const UsersCreateOrUpdate: API.OperationMethod<
   UsersCreateOrUpdateRequest,
   UsersCreateOrUpdateResponse,

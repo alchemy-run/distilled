@@ -62,15 +62,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export class UnprocessableEntity
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
-      code: S.Number,
-      message: S.String,
-    }).pipe(C.withBadRequestError),
-    [{ status: 422 }],
-  ) {}
-
 export type CreateEventRequestEventCase0Type = "installation.updated";
 export interface CreateEventRequestEventCase0 {
   type: CreateEventRequestEventCase0Type;
@@ -176,9 +167,12 @@ export interface GetIntegrationResourceRequest {
   /** The ID provided by the 3rd party provider for the given resource */
   resourceId: string;
 }
+export type GetIntegrationResourceResponseCustomClaimsClaimRulesItemClaimsValueCase2List =
+  Array<string>;
 export type GetIntegrationResourceResponseCustomClaimsClaimRulesItemClaimsValue =
   | string
   | number
+  | GetIntegrationResourceResponseCustomClaimsClaimRulesItemClaimsValueCase2List
   | boolean;
 export type GetIntegrationResourceResponseCustomClaimsClaimRulesItemClaimsMap = {
   [key: string]:
@@ -421,7 +415,7 @@ export interface GetInvoiceResponsePeriod {
   end: string;
   start: string;
 }
-/** Invoice state. */
+/** Invoice state. Reports the payment state of the invoice; refund progress is reported separately via "refundedTotal" and "pendingRefundTotal". The states "refunded" and "refund_requested" only appear when the payment state cannot be determined. */
 export type GetInvoiceResponseState =
   | "draft"
   | "invoiced"
@@ -449,17 +443,25 @@ export interface GetInvoiceResponse {
   items: GetInvoiceResponseItemsList;
   /** Additional memo for the invoice. */
   memo?: string;
+  /** Amount still owed on the invoice, per the payment processor. Can be positive even for states "refunded" or "refund_requested", since a refund does not settle an unpaid remainder. A dollar-based decimal string. Absent when no payment data is available yet. */
+  outstandingTotal?: string;
   /** Moment the invoice was paid. ISO 8601 timestamp. */
   paidAt?: string;
+  /** Total amount paid and retained: payments received minus refunds applied. A dollar-based decimal string. Absent when no payment data is available yet. */
+  paidTotal?: string;
+  /** Requested refund amount not yet applied by the payment processor: "refundTotal" minus "refundedTotal". A dollar-based decimal string. Only present when a refund was requested or applied. */
+  pendingRefundTotal?: string;
   /** Subscription period for this billing cycle. ISO 8601 timestamps. */
   period: GetInvoiceResponsePeriod;
   /** Most recent moment the invoice was refunded. ISO 8601 timestamp. */
   refundedAt?: string;
-  /** The reason for refund. Only applicable for states "refunded" or "refund_request". */
+  /** Total refund amount applied by the payment processor, on the same pre-tax basis as "refundTotal". Counts both money returned and debt cancelled on unpaid invoices. May be lower than "refundTotal", which is the requested amount. A dollar-based decimal string. Only present when a refund was requested or applied. */
+  refundedTotal?: string;
+  /** The reason for refund. Only present when a refund has been requested. */
   refundReason?: string;
-  /** Refund amount. Only applicable for states "refunded" or "refund_request". A dollar-based decimal string. */
+  /** Total refund amount requested. Only present when a refund has been requested. A dollar-based decimal string. */
   refundTotal?: string;
-  /** Invoice state. */
+  /** Invoice state. Reports the payment state of the invoice; refund progress is reported separately via "refundedTotal" and "pendingRefundTotal". The states "refunded" and "refund_requested" only appear when the payment state cannot be determined. */
   state: GetInvoiceResponseState;
   /** Whether the invoice is in the testmode (no real transaction created). */
   test?: boolean;
@@ -517,6 +519,7 @@ export interface ImportResourceRequestBillingPlan {
   details?: ImportResourceRequestBillingPlanDetailsList;
   highlightedDetails?: ImportResourceRequestBillingPlanHighlightedDetailsList;
   effectiveDate?: string;
+  [key: string]: unknown;
 }
 export type ImportResourceRequestNotificationLevel = "info" | "warn" | "error";
 export interface ImportResourceRequestNotification {
@@ -543,7 +546,7 @@ export interface ImportResourceRequestSecretsItem {
   environmentOverrides?: ImportResourceRequestSecretsItemEnvironmentOverrides;
 }
 export type ImportResourceRequestSecretsList = Array<ImportResourceRequestSecretsItem>;
-/** Roles a deployment may request when minting a token. The selected role becomes the `sub` claim. */
+/** Roles a deployment may request when minting a token. The selected role is emitted as the `role` claim. */
 export type ImportResourceRequestCustomClaimsRolesList = Array<string>;
 /** Applies only when the token is minted for one of these roles. */
 export type ImportResourceRequestCustomClaimsClaimRulesItemWhenRoleList = Array<string>;
@@ -555,14 +558,21 @@ export interface ImportResourceRequestCustomClaimsClaimRulesItemWhen {
   /** Applies only when the token is minted for one of these environments: `production`, `preview`, `development`, or a custom environment slug. A custom environment also matches `preview`. */
   environment?: ImportResourceRequestCustomClaimsClaimRulesItemWhenEnvironmentList;
 }
-export type ImportResourceRequestCustomClaimsClaimRulesItemClaimsValue = string | number | boolean;
-/** Claims to set (string, number, or boolean), shallow-merged over earlier rules and over the default claims. `null` removes a claim. Reserved claims cannot be set; `aud` and `sub` can be overridden with a string but not removed. */
+export type ImportResourceRequestCustomClaimsClaimRulesItemClaimsValueCase0 =
+  | string
+  | number
+  | boolean;
+export type ImportResourceRequestCustomClaimsClaimRulesItemClaimsValueCase1List = Array<string>;
+export type ImportResourceRequestCustomClaimsClaimRulesItemClaimsValue =
+  | ImportResourceRequestCustomClaimsClaimRulesItemClaimsValueCase0
+  | ImportResourceRequestCustomClaimsClaimRulesItemClaimsValueCase1List;
+/** Claims to set (string, number, boolean, or array of strings), shallow-merged over earlier rules and over the default claims. `null` removes a claim. Reserved claims cannot be set; `aud` and `sub` can be overridden with a string but not removed. */
 export type ImportResourceRequestCustomClaimsClaimRulesItemClaimsMap = {
-  [key: string]: ImportResourceRequestCustomClaimsClaimRulesItemClaimsValue | null | undefined;
+  [key: string]: ImportResourceRequestCustomClaimsClaimRulesItemClaimsValue | undefined;
 };
 export interface ImportResourceRequestCustomClaimsClaimRulesItem {
   when?: ImportResourceRequestCustomClaimsClaimRulesItemWhen;
-  /** Claims to set (string, number, or boolean), shallow-merged over earlier rules and over the default claims. `null` removes a claim. Reserved claims cannot be set; `aud` and `sub` can be overridden with a string but not removed. */
+  /** Claims to set (string, number, boolean, or array of strings), shallow-merged over earlier rules and over the default claims. `null` removes a claim. Reserved claims cannot be set; `aud` and `sub` can be overridden with a string but not removed. */
   claims: ImportResourceRequestCustomClaimsClaimRulesItemClaimsMap;
 }
 /** Ordered rules resolved at mint time. Later rules win and shallow-merge over earlier ones. */
@@ -570,7 +580,7 @@ export type ImportResourceRequestCustomClaimsClaimRulesList =
   Array<ImportResourceRequestCustomClaimsClaimRulesItem>;
 /** Custom claims embedded in the resource tokens Vercel mints for this resource. */
 export interface ImportResourceRequestCustomClaims {
-  /** Roles a deployment may request when minting a token. The selected role becomes the `sub` claim. */
+  /** Roles a deployment may request when minting a token. The selected role is emitted as the `role` claim. */
   roles?: ImportResourceRequestCustomClaimsRolesList;
   /** Role used when the deployment does not request one. Required when `roles` is set. */
   defaultRole?: string;
@@ -635,7 +645,7 @@ export interface RotateInstallationCredentialResponse {
   scope: string;
   token_type: RotateInstallationCredentialResponseTokenType;
 }
-/** Period for the billing cycle. The period end date cannot be older than 24 hours earlier than our current server's time. */
+/** Period for the billing cycle. The period end date cannot be older than 30 days earlier than our current server's time. */
 export interface SubmitBillingDataRequestPeriod {
   start: string;
   end: string;
@@ -717,9 +727,9 @@ export interface SubmitBillingDataRequest {
   integrationConfigurationId: string;
   /** Server time of your integration, used to determine the most recent data for race conditions & updates. Only the latest usage data for a given day, week, and month will be kept. */
   timestamp: string;
-  /** End of Day, the UTC datetime for when the end of the billing/usage day is in UTC time. This tells us which day the usage data is for, and also allows for your "end of day" to be different from UTC 00:00:00. eod must be within the period dates, and cannot be older than 24h earlier from our server's current time. */
+  /** End of Day, the UTC datetime for when the end of the billing/usage day is in UTC time. This tells us which day the usage data is for, and also allows for your "end of day" to be different from UTC 00:00:00. eod must be within the period dates, and cannot be older than 30 days earlier from our server's current time. */
   eod: string;
-  /** Period for the billing cycle. The period end date cannot be older than 24 hours earlier than our current server's time. */
+  /** Period for the billing cycle. The period end date cannot be older than 30 days earlier than our current server's time. */
   period: SubmitBillingDataRequestPeriod;
   /** Billing data (interim invoicing data). */
   billing: SubmitBillingDataRequestBilling;
@@ -838,6 +848,7 @@ export interface UpdateInstallationRequestBillingPlan {
   details?: UpdateInstallationRequestBillingPlanDetailsList;
   highlightedDetails?: UpdateInstallationRequestBillingPlanHighlightedDetailsList;
   effectiveDate?: string;
+  [key: string]: unknown;
 }
 export type UpdateInstallationRequestNotificationCase0Level = "info" | "warn" | "error";
 export interface UpdateInstallationRequestNotificationCase0 {
@@ -921,6 +932,7 @@ export interface UpdateResourceRequestBillingPlan {
   details?: UpdateResourceRequestBillingPlanDetailsList;
   highlightedDetails?: UpdateResourceRequestBillingPlanHighlightedDetailsList;
   effectiveDate?: string;
+  [key: string]: unknown;
 }
 export type UpdateResourceRequestNotificationCase0Level = "info" | "warn" | "error";
 export interface UpdateResourceRequestNotificationCase0 {
@@ -949,7 +961,7 @@ export interface UpdateResourceRequestSecretsCase1 {
 export type UpdateResourceRequestSecrets =
   | UpdateResourceRequestSecretsCase0List
   | UpdateResourceRequestSecretsCase1;
-/** Roles a deployment may request when minting a token. The selected role becomes the `sub` claim. */
+/** Roles a deployment may request when minting a token. The selected role is emitted as the `role` claim. */
 export type UpdateResourceRequestCustomClaimsRolesList = Array<string>;
 /** Applies only when the token is minted for one of these roles. */
 export type UpdateResourceRequestCustomClaimsClaimRulesItemWhenRoleList = Array<string>;
@@ -961,14 +973,21 @@ export interface UpdateResourceRequestCustomClaimsClaimRulesItemWhen {
   /** Applies only when the token is minted for one of these environments: `production`, `preview`, `development`, or a custom environment slug. A custom environment also matches `preview`. */
   environment?: UpdateResourceRequestCustomClaimsClaimRulesItemWhenEnvironmentList;
 }
-export type UpdateResourceRequestCustomClaimsClaimRulesItemClaimsValue = string | number | boolean;
-/** Claims to set (string, number, or boolean), shallow-merged over earlier rules and over the default claims. `null` removes a claim. Reserved claims cannot be set; `aud` and `sub` can be overridden with a string but not removed. */
+export type UpdateResourceRequestCustomClaimsClaimRulesItemClaimsValueCase0 =
+  | string
+  | number
+  | boolean;
+export type UpdateResourceRequestCustomClaimsClaimRulesItemClaimsValueCase1List = Array<string>;
+export type UpdateResourceRequestCustomClaimsClaimRulesItemClaimsValue =
+  | UpdateResourceRequestCustomClaimsClaimRulesItemClaimsValueCase0
+  | UpdateResourceRequestCustomClaimsClaimRulesItemClaimsValueCase1List;
+/** Claims to set (string, number, boolean, or array of strings), shallow-merged over earlier rules and over the default claims. `null` removes a claim. Reserved claims cannot be set; `aud` and `sub` can be overridden with a string but not removed. */
 export type UpdateResourceRequestCustomClaimsClaimRulesItemClaimsMap = {
-  [key: string]: UpdateResourceRequestCustomClaimsClaimRulesItemClaimsValue | null | undefined;
+  [key: string]: UpdateResourceRequestCustomClaimsClaimRulesItemClaimsValue | undefined;
 };
 export interface UpdateResourceRequestCustomClaimsClaimRulesItem {
   when?: UpdateResourceRequestCustomClaimsClaimRulesItemWhen;
-  /** Claims to set (string, number, or boolean), shallow-merged over earlier rules and over the default claims. `null` removes a claim. Reserved claims cannot be set; `aud` and `sub` can be overridden with a string but not removed. */
+  /** Claims to set (string, number, boolean, or array of strings), shallow-merged over earlier rules and over the default claims. `null` removes a claim. Reserved claims cannot be set; `aud` and `sub` can be overridden with a string but not removed. */
   claims: UpdateResourceRequestCustomClaimsClaimRulesItemClaimsMap;
 }
 /** Ordered rules resolved at mint time. Later rules win and shallow-merge over earlier ones. */
@@ -976,13 +995,18 @@ export type UpdateResourceRequestCustomClaimsClaimRulesList =
   Array<UpdateResourceRequestCustomClaimsClaimRulesItem>;
 /** Custom claims embedded in the resource tokens Vercel mints for this resource. */
 export interface UpdateResourceRequestCustomClaims {
-  /** Roles a deployment may request when minting a token. The selected role becomes the `sub` claim. */
+  /** Roles a deployment may request when minting a token. The selected role is emitted as the `role` claim. */
   roles?: UpdateResourceRequestCustomClaimsRolesList;
   /** Role used when the deployment does not request one. Required when `roles` is set. */
   defaultRole?: string;
   /** Ordered rules resolved at mint time. Later rules win and shallow-merge over earlier ones. */
   claimRules?: UpdateResourceRequestCustomClaimsClaimRulesList;
 }
+export type UpdateResourceRequestCredentialTypesItem = "static" | "oidc";
+/** The credential types the resource accepts: `static` for long-lived secrets, `oidc` for Vercel resource OIDC tokens. Can be set freely while the resource has none. After that, only to confirm a change Vercel requested with a secrets rotation, once it is complete. Without `static`, all long-lived secrets must be expired and removed, and no new ones minted or injected. */
+export type UpdateResourceRequestCredentialTypesList = Array<
+  UpdateResourceRequestCredentialTypesItem | (string & {})
+>;
 export interface UpdateResourceRequest {
   integrationConfigurationId: string;
   resourceId: string;
@@ -996,6 +1020,8 @@ export interface UpdateResourceRequest {
   secrets?: UpdateResourceRequestSecrets;
   /** Custom claims embedded in the resource tokens Vercel mints for this resource. */
   customClaims?: UpdateResourceRequestCustomClaims;
+  /** The credential types the resource accepts: `static` for long-lived secrets, `oidc` for Vercel resource OIDC tokens. Can be set freely while the resource has none. After that, only to confirm a change Vercel requested with a secrets rotation, once it is complete. Without `static`, all long-lived secrets must be expired and removed, and no new ones minted or injected. */
+  credentialTypes?: UpdateResourceRequestCredentialTypesList;
 }
 export interface UpdateResourceResponse {
   name: string;
@@ -1021,8 +1047,8 @@ export const createEvent: API.OperationMethod<
   CreateEventError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<CreateEventRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<CreateEventResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<CreateEventRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<CreateEventResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1043,13 +1069,13 @@ export const createInstallationsByIntegrationConfigurationIdResourcesByResourceI
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    466,
-    __c29,
+    450,
+    __c28,
     2,
   ) as any as S.Schema<CreateInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsRequest>,
   output: __S(
-    448,
-    __c28,
+    432,
+    __c27,
     0,
   ) as any as S.Schema<CreateInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -1072,13 +1098,13 @@ export const deleteInstallationResourceExperimentationItem: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    480,
-    __c30,
+    464,
+    __c29,
     0,
   ) as any as S.Schema<DeleteInstallationResourceExperimentationItemRequest>,
   output: __S(
-    448,
-    __c28,
+    432,
+    __c27,
     0,
   ) as any as S.Schema<DeleteInstallationResourceExperimentationItemResponse>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -1096,8 +1122,8 @@ export const deleteIntegrationResource: API.OperationMethod<
   DeleteIntegrationResourceError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<DeleteIntegrationResourceRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<DeleteIntegrationResourceResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<DeleteIntegrationResourceRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<DeleteIntegrationResourceResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1113,8 +1139,8 @@ export const finalizeInstallation: API.OperationMethod<
   FinalizeInstallationError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<FinalizeInstallationRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<FinalizeInstallationResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<FinalizeInstallationRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<FinalizeInstallationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1130,8 +1156,8 @@ export const getAccountInfo: API.OperationMethod<
   GetAccountInfoError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetAccountInfoRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<GetAccountInfoResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<GetAccountInfoRequest>,
+  output: __S(514, __c32, 2) as any as S.Schema<GetAccountInfoResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1152,13 +1178,13 @@ export const getInstallationResourceExperimentationGlobalConfig: API.OperationMe
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16,
-    __c1,
+    0,
+    __c0,
     0,
   ) as any as S.Schema<GetInstallationResourceExperimentationGlobalConfigRequest>,
   output: __S(
-    33,
-    __c2,
+    17,
+    __c1,
     1,
   ) as any as S.Schema<GetInstallationResourceExperimentationGlobalConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -1176,8 +1202,8 @@ export const getIntegrationResource: API.OperationMethod<
   GetIntegrationResourceError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<GetIntegrationResourceRequest>,
-  output: __S(57, __c3, 9) as any as S.Schema<GetIntegrationResourceResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<GetIntegrationResourceRequest>,
+  output: __S(41, __c2, 9) as any as S.Schema<GetIntegrationResourceResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1193,8 +1219,8 @@ export const getIntegrationResources: API.OperationMethod<
   GetIntegrationResourcesError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetIntegrationResourcesRequest>,
-  output: __S(102, __c6, 6) as any as S.Schema<GetIntegrationResourcesResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetIntegrationResourcesRequest>,
+  output: __S(86, __c5, 6) as any as S.Schema<GetIntegrationResourcesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1210,8 +1236,8 @@ export const getInvoice: API.OperationMethod<
   GetInvoiceError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetInvoiceRequest>,
-  output: __S(118, __c7, 6) as any as S.Schema<GetInvoiceResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<GetInvoiceRequest>,
+  output: __S(102, __c6, 6) as any as S.Schema<GetInvoiceResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1227,8 +1253,8 @@ export const getMember: API.OperationMethod<
   GetMemberError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetMemberRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<GetMemberResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetMemberRequest>,
+  output: __S(113, __c7, 1) as any as S.Schema<GetMemberResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1249,13 +1275,13 @@ export const headInstallationResourceExperimentationGlobalConfig: API.OperationM
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    144,
-    __c9,
+    128,
+    __c8,
     0,
   ) as any as S.Schema<HeadInstallationResourceExperimentationGlobalConfigRequest>,
   output: __S(
-    448,
-    __c28,
+    432,
+    __c27,
     0,
   ) as any as S.Schema<HeadInstallationResourceExperimentationGlobalConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -1265,13 +1291,7 @@ export const headInstallationResourceExperimentationGlobalConfig: API.OperationM
   span: "HeadInstallationResourceExperimentationGlobalConfig",
 }));
 
-export type ImportResourceError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | UnprocessableEntity
-  | VercelOpError;
+export type ImportResourceError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
 /** Import Resource This endpoint imports (upserts) a resource to Vercel's installation. This may be needed if resources can be independently created on the partner's side and need to be synchronized to Vercel. When importing as part of the user-initiated import flow, call this endpoint before redirecting the user back to Vercel. See the [Import existing resources flow](https://vercel.com/docs/integrations/create-integration/marketplace-flows#import-existing-resources-flow) for the full contract. */
 export const importResource: API.OperationMethod<
   ImportResourceRequest,
@@ -1279,9 +1299,9 @@ export const importResource: API.OperationMethod<
   ImportResourceError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(165, __c10, 5) as any as S.Schema<ImportResourceRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<ImportResourceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  input: __S(149, __c9, 5) as any as S.Schema<ImportResourceRequest>,
+  output: __S(193, __c12, 1) as any as S.Schema<ImportResourceResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1302,13 +1322,13 @@ export const replaceInstallationsByIntegrationConfigurationIdResourcesByResource
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    240,
-    __c15,
+    224,
+    __c14,
     0,
   ) as any as S.Schema<ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigRequest>,
   output: __S(
-    33,
-    __c2,
+    17,
+    __c1,
     1,
   ) as any as S.Schema<ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
@@ -1331,8 +1351,8 @@ export const revokeInstallationCredential: API.OperationMethod<
   RevokeInstallationCredentialError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<RevokeInstallationCredentialRequest>,
-  output: __S(257, __c16, 1) as any as S.Schema<RevokeInstallationCredentialResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<RevokeInstallationCredentialRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<RevokeInstallationCredentialResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1353,8 +1373,8 @@ export const rotateInstallationCredential: API.OperationMethod<
   RotateInstallationCredentialError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<RotateInstallationCredentialRequest>,
-  output: __S(273, __c17, 1) as any as S.Schema<RotateInstallationCredentialResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<RotateInstallationCredentialRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<RotateInstallationCredentialResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1370,8 +1390,8 @@ export const submitBillingData: API.OperationMethod<
   SubmitBillingDataError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(290, __c18, 2) as any as S.Schema<SubmitBillingDataRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<SubmitBillingDataResponse>,
+  input: __S(274, __c17, 2) as any as S.Schema<SubmitBillingDataRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<SubmitBillingDataResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1387,8 +1407,8 @@ export const submitInvoice: API.OperationMethod<
   SubmitInvoiceError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(325, __c20, 5) as any as S.Schema<SubmitInvoiceRequest>,
-  output: __S(326, __c20, 6) as any as S.Schema<SubmitInvoiceResponse>,
+  input: __S(309, __c19, 5) as any as S.Schema<SubmitInvoiceRequest>,
+  output: __S(310, __c19, 6) as any as S.Schema<SubmitInvoiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1404,8 +1424,8 @@ export const submitPrepaymentBalances: API.OperationMethod<
   SubmitPrepaymentBalancesError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(338, __c21, 2) as any as S.Schema<SubmitPrepaymentBalancesRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<SubmitPrepaymentBalancesResponse>,
+  input: __S(322, __c20, 2) as any as S.Schema<SubmitPrepaymentBalancesRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<SubmitPrepaymentBalancesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1421,8 +1441,8 @@ export const updateInstallation: API.OperationMethod<
   UpdateInstallationError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<UpdateInstallationRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<UpdateInstallationResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<UpdateInstallationRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<UpdateInstallationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1443,13 +1463,13 @@ export const updateInstallationsByIntegrationConfigurationIdResourcesByResourceI
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    368,
-    __c23,
+    352,
+    __c22,
     0,
   ) as any as S.Schema<UpdateInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsByItemIdRequest>,
   output: __S(
-    448,
-    __c28,
+    432,
+    __c27,
     0,
   ) as any as S.Schema<UpdateInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsByItemIdResponse>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -1467,8 +1487,8 @@ export const updateInvoice: API.OperationMethod<
   UpdateInvoiceError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(385, __c24, 1) as any as S.Schema<UpdateInvoiceRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<UpdateInvoiceResponse>,
+  input: __S(369, __c23, 1) as any as S.Schema<UpdateInvoiceRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<UpdateInvoiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1476,13 +1496,7 @@ export const updateInvoice: API.OperationMethod<
   span: "UpdateInvoice",
 }));
 
-export type UpdateResourceError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | UnprocessableEntity
-  | VercelOpError;
+export type UpdateResourceError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
 /** Update Resource This endpoint updates an existing resource in the installation. All parameters are optional, allowing partial updates. */
 export const updateResource: API.OperationMethod<
   UpdateResourceRequest,
@@ -1490,9 +1504,9 @@ export const updateResource: API.OperationMethod<
   UpdateResourceError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(404, __c25, 4) as any as S.Schema<UpdateResourceRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<UpdateResourceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  input: __S(389, __c24, 5) as any as S.Schema<UpdateResourceRequest>,
+  output: __S(193, __c12, 1) as any as S.Schema<UpdateResourceResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1504,7 +1518,6 @@ export type UpdateResourceSecretsByIdError =
   | Forbidden
   | NotFound
   | Conflict
-  | UnprocessableEntity
   | VercelOpError;
 /** Update Resource Secrets This endpoint updates the secrets of a resource. If a resource has projects connected, the connected secrets are updated with the new secrets. The old secrets may still be used by existing connected projects because they are not automatically redeployed. Redeployment is a manual action and must be completed by the user. All new project connections will use the new secrets.<br/> <br/> Use cases for this endpoint:<br/> <br/> - Resetting the credentials of a database in the partner. If the user requests the credentials to be updated in the partner's application, the partner post the new set of secrets to Vercel, the user should redeploy their application and the expire the old credentials.<br/> */
 export const updateResourceSecretsById: API.OperationMethod<
@@ -1513,9 +1526,9 @@ export const updateResourceSecretsById: API.OperationMethod<
   UpdateResourceSecretsByIdError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<UpdateResourceSecretsByIdRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<UpdateResourceSecretsByIdResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  input: __S(400, __c25, 0) as any as S.Schema<UpdateResourceSecretsByIdRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<UpdateResourceSecretsByIdResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1524,37 +1537,6 @@ export const updateResourceSecretsById: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          integrationConfigurationId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/installations/{integrationConfigurationId}/account",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetAccountInfoRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          email: S.String,
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetAccountInfoResponseContact" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          contact: S.NullOr(__S(1, __c0, 1)),
-          name: S.optional(S.String),
-          url: S.String,
-        }),
-      ).annotate({ identifier: "GetAccountInfoResponse" });
-  }
-}
-function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1571,7 +1553,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetInstallationResourceExperimentationGlobalConfigRequest" });
   }
 }
-function __c2(j: number): any {
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
@@ -1579,14 +1561,14 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           digest: S.String,
-          items: __S(32, __c2, 0),
+          items: __S(16, __c1, 0),
           purpose: S.optional(S.String),
           updatedAt: S.Number,
         }),
       ).annotate({ identifier: "GetInstallationResourceExperimentationGlobalConfigResponse" });
   }
 }
-function __c3(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1606,25 +1588,25 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          environment: S.optional(__S(80, __c5, 0)),
-          role: S.optional(__S(80, __c5, 0)),
+          environment: S.optional(__S(64, __c4, 0)),
+          role: S.optional(__S(64, __c4, 0)),
         }),
       ).annotate({ identifier: "GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhen" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          claims: __S(49, __c3, 1),
-          when: S.optional(__S(50, __c3, 2)),
+          claims: __S(33, __c2, 1),
+          when: S.optional(__S(34, __c2, 2)),
         }),
       ).annotate({ identifier: "GetIntegrationResourceResponseCustomClaimsClaimRulesItem" });
     case 4:
-      return S.Array(__S(51, __c3, 3));
+      return S.Array(__S(35, __c2, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          claimRules: S.optional(__S(52, __c3, 4)),
+          claimRules: S.optional(__S(36, __c2, 4)),
           defaultRole: S.optional(S.String),
-          roles: S.optional(__S(80, __c5, 0)),
+          roles: S.optional(__S(64, __c4, 0)),
         }),
       ).annotate({ identifier: "GetIntegrationResourceResponseCustomClaims" });
     case 6:
@@ -1639,28 +1621,28 @@ function __c3(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          authentication: S.optional(__S(67, __c4, 3)),
-          experimentation: S.optional(__S(55, __c3, 7)),
+          authentication: S.optional(__S(51, __c3, 3)),
+          experimentation: S.optional(__S(39, __c2, 7)),
         }),
       ).annotate({ identifier: "GetIntegrationResourceResponseProtocolSettings" });
     case 9:
       return S.suspend(() =>
         S.Struct({
           billingPlanId: S.optional(S.String),
-          customClaims: S.optional(__S(53, __c3, 5)),
+          customClaims: S.optional(__S(37, __c2, 5)),
           id: S.String,
           internalId: S.String,
-          metadata: S.optional(__S(54, __c3, 6)),
+          metadata: S.optional(__S(38, __c2, 6)),
           name: S.String,
-          notification: S.optional(__S(64, __c4, 0)),
+          notification: S.optional(__S(48, __c3, 0)),
           productId: S.String,
-          protocolSettings: S.optional(__S(56, __c3, 8)),
+          protocolSettings: S.optional(__S(40, __c2, 8)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetIntegrationResourceResponse" });
   }
 }
-function __c4(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1681,22 +1663,22 @@ function __c4(j: number): any {
         identifier: "GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItem",
       });
     case 2:
-      return S.Array(__S(65, __c4, 1));
+      return S.Array(__S(49, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          appUrls: S.optional(__S(66, __c4, 2)),
+          appUrls: S.optional(__S(50, __c3, 2)),
         }),
       ).annotate({ identifier: "GetIntegrationResourceResponseProtocolSettingsAuthentication" });
   }
 }
-function __c5(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1727,8 +1709,8 @@ function __c6(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          authentication: S.optional(__S(67, __c4, 3)),
-          experimentation: S.optional(__S(98, __c6, 2)),
+          authentication: S.optional(__S(51, __c3, 3)),
+          experimentation: S.optional(__S(82, __c5, 2)),
         }),
       ).annotate({ identifier: "GetIntegrationResourcesResponseResourcesItemProtocolSettings" });
     case 4:
@@ -1736,26 +1718,26 @@ function __c6(j: number): any {
         S.Struct({
           billingPlanId: S.optional(S.String),
           internalId: S.String,
-          metadata: S.optional(__S(97, __c6, 1)),
+          metadata: S.optional(__S(81, __c5, 1)),
           name: S.String,
-          notification: S.optional(__S(64, __c4, 0)),
+          notification: S.optional(__S(48, __c3, 0)),
           partnerId: S.String,
           productId: S.String,
-          protocolSettings: S.optional(__S(99, __c6, 3)),
+          protocolSettings: S.optional(__S(83, __c5, 3)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetIntegrationResourcesResponseResourcesItem" });
     case 5:
-      return S.Array(__S(100, __c6, 4));
+      return S.Array(__S(84, __c5, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          resources: __S(101, __c6, 5),
+          resources: __S(85, __c5, 5),
         }),
       ).annotate({ identifier: "GetIntegrationResourcesResponse" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1783,7 +1765,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "GetInvoiceResponseDiscountsItem" });
     case 2:
-      return S.Array(__S(113, __c7, 1));
+      return S.Array(__S(97, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1800,7 +1782,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "GetInvoiceResponseItemsItem" });
     case 4:
-      return S.Array(__S(115, __c7, 3));
+      return S.Array(__S(99, __c6, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1812,16 +1794,20 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           created: S.String,
-          discounts: S.optional(__S(114, __c7, 2)),
+          discounts: S.optional(__S(98, __c6, 2)),
           externalId: S.optional(S.String),
           invoiceDate: S.String,
           invoiceId: S.String,
           invoiceNumber: S.optional(S.String),
-          items: __S(116, __c7, 4),
+          items: __S(100, __c6, 4),
           memo: S.optional(S.String),
+          outstandingTotal: S.optional(S.String),
           paidAt: S.optional(S.String),
-          period: __S(117, __c7, 5),
+          paidTotal: S.optional(S.String),
+          pendingRefundTotal: S.optional(S.String),
+          period: __S(101, __c6, 5),
           refundedAt: S.optional(S.String),
+          refundedTotal: S.optional(S.String),
           refundReason: S.optional(S.String),
           refundTotal: S.optional(S.String),
           state: S.String,
@@ -1832,7 +1818,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetInvoiceResponse" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1858,7 +1844,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetMemberResponse" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1875,7 +1861,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "HeadInstallationResourceExperimentationGlobalConfigRequest" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1887,22 +1873,22 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "ImportResourceRequestNotification" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
+      return S.Record(S.String, S.Unknown);
     case 2:
       return S.suspend(() =>
         S.Struct({
-          when: S.optional(__S(208, __c13, 0)),
-          claims: __S(161, __c10, 1),
+          when: S.optional(__S(192, __c12, 0)),
+          claims: __S(145, __c9, 1),
         }),
       ).annotate({ identifier: "ImportResourceRequestCustomClaimsClaimRulesItem" });
     case 3:
-      return S.Array(__S(162, __c10, 2));
+      return S.Array(__S(146, __c9, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          roles: S.optional(__S(80, __c5, 0)),
+          roles: S.optional(__S(64, __c4, 0)),
           defaultRole: S.optional(S.String),
-          claimRules: S.optional(__S(163, __c10, 3)),
+          claimRules: S.optional(__S(147, __c9, 3)),
         }),
       ).annotate({ identifier: "ImportResourceRequestCustomClaims" });
     case 5:
@@ -1914,12 +1900,12 @@ function __c10(j: number): any {
           productId: S.String,
           name: S.String,
           status: S.String,
-          metadata: S.optional(__S(176, __c11, 0)),
-          billingPlan: S.optional(__S(194, __c12, 2)),
-          notification: S.optional(__S(160, __c10, 0)),
-          extras: S.optional(__S(176, __c11, 0)),
-          secrets: S.optional(__S(226, __c14, 2)),
-          customClaims: S.optional(__S(164, __c10, 4)),
+          metadata: S.optional(__S(160, __c10, 0)),
+          billingPlan: S.optional(__S(178, __c11, 2)),
+          notification: S.optional(__S(144, __c9, 0)),
+          extras: S.optional(__S(160, __c10, 0)),
+          secrets: S.optional(__S(210, __c13, 2)),
+          customClaims: S.optional(__S(148, __c9, 4)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -1930,13 +1916,13 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ImportResourceRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1946,30 +1932,33 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "ImportResourceRequestBillingPlanDetailsItem" });
     case 1:
-      return S.Array(__S(192, __c12, 0));
+      return S.Array(__S(176, __c11, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          name: S.String,
-          description: S.optional(S.String),
-          paymentMethodRequired: S.optional(S.Boolean),
-          cost: S.optional(S.String),
-          details: S.optional(__S(193, __c12, 1)),
-          highlightedDetails: S.optional(__S(193, __c12, 1)),
-          effectiveDate: S.optional(S.String),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            id: S.String,
+            type: S.String,
+            name: S.String,
+            description: S.optional(S.String),
+            paymentMethodRequired: S.optional(S.Boolean),
+            cost: S.optional(S.String),
+            details: S.optional(__S(177, __c11, 1)),
+            highlightedDetails: S.optional(__S(177, __c11, 1)),
+            effectiveDate: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "ImportResourceRequestBillingPlan" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          role: S.optional(__S(80, __c5, 0)),
-          environment: S.optional(__S(80, __c5, 0)),
+          role: S.optional(__S(64, __c4, 0)),
+          environment: S.optional(__S(64, __c4, 0)),
         }),
       ).annotate({ identifier: "ImportResourceRequestCustomClaimsClaimRulesItemWhen" });
     case 1:
@@ -1980,7 +1969,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ImportResourceResponse" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1996,21 +1985,21 @@ function __c14(j: number): any {
           name: S.String,
           value: S.String,
           prefix: S.optional(S.String),
-          environmentOverrides: S.optional(__S(224, __c14, 0)),
+          environmentOverrides: S.optional(__S(208, __c13, 0)),
         }),
       ).annotate({ identifier: "ImportResourceRequestSecretsItem" });
     case 2:
-      return S.Array(__S(225, __c14, 1));
+      return S.Array(__S(209, __c13, 1));
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           integrationConfigurationId: S.String.pipe(T.Label()),
           resourceId: S.String.pipe(T.Label()),
-          data: __S(176, __c11, 0),
+          data: __S(160, __c10, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2024,7 +2013,7 @@ function __c15(j: number): any {
       });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2050,7 +2039,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "RevokeInstallationCredentialResponse" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2077,7 +2066,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "RotateInstallationCredentialResponse" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2092,16 +2081,16 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "SubmitBillingDataRequestUsageItem" });
     case 1:
-      return S.Array(__S(288, __c18, 0));
+      return S.Array(__S(272, __c17, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           integrationConfigurationId: S.String.pipe(T.Label()),
           timestamp: S.String,
           eod: S.String,
-          period: __S(304, __c19, 0),
+          period: __S(288, __c18, 0),
           billing: S.Unknown,
-          usage: __S(289, __c18, 1),
+          usage: __S(273, __c17, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2112,7 +2101,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "SubmitBillingDataRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2123,7 +2112,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "SubmitBillingDataRequestPeriod" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2141,7 +2130,7 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "SubmitInvoiceRequestItemsItem" });
     case 1:
-      return S.Array(__S(320, __c20, 0));
+      return S.Array(__S(304, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2155,7 +2144,7 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "SubmitInvoiceRequestDiscountsItem" });
     case 3:
-      return S.Array(__S(322, __c20, 2));
+      return S.Array(__S(306, __c19, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2170,11 +2159,11 @@ function __c20(j: number): any {
           externalId: S.optional(S.String),
           invoiceDate: S.String,
           memo: S.optional(S.String),
-          period: __S(304, __c19, 0),
-          items: __S(321, __c20, 1),
-          discounts: S.optional(__S(323, __c20, 3)),
+          period: __S(288, __c18, 0),
+          items: __S(305, __c19, 1),
+          discounts: S.optional(__S(307, __c19, 3)),
           final: S.optional(S.Boolean),
-          test: S.optional(__S(324, __c20, 4)),
+          test: S.optional(__S(308, __c19, 4)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2188,12 +2177,12 @@ function __c20(j: number): any {
         S.Struct({
           invoiceId: S.optional(S.String),
           test: S.optional(S.Boolean),
-          validationErrors: S.optional(__S(80, __c5, 0)),
+          validationErrors: S.optional(__S(64, __c4, 0)),
         }),
       ).annotate({ identifier: "SubmitInvoiceResponse" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2205,13 +2194,13 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "SubmitPrepaymentBalancesRequestBalancesItem" });
     case 1:
-      return S.Array(__S(336, __c21, 0));
+      return S.Array(__S(320, __c20, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           integrationConfigurationId: S.String.pipe(T.Label()),
           timestamp: S.String,
-          balances: __S(337, __c21, 1),
+          balances: __S(321, __c20, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2222,7 +2211,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "SubmitPrepaymentBalancesRequest" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2230,7 +2219,7 @@ function __c22(j: number): any {
           integrationConfigurationId: S.String.pipe(T.Label()),
           status: S.optional(S.String),
           externalId: S.optional(S.String),
-          billingPlan: S.optional(__S(194, __c12, 2)),
+          billingPlan: S.optional(__S(178, __c11, 2)),
           notification: S.optional(S.Unknown),
         }).pipe(
           T.Http({
@@ -2242,7 +2231,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "UpdateInstallationRequest" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2271,7 +2260,7 @@ function __c23(j: number): any {
       });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2286,7 +2275,7 @@ function __c24(j: number): any {
         S.Struct({
           integrationConfigurationId: S.String.pipe(T.Label()),
           invoiceId: S.String.pipe(T.Label()),
-          body: __S(384, __c24, 0).pipe(T.HttpBody()),
+          body: __S(368, __c23, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2297,28 +2286,30 @@ function __c24(j: number): any {
       ).annotate({ identifier: "UpdateInvoiceRequest" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
+      return S.Record(S.String, S.Unknown);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          when: S.optional(__S(208, __c13, 0)),
-          claims: __S(400, __c25, 0),
+          when: S.optional(__S(192, __c12, 0)),
+          claims: __S(384, __c24, 0),
         }),
       ).annotate({ identifier: "UpdateResourceRequestCustomClaimsClaimRulesItem" });
     case 2:
-      return S.Array(__S(401, __c25, 1));
+      return S.Array(__S(385, __c24, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          roles: S.optional(__S(80, __c5, 0)),
+          roles: S.optional(__S(64, __c4, 0)),
           defaultRole: S.optional(S.String),
-          claimRules: S.optional(__S(402, __c25, 2)),
+          claimRules: S.optional(__S(386, __c24, 2)),
         }),
       ).annotate({ identifier: "UpdateResourceRequestCustomClaims" });
     case 4:
+      return S.Array(S.String);
+    case 5:
       return S.suspend(() =>
         S.Struct({
           integrationConfigurationId: S.String.pipe(T.Label()),
@@ -2326,12 +2317,13 @@ function __c25(j: number): any {
           ownership: S.optional(S.String),
           name: S.optional(S.String),
           status: S.optional(S.String),
-          metadata: S.optional(__S(176, __c11, 0)),
-          billingPlan: S.optional(__S(194, __c12, 2)),
+          metadata: S.optional(__S(160, __c10, 0)),
+          billingPlan: S.optional(__S(178, __c11, 2)),
           notification: S.optional(S.Unknown),
-          extras: S.optional(__S(176, __c11, 0)),
+          extras: S.optional(__S(160, __c10, 0)),
           secrets: S.optional(S.Unknown),
-          customClaims: S.optional(__S(403, __c25, 3)),
+          customClaims: S.optional(__S(387, __c24, 3)),
+          credentialTypes: S.optional(__S(388, __c24, 4)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2342,14 +2334,14 @@ function __c25(j: number): any {
       ).annotate({ identifier: "UpdateResourceRequest" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           integrationConfigurationId: S.String.pipe(T.Label()),
           resourceId: S.String.pipe(T.Label()),
-          secrets: __S(226, __c14, 2),
+          secrets: __S(210, __c13, 2),
           partial: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -2361,7 +2353,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "UpdateResourceSecretsByIdRequest" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2378,13 +2370,13 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CreateEventRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateEventResponse" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2404,13 +2396,13 @@ function __c29(j: number): any {
           "CreateInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsRequestItemsItem",
       });
     case 1:
-      return S.Array(__S(464, __c29, 0));
+      return S.Array(__S(448, __c28, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           integrationConfigurationId: S.String.pipe(T.Label()),
           resourceId: S.String.pipe(T.Label()),
-          items: __S(465, __c29, 1),
+          items: __S(449, __c28, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2424,7 +2416,7 @@ function __c29(j: number): any {
       });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2442,7 +2434,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeleteInstallationResourceExperimentationItemRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2459,7 +2451,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationResourceRequest" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2473,6 +2465,37 @@ function __c32(j: number): any {
           }),
         ),
       ).annotate({ identifier: "FinalizeInstallationRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          integrationConfigurationId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/installations/{integrationConfigurationId}/account",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetAccountInfoRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          email: S.String,
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetAccountInfoResponseContact" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          contact: S.NullOr(__S(513, __c32, 1)),
+          name: S.optional(S.String),
+          url: S.String,
+        }),
+      ).annotate({ identifier: "GetAccountInfoResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

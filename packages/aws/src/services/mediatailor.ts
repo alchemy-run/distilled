@@ -775,6 +775,12 @@ export type FunctionType =
   | (string & {});
 export type RuntimeType = "JSONATA" | (string & {});
 export type MethodType = "GET" | "POST" | (string & {});
+export type __integerMin1 = number;
+export interface HttpRequestCacheConfiguration {
+  TtlMinimumSeconds: number;
+  TtlMaximumSeconds: number;
+  Key?: string;
+}
 export interface HttpRequestConfiguration {
   Runtime: RuntimeType;
   Output?: { [key: string]: string | undefined };
@@ -783,6 +789,7 @@ export interface HttpRequestConfiguration {
   Url: string;
   Body?: string;
   Headers?: { [key: string]: string | undefined };
+  Cache?: HttpRequestCacheConfiguration;
 }
 export type AwsTargetService = string;
 export interface AwsServiceRequestConfiguration {
@@ -793,6 +800,7 @@ export interface AwsServiceRequestConfiguration {
   Url: string;
   Body?: string;
   Headers?: { [key: string]: string | undefined };
+  Cache?: HttpRequestCacheConfiguration;
   TargetService: string;
   TargetRegion: string;
 }
@@ -806,7 +814,7 @@ export interface FunctionRef {
   Alias?: string;
 }
 export type __listOfFunctionsRef = FunctionRef[];
-const __listOfFunctionsRef = /*@__PURE__*/ __L.at(__c27, 4);
+const __listOfFunctionsRef = /*@__PURE__*/ __L.at(__c27, 5);
 export interface ConcurrentExecutorConfiguration {
   Runtime: RuntimeType;
   Output: { [key: string]: string | undefined };
@@ -828,6 +836,7 @@ export interface VastRequestConfiguration {
   Url: string;
   Body?: string;
   Headers?: { [key: string]: string | undefined };
+  Cache?: HttpRequestCacheConfiguration;
 }
 export interface GetFunctionResponse {
   FunctionId: string;
@@ -899,7 +908,6 @@ export interface AdMarkerPassthrough {
 export interface ManifestProcessingRules {
   AdMarkerPassthrough?: AdMarkerPassthrough;
 }
-export type __integerMin1 = number;
 export type StreamingMediaFileConditioning = "TRANSCODE" | "NONE" | (string & {});
 export interface AdConditioningConfiguration {
   StreamingMediaFileConditioning: StreamingMediaFileConditioning;
@@ -1927,7 +1935,7 @@ export const getFunction: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetFunctionRequest>,
-  output: __S(871, __c27, 7) as any as S.Schema<GetFunctionResponse>,
+  output: __S(872, __c27, 8) as any as S.Schema<GetFunctionResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2249,7 +2257,7 @@ export const putFunction: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<PutFunctionRequest>,
-  output: __S(871, __c27, 7) as any as S.Schema<PutFunctionResponse>,
+  output: __S(872, __c27, 8) as any as S.Schema<PutFunctionResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3149,15 +3157,11 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Runtime: S.String,
-          Output: S.optional(__mapOf__string),
-          MethodType: S.String,
-          RequestTimeoutMilliseconds: S.Number,
-          Url: S.String,
-          Body: S.optional(S.String),
-          Headers: S.optional(__mapOf__string),
+          TtlMinimumSeconds: S.Number,
+          TtlMaximumSeconds: S.Number,
+          Key: S.optional(S.String),
         }),
-      ).annotate({ identifier: "HttpRequestConfiguration" });
+      ).annotate({ identifier: "HttpRequestCacheConfiguration" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -3168,15 +3172,29 @@ function __c27(j: number): any {
           Url: S.String,
           Body: S.optional(S.String),
           Headers: S.optional(__mapOf__string),
+          Cache: S.optional(__S(864, __c27, 0)),
+        }),
+      ).annotate({ identifier: "HttpRequestConfiguration" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Runtime: S.String,
+          Output: S.optional(__mapOf__string),
+          MethodType: S.String,
+          RequestTimeoutMilliseconds: S.Number,
+          Url: S.String,
+          Body: S.optional(S.String),
+          Headers: S.optional(__mapOf__string),
+          Cache: S.optional(__S(864, __c27, 0)),
           TargetService: S.String,
           TargetRegion: S.String,
         }),
       ).annotate({ identifier: "AwsServiceRequestConfiguration" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({ Runtime: S.String, Output: S.optional(__mapOf__string) }),
       ).annotate({ identifier: "CustomOutputConfiguration" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           RunCondition: S.optional(S.String),
@@ -3184,9 +3202,9 @@ function __c27(j: number): any {
           Alias: S.optional(S.String),
         }),
       ).annotate({ identifier: "FunctionRef" });
-    case 4:
-      return S.Array(__S(867, __c27, 3));
     case 5:
+      return S.Array(__S(868, __c27, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           Runtime: S.String,
@@ -3196,7 +3214,7 @@ function __c27(j: number): any {
           MaxConcurrency: S.Number,
         }),
       ).annotate({ identifier: "ConcurrentExecutorConfiguration" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           Runtime: S.String,
@@ -3205,18 +3223,18 @@ function __c27(j: number): any {
           TimeoutMilliseconds: S.Number,
         }),
       ).annotate({ identifier: "SequentialExecutorConfiguration" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           FunctionId: S.String,
           FunctionType: S.String,
           Description: S.optional(S.String),
-          HttpRequestConfiguration: S.optional(__S(864, __c27, 0)),
-          AwsServiceRequestConfiguration: S.optional(__S(865, __c27, 1)),
-          CustomOutputConfiguration: S.optional(__S(866, __c27, 2)),
-          ConcurrentExecutorConfiguration: S.optional(__S(869, __c27, 5)),
-          SequentialExecutorConfiguration: S.optional(__S(870, __c27, 6)),
-          VastRequestConfiguration: S.optional(__S(864, __c27, 0)),
+          HttpRequestConfiguration: S.optional(__S(865, __c27, 1)),
+          AwsServiceRequestConfiguration: S.optional(__S(866, __c27, 2)),
+          CustomOutputConfiguration: S.optional(__S(867, __c27, 3)),
+          ConcurrentExecutorConfiguration: S.optional(__S(870, __c27, 6)),
+          SequentialExecutorConfiguration: S.optional(__S(871, __c27, 7)),
+          VastRequestConfiguration: S.optional(__S(865, __c27, 1)),
           Tags: S.optional(__mapOf__string),
           Arn: S.optional(S.String),
         }).pipe(S.encodeKeys({ Tags: "tags" })),
@@ -3514,7 +3532,7 @@ function __c33(j: number): any {
         }).pipe(T.all(T.Http({ method: "GET", uri: "/functions" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListFunctionsRequest" });
     case 1:
-      return S.Array(__S(871, __c27, 7));
+      return S.Array(__S(872, __c27, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({ Items: S.optional(__listOfFunctionsResponse), NextToken: S.optional(S.String) }),
@@ -3750,12 +3768,12 @@ function __c41(j: number): any {
           FunctionId: S.String.pipe(T.HttpLabel("FunctionId")),
           FunctionType: S.String,
           Description: S.optional(S.String),
-          HttpRequestConfiguration: S.optional(__S(864, __c27, 0)),
-          AwsServiceRequestConfiguration: S.optional(__S(865, __c27, 1)),
-          CustomOutputConfiguration: S.optional(__S(866, __c27, 2)),
-          ConcurrentExecutorConfiguration: S.optional(__S(869, __c27, 5)),
-          SequentialExecutorConfiguration: S.optional(__S(870, __c27, 6)),
-          VastRequestConfiguration: S.optional(__S(864, __c27, 0)),
+          HttpRequestConfiguration: S.optional(__S(865, __c27, 1)),
+          AwsServiceRequestConfiguration: S.optional(__S(866, __c27, 2)),
+          CustomOutputConfiguration: S.optional(__S(867, __c27, 3)),
+          ConcurrentExecutorConfiguration: S.optional(__S(870, __c27, 6)),
+          SequentialExecutorConfiguration: S.optional(__S(871, __c27, 7)),
+          VastRequestConfiguration: S.optional(__S(865, __c27, 1)),
           Tags: S.optional(__mapOf__string),
         })
           .pipe(S.encodeKeys({ Tags: "tags" }))

@@ -141,6 +141,8 @@ export interface ResolvedToolPolicy {
   input_schema: ResolvedToolPolicyInputSchemaMap;
   /** Whether the canonical gateway heuristic treats this tool as destructive. */
   is_destructive: boolean;
+  /** Whether the tool only reads data: the server marks it readOnlyHint and its name starts with a read verb and has no write or destructive verb. */
+  is_read_only: boolean;
   /** Effective state for the scope. * `approved` - Approved * `needs_approval` - Needs approval * `do_not_use` - Do not use */
   policy_state: MCPToolApprovalStateEnum;
   /** What the team-level chain (row or preset) yields, ignoring the scope. Null when the team imposes nothing. * `approved` - Approved * `needs_approval` - Needs approval * `do_not_use` - Do not use */
@@ -1764,6 +1766,7 @@ function __c29(j: number): any {
           description: S.String,
           input_schema: __S(240, __c30, 0),
           is_destructive: S.Boolean,
+          is_read_only: S.Boolean,
           policy_state: S.String,
           team_state: S.NullOr(S.String),
           locked: S.Boolean,

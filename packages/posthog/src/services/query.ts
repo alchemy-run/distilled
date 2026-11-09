@@ -59,6 +59,7 @@ export type BreakdownType =
   | "person"
   | "event"
   | "event_metadata"
+  | "element"
   | "group"
   | "session"
   | "hogql"
@@ -70,6 +71,7 @@ export type MultipleBreakdownType =
   | "person"
   | "event"
   | "event_metadata"
+  | "element"
   | "group"
   | "session"
   | "hogql"
@@ -96,6 +98,12 @@ export interface BreakdownFilter {
   breakdown_type?: BreakdownType | (string & {}) | null;
   breakdowns?: BreakdownFilterBreakdownsList | null;
 }
+export interface CompareFilter {
+  /** Whether to compare the current date range to a previous date range. */
+  compare?: boolean | null;
+  /** The date range to compare to. The value is a relative date. Examples of relative dates are: `-1y` for 1 year ago, `-14m` for 14 months ago, `-100w` for 100 weeks ago, `-14d` for 14 days ago, `-30h` for 30 hours ago. */
+  compare_to?: string | null;
+}
 export type IntervalType =
   | "second"
   | "minute"
@@ -105,6 +113,43 @@ export type IntervalType =
   | "month"
   | "quarter"
   | "year";
+export type MetricsFilterOp = "eq" | "neq" | "regex" | "not_regex";
+export type MetricsAttributeScope = "resource" | "attribute" | "auto";
+export interface MetricsQueryFilter {
+  key: string;
+  op: MetricsFilterOp | (string & {});
+  scope?: MetricsAttributeScope | (string & {}) | null;
+  value: string;
+}
+export type DashboardFilterMetricFiltersList = Array<MetricsQueryFilter>;
+/** The selected values. Empty when `all` is true: All stands for every option of the variable. */
+export type MetricsDashboardVariableSelectionValuesList = Array<string>;
+export interface MetricsDashboardVariableSelection {
+  all?: boolean | null;
+  /** The selected values. Empty when `all` is true: All stands for every option of the variable. */
+  values: MetricsDashboardVariableSelectionValuesList;
+}
+export type MetricsDashboardVariableCustomValuesList = Array<string>;
+export type MetricsDashboardVariableSource = "custom" | "promql" | "sql" | "textbox";
+export interface MetricsDashboardVariable {
+  /** The text that All puts in a PromQL query. `.*` when it is empty. */
+  allValue?: string | null;
+  current?: MetricsDashboardVariableSelection | null;
+  /** The options when `source` is `custom`. */
+  customValues?: MetricsDashboardVariableCustomValuesList | null;
+  includeAll?: boolean | null;
+  /** Shown in the dashboard filter bar. The name is shown when it is empty. */
+  label?: string | null;
+  multi?: boolean | null;
+  /** Letters, digits and underscores. Tiles refer to it as `$name`. */
+  name: string;
+  /** The options query when `source` is `promql` or `sql`. It can refer to other variables. PromQL supports `label_values(label)`, `label_values(selector, label)`, `label_names()`, `metrics(regex)` and `query_result(expr)`. SQL returns the options in its first column. */
+  query?: string | null;
+  /** RE2 pattern that options must match. When it has a capture group, the option is the first group. */
+  regex?: string | null;
+  source: MetricsDashboardVariableSource | (string & {});
+}
+export type DashboardFilterMetricVariablesList = Array<MetricsDashboardVariable>;
 export type PropertyOperator =
   | "exact"
   | "is_not"
@@ -132,6 +177,7 @@ export type PropertyOperator =
   | "in"
   | "not_in"
   | "is_cleaned_path_exact"
+  | "is_cleaned_path_not_exact"
   | "flag_evaluates_to"
   | "semver_eq"
   | "semver_neq"
@@ -235,6 +281,10 @@ export interface SessionPropertyFilter {
   value?: SessionPropertyFilterValue | null;
 }
 export interface CohortPropertyFilter {
+  /** Set by the feature flag API when the cohort is deleted or does not exist. */
+  cohort_deleted?: boolean | null;
+  /** Set by the feature flag API when the cohort does not exist, so it cannot be restored. */
+  cohort_missing?: boolean | null;
   cohort_name?: string | null;
   key?: string;
   label?: string | null;
@@ -521,6 +571,8 @@ export type DashboardFilterPropertiesItem =
 export type DashboardFilterPropertiesList = Array<DashboardFilterPropertiesItem>;
 export interface DashboardFilter {
   breakdown_filter?: BreakdownFilter | null;
+  /** Period comparison forced onto every insight that supports one. Absent/null = inherit. */
+  compareFilter?: CompareFilter | null;
   date_from?: string | null;
   date_to?: string | null;
   explicitDate?: boolean | null;
@@ -528,6 +580,9 @@ export interface DashboardFilter {
   filterTestAccounts?: boolean | null;
   /** Time granularity forced onto every insight that supports one. Absent/null = inherit. */
   interval?: IntervalType | (string & {}) | null;
+  metricFilters?: DashboardFilterMetricFiltersList | null;
+  /** Variables that metrics tiles refer to as `$name`. Other tiles ignore them. */
+  metricVariables?: DashboardFilterMetricVariablesList | null;
   properties?: DashboardFilterPropertiesList | null;
 }
 export type LimitContext = "posthog_ai";
@@ -1054,9 +1109,13 @@ export interface HogQLQueryModifiers {
   inCohortVia?: InCohortVia | (string & {}) | null;
   inlineCohortCalculation?: InlineCohortCalculation | (string & {}) | null;
   materializationMode?: MaterializationMode | (string & {}) | null;
+  /** Reuse eligible bounded event aggregates within one query execution. When unset, the server may enable it via the cloud feature flag. */
+  materializeRepeatedCTEs?: boolean | null;
   materializedColumnsOptimizationMode?: MaterializedColumnsOptimizationMode | (string & {}) | null;
   /** Merge sibling aggregating LEFT JOINs over federated Postgres tables into one UNION ALL join, so their scans overlap */
   mergeFederatedAggregateJoins?: boolean | null;
+  /** Replace negated person-property filters in the WHERE of an `events` query (such as `email not_icontains`) with `person_id NOT IN (SELECT id FROM persons WHERE <the filters fail>)`, so the query no longer joins every person. Applies only when every filtered person property has a materialized column, nothing else in the query reads that persons join, and the join would be a LEFT JOIN. */
+  negatedPersonFiltersNotIn?: boolean | null;
   optimizeJoinedFilters?: boolean | null;
   optimizeProjections?: boolean | null;
   /** HogQL parser backend; absent -> `rust_py_with_cpp_shadow` (rust-py is primary, cpp runs as a sampled shadow). `*_shadow` modes return the primary result and sample-compare against the other parser, reporting divergences without failing the request. The `rust_py_*` modes drive the same hand-rolled Rust parser as `rust_*` but build `posthog.hogql.ast` dataclass instances directly via PyO3, skipping the JSON round-trip. */
@@ -1074,12 +1133,14 @@ export interface HogQLQueryModifiers {
   /** Pre-filter raw_sessions aggregation by `session_id_v7 IN (cheap pre-aggregation that only materializes the columns referenced by the outer-WHERE session predicate)`. Useful when the breakdown/SELECT pulls in many session columns (e.g. `$channel_type`) but the filter only references one (e.g. `$entry_current_url`). */
   sessionPropertyPreAggregation?: boolean | null;
   sessionTableVersion?: SessionTableVersion | (string & {}) | null;
+  /** Padding, in minutes, on each side of the event time range when it filters the sessions table by session start. Defaults to 3 days. It can only narrow the range: values above the default are ignored. Lower it only for a query that keeps just the sessions that start inside its own time range. */
+  sessionTimestampBufferMinutes?: number | null;
   sessionsV2JoinMode?: SessionsV2JoinMode | (string & {}) | null;
   timings?: boolean | null;
   /** Remove provably redundant casts and nullability wrappers (e.g. `toString(String)`, `assumeNotNull(non_nullable)`, dead `ifNull` fallbacks) using inferred expression types */
   typeAwareCastSimplification?: boolean | null;
   useMaterializedViews?: boolean | null;
-  /** Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, the project's stored value applies, then the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA` instance settings. This is an internal rollout switch. PostHog staff set the project value in Django admin and the project settings API ignores it. */
+  /** Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, a staff person's `ph_new_events_schema` cookie applies, then the project's listing in the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA_TEAMS` instance setting, then the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA` instance setting. This is an internal rollout switch, and the project settings API ignores it. */
   useNewEventsSchema?: boolean | null;
   usePreaggregatedIntermediateResults?: boolean | null;
   /** Try to automatically convert HogQL queries to use preaggregated tables at the AST level * */
@@ -1614,7 +1675,7 @@ export interface QueryStatus {
   end_time?: string | null;
   /** If the query failed, this will be set to true. More information can be found in the error_message field. */
   error?: boolean | null;
-  /** Stable machine-readable code for the error (the DRF exception code), when known. */
+  /** Stable machine-readable code for the error, when known: the DRF exception code, the ClickHouse error name, the HogQL error code, or `unhandled_<exception class>` for a failure that no handler classified. */
   error_code?: string | null;
   error_message?: string | null;
   expiration_time?: string | null;
@@ -1636,6 +1697,8 @@ export interface QueryStatus {
 export interface ResolvedDateRangeResponse {
   date_from?: string;
   date_to?: string;
+  /** The earliest timestamp the query reads, when only its first interval depends on rows from before date_from. Lifecycle sets it to the start of the interval before the range. */
+  read_from?: string | null;
 }
 export type EventsQueryResponseResultsItemList = Array<unknown>;
 export type EventsQueryResponseResultsList = Array<EventsQueryResponseResultsItemList>;
@@ -1654,9 +1717,13 @@ export interface DataWarehouseSourceUsage {
   source_type?: string | null;
   /** Warehouse table name that was referenced */
   table_name: string;
+  /** Whether the query read a history table of this source */
+  uses_history_table?: boolean | null;
 }
 export type EventsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export interface DataWarehouseSyncWarning {
+  /** True when the last sync is still within the table's sync interval, so the data is current and the warning only says it will stop updating (a sync paused recently). False or absent when the data is out of date. */
+  data_is_current?: boolean | null;
   /** Human-readable warning shown to the user */
   message: string;
   /** Name of the ExternalDataSchema responsible for syncing the table */
@@ -1682,7 +1749,16 @@ export interface AccessControlFilterWarning {
   /** Tells warning kinds apart in the shared `warnings` list */
   type?: string;
 }
-export type EventsQueryResponseWarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export interface BreakdownNotAppliedWarning {
+  /** Human-readable warning shown to the user */
+  message: string;
+  /** Tells warning kinds apart in the shared `warnings` list */
+  type?: string;
+}
+export type EventsQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type EventsQueryResponseWarningsList = Array<EventsQueryResponseWarningsItem>;
 export interface EventsQueryResponse {
   columns?: EventsQueryResponseColumnsList;
@@ -1709,7 +1785,7 @@ export interface EventsQueryResponse {
   types?: EventsQueryResponseTypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: EventsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: EventsQueryResponseWarningsList | null;
 }
 /** Return a limited set of data. Required. */
@@ -1724,7 +1800,10 @@ export type ActorsQueryResponseResultsList = Array<ActorsQueryResponseResultsIte
 export type ActorsQueryResponseTimingsList = Array<QueryTiming>;
 export type ActorsQueryResponseTypesList = Array<string>;
 export type ActorsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type ActorsQueryResponseWarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type ActorsQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type ActorsQueryResponseWarningsList = Array<ActorsQueryResponseWarningsItem>;
 export interface ActorsQueryResponse {
   columns?: ActorsQueryResponseColumnsList;
@@ -1750,18 +1829,12 @@ export interface ActorsQueryResponse {
   types?: ActorsQueryResponseTypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: ActorsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: ActorsQueryResponseWarningsList | null;
 }
 export interface CalendarHeatmapFilter {
   /** When true and the series math is `dau`/`unique_users`, each user contributes to the (day-of-week, hour) bucket of their session's first event only -- matching the web overview session-start attribution. When false (default), the user contributes to every bucket they have any event in. No effect on `total` math (event counts are unchanged either way). */
   bucketBySessionStart?: boolean | null;
-}
-export interface CompareFilter {
-  /** Whether to compare the current date range to a previous date range. */
-  compare?: boolean | null;
-  /** The date range to compare to. The value is a relative date. Examples of relative dates are: `-1y` for 1 year ago, `-14m` for 14 months ago, `-100w` for 100 weeks ago, `-14d` for 14 days ago, `-30h` for 30 hours ago. */
-  compare_to?: string | null;
 }
 export type ActionConversionGoalPropertiesItem =
   | EventPropertyFilter
@@ -1800,6 +1873,12 @@ export interface DateRange {
   /** Whether the date_from and date_to should be used verbatim. Disables rounding to the start and end of period. */
   explicitDate?: boolean | null;
 }
+export type MarketingAnalyticsCostFallbackSeriesList = Array<DataWarehouseNode>;
+export type MarketingAnalyticsCostFallbackSourceIdsList = Array<string>;
+export interface MarketingAnalyticsCostFallback {
+  series: MarketingAnalyticsCostFallbackSeriesList;
+  sourceIds: MarketingAnalyticsCostFallbackSourceIdsList;
+}
 export type TrendsQueryPropertiesCase0Item =
   | EventPropertyFilter
   | PersonPropertyFilter
@@ -1828,7 +1907,9 @@ export type TrendsQueryPropertiesCase0Item =
 export type TrendsQueryPropertiesCase0List = Array<TrendsQueryPropertiesCase0Item>;
 /** Property filters for all series */
 export type TrendsQueryProperties = TrendsQueryPropertiesCase0List | PropertyGroupFilter;
+export type TrendsQueryResponseActionNamesMap = { [key: string]: string | undefined };
 export interface BoxPlotDatum {
+  count?: number | null;
   day?: string;
   label?: string;
   max?: number;
@@ -1845,9 +1926,14 @@ export type TrendsQueryResponseResultsItemMap = { [key: string]: unknown | undef
 export type TrendsQueryResponseResultsList = Array<TrendsQueryResponseResultsItemMap>;
 export type TrendsQueryResponseTimingsList = Array<QueryTiming>;
 export type TrendsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type TrendsQueryResponseWarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type TrendsQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type TrendsQueryResponseWarningsList = Array<TrendsQueryResponseWarningsItem>;
 export interface TrendsQueryResponse {
+  /** The name of each action the query's series reference, keyed by action id. A series saved without a `name` displays this name, because the query holds only the action's id. */
+  action_names?: TrendsQueryResponseActionNamesMap | null;
   boxplot_data?: TrendsQueryResponseBoxplotDataList | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
@@ -1868,7 +1954,7 @@ export interface TrendsQueryResponse {
   timings?: TrendsQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: TrendsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: TrendsQueryResponseWarningsList | null;
 }
 export type GroupNodeFixedPropertiesItem =
@@ -1998,6 +2084,7 @@ export type ChartDisplayType =
   | "Metric"
   | "ActionsPie"
   | "ActionsDonut"
+  | "ActionsProportionBar"
   | "ActionsBarValue"
   | "ActionsTable"
   | "WorldMap"
@@ -2013,13 +2100,19 @@ export interface TrendsFormulaNode {
 }
 export type TrendsFilterFormulaNodesList = Array<TrendsFormulaNode>;
 export type TrendsFilterFormulasList = Array<string>;
+export type Calculation = "fixed" | "mean" | "median" | "min" | "max";
 export type Position = "start" | "end";
+export type Scope = "all" | "series";
 export interface GoalLine {
   borderColor?: string | null;
+  /** Recalculate from returned chart marks. An absent calculation uses the fixed value. */
+  calculation?: Calculation | (string & {}) | null;
   displayIfCrossed?: boolean | null;
   displayLabel?: boolean | null;
   label?: string;
   position?: Position | (string & {}) | null;
+  /** SQL chart calculations use the primary axis, across all series or separately per series. */
+  scope?: Scope | (string & {}) | null;
   value?: number;
 }
 export type TrendsFilterGoalLinesList = Array<GoalLine>;
@@ -2046,14 +2139,19 @@ export type DataColorToken =
 export interface ResultCustomizationByValue {
   assignmentBy?: string;
   color?: DataColorToken | (string & {}) | null;
+  customColor?: string | null;
   hidden?: boolean | null;
 }
 export type TrendsFilterResultCustomizationsCase0Map = {
   [key: string]: ResultCustomizationByValue | undefined;
 };
-export type ResultCustomizationByPosition = ResultCustomizationByValue;
+export interface ResultCustomizationByPosition {
+  assignmentBy?: string;
+  color?: DataColorToken | (string & {}) | null;
+  hidden?: boolean | null;
+}
 export type TrendsFilterResultCustomizationsCase1Map = {
-  [key: string]: ResultCustomizationByValue | undefined;
+  [key: string]: ResultCustomizationByPosition | undefined;
 };
 /** Customizations for the appearance of result datasets. */
 export type TrendsFilterResultCustomizations =
@@ -2155,6 +2253,8 @@ export interface TrendsQuery {
   /** Granularity of the response. Can be one of `hour`, `day`, `week` or `month` */
   interval?: IntervalType | (string & {}) | null;
   kind?: string;
+  /** Live series for a Marketing cost trend when materialization coverage is incomplete. */
+  marketingAnalyticsCostFallback?: MarketingAnalyticsCostFallback | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
   /** Property filters for all series */
@@ -2442,7 +2542,8 @@ export type FunnelsQueryResponseTimingsList = Array<QueryTiming>;
 export type FunnelsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type FunnelsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type FunnelsQueryResponseWarningsList = Array<FunnelsQueryResponseWarningsItem>;
 export interface FunnelsQueryResponse {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -2464,7 +2565,7 @@ export interface FunnelsQueryResponse {
   total_median_conversion_time?: number | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: FunnelsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: FunnelsQueryResponseWarningsList | null;
 }
 export type FunnelsQuerySeriesItem =
@@ -2554,7 +2655,8 @@ export type RetentionQueryResponseTimingsList = Array<QueryTiming>;
 export type RetentionQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type RetentionQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type RetentionQueryResponseWarningsList = Array<RetentionQueryResponseWarningsItem>;
 export interface RetentionQueryResponse {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -2574,7 +2676,7 @@ export interface RetentionQueryResponse {
   timings?: RetentionQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: RetentionQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: RetentionQueryResponseWarningsList | null;
 }
 export type AggregationPropertyType = "event" | "person" | "data_warehouse";
@@ -2779,7 +2881,10 @@ export interface PathsLink {
 export type PathsQueryResponseResultsList = Array<PathsLink>;
 export type PathsQueryResponseTimingsList = Array<QueryTiming>;
 export type PathsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type PathsQueryResponseWarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type PathsQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type PathsQueryResponseWarningsList = Array<PathsQueryResponseWarningsItem>;
 export interface PathsQueryResponse {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -2799,7 +2904,7 @@ export interface PathsQueryResponse {
   timings?: PathsQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: PathsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: PathsQueryResponseWarningsList | null;
 }
 export interface PathsQuery {
@@ -2953,7 +3058,8 @@ export type PathsV2QueryResponseTimingsList = Array<QueryTiming>;
 export type PathsV2QueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type PathsV2QueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type PathsV2QueryResponseWarningsList = Array<PathsV2QueryResponseWarningsItem>;
 export interface PathsV2QueryResponse {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -2973,7 +3079,7 @@ export interface PathsV2QueryResponse {
   timings?: PathsV2QueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: PathsV2QueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: PathsV2QueryResponseWarningsList | null;
 }
 export interface PathsV2Query {
@@ -3024,15 +3130,19 @@ export type StickinessQueryPropertiesCase0Item =
 export type StickinessQueryPropertiesCase0List = Array<StickinessQueryPropertiesCase0Item>;
 /** Property filters for all series */
 export type StickinessQueryProperties = StickinessQueryPropertiesCase0List | PropertyGroupFilter;
+export type StickinessQueryResponseActionNamesMap = { [key: string]: string | undefined };
 export type StickinessQueryResponseResultsItemMap = { [key: string]: unknown | undefined };
 export type StickinessQueryResponseResultsList = Array<StickinessQueryResponseResultsItemMap>;
 export type StickinessQueryResponseTimingsList = Array<QueryTiming>;
 export type StickinessQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type StickinessQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type StickinessQueryResponseWarningsList = Array<StickinessQueryResponseWarningsItem>;
 export interface StickinessQueryResponse {
+  /** The name of each action the query's series reference, keyed by action id. A series saved without a `name` displays this name, because the query holds only the action's id. */
+  action_names?: StickinessQueryResponseActionNamesMap | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Generated HogQL query. */
@@ -3050,7 +3160,7 @@ export interface StickinessQueryResponse {
   timings?: StickinessQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: StickinessQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: StickinessQueryResponseWarningsList | null;
 }
 export type StickinessQuerySeriesItem = EventsNode | ActionsNode | DataWarehouseNode;
@@ -3062,7 +3172,7 @@ export type StickinessFilterResultCustomizationsCase0Map = {
   [key: string]: ResultCustomizationByValue | undefined;
 };
 export type StickinessFilterResultCustomizationsCase1Map = {
-  [key: string]: ResultCustomizationByValue | undefined;
+  [key: string]: ResultCustomizationByPosition | undefined;
 };
 /** Customizations for the appearance of result datasets. */
 export type StickinessFilterResultCustomizations =
@@ -3160,15 +3270,19 @@ export type LifecycleQueryPropertiesCase0Item =
 export type LifecycleQueryPropertiesCase0List = Array<LifecycleQueryPropertiesCase0Item>;
 /** Property filters for all series */
 export type LifecycleQueryProperties = LifecycleQueryPropertiesCase0List | PropertyGroupFilter;
+export type LifecycleQueryResponseActionNamesMap = { [key: string]: string | undefined };
 export type LifecycleQueryResponseResultsItemMap = { [key: string]: unknown | undefined };
 export type LifecycleQueryResponseResultsList = Array<LifecycleQueryResponseResultsItemMap>;
 export type LifecycleQueryResponseTimingsList = Array<QueryTiming>;
 export type LifecycleQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type LifecycleQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type LifecycleQueryResponseWarningsList = Array<LifecycleQueryResponseWarningsItem>;
 export interface LifecycleQueryResponse {
+  /** The name of each action the query's series reference, keyed by action id. A series saved without a `name` displays this name, because the query holds only the action's id. */
+  action_names?: LifecycleQueryResponseActionNamesMap | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Generated HogQL query. */
@@ -3186,7 +3300,7 @@ export interface LifecycleQueryResponse {
   timings?: LifecycleQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: LifecycleQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: LifecycleQueryResponseWarningsList | null;
 }
 export type LifecycleQuerySeriesItem = EventsNode | ActionsNode | LifecycleDataWarehouseNode;
@@ -3297,7 +3411,8 @@ export type WebStatsTableQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type WebStatsTableQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type WebStatsTableQueryResponseWarningsList = Array<WebStatsTableQueryResponseWarningsItem>;
 export interface WebStatsTableQueryResponse {
   columns?: WebStatsTableQueryResponseColumnsList | null;
@@ -3315,6 +3430,8 @@ export interface WebStatsTableQueryResponse {
   /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
   preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | (string & {}) | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -3328,12 +3445,16 @@ export interface WebStatsTableQueryResponse {
   types?: WebStatsTableQueryResponseTypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: WebStatsTableQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: WebStatsTableQueryResponseWarningsList | null;
 }
 export interface WebAnalyticsSampling {
   enabled?: boolean | null;
   forceSamplingRate?: SamplingRate | null;
+}
+export interface WebAnalyticsQueryModifiers {
+  /** Serve web overview and stats table queries from the dimensional precompute tables when they hold ready data for the whole date range. Falls back to the normal path otherwise. */
+  useDimensionalTables?: boolean | null;
 }
 export interface WebStatsTableQuery {
   /** Groups aggregation - not used in Web Analytics but required for type compatibility */
@@ -3371,6 +3492,8 @@ export interface WebStatsTableQuery {
   useWebAnalyticsPrecompute?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type WebOverviewQueryConversionGoal = ActionConversionGoal | CustomEventConversionGoal;
 export type WebOverviewQueryOrderByItem = WebAnalyticsOrderByFields | WebAnalyticsOrderByDirection;
@@ -3395,7 +3518,8 @@ export type WebOverviewQueryResponseTimingsList = Array<QueryTiming>;
 export type WebOverviewQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type WebOverviewQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type WebOverviewQueryResponseWarningsList = Array<WebOverviewQueryResponseWarningsItem>;
 export interface WebOverviewQueryResponse {
   dateFrom?: string | null;
@@ -3408,7 +3532,11 @@ export interface WebOverviewQueryResponse {
   modifiers?: HogQLQueryModifiers | null;
   /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
   preComputeIneligibleReason?: string | null;
+  /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
+  preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | (string & {}) | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -3421,7 +3549,7 @@ export interface WebOverviewQueryResponse {
   timings?: WebOverviewQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: WebOverviewQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: WebOverviewQueryResponseWarningsList | null;
 }
 export interface WebOverviewQuery {
@@ -3452,6 +3580,8 @@ export interface WebOverviewQuery {
   useWebAnalyticsPrecompute?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type InsightActorsQuerySource =
   | TrendsQuery
@@ -3614,7 +3744,8 @@ export type SessionsQueryResponseTypesList = Array<string>;
 export type SessionsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type SessionsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type SessionsQueryResponseWarningsList = Array<SessionsQueryResponseWarningsItem>;
 export interface SessionsQueryResponse {
   columns?: SessionsQueryResponseColumnsList;
@@ -3639,7 +3770,7 @@ export interface SessionsQueryResponse {
   types?: SessionsQueryResponseTypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: SessionsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: SessionsQueryResponseWarningsList | null;
 }
 /** Return a limited set of data. Required. */
@@ -3729,124 +3860,6 @@ export interface FunnelsActorsQuery {
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
-export type FunnelCorrelationActorsQueryFunnelCorrelationPersonEntity =
-  | EventsNode
-  | ActionsNode
-  | DataWarehouseNode;
-export type FunnelCorrelationActorsQueryFunnelCorrelationPropertyValuesItem =
-  | EventPropertyFilter
-  | PersonPropertyFilter
-  | PersonMetadataPropertyFilter
-  | ElementPropertyFilter
-  | EventMetadataPropertyFilter
-  | SessionPropertyFilter
-  | CohortPropertyFilter
-  | RecordingPropertyFilter
-  | LogEntryPropertyFilter
-  | GroupPropertyFilter
-  | FeaturePropertyFilter
-  | FlagPropertyFilter
-  | HogQLPropertyFilter
-  | EmptyPropertyFilter
-  | DataWarehousePropertyFilter
-  | DataWarehousePersonPropertyFilter
-  | ErrorTrackingIssueFilter
-  | LogPropertyFilter
-  | MetricPropertyFilter
-  | SpanPropertyFilter
-  | RevenueAnalyticsPropertyFilter
-  | AccountCustomPropertyFilter
-  | WorkflowVariablePropertyFilter
-  | BehavioralPropertyFilter;
-export type FunnelCorrelationActorsQueryFunnelCorrelationPropertyValuesList =
-  Array<FunnelCorrelationActorsQueryFunnelCorrelationPropertyValuesItem>;
-export type FunnelCorrelationQueryFunnelCorrelationEventExcludePropertyNamesList = Array<string>;
-export type FunnelCorrelationQueryFunnelCorrelationEventNamesList = Array<string>;
-export type FunnelCorrelationQueryFunnelCorrelationExcludeEventNamesList = Array<string>;
-export type FunnelCorrelationQueryFunnelCorrelationExcludeNamesList = Array<string>;
-export type FunnelCorrelationQueryFunnelCorrelationNamesList = Array<string>;
-export type FunnelCorrelationResultsType = "events" | "properties" | "event_with_properties";
-export type FunnelCorrelationResponseColumnsList = Array<unknown>;
-export type CorrelationType = "success" | "failure";
-export type EventDefinitionElementsList = Array<unknown>;
-export type EventDefinitionPropertiesMap = { [key: string]: unknown | undefined };
-export interface EventDefinition {
-  elements?: EventDefinitionElementsList;
-  event?: string;
-  properties?: EventDefinitionPropertiesMap;
-}
-export interface EventOddsRatioSerialized {
-  correlation_type?: CorrelationType | (string & {});
-  event?: EventDefinition;
-  failure_count?: number;
-  odds_ratio?: number;
-  success_count?: number;
-}
-export type FunnelCorrelationResultEventsList = Array<EventOddsRatioSerialized>;
-export interface FunnelCorrelationResult {
-  events?: FunnelCorrelationResultEventsList;
-  skewed?: boolean;
-}
-export type FunnelCorrelationResponseTimingsList = Array<QueryTiming>;
-export type FunnelCorrelationResponseTypesList = Array<unknown>;
-export type FunnelCorrelationResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type FunnelCorrelationResponseWarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type FunnelCorrelationResponseWarningsList = Array<FunnelCorrelationResponseWarningsItem>;
-export interface FunnelCorrelationResponse {
-  columns?: FunnelCorrelationResponseColumnsList | null;
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  hasMore?: boolean | null;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  limit?: number | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  offset?: number | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: FunnelCorrelationResult;
-  /** Measured timings for different parts of the query generation process */
-  timings?: FunnelCorrelationResponseTimingsList | null;
-  types?: FunnelCorrelationResponseTypesList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: FunnelCorrelationResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: FunnelCorrelationResponseWarningsList | null;
-}
-export interface FunnelCorrelationQuery {
-  funnelCorrelationEventExcludePropertyNames?: FunnelCorrelationQueryFunnelCorrelationEventExcludePropertyNamesList | null;
-  funnelCorrelationEventNames?: FunnelCorrelationQueryFunnelCorrelationEventNamesList | null;
-  funnelCorrelationExcludeEventNames?: FunnelCorrelationQueryFunnelCorrelationExcludeEventNamesList | null;
-  funnelCorrelationExcludeNames?: FunnelCorrelationQueryFunnelCorrelationExcludeNamesList | null;
-  funnelCorrelationNames?: FunnelCorrelationQueryFunnelCorrelationNamesList | null;
-  funnelCorrelationType?: FunnelCorrelationResultsType | (string & {});
-  kind?: string;
-  response?: FunnelCorrelationResponse | null;
-  source?: FunnelsActorsQuery;
-  /** version of the node, used for schema migrations */
-  version?: number | null;
-}
-export interface FunnelCorrelationActorsQuery {
-  funnelCorrelationPersonConverted?: boolean | null;
-  funnelCorrelationPersonEntity?: FunnelCorrelationActorsQueryFunnelCorrelationPersonEntity | null;
-  funnelCorrelationPropertyValues?: FunnelCorrelationActorsQueryFunnelCorrelationPropertyValuesList | null;
-  includeRecordings?: boolean | null;
-  kind?: string;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  response?: ActorsQueryResponse | null;
-  source?: FunnelCorrelationQuery;
-  tags?: QueryLogTags | null;
-  /** version of the node, used for schema migrations */
-  version?: number | null;
-}
 export type ExperimentEventExposureConfigPropertiesItem =
   | EventPropertyFilter
   | PersonPropertyFilter
@@ -3883,8 +3896,31 @@ export interface ExperimentEventExposureConfig {
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
+export type ExperimentWarehouseNativeExposureConfigResponseMap = {
+  [key: string]: unknown | undefined;
+};
+export interface ExperimentWarehouseNativeUnitBinding {
+  /** Which ids represent that unit, such as `billing_customer_id`. */
+  id_namespace: string;
+  /** What was randomized, as a stable project-scoped label such as `customer` or `account`. */
+  unit_type: string;
+}
+export interface ExperimentWarehouseNativeExposureConfig {
+  /** The direct-query source (an ExternalDataSource id) the SQL is written for. */
+  connection_id: string;
+  kind?: string;
+  /** Read-only SQL in the warehouse's dialect, returning one row per exposure with `entity_id`, `variant` and `timestamp` columns. PostHog keeps the first exposure per entity and applies the experiment's date range and multiple-variant handling. */
+  query: string;
+  response?: ExperimentWarehouseNativeExposureConfigResponseMap | null;
+  unit: ExperimentWarehouseNativeUnitBinding;
+  /** version of the node, used for schema migrations */
+  version?: number | null;
+}
 /** Exposure configuration for filtering events. Defines when users were first exposed to the experiment. */
-export type ExperimentActorsQueryExposureConfig = ExperimentEventExposureConfig | ActionsNode;
+export type ExperimentActorsQueryExposureConfig =
+  | ExperimentEventExposureConfig
+  | ActionsNode
+  | ExperimentWarehouseNativeExposureConfig;
 export type ExperimentActorsQueryFunnelStepBreakdownCase3Item = number | string | number;
 export type ExperimentActorsQueryFunnelStepBreakdownCase3List =
   Array<ExperimentActorsQueryFunnelStepBreakdownCase3Item>;
@@ -3985,7 +4021,29 @@ export interface ExperimentDataWarehouseNode {
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
-export type ExperimentMeanMetricSource = EventsNode | ActionsNode | ExperimentDataWarehouseNode;
+export type ExperimentWarehouseNativeMathType = "total" | "sum";
+export type ExperimentWarehouseNativeNodeResponseMap = { [key: string]: unknown | undefined };
+export interface ExperimentWarehouseNativeNode {
+  /** The direct-query source (an ExternalDataSource id) the SQL is written for. */
+  connection_id: string;
+  custom_name?: string | null;
+  kind?: string;
+  /** How to aggregate the rows per entity. Defaults to `total` (row count). */
+  math?: ExperimentWarehouseNativeMathType | (string & {}) | null;
+  /** The numeric column `math` reads. Required when `math` is `sum`. One SQL relation can serve several metrics, each reading a different column. */
+  math_property?: string | null;
+  /** Read-only SQL in the warehouse's dialect, returning one row per outcome with `entity_id` and `timestamp` columns plus any numeric columns a metric can measure. */
+  query: string;
+  response?: ExperimentWarehouseNativeNodeResponseMap | null;
+  unit: ExperimentWarehouseNativeUnitBinding;
+  /** version of the node, used for schema migrations */
+  version?: number | null;
+}
+export type ExperimentMeanMetricSource =
+  | EventsNode
+  | ActionsNode
+  | ExperimentDataWarehouseNode
+  | ExperimentWarehouseNativeNode;
 export interface ExperimentMeanMetric {
   breakdownFilter?: BreakdownFilter | null;
   conversion_window?: number | null;
@@ -4041,7 +4099,8 @@ export interface ExperimentFunnelMetric {
 export type ExperimentRatioMetricDenominator =
   | EventsNode
   | ActionsNode
-  | ExperimentDataWarehouseNode;
+  | ExperimentDataWarehouseNode
+  | ExperimentWarehouseNativeNode;
 export interface ExperimentMetricOutlierHandling {
   ignore_zeros?: boolean | null;
   /** Winsorization lower percentile bound, as a fraction in [0, 1] (e.g. 0.01 for the 1st percentile). */
@@ -4049,7 +4108,11 @@ export interface ExperimentMetricOutlierHandling {
   /** Winsorization upper percentile bound, as a fraction in [0, 1] (e.g. 0.99 for the 99th percentile). */
   upper_bound_percentile?: number | null;
 }
-export type ExperimentRatioMetricNumerator = EventsNode | ActionsNode | ExperimentDataWarehouseNode;
+export type ExperimentRatioMetricNumerator =
+  | EventsNode
+  | ActionsNode
+  | ExperimentDataWarehouseNode
+  | ExperimentWarehouseNativeNode;
 export type ExperimentRatioMetricResponseMap = { [key: string]: unknown | undefined };
 export interface ExperimentRatioMetric {
   breakdownFilter?: BreakdownFilter | null;
@@ -4222,66 +4285,23 @@ export interface ExperimentBreakdownResult {
   variants?: ExperimentBreakdownResultVariants;
 }
 export type ExperimentQueryResponseBreakdownResultsList = Array<ExperimentBreakdownResult>;
-export type ExperimentQueryResponseCredibleIntervalsValueList = Array<number>;
-export type ExperimentQueryResponseCredibleIntervalsMap = {
-  [key: string]: ExperimentQueryResponseCredibleIntervalsValueList | undefined;
-};
-export type ExperimentQueryResponseInsightItemMap = { [key: string]: unknown | undefined };
-export type ExperimentQueryResponseInsightList = Array<ExperimentQueryResponseInsightItemMap>;
-export type ExperimentQueryResponseMetric =
-  | ExperimentMeanMetric
-  | ExperimentFunnelMetric
-  | ExperimentRatioMetric
-  | ExperimentRetentionMetric;
-export type ExperimentQueryResponseProbabilityMap = { [key: string]: number | undefined };
-export type ExperimentSignificanceCode =
-  | "significant"
-  | "not_enough_exposure"
-  | "low_win_probability"
-  | "high_loss"
-  | "high_p_value";
 export type ExperimentQueryResponseVariantResultsCase0List =
   Array<ExperimentVariantResultFrequentist>;
 export type ExperimentQueryResponseVariantResultsCase1List = Array<ExperimentVariantResultBayesian>;
 export type ExperimentQueryResponseVariantResults =
   | ExperimentQueryResponseVariantResultsCase0List
   | ExperimentQueryResponseVariantResultsCase1List;
-export interface ExperimentVariantTrendsBaseStats {
-  absolute_exposure?: number;
-  count?: number;
-  exposure?: number;
-  key?: string;
-}
-export type ExperimentQueryResponseVariantsCase0List = Array<ExperimentVariantTrendsBaseStats>;
-export interface ExperimentVariantFunnelsBaseStats {
-  failure_count?: number;
-  key?: string;
-  success_count?: number;
-}
-export type ExperimentQueryResponseVariantsCase1List = Array<ExperimentVariantFunnelsBaseStats>;
-export type ExperimentQueryResponseVariants =
-  | ExperimentQueryResponseVariantsCase0List
-  | ExperimentQueryResponseVariantsCase1List;
 export type ExperimentQueryResponseWarningsList = Array<DataWarehouseSyncWarning>;
 export interface ExperimentQueryResponse {
   baseline?: ExperimentStatsBaseValidated | null;
   /** Results grouped by breakdown value. When present, baseline and variant_results contain aggregated data. */
   breakdown_results?: ExperimentQueryResponseBreakdownResultsList | null;
   clickhouse_sql?: string | null;
-  credible_intervals?: ExperimentQueryResponseCredibleIntervalsMap | null;
   hogql?: string | null;
-  insight?: ExperimentQueryResponseInsightList | null;
   /** Whether exposures were served from the precomputation system */
   is_precomputed?: boolean | null;
   kind?: string;
-  metric?: ExperimentQueryResponseMetric | null;
-  p_value?: number | null;
-  probability?: ExperimentQueryResponseProbabilityMap | null;
-  significance_code?: ExperimentSignificanceCode | (string & {}) | null;
-  significant?: boolean | null;
-  stats_version?: number | null;
   variant_results?: ExperimentQueryResponseVariantResults | null;
-  variants?: ExperimentQueryResponseVariants | null;
   /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
   warnings?: ExperimentQueryResponseWarningsList | null;
 }
@@ -4364,6 +4384,18 @@ export interface PathsV2ActorsQuery {
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
+export interface AccountUsersQuery {
+  /** ID of the account whose users to list. */
+  accountId: string;
+  kind?: string;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  response?: ActorsQueryResponse | null;
+  tags?: QueryLogTags | null;
+  /** version of the node, used for schema migrations */
+  version?: number | null;
+}
+export type ExecutionTarget = "default" | "managed_trino";
 export type HogQLFiltersPropertiesItem =
   | EventPropertyFilter
   | PersonPropertyFilter
@@ -4393,12 +4425,15 @@ export type HogQLFiltersPropertiesList = Array<HogQLFiltersPropertiesItem>;
 export interface HogQLFilters {
   /** Breakdown consumed by the {filters.breakdown(...)} placeholder. Set from the dashboard-level breakdown. */
   breakdownFilter?: BreakdownFilter | null;
+  /** Comparison range consumed by {filters.previous} and {filters.compareDate(expr)}. */
+  compareFilter?: CompareFilter | null;
   dateRange?: DateRange | null;
   filterTestAccounts?: boolean | null;
   /** Time granularity consumed by the {filters.interval} placeholder. Set from the dashboard-level interval. */
   interval?: IntervalType | (string & {}) | null;
   properties?: HogQLFiltersPropertiesList | null;
 }
+export type HogQLQueryResponseColumnFormatsList = Array<string | null>;
 export type HogQLQueryResponseColumnsList = Array<unknown>;
 export type HogQLQueryResponseExplainList = Array<string>;
 export type HogQLMetadataResponseChTableNamesList = Array<string>;
@@ -4407,6 +4442,8 @@ export interface HogQLNotice {
   fix?: string | null;
   message?: string;
   start?: number | null;
+  /** An https page with more detail about the notice. The editor links to it from the notice's hover. */
+  url?: string | null;
 }
 export type HogQLMetadataResponseErrorsList = Array<HogQLNotice>;
 export type PredicateFixAction = "edit_query" | "edit_property_type" | "materialize";
@@ -4470,6 +4507,8 @@ export interface HogQLMetadataResponse {
   errors?: HogQLMetadataResponseErrorsList;
   /** One entry per property filter, in query order. */
   index_usage?: HogQLMetadataResponseIndexUsageList | null;
+  /** The validator raised an internal error, such as a database failure, so the errors do not prove that the query is invalid. */
+  internalError?: boolean | null;
   isUsingIndices?: QueryIndexUsage | (string & {}) | null;
   isValid?: boolean | null;
   notices?: HogQLMetadataResponseNoticesList;
@@ -4488,6 +4527,8 @@ export type HogQLQueryResponseWarningsList = Array<HogQLQueryResponseWarningsIte
 export interface HogQLQueryResponse {
   /** Executed ClickHouse query */
   clickhouse?: string | null;
+  /** Display formats for directly selected virtual properties, aligned with columns. */
+  column_formats?: HogQLQueryResponseColumnFormatsList | null;
   /** Returned columns */
   columns?: HogQLQueryResponseColumnsList | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -4532,6 +4573,8 @@ export type HogQLQueryVariablesMap = { [key: string]: HogQLVariable | undefined 
 export interface HogQLQuery {
   /** Optional id of a direct-query-capable external data source to run against instead of ClickHouse -- a pure-direct source, or a synced source with direct query enabled. */
   connectionId?: string | null;
+  /** Compile and run this query against the hosted Trino target. */
+  executionTarget?: ExecutionTarget | (string & {}) | null;
   explain?: boolean | null;
   /** Extra filters applied to query via {filters} or the column-bound {filters(expr AS key, ...)} placeholder */
   filters?: HogQLFilters | null;
@@ -4540,6 +4583,8 @@ export interface HogQLQuery {
   modifiers?: HogQLQueryModifiers | null;
   /** Client provided name of the query */
   name?: string | null;
+  /** Rows to skip before the default row limit applies. Rejected when the query sets its own LIMIT, uses UNION, or runs as raw SQL. */
+  offset?: number | null;
   query?: string;
   response?: HogQLQueryResponse | null;
   /** Run the selected connection query directly without translating it through HogQL first */
@@ -4555,10 +4600,10 @@ export interface HogQLQuery {
 export type ActorsQuerySource =
   | InsightActorsQuery
   | FunnelsActorsQuery
-  | FunnelCorrelationActorsQuery
   | ExperimentActorsQuery
   | StickinessActorsQuery
   | PathsV2ActorsQuery
+  | AccountUsersQuery
   | HogQLQuery;
 export interface ActorsQuery {
   /** Exclude persons matching the team's "internal and test account" filters. Only person-scoped filters (person properties, cohorts) are applied. Event-scoped test account filters have no meaning in a persons query and are ignored. */
@@ -4590,7 +4635,10 @@ export type GroupsQueryResponseResultsList = Array<GroupsQueryResponseResultsIte
 export type GroupsQueryResponseTimingsList = Array<QueryTiming>;
 export type GroupsQueryResponseTypesList = Array<string>;
 export type GroupsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type GroupsQueryResponseWarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type GroupsQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type GroupsQueryResponseWarningsList = Array<GroupsQueryResponseWarningsItem>;
 export interface GroupsQueryResponse {
   columns?: GroupsQueryResponseColumnsList;
@@ -4616,7 +4664,7 @@ export interface GroupsQueryResponse {
   types?: GroupsQueryResponseTypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: GroupsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: GroupsQueryResponseWarningsList | null;
 }
 export type GroupsQuerySelectList = Array<string>;
@@ -4686,7 +4734,6 @@ export interface InsightActorsQueryOptionsResponse {
 export type InsightActorsQueryOptionsSource =
   | InsightActorsQuery
   | FunnelsActorsQuery
-  | FunnelCorrelationActorsQuery
   | StickinessActorsQuery
   | ExperimentActorsQuery
   | PathsV2ActorsQuery;
@@ -4746,7 +4793,8 @@ export type SessionsTimelineQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type SessionsTimelineQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type SessionsTimelineQueryResponseWarningsList =
   Array<SessionsTimelineQueryResponseWarningsItem>;
 export interface SessionsTimelineQueryResponse {
@@ -4768,7 +4816,7 @@ export interface SessionsTimelineQueryResponse {
   timings?: SessionsTimelineQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: SessionsTimelineQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: SessionsTimelineQueryResponseWarningsList | null;
 }
 export interface SessionsTimelineQuery {
@@ -5213,18 +5261,21 @@ export type MarketingAnalyticsTableQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MarketingAnalyticsTableQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MarketingAnalyticsTableQueryResponseWarningsList =
   Array<MarketingAnalyticsTableQueryResponseWarningsItem>;
 export interface MarketingAnalyticsTableQueryResponse {
   columns?: MarketingAnalyticsTableQueryResponseColumnsList | null;
-  /** ISO timestamp of the oldest precompute window backing this result -- surfaced as "data as of X". */
+  /** ISO timestamp of the oldest precompute window backing this result. */
   dataComputedAt?: string | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
   /** Generated HogQL query. */
   hogql?: string | null;
+  /** ISO timestamp of when the numbers for the most recent day in the range were computed, at this time or later. It is the oldest stamp among the precompute windows that hold that day, across costs and conversion goals. Unset when no precompute was read or a window has no stamp. */
+  latestDayComputedAt?: string | null;
   limit?: number | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
@@ -5244,7 +5295,7 @@ export interface MarketingAnalyticsTableQueryResponse {
   types?: MarketingAnalyticsTableQueryResponseTypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MarketingAnalyticsTableQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MarketingAnalyticsTableQueryResponseWarningsList | null;
 }
 export type MarketingAnalyticsTableQuerySelectList = Array<string>;
@@ -5289,6 +5340,8 @@ export interface MarketingAnalyticsTableQuery {
   useSessionsTable?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type MarketingAnalyticsAggregatedQueryConversionGoal =
   | ActionConversionGoal
@@ -5313,16 +5366,19 @@ export type MarketingAnalyticsAggregatedQueryResponseUsedDataWarehouseSourcesLis
   Array<DataWarehouseSourceUsage>;
 export type MarketingAnalyticsAggregatedQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MarketingAnalyticsAggregatedQueryResponseWarningsList =
   Array<MarketingAnalyticsAggregatedQueryResponseWarningsItem>;
 export interface MarketingAnalyticsAggregatedQueryResponse {
-  /** ISO timestamp of the oldest precompute window backing this result -- surfaced as "data as of X". */
+  /** ISO timestamp of the oldest precompute window backing this result. */
   dataComputedAt?: string | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Generated HogQL query. */
   hogql?: string | null;
+  /** ISO timestamp of when the numbers for the most recent day in the range were computed, at this time or later. It is the oldest stamp among the precompute windows that hold that day, across costs and conversion goals. Unset when no precompute was read or a window has no stamp. */
+  latestDayComputedAt?: string | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
   /** True when a conversion goal's precompute has not been warmed for this window yet -- the UI shows a "computing" state rather than empty results. Marketing analytics serves exclusively from precompute. */
@@ -5339,7 +5395,7 @@ export interface MarketingAnalyticsAggregatedQueryResponse {
   timings?: MarketingAnalyticsAggregatedQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MarketingAnalyticsAggregatedQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MarketingAnalyticsAggregatedQueryResponseWarningsList | null;
 }
 export type MarketingAnalyticsAggregatedQuerySelectList = Array<string>;
@@ -5376,6 +5432,8 @@ export interface MarketingAnalyticsAggregatedQuery {
   useSessionsTable?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type MarketingAnalyticsAttributionBreakdown =
   | "channel"
@@ -5435,7 +5493,8 @@ export type MarketingAnalyticsAttributionQueryResponseUsedDataWarehouseSourcesLi
   Array<DataWarehouseSourceUsage>;
 export type MarketingAnalyticsAttributionQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MarketingAnalyticsAttributionQueryResponseWarningsList =
   Array<MarketingAnalyticsAttributionQueryResponseWarningsItem>;
 export interface MarketingAnalyticsAttributionQueryResponse {
@@ -5471,7 +5530,7 @@ export interface MarketingAnalyticsAttributionQueryResponse {
   unattributedConversions: number;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MarketingAnalyticsAttributionQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MarketingAnalyticsAttributionQueryResponseWarningsList | null;
 }
 export interface MarketingAnalyticsAttributionQuery {
@@ -5515,6 +5574,8 @@ export interface MarketingAnalyticsAttributionQuery {
   useSessionsTable?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type MarketingAnalyticsAttributionPathsQueryConversionGoal =
   | ActionConversionGoal
@@ -5545,7 +5606,8 @@ export type MarketingAnalyticsAttributionPathsQueryResponseUsedDataWarehouseSour
   Array<DataWarehouseSourceUsage>;
 export type MarketingAnalyticsAttributionPathsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MarketingAnalyticsAttributionPathsQueryResponseWarningsList =
   Array<MarketingAnalyticsAttributionPathsQueryResponseWarningsItem>;
 export interface MarketingAnalyticsAttributionPathsQueryResponse {
@@ -5577,7 +5639,7 @@ export interface MarketingAnalyticsAttributionPathsQueryResponse {
   totalConversions: number;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MarketingAnalyticsAttributionPathsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MarketingAnalyticsAttributionPathsQueryResponseWarningsList | null;
 }
 export interface MarketingAnalyticsAttributionPathsQuery {
@@ -5625,6 +5687,8 @@ export interface MarketingAnalyticsAttributionPathsQuery {
   useSessionsTable?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type MarketingAnalyticsRetentionQueryPropertiesItem =
   | EventPropertyFilter
@@ -5679,7 +5743,8 @@ export type MarketingAnalyticsRetentionQueryResponseUsedDataWarehouseSourcesList
   Array<DataWarehouseSourceUsage>;
 export type MarketingAnalyticsRetentionQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MarketingAnalyticsRetentionQueryResponseWarningsList =
   Array<MarketingAnalyticsRetentionQueryResponseWarningsItem>;
 export interface MarketingAnalyticsRetentionQueryResponse {
@@ -5713,7 +5778,7 @@ export interface MarketingAnalyticsRetentionQueryResponse {
   truncatedCohorts: number;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MarketingAnalyticsRetentionQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MarketingAnalyticsRetentionQueryResponseWarningsList | null;
 }
 export interface MarketingAnalyticsRetentionQuery {
@@ -5753,10 +5818,30 @@ export interface MarketingAnalyticsRetentionQuery {
   useSessionsTable?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
-export type Breakdown1 = "keyword" | "page";
+export type Breakdown1 = "keyword" | "page" | "search_term";
+export interface MarketingAnalyticsSearchConversionGoal {
+  id: string;
+  name: string;
+}
+export type MarketingAnalyticsSearchQueryResponsePosthogConversionGoalsList =
+  Array<MarketingAnalyticsSearchConversionGoal>;
 export type Platform = "GoogleAds" | "BingAds" | "GoogleSearchConsole";
+export interface MarketingAnalyticsSearchConversion {
+  conversions?: number | null;
+  costPerConversion?: number | null;
+  id: string;
+  name: string;
+  previousConversions?: number | null;
+  previousCostPerConversion?: number | null;
+}
+export type MarketingAnalyticsSearchRowPosthogConversionsList =
+  Array<MarketingAnalyticsSearchConversion>;
 export interface MarketingAnalyticsSearchMetrics {
+  /** Fraction of Google Search ad impressions shown as the first ad. */
+  absoluteTopImpressionRate?: number | null;
   clicks: number;
   conversions?: number | null;
   cost?: number | null;
@@ -5765,8 +5850,12 @@ export interface MarketingAnalyticsSearchMetrics {
   ctr?: number | null;
   impressions: number;
   position?: number | null;
+  /** Fraction of Google Search ad impressions shown among the top ads. */
+  topImpressionRate?: number | null;
 }
 export interface MarketingAnalyticsSearchRow {
+  /** Fraction of Google Search ad impressions shown as the first ad. */
+  absoluteTopImpressionRate?: number | null;
   clicks: number;
   conversions?: number | null;
   cost?: number | null;
@@ -5780,7 +5869,10 @@ export interface MarketingAnalyticsSearchRow {
   page?: string | null;
   platform: Platform | (string & {});
   position?: number | null;
+  posthogConversions?: MarketingAnalyticsSearchRowPosthogConversionsList | null;
   previous?: MarketingAnalyticsSearchMetrics | null;
+  /** Fraction of Google Search ad impressions shown among the top ads. */
+  topImpressionRate?: number | null;
 }
 export type MarketingAnalyticsSearchQueryResponseResultsList = Array<MarketingAnalyticsSearchRow>;
 export type MarketingAnalyticsSearchQueryResponseTimingsList = Array<QueryTiming>;
@@ -5788,10 +5880,122 @@ export type MarketingAnalyticsSearchQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MarketingAnalyticsSearchQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MarketingAnalyticsSearchQueryResponseWarningsList =
   Array<MarketingAnalyticsSearchQueryResponseWarningsItem>;
 export interface MarketingAnalyticsSearchQueryResponse {
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  placementUnavailable?: boolean | null;
+  posthogAttributionMode?: AttributionMode | (string & {}) | null;
+  posthogConversionGoals?: MarketingAnalyticsSearchQueryResponsePosthogConversionGoalsList | null;
+  posthogConversionsWarning?: string | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results: MarketingAnalyticsSearchQueryResponseResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: MarketingAnalyticsSearchQueryResponseTimingsList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: MarketingAnalyticsSearchQueryResponseUsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: MarketingAnalyticsSearchQueryResponseWarningsList | null;
+}
+export type SourceType = "GoogleAds" | "BingAds" | "GoogleSearchConsole";
+export interface MarketingAnalyticsSearchSource {
+  keywordTable?: string | null;
+  /** Google Ads search terms from Performance Max campaigns. */
+  performanceMaxSearchTermTable?: string | null;
+  placementTable?: string | null;
+  queryPageTable?: boolean | null;
+  /** Google Ads search terms from Search campaigns. */
+  searchTermTable?: string | null;
+  sourceType: SourceType | (string & {});
+  /** For the Google Ads search term breakdown, the campaign table, which carries the account currency. */
+  statsTable: string;
+}
+export type MarketingAnalyticsSearchQuerySourcesList = Array<MarketingAnalyticsSearchSource>;
+export interface MarketingAnalyticsSearchQuery {
+  breakdown?: Breakdown1 | (string & {}) | null;
+  compareFilter?: CompareFilter | null;
+  dateRange?: DateRange | null;
+  includePostHogConversions?: boolean | null;
+  keyword?: string | null;
+  kind?: string;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  normalizePageUrls?: boolean | null;
+  page?: string | null;
+  response?: MarketingAnalyticsSearchQueryResponse | null;
+  search?: string | null;
+  sources: MarketingAnalyticsSearchQuerySourcesList;
+  tags?: QueryLogTags | null;
+  /** version of the node, used for schema migrations */
+  version?: number | null;
+}
+export type MarketingAnalyticsRecommendationImpactDirection = "save" | "gain" | "invest" | "keep";
+export type MarketingAnalyticsRecommendationImpactType = "measured" | "estimated";
+export type MarketingAnalyticsRecommendationLevel = "campaign" | "search_term";
+export type MarketingAnalyticsRecommendationRule =
+  | "budget_constrained"
+  | "brand_leak"
+  | "scale_campaign"
+  | "review_campaign"
+  | "policy_limited"
+  | "brand_overlap"
+  | "content_gap"
+  | "keyword_gap"
+  | "spend_without_conversions"
+  | "striking_distance";
+export interface MarketingAnalyticsRecommendationStep {
+  /** Text to paste into Google Ads at this step, such as a campaign name or keywords in match type syntax, one per line. */
+  copyValue?: string | null;
+  /** The words in `text` that link to `url`, usually the section name. */
+  linkText?: string | null;
+  text: string;
+  /** Google Ads page for this step. It opens the section for the whole account, because links cannot filter to one campaign. */
+  url?: string | null;
+}
+export type MarketingAnalyticsRecommendationStepsList = Array<MarketingAnalyticsRecommendationStep>;
+export interface MarketingAnalyticsRecommendation {
+  action: string;
+  /** The campaign a search term recommendation applies to, when it applies to one. */
+  campaign?: string | null;
+  currency?: string | null;
+  /** Monthly money impact in the account currency. Null when the rule has no money impact. */
+  impact?: number | null;
+  impactDirection: MarketingAnalyticsRecommendationImpactDirection | (string & {});
+  impactType: MarketingAnalyticsRecommendationImpactType | (string & {});
+  level: MarketingAnalyticsRecommendationLevel | (string & {});
+  reason: string;
+  rule: MarketingAnalyticsRecommendationRule | (string & {});
+  /** How to apply the recommendation in Google Ads, in order. Empty when the rule has no steps yet. */
+  steps?: MarketingAnalyticsRecommendationStepsList | null;
+  /** The campaign name or the search term the recommendation is about. */
+  subject: string;
+}
+export type MarketingAnalyticsRecommendationsQueryResponseResultsList =
+  Array<MarketingAnalyticsRecommendation>;
+export type MarketingAnalyticsRecommendationsQueryResponseTimingsList = Array<QueryTiming>;
+export type MarketingAnalyticsRecommendationsQueryResponseUsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type MarketingAnalyticsRecommendationsQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type MarketingAnalyticsRecommendationsQueryResponseWarningsList =
+  Array<MarketingAnalyticsRecommendationsQueryResponseWarningsItem>;
+export interface MarketingAnalyticsRecommendationsQueryResponse {
+  /** Caveat to show with the results. The results are suggestions, and impact figures are estimates. */
+  disclaimer: string;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Generated HogQL query. */
@@ -5804,34 +6008,48 @@ export interface MarketingAnalyticsSearchQueryResponse {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results: MarketingAnalyticsSearchQueryResponseResultsList;
+  results: MarketingAnalyticsRecommendationsQueryResponseResultsList;
   /** Measured timings for different parts of the query generation process */
-  timings?: MarketingAnalyticsSearchQueryResponseTimingsList | null;
+  timings?: MarketingAnalyticsRecommendationsQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: MarketingAnalyticsSearchQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: MarketingAnalyticsSearchQueryResponseWarningsList | null;
+  used_data_warehouse_sources?: MarketingAnalyticsRecommendationsQueryResponseUsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: MarketingAnalyticsRecommendationsQueryResponseWarningsList | null;
 }
-export type SourceType = "GoogleAds" | "BingAds" | "GoogleSearchConsole";
-export interface MarketingAnalyticsSearchSource {
-  keywordTable?: string | null;
-  queryPageTable?: boolean | null;
-  sourceType: SourceType | (string & {});
-  statsTable: string;
+export type MarketingAnalyticsRecommendationsSourceType = "GoogleAds" | "GoogleSearchConsole";
+export interface MarketingAnalyticsRecommendationsSource {
+  /** Google Ads daily campaign impression share table. */
+  campaignImpressionShareTable?: string | null;
+  /** Google Ads daily campaign stats table. */
+  campaignStatsTable?: string | null;
+  /** Google Ads campaign table. */
+  campaignTable?: string | null;
+  /** Google Ads customer table, used for the account currency. */
+  customerTable?: string | null;
+  /** Google Ads search term table for Performance Max campaigns. */
+  performanceMaxSearchTermTable?: string | null;
+  /** Google Search Console table with one row per query and page, used to find the page that ranks for a search. */
+  queryPageTable?: string | null;
+  /** Google Search Console table with one row per query, or per query and page. */
+  queryTable?: string | null;
+  /** Google Ads search term table split by the keyword that matched each term. */
+  searchTermKeywordTable?: string | null;
+  /** Google Ads search term table for Search campaigns. */
+  searchTermTable?: string | null;
+  /** Google Search Console sites table, used to infer the brand name. */
+  sitesTable?: string | null;
+  sourceType: MarketingAnalyticsRecommendationsSourceType | (string & {});
 }
-export type MarketingAnalyticsSearchQuerySourcesList = Array<MarketingAnalyticsSearchSource>;
-export interface MarketingAnalyticsSearchQuery {
-  breakdown?: Breakdown1 | (string & {}) | null;
-  compareFilter?: CompareFilter | null;
+export type MarketingAnalyticsRecommendationsQuerySourcesList =
+  Array<MarketingAnalyticsRecommendationsSource>;
+export interface MarketingAnalyticsRecommendationsQuery {
   dateRange?: DateRange | null;
-  keyword?: string | null;
   kind?: string;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
-  page?: string | null;
-  response?: MarketingAnalyticsSearchQueryResponse | null;
-  search?: string | null;
-  sources: MarketingAnalyticsSearchQuerySourcesList;
+  response?: MarketingAnalyticsRecommendationsQueryResponse | null;
+  /** Tables to read. Omit to read every synced Google Ads and Google Search Console source in the project. */
+  sources?: MarketingAnalyticsRecommendationsQuerySourcesList | null;
   tags?: QueryLogTags | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
@@ -5858,7 +6076,8 @@ export type WebExternalClicksTableQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type WebExternalClicksTableQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type WebExternalClicksTableQueryResponseWarningsList =
   Array<WebExternalClicksTableQueryResponseWarningsItem>;
 export interface WebExternalClicksTableQueryResponse {
@@ -5885,7 +6104,7 @@ export interface WebExternalClicksTableQueryResponse {
   types?: WebExternalClicksTableQueryResponseTypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: WebExternalClicksTableQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: WebExternalClicksTableQueryResponseWarningsList | null;
 }
 export interface WebExternalClicksTableQuery {
@@ -5916,6 +6135,8 @@ export interface WebExternalClicksTableQuery {
   useSessionsTable?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type WebBotsBreakdown = "Crawler" | "Path";
 export type WebBotsTableQueryConversionGoal = ActionConversionGoal | CustomEventConversionGoal;
@@ -5934,7 +6155,8 @@ export type WebBotsTableQueryResponseTypesList = Array<unknown>;
 export type WebBotsTableQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type WebBotsTableQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type WebBotsTableQueryResponseWarningsList = Array<WebBotsTableQueryResponseWarningsItem>;
 export interface WebBotsTableQueryResponse {
   columns?: WebBotsTableQueryResponseColumnsList | null;
@@ -5959,7 +6181,7 @@ export interface WebBotsTableQueryResponse {
   types?: WebBotsTableQueryResponseTypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: WebBotsTableQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: WebBotsTableQueryResponseWarningsList | null;
 }
 export interface WebBotsTableQuery {
@@ -5990,6 +6212,8 @@ export interface WebBotsTableQuery {
   useSessionsTable?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type WebAgentContentGrouping = "exact" | "normalized";
 export type WebAgentAnalyticsQueryConversionGoal = ActionConversionGoal | CustomEventConversionGoal;
@@ -6022,7 +6246,8 @@ export type WebAgentAnalyticsQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type WebAgentAnalyticsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type WebAgentAnalyticsQueryResponseWarningsList =
   Array<WebAgentAnalyticsQueryResponseWarningsItem>;
 export interface WebAgentAnalyticsQueryResponse {
@@ -6048,7 +6273,7 @@ export interface WebAgentAnalyticsQueryResponse {
   types?: WebAgentAnalyticsQueryResponseTypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: WebAgentAnalyticsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: WebAgentAnalyticsQueryResponseWarningsList | null;
 }
 export interface WebAgentAnalyticsQuery {
@@ -6086,6 +6311,142 @@ export interface WebAgentAnalyticsQuery {
   useSessionsTable?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
+}
+export type WebPageDirectoryQueryConversionGoal = ActionConversionGoal | CustomEventConversionGoal;
+export type WebPageDirectoryMetric =
+  | "visitors"
+  | "google_search"
+  | "ai_referrals"
+  | "ai_crawls"
+  | "conversions"
+  | "time_on_page"
+  | "bounce_rate";
+export type WebPageDirectoryQueryMetricsList = Array<WebPageDirectoryMetric | (string & {})>;
+export type WebPageDirectoryQueryOrderByItem =
+  | WebAnalyticsOrderByFields
+  | WebAnalyticsOrderByDirection;
+export type WebPageDirectoryQueryOrderByList = Array<WebPageDirectoryQueryOrderByItem>;
+export type WebPageDirectoryQueryPageKeysList = Array<string>;
+export type WebPageDirectoryQueryPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter;
+export type WebPageDirectoryQueryPropertiesList = Array<WebPageDirectoryQueryPropertiesItem>;
+export type WebPageDirectoryRowAiCrawlerNamesList = Array<string>;
+export interface WebPageDirectoryValue {
+  current: number;
+  previous?: number | null;
+}
+export interface WebPageDirectoryRow {
+  aiCrawlerNames?: WebPageDirectoryRowAiCrawlerNamesList | null;
+  aiCrawlers?: number | null;
+  aiCrawls?: WebPageDirectoryValue | null;
+  aiReferrals?: WebPageDirectoryValue | null;
+  bounceRate?: number | null;
+  conversions?: WebPageDirectoryValue | null;
+  googleSearch?: WebPageDirectoryValue | null;
+  page: string;
+  timeOnPageP90?: number | null;
+  visitors?: WebPageDirectoryValue | null;
+}
+export type WebPageDirectoryQueryResponseResultsList = Array<WebPageDirectoryRow>;
+export type WebPageDirectorySiteTotalsAiCrawlerNamesList = Array<string>;
+export interface WebPageDirectorySiteTotals {
+  aiCrawlerNames?: WebPageDirectorySiteTotalsAiCrawlerNamesList | null;
+  aiCrawlers?: number | null;
+  aiCrawls?: WebPageDirectoryValue | null;
+  aiReferrals?: WebPageDirectoryValue | null;
+  bounceRate?: number | null;
+  conversions?: WebPageDirectoryValue | null;
+  googleSearch?: WebPageDirectoryValue | null;
+  serverLogs: number;
+  timeOnPageP90?: number | null;
+  visitors?: WebPageDirectoryValue | null;
+}
+export type WebPageDirectoryQueryResponseTimingsList = Array<QueryTiming>;
+export type WebPageDirectoryQueryResponseUsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type WebPageDirectoryQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type WebPageDirectoryQueryResponseWarningsList =
+  Array<WebPageDirectoryQueryResponseWarningsItem>;
+export interface WebPageDirectoryQueryResponse {
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  hasMore?: boolean | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  limit?: number | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  offset?: number | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results: WebPageDirectoryQueryResponseResultsList;
+  siteTotals?: WebPageDirectorySiteTotals | null;
+  /** Measured timings for different parts of the query generation process */
+  timings?: WebPageDirectoryQueryResponseTimingsList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: WebPageDirectoryQueryResponseUsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: WebPageDirectoryQueryResponseWarningsList | null;
+}
+export type WebPageDirectorySortBy =
+  | "page"
+  | "visitors"
+  | "google_search"
+  | "ai_referrals"
+  | "ai_crawls"
+  | "conversions"
+  | "time_on_page"
+  | "bounce_rate";
+export type SortDirection = "ASC" | "DESC";
+export interface WebPageDirectoryQuery {
+  /** Groups aggregation - not used in Web Analytics but required for type compatibility */
+  aggregation_group_type_index?: number | null;
+  compareFilter?: CompareFilter | null;
+  conversionGoal?: WebPageDirectoryQueryConversionGoal | null;
+  /** Colors used in the insight's visualization - not used in Web Analytics but required for type compatibility */
+  dataColorTheme?: number | null;
+  dateRange?: DateRange | null;
+  doPathCleaning?: boolean | null;
+  excludeStaticAssets?: boolean | null;
+  filterTestAccounts?: boolean | null;
+  includeRevenue?: boolean | null;
+  includeSiteTotals?: boolean | null;
+  /** Interval for date range calculation (affects date_to rounding for hour vs day ranges) */
+  interval?: IntervalType | (string & {}) | null;
+  kind?: string;
+  limit?: number | null;
+  metrics?: WebPageDirectoryQueryMetricsList | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  offset?: number | null;
+  orderBy?: WebPageDirectoryQueryOrderByList | null;
+  pageKeys?: WebPageDirectoryQueryPageKeysList | null;
+  properties: WebPageDirectoryQueryPropertiesList;
+  response?: WebPageDirectoryQueryResponse | null;
+  sampling?: WebAnalyticsSampling | null;
+  /** Sampling rate */
+  samplingFactor?: number | null;
+  search?: string | null;
+  sortBy?: WebPageDirectorySortBy | (string & {}) | null;
+  sortDirection?: SortDirection | (string & {}) | null;
+  tags?: QueryLogTags | null;
+  useSessionsTable?: boolean | null;
+  /** version of the node, used for schema migrations */
+  version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type WebGoalsQueryConversionGoal = ActionConversionGoal | CustomEventConversionGoal;
 export type WebGoalsQueryOrderByItem = WebAnalyticsOrderByFields | WebAnalyticsOrderByDirection;
@@ -6103,7 +6464,8 @@ export type WebGoalsQueryResponseTypesList = Array<unknown>;
 export type WebGoalsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type WebGoalsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type WebGoalsQueryResponseWarningsList = Array<WebGoalsQueryResponseWarningsItem>;
 export interface WebGoalsQueryResponse {
   columns?: WebGoalsQueryResponseColumnsList | null;
@@ -6118,7 +6480,11 @@ export interface WebGoalsQueryResponse {
   offset?: number | null;
   /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
   preComputeIneligibleReason?: string | null;
+  /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
+  preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | (string & {}) | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -6132,7 +6498,7 @@ export interface WebGoalsQueryResponse {
   types?: WebGoalsQueryResponseTypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: WebGoalsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: WebGoalsQueryResponseWarningsList | null;
 }
 export interface WebGoalsQuery {
@@ -6164,6 +6530,8 @@ export interface WebGoalsQuery {
   useWebAnalyticsPrecompute?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type WebVitalsQueryConversionGoal = ActionConversionGoal | CustomEventConversionGoal;
 export type WebVitalsQueryOrderByItem = WebAnalyticsOrderByFields | WebAnalyticsOrderByDirection;
@@ -6211,6 +6579,8 @@ export interface WebVitalsQuery {
   useSessionsTable?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type WebVitalsPathBreakdownQueryConversionGoal =
   | ActionConversionGoal
@@ -6247,7 +6617,8 @@ export type WebVitalsPathBreakdownQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type WebVitalsPathBreakdownQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type WebVitalsPathBreakdownQueryResponseWarningsList =
   Array<WebVitalsPathBreakdownQueryResponseWarningsItem>;
 export interface WebVitalsPathBreakdownQueryResponse {
@@ -6259,7 +6630,11 @@ export interface WebVitalsPathBreakdownQueryResponse {
   modifiers?: HogQLQueryModifiers | null;
   /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
   preComputeIneligibleReason?: string | null;
+  /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
+  preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | (string & {}) | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -6271,7 +6646,7 @@ export interface WebVitalsPathBreakdownQueryResponse {
   timings?: WebVitalsPathBreakdownQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: WebVitalsPathBreakdownQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: WebVitalsPathBreakdownQueryResponseWarningsList | null;
 }
 export type WebVitalsPathBreakdownQueryThresholdsList = Array<number>;
@@ -6306,6 +6681,8 @@ export interface WebVitalsPathBreakdownQuery {
   useWebAnalyticsPrecompute?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type WebPageURLSearchQueryConversionGoal = ActionConversionGoal | CustomEventConversionGoal;
 export type WebPageURLSearchQueryOrderByItem =
@@ -6327,7 +6704,8 @@ export type WebPageURLSearchQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type WebPageURLSearchQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type WebPageURLSearchQueryResponseWarningsList =
   Array<WebPageURLSearchQueryResponseWarningsItem>;
 export interface WebPageURLSearchQueryResponse {
@@ -6351,7 +6729,7 @@ export interface WebPageURLSearchQueryResponse {
   timings?: WebPageURLSearchQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: WebPageURLSearchQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: WebPageURLSearchQueryResponseWarningsList | null;
 }
 export interface WebPageURLSearchQuery {
@@ -6383,6 +6761,8 @@ export interface WebPageURLSearchQuery {
   useSessionsTable?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type WebAnalyticsExternalSummaryQueryPropertiesItem =
   | EventPropertyFilter
@@ -6439,7 +6819,8 @@ export type WebNotableChangesQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type WebNotableChangesQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type WebNotableChangesQueryResponseWarningsList =
   Array<WebNotableChangesQueryResponseWarningsItem>;
 export interface WebNotableChangesQueryResponse {
@@ -6462,7 +6843,7 @@ export interface WebNotableChangesQueryResponse {
   timings?: WebNotableChangesQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: WebNotableChangesQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: WebNotableChangesQueryResponseWarningsList | null;
 }
 export interface WebNotableChangesQuery {
@@ -6492,6 +6873,8 @@ export interface WebNotableChangesQuery {
   useSessionsTable?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
+  /** Per-request switches for how web analytics serves this query. */
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
 }
 export type FiltersPropertiesList = Array<SessionPropertyFilter>;
 export interface Filters {
@@ -6516,7 +6899,8 @@ export type SessionAttributionExplorerQueryResponseUsedDataWarehouseSourcesList 
   Array<DataWarehouseSourceUsage>;
 export type SessionAttributionExplorerQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type SessionAttributionExplorerQueryResponseWarningsList =
   Array<SessionAttributionExplorerQueryResponseWarningsItem>;
 export interface SessionAttributionExplorerQueryResponse {
@@ -6542,7 +6926,7 @@ export interface SessionAttributionExplorerQueryResponse {
   types?: SessionAttributionExplorerQueryResponseTypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: SessionAttributionExplorerQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: SessionAttributionExplorerQueryResponseWarningsList | null;
 }
 export interface SessionAttributionExplorerQuery {
@@ -6569,7 +6953,8 @@ export type ErrorTrackingOrderBy =
   | "first_seen"
   | "occurrences"
   | "users"
-  | "sessions";
+  | "sessions"
+  | "severity";
 export type OrderDirection2 = "ASC" | "DESC";
 export type ErrorTrackingQueryIssueSeverity = "low" | "medium" | "high" | "critical";
 export interface ErrorTrackingPendingFingerprintIssueStateUpdate {
@@ -6643,6 +7028,7 @@ export type IntegrationKind =
   | "customerio-webhook"
   | "customerio-track"
   | "apns"
+  | "apple-ads"
   | "postgresql"
   | "aws-s3"
   | "aws-redshift"
@@ -6700,7 +7086,8 @@ export type ErrorTrackingQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type ErrorTrackingQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type ErrorTrackingQueryResponseWarningsList = Array<ErrorTrackingQueryResponseWarningsItem>;
 export interface ErrorTrackingQueryResponse {
   columns?: ErrorTrackingQueryResponseColumnsList | null;
@@ -6724,7 +7111,7 @@ export interface ErrorTrackingQueryResponse {
   timings?: ErrorTrackingQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: ErrorTrackingQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: ErrorTrackingQueryResponseWarningsList | null;
 }
 /** Filter by issue status. */
@@ -6755,6 +7142,8 @@ export interface ErrorTrackingQuery {
   response?: ErrorTrackingQueryResponse | null;
   /** Free-text search across exception type, message, and stack frames. */
   searchQuery?: string | null;
+  /** Filter by issue severity. */
+  severity?: ErrorTrackingQueryIssueSeverity | (string & {}) | null;
   /** Filter by issue status. */
   status?: ErrorTrackingQueryStatus | null;
   tags?: QueryLogTags | null;
@@ -6783,7 +7172,8 @@ export type ErrorTrackingSimilarIssuesQueryResponseUsedDataWarehouseSourcesList 
   Array<DataWarehouseSourceUsage>;
 export type ErrorTrackingSimilarIssuesQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type ErrorTrackingSimilarIssuesQueryResponseWarningsList =
   Array<ErrorTrackingSimilarIssuesQueryResponseWarningsItem>;
 export interface ErrorTrackingSimilarIssuesQueryResponse {
@@ -6807,7 +7197,7 @@ export interface ErrorTrackingSimilarIssuesQueryResponse {
   timings?: ErrorTrackingSimilarIssuesQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: ErrorTrackingSimilarIssuesQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: ErrorTrackingSimilarIssuesQueryResponseWarningsList | null;
 }
 export interface ErrorTrackingSimilarIssuesQuery {
@@ -6838,7 +7228,8 @@ export type ErrorTrackingFingerprintProjectionQueryResponseUsedDataWarehouseSour
   Array<DataWarehouseSourceUsage>;
 export type ErrorTrackingFingerprintProjectionQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type ErrorTrackingFingerprintProjectionQueryResponseWarningsList =
   Array<ErrorTrackingFingerprintProjectionQueryResponseWarningsItem>;
 export interface ErrorTrackingFingerprintProjectionQueryResponse {
@@ -6860,7 +7251,7 @@ export interface ErrorTrackingFingerprintProjectionQueryResponse {
   timings?: ErrorTrackingFingerprintProjectionQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: ErrorTrackingFingerprintProjectionQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: ErrorTrackingFingerprintProjectionQueryResponseWarningsList | null;
 }
 export interface ErrorTrackingFingerprintProjectionQuery {
@@ -6891,7 +7282,8 @@ export type ErrorTrackingBreakdownsQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type ErrorTrackingBreakdownsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type ErrorTrackingBreakdownsQueryResponseWarningsList =
   Array<ErrorTrackingBreakdownsQueryResponseWarningsItem>;
 export interface ErrorTrackingBreakdownsQueryResponse {
@@ -6912,7 +7304,7 @@ export interface ErrorTrackingBreakdownsQueryResponse {
   timings?: ErrorTrackingBreakdownsQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: ErrorTrackingBreakdownsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: ErrorTrackingBreakdownsQueryResponseWarningsList | null;
 }
 export interface ErrorTrackingBreakdownsQuery {
@@ -6963,7 +7355,8 @@ export type ErrorTrackingReleasesQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type ErrorTrackingReleasesQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type ErrorTrackingReleasesQueryResponseWarningsList =
   Array<ErrorTrackingReleasesQueryResponseWarningsItem>;
 export interface ErrorTrackingReleasesQueryResponse {
@@ -7002,7 +7395,7 @@ export interface ErrorTrackingReleasesQueryResponse {
   unattributed: ErrorTrackingReleaseSeries | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: ErrorTrackingReleasesQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: ErrorTrackingReleasesQueryResponseWarningsList | null;
 }
 export interface ErrorTrackingReleasesQuery {
@@ -7058,7 +7451,8 @@ export type ErrorTrackingIssueCorrelationQueryResponseUsedDataWarehouseSourcesLi
   Array<DataWarehouseSourceUsage>;
 export type ErrorTrackingIssueCorrelationQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type ErrorTrackingIssueCorrelationQueryResponseWarningsList =
   Array<ErrorTrackingIssueCorrelationQueryResponseWarningsItem>;
 export interface ErrorTrackingIssueCorrelationQueryResponse {
@@ -7083,7 +7477,7 @@ export interface ErrorTrackingIssueCorrelationQueryResponse {
   timings?: ErrorTrackingIssueCorrelationQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: ErrorTrackingIssueCorrelationQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: ErrorTrackingIssueCorrelationQueryResponseWarningsList | null;
 }
 export interface ErrorTrackingIssueCorrelationQuery {
@@ -7096,12 +7490,69 @@ export interface ErrorTrackingIssueCorrelationQuery {
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
+export type ErrorTrackingIssueEventsQueryResponseColumnsList = Array<unknown>;
+export type ErrorTrackingIssueEventsQueryResponseResultsItemList = Array<unknown>;
+export type ErrorTrackingIssueEventsQueryResponseResultsList =
+  Array<ErrorTrackingIssueEventsQueryResponseResultsItemList>;
+export type ErrorTrackingIssueEventsQueryResponseTimingsList = Array<QueryTiming>;
+export type ErrorTrackingIssueEventsQueryResponseTypesList = Array<string>;
+export type ErrorTrackingIssueEventsQueryResponseUsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type ErrorTrackingIssueEventsQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type ErrorTrackingIssueEventsQueryResponseWarningsList =
+  Array<ErrorTrackingIssueEventsQueryResponseWarningsItem>;
+export interface ErrorTrackingIssueEventsQueryResponse {
+  columns: ErrorTrackingIssueEventsQueryResponseColumnsList;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  hasMore?: boolean | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  /** Where the next page starts. */
+  nextCursor?: string | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results: ErrorTrackingIssueEventsQueryResponseResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: ErrorTrackingIssueEventsQueryResponseTimingsList | null;
+  types: ErrorTrackingIssueEventsQueryResponseTypesList;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: ErrorTrackingIssueEventsQueryResponseUsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: ErrorTrackingIssueEventsQueryResponseWarningsList | null;
+}
+export interface ErrorTrackingIssueEventsQuery {
+  issueId: string;
+  kind?: string;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  /** Keep only the exceptions whose session has a recording the player can open. */
+  onlyWithRecording?: boolean | null;
+  response?: ErrorTrackingIssueEventsQueryResponse | null;
+  /** The issue's exceptions list. It must order by `timestamp DESC`, the default, so that pages continue from a cursor. */
+  source: EventsQuery;
+  tags?: QueryLogTags | null;
+  /** version of the node, used for schema migrations */
+  version?: number | null;
+}
 export type LogsQueryCustomColumnsList = Array<string>;
 export type LogsOrderBy = "latest" | "earliest";
 export type LogsQueryResponseColumnsList = Array<string>;
 export type LogsQueryResponseTimingsList = Array<QueryTiming>;
 export type LogsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type LogsQueryResponseWarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type LogsQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type LogsQueryResponseWarningsList = Array<LogsQueryResponseWarningsItem>;
 export interface LogsQueryResponse {
   columns?: LogsQueryResponseColumnsList | null;
@@ -7127,7 +7578,7 @@ export interface LogsQueryResponse {
   timings?: LogsQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: LogsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: LogsQueryResponseWarningsList | null;
 }
 export type LogsQueryServiceNamesList = Array<string>;
@@ -7185,7 +7636,8 @@ export type LogAttributesQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type LogAttributesQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type LogAttributesQueryResponseWarningsList = Array<LogAttributesQueryResponseWarningsItem>;
 export interface LogAttributesQueryResponse {
   count?: number;
@@ -7206,7 +7658,7 @@ export interface LogAttributesQueryResponse {
   timings?: LogAttributesQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: LogAttributesQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: LogAttributesQueryResponseWarningsList | null;
 }
 export type LogAttributesQueryServiceNamesList = Array<string>;
@@ -7243,7 +7695,8 @@ export type LogValuesQueryResponseTimingsList = Array<QueryTiming>;
 export type LogValuesQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type LogValuesQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type LogValuesQueryResponseWarningsList = Array<LogValuesQueryResponseWarningsItem>;
 export interface LogValuesQueryResponse {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -7263,7 +7716,7 @@ export interface LogValuesQueryResponse {
   timings?: LogValuesQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: LogValuesQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: LogValuesQueryResponseWarningsList | null;
 }
 export type LogValuesQueryServiceNamesList = Array<string>;
@@ -7296,14 +7749,6 @@ export type MetricsAggregation =
   | "rate"
   | "increase"
   | "histogram_quantile";
-export type MetricsFilterOp = "eq" | "neq" | "regex" | "not_regex";
-export type MetricsAttributeScope = "resource" | "attribute" | "auto";
-export interface MetricsQueryFilter {
-  key: string;
-  op: MetricsFilterOp | (string & {});
-  scope?: MetricsAttributeScope | (string & {}) | null;
-  value: string;
-}
 export type MetricsQueryClauseFiltersList = Array<MetricsQueryFilter>;
 export interface MetricsQueryGroupBy {
   key: string;
@@ -7311,8 +7756,10 @@ export interface MetricsQueryGroupBy {
 }
 export type MetricsQueryClauseGroupByList = Array<MetricsQueryGroupBy>;
 export type MetricsOtelType = "gauge" | "sum" | "histogram" | "exponential_histogram" | "summary";
+export type MetricsRangeFunction = "rate" | "increase";
 export interface MetricsQueryClause {
-  aggregation: MetricsAggregation | (string & {});
+  /** Omit to get one line per series (at most 100), without combining them */
+  aggregation?: MetricsAggregation | (string & {}) | null;
   filters?: MetricsQueryClauseFiltersList | null;
   groupBy?: MetricsQueryClauseGroupByList | null;
   metricName: string;
@@ -7322,7 +7769,10 @@ export interface MetricsQueryClause {
   name: string;
   /** In (0, 1); required for `quantile` / `histogram_quantile` aggregations */
   quantile?: number | null;
+  /** Applied to each series before `aggregation`, like `rate()` in PromQL */
+  rangeFunction?: MetricsRangeFunction | (string & {}) | null;
 }
+/** Empty when `language` is `promql` or `sql`. */
 export type MetricsQueryClausesList = Array<MetricsQueryClause>;
 export type MetricsDisplaySettingsGoalLinesList = Array<GoalLine>;
 export type MetricsReducer = "last" | "mean" | "min" | "max" | "sum" | "delta";
@@ -7372,6 +7822,8 @@ export interface MetricsDisplaySettings {
   unit?: string | null;
   yAxis?: MetricsYAxisSettings | null;
 }
+export type MetricsQueryLanguage = "builder" | "promql" | "sql";
+export type MetricsQuerySeriesHistogramBoundsList = Array<number>;
 /** Label values identifying this series; empty for an ungrouped query */
 export type MetricsQuerySeriesLabelsMap = { [key: string]: string | undefined };
 export interface MetricsQueryPoint {
@@ -7384,11 +7836,13 @@ export type MetricsQuerySeriesPointsList = Array<MetricsQueryPoint>;
 export interface MetricsQuerySeries {
   /** Clause alias that produced this series (`formula` for the formula result) */
   clause?: string | null;
+  /** Bucket upper edges a histogram quantile series was estimated from. The true quantile can be anywhere between two edges. */
+  histogramBounds?: MetricsQuerySeriesHistogramBoundsList | null;
   /** Label values identifying this series; empty for an ungrouped query */
   labels: MetricsQuerySeriesLabelsMap;
   metricName?: string | null;
   points: MetricsQuerySeriesPointsList;
-  /** UCUM unit of the metric as ingested, e.g. "By", "ms", "1". Empty when the SDK did not set one. */
+  /** UCUM unit of the returned values, e.g. "By", "ms", "1/s". It is the ingested unit, except that a count of series has no unit and a rate is per second. Empty when the values have no unit. */
   unit?: string | null;
 }
 export type MetricsQueryResponseResultsList = Array<MetricsQuerySeries>;
@@ -7396,7 +7850,8 @@ export type MetricsQueryResponseTimingsList = Array<QueryTiming>;
 export type MetricsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type MetricsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MetricsQueryResponseWarningsList = Array<MetricsQueryResponseWarningsItem>;
 export interface MetricsQueryResponse {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -7416,10 +7871,21 @@ export interface MetricsQueryResponse {
   timings?: MetricsQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MetricsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MetricsQueryResponseWarningsList | null;
 }
+export type MetricsVariableValueValuesList = Array<string>;
+export interface MetricsVariableValue {
+  /** True when the variable is set to All. PromQL gets `allValue` or `.*`, builder filters drop the filter, and SQL gets every option of the variable. */
+  all?: boolean | null;
+  allValue?: string | null;
+  /** The definition of a variable set to All, so that a SQL query can load its options. */
+  definition?: MetricsDashboardVariable | null;
+  values: MetricsVariableValueValuesList;
+}
+export type MetricsQueryVariablesMap = { [key: string]: MetricsVariableValue | undefined };
 export interface MetricsQuery {
+  /** Empty when `language` is `promql` or `sql`. */
   clauses: MetricsQueryClausesList;
   /** Defaults to the last 24 hours when omitted; dashboard date filters override it */
   dateRange?: DateRange | null;
@@ -7427,15 +7893,21 @@ export interface MetricsQuery {
   display?: MetricsDisplaySettings | null;
   /** Arithmetic over clause aliases (e.g. "a / b"); when set, only the formula series are returned */
   formula?: string | null;
-  /** Bucket size, one of: second, minute, minute_5, minute_15, hour, hour_6, day, week; auto-picked from the range when omitted. Coarsened when the range would need more than 10,000 buckets. */
+  /** Bucket size, one of: second_15, second_30, minute, minute_5, minute_15, minute_30, hour, hour_6, day, week; auto-picked from the range when omitted. Fixed intervals are coarsened above 500 buckets. A dashboard variable reference such as `$window` pins the interval to its single duration value (15s, 30s, 1m, 5m, 15m, 30m, 1h, 6h, 1d, 1w). Variable intervals that exceed 500 buckets require a larger value or shorter date range, so the step stays consistent with PromQL lookbacks using that variable. */
   interval?: string | null;
   kind?: string;
-  /** Finest bucket size the query may use, from the same set as `interval`; raises a finer interval or auto pick */
-  minInterval?: string | null;
+  /** How the query is written; the builder when unset. */
+  language?: MetricsQueryLanguage | (string & {}) | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
+  /** PromQL expression, run as a range query. Used when `language` is `promql`. */
+  promql?: string | null;
   response?: MetricsQueryResponse | null;
+  /** HogQL SELECT over the posthog.metric* tables. Used when `language` is `sql`. It must return a `time` and a `value` column; every other column is a series label. `{date_from}`, `{date_to}`, `{interval}` and `{interval_seconds}` are filled in from the date range and interval. */
+  sql?: string | null;
   tags?: QueryLogTags | null;
+  /** Values of the dashboard variables that the PromQL, SQL, filters or interval refer to as `$name`. */
+  variables?: MetricsQueryVariablesMap | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
@@ -7453,7 +7925,8 @@ export type MetricsHistogramQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MetricsHistogramQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MetricsHistogramQueryResponseWarningsList =
   Array<MetricsHistogramQueryResponseWarningsItem>;
 export interface MetricsHistogramQueryResponse {
@@ -7480,14 +7953,15 @@ export interface MetricsHistogramQueryResponse {
   timings?: MetricsHistogramQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MetricsHistogramQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MetricsHistogramQueryResponseWarningsList | null;
 }
+export type MetricsHistogramQueryVariablesMap = { [key: string]: MetricsVariableValue | undefined };
 export interface MetricsHistogramQuery {
   /** Defaults to the last 24 hours when omitted; dashboard date filters override it */
   dateRange?: DateRange | null;
   filters?: MetricsHistogramQueryFiltersList | null;
-  /** Bucket size; auto-picked from the range when omitted */
+  /** Bucket size; auto-picked from the range when omitted. A dashboard variable reference such as `$window` pins the interval to its single duration value (15s, 30s, 1m, 5m, 15m, 30m, 1h, 6h, 1d, 1w). Variable intervals that exceed 500 buckets require a larger value or shorter date range. */
   interval?: string | null;
   kind?: string;
   metricName: string;
@@ -7499,6 +7973,8 @@ export interface MetricsHistogramQuery {
   tags?: QueryLogTags | null;
   /** UCUM unit for the y-axis bounds, e.g. "s", "ms". Presentation only. */
   unit?: string | null;
+  /** Values of the dashboard variables that the filters or interval refer to as `$name`. */
+  variables?: MetricsHistogramQueryVariablesMap | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
@@ -7507,7 +7983,8 @@ export type TraceSpansQueryResponseTimingsList = Array<QueryTiming>;
 export type TraceSpansQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type TraceSpansQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type TraceSpansQueryResponseWarningsList = Array<TraceSpansQueryResponseWarningsItem>;
 export interface TraceSpansQueryResponse {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -7532,7 +8009,7 @@ export interface TraceSpansQueryResponse {
   timings?: TraceSpansQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: TraceSpansQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: TraceSpansQueryResponseWarningsList | null;
 }
 export type TraceSpansQueryServiceNamesList = Array<string>;
@@ -7566,10 +8043,22 @@ export interface TraceSpansQuery {
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
+export type SpanHealthStatus =
+  | "silent"
+  | "regressed"
+  | "degraded"
+  | "new"
+  | "recovered"
+  | "improved"
+  | "ok";
 export interface AggregatedSpanRow {
   avg_duration_nano: number;
   count: number;
   error_count: number;
+  /** Short reason for `health_status`, such as `error rate 0.2% -> 4.1%`. Empty when the status is `ok`. */
+  health_reason?: string | null;
+  /** Set only when the query asked for `includeHealth`. Same statuses as the service health check. */
+  health_status?: SpanHealthStatus | (string & {}) | null;
   name: string;
   p50_duration_nano: number;
   p95_duration_nano: number;
@@ -7590,7 +8079,8 @@ export type TraceSpansAggregationQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type TraceSpansAggregationQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type TraceSpansAggregationQueryResponseWarningsList =
   Array<TraceSpansAggregationQueryResponseWarningsItem>;
 export interface TraceSpansAggregationQueryResponse {
@@ -7613,7 +8103,7 @@ export interface TraceSpansAggregationQueryResponse {
   timings?: TraceSpansAggregationQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: TraceSpansAggregationQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: TraceSpansAggregationQueryResponseWarningsList | null;
 }
 export type TraceSpansAggregationQueryServiceNamesList = Array<string>;
@@ -7622,6 +8112,10 @@ export interface TraceSpansAggregationQuery {
   compareFilter?: CompareFilter | null;
   dateRange: DateRange;
   filterGroup?: PropertyGroupFilter | null;
+  /** Group HTTP server spans by `METHOD route` in place of the span name. Spans without a route keep their name. Spans that are not HTTP server spans are left out. */
+  groupByEndpoint?: boolean | null;
+  /** Classify each row against the comparison window, or the previous period when `compareFilter` is off. Fills `health_status` and `health_reason`. Runs a second window query. */
+  includeHealth?: boolean | null;
   /** Also aggregate sessions and people per operation. Off by default: it reads the attribute maps. */
   includeImpact?: boolean | null;
   kind?: string;
@@ -7658,7 +8152,8 @@ export type TraceSpansTreeQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type TraceSpansTreeQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type TraceSpansTreeQueryResponseWarningsList =
   Array<TraceSpansTreeQueryResponseWarningsItem>;
 export interface TraceSpansTreeQueryResponse {
@@ -7681,7 +8176,7 @@ export interface TraceSpansTreeQueryResponse {
   timings?: TraceSpansTreeQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: TraceSpansTreeQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: TraceSpansTreeQueryResponseWarningsList | null;
 }
 export type TraceSpansTreeQueryServiceNamesList = Array<string>;
@@ -7719,7 +8214,8 @@ export type TraceSpansAttributeBreakdownQueryResponseUsedDataWarehouseSourcesLis
   Array<DataWarehouseSourceUsage>;
 export type TraceSpansAttributeBreakdownQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type TraceSpansAttributeBreakdownQueryResponseWarningsList =
   Array<TraceSpansAttributeBreakdownQueryResponseWarningsItem>;
 export interface TraceSpansAttributeBreakdownQueryResponse {
@@ -7742,7 +8238,7 @@ export interface TraceSpansAttributeBreakdownQueryResponse {
   timings?: TraceSpansAttributeBreakdownQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: TraceSpansAttributeBreakdownQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: TraceSpansAttributeBreakdownQueryResponseWarningsList | null;
 }
 export type TraceSpansAttributeBreakdownQueryServiceNamesList = Array<string>;
@@ -7767,88 +8263,6 @@ export interface TraceSpansAttributeBreakdownQuery {
   response?: TraceSpansAttributeBreakdownQueryResponse | null;
   serviceNames?: TraceSpansAttributeBreakdownQueryServiceNamesList | null;
   tags?: QueryLogTags | null;
-  /** version of the node, used for schema migrations */
-  version?: number | null;
-}
-export type ExperimentFunnelsQueryResponseCredibleIntervalsValueList = Array<number>;
-export type ExperimentFunnelsQueryResponseCredibleIntervalsMap = {
-  [key: string]: ExperimentFunnelsQueryResponseCredibleIntervalsValueList | undefined;
-};
-export type ExperimentFunnelsQueryResponseInsightItemItemMap = {
-  [key: string]: unknown | undefined;
-};
-export type ExperimentFunnelsQueryResponseInsightItemList =
-  Array<ExperimentFunnelsQueryResponseInsightItemItemMap>;
-export type ExperimentFunnelsQueryResponseInsightList =
-  Array<ExperimentFunnelsQueryResponseInsightItemList>;
-export type ExperimentFunnelsQueryResponseProbabilityMap = { [key: string]: number | undefined };
-export type ExperimentFunnelsQueryResponseVariantsList = Array<ExperimentVariantFunnelsBaseStats>;
-export type ExperimentFunnelsQueryResponseWarningsList = Array<DataWarehouseSyncWarning>;
-export interface ExperimentFunnelsQueryResponse {
-  credible_intervals?: ExperimentFunnelsQueryResponseCredibleIntervalsMap;
-  expected_loss?: number;
-  funnels_query?: FunnelsQuery | null;
-  insight?: ExperimentFunnelsQueryResponseInsightList;
-  kind?: string;
-  probability?: ExperimentFunnelsQueryResponseProbabilityMap;
-  significance_code?: ExperimentSignificanceCode | (string & {});
-  significant?: boolean;
-  stats_version?: number | null;
-  variants?: ExperimentFunnelsQueryResponseVariantsList;
-  /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
-  warnings?: ExperimentFunnelsQueryResponseWarningsList | null;
-}
-export interface ExperimentFunnelsQuery {
-  experiment_id?: number | null;
-  fingerprint?: string | null;
-  funnels_query?: FunnelsQuery;
-  kind?: string;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  name?: string | null;
-  response?: ExperimentFunnelsQueryResponse | null;
-  tags?: QueryLogTags | null;
-  uuid?: string | null;
-  /** version of the node, used for schema migrations */
-  version?: number | null;
-}
-export type ExperimentTrendsQueryResponseCredibleIntervalsValueList = Array<number>;
-export type ExperimentTrendsQueryResponseCredibleIntervalsMap = {
-  [key: string]: ExperimentTrendsQueryResponseCredibleIntervalsValueList | undefined;
-};
-export type ExperimentTrendsQueryResponseInsightItemMap = { [key: string]: unknown | undefined };
-export type ExperimentTrendsQueryResponseInsightList =
-  Array<ExperimentTrendsQueryResponseInsightItemMap>;
-export type ExperimentTrendsQueryResponseProbabilityMap = { [key: string]: number | undefined };
-export type ExperimentTrendsQueryResponseVariantsList = Array<ExperimentVariantTrendsBaseStats>;
-export type ExperimentTrendsQueryResponseWarningsList = Array<DataWarehouseSyncWarning>;
-export interface ExperimentTrendsQueryResponse {
-  count_query?: TrendsQuery | null;
-  credible_intervals?: ExperimentTrendsQueryResponseCredibleIntervalsMap;
-  exposure_query?: TrendsQuery | null;
-  insight?: ExperimentTrendsQueryResponseInsightList;
-  kind?: string;
-  p_value?: number;
-  probability?: ExperimentTrendsQueryResponseProbabilityMap;
-  significance_code?: ExperimentSignificanceCode | (string & {});
-  significant?: boolean;
-  stats_version?: number | null;
-  variants?: ExperimentTrendsQueryResponseVariantsList;
-  /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
-  warnings?: ExperimentTrendsQueryResponseWarningsList | null;
-}
-export interface ExperimentTrendsQuery {
-  count_query?: TrendsQuery;
-  experiment_id?: number | null;
-  exposure_query?: TrendsQuery | null;
-  fingerprint?: string | null;
-  kind?: string;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  name?: string | null;
-  response?: ExperimentTrendsQueryResponse | null;
-  tags?: QueryLogTags | null;
-  uuid?: string | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
@@ -7913,7 +8327,8 @@ export type CalendarHeatmapResponseTimingsList = Array<QueryTiming>;
 export type CalendarHeatmapResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type CalendarHeatmapResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type CalendarHeatmapResponseWarningsList = Array<CalendarHeatmapResponseWarningsItem>;
 export interface CalendarHeatmapResponse {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -7935,7 +8350,7 @@ export interface CalendarHeatmapResponse {
   timings?: CalendarHeatmapResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: CalendarHeatmapResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: CalendarHeatmapResponseWarningsList | null;
 }
 export type CalendarHeatmapQuerySeriesItem = EventsNode | ActionsNode | DataWarehouseNode;
@@ -8146,7 +8561,8 @@ export type RecordingsQueryResponseTimingsList = Array<QueryTiming>;
 export type RecordingsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type RecordingsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type RecordingsQueryResponseWarningsList = Array<RecordingsQueryResponseWarningsItem>;
 export interface RecordingsQueryResponse {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -8169,7 +8585,7 @@ export interface RecordingsQueryResponse {
   timings?: RecordingsQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: RecordingsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: RecordingsQueryResponseWarningsList | null;
 }
 export type RecordingsQuerySessionIdsList = Array<string>;
@@ -8313,7 +8729,10 @@ export interface LLMTrace {
 export type TracesQueryResponseResultsList = Array<LLMTrace>;
 export type TracesQueryResponseTimingsList = Array<QueryTiming>;
 export type TracesQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type TracesQueryResponseWarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type TracesQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type TracesQueryResponseWarningsList = Array<TracesQueryResponseWarningsItem>;
 export interface TracesQueryResponse {
   columns?: TracesQueryResponseColumnsList | null;
@@ -8337,7 +8756,7 @@ export interface TracesQueryResponse {
   timings?: TracesQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: TracesQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: TracesQueryResponseWarningsList | null;
 }
 export interface TracesQuery {
@@ -8396,7 +8815,10 @@ export type TraceQueryResponseColumnsList = Array<string>;
 export type TraceQueryResponseResultsList = Array<LLMTrace>;
 export type TraceQueryResponseTimingsList = Array<QueryTiming>;
 export type TraceQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type TraceQueryResponseWarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type TraceQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type TraceQueryResponseWarningsList = Array<TraceQueryResponseWarningsItem>;
 export interface TraceQueryResponse {
   columns?: TraceQueryResponseColumnsList | null;
@@ -8420,7 +8842,7 @@ export interface TraceQueryResponse {
   timings?: TraceQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: TraceQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: TraceQueryResponseWarningsList | null;
 }
 export interface TraceQuery {
@@ -8444,7 +8866,8 @@ export type SessionQueryResponseTimingsList = Array<QueryTiming>;
 export type SessionQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type SessionQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type SessionQueryResponseWarningsList = Array<SessionQueryResponseWarningsItem>;
 export interface SessionQueryResponse {
   columns?: SessionQueryResponseColumnsList | null;
@@ -8468,7 +8891,7 @@ export interface SessionQueryResponse {
   timings?: SessionQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: SessionQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: SessionQueryResponseWarningsList | null;
 }
 export interface SessionQuery {
@@ -8556,7 +8979,8 @@ export type VectorSearchQueryResponseTimingsList = Array<QueryTiming>;
 export type VectorSearchQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type VectorSearchQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type VectorSearchQueryResponseWarningsList = Array<VectorSearchQueryResponseWarningsItem>;
 export interface VectorSearchQueryResponse {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -8576,7 +9000,7 @@ export interface VectorSearchQueryResponse {
   timings?: VectorSearchQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: VectorSearchQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: VectorSearchQueryResponseWarningsList | null;
 }
 export interface VectorSearchQuery {
@@ -8586,6 +9010,100 @@ export interface VectorSearchQuery {
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
   response?: VectorSearchQueryResponse | null;
+  tags?: QueryLogTags | null;
+  /** version of the node, used for schema migrations */
+  version?: number | null;
+}
+export interface InboxUsagePricing {
+  currency?: string;
+  /** Multiply credits by this value for recorded USD usage, before billing adjustments. */
+  usd_per_credit: string;
+}
+export interface InboxUsageScout {
+  display_name: string;
+  /** Billing-exempt subset of total_credits. */
+  exempt_credits: string;
+  incomplete: boolean;
+  /** Distinct reports emitted by this scout; reports may be shared across scouts. */
+  reports_produced: number;
+  run_count: number;
+  scout_config_id?: string | null;
+  skill_name: string;
+  /** Recorded finalized credits, including exemptions. Decimal strings preserve fractional credits. */
+  total_credits: string;
+}
+/** Scout execution only. These totals and source totals sum to total_credits. */
+export type InboxUsageScoutsList = Array<InboxUsageScout>;
+export interface InboxUsageSource {
+  /** Billing-exempt subset of total_credits. */
+  exempt_credits: string;
+  implementation_credits: string;
+  incomplete: boolean;
+  processing_credits: string;
+  research_credits: string;
+  source_product?: string | null;
+  source_type?: string | null;
+  /** Recorded finalized credits, including exemptions. Decimal strings preserve fractional credits. */
+  total_credits: string;
+}
+/** Processing, research and implementation. Excludes scout execution. */
+export type InboxUsageSourcesList = Array<InboxUsageSource>;
+export interface InboxUsage {
+  as_of: string;
+  /** Missing source metadata is retained in a null-source bucket. */
+  attribution_incomplete: boolean;
+  /** Billing-exempt subset of total_credits. */
+  exempt_credits: string;
+  incomplete: boolean;
+  period_end: string;
+  period_start: string;
+  pricing: InboxUsagePricing;
+  project_id: number;
+  /** Scout execution only. These totals and source totals sum to total_credits. */
+  scouts: InboxUsageScoutsList;
+  /** Processing, research and implementation. Excludes scout execution. */
+  sources: InboxUsageSourcesList;
+  /** Recorded finalized credits, including exemptions. Decimal strings preserve fractional credits. */
+  total_credits: string;
+  /** Unfinalized credits created in the selected range, excluded from total_credits. */
+  unsettled_credits: string;
+  untracked_scout_run_count: number;
+}
+export type InboxUsageQueryResponseTimingsList = Array<QueryTiming>;
+export type InboxUsageQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type InboxUsageQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type InboxUsageQueryResponseWarningsList = Array<InboxUsageQueryResponseWarningsItem>;
+export interface InboxUsageQueryResponse {
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results: InboxUsage;
+  /** Measured timings for different parts of the query generation process */
+  timings?: InboxUsageQueryResponseTimingsList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: InboxUsageQueryResponseUsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: InboxUsageQueryResponseWarningsList | null;
+}
+export interface InboxUsageQuery {
+  /** UTC date range. Use explicitDate for exact bounds; the end is exclusive. */
+  dateRange: DateRange;
+  kind?: string;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  response?: InboxUsageQueryResponse | null;
   tags?: QueryLogTags | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
@@ -8613,7 +9131,8 @@ export type UsageMetricsQueryResponseTimingsList = Array<QueryTiming>;
 export type UsageMetricsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type UsageMetricsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type UsageMetricsQueryResponseWarningsList = Array<UsageMetricsQueryResponseWarningsItem>;
 export interface UsageMetricsQueryResponse {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -8633,7 +9152,7 @@ export interface UsageMetricsQueryResponse {
   timings?: UsageMetricsQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: UsageMetricsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: UsageMetricsQueryResponseWarningsList | null;
 }
 export interface UsageMetricsQuery {
@@ -8663,7 +9182,8 @@ export type AccountsQueryResponseTypesList = Array<string>;
 export type AccountsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type AccountsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type AccountsQueryResponseWarningsList = Array<AccountsQueryResponseWarningsItem>;
 export interface AccountsQueryResponse {
   columns: AccountsQueryResponseColumnsList;
@@ -8691,7 +9211,7 @@ export interface AccountsQueryResponse {
   types: AccountsQueryResponseTypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: AccountsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: AccountsQueryResponseWarningsList | null;
 }
 export type AccountsQuerySelectList = Array<string>;
@@ -8882,7 +9402,57 @@ export type AccountsTableQueryMetricsItem =
   | AccountsTableAggregateMetric
   | AccountsTableCountThresholdMetric;
 export type AccountsTableQueryMetricsList = Array<AccountsTableQueryMetricsItem>;
+export type AccountsTableQueryResponseColumnsItem =
+  | AccountsTableAccountFieldColumn
+  | AccountsTableTagsColumn
+  | AccountsTableTagsColumn
+  | AccountsTableRelationshipColumn
+  | AccountsTableCustomPropertyColumn
+  | AccountsTableCustomPropertyHistoryColumn;
+export type AccountsTableQueryResponseColumnsList = Array<AccountsTableQueryResponseColumnsItem>;
+export type AccountsTableCustomPropertyDisplayType =
+  | "text"
+  | "link"
+  | "number"
+  | "currency"
+  | "percent"
+  | "date"
+  | "datetime"
+  | "boolean"
+  | "select";
+export interface AccountsTableCustomPropertyOption {
+  color: string;
+  id?: string | null;
+  label: string;
+}
+export type AccountsTableCustomPropertyDefinitionOptionsList =
+  Array<AccountsTableCustomPropertyOption>;
+export interface AccountsTableCustomPropertySource {
+  id: string;
+}
+export interface AccountsTableCustomPropertyDefinition {
+  description?: string | null;
+  display_type: AccountsTableCustomPropertyDisplayType | (string & {});
+  has_workflow_reference: boolean;
+  id: string;
+  is_big_number?: boolean | null;
+  is_canonical: boolean;
+  name: string;
+  options?: AccountsTableCustomPropertyDefinitionOptionsList | null;
+  source?: AccountsTableCustomPropertySource | null;
+}
+export type AccountsTableQueryResponseCustomPropertyDefinitionsList =
+  Array<AccountsTableCustomPropertyDefinition>;
 export type AccountsTableQueryResponseMetricsResultsList = Array<number | null>;
+export interface AccountsTableRelationshipDefinition {
+  description?: string | null;
+  id: string;
+  is_controlled: boolean;
+  is_single_holder?: boolean | null;
+  name: string;
+}
+export type AccountsTableQueryResponseRelationshipDefinitionsList =
+  Array<AccountsTableRelationshipDefinition>;
 /** Requested direct Account fields, keyed by their typed field reference. */
 export type AccountsTableRowAccountFieldsMap = { [key: string]: string | null | undefined };
 export type AccountsTableRowCustomPropertiesValue = string | number | boolean;
@@ -8931,9 +9501,12 @@ export type AccountsTableQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type AccountsTableQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type AccountsTableQueryResponseWarningsList = Array<AccountsTableQueryResponseWarningsItem>;
 export interface AccountsTableQueryResponse {
+  columns?: AccountsTableQueryResponseColumnsList | null;
+  customPropertyDefinitions?: AccountsTableQueryResponseCustomPropertyDefinitionsList | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore: boolean;
@@ -8948,6 +9521,7 @@ export interface AccountsTableQueryResponse {
   offset: number;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
+  relationshipDefinitions?: AccountsTableQueryResponseRelationshipDefinitionsList | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
@@ -8957,7 +9531,7 @@ export interface AccountsTableQueryResponse {
   timings?: AccountsTableQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: AccountsTableQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: AccountsTableQueryResponseWarningsList | null;
 }
 /** A typed column that supports server-side sorting. */
@@ -8980,6 +9554,8 @@ export interface AccountsTableQuery {
   filterGroups?: AccountsTableQueryFilterGroupsList | null;
   /** Filters are combined with AND. Values within tag and assignment filters use OR. */
   filters?: AccountsTableQueryFiltersList | null;
+  /** Omit missing definitions and custom-property filters incompatible with their current types. */
+  ignoreMissingDefinitions?: boolean | null;
   /** Include churned accounts. Churned accounts are hidden by default. */
   includeChurned?: boolean | null;
   /** Include ignored accounts. Ignored accounts are hidden by default. */
@@ -8994,6 +9570,7 @@ export interface AccountsTableQuery {
   response?: AccountsTableQueryResponse | null;
   sort?: AccountsTableSort | null;
   tags?: QueryLogTags | null;
+  useDefaultColumns?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
@@ -9020,7 +9597,8 @@ export type EndpointsUsageOverviewQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type EndpointsUsageOverviewQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type EndpointsUsageOverviewQueryResponseWarningsList =
   Array<EndpointsUsageOverviewQueryResponseWarningsItem>;
 export interface EndpointsUsageOverviewQueryResponse {
@@ -9041,7 +9619,7 @@ export interface EndpointsUsageOverviewQueryResponse {
   timings?: EndpointsUsageOverviewQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: EndpointsUsageOverviewQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: EndpointsUsageOverviewQueryResponseWarningsList | null;
 }
 export interface EndpointsUsageOverviewQuery {
@@ -9081,7 +9659,8 @@ export type EndpointsUsageTableQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type EndpointsUsageTableQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type EndpointsUsageTableQueryResponseWarningsList =
   Array<EndpointsUsageTableQueryResponseWarningsItem>;
 export interface EndpointsUsageTableQueryResponse {
@@ -9107,7 +9686,7 @@ export interface EndpointsUsageTableQueryResponse {
   types?: EndpointsUsageTableQueryResponseTypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: EndpointsUsageTableQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: EndpointsUsageTableQueryResponseWarningsList | null;
 }
 export interface EndpointsUsageTableQuery {
@@ -9140,7 +9719,8 @@ export type EndpointsUsageTrendsQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type EndpointsUsageTrendsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type EndpointsUsageTrendsQueryResponseWarningsList =
   Array<EndpointsUsageTrendsQueryResponseWarningsItem>;
 export interface EndpointsUsageTrendsQueryResponse {
@@ -9161,7 +9741,7 @@ export interface EndpointsUsageTrendsQueryResponse {
   timings?: EndpointsUsageTrendsQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: EndpointsUsageTrendsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: EndpointsUsageTrendsQueryResponseWarningsList | null;
 }
 export interface EndpointsUsageTrendsQuery {
@@ -9204,7 +9784,8 @@ export type MCPToolCallBreakdownQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MCPToolCallBreakdownQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MCPToolCallBreakdownQueryResponseWarningsList =
   Array<MCPToolCallBreakdownQueryResponseWarningsItem>;
 export interface MCPToolCallBreakdownQueryResponse {
@@ -9225,7 +9806,7 @@ export interface MCPToolCallBreakdownQueryResponse {
   timings?: MCPToolCallBreakdownQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MCPToolCallBreakdownQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MCPToolCallBreakdownQueryResponseWarningsList | null;
 }
 export interface MCPToolCallBreakdownQuery {
@@ -9260,7 +9841,8 @@ export type MCPToolCallsAndErrorsQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MCPToolCallsAndErrorsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MCPToolCallsAndErrorsQueryResponseWarningsList =
   Array<MCPToolCallsAndErrorsQueryResponseWarningsItem>;
 export interface MCPToolCallsAndErrorsQueryResponse {
@@ -9281,7 +9863,7 @@ export interface MCPToolCallsAndErrorsQueryResponse {
   timings?: MCPToolCallsAndErrorsQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MCPToolCallsAndErrorsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MCPToolCallsAndErrorsQueryResponseWarningsList | null;
 }
 export interface MCPToolCallsAndErrorsQuery {
@@ -9319,7 +9901,8 @@ export type MCPHarnessBreakdownQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MCPHarnessBreakdownQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MCPHarnessBreakdownQueryResponseWarningsList =
   Array<MCPHarnessBreakdownQueryResponseWarningsItem>;
 export interface MCPHarnessBreakdownQueryResponse {
@@ -9340,7 +9923,7 @@ export interface MCPHarnessBreakdownQueryResponse {
   timings?: MCPHarnessBreakdownQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MCPHarnessBreakdownQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MCPHarnessBreakdownQueryResponseWarningsList | null;
 }
 export interface MCPHarnessBreakdownQuery {
@@ -9372,7 +9955,8 @@ export type MCPModelBreakdownQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MCPModelBreakdownQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MCPModelBreakdownQueryResponseWarningsList =
   Array<MCPModelBreakdownQueryResponseWarningsItem>;
 export interface MCPModelBreakdownQueryResponse {
@@ -9395,7 +9979,7 @@ export interface MCPModelBreakdownQueryResponse {
   timings?: MCPModelBreakdownQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MCPModelBreakdownQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MCPModelBreakdownQueryResponseWarningsList | null;
 }
 export interface MCPModelBreakdownQuery {
@@ -9435,7 +10019,8 @@ export type MCPProtocolVersionBreakdownQueryResponseUsedDataWarehouseSourcesList
   Array<DataWarehouseSourceUsage>;
 export type MCPProtocolVersionBreakdownQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MCPProtocolVersionBreakdownQueryResponseWarningsList =
   Array<MCPProtocolVersionBreakdownQueryResponseWarningsItem>;
 export interface MCPProtocolVersionBreakdownQueryResponse {
@@ -9456,7 +10041,7 @@ export interface MCPProtocolVersionBreakdownQueryResponse {
   timings?: MCPProtocolVersionBreakdownQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MCPProtocolVersionBreakdownQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MCPProtocolVersionBreakdownQueryResponseWarningsList | null;
 }
 export interface MCPProtocolVersionBreakdownQuery {
@@ -9495,7 +10080,8 @@ export type MCPToolTopUsersQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MCPToolTopUsersQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MCPToolTopUsersQueryResponseWarningsList =
   Array<MCPToolTopUsersQueryResponseWarningsItem>;
 export interface MCPToolTopUsersQueryResponse {
@@ -9516,7 +10102,7 @@ export interface MCPToolTopUsersQueryResponse {
   timings?: MCPToolTopUsersQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MCPToolTopUsersQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MCPToolTopUsersQueryResponseWarningsList | null;
 }
 export interface MCPToolTopUsersQuery {
@@ -9558,7 +10144,8 @@ export type MCPToolFailuresQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MCPToolFailuresQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MCPToolFailuresQueryResponseWarningsList =
   Array<MCPToolFailuresQueryResponseWarningsItem>;
 export interface MCPToolFailuresQueryResponse {
@@ -9579,7 +10166,7 @@ export interface MCPToolFailuresQueryResponse {
   timings?: MCPToolFailuresQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MCPToolFailuresQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MCPToolFailuresQueryResponseWarningsList | null;
 }
 export interface MCPToolFailuresQuery {
@@ -9622,7 +10209,8 @@ export type MCPToolFailureOccurrencesQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MCPToolFailureOccurrencesQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MCPToolFailureOccurrencesQueryResponseWarningsList =
   Array<MCPToolFailureOccurrencesQueryResponseWarningsItem>;
 export interface MCPToolFailureOccurrencesQueryResponse {
@@ -9643,7 +10231,7 @@ export interface MCPToolFailureOccurrencesQueryResponse {
   timings?: MCPToolFailureOccurrencesQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MCPToolFailureOccurrencesQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MCPToolFailureOccurrencesQueryResponseWarningsList | null;
 }
 export interface MCPToolFailureOccurrencesQuery {
@@ -9689,7 +10277,8 @@ export type MCPToolStatsQueryResponseTimingsList = Array<QueryTiming>;
 export type MCPToolStatsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type MCPToolStatsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MCPToolStatsQueryResponseWarningsList = Array<MCPToolStatsQueryResponseWarningsItem>;
 export interface MCPToolStatsQueryResponse {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -9710,7 +10299,7 @@ export interface MCPToolStatsQueryResponse {
   timings?: MCPToolStatsQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MCPToolStatsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MCPToolStatsQueryResponseWarningsList | null;
 }
 export interface MCPToolStatsQuery {
@@ -9747,7 +10336,8 @@ export type MCPToolDailyStatsQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MCPToolDailyStatsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MCPToolDailyStatsQueryResponseWarningsList =
   Array<MCPToolDailyStatsQueryResponseWarningsItem>;
 export interface MCPToolDailyStatsQueryResponse {
@@ -9768,7 +10358,7 @@ export interface MCPToolDailyStatsQueryResponse {
   timings?: MCPToolDailyStatsQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MCPToolDailyStatsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MCPToolDailyStatsQueryResponseWarningsList | null;
 }
 export interface MCPToolDailyStatsQuery {
@@ -9822,7 +10412,8 @@ export type MCPToolQualityRowsQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MCPToolQualityRowsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MCPToolQualityRowsQueryResponseWarningsList =
   Array<MCPToolQualityRowsQueryResponseWarningsItem>;
 export interface MCPToolQualityRowsQueryResponse {
@@ -9849,7 +10440,7 @@ export interface MCPToolQualityRowsQueryResponse {
   totalSessions: number;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MCPToolQualityRowsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MCPToolQualityRowsQueryResponseWarningsList | null;
 }
 export type MCPToolQualitySortColumn =
@@ -9898,7 +10489,13 @@ export interface MCPToolQualityDailyStatItem {
   calls: number;
   day: string;
   errors: number;
+  max?: number | null;
+  mean?: number | null;
+  /** Latency spread for the box plot view. Optional so responses cached before these fields existed still parse. */
+  min?: number | null;
+  p25?: number | null;
   p50: number;
+  p75?: number | null;
   p95: number;
   p99: number;
 }
@@ -9908,7 +10505,8 @@ export type MCPToolQualityDailyStatsQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MCPToolQualityDailyStatsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MCPToolQualityDailyStatsQueryResponseWarningsList =
   Array<MCPToolQualityDailyStatsQueryResponseWarningsItem>;
 export interface MCPToolQualityDailyStatsQueryResponse {
@@ -9929,7 +10527,7 @@ export interface MCPToolQualityDailyStatsQueryResponse {
   timings?: MCPToolQualityDailyStatsQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MCPToolQualityDailyStatsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MCPToolQualityDailyStatsQueryResponseWarningsList | null;
 }
 export interface MCPToolQualityDailyStatsQuery {
@@ -9966,7 +10564,8 @@ export type MCPToolCategoryCountsQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MCPToolCategoryCountsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MCPToolCategoryCountsQueryResponseWarningsList =
   Array<MCPToolCategoryCountsQueryResponseWarningsItem>;
 export interface MCPToolCategoryCountsQueryResponse {
@@ -9987,7 +10586,7 @@ export interface MCPToolCategoryCountsQueryResponse {
   timings?: MCPToolCategoryCountsQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MCPToolCategoryCountsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MCPToolCategoryCountsQueryResponseWarningsList | null;
 }
 export interface MCPToolCategoryCountsQuery {
@@ -10016,7 +10615,8 @@ export type MCPToolCategoriesQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MCPToolCategoriesQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MCPToolCategoriesQueryResponseWarningsList =
   Array<MCPToolCategoriesQueryResponseWarningsItem>;
 export interface MCPToolCategoriesQueryResponse {
@@ -10037,7 +10637,7 @@ export interface MCPToolCategoriesQueryResponse {
   timings?: MCPToolCategoriesQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MCPToolCategoriesQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MCPToolCategoriesQueryResponseWarningsList | null;
 }
 export interface MCPToolCategoriesQuery {
@@ -10062,7 +10662,8 @@ export type MCPToolCategoryMapQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MCPToolCategoryMapQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MCPToolCategoryMapQueryResponseWarningsList =
   Array<MCPToolCategoryMapQueryResponseWarningsItem>;
 export interface MCPToolCategoryMapQueryResponse {
@@ -10083,7 +10684,7 @@ export interface MCPToolCategoryMapQueryResponse {
   timings?: MCPToolCategoryMapQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MCPToolCategoryMapQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MCPToolCategoryMapQueryResponseWarningsList | null;
 }
 export interface MCPToolCategoryMapQuery {
@@ -10111,7 +10712,8 @@ export type MCPToolDescriptionsQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MCPToolDescriptionsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MCPToolDescriptionsQueryResponseWarningsList =
   Array<MCPToolDescriptionsQueryResponseWarningsItem>;
 export interface MCPToolDescriptionsQueryResponse {
@@ -10132,7 +10734,7 @@ export interface MCPToolDescriptionsQueryResponse {
   timings?: MCPToolDescriptionsQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MCPToolDescriptionsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MCPToolDescriptionsQueryResponseWarningsList | null;
 }
 export interface MCPToolDescriptionsQuery {
@@ -10169,7 +10771,8 @@ export type MCPToolSampleIntentsQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MCPToolSampleIntentsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MCPToolSampleIntentsQueryResponseWarningsList =
   Array<MCPToolSampleIntentsQueryResponseWarningsItem>;
 export interface MCPToolSampleIntentsQueryResponse {
@@ -10190,7 +10793,7 @@ export interface MCPToolSampleIntentsQueryResponse {
   timings?: MCPToolSampleIntentsQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MCPToolSampleIntentsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MCPToolSampleIntentsQueryResponseWarningsList | null;
 }
 export interface MCPToolSampleIntentsQuery {
@@ -10223,7 +10826,8 @@ export type MCPToolNeighborsQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MCPToolNeighborsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MCPToolNeighborsQueryResponseWarningsList =
   Array<MCPToolNeighborsQueryResponseWarningsItem>;
 export interface MCPToolNeighborsQueryResponse {
@@ -10244,7 +10848,7 @@ export interface MCPToolNeighborsQueryResponse {
   timings?: MCPToolNeighborsQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MCPToolNeighborsQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MCPToolNeighborsQueryResponseWarningsList | null;
 }
 export interface MCPToolNeighborsQuery {
@@ -10281,7 +10885,8 @@ export type MCPMissingCapabilitiesQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MCPMissingCapabilitiesQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type MCPMissingCapabilitiesQueryResponseWarningsList =
   Array<MCPMissingCapabilitiesQueryResponseWarningsItem>;
 export interface MCPMissingCapabilitiesQueryResponse {
@@ -10304,11 +10909,13 @@ export interface MCPMissingCapabilitiesQueryResponse {
   timings?: MCPMissingCapabilitiesQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: MCPMissingCapabilitiesQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: MCPMissingCapabilitiesQueryResponseWarningsList | null;
 }
 export interface MCPMissingCapabilitiesQuery {
   dateRange?: DateRange | null;
+  /** Exclude reports from the project's internal and test users. */
+  filterTestAccounts?: boolean | null;
   kind?: string;
   /** Page size; defaults to 100, capped at 500. */
   limit?: number | null;
@@ -10344,11 +10951,13 @@ export type HogQLAutocompleteSourceQuery =
   | MarketingAnalyticsAttributionPathsQuery
   | MarketingAnalyticsRetentionQuery
   | MarketingAnalyticsSearchQuery
+  | MarketingAnalyticsRecommendationsQuery
   | WebOverviewQuery
   | WebStatsTableQuery
   | WebExternalClicksTableQuery
   | WebBotsTableQuery
   | WebAgentAnalyticsQuery
+  | WebPageDirectoryQuery
   | WebGoalsQuery
   | WebVitalsQuery
   | WebVitalsPathBreakdownQuery
@@ -10362,6 +10971,7 @@ export type HogQLAutocompleteSourceQuery =
   | ErrorTrackingBreakdownsQuery
   | ErrorTrackingReleasesQuery
   | ErrorTrackingIssueCorrelationQuery
+  | ErrorTrackingIssueEventsQuery
   | LogsQuery
   | LogAttributesQuery
   | LogValuesQuery
@@ -10371,8 +10981,6 @@ export type HogQLAutocompleteSourceQuery =
   | TraceSpansAggregationQuery
   | TraceSpansTreeQuery
   | TraceSpansAttributeBreakdownQuery
-  | ExperimentFunnelsQuery
-  | ExperimentTrendsQuery
   | CalendarHeatmapQuery
   | RecordingsQuery
   | TracesQuery
@@ -10380,6 +10988,7 @@ export type HogQLAutocompleteSourceQuery =
   | SessionQuery
   | TraceNeighborsQuery
   | VectorSearchQuery
+  | InboxUsageQuery
   | UsageMetricsQuery
   | AccountsQuery
   | AccountsTableQuery
@@ -10451,11 +11060,13 @@ export type HogQLMetadataSourceQuery =
   | MarketingAnalyticsAttributionPathsQuery
   | MarketingAnalyticsRetentionQuery
   | MarketingAnalyticsSearchQuery
+  | MarketingAnalyticsRecommendationsQuery
   | WebOverviewQuery
   | WebStatsTableQuery
   | WebExternalClicksTableQuery
   | WebBotsTableQuery
   | WebAgentAnalyticsQuery
+  | WebPageDirectoryQuery
   | WebGoalsQuery
   | WebVitalsQuery
   | WebVitalsPathBreakdownQuery
@@ -10469,6 +11080,7 @@ export type HogQLMetadataSourceQuery =
   | ErrorTrackingBreakdownsQuery
   | ErrorTrackingReleasesQuery
   | ErrorTrackingIssueCorrelationQuery
+  | ErrorTrackingIssueEventsQuery
   | LogsQuery
   | LogAttributesQuery
   | LogValuesQuery
@@ -10478,8 +11090,6 @@ export type HogQLMetadataSourceQuery =
   | TraceSpansAggregationQuery
   | TraceSpansTreeQuery
   | TraceSpansAttributeBreakdownQuery
-  | ExperimentFunnelsQuery
-  | ExperimentTrendsQuery
   | CalendarHeatmapQuery
   | RecordingsQuery
   | TracesQuery
@@ -10487,6 +11097,7 @@ export type HogQLMetadataSourceQuery =
   | SessionQuery
   | TraceNeighborsQuery
   | VectorSearchQuery
+  | InboxUsageQuery
   | UsageMetricsQuery
   | AccountsQuery
   | AccountsTableQuery
@@ -10520,6 +11131,8 @@ export interface HogQLMetadata {
   debug?: boolean | null;
   /** Extra filters applied to query via {filters} or the column-bound {filters(expr AS key, ...)} placeholder */
   filters?: HogQLFilters | null;
+  /** Validate on the Python validator with freshly fetched sources, the same sources query execution uses. Adds a sources fetch on every request, so only set it where the result blocks an action. */
+  freshSources?: boolean | null;
   /** Extra globals for the query */
   globals?: HogQLMetadataGlobalsMap | null;
   /** Infer output column names and types without executing the query. Adds a type-resolution pass, so callers must opt in. */
@@ -10542,13 +11155,16 @@ export interface HogQLMetadata {
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
-/** Additional event (or action) an entity must emit at/after their first default exposure event before they count as exposed; exposure time becomes this event's timestamp. Only valid with the default exposure event, not a custom `exposure_config`. */
+/** Additional event (or action) an entity must emit at/after their first default exposure event before they count as exposed; exposure time becomes this event's timestamp. Only valid with the default exposure event, not a custom `exposure_config`. Warehouse-native activation has no defined semantics yet, so only events and actions apply here. */
 export type ExperimentExposureCriteriaActivationConfig =
   | ExperimentEventExposureConfig
   | ActionsNode;
-export type ExperimentExposureCriteriaExposureConfig = ExperimentEventExposureConfig | ActionsNode;
+export type ExperimentExposureCriteriaExposureConfig =
+  | ExperimentEventExposureConfig
+  | ActionsNode
+  | ExperimentWarehouseNativeExposureConfig;
 export interface ExperimentExposureCriteria {
-  /** Additional event (or action) an entity must emit at/after their first default exposure event before they count as exposed; exposure time becomes this event's timestamp. Only valid with the default exposure event, not a custom `exposure_config`. */
+  /** Additional event (or action) an entity must emit at/after their first default exposure event before they count as exposed; exposure time becomes this event's timestamp. Only valid with the default exposure event, not a custom `exposure_config`. Warehouse-native activation has no defined semantics yet, so only events and actions apply here. */
   activation_config?: ExperimentExposureCriteriaActivationConfig | null;
   exposure_config?: ExperimentExposureCriteriaExposureConfig | null;
   filterTestAccounts?: boolean | null;
@@ -10586,7 +11202,13 @@ export type HedgehogActorColorOption =
   | "sepia"
   | "invert"
   | "rainbow";
-export type HedgehogActorSkinOption = "default" | "spiderhog" | "robohog" | "hogzilla" | "ghost";
+export type HedgehogActorSkinOption =
+  | "default"
+  | "spiderhog"
+  | "robohog"
+  | "hogzilla"
+  | "ghost"
+  | "pig";
 export interface MinimalHedgehogConfig {
   accessories?: MinimalHedgehogConfigAccessoriesList | null;
   color?: HedgehogActorColorOption | (string & {}) | null;
@@ -10660,6 +11282,112 @@ export interface BiasRisk {
   /** Observed share of users assigned to `$multiple`, as a percentage (0-100). */
   multiple_variant_percentage: number;
 }
+export type ExperimentExposureHealthCheckKey =
+  | "zero_exposures"
+  | "srm"
+  | "bias_risk_multiple_excluded"
+  | "multiple_variants_share"
+  | "test_account_filter_removes_exposures";
+export type ExperimentExposureHealthValueKey =
+  | "exposed_count"
+  | "compared_count"
+  | "multiple_variant_count"
+  | "multiple_variant_percentage"
+  | "multiple_variant_handling"
+  | "p_value"
+  | "since_launch_hours"
+  | "exposed_without_test_account_filter_count"
+  | "kept_by_test_account_filter_percentage";
+export interface ExperimentExposureHealthRuleMinimum {
+  /** The value that the key must reach. Below it, the check reports no finding. */
+  threshold: number;
+  /** The key in `values` that must reach the threshold before the check judges. */
+  value: ExperimentExposureHealthValueKey | (string & {});
+}
+export type ExperimentExposureHealthRuleSide = "above" | "below";
+export interface ExperimentExposureHealthCheckRule {
+  /** What the check needs before it judges. Null when the check judges from the first value. */
+  minimum: ExperimentExposureHealthRuleMinimum | null;
+  /** The statistical test that computes the value. Null for a count or a share. */
+  test: string | null;
+  /** The threshold, in the unit that the suffix of the key gives. */
+  threshold: number;
+  /** The key in `values` that the check compares with the threshold. */
+  value: ExperimentExposureHealthValueKey | (string & {});
+  /** above: the check reports a finding when the value is above the threshold. below: when the value is below it. A value at the threshold passes. */
+  warns: ExperimentExposureHealthRuleSide | (string & {});
+}
+export type ExperimentExposureHealthCheckStatus =
+  | "passed"
+  | "finding"
+  | "not_applicable"
+  | "not_checked";
+export type ExperimentExposureHealthCheckValuesValue = string | number | boolean;
+export type ExperimentExposureHealthCheckValuesMap = {
+  [key: string]: ExperimentExposureHealthCheckValuesValue | null | undefined;
+};
+export interface ExperimentExposureHealthCheck {
+  /** What the check looks for and why it matters. Missing on an answer cached before the field existed. */
+  description?: string | null;
+  /** Stable identifier of the check. */
+  key: ExperimentExposureHealthCheckKey | (string & {});
+  /** The problem the check looks for, as the health panel lists it. */
+  name: string;
+  /** Why the check did not look, for the statuses not_applicable and not_checked, for example 'Runs after launch'. Null for passed and finding. */
+  reason: string | null;
+  /** How the check decides, the same for every experiment. Null for a check without a numeric rule. Missing on an answer cached before the field existed. */
+  rule?: ExperimentExposureHealthCheckRule | null;
+  /** passed: no problem found. finding: a finding in `health_findings`. not_applicable: the check doesn't cover the experiment's state. not_checked: an input was missing or the check failed. */
+  status: ExperimentExposureHealthCheckStatus | (string & {});
+  /** What the check read on the experiment, for every status. The suffix of a key gives the unit: _count is a count, _percentage is on the 0-100 scale, _hours is hours. A key without a suffix is a setting. Missing on an answer cached before the field existed. */
+  values?: ExperimentExposureHealthCheckValuesMap | null;
+}
+export type ExperimentExposureQueryResponseHealthChecksList = Array<ExperimentExposureHealthCheck>;
+export type ExperimentExposureHealthFindingActionKind =
+  | "open_feature_flag"
+  | "edit_exposure_criteria"
+  | "adjust_distribution"
+  | "use_first_seen_variant";
+/** The actions that fix the problem, in order of preference. */
+export type ExperimentExposureHealthFindingActionsList = Array<
+  ExperimentExposureHealthFindingActionKind | (string & {})
+>;
+export type ExperimentExposureHealthFindingCode =
+  | "zero_exposures"
+  | "srm"
+  | "bias_risk_multiple_excluded"
+  | "multiple_variants_share"
+  | "test_account_filter_removes_exposures";
+export type ExperimentExposureHealthFindingEvidenceValue = string | number;
+/** The values behind the finding, such as the p-value of the sample ratio test. The keys depend on the code. */
+export type ExperimentExposureHealthFindingEvidenceMap = {
+  [key: string]: ExperimentExposureHealthFindingEvidenceValue | null | undefined;
+};
+export type ExperimentExposureHealthFindingSeverity = "critical" | "warning" | "info";
+export interface ExperimentExposureHealthFinding {
+  /** The actions that fix the problem, in order of preference. */
+  actions: ExperimentExposureHealthFindingActionsList;
+  /** The key of the check in `health_checks` that reported the finding. Missing on an answer cached before the field existed. */
+  check?: ExperimentExposureHealthCheckKey | (string & {}) | null;
+  /** Stable identifier of the problem. Each code has one meaning across every surface that reports it. */
+  code: ExperimentExposureHealthFindingCode | (string & {});
+  /** What is wrong, what it does to the experiment, and how to fix it. */
+  detail: string;
+  /** The id of the matching diagnostic in the diagnosing-experiment-health skill, for example 'A2'. Null when the skill has none. */
+  diagnostic_ref: string | null;
+  /** The values behind the finding, such as the p-value of the sample ratio test. The keys depend on the code. */
+  evidence: ExperimentExposureHealthFindingEvidenceMap;
+  /** A stable qualifier below the subcode, for example where a sample ratio mismatch is located. Null when the finding names none. */
+  reason: string | null;
+  /** How much the problem affects the results: critical, warning, or info. */
+  severity: ExperimentExposureHealthFindingSeverity | (string & {});
+  /** The case within the code, when a code covers several. Null when the code has one case. */
+  subcode: string | null;
+  /** One-line summary of the problem. */
+  title: string;
+}
+export type ExperimentExposureQueryResponseHealthFindingsList =
+  Array<ExperimentExposureHealthFinding>;
 export type SampleRatioMismatchExpectedMap = { [key: string]: number | undefined };
 export interface SampleRatioMismatch {
   expected?: SampleRatioMismatchExpectedMap;
@@ -10680,6 +11408,10 @@ export type ExperimentExposureQueryResponseWarningsList = Array<DataWarehouseSyn
 export interface ExperimentExposureQueryResponse {
   bias_risk?: BiasRisk | null;
   date_range?: DateRange;
+  /** The result of each check behind `health_findings`, so that a check that did not run is not read as passed. */
+  health_checks?: ExperimentExposureQueryResponseHealthChecksList | null;
+  /** Health check diagnostics that read the exposures: zero exposures, a sample ratio mismatch, and bias. Empty when every check passed. */
+  health_findings?: ExperimentExposureQueryResponseHealthFindingsList | null;
   kind?: string;
   sample_ratio_mismatch?: SampleRatioMismatch | null;
   timeseries?: ExperimentExposureQueryResponseTimeseriesList;
@@ -10734,7 +11466,8 @@ export type DocumentSimilarityQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type DocumentSimilarityQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type DocumentSimilarityQueryResponseWarningsList =
   Array<DocumentSimilarityQueryResponseWarningsItem>;
 export interface DocumentSimilarityQueryResponse {
@@ -10758,7 +11491,7 @@ export interface DocumentSimilarityQueryResponse {
   timings?: DocumentSimilarityQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: DocumentSimilarityQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: DocumentSimilarityQueryResponseWarningsList | null;
 }
 export interface DocumentSimilarityQuery {
@@ -10844,9 +11577,9 @@ export interface MetricChartSettings {
 export type SliceContent = "labels" | "values" | "none";
 export type ValueDisplay = "absolute" | "percentage";
 export interface PieChartSettings {
-  /** Whether to show the aggregation total below the chart. Defaults to on. */
+  /** Whether to show the aggregation total. Defaults to on only when slices show values. */
   showTotal?: boolean | null;
-  /** What to render on each slice. Defaults to labels. */
+  /** What to render on each slice. Defaults to values. */
   sliceContent?: SliceContent | (string & {}) | null;
   /** Whether slice values show as absolute amounts or shares of the total. Only applies when `sliceContent` is `values`. */
   valueDisplay?: ValueDisplay | (string & {}) | null;
@@ -10863,13 +11596,20 @@ export interface ScatterChartSettings {
   /** Whether the X axis should start at zero. Off by default, because pinning either axis of two independent measures to zero squashes the correlation into a corner. */
   xStartAtZero?: boolean | null;
 }
+export type ValueLabelPosition = "end" | "center";
 export type DisplayType = "auto" | "line" | "bar" | "area";
+export type ValueLabels = "auto" | "show" | "hide";
 export type YAxisPosition = "left" | "right";
 export interface ChartSettingsDisplay {
   color?: string | null;
+  description?: string | null;
   displayType?: DisplayType | (string & {}) | null;
+  /** Keep this series out of the tooltip's total row, e.g. a target line over stacked bars. */
+  excludeFromTotal?: boolean | null;
   label?: string | null;
   trendLine?: boolean | null;
+  /** Overrides the chart's "Show values on series" for this series. Unset or 'auto' follows the chart setting. */
+  valueLabels?: ValueLabels | (string & {}) | null;
   yAxisPosition?: YAxisPosition | (string & {}) | null;
 }
 export type Style = "none" | "number" | "short" | "percent";
@@ -10889,13 +11629,16 @@ export interface ChartAxis {
 }
 export type ChartSettingsYAxisList = Array<ChartAxis>;
 export interface ChartSettings {
+  /** Shows only the annotations saved at this level. Unset shows every level. */
+  annotationsScope?: AnnotationScope | (string & {}) | null;
+  barGap?: number | null;
   boxPlot?: BoxPlotSettings | null;
   /** Chart rendering style overrides (line shape). Only applies to line and area charts. */
   chartStyle?: ChartStyle | null;
   goalLines?: ChartSettingsGoalLinesList | null;
   heatmap?: HeatmapSettings | null;
   leftYAxisSettings?: YAxisSettings | null;
-  /** Where the legend sits relative to the chart. Unset falls back per chart type: right for pie, top for the rest. */
+  /** Where the legend sits relative to the chart. Unset falls back per chart type: right for pie and donut, bottom for proportion bar, top for the rest. */
   legendPosition?: LegendPosition | (string & {}) | null;
   metric?: MetricChartSettings | null;
   pie?: PieChartSettings | null;
@@ -10915,8 +11658,14 @@ export interface ChartSettings {
   showYAxisBorder?: boolean | null;
   /** Whether we fill the bars to 100% in stacked mode */
   stackBars100?: boolean | null;
+  valueLabelBackground?: boolean | null;
+  valueLabelFontSize?: number | null;
+  valueLabelPosition?: ValueLabelPosition | (string & {}) | null;
+  valueLabelRotation?: number | null;
   xAxis?: ChartAxis | null;
+  xAxisDateFormat?: string | null;
   xAxisLabel?: string | null;
+  xAxisTickRotation?: number | null;
   yAxis?: ChartSettingsYAxisList | null;
   /** Deprecated: use `[left|right]YAxisSettings`. Whether the Y axis should start at zero */
   yAxisAtZero?: boolean | null;
@@ -10950,6 +11699,277 @@ export interface DataVisualizationNode {
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
+export type BICatalogMetricStatus = "approved" | "proposed";
+export interface CatalogMetricContext {
+  id: string;
+  isDrifted: boolean;
+  owner?: string | null;
+  status: BICatalogMetricStatus | (string & {});
+  unit: string;
+  updatedAt?: string | null;
+}
+export type BIDateBucket = "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year";
+export type DatePart = "month" | "quarter" | "day_of_week";
+export interface BILocalFieldDefinition1 {
+  aggregate: boolean;
+  expression: string;
+  kind?: string;
+}
+export type BICategoryGroupValuesList = Array<string>;
+export interface BICategoryGroup {
+  name: string;
+  values: BICategoryGroupValuesList;
+}
+export type BILocalFieldDefinition2GroupsList = Array<BICategoryGroup>;
+export interface BILocalFieldDefinition2 {
+  expression: string;
+  groups: BILocalFieldDefinition2GroupsList;
+  kind?: string;
+  other: string;
+  preserveUngrouped?: boolean | null;
+}
+export interface BILocalFieldDefinition3 {
+  expression: string;
+  kind?: string;
+  origin: number;
+  width: number;
+}
+export type BIFieldLocalDefinition =
+  | BILocalFieldDefinition1
+  | BILocalFieldDefinition2
+  | BILocalFieldDefinition3;
+export interface BIDataSource {
+  connectionId?: string | null;
+  table: string;
+}
+export type DatabaseSerializedFieldType =
+  | "integer"
+  | "float"
+  | "decimal"
+  | "string"
+  | "datetime"
+  | "date"
+  | "boolean"
+  | "array"
+  | "json"
+  | "lazy_table"
+  | "virtual_table"
+  | "field_traverser"
+  | "expression"
+  | "view"
+  | "materialized_view"
+  | "unknown";
+export interface BIField {
+  dateBucket?: BIDateBucket | (string & {}) | null;
+  datePart?: DatePart | (string & {}) | null;
+  expression: string;
+  id: string;
+  label?: string | null;
+  localDefinition?: BIFieldLocalDefinition | null;
+  localFieldId?: string | null;
+  name: string;
+  source: BIDataSource;
+  type: DatabaseSerializedFieldType | (string & {});
+}
+export type BIConfigColumnsList = Array<BIField>;
+export type ComparisonPeriod = "previous";
+export type BIFilterOperator =
+  | "equals"
+  | "not_equals"
+  | "contains"
+  | "in"
+  | "not_in"
+  | "between"
+  | "greater_than"
+  | "less_than"
+  | "last_7_days"
+  | "is_set"
+  | "is_not_set"
+  | "custom";
+export type BIFilterValuesList = Array<string>;
+export interface BIFilter {
+  customExpression?: string | null;
+  enabled?: boolean | null;
+  field: BIField;
+  label?: string | null;
+  operator: BIFilterOperator | (string & {});
+  value: string;
+  valueTo?: string | null;
+  values?: BIFilterValuesList | null;
+}
+export type BIConfigFiltersList = Array<BIFilter>;
+/** Ordered from the broadest dimension to the most detailed. */
+export type BIHierarchyLevelsList = Array<BIField>;
+export interface BIHierarchy {
+  id: string;
+  /** Ordered from the broadest dimension to the most detailed. */
+  levels: BIHierarchyLevelsList;
+  name: string;
+}
+export type BIConfigHierarchiesList = Array<BIHierarchy>;
+export type HierarchyDrillPathItemFilterIdsList = Array<string>;
+export interface HierarchyDrillPathItem {
+  filterIds: HierarchyDrillPathItemFilterIdsList;
+  hierarchyId: string;
+  nextField: BIField;
+  previousField: BIField;
+}
+export type BIConfigHierarchyDrillPathList = Array<HierarchyDrillPathItem>;
+export type BIQueryLimit = 100 | 1000 | 10000 | 50000;
+export type BIConfigLocalFieldsList = Array<BIField>;
+export interface Alias {
+  label: string;
+  value?: string | null;
+}
+export type MemberAliaseAliasesList = Array<Alias>;
+export interface MemberAliase {
+  aliases: MemberAliaseAliasesList;
+  field: BIField;
+}
+export type BIConfigMemberAliasesList = Array<MemberAliase>;
+export type MissingDates = "gap" | "zero";
+/** Ordered dimension IDs used to split returned groups into separate charts. */
+export type BIPaneSettingsFieldsList = Array<string>;
+export type ReferenceLines = "pane" | "worksheet";
+export interface BIPaneSettings {
+  /** Ordered dimension IDs used to split returned groups into separate charts. */
+  fields: BIPaneSettingsFieldsList;
+  /** Use a separate value scale for each pane instead of a shared primary scale. */
+  independentAxes?: boolean | null;
+  /** Calculate reference lines from each pane or from all returned worksheet marks. */
+  referenceLines?: ReferenceLines | (string & {}) | null;
+}
+export type BIConditionGroupFiltersList = Array<string>;
+export type BIConditionGroupGroupsList = Array<BIConditionGroup>;
+export type Operator1 = "AND" | "OR";
+export interface BIConditionGroup {
+  filters: BIConditionGroupFiltersList;
+  groups: BIConditionGroupGroupsList;
+  operator: Operator1 | (string & {});
+}
+export type Operator2 =
+  | "equals"
+  | "not_equals"
+  | "greater_than"
+  | "less_than"
+  | "greater_than_or_equal"
+  | "less_than_or_equal"
+  | "between"
+  | "is_set"
+  | "is_not_set";
+export interface BIResultFilter {
+  enabled?: boolean | null;
+  id: string;
+  label?: string | null;
+  measureIndex: number;
+  operator: Operator2 | (string & {});
+  value: string;
+  valueTo?: string | null;
+}
+export type BIConfigResultFiltersList = Array<BIResultFilter>;
+export type BIConfigRowsList = Array<BIField>;
+export type BISortDirection = "asc" | "desc";
+export interface BISort {
+  direction: BISortDirection | (string & {});
+  key: string;
+}
+export interface BITopN {
+  count: number;
+  fieldId: string;
+  includeOther: boolean;
+  measureIndex: number;
+}
+export interface BITotals {
+  columns?: boolean | null;
+  rows?: boolean | null;
+  subtotals?: boolean | null;
+}
+export type BIAggregation =
+  | "count"
+  | "count_distinct"
+  | "sum"
+  | "average"
+  | "minimum"
+  | "maximum"
+  | "custom";
+export type Shelf = "rows" | "columns";
+export type BITableCalculationType =
+  | "percent_of_total"
+  | "running_total"
+  | "difference"
+  | "percent_change"
+  | "moving_average"
+  | "rank";
+export interface BITableCalculation {
+  /** Dimension ID to traverse. Unset chooses the date dimension; 'table' traverses all dimensions. */
+  computeUsing?: string | null;
+  /** Require a complete window of non-null values before displaying a moving average. */
+  requireFullWindow?: boolean | null;
+  type: BITableCalculationType | (string & {});
+  /** Number of points, including the current point, in a trailing moving average. */
+  window?: number | null;
+}
+export interface BIValue {
+  aggregation: BIAggregation | (string & {});
+  customExpression?: string | null;
+  display?: ChartSettingsDisplay | null;
+  field: BIField;
+  formatting?: ChartSettingsFormatting | null;
+  label?: string | null;
+  /** Measures in older worksheets belong to rows. */
+  shelf?: Shelf | (string & {}) | null;
+  tableCalculation?: BITableCalculation | null;
+}
+export type BIConfigValuesList = Array<BIValue>;
+export interface BIConfig {
+  /** Catalog provenance only: the snapshot does not track subsequent definition edits. */
+  catalogMetric?: string | null;
+  /** Catalog metadata at copy time, not a live approval of the worksheet. */
+  catalogMetricContext?: CatalogMetricContext | null;
+  chartType: ChartDisplayType | (string & {});
+  colorBy?: string | null;
+  columns: BIConfigColumnsList;
+  compareFilter?: CompareFilter | null;
+  /** Explore only the comparison window, using dateRange as its reference window. */
+  comparisonPeriod?: ComparisonPeriod | (string & {}) | null;
+  /** Column that receives the worksheet and dashboard date range. */
+  dateField?: BIField | null;
+  dateRange?: DateRange | null;
+  filters: BIConfigFiltersList;
+  /** Named dimension sequences saved with the worksheet; imports are independent copies. */
+  hierarchies?: BIConfigHierarchiesList | null;
+  hierarchyDrillPath?: BIConfigHierarchyDrillPathList | null;
+  limit: BIQueryLimit | (number & {});
+  /** Reusable expressions owned by this worksheet only. */
+  localFields?: BIConfigLocalFieldsList | null;
+  memberAliases?: BIConfigMemberAliasesList | null;
+  /** Fill missing date buckets before table calculations. Unset preserves observed points only. */
+  missingDates?: MissingDates | (string & {}) | null;
+  /** Split the returned groups into charts using these ordered dimension IDs. */
+  panes?: BIPaneSettings | null;
+  /** Executable catalog query snapshot. Dates and grouping belong to the definition, not the shelves. */
+  querySnapshot?: HogQLQuery | null;
+  resultFilterGroup?: BIConditionGroup | null;
+  resultFilters?: BIConfigResultFiltersList | null;
+  rowFilterGroup?: BIConditionGroup | null;
+  rows: BIConfigRowsList;
+  /** null sorts automatically: newest date or highest value first, so top rows survive the LIMIT. */
+  sort?: BISort | null;
+  source?: BIDataSource | null;
+  topN?: BITopN | null;
+  totals?: BITotals | null;
+  values: BIConfigValuesList;
+}
+export interface BIVisualizationNode {
+  chartSettings?: ChartSettings | null;
+  config: BIConfig;
+  display?: ChartDisplayType | (string & {}) | null;
+  kind?: string;
+  source: HogQLQuery;
+  tableSettings?: TableSettings | null;
+  /** version of the node, used for schema migrations */
+  version?: number | null;
+}
 export type DataTableNodeColumnsList = Array<string>;
 export type DataTableNodeViewPropsContextType = "event_definition" | "team_columns";
 export interface DataTableNodeViewPropsContext {
@@ -10966,7 +11986,10 @@ export type ResponseResultsList = Array<ResponseResultsItemList>;
 export type ResponseTimingsList = Array<QueryTiming>;
 export type ResponseTypesList = Array<string>;
 export type ResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type ResponseWarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type ResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type ResponseWarningsList = Array<ResponseWarningsItem>;
 export interface Response {
   columns?: ResponseColumnsList;
@@ -10993,7 +12016,7 @@ export interface Response {
   types?: ResponseTypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: ResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: ResponseWarningsList | null;
 }
 export type Response1ColumnsList = Array<unknown>;
@@ -11002,7 +12025,10 @@ export type Response1ResultsList = Array<Response1ResultsItemList>;
 export type Response1TimingsList = Array<QueryTiming>;
 export type Response1TypesList = Array<string>;
 export type Response1UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response1WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response1WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response1WarningsList = Array<Response1WarningsItem>;
 export interface Response1 {
   columns?: Response1ColumnsList;
@@ -11028,7 +12054,7 @@ export interface Response1 {
   types?: Response1TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response1UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response1WarningsList | null;
 }
 export type Response2ColumnsList = Array<unknown>;
@@ -11037,7 +12063,10 @@ export type Response2ResultsList = Array<Response2ResultsItemList>;
 export type Response2TimingsList = Array<QueryTiming>;
 export type Response2TypesList = Array<string>;
 export type Response2UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response2WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response2WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response2WarningsList = Array<Response2WarningsItem>;
 export interface Response2 {
   columns?: Response2ColumnsList;
@@ -11063,9 +12092,10 @@ export interface Response2 {
   types?: Response2TypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response2UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response2WarningsList | null;
 }
+export type Response3ColumnFormatsList = Array<string | null>;
 export type Response3ColumnsList = Array<unknown>;
 export type Response3ExplainList = Array<string>;
 export type Response3ResultsList = Array<unknown>;
@@ -11077,6 +12107,8 @@ export type Response3WarningsList = Array<Response3WarningsItem>;
 export interface Response3 {
   /** Executed ClickHouse query */
   clickhouse?: string | null;
+  /** Display formats for directly selected virtual properties, aligned with columns. */
+  column_formats?: Response3ColumnFormatsList | null;
   /** Returned columns */
   columns?: Response3ColumnsList | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -11113,7 +12145,10 @@ export interface Response3 {
 export type Response4ResultsList = Array<WebOverviewItem>;
 export type Response4TimingsList = Array<QueryTiming>;
 export type Response4UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response4WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response4WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response4WarningsList = Array<Response4WarningsItem>;
 export interface Response4 {
   dateFrom?: string | null;
@@ -11126,7 +12161,11 @@ export interface Response4 {
   modifiers?: HogQLQueryModifiers | null;
   /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
   preComputeIneligibleReason?: string | null;
+  /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
+  preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | (string & {}) | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -11139,7 +12178,7 @@ export interface Response4 {
   timings?: Response4TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response4UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response4WarningsList | null;
 }
 export type Response5ColumnsList = Array<unknown>;
@@ -11147,7 +12186,10 @@ export type Response5ResultsList = Array<unknown>;
 export type Response5TimingsList = Array<QueryTiming>;
 export type Response5TypesList = Array<unknown>;
 export type Response5UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response5WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response5WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response5WarningsList = Array<Response5WarningsItem>;
 export interface Response5 {
   columns?: Response5ColumnsList | null;
@@ -11165,6 +12207,8 @@ export interface Response5 {
   /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
   preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | (string & {}) | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -11178,7 +12222,7 @@ export interface Response5 {
   types?: Response5TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response5UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response5WarningsList | null;
 }
 export type Response6ColumnsList = Array<unknown>;
@@ -11186,7 +12230,10 @@ export type Response6ResultsList = Array<unknown>;
 export type Response6TimingsList = Array<QueryTiming>;
 export type Response6TypesList = Array<unknown>;
 export type Response6UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response6WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response6WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response6WarningsList = Array<Response6WarningsItem>;
 export interface Response6 {
   columns?: Response6ColumnsList | null;
@@ -11212,7 +12259,7 @@ export interface Response6 {
   types?: Response6TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response6UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response6WarningsList | null;
 }
 export type Response7ColumnsList = Array<unknown>;
@@ -11220,7 +12267,10 @@ export type Response7ResultsList = Array<unknown>;
 export type Response7TimingsList = Array<QueryTiming>;
 export type Response7TypesList = Array<unknown>;
 export type Response7UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response7WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response7WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response7WarningsList = Array<Response7WarningsItem>;
 export interface Response7 {
   columns?: Response7ColumnsList | null;
@@ -11245,7 +12295,7 @@ export interface Response7 {
   types?: Response7TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response7UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response7WarningsList | null;
 }
 export type Response8ColumnsList = Array<unknown>;
@@ -11253,7 +12303,10 @@ export type Response8ResultsList = Array<unknown>;
 export type Response8TimingsList = Array<QueryTiming>;
 export type Response8TypesList = Array<unknown>;
 export type Response8UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response8WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response8WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response8WarningsList = Array<Response8WarningsItem>;
 export interface Response8 {
   columns?: Response8ColumnsList | null;
@@ -11268,7 +12321,11 @@ export interface Response8 {
   offset?: number | null;
   /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
   preComputeIneligibleReason?: string | null;
+  /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
+  preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | (string & {}) | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -11282,13 +12339,16 @@ export interface Response8 {
   types?: Response8TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response8UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response8WarningsList | null;
 }
 export type Response9ResultsList = Array<WebVitalsPathBreakdownResult>;
 export type Response9TimingsList = Array<QueryTiming>;
 export type Response9UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response9WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response9WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response9WarningsList = Array<Response9WarningsItem>;
 export interface Response9 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -11299,7 +12359,11 @@ export interface Response9 {
   modifiers?: HogQLQueryModifiers | null;
   /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
   preComputeIneligibleReason?: string | null;
+  /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
+  preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | (string & {}) | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -11311,14 +12375,17 @@ export interface Response9 {
   timings?: Response9TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response9UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response9WarningsList | null;
 }
 export type Response10ColumnsList = Array<unknown>;
 export type Response10TimingsList = Array<QueryTiming>;
 export type Response10TypesList = Array<unknown>;
 export type Response10UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response10WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response10WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response10WarningsList = Array<Response10WarningsItem>;
 export interface Response10 {
   columns?: Response10ColumnsList | null;
@@ -11343,7 +12410,7 @@ export interface Response10 {
   types?: Response10TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response10UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response10WarningsList | null;
 }
 export type Response11ColumnsList = Array<unknown>;
@@ -11352,7 +12419,10 @@ export type Response11ResultsList = Array<Response11ResultsItemList>;
 export type Response11TimingsList = Array<QueryTiming>;
 export type Response11TypesList = Array<string>;
 export type Response11UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response11WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response11WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response11WarningsList = Array<Response11WarningsItem>;
 export interface Response11 {
   columns?: Response11ColumnsList;
@@ -11377,7 +12447,7 @@ export interface Response11 {
   types?: Response11TypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response11UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response11WarningsList | null;
 }
 export type Response12ColumnsList = Array<unknown>;
@@ -11386,17 +12456,22 @@ export type Response12ResultsList = Array<Response12ResultsItemList>;
 export type Response12TimingsList = Array<QueryTiming>;
 export type Response12TypesList = Array<unknown>;
 export type Response12UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response12WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response12WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response12WarningsList = Array<Response12WarningsItem>;
 export interface Response12 {
   columns?: Response12ColumnsList | null;
-  /** ISO timestamp of the oldest precompute window backing this result -- surfaced as "data as of X". */
+  /** ISO timestamp of the oldest precompute window backing this result. */
   dataComputedAt?: string | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
   /** Generated HogQL query. */
   hogql?: string | null;
+  /** ISO timestamp of when the numbers for the most recent day in the range were computed, at this time or later. It is the oldest stamp among the precompute windows that hold that day, across costs and conversion goals. Unset when no precompute was read or a window has no stamp. */
+  latestDayComputedAt?: string | null;
   limit?: number | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
@@ -11416,21 +12491,26 @@ export interface Response12 {
   types?: Response12TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response12UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response12WarningsList | null;
 }
 export type Response13ResultsMap = { [key: string]: MarketingAnalyticsItem | undefined };
 export type Response13TimingsList = Array<QueryTiming>;
 export type Response13UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response13WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response13WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response13WarningsList = Array<Response13WarningsItem>;
 export interface Response13 {
-  /** ISO timestamp of the oldest precompute window backing this result -- surfaced as "data as of X". */
+  /** ISO timestamp of the oldest precompute window backing this result. */
   dataComputedAt?: string | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Generated HogQL query. */
   hogql?: string | null;
+  /** ISO timestamp of when the numbers for the most recent day in the range were computed, at this time or later. It is the oldest stamp among the precompute windows that hold that day, across costs and conversion goals. Unset when no precompute was read or a window has no stamp. */
+  latestDayComputedAt?: string | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
   /** True when a conversion goal's precompute has not been warmed for this window yet -- the UI shows a "computing" state rather than empty results. Marketing analytics serves exclusively from precompute. */
@@ -11447,14 +12527,17 @@ export interface Response13 {
   timings?: Response13TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response13UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response13WarningsList | null;
 }
 export type Response14ColumnsList = Array<string>;
 export type Response14ResultsList = Array<ErrorTrackingIssue>;
 export type Response14TimingsList = Array<QueryTiming>;
 export type Response14UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response14WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response14WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response14WarningsList = Array<Response14WarningsItem>;
 export interface Response14 {
   columns?: Response14ColumnsList | null;
@@ -11478,14 +12561,17 @@ export interface Response14 {
   timings?: Response14TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response14UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response14WarningsList | null;
 }
 export type Response15ColumnsList = Array<string>;
 export type Response15ResultsList = Array<ErrorTrackingCorrelatedIssue>;
 export type Response15TimingsList = Array<QueryTiming>;
 export type Response15UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response15WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response15WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response15WarningsList = Array<Response15WarningsItem>;
 export interface Response15 {
   columns?: Response15ColumnsList | null;
@@ -11509,62 +12595,52 @@ export interface Response15 {
   timings?: Response15TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response15UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response15WarningsList | null;
 }
-export type Response16CredibleIntervalsValueList = Array<number>;
-export type Response16CredibleIntervalsMap = {
-  [key: string]: Response16CredibleIntervalsValueList | undefined;
-};
-export type Response16InsightItemItemMap = { [key: string]: unknown | undefined };
-export type Response16InsightItemList = Array<Response16InsightItemItemMap>;
-export type Response16InsightList = Array<Response16InsightItemList>;
-export type Response16ProbabilityMap = { [key: string]: number | undefined };
-export type Response16VariantsList = Array<ExperimentVariantFunnelsBaseStats>;
-export type Response16WarningsList = Array<DataWarehouseSyncWarning>;
+export type Response16ColumnsList = Array<string>;
+export type Response16ResultsList = Array<LLMTrace>;
+export type Response16TimingsList = Array<QueryTiming>;
+export type Response16UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type Response16WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type Response16WarningsList = Array<Response16WarningsItem>;
 export interface Response16 {
-  credible_intervals?: Response16CredibleIntervalsMap;
-  expected_loss?: number;
-  funnels_query?: FunnelsQuery | null;
-  insight?: Response16InsightList;
-  kind?: string;
-  probability?: Response16ProbabilityMap;
-  significance_code?: ExperimentSignificanceCode | (string & {});
-  significant?: boolean;
-  stats_version?: number | null;
-  variants?: Response16VariantsList;
-  /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
+  columns?: Response16ColumnsList | null;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  hasMore?: boolean | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  limit?: number | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  offset?: number | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results: Response16ResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: Response16TimingsList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: Response16UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response16WarningsList | null;
 }
-export type Response17CredibleIntervalsValueList = Array<number>;
-export type Response17CredibleIntervalsMap = {
-  [key: string]: Response17CredibleIntervalsValueList | undefined;
-};
-export type Response17InsightItemMap = { [key: string]: unknown | undefined };
-export type Response17InsightList = Array<Response17InsightItemMap>;
-export type Response17ProbabilityMap = { [key: string]: number | undefined };
-export type Response17VariantsList = Array<ExperimentVariantTrendsBaseStats>;
-export type Response17WarningsList = Array<DataWarehouseSyncWarning>;
-export interface Response17 {
-  count_query?: TrendsQuery | null;
-  credible_intervals: Response17CredibleIntervalsMap;
-  exposure_query?: TrendsQuery | null;
-  insight: Response17InsightList;
-  kind?: string;
-  p_value: number;
-  probability: Response17ProbabilityMap;
-  significance_code: ExperimentSignificanceCode | (string & {});
-  significant: boolean;
-  stats_version?: number | null;
-  variants: Response17VariantsList;
-  /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
-  warnings?: Response17WarningsList | null;
-}
-export type Response18ColumnsList = Array<string>;
-export type Response18ResultsList = Array<LLMTrace>;
+export type Response18ColumnsList = Array<unknown>;
+export type Response18ResultsList = Array<unknown>;
 export type Response18TimingsList = Array<QueryTiming>;
+export type Response18TypesList = Array<unknown>;
 export type Response18UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response18WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
+export type Response18WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type Response18WarningsList = Array<Response18WarningsItem>;
 export interface Response18 {
   columns?: Response18ColumnsList | null;
@@ -11586,31 +12662,90 @@ export interface Response18 {
   results?: Response18ResultsList;
   /** Measured timings for different parts of the query generation process */
   timings?: Response18TimingsList | null;
+  types?: Response18TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response18UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response18WarningsList | null;
 }
-export type Response20ColumnsList = Array<unknown>;
-export type Response20ResultsList = Array<unknown>;
-export type Response20TimingsList = Array<QueryTiming>;
-export type Response20TypesList = Array<unknown>;
-export type Response20UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response20WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
-export type Response20WarningsList = Array<Response20WarningsItem>;
-export interface Response20 {
-  columns?: Response20ColumnsList | null;
+export type Response19ColumnsList = Array<unknown>;
+export type Response19MetricsResultsList = Array<number | null>;
+export type Response19ResultsItemList = Array<unknown>;
+export type Response19ResultsList = Array<Response19ResultsItemList>;
+export type Response19TimingsList = Array<QueryTiming>;
+export type Response19TypesList = Array<string>;
+export type Response19UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type Response19WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type Response19WarningsList = Array<Response19WarningsItem>;
+export interface Response19 {
+  columns: Response19ColumnsList;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
   /** Generated HogQL query. */
-  hogql?: string | null;
-  limit?: number | null;
+  hogql: string;
+  kind?: string;
+  limit: number;
+  /** When `metrics` is set on the query, the aggregated values in the same order. */
+  metricsResults?: Response19MetricsResultsList | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
-  offset?: number | null;
+  offset: number;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results: Response19ResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: Response19TimingsList | null;
+  types: Response19TypesList;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: Response19UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: Response19WarningsList | null;
+}
+export type Response20ColumnsItem =
+  | AccountsTableAccountFieldColumn
+  | AccountsTableTagsColumn
+  | AccountsTableTagsColumn
+  | AccountsTableRelationshipColumn
+  | AccountsTableCustomPropertyColumn
+  | AccountsTableCustomPropertyHistoryColumn;
+export type Response20ColumnsList = Array<Response20ColumnsItem>;
+export type Response20CustomPropertyDefinitionsList = Array<AccountsTableCustomPropertyDefinition>;
+export type Response20MetricsResultsList = Array<number | null>;
+export type Response20RelationshipDefinitionsList = Array<AccountsTableRelationshipDefinition>;
+export type Response20ResultsList = Array<AccountsTableRow>;
+export type Response20TimingsList = Array<QueryTiming>;
+export type Response20UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type Response20WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type Response20WarningsList = Array<Response20WarningsItem>;
+export interface Response20 {
+  columns?: Response20ColumnsList | null;
+  customPropertyDefinitions?: Response20CustomPropertyDefinitionsList | null;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  hasMore: boolean;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  kind?: string;
+  limit: number;
+  /** Aggregated values in the same order as the requested metrics. */
+  metricsResults?: Response20MetricsResultsList | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  offset: number;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  relationshipDefinitions?: Response20RelationshipDefinitionsList | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
@@ -11618,82 +12753,10 @@ export interface Response20 {
   results?: Response20ResultsList;
   /** Measured timings for different parts of the query generation process */
   timings?: Response20TimingsList | null;
-  types?: Response20TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: Response20UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: Response20WarningsList | null;
-}
-export type Response21ColumnsList = Array<unknown>;
-export type Response21MetricsResultsList = Array<number | null>;
-export type Response21ResultsItemList = Array<unknown>;
-export type Response21ResultsList = Array<Response21ResultsItemList>;
-export type Response21TimingsList = Array<QueryTiming>;
-export type Response21TypesList = Array<string>;
-export type Response21UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response21WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
-export type Response21WarningsList = Array<Response21WarningsItem>;
-export interface Response21 {
-  columns?: Response21ColumnsList;
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  hasMore?: boolean | null;
-  /** Generated HogQL query. */
-  hogql?: string;
-  kind?: string;
-  limit?: number;
-  /** When `metrics` is set on the query, the aggregated values in the same order. */
-  metricsResults?: Response21MetricsResultsList | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  offset?: number;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: Response21ResultsList;
-  /** Measured timings for different parts of the query generation process */
-  timings?: Response21TimingsList | null;
-  types?: Response21TypesList;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: Response21UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: Response21WarningsList | null;
-}
-export type Response22MetricsResultsList = Array<number | null>;
-export type Response22ResultsList = Array<AccountsTableRow>;
-export type Response22TimingsList = Array<QueryTiming>;
-export type Response22UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
-export type Response22WarningsItem = DataWarehouseSyncWarning | AccessControlFilterWarning;
-export type Response22WarningsList = Array<Response22WarningsItem>;
-export interface Response22 {
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  hasMore?: boolean;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  kind?: string;
-  limit?: number;
-  /** Aggregated values in the same order as the requested metrics. */
-  metricsResults?: Response22MetricsResultsList | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  offset?: number;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: Response22ResultsList;
-  /** Measured timings for different parts of the query generation process */
-  timings?: Response22TimingsList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: Response22UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: Response22WarningsList | null;
 }
 export type DataTableNodeResponse =
   | DataTableNodeResponseCase0Map
@@ -11714,11 +12777,9 @@ export type DataTableNodeResponse =
   | Response14
   | Response15
   | Response16
-  | Response17
   | Response18
-  | Response20
-  | Response21
-  | Response22;
+  | Response19
+  | Response20;
 export type TaxonomicFilterGroupType =
   | "metadata"
   | "actions"
@@ -11809,8 +12870,6 @@ export type DataTableNodeSource =
   | MarketingAnalyticsAggregatedQuery
   | ErrorTrackingQuery
   | ErrorTrackingIssueCorrelationQuery
-  | ExperimentFunnelsQuery
-  | ExperimentTrendsQuery
   | TracesQuery
   | TraceQuery
   | SessionQuery
@@ -12047,23 +13106,6 @@ export interface DatabaseSchemaTableCertification {
 export type DatabaseSchemaFieldChainItem = string | number;
 export type DatabaseSchemaFieldChainList = Array<DatabaseSchemaFieldChainItem>;
 export type DatabaseSchemaFieldFieldsList = Array<string>;
-export type DatabaseSerializedFieldType =
-  | "integer"
-  | "float"
-  | "decimal"
-  | "string"
-  | "datetime"
-  | "date"
-  | "boolean"
-  | "array"
-  | "json"
-  | "lazy_table"
-  | "virtual_table"
-  | "field_traverser"
-  | "expression"
-  | "view"
-  | "materialized_view"
-  | "unknown";
 export interface DatabaseSchemaField {
   chain?: DatabaseSchemaFieldChainList | null;
   fields?: DatabaseSchemaFieldFieldsList | null;
@@ -12227,6 +13269,8 @@ export type DatabaseSchemaQueryTablesList = Array<string>;
 export interface DatabaseSchemaQuery {
   /** Optional direct external data source id for schema introspection */
   connectionId?: string | null;
+  /** Select the native managed Trino catalog instead of the default PostHog catalog. */
+  executionTarget?: ExecutionTarget | (string & {}) | null;
   /** When false, skip serializing each table's fields (`fields` comes back empty). Defaults to true. */
   includeFields?: boolean | null;
   kind?: string;
@@ -12264,7 +13308,8 @@ export type TeamTaxonomyQueryResponseTimingsList = Array<QueryTiming>;
 export type TeamTaxonomyQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type TeamTaxonomyQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type TeamTaxonomyQueryResponseWarningsList = Array<TeamTaxonomyQueryResponseWarningsItem>;
 export interface TeamTaxonomyQueryResponse {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -12287,7 +13332,7 @@ export interface TeamTaxonomyQueryResponse {
   timings?: TeamTaxonomyQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: TeamTaxonomyQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: TeamTaxonomyQueryResponseWarningsList | null;
 }
 export interface TeamTaxonomyQuery {
@@ -12316,7 +13361,8 @@ export type EventTaxonomyQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type EventTaxonomyQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type EventTaxonomyQueryResponseWarningsList = Array<EventTaxonomyQueryResponseWarningsItem>;
 export interface EventTaxonomyQueryResponse {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -12339,7 +13385,7 @@ export interface EventTaxonomyQueryResponse {
   timings?: EventTaxonomyQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: EventTaxonomyQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: EventTaxonomyQueryResponseWarningsList | null;
 }
 export interface EventTaxonomyQuery {
@@ -12377,7 +13423,8 @@ export type ActorsPropertyTaxonomyQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type ActorsPropertyTaxonomyQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type ActorsPropertyTaxonomyQueryResponseWarningsList =
   Array<ActorsPropertyTaxonomyQueryResponseWarningsItem>;
 export interface ActorsPropertyTaxonomyQueryResponse {
@@ -12398,7 +13445,7 @@ export interface ActorsPropertyTaxonomyQueryResponse {
   timings?: ActorsPropertyTaxonomyQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: ActorsPropertyTaxonomyQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: ActorsPropertyTaxonomyQueryResponseWarningsList | null;
 }
 export interface ActorsPropertyTaxonomyQuery {
@@ -12426,7 +13473,8 @@ export type PropertyValuesQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type PropertyValuesQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type PropertyValuesQueryResponseWarningsList =
   Array<PropertyValuesQueryResponseWarningsItem>;
 export interface PropertyValuesQueryResponse {
@@ -12447,7 +13495,7 @@ export interface PropertyValuesQueryResponse {
   timings?: PropertyValuesQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: PropertyValuesQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: PropertyValuesQueryResponseWarningsList | null;
 }
 export interface PropertyValuesQuery {
@@ -12490,8 +13538,7 @@ export type CreateQueryRequestQuery =
   | ErrorTrackingBreakdownsQuery
   | ErrorTrackingReleasesQuery
   | ErrorTrackingIssueCorrelationQuery
-  | ExperimentFunnelsQuery
-  | ExperimentTrendsQuery
+  | ErrorTrackingIssueEventsQuery
   | ExperimentQuery
   | ExperimentExposureQuery
   | DocumentSimilarityQuery
@@ -12500,6 +13547,7 @@ export type CreateQueryRequestQuery =
   | WebExternalClicksTableQuery
   | WebBotsTableQuery
   | WebAgentAnalyticsQuery
+  | WebPageDirectoryQuery
   | WebGoalsQuery
   | WebVitalsQuery
   | WebVitalsPathBreakdownQuery
@@ -12512,7 +13560,9 @@ export type CreateQueryRequestQuery =
   | MarketingAnalyticsAttributionPathsQuery
   | MarketingAnalyticsRetentionQuery
   | MarketingAnalyticsSearchQuery
+  | MarketingAnalyticsRecommendationsQuery
   | DataVisualizationNode
+  | BIVisualizationNode
   | DataTableNode
   | SavedInsightNode
   | InsightVizNode
@@ -12523,7 +13573,6 @@ export type CreateQueryRequestQuery =
   | PathsV2Query
   | StickinessQuery
   | LifecycleQuery
-  | FunnelCorrelationQuery
   | DatabaseSchemaQuery
   | RecordingsQuery
   | LogsQuery
@@ -12544,6 +13593,7 @@ export type CreateQueryRequestQuery =
   | SessionQuery
   | TraceNeighborsQuery
   | VectorSearchQuery
+  | InboxUsageQuery
   | UsageMetricsQuery
   | AccountsQuery
   | AccountsTableQuery
@@ -12608,7 +13658,8 @@ export type QueryResponseAlternative1TypesList = Array<string>;
 export type QueryResponseAlternative1UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative1WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative1WarningsList = Array<QueryResponseAlternative1WarningsItem>;
 export interface QueryResponseAlternative1 {
   columns?: QueryResponseAlternative1ColumnsList;
@@ -12635,7 +13686,7 @@ export interface QueryResponseAlternative1 {
   types?: QueryResponseAlternative1TypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative1UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative1WarningsList | null;
 }
 export type QueryResponseAlternative2ColumnsList = Array<unknown>;
@@ -12646,7 +13697,8 @@ export type QueryResponseAlternative2TypesList = Array<string>;
 export type QueryResponseAlternative2UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative2WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative2WarningsList = Array<QueryResponseAlternative2WarningsItem>;
 export interface QueryResponseAlternative2 {
   columns?: QueryResponseAlternative2ColumnsList;
@@ -12671,7 +13723,7 @@ export interface QueryResponseAlternative2 {
   types?: QueryResponseAlternative2TypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative2UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative2WarningsList | null;
 }
 export type QueryResponseAlternative3ColumnsList = Array<unknown>;
@@ -12682,7 +13734,8 @@ export type QueryResponseAlternative3TypesList = Array<string>;
 export type QueryResponseAlternative3UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative3WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative3WarningsList = Array<QueryResponseAlternative3WarningsItem>;
 export interface QueryResponseAlternative3 {
   columns?: QueryResponseAlternative3ColumnsList;
@@ -12708,7 +13761,7 @@ export interface QueryResponseAlternative3 {
   types?: QueryResponseAlternative3TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative3UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative3WarningsList | null;
 }
 export type QueryResponseAlternative4ColumnsList = Array<unknown>;
@@ -12719,7 +13772,8 @@ export type QueryResponseAlternative4TypesList = Array<string>;
 export type QueryResponseAlternative4UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative4WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative4WarningsList = Array<QueryResponseAlternative4WarningsItem>;
 export interface QueryResponseAlternative4 {
   columns?: QueryResponseAlternative4ColumnsList;
@@ -12745,7 +13799,7 @@ export interface QueryResponseAlternative4 {
   types?: QueryResponseAlternative4TypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative4UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative4WarningsList | null;
 }
 export type QueryResponseAlternative5BreakdownList = Array<BreakdownItem>;
@@ -12772,7 +13826,8 @@ export type QueryResponseAlternative6TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative6UsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative6WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative6WarningsList = Array<QueryResponseAlternative6WarningsItem>;
 export interface QueryResponseAlternative6 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -12793,7 +13848,7 @@ export interface QueryResponseAlternative6 {
   timings?: QueryResponseAlternative6TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative6UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative6WarningsList | null;
 }
 export type QueryResponseAlternative7BytecodeList = Array<unknown>;
@@ -12804,6 +13859,7 @@ export interface QueryResponseAlternative7 {
   results?: unknown;
   stdout?: string | null;
 }
+export type QueryResponseAlternative8ColumnFormatsList = Array<string | null>;
 export type QueryResponseAlternative8ColumnsList = Array<unknown>;
 export type QueryResponseAlternative8ExplainList = Array<string>;
 export type QueryResponseAlternative8ResultsList = Array<unknown>;
@@ -12817,6 +13873,8 @@ export type QueryResponseAlternative8WarningsList = Array<QueryResponseAlternati
 export interface QueryResponseAlternative8 {
   /** Executed ClickHouse query */
   clickhouse?: string | null;
+  /** Display formats for directly selected virtual properties, aligned with columns. */
+  column_formats?: QueryResponseAlternative8ColumnFormatsList | null;
   /** Returned columns */
   columns?: QueryResponseAlternative8ColumnsList | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -12862,6 +13920,8 @@ export interface QueryResponseAlternative9 {
   errors?: QueryResponseAlternative9ErrorsList;
   /** One entry per property filter, in query order. */
   index_usage?: QueryResponseAlternative9IndexUsageList | null;
+  /** The validator raised an internal error, such as a database failure, so the errors do not prove that the query is invalid. */
+  internalError?: boolean | null;
   isUsingIndices?: QueryIndexUsage | null;
   isValid?: boolean | null;
   notices?: QueryResponseAlternative9NoticesList;
@@ -12887,7 +13947,8 @@ export type QueryResponseAlternative11UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative11WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative11WarningsList = Array<QueryResponseAlternative11WarningsItem>;
 export interface QueryResponseAlternative11 {
   columns?: QueryResponseAlternative11ColumnsList | null;
@@ -12912,7 +13973,7 @@ export interface QueryResponseAlternative11 {
   types?: QueryResponseAlternative11TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative11UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative11WarningsList | null;
 }
 export type QueryResponseAlternative12ColumnsList = Array<string>;
@@ -12922,7 +13983,8 @@ export type QueryResponseAlternative12UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative12WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative12WarningsList = Array<QueryResponseAlternative12WarningsItem>;
 export interface QueryResponseAlternative12 {
   columns?: QueryResponseAlternative12ColumnsList | null;
@@ -12946,7 +14008,7 @@ export interface QueryResponseAlternative12 {
   timings?: QueryResponseAlternative12TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative12UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative12WarningsList | null;
 }
 export type QueryResponseAlternative13ResultsList = Array<SimilarIssue>;
@@ -12955,7 +14017,8 @@ export type QueryResponseAlternative13UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative13WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative13WarningsList = Array<QueryResponseAlternative13WarningsItem>;
 export interface QueryResponseAlternative13 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -12978,7 +14041,7 @@ export interface QueryResponseAlternative13 {
   timings?: QueryResponseAlternative13TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative13UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative13WarningsList | null;
 }
 export type QueryResponseAlternative14ResultsList = Array<ErrorTrackingFingerprintProjectionPoint>;
@@ -12987,7 +14050,8 @@ export type QueryResponseAlternative14UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative14WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative14WarningsList = Array<QueryResponseAlternative14WarningsItem>;
 export interface QueryResponseAlternative14 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -13008,7 +14072,7 @@ export interface QueryResponseAlternative14 {
   timings?: QueryResponseAlternative14TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative14UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative14WarningsList | null;
 }
 export type QueryResponseAlternative15ResultsMap = { [key: string]: Results | undefined };
@@ -13017,7 +14081,8 @@ export type QueryResponseAlternative15UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative15WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative15WarningsList = Array<QueryResponseAlternative15WarningsItem>;
 export interface QueryResponseAlternative15 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -13037,7 +14102,7 @@ export interface QueryResponseAlternative15 {
   timings?: QueryResponseAlternative15TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative15UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative15WarningsList | null;
 }
 /** ISO start of each bucket. The first one can start before `date_from`. */
@@ -13051,7 +14116,8 @@ export type QueryResponseAlternative16UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative16WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative16WarningsList = Array<QueryResponseAlternative16WarningsItem>;
 export interface QueryResponseAlternative16 {
   bucket_seconds?: number;
@@ -13089,7 +14155,7 @@ export interface QueryResponseAlternative16 {
   unattributed?: ErrorTrackingReleaseSeries | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative16UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative16WarningsList | null;
 }
 export type QueryResponseAlternative17ColumnsList = Array<string>;
@@ -13099,7 +14165,8 @@ export type QueryResponseAlternative17UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative17WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative17WarningsList = Array<QueryResponseAlternative17WarningsItem>;
 export interface QueryResponseAlternative17 {
   columns?: QueryResponseAlternative17ColumnsList | null;
@@ -13123,129 +14190,99 @@ export interface QueryResponseAlternative17 {
   timings?: QueryResponseAlternative17TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative17UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative17WarningsList | null;
 }
-export type QueryResponseAlternative18CredibleIntervalsValueList = Array<number>;
-export type QueryResponseAlternative18CredibleIntervalsMap = {
-  [key: string]: QueryResponseAlternative18CredibleIntervalsValueList | undefined;
-};
-export type QueryResponseAlternative18InsightItemItemMap = { [key: string]: unknown | undefined };
-export type QueryResponseAlternative18InsightItemList =
-  Array<QueryResponseAlternative18InsightItemItemMap>;
-export type QueryResponseAlternative18InsightList =
-  Array<QueryResponseAlternative18InsightItemList>;
-export type QueryResponseAlternative18ProbabilityMap = { [key: string]: number | undefined };
-export type QueryResponseAlternative18VariantsList = Array<ExperimentVariantFunnelsBaseStats>;
-export type QueryResponseAlternative18WarningsList = Array<DataWarehouseSyncWarning>;
+export type QueryResponseAlternative18ColumnsList = Array<unknown>;
+export type QueryResponseAlternative18ResultsItemList = Array<unknown>;
+export type QueryResponseAlternative18ResultsList =
+  Array<QueryResponseAlternative18ResultsItemList>;
+export type QueryResponseAlternative18TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative18TypesList = Array<string>;
+export type QueryResponseAlternative18UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative18WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative18WarningsList = Array<QueryResponseAlternative18WarningsItem>;
 export interface QueryResponseAlternative18 {
-  credible_intervals?: QueryResponseAlternative18CredibleIntervalsMap;
-  expected_loss?: number;
-  funnels_query?: FunnelsQuery | null;
-  insight?: QueryResponseAlternative18InsightList;
-  kind?: string;
-  probability?: QueryResponseAlternative18ProbabilityMap;
-  significance_code?: ExperimentSignificanceCode;
-  significant?: boolean;
-  stats_version?: number | null;
-  variants?: QueryResponseAlternative18VariantsList;
-  /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
+  columns: QueryResponseAlternative18ColumnsList;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  hasMore?: boolean | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  /** Where the next page starts. */
+  nextCursor?: string | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results: QueryResponseAlternative18ResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative18TimingsList | null;
+  types: QueryResponseAlternative18TypesList;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative18UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative18WarningsList | null;
 }
-export type QueryResponseAlternative19CredibleIntervalsValueList = Array<number>;
-export type QueryResponseAlternative19CredibleIntervalsMap = {
-  [key: string]: QueryResponseAlternative19CredibleIntervalsValueList | undefined;
-};
-export type QueryResponseAlternative19InsightItemMap = { [key: string]: unknown | undefined };
-export type QueryResponseAlternative19InsightList = Array<QueryResponseAlternative19InsightItemMap>;
-export type QueryResponseAlternative19ProbabilityMap = { [key: string]: number | undefined };
-export type QueryResponseAlternative19VariantsList = Array<ExperimentVariantTrendsBaseStats>;
+export type QueryResponseAlternative19BreakdownResultsList = Array<ExperimentBreakdownResult>;
+export type QueryResponseAlternative19VariantResultsCase0List =
+  Array<ExperimentVariantResultFrequentist>;
+export type QueryResponseAlternative19VariantResultsCase1List =
+  Array<ExperimentVariantResultBayesian>;
+export type QueryResponseAlternative19VariantResults =
+  | QueryResponseAlternative19VariantResultsCase0List
+  | QueryResponseAlternative19VariantResultsCase1List;
 export type QueryResponseAlternative19WarningsList = Array<DataWarehouseSyncWarning>;
 export interface QueryResponseAlternative19 {
-  count_query?: TrendsQuery | null;
-  credible_intervals?: QueryResponseAlternative19CredibleIntervalsMap;
-  exposure_query?: TrendsQuery | null;
-  insight?: QueryResponseAlternative19InsightList;
-  kind?: string;
-  p_value?: number;
-  probability?: QueryResponseAlternative19ProbabilityMap;
-  significance_code?: ExperimentSignificanceCode;
-  significant?: boolean;
-  stats_version?: number | null;
-  variants?: QueryResponseAlternative19VariantsList;
-  /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
-  warnings?: QueryResponseAlternative19WarningsList | null;
-}
-export type QueryResponseAlternative20BreakdownResultsList = Array<ExperimentBreakdownResult>;
-export type QueryResponseAlternative20CredibleIntervalsValueList = Array<number>;
-export type QueryResponseAlternative20CredibleIntervalsMap = {
-  [key: string]: QueryResponseAlternative20CredibleIntervalsValueList | undefined;
-};
-export type QueryResponseAlternative20InsightItemMap = { [key: string]: unknown | undefined };
-export type QueryResponseAlternative20InsightList = Array<QueryResponseAlternative20InsightItemMap>;
-export type QueryResponseAlternative20Metric =
-  | ExperimentMeanMetric
-  | ExperimentFunnelMetric
-  | ExperimentRatioMetric
-  | ExperimentRetentionMetric;
-export type QueryResponseAlternative20ProbabilityMap = { [key: string]: number | undefined };
-export type QueryResponseAlternative20VariantResultsCase0List =
-  Array<ExperimentVariantResultFrequentist>;
-export type QueryResponseAlternative20VariantResultsCase1List =
-  Array<ExperimentVariantResultBayesian>;
-export type QueryResponseAlternative20VariantResults =
-  | QueryResponseAlternative20VariantResultsCase0List
-  | QueryResponseAlternative20VariantResultsCase1List;
-export type QueryResponseAlternative20VariantsCase0List = Array<ExperimentVariantTrendsBaseStats>;
-export type QueryResponseAlternative20VariantsCase1List = Array<ExperimentVariantFunnelsBaseStats>;
-export type QueryResponseAlternative20Variants =
-  | QueryResponseAlternative20VariantsCase0List
-  | QueryResponseAlternative20VariantsCase1List;
-export type QueryResponseAlternative20WarningsList = Array<DataWarehouseSyncWarning>;
-export interface QueryResponseAlternative20 {
   baseline?: ExperimentStatsBaseValidated | null;
   /** Results grouped by breakdown value. When present, baseline and variant_results contain aggregated data. */
-  breakdown_results?: QueryResponseAlternative20BreakdownResultsList | null;
+  breakdown_results?: QueryResponseAlternative19BreakdownResultsList | null;
   clickhouse_sql?: string | null;
-  credible_intervals?: QueryResponseAlternative20CredibleIntervalsMap | null;
   hogql?: string | null;
-  insight?: QueryResponseAlternative20InsightList | null;
   /** Whether exposures were served from the precomputation system */
   is_precomputed?: boolean | null;
   kind?: string;
-  metric?: QueryResponseAlternative20Metric | null;
-  p_value?: number | null;
-  probability?: QueryResponseAlternative20ProbabilityMap | null;
-  significance_code?: ExperimentSignificanceCode | null;
-  significant?: boolean | null;
-  stats_version?: number | null;
-  variant_results?: QueryResponseAlternative20VariantResults | null;
-  variants?: QueryResponseAlternative20Variants | null;
+  variant_results?: QueryResponseAlternative19VariantResults | null;
+  /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
+  warnings?: QueryResponseAlternative19WarningsList | null;
+}
+export type QueryResponseAlternative20HealthChecksList = Array<ExperimentExposureHealthCheck>;
+export type QueryResponseAlternative20HealthFindingsList = Array<ExperimentExposureHealthFinding>;
+export type QueryResponseAlternative20TimeseriesList = Array<ExperimentExposureTimeSeries>;
+export type QueryResponseAlternative20TotalExposuresMap = { [key: string]: number | undefined };
+export type QueryResponseAlternative20WarningsList = Array<DataWarehouseSyncWarning>;
+export interface QueryResponseAlternative20 {
+  bias_risk?: BiasRisk | null;
+  date_range: DateRange;
+  /** The result of each check behind `health_findings`, so that a check that did not run is not read as passed. */
+  health_checks?: QueryResponseAlternative20HealthChecksList | null;
+  /** Health check diagnostics that read the exposures: zero exposures, a sample ratio mismatch, and bias. Empty when every check passed. */
+  health_findings?: QueryResponseAlternative20HealthFindingsList | null;
+  kind?: string;
+  sample_ratio_mismatch?: SampleRatioMismatch | null;
+  timeseries: QueryResponseAlternative20TimeseriesList;
+  total_exposures: QueryResponseAlternative20TotalExposuresMap;
   /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
   warnings?: QueryResponseAlternative20WarningsList | null;
 }
-export type QueryResponseAlternative21TimeseriesList = Array<ExperimentExposureTimeSeries>;
-export type QueryResponseAlternative21TotalExposuresMap = { [key: string]: number | undefined };
-export type QueryResponseAlternative21WarningsList = Array<DataWarehouseSyncWarning>;
-export interface QueryResponseAlternative21 {
-  bias_risk?: BiasRisk | null;
-  date_range?: DateRange;
-  kind?: string;
-  sample_ratio_mismatch?: SampleRatioMismatch | null;
-  timeseries?: QueryResponseAlternative21TimeseriesList;
-  total_exposures?: QueryResponseAlternative21TotalExposuresMap;
-  /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
-  warnings?: QueryResponseAlternative21WarningsList | null;
-}
-export type QueryResponseAlternative22ResultsList = Array<EmbeddingDistance>;
-export type QueryResponseAlternative22TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative22UsedDataWarehouseSourcesList =
+export type QueryResponseAlternative21ResultsList = Array<EmbeddingDistance>;
+export type QueryResponseAlternative21TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative21UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative22WarningsItem =
+export type QueryResponseAlternative21WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative22WarningsList = Array<QueryResponseAlternative22WarningsItem>;
-export interface QueryResponseAlternative22 {
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative21WarningsList = Array<QueryResponseAlternative21WarningsItem>;
+export interface QueryResponseAlternative21 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
@@ -13261,23 +14298,24 @@ export interface QueryResponseAlternative22 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative22ResultsList;
+  results: QueryResponseAlternative21ResultsList;
   /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative22TimingsList | null;
+  timings?: QueryResponseAlternative21TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative22UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative22WarningsList | null;
+  used_data_warehouse_sources?: QueryResponseAlternative21UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative21WarningsList | null;
 }
-export type QueryResponseAlternative23ResultsList = Array<WebOverviewItem>;
-export type QueryResponseAlternative23TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative23UsedDataWarehouseSourcesList =
+export type QueryResponseAlternative22ResultsList = Array<WebOverviewItem>;
+export type QueryResponseAlternative22TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative22UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative23WarningsItem =
+export type QueryResponseAlternative22WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative23WarningsList = Array<QueryResponseAlternative23WarningsItem>;
-export interface QueryResponseAlternative23 {
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative22WarningsList = Array<QueryResponseAlternative22WarningsItem>;
+export interface QueryResponseAlternative22 {
   dateFrom?: string | null;
   dateTo?: string | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -13288,34 +14326,39 @@ export interface QueryResponseAlternative23 {
   modifiers?: HogQLQueryModifiers | null;
   /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
   preComputeIneligibleReason?: string | null;
+  /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
+  preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative23ResultsList;
+  results?: QueryResponseAlternative22ResultsList;
   samplingRate?: SamplingRate | null;
   /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative23TimingsList | null;
+  timings?: QueryResponseAlternative22TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative23UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative23WarningsList | null;
+  used_data_warehouse_sources?: QueryResponseAlternative22UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative22WarningsList | null;
 }
-export type QueryResponseAlternative24ColumnsList = Array<unknown>;
-export type QueryResponseAlternative24ResultsList = Array<unknown>;
-export type QueryResponseAlternative24TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative24TypesList = Array<unknown>;
-export type QueryResponseAlternative24UsedDataWarehouseSourcesList =
+export type QueryResponseAlternative23ColumnsList = Array<unknown>;
+export type QueryResponseAlternative23ResultsList = Array<unknown>;
+export type QueryResponseAlternative23TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative23TypesList = Array<unknown>;
+export type QueryResponseAlternative23UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative24WarningsItem =
+export type QueryResponseAlternative23WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative24WarningsList = Array<QueryResponseAlternative24WarningsItem>;
-export interface QueryResponseAlternative24 {
-  columns?: QueryResponseAlternative24ColumnsList | null;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative23WarningsList = Array<QueryResponseAlternative23WarningsItem>;
+export interface QueryResponseAlternative23 {
+  columns?: QueryResponseAlternative23ColumnsList | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
@@ -13330,6 +14373,46 @@ export interface QueryResponseAlternative24 {
   /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
   preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results?: QueryResponseAlternative23ResultsList;
+  samplingRate?: SamplingRate | null;
+  /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative23TimingsList | null;
+  types?: QueryResponseAlternative23TypesList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative23UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative23WarningsList | null;
+}
+export type QueryResponseAlternative24ColumnsList = Array<unknown>;
+export type QueryResponseAlternative24ResultsList = Array<unknown>;
+export type QueryResponseAlternative24TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative24TypesList = Array<unknown>;
+export type QueryResponseAlternative24UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative24WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative24WarningsList = Array<QueryResponseAlternative24WarningsItem>;
+export interface QueryResponseAlternative24 {
+  columns?: QueryResponseAlternative24ColumnsList | null;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  hasMore?: boolean | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  limit?: number | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  offset?: number | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -13343,7 +14426,7 @@ export interface QueryResponseAlternative24 {
   types?: QueryResponseAlternative24TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative24UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative24WarningsList | null;
 }
 export type QueryResponseAlternative25ColumnsList = Array<unknown>;
@@ -13354,7 +14437,8 @@ export type QueryResponseAlternative25UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative25WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative25WarningsList = Array<QueryResponseAlternative25WarningsItem>;
 export interface QueryResponseAlternative25 {
   columns?: QueryResponseAlternative25ColumnsList | null;
@@ -13374,27 +14458,24 @@ export interface QueryResponseAlternative25 {
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
   results?: QueryResponseAlternative25ResultsList;
-  samplingRate?: SamplingRate | null;
   /** Measured timings for different parts of the query generation process */
   timings?: QueryResponseAlternative25TimingsList | null;
   types?: QueryResponseAlternative25TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative25UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative25WarningsList | null;
 }
-export type QueryResponseAlternative26ColumnsList = Array<unknown>;
-export type QueryResponseAlternative26ResultsList = Array<unknown>;
-export type QueryResponseAlternative26TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative26TypesList = Array<unknown>;
-export type QueryResponseAlternative26UsedDataWarehouseSourcesList =
+export type QueryResponseAlternative27ResultsList = Array<WebPageDirectoryRow>;
+export type QueryResponseAlternative27TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative27UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative26WarningsItem =
+export type QueryResponseAlternative27WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative26WarningsList = Array<QueryResponseAlternative26WarningsItem>;
-export interface QueryResponseAlternative26 {
-  columns?: QueryResponseAlternative26ColumnsList | null;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative27WarningsList = Array<QueryResponseAlternative27WarningsItem>;
+export interface QueryResponseAlternative27 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
@@ -13410,14 +14491,14 @@ export interface QueryResponseAlternative26 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results: QueryResponseAlternative26ResultsList;
+  results: QueryResponseAlternative27ResultsList;
+  siteTotals?: WebPageDirectorySiteTotals | null;
   /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative26TimingsList | null;
-  types?: QueryResponseAlternative26TypesList | null;
+  timings?: QueryResponseAlternative27TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative26UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative26WarningsList | null;
+  used_data_warehouse_sources?: QueryResponseAlternative27UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative27WarningsList | null;
 }
 export type QueryResponseAlternative28ColumnsList = Array<unknown>;
 export type QueryResponseAlternative28ResultsList = Array<unknown>;
@@ -13427,7 +14508,8 @@ export type QueryResponseAlternative28UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative28WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative28WarningsList = Array<QueryResponseAlternative28WarningsItem>;
 export interface QueryResponseAlternative28 {
   columns?: QueryResponseAlternative28ColumnsList | null;
@@ -13442,7 +14524,11 @@ export interface QueryResponseAlternative28 {
   offset?: number | null;
   /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
   preComputeIneligibleReason?: string | null;
+  /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
+  preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -13456,7 +14542,7 @@ export interface QueryResponseAlternative28 {
   types?: QueryResponseAlternative28TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative28UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative28WarningsList | null;
 }
 export type QueryResponseAlternative29ResultsList = Array<WebVitalsPathBreakdownResult>;
@@ -13465,7 +14551,8 @@ export type QueryResponseAlternative29UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative29WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative29WarningsList = Array<QueryResponseAlternative29WarningsItem>;
 export interface QueryResponseAlternative29 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -13476,7 +14563,11 @@ export interface QueryResponseAlternative29 {
   modifiers?: HogQLQueryModifiers | null;
   /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
   preComputeIneligibleReason?: string | null;
+  /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
+  preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -13488,7 +14579,7 @@ export interface QueryResponseAlternative29 {
   timings?: QueryResponseAlternative29TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative29UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative29WarningsList | null;
 }
 export type QueryResponseAlternative30ResultsList = Array<PageURL>;
@@ -13497,7 +14588,8 @@ export type QueryResponseAlternative30UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative30WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative30WarningsList = Array<QueryResponseAlternative30WarningsItem>;
 export interface QueryResponseAlternative30 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -13520,7 +14612,7 @@ export interface QueryResponseAlternative30 {
   timings?: QueryResponseAlternative30TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative30UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative30WarningsList | null;
 }
 export type QueryResponseAlternative31DataMap = { [key: string]: unknown | undefined };
@@ -13535,7 +14627,8 @@ export type QueryResponseAlternative32UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative32WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative32WarningsList = Array<QueryResponseAlternative32WarningsItem>;
 export interface QueryResponseAlternative32 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -13557,7 +14650,7 @@ export interface QueryResponseAlternative32 {
   timings?: QueryResponseAlternative32TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative32UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative32WarningsList | null;
 }
 export type QueryResponseAlternative33ColumnsList = Array<unknown>;
@@ -13570,17 +14663,20 @@ export type QueryResponseAlternative33UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative33WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative33WarningsList = Array<QueryResponseAlternative33WarningsItem>;
 export interface QueryResponseAlternative33 {
   columns?: QueryResponseAlternative33ColumnsList | null;
-  /** ISO timestamp of the oldest precompute window backing this result -- surfaced as "data as of X". */
+  /** ISO timestamp of the oldest precompute window backing this result. */
   dataComputedAt?: string | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
   /** Generated HogQL query. */
   hogql?: string | null;
+  /** ISO timestamp of when the numbers for the most recent day in the range were computed, at this time or later. It is the oldest stamp among the precompute windows that hold that day, across costs and conversion goals. Unset when no precompute was read or a window has no stamp. */
+  latestDayComputedAt?: string | null;
   limit?: number | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
@@ -13600,7 +14696,7 @@ export interface QueryResponseAlternative33 {
   types?: QueryResponseAlternative33TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative33UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative33WarningsList | null;
 }
 export type QueryResponseAlternative34ResultsMap = {
@@ -13611,15 +14707,18 @@ export type QueryResponseAlternative34UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative34WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative34WarningsList = Array<QueryResponseAlternative34WarningsItem>;
 export interface QueryResponseAlternative34 {
-  /** ISO timestamp of the oldest precompute window backing this result -- surfaced as "data as of X". */
+  /** ISO timestamp of the oldest precompute window backing this result. */
   dataComputedAt?: string | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Generated HogQL query. */
   hogql?: string | null;
+  /** ISO timestamp of when the numbers for the most recent day in the range were computed, at this time or later. It is the oldest stamp among the precompute windows that hold that day, across costs and conversion goals. Unset when no precompute was read or a window has no stamp. */
+  latestDayComputedAt?: string | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
   /** True when a conversion goal's precompute has not been warmed for this window yet -- the UI shows a "computing" state rather than empty results. Marketing analytics serves exclusively from precompute. */
@@ -13636,7 +14735,7 @@ export interface QueryResponseAlternative34 {
   timings?: QueryResponseAlternative34TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative34UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative34WarningsList | null;
 }
 /** Model order for the column groups. */
@@ -13647,7 +14746,8 @@ export type QueryResponseAlternative35UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative35WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative35WarningsList = Array<QueryResponseAlternative35WarningsItem>;
 export interface QueryResponseAlternative35 {
   /** Whether this result counted a repeat converter's every conversion, after resolving the query's null against the goal's math. The rate columns are a true share only when this is false, so the table reads it to label them. */
@@ -13682,7 +14782,7 @@ export interface QueryResponseAlternative35 {
   unattributedConversions?: number;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative35UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative35WarningsList | null;
 }
 export type QueryResponseAlternative36ResultsList = Array<MarketingAnalyticsAttributionPathRow>;
@@ -13691,7 +14791,8 @@ export type QueryResponseAlternative36UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative36WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative36WarningsList = Array<QueryResponseAlternative36WarningsItem>;
 export interface QueryResponseAlternative36 {
   /** Conversions with at least one in-window touchpoint. The share denominator -- deliberately unfiltered by min/maxTouchpoints so shares stay comparable across filter values. */
@@ -13722,7 +14823,7 @@ export interface QueryResponseAlternative36 {
   totalConversions?: number;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative36UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative36WarningsList | null;
 }
 /** Column headers, e.g. ['Week 0', 'Week 1', ...]. */
@@ -13734,7 +14835,8 @@ export type QueryResponseAlternative37UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative37WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative37WarningsList = Array<QueryResponseAlternative37WarningsItem>;
 export interface QueryResponseAlternative37 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -13767,18 +14869,57 @@ export interface QueryResponseAlternative37 {
   truncatedCohorts?: number;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative37UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative37WarningsList | null;
 }
+export type QueryResponseAlternative38PosthogConversionGoalsList =
+  Array<MarketingAnalyticsSearchConversionGoal>;
 export type QueryResponseAlternative38ResultsList = Array<MarketingAnalyticsSearchRow>;
 export type QueryResponseAlternative38TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative38UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative38WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative38WarningsList = Array<QueryResponseAlternative38WarningsItem>;
 export interface QueryResponseAlternative38 {
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  placementUnavailable?: boolean | null;
+  posthogAttributionMode?: AttributionMode | null;
+  posthogConversionGoals?: QueryResponseAlternative38PosthogConversionGoalsList | null;
+  posthogConversionsWarning?: string | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results?: QueryResponseAlternative38ResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative38TimingsList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative38UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative38WarningsList | null;
+}
+export type QueryResponseAlternative39ResultsList = Array<MarketingAnalyticsRecommendation>;
+export type QueryResponseAlternative39TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative39UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative39WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative39WarningsList = Array<QueryResponseAlternative39WarningsItem>;
+export interface QueryResponseAlternative39 {
+  /** Caveat to show with the results. The results are suggestions, and impact figures are estimates. */
+  disclaimer: string;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Generated HogQL query. */
@@ -13791,52 +14932,12 @@ export interface QueryResponseAlternative38 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative38ResultsList;
-  /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative38TimingsList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative38UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative38WarningsList | null;
-}
-export type QueryResponseAlternative39ColumnsList = Array<unknown>;
-export type QueryResponseAlternative39ResultsItemList = Array<unknown>;
-export type QueryResponseAlternative39ResultsList =
-  Array<QueryResponseAlternative39ResultsItemList>;
-export type QueryResponseAlternative39TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative39TypesList = Array<string>;
-export type QueryResponseAlternative39UsedDataWarehouseSourcesList =
-  Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative39WarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative39WarningsList = Array<QueryResponseAlternative39WarningsItem>;
-export interface QueryResponseAlternative39 {
-  columns?: QueryResponseAlternative39ColumnsList;
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  hasMore?: boolean | null;
-  /** Generated HogQL query. */
-  hogql?: string;
-  limit?: number | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  /** Cursor for fetching the next page of results */
-  nextCursor?: string | null;
-  offset?: number | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
   results?: QueryResponseAlternative39ResultsList;
   /** Measured timings for different parts of the query generation process */
   timings?: QueryResponseAlternative39TimingsList | null;
-  types?: QueryResponseAlternative39TypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative39UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative39WarningsList | null;
 }
 export type QueryResponseAlternative40ColumnsList = Array<unknown>;
@@ -13849,10 +14950,52 @@ export type QueryResponseAlternative40UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative40WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative40WarningsList = Array<QueryResponseAlternative40WarningsItem>;
 export interface QueryResponseAlternative40 {
   columns?: QueryResponseAlternative40ColumnsList;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  hasMore?: boolean | null;
+  /** Generated HogQL query. */
+  hogql?: string;
+  limit?: number;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  /** Cursor for fetching the next page of results */
+  nextCursor?: string | null;
+  offset?: number;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results?: QueryResponseAlternative40ResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative40TimingsList | null;
+  types: QueryResponseAlternative40TypesList;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative40UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative40WarningsList | null;
+}
+export type QueryResponseAlternative41ColumnsList = Array<unknown>;
+export type QueryResponseAlternative41ResultsItemList = Array<unknown>;
+export type QueryResponseAlternative41ResultsList =
+  Array<QueryResponseAlternative41ResultsItemList>;
+export type QueryResponseAlternative41TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative41TypesList = Array<string>;
+export type QueryResponseAlternative41UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative41WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative41WarningsList = Array<QueryResponseAlternative41WarningsItem>;
+export interface QueryResponseAlternative41 {
+  columns?: QueryResponseAlternative41ColumnsList;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
@@ -13869,74 +15012,78 @@ export interface QueryResponseAlternative40 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative40ResultsList;
-  /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative40TimingsList | null;
-  types?: QueryResponseAlternative40TypesList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative40UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative40WarningsList | null;
-}
-export type QueryResponseAlternative41ColumnsList = Array<unknown>;
-export type QueryResponseAlternative41ResultsItemList = Array<unknown>;
-export type QueryResponseAlternative41ResultsList =
-  Array<QueryResponseAlternative41ResultsItemList>;
-export type QueryResponseAlternative41TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative41TypesList = Array<string>;
-export type QueryResponseAlternative41UsedDataWarehouseSourcesList =
-  Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative41WarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative41WarningsList = Array<QueryResponseAlternative41WarningsItem>;
-export interface QueryResponseAlternative41 {
-  columns?: QueryResponseAlternative41ColumnsList;
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  hasMore?: boolean | null;
-  /** Generated HogQL query. */
-  hogql?: string;
-  kind?: string;
-  limit?: number;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  offset?: number;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
   results?: QueryResponseAlternative41ResultsList;
   /** Measured timings for different parts of the query generation process */
   timings?: QueryResponseAlternative41TimingsList | null;
   types?: QueryResponseAlternative41TypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative41UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative41WarningsList | null;
 }
 export type QueryResponseAlternative42ColumnsList = Array<unknown>;
-export type QueryResponseAlternative42ExplainList = Array<string>;
-export type QueryResponseAlternative42ResultsList = Array<unknown>;
+export type QueryResponseAlternative42ResultsItemList = Array<unknown>;
+export type QueryResponseAlternative42ResultsList =
+  Array<QueryResponseAlternative42ResultsItemList>;
 export type QueryResponseAlternative42TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative42TypesList = Array<unknown>;
+export type QueryResponseAlternative42TypesList = Array<string>;
 export type QueryResponseAlternative42UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative42WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative42WarningsList = Array<QueryResponseAlternative42WarningsItem>;
 export interface QueryResponseAlternative42 {
+  columns: QueryResponseAlternative42ColumnsList;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  hasMore?: boolean | null;
+  /** Generated HogQL query. */
+  hogql: string;
+  kind?: string;
+  limit: number;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  offset: number;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results?: QueryResponseAlternative42ResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative42TimingsList | null;
+  types: QueryResponseAlternative42TypesList;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative42UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative42WarningsList | null;
+}
+export type QueryResponseAlternative43ColumnFormatsList = Array<string | null>;
+export type QueryResponseAlternative43ColumnsList = Array<unknown>;
+export type QueryResponseAlternative43ExplainList = Array<string>;
+export type QueryResponseAlternative43ResultsList = Array<unknown>;
+export type QueryResponseAlternative43TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative43TypesList = Array<unknown>;
+export type QueryResponseAlternative43UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative43WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning;
+export type QueryResponseAlternative43WarningsList = Array<QueryResponseAlternative43WarningsItem>;
+export interface QueryResponseAlternative43 {
   /** Executed ClickHouse query */
   clickhouse?: string | null;
+  /** Display formats for directly selected virtual properties, aligned with columns. */
+  column_formats?: QueryResponseAlternative43ColumnFormatsList | null;
   /** Returned columns */
-  columns?: QueryResponseAlternative42ColumnsList | null;
+  columns?: QueryResponseAlternative43ColumnsList | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Query explanation output */
-  explain?: QueryResponseAlternative42ExplainList | null;
+  explain?: QueryResponseAlternative43ExplainList | null;
   hasMore?: boolean | null;
   /** Generated HogQL query. */
   hogql?: string | null;
@@ -13954,25 +15101,26 @@ export interface QueryResponseAlternative42 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative42ResultsList;
+  results?: QueryResponseAlternative43ResultsList;
   /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative42TimingsList | null;
+  timings?: QueryResponseAlternative43TimingsList | null;
   /** Types of returned columns */
-  types?: QueryResponseAlternative42TypesList | null;
+  types?: QueryResponseAlternative43TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative42UsedDataWarehouseSourcesList | null;
+  used_data_warehouse_sources?: QueryResponseAlternative43UsedDataWarehouseSourcesList | null;
   /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative42WarningsList | null;
+  warnings?: QueryResponseAlternative43WarningsList | null;
 }
-export type QueryResponseAlternative43ResultsList = Array<WebOverviewItem>;
-export type QueryResponseAlternative43TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative43UsedDataWarehouseSourcesList =
+export type QueryResponseAlternative44ResultsList = Array<WebOverviewItem>;
+export type QueryResponseAlternative44TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative44UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative43WarningsItem =
+export type QueryResponseAlternative44WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative43WarningsList = Array<QueryResponseAlternative43WarningsItem>;
-export interface QueryResponseAlternative43 {
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative44WarningsList = Array<QueryResponseAlternative44WarningsItem>;
+export interface QueryResponseAlternative44 {
   dateFrom?: string | null;
   dateTo?: string | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -13983,34 +15131,39 @@ export interface QueryResponseAlternative43 {
   modifiers?: HogQLQueryModifiers | null;
   /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
   preComputeIneligibleReason?: string | null;
+  /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
+  preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative43ResultsList;
+  results?: QueryResponseAlternative44ResultsList;
   samplingRate?: SamplingRate | null;
   /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative43TimingsList | null;
+  timings?: QueryResponseAlternative44TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative43UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative43WarningsList | null;
+  used_data_warehouse_sources?: QueryResponseAlternative44UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative44WarningsList | null;
 }
-export type QueryResponseAlternative44ColumnsList = Array<unknown>;
-export type QueryResponseAlternative44ResultsList = Array<unknown>;
-export type QueryResponseAlternative44TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative44TypesList = Array<unknown>;
-export type QueryResponseAlternative44UsedDataWarehouseSourcesList =
+export type QueryResponseAlternative45ColumnsList = Array<unknown>;
+export type QueryResponseAlternative45ResultsList = Array<unknown>;
+export type QueryResponseAlternative45TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative45TypesList = Array<unknown>;
+export type QueryResponseAlternative45UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative44WarningsItem =
+export type QueryResponseAlternative45WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative44WarningsList = Array<QueryResponseAlternative44WarningsItem>;
-export interface QueryResponseAlternative44 {
-  columns?: QueryResponseAlternative44ColumnsList | null;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative45WarningsList = Array<QueryResponseAlternative45WarningsItem>;
+export interface QueryResponseAlternative45 {
+  columns?: QueryResponseAlternative45ColumnsList | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
@@ -14025,43 +15178,8 @@ export interface QueryResponseAlternative44 {
   /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
   preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative44ResultsList;
-  samplingRate?: SamplingRate | null;
-  /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative44TimingsList | null;
-  types?: QueryResponseAlternative44TypesList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative44UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative44WarningsList | null;
-}
-export type QueryResponseAlternative45ColumnsList = Array<unknown>;
-export type QueryResponseAlternative45ResultsList = Array<unknown>;
-export type QueryResponseAlternative45TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative45TypesList = Array<unknown>;
-export type QueryResponseAlternative45UsedDataWarehouseSourcesList =
-  Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative45WarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative45WarningsList = Array<QueryResponseAlternative45WarningsItem>;
-export interface QueryResponseAlternative45 {
-  columns?: QueryResponseAlternative45ColumnsList | null;
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  hasMore?: boolean | null;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  limit?: number | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  offset?: number | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -14075,7 +15193,7 @@ export interface QueryResponseAlternative45 {
   types?: QueryResponseAlternative45TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative45UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative45WarningsList | null;
 }
 export type QueryResponseAlternative46ColumnsList = Array<unknown>;
@@ -14086,7 +15204,8 @@ export type QueryResponseAlternative46UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative46WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative46WarningsList = Array<QueryResponseAlternative46WarningsItem>;
 export interface QueryResponseAlternative46 {
   columns?: QueryResponseAlternative46ColumnsList | null;
@@ -14106,12 +15225,13 @@ export interface QueryResponseAlternative46 {
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
   results: QueryResponseAlternative46ResultsList;
+  samplingRate?: SamplingRate | null;
   /** Measured timings for different parts of the query generation process */
   timings?: QueryResponseAlternative46TimingsList | null;
   types?: QueryResponseAlternative46TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative46UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative46WarningsList | null;
 }
 export type QueryResponseAlternative47ColumnsList = Array<unknown>;
@@ -14122,7 +15242,8 @@ export type QueryResponseAlternative47UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative47WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative47WarningsList = Array<QueryResponseAlternative47WarningsItem>;
 export interface QueryResponseAlternative47 {
   columns?: QueryResponseAlternative47ColumnsList | null;
@@ -14135,9 +15256,6 @@ export interface QueryResponseAlternative47 {
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
   offset?: number | null;
-  /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
-  preComputeIneligibleReason?: string | null;
-  preComputeStrategy?: WebAnalyticsPreComputeStrategy | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -14145,24 +15263,69 @@ export interface QueryResponseAlternative47 {
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
   results?: QueryResponseAlternative47ResultsList;
-  samplingRate?: SamplingRate | null;
   /** Measured timings for different parts of the query generation process */
   timings?: QueryResponseAlternative47TimingsList | null;
   types?: QueryResponseAlternative47TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative47UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative47WarningsList | null;
 }
-export type QueryResponseAlternative48ResultsList = Array<WebVitalsPathBreakdownResult>;
+export type QueryResponseAlternative48ColumnsList = Array<unknown>;
+export type QueryResponseAlternative48ResultsList = Array<unknown>;
 export type QueryResponseAlternative48TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative48TypesList = Array<unknown>;
 export type QueryResponseAlternative48UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative48WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative48WarningsList = Array<QueryResponseAlternative48WarningsItem>;
 export interface QueryResponseAlternative48 {
+  columns?: QueryResponseAlternative48ColumnsList | null;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  hasMore?: boolean | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  limit?: number | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  offset?: number | null;
+  /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
+  preComputeIneligibleReason?: string | null;
+  /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
+  preComputeStale?: boolean | null;
+  preComputeStrategy?: WebAnalyticsPreComputeStrategy | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results?: QueryResponseAlternative48ResultsList;
+  samplingRate?: SamplingRate | null;
+  /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative48TimingsList | null;
+  types?: QueryResponseAlternative48TypesList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative48UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative48WarningsList | null;
+}
+export type QueryResponseAlternative49ResultsList = Array<WebVitalsPathBreakdownResult>;
+export type QueryResponseAlternative49TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative49UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative49WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative49WarningsList = Array<QueryResponseAlternative49WarningsItem>;
+export interface QueryResponseAlternative49 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Generated HogQL query. */
@@ -14171,32 +15334,37 @@ export interface QueryResponseAlternative48 {
   modifiers?: HogQLQueryModifiers | null;
   /** Why a live response skipped precompute: the eligibility-gate reason that refused it. Unset when the query was eligible. */
   preComputeIneligibleReason?: string | null;
+  /** Whether a lazy-precompute read was served from expired-within-grace (stale) jobs instead of recomputing inline. */
+  preComputeStale?: boolean | null;
   preComputeStrategy?: WebAnalyticsPreComputeStrategy | null;
+  /** When the oldest precomputed window this response used was computed. Unset for live responses. */
+  preComputedAt?: string | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative48ResultsList;
+  results?: QueryResponseAlternative49ResultsList;
   /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative48TimingsList | null;
+  timings?: QueryResponseAlternative49TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative48UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative48WarningsList | null;
+  used_data_warehouse_sources?: QueryResponseAlternative49UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative49WarningsList | null;
 }
-export type QueryResponseAlternative49ColumnsList = Array<unknown>;
-export type QueryResponseAlternative49TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative49TypesList = Array<unknown>;
-export type QueryResponseAlternative49UsedDataWarehouseSourcesList =
+export type QueryResponseAlternative50ColumnsList = Array<unknown>;
+export type QueryResponseAlternative50TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative50TypesList = Array<unknown>;
+export type QueryResponseAlternative50UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative49WarningsItem =
+export type QueryResponseAlternative50WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative49WarningsList = Array<QueryResponseAlternative49WarningsItem>;
-export interface QueryResponseAlternative49 {
-  columns?: QueryResponseAlternative49ColumnsList | null;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative50WarningsList = Array<QueryResponseAlternative50WarningsItem>;
+export interface QueryResponseAlternative50 {
+  columns?: QueryResponseAlternative50ColumnsList;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
@@ -14214,78 +15382,37 @@ export interface QueryResponseAlternative49 {
   resolved_date_range?: ResolvedDateRangeResponse | null;
   results?: unknown;
   /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative49TimingsList | null;
-  types?: QueryResponseAlternative49TypesList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative49UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative49WarningsList | null;
-}
-export type QueryResponseAlternative50ColumnsList = Array<unknown>;
-export type QueryResponseAlternative50ResultsItemList = Array<unknown>;
-export type QueryResponseAlternative50ResultsList =
-  Array<QueryResponseAlternative50ResultsItemList>;
-export type QueryResponseAlternative50TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative50TypesList = Array<string>;
-export type QueryResponseAlternative50UsedDataWarehouseSourcesList =
-  Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative50WarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative50WarningsList = Array<QueryResponseAlternative50WarningsItem>;
-export interface QueryResponseAlternative50 {
-  columns?: QueryResponseAlternative50ColumnsList;
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  hasMore?: boolean | null;
-  /** Generated HogQL query. */
-  hogql?: string;
-  limit?: number | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  offset?: number | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative50ResultsList;
-  /** Measured timings for different parts of the query generation process */
   timings?: QueryResponseAlternative50TimingsList | null;
   types?: QueryResponseAlternative50TypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative50UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative50WarningsList | null;
 }
 export type QueryResponseAlternative51ColumnsList = Array<unknown>;
-export type QueryResponseAlternative51ResultsItemList = Array<MarketingAnalyticsItem>;
+export type QueryResponseAlternative51ResultsItemList = Array<unknown>;
 export type QueryResponseAlternative51ResultsList =
   Array<QueryResponseAlternative51ResultsItemList>;
 export type QueryResponseAlternative51TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative51TypesList = Array<unknown>;
+export type QueryResponseAlternative51TypesList = Array<string>;
 export type QueryResponseAlternative51UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative51WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative51WarningsList = Array<QueryResponseAlternative51WarningsItem>;
 export interface QueryResponseAlternative51 {
-  columns?: QueryResponseAlternative51ColumnsList | null;
-  /** ISO timestamp of the oldest precompute window backing this result -- surfaced as "data as of X". */
-  dataComputedAt?: string | null;
+  columns: QueryResponseAlternative51ColumnsList;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
   /** Generated HogQL query. */
-  hogql?: string | null;
+  hogql: string;
   limit?: number | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
   offset?: number | null;
-  /** True when a conversion goal's precompute has not been warmed for this window yet -- the UI shows a "computing" state rather than empty results. Marketing analytics serves exclusively from precompute. */
-  precomputeNotReady?: boolean | null;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -14293,32 +15420,80 @@ export interface QueryResponseAlternative51 {
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
   results?: QueryResponseAlternative51ResultsList;
-  samplingRate?: SamplingRate | null;
   /** Measured timings for different parts of the query generation process */
   timings?: QueryResponseAlternative51TimingsList | null;
-  types?: QueryResponseAlternative51TypesList | null;
+  types: QueryResponseAlternative51TypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative51UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative51WarningsList | null;
 }
-export type QueryResponseAlternative52ResultsMap = {
-  [key: string]: MarketingAnalyticsItem | undefined;
-};
+export type QueryResponseAlternative52ColumnsList = Array<unknown>;
+export type QueryResponseAlternative52ResultsItemList = Array<MarketingAnalyticsItem>;
+export type QueryResponseAlternative52ResultsList =
+  Array<QueryResponseAlternative52ResultsItemList>;
 export type QueryResponseAlternative52TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative52TypesList = Array<unknown>;
 export type QueryResponseAlternative52UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative52WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative52WarningsList = Array<QueryResponseAlternative52WarningsItem>;
 export interface QueryResponseAlternative52 {
-  /** ISO timestamp of the oldest precompute window backing this result -- surfaced as "data as of X". */
+  columns?: QueryResponseAlternative52ColumnsList | null;
+  /** ISO timestamp of the oldest precompute window backing this result. */
+  dataComputedAt?: string | null;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  hasMore?: boolean | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  /** ISO timestamp of when the numbers for the most recent day in the range were computed, at this time or later. It is the oldest stamp among the precompute windows that hold that day, across costs and conversion goals. Unset when no precompute was read or a window has no stamp. */
+  latestDayComputedAt?: string | null;
+  limit?: number | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  offset?: number | null;
+  /** True when a conversion goal's precompute has not been warmed for this window yet -- the UI shows a "computing" state rather than empty results. Marketing analytics serves exclusively from precompute. */
+  precomputeNotReady?: boolean | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results?: QueryResponseAlternative52ResultsList;
+  samplingRate?: SamplingRate | null;
+  /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative52TimingsList | null;
+  types?: QueryResponseAlternative52TypesList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative52UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative52WarningsList | null;
+}
+export type QueryResponseAlternative53ResultsMap = {
+  [key: string]: MarketingAnalyticsItem | undefined;
+};
+export type QueryResponseAlternative53TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative53UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative53WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative53WarningsList = Array<QueryResponseAlternative53WarningsItem>;
+export interface QueryResponseAlternative53 {
+  /** ISO timestamp of the oldest precompute window backing this result. */
   dataComputedAt?: string | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Generated HogQL query. */
   hogql?: string | null;
+  /** ISO timestamp of when the numbers for the most recent day in the range were computed, at this time or later. It is the oldest stamp among the precompute windows that hold that day, across costs and conversion goals. Unset when no precompute was read or a window has no stamp. */
+  latestDayComputedAt?: string | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
   /** True when a conversion goal's precompute has not been warmed for this window yet -- the UI shows a "computing" state rather than empty results. Marketing analytics serves exclusively from precompute. */
@@ -14329,57 +15504,24 @@ export interface QueryResponseAlternative52 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative52ResultsMap;
+  results?: QueryResponseAlternative53ResultsMap;
   samplingRate?: SamplingRate | null;
-  /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative52TimingsList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative52UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative52WarningsList | null;
-}
-export type QueryResponseAlternative53ColumnsList = Array<string>;
-export type QueryResponseAlternative53ResultsList = Array<ErrorTrackingIssue>;
-export type QueryResponseAlternative53TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative53UsedDataWarehouseSourcesList =
-  Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative53WarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative53WarningsList = Array<QueryResponseAlternative53WarningsItem>;
-export interface QueryResponseAlternative53 {
-  columns?: QueryResponseAlternative53ColumnsList | null;
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  hasMore?: boolean | null;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  limit?: number | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  offset?: number | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative53ResultsList;
   /** Measured timings for different parts of the query generation process */
   timings?: QueryResponseAlternative53TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative53UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative53WarningsList | null;
 }
 export type QueryResponseAlternative54ColumnsList = Array<string>;
-export type QueryResponseAlternative54ResultsList = Array<ErrorTrackingCorrelatedIssue>;
+export type QueryResponseAlternative54ResultsList = Array<ErrorTrackingIssue>;
 export type QueryResponseAlternative54TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative54UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative54WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative54WarningsList = Array<QueryResponseAlternative54WarningsItem>;
 export interface QueryResponseAlternative54 {
   columns?: QueryResponseAlternative54ColumnsList | null;
@@ -14403,70 +15545,21 @@ export interface QueryResponseAlternative54 {
   timings?: QueryResponseAlternative54TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative54UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative54WarningsList | null;
 }
-export type QueryResponseAlternative55CredibleIntervalsValueList = Array<number>;
-export type QueryResponseAlternative55CredibleIntervalsMap = {
-  [key: string]: QueryResponseAlternative55CredibleIntervalsValueList | undefined;
-};
-export type QueryResponseAlternative55InsightItemItemMap = { [key: string]: unknown | undefined };
-export type QueryResponseAlternative55InsightItemList =
-  Array<QueryResponseAlternative55InsightItemItemMap>;
-export type QueryResponseAlternative55InsightList =
-  Array<QueryResponseAlternative55InsightItemList>;
-export type QueryResponseAlternative55ProbabilityMap = { [key: string]: number | undefined };
-export type QueryResponseAlternative55VariantsList = Array<ExperimentVariantFunnelsBaseStats>;
-export type QueryResponseAlternative55WarningsList = Array<DataWarehouseSyncWarning>;
-export interface QueryResponseAlternative55 {
-  credible_intervals?: QueryResponseAlternative55CredibleIntervalsMap;
-  expected_loss?: number;
-  funnels_query?: FunnelsQuery | null;
-  insight?: QueryResponseAlternative55InsightList;
-  kind?: string;
-  probability?: QueryResponseAlternative55ProbabilityMap;
-  significance_code?: ExperimentSignificanceCode;
-  significant?: boolean;
-  stats_version?: number | null;
-  variants?: QueryResponseAlternative55VariantsList;
-  /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
-  warnings?: QueryResponseAlternative55WarningsList | null;
-}
-export type QueryResponseAlternative56CredibleIntervalsValueList = Array<number>;
-export type QueryResponseAlternative56CredibleIntervalsMap = {
-  [key: string]: QueryResponseAlternative56CredibleIntervalsValueList | undefined;
-};
-export type QueryResponseAlternative56InsightItemMap = { [key: string]: unknown | undefined };
-export type QueryResponseAlternative56InsightList = Array<QueryResponseAlternative56InsightItemMap>;
-export type QueryResponseAlternative56ProbabilityMap = { [key: string]: number | undefined };
-export type QueryResponseAlternative56VariantsList = Array<ExperimentVariantTrendsBaseStats>;
-export type QueryResponseAlternative56WarningsList = Array<DataWarehouseSyncWarning>;
-export interface QueryResponseAlternative56 {
-  count_query?: TrendsQuery | null;
-  credible_intervals: QueryResponseAlternative56CredibleIntervalsMap;
-  exposure_query?: TrendsQuery | null;
-  insight: QueryResponseAlternative56InsightList;
-  kind?: string;
-  p_value: number;
-  probability: QueryResponseAlternative56ProbabilityMap;
-  significance_code: ExperimentSignificanceCode;
-  significant: boolean;
-  stats_version?: number | null;
-  variants: QueryResponseAlternative56VariantsList;
-  /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
-  warnings?: QueryResponseAlternative56WarningsList | null;
-}
-export type QueryResponseAlternative57ColumnsList = Array<string>;
-export type QueryResponseAlternative57ResultsList = Array<LLMTrace>;
-export type QueryResponseAlternative57TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative57UsedDataWarehouseSourcesList =
+export type QueryResponseAlternative55ColumnsList = Array<string>;
+export type QueryResponseAlternative55ResultsList = Array<ErrorTrackingCorrelatedIssue>;
+export type QueryResponseAlternative55TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative55UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative57WarningsItem =
+export type QueryResponseAlternative55WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative57WarningsList = Array<QueryResponseAlternative57WarningsItem>;
-export interface QueryResponseAlternative57 {
-  columns?: QueryResponseAlternative57ColumnsList | null;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative55WarningsList = Array<QueryResponseAlternative55WarningsItem>;
+export interface QueryResponseAlternative55 {
+  columns?: QueryResponseAlternative55ColumnsList | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
@@ -14482,111 +15575,111 @@ export interface QueryResponseAlternative57 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative57ResultsList;
+  results: QueryResponseAlternative55ResultsList;
   /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative57TimingsList | null;
+  timings?: QueryResponseAlternative55TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative57UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative57WarningsList | null;
+  used_data_warehouse_sources?: QueryResponseAlternative55UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative55WarningsList | null;
+}
+export type QueryResponseAlternative56ColumnsList = Array<string>;
+export type QueryResponseAlternative56ResultsList = Array<LLMTrace>;
+export type QueryResponseAlternative56TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative56UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative56WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative56WarningsList = Array<QueryResponseAlternative56WarningsItem>;
+export interface QueryResponseAlternative56 {
+  columns?: QueryResponseAlternative56ColumnsList | null;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  hasMore?: boolean | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  limit?: number | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  offset?: number | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results: QueryResponseAlternative56ResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative56TimingsList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative56UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative56WarningsList | null;
+}
+export type QueryResponseAlternative58ColumnsList = Array<unknown>;
+export type QueryResponseAlternative58ResultsList = Array<unknown>;
+export type QueryResponseAlternative58TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative58TypesList = Array<unknown>;
+export type QueryResponseAlternative58UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative58WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative58WarningsList = Array<QueryResponseAlternative58WarningsItem>;
+export interface QueryResponseAlternative58 {
+  columns?: QueryResponseAlternative58ColumnsList | null;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  hasMore?: boolean | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  limit?: number | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  offset?: number | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results: QueryResponseAlternative58ResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative58TimingsList | null;
+  types?: QueryResponseAlternative58TypesList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative58UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative58WarningsList | null;
 }
 export type QueryResponseAlternative59ColumnsList = Array<unknown>;
-export type QueryResponseAlternative59ResultsList = Array<unknown>;
+export type QueryResponseAlternative59MetricsResultsList = Array<number | null>;
+export type QueryResponseAlternative59ResultsItemList = Array<unknown>;
+export type QueryResponseAlternative59ResultsList =
+  Array<QueryResponseAlternative59ResultsItemList>;
 export type QueryResponseAlternative59TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative59TypesList = Array<unknown>;
+export type QueryResponseAlternative59TypesList = Array<string>;
 export type QueryResponseAlternative59UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative59WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative59WarningsList = Array<QueryResponseAlternative59WarningsItem>;
 export interface QueryResponseAlternative59 {
-  columns?: QueryResponseAlternative59ColumnsList | null;
+  columns: QueryResponseAlternative59ColumnsList;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
   /** Generated HogQL query. */
-  hogql?: string | null;
-  limit?: number | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  offset?: number | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative59ResultsList;
-  /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative59TimingsList | null;
-  types?: QueryResponseAlternative59TypesList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative59UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative59WarningsList | null;
-}
-export type QueryResponseAlternative60ColumnsList = Array<unknown>;
-export type QueryResponseAlternative60MetricsResultsList = Array<number | null>;
-export type QueryResponseAlternative60ResultsItemList = Array<unknown>;
-export type QueryResponseAlternative60ResultsList =
-  Array<QueryResponseAlternative60ResultsItemList>;
-export type QueryResponseAlternative60TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative60TypesList = Array<string>;
-export type QueryResponseAlternative60UsedDataWarehouseSourcesList =
-  Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative60WarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative60WarningsList = Array<QueryResponseAlternative60WarningsItem>;
-export interface QueryResponseAlternative60 {
-  columns?: QueryResponseAlternative60ColumnsList;
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  hasMore?: boolean | null;
-  /** Generated HogQL query. */
-  hogql?: string;
-  kind?: string;
-  limit?: number;
-  /** When `metrics` is set on the query, the aggregated values in the same order. */
-  metricsResults?: QueryResponseAlternative60MetricsResultsList | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  offset?: number;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative60ResultsList;
-  /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative60TimingsList | null;
-  types?: QueryResponseAlternative60TypesList;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative60UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative60WarningsList | null;
-}
-export type QueryResponseAlternative61MetricsResultsList = Array<number | null>;
-export type QueryResponseAlternative61ResultsList = Array<AccountsTableRow>;
-export type QueryResponseAlternative61TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative61UsedDataWarehouseSourcesList =
-  Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative61WarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative61WarningsList = Array<QueryResponseAlternative61WarningsItem>;
-export interface QueryResponseAlternative61 {
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  hasMore: boolean;
-  /** Generated HogQL query. */
-  hogql?: string | null;
+  hogql: string;
   kind?: string;
   limit: number;
-  /** Aggregated values in the same order as the requested metrics. */
-  metricsResults?: QueryResponseAlternative61MetricsResultsList | null;
+  /** When `metrics` is set on the query, the aggregated values in the same order. */
+  metricsResults?: QueryResponseAlternative59MetricsResultsList | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
   offset: number;
@@ -14596,26 +15689,83 @@ export interface QueryResponseAlternative61 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results: QueryResponseAlternative61ResultsList;
+  results?: QueryResponseAlternative59ResultsList;
   /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative61TimingsList | null;
+  timings?: QueryResponseAlternative59TimingsList | null;
+  types: QueryResponseAlternative59TypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative61UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative61WarningsList | null;
+  used_data_warehouse_sources?: QueryResponseAlternative59UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative59WarningsList | null;
 }
-export type QueryResponseAlternative62BoxplotDataList = Array<BoxPlotDatum>;
-export type QueryResponseAlternative62ResultsItemMap = { [key: string]: unknown | undefined };
-export type QueryResponseAlternative62ResultsList = Array<QueryResponseAlternative62ResultsItemMap>;
-export type QueryResponseAlternative62TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative62UsedDataWarehouseSourcesList =
+export type QueryResponseAlternative60ColumnsItem =
+  | AccountsTableAccountFieldColumn
+  | AccountsTableTagsColumn
+  | AccountsTableTagsColumn
+  | AccountsTableRelationshipColumn
+  | AccountsTableCustomPropertyColumn
+  | AccountsTableCustomPropertyHistoryColumn;
+export type QueryResponseAlternative60ColumnsList = Array<QueryResponseAlternative60ColumnsItem>;
+export type QueryResponseAlternative60CustomPropertyDefinitionsList =
+  Array<AccountsTableCustomPropertyDefinition>;
+export type QueryResponseAlternative60MetricsResultsList = Array<number | null>;
+export type QueryResponseAlternative60RelationshipDefinitionsList =
+  Array<AccountsTableRelationshipDefinition>;
+export type QueryResponseAlternative60ResultsList = Array<AccountsTableRow>;
+export type QueryResponseAlternative60TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative60UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative62WarningsItem =
+export type QueryResponseAlternative60WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative62WarningsList = Array<QueryResponseAlternative62WarningsItem>;
-export interface QueryResponseAlternative62 {
-  boxplot_data?: QueryResponseAlternative62BoxplotDataList | null;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative60WarningsList = Array<QueryResponseAlternative60WarningsItem>;
+export interface QueryResponseAlternative60 {
+  columns?: QueryResponseAlternative60ColumnsList;
+  customPropertyDefinitions?: QueryResponseAlternative60CustomPropertyDefinitionsList | null;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  hasMore: boolean;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  kind?: string;
+  limit?: number;
+  /** Aggregated values in the same order as the requested metrics. */
+  metricsResults?: QueryResponseAlternative60MetricsResultsList | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  offset?: number;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  relationshipDefinitions?: QueryResponseAlternative60RelationshipDefinitionsList | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results?: QueryResponseAlternative60ResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative60TimingsList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative60UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative60WarningsList | null;
+}
+export type QueryResponseAlternative61ActionNamesMap = { [key: string]: string | undefined };
+export type QueryResponseAlternative61BoxplotDataList = Array<BoxPlotDatum>;
+export type QueryResponseAlternative61ResultsItemMap = { [key: string]: unknown | undefined };
+export type QueryResponseAlternative61ResultsList = Array<QueryResponseAlternative61ResultsItemMap>;
+export type QueryResponseAlternative61TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative61UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative61WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative61WarningsList = Array<QueryResponseAlternative61WarningsItem>;
+export interface QueryResponseAlternative61 {
+  /** The name of each action the query's series reference, keyed by action id. A series saved without a `name` displays this name, because the query holds only the action's id. */
+  action_names?: QueryResponseAlternative61ActionNamesMap | null;
+  boxplot_data?: QueryResponseAlternative61BoxplotDataList | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Wether more breakdown values are available. */
@@ -14630,22 +15780,23 @@ export interface QueryResponseAlternative62 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative62ResultsList;
+  results: QueryResponseAlternative61ResultsList;
   /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative62TimingsList | null;
+  timings?: QueryResponseAlternative61TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative62UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative62WarningsList | null;
+  used_data_warehouse_sources?: QueryResponseAlternative61UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative61WarningsList | null;
 }
-export type QueryResponseAlternative63TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative63UsedDataWarehouseSourcesList =
+export type QueryResponseAlternative62TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative62UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative63WarningsItem =
+export type QueryResponseAlternative62WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative63WarningsList = Array<QueryResponseAlternative63WarningsItem>;
-export interface QueryResponseAlternative63 {
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative62WarningsList = Array<QueryResponseAlternative62WarningsItem>;
+export interface QueryResponseAlternative62 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Generated HogQL query. */
@@ -14660,21 +15811,52 @@ export interface QueryResponseAlternative63 {
   resolved_date_range?: ResolvedDateRangeResponse | null;
   results?: unknown;
   /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative63TimingsList | null;
+  timings?: QueryResponseAlternative62TimingsList | null;
   /** Median total conversion time across all completers, computed breakdown-agnostically for the Steps viz header. */
   total_median_conversion_time?: number | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative62UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative62WarningsList | null;
+}
+export type QueryResponseAlternative63ResultsList = Array<RetentionResult>;
+export type QueryResponseAlternative63TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative63UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative63WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative63WarningsList = Array<QueryResponseAlternative63WarningsItem>;
+export interface QueryResponseAlternative63 {
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results?: QueryResponseAlternative63ResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative63TimingsList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative63UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative63WarningsList | null;
 }
-export type QueryResponseAlternative64ResultsList = Array<RetentionResult>;
+export type QueryResponseAlternative64ResultsList = Array<PathsLink>;
 export type QueryResponseAlternative64TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative64UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative64WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative64WarningsList = Array<QueryResponseAlternative64WarningsItem>;
 export interface QueryResponseAlternative64 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -14694,16 +15876,16 @@ export interface QueryResponseAlternative64 {
   timings?: QueryResponseAlternative64TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative64UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative64WarningsList | null;
 }
-export type QueryResponseAlternative65ResultsList = Array<PathsLink>;
 export type QueryResponseAlternative65TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative65UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative65WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative65WarningsList = Array<QueryResponseAlternative65WarningsItem>;
 export interface QueryResponseAlternative65 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -14718,22 +15900,28 @@ export interface QueryResponseAlternative65 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative65ResultsList;
+  results?: PathsV2Results;
   /** Measured timings for different parts of the query generation process */
   timings?: QueryResponseAlternative65TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative65UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative65WarningsList | null;
 }
+export type QueryResponseAlternative66ActionNamesMap = { [key: string]: string | undefined };
+export type QueryResponseAlternative66ResultsItemMap = { [key: string]: unknown | undefined };
+export type QueryResponseAlternative66ResultsList = Array<QueryResponseAlternative66ResultsItemMap>;
 export type QueryResponseAlternative66TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative66UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative66WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative66WarningsList = Array<QueryResponseAlternative66WarningsItem>;
 export interface QueryResponseAlternative66 {
+  /** The name of each action the query's series reference, keyed by action id. A series saved without a `name` displays this name, because the query holds only the action's id. */
+  action_names?: QueryResponseAlternative66ActionNamesMap | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Generated HogQL query. */
@@ -14746,81 +15934,16 @@ export interface QueryResponseAlternative66 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: PathsV2Results;
+  results?: QueryResponseAlternative66ResultsList;
   /** Measured timings for different parts of the query generation process */
   timings?: QueryResponseAlternative66TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative66UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative66WarningsList | null;
 }
-export type QueryResponseAlternative67ResultsItemMap = { [key: string]: unknown | undefined };
-export type QueryResponseAlternative67ResultsList = Array<QueryResponseAlternative67ResultsItemMap>;
-export type QueryResponseAlternative67TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative67UsedDataWarehouseSourcesList =
-  Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative67WarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative67WarningsList = Array<QueryResponseAlternative67WarningsItem>;
-export interface QueryResponseAlternative67 {
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative67ResultsList;
-  /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative67TimingsList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative67UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative67WarningsList | null;
-}
-export type QueryResponseAlternative69ColumnsList = Array<unknown>;
-export type QueryResponseAlternative69TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative69TypesList = Array<unknown>;
-export type QueryResponseAlternative69UsedDataWarehouseSourcesList =
-  Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative69WarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative69WarningsList = Array<QueryResponseAlternative69WarningsItem>;
-export interface QueryResponseAlternative69 {
-  columns?: QueryResponseAlternative69ColumnsList | null;
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  hasMore?: boolean | null;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  limit?: number | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  offset?: number | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: FunnelCorrelationResult;
-  /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative69TimingsList | null;
-  types?: QueryResponseAlternative69TypesList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative69UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative69WarningsList | null;
-}
-export type QueryResponseAlternative70JoinsList = Array<DataWarehouseViewLink>;
-export type QueryResponseAlternative70TablesValue =
+export type QueryResponseAlternative68JoinsList = Array<DataWarehouseViewLink>;
+export type QueryResponseAlternative68TablesValue =
   | DatabaseSchemaPostHogTable
   | DatabaseSchemaSystemTable
   | DatabaseSchemaDataWarehouseTable
@@ -14829,22 +15952,23 @@ export type QueryResponseAlternative70TablesValue =
   | DatabaseSchemaBatchExportTable
   | DatabaseSchemaMaterializedViewTable
   | DatabaseSchemaEndpointTable;
-export type QueryResponseAlternative70TablesMap = {
-  [key: string]: QueryResponseAlternative70TablesValue | undefined;
+export type QueryResponseAlternative68TablesMap = {
+  [key: string]: QueryResponseAlternative68TablesValue | undefined;
 };
-export interface QueryResponseAlternative70 {
-  joins?: QueryResponseAlternative70JoinsList;
-  tables?: QueryResponseAlternative70TablesMap;
+export interface QueryResponseAlternative68 {
+  joins: QueryResponseAlternative68JoinsList;
+  tables: QueryResponseAlternative68TablesMap;
 }
-export type QueryResponseAlternative71ResultsList = Array<SessionRecordingType>;
-export type QueryResponseAlternative71TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative71UsedDataWarehouseSourcesList =
+export type QueryResponseAlternative69ResultsList = Array<SessionRecordingType>;
+export type QueryResponseAlternative69TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative69UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative71WarningsItem =
+export type QueryResponseAlternative69WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative71WarningsList = Array<QueryResponseAlternative71WarningsItem>;
-export interface QueryResponseAlternative71 {
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative69WarningsList = Array<QueryResponseAlternative69WarningsItem>;
+export interface QueryResponseAlternative69 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   has_next: boolean;
@@ -14860,24 +15984,25 @@ export interface QueryResponseAlternative71 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results: QueryResponseAlternative71ResultsList;
+  results?: QueryResponseAlternative69ResultsList;
   /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative71TimingsList | null;
+  timings?: QueryResponseAlternative69TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative71UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative71WarningsList | null;
+  used_data_warehouse_sources?: QueryResponseAlternative69UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative69WarningsList | null;
 }
-export type QueryResponseAlternative72ColumnsList = Array<string>;
-export type QueryResponseAlternative72TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative72UsedDataWarehouseSourcesList =
+export type QueryResponseAlternative70ColumnsList = Array<string>;
+export type QueryResponseAlternative70TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative70UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative72WarningsItem =
+export type QueryResponseAlternative70WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative72WarningsList = Array<QueryResponseAlternative72WarningsItem>;
-export interface QueryResponseAlternative72 {
-  columns?: QueryResponseAlternative72ColumnsList | null;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative70WarningsList = Array<QueryResponseAlternative70WarningsItem>;
+export interface QueryResponseAlternative70 {
+  columns?: QueryResponseAlternative70ColumnsList | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
@@ -14895,24 +16020,85 @@ export interface QueryResponseAlternative72 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: unknown;
+  results: unknown;
+  /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative70TimingsList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative70UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative70WarningsList | null;
+}
+export type QueryResponseAlternative71ResultsList = Array<LogAttributeResult>;
+export type QueryResponseAlternative71TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative71UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative71WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative71WarningsList = Array<QueryResponseAlternative71WarningsItem>;
+export interface QueryResponseAlternative71 {
+  count: number;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results: QueryResponseAlternative71ResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative71TimingsList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative71UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative71WarningsList | null;
+}
+export type QueryResponseAlternative72ResultsList = Array<LogValueResult>;
+export type QueryResponseAlternative72TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative72UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative72WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative72WarningsList = Array<QueryResponseAlternative72WarningsItem>;
+export interface QueryResponseAlternative72 {
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results?: QueryResponseAlternative72ResultsList;
   /** Measured timings for different parts of the query generation process */
   timings?: QueryResponseAlternative72TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative72UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative72WarningsList | null;
 }
-export type QueryResponseAlternative73ResultsList = Array<LogAttributeResult>;
+export type QueryResponseAlternative73ResultsList = Array<MetricsQuerySeries>;
 export type QueryResponseAlternative73TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative73UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative73WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative73WarningsList = Array<QueryResponseAlternative73WarningsItem>;
 export interface QueryResponseAlternative73 {
-  count?: number;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Generated HogQL query. */
@@ -14930,86 +16116,29 @@ export interface QueryResponseAlternative73 {
   timings?: QueryResponseAlternative73TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative73UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative73WarningsList | null;
 }
-export type QueryResponseAlternative74ResultsList = Array<LogValueResult>;
+/** Upper bound per row (y axis), ascending. */
+export type QueryResponseAlternative74BoundsList = Array<number>;
+export type QueryResponseAlternative74CountsItemList = Array<number>;
+/** Observation count per cell: counts[row][column], row = bound, column = time. */
+export type QueryResponseAlternative74CountsList = Array<QueryResponseAlternative74CountsItemList>;
+/** Bucket start per column (x axis), ISO 8601, ascending. */
+export type QueryResponseAlternative74TimesList = Array<string>;
 export type QueryResponseAlternative74TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative74UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative74WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative74WarningsList = Array<QueryResponseAlternative74WarningsItem>;
 export interface QueryResponseAlternative74 {
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative74ResultsList;
-  /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative74TimingsList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative74UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative74WarningsList | null;
-}
-export type QueryResponseAlternative75ResultsList = Array<MetricsQuerySeries>;
-export type QueryResponseAlternative75TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative75UsedDataWarehouseSourcesList =
-  Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative75WarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative75WarningsList = Array<QueryResponseAlternative75WarningsItem>;
-export interface QueryResponseAlternative75 {
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative75ResultsList;
-  /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative75TimingsList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative75UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative75WarningsList | null;
-}
-/** Upper bound per row (y axis), ascending. */
-export type QueryResponseAlternative76BoundsList = Array<number>;
-export type QueryResponseAlternative76CountsItemList = Array<number>;
-/** Observation count per cell: counts[row][column], row = bound, column = time. */
-export type QueryResponseAlternative76CountsList = Array<QueryResponseAlternative76CountsItemList>;
-/** Bucket start per column (x axis), ISO 8601, ascending. */
-export type QueryResponseAlternative76TimesList = Array<string>;
-export type QueryResponseAlternative76TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative76UsedDataWarehouseSourcesList =
-  Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative76WarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative76WarningsList = Array<QueryResponseAlternative76WarningsItem>;
-export interface QueryResponseAlternative76 {
   /** Upper bound per row (y axis), ascending. */
-  bounds?: QueryResponseAlternative76BoundsList;
+  bounds: QueryResponseAlternative74BoundsList;
   /** Observation count per cell: counts[row][column], row = bound, column = time. */
-  counts?: QueryResponseAlternative76CountsList;
+  counts: QueryResponseAlternative74CountsList;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Generated HogQL query. */
@@ -15024,22 +16153,23 @@ export interface QueryResponseAlternative76 {
   resolved_date_range?: ResolvedDateRangeResponse | null;
   results?: unknown;
   /** Bucket start per column (x axis), ISO 8601, ascending. */
-  times?: QueryResponseAlternative76TimesList;
+  times: QueryResponseAlternative74TimesList;
   /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative76TimingsList | null;
+  timings?: QueryResponseAlternative74TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative76UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative76WarningsList | null;
+  used_data_warehouse_sources?: QueryResponseAlternative74UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative74WarningsList | null;
 }
-export type QueryResponseAlternative77TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative77UsedDataWarehouseSourcesList =
+export type QueryResponseAlternative75TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative75UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative77WarningsItem =
+export type QueryResponseAlternative75WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative77WarningsList = Array<QueryResponseAlternative77WarningsItem>;
-export interface QueryResponseAlternative77 {
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative75WarningsList = Array<QueryResponseAlternative75WarningsItem>;
+export interface QueryResponseAlternative75 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
@@ -15059,20 +16189,87 @@ export interface QueryResponseAlternative77 {
   resolved_date_range?: ResolvedDateRangeResponse | null;
   results?: unknown;
   /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative75TimingsList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative75UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative75WarningsList | null;
+}
+export type QueryResponseAlternative76CompareList = Array<AggregatedSpanRow>;
+export type QueryResponseAlternative76ResultsList = Array<AggregatedSpanRow>;
+export type QueryResponseAlternative76TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative76UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative76WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative76WarningsList = Array<QueryResponseAlternative76WarningsItem>;
+export interface QueryResponseAlternative76 {
+  /** Result rows for the comparison period when `compareFilter.compare` is true. */
+  compare?: QueryResponseAlternative76CompareList | null;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results?: QueryResponseAlternative76ResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative76TimingsList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative76UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative76WarningsList | null;
+}
+export type QueryResponseAlternative77CompareList = Array<SpanTreeNode>;
+export type QueryResponseAlternative77ResultsList = Array<SpanTreeNode>;
+export type QueryResponseAlternative77TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative77UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative77WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative77WarningsList = Array<QueryResponseAlternative77WarningsItem>;
+export interface QueryResponseAlternative77 {
+  /** Result rows for the comparison period when `compareFilter.compare` is true. */
+  compare?: QueryResponseAlternative77CompareList | null;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results?: QueryResponseAlternative77ResultsList;
+  /** Measured timings for different parts of the query generation process */
   timings?: QueryResponseAlternative77TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative77UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative77WarningsList | null;
 }
-export type QueryResponseAlternative78CompareList = Array<AggregatedSpanRow>;
-export type QueryResponseAlternative78ResultsList = Array<AggregatedSpanRow>;
+export type QueryResponseAlternative78CompareList = Array<AttributeBreakdownRow>;
+export type QueryResponseAlternative78ResultsList = Array<AttributeBreakdownRow>;
 export type QueryResponseAlternative78TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative78UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative78WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative78WarningsList = Array<QueryResponseAlternative78WarningsItem>;
 export interface QueryResponseAlternative78 {
   /** Result rows for the comparison period when `compareFilter.compare` is true. */
@@ -15094,89 +16291,26 @@ export interface QueryResponseAlternative78 {
   timings?: QueryResponseAlternative78TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative78UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative78WarningsList | null;
 }
-export type QueryResponseAlternative79CompareList = Array<SpanTreeNode>;
-export type QueryResponseAlternative79ResultsList = Array<SpanTreeNode>;
-export type QueryResponseAlternative79TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative79UsedDataWarehouseSourcesList =
-  Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative79WarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative79WarningsList = Array<QueryResponseAlternative79WarningsItem>;
+export type QueryResponseAlternative79QuestionsList = Array<string>;
+export type QueryResponseAlternative79WarningsList = Array<DataWarehouseSyncWarning>;
 export interface QueryResponseAlternative79 {
-  /** Result rows for the comparison period when `compareFilter.compare` is true. */
-  compare?: QueryResponseAlternative79CompareList | null;
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative79ResultsList;
-  /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative79TimingsList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative79UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  questions: QueryResponseAlternative79QuestionsList;
+  /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
   warnings?: QueryResponseAlternative79WarningsList | null;
 }
-export type QueryResponseAlternative80CompareList = Array<AttributeBreakdownRow>;
-export type QueryResponseAlternative80ResultsList = Array<AttributeBreakdownRow>;
+export type QueryResponseAlternative80ResultsList = Array<TeamTaxonomyItem>;
 export type QueryResponseAlternative80TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative80UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative80WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative80WarningsList = Array<QueryResponseAlternative80WarningsItem>;
 export interface QueryResponseAlternative80 {
-  /** Result rows for the comparison period when `compareFilter.compare` is true. */
-  compare?: QueryResponseAlternative80CompareList | null;
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative80ResultsList;
-  /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative80TimingsList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative80UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative80WarningsList | null;
-}
-export type QueryResponseAlternative81QuestionsList = Array<string>;
-export type QueryResponseAlternative81WarningsList = Array<DataWarehouseSyncWarning>;
-export interface QueryResponseAlternative81 {
-  questions?: QueryResponseAlternative81QuestionsList;
-  /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
-  warnings?: QueryResponseAlternative81WarningsList | null;
-}
-export type QueryResponseAlternative82ResultsList = Array<TeamTaxonomyItem>;
-export type QueryResponseAlternative82TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative82UsedDataWarehouseSourcesList =
-  Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative82WarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative82WarningsList = Array<QueryResponseAlternative82WarningsItem>;
-export interface QueryResponseAlternative82 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
@@ -15192,23 +16326,92 @@ export interface QueryResponseAlternative82 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: QueryResponseAlternative82ResultsList;
+  results?: QueryResponseAlternative80ResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative80TimingsList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative80UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative80WarningsList | null;
+}
+export type QueryResponseAlternative81ResultsList = Array<EventTaxonomyItem>;
+export type QueryResponseAlternative81TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative81UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative81WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative81WarningsList = Array<QueryResponseAlternative81WarningsItem>;
+export interface QueryResponseAlternative81 {
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  hasMore?: boolean | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  limit?: number | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  offset?: number | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results: QueryResponseAlternative81ResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative81TimingsList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative81UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative81WarningsList | null;
+}
+export type QueryResponseAlternative82ResultsCase1List = Array<ActorsPropertyTaxonomyResponse>;
+export type QueryResponseAlternative82Results =
+  | ActorsPropertyTaxonomyResponse
+  | QueryResponseAlternative82ResultsCase1List;
+export type QueryResponseAlternative82TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative82UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative82WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative82WarningsList = Array<QueryResponseAlternative82WarningsItem>;
+export interface QueryResponseAlternative82 {
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results?: QueryResponseAlternative82Results;
   /** Measured timings for different parts of the query generation process */
   timings?: QueryResponseAlternative82TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative82UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative82WarningsList | null;
 }
-export type QueryResponseAlternative83ResultsList = Array<EventTaxonomyItem>;
+export type QueryResponseAlternative83ColumnsList = Array<string>;
+export type QueryResponseAlternative83ResultsList = Array<LLMTrace>;
 export type QueryResponseAlternative83TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative83UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative83WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative83WarningsList = Array<QueryResponseAlternative83WarningsItem>;
 export interface QueryResponseAlternative83 {
+  columns?: QueryResponseAlternative83ColumnsList | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
@@ -15229,78 +16432,12 @@ export interface QueryResponseAlternative83 {
   timings?: QueryResponseAlternative83TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative83UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative83WarningsList | null;
 }
-export type QueryResponseAlternative84ResultsCase1List = Array<ActorsPropertyTaxonomyResponse>;
-export type QueryResponseAlternative84Results =
-  | ActorsPropertyTaxonomyResponse
-  | QueryResponseAlternative84ResultsCase1List;
-export type QueryResponseAlternative84TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative84UsedDataWarehouseSourcesList =
-  Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative84WarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative84WarningsList = Array<QueryResponseAlternative84WarningsItem>;
-export interface QueryResponseAlternative84 {
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results: QueryResponseAlternative84Results;
-  /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative84TimingsList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative84UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative84WarningsList | null;
-}
-export type QueryResponseAlternative85ColumnsList = Array<string>;
-export type QueryResponseAlternative85ResultsList = Array<LLMTrace>;
-export type QueryResponseAlternative85TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative85UsedDataWarehouseSourcesList =
-  Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative85WarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative85WarningsList = Array<QueryResponseAlternative85WarningsItem>;
-export interface QueryResponseAlternative85 {
-  columns?: QueryResponseAlternative85ColumnsList | null;
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  hasMore?: boolean | null;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  limit?: number | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  offset?: number | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results: QueryResponseAlternative85ResultsList;
-  /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative85TimingsList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative85UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative85WarningsList | null;
-}
-export type QueryResponseAlternative88TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative88WarningsList = Array<DataWarehouseSyncWarning>;
-export interface QueryResponseAlternative88 {
+export type QueryResponseAlternative86TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative86WarningsList = Array<DataWarehouseSyncWarning>;
+export interface QueryResponseAlternative86 {
   /** Timestamp of the newer trace */
   newerTimestamp?: string | null;
   /** ID of the newer trace (chronologically after current) */
@@ -15310,17 +16447,77 @@ export interface QueryResponseAlternative88 {
   /** ID of the older trace (chronologically before current) */
   olderTraceId?: string | null;
   /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative88TimingsList | null;
+  timings?: QueryResponseAlternative86TimingsList | null;
   /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
+  warnings?: QueryResponseAlternative86WarningsList | null;
+}
+export type QueryResponseAlternative87ResultsList = Array<VectorSearchResponseItem>;
+export type QueryResponseAlternative87TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative87UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative87WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative87WarningsList = Array<QueryResponseAlternative87WarningsItem>;
+export interface QueryResponseAlternative87 {
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results: QueryResponseAlternative87ResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative87TimingsList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative87UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative87WarningsList | null;
+}
+export type QueryResponseAlternative88TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative88UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative88WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative88WarningsList = Array<QueryResponseAlternative88WarningsItem>;
+export interface QueryResponseAlternative88 {
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results: InboxUsage;
+  /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative88TimingsList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative88UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative88WarningsList | null;
 }
-export type QueryResponseAlternative89ResultsList = Array<VectorSearchResponseItem>;
+export type QueryResponseAlternative89ResultsList = Array<UsageMetric>;
 export type QueryResponseAlternative89TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative89UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative89WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative89WarningsList = Array<QueryResponseAlternative89WarningsItem>;
 export interface QueryResponseAlternative89 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -15340,24 +16537,37 @@ export interface QueryResponseAlternative89 {
   timings?: QueryResponseAlternative89TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative89UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative89WarningsList | null;
 }
-export type QueryResponseAlternative90ResultsList = Array<UsageMetric>;
+export type QueryResponseAlternative90ColumnsList = Array<unknown>;
+export type QueryResponseAlternative90MetricsResultsList = Array<number | null>;
+export type QueryResponseAlternative90ResultsItemList = Array<unknown>;
+export type QueryResponseAlternative90ResultsList =
+  Array<QueryResponseAlternative90ResultsItemList>;
 export type QueryResponseAlternative90TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative90TypesList = Array<string>;
 export type QueryResponseAlternative90UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative90WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative90WarningsList = Array<QueryResponseAlternative90WarningsItem>;
 export interface QueryResponseAlternative90 {
+  columns: QueryResponseAlternative90ColumnsList;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
+  hasMore?: boolean | null;
   /** Generated HogQL query. */
-  hogql?: string | null;
+  hogql: string;
+  kind?: string;
+  limit: number;
+  /** When `metrics` is set on the query, the aggregated values in the same order. */
+  metricsResults?: QueryResponseAlternative90MetricsResultsList | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
+  offset: number;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -15367,40 +16577,52 @@ export interface QueryResponseAlternative90 {
   results?: QueryResponseAlternative90ResultsList;
   /** Measured timings for different parts of the query generation process */
   timings?: QueryResponseAlternative90TimingsList | null;
+  types: QueryResponseAlternative90TypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative90UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative90WarningsList | null;
 }
-export type QueryResponseAlternative91ColumnsList = Array<unknown>;
+export type QueryResponseAlternative91ColumnsItem =
+  | AccountsTableAccountFieldColumn
+  | AccountsTableTagsColumn
+  | AccountsTableTagsColumn
+  | AccountsTableRelationshipColumn
+  | AccountsTableCustomPropertyColumn
+  | AccountsTableCustomPropertyHistoryColumn;
+export type QueryResponseAlternative91ColumnsList = Array<QueryResponseAlternative91ColumnsItem>;
+export type QueryResponseAlternative91CustomPropertyDefinitionsList =
+  Array<AccountsTableCustomPropertyDefinition>;
 export type QueryResponseAlternative91MetricsResultsList = Array<number | null>;
-export type QueryResponseAlternative91ResultsItemList = Array<unknown>;
-export type QueryResponseAlternative91ResultsList =
-  Array<QueryResponseAlternative91ResultsItemList>;
+export type QueryResponseAlternative91RelationshipDefinitionsList =
+  Array<AccountsTableRelationshipDefinition>;
+export type QueryResponseAlternative91ResultsList = Array<AccountsTableRow>;
 export type QueryResponseAlternative91TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative91TypesList = Array<string>;
 export type QueryResponseAlternative91UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative91WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative91WarningsList = Array<QueryResponseAlternative91WarningsItem>;
 export interface QueryResponseAlternative91 {
   columns?: QueryResponseAlternative91ColumnsList;
+  customPropertyDefinitions?: QueryResponseAlternative91CustomPropertyDefinitionsList | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
-  hasMore?: boolean | null;
+  hasMore: boolean;
   /** Generated HogQL query. */
-  hogql?: string;
+  hogql?: string | null;
   kind?: string;
   limit?: number;
-  /** When `metrics` is set on the query, the aggregated values in the same order. */
+  /** Aggregated values in the same order as the requested metrics. */
   metricsResults?: QueryResponseAlternative91MetricsResultsList | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
   offset?: number;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
+  relationshipDefinitions?: QueryResponseAlternative91RelationshipDefinitionsList | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
@@ -15408,34 +16630,27 @@ export interface QueryResponseAlternative91 {
   results?: QueryResponseAlternative91ResultsList;
   /** Measured timings for different parts of the query generation process */
   timings?: QueryResponseAlternative91TimingsList | null;
-  types?: QueryResponseAlternative91TypesList;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative91UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative91WarningsList | null;
 }
-export type QueryResponseAlternative92MetricsResultsList = Array<number | null>;
-export type QueryResponseAlternative92ResultsList = Array<AccountsTableRow>;
+export type QueryResponseAlternative92ResultsList = Array<EndpointsUsageOverviewItem>;
 export type QueryResponseAlternative92TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative92UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative92WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative92WarningsList = Array<QueryResponseAlternative92WarningsItem>;
 export interface QueryResponseAlternative92 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
-  hasMore: boolean;
   /** Generated HogQL query. */
   hogql?: string | null;
-  kind?: string;
-  limit: number;
-  /** Aggregated values in the same order as the requested metrics. */
-  metricsResults?: QueryResponseAlternative92MetricsResultsList | null;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null;
-  offset: number;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
@@ -15447,50 +16662,22 @@ export interface QueryResponseAlternative92 {
   timings?: QueryResponseAlternative92TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative92UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative92WarningsList | null;
 }
-export type QueryResponseAlternative93ResultsList = Array<EndpointsUsageOverviewItem>;
+export type QueryResponseAlternative93ColumnsList = Array<unknown>;
+export type QueryResponseAlternative93ResultsList = Array<unknown>;
 export type QueryResponseAlternative93TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative93TypesList = Array<unknown>;
 export type QueryResponseAlternative93UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative93WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative93WarningsList = Array<QueryResponseAlternative93WarningsItem>;
 export interface QueryResponseAlternative93 {
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results: QueryResponseAlternative93ResultsList;
-  /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative93TimingsList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative93UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative93WarningsList | null;
-}
-export type QueryResponseAlternative94ColumnsList = Array<unknown>;
-export type QueryResponseAlternative94ResultsList = Array<unknown>;
-export type QueryResponseAlternative94TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative94TypesList = Array<unknown>;
-export type QueryResponseAlternative94UsedDataWarehouseSourcesList =
-  Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative94WarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative94WarningsList = Array<QueryResponseAlternative94WarningsItem>;
-export interface QueryResponseAlternative94 {
-  columns?: QueryResponseAlternative94ColumnsList | null;
+  columns?: QueryResponseAlternative93ColumnsList | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore?: boolean | null;
@@ -15506,23 +16693,54 @@ export interface QueryResponseAlternative94 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
+  results: QueryResponseAlternative93ResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative93TimingsList | null;
+  types?: QueryResponseAlternative93TypesList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative93UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative93WarningsList | null;
+}
+export type QueryResponseAlternative94ResultsItemMap = { [key: string]: unknown | undefined };
+export type QueryResponseAlternative94ResultsList = Array<QueryResponseAlternative94ResultsItemMap>;
+export type QueryResponseAlternative94TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative94UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative94WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative94WarningsList = Array<QueryResponseAlternative94WarningsItem>;
+export interface QueryResponseAlternative94 {
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
   results: QueryResponseAlternative94ResultsList;
   /** Measured timings for different parts of the query generation process */
   timings?: QueryResponseAlternative94TimingsList | null;
-  types?: QueryResponseAlternative94TypesList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative94UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative94WarningsList | null;
 }
-export type QueryResponseAlternative95ResultsItemMap = { [key: string]: unknown | undefined };
-export type QueryResponseAlternative95ResultsList = Array<QueryResponseAlternative95ResultsItemMap>;
+export type QueryResponseAlternative95ResultsList = Array<MCPToolCallBreakdownItem>;
 export type QueryResponseAlternative95TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative95UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative95WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative95WarningsList = Array<QueryResponseAlternative95WarningsItem>;
 export interface QueryResponseAlternative95 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -15542,16 +16760,17 @@ export interface QueryResponseAlternative95 {
   timings?: QueryResponseAlternative95TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative95UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative95WarningsList | null;
 }
-export type QueryResponseAlternative96ResultsList = Array<MCPToolCallBreakdownItem>;
+export type QueryResponseAlternative96ResultsList = Array<MCPToolCallsAndErrorsItem>;
 export type QueryResponseAlternative96TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative96UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative96WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative96WarningsList = Array<QueryResponseAlternative96WarningsItem>;
 export interface QueryResponseAlternative96 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -15571,16 +16790,17 @@ export interface QueryResponseAlternative96 {
   timings?: QueryResponseAlternative96TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative96UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative96WarningsList | null;
 }
-export type QueryResponseAlternative97ResultsList = Array<MCPToolCallsAndErrorsItem>;
+export type QueryResponseAlternative97ResultsList = Array<MCPHarnessBreakdownItem>;
 export type QueryResponseAlternative97TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative97UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative97WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative97WarningsList = Array<QueryResponseAlternative97WarningsItem>;
 export interface QueryResponseAlternative97 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
@@ -15600,20 +16820,23 @@ export interface QueryResponseAlternative97 {
   timings?: QueryResponseAlternative97TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative97UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative97WarningsList | null;
 }
-export type QueryResponseAlternative98ResultsList = Array<MCPHarnessBreakdownItem>;
+export type QueryResponseAlternative98ResultsList = Array<MCPModelBreakdownItem>;
 export type QueryResponseAlternative98TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative98UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative98WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative98WarningsList = Array<QueryResponseAlternative98WarningsItem>;
 export interface QueryResponseAlternative98 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
+  /** Whether another page of individual model identifiers is available. */
+  hasMore?: boolean | null;
   /** Generated HogQL query. */
   hogql?: string | null;
   /** Modifiers used when performing the query */
@@ -15629,22 +16852,21 @@ export interface QueryResponseAlternative98 {
   timings?: QueryResponseAlternative98TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative98UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative98WarningsList | null;
 }
-export type QueryResponseAlternative99ResultsList = Array<MCPModelBreakdownItem>;
+export type QueryResponseAlternative99ResultsList = Array<MCPProtocolVersionBreakdownItem>;
 export type QueryResponseAlternative99TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative99UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative99WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative99WarningsList = Array<QueryResponseAlternative99WarningsItem>;
 export interface QueryResponseAlternative99 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
-  /** Whether another page of individual model identifiers is available. */
-  hasMore?: boolean | null;
   /** Generated HogQL query. */
   hogql?: string | null;
   /** Modifiers used when performing the query */
@@ -15660,16 +16882,17 @@ export interface QueryResponseAlternative99 {
   timings?: QueryResponseAlternative99TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative99UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative99WarningsList | null;
 }
-export type QueryResponseAlternative100ResultsList = Array<MCPProtocolVersionBreakdownItem>;
+export type QueryResponseAlternative100ResultsList = Array<MCPToolTopUserItem>;
 export type QueryResponseAlternative100TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative100UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative100WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative100WarningsList =
   Array<QueryResponseAlternative100WarningsItem>;
 export interface QueryResponseAlternative100 {
@@ -15690,16 +16913,17 @@ export interface QueryResponseAlternative100 {
   timings?: QueryResponseAlternative100TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative100UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative100WarningsList | null;
 }
-export type QueryResponseAlternative101ResultsList = Array<MCPToolTopUserItem>;
+export type QueryResponseAlternative101ResultsList = Array<MCPToolFailureItem>;
 export type QueryResponseAlternative101TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative101UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative101WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative101WarningsList =
   Array<QueryResponseAlternative101WarningsItem>;
 export interface QueryResponseAlternative101 {
@@ -15720,16 +16944,17 @@ export interface QueryResponseAlternative101 {
   timings?: QueryResponseAlternative101TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative101UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative101WarningsList | null;
 }
-export type QueryResponseAlternative102ResultsList = Array<MCPToolFailureItem>;
+export type QueryResponseAlternative102ResultsList = Array<MCPToolFailureOccurrenceItem>;
 export type QueryResponseAlternative102TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative102UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative102WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative102WarningsList =
   Array<QueryResponseAlternative102WarningsItem>;
 export interface QueryResponseAlternative102 {
@@ -15750,16 +16975,18 @@ export interface QueryResponseAlternative102 {
   timings?: QueryResponseAlternative102TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative102UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative102WarningsList | null;
 }
-export type QueryResponseAlternative103ResultsList = Array<MCPToolFailureOccurrenceItem>;
+/** Zero or one row; empty when the tool had no calls in the window. */
+export type QueryResponseAlternative103ResultsList = Array<MCPToolStatsItem>;
 export type QueryResponseAlternative103TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative103UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative103WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative103WarningsList =
   Array<QueryResponseAlternative103WarningsItem>;
 export interface QueryResponseAlternative103 {
@@ -15775,22 +17002,23 @@ export interface QueryResponseAlternative103 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
+  /** Zero or one row; empty when the tool had no calls in the window. */
   results: QueryResponseAlternative103ResultsList;
   /** Measured timings for different parts of the query generation process */
   timings?: QueryResponseAlternative103TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative103UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative103WarningsList | null;
 }
-/** Zero or one row; empty when the tool had no calls in the window. */
-export type QueryResponseAlternative104ResultsList = Array<MCPToolStatsItem>;
+export type QueryResponseAlternative104ResultsList = Array<MCPToolDailyStatItem>;
 export type QueryResponseAlternative104TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative104UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative104WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative104WarningsList =
   Array<QueryResponseAlternative104WarningsItem>;
 export interface QueryResponseAlternative104 {
@@ -15806,55 +17034,25 @@ export interface QueryResponseAlternative104 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  /** Zero or one row; empty when the tool had no calls in the window. */
   results: QueryResponseAlternative104ResultsList;
   /** Measured timings for different parts of the query generation process */
   timings?: QueryResponseAlternative104TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative104UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative104WarningsList | null;
 }
-export type QueryResponseAlternative105ResultsList = Array<MCPToolDailyStatItem>;
+export type QueryResponseAlternative105ResultsList = Array<MCPToolQualityRowItem>;
 export type QueryResponseAlternative105TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative105UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative105WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative105WarningsList =
   Array<QueryResponseAlternative105WarningsItem>;
 export interface QueryResponseAlternative105 {
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results: QueryResponseAlternative105ResultsList;
-  /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative105TimingsList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative105UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative105WarningsList | null;
-}
-export type QueryResponseAlternative106ResultsList = Array<MCPToolQualityRowItem>;
-export type QueryResponseAlternative106TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative106UsedDataWarehouseSourcesList =
-  Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative106WarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative106WarningsList =
-  Array<QueryResponseAlternative106WarningsItem>;
-export interface QueryResponseAlternative106 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   /** Generated HogQL query. */
@@ -15869,25 +17067,57 @@ export interface QueryResponseAlternative106 {
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
   resolved_date_range?: ResolvedDateRangeResponse | null;
-  results: QueryResponseAlternative106ResultsList;
+  results: QueryResponseAlternative105ResultsList;
   /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative106TimingsList | null;
+  timings?: QueryResponseAlternative105TimingsList | null;
   /** Number of tools matching the date, category, and search filters. */
   totalCount: number;
   /** Distinct sessions with any tool call in the window, ignoring category and search filters. The denominator for each row's session share. */
   totalSessions: number;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: QueryResponseAlternative105UsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: QueryResponseAlternative105WarningsList | null;
+}
+export type QueryResponseAlternative106ResultsList = Array<MCPToolQualityDailyStatItem>;
+export type QueryResponseAlternative106TimingsList = Array<QueryTiming>;
+export type QueryResponseAlternative106UsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export type QueryResponseAlternative106WarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
+export type QueryResponseAlternative106WarningsList =
+  Array<QueryResponseAlternative106WarningsItem>;
+export interface QueryResponseAlternative106 {
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results: QueryResponseAlternative106ResultsList;
+  /** Measured timings for different parts of the query generation process */
+  timings?: QueryResponseAlternative106TimingsList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative106UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative106WarningsList | null;
 }
-export type QueryResponseAlternative107ResultsList = Array<MCPToolQualityDailyStatItem>;
+export type QueryResponseAlternative107ResultsList = Array<MCPToolCategoryCountItem>;
 export type QueryResponseAlternative107TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative107UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative107WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative107WarningsList =
   Array<QueryResponseAlternative107WarningsItem>;
 export interface QueryResponseAlternative107 {
@@ -15908,16 +17138,17 @@ export interface QueryResponseAlternative107 {
   timings?: QueryResponseAlternative107TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative107UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative107WarningsList | null;
 }
-export type QueryResponseAlternative108ResultsList = Array<MCPToolCategoryCountItem>;
+export type QueryResponseAlternative108ResultsList = Array<MCPToolCategoryItem>;
 export type QueryResponseAlternative108TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative108UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative108WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative108WarningsList =
   Array<QueryResponseAlternative108WarningsItem>;
 export interface QueryResponseAlternative108 {
@@ -15938,16 +17169,17 @@ export interface QueryResponseAlternative108 {
   timings?: QueryResponseAlternative108TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative108UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative108WarningsList | null;
 }
-export type QueryResponseAlternative109ResultsList = Array<MCPToolCategoryItem>;
+export type QueryResponseAlternative109ResultsList = Array<MCPToolCategoryMapItem>;
 export type QueryResponseAlternative109TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative109UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative109WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative109WarningsList =
   Array<QueryResponseAlternative109WarningsItem>;
 export interface QueryResponseAlternative109 {
@@ -15968,16 +17200,17 @@ export interface QueryResponseAlternative109 {
   timings?: QueryResponseAlternative109TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative109UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative109WarningsList | null;
 }
-export type QueryResponseAlternative110ResultsList = Array<MCPToolCategoryMapItem>;
+export type QueryResponseAlternative110ResultsList = Array<MCPToolDescriptionItem>;
 export type QueryResponseAlternative110TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative110UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative110WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative110WarningsList =
   Array<QueryResponseAlternative110WarningsItem>;
 export interface QueryResponseAlternative110 {
@@ -15998,16 +17231,17 @@ export interface QueryResponseAlternative110 {
   timings?: QueryResponseAlternative110TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative110UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative110WarningsList | null;
 }
-export type QueryResponseAlternative111ResultsList = Array<MCPToolDescriptionItem>;
+export type QueryResponseAlternative111ResultsList = Array<MCPToolSampleIntentItem>;
 export type QueryResponseAlternative111TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative111UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative111WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative111WarningsList =
   Array<QueryResponseAlternative111WarningsItem>;
 export interface QueryResponseAlternative111 {
@@ -16028,16 +17262,17 @@ export interface QueryResponseAlternative111 {
   timings?: QueryResponseAlternative111TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative111UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative111WarningsList | null;
 }
-export type QueryResponseAlternative112ResultsList = Array<MCPToolSampleIntentItem>;
+export type QueryResponseAlternative112ResultsList = Array<MCPToolNeighborItem>;
 export type QueryResponseAlternative112TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative112UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative112WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative112WarningsList =
   Array<QueryResponseAlternative112WarningsItem>;
 export interface QueryResponseAlternative112 {
@@ -16058,21 +17293,24 @@ export interface QueryResponseAlternative112 {
   timings?: QueryResponseAlternative112TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative112UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative112WarningsList | null;
 }
-export type QueryResponseAlternative113ResultsList = Array<MCPToolNeighborItem>;
+export type QueryResponseAlternative113ResultsList = Array<MCPMissingCapabilitiesItem>;
 export type QueryResponseAlternative113TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative113UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative113WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative113WarningsList =
   Array<QueryResponseAlternative113WarningsItem>;
 export interface QueryResponseAlternative113 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
+  /** Whether more reports exist past this page. */
+  has_next: boolean;
   /** Generated HogQL query. */
   hogql?: string | null;
   /** Modifiers used when performing the query */
@@ -16088,23 +17326,22 @@ export interface QueryResponseAlternative113 {
   timings?: QueryResponseAlternative113TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative113UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative113WarningsList | null;
 }
-export type QueryResponseAlternative114ResultsList = Array<MCPMissingCapabilitiesItem>;
+export type QueryResponseAlternative114ResultsList = Array<PropertyValueItem>;
 export type QueryResponseAlternative114TimingsList = Array<QueryTiming>;
 export type QueryResponseAlternative114UsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type QueryResponseAlternative114WarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type QueryResponseAlternative114WarningsList =
   Array<QueryResponseAlternative114WarningsItem>;
 export interface QueryResponseAlternative114 {
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
-  /** Whether more reports exist past this page. */
-  has_next: boolean;
   /** Generated HogQL query. */
   hogql?: string | null;
   /** Modifiers used when performing the query */
@@ -16120,38 +17357,8 @@ export interface QueryResponseAlternative114 {
   timings?: QueryResponseAlternative114TimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: QueryResponseAlternative114UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: QueryResponseAlternative114WarningsList | null;
-}
-export type QueryResponseAlternative115ResultsList = Array<PropertyValueItem>;
-export type QueryResponseAlternative115TimingsList = Array<QueryTiming>;
-export type QueryResponseAlternative115UsedDataWarehouseSourcesList =
-  Array<DataWarehouseSourceUsage>;
-export type QueryResponseAlternative115WarningsItem =
-  | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
-export type QueryResponseAlternative115WarningsList =
-  Array<QueryResponseAlternative115WarningsItem>;
-export interface QueryResponseAlternative115 {
-  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  /** Generated HogQL query. */
-  hogql?: string | null;
-  /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
-  /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
-  /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results: QueryResponseAlternative115ResultsList;
-  /** Measured timings for different parts of the query generation process */
-  timings?: QueryResponseAlternative115TimingsList | null;
-  /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: QueryResponseAlternative115UsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: QueryResponseAlternative115WarningsList | null;
 }
 export type QueryResponseAlternative =
   | QueryResponseAlternativeCase0Map
@@ -16180,7 +17387,7 @@ export type QueryResponseAlternative =
   | QueryResponseAlternative23
   | QueryResponseAlternative24
   | QueryResponseAlternative25
-  | QueryResponseAlternative26
+  | QueryResponseAlternative27
   | QueryResponseAlternative28
   | QueryResponseAlternative29
   | QueryResponseAlternative30
@@ -16192,8 +17399,8 @@ export type QueryResponseAlternative =
   | QueryResponseAlternative36
   | QueryResponseAlternative37
   | QueryResponseAlternative38
-  | unknown
   | QueryResponseAlternative39
+  | unknown
   | QueryResponseAlternative40
   | QueryResponseAlternative41
   | QueryResponseAlternative42
@@ -16211,7 +17418,7 @@ export type QueryResponseAlternative =
   | QueryResponseAlternative54
   | QueryResponseAlternative55
   | QueryResponseAlternative56
-  | QueryResponseAlternative57
+  | QueryResponseAlternative58
   | QueryResponseAlternative59
   | QueryResponseAlternative60
   | QueryResponseAlternative61
@@ -16220,7 +17427,7 @@ export type QueryResponseAlternative =
   | QueryResponseAlternative64
   | QueryResponseAlternative65
   | QueryResponseAlternative66
-  | QueryResponseAlternative67
+  | QueryResponseAlternative68
   | QueryResponseAlternative69
   | QueryResponseAlternative70
   | QueryResponseAlternative71
@@ -16236,8 +17443,8 @@ export type QueryResponseAlternative =
   | QueryResponseAlternative81
   | QueryResponseAlternative82
   | QueryResponseAlternative83
-  | QueryResponseAlternative84
-  | QueryResponseAlternative85
+  | QueryResponseAlternative86
+  | QueryResponseAlternative87
   | QueryResponseAlternative88
   | QueryResponseAlternative89
   | QueryResponseAlternative90
@@ -16264,8 +17471,7 @@ export type QueryResponseAlternative =
   | QueryResponseAlternative111
   | QueryResponseAlternative112
   | QueryResponseAlternative113
-  | QueryResponseAlternative114
-  | QueryResponseAlternative115;
+  | QueryResponseAlternative114;
 export type CreateQueryResponse = QueryResponseAlternative;
 export interface CreateQueryCheckAuthForAsyncRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -16298,8 +17504,7 @@ export type CreateQueryUpgradeRequestQuery =
   | ErrorTrackingBreakdownsQuery
   | ErrorTrackingReleasesQuery
   | ErrorTrackingIssueCorrelationQuery
-  | ExperimentFunnelsQuery
-  | ExperimentTrendsQuery
+  | ErrorTrackingIssueEventsQuery
   | ExperimentQuery
   | ExperimentExposureQuery
   | DocumentSimilarityQuery
@@ -16308,6 +17513,7 @@ export type CreateQueryUpgradeRequestQuery =
   | WebExternalClicksTableQuery
   | WebBotsTableQuery
   | WebAgentAnalyticsQuery
+  | WebPageDirectoryQuery
   | WebGoalsQuery
   | WebVitalsQuery
   | WebVitalsPathBreakdownQuery
@@ -16320,7 +17526,9 @@ export type CreateQueryUpgradeRequestQuery =
   | MarketingAnalyticsAttributionPathsQuery
   | MarketingAnalyticsRetentionQuery
   | MarketingAnalyticsSearchQuery
+  | MarketingAnalyticsRecommendationsQuery
   | DataVisualizationNode
+  | BIVisualizationNode
   | DataTableNode
   | SavedInsightNode
   | InsightVizNode
@@ -16331,7 +17539,6 @@ export type CreateQueryUpgradeRequestQuery =
   | PathsV2Query
   | StickinessQuery
   | LifecycleQuery
-  | FunnelCorrelationQuery
   | DatabaseSchemaQuery
   | RecordingsQuery
   | LogsQuery
@@ -16352,6 +17559,7 @@ export type CreateQueryUpgradeRequestQuery =
   | SessionQuery
   | TraceNeighborsQuery
   | VectorSearchQuery
+  | InboxUsageQuery
   | UsageMetricsQuery
   | AccountsQuery
   | AccountsTableQuery
@@ -16408,8 +17616,7 @@ export type QueryUpgradeResponseQuery =
   | ErrorTrackingBreakdownsQuery
   | ErrorTrackingReleasesQuery
   | ErrorTrackingIssueCorrelationQuery
-  | ExperimentFunnelsQuery
-  | ExperimentTrendsQuery
+  | ErrorTrackingIssueEventsQuery
   | ExperimentQuery
   | ExperimentExposureQuery
   | DocumentSimilarityQuery
@@ -16418,6 +17625,7 @@ export type QueryUpgradeResponseQuery =
   | WebExternalClicksTableQuery
   | WebBotsTableQuery
   | WebAgentAnalyticsQuery
+  | WebPageDirectoryQuery
   | WebGoalsQuery
   | WebVitalsQuery
   | WebVitalsPathBreakdownQuery
@@ -16430,7 +17638,9 @@ export type QueryUpgradeResponseQuery =
   | MarketingAnalyticsAttributionPathsQuery
   | MarketingAnalyticsRetentionQuery
   | MarketingAnalyticsSearchQuery
+  | MarketingAnalyticsRecommendationsQuery
   | DataVisualizationNode
+  | BIVisualizationNode
   | DataTableNode
   | SavedInsightNode
   | InsightVizNode
@@ -16441,7 +17651,6 @@ export type QueryUpgradeResponseQuery =
   | PathsV2Query
   | StickinessQuery
   | LifecycleQuery
-  | FunnelCorrelationQuery
   | DatabaseSchemaQuery
   | RecordingsQuery
   | LogsQuery
@@ -16462,6 +17671,7 @@ export type QueryUpgradeResponseQuery =
   | SessionQuery
   | TraceNeighborsQuery
   | VectorSearchQuery
+  | InboxUsageQuery
   | UsageMetricsQuery
   | AccountsQuery
   | AccountsTableQuery
@@ -16539,8 +17749,8 @@ export const createQuery: API.OperationMethod<
   CreateQueryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22, __c2, 6) as any as S.Schema<CreateQueryRequest>,
-  output: __S(23, __c2, 7) as any as S.Schema<CreateQueryResponse>,
+  input: __S(44, __c2, 12) as any as S.Schema<CreateQueryRequest>,
+  output: __S(45, __c2, 13) as any as S.Schema<CreateQueryResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -16555,8 +17765,8 @@ export const createQueryCheckAuthForAsync: API.OperationMethod<
   CreateQueryCheckAuthForAsyncError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<CreateQueryCheckAuthForAsyncRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<CreateQueryCheckAuthForAsyncResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<CreateQueryCheckAuthForAsyncRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<CreateQueryCheckAuthForAsyncResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -16572,8 +17782,8 @@ export const createQueryUpgrade: API.OperationMethod<
   CreateQueryUpgradeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<CreateQueryUpgradeRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<QueryUpgradeResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<CreateQueryUpgradeRequest>,
+  output: __S(113, __c7, 1) as any as S.Schema<QueryUpgradeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -16588,8 +17798,8 @@ export const createQueryWithKind: API.OperationMethod<
   CreateQueryWithKindError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<CreateQueryWithKindRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<CreateQueryWithKindResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<CreateQueryWithKindRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<CreateQueryWithKindResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -16605,8 +17815,8 @@ export const getQuery: API.OperationMethod<
   GetQueryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c9, 4) as any as S.Schema<GetQueryRequest>,
-  output: __S(77, __c9, 5) as any as S.Schema<QueryStatusResponse>,
+  input: __S(163, __c10, 3) as any as S.Schema<GetQueryRequest>,
+  output: __S(164, __c10, 4) as any as S.Schema<QueryStatusResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -16621,8 +17831,8 @@ export const getQueryDraftSql: API.OperationMethod<
   GetQueryDraftSqlError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetQueryDraftSqlRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<GetQueryDraftSqlResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetQueryDraftSqlRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<GetQueryDraftSqlResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -16638,8 +17848,8 @@ export const getQueryLog: API.OperationMethod<
   GetQueryLogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetQueryLogRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<GetQueryLogResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetQueryLogRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<GetQueryLogResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -16672,8 +17882,8 @@ export const queryDestroy: API.OperationMethod<
   QueryDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<QueryDestroyRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<QueryDestroyResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<QueryDestroyRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<QueryDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -16700,7 +17910,7 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          analysis: S.optional(S.NullOr(__S(82, __c10, 2))),
+          analysis: S.optional(S.NullOr(__S(178, __c11, 2))),
         }),
       ).annotate({ identifier: "QueryScanResponse" });
   }
@@ -16731,7 +17941,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "Breakdown" });
     case 1:
-      return S.Array(__S(16, __c2, 0));
+      return S.Array(__S(32, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16743,40 +17953,85 @@ function __c2(j: number): any {
           breakdown_normalize_url: S.optional(S.NullOr(S.Boolean)),
           breakdown_path_cleaning: S.optional(S.NullOr(S.Boolean)),
           breakdown_type: S.optional(S.NullOr(S.String)),
-          breakdowns: S.optional(S.NullOr(__S(17, __c2, 1))),
+          breakdowns: S.optional(S.NullOr(__S(33, __c2, 1))),
         }),
       ).annotate({ identifier: "BreakdownFilter" });
     case 3:
-      return S.Array(S.Unknown);
+      return S.suspend(() =>
+        S.Struct({
+          compare: S.optional(S.NullOr(S.Boolean)),
+          compare_to: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CompareFilter" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          breakdown_filter: S.optional(S.NullOr(__S(18, __c2, 2))),
+          key: S.String,
+          op: S.String,
+          scope: S.optional(S.NullOr(S.String)),
+          value: S.String,
+        }),
+      ).annotate({ identifier: "MetricsQueryFilter" });
+    case 5:
+      return S.Array(__S(36, __c2, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          all: S.optional(S.NullOr(S.Boolean)),
+          values: __S(64, __c4, 0),
+        }),
+      ).annotate({ identifier: "MetricsDashboardVariableSelection" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          allValue: S.optional(S.NullOr(S.String)),
+          current: S.optional(S.NullOr(__S(38, __c2, 6))),
+          customValues: S.optional(S.NullOr(__S(64, __c4, 0))),
+          includeAll: S.optional(S.NullOr(S.Boolean)),
+          label: S.optional(S.NullOr(S.String)),
+          multi: S.optional(S.NullOr(S.Boolean)),
+          name: S.String,
+          query: S.optional(S.NullOr(S.String)),
+          regex: S.optional(S.NullOr(S.String)),
+          source: S.String,
+        }),
+      ).annotate({ identifier: "MetricsDashboardVariable" });
+    case 8:
+      return S.Array(__S(39, __c2, 7));
+    case 9:
+      return S.Array(S.Unknown);
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          breakdown_filter: S.optional(S.NullOr(__S(34, __c2, 2))),
+          compareFilter: S.optional(S.NullOr(__S(35, __c2, 3))),
           date_from: S.optional(S.NullOr(S.String)),
           date_to: S.optional(S.NullOr(S.String)),
           explicitDate: S.optional(S.NullOr(S.Boolean)),
           filterTestAccounts: S.optional(S.NullOr(S.Boolean)),
           interval: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(19, __c2, 3))),
+          metricFilters: S.optional(S.NullOr(__S(37, __c2, 5))),
+          metricVariables: S.optional(S.NullOr(__S(40, __c2, 8))),
+          properties: S.optional(S.NullOr(__S(41, __c2, 9))),
         }),
       ).annotate({ identifier: "DashboardFilter" });
-    case 5:
-      return S.Record(S.String, __S(24, __c3, 0));
-    case 6:
+    case 11:
+      return S.Record(S.String, __S(48, __c3, 0));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           async: S.optional(S.NullOr(S.Boolean)),
           client_query_id: S.optional(S.NullOr(S.String)),
-          filters_override: S.optional(S.NullOr(__S(20, __c2, 4))),
+          filters_override: S.optional(S.NullOr(__S(42, __c2, 10))),
           limit_context: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
           query: S.optional(S.Unknown),
           refresh: S.optional(S.NullOr(S.String)),
-          variables_override: S.optional(S.NullOr(__S(21, __c2, 5))),
+          variables_override: S.optional(S.NullOr(__S(43, __c2, 11))),
         }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/query/", code: 200 })),
       ).annotate({ identifier: "CreateQueryRequest" });
-    case 7:
+    case 13:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateQueryResponse",
       });
@@ -16789,6 +18044,12 @@ function __c3(j: number): any {
   }
 }
 function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16804,15 +18065,15 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateQueryCheckAuthForAsyncRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(24, __c3, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(48, __c3, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateQueryCheckAuthForAsyncResponse",
       });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16831,7 +18092,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "QueryUpgradeResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16848,17 +18109,15 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateQueryWithKindRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateQueryWithKindResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           active_cpu_time: S.optional(S.Number),
@@ -16868,17 +18127,17 @@ function __c9(j: number): any {
           time_elapsed: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ClickhouseQueryProgress" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          analysis: S.optional(S.NullOr(__S(82, __c10, 2))),
+          analysis: S.optional(S.NullOr(__S(178, __c11, 2))),
           analysis_requested: S.optional(S.NullOr(S.Boolean)),
           duration_ms: S.Number,
           killed: S.optional(S.NullOr(S.Boolean)),
           rows_read: S.Number,
         }),
       ).annotate({ identifier: "QueryScanSummary" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           budget_remaining_bytes: S.optional(S.NullOr(S.Number)),
@@ -16893,18 +18152,18 @@ function __c9(j: number): any {
           expiration_time: S.optional(S.NullOr(S.String)),
           id: S.optional(S.String),
           insight_id: S.optional(S.NullOr(S.Number)),
-          labels: S.optional(S.NullOr(__S(72, __c9, 0))),
+          labels: S.optional(S.NullOr(__S(64, __c4, 0))),
           pickup_time: S.optional(S.NullOr(S.String)),
           query_async: S.optional(S.Boolean),
-          query_progress: S.optional(S.NullOr(__S(73, __c9, 1))),
-          query_scan: S.optional(S.NullOr(__S(74, __c9, 2))),
+          query_progress: S.optional(S.NullOr(__S(160, __c10, 0))),
+          query_scan: S.optional(S.NullOr(__S(161, __c10, 1))),
           results: S.optional(S.Unknown),
           start_time: S.optional(S.NullOr(S.String)),
           task_id: S.optional(S.NullOr(S.String)),
           team_id: S.optional(S.Number),
         }),
       ).annotate({ identifier: "QueryStatus" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
@@ -16913,15 +18172,15 @@ function __c9(j: number): any {
           T.Http({ method: "GET", uri: "/api/projects/{project_id}/query/{id}/", code: 200 }),
         ),
       ).annotate({ identifier: "GetQueryRequest" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          query_status: S.optional(__S(75, __c9, 3)),
+          query_status: S.optional(__S(162, __c10, 2)),
         }),
       ).annotate({ identifier: "QueryStatusResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16937,19 +18196,19 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "QueryScanWarning" });
     case 1:
-      return S.Array(__S(80, __c10, 0));
+      return S.Array(__S(176, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           assistant_prompt: S.optional(S.NullOr(S.String)),
-          findings: __S(81, __c10, 1),
+          findings: __S(177, __c11, 1),
           project_share: S.optional(S.NullOr(S.Number)),
           range_share: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "QueryScanAnalysis" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16961,7 +18220,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetQueryDraftSqlRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

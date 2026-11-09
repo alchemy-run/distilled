@@ -82,6 +82,19 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** Specifies the segment in a path to retrieve value from Struct. */
+export interface PathSegment {
+  /** If specified, use the key to retrieve the value in a Struct. */
+  key?: string;
+}
+export type PathSegmentList = Array<PathSegment>;
+/** Specifies the way to match a list value. */
+export interface ListMatcher {
+  /** If specified, at least one of the values in the list must match the value specified. */
+  oneOf?: ValueMatcher;
+}
+/** NullMatch is an empty message to specify a null value. */
+export interface NullMatch {}
 /** Specifies the double start and end of the range using half-open interval semantics [start, end). */
 export interface DoubleRange {
   /** end of the range (exclusive) */
@@ -91,30 +104,23 @@ export interface DoubleRange {
 }
 /** Specifies the way to match a double value. */
 export interface DoubleMatcher {
-  /** If specified, the input double value must be in the range specified here. Note: The range is using half-open interval semantics [start, end). */
-  range?: DoubleRange;
   /** If specified, the input double value must be equal to the value specified here. */
   exact?: number;
+  /** If specified, the input double value must be in the range specified here. Note: The range is using half-open interval semantics [start, end). */
+  range?: DoubleRange;
 }
 export type ValueMatcherList = Array<ValueMatcher>;
 /** Specifies a list of alternatives for the match. */
 export interface OrMatcher {
   valueMatchers?: ValueMatcherList;
 }
-/** Specifies the way to match a list value. */
-export interface ListMatcher {
-  /** If specified, at least one of the values in the list must match the value specified. */
-  oneOf?: ValueMatcher;
-}
-/** NullMatch is an empty message to specify a null value. */
-export interface NullMatch {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 /** Message type for extension configuration. */
 export interface TypedExtensionConfig {
-  /** The name of an extension. This is not used to select the extension, instead it serves the role of an opaque identifier. */
-  name?: string;
   /** The typed config for the extension. The type URL will be used to identify the extension. In the case that the type URL is *xds.type.v3.TypedStruct* (or, for historical reasons, *udpa.type.v1.TypedStruct*), the inner type URL of *TypedStruct* will be utilized. See the :ref:`extension configuration overview ` for further details. */
   typedConfig?: DocumentMap;
+  /** The name of an extension. This is not used to select the extension, instead it serves the role of an opaque identifier. */
+  name?: string;
 }
 /** Google's `RE2 `_ regex engine. The regex string must adhere to the documented `syntax `_. The engine is designed to complete execution in linear time as well as limit the amount of memory used. Envoy supports program size checking via runtime. The runtime keys ``re2.max_program_size.error_level`` and ``re2.max_program_size.warn_level`` can be set to integers as the maximum program size or complexity that a compiled regex can have before an exception is thrown or a warning is logged, respectively. ``re2.max_program_size.error_level`` defaults to 100, and ``re2.max_program_size.warn_level`` has no default if unset (will not check/log a warning). Envoy emits two stats for tracking the program size of regexes: the histogram ``re2.program_size``, which records the program size, and the counter ``re2.exceeded_warn_level``, which is incremented each time the program size exceeds the warn level threshold. */
 export interface GoogleRE2 {
@@ -130,50 +136,44 @@ export interface RegexMatcher {
 }
 /** Specifies the way to match a string. [#next-free-field: 9] */
 export interface StringMatcher {
-  /** The input string must match exactly the string specified here. Examples: * ``abc`` only matches the value ``abc``. */
-  exact?: string;
-  /** Use an extension as the matcher type. [#extension-category: envoy.string_matcher] */
-  custom?: TypedExtensionConfig;
   /** If ``true``, indicates the exact/prefix/suffix/contains matching should be case insensitive. This has no effect for the ``safe_regex`` match. For example, the matcher ``data`` will match both input string ``Data`` and ``data`` if this option is set to ``true``. */
   ignoreCase?: boolean;
+  /** Use an extension as the matcher type. [#extension-category: envoy.string_matcher] */
+  custom?: TypedExtensionConfig;
   /** The input string must have the substring specified here. .. note:: Empty contains match is not allowed, please use ``safe_regex`` instead. Examples: * ``abc`` matches the value ``xyz.abc.def`` */
   contains?: string;
-  /** The input string must have the prefix specified here. .. note:: Empty prefix match is not allowed, please use ``safe_regex`` instead. Examples: * ``abc`` matches the value ``abc.xyz`` */
-  prefix?: string;
-  /** The input string must have the suffix specified here. .. note:: Empty suffix match is not allowed, please use ``safe_regex`` instead. Examples: * ``abc`` matches the value ``xyz.abc`` */
-  suffix?: string;
   /** The input string must match the regular expression specified here. */
   safeRegex?: RegexMatcher;
+  /** The input string must have the suffix specified here. .. note:: Empty suffix match is not allowed, please use ``safe_regex`` instead. Examples: * ``abc`` matches the value ``xyz.abc`` */
+  suffix?: string;
+  /** The input string must match exactly the string specified here. Examples: * ``abc`` only matches the value ``abc``. */
+  exact?: string;
+  /** The input string must have the prefix specified here. .. note:: Empty prefix match is not allowed, please use ``safe_regex`` instead. Examples: * ``abc`` matches the value ``abc.xyz`` */
+  prefix?: string;
 }
 /** Specifies the way to match a Protobuf::Value. Primitive values and ListValue are supported. StructValue is not supported and is always not matched. [#next-free-field: 8] */
 export interface ValueMatcher {
-  /** If specified, a match occurs if and only if the target value is a double value and is matched to this field. */
-  doubleMatch?: DoubleMatcher;
-  /** If specified, a match occurs if and only if any of the alternatives in the match accept the value. */
-  orMatch?: OrMatcher;
-  /** If specified, a match occurs if and only if the target value is a bool value and is equal to this field. */
-  boolMatch?: boolean;
   /** If specified, a match occurs if and only if the target value is a list value and is matched to this field. */
   listMatch?: ListMatcher;
   /** If specified, a match occurs if and only if the target value is a NullValue. */
   nullMatch?: NullMatch;
-  /** If specified, value match will be performed based on whether the path is referring to a valid primitive value in the metadata. If the path is referring to a non-primitive value, the result is always not matched. */
-  presentMatch?: boolean;
+  /** If specified, a match occurs if and only if the target value is a bool value and is equal to this field. */
+  boolMatch?: boolean;
+  /** If specified, a match occurs if and only if the target value is a double value and is matched to this field. */
+  doubleMatch?: DoubleMatcher;
+  /** If specified, a match occurs if and only if any of the alternatives in the match accept the value. */
+  orMatch?: OrMatcher;
   /** If specified, a match occurs if and only if the target value is a string value and is matched to this field. */
   stringMatch?: StringMatcher;
+  /** If specified, value match will be performed based on whether the path is referring to a valid primitive value in the metadata. If the path is referring to a non-primitive value, the result is always not matched. */
+  presentMatch?: boolean;
 }
-/** Specifies the segment in a path to retrieve value from Struct. */
-export interface PathSegment {
-  /** If specified, use the key to retrieve the value in a Struct. */
-  key?: string;
-}
-export type PathSegmentList = Array<PathSegment>;
 /** StructMatcher provides a general interface to check if a given value is matched in google.protobuf.Struct. It uses ``path`` to retrieve the value from the struct and then check if it's matched to the specified value. For example, for the following Struct: .. code-block:: yaml fields: a: struct_value: fields: b: struct_value: fields: c: string_value: pro t: list_value: values: - string_value: m - string_value: n The following MetadataMatcher is matched as the path [a, b, c] will retrieve a string value "pro" from the Metadata which is matched to the specified prefix match. .. code-block:: yaml path: - key: a - key: b - key: c value: string_match: prefix: pr The following StructMatcher is matched as the code will match one of the string values in the list at the path [a, t]. .. code-block:: yaml path: - key: a - key: t value: list_match: one_of: string_match: exact: m An example use of StructMatcher is to match metadata in envoy.v*.core.Node. */
 export interface StructMatcher {
-  /** The StructMatcher is matched if the value retrieved by path is matched to this value. */
-  value?: ValueMatcher;
   /** The path to retrieve the Value from the Struct. */
   path?: PathSegmentList;
+  /** The StructMatcher is matched if the value retrieved by path is matched to this value. */
+  value?: ValueMatcher;
 }
 export type StructMatcherList = Array<StructMatcher>;
 /** Specifies the way to match a Node. The match follows AND semantics. */
@@ -184,7 +184,58 @@ export interface NodeMatcher {
   nodeId?: StringMatcher;
 }
 export type NodeMatcherList = Array<NodeMatcher>;
-export type StringList = Array<string>;
+/** Identifies location of where either Envoy runs or where upstream hosts run. */
+export interface Locality {
+  /** Defines the local service zone where Envoy is running. Though optional, it should be set if discovery service routing is used and the discovery service exposes :ref:`zone data `, either in this message or via :option:`--service-zone`. The meaning of zone is context dependent, e.g. `Availability Zone (AZ) `_ on AWS, `Zone `_ on GCP, etc. */
+  zone?: string;
+  /** Region this :ref:`zone ` belongs to. */
+  region?: string;
+  /** When used for locality of upstream hosts, this field further splits zone into smaller chunks of sub-zones so they can be load balanced independently. */
+  subZone?: string;
+}
+export type StringMap = { [key: string]: string | undefined };
+/** Additional parameters that can be used to select resource variants. These include any global context parameters, per-resource type client feature capabilities and per-resource type functional attributes. All per-resource type attributes will be `xds.resource.` prefixed and some of these are documented below: `xds.resource.listening_address`: The value is "IP:port" (e.g. "10.1.1.3:8080") which is the listening address of a Listener. Used in a Listener resource query. */
+export interface ContextParams {
+  params?: StringMap;
+}
+export type ContextParamsMap = { [key: string]: ContextParams | undefined };
+/** The address represents an envoy internal listener. [#comment: */
+export interface EnvoyInternalAddress {
+  /** Specifies the :ref:`name ` of the internal listener. */
+  serverListenerName?: string;
+  /** Specifies an endpoint identifier to distinguish between multiple endpoints for the same internal listener in a single upstream pool. Only used in the upstream addresses for tracking changes to individual endpoints. This, for example, may be set to the final destination IP for the target internal listener. */
+  endpointId?: string;
+}
+export interface Pipe {
+  /** The mode for the Pipe. Not applicable for abstract sockets. */
+  mode?: number;
+  /** Unix Domain Socket path. On Linux, paths starting with '@' will use the abstract namespace. The starting '@' is replaced by a null byte by Envoy. Paths starting with '@' will result in an error in environments other than Linux. */
+  path?: string;
+}
+export type SocketAddressProtocolEnum = "TCP" | "UDP";
+/** [#next-free-field: 8] */
+export interface SocketAddress {
+  /** Filepath that specifies the Linux network namespace this socket will be created in (see ``man 7 network_namespaces``). If this field is set, Envoy will create the socket in the specified network namespace. .. note:: Setting this parameter requires Envoy to run with the ``CAP_SYS_ADMIN`` capability. .. attention:: Network namespaces are only configurable on Linux. Otherwise, this field has no effect. */
+  networkNamespaceFilepath?: string;
+  portValue?: number;
+  protocol?: SocketAddressProtocolEnum | (string & {});
+  /** The name of the custom resolver. This must have been registered with Envoy. If this is empty, a context dependent default applies. If the address is a concrete IP address, no resolution will occur. If address is a hostname this should be set for resolution other than DNS. Specifying a custom resolver with ``STRICT_DNS`` or ``LOGICAL_DNS`` will generate an error at runtime. */
+  resolverName?: string;
+  /** The address for this socket. :ref:`Listeners ` will bind to the address. An empty address is not allowed. Specify ``0.0.0.0`` or ``::`` to bind to any address. [#comment:TODO(zuercher) reinstate when implemented: It is possible to distinguish a Listener address via the prefix/suffix matching in :ref:`FilterChainMatch `.] When used within an upstream :ref:`BindConfig `, the address controls the source address of outbound connections. For :ref:`clusters `, the cluster type determines whether the address must be an IP (``STATIC`` or ``EDS`` clusters) or a hostname resolved by DNS (``STRICT_DNS`` or ``LOGICAL_DNS`` clusters). Address resolution can be customized via :ref:`resolver_name `. */
+  address?: string;
+  /** When binding to an IPv6 address above, this enables `IPv4 compatibility `_. Binding to ``::`` will allow both IPv4 and IPv6 connections, with peer IPv4 addresses mapped into IPv6 space as ``::FFFF:``. */
+  ipv4Compat?: boolean;
+  /** This is only valid if :ref:`resolver_name ` is specified below and the named resolver is capable of named port resolution. */
+  namedPort?: string;
+}
+/** Addresses specify either a logical or physical address and port, which are used to tell Envoy where to bind/listen, connect to upstream and find management servers. */
+export interface Address {
+  /** Specifies a user-space address handled by :ref:`internal listeners `. */
+  envoyInternalAddress?: EnvoyInternalAddress;
+  pipe?: Pipe;
+  socketAddress?: SocketAddress;
+}
+export type AddressList = Array<Address>;
 /** Envoy uses SemVer (https://semver.org/). Major/minor versions indicate expected behaviors and APIs, the patch version field is used only for security fixes and can be generally ignored. */
 export interface SemanticVersion {
   patch?: number;
@@ -198,112 +249,67 @@ export interface BuildVersion {
   /** Free-form build information. Envoy defines several well known keys in the source/common/version/version.h file */
   metadata?: DocumentMap;
 }
+export type StringList = Array<string>;
 /** Version and identification for an Envoy extension. [#next-free-field: 7] */
 export interface Extension {
-  /** Type URLs of extension configuration protos. */
-  typeUrls?: StringList;
-  /** Indicates that the extension is present but was disabled via dynamic configuration. */
-  disabled?: boolean;
   /** [#not-implemented-hide:] Type descriptor of extension configuration proto. [#comment: */
   typeDescriptor?: string;
-  /** The version is a property of the extension and maintained independently of other extensions and the Envoy API. This field is not set when extension did not provide version information. */
-  version?: BuildVersion;
   /** This is the name of the Envoy filter as specified in the Envoy configuration, e.g. envoy.filters.http.router, com.acme.widget. */
   name?: string;
   /** Category of the extension. Extension category names use reverse DNS notation. For instance "envoy.filters.listener" for Envoy's built-in listener filters or "com.acme.filters.http" for HTTP filters from acme.com vendor. [#comment: */
   category?: string;
+  /** Indicates that the extension is present but was disabled via dynamic configuration. */
+  disabled?: boolean;
+  /** Type URLs of extension configuration protos. */
+  typeUrls?: StringList;
+  /** The version is a property of the extension and maintained independently of other extensions and the Envoy API. This field is not set when extension did not provide version information. */
+  version?: BuildVersion;
 }
 export type ExtensionList = Array<Extension>;
-/** Identifies location of where either Envoy runs or where upstream hosts run. */
-export interface Locality {
-  /** Defines the local service zone where Envoy is running. Though optional, it should be set if discovery service routing is used and the discovery service exposes :ref:`zone data `, either in this message or via :option:`--service-zone`. The meaning of zone is context dependent, e.g. `Availability Zone (AZ) `_ on AWS, `Zone `_ on GCP, etc. */
-  zone?: string;
-  /** When used for locality of upstream hosts, this field further splits zone into smaller chunks of sub-zones so they can be load balanced independently. */
-  subZone?: string;
-  /** Region this :ref:`zone ` belongs to. */
-  region?: string;
-}
-export type StringMap = { [key: string]: string | undefined };
-/** Additional parameters that can be used to select resource variants. These include any global context parameters, per-resource type client feature capabilities and per-resource type functional attributes. All per-resource type attributes will be `xds.resource.` prefixed and some of these are documented below: `xds.resource.listening_address`: The value is "IP:port" (e.g. "10.1.1.3:8080") which is the listening address of a Listener. Used in a Listener resource query. */
-export interface ContextParams {
-  params?: StringMap;
-}
-export type ContextParamsMap = { [key: string]: ContextParams | undefined };
-export interface Pipe {
-  /** Unix Domain Socket path. On Linux, paths starting with '@' will use the abstract namespace. The starting '@' is replaced by a null byte by Envoy. Paths starting with '@' will result in an error in environments other than Linux. */
-  path?: string;
-  /** The mode for the Pipe. Not applicable for abstract sockets. */
-  mode?: number;
-}
-export type SocketAddressProtocolEnum = "TCP" | "UDP";
-/** [#next-free-field: 8] */
-export interface SocketAddress {
-  portValue?: number;
-  protocol?: SocketAddressProtocolEnum | (string & {});
-  /** This is only valid if :ref:`resolver_name ` is specified below and the named resolver is capable of named port resolution. */
-  namedPort?: string;
-  /** The address for this socket. :ref:`Listeners ` will bind to the address. An empty address is not allowed. Specify ``0.0.0.0`` or ``::`` to bind to any address. [#comment:TODO(zuercher) reinstate when implemented: It is possible to distinguish a Listener address via the prefix/suffix matching in :ref:`FilterChainMatch `.] When used within an upstream :ref:`BindConfig `, the address controls the source address of outbound connections. For :ref:`clusters `, the cluster type determines whether the address must be an IP (``STATIC`` or ``EDS`` clusters) or a hostname resolved by DNS (``STRICT_DNS`` or ``LOGICAL_DNS`` clusters). Address resolution can be customized via :ref:`resolver_name `. */
-  address?: string;
-  /** When binding to an IPv6 address above, this enables `IPv4 compatibility `_. Binding to ``::`` will allow both IPv4 and IPv6 connections, with peer IPv4 addresses mapped into IPv6 space as ``::FFFF:``. */
-  ipv4Compat?: boolean;
-  /** The name of the custom resolver. This must have been registered with Envoy. If this is empty, a context dependent default applies. If the address is a concrete IP address, no resolution will occur. If address is a hostname this should be set for resolution other than DNS. Specifying a custom resolver with ``STRICT_DNS`` or ``LOGICAL_DNS`` will generate an error at runtime. */
-  resolverName?: string;
-  /** Filepath that specifies the Linux network namespace this socket will be created in (see ``man 7 network_namespaces``). If this field is set, Envoy will create the socket in the specified network namespace. .. note:: Setting this parameter requires Envoy to run with the ``CAP_SYS_ADMIN`` capability. .. attention:: Network namespaces are only configurable on Linux. Otherwise, this field has no effect. */
-  networkNamespaceFilepath?: string;
-}
-/** The address represents an envoy internal listener. [#comment: */
-export interface EnvoyInternalAddress {
-  /** Specifies the :ref:`name ` of the internal listener. */
-  serverListenerName?: string;
-  /** Specifies an endpoint identifier to distinguish between multiple endpoints for the same internal listener in a single upstream pool. Only used in the upstream addresses for tracking changes to individual endpoints. This, for example, may be set to the final destination IP for the target internal listener. */
-  endpointId?: string;
-}
-/** Addresses specify either a logical or physical address and port, which are used to tell Envoy where to bind/listen, connect to upstream and find management servers. */
-export interface Address {
-  pipe?: Pipe;
-  socketAddress?: SocketAddress;
-  /** Specifies a user-space address handled by :ref:`internal listeners `. */
-  envoyInternalAddress?: EnvoyInternalAddress;
-}
-export type AddressList = Array<Address>;
 /** Identifies a specific Envoy instance. The node identifier is presented to the management server, which may use this identifier to distinguish per Envoy configuration for serving. [#next-free-field: 13] */
 export interface Node {
-  /** List of extensions and their versions supported by the node. */
-  extensions?: ExtensionList;
-  /** Opaque metadata extending the node identifier. Envoy will pass this directly to the management server. */
-  metadata?: DocumentMap;
   /** Locality specifying where the Envoy instance is running. */
   locality?: Locality;
   /** Map from xDS resource type URL to dynamic context parameters. These may vary at runtime (unlike other fields in this message). For example, the xDS client may have a shard identifier that changes during the lifetime of the xDS client. In Envoy, this would be achieved by updating the dynamic context on the Server::Instance's LocalInfo context provider. The shard ID dynamic parameter then appears in this field during future discovery requests. */
   dynamicParameters?: ContextParamsMap;
+  /** Opaque metadata extending the node identifier. Envoy will pass this directly to the management server. */
+  metadata?: DocumentMap;
+  /** Known listening ports on the node as a generic hint to the management server for filtering :ref:`listeners ` to be returned. For example, if there is a listener bound to port 80, the list can optionally contain the SocketAddress ``(0.0.0.0,80)``. The field is optional and just a hint. */
+  listeningAddresses?: AddressList;
+  /** Structured version of the entity requesting config. */
+  userAgentBuildVersion?: BuildVersion;
   /** An opaque node identifier for the Envoy node. This also provides the local service node name. It should be set if any of the following features are used: :ref:`statsd `, :ref:`CDS `, and :ref:`HTTP tracing `, either in this message or via :option:`--service-node`. */
   id?: string;
   /** Defines the local service cluster name where Envoy is running. Though optional, it should be set if any of the following features are used: :ref:`statsd `, :ref:`health check cluster verification `, :ref:`runtime override directory `, :ref:`user agent addition `, :ref:`HTTP global rate limiting `, :ref:`CDS `, and :ref:`HTTP tracing `, either in this message or via :option:`--service-cluster`. */
   cluster?: string;
-  /** Free-form string that identifies the entity requesting config. E.g. "envoy" or "grpc" */
-  userAgentName?: string;
   /** Client feature support list. These are well known features described in the Envoy API repository for a given major version of an API. Client features use reverse DNS naming scheme, for example ``com.acme.feature``. See :ref:`the list of features ` that xDS client may support. */
   clientFeatures?: StringList;
-  /** Structured version of the entity requesting config. */
-  userAgentBuildVersion?: BuildVersion;
-  /** Known listening ports on the node as a generic hint to the management server for filtering :ref:`listeners ` to be returned. For example, if there is a listener bound to port 80, the list can optionally contain the SocketAddress ``(0.0.0.0,80)``. The field is optional and just a hint. */
-  listeningAddresses?: AddressList;
+  /** List of extensions and their versions supported by the node. */
+  extensions?: ExtensionList;
   /** Free-form string that identifies the version of the entity requesting config. E.g. "1.12.2" or "abcd1234", or "SpecialEnvoyBuild" */
   userAgentVersion?: string;
+  /** Free-form string that identifies the entity requesting config. E.g. "envoy" or "grpc" */
+  userAgentName?: string;
 }
 /** Request for client status of clients identified by a list of NodeMatchers. */
 export interface ClientStatusRequest {
   /** Management server can use these match criteria to identify clients. The match follows OR semantics. */
   nodeMatchers?: NodeMatcherList;
-  /** The node making the csds request. */
-  node?: Node;
   /** If true, the server will not include the resource contents in the response (i.e., the generic_xds_configs.xds_config field will not be populated). [#not-implemented-hide:] */
   excludeResourceContents?: boolean;
+  /** The node making the csds request. */
+  node?: Node;
 }
 export interface Client_statusDiscoveryRequest {
   /** Request body */
   body?: ClientStatusRequest;
 }
+export type GenericXdsConfigConfigStatusEnum =
+  | "UNKNOWN"
+  | "SYNCED"
+  | "NOT_SENT"
+  | "STALE"
+  | "ERROR";
 export type GenericXdsConfigClientStatusEnum =
   | "UNKNOWN"
   | "REQUESTED"
@@ -312,42 +318,36 @@ export type GenericXdsConfigClientStatusEnum =
   | "NACKED"
   | "RECEIVED_ERROR"
   | "TIMEOUT";
-export type GenericXdsConfigConfigStatusEnum =
-  | "UNKNOWN"
-  | "SYNCED"
-  | "NOT_SENT"
-  | "STALE"
-  | "ERROR";
 export interface UpdateFailureState {
   /** Time of the latest failed update attempt. */
   lastUpdateAttempt?: string;
-  /** Details about the last failed update attempt. */
-  details?: string;
   /** What the component configuration would have been if the update had succeeded. This field may not be populated by xDS clients due to storage overhead. */
   failedConfiguration?: DocumentMap;
+  /** Details about the last failed update attempt. */
+  details?: string;
   /** This is the version of the rejected resource. [#not-implemented-hide:] */
   versionInfo?: string;
 }
 /** GenericXdsConfig is used to specify the config status and the dump of any xDS resource identified by their type URL. It is the generalized version of the now deprecated ListenersConfigDump, ClustersConfigDump etc [#next-free-field: 10] */
 export interface GenericXdsConfig {
-  /** Timestamp when the xDS resource was last updated */
-  lastUpdated?: string;
-  /** Name of the xDS resource */
-  name?: string;
-  /** Per xDS resource status from the view of a xDS client */
-  clientStatus?: GenericXdsConfigClientStatusEnum;
   /** Per xDS resource config status. It is generated by management servers. It will not be present if the CSDS server is an xDS client. */
   configStatus?: GenericXdsConfigConfigStatusEnum;
-  /** Set if the last update failed, cleared after the next successful update. The *error_state* field contains the rejected version of this particular resource along with the reason and timestamp. For successfully updated or acknowledged resource, this field should be empty. [#not-implemented-hide:] */
-  errorState?: UpdateFailureState;
+  /** Per xDS resource status from the view of a xDS client */
+  clientStatus?: GenericXdsConfigClientStatusEnum;
+  /** Name of the xDS resource */
+  name?: string;
+  /** Type_url represents the fully qualified name of xDS resource type like envoy.v3.Cluster, envoy.v3.ClusterLoadAssignment etc. */
+  typeUrl?: string;
   /** Is static resource is true if it is specified in the config supplied through the file at the startup. */
   isStaticResource?: boolean;
   /** The xDS resource config. Actual content depends on the type */
   xdsConfig?: DocumentMap;
+  /** Timestamp when the xDS resource was last updated */
+  lastUpdated?: string;
+  /** Set if the last update failed, cleared after the next successful update. The *error_state* field contains the rejected version of this particular resource along with the reason and timestamp. For successfully updated or acknowledged resource, this field should be empty. [#not-implemented-hide:] */
+  errorState?: UpdateFailureState;
   /** This is the :ref:`version_info ` in the last processed xDS discovery response. If there are only static bootstrap listeners, this field will be "" */
   versionInfo?: string;
-  /** Type_url represents the fully qualified name of xDS resource type like envoy.v3.Cluster, envoy.v3.ClusterLoadAssignment etc. */
-  typeUrl?: string;
 }
 export type GenericXdsConfigList = Array<GenericXdsConfig>;
 /** Describes a statically loaded listener. */
@@ -359,10 +359,10 @@ export interface StaticListener {
 }
 export type StaticListenerList = Array<StaticListener>;
 export interface DynamicListenerState {
-  /** This is the per-resource version information. This version is currently taken from the :ref:`version_info ` field at the time that the listener was loaded. In the future, discrete per-listener versions may be supported by the API. */
-  versionInfo?: string;
   /** The timestamp when the Listener was last successfully updated. */
   lastUpdated?: string;
+  /** This is the per-resource version information. This version is currently taken from the :ref:`version_info ` field at the time that the listener was loaded. In the future, discrete per-listener versions may be supported by the API. */
+  versionInfo?: string;
   /** The listener config. */
   listener?: DocumentMap;
 }
@@ -376,30 +376,29 @@ export type DynamicListenerClientStatusEnum =
   | "TIMEOUT";
 /** Describes a dynamically loaded listener via the LDS API. [#next-free-field: 7] */
 export interface DynamicListener {
-  /** Set if the last update failed, cleared after the next successful update. The ``error_state`` field contains the rejected version of this particular resource along with the reason and timestamp. For successfully updated or acknowledged resource, this field should be empty. */
-  errorState?: UpdateFailureState;
-  /** The listener state for any warming listener by this name. These are listeners that are currently undergoing warming in preparation to service data plane traffic. Note that if attempting to recreate an Envoy configuration from a configuration dump, the warming listeners should generally be discarded. */
-  warmingState?: DynamicListenerState;
-  /** The client status of this resource. [#not-implemented-hide:] */
-  clientStatus?: DynamicListenerClientStatusEnum;
-  /** The listener state for any active listener by this name. These are listeners that are available to service data plane traffic. */
-  activeState?: DynamicListenerState;
   /** The listener state for any draining listener by this name. These are listeners that are currently undergoing draining in preparation to stop servicing data plane traffic. Note that if attempting to recreate an Envoy configuration from a configuration dump, the draining listeners should generally be discarded. */
   drainingState?: DynamicListenerState;
+  /** The listener state for any active listener by this name. These are listeners that are available to service data plane traffic. */
+  activeState?: DynamicListenerState;
   /** The name or unique id of this listener, pulled from the DynamicListenerState config. */
   name?: string;
+  /** The listener state for any warming listener by this name. These are listeners that are currently undergoing warming in preparation to service data plane traffic. Note that if attempting to recreate an Envoy configuration from a configuration dump, the warming listeners should generally be discarded. */
+  warmingState?: DynamicListenerState;
+  /** Set if the last update failed, cleared after the next successful update. The ``error_state`` field contains the rejected version of this particular resource along with the reason and timestamp. For successfully updated or acknowledged resource, this field should be empty. */
+  errorState?: UpdateFailureState;
+  /** The client status of this resource. [#not-implemented-hide:] */
+  clientStatus?: DynamicListenerClientStatusEnum;
 }
 export type DynamicListenerList = Array<DynamicListener>;
 /** Envoy's listener manager fills this message with all currently known listeners. Listener configuration information can be used to recreate an Envoy configuration by populating all listeners as static listeners or by returning them in a LDS response. */
 export interface ListenersConfigDump {
-  /** The statically loaded listener configs. */
-  staticListeners?: StaticListenerList;
   /** This is the :ref:`version_info ` in the last processed LDS discovery response. If there are only static bootstrap listeners, this field will be "". */
   versionInfo?: string;
+  /** The statically loaded listener configs. */
+  staticListeners?: StaticListenerList;
   /** State for any warming, active, or draining listeners. */
   dynamicListeners?: DynamicListenerList;
 }
-export type PerXdsConfigStatusEnum = "UNKNOWN" | "SYNCED" | "NOT_SENT" | "STALE" | "ERROR";
 export interface StaticRouteConfig {
   /** The route config. */
   routeConfig?: DocumentMap;
@@ -417,16 +416,16 @@ export type DynamicRouteConfigClientStatusEnum =
   | "TIMEOUT";
 /** [#next-free-field: 6] */
 export interface DynamicRouteConfig {
-  /** Set if the last update failed, cleared after the next successful update. The ``error_state`` field contains the rejected version of this particular resource along with the reason and timestamp. For successfully updated or acknowledged resource, this field should be empty. [#not-implemented-hide:] */
-  errorState?: UpdateFailureState;
-  /** The timestamp when the Route was last updated. */
-  lastUpdated?: string;
   /** The route config. */
   routeConfig?: DocumentMap;
-  /** The client status of this resource. [#not-implemented-hide:] */
-  clientStatus?: DynamicRouteConfigClientStatusEnum;
   /** This is the per-resource version information. This version is currently taken from the :ref:`version_info ` field at the time that the route configuration was loaded. */
   versionInfo?: string;
+  /** Set if the last update failed, cleared after the next successful update. The ``error_state`` field contains the rejected version of this particular resource along with the reason and timestamp. For successfully updated or acknowledged resource, this field should be empty. [#not-implemented-hide:] */
+  errorState?: UpdateFailureState;
+  /** The client status of this resource. [#not-implemented-hide:] */
+  clientStatus?: DynamicRouteConfigClientStatusEnum;
+  /** The timestamp when the Route was last updated. */
+  lastUpdated?: string;
 }
 export type DynamicRouteConfigList = Array<DynamicRouteConfig>;
 /** Envoy's RDS implementation fills this message with all currently loaded routes, as described by their RouteConfiguration objects. Static routes that are either defined in the bootstrap configuration or defined inline while configuring listeners are separated from those configured dynamically via RDS. Route configuration information can be used to recreate an Envoy configuration by populating all routes as static routes or by returning them in RDS responses. */
@@ -436,7 +435,42 @@ export interface RoutesConfigDump {
   /** The dynamically loaded route configs. */
   dynamicRouteConfigs?: DynamicRouteConfigList;
 }
-export type DocumentMapList = Array<DocumentMap>;
+export interface StaticEndpointConfig {
+  /** [#not-implemented-hide:] The timestamp when the Endpoint was last updated. */
+  lastUpdated?: string;
+  /** The endpoint config. */
+  endpointConfig?: DocumentMap;
+}
+export type StaticEndpointConfigList = Array<StaticEndpointConfig>;
+export type DynamicEndpointConfigClientStatusEnum =
+  | "UNKNOWN"
+  | "REQUESTED"
+  | "DOES_NOT_EXIST"
+  | "ACKED"
+  | "NACKED"
+  | "RECEIVED_ERROR"
+  | "TIMEOUT";
+/** [#next-free-field: 6] */
+export interface DynamicEndpointConfig {
+  /** The client status of this resource. [#not-implemented-hide:] */
+  clientStatus?: DynamicEndpointConfigClientStatusEnum;
+  /** Set if the last update failed, cleared after the next successful update. The ``error_state`` field contains the rejected version of this particular resource along with the reason and timestamp. For successfully updated or acknowledged resource, this field should be empty. [#not-implemented-hide:] */
+  errorState?: UpdateFailureState;
+  /** The endpoint config. */
+  endpointConfig?: DocumentMap;
+  /** [#not-implemented-hide:] The timestamp when the Endpoint was last updated. */
+  lastUpdated?: string;
+  /** [#not-implemented-hide:] This is the per-resource version information. This version is currently taken from the :ref:`version_info ` field at the time that the endpoint configuration was loaded. */
+  versionInfo?: string;
+}
+export type DynamicEndpointConfigList = Array<DynamicEndpointConfig>;
+/** Envoy's admin fill this message with all currently known endpoints. Endpoint configuration information can be used to recreate an Envoy configuration by populating all endpoints as static endpoints or by returning them in an EDS response. */
+export interface EndpointsConfigDump {
+  /** The statically loaded endpoint configs. */
+  staticEndpointConfigs?: StaticEndpointConfigList;
+  /** The dynamically loaded endpoint configs. */
+  dynamicEndpointConfigs?: DynamicEndpointConfigList;
+}
 export type DynamicScopedRouteConfigsClientStatusEnum =
   | "UNKNOWN"
   | "REQUESTED"
@@ -445,27 +479,28 @@ export type DynamicScopedRouteConfigsClientStatusEnum =
   | "NACKED"
   | "RECEIVED_ERROR"
   | "TIMEOUT";
+export type DocumentMapList = Array<DocumentMap>;
 /** [#next-free-field: 7] */
 export interface DynamicScopedRouteConfigs {
-  /** The scoped route configurations. */
-  scopedRouteConfigs?: DocumentMapList;
-  /** The client status of this resource. [#not-implemented-hide:] */
-  clientStatus?: DynamicScopedRouteConfigsClientStatusEnum;
   /** The timestamp when the scoped route config set was last updated. */
   lastUpdated?: string;
-  /** The name assigned to the scoped route configurations. */
-  name?: string;
-  /** This is the per-resource version information. This version is currently taken from the :ref:`version_info ` field at the time that the scoped routes configuration was loaded. */
-  versionInfo?: string;
   /** Set if the last update failed, cleared after the next successful update. The ``error_state`` field contains the rejected version of this particular resource along with the reason and timestamp. For successfully updated or acknowledged resource, this field should be empty. [#not-implemented-hide:] */
   errorState?: UpdateFailureState;
+  /** This is the per-resource version information. This version is currently taken from the :ref:`version_info ` field at the time that the scoped routes configuration was loaded. */
+  versionInfo?: string;
+  /** The name assigned to the scoped route configurations. */
+  name?: string;
+  /** The client status of this resource. [#not-implemented-hide:] */
+  clientStatus?: DynamicScopedRouteConfigsClientStatusEnum;
+  /** The scoped route configurations. */
+  scopedRouteConfigs?: DocumentMapList;
 }
 export type DynamicScopedRouteConfigsList = Array<DynamicScopedRouteConfigs>;
 export interface InlineScopedRouteConfigs {
-  /** The name assigned to the scoped route configurations. */
-  name?: string;
   /** The scoped route configurations. */
   scopedRouteConfigs?: DocumentMapList;
+  /** The name assigned to the scoped route configurations. */
+  name?: string;
   /** The timestamp when the scoped route config set was last updated. */
   lastUpdated?: string;
 }
@@ -483,6 +518,15 @@ export type PerXdsConfigClientStatusEnum =
   | "CLIENT_ACKED"
   | "CLIENT_NACKED"
   | "CLIENT_RECEIVED_ERROR";
+export type PerXdsConfigStatusEnum = "UNKNOWN" | "SYNCED" | "NOT_SENT" | "STALE" | "ERROR";
+/** Describes a statically loaded cluster. */
+export interface StaticCluster {
+  /** The cluster config. */
+  cluster?: DocumentMap;
+  /** The timestamp when the Cluster was last updated. */
+  lastUpdated?: string;
+}
+export type StaticClusterList = Array<StaticCluster>;
 export type DynamicClusterClientStatusEnum =
   | "UNKNOWN"
   | "REQUESTED"
@@ -495,82 +539,38 @@ export type DynamicClusterClientStatusEnum =
 export interface DynamicCluster {
   /** This is the per-resource version information. This version is currently taken from the :ref:`version_info ` field at the time that the cluster was loaded. In the future, discrete per-cluster versions may be supported by the API. */
   versionInfo?: string;
-  /** The cluster config. */
-  cluster?: DocumentMap;
   /** The client status of this resource. [#not-implemented-hide:] */
   clientStatus?: DynamicClusterClientStatusEnum;
-  /** The timestamp when the Cluster was last updated. */
-  lastUpdated?: string;
   /** Set if the last update failed, cleared after the next successful update. The ``error_state`` field contains the rejected version of this particular resource along with the reason and timestamp. For successfully updated or acknowledged resource, this field should be empty. [#not-implemented-hide:] */
   errorState?: UpdateFailureState;
-}
-export type DynamicClusterList = Array<DynamicCluster>;
-/** Describes a statically loaded cluster. */
-export interface StaticCluster {
   /** The timestamp when the Cluster was last updated. */
   lastUpdated?: string;
   /** The cluster config. */
   cluster?: DocumentMap;
 }
-export type StaticClusterList = Array<StaticCluster>;
+export type DynamicClusterList = Array<DynamicCluster>;
 /** Envoy's cluster manager fills this message with all currently known clusters. Cluster configuration information can be used to recreate an Envoy configuration by populating all clusters as static clusters or by returning them in a CDS response. */
 export interface ClustersConfigDump {
-  /** The dynamically loaded active clusters. These are clusters that are available to service data plane traffic. */
-  dynamicActiveClusters?: DynamicClusterList;
   /** The statically loaded cluster configs. */
   staticClusters?: StaticClusterList;
   /** The dynamically loaded warming clusters. These are clusters that are currently undergoing warming in preparation to service data plane traffic. Note that if attempting to recreate an Envoy configuration from a configuration dump, the warming clusters should generally be discarded. */
   dynamicWarmingClusters?: DynamicClusterList;
+  /** The dynamically loaded active clusters. These are clusters that are available to service data plane traffic. */
+  dynamicActiveClusters?: DynamicClusterList;
   /** This is the :ref:`version_info ` in the last processed CDS discovery response. If there are only static bootstrap clusters, this field will be "". */
   versionInfo?: string;
-}
-export interface StaticEndpointConfig {
-  /** The endpoint config. */
-  endpointConfig?: DocumentMap;
-  /** [#not-implemented-hide:] The timestamp when the Endpoint was last updated. */
-  lastUpdated?: string;
-}
-export type StaticEndpointConfigList = Array<StaticEndpointConfig>;
-export type DynamicEndpointConfigClientStatusEnum =
-  | "UNKNOWN"
-  | "REQUESTED"
-  | "DOES_NOT_EXIST"
-  | "ACKED"
-  | "NACKED"
-  | "RECEIVED_ERROR"
-  | "TIMEOUT";
-/** [#next-free-field: 6] */
-export interface DynamicEndpointConfig {
-  /** [#not-implemented-hide:] This is the per-resource version information. This version is currently taken from the :ref:`version_info ` field at the time that the endpoint configuration was loaded. */
-  versionInfo?: string;
-  /** The endpoint config. */
-  endpointConfig?: DocumentMap;
-  /** Set if the last update failed, cleared after the next successful update. The ``error_state`` field contains the rejected version of this particular resource along with the reason and timestamp. For successfully updated or acknowledged resource, this field should be empty. [#not-implemented-hide:] */
-  errorState?: UpdateFailureState;
-  /** The client status of this resource. [#not-implemented-hide:] */
-  clientStatus?: DynamicEndpointConfigClientStatusEnum;
-  /** [#not-implemented-hide:] The timestamp when the Endpoint was last updated. */
-  lastUpdated?: string;
-}
-export type DynamicEndpointConfigList = Array<DynamicEndpointConfig>;
-/** Envoy's admin fill this message with all currently known endpoints. Endpoint configuration information can be used to recreate an Envoy configuration by populating all endpoints as static endpoints or by returning them in an EDS response. */
-export interface EndpointsConfigDump {
-  /** The statically loaded endpoint configs. */
-  staticEndpointConfigs?: StaticEndpointConfigList;
-  /** The dynamically loaded endpoint configs. */
-  dynamicEndpointConfigs?: DynamicEndpointConfigList;
 }
 /** Detailed config (per xDS) with status. [#next-free-field: 8] */
 export interface PerXdsConfig {
   listenerConfig?: ListenersConfigDump;
-  /** Config status generated by management servers. Will not be present if the CSDS server is an xDS client. */
-  status?: PerXdsConfigStatusEnum;
   routeConfig?: RoutesConfigDump;
+  endpointConfig?: EndpointsConfigDump;
   scopedRouteConfig?: ScopedRoutesConfigDump;
   /** Client config status is populated by xDS clients. Will not be present if the CSDS server is an xDS server. No matter what the client config status is, xDS clients should always dump the most recent accepted xDS config. .. attention:: This field is deprecated. Use :ref:`ClientResourceStatus ` for per-resource config status instead. */
   clientStatus?: PerXdsConfigClientStatusEnum;
+  /** Config status generated by management servers. Will not be present if the CSDS server is an xDS client. */
+  status?: PerXdsConfigStatusEnum;
   clusterConfig?: ClustersConfigDump;
-  endpointConfig?: EndpointsConfigDump;
 }
 export type PerXdsConfigList = Array<PerXdsConfig>;
 /** All xds configs for a particular client. */
@@ -579,10 +579,10 @@ export interface ClientConfig {
   genericXdsConfigs?: GenericXdsConfigList;
   /** For xDS clients, the scope in which the data is used. For example, gRPC indicates the data plane target or that the data is associated with gRPC server(s). */
   clientScope?: string;
-  /** This field is deprecated in favor of generic_xds_configs which is much simpler and uniform in structure. */
-  xdsConfig?: PerXdsConfigList;
   /** Node for a particular client. */
   node?: Node;
+  /** This field is deprecated in favor of generic_xds_configs which is much simpler and uniform in structure. */
+  xdsConfig?: PerXdsConfigList;
 }
 export type ClientConfigList = Array<ClientConfig>;
 export interface ClientStatusResponse {
@@ -611,92 +611,92 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          key: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PathSegment" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          oneOf: S.optional(S.suspend(() => __S(13, __c0, 13))),
+        }),
+      ).annotate({ identifier: "ListMatcher" });
+    case 3:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "NullMatch" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           end: S.optional(S.Number),
           start: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DoubleRange" });
-    case 1:
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(0, __c0, 0)),
           exact: S.optional(S.Number),
+          range: S.optional(__S(4, __c0, 4)),
         }),
       ).annotate({ identifier: "DoubleMatcher" });
-    case 2:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(11, __c0, 11)));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          valueMatchers: S.optional(__S(2, __c0, 2)),
-        }),
-      ).annotate({ identifier: "OrMatcher" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          oneOf: S.optional(S.suspend(() => __S(11, __c0, 11))),
-        }),
-      ).annotate({ identifier: "ListMatcher" });
-    case 5:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "NullMatch" });
     case 6:
-      return S.Record(S.String, S.Unknown);
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(13, __c0, 13)));
     case 7:
       return S.suspend(() =>
         S.Struct({
+          valueMatchers: S.optional(__S(6, __c0, 6)),
+        }),
+      ).annotate({ identifier: "OrMatcher" });
+    case 8:
+      return S.Record(S.String, S.Unknown);
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          typedConfig: S.optional(__S(8, __c0, 8)),
           name: S.optional(S.String),
-          typedConfig: S.optional(__S(6, __c0, 6)),
         }),
       ).annotate({ identifier: "TypedExtensionConfig" });
-    case 8:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           maxProgramSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleRE2" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          googleRe2: S.optional(__S(8, __c0, 8)),
-          regex: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RegexMatcher" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          exact: S.optional(S.String),
-          custom: S.optional(__S(7, __c0, 7)),
-          ignoreCase: S.optional(S.Boolean),
-          contains: S.optional(S.String),
-          prefix: S.optional(S.String),
-          suffix: S.optional(S.String),
-          safeRegex: S.optional(__S(9, __c0, 9)),
-        }),
-      ).annotate({ identifier: "StringMatcher" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          doubleMatch: S.optional(__S(1, __c0, 1)),
-          orMatch: S.optional(__S(3, __c0, 3)),
-          boolMatch: S.optional(S.Boolean),
-          listMatch: S.optional(__S(4, __c0, 4)),
-          nullMatch: S.optional(__S(5, __c0, 5)),
-          presentMatch: S.optional(S.Boolean),
-          stringMatch: S.optional(__S(10, __c0, 10)),
+          googleRe2: S.optional(__S(10, __c0, 10)),
+          regex: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ValueMatcher" });
+      ).annotate({ identifier: "RegexMatcher" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          key: S.optional(S.String),
+          ignoreCase: S.optional(S.Boolean),
+          custom: S.optional(__S(9, __c0, 9)),
+          contains: S.optional(S.String),
+          safeRegex: S.optional(__S(11, __c0, 11)),
+          suffix: S.optional(S.String),
+          exact: S.optional(S.String),
+          prefix: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PathSegment" });
+      ).annotate({ identifier: "StringMatcher" });
     case 13:
-      return S.Array(__S(12, __c0, 12));
+      return S.suspend(() =>
+        S.Struct({
+          listMatch: S.optional(__S(2, __c0, 2)),
+          nullMatch: S.optional(__S(3, __c0, 3)),
+          boolMatch: S.optional(S.Boolean),
+          doubleMatch: S.optional(__S(5, __c0, 5)),
+          orMatch: S.optional(__S(7, __c0, 7)),
+          stringMatch: S.optional(__S(12, __c0, 12)),
+          presentMatch: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ValueMatcher" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(11, __c0, 11)),
-          path: S.optional(__S(13, __c0, 13)),
+          path: S.optional(__S(1, __c0, 1)),
+          value: S.optional(__S(13, __c0, 13)),
         }),
       ).annotate({ identifier: "StructMatcher" });
     case 15:
@@ -705,14 +705,66 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nodeMetadatas: S.optional(__S(15, __c0, 15)),
-          nodeId: S.optional(__S(10, __c0, 10)),
+          nodeId: S.optional(__S(12, __c0, 12)),
         }),
       ).annotate({ identifier: "NodeMatcher" });
     case 17:
       return S.Array(__S(16, __c0, 16));
     case 18:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          zone: S.optional(S.String),
+          region: S.optional(S.String),
+          subZone: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Locality" });
     case 19:
+      return S.Record(S.String, S.String);
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          params: S.optional(__S(19, __c0, 19)),
+        }),
+      ).annotate({ identifier: "ContextParams" });
+    case 21:
+      return S.Record(S.String, __S(20, __c0, 20));
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          serverListenerName: S.optional(S.String),
+          endpointId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnvoyInternalAddress" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          mode: S.optional(S.Number),
+          path: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Pipe" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          networkNamespaceFilepath: S.optional(S.String),
+          portValue: S.optional(S.Number),
+          protocol: S.optional(S.String),
+          resolverName: S.optional(S.String),
+          address: S.optional(S.String),
+          ipv4Compat: S.optional(S.Boolean),
+          namedPort: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SocketAddress" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          envoyInternalAddress: S.optional(__S(22, __c0, 22)),
+          pipe: S.optional(__S(23, __c0, 23)),
+          socketAddress: S.optional(__S(24, __c0, 24)),
+        }),
+      ).annotate({ identifier: "Address" });
+    case 26:
+      return S.Array(__S(25, __c0, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
           patch: S.optional(S.Number),
@@ -720,78 +772,26 @@ function __c0(j: number): any {
           minorNumber: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SemanticVersion" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          version: S.optional(__S(19, __c0, 19)),
-          metadata: S.optional(__S(6, __c0, 6)),
-        }),
-      ).annotate({ identifier: "BuildVersion" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          typeUrls: S.optional(__S(18, __c0, 18)),
-          disabled: S.optional(S.Boolean),
-          typeDescriptor: S.optional(S.String),
-          version: S.optional(__S(20, __c0, 20)),
-          name: S.optional(S.String),
-          category: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Extension" });
-    case 22:
-      return S.Array(__S(21, __c0, 21));
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          zone: S.optional(S.String),
-          subZone: S.optional(S.String),
-          region: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Locality" });
-    case 24:
-      return S.Record(S.String, S.String);
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          params: S.optional(__S(24, __c0, 24)),
-        }),
-      ).annotate({ identifier: "ContextParams" });
-    case 26:
-      return S.Record(S.String, __S(25, __c0, 25));
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.optional(S.String),
-          mode: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Pipe" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          portValue: S.optional(S.Number),
-          protocol: S.optional(S.String),
-          namedPort: S.optional(S.String),
-          address: S.optional(S.String),
-          ipv4Compat: S.optional(S.Boolean),
-          resolverName: S.optional(S.String),
-          networkNamespaceFilepath: S.optional(S.String),
+          version: S.optional(__S(27, __c0, 27)),
+          metadata: S.optional(__S(8, __c0, 8)),
         }),
-      ).annotate({ identifier: "SocketAddress" });
+      ).annotate({ identifier: "BuildVersion" });
     case 29:
-      return S.suspend(() =>
-        S.Struct({
-          serverListenerName: S.optional(S.String),
-          endpointId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnvoyInternalAddress" });
+      return S.Array(S.String);
     case 30:
       return S.suspend(() =>
         S.Struct({
-          pipe: S.optional(__S(27, __c0, 27)),
-          socketAddress: S.optional(__S(28, __c0, 28)),
-          envoyInternalAddress: S.optional(__S(29, __c0, 29)),
+          typeDescriptor: S.optional(S.String),
+          name: S.optional(S.String),
+          category: S.optional(S.String),
+          disabled: S.optional(S.Boolean),
+          typeUrls: S.optional(__S(29, __c0, 29)),
+          version: S.optional(__S(28, __c0, 28)),
         }),
-      ).annotate({ identifier: "Address" });
+      ).annotate({ identifier: "Extension" });
     case 31:
       return S.Array(__S(30, __c0, 30));
   }
@@ -801,25 +801,25 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          extensions: S.optional(__S(22, __c0, 22)),
-          metadata: S.optional(__S(6, __c0, 6)),
-          locality: S.optional(__S(23, __c0, 23)),
-          dynamicParameters: S.optional(__S(26, __c0, 26)),
+          locality: S.optional(__S(18, __c0, 18)),
+          dynamicParameters: S.optional(__S(21, __c0, 21)),
+          metadata: S.optional(__S(8, __c0, 8)),
+          listeningAddresses: S.optional(__S(26, __c0, 26)),
+          userAgentBuildVersion: S.optional(__S(28, __c0, 28)),
           id: S.optional(S.String),
           cluster: S.optional(S.String),
-          userAgentName: S.optional(S.String),
-          clientFeatures: S.optional(__S(18, __c0, 18)),
-          userAgentBuildVersion: S.optional(__S(20, __c0, 20)),
-          listeningAddresses: S.optional(__S(31, __c0, 31)),
+          clientFeatures: S.optional(__S(29, __c0, 29)),
+          extensions: S.optional(__S(31, __c0, 31)),
           userAgentVersion: S.optional(S.String),
+          userAgentName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Node" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           nodeMatchers: S.optional(__S(17, __c0, 17)),
-          node: S.optional(__S(32, __c1, 0)),
           excludeResourceContents: S.optional(S.Boolean),
+          node: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "ClientStatusRequest" });
     case 2:
@@ -838,23 +838,23 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           lastUpdateAttempt: S.optional(S.String),
+          failedConfiguration: S.optional(__S(8, __c0, 8)),
           details: S.optional(S.String),
-          failedConfiguration: S.optional(__S(6, __c0, 6)),
           versionInfo: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateFailureState" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          lastUpdated: S.optional(S.String),
-          name: S.optional(S.String),
-          clientStatus: S.optional(S.String),
           configStatus: S.optional(S.String),
-          errorState: S.optional(__S(35, __c1, 3)),
-          isStaticResource: S.optional(S.Boolean),
-          xdsConfig: S.optional(__S(6, __c0, 6)),
-          versionInfo: S.optional(S.String),
+          clientStatus: S.optional(S.String),
+          name: S.optional(S.String),
           typeUrl: S.optional(S.String),
+          isStaticResource: S.optional(S.Boolean),
+          xdsConfig: S.optional(__S(8, __c0, 8)),
+          lastUpdated: S.optional(S.String),
+          errorState: S.optional(__S(35, __c1, 3)),
+          versionInfo: S.optional(S.String),
         }),
       ).annotate({ identifier: "GenericXdsConfig" });
     case 5:
@@ -862,7 +862,7 @@ function __c1(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          listener: S.optional(__S(6, __c0, 6)),
+          listener: S.optional(__S(8, __c0, 8)),
           lastUpdated: S.optional(S.String),
         }),
       ).annotate({ identifier: "StaticListener" });
@@ -871,20 +871,20 @@ function __c1(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          versionInfo: S.optional(S.String),
           lastUpdated: S.optional(S.String),
-          listener: S.optional(__S(6, __c0, 6)),
+          versionInfo: S.optional(S.String),
+          listener: S.optional(__S(8, __c0, 8)),
         }),
       ).annotate({ identifier: "DynamicListenerState" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          errorState: S.optional(__S(35, __c1, 3)),
-          warmingState: S.optional(__S(40, __c1, 8)),
-          clientStatus: S.optional(S.String),
-          activeState: S.optional(__S(40, __c1, 8)),
           drainingState: S.optional(__S(40, __c1, 8)),
+          activeState: S.optional(__S(40, __c1, 8)),
           name: S.optional(S.String),
+          warmingState: S.optional(__S(40, __c1, 8)),
+          errorState: S.optional(__S(35, __c1, 3)),
+          clientStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "DynamicListener" });
     case 10:
@@ -892,15 +892,15 @@ function __c1(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          staticListeners: S.optional(__S(39, __c1, 7)),
           versionInfo: S.optional(S.String),
+          staticListeners: S.optional(__S(39, __c1, 7)),
           dynamicListeners: S.optional(__S(42, __c1, 10)),
         }),
       ).annotate({ identifier: "ListenersConfigDump" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          routeConfig: S.optional(__S(6, __c0, 6)),
+          routeConfig: S.optional(__S(8, __c0, 8)),
           lastUpdated: S.optional(S.String),
         }),
       ).annotate({ identifier: "StaticRouteConfig" });
@@ -909,11 +909,11 @@ function __c1(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          errorState: S.optional(__S(35, __c1, 3)),
-          lastUpdated: S.optional(S.String),
-          routeConfig: S.optional(__S(6, __c0, 6)),
-          clientStatus: S.optional(S.String),
+          routeConfig: S.optional(__S(8, __c0, 8)),
           versionInfo: S.optional(S.String),
+          errorState: S.optional(__S(35, __c1, 3)),
+          clientStatus: S.optional(S.String),
+          lastUpdated: S.optional(S.String),
         }),
       ).annotate({ identifier: "DynamicRouteConfig" });
     case 15:
@@ -926,86 +926,84 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "RoutesConfigDump" });
     case 17:
-      return S.Array(__S(6, __c0, 6));
+      return S.suspend(() =>
+        S.Struct({
+          lastUpdated: S.optional(S.String),
+          endpointConfig: S.optional(__S(8, __c0, 8)),
+        }),
+      ).annotate({ identifier: "StaticEndpointConfig" });
     case 18:
-      return S.suspend(() =>
-        S.Struct({
-          scopedRouteConfigs: S.optional(__S(49, __c1, 17)),
-          clientStatus: S.optional(S.String),
-          lastUpdated: S.optional(S.String),
-          name: S.optional(S.String),
-          versionInfo: S.optional(S.String),
-          errorState: S.optional(__S(35, __c1, 3)),
-        }),
-      ).annotate({ identifier: "DynamicScopedRouteConfigs" });
+      return S.Array(__S(49, __c1, 17));
     case 19:
-      return S.Array(__S(50, __c1, 18));
-    case 20:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          scopedRouteConfigs: S.optional(__S(49, __c1, 17)),
+          clientStatus: S.optional(S.String),
+          errorState: S.optional(__S(35, __c1, 3)),
+          endpointConfig: S.optional(__S(8, __c0, 8)),
           lastUpdated: S.optional(S.String),
+          versionInfo: S.optional(S.String),
         }),
-      ).annotate({ identifier: "InlineScopedRouteConfigs" });
+      ).annotate({ identifier: "DynamicEndpointConfig" });
+    case 20:
+      return S.Array(__S(51, __c1, 19));
     case 21:
-      return S.Array(__S(52, __c1, 20));
-    case 22:
       return S.suspend(() =>
         S.Struct({
-          dynamicScopedRouteConfigs: S.optional(__S(51, __c1, 19)),
-          inlineScopedRouteConfigs: S.optional(__S(53, __c1, 21)),
+          staticEndpointConfigs: S.optional(__S(50, __c1, 18)),
+          dynamicEndpointConfigs: S.optional(__S(52, __c1, 20)),
         }),
-      ).annotate({ identifier: "ScopedRoutesConfigDump" });
+      ).annotate({ identifier: "EndpointsConfigDump" });
+    case 22:
+      return S.Array(__S(8, __c0, 8));
     case 23:
       return S.suspend(() =>
         S.Struct({
-          versionInfo: S.optional(S.String),
-          cluster: S.optional(__S(6, __c0, 6)),
-          clientStatus: S.optional(S.String),
           lastUpdated: S.optional(S.String),
           errorState: S.optional(__S(35, __c1, 3)),
+          versionInfo: S.optional(S.String),
+          name: S.optional(S.String),
+          clientStatus: S.optional(S.String),
+          scopedRouteConfigs: S.optional(__S(54, __c1, 22)),
         }),
-      ).annotate({ identifier: "DynamicCluster" });
+      ).annotate({ identifier: "DynamicScopedRouteConfigs" });
     case 24:
       return S.Array(__S(55, __c1, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
+          scopedRouteConfigs: S.optional(__S(54, __c1, 22)),
+          name: S.optional(S.String),
           lastUpdated: S.optional(S.String),
-          cluster: S.optional(__S(6, __c0, 6)),
         }),
-      ).annotate({ identifier: "StaticCluster" });
+      ).annotate({ identifier: "InlineScopedRouteConfigs" });
     case 26:
       return S.Array(__S(57, __c1, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
-          dynamicActiveClusters: S.optional(__S(56, __c1, 24)),
-          staticClusters: S.optional(__S(58, __c1, 26)),
-          dynamicWarmingClusters: S.optional(__S(56, __c1, 24)),
-          versionInfo: S.optional(S.String),
+          dynamicScopedRouteConfigs: S.optional(__S(56, __c1, 24)),
+          inlineScopedRouteConfigs: S.optional(__S(58, __c1, 26)),
         }),
-      ).annotate({ identifier: "ClustersConfigDump" });
+      ).annotate({ identifier: "ScopedRoutesConfigDump" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          endpointConfig: S.optional(__S(6, __c0, 6)),
+          cluster: S.optional(__S(8, __c0, 8)),
           lastUpdated: S.optional(S.String),
         }),
-      ).annotate({ identifier: "StaticEndpointConfig" });
+      ).annotate({ identifier: "StaticCluster" });
     case 29:
       return S.Array(__S(60, __c1, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
           versionInfo: S.optional(S.String),
-          endpointConfig: S.optional(__S(6, __c0, 6)),
-          errorState: S.optional(__S(35, __c1, 3)),
           clientStatus: S.optional(S.String),
+          errorState: S.optional(__S(35, __c1, 3)),
           lastUpdated: S.optional(S.String),
+          cluster: S.optional(__S(8, __c0, 8)),
         }),
-      ).annotate({ identifier: "DynamicEndpointConfig" });
+      ).annotate({ identifier: "DynamicCluster" });
     case 31:
       return S.Array(__S(62, __c1, 30));
   }
@@ -1015,20 +1013,22 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          staticEndpointConfigs: S.optional(__S(61, __c1, 29)),
-          dynamicEndpointConfigs: S.optional(__S(63, __c1, 31)),
+          staticClusters: S.optional(__S(61, __c1, 29)),
+          dynamicWarmingClusters: S.optional(__S(63, __c1, 31)),
+          dynamicActiveClusters: S.optional(__S(63, __c1, 31)),
+          versionInfo: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EndpointsConfigDump" });
+      ).annotate({ identifier: "ClustersConfigDump" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           listenerConfig: S.optional(__S(43, __c1, 11)),
-          status: S.optional(S.String),
           routeConfig: S.optional(__S(48, __c1, 16)),
-          scopedRouteConfig: S.optional(__S(54, __c1, 22)),
+          endpointConfig: S.optional(__S(53, __c1, 21)),
+          scopedRouteConfig: S.optional(__S(59, __c1, 27)),
           clientStatus: S.optional(S.String),
-          clusterConfig: S.optional(__S(59, __c1, 27)),
-          endpointConfig: S.optional(__S(64, __c2, 0)),
+          status: S.optional(S.String),
+          clusterConfig: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "PerXdsConfig" });
     case 2:
@@ -1038,8 +1038,8 @@ function __c2(j: number): any {
         S.Struct({
           genericXdsConfigs: S.optional(__S(37, __c1, 5)),
           clientScope: S.optional(S.String),
-          xdsConfig: S.optional(__S(66, __c2, 2)),
           node: S.optional(__S(32, __c1, 0)),
+          xdsConfig: S.optional(__S(66, __c2, 2)),
         }),
       ).annotate({ identifier: "ClientConfig" });
     case 4:

@@ -257,6 +257,7 @@ export interface AccountCompanyFormationSignatures {
   form8821?: AccountCompanyFormationSignatureRequest;
   /** Signature state for IRS Form SS-4, the EIN application. Present only while the form still needs the founder's action. */
   ss4?: AccountCompanyFormationSignatureRequest;
+  [key: string]: unknown;
 }
 export type AccountCompanyFormationStatus =
   | "draft"
@@ -275,6 +276,7 @@ export interface AccountCompanyFormation {
   /** Whether the state formation filing is complete. Present once `status` leaves `draft`. */
   state_registered?: boolean;
   status?: AccountCompanyFormationStatus;
+  [key: string]: unknown;
 }
 /** Public account home page preferences. */
 export type AccountHomePreferencesItem = "hide_member_count" | "hide_members_card";
@@ -1697,6 +1699,7 @@ export interface TransferAccountOwnershipResponse {
 export interface UpdateAccountRequestBannerImage {
   /** ID of a file from [Create File](/api-reference/files/create-file), prefixed `file_`. */
   id?: string;
+  [key: string]: unknown;
 }
 /** Account business address used to calculate tax. A complete address in a supported country is required when `tax_remitted_by` is `self`. */
 export interface UpdateAccountRequestBusinessAddress {
@@ -3281,9 +3284,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            id: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "UpdateAccountRequestBannerImage" });
     case 1:
       return S.suspend(() =>
@@ -3654,21 +3660,27 @@ function __c12(j: number): any {
       ).annotate({ identifier: "AccountCompanyFormationSignatureRequest" });
     case 11:
       return S.suspend(() =>
-        S.Struct({
-          form8821: S.optional(__S(394, __c12, 10)),
-          ss4: S.optional(__S(394, __c12, 10)),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            form8821: S.optional(__S(394, __c12, 10)),
+            ss4: S.optional(__S(394, __c12, 10)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "AccountCompanyFormationSignatures" });
     case 12:
       return S.suspend(() =>
-        S.Struct({
-          documents: S.optional(__S(393, __c12, 9)),
-          ein_registered: S.optional(S.Boolean),
-          legal_name: S.optional(S.NullOr(S.String)),
-          signatures: S.optional(__S(395, __c12, 11)),
-          state_registered: S.optional(S.Boolean),
-          status: S.optional(S.String),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            documents: S.optional(__S(393, __c12, 9)),
+            ein_registered: S.optional(S.Boolean),
+            legal_name: S.optional(S.NullOr(S.String)),
+            signatures: S.optional(__S(395, __c12, 11)),
+            state_registered: S.optional(S.Boolean),
+            status: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "AccountCompanyFormation" });
     case 13:
       return S.suspend(() =>

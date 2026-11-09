@@ -234,7 +234,10 @@ export interface ActionStepJSON {
   properties?: ActionStepJSONPropertiesList | null;
   /** CSS selector to match the target element (e.g. 'div > button.cta'). */
   selector?: string | null;
+  /** Compiled regex the selector matches against the event elements chain. Null when no selector is set. */
   selector_regex?: string | null;
+  /** Set when the selector compiles to a matcher that cannot match any event. Null when the selector is valid or absent. */
+  selector_warning: string | null;
   /** HTML tag name to match (e.g. "button", "a", "input"). */
   tag_name?: string | null;
   /** Element text content to match. */
@@ -331,12 +334,13 @@ export interface ListActionsRequest {
   /** JSON-encoded array of tag names, e.g. ["billing","beta"]. Returns actions having any of these tags. */
   tags?: string;
 }
-export type PaginatedActionListOutputResultsList = Array<ActionOutput>;
-export interface PaginatedActionListOutput {
+/** Actions on this page, or every matching action without `limit`. */
+export type ActionListResponseOutputResultsList = Array<ActionOutput>;
+export interface ActionListResponseOutput {
+  /** Number of actions that match the filters. Without `limit`, it is `offset` plus the number of actions returned. */
   count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedActionListOutputResultsList;
+  /** Actions on this page, or every matching action without `limit`. */
+  results?: ActionListResponseOutputResultsList;
 }
 export type ListActionsReferencesRequestFormat = "csv" | "json";
 export interface ListActionsReferencesRequest {
@@ -362,6 +366,28 @@ export interface ActionReference {
 }
 export type ListActionsReferencesResponseBodyList = Array<ActionReference>;
 export type ListActionsReferencesResponse = ListActionsReferencesResponseBodyList;
+export type ListActionsSelectorMatchChangesRequestActionIdsList = Array<number>;
+export type ListActionsSelectorMatchChangesRequestFormat = "csv" | "json";
+export interface ListActionsSelectorMatchChangesRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Action IDs used by the insight. Accepts repeated or comma-separated values. */
+  action_ids: ListActionsSelectorMatchChangesRequestActionIdsList;
+  format?: ListActionsSelectorMatchChangesRequestFormat | (string & {});
+}
+/** CSS selectors whose matching behavior changed, in action step order. */
+export type ActionSelectorMatchChangeSelectorsList = Array<string>;
+export interface ActionSelectorMatchChange {
+  /** ID of an affected action. */
+  action_id: number;
+  /** Name of the affected action, or null when it has no name. */
+  action_name: string | null;
+  /** CSS selectors whose matching behavior changed, in action step order. */
+  selectors: ActionSelectorMatchChangeSelectorsList;
+}
+export type ListActionsSelectorMatchChangesResponseBodyList = Array<ActionSelectorMatchChange>;
+export type ListActionsSelectorMatchChangesResponse =
+  ListActionsSelectorMatchChangesResponseBodyList;
 export type UpdateActionRequestFormat = "csv" | "json";
 export type UpdateActionRequestTagsList = Array<unknown>;
 /** Action steps defining trigger conditions. Each step matches events by name, properties, URL, or element attributes. Multiple steps are OR-ed together. */
@@ -424,8 +450,8 @@ export const actionsDestroy: API.OperationMethod<
   ActionsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ActionsDestroyRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<ActionsDestroyResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<ActionsDestroyRequest>,
+  output: __S(9, __c1, 1) as any as S.Schema<ActionsDestroyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -440,8 +466,8 @@ export const createAction: API.OperationMethod<
   CreateActionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<CreateActionRequest>,
-  output: __S(28, __c3, 4) as any as S.Schema<ActionOutput>,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateActionRequest>,
+  output: __S(36, __c4, 4) as any as S.Schema<ActionOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -456,8 +482,8 @@ export const getAction: API.OperationMethod<
   GetActionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetActionRequest>,
-  output: __S(28, __c3, 4) as any as S.Schema<ActionOutput>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetActionRequest>,
+  output: __S(36, __c4, 4) as any as S.Schema<ActionOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -468,12 +494,12 @@ export const getAction: API.OperationMethod<
 export type ListActionsError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const listActions: API.OperationMethod<
   ListActionsRequest,
-  PaginatedActionListOutput,
+  ActionListResponseOutput,
   ListActionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ListActionsRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<PaginatedActionListOutput>,
+  input: __S(56, __c7, 0) as any as S.Schema<ListActionsRequest>,
+  output: __S(58, __c7, 2) as any as S.Schema<ActionListResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -488,13 +514,29 @@ export const listActionsReferences: API.OperationMethod<
   ListActionsReferencesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<ListActionsReferencesRequest>,
-  output: __S(59, __c7, 3) as any as S.Schema<ListActionsReferencesResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<ListActionsReferencesRequest>,
+  output: __S(67, __c8, 3) as any as S.Schema<ListActionsReferencesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListActionsReferences",
+}));
+
+export type ListActionsSelectorMatchChangesError = PosthogOpError;
+export const listActionsSelectorMatchChanges: API.OperationMethod<
+  ListActionsSelectorMatchChangesRequest,
+  ListActionsSelectorMatchChangesResponse,
+  ListActionsSelectorMatchChangesError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(74, __c9, 2) as any as S.Schema<ListActionsSelectorMatchChangesRequest>,
+  output: __S(77, __c9, 5) as any as S.Schema<ListActionsSelectorMatchChangesResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActionsSelectorMatchChanges",
 }));
 
 export type UpdateActionError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -504,8 +546,8 @@ export const updateAction: API.OperationMethod<
   UpdateActionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<UpdateActionRequest>,
-  output: __S(28, __c3, 4) as any as S.Schema<ActionOutput>,
+  input: __S(80, __c10, 0) as any as S.Schema<UpdateActionRequest>,
+  output: __S(36, __c4, 4) as any as S.Schema<ActionOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -520,8 +562,8 @@ export const updateActionsPartial: API.OperationMethod<
   UpdateActionsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<UpdateActionsPartialRequest>,
-  output: __S(28, __c3, 4) as any as S.Schema<ActionOutput>,
+  input: __S(0, __c0, 0) as any as S.Schema<UpdateActionsPartialRequest>,
+  output: __S(36, __c4, 4) as any as S.Schema<ActionOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -538,12 +580,20 @@ function __c0(j: number): any {
           project_id: S.String.pipe(T.Label()),
           id: S.Number.pipe(T.Label()),
           format: S.optional(S.String.pipe(T.Query())),
+          name: S.optional(S.NullOr(S.String)),
+          description: S.optional(S.String),
+          tags: S.optional(__S(32, __c4, 0)),
+          post_to_slack: S.optional(S.Boolean),
+          slack_message_format: S.optional(S.String),
+          steps: S.optional(__S(41, __c5, 1)),
+          deleted: S.optional(S.Boolean),
+          last_calculated_at: S.optional(S.String),
+          pinned_at: S.optional(S.NullOr(S.String)),
+          _create_in_folder: S.optional(S.String),
         }).pipe(
-          T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/actions/{id}/", code: 200 }),
+          T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/actions/{id}/", code: 200 }),
         ),
-      ).annotate({ identifier: "ActionsDestroyRequest" });
-    case 1:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "ActionsDestroyResponse" });
+      ).annotate({ identifier: "UpdateActionsPartialRequest" });
   }
 }
 function __c1(j: number): any {
@@ -552,13 +602,29 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          format: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/actions/{id}/", code: 200 }),
+        ),
+      ).annotate({ identifier: "ActionsDestroyRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "ActionsDestroyResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
           format: S.optional(S.String.pipe(T.Query())),
           name: S.optional(S.NullOr(S.String)),
           description: S.optional(S.String),
-          tags: S.optional(__S(24, __c3, 0)),
+          tags: S.optional(__S(32, __c4, 0)),
           post_to_slack: S.optional(S.Boolean),
           slack_message_format: S.optional(S.String),
-          steps: S.optional(__S(33, __c4, 1)),
+          steps: S.optional(__S(41, __c5, 1)),
           deleted: S.optional(S.Boolean),
           last_calculated_at: S.optional(S.String),
           pinned_at: S.optional(S.NullOr(S.String)),
@@ -567,7 +633,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateActionRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -581,13 +647,13 @@ function __c2(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(16, __c2, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(24, __c3, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -597,9 +663,10 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           event: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(25, __c3, 1))),
+          properties: S.optional(S.NullOr(__S(33, __c4, 1))),
           selector: S.optional(S.NullOr(S.String)),
           selector_regex: S.optional(S.NullOr(S.String)),
+          selector_warning: S.NullOr(S.String),
           tag_name: S.optional(S.NullOr(S.String)),
           text: S.optional(S.NullOr(S.String)),
           text_matching: S.optional(S.NullOr(S.String)),
@@ -610,19 +677,19 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "ActionStepJSON" });
     case 3:
-      return S.Array(__S(26, __c3, 2));
+      return S.Array(__S(34, __c4, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
           name: S.optional(S.NullOr(S.String)),
           description: S.optional(S.String),
-          tags: S.optional(__S(24, __c3, 0)),
+          tags: S.optional(__S(32, __c4, 0)),
           post_to_slack: S.optional(S.Boolean),
           slack_message_format: S.optional(S.String),
-          steps: S.optional(__S(27, __c3, 3)),
+          steps: S.optional(__S(35, __c4, 3)),
           created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(17, __c2, 1))),
+          created_by: S.optional(S.NullOr(__S(25, __c3, 1))),
           deleted: S.optional(S.Boolean),
           is_calculating: S.optional(S.Boolean),
           last_calculated_at: S.optional(S.String),
@@ -636,13 +703,13 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ActionOutput" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           event: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(25, __c3, 1))),
+          properties: S.optional(S.NullOr(__S(33, __c4, 1))),
           selector: S.optional(S.NullOr(S.String)),
           tag_name: S.optional(S.NullOr(S.String)),
           text: S.optional(S.NullOr(S.String)),
@@ -654,10 +721,10 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "ActionStepJSONInput" });
     case 1:
-      return S.Array(__S(32, __c4, 0));
+      return S.Array(__S(40, __c5, 0));
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -671,7 +738,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetActionRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -687,19 +754,17 @@ function __c6(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/actions/", code: 200 })),
       ).annotate({ identifier: "ListActionsRequest" });
     case 1:
-      return S.Array(__S(28, __c3, 4));
+      return S.Array(__S(36, __c4, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(49, __c6, 1)),
+          results: S.optional(__S(57, __c7, 1)),
         }),
-      ).annotate({ identifier: "PaginatedActionListOutput" });
+      ).annotate({ identifier: "ActionListResponseOutput" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -723,18 +788,54 @@ function __c7(j: number): any {
           name: S.optional(S.String),
           url: S.optional(S.String),
           created_at: S.optional(S.NullOr(S.String)),
-          created_by: S.optional(S.NullOr(__S(17, __c2, 1))),
+          created_by: S.optional(S.NullOr(__S(25, __c3, 1))),
         }),
       ).annotate({ identifier: "ActionReference" });
     case 2:
-      return S.Array(__S(57, __c7, 1));
+      return S.Array(__S(65, __c8, 1));
     case 3:
-      return S.suspend(() => __S(58, __c7, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(66, __c8, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListActionsReferencesResponse",
       });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.Array(S.Number);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          action_ids: __S(73, __c9, 1).pipe(T.Query()),
+          format: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/actions/selector_match_changes/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListActionsSelectorMatchChangesRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          action_id: S.Number,
+          action_name: S.NullOr(S.String),
+          selectors: __S(72, __c9, 0),
+        }),
+      ).annotate({ identifier: "ActionSelectorMatchChange" });
+    case 4:
+      return S.Array(__S(75, __c9, 3));
+    case 5:
+      return S.suspend(() => __S(76, __c9, 4).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListActionsSelectorMatchChangesResponse",
+      });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -744,10 +845,10 @@ function __c8(j: number): any {
           format: S.optional(S.String.pipe(T.Query())),
           name: S.optional(S.NullOr(S.String)),
           description: S.optional(S.String),
-          tags: S.optional(__S(24, __c3, 0)),
+          tags: S.optional(__S(32, __c4, 0)),
           post_to_slack: S.optional(S.Boolean),
           slack_message_format: S.optional(S.String),
-          steps: S.optional(__S(33, __c4, 1)),
+          steps: S.optional(__S(41, __c5, 1)),
           deleted: S.optional(S.Boolean),
           last_calculated_at: S.optional(S.String),
           pinned_at: S.optional(S.NullOr(S.String)),
@@ -756,30 +857,6 @@ function __c8(j: number): any {
           T.Http({ method: "PUT", uri: "/api/projects/{project_id}/actions/{id}/", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateActionRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-          format: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.NullOr(S.String)),
-          description: S.optional(S.String),
-          tags: S.optional(__S(24, __c3, 0)),
-          post_to_slack: S.optional(S.Boolean),
-          slack_message_format: S.optional(S.String),
-          steps: S.optional(__S(33, __c4, 1)),
-          deleted: S.optional(S.Boolean),
-          last_calculated_at: S.optional(S.String),
-          pinned_at: S.optional(S.NullOr(S.String)),
-          _create_in_folder: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/actions/{id}/", code: 200 }),
-        ),
-      ).annotate({ identifier: "UpdateActionsPartialRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

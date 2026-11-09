@@ -55,8 +55,9 @@ export interface CreateObjectMediaPreviewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   metadata?: unknown;
+  /** ID of uploaded media in this project to use as the preview. Required when creating a preview. */
   uploaded_media_id?: string | null;
-  exported_asset_id?: string | null;
+  /** ID of the event definition the preview belongs to. Required when creating a preview. */
   event_definition_id?: string | null;
 }
 export interface ObjectMediaPreviewOutput {
@@ -64,7 +65,7 @@ export interface ObjectMediaPreviewOutput {
   created_at?: string;
   updated_at?: string | null;
   media_url?: string;
-  /** Return 'uploaded' or 'exported' based on which media is set */
+  /** Where the image comes from: 'uploaded' for user-uploaded media, 'exported' for an exported asset. */
   media_type?: string;
   metadata?: unknown;
 }
@@ -81,6 +82,8 @@ export interface GetObjectMediaPreviewsPreferredForEventRequest {
 export interface ListObjectMediaPreviewsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** ID of the event definition whose previews to list. */
+  event_definition: string;
   /** Number of results to return per page. */
   limit?: number;
   /** The initial index from which to return the results. */
@@ -106,8 +109,9 @@ export interface UpdateObjectMediaPreviewRequest {
   /** A UUID string identifying this object media preview. */
   id: string;
   metadata?: unknown;
+  /** ID of uploaded media in this project to use as the preview. Required when creating a preview. */
   uploaded_media_id?: string | null;
-  exported_asset_id?: string | null;
+  /** ID of the event definition the preview belongs to. Required when creating a preview. */
   event_definition_id?: string | null;
 }
 export interface UpdateObjectMediaPreviewsPartialRequest {
@@ -116,8 +120,9 @@ export interface UpdateObjectMediaPreviewsPartialRequest {
   /** A UUID string identifying this object media preview. */
   id: string;
   metadata?: unknown;
+  /** ID of uploaded media in this project to use as the preview. Required when creating a preview. */
   uploaded_media_id?: string | null;
-  exported_asset_id?: string | null;
+  /** ID of the event definition the preview belongs to. Required when creating a preview. */
   event_definition_id?: string | null;
 }
 export type CreateObjectMediaPreviewError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -246,7 +251,6 @@ function __c0(j: number): any {
           project_id: S.String.pipe(T.Label()),
           metadata: S.optional(S.Unknown),
           uploaded_media_id: S.optional(S.NullOr(S.String)),
-          exported_asset_id: S.optional(S.NullOr(S.String)),
           event_definition_id: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -312,6 +316,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          event_definition: S.String.pipe(T.Query()),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
@@ -365,7 +370,6 @@ function __c6(j: number): any {
           id: S.String.pipe(T.Label()),
           metadata: S.optional(S.Unknown),
           uploaded_media_id: S.optional(S.NullOr(S.String)),
-          exported_asset_id: S.optional(S.NullOr(S.String)),
           event_definition_id: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -386,7 +390,6 @@ function __c7(j: number): any {
           id: S.String.pipe(T.Label()),
           metadata: S.optional(S.Unknown),
           uploaded_media_id: S.optional(S.NullOr(S.String)),
-          exported_asset_id: S.optional(S.NullOr(S.String)),
           event_definition_id: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({

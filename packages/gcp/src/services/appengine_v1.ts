@@ -100,13 +100,13 @@ export class ServiceDisabled
 export type FirewallRuleActionEnum = "UNSPECIFIED_ACTION" | "ALLOW" | "DENY";
 /** A single firewall rule that is evaluated against incoming traffic and provides an action to take on matched requests. A positive integer between 1, Int32.MaxValue-1 that defines the order of rule evaluation. Rules with the lowest priority are evaluated first.A default rule at priority Int32.MaxValue matches all IPv4 and IPv6 traffic when no previous rule matches. Only the action of this rule can be modified by the user. */
 export interface FirewallRule {
-  /** An optional string description of this rule. This field has a maximum length of 400 characters. */
-  description?: string;
   /** IP address or range, defined using CIDR notation, of requests that this rule applies to. You can use the wildcard character "*" to match all IPs equivalent to "0/0" and "::/0" together. Examples: 192.168.1.1 or 192.168.0.0/16 or 2001:db8::/32 or 2001:0db8:0000:0042:0000:8a2e:0370:7334. Truncation will be silently performed on addresses which are not properly truncated. For example, 1.2.3.4/24 is accepted as the same address as 1.2.3.0/24. Similarly, for IPv6, 2001:db8::1/32 is accepted as the same address as 2001:db8::/32. */
   sourceRange?: string;
+  /** An optional string description of this rule. This field has a maximum length of 400 characters. */
+  description?: string;
+  priority?: number;
   /** The action to take on matched requests. */
   action?: FirewallRuleActionEnum | (string & {});
-  priority?: number;
 }
 export type FirewallRuleList = Array<FirewallRule>;
 /** Request message for Firewall.BatchUpdateIngressRules. */
@@ -125,39 +125,6 @@ export interface BatchUpdateIngressRulesResponse {
   /** The full list of ingress FirewallRules for this application. */
   ingressRules?: FirewallRuleList;
 }
-export type ApplicationDatabaseTypeEnum =
-  | "DATABASE_TYPE_UNSPECIFIED"
-  | "CLOUD_DATASTORE"
-  | "CLOUD_FIRESTORE"
-  | "CLOUD_DATASTORE_COMPATIBILITY";
-export type ApplicationSslPolicyEnum = "SSL_POLICY_UNSPECIFIED" | "DEFAULT" | "MODERN";
-export type DocumentMap = { [key: string]: unknown | undefined };
-/** Rules to match an HTTP request and dispatch that request to a service. */
-export interface UrlDispatchRule {
-  /** Resource ID of a service in this application that should serve the matched request. The service must already exist. Example: default. */
-  service?: string;
-  /** Pathname within the host. Must start with a "/". A single "*" can be included at the end of the path.The sum of the lengths of the domain and path may not exceed 100 characters. */
-  path?: string;
-  /** Domain name to match against. The wildcard "*" is supported if specified before a period: "*.".Defaults to matching all domains: "*". */
-  domain?: string;
-}
-export type UrlDispatchRuleList = Array<UrlDispatchRule>;
-/** Identity-Aware Proxy */
-export interface IdentityAwareProxy {
-  /** Output only. Hex-encoded SHA-256 hash of the client secret.@OutputOnly */
-  oauth2ClientSecretSha256?: string;
-  /** OAuth2 client secret to use for the authentication flow.For security reasons, this value cannot be retrieved via the API. Instead, the SHA-256 hash of the value is returned in the oauth2_client_secret_sha256 field.@InputOnly */
-  oauth2ClientSecret?: string;
-  /** OAuth2 client ID to use for the authentication flow. */
-  oauth2ClientId?: string;
-  /** Whether the serving infrastructure will authenticate and authorize all incoming requests.If true, the oauth2_client_id and oauth2_client_secret fields must be non-empty. */
-  enabled?: boolean;
-}
-export type ApplicationServingStatusEnum =
-  | "UNSPECIFIED"
-  | "SERVING"
-  | "USER_DISABLED"
-  | "SYSTEM_DISABLED";
 /** The feature specific settings to be used in the application. These define behaviors that are user configurable. */
 export interface FeatureSettings {
   /** If true, use Container-Optimized OS (https://cloud.google.com/container-optimized-os/) base image for VMs, rather than a base Debian image. */
@@ -165,40 +132,73 @@ export interface FeatureSettings {
   /** Boolean value indicating if split health checks should be used instead of the legacy health checks. At an app.yaml level, this means defaulting to 'readiness_check' and 'liveness_check' values instead of 'health_check' ones. Once the legacy 'health_check' behavior is deprecated, and this value is always true, this setting can be removed. */
   splitHealthChecks?: boolean;
 }
+/** Identity-Aware Proxy */
+export interface IdentityAwareProxy {
+  /** Whether the serving infrastructure will authenticate and authorize all incoming requests.If true, the oauth2_client_id and oauth2_client_secret fields must be non-empty. */
+  enabled?: boolean;
+  /** OAuth2 client ID to use for the authentication flow. */
+  oauth2ClientId?: string;
+  /** Output only. Hex-encoded SHA-256 hash of the client secret.@OutputOnly */
+  oauth2ClientSecretSha256?: string;
+  /** OAuth2 client secret to use for the authentication flow.For security reasons, this value cannot be retrieved via the API. Instead, the SHA-256 hash of the value is returned in the oauth2_client_secret_sha256 field.@InputOnly */
+  oauth2ClientSecret?: string;
+}
+export type ApplicationServingStatusEnum =
+  | "UNSPECIFIED"
+  | "SERVING"
+  | "USER_DISABLED"
+  | "SYSTEM_DISABLED";
+export type DocumentMap = { [key: string]: unknown | undefined };
+export type ApplicationSslPolicyEnum = "SSL_POLICY_UNSPECIFIED" | "DEFAULT" | "MODERN";
+/** Rules to match an HTTP request and dispatch that request to a service. */
+export interface UrlDispatchRule {
+  /** Resource ID of a service in this application that should serve the matched request. The service must already exist. Example: default. */
+  service?: string;
+  /** Domain name to match against. The wildcard "*" is supported if specified before a period: "*.".Defaults to matching all domains: "*". */
+  domain?: string;
+  /** Pathname within the host. Must start with a "/". A single "*" can be included at the end of the path.The sum of the lengths of the domain and path may not exceed 100 characters. */
+  path?: string;
+}
+export type UrlDispatchRuleList = Array<UrlDispatchRule>;
+export type ApplicationDatabaseTypeEnum =
+  | "DATABASE_TYPE_UNSPECIFIED"
+  | "CLOUD_DATASTORE"
+  | "CLOUD_FIRESTORE"
+  | "CLOUD_DATASTORE_COMPATIBILITY";
 /** An Application resource contains the top-level configuration of an App Engine application. */
 export interface Application {
   /** Output only. Google Cloud Storage bucket that can be used for storing files associated with this application. This bucket is associated with the application and can be used by the gcloud deployment commands.@OutputOnly */
   codeBucket?: string;
-  /** Output only. Hostname used to reach this application, as resolved by App Engine.@OutputOnly */
-  defaultHostname?: string;
-  /** The type of the Cloud Firestore or Cloud Datastore database associated with this application. */
-  databaseType?: ApplicationDatabaseTypeEnum | (string & {});
-  /** The SSL policy that will be applied to the application. If set to Modern it will restrict traffic with TLS < 1.2 and allow only Modern Ciphers suite */
-  sslPolicy?: ApplicationSslPolicyEnum | (string & {});
-  name?: string;
+  /** The feature specific settings to be used in the application. */
+  featureSettings?: FeatureSettings;
   /** Location from which this application runs. Application instances run out of the data centers in the specified location, which is also where all of the application's end user content is stored.Defaults to us-central.View the list of supported locations (https://cloud.google.com/appengine/docs/locations). */
   locationId?: string;
+  name?: string;
+  iap?: IdentityAwareProxy;
+  /** Serving status of this application. */
+  servingStatus?: ApplicationServingStatusEnum | (string & {});
+  /** Output only. Hostname used to reach this application, as resolved by App Engine.@OutputOnly */
+  defaultHostname?: string;
   /** Additional Google Generated Customer Metadata, this field won't be provided by default and can be requested by setting the IncludeExtraData field in GetApplicationRequest */
   generatedCustomerMetadata?: DocumentMap;
   /** Output only. Google Cloud Storage bucket that can be used by this application to store content.@OutputOnly */
   defaultBucket?: string;
-  /** Cookie expiration policy for this application. */
-  defaultCookieExpiration?: string;
+  /** The SSL policy that will be applied to the application. If set to Modern it will restrict traffic with TLS < 1.2 and allow only Modern Ciphers suite */
+  sslPolicy?: ApplicationSslPolicyEnum | (string & {});
+  /** Identifier of the Application resource. This identifier is equivalent to the project ID of the Google Cloud Platform project where you want to deploy your application. Example: myapp. */
+  id?: string;
   /** HTTP path dispatch rules for requests to the application that do not explicitly target a service or version. Rules are order-dependent. Up to 20 dispatch rules can be supported. */
   dispatchRules?: UrlDispatchRuleList;
-  iap?: IdentityAwareProxy;
+  /** Cookie expiration policy for this application. */
+  defaultCookieExpiration?: string;
   /** Google Apps authentication domain that controls which users can access this application.Defaults to open access for any Google Account. */
   authDomain?: string;
   /** Output only. The Google Container Registry domain used for storing managed build docker images for this application. */
   gcrDomain?: string;
   /** The service account associated with the application. This is the app-level default identity. If no identity provided during create version, Admin API will fallback to this one. */
   serviceAccount?: string;
-  /** Serving status of this application. */
-  servingStatus?: ApplicationServingStatusEnum | (string & {});
-  /** The feature specific settings to be used in the application. */
-  featureSettings?: FeatureSettings;
-  /** Identifier of the Application resource. This identifier is equivalent to the project ID of the Google Cloud Platform project where you want to deploy your application. Example: myapp. */
-  id?: string;
+  /** The type of the Cloud Firestore or Cloud Datastore database associated with this application. */
+  databaseType?: ApplicationDatabaseTypeEnum | (string & {});
 }
 export interface CreateAppsRequest {
   /** Request body */
@@ -207,25 +207,25 @@ export interface CreateAppsRequest {
 export type DocumentMapList = Array<DocumentMap>;
 /** The Status type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by gRPC (https://github.com/grpc). Each Status message contains three pieces of data: error code, error message, and error details.You can find out more about this error model and how to work with it in the API Design Guide (https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** If the value is false, it means the operation is still in progress. If true, the operation is completed, and either error or response is available. */
-  done?: boolean;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as Delete, the response is google.protobuf.Empty. If the original method is standard Get/Create/Update, the response should be the resource. For other methods, the response should have the type XxxResponse, where Xxx is the original method name. For example, if the original method name is TakeSnapshot(), the inferred response type is TakeSnapshotResponse. */
-  response?: DocumentMap;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the name should be a resource name ending with operations/{unique_id}. */
-  name?: string;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the name should be a resource name ending with operations/{unique_id}. */
+  name?: string;
+  /** If the value is false, it means the operation is still in progress. If true, the operation is completed, and either error or response is available. */
+  done?: boolean;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as Delete, the response is google.protobuf.Empty. If the original method is standard Get/Create/Update, the response should be the resource. For other methods, the response should have the type XxxResponse, where Xxx is the original method name. For example, if the original method name is TakeSnapshot(), the inferred response type is TakeSnapshotResponse. */
+  response?: DocumentMap;
 }
 export type ManagedCertificateStatusEnum =
   | "MANAGEMENT_STATUS_UNSPECIFIED"
@@ -245,29 +245,29 @@ export interface ManagedCertificate {
 export type StringList = Array<string>;
 /** An SSL certificate obtained from a certificate authority. */
 export interface CertificateRawData {
-  /** PEM encoded x.509 public key certificate. This field is set once on certificate creation. Must include the header and footer. Example: -----BEGIN CERTIFICATE----- -----END CERTIFICATE----- */
-  publicCertificate?: string;
   /** Unencrypted PEM encoded RSA private key. This field is set once on certificate creation and then encrypted. The key size must be 2048 bits or fewer. Must include the header and footer. Example: -----BEGIN RSA PRIVATE KEY----- -----END RSA PRIVATE KEY----- @InputOnly */
   privateKey?: string;
+  /** PEM encoded x.509 public key certificate. This field is set once on certificate creation. Must include the header and footer. Example: -----BEGIN CERTIFICATE----- -----END CERTIFICATE----- */
+  publicCertificate?: string;
 }
 /** An SSL certificate that a user has been authorized to administer. A user is authorized to administer any certificate that applies to one of their authorized domains. */
 export interface AuthorizedCertificate {
   /** Only applicable if this certificate is managed by App Engine. Managed certificates are tied to the lifecycle of a DomainMapping and cannot be updated or deleted via the AuthorizedCertificates API. If this certificate is manually administered by the user, this field will be empty.@OutputOnly */
   managedCertificate?: ManagedCertificate;
+  /** Output only. Relative name of the certificate. This is a unique value autogenerated on AuthorizedCertificate resource creation. Example: 12345.@OutputOnly */
+  id?: string;
   /** The time when this certificate expires. To update the renewal time on this certificate, upload an SSL certificate with a different expiration time using AuthorizedCertificates.UpdateAuthorizedCertificate.@OutputOnly */
   expireTime?: string;
-  /** The user-specified display name of the certificate. This is not guaranteed to be unique. Example: My Certificate. */
-  displayName?: string;
-  /** Output only. The full paths to user visible Domain Mapping resources that have this certificate mapped. Example: apps/myapp/domainMappings/example.com.This may not represent the full list of mapped domain mappings if the user does not have VIEWER permissions on all of the applications that have this certificate mapped. See domain_mappings_count for a complete count.Only returned by GET or LIST requests when specifically requested by the view=FULL_CERTIFICATE option.@OutputOnly */
-  visibleDomainMappings?: StringList;
+  /** Output only. Topmost applicable domains of this certificate. This certificate applies to these domains and their subdomains. Example: example.com.@OutputOnly */
+  domainNames?: StringList;
   /** The SSL certificate serving the AuthorizedCertificate resource. This must be obtained independently from a certificate authority. */
   certificateRawData?: CertificateRawData;
   /** Output only. Full path to the AuthorizedCertificate resource in the API. Example: apps/myapp/authorizedCertificates/12345.@OutputOnly */
   name?: string;
-  /** Output only. Topmost applicable domains of this certificate. This certificate applies to these domains and their subdomains. Example: example.com.@OutputOnly */
-  domainNames?: StringList;
-  /** Output only. Relative name of the certificate. This is a unique value autogenerated on AuthorizedCertificate resource creation. Example: 12345.@OutputOnly */
-  id?: string;
+  /** The user-specified display name of the certificate. This is not guaranteed to be unique. Example: My Certificate. */
+  displayName?: string;
+  /** Output only. The full paths to user visible Domain Mapping resources that have this certificate mapped. Example: apps/myapp/domainMappings/example.com.This may not represent the full list of mapped domain mappings if the user does not have VIEWER permissions on all of the applications that have this certificate mapped. See domain_mappings_count for a complete count.Only returned by GET or LIST requests when specifically requested by the view=FULL_CERTIFICATE option.@OutputOnly */
+  visibleDomainMappings?: StringList;
   /** Aggregate count of the domain mappings with this certificate mapped. This count includes domain mappings on applications for which the user does not have VIEWER permissions.Only returned by GET or LIST requests when specifically requested by the view=FULL_CERTIFICATE option.@OutputOnly */
   domainMappingsCount?: number;
 }
@@ -287,22 +287,22 @@ export type SslSettingsSslManagementTypeEnum =
   | "MANUAL";
 /** SSL configuration for a DomainMapping resource. */
 export interface SslSettings {
+  /** Output only. ID of the managed AuthorizedCertificate resource currently being provisioned, if applicable. Until the new managed certificate has been successfully provisioned, the previous SSL state will be preserved. Once the provisioning process completes, the certificate_id field will reflect the new managed certificate and this field will be left empty. To remove SSL support while there is still a pending managed certificate, clear the certificate_id field with an UpdateDomainMappingRequest.@OutputOnly */
+  pendingManagedCertificateId?: string;
   /** SSL management type for this domain. If AUTOMATIC, a managed certificate is automatically provisioned. If MANUAL, certificate_id must be manually specified in order to configure SSL for this domain. */
   sslManagementType?: SslSettingsSslManagementTypeEnum | (string & {});
   /** ID of the AuthorizedCertificate resource configuring SSL for the application. Clearing this field will remove SSL support.By default, a managed certificate is automatically created for every domain mapping. To omit SSL support or to configure SSL manually, specify SslManagementType.MANUAL on a CREATE or UPDATE request. You must be authorized to administer the AuthorizedCertificate resource to manually map it to a DomainMapping resource. Example: 12345. */
   certificateId?: string;
-  /** Output only. ID of the managed AuthorizedCertificate resource currently being provisioned, if applicable. Until the new managed certificate has been successfully provisioned, the previous SSL state will be preserved. Once the provisioning process completes, the certificate_id field will reflect the new managed certificate and this field will be left empty. To remove SSL support while there is still a pending managed certificate, clear the certificate_id field with an UpdateDomainMappingRequest.@OutputOnly */
-  pendingManagedCertificateId?: string;
 }
 export type ResourceRecordTypeEnum = "RECORD_TYPE_UNSPECIFIED" | "A" | "AAAA" | "CNAME";
 /** A DNS resource record. */
 export interface ResourceRecord {
-  /** Relative name of the object affected by this record. Only applicable for CNAME records. Example: 'www'. */
-  name?: string;
   /** Resource record type. Example: AAAA. */
   type?: ResourceRecordTypeEnum | (string & {});
   /** Data for this record. Values vary by record type, as defined in RFC 1035 (section 5) and RFC 1034 (section 3.6.1). */
   rrdata?: string;
+  /** Relative name of the object affected by this record. Only applicable for CNAME records. Example: 'www'. */
+  name?: string;
 }
 export type ResourceRecordList = Array<ResourceRecord>;
 /** A domain serving an App Engine application. */
@@ -317,10 +317,10 @@ export interface DomainMapping {
   resourceRecords?: ResourceRecordList;
 }
 export interface CreateAppsDomainMappingsRequest {
-  /** Whether the domain creation should override any existing mappings for this domain. By default, overrides are rejected. */
-  overrideStrategy?: CreateAppsDomainMappingsOverrideStrategyEnum | (string & {});
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   appsId: string;
+  /** Whether the domain creation should override any existing mappings for this domain. By default, overrides are rejected. */
+  overrideStrategy?: CreateAppsDomainMappingsOverrideStrategyEnum | (string & {});
   /** Request body */
   body?: DomainMapping;
 }
@@ -329,262 +329,6 @@ export interface CreateAppsFirewallIngressRulesRequest {
   appsId: string;
   /** Request body */
   body?: FirewallRule;
-}
-export type StringMap = { [key: string]: string | undefined };
-/** Readiness checking configuration for VM instances. Unhealthy instances are removed from traffic rotation. */
-export interface ReadinessCheck {
-  /** The request path. */
-  path?: string;
-  /** Host header to send when performing a HTTP Readiness check. Example: "myapp.appspot.com" */
-  host?: string;
-  /** Time before the check is considered failed. */
-  timeout?: string;
-  /** Interval between health checks. */
-  checkInterval?: string;
-  /** Number of consecutive successful checks required before receiving traffic. */
-  successThreshold?: number;
-  /** Number of consecutive failed checks required before removing traffic. */
-  failureThreshold?: number;
-  /** A maximum time limit on application initialization, measured from moment the application successfully replies to a healthcheck until it is ready to serve traffic. */
-  appStartTimeout?: string;
-}
-/** Volumes mounted within the app container. Only applicable in the App Engine flexible environment. */
-export interface Volume {
-  /** Volume size in gigabytes. */
-  sizeGb?: number;
-  /** Unique name for the volume. */
-  name?: string;
-  /** Underlying volume type, e.g. 'tmpfs'. */
-  volumeType?: string;
-}
-export type VolumeList = Array<Volume>;
-/** Machine resources for a version. */
-export interface Resources {
-  /** Disk size (GB) needed. */
-  diskGb?: number;
-  /** The name of the encryption key that is stored in Google Cloud KMS. Only should be used by Cloud Composer to encrypt the vm disk */
-  kmsKeyReference?: string;
-  /** Number of CPU cores needed. */
-  cpu?: number;
-  /** User specified volumes. */
-  volumes?: VolumeList;
-  /** Memory (GB) needed. */
-  memoryGb?: number;
-}
-/** Runtime settings for the App Engine flexible environment. */
-export interface FlexibleRuntimeSettings {
-  /** The runtime version of an App Engine flexible application. */
-  runtimeVersion?: string;
-  /** The operating system of the application runtime. */
-  operatingSystem?: string;
-}
-/** Health checking configuration for VM instances. Unhealthy instances are killed and replaced with new instances. Only applicable for instances in App Engine flexible environment. */
-export interface HealthCheck {
-  /** Number of consecutive successful health checks required before receiving traffic. */
-  healthyThreshold?: number;
-  /** Number of consecutive failed health checks required before an instance is restarted. */
-  restartThreshold?: number;
-  /** Number of consecutive failed health checks required before removing traffic. */
-  unhealthyThreshold?: number;
-  /** Whether to explicitly disable health checks for this instance. */
-  disableHealthCheck?: boolean;
-  /** Time before the health check is considered failed. */
-  timeout?: string;
-  /** Interval between health checks. */
-  checkInterval?: string;
-  /** Host header to send when performing an HTTP health check. Example: "myapp.appspot.com" */
-  host?: string;
-}
-/** A service with manual scaling runs continuously, allowing you to perform complex initialization and rely on the state of its memory over time. */
-export interface ManualScaling {
-  /** Number of instances to assign to the service at the start. This number can later be altered by using the Modules API (https://cloud.google.com/appengine/docs/python/modules/functions) set_num_instances() function. */
-  instances?: number;
-}
-/** Docker image that is used to create a container and start a VM instance for the version that you deploy. Only applicable for instances running in the App Engine flexible environment. */
-export interface ContainerInfo {
-  /** URI to the hosted container image in Google Container Registry. The URI must be fully qualified and include a tag or digest. Examples: "gcr.io/my-project/image:tag" or "gcr.io/my-project/image@digest" */
-  image?: string;
-}
-/** The zip file information for a zip deployment. */
-export interface ZipInfo {
-  /** URL of the zip file to deploy from. Must be a URL to a resource in Google Cloud Storage in the form 'http(s)://storage.googleapis.com//'. */
-  sourceUrl?: string;
-  /** An estimate of the number of files in a zip for a zip deployment. If set, must be greater than or equal to the actual number of files. Used for optimizing performance; if not provided, deployment may be slow. */
-  filesCount?: number;
-}
-/** Single source file that is part of the version to be deployed. Each source file that is deployed must be specified separately. */
-export interface FileInfo {
-  /** The MIME type of the file.Defaults to the value from Google Cloud Storage. */
-  mimeType?: string;
-  /** URL source to use to fetch this file. Must be a URL to a resource in Google Cloud Storage in the form 'http(s)://storage.googleapis.com//'. */
-  sourceUrl?: string;
-  /** The SHA1 hash of the file, in hex. */
-  sha1Sum?: string;
-}
-export type FileInfoMap = { [key: string]: FileInfo | undefined };
-/** Options for the build operations performed as a part of the version deployment. Only applicable for App Engine flexible environment when creating a version using source code directly. */
-export interface CloudBuildOptions {
-  /** The Cloud Build timeout used as part of any dependent builds performed by version creation. Defaults to 10 minutes. */
-  cloudBuildTimeout?: string;
-  /** Path to the yaml file used in deployment, used to determine runtime configuration details.Required for flexible environment builds.See https://cloud.google.com/appengine/docs/standard/python/config/appref for more details. */
-  appYamlPath?: string;
-}
-/** Code and application artifacts used to deploy a version to App Engine. */
-export interface Deployment {
-  /** The Docker image for the container that runs the version. Only applicable for instances running in the App Engine flexible environment. */
-  container?: ContainerInfo;
-  /** The zip file for this deployment, if this is a zip deployment. */
-  zip?: ZipInfo;
-  /** Manifest of the files stored in Google Cloud Storage that are included as part of this version. All files must be readable using the credentials supplied with this call. */
-  files?: FileInfoMap;
-  /** Options for any Google Cloud Build builds created as a part of this deployment.These options will only be used if a new build is created, such as when deploying to the App Engine flexible environment using files or zip. */
-  cloudBuildOptions?: CloudBuildOptions;
-}
-export type ErrorHandlerErrorCodeEnum =
-  | "ERROR_CODE_UNSPECIFIED"
-  | "ERROR_CODE_DEFAULT"
-  | "ERROR_CODE_OVER_QUOTA"
-  | "ERROR_CODE_DOS_API_DENIAL"
-  | "ERROR_CODE_TIMEOUT";
-/** Custom static error page to be served when an error occurs. */
-export interface ErrorHandler {
-  /** Static file content to be served for this error. */
-  staticFile?: string;
-  /** MIME type of file. Defaults to text/html. */
-  mimeType?: string;
-  /** Error condition this handler applies to. */
-  errorCode?: ErrorHandlerErrorCodeEnum | (string & {});
-}
-export type ErrorHandlerList = Array<ErrorHandler>;
-/** A service with basic scaling will create an instance when the application receives a request. The instance will be turned down when the app becomes idle. Basic scaling is ideal for work that is intermittent or driven by user activity. */
-export interface BasicScaling {
-  /** Maximum number of instances to create for this version. */
-  maxInstances?: number;
-  /** Duration of time after the last request that an instance must wait before the instance is shut down. */
-  idleTimeout?: string;
-}
-/** Scheduler settings for standard environment. */
-export interface StandardSchedulerSettings {
-  /** Minimum number of instances to run for this version. Set to zero to disable min_instances configuration. */
-  minInstances?: number;
-  /** Maximum number of instances to run for this version. Set to 2147483647 to disable max_instances configuration. */
-  maxInstances?: number;
-  /** Target throughput utilization ratio to maintain when scaling */
-  targetThroughputUtilization?: number;
-  /** Target CPU utilization ratio to maintain when scaling. */
-  targetCpuUtilization?: number;
-}
-/** Target scaling by CPU usage. */
-export interface CpuUtilization {
-  /** Period of time over which CPU utilization is calculated. */
-  aggregationWindowLength?: string;
-  /** Target CPU utilization ratio to maintain when scaling. Must be between 0 and 1. */
-  targetUtilization?: number;
-}
-/** Target scaling by network usage. Only applicable in the App Engine flexible environment. */
-export interface NetworkUtilization {
-  /** Target bytes received per second. */
-  targetReceivedBytesPerSecond?: number;
-  /** Target packets received per second. */
-  targetReceivedPacketsPerSecond?: number;
-  /** Target packets sent per second. */
-  targetSentPacketsPerSecond?: number;
-  /** Target bytes sent per second. */
-  targetSentBytesPerSecond?: number;
-}
-/** Target scaling by request utilization. Only applicable in the App Engine flexible environment. */
-export interface RequestUtilization {
-  /** Target number of concurrent requests. */
-  targetConcurrentRequests?: number;
-  /** Target requests per second. */
-  targetRequestCountPerSecond?: number;
-}
-/** Target scaling by disk usage. Only applicable in the App Engine flexible environment. */
-export interface DiskUtilization {
-  /** Target ops read per seconds. */
-  targetReadOpsPerSecond?: number;
-  /** Target bytes written per second. */
-  targetWriteBytesPerSecond?: number;
-  /** Target ops written per second. */
-  targetWriteOpsPerSecond?: number;
-  /** Target bytes read per second. */
-  targetReadBytesPerSecond?: number;
-}
-/** Automatic scaling is based on request rate, response latencies, and other application metrics. */
-export interface AutomaticScaling {
-  /** Scheduler settings for standard environment. */
-  standardSchedulerSettings?: StandardSchedulerSettings;
-  /** Minimum amount of time a request should wait in the pending queue before starting a new instance to handle it. */
-  minPendingLatency?: string;
-  /** Maximum number of instances that should be started to handle requests for this version. */
-  maxTotalInstances?: number;
-  /** Target scaling by CPU usage. */
-  cpuUtilization?: CpuUtilization;
-  /** Maximum amount of time that a request should wait in the pending queue before starting a new instance to handle it. */
-  maxPendingLatency?: string;
-  /** Target scaling by network usage. */
-  networkUtilization?: NetworkUtilization;
-  /** Minimum number of running instances that should be maintained for this version. */
-  minTotalInstances?: number;
-  /** Number of concurrent requests an automatic scaling instance can accept before the scheduler spawns a new instance.Defaults to a runtime-specific value. */
-  maxConcurrentRequests?: number;
-  /** Target scaling by request utilization. */
-  requestUtilization?: RequestUtilization;
-  /** Maximum number of idle instances that should be maintained for this version. */
-  maxIdleInstances?: number;
-  /** The time period that the Autoscaler (https://cloud.google.com/compute/docs/autoscaler/) should wait before it starts collecting information from a new instance. This prevents the autoscaler from collecting information when the instance is initializing, during which the collected usage would not be reliable. Only applicable in the App Engine flexible environment. */
-  coolDownPeriod?: string;
-  /** Target scaling by disk usage. */
-  diskUtilization?: DiskUtilization;
-  /** Minimum number of idle instances that should be maintained for this version. Only applicable for the default version of a service. */
-  minIdleInstances?: number;
-}
-export type VersionInboundServicesItemEnum =
-  | "INBOUND_SERVICE_UNSPECIFIED"
-  | "INBOUND_SERVICE_MAIL"
-  | "INBOUND_SERVICE_MAIL_BOUNCE"
-  | "INBOUND_SERVICE_XMPP_ERROR"
-  | "INBOUND_SERVICE_XMPP_MESSAGE"
-  | "INBOUND_SERVICE_XMPP_SUBSCRIBE"
-  | "INBOUND_SERVICE_XMPP_PRESENCE"
-  | "INBOUND_SERVICE_CHANNEL_PRESENCE"
-  | "INBOUND_SERVICE_WARMUP";
-export type VersionInboundServicesItemEnumList = Array<
-  VersionInboundServicesItemEnum | (string & {})
->;
-export type VersionServingStatusEnum = "SERVING_STATUS_UNSPECIFIED" | "SERVING" | "STOPPED";
-/** The entrypoint for the application. */
-export interface Entrypoint {
-  /** The format should be a shell command that can be fed to bash -c. */
-  shell?: string;
-}
-/** Health checking configuration for VM instances. Unhealthy instances are killed and replaced with new instances. */
-export interface LivenessCheck {
-  /** Time before the check is considered failed. */
-  timeout?: string;
-  /** Interval between health checks. */
-  checkInterval?: string;
-  /** The request path. */
-  path?: string;
-  /** Host header to send when performing a HTTP Liveness check. Example: "myapp.appspot.com" */
-  host?: string;
-  /** Number of consecutive failed checks required before considering the VM unhealthy. */
-  failureThreshold?: number;
-  /** The initial delay before starting to execute the checks. */
-  initialDelay?: string;
-  /** Number of consecutive successful checks required before considering the VM healthy. */
-  successThreshold?: number;
-}
-export type VpcAccessConnectorEgressSettingEnum =
-  | "EGRESS_SETTING_UNSPECIFIED"
-  | "ALL_TRAFFIC"
-  | "PRIVATE_IP_RANGES";
-/** VPC access connector specification. */
-export interface VpcAccessConnector {
-  /** Full Serverless VPC Access Connector name e.g. projects/my-project/locations/us-central1/connectors/c1. */
-  name?: string;
-  /** The egress setting for the connector, controlling what traffic is diverted through it. */
-  egressSetting?: VpcAccessConnectorEgressSettingEnum | (string & {});
 }
 export type VersionAppEngineBundledServicesItemEnum =
   | "BUNDLED_SERVICE_TYPE_UNSPECIFIED"
@@ -606,99 +350,90 @@ export type VersionAppEngineBundledServicesItemEnum =
 export type VersionAppEngineBundledServicesItemEnumList = Array<
   VersionAppEngineBundledServicesItemEnum | (string & {})
 >;
-/** Third-party Python runtime library that is required by the application. */
-export interface Library {
-  /** Version of the library to select, or "latest". */
-  version?: string;
-  /** Name of the library. Example: "django". */
-  name?: string;
+export type StringMap = { [key: string]: string | undefined };
+/** Health checking configuration for VM instances. Unhealthy instances are killed and replaced with new instances. Only applicable for instances in App Engine flexible environment. */
+export interface HealthCheck {
+  /** Whether to explicitly disable health checks for this instance. */
+  disableHealthCheck?: boolean;
+  /** Host header to send when performing an HTTP health check. Example: "myapp.appspot.com" */
+  host?: string;
+  /** Interval between health checks. */
+  checkInterval?: string;
+  /** Number of consecutive failed health checks required before removing traffic. */
+  unhealthyThreshold?: number;
+  /** Number of consecutive successful health checks required before receiving traffic. */
+  healthyThreshold?: number;
+  /** Number of consecutive failed health checks required before an instance is restarted. */
+  restartThreshold?: number;
+  /** Time before the health check is considered failed. */
+  timeout?: string;
 }
-export type LibraryList = Array<Library>;
-export type ApiConfigHandlerLoginEnum =
-  | "LOGIN_UNSPECIFIED"
-  | "LOGIN_OPTIONAL"
-  | "LOGIN_ADMIN"
-  | "LOGIN_REQUIRED";
-export type ApiConfigHandlerAuthFailActionEnum =
-  | "AUTH_FAIL_ACTION_UNSPECIFIED"
-  | "AUTH_FAIL_ACTION_REDIRECT"
-  | "AUTH_FAIL_ACTION_UNAUTHORIZED";
-export type ApiConfigHandlerSecurityLevelEnum =
-  | "SECURE_UNSPECIFIED"
-  | "SECURE_DEFAULT"
-  | "SECURE_NEVER"
-  | "SECURE_OPTIONAL"
-  | "SECURE_ALWAYS";
-/** Google Cloud Endpoints (https://cloud.google.com/endpoints) configuration for API handlers. */
-export interface ApiConfigHandler {
-  /** Level of login required to access this resource. Defaults to optional. */
-  login?: ApiConfigHandlerLoginEnum | (string & {});
-  /** URL to serve the endpoint at. */
-  url?: string;
-  /** Path to the script from the application root directory. */
-  script?: string;
-  /** Action to take when users access resources that require authentication. Defaults to redirect. */
-  authFailAction?: ApiConfigHandlerAuthFailActionEnum | (string & {});
-  /** Security (HTTPS) enforcement for this URL. */
-  securityLevel?: ApiConfigHandlerSecurityLevelEnum | (string & {});
+/** Runtime settings for the App Engine flexible environment. */
+export interface FlexibleRuntimeSettings {
+  /** The runtime version of an App Engine flexible application. */
+  runtimeVersion?: string;
+  /** The operating system of the application runtime. */
+  operatingSystem?: string;
 }
-export type EndpointsApiServiceRolloutStrategyEnum =
-  | "UNSPECIFIED_ROLLOUT_STRATEGY"
-  | "FIXED"
-  | "MANAGED";
-/** Google Cloud Endpoints (https://cloud.google.com/endpoints) configuration. The Endpoints API Service provides tooling for serving Open API and gRPC endpoints via an NGINX proxy. Only valid for App Engine Flexible environment deployments.The fields here refer to the name and configuration ID of a "service" resource in the Service Management API (https://cloud.google.com/service-management/overview). */
-export interface EndpointsApiService {
-  /** Endpoints service configuration ID as specified by the Service Management API. For example "2016-09-19r1".By default, the rollout strategy for Endpoints is RolloutStrategy.FIXED. This means that Endpoints starts up with a particular configuration ID. When a new configuration is rolled out, Endpoints must be given the new configuration ID. The config_id field is used to give the configuration ID and is required in this case.Endpoints also has a rollout strategy called RolloutStrategy.MANAGED. When using this, Endpoints fetches the latest configuration and does not need the configuration ID. In this case, config_id must be omitted. */
-  configId?: string;
-  /** Enable or disable trace sampling. By default, this is set to false for enabled. */
-  disableTraceSampling?: boolean;
-  /** Endpoints service name which is the name of the "service" resource in the Service Management API. For example "myapi.endpoints.myproject.cloud.goog" */
-  name?: string;
-  /** Endpoints rollout strategy. If FIXED, config_id must be specified. If MANAGED, config_id must be omitted. */
-  rolloutStrategy?: EndpointsApiServiceRolloutStrategyEnum | (string & {});
+/** Readiness checking configuration for VM instances. Unhealthy instances are removed from traffic rotation. */
+export interface ReadinessCheck {
+  /** Number of consecutive successful checks required before receiving traffic. */
+  successThreshold?: number;
+  /** The request path. */
+  path?: string;
+  /** Time before the check is considered failed. */
+  timeout?: string;
+  /** Number of consecutive failed checks required before removing traffic. */
+  failureThreshold?: number;
+  /** Interval between health checks. */
+  checkInterval?: string;
+  /** Host header to send when performing a HTTP Readiness check. Example: "myapp.appspot.com" */
+  host?: string;
+  /** A maximum time limit on application initialization, measured from moment the application successfully replies to a healthcheck until it is ready to serve traffic. */
+  appStartTimeout?: string;
 }
 export type UrlMapAuthFailActionEnum =
   | "AUTH_FAIL_ACTION_UNSPECIFIED"
   | "AUTH_FAIL_ACTION_REDIRECT"
   | "AUTH_FAIL_ACTION_UNAUTHORIZED";
+export type UrlMapLoginEnum =
+  | "LOGIN_UNSPECIFIED"
+  | "LOGIN_OPTIONAL"
+  | "LOGIN_ADMIN"
+  | "LOGIN_REQUIRED";
 export type UrlMapRedirectHttpResponseCodeEnum =
   | "REDIRECT_HTTP_RESPONSE_CODE_UNSPECIFIED"
   | "REDIRECT_HTTP_RESPONSE_CODE_301"
   | "REDIRECT_HTTP_RESPONSE_CODE_302"
   | "REDIRECT_HTTP_RESPONSE_CODE_303"
   | "REDIRECT_HTTP_RESPONSE_CODE_307";
-export type UrlMapLoginEnum =
-  | "LOGIN_UNSPECIFIED"
-  | "LOGIN_OPTIONAL"
-  | "LOGIN_ADMIN"
-  | "LOGIN_REQUIRED";
-/** Executes a script to handle the request that matches the URL pattern. */
-export interface ScriptHandler {
-  /** Path to the script from the application root directory. */
-  scriptPath?: string;
-}
 export type UrlMapSecurityLevelEnum =
   | "SECURE_UNSPECIFIED"
   | "SECURE_DEFAULT"
   | "SECURE_NEVER"
   | "SECURE_OPTIONAL"
   | "SECURE_ALWAYS";
+/** Executes a script to handle the request that matches the URL pattern. */
+export interface ScriptHandler {
+  /** Path to the script from the application root directory. */
+  scriptPath?: string;
+}
 /** Files served directly to the user for a given URL, such as images, CSS stylesheets, or JavaScript source files. Static file handlers describe which files in the application directory are static files, and which URLs serve them. */
 export interface StaticFilesHandler {
-  /** Whether files should also be uploaded as code data. By default, files declared in static file handlers are uploaded as static data and are only served to end users; they cannot be read by the application. If enabled, uploads are charged against both your code and static data storage resource quotas. */
-  applicationReadable?: boolean;
-  /** HTTP headers to use for all responses from these URLs. */
-  httpHeaders?: StringMap;
-  /** Regular expression that matches the file paths for all files that should be referenced by this handler. */
-  uploadPathRegex?: string;
-  /** Time a static file served by this handler should be cached by web proxies and browsers. */
-  expiration?: string;
-  /** Path to the static files matched by the URL pattern, from the application root directory. The path can refer to text matched in groupings in the URL pattern. */
-  path?: string;
   /** MIME type used to serve all files served by this handler.Defaults to file-specific MIME types, which are derived from each file's filename extension. */
   mimeType?: string;
+  /** Regular expression that matches the file paths for all files that should be referenced by this handler. */
+  uploadPathRegex?: string;
   /** Whether this handler should match the request if the file referenced by the handler does not exist. */
   requireMatchingFile?: boolean;
+  /** Whether files should also be uploaded as code data. By default, files declared in static file handlers are uploaded as static data and are only served to end users; they cannot be read by the application. If enabled, uploads are charged against both your code and static data storage resource quotas. */
+  applicationReadable?: boolean;
+  /** Time a static file served by this handler should be cached by web proxies and browsers. */
+  expiration?: string;
+  /** HTTP headers to use for all responses from these URLs. */
+  httpHeaders?: StringMap;
+  /** Path to the static files matched by the URL pattern, from the application root directory. The path can refer to text matched in groupings in the URL pattern. */
+  path?: string;
 }
 /** Uses Google Cloud Endpoints to handle requests. */
 export type ApiEndpointHandler = ScriptHandler;
@@ -706,140 +441,425 @@ export type ApiEndpointHandler = ScriptHandler;
 export interface UrlMap {
   /** Action to take when users access resources that require authentication. Defaults to redirect. */
   authFailAction?: UrlMapAuthFailActionEnum | (string & {});
-  /** 30x code to use when performing redirects for the secure field. Defaults to 302. */
-  redirectHttpResponseCode?: UrlMapRedirectHttpResponseCodeEnum | (string & {});
   /** Level of login required to access this resource. Not supported for Node.js in the App Engine standard environment. */
   login?: UrlMapLoginEnum | (string & {});
-  /** Executes a script to handle the requests that match this URL pattern. Only the auto value is supported for Node.js in the App Engine standard environment, for example "script": "auto". */
-  script?: ScriptHandler;
+  /** 30x code to use when performing redirects for the secure field. Defaults to 302. */
+  redirectHttpResponseCode?: UrlMapRedirectHttpResponseCodeEnum | (string & {});
   /** Security (HTTPS) enforcement for this URL. */
   securityLevel?: UrlMapSecurityLevelEnum | (string & {});
+  /** Executes a script to handle the requests that match this URL pattern. Only the auto value is supported for Node.js in the App Engine standard environment, for example "script": "auto". */
+  script?: ScriptHandler;
   /** Returns the contents of a file, such as an image, as the response. */
   staticFiles?: StaticFilesHandler;
-  /** URL prefix. Uses regular expression syntax, which means regexp special characters must be escaped, but should not contain groupings. All URLs that begin with this prefix are handled by this handler, using the portion of the URL after the prefix as part of the file path. */
-  urlRegex?: string;
   /** Uses API Endpoints to handle requests. */
   apiEndpoint?: ScriptHandler;
+  /** URL prefix. Uses regular expression syntax, which means regexp special characters must be escaped, but should not contain groupings. All URLs that begin with this prefix are handled by this handler, using the portion of the URL after the prefix as part of the file path. */
+  urlRegex?: string;
 }
 export type UrlMapList = Array<UrlMap>;
+/** Volumes mounted within the app container. Only applicable in the App Engine flexible environment. */
+export interface Volume {
+  /** Unique name for the volume. */
+  name?: string;
+  /** Underlying volume type, e.g. 'tmpfs'. */
+  volumeType?: string;
+  /** Volume size in gigabytes. */
+  sizeGb?: number;
+}
+export type VolumeList = Array<Volume>;
+/** Machine resources for a version. */
+export interface Resources {
+  /** Memory (GB) needed. */
+  memoryGb?: number;
+  /** The name of the encryption key that is stored in Google Cloud KMS. Only should be used by Cloud Composer to encrypt the vm disk */
+  kmsKeyReference?: string;
+  /** Number of CPU cores needed. */
+  cpu?: number;
+  /** User specified volumes. */
+  volumes?: VolumeList;
+  /** Disk size (GB) needed. */
+  diskGb?: number;
+}
+export type ErrorHandlerErrorCodeEnum =
+  | "ERROR_CODE_UNSPECIFIED"
+  | "ERROR_CODE_DEFAULT"
+  | "ERROR_CODE_OVER_QUOTA"
+  | "ERROR_CODE_DOS_API_DENIAL"
+  | "ERROR_CODE_TIMEOUT";
+/** Custom static error page to be served when an error occurs. */
+export interface ErrorHandler {
+  /** MIME type of file. Defaults to text/html. */
+  mimeType?: string;
+  /** Error condition this handler applies to. */
+  errorCode?: ErrorHandlerErrorCodeEnum | (string & {});
+  /** Static file content to be served for this error. */
+  staticFile?: string;
+}
+export type ErrorHandlerList = Array<ErrorHandler>;
+/** A service with basic scaling will create an instance when the application receives a request. The instance will be turned down when the app becomes idle. Basic scaling is ideal for work that is intermittent or driven by user activity. */
+export interface BasicScaling {
+  /** Duration of time after the last request that an instance must wait before the instance is shut down. */
+  idleTimeout?: string;
+  /** Maximum number of instances to create for this version. */
+  maxInstances?: number;
+}
+/** Single source file that is part of the version to be deployed. Each source file that is deployed must be specified separately. */
+export interface FileInfo {
+  /** The MIME type of the file.Defaults to the value from Google Cloud Storage. */
+  mimeType?: string;
+  /** The SHA1 hash of the file, in hex. */
+  sha1Sum?: string;
+  /** URL source to use to fetch this file. Must be a URL to a resource in Google Cloud Storage in the form 'http(s)://storage.googleapis.com//'. */
+  sourceUrl?: string;
+}
+export type FileInfoMap = { [key: string]: FileInfo | undefined };
+/** The zip file information for a zip deployment. */
+export interface ZipInfo {
+  /** URL of the zip file to deploy from. Must be a URL to a resource in Google Cloud Storage in the form 'http(s)://storage.googleapis.com//'. */
+  sourceUrl?: string;
+  /** An estimate of the number of files in a zip for a zip deployment. If set, must be greater than or equal to the actual number of files. Used for optimizing performance; if not provided, deployment may be slow. */
+  filesCount?: number;
+}
+/** Options for the build operations performed as a part of the version deployment. Only applicable for App Engine flexible environment when creating a version using source code directly. */
+export interface CloudBuildOptions {
+  /** Path to the yaml file used in deployment, used to determine runtime configuration details.Required for flexible environment builds.See https://cloud.google.com/appengine/docs/standard/python/config/appref for more details. */
+  appYamlPath?: string;
+  /** The Cloud Build timeout used as part of any dependent builds performed by version creation. Defaults to 10 minutes. */
+  cloudBuildTimeout?: string;
+}
+/** Docker image that is used to create a container and start a VM instance for the version that you deploy. Only applicable for instances running in the App Engine flexible environment. */
+export interface ContainerInfo {
+  /** URI to the hosted container image in Google Container Registry. The URI must be fully qualified and include a tag or digest. Examples: "gcr.io/my-project/image:tag" or "gcr.io/my-project/image@digest" */
+  image?: string;
+}
+/** Code and application artifacts used to deploy a version to App Engine. */
+export interface Deployment {
+  /** Manifest of the files stored in Google Cloud Storage that are included as part of this version. All files must be readable using the credentials supplied with this call. */
+  files?: FileInfoMap;
+  /** The zip file for this deployment, if this is a zip deployment. */
+  zip?: ZipInfo;
+  /** Options for any Google Cloud Build builds created as a part of this deployment.These options will only be used if a new build is created, such as when deploying to the App Engine flexible environment using files or zip. */
+  cloudBuildOptions?: CloudBuildOptions;
+  /** The Docker image for the container that runs the version. Only applicable for instances running in the App Engine flexible environment. */
+  container?: ContainerInfo;
+}
+export type ApiConfigHandlerLoginEnum =
+  | "LOGIN_UNSPECIFIED"
+  | "LOGIN_OPTIONAL"
+  | "LOGIN_ADMIN"
+  | "LOGIN_REQUIRED";
+export type ApiConfigHandlerSecurityLevelEnum =
+  | "SECURE_UNSPECIFIED"
+  | "SECURE_DEFAULT"
+  | "SECURE_NEVER"
+  | "SECURE_OPTIONAL"
+  | "SECURE_ALWAYS";
+export type ApiConfigHandlerAuthFailActionEnum =
+  | "AUTH_FAIL_ACTION_UNSPECIFIED"
+  | "AUTH_FAIL_ACTION_REDIRECT"
+  | "AUTH_FAIL_ACTION_UNAUTHORIZED";
+/** Google Cloud Endpoints (https://cloud.google.com/endpoints) configuration for API handlers. */
+export interface ApiConfigHandler {
+  /** Level of login required to access this resource. Defaults to optional. */
+  login?: ApiConfigHandlerLoginEnum | (string & {});
+  /** Path to the script from the application root directory. */
+  script?: string;
+  /** Security (HTTPS) enforcement for this URL. */
+  securityLevel?: ApiConfigHandlerSecurityLevelEnum | (string & {});
+  /** URL to serve the endpoint at. */
+  url?: string;
+  /** Action to take when users access resources that require authentication. Defaults to redirect. */
+  authFailAction?: ApiConfigHandlerAuthFailActionEnum | (string & {});
+}
+/** Third-party Python runtime library that is required by the application. */
+export interface Library {
+  /** Name of the library. Example: "django". */
+  name?: string;
+  /** Version of the library to select, or "latest". */
+  version?: string;
+}
+export type LibraryList = Array<Library>;
+/** Target scaling by disk usage. Only applicable in the App Engine flexible environment. */
+export interface DiskUtilization {
+  /** Target ops written per second. */
+  targetWriteOpsPerSecond?: number;
+  /** Target bytes read per second. */
+  targetReadBytesPerSecond?: number;
+  /** Target ops read per seconds. */
+  targetReadOpsPerSecond?: number;
+  /** Target bytes written per second. */
+  targetWriteBytesPerSecond?: number;
+}
+/** Target scaling by request utilization. Only applicable in the App Engine flexible environment. */
+export interface RequestUtilization {
+  /** Target requests per second. */
+  targetRequestCountPerSecond?: number;
+  /** Target number of concurrent requests. */
+  targetConcurrentRequests?: number;
+}
+/** Target scaling by network usage. Only applicable in the App Engine flexible environment. */
+export interface NetworkUtilization {
+  /** Target packets received per second. */
+  targetReceivedPacketsPerSecond?: number;
+  /** Target bytes received per second. */
+  targetReceivedBytesPerSecond?: number;
+  /** Target bytes sent per second. */
+  targetSentBytesPerSecond?: number;
+  /** Target packets sent per second. */
+  targetSentPacketsPerSecond?: number;
+}
+/** Target scaling by CPU usage. */
+export interface CpuUtilization {
+  /** Target CPU utilization ratio to maintain when scaling. Must be between 0 and 1. */
+  targetUtilization?: number;
+  /** Period of time over which CPU utilization is calculated. */
+  aggregationWindowLength?: string;
+}
+/** Scheduler settings for standard environment. */
+export interface StandardSchedulerSettings {
+  /** Target CPU utilization ratio to maintain when scaling. */
+  targetCpuUtilization?: number;
+  /** Minimum number of instances to run for this version. Set to zero to disable min_instances configuration. */
+  minInstances?: number;
+  /** Maximum number of instances to run for this version. Set to 2147483647 to disable max_instances configuration. */
+  maxInstances?: number;
+  /** Target throughput utilization ratio to maintain when scaling */
+  targetThroughputUtilization?: number;
+}
+/** Automatic scaling is based on request rate, response latencies, and other application metrics. */
+export interface AutomaticScaling {
+  /** Target scaling by disk usage. */
+  diskUtilization?: DiskUtilization;
+  /** Maximum number of idle instances that should be maintained for this version. */
+  maxIdleInstances?: number;
+  /** Minimum amount of time a request should wait in the pending queue before starting a new instance to handle it. */
+  minPendingLatency?: string;
+  /** Target scaling by request utilization. */
+  requestUtilization?: RequestUtilization;
+  /** Target scaling by network usage. */
+  networkUtilization?: NetworkUtilization;
+  /** The time period that the Autoscaler (https://cloud.google.com/compute/docs/autoscaler/) should wait before it starts collecting information from a new instance. This prevents the autoscaler from collecting information when the instance is initializing, during which the collected usage would not be reliable. Only applicable in the App Engine flexible environment. */
+  coolDownPeriod?: string;
+  /** Minimum number of running instances that should be maintained for this version. */
+  minTotalInstances?: number;
+  /** Target scaling by CPU usage. */
+  cpuUtilization?: CpuUtilization;
+  /** Number of concurrent requests an automatic scaling instance can accept before the scheduler spawns a new instance.Defaults to a runtime-specific value. */
+  maxConcurrentRequests?: number;
+  /** Minimum number of idle instances that should be maintained for this version. Only applicable for the default version of a service. */
+  minIdleInstances?: number;
+  /** Maximum amount of time that a request should wait in the pending queue before starting a new instance to handle it. */
+  maxPendingLatency?: string;
+  /** Maximum number of instances that should be started to handle requests for this version. */
+  maxTotalInstances?: number;
+  /** Scheduler settings for standard environment. */
+  standardSchedulerSettings?: StandardSchedulerSettings;
+}
+export type VersionServingStatusEnum = "SERVING_STATUS_UNSPECIFIED" | "SERVING" | "STOPPED";
+export type VpcAccessConnectorEgressSettingEnum =
+  | "EGRESS_SETTING_UNSPECIFIED"
+  | "ALL_TRAFFIC"
+  | "PRIVATE_IP_RANGES";
+/** VPC access connector specification. */
+export interface VpcAccessConnector {
+  /** Full Serverless VPC Access Connector name e.g. projects/my-project/locations/us-central1/connectors/c1. */
+  name?: string;
+  /** The egress setting for the connector, controlling what traffic is diverted through it. */
+  egressSetting?: VpcAccessConnectorEgressSettingEnum | (string & {});
+}
+export type VersionInboundServicesItemEnum =
+  | "INBOUND_SERVICE_UNSPECIFIED"
+  | "INBOUND_SERVICE_MAIL"
+  | "INBOUND_SERVICE_MAIL_BOUNCE"
+  | "INBOUND_SERVICE_XMPP_ERROR"
+  | "INBOUND_SERVICE_XMPP_MESSAGE"
+  | "INBOUND_SERVICE_XMPP_SUBSCRIBE"
+  | "INBOUND_SERVICE_XMPP_PRESENCE"
+  | "INBOUND_SERVICE_CHANNEL_PRESENCE"
+  | "INBOUND_SERVICE_WARMUP";
+export type VersionInboundServicesItemEnumList = Array<
+  VersionInboundServicesItemEnum | (string & {})
+>;
+/** A service with manual scaling runs continuously, allowing you to perform complex initialization and rely on the state of its memory over time. */
+export interface ManualScaling {
+  /** Number of instances to assign to the service at the start. This number can later be altered by using the Modules API (https://cloud.google.com/appengine/docs/python/modules/functions) set_num_instances() function. */
+  instances?: number;
+}
+export type EndpointsApiServiceRolloutStrategyEnum =
+  | "UNSPECIFIED_ROLLOUT_STRATEGY"
+  | "FIXED"
+  | "MANAGED";
+/** Google Cloud Endpoints (https://cloud.google.com/endpoints) configuration. The Endpoints API Service provides tooling for serving Open API and gRPC endpoints via an NGINX proxy. Only valid for App Engine Flexible environment deployments.The fields here refer to the name and configuration ID of a "service" resource in the Service Management API (https://cloud.google.com/service-management/overview). */
+export interface EndpointsApiService {
+  /** Endpoints service name which is the name of the "service" resource in the Service Management API. For example "myapi.endpoints.myproject.cloud.goog" */
+  name?: string;
+  /** Endpoints rollout strategy. If FIXED, config_id must be specified. If MANAGED, config_id must be omitted. */
+  rolloutStrategy?: EndpointsApiServiceRolloutStrategyEnum | (string & {});
+  /** Endpoints service configuration ID as specified by the Service Management API. For example "2016-09-19r1".By default, the rollout strategy for Endpoints is RolloutStrategy.FIXED. This means that Endpoints starts up with a particular configuration ID. When a new configuration is rolled out, Endpoints must be given the new configuration ID. The config_id field is used to give the configuration ID and is required in this case.Endpoints also has a rollout strategy called RolloutStrategy.MANAGED. When using this, Endpoints fetches the latest configuration and does not need the configuration ID. In this case, config_id must be omitted. */
+  configId?: string;
+  /** Enable or disable trace sampling. By default, this is set to false for enabled. */
+  disableTraceSampling?: boolean;
+}
 export type NetworkInstanceIpModeEnum = "INSTANCE_IP_MODE_UNSPECIFIED" | "EXTERNAL" | "INTERNAL";
 /** Extra network settings. Only applicable in the App Engine flexible environment. */
 export interface Network {
-  /** Google Compute Engine network where the virtual machines are created. Specify the short name, not the resource path.Defaults to default. */
-  name?: string;
   /** Google Cloud Platform sub-network where the virtual machines are created. Specify the short name, not the resource path.If a subnetwork name is specified, a network name will also be required unless it is for the default network. If the network that the instance is being created in is a Legacy network, then the IP address is allocated from the IPv4Range. If the network that the instance is being created in is an auto Subnet Mode Network, then only network name should be specified (not the subnetwork_name) and the IP address is created from the IPCidrRange of the subnetwork that exists in that zone for that network. If the network that the instance is being created in is a custom Subnet Mode Network, then the subnetwork_name must be specified and the IP address is created from the IPCidrRange of the subnetwork.If specified, the subnetwork must exist in the same region as the App Engine flexible environment application. */
   subnetworkName?: string;
-  /** Enable session affinity. Only applicable in the App Engine flexible environment. */
-  sessionAffinity?: boolean;
-  /** List of ports, or port pairs, to forward from the virtual machine to the application container. Only applicable in the App Engine flexible environment. */
-  forwardedPorts?: StringList;
   /** The IP mode for instances. Only applicable in the App Engine flexible environment. */
   instanceIpMode?: NetworkInstanceIpModeEnum | (string & {});
   /** Tag to apply to the instance during creation. Only applicable in the App Engine flexible environment. */
   instanceTag?: string;
+  /** Google Compute Engine network where the virtual machines are created. Specify the short name, not the resource path.Defaults to default. */
+  name?: string;
+  /** List of ports, or port pairs, to forward from the virtual machine to the application container. Only applicable in the App Engine flexible environment. */
+  forwardedPorts?: StringList;
+  /** Enable session affinity. Only applicable in the App Engine flexible environment. */
+  sessionAffinity?: boolean;
+}
+export type VpcAccessVpcEgressEnum = "VPC_EGRESS_UNSPECIFIED" | "ALL_TRAFFIC" | "PRIVATE_IP_RANGES";
+/** Network interface key message. */
+export interface VpcNetworkInterface {
+  /** Optional. The VPC network that the App Engine resource will be able to send traffic to. At least one of network or subnetwork must be specified. If both network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If network is not specified, it will be looked up from the subnetwork. Could be either a short name or a full path. e.g. {VPC_NETWORK} or projects/{HOST_PROJECT_ID}/global/networks/{VPC_NETWORK} */
+  network?: string;
+  /** Optional. The network tags that will be applied to this App Engine resource. */
+  tags?: StringList;
+  /** Optional. The VPC subnetwork that the App Engine resource will get IPs from. At least one of network or subnetwork must be specified. If both network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If subnetwork is not specified, the subnetwork with the same name with the network will be used. Could be either a short name or a full path. e.g. {SUBNET_NAME} or projects/{HOST_PROJECT_ID}/regions/{REGION}/subnetworks/{SUBNET_NAME} */
+  subnet?: string;
+}
+export type VpcNetworkInterfaceList = Array<VpcNetworkInterface>;
+/** VPC Access settings */
+export interface VpcAccess {
+  /** The traffic egress setting for the VPC network interface, controlling what traffic is diverted through it. */
+  vpcEgress?: VpcAccessVpcEgressEnum | (string & {});
+  /** The Direct VPC configuration. Currently only single network interface is supported. */
+  networkInterfaces?: VpcNetworkInterfaceList;
+}
+/** Health checking configuration for VM instances. Unhealthy instances are killed and replaced with new instances. */
+export interface LivenessCheck {
+  /** The initial delay before starting to execute the checks. */
+  initialDelay?: string;
+  /** Interval between health checks. */
+  checkInterval?: string;
+  /** Time before the check is considered failed. */
+  timeout?: string;
+  /** The request path. */
+  path?: string;
+  /** Host header to send when performing a HTTP Liveness check. Example: "myapp.appspot.com" */
+  host?: string;
+  /** Number of consecutive successful checks required before considering the VM healthy. */
+  successThreshold?: number;
+  /** Number of consecutive failed checks required before considering the VM unhealthy. */
+  failureThreshold?: number;
+}
+/** The entrypoint for the application. */
+export interface Entrypoint {
+  /** The format should be a shell command that can be fed to bash -c. */
+  shell?: string;
 }
 /** A Version resource is a specific set of source code and configuration files that are deployed into a service. */
 export interface Version {
-  /** Environment variables available to the build environment.Only returned in GET requests if view=FULL is set. */
-  buildEnvVariables?: StringMap;
-  /** Output only. Serving URL for this version. Example: "https://myversion-dot-myservice-dot-myapp.appspot.com"@OutputOnly */
-  versionUrl?: string;
-  /** Configures readiness health checking for instances. Unhealthy instances are not put into the backend traffic rotation. */
-  readinessCheck?: ReadinessCheck;
-  /** Machine resources for this version. Only applicable in the App Engine flexible environment. */
-  resources?: Resources;
-  /** Allows App Engine second generation runtimes to access the legacy bundled services. */
-  appEngineApis?: boolean;
-  /** Settings for App Engine flexible runtimes. */
-  flexibleRuntimeSettings?: FlexibleRuntimeSettings;
-  /** Configures health checking for instances. Unhealthy instances are stopped and replaced with new instances. Only applicable in the App Engine flexible environment. */
-  healthCheck?: HealthCheck;
-  /** The channel of the runtime to use. Only available for some runtimes. Defaults to the default channel. */
-  runtimeChannel?: string;
-  /** Time that this version was created.@OutputOnly */
-  createTime?: string;
-  /** App Engine execution environment for this version.Defaults to standard. */
-  env?: string;
-  /** Output only. Total size in bytes of all the files that are included in this version and currently hosted on the App Engine disk.@OutputOnly */
-  diskUsageBytes?: string;
-  /** A service with manual scaling runs continuously, allowing you to perform complex initialization and rely on the state of its memory over time. Manually scaled versions are sometimes referred to as "backends". */
-  manualScaling?: ManualScaling;
-  /** Code and application artifacts that make up this version.Only returned in GET requests if view=FULL is set. */
-  deployment?: Deployment;
-  /** The identity that the deployed version will run as. Admin API will use the App Engine Appspot service account as default if this field is neither provided in app.yaml file nor through CLI flag. */
-  serviceAccount?: string;
-  /** Custom static error pages. Limited to 10KB per page.Only returned in GET requests if view=FULL is set. */
-  errorHandlers?: ErrorHandlerList;
-  /** A service with basic scaling will create an instance when the application receives a request. The instance will be turned down when the app becomes idle. Basic scaling is ideal for work that is intermittent or driven by user activity. */
-  basicScaling?: BasicScaling;
-  /** Automatic scaling is based on request rate, response latencies, and other application metrics. Instances are dynamically created and destroyed as needed in order to handle traffic. */
-  automaticScaling?: AutomaticScaling;
-  /** Files that match this pattern will not be built into this version. Only applicable for Go runtimes.Only returned in GET requests if view=FULL is set. */
-  nobuildFilesRegex?: string;
-  /** Desired runtime. Example: python27. */
-  runtime?: string;
-  /** Before an application can receive email or XMPP messages, the application must be configured to enable the service. */
-  inboundServices?: VersionInboundServicesItemEnumList;
-  /** Current serving status of this version. Only the versions with a SERVING status create instances and can be billed.SERVING_STATUS_UNSPECIFIED is an invalid value. Defaults to SERVING. */
-  servingStatus?: VersionServingStatusEnum | (string & {});
-  /** The entrypoint for the application. */
-  entrypoint?: Entrypoint;
   /** Whether to deploy this version in a container on a virtual machine. */
   vm?: boolean;
   /** Instance class that is used to run this version. Valid values are: AutomaticScaling: F1, F2, F4, F4_1G ManualScaling or BasicScaling: B1, B2, B4, B8, B4_1GDefaults to F1 for AutomaticScaling and B1 for ManualScaling or BasicScaling. */
   instanceClass?: string;
-  /** Configures liveness health checking for instances. Unhealthy instances are stopped and replaced with new instances */
-  livenessCheck?: LivenessCheck;
-  /** Relative name of the version within the service. Example: v1. Version names can contain only lowercase letters, numbers, or hyphens. Reserved names: "default", "latest", and any name with the prefix "ah-". */
-  id?: string;
-  /** Enables VPC connectivity for standard apps. */
-  vpcAccessConnector?: VpcAccessConnector;
-  /** Metadata settings that are supplied to this version to enable beta runtime features. */
-  betaSettings?: StringMap;
-  /** The Google Compute Engine zones that are supported by this version in the App Engine flexible environment. Deprecated. */
-  zones?: StringList;
   /** List of specific App Engine Bundled Services that are enabled for this Version. */
   appEngineBundledServices?: VersionAppEngineBundledServicesItemEnumList;
-  /** Configuration for third-party Python runtime libraries that are required by the application.Only returned in GET requests if view=FULL is set. */
-  libraries?: LibraryList;
+  /** The identity that the deployed version will run as. Admin API will use the App Engine Appspot service account as default if this field is neither provided in app.yaml file nor through CLI flag. */
+  serviceAccount?: string;
+  /** Metadata settings that are supplied to this version to enable beta runtime features. */
+  betaSettings?: StringMap;
+  /** Environment variables available to the application.Only returned in GET requests if view=FULL is set. */
+  envVariables?: StringMap;
+  /** Configures health checking for instances. Unhealthy instances are stopped and replaced with new instances. Only applicable in the App Engine flexible environment. */
+  healthCheck?: HealthCheck;
+  /** Time that this version was created.@OutputOnly */
+  createTime?: string;
+  /** The path or name of the app's main executable. */
+  runtimeMainExecutablePath?: string;
+  /** Settings for App Engine flexible runtimes. */
+  flexibleRuntimeSettings?: FlexibleRuntimeSettings;
+  /** Configures readiness health checking for instances. Unhealthy instances are not put into the backend traffic rotation. */
+  readinessCheck?: ReadinessCheck;
+  /** An ordered list of URL-matching patterns that should be applied to incoming requests. The first matching URL handles the request and other request handlers are not attempted.Only returned in GET requests if view=FULL is set. */
+  handlers?: UrlMapList;
   /** Duration that static files should be cached by web proxies and browsers. Only applicable if the corresponding StaticFilesHandler (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StaticFilesHandler) does not specify its own expiration time.Only returned in GET requests if view=FULL is set. */
   defaultExpiration?: string;
+  /** Machine resources for this version. Only applicable in the App Engine flexible environment. */
+  resources?: Resources;
+  /** Desired runtime. Example: python27. */
+  runtime?: string;
+  /** Custom static error pages. Limited to 10KB per page.Only returned in GET requests if view=FULL is set. */
+  errorHandlers?: ErrorHandlerList;
+  /** A service with basic scaling will create an instance when the application receives a request. The instance will be turned down when the app becomes idle. Basic scaling is ideal for work that is intermittent or driven by user activity. */
+  basicScaling?: BasicScaling;
+  /** Code and application artifacts that make up this version.Only returned in GET requests if view=FULL is set. */
+  deployment?: Deployment;
   /** Serving configuration for Google Cloud Endpoints (https://cloud.google.com/endpoints).Only returned in GET requests if view=FULL is set. */
   apiConfig?: ApiConfigHandler;
+  /** Configuration for third-party Python runtime libraries that are required by the application.Only returned in GET requests if view=FULL is set. */
+  libraries?: LibraryList;
+  /** Files that match this pattern will not be built into this version. Only applicable for Go runtimes.Only returned in GET requests if view=FULL is set. */
+  nobuildFilesRegex?: string;
+  /** Automatic scaling is based on request rate, response latencies, and other application metrics. Instances are dynamically created and destroyed as needed in order to handle traffic. */
+  automaticScaling?: AutomaticScaling;
+  /** Output only. Total size in bytes of all the files that are included in this version and currently hosted on the App Engine disk.@OutputOnly */
+  diskUsageBytes?: string;
+  /** Current serving status of this version. Only the versions with a SERVING status create instances and can be billed.SERVING_STATUS_UNSPECIFIED is an invalid value. Defaults to SERVING. */
+  servingStatus?: VersionServingStatusEnum | (string & {});
+  /** Whether multiple requests can be dispatched to this version at once. */
+  threadsafe?: boolean;
+  /** App Engine execution environment for this version.Defaults to standard. */
+  env?: string;
+  /** Enables VPC connectivity for standard apps. */
+  vpcAccessConnector?: VpcAccessConnector;
+  /** Before an application can receive email or XMPP messages, the application must be configured to enable the service. */
+  inboundServices?: VersionInboundServicesItemEnumList;
+  /** Allows App Engine second generation runtimes to access the legacy bundled services. */
+  appEngineApis?: boolean;
+  /** The Google Compute Engine zones that are supported by this version in the App Engine flexible environment. Deprecated. */
+  zones?: StringList;
+  /** Environment variables available to the build environment.Only returned in GET requests if view=FULL is set. */
+  buildEnvVariables?: StringMap;
+  /** Relative name of the version within the service. Example: v1. Version names can contain only lowercase letters, numbers, or hyphens. Reserved names: "default", "latest", and any name with the prefix "ah-". */
+  id?: string;
+  /** The version of the API in the given runtime environment. Please see the app.yaml reference for valid values at https://cloud.google.com/appengine/docs/standard//config/appref */
+  runtimeApiVersion?: string;
   /** Additional Google Generated Customer Metadata, this field won't be provided by default and can be requested by setting the IncludeExtraData field in GetVersionRequest */
   generatedCustomerMetadata?: DocumentMap;
+  /** A service with manual scaling runs continuously, allowing you to perform complex initialization and rely on the state of its memory over time. Manually scaled versions are sometimes referred to as "backends". */
+  manualScaling?: ManualScaling;
   /** Output only. Email address of the user who created this version.@OutputOnly */
   createdBy?: string;
   /** Cloud Endpoints configuration.If endpoints_api_service is set, the Cloud Endpoints Extensible Service Proxy will be provided to serve the API implemented by the app. */
   endpointsApiService?: EndpointsApiService;
-  /** Environment variables available to the application.Only returned in GET requests if view=FULL is set. */
-  envVariables?: StringMap;
-  /** An ordered list of URL-matching patterns that should be applied to incoming requests. The first matching URL handles the request and other request handlers are not attempted.Only returned in GET requests if view=FULL is set. */
-  handlers?: UrlMapList;
-  /** The path or name of the app's main executable. */
-  runtimeMainExecutablePath?: string;
-  /** The version of the API in the given runtime environment. Please see the app.yaml reference for valid values at https://cloud.google.com/appengine/docs/standard//config/appref */
-  runtimeApiVersion?: string;
-  /** Extra network settings. Only applicable in the App Engine flexible environment. */
-  network?: Network;
   /** Output only. Full path to the Version resource in the API. Example: apps/myapp/services/default/versions/v1.@OutputOnly */
   name?: string;
-  /** Whether multiple requests can be dispatched to this version at once. */
-  threadsafe?: boolean;
+  /** Extra network settings. Only applicable in the App Engine flexible environment. */
+  network?: Network;
+  /** Enables VPC access connectivity for standard apps. */
+  vpcAccess?: VpcAccess;
+  /** Output only. Serving URL for this version. Example: "https://myversion-dot-myservice-dot-myapp.appspot.com"@OutputOnly */
+  versionUrl?: string;
+  /** Configures liveness health checking for instances. Unhealthy instances are stopped and replaced with new instances */
+  livenessCheck?: LivenessCheck;
+  /** The channel of the runtime to use. Only available for some runtimes. Defaults to the default channel. */
+  runtimeChannel?: string;
+  /** The entrypoint for the application. */
+  entrypoint?: Entrypoint;
 }
 export interface CreateAppsServicesVersionsRequest {
-  /** Part of `parent`. Required. Name of the parent resource to create this version under. Example: apps/myapp/services/default. */
-  appsId: string;
   /** Part of `parent`. See documentation of `appsId`. */
   servicesId: string;
+  /** Part of `parent`. Required. Name of the parent resource to create this version under. Example: apps/myapp/services/default. */
+  appsId: string;
   /** Request body */
   body?: Version;
 }
 export interface CreateProjectsLocationsApplicationsAuthorizedCertificatesRequest {
-  /** Part of `parent`. See documentation of `projectsId`. */
-  applicationsId: string;
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   projectsId: string;
+  /** Part of `parent`. See documentation of `projectsId`. */
+  applicationsId: string;
   /** Part of `parent`. See documentation of `projectsId`. */
   locationsId: string;
   /** Request body */
@@ -850,16 +870,16 @@ export type CreateProjectsLocationsApplicationsDomainMappingsOverrideStrategyEnu
   | "STRICT"
   | "OVERRIDE";
 export interface CreateProjectsLocationsApplicationsDomainMappingsRequest {
-  /** Part of `parent`. See documentation of `projectsId`. */
-  locationsId: string;
   /** Whether the domain creation should override any existing mappings for this domain. By default, overrides are rejected. */
   overrideStrategy?:
     | CreateProjectsLocationsApplicationsDomainMappingsOverrideStrategyEnum
     | (string & {});
-  /** Part of `parent`. See documentation of `projectsId`. */
-  applicationsId: string;
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   projectsId: string;
+  /** Part of `parent`. See documentation of `projectsId`. */
+  applicationsId: string;
+  /** Part of `parent`. See documentation of `projectsId`. */
+  locationsId: string;
   /** Request body */
   body?: DomainMapping;
 }
@@ -869,30 +889,30 @@ export interface DebugInstanceRequest {
   sshKey?: string;
 }
 export interface DebugAppsServicesVersionsInstancesRequest {
-  /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1/instances/instance-1. */
-  appsId: string;
   /** Part of `name`. See documentation of `appsId`. */
   instancesId: string;
   /** Part of `name`. See documentation of `appsId`. */
   servicesId: string;
   /** Part of `name`. See documentation of `appsId`. */
   versionsId: string;
+  /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1/instances/instance-1. */
+  appsId: string;
   /** Request body */
   body?: DebugInstanceRequest;
 }
 export interface DebugProjectsLocationsApplicationsServicesVersionsInstancesRequest {
-  /** Part of `name`. See documentation of `projectsId`. */
-  locationsId: string;
-  /** Part of `name`. See documentation of `projectsId`. */
-  versionsId: string;
-  /** Part of `name`. See documentation of `projectsId`. */
-  instancesId: string;
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1/instances/instance-1. */
   projectsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
-  servicesId: string;
+  instancesId: string;
   /** Part of `name`. See documentation of `projectsId`. */
   applicationsId: string;
+  /** Part of `name`. See documentation of `projectsId`. */
+  servicesId: string;
+  /** Part of `name`. See documentation of `projectsId`. */
+  versionsId: string;
+  /** Part of `name`. See documentation of `projectsId`. */
+  locationsId: string;
   /** Request body */
   body?: DebugInstanceRequest;
 }
@@ -911,10 +931,10 @@ export interface DeleteAppsDomainMappingsRequest {
   domainMappingsId: string;
 }
 export interface DeleteAppsFirewallIngressRulesRequest {
-  /** Part of `name`. Name of the Firewall resource to delete. Example: apps/myapp/firewall/ingressRules/100. */
-  appsId: string;
   /** Part of `name`. See documentation of `appsId`. */
   ingressRulesId: string;
+  /** Part of `name`. Name of the Firewall resource to delete. Example: apps/myapp/firewall/ingressRules/100. */
+  appsId: string;
 }
 export interface DeleteAppsServicesRequest {
   /** Part of `name`. See documentation of `appsId`. */
@@ -924,19 +944,19 @@ export interface DeleteAppsServicesRequest {
 }
 export interface DeleteAppsServicesVersionsRequest {
   /** Part of `name`. See documentation of `appsId`. */
-  versionsId: string;
-  /** Part of `name`. See documentation of `appsId`. */
   servicesId: string;
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1. */
   appsId: string;
-}
-export interface DeleteAppsServicesVersionsInstancesRequest {
-  /** Part of `name`. See documentation of `appsId`. */
-  servicesId: string;
   /** Part of `name`. See documentation of `appsId`. */
   versionsId: string;
+}
+export interface DeleteAppsServicesVersionsInstancesRequest {
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1/instances/instance-1. */
   appsId: string;
+  /** Part of `name`. See documentation of `appsId`. */
+  versionsId: string;
+  /** Part of `name`. See documentation of `appsId`. */
+  servicesId: string;
   /** Part of `name`. See documentation of `appsId`. */
   instancesId: string;
 }
@@ -944,57 +964,57 @@ export interface DeleteProjectsLocationsApplicationsAuthorizedCertificatesReques
   /** Part of `name`. See documentation of `projectsId`. */
   authorizedCertificatesId: string;
   /** Part of `name`. See documentation of `projectsId`. */
-  applicationsId: string;
-  /** Part of `name`. See documentation of `projectsId`. */
   locationsId: string;
+  /** Part of `name`. See documentation of `projectsId`. */
+  applicationsId: string;
   /** Part of `name`. Required. Name of the resource to delete. Example: apps/myapp/authorizedCertificates/12345. */
   projectsId: string;
 }
 export interface DeleteProjectsLocationsApplicationsDomainMappingsRequest {
-  /** Part of `name`. Required. Name of the resource to delete. Example: apps/myapp/domainMappings/example.com. */
-  projectsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
   applicationsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
   locationsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
   domainMappingsId: string;
+  /** Part of `name`. Required. Name of the resource to delete. Example: apps/myapp/domainMappings/example.com. */
+  projectsId: string;
 }
 export interface DeleteProjectsLocationsApplicationsServicesRequest {
-  /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default. */
-  projectsId: string;
+  /** Part of `name`. See documentation of `projectsId`. */
+  applicationsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
   servicesId: string;
   /** Part of `name`. See documentation of `projectsId`. */
   locationsId: string;
-  /** Part of `name`. See documentation of `projectsId`. */
-  applicationsId: string;
+  /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default. */
+  projectsId: string;
 }
 export interface DeleteProjectsLocationsApplicationsServicesVersionsRequest {
   /** Part of `name`. See documentation of `projectsId`. */
-  versionsId: string;
-  /** Part of `name`. See documentation of `projectsId`. */
   applicationsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
+  versionsId: string;
+  /** Part of `name`. See documentation of `projectsId`. */
   locationsId: string;
-  /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1. */
-  projectsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
   servicesId: string;
+  /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1. */
+  projectsId: string;
 }
 export interface DeleteProjectsLocationsApplicationsServicesVersionsInstancesRequest {
   /** Part of `name`. See documentation of `projectsId`. */
-  versionsId: string;
+  locationsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
-  applicationsId: string;
-  /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1/instances/instance-1. */
-  projectsId: string;
+  versionsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
   servicesId: string;
   /** Part of `name`. See documentation of `projectsId`. */
-  locationsId: string;
+  applicationsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
   instancesId: string;
+  /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1/instances/instance-1. */
+  projectsId: string;
 }
 /** Request message for Versions.ExportAppImage. */
 export interface ExportAppImageRequest {
@@ -1002,26 +1022,26 @@ export interface ExportAppImageRequest {
   destinationRepository?: string;
 }
 export interface ExportAppImageAppsServicesVersionsRequest {
-  /** Part of `name`. Required. Name of the App Engine version resource. Format: apps/{app}/services/{service}/versions/{version} */
-  appsId: string;
-  /** Part of `name`. See documentation of `appsId`. */
-  versionsId: string;
   /** Part of `name`. See documentation of `appsId`. */
   servicesId: string;
+  /** Part of `name`. See documentation of `appsId`. */
+  versionsId: string;
+  /** Part of `name`. Required. Name of the App Engine version resource. Format: apps/{app}/services/{service}/versions/{version} */
+  appsId: string;
   /** Request body */
   body?: ExportAppImageRequest;
 }
 export interface ExportAppImageProjectsLocationsApplicationsServicesVersionsRequest {
-  /** Part of `name`. See documentation of `projectsId`. */
-  versionsId: string;
   /** Part of `name`. Required. Name of the App Engine version resource. Format: apps/{app}/services/{service}/versions/{version} */
   projectsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
   servicesId: string;
   /** Part of `name`. See documentation of `projectsId`. */
-  locationsId: string;
+  versionsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
   applicationsId: string;
+  /** Part of `name`. See documentation of `projectsId`. */
+  locationsId: string;
   /** Request body */
   body?: ExportAppImageRequest;
 }
@@ -1037,12 +1057,12 @@ export interface GetAppsRequest {
 }
 export type GetAppsAuthorizedCertificatesViewEnum = "BASIC_CERTIFICATE" | "FULL_CERTIFICATE";
 export interface GetAppsAuthorizedCertificatesRequest {
-  /** Part of `name`. See documentation of `appsId`. */
-  authorizedCertificatesId: string;
-  /** Controls the set of fields returned in the GET response. */
-  view?: GetAppsAuthorizedCertificatesViewEnum | (string & {});
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/authorizedCertificates/12345. */
   appsId: string;
+  /** Controls the set of fields returned in the GET response. */
+  view?: GetAppsAuthorizedCertificatesViewEnum | (string & {});
+  /** Part of `name`. See documentation of `appsId`. */
+  authorizedCertificatesId: string;
 }
 export interface GetAppsDomainMappingsRequest {
   /** Part of `name`. See documentation of `appsId`. */
@@ -1051,10 +1071,10 @@ export interface GetAppsDomainMappingsRequest {
   appsId: string;
 }
 export interface GetAppsFirewallIngressRulesRequest {
-  /** Part of `name`. Name of the Firewall resource to retrieve. Example: apps/myapp/firewall/ingressRules/100. */
-  appsId: string;
   /** Part of `name`. See documentation of `appsId`. */
   ingressRulesId: string;
+  /** Part of `name`. Name of the Firewall resource to retrieve. Example: apps/myapp/firewall/ingressRules/100. */
+  appsId: string;
 }
 export interface GetAppsLocationsRequest {
   /** Part of `name`. Resource name for the location. */
@@ -1064,28 +1084,37 @@ export interface GetAppsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Resource name for the location, which may vary between implementations. For example: "projects/example-project/locations/us-east1" */
-  name?: string;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  /** The canonical id for this location. For example: "us-east1". */
+  locationId?: string;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap;
-  /** The canonical id for this location. For example: "us-east1". */
-  locationId?: string;
+  /** Resource name for the location, which may vary between implementations. For example: "projects/example-project/locations/us-east1" */
+  name?: string;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap;
 }
 export interface GetAppsOperationsRequest {
-  /** Part of `name`. The name of the operation resource. */
-  appsId: string;
   /** Part of `name`. See documentation of `appsId`. */
   operationsId: string;
+  /** Part of `name`. The name of the operation resource. */
+  appsId: string;
 }
 export interface GetAppsServicesRequest {
   /** Part of `name`. See documentation of `appsId`. */
   servicesId: string;
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default. */
   appsId: string;
+}
+export type TrafficSplitShardByEnum = "UNSPECIFIED" | "COOKIE" | "IP" | "RANDOM";
+export type DoubleMap = { [key: string]: number | undefined };
+/** Traffic routing configuration for versions within a single service. Traffic splits define how traffic directed to the service is assigned to versions. */
+export interface TrafficSplit {
+  /** Mechanism used to determine which version a request is sent to. The traffic selection algorithm will be stable for either type until allocations are changed. */
+  shardBy?: TrafficSplitShardByEnum | (string & {});
+  /** Mapping from version IDs within the service to fractional (0.000, 1] allocations of traffic for that version. Each version can be specified only once, but some versions in the service may not have any traffic allocation. Services that have traffic allocated cannot be deleted until either the service is deleted or their traffic allocation is removed. Allocations must sum to 1. Up to two decimal place precision is supported for IP-based splits and up to three decimal places is supported for cookie-based splits. */
+  allocations?: DoubleMap;
 }
 export type NetworkSettingsIngressTrafficAllowedEnum =
   | "INGRESS_TRAFFIC_ALLOWED_UNSPECIFIED"
@@ -1097,52 +1126,42 @@ export interface NetworkSettings {
   /** The ingress settings for version or service. */
   ingressTrafficAllowed?: NetworkSettingsIngressTrafficAllowedEnum | (string & {});
 }
-export type DoubleMap = { [key: string]: number | undefined };
-export type TrafficSplitShardByEnum = "UNSPECIFIED" | "COOKIE" | "IP" | "RANDOM";
-/** Traffic routing configuration for versions within a single service. Traffic splits define how traffic directed to the service is assigned to versions. */
-export interface TrafficSplit {
-  /** Mapping from version IDs within the service to fractional (0.000, 1] allocations of traffic for that version. Each version can be specified only once, but some versions in the service may not have any traffic allocation. Services that have traffic allocated cannot be deleted until either the service is deleted or their traffic allocation is removed. Allocations must sum to 1. Up to two decimal place precision is supported for IP-based splits and up to three decimal places is supported for cookie-based splits. */
-  allocations?: DoubleMap;
-  /** Mechanism used to determine which version a request is sent to. The traffic selection algorithm will be stable for either type until allocations are changed. */
-  shardBy?: TrafficSplitShardByEnum | (string & {});
-}
 /** A Service resource is a logical component of an application that can share state and communicate in a secure fashion with other services. For example, an application that handles customer requests might include separate services to handle tasks such as backend data analysis or API requests from mobile devices. Each service has a collection of versions that define a specific set of code used to implement the functionality of that service. */
 export interface Service {
+  /** Additional Google Generated Customer Metadata, this field won't be provided by default and can be requested by setting the IncludeExtraData field in GetServiceRequest */
+  generatedCustomerMetadata?: DocumentMap;
+  /** Mapping that defines fractional HTTP traffic diversion to different versions within the service. */
+  split?: TrafficSplit;
+  /** A set of labels to apply to this service. Labels are key/value pairs that describe the service and all resources that belong to it (e.g., versions). The labels can be used to search and group resources, and are propagated to the usage and billing reports, enabling fine-grain analysis of costs. An example of using labels is to tag resources belonging to different environments (e.g., "env=prod", "env=qa"). Label keys and values can be no longer than 63 characters and can only contain lowercase letters, numeric characters, underscores, dashes, and international characters. Label keys must start with a lowercase letter or an international character. Each service can have at most 32 labels. */
+  labels?: StringMap;
+  /** Output only. Relative name of the service within the application. Example: default.@OutputOnly */
+  id?: string;
   /** Output only. Full path to the Service resource in the API. Example: apps/myapp/services/default.@OutputOnly */
   name?: string;
   /** Ingress settings for this service. Will apply to all versions. */
   networkSettings?: NetworkSettings;
-  /** A set of labels to apply to this service. Labels are key/value pairs that describe the service and all resources that belong to it (e.g., versions). The labels can be used to search and group resources, and are propagated to the usage and billing reports, enabling fine-grain analysis of costs. An example of using labels is to tag resources belonging to different environments (e.g., "env=prod", "env=qa"). Label keys and values can be no longer than 63 characters and can only contain lowercase letters, numeric characters, underscores, dashes, and international characters. Label keys must start with a lowercase letter or an international character. Each service can have at most 32 labels. */
-  labels?: StringMap;
-  /** Mapping that defines fractional HTTP traffic diversion to different versions within the service. */
-  split?: TrafficSplit;
-  /** Output only. Relative name of the service within the application. Example: default.@OutputOnly */
-  id?: string;
-  /** Additional Google Generated Customer Metadata, this field won't be provided by default and can be requested by setting the IncludeExtraData field in GetServiceRequest */
-  generatedCustomerMetadata?: DocumentMap;
 }
 export type GetAppsServicesVersionsViewEnum = "BASIC" | "FULL";
 export interface GetAppsServicesVersionsRequest {
-  /** Part of `name`. See documentation of `appsId`. */
-  versionsId: string;
-  /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1. */
-  appsId: string;
-  /** Part of `name`. See documentation of `appsId`. */
-  servicesId: string;
   /** Controls the set of fields returned in the Get response. */
   view?: GetAppsServicesVersionsViewEnum | (string & {});
-}
-export interface GetAppsServicesVersionsInstancesRequest {
   /** Part of `name`. See documentation of `appsId`. */
-  instancesId: string;
+  versionsId: string;
   /** Part of `name`. See documentation of `appsId`. */
   servicesId: string;
+  /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1. */
+  appsId: string;
+}
+export interface GetAppsServicesVersionsInstancesRequest {
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1/instances/instance-1. */
   appsId: string;
   /** Part of `name`. See documentation of `appsId`. */
   versionsId: string;
+  /** Part of `name`. See documentation of `appsId`. */
+  instancesId: string;
+  /** Part of `name`. See documentation of `appsId`. */
+  servicesId: string;
 }
-export type InstanceAvailabilityEnum = "UNSPECIFIED" | "RESIDENT" | "DYNAMIC";
 export type InstanceVmLivenessEnum =
   | "LIVENESS_STATE_UNSPECIFIED"
   | "UNKNOWN"
@@ -1150,55 +1169,56 @@ export type InstanceVmLivenessEnum =
   | "UNHEALTHY"
   | "DRAINING"
   | "TIMEOUT";
+export type InstanceAvailabilityEnum = "UNSPECIFIED" | "RESIDENT" | "DYNAMIC";
 /** An Instance resource is the computing unit that App Engine uses to automatically scale an application. */
 export interface Instance {
   /** Output only. The IP address of this instance. Only applicable for instances in App Engine flexible environment. */
   vmIp?: string;
-  /** Output only. Time that this instance was started.@OutputOnly */
-  startTime?: string;
-  /** Output only. Whether this instance is in debug mode. Only applicable for instances in App Engine flexible environment. */
-  vmDebugEnabled?: boolean;
-  /** Output only. Name of the virtual machine where this instance lives. Only applicable for instances in App Engine flexible environment. */
-  vmName?: string;
-  /** Output only. Total memory in use (bytes). */
-  memoryUsage?: string;
   /** Output only. Virtual machine ID of this instance. Only applicable for instances in App Engine flexible environment. */
   vmId?: string;
-  /** Output only. Average queries per second (QPS) over the last minute. */
-  qps?: number;
-  /** Output only. Zone where the virtual machine is located. Only applicable for instances in App Engine flexible environment. */
-  vmZoneName?: string;
-  /** Output only. Average latency (ms) over the last minute. */
-  averageLatency?: number;
-  /** Output only. Relative name of the instance within the version. Example: instance-1. */
-  id?: string;
-  /** Output only. Availability of the instance. */
-  availability?: InstanceAvailabilityEnum;
-  /** Output only. Status of the virtual machine where this instance lives. Only applicable for instances in App Engine flexible environment. */
-  vmStatus?: string;
-  /** Output only. App Engine release this instance is running on. */
-  appEngineRelease?: string;
-  /** Output only. Number of requests since this instance was started. */
-  requests?: number;
-  /** Output only. Full path to the Instance resource in the API. Example: apps/myapp/services/default/versions/v1/instances/instance-1. */
-  name?: string;
-  /** Output only. Number of errors since this instance was started. */
-  errors?: number;
   /** Output only. The liveness health check of this instance. Only applicable for instances in App Engine flexible environment. */
   vmLiveness?: InstanceVmLivenessEnum;
+  /** Output only. Status of the virtual machine where this instance lives. Only applicable for instances in App Engine flexible environment. */
+  vmStatus?: string;
+  /** Output only. Availability of the instance. */
+  availability?: InstanceAvailabilityEnum;
+  /** Output only. App Engine release this instance is running on. */
+  appEngineRelease?: string;
+  /** Output only. Name of the virtual machine where this instance lives. Only applicable for instances in App Engine flexible environment. */
+  vmName?: string;
+  /** Output only. Whether this instance is in debug mode. Only applicable for instances in App Engine flexible environment. */
+  vmDebugEnabled?: boolean;
+  /** Output only. Number of requests since this instance was started. */
+  requests?: number;
+  /** Output only. Total memory in use (bytes). */
+  memoryUsage?: string;
+  /** Output only. Average latency (ms) over the last minute. */
+  averageLatency?: number;
+  /** Output only. Zone where the virtual machine is located. Only applicable for instances in App Engine flexible environment. */
+  vmZoneName?: string;
+  /** Output only. Relative name of the instance within the version. Example: instance-1. */
+  id?: string;
+  /** Output only. Number of errors since this instance was started. */
+  errors?: number;
+  /** Output only. Average queries per second (QPS) over the last minute. */
+  qps?: number;
+  /** Output only. Full path to the Instance resource in the API. Example: apps/myapp/services/default/versions/v1/instances/instance-1. */
+  name?: string;
+  /** Output only. Time that this instance was started.@OutputOnly */
+  startTime?: string;
 }
 export type GetProjectsLocationsApplicationsAuthorizedCertificatesViewEnum =
   | "BASIC_CERTIFICATE"
   | "FULL_CERTIFICATE";
 export interface GetProjectsLocationsApplicationsAuthorizedCertificatesRequest {
   /** Part of `name`. See documentation of `projectsId`. */
-  locationsId: string;
-  /** Part of `name`. See documentation of `projectsId`. */
-  applicationsId: string;
+  authorizedCertificatesId: string;
   /** Controls the set of fields returned in the GET response. */
   view?: GetProjectsLocationsApplicationsAuthorizedCertificatesViewEnum | (string & {});
   /** Part of `name`. See documentation of `projectsId`. */
-  authorizedCertificatesId: string;
+  applicationsId: string;
+  /** Part of `name`. See documentation of `projectsId`. */
+  locationsId: string;
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/authorizedCertificates/12345. */
   projectsId: string;
 }
@@ -1207,10 +1227,10 @@ export interface GetProjectsLocationsApplicationsDomainMappingsRequest {
   locationsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
   applicationsId: string;
-  /** Part of `name`. See documentation of `projectsId`. */
-  domainMappingsId: string;
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/domainMappings/example.com. */
   projectsId: string;
+  /** Part of `name`. See documentation of `projectsId`. */
+  domainMappingsId: string;
 }
 export type ListAppsAuthorizedCertificatesViewEnum = "BASIC_CERTIFICATE" | "FULL_CERTIFICATE";
 export interface ListAppsAuthorizedCertificatesRequest {
@@ -1218,10 +1238,10 @@ export interface ListAppsAuthorizedCertificatesRequest {
   view?: ListAppsAuthorizedCertificatesViewEnum | (string & {});
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   appsId: string;
-  /** Continuation token for fetching the next page of results. */
-  pageToken?: string;
   /** Maximum results to return per page. */
   pageSize?: number;
+  /** Continuation token for fetching the next page of results. */
+  pageToken?: string;
 }
 export type AuthorizedCertificateList = Array<AuthorizedCertificate>;
 /** Response message for AuthorizedCertificates.ListAuthorizedCertificates. */
@@ -1234,10 +1254,10 @@ export interface ListAuthorizedCertificatesResponse {
 export interface ListAppsAuthorizedDomainsRequest {
   /** Continuation token for fetching the next page of results. */
   pageToken?: string;
-  /** Maximum results to return per page. */
-  pageSize?: number;
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   appsId: string;
+  /** Maximum results to return per page. */
+  pageSize?: number;
 }
 /** A domain that a user has been authorized to administer. To authorize use of a domain, verify ownership via Search Console (https://search.google.com/search-console/welcome). */
 export interface AuthorizedDomain {
@@ -1249,18 +1269,18 @@ export interface AuthorizedDomain {
 export type AuthorizedDomainList = Array<AuthorizedDomain>;
 /** Response message for AuthorizedDomains.ListAuthorizedDomains. */
 export interface ListAuthorizedDomainsResponse {
-  /** The authorized domains belonging to the user. */
-  domains?: AuthorizedDomainList;
   /** Continuation token for fetching the next page of results. */
   nextPageToken?: string;
+  /** The authorized domains belonging to the user. */
+  domains?: AuthorizedDomainList;
 }
 export interface ListAppsDomainMappingsRequest {
+  /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
+  appsId: string;
   /** Continuation token for fetching the next page of results. */
   pageToken?: string;
   /** Maximum results to return per page. */
   pageSize?: number;
-  /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
-  appsId: string;
 }
 export type DomainMappingList = Array<DomainMapping>;
 /** Response message for DomainMappings.ListDomainMappings. */
@@ -1273,12 +1293,12 @@ export interface ListDomainMappingsResponse {
 export interface ListAppsFirewallIngressRulesRequest {
   /** A valid IP Address. If set, only rules matching this address will be returned. The first returned rule will be the rule that fires on requests from this IP. */
   matchingAddress?: string;
-  /** Maximum results to return per page. */
-  pageSize?: number;
-  /** Continuation token for fetching the next page of results. */
-  pageToken?: string;
   /** Part of `parent`. Name of the Firewall collection to retrieve. Example: apps/myapp/firewall/ingressRules. */
   appsId: string;
+  /** Continuation token for fetching the next page of results. */
+  pageToken?: string;
+  /** Maximum results to return per page. */
+  pageSize?: number;
 }
 /** Response message for Firewall.ListIngressRules. */
 export interface ListIngressRulesResponse {
@@ -1288,16 +1308,16 @@ export interface ListIngressRulesResponse {
   nextPageToken?: string;
 }
 export interface ListAppsLocationsRequest {
+  /** Part of `name`. The resource that owns the locations collection, if applicable. */
+  appsId: string;
+  /** A page token received from the next_page_token field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like "displayName=tokyo", and is documented in more detail in AIP-160 (https://google.aip.dev/160). */
   filter?: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
-  /** A page token received from the next_page_token field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** Part of `name`. The resource that owns the locations collection, if applicable. */
-  appsId: string;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
@@ -1308,32 +1328,32 @@ export interface ListLocationsResponse {
   nextPageToken?: string;
 }
 export interface ListAppsOperationsRequest {
-  /** The standard list page size. */
-  pageSize?: number;
-  /** Part of `name`. The name of the operation's parent resource. */
-  appsId: string;
   /** The standard list filter. */
   filter?: string;
   /** The standard list page token. */
   pageToken?: string;
+  /** The standard list page size. */
+  pageSize?: number;
+  /** Part of `name`. The name of the operation's parent resource. */
+  appsId: string;
   /** When set to true, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field.This can only be true when reading across collections. For example, when parent is set to "projects/example/locations/-".This field is not supported by default and will result in an UNIMPLEMENTED error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
-  /** The standard List next-page token. */
-  nextPageToken?: string;
   /** Unordered list. Unreachable resources. Populated when the request sets ListOperationsRequest.return_partial_success and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList;
 }
 export interface ListAppsServicesRequest {
-  /** Maximum results to return per page. */
-  pageSize?: number;
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   appsId: string;
+  /** Maximum results to return per page. */
+  pageSize?: number;
   /** Continuation token for fetching the next page of results. */
   pageToken?: string;
 }
@@ -1347,36 +1367,36 @@ export interface ListServicesResponse {
 }
 export type ListAppsServicesVersionsViewEnum = "BASIC" | "FULL";
 export interface ListAppsServicesVersionsRequest {
-  /** Part of `parent`. Required. Name of the parent Service resource. Example: apps/myapp/services/default. */
-  appsId: string;
-  /** Continuation token for fetching the next page of results. */
-  pageToken?: string;
-  /** Controls the set of fields returned in the List response. */
-  view?: ListAppsServicesVersionsViewEnum | (string & {});
   /** Part of `parent`. See documentation of `appsId`. */
   servicesId: string;
+  /** Continuation token for fetching the next page of results. */
+  pageToken?: string;
   /** Maximum results to return per page. */
   pageSize?: number;
+  /** Part of `parent`. Required. Name of the parent Service resource. Example: apps/myapp/services/default. */
+  appsId: string;
+  /** Controls the set of fields returned in the List response. */
+  view?: ListAppsServicesVersionsViewEnum | (string & {});
 }
 export type VersionList = Array<Version>;
 /** Response message for Versions.ListVersions. */
 export interface ListVersionsResponse {
-  /** The versions belonging to the requested service. */
-  versions?: VersionList;
   /** Continuation token for fetching the next page of results. */
   nextPageToken?: string;
+  /** The versions belonging to the requested service. */
+  versions?: VersionList;
 }
 export interface ListAppsServicesVersionsInstancesRequest {
-  /** Continuation token for fetching the next page of results. */
-  pageToken?: string;
-  /** Part of `parent`. Required. Name of the parent Version resource. Example: apps/myapp/services/default/versions/v1. */
-  appsId: string;
   /** Part of `parent`. See documentation of `appsId`. */
   versionsId: string;
-  /** Maximum results to return per page. */
-  pageSize?: number;
+  /** Continuation token for fetching the next page of results. */
+  pageToken?: string;
   /** Part of `parent`. See documentation of `appsId`. */
   servicesId: string;
+  /** Part of `parent`. Required. Name of the parent Version resource. Example: apps/myapp/services/default/versions/v1. */
+  appsId: string;
+  /** Maximum results to return per page. */
+  pageSize?: number;
 }
 export type InstanceList = Array<Instance>;
 /** Response message for Instances.ListInstances. */
@@ -1390,40 +1410,40 @@ export type ListProjectsLocationsApplicationsAuthorizedCertificatesViewEnum =
   | "BASIC_CERTIFICATE"
   | "FULL_CERTIFICATE";
 export interface ListProjectsLocationsApplicationsAuthorizedCertificatesRequest {
+  /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
+  projectsId: string;
+  /** Continuation token for fetching the next page of results. */
+  pageToken?: string;
+  /** Part of `parent`. See documentation of `projectsId`. */
+  locationsId: string;
   /** Controls the set of fields returned in the LIST response. */
   view?: ListProjectsLocationsApplicationsAuthorizedCertificatesViewEnum | (string & {});
   /** Part of `parent`. See documentation of `projectsId`. */
   applicationsId: string;
-  /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
-  projectsId: string;
   /** Maximum results to return per page. */
   pageSize?: number;
-  /** Part of `parent`. See documentation of `projectsId`. */
-  locationsId: string;
-  /** Continuation token for fetching the next page of results. */
-  pageToken?: string;
 }
 export interface ListProjectsLocationsApplicationsAuthorizedDomainsRequest {
   /** Maximum results to return per page. */
   pageSize?: number;
-  /** Continuation token for fetching the next page of results. */
-  pageToken?: string;
-  /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
-  projectsId: string;
   /** Part of `parent`. See documentation of `projectsId`. */
   applicationsId: string;
+  /** Continuation token for fetching the next page of results. */
+  pageToken?: string;
   /** Part of `parent`. See documentation of `projectsId`. */
   locationsId: string;
+  /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
+  projectsId: string;
 }
 export interface ListProjectsLocationsApplicationsDomainMappingsRequest {
   /** Maximum results to return per page. */
   pageSize?: number;
+  /** Continuation token for fetching the next page of results. */
+  pageToken?: string;
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   projectsId: string;
   /** Part of `parent`. See documentation of `projectsId`. */
   locationsId: string;
-  /** Continuation token for fetching the next page of results. */
-  pageToken?: string;
   /** Part of `parent`. See documentation of `projectsId`. */
   applicationsId: string;
 }
@@ -1434,15 +1454,6 @@ export interface ListRuntimesAppsRequest {
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   appsId: string;
 }
-export type RuntimeStageEnum =
-  | "RUNTIME_STAGE_UNSPECIFIED"
-  | "DEVELOPMENT"
-  | "ALPHA"
-  | "BETA"
-  | "GA"
-  | "DEPRECATED"
-  | "DECOMMISSIONED"
-  | "END_OF_SUPPORT";
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: A full date, with non-zero year, month, and day values. A month and day, with a zero year (for example, an anniversary). A year on its own, with a zero month and a zero day. A year and month, with a zero day (for example, a credit card expiration date).Related types: google.type.TimeOfDay google.type.DateTime google.protobuf.Timestamp */
 export interface Appengine_Date {
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
@@ -1452,23 +1463,32 @@ export interface Appengine_Date {
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   month?: number;
 }
+export type RuntimeStageEnum =
+  | "RUNTIME_STAGE_UNSPECIFIED"
+  | "DEVELOPMENT"
+  | "ALPHA"
+  | "BETA"
+  | "GA"
+  | "DEPRECATED"
+  | "DECOMMISSIONED"
+  | "END_OF_SUPPORT";
 export type RuntimeEnvironmentEnum = "ENVIRONMENT_UNSPECIFIED" | "STANDARD" | "FLEXIBLE";
 /** Runtime versions for App Engine. */
 export interface Runtime {
-  /** The stage of life this runtime is in, e.g., BETA, GA, etc. */
-  stage?: RuntimeStageEnum;
-  /** Date when Runtime is decommissioned. */
-  decommissionedDate?: Appengine_Date;
   /** Warning messages, e.g., a deprecation warning. */
   warnings?: StringList;
-  /** Supported operating systems for the runtime, e.g., 'ubuntu22', etc. */
-  supportedOperatingSystems?: StringList;
-  /** Date when Runtime is deprecated. */
-  deprecationDate?: Appengine_Date;
+  /** Date when Runtime is decommissioned. */
+  decommissionedDate?: Appengine_Date;
+  /** The stage of life this runtime is in, e.g., BETA, GA, etc. */
+  stage?: RuntimeStageEnum;
   /** The name of the runtime, e.g., 'go113', 'nodejs12', etc. */
   name?: string;
+  /** Date when Runtime is deprecated. */
+  deprecationDate?: Appengine_Date;
   /** The environment of the runtime. */
   environment?: RuntimeEnvironmentEnum;
+  /** Supported operating systems for the runtime, e.g., 'ubuntu22', etc. */
+  supportedOperatingSystems?: StringList;
   /** User-friendly display name, e.g. 'Node.js 12', etc. */
   displayName?: string;
   /** Date when Runtime is end of support. */
@@ -1483,136 +1503,136 @@ export interface ListRuntimesResponse {
   nextPageToken?: string;
 }
 export interface PatchAppsRequest {
-  /** Part of `name`. Required. Name of the Application resource to update. Example: apps/myapp. */
-  appsId: string;
   /** Required. Standard field mask for the set of fields to be updated. */
   updateMask?: string;
+  /** Part of `name`. Required. Name of the Application resource to update. Example: apps/myapp. */
+  appsId: string;
   /** Request body */
   body?: Application;
 }
 export interface PatchAppsAuthorizedCertificatesRequest {
-  /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/authorizedCertificates/12345. */
-  appsId: string;
   /** Part of `name`. See documentation of `appsId`. */
   authorizedCertificatesId: string;
   /** Standard field mask for the set of fields to be updated. Updates are only supported on the certificate_raw_data and display_name fields. */
   updateMask?: string;
+  /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/authorizedCertificates/12345. */
+  appsId: string;
   /** Request body */
   body?: AuthorizedCertificate;
 }
 export interface PatchAppsDomainMappingsRequest {
-  /** Required. Standard field mask for the set of fields to be updated. */
-  updateMask?: string;
   /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/domainMappings/example.com. */
   appsId: string;
   /** Part of `name`. See documentation of `appsId`. */
   domainMappingsId: string;
+  /** Required. Standard field mask for the set of fields to be updated. */
+  updateMask?: string;
   /** Request body */
   body?: DomainMapping;
 }
 export interface PatchAppsFirewallIngressRulesRequest {
   /** Standard field mask for the set of fields to be updated. */
   updateMask?: string;
-  /** Part of `name`. See documentation of `appsId`. */
-  ingressRulesId: string;
   /** Part of `name`. Name of the Firewall resource to update. Example: apps/myapp/firewall/ingressRules/100. */
   appsId: string;
+  /** Part of `name`. See documentation of `appsId`. */
+  ingressRulesId: string;
   /** Request body */
   body?: FirewallRule;
 }
 export interface PatchAppsServicesRequest {
-  /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/services/default. */
-  appsId: string;
-  /** Set to true to gradually shift traffic to one or more versions that you specify. By default, traffic is shifted immediately. For gradual traffic migration, the target versions must be located within instances that are configured for both warmup requests (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#InboundServiceType) and automatic scaling (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#AutomaticScaling). You must specify the shardBy (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services#ShardBy) field in the Service resource. Gradual traffic migration is not supported in the App Engine flexible environment. For examples, see Migrating and Splitting Traffic (https://cloud.google.com/appengine/docs/admin-api/migrating-splitting-traffic). */
-  migrateTraffic?: boolean;
   /** Part of `name`. See documentation of `appsId`. */
   servicesId: string;
   /** Required. Standard field mask for the set of fields to be updated. */
   updateMask?: string;
+  /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/services/default. */
+  appsId: string;
+  /** Set to true to gradually shift traffic to one or more versions that you specify. By default, traffic is shifted immediately. For gradual traffic migration, the target versions must be located within instances that are configured for both warmup requests (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#InboundServiceType) and automatic scaling (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#AutomaticScaling). You must specify the shardBy (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services#ShardBy) field in the Service resource. Gradual traffic migration is not supported in the App Engine flexible environment. For examples, see Migrating and Splitting Traffic (https://cloud.google.com/appengine/docs/admin-api/migrating-splitting-traffic). */
+  migrateTraffic?: boolean;
   /** Request body */
   body?: Service;
 }
 export interface PatchAppsServicesVersionsRequest {
+  /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/services/default/versions/1. */
+  appsId: string;
+  /** Part of `name`. See documentation of `appsId`. */
+  servicesId: string;
   /** Standard field mask for the set of fields to be updated. */
   updateMask?: string;
   /** Part of `name`. See documentation of `appsId`. */
-  servicesId: string;
-  /** Part of `name`. See documentation of `appsId`. */
   versionsId: string;
-  /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/services/default/versions/1. */
-  appsId: string;
   /** Request body */
   body?: Version;
 }
 export interface PatchProjectsLocationsApplicationsRequest {
   /** Part of `name`. See documentation of `projectsId`. */
-  locationsId: string;
+  applicationsId: string;
   /** Part of `name`. Required. Name of the Application resource to update. Example: apps/myapp. */
   projectsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
-  applicationsId: string;
+  locationsId: string;
   /** Required. Standard field mask for the set of fields to be updated. */
   updateMask?: string;
   /** Request body */
   body?: Application;
 }
 export interface PatchProjectsLocationsApplicationsAuthorizedCertificatesRequest {
+  /** Standard field mask for the set of fields to be updated. Updates are only supported on the certificate_raw_data and display_name fields. */
+  updateMask?: string;
   /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/authorizedCertificates/12345. */
   projectsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
-  applicationsId: string;
-  /** Part of `name`. See documentation of `projectsId`. */
   authorizedCertificatesId: string;
-  /** Standard field mask for the set of fields to be updated. Updates are only supported on the certificate_raw_data and display_name fields. */
-  updateMask?: string;
+  /** Part of `name`. See documentation of `projectsId`. */
+  applicationsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
   locationsId: string;
   /** Request body */
   body?: AuthorizedCertificate;
 }
 export interface PatchProjectsLocationsApplicationsDomainMappingsRequest {
-  /** Required. Standard field mask for the set of fields to be updated. */
-  updateMask?: string;
   /** Part of `name`. See documentation of `projectsId`. */
   domainMappingsId: string;
-  /** Part of `name`. See documentation of `projectsId`. */
-  locationsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
   applicationsId: string;
   /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/domainMappings/example.com. */
   projectsId: string;
+  /** Part of `name`. See documentation of `projectsId`. */
+  locationsId: string;
+  /** Required. Standard field mask for the set of fields to be updated. */
+  updateMask?: string;
   /** Request body */
   body?: DomainMapping;
 }
 export interface PatchProjectsLocationsApplicationsServicesRequest {
   /** Part of `name`. See documentation of `projectsId`. */
-  locationsId: string;
-  /** Required. Standard field mask for the set of fields to be updated. */
-  updateMask?: string;
-  /** Part of `name`. See documentation of `projectsId`. */
   applicationsId: string;
   /** Set to true to gradually shift traffic to one or more versions that you specify. By default, traffic is shifted immediately. For gradual traffic migration, the target versions must be located within instances that are configured for both warmup requests (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#InboundServiceType) and automatic scaling (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#AutomaticScaling). You must specify the shardBy (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services#ShardBy) field in the Service resource. Gradual traffic migration is not supported in the App Engine flexible environment. For examples, see Migrating and Splitting Traffic (https://cloud.google.com/appengine/docs/admin-api/migrating-splitting-traffic). */
   migrateTraffic?: boolean;
-  /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/services/default. */
-  projectsId: string;
+  /** Part of `name`. See documentation of `projectsId`. */
+  locationsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
   servicesId: string;
+  /** Required. Standard field mask for the set of fields to be updated. */
+  updateMask?: string;
+  /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/services/default. */
+  projectsId: string;
   /** Request body */
   body?: Service;
 }
 export interface PatchProjectsLocationsApplicationsServicesVersionsRequest {
+  /** Part of `name`. See documentation of `projectsId`. */
+  versionsId: string;
+  /** Part of `name`. See documentation of `projectsId`. */
+  applicationsId: string;
   /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/services/default/versions/1. */
   projectsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
-  servicesId: string;
-  /** Part of `name`. See documentation of `projectsId`. */
-  applicationsId: string;
-  /** Part of `name`. See documentation of `projectsId`. */
   locationsId: string;
+  /** Part of `name`. See documentation of `projectsId`. */
+  servicesId: string;
   /** Standard field mask for the set of fields to be updated. */
   updateMask?: string;
-  /** Part of `name`. See documentation of `projectsId`. */
-  versionsId: string;
   /** Request body */
   body?: Version;
 }
@@ -2313,7 +2333,7 @@ export const getAppsServicesVersions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetAppsServicesVersionsRequest>,
-  output: __S(99, __c3, 3) as any as S.Schema<Version>,
+  output: __S(102, __c3, 6) as any as S.Schema<Version>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2963,9 +2983,9 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          appsId: S.String.pipe(T.Label()),
           servicesId: S.String.pipe(T.Label()),
-          body: S.optional(__S(99, __c3, 3).pipe(T.HttpBody())),
+          appsId: S.String.pipe(T.Label()),
+          body: S.optional(__S(102, __c3, 6).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2985,250 +3005,247 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.optional(S.String),
-          host: S.optional(S.String),
-          timeout: S.optional(S.String),
-          checkInterval: S.optional(S.String),
-          successThreshold: S.optional(S.Number),
-          failureThreshold: S.optional(S.Number),
-          appStartTimeout: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReadinessCheck" });
+      return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sizeGb: S.optional(S.Number),
-          name: S.optional(S.String),
-          volumeType: S.optional(S.String),
+          disableHealthCheck: S.optional(S.Boolean),
+          host: S.optional(S.String),
+          checkInterval: S.optional(S.String),
+          unhealthyThreshold: S.optional(S.Number),
+          healthyThreshold: S.optional(S.Number),
+          restartThreshold: S.optional(S.Number),
+          timeout: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Volume" });
+      ).annotate({ identifier: "HealthCheck" });
     case 2:
-      return S.Array(__S(65, __c2, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          diskGb: S.optional(S.Number),
-          kmsKeyReference: S.optional(S.String),
-          cpu: S.optional(S.Number),
-          volumes: S.optional(__S(66, __c2, 2)),
-          memoryGb: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Resources" });
-    case 4:
       return S.suspend(() =>
         S.Struct({
           runtimeVersion: S.optional(S.String),
           operatingSystem: S.optional(S.String),
         }),
       ).annotate({ identifier: "FlexibleRuntimeSettings" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          successThreshold: S.optional(S.Number),
+          path: S.optional(S.String),
+          timeout: S.optional(S.String),
+          failureThreshold: S.optional(S.Number),
+          checkInterval: S.optional(S.String),
+          host: S.optional(S.String),
+          appStartTimeout: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReadinessCheck" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          scriptPath: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScriptHandler" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          healthyThreshold: S.optional(S.Number),
-          restartThreshold: S.optional(S.Number),
-          unhealthyThreshold: S.optional(S.Number),
-          disableHealthCheck: S.optional(S.Boolean),
-          timeout: S.optional(S.String),
-          checkInterval: S.optional(S.String),
-          host: S.optional(S.String),
+          mimeType: S.optional(S.String),
+          uploadPathRegex: S.optional(S.String),
+          requireMatchingFile: S.optional(S.Boolean),
+          applicationReadable: S.optional(S.Boolean),
+          expiration: S.optional(S.String),
+          httpHeaders: S.optional(__S(32, __c1, 0)),
+          path: S.optional(S.String),
         }),
-      ).annotate({ identifier: "HealthCheck" });
+      ).annotate({ identifier: "StaticFilesHandler" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          instances: S.optional(S.Number),
+          authFailAction: S.optional(S.String),
+          login: S.optional(S.String),
+          redirectHttpResponseCode: S.optional(S.String),
+          securityLevel: S.optional(S.String),
+          script: S.optional(__S(68, __c2, 4)),
+          staticFiles: S.optional(__S(69, __c2, 5)),
+          apiEndpoint: S.optional(__S(68, __c2, 4)),
+          urlRegex: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ManualScaling" });
+      ).annotate({ identifier: "UrlMap" });
     case 7:
+      return S.Array(__S(70, __c2, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          image: S.optional(S.String),
+          name: S.optional(S.String),
+          volumeType: S.optional(S.String),
+          sizeGb: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "ContainerInfo" });
-    case 8:
+      ).annotate({ identifier: "Volume" });
+    case 9:
+      return S.Array(__S(72, __c2, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          memoryGb: S.optional(S.Number),
+          kmsKeyReference: S.optional(S.String),
+          cpu: S.optional(S.Number),
+          volumes: S.optional(__S(73, __c2, 9)),
+          diskGb: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Resources" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          mimeType: S.optional(S.String),
+          errorCode: S.optional(S.String),
+          staticFile: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorHandler" });
+    case 12:
+      return S.Array(__S(75, __c2, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          idleTimeout: S.optional(S.String),
+          maxInstances: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "BasicScaling" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          mimeType: S.optional(S.String),
+          sha1Sum: S.optional(S.String),
+          sourceUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FileInfo" });
+    case 15:
+      return S.Record(S.String, __S(78, __c2, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({
           sourceUrl: S.optional(S.String),
           filesCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ZipInfo" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          mimeType: S.optional(S.String),
-          sourceUrl: S.optional(S.String),
-          sha1Sum: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FileInfo" });
-    case 10:
-      return S.Record(S.String, __S(73, __c2, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          cloudBuildTimeout: S.optional(S.String),
-          appYamlPath: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CloudBuildOptions" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          container: S.optional(__S(71, __c2, 7)),
-          zip: S.optional(__S(72, __c2, 8)),
-          files: S.optional(__S(74, __c2, 10)),
-          cloudBuildOptions: S.optional(__S(75, __c2, 11)),
-        }),
-      ).annotate({ identifier: "Deployment" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          staticFile: S.optional(S.String),
-          mimeType: S.optional(S.String),
-          errorCode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ErrorHandler" });
-    case 14:
-      return S.Array(__S(77, __c2, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          maxInstances: S.optional(S.Number),
-          idleTimeout: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BasicScaling" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          minInstances: S.optional(S.Number),
-          maxInstances: S.optional(S.Number),
-          targetThroughputUtilization: S.optional(S.Number),
-          targetCpuUtilization: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "StandardSchedulerSettings" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          aggregationWindowLength: S.optional(S.String),
-          targetUtilization: S.optional(S.Number),
+          appYamlPath: S.optional(S.String),
+          cloudBuildTimeout: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CpuUtilization" });
+      ).annotate({ identifier: "CloudBuildOptions" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          targetReceivedBytesPerSecond: S.optional(S.Number),
-          targetReceivedPacketsPerSecond: S.optional(S.Number),
-          targetSentPacketsPerSecond: S.optional(S.Number),
-          targetSentBytesPerSecond: S.optional(S.Number),
+          image: S.optional(S.String),
         }),
-      ).annotate({ identifier: "NetworkUtilization" });
+      ).annotate({ identifier: "ContainerInfo" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          targetConcurrentRequests: S.optional(S.Number),
-          targetRequestCountPerSecond: S.optional(S.Number),
+          files: S.optional(__S(79, __c2, 15)),
+          zip: S.optional(__S(80, __c2, 16)),
+          cloudBuildOptions: S.optional(__S(81, __c2, 17)),
+          container: S.optional(__S(82, __c2, 18)),
         }),
-      ).annotate({ identifier: "RequestUtilization" });
+      ).annotate({ identifier: "Deployment" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          targetReadOpsPerSecond: S.optional(S.Number),
-          targetWriteBytesPerSecond: S.optional(S.Number),
-          targetWriteOpsPerSecond: S.optional(S.Number),
-          targetReadBytesPerSecond: S.optional(S.Number),
+          login: S.optional(S.String),
+          script: S.optional(S.String),
+          securityLevel: S.optional(S.String),
+          url: S.optional(S.String),
+          authFailAction: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DiskUtilization" });
+      ).annotate({ identifier: "ApiConfigHandler" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          standardSchedulerSettings: S.optional(__S(80, __c2, 16)),
-          minPendingLatency: S.optional(S.String),
-          maxTotalInstances: S.optional(S.Number),
-          cpuUtilization: S.optional(__S(81, __c2, 17)),
-          maxPendingLatency: S.optional(S.String),
-          networkUtilization: S.optional(__S(82, __c2, 18)),
-          minTotalInstances: S.optional(S.Number),
-          maxConcurrentRequests: S.optional(S.Number),
-          requestUtilization: S.optional(__S(83, __c2, 19)),
-          maxIdleInstances: S.optional(S.Number),
-          coolDownPeriod: S.optional(S.String),
-          diskUtilization: S.optional(__S(84, __c2, 20)),
-          minIdleInstances: S.optional(S.Number),
+          name: S.optional(S.String),
+          version: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AutomaticScaling" });
+      ).annotate({ identifier: "Library" });
     case 22:
-      return S.Array(S.String);
+      return S.Array(__S(85, __c2, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
-          shell: S.optional(S.String),
+          targetWriteOpsPerSecond: S.optional(S.Number),
+          targetReadBytesPerSecond: S.optional(S.Number),
+          targetReadOpsPerSecond: S.optional(S.Number),
+          targetWriteBytesPerSecond: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "Entrypoint" });
+      ).annotate({ identifier: "DiskUtilization" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          timeout: S.optional(S.String),
-          checkInterval: S.optional(S.String),
-          path: S.optional(S.String),
-          host: S.optional(S.String),
-          failureThreshold: S.optional(S.Number),
-          initialDelay: S.optional(S.String),
-          successThreshold: S.optional(S.Number),
+          targetRequestCountPerSecond: S.optional(S.Number),
+          targetConcurrentRequests: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "LivenessCheck" });
+      ).annotate({ identifier: "RequestUtilization" });
     case 25:
+      return S.suspend(() =>
+        S.Struct({
+          targetReceivedPacketsPerSecond: S.optional(S.Number),
+          targetReceivedBytesPerSecond: S.optional(S.Number),
+          targetSentBytesPerSecond: S.optional(S.Number),
+          targetSentPacketsPerSecond: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "NetworkUtilization" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          targetUtilization: S.optional(S.Number),
+          aggregationWindowLength: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CpuUtilization" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          targetCpuUtilization: S.optional(S.Number),
+          minInstances: S.optional(S.Number),
+          maxInstances: S.optional(S.Number),
+          targetThroughputUtilization: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "StandardSchedulerSettings" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          diskUtilization: S.optional(__S(87, __c2, 23)),
+          maxIdleInstances: S.optional(S.Number),
+          minPendingLatency: S.optional(S.String),
+          requestUtilization: S.optional(__S(88, __c2, 24)),
+          networkUtilization: S.optional(__S(89, __c2, 25)),
+          coolDownPeriod: S.optional(S.String),
+          minTotalInstances: S.optional(S.Number),
+          cpuUtilization: S.optional(__S(90, __c2, 26)),
+          maxConcurrentRequests: S.optional(S.Number),
+          minIdleInstances: S.optional(S.Number),
+          maxPendingLatency: S.optional(S.String),
+          maxTotalInstances: S.optional(S.Number),
+          standardSchedulerSettings: S.optional(__S(91, __c2, 27)),
+        }),
+      ).annotate({ identifier: "AutomaticScaling" });
+    case 29:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           egressSetting: S.optional(S.String),
         }),
       ).annotate({ identifier: "VpcAccessConnector" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          version: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Library" });
-    case 27:
-      return S.Array(__S(90, __c2, 26));
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          login: S.optional(S.String),
-          url: S.optional(S.String),
-          script: S.optional(S.String),
-          authFailAction: S.optional(S.String),
-          securityLevel: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ApiConfigHandler" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          configId: S.optional(S.String),
-          disableTraceSampling: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          rolloutStrategy: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EndpointsApiService" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          scriptPath: S.optional(S.String),
+          instances: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "ScriptHandler" });
+      ).annotate({ identifier: "ManualScaling" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          applicationReadable: S.optional(S.Boolean),
-          httpHeaders: S.optional(__S(32, __c1, 0)),
-          uploadPathRegex: S.optional(S.String),
-          expiration: S.optional(S.String),
-          path: S.optional(S.String),
-          mimeType: S.optional(S.String),
-          requireMatchingFile: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          rolloutStrategy: S.optional(S.String),
+          configId: S.optional(S.String),
+          disableTraceSampling: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "StaticFilesHandler" });
+      ).annotate({ identifier: "EndpointsApiService" });
   }
 }
 function __c3(j: number): any {
@@ -3236,75 +3253,96 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          authFailAction: S.optional(S.String),
-          redirectHttpResponseCode: S.optional(S.String),
-          login: S.optional(S.String),
-          script: S.optional(__S(94, __c2, 30)),
-          securityLevel: S.optional(S.String),
-          staticFiles: S.optional(__S(95, __c2, 31)),
-          urlRegex: S.optional(S.String),
-          apiEndpoint: S.optional(__S(94, __c2, 30)),
-        }),
-      ).annotate({ identifier: "UrlMap" });
-    case 1:
-      return S.Array(__S(96, __c3, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
           subnetworkName: S.optional(S.String),
-          sessionAffinity: S.optional(S.Boolean),
-          forwardedPorts: S.optional(__S(2368, __c74, 0)),
           instanceIpMode: S.optional(S.String),
           instanceTag: S.optional(S.String),
+          name: S.optional(S.String),
+          forwardedPorts: S.optional(__S(2368, __c74, 0)),
+          sessionAffinity: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Network" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          network: S.optional(S.String),
+          tags: S.optional(__S(2368, __c74, 0)),
+          subnet: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VpcNetworkInterface" });
+    case 2:
+      return S.Array(__S(97, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          buildEnvVariables: S.optional(__S(32, __c1, 0)),
-          versionUrl: S.optional(S.String),
-          readinessCheck: S.optional(__S(64, __c2, 0)),
-          resources: S.optional(__S(67, __c2, 3)),
-          appEngineApis: S.optional(S.Boolean),
-          flexibleRuntimeSettings: S.optional(__S(68, __c2, 4)),
-          healthCheck: S.optional(__S(69, __c2, 5)),
-          runtimeChannel: S.optional(S.String),
-          createTime: S.optional(S.String),
-          env: S.optional(S.String),
-          diskUsageBytes: S.optional(S.String),
-          manualScaling: S.optional(__S(70, __c2, 6)),
-          deployment: S.optional(__S(76, __c2, 12)),
-          serviceAccount: S.optional(S.String),
-          errorHandlers: S.optional(__S(78, __c2, 14)),
-          basicScaling: S.optional(__S(79, __c2, 15)),
-          automaticScaling: S.optional(__S(85, __c2, 21)),
-          nobuildFilesRegex: S.optional(S.String),
-          runtime: S.optional(S.String),
-          inboundServices: S.optional(__S(86, __c2, 22)),
-          servingStatus: S.optional(S.String),
-          entrypoint: S.optional(__S(87, __c2, 23)),
+          vpcEgress: S.optional(S.String),
+          networkInterfaces: S.optional(__S(98, __c3, 2)),
+        }),
+      ).annotate({ identifier: "VpcAccess" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          initialDelay: S.optional(S.String),
+          checkInterval: S.optional(S.String),
+          timeout: S.optional(S.String),
+          path: S.optional(S.String),
+          host: S.optional(S.String),
+          successThreshold: S.optional(S.Number),
+          failureThreshold: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "LivenessCheck" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          shell: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Entrypoint" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
           vm: S.optional(S.Boolean),
           instanceClass: S.optional(S.String),
-          livenessCheck: S.optional(__S(88, __c2, 24)),
-          id: S.optional(S.String),
-          vpcAccessConnector: S.optional(__S(89, __c2, 25)),
+          appEngineBundledServices: S.optional(__S(64, __c2, 0)),
+          serviceAccount: S.optional(S.String),
           betaSettings: S.optional(__S(32, __c1, 0)),
-          zones: S.optional(__S(2368, __c74, 0)),
-          appEngineBundledServices: S.optional(__S(86, __c2, 22)),
-          libraries: S.optional(__S(91, __c2, 27)),
-          defaultExpiration: S.optional(S.String),
-          apiConfig: S.optional(__S(92, __c2, 28)),
-          generatedCustomerMetadata: S.optional(__S(2144, __c67, 0)),
-          createdBy: S.optional(S.String),
-          endpointsApiService: S.optional(__S(93, __c2, 29)),
           envVariables: S.optional(__S(32, __c1, 0)),
-          handlers: S.optional(__S(97, __c3, 1)),
+          healthCheck: S.optional(__S(65, __c2, 1)),
+          createTime: S.optional(S.String),
           runtimeMainExecutablePath: S.optional(S.String),
-          runtimeApiVersion: S.optional(S.String),
-          network: S.optional(__S(98, __c3, 2)),
-          name: S.optional(S.String),
+          flexibleRuntimeSettings: S.optional(__S(66, __c2, 2)),
+          readinessCheck: S.optional(__S(67, __c2, 3)),
+          handlers: S.optional(__S(71, __c2, 7)),
+          defaultExpiration: S.optional(S.String),
+          resources: S.optional(__S(74, __c2, 10)),
+          runtime: S.optional(S.String),
+          errorHandlers: S.optional(__S(76, __c2, 12)),
+          basicScaling: S.optional(__S(77, __c2, 13)),
+          deployment: S.optional(__S(83, __c2, 19)),
+          apiConfig: S.optional(__S(84, __c2, 20)),
+          libraries: S.optional(__S(86, __c2, 22)),
+          nobuildFilesRegex: S.optional(S.String),
+          automaticScaling: S.optional(__S(92, __c2, 28)),
+          diskUsageBytes: S.optional(S.String),
+          servingStatus: S.optional(S.String),
           threadsafe: S.optional(S.Boolean),
+          env: S.optional(S.String),
+          vpcAccessConnector: S.optional(__S(93, __c2, 29)),
+          inboundServices: S.optional(__S(64, __c2, 0)),
+          appEngineApis: S.optional(S.Boolean),
+          zones: S.optional(__S(2368, __c74, 0)),
+          buildEnvVariables: S.optional(__S(32, __c1, 0)),
+          id: S.optional(S.String),
+          runtimeApiVersion: S.optional(S.String),
+          generatedCustomerMetadata: S.optional(__S(2144, __c67, 0)),
+          manualScaling: S.optional(__S(94, __c2, 30)),
+          createdBy: S.optional(S.String),
+          endpointsApiService: S.optional(__S(95, __c2, 31)),
+          name: S.optional(S.String),
+          network: S.optional(__S(96, __c3, 0)),
+          vpcAccess: S.optional(__S(99, __c3, 3)),
+          versionUrl: S.optional(S.String),
+          livenessCheck: S.optional(__S(100, __c3, 4)),
+          runtimeChannel: S.optional(S.String),
+          entrypoint: S.optional(__S(101, __c3, 5)),
         }),
       ).annotate({ identifier: "Version" });
   }
@@ -3314,8 +3352,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          applicationsId: S.String.pipe(T.Label()),
           projectsId: S.String.pipe(T.Label()),
+          applicationsId: S.String.pipe(T.Label()),
           locationsId: S.String.pipe(T.Label()),
           body: S.optional(__S(2402, __c75, 2).pipe(T.HttpBody())),
         }).pipe(
@@ -3335,10 +3373,10 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          locationsId: S.String.pipe(T.Label()),
           overrideStrategy: S.optional(S.String.pipe(T.Query())),
-          applicationsId: S.String.pipe(T.Label()),
           projectsId: S.String.pipe(T.Label()),
+          applicationsId: S.String.pipe(T.Label()),
+          locationsId: S.String.pipe(T.Label()),
           body: S.optional(__S(2467, __c77, 3).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -3355,10 +3393,10 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          appsId: S.String.pipe(T.Label()),
           instancesId: S.String.pipe(T.Label()),
           servicesId: S.String.pipe(T.Label()),
           versionsId: S.String.pipe(T.Label()),
+          appsId: S.String.pipe(T.Label()),
           body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -3385,12 +3423,12 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          locationsId: S.String.pipe(T.Label()),
-          versionsId: S.String.pipe(T.Label()),
-          instancesId: S.String.pipe(T.Label()),
           projectsId: S.String.pipe(T.Label()),
-          servicesId: S.String.pipe(T.Label()),
+          instancesId: S.String.pipe(T.Label()),
           applicationsId: S.String.pipe(T.Label()),
+          servicesId: S.String.pipe(T.Label()),
+          versionsId: S.String.pipe(T.Label()),
+          locationsId: S.String.pipe(T.Label()),
           body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -3449,8 +3487,8 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          appsId: S.String.pipe(T.Label()),
           ingressRulesId: S.String.pipe(T.Label()),
+          appsId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3483,9 +3521,9 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          versionsId: S.String.pipe(T.Label()),
           servicesId: S.String.pipe(T.Label()),
           appsId: S.String.pipe(T.Label()),
+          versionsId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3501,9 +3539,9 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          servicesId: S.String.pipe(T.Label()),
-          versionsId: S.String.pipe(T.Label()),
           appsId: S.String.pipe(T.Label()),
+          versionsId: S.String.pipe(T.Label()),
+          servicesId: S.String.pipe(T.Label()),
           instancesId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -3521,8 +3559,8 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           authorizedCertificatesId: S.String.pipe(T.Label()),
-          applicationsId: S.String.pipe(T.Label()),
           locationsId: S.String.pipe(T.Label()),
+          applicationsId: S.String.pipe(T.Label()),
           projectsId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -3541,10 +3579,10 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectsId: S.String.pipe(T.Label()),
           applicationsId: S.String.pipe(T.Label()),
           locationsId: S.String.pipe(T.Label()),
           domainMappingsId: S.String.pipe(T.Label()),
+          projectsId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3560,10 +3598,10 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectsId: S.String.pipe(T.Label()),
+          applicationsId: S.String.pipe(T.Label()),
           servicesId: S.String.pipe(T.Label()),
           locationsId: S.String.pipe(T.Label()),
-          applicationsId: S.String.pipe(T.Label()),
+          projectsId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3579,11 +3617,11 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          versionsId: S.String.pipe(T.Label()),
           applicationsId: S.String.pipe(T.Label()),
+          versionsId: S.String.pipe(T.Label()),
           locationsId: S.String.pipe(T.Label()),
-          projectsId: S.String.pipe(T.Label()),
           servicesId: S.String.pipe(T.Label()),
+          projectsId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3599,12 +3637,12 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          versionsId: S.String.pipe(T.Label()),
-          applicationsId: S.String.pipe(T.Label()),
-          projectsId: S.String.pipe(T.Label()),
-          servicesId: S.String.pipe(T.Label()),
           locationsId: S.String.pipe(T.Label()),
+          versionsId: S.String.pipe(T.Label()),
+          servicesId: S.String.pipe(T.Label()),
+          applicationsId: S.String.pipe(T.Label()),
           instancesId: S.String.pipe(T.Label()),
+          projectsId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3622,9 +3660,9 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          appsId: S.String.pipe(T.Label()),
-          versionsId: S.String.pipe(T.Label()),
           servicesId: S.String.pipe(T.Label()),
+          versionsId: S.String.pipe(T.Label()),
+          appsId: S.String.pipe(T.Label()),
           body: S.optional(__S(704, __c22, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -3651,11 +3689,11 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          versionsId: S.String.pipe(T.Label()),
           projectsId: S.String.pipe(T.Label()),
           servicesId: S.String.pipe(T.Label()),
-          locationsId: S.String.pipe(T.Label()),
+          versionsId: S.String.pipe(T.Label()),
           applicationsId: S.String.pipe(T.Label()),
+          locationsId: S.String.pipe(T.Label()),
           body: S.optional(__S(704, __c22, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -3691,9 +3729,9 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          authorizedCertificatesId: S.String.pipe(T.Label()),
-          view: S.optional(S.String.pipe(T.Query())),
           appsId: S.String.pipe(T.Label()),
+          view: S.optional(S.String.pipe(T.Query())),
+          authorizedCertificatesId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3726,8 +3764,8 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          appsId: S.String.pipe(T.Label()),
           ingressRulesId: S.String.pipe(T.Label()),
+          appsId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3760,11 +3798,11 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          labels: S.optional(__S(32, __c1, 0)),
+          locationId: S.optional(S.String),
           displayName: S.optional(S.String),
           metadata: S.optional(__S(2144, __c67, 0)),
-          locationId: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -3774,8 +3812,8 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          appsId: S.String.pipe(T.Label()),
           operationsId: S.String.pipe(T.Label()),
+          appsId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3806,29 +3844,29 @@ function __c31(j: number): any {
 function __c32(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.Number);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          shardBy: S.optional(S.String),
+          allocations: S.optional(__S(1024, __c32, 0)),
+        }),
+      ).annotate({ identifier: "TrafficSplit" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           ingressTrafficAllowed: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkSettings" });
-    case 1:
-      return S.Record(S.String, S.Number);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          allocations: S.optional(__S(1025, __c32, 1)),
-          shardBy: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TrafficSplit" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          networkSettings: S.optional(__S(1024, __c32, 0)),
-          labels: S.optional(__S(32, __c1, 0)),
-          split: S.optional(__S(1026, __c32, 2)),
-          id: S.optional(S.String),
           generatedCustomerMetadata: S.optional(__S(2144, __c67, 0)),
+          split: S.optional(__S(1025, __c32, 1)),
+          labels: S.optional(__S(32, __c1, 0)),
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          networkSettings: S.optional(__S(1026, __c32, 2)),
         }),
       ).annotate({ identifier: "Service" });
   }
@@ -3838,10 +3876,10 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          versionsId: S.String.pipe(T.Label()),
-          appsId: S.String.pipe(T.Label()),
-          servicesId: S.String.pipe(T.Label()),
           view: S.optional(S.String.pipe(T.Query())),
+          versionsId: S.String.pipe(T.Label()),
+          servicesId: S.String.pipe(T.Label()),
+          appsId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3857,10 +3895,10 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          instancesId: S.String.pipe(T.Label()),
-          servicesId: S.String.pipe(T.Label()),
           appsId: S.String.pipe(T.Label()),
           versionsId: S.String.pipe(T.Label()),
+          instancesId: S.String.pipe(T.Label()),
+          servicesId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3877,22 +3915,22 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           vmIp: S.optional(S.String),
-          startTime: S.optional(S.String),
-          vmDebugEnabled: S.optional(S.Boolean),
-          vmName: S.optional(S.String),
-          memoryUsage: S.optional(S.String),
           vmId: S.optional(S.String),
-          qps: S.optional(S.Number),
-          vmZoneName: S.optional(S.String),
-          averageLatency: S.optional(S.Number),
-          id: S.optional(S.String),
-          availability: S.optional(S.String),
-          vmStatus: S.optional(S.String),
-          appEngineRelease: S.optional(S.String),
-          requests: S.optional(S.Number),
-          name: S.optional(S.String),
-          errors: S.optional(S.Number),
           vmLiveness: S.optional(S.String),
+          vmStatus: S.optional(S.String),
+          availability: S.optional(S.String),
+          appEngineRelease: S.optional(S.String),
+          vmName: S.optional(S.String),
+          vmDebugEnabled: S.optional(S.Boolean),
+          requests: S.optional(S.Number),
+          memoryUsage: S.optional(S.String),
+          averageLatency: S.optional(S.Number),
+          vmZoneName: S.optional(S.String),
+          id: S.optional(S.String),
+          errors: S.optional(S.Number),
+          qps: S.optional(S.Number),
+          name: S.optional(S.String),
+          startTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Instance" });
   }
@@ -3902,10 +3940,10 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          locationsId: S.String.pipe(T.Label()),
-          applicationsId: S.String.pipe(T.Label()),
-          view: S.optional(S.String.pipe(T.Query())),
           authorizedCertificatesId: S.String.pipe(T.Label()),
+          view: S.optional(S.String.pipe(T.Query())),
+          applicationsId: S.String.pipe(T.Label()),
+          locationsId: S.String.pipe(T.Label()),
           projectsId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -3924,8 +3962,8 @@ function __c37(j: number): any {
         S.Struct({
           locationsId: S.String.pipe(T.Label()),
           applicationsId: S.String.pipe(T.Label()),
-          domainMappingsId: S.String.pipe(T.Label()),
           projectsId: S.String.pipe(T.Label()),
+          domainMappingsId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3943,8 +3981,8 @@ function __c38(j: number): any {
         S.Struct({
           view: S.optional(S.String.pipe(T.Query())),
           appsId: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3974,8 +4012,8 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           appsId: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4000,8 +4038,8 @@ function __c41(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          domains: S.optional(__S(1313, __c41, 1)),
           nextPageToken: S.optional(S.String),
+          domains: S.optional(__S(1313, __c41, 1)),
         }),
       ).annotate({ identifier: "ListAuthorizedDomainsResponse" });
   }
@@ -4011,9 +4049,9 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          appsId: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          appsId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4043,9 +4081,9 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           matchingAddress: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           appsId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4068,11 +4106,11 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          appsId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           extraLocationTypes: S.optional(__S(2368, __c74, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          appsId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4097,10 +4135,10 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          appsId: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          appsId: S.String.pipe(T.Label()),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -4115,9 +4153,9 @@ function __c46(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(1473, __c46, 1)),
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(2368, __c74, 0)),
+          nextPageToken: S.optional(S.String),
+          operations: S.optional(__S(1473, __c46, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -4127,8 +4165,8 @@ function __c47(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           appsId: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -4154,11 +4192,11 @@ function __c48(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          appsId: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          view: S.optional(S.String.pipe(T.Query())),
           servicesId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          appsId: S.String.pipe(T.Label()),
+          view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4168,12 +4206,12 @@ function __c48(j: number): any {
         ),
       ).annotate({ identifier: "ListAppsServicesVersionsRequest" });
     case 1:
-      return S.Array(__S(99, __c3, 3));
+      return S.Array(__S(102, __c3, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          versions: S.optional(__S(1537, __c48, 1)),
           nextPageToken: S.optional(S.String),
+          versions: S.optional(__S(1537, __c48, 1)),
         }),
       ).annotate({ identifier: "ListVersionsResponse" });
   }
@@ -4183,11 +4221,11 @@ function __c49(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          appsId: S.String.pipe(T.Label()),
           versionsId: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           servicesId: S.String.pipe(T.Label()),
+          appsId: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4212,12 +4250,12 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          projectsId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          locationsId: S.String.pipe(T.Label()),
           view: S.optional(S.String.pipe(T.Query())),
           applicationsId: S.String.pipe(T.Label()),
-          projectsId: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          locationsId: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4234,10 +4272,10 @@ function __c51(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          projectsId: S.String.pipe(T.Label()),
           applicationsId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           locationsId: S.String.pipe(T.Label()),
+          projectsId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4282,10 +4320,10 @@ function __c54(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
           sourceRange: S.optional(S.String),
-          action: S.optional(S.String),
+          description: S.optional(S.String),
           priority: S.optional(S.Number),
+          action: S.optional(S.String),
         }),
       ).annotate({ identifier: "FirewallRule" });
   }
@@ -4296,9 +4334,9 @@ function __c55(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           projectsId: S.String.pipe(T.Label()),
           locationsId: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           applicationsId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -4336,13 +4374,13 @@ function __c56(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          stage: S.optional(S.String),
-          decommissionedDate: S.optional(__S(1793, __c56, 1)),
           warnings: S.optional(__S(2368, __c74, 0)),
-          supportedOperatingSystems: S.optional(__S(2368, __c74, 0)),
-          deprecationDate: S.optional(__S(1793, __c56, 1)),
+          decommissionedDate: S.optional(__S(1793, __c56, 1)),
+          stage: S.optional(S.String),
           name: S.optional(S.String),
+          deprecationDate: S.optional(__S(1793, __c56, 1)),
           environment: S.optional(S.String),
+          supportedOperatingSystems: S.optional(__S(2368, __c74, 0)),
           displayName: S.optional(S.String),
           endOfSupportDate: S.optional(__S(1793, __c56, 1)),
         }),
@@ -4363,8 +4401,8 @@ function __c57(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          appsId: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
+          appsId: S.String.pipe(T.Label()),
           body: S.optional(__S(2116, __c66, 4).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -4381,9 +4419,9 @@ function __c58(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          appsId: S.String.pipe(T.Label()),
           authorizedCertificatesId: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
+          appsId: S.String.pipe(T.Label()),
           body: S.optional(__S(2402, __c75, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -4400,9 +4438,9 @@ function __c59(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
           appsId: S.String.pipe(T.Label()),
           domainMappingsId: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(2467, __c77, 3).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -4420,8 +4458,8 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
-          ingressRulesId: S.String.pipe(T.Label()),
           appsId: S.String.pipe(T.Label()),
+          ingressRulesId: S.String.pipe(T.Label()),
           body: S.optional(__S(1728, __c54, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -4438,10 +4476,10 @@ function __c61(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          appsId: S.String.pipe(T.Label()),
-          migrateTraffic: S.optional(S.Boolean.pipe(T.Query())),
           servicesId: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
+          appsId: S.String.pipe(T.Label()),
+          migrateTraffic: S.optional(S.Boolean.pipe(T.Query())),
           body: S.optional(__S(1027, __c32, 3).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -4458,11 +4496,11 @@ function __c62(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          servicesId: S.String.pipe(T.Label()),
-          versionsId: S.String.pipe(T.Label()),
           appsId: S.String.pipe(T.Label()),
-          body: S.optional(__S(99, __c3, 3).pipe(T.HttpBody())),
+          servicesId: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          versionsId: S.String.pipe(T.Label()),
+          body: S.optional(__S(102, __c3, 6).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4478,9 +4516,9 @@ function __c63(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          locationsId: S.String.pipe(T.Label()),
-          projectsId: S.String.pipe(T.Label()),
           applicationsId: S.String.pipe(T.Label()),
+          projectsId: S.String.pipe(T.Label()),
+          locationsId: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(2116, __c66, 4).pipe(T.HttpBody())),
         }).pipe(
@@ -4498,10 +4536,10 @@ function __c64(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectsId: S.String.pipe(T.Label()),
-          applicationsId: S.String.pipe(T.Label()),
-          authorizedCertificatesId: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
+          projectsId: S.String.pipe(T.Label()),
+          authorizedCertificatesId: S.String.pipe(T.Label()),
+          applicationsId: S.String.pipe(T.Label()),
           locationsId: S.String.pipe(T.Label()),
           body: S.optional(__S(2402, __c75, 2).pipe(T.HttpBody())),
         }).pipe(
@@ -4531,49 +4569,49 @@ function __c66(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          service: S.optional(S.String),
-          path: S.optional(S.String),
-          domain: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UrlDispatchRule" });
-    case 1:
-      return S.Array(__S(2112, __c66, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          oauth2ClientSecretSha256: S.optional(S.String),
-          oauth2ClientSecret: S.optional(S.String),
-          oauth2ClientId: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "IdentityAwareProxy" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           useContainerOptimizedOs: S.optional(S.Boolean),
           splitHealthChecks: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "FeatureSettings" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+          oauth2ClientId: S.optional(S.String),
+          oauth2ClientSecretSha256: S.optional(S.String),
+          oauth2ClientSecret: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IdentityAwareProxy" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          service: S.optional(S.String),
+          domain: S.optional(S.String),
+          path: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UrlDispatchRule" });
+    case 3:
+      return S.Array(__S(2114, __c66, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           codeBucket: S.optional(S.String),
-          defaultHostname: S.optional(S.String),
-          databaseType: S.optional(S.String),
-          sslPolicy: S.optional(S.String),
-          name: S.optional(S.String),
+          featureSettings: S.optional(__S(2112, __c66, 0)),
           locationId: S.optional(S.String),
+          name: S.optional(S.String),
+          iap: S.optional(__S(2113, __c66, 1)),
+          servingStatus: S.optional(S.String),
+          defaultHostname: S.optional(S.String),
           generatedCustomerMetadata: S.optional(__S(2144, __c67, 0)),
           defaultBucket: S.optional(S.String),
+          sslPolicy: S.optional(S.String),
+          id: S.optional(S.String),
+          dispatchRules: S.optional(__S(2115, __c66, 3)),
           defaultCookieExpiration: S.optional(S.String),
-          dispatchRules: S.optional(__S(2113, __c66, 1)),
-          iap: S.optional(__S(2114, __c66, 2)),
           authDomain: S.optional(S.String),
           gcrDomain: S.optional(S.String),
           serviceAccount: S.optional(S.String),
-          servingStatus: S.optional(S.String),
-          featureSettings: S.optional(__S(2115, __c66, 3)),
-          id: S.optional(S.String),
+          databaseType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Application" });
   }
@@ -4591,19 +4629,19 @@ function __c68(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(2176, __c68, 0)),
           message: S.optional(S.String),
+          details: S.optional(__S(2176, __c68, 0)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          done: S.optional(S.Boolean),
-          response: S.optional(__S(2144, __c67, 0)),
-          metadata: S.optional(__S(2144, __c67, 0)),
-          name: S.optional(S.String),
           error: S.optional(__S(2177, __c68, 1)),
+          name: S.optional(S.String),
+          done: S.optional(S.Boolean),
+          metadata: S.optional(__S(2144, __c67, 0)),
+          response: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -4613,11 +4651,11 @@ function __c69(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
           domainMappingsId: S.String.pipe(T.Label()),
-          locationsId: S.String.pipe(T.Label()),
           applicationsId: S.String.pipe(T.Label()),
           projectsId: S.String.pipe(T.Label()),
+          locationsId: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(2467, __c77, 3).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -4634,12 +4672,12 @@ function __c70(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          locationsId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
           applicationsId: S.String.pipe(T.Label()),
           migrateTraffic: S.optional(S.Boolean.pipe(T.Query())),
-          projectsId: S.String.pipe(T.Label()),
+          locationsId: S.String.pipe(T.Label()),
           servicesId: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          projectsId: S.String.pipe(T.Label()),
           body: S.optional(__S(1027, __c32, 3).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -4656,13 +4694,13 @@ function __c71(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectsId: S.String.pipe(T.Label()),
-          servicesId: S.String.pipe(T.Label()),
-          applicationsId: S.String.pipe(T.Label()),
-          locationsId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
           versionsId: S.String.pipe(T.Label()),
-          body: S.optional(__S(99, __c3, 3).pipe(T.HttpBody())),
+          applicationsId: S.String.pipe(T.Label()),
+          projectsId: S.String.pipe(T.Label()),
+          locationsId: S.String.pipe(T.Label()),
+          servicesId: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(102, __c3, 6).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4725,21 +4763,21 @@ function __c75(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          publicCertificate: S.optional(S.String),
           privateKey: S.optional(S.String),
+          publicCertificate: S.optional(S.String),
         }),
       ).annotate({ identifier: "CertificateRawData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           managedCertificate: S.optional(__S(2400, __c75, 0)),
+          id: S.optional(S.String),
           expireTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          visibleDomainMappings: S.optional(__S(2368, __c74, 0)),
+          domainNames: S.optional(__S(2368, __c74, 0)),
           certificateRawData: S.optional(__S(2401, __c75, 1)),
           name: S.optional(S.String),
-          domainNames: S.optional(__S(2368, __c74, 0)),
-          id: S.optional(S.String),
+          displayName: S.optional(S.String),
+          visibleDomainMappings: S.optional(__S(2368, __c74, 0)),
           domainMappingsCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AuthorizedCertificate" });
@@ -4750,8 +4788,8 @@ function __c76(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          overrideStrategy: S.optional(S.String.pipe(T.Query())),
           appsId: S.String.pipe(T.Label()),
+          overrideStrategy: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(2467, __c77, 3).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -4768,17 +4806,17 @@ function __c77(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pendingManagedCertificateId: S.optional(S.String),
           sslManagementType: S.optional(S.String),
           certificateId: S.optional(S.String),
-          pendingManagedCertificateId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SslSettings" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           type: S.optional(S.String),
           rrdata: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceRecord" });
     case 2:

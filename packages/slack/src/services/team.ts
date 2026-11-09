@@ -162,7 +162,6 @@ export type ListExternalTeamsRequestSlackConnectPrefFilterItem =
   | "away_team_sc_invite_permissions"
   | "accept_sc_invites"
   | "sc_mpdm_to_private"
-  | "require_sc_channel_for_sc_dm"
   | "external_awareness_context_bar"
   | "interact_with_externally_owned_workflows"
   | "external_teams_interact_with_locally_owned_workflows";
@@ -274,6 +273,8 @@ export interface TeamInfoRequest {
   domain?: string;
   /** Team to get info about; if omitted, will return information about the current team. */
   team?: string;
+  /** Include advisory Slackbot availability for the returned workspace or organization. Only applies to a single team in the caller's own workspace or organization; omitted for external teams. Does not guarantee individual eligibility, remaining usage, or access to a particular app. */
+  include_slackbot_availability?: boolean;
 }
 export interface TeamInfoResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -739,6 +740,7 @@ function __c10(j: number): any {
         S.Struct({
           domain: S.optional(S.String.pipe(T.Query())),
           team: S.optional(S.String.pipe(T.Query())),
+          include_slackbot_availability: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/team.info", code: 200 })),
       ).annotate({ identifier: "TeamInfoRequest" });
     case 1:

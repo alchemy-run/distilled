@@ -60,26 +60,26 @@ export type StringList = Array<string>;
 export interface SearchEntitiesRequest {
   /** The list of entity id to be used for search instead of query string. To specify multiple ids in the HTTP request, repeat the parameter in the URL as in ...?ids=A&ids=B */
   ids?: StringList;
-  /** Restricts returned entities with these types, e.g. Person (as defined in http://schema.org/Person). If multiple types are specified, returned entities will contain one or more of these types. */
-  types?: StringList;
+  /** Enables prefix match against names and aliases of entities */
+  prefix?: boolean;
   /** The literal query string for search. */
   query?: string;
   /** Enables indenting of json results. */
   indent?: boolean;
-  /** The list of language codes (defined in ISO 693) to run the query with, e.g. 'en'. */
-  languages?: StringList;
+  /** Restricts returned entities with these types, e.g. Person (as defined in http://schema.org/Person). If multiple types are specified, returned entities will contain one or more of these types. */
+  types?: StringList;
   /** Limits the number of entities to be returned. */
   limit?: number;
-  /** Enables prefix match against names and aliases of entities */
-  prefix?: boolean;
+  /** The list of language codes (defined in ISO 693) to run the query with, e.g. 'en'. */
+  languages?: StringList;
 }
 export type DocumentList = Array<unknown>;
 /** Response message includes the context and a list of matching results which contain the detail of associated entities. */
 export interface SearchResponse {
-  /** The schema type of top-level JSON-LD object, e.g. ItemList. */
-  "@type"?: unknown;
   /** The local context applicable for the response. See more details at http://www.w3.org/TR/json-ld/#context-definitions. */
   "@context"?: unknown;
+  /** The schema type of top-level JSON-LD object, e.g. ItemList. */
+  "@type"?: unknown;
   /** The item list of search results. */
   itemListElement?: DocumentList;
 }
@@ -109,12 +109,12 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ids: S.optional(__S(0, __c0, 0).pipe(T.Query())),
-          types: S.optional(__S(0, __c0, 0).pipe(T.Query())),
+          prefix: S.optional(S.Boolean.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           indent: S.optional(S.Boolean.pipe(T.Query())),
-          languages: S.optional(__S(0, __c0, 0).pipe(T.Query())),
+          types: S.optional(__S(0, __c0, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          prefix: S.optional(S.Boolean.pipe(T.Query())),
+          languages: S.optional(__S(0, __c0, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -128,8 +128,8 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          "@type": S.optional(S.Unknown),
           "@context": S.optional(S.Unknown),
+          "@type": S.optional(S.Unknown),
           itemListElement: S.optional(__S(2, __c0, 2)),
         }),
       ).annotate({ identifier: "SearchResponse" });

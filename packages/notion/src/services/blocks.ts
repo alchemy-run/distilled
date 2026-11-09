@@ -1968,6 +1968,7 @@ export type TranscriptionCalendarEventResponseAttendeesList = Array<string>;
 export interface TranscriptionCalendarEventResponse {
   start_time: string;
   end_time: string;
+  event_id?: string;
   attendees?: TranscriptionCalendarEventResponseAttendeesList;
 }
 export interface TranscriptionRecordingResponse {
@@ -1975,6 +1976,7 @@ export interface TranscriptionRecordingResponse {
   end_time?: string;
 }
 export interface TranscriptionBlockResponse {
+  is_full_page: boolean;
   title?: TranscriptionBlockResponseTitleList;
   status?: ApiTranscriptionStatus;
   children?: TranscriptionChildrenResponse;

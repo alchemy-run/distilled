@@ -163,6 +163,7 @@ export interface DestinationResponse {
   status: DestinationResponseStatus;
 }
 export type CreateTelemetryRouterRequestRegionId = "eu01" | "eu02";
+export type ResourceLabels = { [key: string]: string | undefined };
 export interface CreateTelemetryRouterRequest {
   /** The STACKIT portal project UUID the resource is located in. */
   projectId: string;
@@ -173,6 +174,7 @@ export interface CreateTelemetryRouterRequest {
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
   filter?: ConfigFilter;
+  resourceLabels?: ResourceLabels;
 }
 /** The current status of the resource. */
 export type TelemetryRouterResponseStatus = "reconciling" | "active" | "deleting";
@@ -181,11 +183,14 @@ export interface TelemetryRouterResponse {
   creationTime: string;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
   description?: string;
+  /** The number of destinations configured for the telemetry router. */
+  destinationCount?: number;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
   filter?: ConfigFilter;
   /** A auto generated unique id which identifies the resource. */
   id: string;
+  resourceLabels?: ResourceLabels;
   /** The current status of the resource. */
   status: TelemetryRouterResponseStatus;
   /** The URI for reaching the resource. */
@@ -341,6 +346,64 @@ export interface ListTelemetryRoutersResponse {
   nextPageToken?: string;
   telemetryRouters: ListTelemetryRoutersResponseTelemetryRoutersList;
 }
+export type PartialUpdateAccessTokenRequestRegionId = "eu01" | "eu02";
+export interface PartialUpdateAccessTokenRequest {
+  /** The STACKIT portal project UUID the resource is located in. */
+  projectId: string;
+  /** The STACKIT region name the resource is located in. */
+  regionId: PartialUpdateAccessTokenRequestRegionId | (string & {});
+  /** The Telemetry Router UUID. */
+  telemetryRouterId: string;
+  /** The Access Token UUID. */
+  accessTokenId: string;
+  description?: string | null;
+  displayName?: string | null;
+}
+export type PartialUpdateAccessTokenResponseStatus = "active" | "expired" | "deleting";
+export interface PartialUpdateAccessTokenResponse {
+  /** The user ID of the creator of the access token. */
+  creatorId: string;
+  /** The description of the access token. */
+  description?: string;
+  /** The selected display name of the access token. */
+  displayName: string;
+  /** The date and time until the access token is valid to (inclusively). */
+  expirationTime?: string | null;
+  /** An auto generated unique id which identifies the access token. */
+  id: string;
+  status: PartialUpdateAccessTokenResponseStatus;
+}
+export type PartialUpdateDestinationRequestRegionId = "eu01" | "eu02";
+export interface PartialUpdateDestinationRequest {
+  /** The STACKIT portal project UUID the resource is located in. */
+  projectId: string;
+  /** The STACKIT region name the resource is located in. */
+  regionId: PartialUpdateDestinationRequestRegionId | (string & {});
+  /** The Telemetry Router UUID. */
+  telemetryRouterId: string;
+  /** The Destination UUID. */
+  destinationId: string;
+  config?: DestinationConfig;
+  /** The description is a longer text chosen by the user to provide more context for the resource. */
+  description?: string;
+  /** The display name is a short name chosen by the user to identify the resource. */
+  displayName?: string;
+}
+export type PartialUpdateTelemetryRouterRequestRegionId = "eu01" | "eu02";
+export interface PartialUpdateTelemetryRouterRequest {
+  /** The STACKIT portal project UUID the resource is located in. */
+  projectId: string;
+  /** The STACKIT region name the resource is located in. */
+  regionId: PartialUpdateTelemetryRouterRequestRegionId | (string & {});
+  /** The Telemetry Router UUID. */
+  telemetryRouterId: string;
+  /** The description is a longer text chosen by the user to provide more context for the resource. */
+  description?: string;
+  /** The display name is a short name chosen by the user to identify the resource. */
+  displayName?: string;
+  filter?: ConfigFilter;
+  resourceLabels?: ResourceLabels;
+}
 export type UpdateAccessTokenRequestRegionId = "eu01" | "eu02";
 export interface UpdateAccessTokenRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -397,6 +460,7 @@ export interface UpdateTelemetryRouterRequest {
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName?: string;
   filter?: ConfigFilter;
+  resourceLabels?: ResourceLabels;
 }
 export type CreateAccessTokenError = BadRequest | NotFound | Conflict | StackitOpError;
 /** Create a new access token for the given Telemetry Router. */
@@ -406,8 +470,8 @@ export const createAccessToken: API.OperationMethod<
   CreateAccessTokenError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<CreateAccessTokenRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<CreateAccessTokenResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<CreateAccessTokenRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<CreateAccessTokenResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -423,8 +487,8 @@ export const createDestination: API.OperationMethod<
   CreateDestinationError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<CreateDestinationRequest>,
-  output: __S(85, __c10, 5) as any as S.Schema<DestinationResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<CreateDestinationRequest>,
+  output: __S(109, __c13, 5) as any as S.Schema<DestinationResponse>,
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -440,8 +504,8 @@ export const createTelemetryRouter: API.OperationMethod<
   CreateTelemetryRouterError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<CreateTelemetryRouterRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<TelemetryRouterResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<CreateTelemetryRouterRequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<TelemetryRouterResponse>,
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -457,8 +521,8 @@ export const deleteAccessToken: API.OperationMethod<
   DeleteAccessTokenError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<DeleteAccessTokenRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<DeleteAccessTokenResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<DeleteAccessTokenRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<DeleteAccessTokenResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -474,8 +538,8 @@ export const deleteDestination: API.OperationMethod<
   DeleteDestinationError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<DeleteDestinationRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<DeleteDestinationResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<DeleteDestinationRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<DeleteDestinationResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -491,8 +555,8 @@ export const deleteTelemetryRouter: API.OperationMethod<
   DeleteTelemetryRouterError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<DeleteTelemetryRouterRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<DeleteTelemetryRouterResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<DeleteTelemetryRouterRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<DeleteTelemetryRouterResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -508,8 +572,8 @@ export const getAccessToken: API.OperationMethod<
   GetAccessTokenError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetAccessTokenRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<GetAccessTokenResponse2>,
+  input: __S(168, __c21, 0) as any as S.Schema<GetAccessTokenRequest>,
+  output: __S(176, __c22, 0) as any as S.Schema<GetAccessTokenResponse2>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -526,7 +590,7 @@ export const getDestination: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetDestinationRequest>,
-  output: __S(85, __c10, 5) as any as S.Schema<DestinationResponse>,
+  output: __S(109, __c13, 5) as any as S.Schema<DestinationResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -543,7 +607,7 @@ export const getTelemetryRouter: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<GetTelemetryRouterRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<TelemetryRouterResponse>,
+  output: __S(129, __c16, 1) as any as S.Schema<TelemetryRouterResponse>,
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -602,6 +666,57 @@ export const listTelemetryRouters: API.OperationMethod<
   span: "ListTelemetryRouters",
 }));
 
+export type PartialUpdateAccessTokenError = BadRequest | NotFound | Conflict | StackitOpError;
+/** Patch an existing access token for the given Telemetry Router by its ID. */
+export const partialUpdateAccessToken: API.OperationMethod<
+  PartialUpdateAccessTokenRequest,
+  PartialUpdateAccessTokenResponse,
+  PartialUpdateAccessTokenError,
+  StackitOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(40, __c5, 0) as any as S.Schema<PartialUpdateAccessTokenRequest>,
+  output: __S(176, __c22, 0) as any as S.Schema<PartialUpdateAccessTokenResponse>,
+  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  protocol: StackitProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateAccessToken",
+}));
+
+export type PartialUpdateDestinationError = BadRequest | NotFound | Conflict | StackitOpError;
+/** Patches the given destination. */
+export const partialUpdateDestination: API.OperationMethod<
+  PartialUpdateDestinationRequest,
+  DestinationResponse,
+  PartialUpdateDestinationError,
+  StackitOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(48, __c6, 0) as any as S.Schema<PartialUpdateDestinationRequest>,
+  output: __S(109, __c13, 5) as any as S.Schema<DestinationResponse>,
+  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  protocol: StackitProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateDestination",
+}));
+
+export type PartialUpdateTelemetryRouterError = BadRequest | NotFound | Conflict | StackitOpError;
+/** Patches the given Telemetry Router. */
+export const partialUpdateTelemetryRouter: API.OperationMethod<
+  PartialUpdateTelemetryRouterRequest,
+  TelemetryRouterResponse,
+  PartialUpdateTelemetryRouterError,
+  StackitOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(56, __c7, 0) as any as S.Schema<PartialUpdateTelemetryRouterRequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<TelemetryRouterResponse>,
+  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  protocol: StackitProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateTelemetryRouter",
+}));
+
 export type UpdateAccessTokenError = BadRequest | NotFound | Conflict | StackitOpError;
 /** Update an existing access token for the given Telemetry Router by its ID. */
 export const updateAccessToken: API.OperationMethod<
@@ -610,8 +725,8 @@ export const updateAccessToken: API.OperationMethod<
   UpdateAccessTokenError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<UpdateAccessTokenRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<UpdateAccessTokenResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<UpdateAccessTokenRequest>,
+  output: __S(176, __c22, 0) as any as S.Schema<UpdateAccessTokenResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -627,8 +742,8 @@ export const updateDestination: API.OperationMethod<
   UpdateDestinationError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<UpdateDestinationRequest>,
-  output: __S(85, __c10, 5) as any as S.Schema<DestinationResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<UpdateDestinationRequest>,
+  output: __S(109, __c13, 5) as any as S.Schema<DestinationResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -644,8 +759,8 @@ export const updateTelemetryRouter: API.OperationMethod<
   UpdateTelemetryRouterError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<UpdateTelemetryRouterRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<TelemetryRouterResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<UpdateTelemetryRouterRequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<TelemetryRouterResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -713,7 +828,7 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "ListAccessTokensRequest" });
     case 1:
-      return S.Array(__S(152, __c19, 0));
+      return S.Array(__S(176, __c22, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -743,7 +858,7 @@ function __c3(j: number): any {
         ),
       ).annotate({ identifier: "ListDestinationsRequest" });
     case 1:
-      return S.Array(__S(85, __c10, 5));
+      return S.Array(__S(109, __c13, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -772,7 +887,7 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "ListTelemetryRoutersRequest" });
     case 1:
-      return S.Array(__S(104, __c13, 0));
+      return S.Array(__S(129, __c16, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -795,13 +910,13 @@ function __c5(j: number): any {
           displayName: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
-            method: "PUT",
+            method: "PATCH",
             uri: "/v1/projects/{projectId}/regions/{regionId}/telemetry-routers/{telemetryRouterId}/access-tokens/{accessTokenId}",
             code: 200,
             baseUrl: "https://telemetry-router.api.stackit.cloud",
           }),
         ),
-      ).annotate({ identifier: "UpdateAccessTokenRequest" });
+      ).annotate({ identifier: "PartialUpdateAccessTokenRequest" });
   }
 }
 function __c6(j: number): any {
@@ -813,7 +928,75 @@ function __c6(j: number): any {
           regionId: S.String.pipe(T.Label()),
           telemetryRouterId: S.String.pipe(T.Label()),
           destinationId: S.String.pipe(T.Label()),
-          config: S.optional(__S(84, __c10, 4)),
+          config: S.optional(__S(108, __c13, 4)),
+          description: S.optional(S.String),
+          displayName: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/v1/projects/{projectId}/regions/{regionId}/telemetry-routers/{telemetryRouterId}/destinations/{destinationId}",
+            code: 200,
+            baseUrl: "https://telemetry-router.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "PartialUpdateDestinationRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          regionId: S.String.pipe(T.Label()),
+          telemetryRouterId: S.String.pipe(T.Label()),
+          description: S.optional(S.String),
+          displayName: S.optional(S.String),
+          filter: S.optional(__S(115, __c14, 3)),
+          resourceLabels: S.optional(__S(128, __c16, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/v1/projects/{projectId}/regions/{regionId}/telemetry-routers/{telemetryRouterId}",
+            code: 200,
+            baseUrl: "https://telemetry-router.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "PartialUpdateTelemetryRouterRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          regionId: S.String.pipe(T.Label()),
+          telemetryRouterId: S.String.pipe(T.Label()),
+          accessTokenId: S.String.pipe(T.Label()),
+          description: S.optional(S.NullOr(S.String)),
+          displayName: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/v1/projects/{projectId}/regions/{regionId}/telemetry-routers/{telemetryRouterId}/access-tokens/{accessTokenId}",
+            code: 200,
+            baseUrl: "https://telemetry-router.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateAccessTokenRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          regionId: S.String.pipe(T.Label()),
+          telemetryRouterId: S.String.pipe(T.Label()),
+          destinationId: S.String.pipe(T.Label()),
+          config: S.optional(__S(108, __c13, 4)),
           description: S.optional(S.String),
           displayName: S.optional(S.String),
         }).pipe(
@@ -827,7 +1010,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "UpdateDestinationRequest" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -837,7 +1020,8 @@ function __c7(j: number): any {
           telemetryRouterId: S.String.pipe(T.Label()),
           description: S.optional(S.String),
           displayName: S.optional(S.String),
-          filter: S.optional(__S(91, __c11, 3)),
+          filter: S.optional(__S(115, __c14, 3)),
+          resourceLabels: S.optional(__S(128, __c16, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -849,7 +1033,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "UpdateTelemetryRouterRequest" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -883,7 +1067,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateAccessTokenResponse" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -891,7 +1075,7 @@ function __c9(j: number): any {
           projectId: S.String.pipe(T.Label()),
           regionId: S.String.pipe(T.Label()),
           telemetryRouterId: S.String.pipe(T.Label()),
-          config: __S(84, __c10, 4),
+          config: __S(108, __c13, 4),
           description: S.optional(S.String),
           displayName: S.String,
         }).pipe(
@@ -905,7 +1089,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateDestinationRequest" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -917,7 +1101,7 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          basicAuth: S.optional(__S(80, __c10, 0)),
+          basicAuth: S.optional(__S(104, __c13, 0)),
           bearerToken: S.optional(S.String),
           uri: S.String,
         }),
@@ -932,7 +1116,7 @@ function __c10(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          accessKey: S.optional(__S(82, __c10, 2)),
+          accessKey: S.optional(__S(106, __c13, 2)),
           bucket: S.String,
           endpoint: S.String,
         }),
@@ -941,15 +1125,15 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           configType: S.String,
-          filter: S.optional(__S(91, __c11, 3)),
-          openTelemetry: S.optional(__S(81, __c10, 1)),
-          s3: S.optional(__S(83, __c10, 3)),
+          filter: S.optional(__S(115, __c14, 3)),
+          openTelemetry: S.optional(__S(105, __c13, 1)),
+          s3: S.optional(__S(107, __c13, 3)),
         }),
       ).annotate({ identifier: "DestinationConfig" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          config: __S(84, __c10, 4),
+          config: __S(108, __c13, 4),
           creationTime: S.String,
           credentialType: S.String,
           description: S.optional(S.String),
@@ -960,7 +1144,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DestinationResponse" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -970,21 +1154,21 @@ function __c11(j: number): any {
           key: S.String,
           level: S.String,
           matcher: S.String,
-          values: __S(88, __c11, 0),
+          values: __S(112, __c14, 0),
         }),
       ).annotate({ identifier: "ConfigFilterAttributes" });
     case 2:
-      return S.Array(__S(89, __c11, 1));
+      return S.Array(__S(113, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          attributes: __S(90, __c11, 2),
+          attributes: __S(114, __c14, 2),
           disabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ConfigFilter" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -993,7 +1177,8 @@ function __c12(j: number): any {
           regionId: S.String.pipe(T.Label()),
           description: S.optional(S.String),
           displayName: S.String,
-          filter: S.optional(__S(91, __c11, 3)),
+          filter: S.optional(__S(115, __c14, 3)),
+          resourceLabels: S.optional(__S(128, __c16, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1005,23 +1190,27 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateTelemetryRouterRequest" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           creationTime: S.String,
           description: S.optional(S.String),
+          destinationCount: S.optional(S.Number),
           displayName: S.String,
-          filter: S.optional(__S(91, __c11, 3)),
+          filter: S.optional(__S(115, __c14, 3)),
           id: S.String,
+          resourceLabels: S.optional(__S(128, __c16, 0)),
           status: S.String,
           uri: S.String,
         }),
       ).annotate({ identifier: "TelemetryRouterResponse" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1041,13 +1230,13 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DeleteAccessTokenRequest" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAccessTokenResponse" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1067,7 +1256,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeleteDestinationRequest" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1087,7 +1276,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DeleteTelemetryRouterRequest" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1107,7 +1296,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetAccessTokenRequest" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

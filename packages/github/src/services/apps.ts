@@ -147,6 +147,8 @@ export type AppPermissionsOrganizationCustomProperties = "read" | "write" | "adm
 export type AppPermissionsOrganizationCopilotSeatManagement = "read" | "write";
 /** The level of permission to grant the access token to view and manage Copilot cloud agent settings for an organization. */
 export type AppPermissionsOrganizationCopilotAgentSettings = "read" | "write";
+/** The level of permission to grant the access token to make Copilot requests billed to the organization where the app is installed. This property is in public preview and is subject to change. */
+export type AppPermissionsOrganizationCopilotRequests = "read";
 /** The level of permission to grant the access token for managing external custom properties for repositories in an organization. */
 export type AppPermissionsOrganizationExternalPropertiesForRepos = "read" | "write" | "admin";
 /** The level of permission to grant the access token to view and manage announcement banners for an organization. */
@@ -267,6 +269,8 @@ export interface AppPermissions {
   organization_copilot_agent_settings?:
     | AppPermissionsOrganizationCopilotAgentSettings
     | (string & {});
+  /** The level of permission to grant the access token to make Copilot requests billed to the organization where the app is installed. This property is in public preview and is subject to change. */
+  organization_copilot_requests?: AppPermissionsOrganizationCopilotRequests | (string & {});
   /** The level of permission to grant the access token for managing external custom properties for repositories in an organization. */
   organization_external_properties_for_repos?:
     | AppPermissionsOrganizationExternalPropertiesForRepos
@@ -552,6 +556,7 @@ export interface Repository {
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean;
@@ -987,6 +992,7 @@ export interface ListInstallationReposForAuthenticatedUserResponseRepositoriesIt
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean;
@@ -1223,6 +1229,7 @@ export interface ListReposAccessibleToInstallationResponseRepositoriesItem {
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean;
@@ -2235,6 +2242,7 @@ function __c5(j: number): any {
           organization_custom_properties: S.optional(S.String),
           organization_copilot_seat_management: S.optional(S.String),
           organization_copilot_agent_settings: S.optional(S.String),
+          organization_copilot_requests: S.optional(S.String),
           organization_external_properties_for_repos: S.optional(S.String),
           organization_announcement_banners: S.optional(S.String),
           organization_events: S.optional(S.String),

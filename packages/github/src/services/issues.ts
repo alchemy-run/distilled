@@ -288,6 +288,7 @@ export interface Repository {
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean;
@@ -816,6 +817,56 @@ export interface IssueComment {
   pin?: NullablePinnedIssueComment | null;
   minimized?: NullableIssueCommentMinimized | null;
 }
+/** The artifact type. */
+export type CreateIssueArtifactRequestType = "generic" | "link" | "plan" | "embedded_html";
+export interface CreateIssueArtifactRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The number that identifies the issue. */
+  issue_number: number;
+  /** The artifact type. */
+  type?: CreateIssueArtifactRequestType | (string & {});
+  /** The human-readable name of the artifact. */
+  name: string;
+  /** The artifact content. For `embedded_html` artifacts, provide the HTML source. */
+  body: string;
+}
+/** The user or integration that created the artifact. */
+export interface IssueArtifactCreator {
+  login: string;
+  id: number;
+}
+/** The user or integration that most recently updated the artifact. */
+export type IssueArtifactUpdatedByActor = IssueArtifactCreator;
+/** Issue artifacts are named, typed pieces of content attached to an issue. They give people and agents a durable place to preserve context and supporting material alongside the work. Each artifact has a number unique within the issue. */
+export interface IssueArtifact {
+  /** The globally unique identifier of the artifact. */
+  id: number;
+  /** The canonical browser URL for the artifact in its issue context. */
+  html_url?: string;
+  /** The artifact number within the issue. */
+  number: number;
+  /** The artifact type. The types supported for external creation and filtering are: - `generic` is a general-purpose Markdown document. - `link` represents a named link. - `plan` is a Markdown plan. - `embedded_html` is a self-contained HTML document. Its `body` contains the HTML source. */
+  type: string;
+  /** The human-readable name of the artifact. */
+  name: string;
+  /** The artifact content. For `embedded_html` artifacts, this is the HTML source. */
+  body: string;
+  /** The artifact content rendered as HTML, or `null` if rendering times out or is skipped to protect the response's time budget. The raw content remains available in `body`. */
+  body_html: string | null;
+  /** A short, generated summary of the artifact. */
+  description: string;
+  /** The user or integration that created the artifact. */
+  creator: IssueArtifactCreator | null;
+  /** The user or integration that most recently updated the artifact. */
+  updated_by_actor: IssueArtifactCreator | null;
+  /** The time the artifact was created. */
+  created_at: string | null;
+  /** The time the artifact was last updated. */
+  updated_at: string | null;
+}
 export interface CreateLabelRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -877,6 +928,17 @@ export interface DeleteCommentRequest {
   comment_id: number;
 }
 export interface DeleteCommentResponse {}
+export interface DeleteIssueArtifactRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The number that identifies the issue. */
+  issue_number: number;
+  /** The artifact number within the issue. */
+  artifact_number: number;
+}
+export interface DeleteIssueArtifactResponse {}
 export interface DeleteIssueFieldValueRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1274,6 +1336,50 @@ export interface IssueEvent {
   lock_reason?: string | null;
   performed_via_github_app?: NullableIntegration | null;
 }
+export interface GetIssueArtifactRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The number that identifies the issue. */
+  issue_number: number;
+  /** The artifact number within the issue. */
+  artifact_number: number;
+  /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  per_page?: number;
+  /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  page?: number;
+}
+/** The user or integration that created this version. */
+export type GetIssueArtifactResponseBodyCase1VersionsItemActor = IssueArtifactCreator;
+export interface GetIssueArtifactResponseBodyCase1VersionsItem {
+  /** The sequential version number. */
+  version: number;
+  /** The artifact name at this version. */
+  name: string;
+  /** The artifact content at this version. */
+  body: string;
+  /** The artifact content at this version rendered as HTML, or `null` if rendering times out or is skipped to protect the response's time budget. The raw content remains available in `body`. */
+  body_html: string | null;
+  /** The time this version was created. */
+  created_at: string | null;
+  /** The user or integration that created this version. */
+  actor: IssueArtifactCreator | null;
+}
+/** The artifact version history, ordered from newest to oldest. */
+export type GetIssueArtifactResponseBodyCase1VersionsList =
+  Array<GetIssueArtifactResponseBodyCase1VersionsItem>;
+export interface GetIssueArtifactResponseBodyCase1 {
+  artifact: IssueArtifact;
+  /** Whether another page of retained versions is available. */
+  has_next_page: boolean;
+  /** The number of retained artifact versions. */
+  total_count: number;
+  /** The artifact version history, ordered from newest to oldest. */
+  versions: GetIssueArtifactResponseBodyCase1VersionsList;
+}
+export type GetIssueArtifactResponseBody = IssueArtifact | GetIssueArtifactResponseBodyCase1;
+export type GetIssueArtifactResponse = GetIssueArtifactResponseBody;
 export interface GetLabelRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1890,6 +1996,22 @@ export interface TimelineReviewedEvent {
   body_text?: string;
   author_association: AuthorAssociation;
 }
+/** The kind of contributing source. */
+export type PullRequestReviewCommentCopilotCodeReviewSourcesItemKind =
+  | "SKILL"
+  | "MCP"
+  | "CUSTOM_INSTRUCTIONS";
+export interface PullRequestReviewCommentCopilotCodeReviewSourcesItem {
+  /** The kind of contributing source. */
+  kind: PullRequestReviewCommentCopilotCodeReviewSourcesItemKind;
+  /** The reported source name, or "custom instructions" for CUSTOM_INSTRUCTIONS. */
+  name: string;
+  /** The validated repository-relative source path, if available. Commit OIDs are not exposed. */
+  path?: string;
+}
+/** Sources reported as contributing to this comment; may be incomplete. Not returned for issue timeline events. */
+export type PullRequestReviewCommentCopilotCodeReviewSourcesList =
+  Array<PullRequestReviewCommentCopilotCodeReviewSourcesItem>;
 export type PullRequestReviewCommentLinksSelf = TimelineReviewedEventLinksHtml;
 export type PullRequestReviewCommentLinksHtml = TimelineReviewedEventLinksHtml;
 export type PullRequestReviewCommentLinksPullRequest = TimelineReviewedEventLinksHtml;
@@ -1906,6 +2028,10 @@ export type PullRequestReviewCommentSide = "LEFT" | "RIGHT";
 export type PullRequestReviewCommentSubjectType = "line" | "file";
 /** Pull Request Review Comments are comments on a portion of the Pull Request's diff. */
 export interface PullRequestReviewComment {
+  /** Whether this comment was produced by Copilot code review. Not returned for issue timeline events. */
+  is_copilot_code_review?: boolean;
+  /** Sources reported as contributing to this comment; may be incomplete. Not returned for issue timeline events. */
+  copilot_code_review_sources?: PullRequestReviewCommentCopilotCodeReviewSourcesList;
   /** URL for the pull request review comment */
   url: string;
   /** The ID of the pull request review to which the comment belongs. */
@@ -2184,6 +2310,23 @@ export interface ListForRepoRequest {
 }
 export type ListForRepoResponseBodyList = Array<Issue>;
 export type ListForRepoResponse = ListForRepoResponseBodyList;
+export type ListIssueArtifactsRequestType = "generic" | "link" | "plan" | "embedded_html";
+export interface ListIssueArtifactsRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The number that identifies the issue. */
+  issue_number: number;
+  /** The artifact type to return. */
+  type?: ListIssueArtifactsRequestType | (string & {});
+  /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  per_page?: number;
+  /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  page?: number;
+}
+export type ListIssueArtifactsResponseBodyList = Array<IssueArtifact>;
+export type ListIssueArtifactsResponse = ListIssueArtifactsResponseBodyList;
 export interface ListIssueFieldValuesForIssueRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -2583,7 +2726,7 @@ export interface UpdateRequest {
   state?: UpdateRequestState | (string & {});
   /** The reason for the state change. Ignored unless `state` is changed. */
   state_reason?: UpdateRequestStateReason | (string & {}) | null;
-  /** The ID of the issue to mark as the canonical duplicate when `state_reason` is `duplicate`. The issue must exist and be accessible to the authenticated user. Ignored when `state_reason` is not `duplicate`. */
+  /** The ID of the issue that this issue duplicates, used when marking this issue as a duplicate with `status: Duplicate` or `state_reason: duplicate`. The issue must exist and be accessible to the authenticated user. */
   duplicate_issue_id?: number;
   milestone?: UpdateRequestMilestone | null;
   /** Labels to associate with this issue. Pass one or more labels to _replace_ the set of labels on this issue. Send an empty array (`[]`) to clear all labels from the issue. Only users with push access can set labels for issues. Without push access to the repository, label changes are silently dropped. */
@@ -2748,6 +2891,20 @@ export interface UpdateCommentRequest {
   /** The contents of the comment. */
   body: string;
 }
+export interface UpdateIssueArtifactRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The number that identifies the issue. */
+  issue_number: number;
+  /** The artifact number within the issue. */
+  artifact_number: number;
+  /** The new human-readable name of the artifact. */
+  name?: string;
+  /** The new artifact content. */
+  body?: string;
+}
 export interface UpdateLabelRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -2823,8 +2980,8 @@ export const addIssueFieldValues: API.OperationMethod<
   AddIssueFieldValuesError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(610, __c19, 2) as any as S.Schema<AddIssueFieldValuesRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<AddIssueFieldValuesResponse>,
+  input: __S(642, __c20, 2) as any as S.Schema<AddIssueFieldValuesRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<AddIssueFieldValuesResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2840,8 +2997,8 @@ export const addLabels: API.OperationMethod<
   AddLabelsError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<AddLabelsRequest>,
-  output: __S(1153, __c36, 1) as any as S.Schema<AddLabelsResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<AddLabelsRequest>,
+  output: __S(1185, __c37, 1) as any as S.Schema<AddLabelsResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2857,7 +3014,7 @@ export const addRelatesTo: API.OperationMethod<
   AddRelatesToError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<AddRelatesToRequest>,
+  input: __S(1536, __c48, 0) as any as S.Schema<AddRelatesToRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<Issue>,
   errors: [],
   protocol: GithubProtocol,
@@ -2874,7 +3031,7 @@ export const addSubIssue: API.OperationMethod<
   AddSubIssueError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<AddSubIssueRequest>,
+  input: __S(1888, __c59, 0) as any as S.Schema<AddSubIssueRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<Issue>,
   errors: [],
   protocol: GithubProtocol,
@@ -2891,8 +3048,8 @@ export const approveSuggestion: API.OperationMethod<
   ApproveSuggestionError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<ApproveSuggestionRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<IssueSuggestion>,
+  input: __S(2240, __c70, 0) as any as S.Schema<ApproveSuggestionRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<IssueSuggestion>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2908,8 +3065,8 @@ export const checkUserCanBeAssigned: API.OperationMethod<
   CheckUserCanBeAssignedError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<CheckUserCanBeAssignedRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<CheckUserCanBeAssignedResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<CheckUserCanBeAssignedRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<CheckUserCanBeAssignedResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2925,8 +3082,8 @@ export const checkUserCanBeAssignedToIssue: API.OperationMethod<
   CheckUserCanBeAssignedToIssueError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<CheckUserCanBeAssignedToIssueRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<CheckUserCanBeAssignedToIssueResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<CheckUserCanBeAssignedToIssueRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<CheckUserCanBeAssignedToIssueResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2938,7 +3095,7 @@ export type CreateError = GithubOpError;
 /** Create an issue Any user with pull access to a repository can create an issue. If [issues are disabled in the repository](https://docs.github.com/articles/disabling-issues/), the API returns a `410 Gone` status. This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)." This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
 export const create: API.OperationMethod<CreateRequest, Issue, CreateError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2403, __c75, 3) as any as S.Schema<CreateRequest>,
+    input: __S(2595, __c81, 3) as any as S.Schema<CreateRequest>,
     output: __S(225, __c7, 1) as any as S.Schema<Issue>,
     errors: [],
     protocol: GithubProtocol,
@@ -2964,6 +3121,23 @@ export const createComment: API.OperationMethod<
   span: "CreateComment",
 }));
 
+export type CreateIssueArtifactError = GithubOpError;
+/** Create an issue artifact Creates an artifact attached to an issue. The artifact type defaults to `generic` when omitted. Creating an artifact requires permission to update the issue. The request can return `403` if the repository is read-only or locked, or a GitHub App installation has only `issues: read` permission. To create an HTML artifact, set `type` to `embedded_html` and provide the HTML source in `body`. Open the returned `html_url` to inspect the source, then select **Preview** to view the rendered artifact. Select **Show source** to return to the HTML source. */
+export const createIssueArtifact: API.OperationMethod<
+  CreateIssueArtifactRequest,
+  IssueArtifact,
+  CreateIssueArtifactError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(320, __c10, 0) as any as S.Schema<CreateIssueArtifactRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<IssueArtifact>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIssueArtifact",
+}));
+
 export type CreateLabelError = GithubOpError;
 /** Create a label Creates a label for the specified repository with the given name and color. The name and color parameters are required. The color must be a valid [hexadecimal color code](http://www.color-hex.com/). */
 export const createLabel: API.OperationMethod<
@@ -2972,8 +3146,8 @@ export const createLabel: API.OperationMethod<
   CreateLabelError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<CreateLabelRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<Label>,
+  input: __S(384, __c12, 0) as any as S.Schema<CreateLabelRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<Label>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2989,7 +3163,7 @@ export const createMilestone: API.OperationMethod<
   CreateMilestoneError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<CreateMilestoneRequest>,
+  input: __S(416, __c13, 0) as any as S.Schema<CreateMilestoneRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<Milestone>,
   errors: [],
   protocol: GithubProtocol,
@@ -3006,13 +3180,30 @@ export const deleteComment: API.OperationMethod<
   DeleteCommentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<DeleteCommentRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<DeleteCommentResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<DeleteCommentRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<DeleteCommentResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteComment",
+}));
+
+export type DeleteIssueArtifactError = GithubOpError;
+/** Delete an issue artifact Permanently deletes an artifact attached to an issue. Deleting an artifact requires permission to update the issue. The request can return `403` if the repository is read-only or locked, or a GitHub App installation has only `issues: read` permission. */
+export const deleteIssueArtifact: API.OperationMethod<
+  DeleteIssueArtifactRequest,
+  DeleteIssueArtifactResponse,
+  DeleteIssueArtifactError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(480, __c15, 0) as any as S.Schema<DeleteIssueArtifactRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<DeleteIssueArtifactResponse>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIssueArtifact",
 }));
 
 export type DeleteIssueFieldValueError = GithubOpError;
@@ -3023,8 +3214,8 @@ export const deleteIssueFieldValue: API.OperationMethod<
   DeleteIssueFieldValueError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<DeleteIssueFieldValueRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<DeleteIssueFieldValueResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<DeleteIssueFieldValueRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<DeleteIssueFieldValueResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3040,8 +3231,8 @@ export const deleteLabel: API.OperationMethod<
   DeleteLabelError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<DeleteLabelRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<DeleteLabelResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<DeleteLabelRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<DeleteLabelResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3057,8 +3248,8 @@ export const deleteMilestone: API.OperationMethod<
   DeleteMilestoneError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<DeleteMilestoneRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<DeleteMilestoneResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<DeleteMilestoneRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<DeleteMilestoneResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3074,8 +3265,8 @@ export const dismissSuggestion: API.OperationMethod<
   DismissSuggestionError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<DismissSuggestionRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<IssueSuggestion>,
+  input: __S(608, __c19, 0) as any as S.Schema<DismissSuggestionRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<IssueSuggestion>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3087,7 +3278,7 @@ export type GetError = GithubOpError;
 /** Get an issue The API returns a [`301 Moved Permanently` status](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api#follow-redirects) if the issue was [transferred](https://docs.github.com/articles/transferring-an-issue-to-another-repository/) to another repository. If the issue was transferred to or deleted from a repository where the authenticated user lacks read access, the API returns a `404 Not Found` status. If the issue was deleted from a repository where the authenticated user has read access, the API returns a `410 Gone` status. To receive webhook events for transferred and deleted issues, subscribe to the [`issues`](https://docs.github.com/webhooks/event-payloads/#issues) webhook. > [!NOTE] > GitHub's REST API considers every pull request an issue, but not every issue is a pull request. For this reason, "Issues" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key. Be aware that the `id` of a pull request returned from "Issues" endpoints will be an _issue id_. To find out the pull request id, use the "[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)" endpoint. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
 export const get: API.OperationMethod<GetRequest, Issue, GetError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(544, __c17, 0) as any as S.Schema<GetRequest>,
+    input: __S(704, __c22, 0) as any as S.Schema<GetRequest>,
     output: __S(225, __c7, 1) as any as S.Schema<Issue>,
     errors: [],
     protocol: GithubProtocol,
@@ -3104,7 +3295,7 @@ export const getComment: API.OperationMethod<
   GetCommentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetCommentRequest>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetCommentRequest>,
   output: __S(102, __c3, 6) as any as S.Schema<IssueComment>,
   errors: [],
   protocol: GithubProtocol,
@@ -3121,8 +3312,8 @@ export const getEvent: API.OperationMethod<
   GetEventError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<GetEventRequest>,
-  output: __S(719, __c22, 15) as any as S.Schema<IssueEvent>,
+  input: __S(768, __c24, 0) as any as S.Schema<GetEventRequest>,
+  output: __S(815, __c25, 15) as any as S.Schema<IssueEvent>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3130,12 +3321,29 @@ export const getEvent: API.OperationMethod<
   span: "GetEvent",
 }));
 
+export type GetIssueArtifactError = GithubOpError;
+/** Get an issue artifact Returns an artifact attached to an issue by its per-issue artifact number, along with its version history ordered from newest to oldest. */
+export const getIssueArtifact: API.OperationMethod<
+  GetIssueArtifactRequest,
+  GetIssueArtifactResponse,
+  GetIssueArtifactError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(832, __c26, 0) as any as S.Schema<GetIssueArtifactRequest>,
+  output: __S(833, __c26, 1) as any as S.Schema<GetIssueArtifactResponse>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssueArtifact",
+}));
+
 export type GetLabelError = GithubOpError;
 /** Get a label Gets a label using the given name. */
 export const getLabel: API.OperationMethod<GetLabelRequest, Label, GetLabelError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(736, __c23, 0) as any as S.Schema<GetLabelRequest>,
-    output: __S(1120, __c35, 0) as any as S.Schema<Label>,
+    input: __S(864, __c27, 0) as any as S.Schema<GetLabelRequest>,
+    output: __S(1152, __c36, 0) as any as S.Schema<Label>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3151,7 +3359,7 @@ export const getMilestone: API.OperationMethod<
   GetMilestoneError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<GetMilestoneRequest>,
+  input: __S(896, __c28, 0) as any as S.Schema<GetMilestoneRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<Milestone>,
   errors: [],
   protocol: GithubProtocol,
@@ -3168,7 +3376,7 @@ export const getParent: API.OperationMethod<
   GetParentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetParentRequest>,
+  input: __S(928, __c29, 0) as any as S.Schema<GetParentRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<Issue>,
   errors: [],
   protocol: GithubProtocol,
@@ -3187,8 +3395,8 @@ export const list: API.PaginatedOperationMethod<
   Issue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(832, __c26, 0) as any as S.Schema<ListRequest>,
-    output: __S(865, __c27, 1) as any as S.Schema<ListResponse>,
+    input: __S(960, __c30, 0) as any as S.Schema<ListRequest>,
+    output: __S(993, __c31, 1) as any as S.Schema<ListResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3209,8 +3417,8 @@ export const listAssignees: API.PaginatedOperationMethod<
   NullableSimpleUser
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(896, __c28, 0) as any as S.Schema<ListAssigneesRequest>,
-    output: __S(897, __c28, 1) as any as S.Schema<ListAssigneesResponse>,
+    input: __S(1024, __c32, 0) as any as S.Schema<ListAssigneesRequest>,
+    output: __S(1025, __c32, 1) as any as S.Schema<ListAssigneesResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3231,8 +3439,8 @@ export const listComments: API.PaginatedOperationMethod<
   IssueComment
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(928, __c29, 0) as any as S.Schema<ListCommentsRequest>,
-    output: __S(961, __c30, 1) as any as S.Schema<ListCommentsResponse>,
+    input: __S(1056, __c33, 0) as any as S.Schema<ListCommentsRequest>,
+    output: __S(1089, __c34, 1) as any as S.Schema<ListCommentsResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3253,8 +3461,8 @@ export const listCommentsForRepo: API.PaginatedOperationMethod<
   IssueComment
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(992, __c31, 0) as any as S.Schema<ListCommentsForRepoRequest>,
-    output: __S(961, __c30, 1) as any as S.Schema<ListCommentsForRepoResponse>,
+    input: __S(1216, __c38, 0) as any as S.Schema<ListCommentsForRepoRequest>,
+    output: __S(1089, __c34, 1) as any as S.Schema<ListCommentsForRepoResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3275,8 +3483,8 @@ export const listDependenciesBlockedBy: API.PaginatedOperationMethod<
   Issue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1024, __c32, 0) as any as S.Schema<ListDependenciesBlockedByRequest>,
-    output: __S(865, __c27, 1) as any as S.Schema<ListDependenciesBlockedByResponse>,
+    input: __S(1248, __c39, 0) as any as S.Schema<ListDependenciesBlockedByRequest>,
+    output: __S(993, __c31, 1) as any as S.Schema<ListDependenciesBlockedByResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3297,8 +3505,8 @@ export const listDependenciesBlocking: API.PaginatedOperationMethod<
   Issue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1056, __c33, 0) as any as S.Schema<ListDependenciesBlockingRequest>,
-    output: __S(865, __c27, 1) as any as S.Schema<ListDependenciesBlockingResponse>,
+    input: __S(1280, __c40, 0) as any as S.Schema<ListDependenciesBlockingRequest>,
+    output: __S(993, __c31, 1) as any as S.Schema<ListDependenciesBlockingResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3319,8 +3527,8 @@ export const listEvents: API.PaginatedOperationMethod<
   IssueEventForIssue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1184, __c37, 0) as any as S.Schema<ListEventsRequest>,
-    output: __S(1186, __c37, 2) as any as S.Schema<ListEventsResponse>,
+    input: __S(1312, __c41, 0) as any as S.Schema<ListEventsRequest>,
+    output: __S(1314, __c41, 2) as any as S.Schema<ListEventsResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3341,8 +3549,8 @@ export const listEventsForRepo: API.PaginatedOperationMethod<
   IssueEvent
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1216, __c38, 0) as any as S.Schema<ListEventsForRepoRequest>,
-    output: __S(1218, __c38, 2) as any as S.Schema<ListEventsForRepoResponse>,
+    input: __S(1344, __c42, 0) as any as S.Schema<ListEventsForRepoRequest>,
+    output: __S(1346, __c42, 2) as any as S.Schema<ListEventsForRepoResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3363,8 +3571,8 @@ export const listEventsForTimeline: API.PaginatedOperationMethod<
   TimelineIssueEvents
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1248, __c39, 0) as any as S.Schema<ListEventsForTimelineRequest>,
-    output: __S(1250, __c39, 2) as any as S.Schema<ListEventsForTimelineResponse>,
+    input: __S(1376, __c43, 0) as any as S.Schema<ListEventsForTimelineRequest>,
+    output: __S(1378, __c43, 2) as any as S.Schema<ListEventsForTimelineResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3385,8 +3593,8 @@ export const listForAuthenticatedUser: API.PaginatedOperationMethod<
   Issue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1280, __c40, 0) as any as S.Schema<ListForAuthenticatedUserRequest>,
-    output: __S(865, __c27, 1) as any as S.Schema<ListForAuthenticatedUserResponse>,
+    input: __S(1408, __c44, 0) as any as S.Schema<ListForAuthenticatedUserRequest>,
+    output: __S(993, __c31, 1) as any as S.Schema<ListForAuthenticatedUserResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3407,8 +3615,8 @@ export const listForOrg: API.PaginatedOperationMethod<
   Issue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1312, __c41, 0) as any as S.Schema<ListForOrgRequest>,
-    output: __S(865, __c27, 1) as any as S.Schema<ListForOrgResponse>,
+    input: __S(1440, __c45, 0) as any as S.Schema<ListForOrgRequest>,
+    output: __S(993, __c31, 1) as any as S.Schema<ListForOrgResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3429,13 +3637,35 @@ export const listForRepo: API.PaginatedOperationMethod<
   Issue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1344, __c42, 0) as any as S.Schema<ListForRepoRequest>,
-    output: __S(865, __c27, 1) as any as S.Schema<ListForRepoResponse>,
+    input: __S(1472, __c46, 0) as any as S.Schema<ListForRepoRequest>,
+    output: __S(993, __c31, 1) as any as S.Schema<ListForRepoResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListForRepo",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
+
+export type ListIssueArtifactsError = GithubOpError;
+/** List issue artifacts Lists artifacts attached to an issue. Results are ordered by artifact number. The `type` parameter filters the response to artifacts of one type. Results can be requested by page. The page defaults to `1`; the page size defaults to `30` and can be set from `1` to `100`. The response is a bare array and does not include pagination metadata such as a `Link` header, a total count, or the service's `has_next_page` signal. */
+export const listIssueArtifacts: API.PaginatedOperationMethod<
+  ListIssueArtifactsRequest,
+  ListIssueArtifactsResponse,
+  ListIssueArtifactsError,
+  GithubOpContext,
+  IssueArtifact
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(1504, __c47, 0) as any as S.Schema<ListIssueArtifactsRequest>,
+    output: __S(1506, __c47, 2) as any as S.Schema<ListIssueArtifactsResponse>,
+    errors: [],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListIssueArtifacts",
     pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
   paginateLink,
@@ -3451,8 +3681,8 @@ export const listIssueFieldValuesForIssue: API.PaginatedOperationMethod<
   IssueFieldValue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1376, __c43, 0) as any as S.Schema<ListIssueFieldValuesForIssueRequest>,
-    output: __S(640, __c20, 0) as any as S.Schema<ListIssueFieldValuesForIssueResponse>,
+    input: __S(1568, __c49, 0) as any as S.Schema<ListIssueFieldValuesForIssueRequest>,
+    output: __S(672, __c21, 0) as any as S.Schema<ListIssueFieldValuesForIssueResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3473,8 +3703,8 @@ export const listLabelsForMilestone: API.PaginatedOperationMethod<
   Label
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1408, __c44, 0) as any as S.Schema<ListLabelsForMilestoneRequest>,
-    output: __S(1153, __c36, 1) as any as S.Schema<ListLabelsForMilestoneResponse>,
+    input: __S(1600, __c50, 0) as any as S.Schema<ListLabelsForMilestoneRequest>,
+    output: __S(1185, __c37, 1) as any as S.Schema<ListLabelsForMilestoneResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3495,8 +3725,8 @@ export const listLabelsForRepo: API.PaginatedOperationMethod<
   Label
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1440, __c45, 0) as any as S.Schema<ListLabelsForRepoRequest>,
-    output: __S(1153, __c36, 1) as any as S.Schema<ListLabelsForRepoResponse>,
+    input: __S(1632, __c51, 0) as any as S.Schema<ListLabelsForRepoRequest>,
+    output: __S(1185, __c37, 1) as any as S.Schema<ListLabelsForRepoResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3517,8 +3747,8 @@ export const listLabelsOnIssue: API.PaginatedOperationMethod<
   Label
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1472, __c46, 0) as any as S.Schema<ListLabelsOnIssueRequest>,
-    output: __S(1153, __c36, 1) as any as S.Schema<ListLabelsOnIssueResponse>,
+    input: __S(1664, __c52, 0) as any as S.Schema<ListLabelsOnIssueRequest>,
+    output: __S(1185, __c37, 1) as any as S.Schema<ListLabelsOnIssueResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3539,8 +3769,8 @@ export const listMilestones: API.PaginatedOperationMethod<
   Milestone
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1536, __c48, 0) as any as S.Schema<ListMilestonesRequest>,
-    output: __S(1538, __c48, 2) as any as S.Schema<ListMilestonesResponse>,
+    input: __S(1696, __c53, 0) as any as S.Schema<ListMilestonesRequest>,
+    output: __S(1698, __c53, 2) as any as S.Schema<ListMilestonesResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3561,8 +3791,8 @@ export const listRelatesTo: API.PaginatedOperationMethod<
   Issue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1568, __c49, 0) as any as S.Schema<ListRelatesToRequest>,
-    output: __S(865, __c27, 1) as any as S.Schema<ListRelatesToResponse>,
+    input: __S(1728, __c54, 0) as any as S.Schema<ListRelatesToRequest>,
+    output: __S(993, __c31, 1) as any as S.Schema<ListRelatesToResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3583,8 +3813,8 @@ export const listSubIssues: API.PaginatedOperationMethod<
   Issue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1600, __c50, 0) as any as S.Schema<ListSubIssuesRequest>,
-    output: __S(865, __c27, 1) as any as S.Schema<ListSubIssuesResponse>,
+    input: __S(1760, __c55, 0) as any as S.Schema<ListSubIssuesRequest>,
+    output: __S(993, __c31, 1) as any as S.Schema<ListSubIssuesResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3605,8 +3835,8 @@ export const listSuggestions: API.PaginatedOperationMethod<
   IssueSuggestion
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1632, __c51, 0) as any as S.Schema<ListSuggestionsRequest>,
-    output: __S(1634, __c51, 2) as any as S.Schema<ListSuggestionsResponse>,
+    input: __S(1792, __c56, 0) as any as S.Schema<ListSuggestionsRequest>,
+    output: __S(1794, __c56, 2) as any as S.Schema<ListSuggestionsResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3621,8 +3851,8 @@ export type LockError = GithubOpError;
 /** Lock an issue Users with push access can lock an issue or pull request's conversation. Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP method](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#http-method)." */
 export const lock: API.OperationMethod<LockRequest, LockResponse, LockError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1664, __c52, 0) as any as S.Schema<LockRequest>,
-    output: __S(2336, __c73, 0) as any as S.Schema<LockResponse>,
+    input: __S(1824, __c57, 0) as any as S.Schema<LockRequest>,
+    output: __S(2528, __c79, 0) as any as S.Schema<LockResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3638,7 +3868,7 @@ export const pinComment: API.OperationMethod<
   PinCommentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<PinCommentRequest>,
+  input: __S(1856, __c58, 0) as any as S.Schema<PinCommentRequest>,
   output: __S(102, __c3, 6) as any as S.Schema<IssueComment>,
   errors: [],
   protocol: GithubProtocol,
@@ -3655,8 +3885,8 @@ export const removeAllLabels: API.OperationMethod<
   RemoveAllLabelsError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<RemoveAllLabelsRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<RemoveAllLabelsResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<RemoveAllLabelsRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<RemoveAllLabelsResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3672,7 +3902,7 @@ export const removeAssignees: API.OperationMethod<
   RemoveAssigneesError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<RemoveAssigneesRequest>,
+  input: __S(1952, __c61, 0) as any as S.Schema<RemoveAssigneesRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<Issue>,
   errors: [],
   protocol: GithubProtocol,
@@ -3689,7 +3919,7 @@ export const removeDependencyBlockedBy: API.OperationMethod<
   RemoveDependencyBlockedByError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<RemoveDependencyBlockedByRequest>,
+  input: __S(1984, __c62, 0) as any as S.Schema<RemoveDependencyBlockedByRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<Issue>,
   errors: [],
   protocol: GithubProtocol,
@@ -3706,8 +3936,8 @@ export const removeLabel: API.OperationMethod<
   RemoveLabelError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<RemoveLabelRequest>,
-  output: __S(1153, __c36, 1) as any as S.Schema<RemoveLabelResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<RemoveLabelRequest>,
+  output: __S(1185, __c37, 1) as any as S.Schema<RemoveLabelResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3723,7 +3953,7 @@ export const removeRelatesTo: API.OperationMethod<
   RemoveRelatesToError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<RemoveRelatesToRequest>,
+  input: __S(2048, __c64, 0) as any as S.Schema<RemoveRelatesToRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<Issue>,
   errors: [],
   protocol: GithubProtocol,
@@ -3740,7 +3970,7 @@ export const removeSubIssue: API.OperationMethod<
   RemoveSubIssueError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<RemoveSubIssueRequest>,
+  input: __S(2080, __c65, 0) as any as S.Schema<RemoveSubIssueRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<Issue>,
   errors: [],
   protocol: GithubProtocol,
@@ -3757,7 +3987,7 @@ export const reprioritizeSubIssue: API.OperationMethod<
   ReprioritizeSubIssueError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<ReprioritizeSubIssueRequest>,
+  input: __S(2112, __c66, 0) as any as S.Schema<ReprioritizeSubIssueRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<Issue>,
   errors: [],
   protocol: GithubProtocol,
@@ -3774,8 +4004,8 @@ export const setIssueFieldValues: API.OperationMethod<
   SetIssueFieldValuesError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1986, __c62, 2) as any as S.Schema<SetIssueFieldValuesRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<SetIssueFieldValuesResponse>,
+  input: __S(2146, __c67, 2) as any as S.Schema<SetIssueFieldValuesRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<SetIssueFieldValuesResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3791,8 +4021,8 @@ export const setLabels: API.OperationMethod<
   SetLabelsError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<SetLabelsRequest>,
-  output: __S(1153, __c36, 1) as any as S.Schema<SetLabelsResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<SetLabelsRequest>,
+  output: __S(1185, __c37, 1) as any as S.Schema<SetLabelsResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3808,8 +4038,8 @@ export const unlock: API.OperationMethod<
   UnlockError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<UnlockRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<UnlockResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<UnlockRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<UnlockResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3825,8 +4055,8 @@ export const unpinComment: API.OperationMethod<
   UnpinCommentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<UnpinCommentRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<UnpinCommentResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<UnpinCommentRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<UnpinCommentResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3842,8 +4072,8 @@ export const update: API.OperationMethod<
   UpdateError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2116, __c66, 4) as any as S.Schema<UpdateRequest>,
-  output: __S(2129, __c66, 17) as any as S.Schema<UpdateResponse>,
+  input: __S(2340, __c73, 4) as any as S.Schema<UpdateRequest>,
+  output: __S(2353, __c73, 17) as any as S.Schema<UpdateResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3859,13 +4089,30 @@ export const updateComment: API.OperationMethod<
   UpdateCommentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<UpdateCommentRequest>,
+  input: __S(2368, __c74, 0) as any as S.Schema<UpdateCommentRequest>,
   output: __S(102, __c3, 6) as any as S.Schema<IssueComment>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateComment",
+}));
+
+export type UpdateIssueArtifactError = GithubOpError;
+/** Update an issue artifact Updates the name, body, or both for an artifact attached to an issue. Updating an artifact requires permission to update the issue. The request can return `403` if the repository is read-only or locked, or a GitHub App installation has only `issues: read` permission. */
+export const updateIssueArtifact: API.OperationMethod<
+  UpdateIssueArtifactRequest,
+  IssueArtifact,
+  UpdateIssueArtifactError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2400, __c75, 0) as any as S.Schema<UpdateIssueArtifactRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<IssueArtifact>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIssueArtifact",
 }));
 
 export type UpdateLabelError = GithubOpError;
@@ -3876,8 +4123,8 @@ export const updateLabel: API.OperationMethod<
   UpdateLabelError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<UpdateLabelRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<Label>,
+  input: __S(2432, __c76, 0) as any as S.Schema<UpdateLabelRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<Label>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3893,7 +4140,7 @@ export const updateMilestone: API.OperationMethod<
   UpdateMilestoneError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<UpdateMilestoneRequest>,
+  input: __S(2464, __c77, 0) as any as S.Schema<UpdateMilestoneRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<Milestone>,
   errors: [],
   protocol: GithubProtocol,
@@ -4372,6 +4619,55 @@ function __c10(j: number): any {
         S.Struct({
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          type: S.optional(S.String),
+          name: S.String,
+          body: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/artifacts",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateIssueArtifactRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          login: S.String,
+          id: S.Number,
+        }),
+      ).annotate({ identifier: "IssueArtifactCreator" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          html_url: S.optional(S.String),
+          number: S.Number,
+          type: S.String,
+          name: S.String,
+          body: S.String,
+          body_html: S.NullOr(S.String),
+          description: S.String,
+          creator: S.NullOr(__S(352, __c11, 0)),
+          updated_by_actor: S.NullOr(__S(352, __c11, 0)),
+          created_at: S.NullOr(S.String),
+          updated_at: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "IssueArtifact" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
           name: S.String,
           color: S.optional(S.String),
           description: S.optional(S.String),
@@ -4379,7 +4675,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateLabelRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4394,7 +4690,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateMilestoneRequest" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4412,7 +4708,26 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteCommentRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          artifact_number: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/artifacts/{artifact_number}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteIssueArtifactRequest" });
+  }
+}
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4431,7 +4746,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteIssueFieldValueRequest" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4445,7 +4760,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DeleteLabelRequest" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4463,7 +4778,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteMilestoneRequest" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4482,7 +4797,43 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DismissSuggestionRequest" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          field_id: S.Number,
+          value: S.Unknown,
+        }),
+      ).annotate({ identifier: "AddIssueFieldValuesRequestIssueFieldValuesItem" });
+    case 1:
+      return S.Array(__S(640, __c20, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          issue_field_values: S.optional(__S(641, __c20, 1)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/issue-field-values",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AddIssueFieldValuesRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(35, __c1, 3).pipe(T.RawResponseRoot())).annotate({
+        identifier: "AddIssueFieldValuesResponse",
+      });
+  }
+}
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4496,7 +4847,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetRequest" });
   }
 }
-function __c18(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4514,43 +4865,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetCommentRequest" });
   }
 }
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          field_id: S.Number,
-          value: S.Unknown,
-        }),
-      ).annotate({ identifier: "AddIssueFieldValuesRequestIssueFieldValuesItem" });
-    case 1:
-      return S.Array(__S(608, __c19, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-          issue_number: S.Number.pipe(T.Label()),
-          issue_field_values: S.optional(__S(609, __c19, 1)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/repos/{owner}/{repo}/issues/{issue_number}/issue-field-values",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AddIssueFieldValuesRequest" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => __S(35, __c1, 3).pipe(T.RawResponseRoot())).annotate({
-        identifier: "AddIssueFieldValuesResponse",
-      });
-  }
-}
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4568,7 +4883,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetEventRequest" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -4589,7 +4904,7 @@ function __c22(j: number): any {
           title: S.String,
           body: S.optional(S.NullOr(S.String)),
           user: S.NullOr(__S(64, __c2, 0)),
-          labels: __S(704, __c22, 0),
+          labels: __S(800, __c25, 0),
           assignee: S.NullOr(__S(64, __c2, 0)),
           assignees: S.optional(__S(160, __c5, 0)),
           milestone: S.NullOr(__S(128, __c4, 0)),
@@ -4666,7 +4981,7 @@ function __c22(j: number): any {
           privacy: S.optional(S.String),
           notification_setting: S.optional(S.String),
           permission: S.String,
-          permissions: S.optional(__S(707, __c22, 3)),
+          permissions: S.optional(__S(803, __c25, 3)),
           url: S.String,
           html_url: S.String,
           members_url: S.String,
@@ -4675,7 +4990,7 @@ function __c22(j: number): any {
           access_source: S.optional(S.String),
           organization_id: S.optional(S.Number),
           enterprise_id: S.optional(S.Number),
-          parent: S.NullOr(__S(708, __c22, 4)),
+          parent: S.NullOr(__S(804, __c25, 4)),
         }),
       ).annotate({ identifier: "Team" });
     case 6:
@@ -4786,8 +5101,8 @@ function __c22(j: number): any {
           title: S.String,
           state: S.String,
           state_reason: S.optional(S.NullOr(S.String)),
-          repository: __S(715, __c22, 11),
-          issue_type: S.NullOr(__S(716, __c22, 12)),
+          repository: __S(811, __c25, 11),
+          issue_type: S.NullOr(__S(812, __c25, 12)),
         }),
       ).annotate({ identifier: "NullableIssueReference" });
     case 14:
@@ -4808,24 +5123,24 @@ function __c22(j: number): any {
           commit_id: S.NullOr(S.String),
           commit_url: S.NullOr(S.String),
           created_at: S.String,
-          issue: S.optional(S.NullOr(__S(705, __c22, 1))),
-          label: S.optional(__S(706, __c22, 2)),
+          issue: S.optional(S.NullOr(__S(801, __c25, 1))),
+          label: S.optional(__S(802, __c25, 2)),
           assignee: S.optional(S.NullOr(__S(64, __c2, 0))),
           assigner: S.optional(S.NullOr(__S(64, __c2, 0))),
           review_requester: S.optional(S.NullOr(__S(64, __c2, 0))),
           requested_reviewer: S.optional(S.NullOr(__S(64, __c2, 0))),
-          requested_team: S.optional(__S(709, __c22, 5)),
-          dismissed_review: S.optional(__S(710, __c22, 6)),
-          milestone: S.optional(__S(711, __c22, 7)),
-          project_card: S.optional(__S(712, __c22, 8)),
-          rename: S.optional(__S(713, __c22, 9)),
-          issue_type: S.optional(S.NullOr(__S(714, __c22, 10))),
-          prev_issue_type: S.optional(S.NullOr(__S(714, __c22, 10))),
-          sub_issue: S.optional(S.NullOr(__S(717, __c22, 13))),
-          parent_issue: S.optional(S.NullOr(__S(717, __c22, 13))),
-          blocked_by: S.optional(S.NullOr(__S(717, __c22, 13))),
-          blocking: S.optional(S.NullOr(__S(717, __c22, 13))),
-          intent: S.optional(S.NullOr(__S(718, __c22, 14))),
+          requested_team: S.optional(__S(805, __c25, 5)),
+          dismissed_review: S.optional(__S(806, __c25, 6)),
+          milestone: S.optional(__S(807, __c25, 7)),
+          project_card: S.optional(__S(808, __c25, 8)),
+          rename: S.optional(__S(809, __c25, 9)),
+          issue_type: S.optional(S.NullOr(__S(810, __c25, 10))),
+          prev_issue_type: S.optional(S.NullOr(__S(810, __c25, 10))),
+          sub_issue: S.optional(S.NullOr(__S(813, __c25, 13))),
+          parent_issue: S.optional(S.NullOr(__S(813, __c25, 13))),
+          blocked_by: S.optional(S.NullOr(__S(813, __c25, 13))),
+          blocking: S.optional(S.NullOr(__S(813, __c25, 13))),
+          intent: S.optional(S.NullOr(__S(814, __c25, 14))),
           author_association: S.optional(S.String),
           lock_reason: S.optional(S.NullOr(S.String)),
           performed_via_github_app: S.optional(S.NullOr(__S(98, __c3, 2))),
@@ -4833,7 +5148,32 @@ function __c22(j: number): any {
       ).annotate({ identifier: "IssueEvent" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          artifact_number: S.Number.pipe(T.Label()),
+          per_page: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/artifacts/{artifact_number}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetIssueArtifactRequest" });
+    case 1:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetIssueArtifactResponse",
+      });
+  }
+}
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4845,7 +5185,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetLabelRequest" });
   }
 }
-function __c24(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4863,7 +5203,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetMilestoneRequest" });
   }
 }
-function __c25(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4881,7 +5221,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetParentRequest" });
   }
 }
-function __c26(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4902,17 +5242,17 @@ function __c26(j: number): any {
       ).annotate({ identifier: "ListRequest" });
   }
 }
-function __c27(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(225, __c7, 1));
     case 1:
-      return S.suspend(() => __S(864, __c27, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(992, __c31, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListResponse",
       });
   }
 }
-function __c28(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4929,7 +5269,7 @@ function __c28(j: number): any {
       });
   }
 }
-function __c29(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4950,17 +5290,64 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ListCommentsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(102, __c3, 6));
     case 1:
-      return S.suspend(() => __S(960, __c30, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1088, __c34, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCommentsResponse",
       });
   }
 }
-function __c31(j: number): any {
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          body: S.optional(S.Unknown.pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/labels",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AddLabelsRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          node_id: S.String,
+          url: S.String,
+          name: S.String,
+          description: S.NullOr(S.String),
+          color: S.String,
+          default: S.Boolean,
+          archived_at: S.NullOr(S.String),
+          archived_by: S.NullOr(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "Label" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1152, __c36, 0));
+    case 1:
+      return S.suspend(() => __S(1184, __c37, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "AddLabelsResponse",
+      });
+  }
+}
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4976,7 +5363,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "ListCommentsForRepoRequest" });
   }
 }
-function __c32(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4996,7 +5383,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ListDependenciesBlockedByRequest" });
   }
 }
-function __c33(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5016,54 +5403,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ListDependenciesBlockingRequest" });
   }
 }
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-          issue_number: S.Number.pipe(T.Label()),
-          body: S.optional(S.Unknown.pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/repos/{owner}/{repo}/issues/{issue_number}/labels",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AddLabelsRequest" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number,
-          node_id: S.String,
-          url: S.String,
-          name: S.String,
-          description: S.NullOr(S.String),
-          color: S.String,
-          default: S.Boolean,
-          archived_at: S.NullOr(S.String),
-          archived_by: S.NullOr(__S(64, __c2, 0)),
-        }),
-      ).annotate({ identifier: "Label" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1120, __c35, 0));
-    case 1:
-      return S.suspend(() => __S(1152, __c36, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "AddLabelsResponse",
-      });
-  }
-}
-function __c37(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5084,12 +5424,12 @@ function __c37(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(1185, __c37, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1313, __c41, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListEventsResponse",
       });
   }
 }
-function __c38(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5101,14 +5441,14 @@ function __c38(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/events", code: 200 })),
       ).annotate({ identifier: "ListEventsForRepoRequest" });
     case 1:
-      return S.Array(__S(719, __c22, 15));
+      return S.Array(__S(815, __c25, 15));
     case 2:
-      return S.suspend(() => __S(1217, __c38, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1345, __c42, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListEventsForRepoResponse",
       });
   }
 }
-function __c39(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5130,12 +5470,12 @@ function __c39(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(1249, __c39, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1377, __c43, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListEventsForTimelineResponse",
       });
   }
 }
-function __c40(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5152,7 +5492,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "ListForAuthenticatedUserRequest" });
   }
 }
-function __c41(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5171,7 +5511,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "ListForOrgRequest" });
   }
 }
-function __c42(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5195,7 +5535,53 @@ function __c42(j: number): any {
       ).annotate({ identifier: "ListForRepoRequest" });
   }
 }
-function __c43(j: number): any {
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          type: S.optional(S.String.pipe(T.Query())),
+          per_page: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/artifacts",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListIssueArtifactsRequest" });
+    case 1:
+      return S.Array(__S(353, __c11, 1));
+    case 2:
+      return S.suspend(() => __S(1505, __c47, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListIssueArtifactsResponse",
+      });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          issue_id: S.Number,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/relates_to",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AddRelatesToRequest" });
+  }
+}
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5215,7 +5601,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "ListIssueFieldValuesForIssueRequest" });
   }
 }
-function __c44(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5235,7 +5621,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "ListLabelsForMilestoneRequest" });
   }
 }
-function __c45(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5248,7 +5634,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "ListLabelsForRepoRequest" });
   }
 }
-function __c46(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5268,26 +5654,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "ListLabelsOnIssueRequest" });
   }
 }
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-          issue_number: S.Number.pipe(T.Label()),
-          issue_id: S.Number,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/repos/{owner}/{repo}/issues/{issue_number}/relates_to",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AddRelatesToRequest" });
-  }
-}
-function __c48(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5304,12 +5671,12 @@ function __c48(j: number): any {
     case 1:
       return S.Array(__S(128, __c4, 0));
     case 2:
-      return S.suspend(() => __S(1537, __c48, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1697, __c53, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListMilestonesResponse",
       });
   }
 }
-function __c49(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5329,7 +5696,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "ListRelatesToRequest" });
   }
 }
-function __c50(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5349,7 +5716,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ListSubIssuesRequest" });
   }
 }
-function __c51(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5370,14 +5737,14 @@ function __c51(j: number): any {
         ),
       ).annotate({ identifier: "ListSuggestionsRequest" });
     case 1:
-      return S.Array(__S(2240, __c70, 0));
+      return S.Array(__S(2272, __c71, 0));
     case 2:
-      return S.suspend(() => __S(1633, __c51, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1793, __c56, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSuggestionsResponse",
       });
   }
 }
-function __c52(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5396,7 +5763,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "LockRequest" });
   }
 }
-function __c53(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5414,82 +5781,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "PinCommentRequest" });
   }
 }
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-          issue_number: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/repos/{owner}/{repo}/issues/{issue_number}/labels",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RemoveAllLabelsRequest" });
-  }
-}
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-          issue_number: S.Number.pipe(T.Label()),
-          assignees: S.optional(__S(96, __c3, 0)),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/repos/{owner}/{repo}/issues/{issue_number}/assignees",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RemoveAssigneesRequest" });
-  }
-}
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-          issue_number: S.Number.pipe(T.Label()),
-          issue_id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocked_by/{issue_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RemoveDependencyBlockedByRequest" });
-  }
-}
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-          issue_number: S.Number.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/repos/{owner}/{repo}/issues/{issue_number}/labels/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RemoveLabelRequest" });
-  }
-}
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5509,7 +5801,82 @@ function __c58(j: number): any {
       ).annotate({ identifier: "AddSubIssueRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/labels",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RemoveAllLabelsRequest" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          assignees: S.optional(__S(96, __c3, 0)),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/assignees",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RemoveAssigneesRequest" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          issue_id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocked_by/{issue_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RemoveDependencyBlockedByRequest" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/labels/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RemoveLabelRequest" });
+  }
+}
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5528,7 +5895,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "RemoveRelatesToRequest" });
   }
 }
-function __c60(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5547,7 +5914,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "RemoveSubIssueRequest" });
   }
 }
-function __c61(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5568,7 +5935,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ReprioritizeSubIssueRequest" });
   }
 }
-function __c62(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5578,14 +5945,14 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "SetIssueFieldValuesRequestIssueFieldValuesItem" });
     case 1:
-      return S.Array(__S(1984, __c62, 0));
+      return S.Array(__S(2144, __c67, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           issue_number: S.Number.pipe(T.Label()),
-          issue_field_values: S.optional(__S(1985, __c62, 1)),
+          issue_field_values: S.optional(__S(2145, __c67, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5596,7 +5963,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "SetIssueFieldValuesRequest" });
   }
 }
-function __c63(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5615,7 +5982,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "SetLabelsRequest" });
   }
 }
-function __c64(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5633,7 +6000,48 @@ function __c64(j: number): any {
       ).annotate({ identifier: "UnlockRequest" });
   }
 }
-function __c65(j: number): any {
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          suggestion_id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/suggestions/{suggestion_id}/approve",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ApproveSuggestionRequest" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          issue_id: S.Number,
+          action: S.String,
+          state: S.String,
+          target_id: S.NullOr(S.Number),
+          target_value: S.NullOr(S.Unknown),
+          rationale: S.NullOr(S.String),
+          confidence: S.NullOr(S.String),
+          actor_id: S.NullOr(S.Number),
+          issue_event_id: S.NullOr(S.Number),
+          resolved_by: S.NullOr(S.Number),
+          created_at: S.String,
+          updated_at: S.String,
+        }),
+      ).annotate({ identifier: "IssueSuggestion" });
+  }
+}
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5651,7 +6059,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "UnpinCommentRequest" });
   }
 }
-function __c66(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -5668,7 +6076,7 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "UpdateRequestIssueFieldValuesItem" });
     case 3:
-      return S.Array(__S(2114, __c66, 2));
+      return S.Array(__S(2338, __c73, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -5682,9 +6090,9 @@ function __c66(j: number): any {
           state_reason: S.optional(S.NullOr(S.String)),
           duplicate_issue_id: S.optional(S.Number),
           milestone: S.optional(S.NullOr(S.Unknown)),
-          labels: S.optional(__S(2112, __c66, 0)),
-          assignees: S.optional(__S(2113, __c66, 1)),
-          issue_field_values: S.optional(__S(2115, __c66, 3)),
+          labels: S.optional(__S(2336, __c73, 0)),
+          assignees: S.optional(__S(2337, __c73, 1)),
+          issue_field_values: S.optional(__S(2339, __c73, 3)),
           type: S.optional(S.NullOr(S.Unknown)),
         }).pipe(
           T.Http({
@@ -5708,7 +6116,7 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "UpdateResponseSuggestionsTypeItem" });
     case 7:
-      return S.Array(__S(2118, __c66, 6));
+      return S.Array(__S(2342, __c73, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -5722,7 +6130,7 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "UpdateResponseSuggestionsIssueFieldValuesItem" });
     case 9:
-      return S.Array(__S(2120, __c66, 8));
+      return S.Array(__S(2344, __c73, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -5735,7 +6143,7 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "UpdateResponseSuggestionsLabelsItem" });
     case 11:
-      return S.Array(__S(2122, __c66, 10));
+      return S.Array(__S(2346, __c73, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -5748,7 +6156,7 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "UpdateResponseSuggestionsAssigneesItem" });
     case 13:
-      return S.Array(__S(2124, __c66, 12));
+      return S.Array(__S(2348, __c73, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -5763,15 +6171,15 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "UpdateResponseSuggestionsStateItem" });
     case 15:
-      return S.Array(__S(2126, __c66, 14));
+      return S.Array(__S(2350, __c73, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(__S(2119, __c66, 7)),
-          issue_field_values: S.optional(__S(2121, __c66, 9)),
-          labels: S.optional(__S(2123, __c66, 11)),
-          assignees: S.optional(__S(2125, __c66, 13)),
-          state: S.optional(__S(2127, __c66, 15)),
+          type: S.optional(__S(2343, __c73, 7)),
+          issue_field_values: S.optional(__S(2345, __c73, 9)),
+          labels: S.optional(__S(2347, __c73, 11)),
+          assignees: S.optional(__S(2349, __c73, 13)),
+          state: S.optional(__S(2351, __c73, 15)),
         }),
       ).annotate({ identifier: "UpdateResponseSuggestions" });
     case 17:
@@ -5791,7 +6199,7 @@ function __c66(j: number): any {
           title: S.String,
           body: S.optional(S.NullOr(S.String)),
           user: S.NullOr(__S(64, __c2, 0)),
-          labels: __S(2117, __c66, 5),
+          labels: __S(2341, __c73, 5),
           assignee: S.NullOr(__S(64, __c2, 0)),
           assignees: S.optional(__S(160, __c5, 0)),
           milestone: S.NullOr(__S(128, __c4, 0)),
@@ -5817,12 +6225,12 @@ function __c66(j: number): any {
           pinned_comment: S.optional(S.NullOr(__S(102, __c3, 6))),
           issue_dependencies_summary: S.optional(__S(199, __c6, 7)),
           issue_field_values: S.optional(__S(35, __c1, 3)),
-          suggestions: S.optional(__S(2128, __c66, 16)),
+          suggestions: S.optional(__S(2352, __c73, 16)),
         }),
       ).annotate({ identifier: "UpdateResponse" });
   }
 }
-function __c67(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5841,7 +6249,28 @@ function __c67(j: number): any {
       ).annotate({ identifier: "UpdateCommentRequest" });
   }
 }
-function __c68(j: number): any {
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          artifact_number: S.Number.pipe(T.Label()),
+          name: S.optional(S.String),
+          body: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/artifacts/{artifact_number}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateIssueArtifactRequest" });
+  }
+}
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5857,48 +6286,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "UpdateLabelRequest" });
   }
 }
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-          issue_number: S.Number.pipe(T.Label()),
-          suggestion_id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/repos/{owner}/{repo}/issues/{issue_number}/suggestions/{suggestion_id}/approve",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ApproveSuggestionRequest" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number,
-          issue_id: S.Number,
-          action: S.String,
-          state: S.String,
-          target_id: S.NullOr(S.Number),
-          target_value: S.NullOr(S.Unknown),
-          rationale: S.NullOr(S.String),
-          confidence: S.NullOr(S.String),
-          actor_id: S.NullOr(S.Number),
-          issue_event_id: S.NullOr(S.Number),
-          resolved_by: S.NullOr(S.Number),
-          created_at: S.String,
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "IssueSuggestion" });
-  }
-}
-function __c71(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5920,7 +6308,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "UpdateMilestoneRequest" });
   }
 }
-function __c72(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5934,7 +6322,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "CheckUserCanBeAssignedRequest" });
   }
 }
-function __c73(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -5942,7 +6330,7 @@ function __c73(j: number): any {
       });
   }
 }
-function __c74(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5961,7 +6349,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "CheckUserCanBeAssignedToIssueRequest" });
   }
 }
-function __c75(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -5973,7 +6361,7 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "CreateRequestIssueFieldValuesItem" });
     case 2:
-      return S.Array(__S(2401, __c75, 1));
+      return S.Array(__S(2593, __c81, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5983,9 +6371,9 @@ function __c75(j: number): any {
           body: S.optional(S.String),
           assignee: S.optional(S.NullOr(S.String)),
           milestone: S.optional(S.NullOr(S.Unknown)),
-          labels: S.optional(__S(2400, __c75, 0)),
+          labels: S.optional(__S(2592, __c81, 0)),
           assignees: S.optional(__S(96, __c3, 0)),
-          issue_field_values: S.optional(__S(2402, __c75, 2)),
+          issue_field_values: S.optional(__S(2594, __c81, 2)),
           type: S.optional(S.NullOr(S.String)),
           parent_issue_id: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/issues", code: 200 })),

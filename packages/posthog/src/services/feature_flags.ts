@@ -133,14 +133,14 @@ export interface FeatureFlagFilterPropertyDateSchema {
   /** Date value in ISO format or relative date expression. */
   value?: string;
 }
-/** * `semver_gt` - semver_gt * `semver_gte` - semver_gte * `semver_lt` - semver_lt * `semver_lte` - semver_lte * `semver_eq` - semver_eq * `semver_neq` - semver_neq * `semver_tilde` - semver_tilde * `semver_caret` - semver_caret * `semver_wildcard` - semver_wildcard */
-export type FeatureFlagFilterPropertySemverSchemaOperatorEnum =
+/** * `semver_eq` - semver_eq * `semver_neq` - semver_neq * `semver_gt` - semver_gt * `semver_gte` - semver_gte * `semver_lt` - semver_lt * `semver_lte` - semver_lte * `semver_tilde` - semver_tilde * `semver_caret` - semver_caret * `semver_wildcard` - semver_wildcard */
+export type SemverOperatorEnum =
+  | "semver_eq"
+  | "semver_neq"
   | "semver_gt"
   | "semver_gte"
   | "semver_lt"
   | "semver_lte"
-  | "semver_eq"
-  | "semver_neq"
   | "semver_tilde"
   | "semver_caret"
   | "semver_wildcard";
@@ -153,8 +153,8 @@ export interface FeatureFlagFilterPropertySemverSchema {
   cohort_name?: string | null;
   /** Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`. */
   group_type_index?: number | null;
-  /** Semantic version comparison operator. * `semver_gt` - semver_gt * `semver_gte` - semver_gte * `semver_lt` - semver_lt * `semver_lte` - semver_lte * `semver_eq` - semver_eq * `semver_neq` - semver_neq * `semver_tilde` - semver_tilde * `semver_caret` - semver_caret * `semver_wildcard` - semver_wildcard */
-  operator?: FeatureFlagFilterPropertySemverSchemaOperatorEnum | (string & {});
+  /** Semantic version comparison operator. * `semver_eq` - semver_eq * `semver_neq` - semver_neq * `semver_gt` - semver_gt * `semver_gte` - semver_gte * `semver_lt` - semver_lt * `semver_lte` - semver_lte * `semver_tilde` - semver_tilde * `semver_caret` - semver_caret * `semver_wildcard` - semver_wildcard */
+  operator?: SemverOperatorEnum | (string & {});
   /** Semantic version string. */
   value?: string;
 }
@@ -195,6 +195,10 @@ export interface FeatureFlagFilterPropertyCohortInSchema {
   operator?: FeatureFlagFilterPropertyCohortInSchemaOperatorEnum | (string & {});
   /** Cohort comparison value (single or list, depending on usage). */
   value?: unknown;
+  /** Set to true in responses when the cohort is deleted or does not exist. The flag cannot evaluate this condition. Ignored on write. */
+  cohort_deleted?: boolean;
+  /** Set to true in responses when no cohort with this id exists in the project, so it cannot be restored. `cohort_deleted` is also true. Absent for a soft-deleted cohort. Ignored on write. */
+  cohort_missing?: boolean;
 }
 /** * `flag` - flag */
 export type FeatureFlagFilterPropertyFlagEvaluatesSchemaTypeEnum = "flag";
@@ -367,7 +371,7 @@ export interface FeatureFlagOutput {
   features?: FeatureFlagOutputFeaturesMap;
   can_edit?: boolean;
   tags?: FeatureFlagOutputTagsList;
-  /** Legacy dashboard of saved usage insights for this flag, or null if it has none. New flags show usage charts inline instead. The dashboard creation endpoint is deprecated and will be removed after September 25, 2026. */
+  /** Legacy dashboard of saved usage insights for this flag, or null if it has none. Usage charts are on the flag's Usage tab. The API does not create these dashboards. */
   usage_dashboard?: number | null;
   analytics_dashboards?: FeatureFlagOutputAnalyticsDashboardsList;
   has_enriched_analytics?: boolean | null;
@@ -387,6 +391,120 @@ export interface FeatureFlagOutput {
   is_used_in_replay_settings?: boolean;
   /** Whether this flag can back an experiment: multivariate with 2 to 20 variants. */
   is_eligible_for_experiment?: boolean;
+}
+export interface CreateFeatureFlagsAnalyzeCodeRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A unique integer value identifying this feature flag. */
+  id: number;
+  /** GitHub repository to analyze, as `organization/repository`. It must be connected to the project's GitHub integration. Omit it to use the repository the last analysis used, the environment's default flag cleanup repository, or the only connected repository. */
+  repository?: string | null;
+}
+/** * `not_started` - Not Started * `queued` - Queued * `in_progress` - In Progress * `completed` - Completed * `failed` - Failed * `cancelled` - Cancelled */
+export type TaskRunStatusEnum =
+  | "not_started"
+  | "queued"
+  | "in_progress"
+  | "completed"
+  | "failed"
+  | "cancelled";
+export interface FeatureFlagCodeBranch {
+  /** What the flag evaluates to on this branch: "enabled", "disabled", or a variant key. "all" when the same code runs for every outcome and only the flag value passed to it differs. */
+  variant: string;
+  /** First line of the branch body, 1-based. */
+  start_line: number;
+  /** Last line of the branch body, 1-based and inclusive. */
+  end_line: number;
+  /** The branch body as it appears in the file. Empty when the outcome runs no code. */
+  snippet: string;
+}
+/** The code that runs for each outcome of the flag. */
+export type FeatureFlagCodeReferenceBranchesList = Array<FeatureFlagCodeBranch>;
+export interface FeatureFlagCodeReference {
+  /** Path of the file from the repository root. */
+  file: string;
+  /** Line where the flag value decides which code runs (the if, ternary, switch, or call it is passed to), 1-based. */
+  check_line: number;
+  /** SDK call or wrapper that reads the flag, for example `isFeatureEnabled`. */
+  method: string;
+  /** One sentence on what changes when the flag turns on at this check. */
+  summary: string;
+  /** The code that runs for each outcome of the flag. */
+  branches: FeatureFlagCodeReferenceBranchesList;
+}
+/** Every place the flag is checked. Empty when the repository has no references. */
+export type FeatureFlagCodeAnalysisResultReferencesList = Array<FeatureFlagCodeReference>;
+export interface FeatureFlagCodeAnalysisResult {
+  /** Repository that was analyzed, as `organization/repository`. */
+  repository: string;
+  /** Commit the analysis read. */
+  commit_sha: string;
+  /** Every place the flag is checked. Empty when the repository has no references. */
+  references: FeatureFlagCodeAnalysisResultReferencesList;
+  /** Caveats from the analysis, such as keys built at runtime or ambiguous checks. */
+  notes: string;
+}
+/** * `analysis_not_ready` - Analysis not ready * `no_references` - No references * `not_stale` - Not stale * `unsupported_config` - Unsupported configuration */
+export type CodeCleanupUnavailableReasonEnum =
+  | "analysis_not_ready"
+  | "no_references"
+  | "not_stale"
+  | "unsupported_config";
+/** Outcomes whose code the cleanup can keep. */
+export type FeatureFlagCodeCleanupOutcomeOptionsList = Array<string>;
+export interface FeatureFlagCodeCleanupRun {
+  /** ID of the task that opens the cleanup pull request. */
+  task_id: string;
+  /** Status of the cleanup run. * `not_started` - Not Started * `queued` - Queued * `in_progress` - In Progress * `completed` - Completed * `failed` - Failed * `cancelled` - Cancelled */
+  run_status: TaskRunStatusEnum;
+  /** Whether the run has finished, successfully or not. Stop polling once true. */
+  is_terminal: boolean;
+  /** The draft pull request the run opened. Null while it runs, or when it found no code to remove. */
+  pr_url: string | null;
+  /** Why the run failed, when it failed. */
+  error_message: string | null;
+  /** Whether the requesting user can open the task. Hide the task link from everyone else. */
+  can_view_task: boolean;
+}
+export interface FeatureFlagCodeCleanup {
+  /** Why a cleanup pull request can't be opened, or null when it can: `analysis_not_ready` (the analysis has no result yet), `no_references` (the analysis found no checks to remove), `not_stale` (the flag is still in use), or `unsupported_config` (the flag's configuration can't be read safely). * `analysis_not_ready` - Analysis not ready * `no_references` - No references * `not_stale` - Not stale * `unsupported_config` - Unsupported configuration */
+  unavailable_reason: CodeCleanupUnavailableReasonEnum | null;
+  /** The outcome every user gets today, whose code the cleanup keeps by default: `enabled`, `disabled`, or a variant key. Null when users get different outcomes, so the caller must choose one. */
+  suggested_outcome: string | null;
+  /** Outcomes whose code the cleanup can keep. */
+  outcome_options: FeatureFlagCodeCleanupOutcomeOptionsList;
+  /** Whether `open_cleanup_pr` accepts a request now. False when `unavailable_reason` is set, or while a cleanup run is still opening its pull request. A finished run doesn't block a new request. */
+  can_request: boolean;
+  /** The flag's latest cleanup run, or null when none was requested. */
+  run: FeatureFlagCodeCleanupRun | null;
+}
+export interface FeatureFlagCodeAnalysis {
+  /** ID of the task that runs the analysis. */
+  task_id: string;
+  /** Repository the analysis reads, as `organization/repository`. */
+  repository: string;
+  /** When the analysis was requested. */
+  created_at: string;
+  /** Status of the analysis run. A finished run with output in an unexpected shape is reported as failed. * `not_started` - Not Started * `queued` - Queued * `in_progress` - In Progress * `completed` - Completed * `failed` - Failed * `cancelled` - Cancelled */
+  run_status: TaskRunStatusEnum;
+  /** Whether the run has finished, successfully or not. Stop polling once true. */
+  is_terminal: boolean;
+  /** Why the run failed, when it failed. */
+  error_message: string | null;
+  /** Whether the requesting user can open the task. Hide the task link from everyone else. */
+  can_view_task: boolean;
+  /** The flag's code paths, once the run completes. */
+  result: FeatureFlagCodeAnalysisResult | null;
+  /** Whether a draft pull request that removes the flag's checks can be opened, and its latest run. */
+  cleanup: FeatureFlagCodeCleanup;
+}
+export interface CreateFeatureFlagsOpenCleanupPrRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A unique integer value identifying this feature flag. */
+  id: number;
+  /** Outcome whose code to keep: `enabled`, `disabled`, or a variant key from `cleanup.outcome_options`. Omit it to keep `cleanup.suggested_outcome`. */
+  keep_outcome?: string | null;
 }
 export interface CreateFeatureFlagsRollOutToEveryoneRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -424,7 +542,7 @@ export interface CreateFeatureFlagsTestEvaluationRequest {
   /** Groups for feature flag evaluation (JSON object, defaults to empty dict) */
   groups?: unknown;
 }
-/** Person properties at the time of evaluation (for historical evaluations) */
+/** Person properties at the time of evaluation (for historical evaluations). Properties that property access control hides from the requesting user are omitted. */
 export type FeatureFlagTestEvaluationResponsePersonPropertiesMap = {
   [key: string]: unknown | undefined;
 };
@@ -437,7 +555,7 @@ export interface FeatureFlagConditionPropertyAnalysis {
   value: unknown;
   /** Property type (person, group, etc.) */
   type: string;
-  /** Actual property value from user */
+  /** Actual property value from user. Null when the property is not set, or when property access control hides it from the requesting user. */
   actual_value: unknown;
   /** Whether this property condition matched */
   matched: boolean;
@@ -465,7 +583,7 @@ export interface FeatureFlagConditionAnalysis {
   /** Analysis of each property in this condition */
   properties: FeatureFlagConditionAnalysisPropertiesList;
 }
-/** Detailed analysis of each condition in the feature flag */
+/** Detailed analysis of each condition in the feature flag. Always empty for a flag with config version 2, which `conditions_unavailable_reason` then explains. */
 export type FeatureFlagTestEvaluationResponseConditionsList = Array<FeatureFlagConditionAnalysis>;
 export interface FeatureFlagTestEvaluationResponse {
   /** Feature flag key */
@@ -476,16 +594,18 @@ export interface FeatureFlagTestEvaluationResponse {
   reason: string;
   /** Human-readable explanation of the evaluation result. Set when the reason code is coarse, for example a non-match decided by a behavioral or realtime cohort whose membership is not fully evaluated here, which can disagree with the cohort's member list. */
   reason_description?: string | null;
-  /** The index of the condition that matched, if applicable */
+  /** The index of the condition that matched, if applicable. For a flag with config version 2, the zero-based index of the rule in `filters.rules` that decided the result, or null when no rule decided it. */
   condition_index: number | null;
   /** Payload associated with the flag result, if any */
   payload: unknown;
-  /** Person properties at the time of evaluation (for historical evaluations) */
+  /** Person properties at the time of evaluation (for historical evaluations). Properties that property access control hides from the requesting user are omitted. */
   person_properties: FeatureFlagTestEvaluationResponsePersonPropertiesMap;
   /** The distinct_id used for rollout/variant bucketing. Echoes the caller-provided distinct_id when one was sent; null on the person_id path so the endpoint doesn't leak the person's other distinct_ids to a feature_flag:read-only token. */
   evaluation_distinct_id: string | null;
-  /** Detailed analysis of each condition in the feature flag */
+  /** Detailed analysis of each condition in the feature flag. Always empty for a flag with config version 2, which `conditions_unavailable_reason` then explains. */
   conditions: FeatureFlagTestEvaluationResponseConditionsList;
+  /** Present only when `conditions` is empty because the evaluated config has no per-condition analysis. An empty list then does not mean the flag has no conditions or rules. */
+  conditions_unavailable_reason?: string;
 }
 /** The release condition to evaluate */
 export type CreateFeatureFlagsUserBlastRadiusRequestConditionMap = {
@@ -521,11 +641,11 @@ export type BulkDeleteFiltersTagsList = Array<string>;
 export type BulkDeleteFiltersExcludedTagsList = Array<string>;
 /** Allowed filter keys for bulk_delete -- same shape as the list endpoint's query params. */
 export interface BulkDeleteFilters {
-  /** 'true' and 'false' filter on serving state, the flag's `active` column. 'STALE' returns enabled flags only, so a disabled flag is never STALE. An enabled flag matches when its last recorded `$feature_flag_called` event is more than 30 days old. With no recorded event, it matches when it is at least 30 days old and either stores `filters` as `{}` or serves one result to everyone through a release condition at 100% with no property filters. A flag with no recorded event and an empty `groups` list does not match, even when its `status` reads STALE. An SDK that sends no `$feature_flag_called` event leaves no record, so a STALE flag can still be in use. * `true` - true * `false` - false * `STALE` - STALE */
+  /** 'true' and 'false' filter on serving state, the flag's `active` column. 'STALE' returns enabled flags only, so a disabled flag is never STALE. An enabled flag matches when its last recorded `$feature_flag_called` event is more than 30 days old. With no recorded event, it matches when it is at least 30 days old and either stores `filters` as `{}` or serves one result to everyone through a release condition at 100% with no property filters. A flag with no recorded event and an empty `groups` list does not match, even when its `status` reads STALE. The reverse also happens: a multivariate flag matches when a variant is at 100% under a release condition at 100% with no property filters, or when that condition names a variant. Its `status` can still read ACTIVE, because an earlier variant in the list or an earlier targeted condition can serve a different result. In a flag of either type that mixes person and group aggregation, the filter also counts a group-aggregated condition at 100% with no property filters, which `status` does not. An SDK that sends no `$feature_flag_called` event leaves no record, so a STALE flag can still be in use. * `true` - true * `false` - false * `STALE` - STALE */
   active?: ActiveEnum | (string & {});
   /** Filter to flags created by a specific user ID. */
   created_by_id?: number;
-  /** Search by feature flag key or name (case-insensitive). */
+  /** Search by feature flag key or name (case-insensitive). Spaces, underscores, and hyphens count as the same separator. */
   search?: string;
   /** Filter by flag type. * `boolean` - boolean * `multivariant` - multivariant * `experiment` - experiment * `remote_config` - remote_config */
   type?: BulkDeleteFiltersTypeEnum | (string & {});
@@ -630,60 +750,187 @@ export interface BulkUpdateTagsResponse {
   updated?: BulkUpdateTagsResponseUpdatedList;
   skipped?: BulkUpdateTagsResponseSkippedList;
 }
-export type FeatureFlagsCreateStaticCohortForFlagCreateRequestFiltersMap = {
-  [key: string]: unknown | undefined;
-};
-export type FeatureFlagsCreateStaticCohortForFlagCreateRequestTagsList = Array<unknown>;
-export type FeatureFlagsCreateStaticCohortForFlagCreateRequestEvaluationContextsList =
-  Array<unknown>;
-export type FeatureFlagsCreateStaticCohortForFlagCreateRequestAnalyticsDashboardsList =
-  Array<number>;
-/** * `feature_flags` - feature_flags * `experiments` - experiments * `surveys` - surveys * `early_access_features` - early_access_features * `web_experiments` - web_experiments * `product_tours` - product_tours */
-export type FeatureFlagCreationContextEnum =
-  | "feature_flags"
-  | "experiments"
-  | "surveys"
-  | "early_access_features"
-  | "web_experiments"
-  | "product_tours";
-/** Specifies where this feature flag should be evaluated * `server` - Server * `client` - Client * `all` - All */
-export type FeatureFlagsCreateStaticCohortForFlagCreateRequestEvaluationRuntime =
-  | EvaluationRuntimeEnum
-  | BlankEnum;
-/** Identifier used for bucketing users into rollout and variants * `distinct_id` - User ID (default) * `device_id` - Device ID */
-export type FeatureFlagsCreateStaticCohortForFlagCreateRequestBucketingIdentifier =
-  | BucketingIdentifierEnum
-  | BlankEnum;
 export interface FeatureFlagsCreateStaticCohortForFlagCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A unique integer value identifying this feature flag. */
   id: number;
-  /** contains the description for the flag (field name `name` is kept for backwards-compatibility) */
-  name?: string;
-  key?: string;
-  filters?: FeatureFlagsCreateStaticCohortForFlagCreateRequestFiltersMap;
-  deleted?: boolean;
-  active?: boolean;
-  /** Whether the flag is archived. Archived flags are hidden from the flag list by default and must be disabled (`active: false`). */
-  archived?: boolean;
-  version?: number;
-  ensure_experience_continuity?: boolean | null;
-  tags?: FeatureFlagsCreateStaticCohortForFlagCreateRequestTagsList;
-  evaluation_contexts?: FeatureFlagsCreateStaticCohortForFlagCreateRequestEvaluationContextsList;
-  analytics_dashboards?: FeatureFlagsCreateStaticCohortForFlagCreateRequestAnalyticsDashboardsList;
-  has_enriched_analytics?: boolean | null;
-  /** Indicates the origin product of the feature flag. Choices: 'feature_flags', 'experiments', 'surveys', 'early_access_features', 'web_experiments', 'product_tours'. * `feature_flags` - feature_flags * `experiments` - experiments * `surveys` - surveys * `early_access_features` - early_access_features * `web_experiments` - web_experiments * `product_tours` - product_tours */
-  creation_context?: FeatureFlagCreationContextEnum | (string & {});
-  is_remote_configuration?: boolean | null;
-  has_encrypted_payloads?: boolean | null;
-  /** Specifies where this feature flag should be evaluated * `server` - Server * `client` - Client * `all` - All */
-  evaluation_runtime?: FeatureFlagsCreateStaticCohortForFlagCreateRequestEvaluationRuntime | null;
-  /** Identifier used for bucketing users into rollout and variants * `distinct_id` - User ID (default) * `device_id` - Device ID */
-  bucketing_identifier?: FeatureFlagsCreateStaticCohortForFlagCreateRequestBucketingIdentifier | null;
-  _create_in_folder?: string;
 }
-export interface FeatureFlagsCreateStaticCohortForFlagCreateResponse {}
+export type PropertyGroupOperatorEnum = "AND" | "OR";
+export type BehavioralFilterBytecodeList = Array<unknown>;
+export type BehavioralFilterKey = string | number;
+export type BehavioralFilterSeqEvent = string | number;
+export type EventPropFilterTypeEnum = "event" | "element";
+export interface EventPropFilter {
+  type: EventPropFilterTypeEnum;
+  key: string;
+  value: unknown;
+  operator?: string | null;
+}
+export interface HogQLFilter {
+  type: string;
+  key: string;
+  value?: unknown;
+}
+export type BehavioralFilterEventFiltersItem = EventPropFilter | HogQLFilter;
+export type BehavioralFilterEventFiltersList = Array<BehavioralFilterEventFiltersItem>;
+export interface BehavioralFilter {
+  bytecode?: BehavioralFilterBytecodeList | null;
+  bytecode_error?: string | null;
+  conditionHash?: string | null;
+  type: string;
+  key: BehavioralFilterKey;
+  value: string;
+  event_type: string;
+  time_value?: number | null;
+  time_interval?: string | null;
+  negation?: boolean;
+  operator?: string | null;
+  operator_value?: number | null;
+  seq_time_interval?: string | null;
+  seq_time_value?: number | null;
+  seq_event?: BehavioralFilterSeqEvent | null;
+  seq_event_type?: string | null;
+  total_periods?: number | null;
+  min_periods?: number | null;
+  event_filters?: BehavioralFilterEventFiltersList | null;
+  explicit_datetime?: string | null;
+  explicit_datetime_to?: string | null;
+}
+export type CohortFilterBytecodeList = Array<unknown>;
+export interface CohortFilter {
+  bytecode?: CohortFilterBytecodeList | null;
+  bytecode_error?: string | null;
+  conditionHash?: string | null;
+  type: string;
+  key: string;
+  value: number;
+  negation?: boolean;
+}
+export type PersonFilterBytecodeList = Array<unknown>;
+export interface PersonFilter {
+  operator?: string | null;
+  value?: unknown;
+  bytecode?: PersonFilterBytecodeList | null;
+  bytecode_error?: string | null;
+  conditionHash?: string | null;
+  type: string;
+  key: string;
+  negation?: boolean;
+}
+export type PersonMetadataFilterBytecodeList = Array<unknown>;
+/** Filter on a top-level persons-table column (e.g. created_at) rather than the properties JSON. The matching key must be one of PERSON_METADATA_FIELDS. */
+export interface PersonMetadataFilter {
+  operator?: string | null;
+  value?: unknown;
+  bytecode?: PersonMetadataFilterBytecodeList | null;
+  bytecode_error?: string | null;
+  conditionHash?: string | null;
+  type: string;
+  key: string;
+  negation?: boolean;
+}
+export type CohortFilterGroupValuesItem =
+  | BehavioralFilter
+  | CohortFilter
+  | PersonFilter
+  | PersonMetadataFilter
+  | CohortFilterGroup;
+export type CohortFilterGroupValuesList = Array<CohortFilterGroupValuesItem>;
+/** AND/OR group containing cohort filters. Named to avoid collision with analytics Group model. */
+export interface CohortFilterGroup {
+  type: PropertyGroupOperatorEnum;
+  values: CohortFilterGroupValuesList;
+}
+export interface CohortFilters {
+  properties: CohortFilterGroup;
+  filterTestAccounts?: boolean | null;
+}
+/** * `static` - static * `person_property` - person_property * `behavioral` - behavioral * `realtime` - realtime * `analytical` - analytical */
+export type CohortTypeEnum =
+  | "static"
+  | "person_property"
+  | "behavioral"
+  | "realtime"
+  | "analytical";
+/** Type of cohort based on filter complexity * `static` - static * `person_property` - person_property * `behavioral` - behavioral * `realtime` - realtime * `analytical` - analytical */
+export type CohortOutputCohortType = CohortTypeEnum | BlankEnum;
+export interface CohortConditionTypeFlags {
+  /** The filters include a person property or person_metadata condition. */
+  person_properties: boolean;
+  /** The filters include a behavioral condition that is not lifecycle-style (e.g. performed_event, performed_event_multiple, performed_event_sequence, or their negations). */
+  behavioral: boolean;
+  /** The filters include a lifecycle-style behavioral condition (first-seen/regularly/stopped/restarted performing an event). */
+  lifecycle: boolean;
+  /** The filters include a nested reference to another cohort. */
+  cohorts: boolean;
+}
+/** * `static` - Static * `person_properties` - Person properties * `daily` - Daily * `building` - Building * `rebuilding` - Rebuilding * `ready` - Ready * `needs_attention` - Needs attention */
+export type CohortRealtimeStateEnum =
+  | "static"
+  | "person_properties"
+  | "daily"
+  | "building"
+  | "rebuilding"
+  | "ready"
+  | "needs_attention";
+/** * `waiting` - Waiting * `scanning` - Scanning * `checking` - Checking */
+export type CohortHistoryBuildPhaseEnum = "waiting" | "scanning" | "checking";
+export interface CohortHistoryBuild {
+  /** What the build is doing now: `waiting` to start, `scanning` past events, or `checking` the membership it produced. A build that is queued but has not started reports `waiting` too. * `waiting` - Waiting * `scanning` - Scanning * `checking` - Checking */
+  phase: CohortHistoryBuildPhaseEnum;
+  /** How much of the event history has been scanned, 0 to 100. Null outside the `scanning` phase, and while the scan is still being planned. */
+  percent_complete: number | null;
+  /** When this build last made progress. Null while it is still queued. */
+  updated_at: string | null;
+}
+export interface CohortRealtimeReadiness {
+  /** Whether feature flags can target this cohort now. `ready`: they can, and they see membership changes within about a minute. `building` / `rebuilding`: PostHog is preparing the cohort from past events, and flags cannot target it yet. `needs_attention`: the cohort qualifies but nothing is preparing it. `daily`: its criteria are not supported in realtime, so its membership only comes from the once-a-day calculation. `person_properties`: it matches on person properties, which flags read directly, so they can always target it. `static`: it is a fixed list of people. * `static` - Static * `person_properties` - Person properties * `daily` - Daily * `building` - Building * `rebuilding` - Rebuilding * `ready` - Ready * `needs_attention` - Needs attention */
+  state: CohortRealtimeStateEnum;
+  /** When the cohort became targetable by feature flags. Null unless the state is `ready`. */
+  ready_at: string | null;
+  /** The build preparing the cohort. Null unless the state is `building` or `rebuilding`. */
+  build: CohortHistoryBuild | null;
+}
+export type CohortOutputExperimentSetList = Array<number>;
+export type SearchMatchTypeEnum = "exact" | "similar";
+export interface CohortOutput {
+  id: number;
+  name?: string | null;
+  description?: string;
+  groups?: unknown;
+  deleted?: boolean;
+  filters?: CohortFilters | null;
+  query?: unknown;
+  version: number | null;
+  pending_version: number | null;
+  is_calculating: boolean;
+  created_by: UserBasic;
+  created_at: string | null;
+  last_calculation: string | null;
+  last_backfill_person_properties_at: string | null;
+  errors_calculating: number;
+  last_error_message: string | null;
+  count: number | null;
+  /** Number of IDs supplied by the most recent static cohort import. Null if the cohort was never populated from a list of IDs. */
+  last_import_total_count: number | null;
+  /** How many of the IDs in the most recent static cohort import matched no person, and so were not added to the cohort. */
+  last_import_unmatched_count: number | null;
+  is_static?: boolean;
+  /** Type of cohort based on filter complexity * `static` - static * `person_property` - person_property * `behavioral` - behavioral * `realtime` - realtime * `analytical` - analytical */
+  cohort_type?: CohortOutputCohortType | null;
+  /** Flags describing which kinds of conditions the cohort's filters contain. Null when the cohort has no filters to classify. */
+  condition_type: CohortConditionTypeFlags | null;
+  /** Whether feature flags can target this cohort, and the progress of the build that gets it there. Null outside the realtime cohort flag targeting rollout, on projects the realtime pipeline does not cover, and for cohorts that match on neither events nor person properties, which nothing in the flag API decides on. */
+  realtime: CohortRealtimeReadiness | null;
+  experiment_set: CohortOutputExperimentSetList;
+  /** How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of a searched field) or `similar` (a fuzzy trigram match, returned only when no exact match exists). Null when the list is not filtered by `search`. */
+  search_match_type: SearchMatchTypeEnum | null;
+}
+export interface CreateStaticCohortForFlagResponseOutput {
+  /** The new static cohort. It fills with the people the flag matches in the background, so is_calculating is usually still true in this response. */
+  cohort: CohortOutput;
+}
 export interface FeatureFlagsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -696,12 +943,16 @@ export interface FeatureFlagsDisableCreateRequest {
   project_id: string;
   /** A unique integer value identifying this feature flag. */
   id: number;
+  /** The `version` from your most recent read of this flag. Required when the flag's `filters.version` is 2, optional otherwise. When sent, the change is refused with 409 if anyone else changed the flag after that version. Null is the same as leaving it out. */
+  version?: number | null;
 }
 export interface FeatureFlagsEnableCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A unique integer value identifying this feature flag. */
   id: number;
+  /** The `version` from your most recent read of this flag. Required when the flag's `filters.version` is 2, optional otherwise. When sent, the change is refused with 409 if anyone else changed the flag after that version. Null is the same as leaving it out. */
+  version?: number | null;
 }
 export interface FeatureFlagsUnarchiveCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -783,6 +1034,38 @@ export interface GetFeatureFlagsAllActivityRequest {
   /** Page number */
   page?: number;
 }
+export interface GetFeatureFlagsCodeAnalysisRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A unique integer value identifying this feature flag. */
+  id: number;
+}
+export interface GetFeatureFlagsCodeAnalysisTargetRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A unique integer value identifying this feature flag. */
+  id: number;
+  /** Repository to check, as `organization/repository`. Omit it to see which repository would be used. */
+  repository?: string;
+}
+/** * `explicit` - Explicit * `previous_analysis` - Previous analysis * `team_default` - Team default * `single_repo` - Single repository * `ambiguous` - Ambiguous * `no_integration` - No integration */
+export type CodeAnalysisRepositorySourceEnum =
+  | "explicit"
+  | "previous_analysis"
+  | "team_default"
+  | "single_repo"
+  | "ambiguous"
+  | "no_integration";
+/** Repositories connected to the project's GitHub integration. */
+export type FeatureFlagCodeAnalysisTargetCandidatesList = Array<string>;
+export interface FeatureFlagCodeAnalysisTarget {
+  /** Repository the analysis would read, or null when none can be chosen without asking. */
+  repository: string | null;
+  /** How the repository was chosen: `explicit` (the requested one), `previous_analysis` (the one the last analysis of this flag used), `team_default` (the environment's default flag cleanup repository), `single_repo` (the only connected repository), `ambiguous` (several connected repositories and none chosen, so pass one), or `no_integration` (no GitHub integration or no connected repositories). * `explicit` - Explicit * `previous_analysis` - Previous analysis * `team_default` - Team default * `single_repo` - Single repository * `ambiguous` - Ambiguous * `no_integration` - No integration */
+  source: CodeAnalysisRepositorySourceEnum;
+  /** Repositories connected to the project's GitHub integration. */
+  candidates: FeatureFlagCodeAnalysisTargetCandidatesList;
+}
 export type GetFeatureFlagsEvaluationReasonRequestFlagKeysList = Array<string>;
 export interface GetFeatureFlagsEvaluationReasonRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -851,7 +1134,7 @@ export interface GetFeatureFlagsStatusRequest {
   id: number;
 }
 export interface FeatureFlagRolloutSummary {
-  /** True if the flag is effectively rolled out to everyone, independent of recent evaluation. For boolean flags this means at least one release condition targets 100% with no property filters (or there are no release conditions); for multivariate flags it means a single variant is served to 100% via a fully rolled out release condition. This is the signal for 'fully rolled out' / GA -- unlike `status`, which only reflects recent evaluation. */
+  /** True if the flag is effectively rolled out to everyone, independent of recent evaluation. For boolean flags this means at least one release condition targets 100% with no property filters, or there are no release conditions. For multivariate flags it means every release condition a user can reach, up to the first one at 100% with no property filters, serves the same variant. In a flag of either type that mixes person and group aggregation, only a person-level condition counts as that 100% condition. This is the signal for 'fully rolled out' / GA, unlike `status`, which only reflects recent evaluation. */
   effectively_full_rollout: boolean;
   /** True if any release condition has property filters, i.e. the flag is conditionally targeted rather than a blanket rollout. This says nothing about which condition produced `max_rollout_percentage`: the two fields are computed independently over the whole condition list. */
   has_targeting_conditions: boolean;
@@ -921,12 +1204,14 @@ export type ListFeatureFlagsRequestType =
 export interface ListFeatureFlagsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** 'true' and 'false' filter on serving state, the flag's `active` column. 'STALE' returns enabled flags only, so a disabled flag is never STALE. An enabled flag matches when its last recorded `$feature_flag_called` event is more than 30 days old. With no recorded event, it matches when it is at least 30 days old and either stores `filters` as `{}` or serves one result to everyone through a release condition at 100% with no property filters. A flag with no recorded event and an empty `groups` list does not match, even when its `status` reads STALE. An SDK that sends no `$feature_flag_called` event leaves no record, so a STALE flag can still be in use. */
+  /** 'true' and 'false' filter on serving state, the flag's `active` column. 'STALE' returns enabled flags only, so a disabled flag is never STALE. An enabled flag matches when its last recorded `$feature_flag_called` event is more than 30 days old. With no recorded event, it matches when it is at least 30 days old and either stores `filters` as `{}` or serves one result to everyone through a release condition at 100% with no property filters. A flag with no recorded event and an empty `groups` list does not match, even when its `status` reads STALE. The reverse also happens: a multivariate flag matches when a variant is at 100% under a release condition at 100% with no property filters, or when that condition names a variant. Its `status` can still read ACTIVE, because an earlier variant in the list or an earlier targeted condition can serve a different result. In a flag of either type that mixes person and group aggregation, the filter also counts a group-aggregated condition at 100% with no property filters, which `status` does not. An SDK that sends no `$feature_flag_called` event leaves no record, so a STALE flag can still be in use. */
   active?: ListFeatureFlagsRequestActive | (string & {});
   /** Filter by archived state. When omitted, archived flags are excluded. */
   archived?: boolean;
   /** Filter by the user(s) who created the feature flag. Accepts a single user ID, or a JSON-encoded / comma-separated list of user IDs to match any of them. */
   created_by_id?: string;
+  /** Pass `true` to list only soft-deleted flags, which can be restored, archived or not. When omitted, deleted flags are excluded. */
+  deleted?: boolean;
   /** When 'true', only return flags that can back an experiment: multivariate with 2-20 variants. Any other value is ignored. */
   eligible_for_experiment?: ListFeatureFlagsRequestEligibleForExperiment | (string & {});
   /** Filter feature flags by their evaluation runtime. */
@@ -943,7 +1228,7 @@ export interface ListFeatureFlagsRequest {
   limit?: number;
   /** The initial index from which to return the results. */
   offset?: number;
-  /** Search by feature flag key or name. Case insensitive. */
+  /** Search by feature flag key or name. Case insensitive. Spaces, underscores, and hyphens count as the same separator. */
   search?: string;
   /** JSON-encoded list of tag names to filter feature flags by. */
   tags?: string;
@@ -976,6 +1261,14 @@ export type UpdateFeatureFlagRequestFiltersMap = { [key: string]: unknown | unde
 export type UpdateFeatureFlagRequestTagsList = Array<unknown>;
 export type UpdateFeatureFlagRequestEvaluationContextsList = Array<unknown>;
 export type UpdateFeatureFlagRequestAnalyticsDashboardsList = Array<number>;
+/** * `feature_flags` - feature_flags * `experiments` - experiments * `surveys` - surveys * `early_access_features` - early_access_features * `web_experiments` - web_experiments * `product_tours` - product_tours */
+export type FeatureFlagCreationContextEnum =
+  | "feature_flags"
+  | "experiments"
+  | "surveys"
+  | "early_access_features"
+  | "web_experiments"
+  | "product_tours";
 /** Specifies where this feature flag should be evaluated * `server` - Server * `client` - Client * `all` - All */
 export type UpdateFeatureFlagRequestEvaluationRuntime = EvaluationRuntimeEnum | BlankEnum;
 /** Identifier used for bucketing users into rollout and variants * `distinct_id` - User ID (default) * `device_id` - Device ID */
@@ -1009,6 +1302,8 @@ export interface UpdateFeatureFlagRequest {
   bucketing_identifier?: UpdateFeatureFlagRequestBucketingIdentifier | null;
   _create_in_folder?: string;
 }
+/** * `errors` - Errors or bugs * `metrics` - Metrics got worse * `planned` - It was planned * `wrong_configuration` - Wrong configuration * `other` - Other */
+export type RollbackReasonEnum = "errors" | "metrics" | "planned" | "wrong_configuration" | "other";
 /** Organizational tags for this feature flag. */
 export type UpdateFeatureFlagsPartialRequestTagsList = Array<string>;
 /** Evaluation contexts that control where this flag evaluates at runtime. */
@@ -1018,6 +1313,12 @@ export interface UpdateFeatureFlagsPartialRequest {
   project_id: string;
   /** A unique integer value identifying this feature flag. */
   id: number;
+  /** When true, the edit lowers the flag's exposure, and the request sends no `rollback_reason`, the flag is not saved and the response is a 409 with the code `rollback_reason_required`. Send the edit again without this field to save it, with or without a `rollback_reason`. Ignored for an edit that needs approval and for a config version 2 flag. */
+  ask_rollback_reason?: boolean;
+  /** Why this edit lowers the flag's exposure, for example a rollback after errors. Stored on the activity log entry of the edit. Not stored for an edit that needs approval or for a config version 2 flag. * `errors` - Errors or bugs * `metrics` - Metrics got worse * `planned` - It was planned * `wrong_configuration` - Wrong configuration * `other` - Other */
+  rollback_reason?: RollbackReasonEnum | (string & {}) | null;
+  /** A free-text note for `rollback_reason`. Requires `rollback_reason`. */
+  rollback_reason_note?: string | null;
   /** Feature flag key. */
   key?: string;
   /** Feature flag description (stored in the `name` field for backwards compatibility). */
@@ -1040,6 +1341,8 @@ export interface UpdateFeatureFlagsPartialRequest {
   evaluation_runtime?: EvaluationRuntimeEnum | (string & {}) | null;
   /** Identifier used to bucket users into rollout percentages and variants: 'distinct_id' (user ID, the default) or 'device_id'. Using 'device_id' is incompatible with ensure_experience_continuity=True. * `distinct_id` - User ID (default) * `device_id` - Device ID */
   bucketing_identifier?: BucketingIdentifierEnum | (string & {}) | null;
+  /** The `version` from your most recent read of this flag. Required when the flag's `filters.version` is 2: the update is then refused with 409 if anyone else changed the flag after that version. Other flags do not check it. */
+  version?: number;
 }
 export type CreateFeatureFlagError = BadRequest | Forbidden | NotFound | PosthogOpError;
 /** Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags. If you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user. */
@@ -1049,13 +1352,47 @@ export const createFeatureFlag: API.OperationMethod<
   CreateFeatureFlagError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<CreateFeatureFlagRequest>,
-  output: __S(243, __c30, 3) as any as S.Schema<FeatureFlagOutput>,
+  input: __S(448, __c28, 0) as any as S.Schema<CreateFeatureFlagRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<FeatureFlagOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateFeatureFlag",
+}));
+
+export type CreateFeatureFlagsAnalyzeCodeError = PosthogOpError;
+/** Start a read-only analysis of where the project's GitHub repository checks this flag. An agent clones the repository, finds every check of the flag, and reports the code each outcome runs. It does not change code or the flag. Returns 400 when no repository can be chosen (see `code_analysis_target`), 403 when AI data processing is not approved or the request comes from a task sandbox, and 409 when an analysis is already running. */
+export const createFeatureFlagsAnalyzeCode: API.OperationMethod<
+  CreateFeatureFlagsAnalyzeCodeRequest,
+  FeatureFlagCodeAnalysis,
+  CreateFeatureFlagsAnalyzeCodeError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(592, __c37, 0) as any as S.Schema<CreateFeatureFlagsAnalyzeCodeRequest>,
+  output: __S(615, __c38, 7) as any as S.Schema<FeatureFlagCodeAnalysis>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFeatureFlagsAnalyzeCode",
+}));
+
+export type CreateFeatureFlagsOpenCleanupPrError = PosthogOpError;
+/** Open a draft pull request that removes this stale flag's checks from the code. An agent starts from the checks the latest code analysis found, keeps the code for one outcome, and opens the pull request in the repository the analysis read. It does not change the flag. Returns 400 when the flag isn't stale, the analysis found no checks, or an outcome must be chosen (see `cleanup` on `code_analysis`), 403 when AI data processing is not approved or the request comes from a task sandbox, and 409 when a cleanup pull request is still being opened. */
+export const createFeatureFlagsOpenCleanupPr: API.OperationMethod<
+  CreateFeatureFlagsOpenCleanupPrRequest,
+  FeatureFlagCodeAnalysis,
+  CreateFeatureFlagsOpenCleanupPrError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(624, __c39, 0) as any as S.Schema<CreateFeatureFlagsOpenCleanupPrRequest>,
+  output: __S(615, __c38, 7) as any as S.Schema<FeatureFlagCodeAnalysis>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFeatureFlagsOpenCleanupPr",
 }));
 
 export type CreateFeatureFlagsRollOutToEveryoneError = BadRequest | Conflict | PosthogOpError;
@@ -1066,8 +1403,8 @@ export const createFeatureFlagsRollOutToEveryone: API.OperationMethod<
   CreateFeatureFlagsRollOutToEveryoneError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<CreateFeatureFlagsRollOutToEveryoneRequest>,
-  output: __S(243, __c30, 3) as any as S.Schema<FeatureFlagOutput>,
+  input: __S(640, __c40, 0) as any as S.Schema<CreateFeatureFlagsRollOutToEveryoneRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<FeatureFlagOutput>,
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1086,8 +1423,8 @@ export const createFeatureFlagsSetReleaseConditionRollout: API.OperationMethod<
   CreateFeatureFlagsSetReleaseConditionRolloutError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<CreateFeatureFlagsSetReleaseConditionRolloutRequest>,
-  output: __S(243, __c30, 3) as any as S.Schema<FeatureFlagOutput>,
+  input: __S(656, __c41, 0) as any as S.Schema<CreateFeatureFlagsSetReleaseConditionRolloutRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<FeatureFlagOutput>,
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1103,8 +1440,8 @@ export const createFeatureFlagsTestEvaluation: API.OperationMethod<
   CreateFeatureFlagsTestEvaluationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<CreateFeatureFlagsTestEvaluationRequest>,
-  output: __S(277, __c34, 5) as any as S.Schema<FeatureFlagTestEvaluationResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateFeatureFlagsTestEvaluationRequest>,
+  output: __S(5, __c0, 5) as any as S.Schema<FeatureFlagTestEvaluationResponse>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1124,8 +1461,8 @@ export const createFeatureFlagsUserBlastRadius: API.OperationMethod<
   CreateFeatureFlagsUserBlastRadiusError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<CreateFeatureFlagsUserBlastRadiusRequest>,
-  output: __S(281, __c35, 1) as any as S.Schema<UserBlastRadiusResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<CreateFeatureFlagsUserBlastRadiusRequest>,
+  output: __S(17, __c1, 1) as any as S.Schema<UserBlastRadiusResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1141,8 +1478,8 @@ export const featureFlagsArchiveCreate: API.OperationMethod<
   FeatureFlagsArchiveCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<FeatureFlagsArchiveCreateRequest>,
-  output: __S(243, __c30, 3) as any as S.Schema<FeatureFlagOutput>,
+  input: __S(32, __c2, 0) as any as S.Schema<FeatureFlagsArchiveCreateRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<FeatureFlagOutput>,
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1158,8 +1495,8 @@ export const featureFlagsBulkDeleteCreate: API.OperationMethod<
   FeatureFlagsBulkDeleteCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9, __c1, 1) as any as S.Schema<FeatureFlagsBulkDeleteCreateRequest>,
-  output: __S(14, __c1, 6) as any as S.Schema<BulkDeleteResponse>,
+  input: __S(49, __c3, 1) as any as S.Schema<FeatureFlagsBulkDeleteCreateRequest>,
+  output: __S(54, __c3, 6) as any as S.Schema<BulkDeleteResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1175,8 +1512,8 @@ export const featureFlagsBulkKeysRetrieve: API.OperationMethod<
   FeatureFlagsBulkKeysRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<FeatureFlagsBulkKeysRetrieveRequest>,
-  output: __S(17, __c2, 1) as any as S.Schema<BulkKeysResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<FeatureFlagsBulkKeysRetrieveRequest>,
+  output: __S(65, __c4, 1) as any as S.Schema<BulkKeysResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1196,8 +1533,8 @@ export const featureFlagsBulkUpdateTagsCreate: API.OperationMethod<
   FeatureFlagsBulkUpdateTagsCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<FeatureFlagsBulkUpdateTagsCreateRequest>,
-  output: __S(29, __c3, 5) as any as S.Schema<BulkUpdateTagsResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<FeatureFlagsBulkUpdateTagsCreateRequest>,
+  output: __S(85, __c5, 5) as any as S.Schema<BulkUpdateTagsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1213,12 +1550,12 @@ export type FeatureFlagsCreateStaticCohortForFlagCreateError =
 /** Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags. If you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user. */
 export const featureFlagsCreateStaticCohortForFlagCreate: API.OperationMethod<
   FeatureFlagsCreateStaticCohortForFlagCreateRequest,
-  FeatureFlagsCreateStaticCohortForFlagCreateResponse,
+  CreateStaticCohortForFlagResponseOutput,
   FeatureFlagsCreateStaticCohortForFlagCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<FeatureFlagsCreateStaticCohortForFlagCreateRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<FeatureFlagsCreateStaticCohortForFlagCreateResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<FeatureFlagsCreateStaticCohortForFlagCreateRequest>,
+  output: __S(104, __c6, 8) as any as S.Schema<CreateStaticCohortForFlagResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1234,8 +1571,8 @@ export const featureFlagsDestroy: API.OperationMethod<
   FeatureFlagsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<FeatureFlagsDestroyRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<FeatureFlagsDestroyResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<FeatureFlagsDestroyRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<FeatureFlagsDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1244,15 +1581,15 @@ export const featureFlagsDestroy: API.OperationMethod<
 }));
 
 export type FeatureFlagsDisableCreateError = BadRequest | Conflict | PosthogOpError;
-/** Disable a feature flag. Sets `active` to false and changes nothing else. Targeting, variants, payloads, tags and archived state are left as they are. Refused when other active flags depend on this one. An already-disabled flag is returned unchanged. A disabled flag stops evaluating for every consumer, including a linked experiment or a session replay setting. Read the full definition first to report that impact. */
+/** Disable a feature flag. Sets `active` to false and changes nothing else. Targeting, variants, payloads, tags and archived state are left as they are. Refused when other active flags depend on this one. An already-disabled flag is returned unchanged. A disabled flag stops evaluating for every consumer, including a linked experiment or a session replay setting. Read the full definition first to report that impact. Send the `version` your last read returned. A flag whose `filters.version` is 2 requires it, and for any flag a change after that version is refused with 409. */
 export const featureFlagsDisableCreate: API.OperationMethod<
   FeatureFlagsDisableCreateRequest,
   FeatureFlagOutput,
   FeatureFlagsDisableCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<FeatureFlagsDisableCreateRequest>,
-  output: __S(243, __c30, 3) as any as S.Schema<FeatureFlagOutput>,
+  input: __S(144, __c9, 0) as any as S.Schema<FeatureFlagsDisableCreateRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<FeatureFlagOutput>,
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1261,15 +1598,15 @@ export const featureFlagsDisableCreate: API.OperationMethod<
 }));
 
 export type FeatureFlagsEnableCreateError = BadRequest | Conflict | PosthogOpError;
-/** Enable a feature flag. Sets `active` to true and changes nothing else. Targeting, variants, payloads, tags and archived state are left as they are. An archived flag is refused: unarchive it first. A flag whose own flag dependencies are disabled or use an unsupported configuration format is also refused. An already-enabled flag is returned unchanged. */
+/** Enable a feature flag. Sets `active` to true and changes nothing else. Targeting, variants, payloads, tags and archived state are left as they are. An archived flag is refused: unarchive it first. A flag whose own flag dependencies are disabled or use an unsupported configuration format is also refused, as is a flag whose release conditions target a deleted cohort. An already-enabled flag is returned unchanged. Send the `version` your last read returned. A flag whose `filters.version` is 2 requires it, and for any flag a change after that version is refused with 409. */
 export const featureFlagsEnableCreate: API.OperationMethod<
   FeatureFlagsEnableCreateRequest,
   FeatureFlagOutput,
   FeatureFlagsEnableCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<FeatureFlagsEnableCreateRequest>,
-  output: __S(243, __c30, 3) as any as S.Schema<FeatureFlagOutput>,
+  input: __S(160, __c10, 0) as any as S.Schema<FeatureFlagsEnableCreateRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<FeatureFlagOutput>,
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1278,15 +1615,15 @@ export const featureFlagsEnableCreate: API.OperationMethod<
 }));
 
 export type FeatureFlagsUnarchiveCreateError = BadRequest | PosthogOpError;
-/** Restore an archived feature flag to the default flag list. Sets `archived` to false and changes nothing else. The flag stays disabled; enable it with a separate call. An already-unarchived flag is returned unchanged. */
+/** Restore an archived feature flag to the default flag list. Sets `archived` to false and changes nothing else. The flag stays disabled; enable it with a separate call. A flag whose release conditions target a deleted cohort is refused: remove that condition first. An already-unarchived flag is returned unchanged. */
 export const featureFlagsUnarchiveCreate: API.OperationMethod<
   FeatureFlagsUnarchiveCreateRequest,
   FeatureFlagOutput,
   FeatureFlagsUnarchiveCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<FeatureFlagsUnarchiveCreateRequest>,
-  output: __S(243, __c30, 3) as any as S.Schema<FeatureFlagOutput>,
+  input: __S(176, __c11, 0) as any as S.Schema<FeatureFlagsUnarchiveCreateRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<FeatureFlagOutput>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1302,8 +1639,8 @@ export const getFeatureFlag: API.OperationMethod<
   GetFeatureFlagError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetFeatureFlagRequest>,
-  output: __S(243, __c30, 3) as any as S.Schema<FeatureFlagOutput>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetFeatureFlagRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<FeatureFlagOutput>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1319,8 +1656,8 @@ export const getFeatureFlagsActivity: API.OperationMethod<
   GetFeatureFlagsActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetFeatureFlagsActivityRequest>,
-  output: __S(103, __c12, 7) as any as S.Schema<ActivityLogPaginatedResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetFeatureFlagsActivityRequest>,
+  output: __S(231, __c14, 7) as any as S.Schema<ActivityLogPaginatedResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1336,13 +1673,47 @@ export const getFeatureFlagsAllActivity: API.OperationMethod<
   GetFeatureFlagsAllActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetFeatureFlagsAllActivityRequest>,
-  output: __S(103, __c12, 7) as any as S.Schema<ActivityLogPaginatedResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetFeatureFlagsAllActivityRequest>,
+  output: __S(231, __c14, 7) as any as S.Schema<ActivityLogPaginatedResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFeatureFlagsAllActivity",
+}));
+
+export type GetFeatureFlagsCodeAnalysisError = PosthogOpError;
+/** The latest code analysis of this flag: where the project's GitHub repository checks the flag, and the code each outcome runs. Poll until `is_terminal` is true. `result` is filled once the run completes. Returns 404 when the flag has never been analyzed. */
+export const getFeatureFlagsCodeAnalysis: API.OperationMethod<
+  GetFeatureFlagsCodeAnalysisRequest,
+  FeatureFlagCodeAnalysis,
+  GetFeatureFlagsCodeAnalysisError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(256, __c16, 0) as any as S.Schema<GetFeatureFlagsCodeAnalysisRequest>,
+  output: __S(615, __c38, 7) as any as S.Schema<FeatureFlagCodeAnalysis>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlagsCodeAnalysis",
+}));
+
+export type GetFeatureFlagsCodeAnalysisTargetError = PosthogOpError;
+/** Repository a code analysis of this flag would read. Resolution order: the requested repository, else the one the last analysis used, else the environment's default flag cleanup repository, else the only connected repository. When the project has several repositories and none is chosen (`source=ambiguous`), pass one in `repository`. */
+export const getFeatureFlagsCodeAnalysisTarget: API.OperationMethod<
+  GetFeatureFlagsCodeAnalysisTargetRequest,
+  FeatureFlagCodeAnalysisTarget,
+  GetFeatureFlagsCodeAnalysisTargetError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(272, __c17, 0) as any as S.Schema<GetFeatureFlagsCodeAnalysisTargetRequest>,
+  output: __S(273, __c17, 1) as any as S.Schema<FeatureFlagCodeAnalysisTarget>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlagsCodeAnalysisTarget",
 }));
 
 export type GetFeatureFlagsEvaluationReasonError =
@@ -1357,8 +1728,8 @@ export const getFeatureFlagsEvaluationReason: API.OperationMethod<
   GetFeatureFlagsEvaluationReasonError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetFeatureFlagsEvaluationReasonRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<GetFeatureFlagsEvaluationReasonResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetFeatureFlagsEvaluationReasonRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<GetFeatureFlagsEvaluationReasonResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1374,8 +1745,8 @@ export const getFeatureFlagsMatchingIds: API.OperationMethod<
   GetFeatureFlagsMatchingIdsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetFeatureFlagsMatchingIdsRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<GetFeatureFlagsMatchingIdsResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetFeatureFlagsMatchingIdsRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<GetFeatureFlagsMatchingIdsResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1391,8 +1762,8 @@ export const getFeatureFlagsMyFlag: API.OperationMethod<
   GetFeatureFlagsMyFlagError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetFeatureFlagsMyFlagRequest>,
-  output: __S(132, __c16, 4) as any as S.Schema<GetFeatureFlagsMyFlagResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<GetFeatureFlagsMyFlagRequest>,
+  output: __S(324, __c20, 4) as any as S.Schema<GetFeatureFlagsMyFlagResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1408,8 +1779,8 @@ export const getFeatureFlagsRemoteConfig: API.OperationMethod<
   GetFeatureFlagsRemoteConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetFeatureFlagsRemoteConfigRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<GetFeatureFlagsRemoteConfigResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetFeatureFlagsRemoteConfigRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<GetFeatureFlagsRemoteConfigResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1425,8 +1796,8 @@ export const getFeatureFlagsStatus: API.OperationMethod<
   GetFeatureFlagsStatusError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetFeatureFlagsStatusRequest>,
-  output: __S(146, __c18, 2) as any as S.Schema<FeatureFlagStatusResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<GetFeatureFlagsStatusRequest>,
+  output: __S(354, __c22, 2) as any as S.Schema<FeatureFlagStatusResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1447,8 +1818,8 @@ export const getFeatureFlagsVersion: API.OperationMethod<
   GetFeatureFlagsVersionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetFeatureFlagsVersionRequest>,
-  output: __S(153, __c19, 1) as any as S.Schema<FeatureFlagVersionResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<GetFeatureFlagsVersionRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<FeatureFlagVersionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1464,8 +1835,8 @@ export const listFeatureFlags: API.OperationMethod<
   ListFeatureFlagsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<ListFeatureFlagsRequest>,
-  output: __S(162, __c20, 2) as any as S.Schema<PaginatedFeatureFlagListOutput>,
+  input: __S(384, __c24, 0) as any as S.Schema<ListFeatureFlagsRequest>,
+  output: __S(386, __c24, 2) as any as S.Schema<PaginatedFeatureFlagListOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1481,8 +1852,8 @@ export const listFeatureFlagsDependentFlags: API.OperationMethod<
   ListFeatureFlagsDependentFlagsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<ListFeatureFlagsDependentFlagsRequest>,
-  output: __S(171, __c21, 3) as any as S.Schema<ListFeatureFlagsDependentFlagsResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<ListFeatureFlagsDependentFlagsRequest>,
+  output: __S(403, __c25, 3) as any as S.Schema<ListFeatureFlagsDependentFlagsResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1498,8 +1869,8 @@ export const updateFeatureFlag: API.OperationMethod<
   UpdateFeatureFlagError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<UpdateFeatureFlagRequest>,
-  output: __S(243, __c30, 3) as any as S.Schema<FeatureFlagOutput>,
+  input: __S(416, __c26, 0) as any as S.Schema<UpdateFeatureFlagRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<FeatureFlagOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1515,8 +1886,8 @@ export const updateFeatureFlagsPartial: API.OperationMethod<
   UpdateFeatureFlagsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<UpdateFeatureFlagsPartialRequest>,
-  output: __S(243, __c30, 3) as any as S.Schema<FeatureFlagOutput>,
+  input: __S(432, __c27, 0) as any as S.Schema<UpdateFeatureFlagsPartialRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<FeatureFlagOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1526,895 +1897,6 @@ export const updateFeatureFlagsPartial: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/feature_flags/{id}/archive/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "FeatureFlagsArchiveCreateRequest" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          active: S.optional(S.String),
-          created_by_id: S.optional(S.Number),
-          search: S.optional(S.String),
-          type: S.optional(S.String),
-          evaluation_runtime: S.optional(S.String),
-          excluded_properties: S.optional(S.String),
-          tags: S.optional(__S(200, __c25, 0)),
-          excluded_tags: S.optional(__S(200, __c25, 0)),
-          has_evaluation_contexts: S.optional(S.Boolean),
-          archived: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "BulkDeleteFilters" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          filters: S.optional(__S(8, __c1, 0)),
-          ids: S.optional(__S(224, __c28, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/feature_flags/bulk_delete/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "FeatureFlagsBulkDeleteCreateRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number,
-          key: S.String,
-          rollout_state: S.String,
-          active_variant: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "BulkDeleteDeletedItem" });
-    case 3:
-      return S.Array(__S(10, __c1, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Unknown,
-          key: S.optional(S.String),
-          reason: S.String,
-        }),
-      ).annotate({ identifier: "BulkDeleteErrorItem" });
-    case 5:
-      return S.Array(__S(12, __c1, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          deleted: __S(11, __c1, 3),
-          errors: __S(13, __c1, 5),
-        }),
-      ).annotate({ identifier: "BulkDeleteResponse" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          ids: S.optional(__S(232, __c29, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/feature_flags/bulk_keys/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "FeatureFlagsBulkKeysRetrieveRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          keys: __S(208, __c26, 0),
-          warning: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BulkKeysResponse" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          ids: S.optional(__S(224, __c28, 0)),
-          action: S.optional(S.String),
-          tags: S.optional(__S(200, __c25, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/feature_flags/bulk_update_tags/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "FeatureFlagsBulkUpdateTagsCreateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          tags: S.optional(__S(200, __c25, 0)),
-        }),
-      ).annotate({ identifier: "BulkUpdateTagsItem" });
-    case 2:
-      return S.Array(__S(25, __c3, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          reason: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BulkUpdateTagsError" });
-    case 4:
-      return S.Array(__S(27, __c3, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          updated: S.optional(__S(26, __c3, 2)),
-          skipped: S.optional(__S(28, __c3, 4)),
-        }),
-      ).annotate({ identifier: "BulkUpdateTagsResponse" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-          name: S.optional(S.String),
-          key: S.optional(S.String),
-          filters: S.optional(__S(248, __c31, 0)),
-          deleted: S.optional(S.Boolean),
-          active: S.optional(S.Boolean),
-          archived: S.optional(S.Boolean),
-          version: S.optional(S.Number),
-          ensure_experience_continuity: S.optional(S.NullOr(S.Boolean)),
-          tags: S.optional(__S(232, __c29, 0)),
-          evaluation_contexts: S.optional(__S(232, __c29, 0)),
-          analytics_dashboards: S.optional(__S(224, __c28, 0)),
-          has_enriched_analytics: S.optional(S.NullOr(S.Boolean)),
-          creation_context: S.optional(S.String),
-          is_remote_configuration: S.optional(S.NullOr(S.Boolean)),
-          has_encrypted_payloads: S.optional(S.NullOr(S.Boolean)),
-          evaluation_runtime: S.optional(S.NullOr(S.Unknown)),
-          bucketing_identifier: S.optional(S.NullOr(S.Unknown)),
-          _create_in_folder: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/feature_flags/{id}/create_static_cohort_for_flag/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "FeatureFlagsCreateStaticCohortForFlagCreateRequest" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "FeatureFlagsCreateStaticCohortForFlagCreateResponse",
-      });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/projects/{project_id}/feature_flags/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "FeatureFlagsDestroyRequest" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/feature_flags/{id}/disable/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "FeatureFlagsDisableCreateRequest" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/feature_flags/{id}/enable/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "FeatureFlagsEnableCreateRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/feature_flags/{id}/unarchive/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "FeatureFlagsUnarchiveCreateRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/feature_flags/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetFeatureFlagRequest" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          page: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/feature_flags/{id}/activity/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetFeatureFlagsActivityRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          action: S.optional(S.String),
-          field: S.optional(S.String),
-          before: S.optional(S.Unknown),
-          after: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "Change" });
-    case 1:
-      return S.Array(__S(96, __c12, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          source: S.optional(S.Unknown),
-          target: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "Merge" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          job_type: S.optional(S.String),
-          job_id: S.optional(S.String),
-          payload: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "Trigger" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          changes: S.optional(__S(97, __c12, 1)),
-          merge: S.optional(__S(98, __c12, 2)),
-          trigger: S.optional(__S(99, __c12, 3)),
-          name: S.optional(S.String),
-          short_id: S.optional(S.String),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Detail" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          user: S.optional(S.NullOr(S.Unknown)),
-          activity: S.optional(S.String),
-          scope: S.optional(S.String),
-          item_id: S.optional(S.String),
-          detail: S.optional(__S(100, __c12, 4)),
-          created_at: S.optional(S.String),
-          is_system: S.optional(S.Boolean),
-          was_impersonated: S.optional(S.Boolean),
-          client: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "ActivityLogEntry" });
-    case 6:
-      return S.Array(__S(101, __c12, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          results: S.optional(__S(102, __c12, 6)),
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          total_count: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ActivityLogPaginatedResponse" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          page: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/feature_flags/activity/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetFeatureFlagsAllActivityRequest" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          distinct_id: S.String.pipe(T.Query()),
-          flag_keys: S.optional(__S(200, __c25, 0).pipe(T.Query())),
-          groups: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/feature_flags/evaluation_reasons/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetFeatureFlagsEvaluationReasonRequest" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/feature_flags/matching_ids/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetFeatureFlagsMatchingIdsRequest" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          flag_keys: S.optional(__S(200, __c25, 0).pipe(T.Query())),
-          groups: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/feature_flags/my_flags/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetFeatureFlagsMyFlagRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          team_id: S.optional(S.Number),
-          name: S.optional(S.String),
-          key: S.optional(S.String),
-          filters: S.optional(__S(248, __c31, 0)),
-          deleted: S.optional(S.Boolean),
-          active: S.optional(S.Boolean),
-          ensure_experience_continuity: S.optional(S.NullOr(S.Boolean)),
-          version: S.optional(S.NullOr(S.Number)),
-          evaluation_runtime: S.optional(S.NullOr(S.Unknown)),
-          bucketing_identifier: S.optional(S.NullOr(S.Unknown)),
-          evaluation_contexts: S.optional(__S(200, __c25, 0)),
-        }),
-      ).annotate({ identifier: "MinimalFeatureFlag" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          feature_flag: S.optional(__S(129, __c16, 1)),
-          value: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "MyFlagsResponse" });
-    case 3:
-      return S.Array(__S(130, __c16, 2));
-    case 4:
-      return S.suspend(() => __S(131, __c16, 3).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetFeatureFlagsMyFlagResponse",
-      });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/feature_flags/{id}/remote_config/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetFeatureFlagsRemoteConfigRequest" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/feature_flags/{id}/status/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetFeatureFlagsStatusRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          effectively_full_rollout: S.Boolean,
-          has_targeting_conditions: S.Boolean,
-          max_rollout_percentage: S.NullOr(S.Number),
-          is_multivariate: S.Boolean,
-        }),
-      ).annotate({ identifier: "FeatureFlagRolloutSummary" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          reason: S.optional(S.String),
-          reason_states_rollout: S.optional(S.Boolean),
-          rollout: S.optional(__S(145, __c18, 1)),
-        }),
-      ).annotate({ identifier: "FeatureFlagStatusResponse" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-          version_number: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/feature_flags/{id}/versions/{version_number}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetFeatureFlagsVersionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          key: S.optional(S.String),
-          name: S.optional(S.String),
-          filters: S.optional(__S(248, __c31, 0)),
-          active: S.optional(S.Boolean),
-          deleted: S.optional(S.Boolean),
-          version: S.optional(S.NullOr(S.Number)),
-          ensure_experience_continuity: S.optional(S.NullOr(S.Boolean)),
-          has_enriched_analytics: S.optional(S.NullOr(S.Boolean)),
-          is_remote_configuration: S.optional(S.NullOr(S.Boolean)),
-          has_encrypted_payloads: S.optional(S.NullOr(S.Boolean)),
-          evaluation_runtime: S.optional(S.NullOr(S.Unknown)),
-          bucketing_identifier: S.optional(S.NullOr(S.Unknown)),
-          last_called_at: S.optional(S.NullOr(S.String)),
-          created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(S.Number)),
-          is_historical: S.optional(S.Boolean),
-          version_timestamp: S.optional(S.NullOr(S.String)),
-          modified_by: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "FeatureFlagVersionResponse" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          active: S.optional(S.String.pipe(T.Query())),
-          archived: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
-          created_by_id: S.optional(S.String.pipe(T.Query())),
-          eligible_for_experiment: S.optional(S.String.pipe(T.Query())),
-          evaluation_runtime: S.optional(S.String.pipe(T.Query())),
-          excluded_properties: S.optional(S.String.pipe(T.Query())),
-          excluded_tags: S.optional(S.String.pipe(T.Query())),
-          has_evaluation_contexts: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
-          key: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-          search: S.optional(S.String.pipe(T.Query())),
-          tags: S.optional(S.String.pipe(T.Query())),
-          type: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/projects/{project_id}/feature_flags/", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListFeatureFlagsRequest" });
-    case 1:
-      return S.Array(__S(243, __c30, 3));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.optional(S.Number),
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(161, __c20, 1)),
-        }),
-      ).annotate({ identifier: "PaginatedFeatureFlagListOutput" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/feature_flags/{id}/dependent_flags/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListFeatureFlagsDependentFlagsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          key: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DependentFlag" });
-    case 2:
-      return S.Array(__S(169, __c21, 1));
-    case 3:
-      return S.suspend(() => __S(170, __c21, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListFeatureFlagsDependentFlagsResponse",
-      });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-          name: S.optional(S.String),
-          key: S.optional(S.String),
-          filters: S.optional(__S(248, __c31, 0)),
-          deleted: S.optional(S.Boolean),
-          active: S.optional(S.Boolean),
-          archived: S.optional(S.Boolean),
-          version: S.optional(S.Number),
-          ensure_experience_continuity: S.optional(S.NullOr(S.Boolean)),
-          tags: S.optional(__S(232, __c29, 0)),
-          evaluation_contexts: S.optional(__S(232, __c29, 0)),
-          analytics_dashboards: S.optional(__S(224, __c28, 0)),
-          has_enriched_analytics: S.optional(S.NullOr(S.Boolean)),
-          creation_context: S.optional(S.String),
-          is_remote_configuration: S.optional(S.NullOr(S.Boolean)),
-          has_encrypted_payloads: S.optional(S.NullOr(S.Boolean)),
-          evaluation_runtime: S.optional(S.NullOr(S.Unknown)),
-          bucketing_identifier: S.optional(S.NullOr(S.Unknown)),
-          _create_in_folder: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/projects/{project_id}/feature_flags/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateFeatureFlagRequest" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-          key: S.optional(S.String),
-          name: S.optional(S.String),
-          filters: S.optional(__S(222, __c27, 6)),
-          active: S.optional(S.Boolean),
-          archived: S.optional(S.Boolean),
-          tags: S.optional(__S(200, __c25, 0)),
-          evaluation_contexts: S.optional(__S(200, __c25, 0)),
-          is_remote_configuration: S.optional(S.NullOr(S.Boolean)),
-          ensure_experience_continuity: S.optional(S.NullOr(S.Boolean)),
-          evaluation_runtime: S.optional(S.NullOr(S.String)),
-          bucketing_identifier: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/projects/{project_id}/feature_flags/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateFeatureFlagsPartialRequest" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          key: S.optional(S.String),
-          name: S.optional(S.String),
-          filters: S.optional(__S(222, __c27, 6)),
-          active: S.optional(S.Boolean),
-          archived: S.optional(S.Boolean),
-          tags: S.optional(__S(200, __c25, 0)),
-          evaluation_contexts: S.optional(__S(200, __c25, 0)),
-          is_remote_configuration: S.optional(S.NullOr(S.Boolean)),
-          ensure_experience_continuity: S.optional(S.NullOr(S.Boolean)),
-          evaluation_runtime: S.optional(S.NullOr(S.String)),
-          bucketing_identifier: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/projects/{project_id}/feature_flags/", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateFeatureFlagRequest" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          properties: S.optional(__S(216, __c27, 0)),
-          rollout_percentage: S.optional(S.Number),
-          variant: S.optional(S.NullOr(S.String)),
-          aggregation_group_type_index: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "FeatureFlagConditionGroupSchema" });
-    case 2:
-      return S.Array(__S(217, __c27, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.optional(S.String),
-          name: S.optional(S.String),
-          rollout_percentage: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "FeatureFlagMultivariateVariantSchema" });
-    case 4:
-      return S.Array(__S(219, __c27, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          variants: S.optional(__S(220, __c27, 4)),
-        }),
-      ).annotate({ identifier: "FeatureFlagMultivariateSchema" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          groups: S.optional(__S(218, __c27, 2)),
-          multivariate: S.optional(S.NullOr(__S(221, __c27, 5))),
-          aggregation_group_type_index: S.optional(S.NullOr(S.Number)),
-          payloads: S.optional(__S(208, __c26, 0)),
-          feature_enrollment: S.optional(S.NullOr(S.Boolean)),
-          early_exit: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "FeatureFlagFiltersSchema" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Number);
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          uuid: S.optional(S.String),
-          distinct_id: S.optional(S.NullOr(S.String)),
-          first_name: S.optional(S.String),
-          last_name: S.optional(S.String),
-          email: S.optional(S.String),
-          is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(248, __c31, 0))),
-          role_at_organization: S.optional(S.NullOr(S.Unknown)),
-        }),
-      ).annotate({ identifier: "UserBasic" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number,
-          name: S.String,
-          is_running: S.Boolean,
-        }),
-      ).annotate({ identifier: "FeatureFlagExperimentSetMetadata" });
-    case 2:
-      return S.Array(__S(241, __c30, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          name: S.optional(S.String),
-          key: S.optional(S.String),
-          filters: S.optional(__S(248, __c31, 0)),
-          deleted: S.optional(S.Boolean),
-          active: S.optional(S.Boolean),
-          archived: S.optional(S.Boolean),
-          created_by: S.optional(S.NullOr(__S(240, __c30, 0))),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.NullOr(S.String)),
-          version: S.optional(S.Number),
-          last_modified_by: S.optional(S.NullOr(__S(240, __c30, 0))),
-          ensure_experience_continuity: S.optional(S.NullOr(S.Boolean)),
-          experiment_set: S.optional(__S(224, __c28, 0)),
-          experiment_set_metadata: S.optional(__S(242, __c30, 2)),
-          surveys: S.optional(__S(248, __c31, 0)),
-          features: S.optional(__S(248, __c31, 0)),
-          can_edit: S.optional(S.Boolean),
-          tags: S.optional(__S(232, __c29, 0)),
-          usage_dashboard: S.optional(S.NullOr(S.Number)),
-          analytics_dashboards: S.optional(__S(224, __c28, 0)),
-          has_enriched_analytics: S.optional(S.NullOr(S.Boolean)),
-          user_access_level: S.optional(S.NullOr(S.String)),
-          is_remote_configuration: S.optional(S.NullOr(S.Boolean)),
-          has_encrypted_payloads: S.optional(S.NullOr(S.Boolean)),
-          status: S.optional(S.String),
-          evaluation_runtime: S.optional(S.NullOr(S.Unknown)),
-          bucketing_identifier: S.optional(S.NullOr(S.Unknown)),
-          last_called_at: S.optional(S.NullOr(S.String)),
-          is_used_in_replay_settings: S.optional(S.Boolean),
-          is_eligible_for_experiment: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "FeatureFlagOutput" });
-  }
-}
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-          version: S.NullOr(S.Number),
-          variant_key: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/feature_flags/{id}/roll_out_to_everyone/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateFeatureFlagsRollOutToEveryoneRequest" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-          condition_index: S.Number,
-          rollout_percentage: S.Number,
-          version: S.NullOr(S.Number),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/feature_flags/{id}/set_release_condition_rollout/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateFeatureFlagsSetReleaseConditionRolloutRequest" });
-  }
-}
-function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2446,7 +1928,7 @@ function __c34(j: number): any {
         }),
       ).annotate({ identifier: "FeatureFlagConditionPropertyAnalysis" });
     case 2:
-      return S.Array(__S(273, __c34, 1));
+      return S.Array(__S(1, __c0, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2457,11 +1939,11 @@ function __c34(j: number): any {
           rollout_percentage: S.Number,
           rollout_excluded: S.Boolean,
           variant: S.NullOr(S.String),
-          properties: __S(274, __c34, 2),
+          properties: __S(2, __c0, 2),
         }),
       ).annotate({ identifier: "FeatureFlagConditionAnalysis" });
     case 4:
-      return S.Array(__S(275, __c34, 3));
+      return S.Array(__S(3, __c0, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -2471,20 +1953,21 @@ function __c34(j: number): any {
           reason_description: S.optional(S.NullOr(S.String)),
           condition_index: S.NullOr(S.Number),
           payload: S.Unknown,
-          person_properties: __S(248, __c31, 0),
+          person_properties: __S(512, __c32, 0),
           evaluation_distinct_id: S.NullOr(S.String),
-          conditions: __S(276, __c34, 4),
+          conditions: __S(4, __c0, 4),
+          conditions_unavailable_reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "FeatureFlagTestEvaluationResponse" });
   }
 }
-function __c35(j: number): any {
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          condition: S.optional(__S(248, __c31, 0)),
+          condition: S.optional(__S(512, __c32, 0)),
           group_type_index: S.optional(S.NullOr(S.Number)),
         }).pipe(
           T.Http({
@@ -2501,6 +1984,1113 @@ function __c35(j: number): any {
           total: S.optional(S.Number),
         }),
       ).annotate({ identifier: "UserBlastRadiusResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/feature_flags/{id}/archive/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "FeatureFlagsArchiveCreateRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          active: S.optional(S.String),
+          created_by_id: S.optional(S.Number),
+          search: S.optional(S.String),
+          type: S.optional(S.String),
+          evaluation_runtime: S.optional(S.String),
+          excluded_properties: S.optional(S.String),
+          tags: S.optional(__S(496, __c31, 0)),
+          excluded_tags: S.optional(__S(496, __c31, 0)),
+          has_evaluation_contexts: S.optional(S.Boolean),
+          archived: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "BulkDeleteFilters" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          filters: S.optional(__S(48, __c3, 0)),
+          ids: S.optional(__S(528, __c33, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/feature_flags/bulk_delete/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "FeatureFlagsBulkDeleteCreateRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          key: S.String,
+          rollout_state: S.String,
+          active_variant: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "BulkDeleteDeletedItem" });
+    case 3:
+      return S.Array(__S(50, __c3, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Unknown,
+          key: S.optional(S.String),
+          reason: S.String,
+        }),
+      ).annotate({ identifier: "BulkDeleteErrorItem" });
+    case 5:
+      return S.Array(__S(52, __c3, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          deleted: __S(51, __c3, 3),
+          errors: __S(53, __c3, 5),
+        }),
+      ).annotate({ identifier: "BulkDeleteResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          ids: S.optional(__S(544, __c34, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/feature_flags/bulk_keys/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "FeatureFlagsBulkKeysRetrieveRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          keys: __S(464, __c29, 0),
+          warning: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BulkKeysResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          ids: S.optional(__S(528, __c33, 0)),
+          action: S.optional(S.String),
+          tags: S.optional(__S(496, __c31, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/feature_flags/bulk_update_tags/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "FeatureFlagsBulkUpdateTagsCreateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          tags: S.optional(__S(496, __c31, 0)),
+        }),
+      ).annotate({ identifier: "BulkUpdateTagsItem" });
+    case 2:
+      return S.Array(__S(81, __c5, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          reason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BulkUpdateTagsError" });
+    case 4:
+      return S.Array(__S(83, __c5, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          updated: S.optional(__S(82, __c5, 2)),
+          skipped: S.optional(__S(84, __c5, 4)),
+        }),
+      ).annotate({ identifier: "BulkUpdateTagsResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/feature_flags/{id}/create_static_cohort_for_flag/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "FeatureFlagsCreateStaticCohortForFlagCreateRequest" });
+    case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          values: __S(97, __c6, 1),
+        }),
+      ).annotate({ identifier: "CohortFilterGroup" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          properties: __S(98, __c6, 2),
+          filterTestAccounts: S.optional(S.NullOr(S.Boolean)),
+        }),
+      ).annotate({ identifier: "CohortFilters" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          person_properties: S.Boolean,
+          behavioral: S.Boolean,
+          lifecycle: S.Boolean,
+          cohorts: S.Boolean,
+        }),
+      ).annotate({ identifier: "CohortConditionTypeFlags" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          phase: S.String,
+          percent_complete: S.NullOr(S.Number),
+          updated_at: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "CohortHistoryBuild" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.String,
+          ready_at: S.NullOr(S.String),
+          build: S.NullOr(__S(101, __c6, 5)),
+        }),
+      ).annotate({ identifier: "CohortRealtimeReadiness" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          name: S.optional(S.NullOr(S.String)),
+          description: S.optional(S.String),
+          groups: S.optional(S.Unknown),
+          deleted: S.optional(S.Boolean),
+          filters: S.optional(S.NullOr(__S(99, __c6, 3))),
+          query: S.optional(S.Unknown),
+          version: S.NullOr(S.Number),
+          pending_version: S.NullOr(S.Number),
+          is_calculating: S.Boolean,
+          created_by: __S(560, __c35, 0),
+          created_at: S.NullOr(S.String),
+          last_calculation: S.NullOr(S.String),
+          last_backfill_person_properties_at: S.NullOr(S.String),
+          errors_calculating: S.Number,
+          last_error_message: S.NullOr(S.String),
+          count: S.NullOr(S.Number),
+          last_import_total_count: S.NullOr(S.Number),
+          last_import_unmatched_count: S.NullOr(S.Number),
+          is_static: S.optional(S.Boolean),
+          cohort_type: S.optional(S.NullOr(S.Unknown)),
+          condition_type: S.NullOr(__S(100, __c6, 4)),
+          realtime: S.NullOr(__S(102, __c6, 6)),
+          experiment_set: __S(528, __c33, 0),
+          search_match_type: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "CohortOutput" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          cohort: __S(103, __c6, 7),
+        }),
+      ).annotate({ identifier: "CreateStaticCohortForFlagResponseOutput" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/feature_flags/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "FeatureFlagsDestroyRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "FeatureFlagsDestroyResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          version: S.optional(S.NullOr(S.Number)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/feature_flags/{id}/disable/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "FeatureFlagsDisableCreateRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          version: S.optional(S.NullOr(S.Number)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/feature_flags/{id}/enable/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "FeatureFlagsEnableCreateRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/feature_flags/{id}/unarchive/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "FeatureFlagsUnarchiveCreateRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/feature_flags/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetFeatureFlagRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/feature_flags/{id}/activity/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetFeatureFlagsActivityRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          action: S.optional(S.String),
+          field: S.optional(S.String),
+          before: S.optional(S.Unknown),
+          after: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "Change" });
+    case 1:
+      return S.Array(__S(224, __c14, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          source: S.optional(S.Unknown),
+          target: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "Merge" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          job_type: S.optional(S.String),
+          job_id: S.optional(S.String),
+          payload: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "Trigger" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          changes: S.optional(__S(225, __c14, 1)),
+          merge: S.optional(__S(226, __c14, 2)),
+          trigger: S.optional(__S(227, __c14, 3)),
+          name: S.optional(S.String),
+          short_id: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Detail" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          user: S.optional(S.NullOr(S.Unknown)),
+          activity: S.optional(S.String),
+          scope: S.optional(S.String),
+          item_id: S.optional(S.String),
+          detail: S.optional(__S(228, __c14, 4)),
+          created_at: S.optional(S.String),
+          is_system: S.optional(S.Boolean),
+          was_impersonated: S.optional(S.Boolean),
+          client: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ActivityLogEntry" });
+    case 6:
+      return S.Array(__S(229, __c14, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          results: S.optional(__S(230, __c14, 6)),
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          total_count: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ActivityLogPaginatedResponse" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/feature_flags/activity/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetFeatureFlagsAllActivityRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/feature_flags/{id}/code_analysis/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetFeatureFlagsCodeAnalysisRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          repository: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/feature_flags/{id}/code_analysis_target/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetFeatureFlagsCodeAnalysisTargetRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          repository: S.NullOr(S.String),
+          source: S.String,
+          candidates: __S(496, __c31, 0),
+        }),
+      ).annotate({ identifier: "FeatureFlagCodeAnalysisTarget" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          distinct_id: S.String.pipe(T.Query()),
+          flag_keys: S.optional(__S(496, __c31, 0).pipe(T.Query())),
+          groups: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/feature_flags/evaluation_reasons/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetFeatureFlagsEvaluationReasonRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/feature_flags/matching_ids/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetFeatureFlagsMatchingIdsRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          flag_keys: S.optional(__S(496, __c31, 0).pipe(T.Query())),
+          groups: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/feature_flags/my_flags/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetFeatureFlagsMyFlagRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          team_id: S.optional(S.Number),
+          name: S.optional(S.String),
+          key: S.optional(S.String),
+          filters: S.optional(__S(512, __c32, 0)),
+          deleted: S.optional(S.Boolean),
+          active: S.optional(S.Boolean),
+          ensure_experience_continuity: S.optional(S.NullOr(S.Boolean)),
+          version: S.optional(S.NullOr(S.Number)),
+          evaluation_runtime: S.optional(S.NullOr(S.Unknown)),
+          bucketing_identifier: S.optional(S.NullOr(S.Unknown)),
+          evaluation_contexts: S.optional(__S(496, __c31, 0)),
+        }),
+      ).annotate({ identifier: "MinimalFeatureFlag" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          feature_flag: S.optional(__S(321, __c20, 1)),
+          value: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "MyFlagsResponse" });
+    case 3:
+      return S.Array(__S(322, __c20, 2));
+    case 4:
+      return S.suspend(() => __S(323, __c20, 3).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetFeatureFlagsMyFlagResponse",
+      });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/feature_flags/{id}/remote_config/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetFeatureFlagsRemoteConfigRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/feature_flags/{id}/status/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetFeatureFlagsStatusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          effectively_full_rollout: S.Boolean,
+          has_targeting_conditions: S.Boolean,
+          max_rollout_percentage: S.NullOr(S.Number),
+          is_multivariate: S.Boolean,
+        }),
+      ).annotate({ identifier: "FeatureFlagRolloutSummary" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          reason: S.optional(S.String),
+          reason_states_rollout: S.optional(S.Boolean),
+          rollout: S.optional(__S(353, __c22, 1)),
+        }),
+      ).annotate({ identifier: "FeatureFlagStatusResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          version_number: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/feature_flags/{id}/versions/{version_number}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetFeatureFlagsVersionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          key: S.optional(S.String),
+          name: S.optional(S.String),
+          filters: S.optional(__S(512, __c32, 0)),
+          active: S.optional(S.Boolean),
+          deleted: S.optional(S.Boolean),
+          version: S.optional(S.NullOr(S.Number)),
+          ensure_experience_continuity: S.optional(S.NullOr(S.Boolean)),
+          has_enriched_analytics: S.optional(S.NullOr(S.Boolean)),
+          is_remote_configuration: S.optional(S.NullOr(S.Boolean)),
+          has_encrypted_payloads: S.optional(S.NullOr(S.Boolean)),
+          evaluation_runtime: S.optional(S.NullOr(S.Unknown)),
+          bucketing_identifier: S.optional(S.NullOr(S.Unknown)),
+          last_called_at: S.optional(S.NullOr(S.String)),
+          created_at: S.optional(S.String),
+          created_by: S.optional(S.NullOr(S.Number)),
+          is_historical: S.optional(S.Boolean),
+          version_timestamp: S.optional(S.NullOr(S.String)),
+          modified_by: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "FeatureFlagVersionResponse" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          active: S.optional(S.String.pipe(T.Query())),
+          archived: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
+          created_by_id: S.optional(S.String.pipe(T.Query())),
+          deleted: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
+          eligible_for_experiment: S.optional(S.String.pipe(T.Query())),
+          evaluation_runtime: S.optional(S.String.pipe(T.Query())),
+          excluded_properties: S.optional(S.String.pipe(T.Query())),
+          excluded_tags: S.optional(S.String.pipe(T.Query())),
+          has_evaluation_contexts: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
+          key: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+          tags: S.optional(S.String.pipe(T.Query())),
+          type: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/projects/{project_id}/feature_flags/", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListFeatureFlagsRequest" });
+    case 1:
+      return S.Array(__S(578, __c36, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.optional(S.Number),
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          results: S.optional(__S(385, __c24, 1)),
+        }),
+      ).annotate({ identifier: "PaginatedFeatureFlagListOutput" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/feature_flags/{id}/dependent_flags/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListFeatureFlagsDependentFlagsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          key: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DependentFlag" });
+    case 2:
+      return S.Array(__S(401, __c25, 1));
+    case 3:
+      return S.suspend(() => __S(402, __c25, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListFeatureFlagsDependentFlagsResponse",
+      });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          name: S.optional(S.String),
+          key: S.optional(S.String),
+          filters: S.optional(__S(512, __c32, 0)),
+          deleted: S.optional(S.Boolean),
+          active: S.optional(S.Boolean),
+          archived: S.optional(S.Boolean),
+          version: S.optional(S.Number),
+          ensure_experience_continuity: S.optional(S.NullOr(S.Boolean)),
+          tags: S.optional(__S(544, __c34, 0)),
+          evaluation_contexts: S.optional(__S(544, __c34, 0)),
+          analytics_dashboards: S.optional(__S(528, __c33, 0)),
+          has_enriched_analytics: S.optional(S.NullOr(S.Boolean)),
+          creation_context: S.optional(S.String),
+          is_remote_configuration: S.optional(S.NullOr(S.Boolean)),
+          has_encrypted_payloads: S.optional(S.NullOr(S.Boolean)),
+          evaluation_runtime: S.optional(S.NullOr(S.Unknown)),
+          bucketing_identifier: S.optional(S.NullOr(S.Unknown)),
+          _create_in_folder: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/projects/{project_id}/feature_flags/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateFeatureFlagRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          ask_rollback_reason: S.optional(S.Boolean),
+          rollback_reason: S.optional(S.NullOr(S.String)),
+          rollback_reason_note: S.optional(S.NullOr(S.String)),
+          key: S.optional(S.String),
+          name: S.optional(S.String),
+          filters: S.optional(__S(486, __c30, 6)),
+          active: S.optional(S.Boolean),
+          archived: S.optional(S.Boolean),
+          tags: S.optional(__S(496, __c31, 0)),
+          evaluation_contexts: S.optional(__S(496, __c31, 0)),
+          is_remote_configuration: S.optional(S.NullOr(S.Boolean)),
+          ensure_experience_continuity: S.optional(S.NullOr(S.Boolean)),
+          evaluation_runtime: S.optional(S.NullOr(S.String)),
+          bucketing_identifier: S.optional(S.NullOr(S.String)),
+          version: S.optional(S.Number),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/feature_flags/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateFeatureFlagsPartialRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          key: S.optional(S.String),
+          name: S.optional(S.String),
+          filters: S.optional(__S(486, __c30, 6)),
+          active: S.optional(S.Boolean),
+          archived: S.optional(S.Boolean),
+          tags: S.optional(__S(496, __c31, 0)),
+          evaluation_contexts: S.optional(__S(496, __c31, 0)),
+          is_remote_configuration: S.optional(S.NullOr(S.Boolean)),
+          ensure_experience_continuity: S.optional(S.NullOr(S.Boolean)),
+          evaluation_runtime: S.optional(S.NullOr(S.String)),
+          bucketing_identifier: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/projects/{project_id}/feature_flags/", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateFeatureFlagRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          properties: S.optional(__S(480, __c30, 0)),
+          rollout_percentage: S.optional(S.Number),
+          variant: S.optional(S.NullOr(S.String)),
+          aggregation_group_type_index: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "FeatureFlagConditionGroupSchema" });
+    case 2:
+      return S.Array(__S(481, __c30, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.optional(S.String),
+          name: S.optional(S.String),
+          rollout_percentage: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "FeatureFlagMultivariateVariantSchema" });
+    case 4:
+      return S.Array(__S(483, __c30, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          variants: S.optional(__S(484, __c30, 4)),
+        }),
+      ).annotate({ identifier: "FeatureFlagMultivariateSchema" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          groups: S.optional(__S(482, __c30, 2)),
+          multivariate: S.optional(S.NullOr(__S(485, __c30, 5))),
+          aggregation_group_type_index: S.optional(S.NullOr(S.Number)),
+          payloads: S.optional(__S(464, __c29, 0)),
+          feature_enrollment: S.optional(S.NullOr(S.Boolean)),
+          early_exit: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "FeatureFlagFiltersSchema" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          uuid: S.optional(S.String),
+          distinct_id: S.optional(S.NullOr(S.String)),
+          first_name: S.optional(S.String),
+          last_name: S.optional(S.String),
+          email: S.optional(S.String),
+          is_email_verified: S.optional(S.NullOr(S.Boolean)),
+          hedgehog_config: S.optional(S.NullOr(__S(512, __c32, 0))),
+          role_at_organization: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "UserBasic" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          name: S.String,
+          is_running: S.Boolean,
+        }),
+      ).annotate({ identifier: "FeatureFlagExperimentSetMetadata" });
+    case 1:
+      return S.Array(__S(576, __c36, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          name: S.optional(S.String),
+          key: S.optional(S.String),
+          filters: S.optional(__S(512, __c32, 0)),
+          deleted: S.optional(S.Boolean),
+          active: S.optional(S.Boolean),
+          archived: S.optional(S.Boolean),
+          created_by: S.optional(S.NullOr(__S(560, __c35, 0))),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.NullOr(S.String)),
+          version: S.optional(S.Number),
+          last_modified_by: S.optional(S.NullOr(__S(560, __c35, 0))),
+          ensure_experience_continuity: S.optional(S.NullOr(S.Boolean)),
+          experiment_set: S.optional(__S(528, __c33, 0)),
+          experiment_set_metadata: S.optional(__S(577, __c36, 1)),
+          surveys: S.optional(__S(512, __c32, 0)),
+          features: S.optional(__S(512, __c32, 0)),
+          can_edit: S.optional(S.Boolean),
+          tags: S.optional(__S(544, __c34, 0)),
+          usage_dashboard: S.optional(S.NullOr(S.Number)),
+          analytics_dashboards: S.optional(__S(528, __c33, 0)),
+          has_enriched_analytics: S.optional(S.NullOr(S.Boolean)),
+          user_access_level: S.optional(S.NullOr(S.String)),
+          is_remote_configuration: S.optional(S.NullOr(S.Boolean)),
+          has_encrypted_payloads: S.optional(S.NullOr(S.Boolean)),
+          status: S.optional(S.String),
+          evaluation_runtime: S.optional(S.NullOr(S.Unknown)),
+          bucketing_identifier: S.optional(S.NullOr(S.Unknown)),
+          last_called_at: S.optional(S.NullOr(S.String)),
+          is_used_in_replay_settings: S.optional(S.Boolean),
+          is_eligible_for_experiment: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "FeatureFlagOutput" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          repository: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/feature_flags/{id}/analyze_code/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateFeatureFlagsAnalyzeCodeRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          variant: S.String,
+          start_line: S.Number,
+          end_line: S.Number,
+          snippet: S.String,
+        }),
+      ).annotate({ identifier: "FeatureFlagCodeBranch" });
+    case 1:
+      return S.Array(__S(608, __c38, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          file: S.String,
+          check_line: S.Number,
+          method: S.String,
+          summary: S.String,
+          branches: __S(609, __c38, 1),
+        }),
+      ).annotate({ identifier: "FeatureFlagCodeReference" });
+    case 3:
+      return S.Array(__S(610, __c38, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          repository: S.String,
+          commit_sha: S.String,
+          references: __S(611, __c38, 3),
+          notes: S.String,
+        }),
+      ).annotate({ identifier: "FeatureFlagCodeAnalysisResult" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          task_id: S.String,
+          run_status: S.String,
+          is_terminal: S.Boolean,
+          pr_url: S.NullOr(S.String),
+          error_message: S.NullOr(S.String),
+          can_view_task: S.Boolean,
+        }),
+      ).annotate({ identifier: "FeatureFlagCodeCleanupRun" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          unavailable_reason: S.NullOr(S.String),
+          suggested_outcome: S.NullOr(S.String),
+          outcome_options: __S(496, __c31, 0),
+          can_request: S.Boolean,
+          run: S.NullOr(__S(613, __c38, 5)),
+        }),
+      ).annotate({ identifier: "FeatureFlagCodeCleanup" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          task_id: S.String,
+          repository: S.String,
+          created_at: S.String,
+          run_status: S.String,
+          is_terminal: S.Boolean,
+          error_message: S.NullOr(S.String),
+          can_view_task: S.Boolean,
+          result: S.NullOr(__S(612, __c38, 4)),
+          cleanup: __S(614, __c38, 6),
+        }),
+      ).annotate({ identifier: "FeatureFlagCodeAnalysis" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          keep_outcome: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/feature_flags/{id}/open_cleanup_pr/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateFeatureFlagsOpenCleanupPrRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          version: S.NullOr(S.Number),
+          variant_key: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/feature_flags/{id}/roll_out_to_everyone/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateFeatureFlagsRollOutToEveryoneRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          condition_index: S.Number,
+          rollout_percentage: S.Number,
+          version: S.NullOr(S.Number),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/feature_flags/{id}/set_release_condition_rollout/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateFeatureFlagsSetReleaseConditionRolloutRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

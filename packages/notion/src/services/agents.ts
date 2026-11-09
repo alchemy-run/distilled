@@ -25,14 +25,6 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-/** One of: `notion_ai`, `33333333-3333-3333-3333-333333333333` */
-export type BatchAgentsRequestOperationsItemCase0AgentIdCase1 =
-  | "notion_ai"
-  | "33333333-3333-3333-3333-333333333333";
-/** The agent ID (a UUID), or `notion_ai` for the personal agent. Endpoint-specific restrictions still apply. */
-export type BatchAgentsRequestOperationsItemCase0AgentId =
-  | string
-  | BatchAgentsRequestOperationsItemCase0AgentIdCase1;
 /** "active" to re-enable an agent disabled through this API, or "disabled" to turn it off. */
 export type BatchAgentsRequestOperationsItemCase0FieldsStatus = "active" | "disabled";
 /** The status to apply to this agent. */
@@ -44,44 +36,28 @@ export interface BatchAgentsRequestOperationsItemCase0 {
   /** Enable or disable one agent, equivalent to `PATCH /v1/agents/:agent_id/status`. */
   action: string;
   /** The agent ID (a UUID), or `notion_ai` for the personal agent. Endpoint-specific restrictions still apply. */
-  agent_id: BatchAgentsRequestOperationsItemCase0AgentId;
+  agent_id: string;
   /** The status to apply to this agent. */
   fields: BatchAgentsRequestOperationsItemCase0Fields;
 }
-/** One of: `notion_ai`, `33333333-3333-3333-3333-333333333333` */
-export type BatchAgentsRequestOperationsItemCase1AgentIdCase1 =
-  | "notion_ai"
-  | "33333333-3333-3333-3333-333333333333";
-/** The agent ID (a UUID), or `notion_ai` for the personal agent. Endpoint-specific restrictions still apply. */
-export type BatchAgentsRequestOperationsItemCase1AgentId =
-  | string
-  | BatchAgentsRequestOperationsItemCase1AgentIdCase1;
 /** The credit limit to apply to this agent. */
 export interface BatchAgentsRequestOperationsItemCase1Fields {
   /** The per-agent credit limit as a non-negative integer, or null to clear the limit. */
   credit_limit: number | null;
 }
 export interface BatchAgentsRequestOperationsItemCase1 {
-  /** Set or clear one agent's credit limit, equivalent to `PATCH /v1/agents/:agent_id/credit_limit`. Requires full access to the agent. */
+  /** Set or clear one agent's credit limit, equivalent to `PATCH /v1/agents/:agent_id/credit_limit`. Requires a personal access token whose user has full access to the agent. */
   action: string;
   /** The agent ID (a UUID), or `notion_ai` for the personal agent. Endpoint-specific restrictions still apply. */
-  agent_id: BatchAgentsRequestOperationsItemCase1AgentId;
+  agent_id: string;
   /** The credit limit to apply to this agent. */
   fields: BatchAgentsRequestOperationsItemCase1Fields;
 }
-/** One of: `notion_ai`, `33333333-3333-3333-3333-333333333333` */
-export type BatchAgentsRequestOperationsItemCase2AgentIdCase1 =
-  | "notion_ai"
-  | "33333333-3333-3333-3333-333333333333";
-/** The agent ID (a UUID), or `notion_ai` for the personal agent. Endpoint-specific restrictions still apply. */
-export type BatchAgentsRequestOperationsItemCase2AgentId =
-  | string
-  | BatchAgentsRequestOperationsItemCase2AgentIdCase1;
 export interface BatchAgentsRequestOperationsItemCase2 {
   /** Soft-delete one agent, equivalent to `DELETE /v1/agents/:agent_id`. */
   action: string;
   /** The agent ID (a UUID), or `notion_ai` for the personal agent. Endpoint-specific restrictions still apply. */
-  agent_id: BatchAgentsRequestOperationsItemCase2AgentId;
+  agent_id: string;
 }
 /** One action to apply to one agent. Each operation is authorized and applied on its own. */
 export type BatchAgentsRequestOperationsItem =
@@ -697,7 +673,7 @@ export interface GetAgentInsightsResponse {
   status: GetAgentInsightsResponseStatus;
   pause_reason: GetAgentInsightsResponsePauseReason | null;
   created_by: GetAgentInsightsResponseCreatedBy | null;
-  /** Premium AI credits consumed by this agent within the window. */
+  /** Premium AI credits consumed by this agent within the window. Values of 1 or more are whole credits, and values below 1 have at most two significant figures. Both round down. */
   total_credits_used: number;
   /** Enforced per-agent credit limit; null when none is configured, and "hidden" when the caller lacks full access to the agent. */
   credit_limit: GetAgentInsightsResponseCreditLimit | null;
@@ -2013,29 +1989,283 @@ export interface QueryAgentsResponse {
   has_more: boolean;
   next_cursor: string | null;
 }
-export interface UpdateAgentCreditLimitRequest {
-  agent_id: string;
-  /** The per-agent credit limit as a non-negative integer, or null to clear the limit. */
-  credit_limit: number | null;
+/** Enable or disable the agent. Re-enabling works only for an agent an editor disabled, through the API or in agent settings. */
+export type UpdateAgentRequestStatus = "active" | "disabled";
+export interface UpdateAgentRequestModelCase0 {
+  /** Let Notion select the model for each run. */
+  mode: string;
 }
-export interface UpdateAgentCreditLimitResponse {
-  agent_id: string;
-  /** The agent's editor-set per-agent credit limit; null when no limit applies. */
-  credit_limit: number | null;
-  /** ISO 8601 timestamp of when the agent was last edited. */
-  last_edited_time: string;
+export interface UpdateAgentRequestModelCase1 {
+  /** Use the selected model for each run after publishing the agent. */
+  mode: string;
+  /** A public model ID, such as `claude-sonnet-5`. It must currently be available to the caller in this workspace. */
+  id: string;
 }
-/** Set to "active" to re-enable an agent that was disabled through this API, or "disabled" to turn off a running agent. */
-export type UpdateAgentStatusRequestStatus = "active" | "disabled";
-export interface UpdateAgentStatusRequest {
+/** The model selection. Use auto to let Notion choose, or pinned with an available public model ID. */
+export type UpdateAgentRequestModel = UpdateAgentRequestModelCase0 | UpdateAgentRequestModelCase1;
+export interface UpdateAgentRequest {
   agent_id: string;
-  /** Set to "active" to re-enable an agent that was disabled through this API, or "disabled" to turn off a running agent. */
-  status: UpdateAgentStatusRequestStatus | (string & {});
+  /** Enable or disable the agent. Re-enabling works only for an agent an editor disabled, through the API or in agent settings. */
+  status?: UpdateAgentRequestStatus | (string & {});
+  /** The agent's display name. */
+  name?: string;
+  /** The custom agent's short description. Use an empty string to clear it. */
+  description?: string;
+  /** Whether the personal-access-token owner has this agent in their favorites. */
+  is_favorited?: boolean;
+  /** The model selection. Use auto to let Notion choose, or pinned with an available public model ID. */
+  model?: UpdateAgentRequestModel;
 }
+/** What kind of agent this is: "notion_ai" is the personal agent; "custom_agent" is a standalone agent you chat with; "autofill_custom_agent" fills a database property; "external" runs through an external provider. */
+export type UpdateAgentResponseAgentType =
+  | "notion_ai"
+  | "custom_agent"
+  | "autofill_custom_agent"
+  | "external";
+/** The static and animated URLs for the agent avatar. */
+export type UpdateAgentResponseIconCase1CustomAgentAvatar =
+  GetAgentResponseIconCase1CustomAgentAvatar;
+export type UpdateAgentResponseIconCase1 = GetAgentResponseIconCase1;
+export type UpdateAgentResponseIcon = PageIconResponse | GetAgentResponseIconCase1;
+export type UpdateAgentResponseModelCase0 = GetAgentResponseModelCase0;
+export type UpdateAgentResponseModelCase1 = GetAgentResponseModelCase1;
+/** The model the agent runs on: auto (Notion selects) or a pinned model. */
+export type UpdateAgentResponseModel = GetAgentResponseModelCase0 | GetAgentResponseModelCase1;
+export type UpdateAgentResponseConnectionsItemCase0PermissionsItemTargetCase0 =
+  GetAgentResponseConnectionsItemCase0PermissionsItemTargetCase0;
+export type UpdateAgentResponseConnectionsItemCase0PermissionsItemTargetCase1 =
+  GetAgentResponseConnectionsItemCase0PermissionsItemTargetCase1;
+export type UpdateAgentResponseConnectionsItemCase0PermissionsItemTargetCase2 =
+  GetAgentResponseConnectionsItemCase0PermissionsItemTargetCase2;
+export type UpdateAgentResponseConnectionsItemCase0PermissionsItemTargetCase3 =
+  GetAgentResponseConnectionsItemCase0PermissionsItemTargetCase3;
+export type UpdateAgentResponseConnectionsItemCase0PermissionsItemTargetCase4 =
+  GetAgentResponseConnectionsItemCase0PermissionsItemTargetCase4;
+export type UpdateAgentResponseConnectionsItemCase0PermissionsItemTargetCase5AllowedDomainsList =
+  Array<string>;
+export interface UpdateAgentResponseConnectionsItemCase0PermissionsItemTargetCase5 {
+  /** Always `web_search` */
+  type: string;
+  /** Domains web search is restricted to, or null when unrestricted. */
+  allowed_domains: UpdateAgentResponseConnectionsItemCase0PermissionsItemTargetCase5AllowedDomainsList | null;
+}
+export type UpdateAgentResponseConnectionsItemCase0PermissionsItemTargetCase6 =
+  GetAgentResponseConnectionsItemCase0PermissionsItemTargetCase6;
+export type UpdateAgentResponseConnectionsItemCase0PermissionsItemTarget =
+  | GetAgentResponseConnectionsItemCase0PermissionsItemTargetCase0
+  | GetAgentResponseConnectionsItemCase0PermissionsItemTargetCase1
+  | GetAgentResponseConnectionsItemCase0PermissionsItemTargetCase2
+  | GetAgentResponseConnectionsItemCase0PermissionsItemTargetCase3
+  | GetAgentResponseConnectionsItemCase0PermissionsItemTargetCase4
+  | UpdateAgentResponseConnectionsItemCase0PermissionsItemTargetCase5
+  | GetAgentResponseConnectionsItemCase0PermissionsItemTargetCase6;
+/** Content roles ("reader" | "comment_only" | "read_and_write" | "editor") for scoped targets, or search verbs ("allow" | "disallow") for the search targets. */
+export type UpdateAgentResponseConnectionsItemCase0PermissionsItemScopesList = Array<string>;
+export interface UpdateAgentResponseConnectionsItemCase0PermissionsItem {
+  target: UpdateAgentResponseConnectionsItemCase0PermissionsItemTarget;
+  /** Content roles ("reader" | "comment_only" | "read_and_write" | "editor") for scoped targets, or search verbs ("allow" | "disallow") for the search targets. */
+  scopes: UpdateAgentResponseConnectionsItemCase0PermissionsItemScopesList;
+}
+export type UpdateAgentResponseConnectionsItemCase0PermissionsList =
+  Array<UpdateAgentResponseConnectionsItemCase0PermissionsItem>;
+export interface UpdateAgentResponseConnectionsItemCase0 {
+  /** Always `notion` */
+  type: string;
+  name: string;
+  account: unknown | null;
+  permissions: UpdateAgentResponseConnectionsItemCase0PermissionsList;
+}
+export type UpdateAgentResponseConnectionsItemCase1AccountCase0 =
+  GetAgentResponseConnectionsItemCase1AccountCase0;
+/** The linked Slack workspace, null when none is linked, or "hidden" when the caller lacks edit access to the agent. */
+export type UpdateAgentResponseConnectionsItemCase1Account =
+  | GetAgentResponseConnectionsItemCase1AccountCase0
+  | string;
+export type UpdateAgentResponseConnectionsItemCase1PermissionsItemTargetCase0 =
+  GetAgentResponseConnectionsItemCase1PermissionsItemTargetCase0;
+export type UpdateAgentResponseConnectionsItemCase1PermissionsItemTargetCase1 =
+  GetAgentResponseConnectionsItemCase1PermissionsItemTargetCase1;
+export type UpdateAgentResponseConnectionsItemCase1PermissionsItemTargetCase2 =
+  GetAgentResponseConnectionsItemCase1PermissionsItemTargetCase2;
+export type UpdateAgentResponseConnectionsItemCase1PermissionsItemTarget =
+  | GetAgentResponseConnectionsItemCase1PermissionsItemTargetCase0
+  | GetAgentResponseConnectionsItemCase1PermissionsItemTargetCase1
+  | GetAgentResponseConnectionsItemCase1PermissionsItemTargetCase2;
+/** Slack verbs granted on this target ("read" | "write" | "reply_in_thread" | "react"). */
+export type UpdateAgentResponseConnectionsItemCase1PermissionsItemScopesList = Array<string>;
+export interface UpdateAgentResponseConnectionsItemCase1PermissionsItem {
+  target: UpdateAgentResponseConnectionsItemCase1PermissionsItemTarget;
+  /** Slack verbs granted on this target ("read" | "write" | "reply_in_thread" | "react"). */
+  scopes: UpdateAgentResponseConnectionsItemCase1PermissionsItemScopesList;
+}
+export type UpdateAgentResponseConnectionsItemCase1PermissionsList =
+  Array<UpdateAgentResponseConnectionsItemCase1PermissionsItem>;
+export interface UpdateAgentResponseConnectionsItemCase1 {
+  /** Always `slack` */
+  type: string;
+  name: string;
+  /** The linked Slack workspace, null when none is linked, or "hidden" when the caller lacks edit access to the agent. */
+  account: UpdateAgentResponseConnectionsItemCase1Account | null;
+  permissions: UpdateAgentResponseConnectionsItemCase1PermissionsList;
+}
+export type UpdateAgentResponseConnectionsItemCase2AccountCase0 =
+  GetAgentResponseConnectionsItemCase2AccountCase0;
+/** The linked Discord server, null when none is linked, or "hidden" when the caller lacks edit access to the agent. */
+export type UpdateAgentResponseConnectionsItemCase2Account =
+  | GetAgentResponseConnectionsItemCase2AccountCase0
+  | string;
+export type UpdateAgentResponseConnectionsItemCase2PermissionsItemTargetCase0 =
+  GetAgentResponseConnectionsItemCase2PermissionsItemTargetCase0;
+export type UpdateAgentResponseConnectionsItemCase2PermissionsItemTargetCase1 =
+  GetAgentResponseConnectionsItemCase2PermissionsItemTargetCase1;
+export type UpdateAgentResponseConnectionsItemCase2PermissionsItemTarget =
+  | GetAgentResponseConnectionsItemCase2PermissionsItemTargetCase0
+  | GetAgentResponseConnectionsItemCase2PermissionsItemTargetCase1;
+/** Discord verbs granted on this target ("read" | "write" | "reply_in_thread" | "react"). */
+export type UpdateAgentResponseConnectionsItemCase2PermissionsItemScopesList = Array<string>;
+export interface UpdateAgentResponseConnectionsItemCase2PermissionsItem {
+  target: UpdateAgentResponseConnectionsItemCase2PermissionsItemTarget;
+  /** Discord verbs granted on this target ("read" | "write" | "reply_in_thread" | "react"). */
+  scopes: UpdateAgentResponseConnectionsItemCase2PermissionsItemScopesList;
+}
+export type UpdateAgentResponseConnectionsItemCase2PermissionsList =
+  Array<UpdateAgentResponseConnectionsItemCase2PermissionsItem>;
+export interface UpdateAgentResponseConnectionsItemCase2 {
+  /** Always `discord` */
+  type: string;
+  name: string;
+  /** The linked Discord server, null when none is linked, or "hidden" when the caller lacks edit access to the agent. */
+  account: UpdateAgentResponseConnectionsItemCase2Account | null;
+  permissions: UpdateAgentResponseConnectionsItemCase2PermissionsList;
+}
+export type UpdateAgentResponseConnectionsItemCase3AccountCase0 =
+  GetAgentResponseConnectionsItemCase3AccountCase0;
+/** The MCP server host, null when none is linked, or "hidden" when the caller lacks edit access to the agent. */
+export type UpdateAgentResponseConnectionsItemCase3Account =
+  | GetAgentResponseConnectionsItemCase3AccountCase0
+  | string;
+export type UpdateAgentResponseConnectionsItemCase3EnabledToolsCase0Item =
+  GetAgentResponseConnectionsItemCase3EnabledToolsCase0Item;
+export type UpdateAgentResponseConnectionsItemCase3EnabledToolsCase0List =
+  Array<GetAgentResponseConnectionsItemCase3EnabledToolsCase0Item>;
+/** The tools the agent may call, null when all tools are enabled (including any the server adds later), or "hidden" when the caller lacks edit access to the agent. */
+export type UpdateAgentResponseConnectionsItemCase3EnabledTools =
+  | UpdateAgentResponseConnectionsItemCase3EnabledToolsCase0List
+  | string;
+/** Whether read / write tool calls run without a confirmation step. */
+export type UpdateAgentResponseConnectionsItemCase3RunToolsAutomatically =
+  GetAgentResponseConnectionsItemCase3RunToolsAutomatically;
+export interface UpdateAgentResponseConnectionsItemCase3 {
+  /** Always `mcp_server` */
+  type: string;
+  name: string;
+  /** The MCP server host, null when none is linked, or "hidden" when the caller lacks edit access to the agent. */
+  account: UpdateAgentResponseConnectionsItemCase3Account | null;
+  /** The tools the agent may call, null when all tools are enabled (including any the server adds later), or "hidden" when the caller lacks edit access to the agent. */
+  enabled_tools: UpdateAgentResponseConnectionsItemCase3EnabledTools | null;
+  /** Whether read / write tool calls run without a confirmation step. */
+  run_tools_automatically: GetAgentResponseConnectionsItemCase3RunToolsAutomatically;
+}
+export type UpdateAgentResponseConnectionsItemCase4AccountCase0 =
+  GetAgentResponseConnectionsItemCase3AccountCase0;
+/** The MCP server host, null when none is linked, or "hidden" when the caller lacks edit access to the agent. */
+export type UpdateAgentResponseConnectionsItemCase4Account =
+  | GetAgentResponseConnectionsItemCase3AccountCase0
+  | string;
+export type UpdateAgentResponseConnectionsItemCase4EnabledToolsCase0Item =
+  GetAgentResponseConnectionsItemCase3EnabledToolsCase0Item;
+export type UpdateAgentResponseConnectionsItemCase4EnabledToolsCase0List =
+  Array<GetAgentResponseConnectionsItemCase3EnabledToolsCase0Item>;
+/** The tools the agent may call, null when all tools are enabled (including any the server adds later), or "hidden" when the caller lacks edit access to the agent. */
+export type UpdateAgentResponseConnectionsItemCase4EnabledTools =
+  | UpdateAgentResponseConnectionsItemCase4EnabledToolsCase0List
+  | string;
+/** Whether read / write tool calls run without a confirmation step. */
+export type UpdateAgentResponseConnectionsItemCase4RunToolsAutomatically =
+  GetAgentResponseConnectionsItemCase3RunToolsAutomatically;
+export interface UpdateAgentResponseConnectionsItemCase4 {
+  /** Always `custom_mcp_server` */
+  type: string;
+  name: string;
+  /** The MCP server host, null when none is linked, or "hidden" when the caller lacks edit access to the agent. */
+  account: UpdateAgentResponseConnectionsItemCase4Account | null;
+  /** The tools the agent may call, null when all tools are enabled (including any the server adds later), or "hidden" when the caller lacks edit access to the agent. */
+  enabled_tools: UpdateAgentResponseConnectionsItemCase4EnabledTools | null;
+  /** Whether read / write tool calls run without a confirmation step. */
+  run_tools_automatically: GetAgentResponseConnectionsItemCase3RunToolsAutomatically;
+}
+/** The connector's machine name (e.g. "github", "google_drive"). */
+export type UpdateAgentResponseConnectionsItemCase5Type =
+  | "asana"
+  | "box"
+  | "calendar"
+  | "computer"
+  | "confluence"
+  | "cursor"
+  | "feedback"
+  | "files"
+  | "fs"
+  | "github"
+  | "gmail"
+  | "google_calendar"
+  | "google_drive"
+  | "google_drive_oauth"
+  | "gtm"
+  | "helpdocs"
+  | "images"
+  | "jira"
+  | "linear"
+  | "mail"
+  | "marketplace"
+  | "memory"
+  | "microsoft_teams"
+  | "microsoft_teams_oauth"
+  | "outlook"
+  | "salesforce"
+  | "search"
+  | "security"
+  | "sharepoint"
+  | "sharepoint_oauth"
+  | "shopify"
+  | "skills"
+  | "system"
+  | "test"
+  | "web"
+  | "webhooks"
+  | "worker"
+  | "workers";
+export type UpdateAgentResponseConnectionsItemCase5PermissionsItemTarget =
+  GetAgentResponseConnectionsItemCase5PermissionsItemTarget;
+/** The scopes granted on this target. */
+export type UpdateAgentResponseConnectionsItemCase5PermissionsItemScopesList = Array<string>;
+export interface UpdateAgentResponseConnectionsItemCase5PermissionsItem {
+  target: GetAgentResponseConnectionsItemCase5PermissionsItemTarget;
+  /** The scopes granted on this target. */
+  scopes: UpdateAgentResponseConnectionsItemCase5PermissionsItemScopesList;
+}
+export type UpdateAgentResponseConnectionsItemCase5PermissionsList =
+  Array<UpdateAgentResponseConnectionsItemCase5PermissionsItem>;
+export interface UpdateAgentResponseConnectionsItemCase5 {
+  /** The connector's machine name (e.g. "github", "google_drive"). */
+  type: UpdateAgentResponseConnectionsItemCase5Type;
+  name: string;
+  /** The provider-side account identifier, null when none is linked, or "hidden" when the caller lacks edit access to the agent. */
+  account: string | null;
+  permissions: UpdateAgentResponseConnectionsItemCase5PermissionsList;
+}
+export type UpdateAgentResponseConnectionsItem =
+  | UpdateAgentResponseConnectionsItemCase0
+  | UpdateAgentResponseConnectionsItemCase1
+  | UpdateAgentResponseConnectionsItemCase2
+  | UpdateAgentResponseConnectionsItemCase3
+  | UpdateAgentResponseConnectionsItemCase4
+  | UpdateAgentResponseConnectionsItemCase5;
+/** Integrations the agent is connected to (Notion, Slack, Discord, MCP servers, and other connectors), each with an account and per-target permissions. */
+export type UpdateAgentResponseConnectionsList = Array<UpdateAgentResponseConnectionsItem>;
 /** "active" when the agent can run; "disabled" when it is paused (see pause_reason); "deleted" when it has been removed. */
-export type UpdateAgentStatusResponseStatus = "active" | "disabled" | "deleted";
+export type UpdateAgentResponseStatus = "active" | "disabled" | "deleted";
 /** One of: `run_limit`, `credit_limit`, `runaway_credit_usage`, `workspace_credit_limit`, `owner_allowance_limit`, `failure_limit`, `mark_session_failed_autopause`, `disabled_from_workspace_settings`, `disabled_from_workspace_settings_but_resumable`, `disabled_from_api`, `disabled_from_agent_settings`, `disabled_due_to_no_members_with_access`, `disabled_due_to_lack_of_editors`, `disabled_by_notion`, `internal_error`, `needs_user_review`, `tool_unavailable` */
-export type UpdateAgentStatusResponsePauseReason =
+export type UpdateAgentResponsePauseReason =
   | "run_limit"
   | "credit_limit"
   | "runaway_credit_usage"
@@ -2053,12 +2283,113 @@ export type UpdateAgentStatusResponsePauseReason =
   | "internal_error"
   | "needs_user_review"
   | "tool_unavailable";
-export interface UpdateAgentStatusResponse {
-  agent_id: string;
+export type UpdateAgentResponseCreatedBy = GetAgentResponseCreatedBy;
+export type UpdateAgentResponseVersion = GetAgentResponseVersion;
+export type UpdateAgentResponseAgentVersion = GetAgentResponseVersion;
+/** Whether the draft has edits not yet in the published version, or "hidden" when the caller lacks edit access to the agent. */
+export type UpdateAgentResponseHasUnpublishedChanges = boolean | string;
+/** The per-agent credit limit that applies to this agent, null when uncapped, or "hidden" when the caller lacks full access to the agent. This is the effective limit computed at runtime, folding in both the agent's own limit and any workspace-admin default. */
+export type UpdateAgentResponseCreditLimit = number | string;
+/** Days of the week the schedule runs (e.g. "monday"). Present for weekly cadences and monthly weekday restrictions. */
+export type UpdateAgentResponseTriggersItemScheduleWeekdaysList = Array<string>;
+/** Days of the month the schedule runs. Present for monthly monthday restrictions. */
+export type UpdateAgentResponseTriggersItemScheduleMonthdaysList = Array<number>;
+/** Week-of-month ordinals for a monthly weekday restriction (e.g. [2, 3] for the 2nd and 3rd occurrence); -1 means the last week. */
+export type UpdateAgentResponseTriggersItemScheduleWeekNumbersList = Array<number>;
+export type UpdateAgentResponseTriggersItemScheduleEndCase0 =
+  GetAgentResponseTriggersItemScheduleEndCase0;
+export type UpdateAgentResponseTriggersItemScheduleEndCase1 =
+  GetAgentResponseTriggersItemScheduleEndCase1;
+/** When the schedule stops, when it is bounded. */
+export type UpdateAgentResponseTriggersItemScheduleEnd =
+  | GetAgentResponseTriggersItemScheduleEndCase0
+  | GetAgentResponseTriggersItemScheduleEndCase1;
+/** Structured recurrence cadence. Present only for recurrence triggers. */
+export interface UpdateAgentResponseTriggersItemSchedule {
+  /** Base cadence unit ("hour" | "day" | "week" | "month" | "year"). */
+  frequency: string;
+  /** Multiplier on the frequency (e.g. every 2 weeks). */
+  interval: number;
+  /** Days of the week the schedule runs (e.g. "monday"). Present for weekly cadences and monthly weekday restrictions. */
+  weekdays?: UpdateAgentResponseTriggersItemScheduleWeekdaysList;
+  /** Days of the month the schedule runs. Present for monthly monthday restrictions. */
+  monthdays?: UpdateAgentResponseTriggersItemScheduleMonthdaysList;
+  /** Week-of-month ordinals for a monthly weekday restriction (e.g. [2, 3] for the 2nd and 3rd occurrence); -1 means the last week. */
+  week_numbers?: UpdateAgentResponseTriggersItemScheduleWeekNumbersList;
+  /** Hour of day (0-23) the schedule runs. */
+  hour?: number;
+  /** Minute of the hour (0-59) the schedule runs. */
+  minute?: number;
+  /** IANA timezone (e.g. "America/New_York"). */
+  timezone?: string;
+  /** ISO 8601 timestamp the schedule starts from. */
+  start_date?: string;
+  /** When the schedule stops, when it is bounded. */
+  end?: UpdateAgentResponseTriggersItemScheduleEnd;
+}
+/** Remaining per-type trigger configuration (e.g. watched channel ids, reaction config), keys in snake_case. Present only when the trigger carries such state. */
+export type UpdateAgentResponseTriggersItemConfigMap = { [key: string]: unknown | undefined };
+export interface UpdateAgentResponseTriggersItem {
+  /** Machine trigger type (e.g. "notion.agent.mentioned", "recurrence", "slack.reaction.added"). */
+  type: string;
+  /** Whether this trigger is currently enabled. */
+  enabled: boolean;
+  /** Structured recurrence cadence. Present only for recurrence triggers. */
+  schedule?: UpdateAgentResponseTriggersItemSchedule;
+  /** Remaining per-type trigger configuration (e.g. watched channel ids, reaction config), keys in snake_case. Present only when the trigger carries such state. */
+  config?: UpdateAgentResponseTriggersItemConfigMap;
+}
+/** The agent's configured triggers, each with a machine type, an enabled flag, and (for recurrence triggers) a structured schedule. */
+export type UpdateAgentResponseTriggersList = Array<UpdateAgentResponseTriggersItem>;
+export interface UpdateAgentResponse {
+  /** Always `agent` */
+  object: string;
+  id: string;
+  /** What kind of agent this is: "notion_ai" is the personal agent; "custom_agent" is a standalone agent you chat with; "autofill_custom_agent" fills a database property; "external" runs through an external provider. */
+  agent_type: UpdateAgentResponseAgentType;
+  name: string;
+  description: string | null;
+  instructions_page_id: string | null;
+  icon: UpdateAgentResponseIcon | null;
+  /** The model the agent runs on: auto (Notion selects) or a pinned model. */
+  model: UpdateAgentResponseModel;
+  /** Integrations the agent is connected to (Notion, Slack, Discord, MCP servers, and other connectors), each with an account and per-target permissions. */
+  connections: UpdateAgentResponseConnectionsList;
   /** "active" when the agent can run; "disabled" when it is paused (see pause_reason); "deleted" when it has been removed. */
-  status: UpdateAgentStatusResponseStatus;
-  /** Why the agent is paused when status is "disabled" (e.g. "disabled_from_api", "credit_limit"); null when active or deleted. */
-  pause_reason: UpdateAgentStatusResponsePauseReason | null;
+  status: UpdateAgentResponseStatus;
+  /** Why the agent is paused when status is "disabled" (e.g. "credit_limit", "disabled_from_workspace_settings"); null when active. */
+  pause_reason: UpdateAgentResponsePauseReason | null;
+  created_by: GetAgentResponseCreatedBy | null;
+  version: GetAgentResponseVersion | null;
+  agent_version: GetAgentResponseVersion | null;
+  /** Whether the draft has edits not yet in the published version, or "hidden" when the caller lacks edit access to the agent. */
+  has_unpublished_changes: UpdateAgentResponseHasUnpublishedChanges;
+  /** ISO 8601 timestamp of the agent's most recent run, null if it has never run, or "hidden" when the caller lacks edit access to the agent. */
+  last_run_time: string | null;
+  /** ISO 8601 timestamp of the agent's most recent run, null if it has never run, or "hidden" when the caller lacks edit access to the agent. */
+  last_run_at: string | null;
+  /** The per-agent credit limit that applies to this agent, null when uncapped, or "hidden" when the caller lacks full access to the agent. This is the effective limit computed at runtime, folding in both the agent's own limit and any workspace-admin default. */
+  credit_limit: UpdateAgentResponseCreditLimit | null;
+  /** The agent's configured triggers, each with a machine type, an enabled flag, and (for recurrence triggers) a structured schedule. */
+  triggers: UpdateAgentResponseTriggersList;
+  /** Whether this agent is in the caller's personal favorites, or null when the caller has no personal favorites scope. */
+  is_favorited: boolean | null;
+  /** Date and time when this agent was created. */
+  created_time?: string;
+  /** Date and time when this agent was last edited. */
+  last_edited_time?: string;
+  /** The agent's inline instructions when verbose=true, or null when its instructions are stored on a page. */
+  instructions?: string | null;
+}
+export interface UpdateAgentCreditLimitRequest {
+  agent_id: string;
+  /** The per-agent credit limit as a non-negative integer, or null to clear the limit. */
+  credit_limit: number | null;
+}
+export interface UpdateAgentCreditLimitResponse {
+  agent_id: string;
+  /** The agent's editor-set per-agent credit limit; null when no limit applies. */
+  credit_limit: number | null;
   /** ISO 8601 timestamp of when the agent was last edited. */
   last_edited_time: string;
 }
@@ -2087,8 +2418,8 @@ export const deleteAgent: API.OperationMethod<
   DeleteAgentError,
   NotionOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<DeleteAgentRequest>,
-  output: __S(17, __c1, 1) as any as S.Schema<DeleteAgentResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<DeleteAgentRequest>,
+  output: __S(9, __c1, 1) as any as S.Schema<DeleteAgentResponse>,
   errors: [UnknownNotionError],
   protocol: NotionProtocol,
   retry: Retry.Retry,
@@ -2104,8 +2435,8 @@ export const getAgent: API.OperationMethod<
   GetAgentError,
   NotionOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetAgentRequest>,
-  output: __S(42, __c2, 10) as any as S.Schema<GetAgentResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<GetAgentRequest>,
+  output: __S(21, __c2, 5) as any as S.Schema<GetAgentResponse>,
   errors: [UnknownNotionError],
   protocol: NotionProtocol,
   retry: Retry.Retry,
@@ -2121,8 +2452,8 @@ export const getAgentInsights: API.OperationMethod<
   GetAgentInsightsError,
   NotionOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<GetAgentInsightsRequest>,
-  output: __S(50, __c3, 2) as any as S.Schema<GetAgentInsightsResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetAgentInsightsRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<GetAgentInsightsResponse>,
   errors: [UnknownNotionError],
   protocol: NotionProtocol,
   retry: Retry.Retry,
@@ -2140,8 +2471,8 @@ export const queryAgents: API.PaginatedOperationMethod<
   QueryAgentsResponseResultsItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(66, __c4, 2) as any as S.Schema<QueryAgentsRequest>,
-    output: __S(68, __c4, 4) as any as S.Schema<QueryAgentsResponse>,
+    input: __S(42, __c5, 2) as any as S.Schema<QueryAgentsRequest>,
+    output: __S(44, __c5, 4) as any as S.Schema<QueryAgentsResponse>,
     errors: [UnknownNotionError],
     protocol: NotionProtocol,
     retry: Retry.Retry,
@@ -2157,6 +2488,23 @@ export const queryAgents: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
+export type UpdateAgentError = NotionOpError;
+/** Update agent */
+export const updateAgent: API.OperationMethod<
+  UpdateAgentRequest,
+  UpdateAgentResponse,
+  UpdateAgentError,
+  NotionOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(48, __c6, 0) as any as S.Schema<UpdateAgentRequest>,
+  output: __S(53, __c6, 5) as any as S.Schema<UpdateAgentResponse>,
+  errors: [UnknownNotionError],
+  protocol: NotionProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAgent",
+}));
+
 export type UpdateAgentCreditLimitError = NotionOpError;
 /** Update agent credit limit */
 export const updateAgentCreditLimit: API.OperationMethod<
@@ -2165,30 +2513,13 @@ export const updateAgentCreditLimit: API.OperationMethod<
   UpdateAgentCreditLimitError,
   NotionOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<UpdateAgentCreditLimitRequest>,
-  output: __S(81, __c5, 1) as any as S.Schema<UpdateAgentCreditLimitResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<UpdateAgentCreditLimitRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<UpdateAgentCreditLimitResponse>,
   errors: [UnknownNotionError],
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAgentCreditLimit",
-}));
-
-export type UpdateAgentStatusError = NotionOpError;
-/** Update agent status */
-export const updateAgentStatus: API.OperationMethod<
-  UpdateAgentStatusRequest,
-  UpdateAgentStatusResponse,
-  UpdateAgentStatusError,
-  NotionOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<UpdateAgentStatusRequest>,
-  output: __S(97, __c6, 1) as any as S.Schema<UpdateAgentStatusResponse>,
-  errors: [UnknownNotionError],
-  protocol: NotionProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateAgentStatus",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -2251,35 +2582,15 @@ function __c2(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/agents/{agent_id}", code: 200 })),
       ).annotate({ identifier: "GetAgentRequest" });
     case 1:
-      return S.Array(S.String);
-    case 2:
       return S.Array(S.Unknown);
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.String,
-          type: S.String,
-          id: S.String,
-        }),
-      ).annotate({ identifier: "GetAgentResponseCreatedBy" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          number: S.Number,
-          published_at: S.String,
-        }),
-      ).annotate({ identifier: "GetAgentResponseVersion" });
-    case 5:
-      return S.Array(S.Number);
-    case 6:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           frequency: S.String,
           interval: S.Number,
-          weekdays: S.optional(__S(33, __c2, 1)),
-          monthdays: S.optional(__S(37, __c2, 5)),
-          week_numbers: S.optional(__S(37, __c2, 5)),
+          weekdays: S.optional(__S(24, __c3, 0)),
+          monthdays: S.optional(__S(27, __c3, 3)),
+          week_numbers: S.optional(__S(27, __c3, 3)),
           hour: S.optional(S.Number),
           minute: S.optional(S.Number),
           timezone: S.optional(S.String),
@@ -2287,20 +2598,18 @@ function __c2(j: number): any {
           end: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "GetAgentResponseTriggersItemSchedule" });
-    case 7:
-      return S.Record(S.String, S.Unknown);
-    case 8:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           enabled: S.Boolean,
-          schedule: S.optional(__S(38, __c2, 6)),
-          config: S.optional(__S(39, __c2, 7)),
+          schedule: S.optional(__S(18, __c2, 2)),
+          config: S.optional(__S(28, __c3, 4)),
         }),
       ).annotate({ identifier: "GetAgentResponseTriggersItem" });
-    case 9:
-      return S.Array(__S(40, __c2, 8));
-    case 10:
+    case 4:
+      return S.Array(__S(19, __c2, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
@@ -2311,17 +2620,17 @@ function __c2(j: number): any {
           instructions_page_id: S.NullOr(S.String),
           icon: S.NullOr(S.Unknown),
           model: S.Unknown,
-          connections: __S(34, __c2, 2),
+          connections: __S(17, __c2, 1),
           status: S.String,
           pause_reason: S.NullOr(S.String),
-          created_by: S.NullOr(__S(35, __c2, 3)),
-          version: S.NullOr(__S(36, __c2, 4)),
-          agent_version: S.NullOr(__S(36, __c2, 4)),
+          created_by: S.NullOr(__S(25, __c3, 1)),
+          version: S.NullOr(__S(26, __c3, 2)),
+          agent_version: S.NullOr(__S(26, __c3, 2)),
           has_unpublished_changes: S.Unknown,
           last_run_time: S.NullOr(S.String),
           last_run_at: S.NullOr(S.String),
           credit_limit: S.NullOr(S.Unknown),
-          triggers: __S(41, __c2, 9),
+          triggers: __S(20, __c2, 4),
           is_favorited: S.NullOr(S.Boolean),
           created_time: S.optional(S.String),
           last_edited_time: S.optional(S.String),
@@ -2331,6 +2640,32 @@ function __c2(j: number): any {
   }
 }
 function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          type: S.String,
+          id: S.String,
+        }),
+      ).annotate({ identifier: "GetAgentResponseCreatedBy" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          number: S.Number,
+          published_at: S.String,
+        }),
+      ).annotate({ identifier: "GetAgentResponseVersion" });
+    case 3:
+      return S.Array(S.Number);
+    case 4:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2356,7 +2691,7 @@ function __c3(j: number): any {
           agent_type: S.String,
           status: S.String,
           pause_reason: S.NullOr(S.String),
-          created_by: S.NullOr(__S(49, __c3, 1)),
+          created_by: S.NullOr(__S(33, __c4, 1)),
           total_credits_used: S.Number,
           credit_limit: S.NullOr(S.Unknown),
           runs_completed: S.Number,
@@ -2364,7 +2699,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetAgentInsightsResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2374,13 +2709,13 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "QueryAgentsRequestSortsItem" });
     case 1:
-      return S.Array(__S(64, __c4, 0));
+      return S.Array(__S(40, __c5, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           query: S.optional(S.String),
           filter: S.optional(S.Unknown),
-          sorts: S.optional(__S(65, __c4, 1)),
+          sorts: S.optional(__S(41, __c5, 1)),
           start_cursor: S.optional(S.String),
           page_size: S.optional(S.Number),
           verbose: S.optional(S.Boolean),
@@ -2394,14 +2729,85 @@ function __c4(j: number): any {
         S.Struct({
           object: S.String,
           type: S.String,
-          results: __S(67, __c4, 3),
+          results: __S(43, __c5, 3),
           has_more: S.Boolean,
           next_cursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "QueryAgentsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          agent_id: S.String.pipe(T.Label()),
+          status: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          is_favorited: S.optional(S.Boolean),
+          model: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "PATCH", uri: "/v1/agents/{agent_id}", code: 200 })),
+      ).annotate({ identifier: "UpdateAgentRequest" });
+    case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          frequency: S.String,
+          interval: S.Number,
+          weekdays: S.optional(__S(24, __c3, 0)),
+          monthdays: S.optional(__S(27, __c3, 3)),
+          week_numbers: S.optional(__S(27, __c3, 3)),
+          hour: S.optional(S.Number),
+          minute: S.optional(S.Number),
+          timezone: S.optional(S.String),
+          start_date: S.optional(S.String),
+          end: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "UpdateAgentResponseTriggersItemSchedule" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          enabled: S.Boolean,
+          schedule: S.optional(__S(50, __c6, 2)),
+          config: S.optional(__S(28, __c3, 4)),
+        }),
+      ).annotate({ identifier: "UpdateAgentResponseTriggersItem" });
+    case 4:
+      return S.Array(__S(51, __c6, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          id: S.String,
+          agent_type: S.String,
+          name: S.String,
+          description: S.NullOr(S.String),
+          instructions_page_id: S.NullOr(S.String),
+          icon: S.NullOr(S.Unknown),
+          model: S.Unknown,
+          connections: __S(49, __c6, 1),
+          status: S.String,
+          pause_reason: S.NullOr(S.String),
+          created_by: S.NullOr(__S(25, __c3, 1)),
+          version: S.NullOr(__S(26, __c3, 2)),
+          agent_version: S.NullOr(__S(26, __c3, 2)),
+          has_unpublished_changes: S.Unknown,
+          last_run_time: S.NullOr(S.String),
+          last_run_at: S.NullOr(S.String),
+          credit_limit: S.NullOr(S.Unknown),
+          triggers: __S(52, __c6, 4),
+          is_favorited: S.NullOr(S.Boolean),
+          created_time: S.optional(S.String),
+          last_edited_time: S.optional(S.String),
+          instructions: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "UpdateAgentResponse" });
+  }
+}
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2418,26 +2824,6 @@ function __c5(j: number): any {
           last_edited_time: S.String,
         }),
       ).annotate({ identifier: "UpdateAgentCreditLimitResponse" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          agent_id: S.String.pipe(T.Label()),
-          status: S.String,
-        }).pipe(T.Http({ method: "PATCH", uri: "/v1/agents/{agent_id}/status", code: 200 })),
-      ).annotate({ identifier: "UpdateAgentStatusRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          agent_id: S.String,
-          status: S.String,
-          pause_reason: S.NullOr(S.String),
-          last_edited_time: S.String,
-        }),
-      ).annotate({ identifier: "UpdateAgentStatusResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -25,25 +25,28 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export interface AttachVolumeRequest {
-  /** ID of the Volume. */
-  id: number;
-  /** ID of the Server the Volume will be attached to. */
-  server: number;
-  /** Auto-mount the Volume after attaching it. */
-  automount?: boolean;
-}
-/** Status of the Action. */
-export type AttachVolumeResponseActionStatus = "running" | "success" | "error";
-export interface AttachVolumeResponseActionResourcesItem {
+/** Resource the Volume will be attached to. */
+export interface AttachVolumeRequestAssignee {
   /** ID of the Resource. */
   id: number;
   /** Type of the Resource. */
   type: string;
 }
+export interface AttachVolumeRequest {
+  /** ID of the Volume. */
+  id: number;
+  /** This field is deprecated, use the `assignee` field with `server` as the `type` instead. ID of the Server the Volume will be attached to. */
+  server?: number;
+  /** Resource the Volume will be attached to. */
+  assignee: AttachVolumeRequestAssignee;
+  /** Auto-mount the Volume after attaching it. */
+  automount?: boolean;
+}
+/** Status of the Action. */
+export type AttachVolumeResponseActionStatus = "running" | "success" | "error";
+export type AttachVolumeResponseActionResourcesItem = AttachVolumeRequestAssignee;
 /** Resources the Action relates to. */
-export type AttachVolumeResponseActionResourcesList =
-  Array<AttachVolumeResponseActionResourcesItem>;
+export type AttachVolumeResponseActionResourcesList = Array<AttachVolumeRequestAssignee>;
 /** Error message for the Action if an error occurred, otherwise null. */
 export interface AttachVolumeResponseActionError {
   /** Fixed error code for machines. */
@@ -80,11 +83,9 @@ export interface ChangeVolumeProtectionRequest {
 }
 /** Status of the Action. */
 export type ChangeVolumeProtectionResponseActionStatus = "running" | "success" | "error";
-export type ChangeVolumeProtectionResponseActionResourcesItem =
-  AttachVolumeResponseActionResourcesItem;
+export type ChangeVolumeProtectionResponseActionResourcesItem = AttachVolumeRequestAssignee;
 /** Resources the Action relates to. */
-export type ChangeVolumeProtectionResponseActionResourcesList =
-  Array<AttachVolumeResponseActionResourcesItem>;
+export type ChangeVolumeProtectionResponseActionResourcesList = Array<AttachVolumeRequestAssignee>;
 /** Error message for the Action if an error occurred, otherwise null. */
 export type ChangeVolumeProtectionResponseActionError = AttachVolumeResponseActionError;
 export interface ChangeVolumeProtectionResponseAction {
@@ -114,10 +115,9 @@ export interface DetachVolumeRequest {
 }
 /** Status of the Action. */
 export type DetachVolumeResponseActionStatus = "running" | "success" | "error";
-export type DetachVolumeResponseActionResourcesItem = AttachVolumeResponseActionResourcesItem;
+export type DetachVolumeResponseActionResourcesItem = AttachVolumeRequestAssignee;
 /** Resources the Action relates to. */
-export type DetachVolumeResponseActionResourcesList =
-  Array<AttachVolumeResponseActionResourcesItem>;
+export type DetachVolumeResponseActionResourcesList = Array<AttachVolumeRequestAssignee>;
 /** Error message for the Action if an error occurred, otherwise null. */
 export type DetachVolumeResponseActionError = AttachVolumeResponseActionError;
 export interface DetachVolumeResponseAction {
@@ -147,10 +147,9 @@ export interface GetVolumesActionRequest {
 }
 /** Status of the Action. */
 export type GetVolumesActionResponseActionStatus = "running" | "success" | "error";
-export type GetVolumesActionResponseActionResourcesItem = AttachVolumeResponseActionResourcesItem;
+export type GetVolumesActionResponseActionResourcesItem = AttachVolumeRequestAssignee;
 /** Resources the Action relates to. */
-export type GetVolumesActionResponseActionResourcesList =
-  Array<AttachVolumeResponseActionResourcesItem>;
+export type GetVolumesActionResponseActionResourcesList = Array<AttachVolumeRequestAssignee>;
 /** Error message for the Action if an error occurred, otherwise null. */
 export type GetVolumesActionResponseActionError = AttachVolumeResponseActionError;
 export interface GetVolumesActionResponseAction {
@@ -212,11 +211,9 @@ export interface ListVolumeActionsRequest {
 }
 /** Status of the Action. */
 export type ListVolumeActionsResponseActionsItemStatus = "running" | "success" | "error";
-export type ListVolumeActionsResponseActionsItemResourcesItem =
-  AttachVolumeResponseActionResourcesItem;
+export type ListVolumeActionsResponseActionsItemResourcesItem = AttachVolumeRequestAssignee;
 /** Resources the Action relates to. */
-export type ListVolumeActionsResponseActionsItemResourcesList =
-  Array<AttachVolumeResponseActionResourcesItem>;
+export type ListVolumeActionsResponseActionsItemResourcesList = Array<AttachVolumeRequestAssignee>;
 /** Error message for the Action if an error occurred, otherwise null. */
 export type ListVolumeActionsResponseActionsItemError = AttachVolumeResponseActionError;
 export interface ListVolumeActionsResponseActionsItem {
@@ -300,11 +297,9 @@ export interface ListVolumesActionsRequest {
 }
 /** Status of the Action. */
 export type ListVolumesActionsResponseActionsItemStatus = "running" | "success" | "error";
-export type ListVolumesActionsResponseActionsItemResourcesItem =
-  AttachVolumeResponseActionResourcesItem;
+export type ListVolumesActionsResponseActionsItemResourcesItem = AttachVolumeRequestAssignee;
 /** Resources the Action relates to. */
-export type ListVolumesActionsResponseActionsItemResourcesList =
-  Array<AttachVolumeResponseActionResourcesItem>;
+export type ListVolumesActionsResponseActionsItemResourcesList = Array<AttachVolumeRequestAssignee>;
 /** Error message for the Action if an error occurred, otherwise null. */
 export type ListVolumesActionsResponseActionsItemError = AttachVolumeResponseActionError;
 export interface ListVolumesActionsResponseActionsItem {
@@ -341,10 +336,9 @@ export interface ResizeVolumeRequest {
 }
 /** Status of the Action. */
 export type ResizeVolumeResponseActionStatus = "running" | "success" | "error";
-export type ResizeVolumeResponseActionResourcesItem = AttachVolumeResponseActionResourcesItem;
+export type ResizeVolumeResponseActionResourcesItem = AttachVolumeRequestAssignee;
 /** Resources the Action relates to. */
-export type ResizeVolumeResponseActionResourcesList =
-  Array<AttachVolumeResponseActionResourcesItem>;
+export type ResizeVolumeResponseActionResourcesList = Array<AttachVolumeRequestAssignee>;
 /** Error message for the Action if an error occurred, otherwise null. */
 export type ResizeVolumeResponseActionError = AttachVolumeResponseActionError;
 export interface ResizeVolumeResponseAction {
@@ -369,7 +363,7 @@ export interface ResizeVolumeResponse {
   action: ResizeVolumeResponseAction;
 }
 export type AttachVolumeError = HetznerOpError;
-/** Attach Volume to a Server Attaches a Volume to a Server. Works only if the Server is in the same Location as the Volume. */
+/** Attach Volume to a Resource Attaches a Volume to a Resource. Works only if the Resource is in the same Location as the Volume. */
 export const attachVolume: API.OperationMethod<
   AttachVolumeRequest,
   AttachVolumeResponse,
@@ -403,7 +397,7 @@ export const changeVolumeProtection: API.OperationMethod<
 }));
 
 export type DetachVolumeError = HetznerOpError;
-/** Detach Volume Detaches a Volume from the Server it's attached to. You may attach it to a Server again at a later time. */
+/** Detach Volume Detaches a Volume from the Resource it's attached to. You may attach it to a Resource again at a later time. */
 export const detachVolume: API.OperationMethod<
   DetachVolumeRequest,
   DetachVolumeResponse,
@@ -516,7 +510,8 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          server: S.Number,
+          server: S.optional(S.Number),
+          assignee: __S(8, __c1, 0),
           automount: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/volumes/{id}/actions/attach", code: 200 })),
       ).annotate({ identifier: "AttachVolumeRequest" });
@@ -530,7 +525,7 @@ function __c1(j: number): any {
           id: S.Number,
           type: S.String,
         }),
-      ).annotate({ identifier: "AttachVolumeResponseActionResourcesItem" });
+      ).annotate({ identifier: "AttachVolumeRequestAssignee" });
     case 1:
       return S.Array(__S(8, __c1, 0));
     case 2:

@@ -118,6 +118,7 @@ export type CreateIntegrationStoreDirectRequestSource =
   | "oauth"
   | "backoffice"
   | "import-recommended-integrations"
+  | "project-overview-recommended-integrations"
   | "organization";
 export interface CreateIntegrationStoreDirectRequest {
   /** The Team identifier to perform the request on behalf of. */
@@ -267,6 +268,7 @@ export interface CreateIntegrationStoreDirectResponseStoreProjectsMetadataItem {
   makeEnvVarsSensitive?: boolean;
   name: string;
   projectId: string;
+  secretsOutdated?: boolean;
 }
 export type CreateIntegrationStoreDirectResponseStoreProjectsMetadataList =
   Array<CreateIntegrationStoreDirectResponseStoreProjectsMetadataItem>;
@@ -318,6 +320,13 @@ export interface CreateIntegrationStoreDirectResponseStoreBillingPlan {
   scope: CreateIntegrationStoreDirectResponseStoreBillingPlanScope;
   type: CreateIntegrationStoreDirectResponseStoreBillingPlanType;
 }
+export type CreateIntegrationStoreDirectResponseStoreCapabilitiesCredentialTypesTransitionsItemItem =
+  | "oidc"
+  | "static";
+export type CreateIntegrationStoreDirectResponseStoreCapabilitiesCredentialTypesTransitionsItemList =
+  Array<CreateIntegrationStoreDirectResponseStoreCapabilitiesCredentialTypesTransitionsItemItem>;
+export type CreateIntegrationStoreDirectResponseStoreCapabilitiesCredentialTypesTransitionsList =
+  Array<CreateIntegrationStoreDirectResponseStoreCapabilitiesCredentialTypesTransitionsItemList>;
 export interface CreateIntegrationStoreDirectResponseStoreCapabilitiesSecretRotationCase0 {
   customRotationWarning?: string;
   maxDelayHours: number;
@@ -329,6 +338,7 @@ export interface CreateIntegrationStoreDirectResponseStoreCapabilities {
   agentTools?: boolean;
   autoSensitive?: boolean;
   billable?: boolean;
+  credentialTypesTransitions?: CreateIntegrationStoreDirectResponseStoreCapabilitiesCredentialTypesTransitionsList;
   mcp?: boolean;
   mcpReadonly?: boolean;
   projects?: boolean;
@@ -337,6 +347,22 @@ export interface CreateIntegrationStoreDirectResponseStoreCapabilities {
   sso?: boolean;
   transferable?: boolean;
   v0?: boolean;
+}
+/** The credential types the resource accepts: `static` for long-lived secrets, `oidc` for resource OIDC tokens. */
+export type CreateIntegrationStoreDirectResponseStoreCredentialTypesItem = "oidc" | "static";
+/** The credential types the resource accepts: `static` for long-lived secrets, `oidc` for resource OIDC tokens. */
+export type CreateIntegrationStoreDirectResponseStoreCredentialTypesList =
+  Array<CreateIntegrationStoreDirectResponseStoreCredentialTypesItem>;
+export type CreateIntegrationStoreDirectResponseStoreCredentialTypesTransitionToItem =
+  | "oidc"
+  | "static";
+export type CreateIntegrationStoreDirectResponseStoreCredentialTypesTransitionToList =
+  Array<CreateIntegrationStoreDirectResponseStoreCredentialTypesTransitionToItem>;
+/** The latest requested change of `credentialTypes`, and when the provider completed it. */
+export interface CreateIntegrationStoreDirectResponseStoreCredentialTypesTransition {
+  completedAt?: number;
+  requestedAt: number;
+  to: CreateIntegrationStoreDirectResponseStoreCredentialTypesTransitionToList;
 }
 export type CreateIntegrationStoreDirectResponseStoreExternalResourceStatus =
   | "error"
@@ -1512,6 +1538,13 @@ export interface CreateIntegrationStoreDirectResponseStoreProductGuidesItem {
 }
 export type CreateIntegrationStoreDirectResponseStoreProductGuidesList =
   Array<CreateIntegrationStoreDirectResponseStoreProductGuidesItem>;
+export type CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilitiesCredentialTypesCreateItemItem =
+  | "oidc"
+  | "static";
+export type CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilitiesCredentialTypesCreateItemList =
+  Array<CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilitiesCredentialTypesCreateItemItem>;
+export type CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilitiesCredentialTypesCreateList =
+  Array<CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilitiesCredentialTypesCreateItemList>;
 export type CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilitiesSecretRotationCase0 =
   CreateIntegrationStoreDirectResponseStoreCapabilitiesSecretRotationCase0;
 export type CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilitiesSecretRotation =
@@ -1522,6 +1555,7 @@ export interface CreateIntegrationStoreDirectResponseStoreProductIntegrationCapa
   checks?: boolean;
   connectedImportResource?: boolean;
   connectedProvisioning?: boolean;
+  credentialTypesCreate?: CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilitiesCredentialTypesCreateList;
   flexCommitEligible?: boolean;
   importResource?: boolean;
   maxAllowedTeams?: number;
@@ -1630,6 +1664,9 @@ export interface CreateIntegrationStoreDirectResponseStoreSecretsItem {
   frameworkPublishable?: boolean;
   length: number;
   name: string;
+  nonSensitive?: boolean;
+  /** The token set key `name` is built from; absent for env vars that are not in the token set. */
+  tokenSetKey?: string;
 }
 export type CreateIntegrationStoreDirectResponseStoreSecretsList =
   Array<CreateIntegrationStoreDirectResponseStoreSecretsItem>;
@@ -1649,6 +1686,10 @@ export interface CreateIntegrationStoreDirectResponseStore {
   usageQuotaExceeded: boolean;
   billingPlan?: CreateIntegrationStoreDirectResponseStoreBillingPlan;
   capabilities?: CreateIntegrationStoreDirectResponseStoreCapabilities;
+  /** The credential types the resource accepts: `static` for long-lived secrets, `oidc` for resource OIDC tokens. */
+  credentialTypes?: CreateIntegrationStoreDirectResponseStoreCredentialTypesList;
+  /** The latest requested change of `credentialTypes`, and when the provider completed it. */
+  credentialTypesTransition?: CreateIntegrationStoreDirectResponseStoreCredentialTypesTransition;
   directPartnerConsoleUrl?: string;
   externalResourceId: string;
   externalResourceStatus?: CreateIntegrationStoreDirectResponseStoreExternalResourceStatus | null;
@@ -1668,6 +1709,7 @@ export interface CreateIntegrationStoreDirectResponseStore {
   /** The reason for the secret rotation request. */
   secretRotationRequestedReason?: string;
   secrets: CreateIntegrationStoreDirectResponseStoreSecretsList;
+  secretsAppliedAt?: number;
   /** The deployment targets that this resource is available for. */
   targets?: CreateIntegrationStoreDirectResponseStoreTargetsList;
 }
@@ -1692,6 +1734,7 @@ export type GetBillingPlansRequestSource =
   | "oauth"
   | "backoffice"
   | "import-recommended-integrations"
+  | "project-overview-recommended-integrations"
   | "organization";
 export interface GetBillingPlansRequest {
   integrationIdOrSlug: string;
@@ -1781,6 +1824,7 @@ export type GetConfigurationResponseBodyCase0Source =
   | "marketplace"
   | "oauth"
   | "organization"
+  | "project-overview-recommended-integrations"
   | "resource-claims"
   | "v0";
 /** The configuration status. Optional. If not defined, assume 'ready'. */
@@ -1792,63 +1836,6 @@ export type GetConfigurationResponseBodyCase0Status =
   | "resumed"
   | "suspended"
   | "uninstalled";
-export type GetConfigurationResponseBodyCase0TransferRequestCase0BillingPlanScope =
-  | "installation"
-  | "resource";
-export type GetConfigurationResponseBodyCase0TransferRequestCase0BillingPlanType =
-  | "prepayment"
-  | "subscription";
-export interface GetConfigurationResponseBodyCase0TransferRequestCase0BillingPlan {
-  description: string;
-  id: string;
-  name: string;
-  paymentMethodRequired?: boolean;
-  preauthorizationAmount?: number;
-  scope?: GetConfigurationResponseBodyCase0TransferRequestCase0BillingPlanScope;
-  type: GetConfigurationResponseBodyCase0TransferRequestCase0BillingPlanType;
-}
-export type GetConfigurationResponseBodyCase0TransferRequestCase0Kind = "transfer-to-marketplace";
-export type GetConfigurationResponseBodyCase0TransferRequestCase0MetadataMap = {
-  [key: string]: unknown | undefined;
-};
-export interface GetConfigurationResponseBodyCase0TransferRequestCase0Requester {
-  email?: string;
-  name: string;
-}
-export interface GetConfigurationResponseBodyCase0TransferRequestCase0 {
-  approvedAt?: number;
-  approvedBy?: string;
-  authorizationId?: string;
-  billingPlan?: GetConfigurationResponseBodyCase0TransferRequestCase0BillingPlan;
-  createdAt: number;
-  discardedAt?: number;
-  discardedBy?: string;
-  expiresAt: number;
-  kind: GetConfigurationResponseBodyCase0TransferRequestCase0Kind;
-  metadata?: GetConfigurationResponseBodyCase0TransferRequestCase0MetadataMap;
-  requester: GetConfigurationResponseBodyCase0TransferRequestCase0Requester;
-  requestId: string;
-  transferId: string;
-}
-export type GetConfigurationResponseBodyCase0TransferRequestCase1Kind = "transfer-from-marketplace";
-export type GetConfigurationResponseBodyCase0TransferRequestCase1Requester =
-  GetConfigurationResponseBodyCase0TransferRequestCase0Requester;
-export interface GetConfigurationResponseBodyCase0TransferRequestCase1 {
-  approvedAt?: number;
-  approvedBy?: string;
-  authorizationId?: string;
-  createdAt: number;
-  discardedAt?: number;
-  discardedBy?: string;
-  expiresAt: number;
-  kind: GetConfigurationResponseBodyCase0TransferRequestCase1Kind;
-  requester: GetConfigurationResponseBodyCase0TransferRequestCase0Requester;
-  requestId: string;
-  transferId: string;
-}
-export type GetConfigurationResponseBodyCase0TransferRequest =
-  | GetConfigurationResponseBodyCase0TransferRequestCase0
-  | GetConfigurationResponseBodyCase0TransferRequestCase1;
 export type GetConfigurationResponseBodyCase0Type = "integration-configuration";
 export interface GetConfigurationResponseBodyCase0 {
   /** Historical parent installation from which acceptedPolicies were inherited. This is immutable provenance, not current authorization or relationship truth. */
@@ -1892,7 +1879,6 @@ export interface GetConfigurationResponseBodyCase0 {
   status?: GetConfigurationResponseBodyCase0Status;
   /** When the configuration was created for a team, this will show the ID of the team. */
   teamId?: string | null;
-  transferRequest: GetConfigurationResponseBodyCase0TransferRequest;
   type: GetConfigurationResponseBodyCase0Type;
   /** A timestamp that tells you when the configuration was updated. */
   updatedAt: number;
@@ -1922,6 +1908,7 @@ export type GetConfigurationResponseBodyCase1Source =
   | "marketplace"
   | "oauth"
   | "organization"
+  | "project-overview-recommended-integrations"
   | "resource-claims"
   | "v0";
 /** The configuration status. Optional. If not defined, assume 'ready'. */
@@ -2002,6 +1989,7 @@ export type GetConfigurationResponseBodyCase2Source =
   | "marketplace"
   | "oauth"
   | "organization"
+  | "project-overview-recommended-integrations"
   | "resource-claims"
   | "v0";
 /** The configuration status. Optional. If not defined, assume 'ready'. */
@@ -3257,6 +3245,7 @@ export type GetConfigurationsResponseBodyCase0ItemSource =
   | "marketplace"
   | "oauth"
   | "organization"
+  | "project-overview-recommended-integrations"
   | "resource-claims"
   | "v0";
 /** The configuration status. Optional. If not defined, assume 'ready'. */
@@ -3379,6 +3368,7 @@ export type GetConfigurationsResponseBodyCase1ItemSource =
   | "marketplace"
   | "oauth"
   | "organization"
+  | "project-overview-recommended-integrations"
   | "resource-claims"
   | "v0";
 /** The configuration status. Optional. If not defined, assume 'ready'. */
@@ -3617,7 +3607,7 @@ export const createIntegrationStoreDirect: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(194, __c6, 2) as any as S.Schema<CreateIntegrationStoreDirectRequest>,
-  output: __S(228, __c7, 4) as any as S.Schema<CreateIntegrationStoreDirectResponse>,
+  output: __S(230, __c7, 6) as any as S.Schema<CreateIntegrationStoreDirectResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -4048,16 +4038,20 @@ function __c6(j: number): any {
           makeEnvVarsSensitive: S.optional(S.Boolean),
           name: S.String,
           projectId: S.String,
+          secretsOutdated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreProjectsMetadataItem" });
     case 10:
       return S.Array(__S(201, __c6, 9));
     case 11:
+      return S.Array(__S(195, __c6, 3));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           agentTools: S.optional(S.Boolean),
           autoSensitive: S.optional(S.Boolean),
           billable: S.optional(S.Boolean),
+          credentialTypesTransitions: S.optional(__S(203, __c6, 11)),
           mcp: S.optional(S.Boolean),
           mcpReadonly: S.optional(S.Boolean),
           projects: S.optional(S.Boolean),
@@ -4068,9 +4062,19 @@ function __c6(j: number): any {
           v0: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreCapabilities" });
-    case 12:
-      return S.Record(S.String, S.Unknown);
     case 13:
+      return S.suspend(() =>
+        S.Struct({
+          completedAt: S.optional(S.Number),
+          requestedAt: S.Number,
+          to: __S(195, __c6, 3),
+        }),
+      ).annotate({
+        identifier: "CreateIntegrationStoreDirectResponseStoreCredentialTypesTransition",
+      });
+    case 14:
+      return S.Record(S.String, S.Unknown);
+    case 15:
       return S.suspend(() =>
         S.Struct({
           href: S.optional(S.String),
@@ -4079,7 +4083,7 @@ function __c6(j: number): any {
           title: S.String,
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreNotification" });
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           agentTools: S.optional(S.Boolean),
@@ -4102,18 +4106,18 @@ function __c6(j: number): any {
           v0Flavors: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreProductCapabilities" });
-    case 15:
+    case 17:
       return S.Record(S.String, S.Unknown);
-    case 16:
+    case 18:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(207, __c6, 15),
+          properties: __S(209, __c6, 17),
           required: S.optional(__S(256, __c8, 0)),
           type: S.String,
           ui_order: S.optional(__S(256, __c8, 0).pipe(T.Body("ui:order"))),
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreProductMetadataSchema" });
-    case 17:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           href: S.String,
@@ -4122,9 +4126,9 @@ function __c6(j: number): any {
       ).annotate({
         identifier: "CreateIntegrationStoreDirectResponseStoreProductResourceLinksItem",
       });
-    case 18:
-      return S.Array(__S(209, __c6, 17));
-    case 19:
+    case 20:
+      return S.Array(__S(211, __c6, 19));
+    case 21:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
@@ -4133,37 +4137,38 @@ function __c6(j: number): any {
         identifier:
           "CreateIntegrationStoreDirectResponseStoreProductGuidesItemStepsItemActionsItem",
       });
-    case 20:
-      return S.Array(__S(211, __c6, 19));
-    case 21:
+    case 22:
+      return S.Array(__S(213, __c6, 21));
+    case 23:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(212, __c6, 20)),
+          actions: S.optional(__S(214, __c6, 22)),
           content: S.String,
           title: S.String,
         }),
       ).annotate({
         identifier: "CreateIntegrationStoreDirectResponseStoreProductGuidesItemStepsItem",
       });
-    case 22:
-      return S.Array(__S(213, __c6, 21));
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          framework: S.String,
-          steps: __S(214, __c6, 22),
-          title: S.String,
-        }),
-      ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreProductGuidesItem" });
     case 24:
       return S.Array(__S(215, __c6, 23));
     case 25:
+      return S.suspend(() =>
+        S.Struct({
+          framework: S.String,
+          steps: __S(216, __c6, 24),
+          title: S.String,
+        }),
+      ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreProductGuidesItem" });
+    case 26:
+      return S.Array(__S(217, __c6, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
           billable: S.optional(S.Boolean),
           checks: S.optional(S.Boolean),
           connectedImportResource: S.optional(S.Boolean),
           connectedProvisioning: S.optional(S.Boolean),
+          credentialTypesCreate: S.optional(__S(203, __c6, 11)),
           flexCommitEligible: S.optional(S.Boolean),
           importResource: S.optional(S.Boolean),
           maxAllowedTeams: S.optional(S.Number),
@@ -4183,10 +4188,10 @@ function __c6(j: number): any {
       ).annotate({
         identifier: "CreateIntegrationStoreDirectResponseStoreProductIntegrationCapabilities",
       });
-    case 26:
+    case 28:
       return S.suspend(() =>
         S.Struct({
-          capabilities: S.optional(__S(217, __c6, 25)),
+          capabilities: S.optional(__S(219, __c6, 27)),
           flags: S.optional(__S(256, __c8, 0)),
           icon: S.String,
           id: S.String,
@@ -4195,33 +4200,33 @@ function __c6(j: number): any {
           supportsInstallationBillingPlans: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreProductIntegration" });
-    case 27:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           agentSkills: S.optional(__S(256, __c8, 0)),
-          capabilities: S.optional(__S(206, __c6, 14)),
+          capabilities: S.optional(__S(208, __c6, 16)),
           disableResourceRenaming: S.optional(S.Boolean),
           iconUrl: S.optional(S.String),
           id: S.optional(S.String),
-          metadataSchema: S.optional(__S(208, __c6, 16)),
+          metadataSchema: S.optional(__S(210, __c6, 18)),
           name: S.optional(S.String),
           projectConnectionScopes: S.optional(__S(195, __c6, 3)),
-          resourceLinks: S.optional(__S(210, __c6, 18)),
+          resourceLinks: S.optional(__S(212, __c6, 20)),
           resourceTitle: S.optional(S.String),
           shortDescription: S.optional(S.String),
           showSSOLinkOnProjectConnection: S.optional(S.Boolean),
           slug: S.optional(S.String),
           tags: S.optional(__S(195, __c6, 3)),
           repl: S.optional(__S(257, __c8, 1)),
-          guides: S.optional(__S(216, __c6, 24)),
-          integration: __S(218, __c6, 26),
+          guides: S.optional(__S(218, __c6, 26)),
+          integration: __S(220, __c6, 28),
           integrationConfigurationId: S.String,
           logDrainStatus: S.optional(S.String),
           primaryProtocol: S.optional(S.String),
           supportedProtocols: __S(195, __c6, 3),
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreProduct" });
-    case 28:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           target: S.String,
@@ -4231,17 +4236,21 @@ function __c6(j: number): any {
         identifier:
           "CreateIntegrationStoreDirectResponseStoreProtocolSettingsAuthenticationAppUrlsItem",
       });
-    case 29:
-      return S.Array(__S(220, __c6, 28));
-    case 30:
+    case 31:
+      return S.Array(__S(222, __c6, 30));
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          appUrls: S.optional(__S(221, __c6, 29)),
+          appUrls: S.optional(__S(223, __c6, 31)),
         }),
       ).annotate({
         identifier: "CreateIntegrationStoreDirectResponseStoreProtocolSettingsAuthentication",
       });
-    case 31:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           edgeConfigId: S.optional(S.String),
@@ -4253,28 +4262,26 @@ function __c6(j: number): any {
       ).annotate({
         identifier: "CreateIntegrationStoreDirectResponseStoreProtocolSettingsExperimentation",
       });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          authentication: S.optional(__S(222, __c6, 30)),
-          experimentation: S.optional(__S(223, __c6, 31)),
+          authentication: S.optional(__S(224, __c7, 0)),
+          experimentation: S.optional(__S(225, __c7, 1)),
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreProtocolSettings" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           frameworkPublishable: S.optional(S.Boolean),
           length: S.Number,
           name: S.String,
+          nonSensitive: S.optional(S.Boolean),
+          tokenSetKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStoreSecretsItem" });
-    case 2:
-      return S.Array(__S(225, __c7, 1));
-    case 3:
+    case 4:
+      return S.Array(__S(227, __c7, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           projectFilter: S.optional(__S(197, __c6, 5)),
@@ -4283,28 +4290,31 @@ function __c7(j: number): any {
           totalConnectedProjects: S.optional(S.Number),
           usageQuotaExceeded: S.Boolean,
           billingPlan: S.optional(__S(292, __c9, 4)),
-          capabilities: S.optional(__S(203, __c6, 11)),
+          capabilities: S.optional(__S(204, __c6, 12)),
+          credentialTypes: S.optional(__S(195, __c6, 3)),
+          credentialTypesTransition: S.optional(__S(205, __c6, 13)),
           directPartnerConsoleUrl: S.optional(S.String),
           externalResourceId: S.String,
           externalResourceStatus: S.optional(S.NullOr(S.String)),
-          metadata: S.optional(__S(204, __c6, 12)),
-          notification: S.optional(__S(205, __c6, 13)),
+          metadata: S.optional(__S(206, __c6, 14)),
+          notification: S.optional(__S(207, __c6, 15)),
           ownership: S.optional(S.String),
           parentId: S.optional(S.String),
-          product: __S(219, __c6, 27),
-          protocolSettings: S.optional(__S(224, __c7, 0)),
+          product: __S(221, __c6, 29),
+          protocolSettings: S.optional(__S(226, __c7, 2)),
           secretRotationCompletedAt: S.optional(S.Number),
           secretRotationRequestedAt: S.optional(S.Number),
           secretRotationRequestedBy: S.optional(S.String),
           secretRotationRequestedReason: S.optional(S.String),
-          secrets: __S(226, __c7, 2),
+          secrets: __S(228, __c7, 4),
+          secretsAppliedAt: S.optional(S.Number),
           targets: S.optional(__S(195, __c6, 3)),
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponseStore" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          store: S.NullOr(__S(227, __c7, 3)),
+          store: S.NullOr(__S(229, __c7, 5)),
         }),
       ).annotate({ identifier: "CreateIntegrationStoreDirectResponse" });
   }

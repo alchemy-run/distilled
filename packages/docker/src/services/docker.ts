@@ -2313,7 +2313,6 @@ export interface AttestationStatement {
 export type ImageAttestationsResponseBodyList = Array<AttestationStatement>;
 export type ImageAttestationsResponse = ImageAttestationsResponseBodyList;
 export type ImageBuildRequestVersion = "1" | "2";
-export type ImageBuildRequestContentType = "application/x-tar";
 export interface ImageBuildRequest {
   /** Path within the build context to the `Dockerfile`. This is ignored if `remote` is specified and points to an external `Dockerfile`. */
   dockerfile?: string;
@@ -2365,7 +2364,6 @@ export interface ImageBuildRequest {
   outputs?: string;
   /** Version of the builder backend to use. - `1` is the first generation classic (deprecated) builder in the Docker daemon (default) - `2` is [BuildKit](https://github.com/moby/buildkit) */
   version?: ImageBuildRequestVersion | (string & {});
-  contentType?: ImageBuildRequestContentType | (string & {});
   /** This is a base64-encoded JSON object with auth configurations for multiple registries that a build may refer to. The key is a registry URL, and the value is an auth configuration object, [as described in the authentication section](#section/Authentication). For example: ``` { "docker.example.com": { "username": "janedoe", "password": "hunter2" }, "https://index.docker.io/v1/": { "username": "mobydock", "password": "conta1n3rize14" } } ``` Only the registry domain name (and port if not the default 443) are required. However, for legacy reasons, the Docker Hub registry must be specified with both a `https://` prefix and a `/v1/` suffix even though Docker will prefer to use the v2 registry API. */
   xRegistryConfig?: string;
   body?: string;
@@ -8289,7 +8287,6 @@ function __c71(j: number): any {
           target: S.optional(S.String.pipe(T.Query())),
           outputs: S.optional(S.String.pipe(T.Query())),
           version: S.optional(S.String.pipe(T.Query())),
-          contentType: S.optional(S.String.pipe(T.Header("Content-type"))),
           xRegistryConfig: S.optional(S.String.pipe(T.Header("X-Registry-Config"))),
           body: S.optional(S.String.pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/build", code: 200 })),

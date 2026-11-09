@@ -81,844 +81,13 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type TableCellBackgroundFillPropertyStateEnum = "RENDERED" | "NOT_RENDERED" | "INHERIT";
-export type OpaqueColorThemeColorEnum =
-  | "THEME_COLOR_TYPE_UNSPECIFIED"
-  | "DARK1"
-  | "LIGHT1"
-  | "DARK2"
-  | "LIGHT2"
-  | "ACCENT1"
-  | "ACCENT2"
-  | "ACCENT3"
-  | "ACCENT4"
-  | "ACCENT5"
-  | "ACCENT6"
-  | "HYPERLINK"
-  | "FOLLOWED_HYPERLINK"
-  | "TEXT1"
-  | "BACKGROUND1"
-  | "TEXT2"
-  | "BACKGROUND2";
-/** An RGB color. */
-export interface RgbColor {
-  /** The red component of the color, from 0.0 to 1.0. */
-  red?: number;
-  /** The blue component of the color, from 0.0 to 1.0. */
-  blue?: number;
-  /** The green component of the color, from 0.0 to 1.0. */
-  green?: number;
-}
-/** A themeable solid color value. */
-export interface OpaqueColor {
-  /** An opaque theme color. */
-  themeColor?: OpaqueColorThemeColorEnum | (string & {});
-  /** An opaque RGB color. */
-  rgbColor?: RgbColor;
-}
-/** A solid color fill. The page or page element is filled entirely with the specified color value. If any field is unset, its value may be inherited from a parent placeholder if it exists. */
-export interface SolidFill {
-  /** The color value of the solid fill. */
-  color?: OpaqueColor;
-  /** The fraction of this `color` that should be applied to the pixel. That is, the final pixel color is defined by the equation: pixel color = alpha * (color) + (1.0 - alpha) * (background color) This means that a value of 1.0 corresponds to a solid color, whereas a value of 0.0 corresponds to a completely transparent color. */
-  alpha?: number;
-}
-/** The table cell background fill. */
-export interface TableCellBackgroundFill {
-  /** The background fill property state. Updating the fill on a table cell will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no fill on a table cell, set this field to `NOT_RENDERED`. In this case, any other fill fields set in the same request will be ignored. */
-  propertyState?: TableCellBackgroundFillPropertyStateEnum | (string & {});
-  /** Solid color fill. */
-  solidFill?: SolidFill;
-}
-export type TableCellPropertiesContentAlignmentEnum =
-  | "CONTENT_ALIGNMENT_UNSPECIFIED"
-  | "CONTENT_ALIGNMENT_UNSUPPORTED"
-  | "TOP"
-  | "MIDDLE"
-  | "BOTTOM";
-/** The properties of the TableCell. */
-export interface TableCellProperties {
-  /** The background fill of the table cell. The default fill matches the fill for newly created table cells in the Slides editor. */
-  tableCellBackgroundFill?: TableCellBackgroundFill;
-  /** The alignment of the content in the table cell. The default alignment matches the alignment for newly created table cells in the Slides editor. */
-  contentAlignment?: TableCellPropertiesContentAlignmentEnum | (string & {});
-}
-/** A location of a single table cell within a table. */
-export interface TableCellLocation {
-  /** The 0-based row index. */
-  rowIndex?: number;
-  /** The 0-based column index. */
-  columnIndex?: number;
-}
-/** A table range represents a reference to a subset of a table. It's important to note that the cells specified by a table range do not necessarily form a rectangle. For example, let's say we have a 3 x 3 table where all the cells of the last row are merged together. The table looks like this: [ ] A table range with location = (0, 0), row span = 3 and column span = 2 specifies the following cells: x x [ x x x ] */
-export interface TableRange {
-  /** The starting location of the table range. */
-  location?: TableCellLocation;
-  /** The column span of the table range. */
-  columnSpan?: number;
-  /** The row span of the table range. */
-  rowSpan?: number;
-}
-/** Update the properties of a TableCell. */
-export interface UpdateTableCellPropertiesRequest {
-  /** The object ID of the table. */
-  objectId?: string;
-  /** The fields that should be updated. At least one field must be specified. The root `tableCellProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the table cell background solid fill color, set `fields` to `"tableCellBackgroundFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
-  fields?: string;
-  /** The table cell properties to update. */
-  tableCellProperties?: TableCellProperties;
-  /** The table range representing the subset of the table to which the updates are applied. If a table range is not specified, the updates will apply to the entire table. */
-  tableRange?: TableRange;
-}
-/** Inserts text into a shape or a table cell. */
-export interface InsertTextRequest {
-  /** The object ID of the shape or table where the text will be inserted. */
-  objectId?: string;
-  /** The index where the text will be inserted, in Unicode code units, based on TextElement indexes. The index is zero-based and is computed from the start of the string. The index may be adjusted to prevent insertions inside Unicode grapheme clusters. In these cases, the text will be inserted immediately after the grapheme cluster. */
-  insertionIndex?: number;
-  /** The optional table cell location if the text is to be inserted into a table cell. If present, the object_id must refer to a table. */
-  cellLocation?: TableCellLocation;
-  /** The text to be inserted. Inserting a newline character will implicitly create a new ParagraphMarker at that index. The paragraph style of the new paragraph will be copied from the paragraph at the current insertion index, including lists and bullets. Text styles for inserted text will be determined automatically, generally preserving the styling of neighboring text. In most cases, the text will be added to the TextRun that exists at the insertion index. Some control characters (U+0000-U+0008, U+000C-U+001F) and characters from the Unicode Basic Multilingual Plane Private Use Area (U+E000-U+F8FF) will be stripped out of the inserted text. */
-  text?: string;
-}
-export type CreateSheetsChartRequestLinkingModeEnum = "NOT_LINKED_IMAGE" | "LINKED";
-export type DimensionUnitEnum = "UNIT_UNSPECIFIED" | "EMU" | "PT";
-/** A magnitude in a single direction in the specified units. */
-export interface Dimension {
-  /** The magnitude. */
-  magnitude?: number;
-  /** The units for magnitude. */
-  unit?: DimensionUnitEnum | (string & {});
-}
-/** A width and height. */
-export interface Size {
-  /** The width of the object. */
-  width?: Dimension;
-  /** The height of the object. */
-  height?: Dimension;
-}
-export type AffineTransformUnitEnum = "UNIT_UNSPECIFIED" | "EMU" | "PT";
-/** AffineTransform uses a 3x3 matrix with an implied last row of [ 0 0 1 ] to transform source coordinates (x,y) into destination coordinates (x', y') according to: x' x = shear_y scale_y translate_y 1 [ 1 ] After transformation, x' = scale_x * x + shear_x * y + translate_x; y' = scale_y * y + shear_y * x + translate_y; This message is therefore composed of these six matrix elements. */
-export interface AffineTransform {
-  /** The Y coordinate scaling element. */
-  scaleY?: number;
-  /** The units for translate elements. */
-  unit?: AffineTransformUnitEnum | (string & {});
-  /** The Y coordinate shearing element. */
-  shearY?: number;
-  /** The X coordinate shearing element. */
-  shearX?: number;
-  /** The X coordinate scaling element. */
-  scaleX?: number;
-  /** The Y coordinate translation element. */
-  translateY?: number;
-  /** The X coordinate translation element. */
-  translateX?: number;
-}
-/** Common properties for a page element. Note: When you initially create a PageElement, the API may modify the values of both `size` and `transform`, but the visual size will be unchanged. */
-export interface PageElementProperties {
-  /** The object ID of the page where the element is located. */
-  pageObjectId?: string;
-  /** The size of the element. */
-  size?: Size;
-  /** The transform for the element. */
-  transform?: AffineTransform;
-}
-/** Creates an embedded Google Sheets chart. NOTE: Chart creation requires at least one of the spreadsheets.readonly, spreadsheets, drive.readonly, drive.file, or drive OAuth scopes. */
-export interface CreateSheetsChartRequest {
-  /** The mode with which the chart is linked to the source spreadsheet. When not specified, the chart will be an image that is not linked. */
-  linkingMode?: CreateSheetsChartRequestLinkingModeEnum | (string & {});
-  /** The ID of the Google Sheets spreadsheet that contains the chart. You might need to add a resource key to the HTTP header for a subset of old files. For more information, see [Access link-shared files using resource keys](https://developers.google.com/drive/api/v3/resource-keys). */
-  spreadsheetId?: string;
-  /** The element properties for the chart. When the aspect ratio of the provided size does not match the chart aspect ratio, the chart is scaled and centered with respect to the size in order to maintain aspect ratio. The provided transform is applied after this operation. */
-  elementProperties?: PageElementProperties;
-  /** A user-supplied object ID. If specified, the ID must be unique among all pages and page elements in the presentation. The ID should start with a word character [a-zA-Z0-9_] and then followed by any number of the following characters [a-zA-Z0-9_-:]. The length of the ID should not be less than 5 or greater than 50. If empty, a unique identifier will be generated. */
-  objectId?: string;
-  /** The ID of the specific chart in the Google Sheets spreadsheet. */
-  chartId?: number;
-}
-/** Deletes a reply Post from a CommentThread. Returns a 400 bad request error if: - The requesting user is not the author of the post. - The reply post contains a comment action. - The reply post contains an assignee. [Developer Preview](https://developers.google.com/workspace/preview). */
-export interface DeleteCommentReplyRequest {
-  /** The ID of the reply Post being deleted. */
-  postId?: string;
-  /** The ID of the CommentThread which the post belongs to. */
-  commentId?: string;
-}
-/** Deletes a CommentThread. Returns a 400 bad request error if the requesting user is not the author of the headPost. [Developer Preview](https://developers.google.com/workspace/preview). */
-export interface DeleteCommentRequest {
-  /** The ID of the CommentThread that is being deleted. */
-  commentId?: string;
-}
-/** Deletes a column from a table. */
-export interface DeleteTableColumnRequest {
-  /** The table to delete columns from. */
-  tableObjectId?: string;
-  /** The reference table cell location from which a column will be deleted. The column this cell spans will be deleted. If this is a merged cell, multiple columns will be deleted. If no columns remain in the table after this deletion, the whole table is deleted. */
-  cellLocation?: TableCellLocation;
-}
-export type CreateLineRequestLineCategoryEnum = "STRAIGHT" | "BENT" | "CURVED";
-export type CreateLineRequestCategoryEnum =
-  | "LINE_CATEGORY_UNSPECIFIED"
-  | "STRAIGHT"
-  | "BENT"
-  | "CURVED";
-/** Creates a line. */
-export interface CreateLineRequest {
-  /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
-  objectId?: string;
-  /** The category of the line to be created. *Deprecated*: use `category` instead. The exact line type created is determined based on the category and how it's routed to connect to other page elements. If you specify both a `category` and a `line_category`, the `category` takes precedence. */
-  lineCategory?: CreateLineRequestLineCategoryEnum | (string & {});
-  /** The category of the line to be created. The exact line type created is determined based on the category and how it's routed to connect to other page elements. If you specify both a `category` and a `line_category`, the `category` takes precedence. If you do not specify a value for `category`, but specify a value for `line_category`, then the specified `line_category` value is used. If you do not specify either, then STRAIGHT is used. */
-  category?: CreateLineRequestCategoryEnum | (string & {});
-  /** The element properties for the line. */
-  elementProperties?: PageElementProperties;
-}
-export type CreateVideoRequestSourceEnum = "SOURCE_UNSPECIFIED" | "YOUTUBE" | "DRIVE";
-/** Creates a video. NOTE: Creating a video from Google Drive requires that the requesting app have at least one of the drive, drive.readonly, or drive.file OAuth scopes. */
-export interface CreateVideoRequest {
-  /** The video source's unique identifier for this video. e.g. For YouTube video https://www.youtube.com/watch?v=7U3axjORYZ0, the ID is 7U3axjORYZ0. For a Google Drive video https://drive.google.com/file/d/1xCgQLFTJi5_Xl8DgW_lcUYq5e-q6Hi5Q the ID is 1xCgQLFTJi5_Xl8DgW_lcUYq5e-q6Hi5Q. To access a Google Drive video file, you might need to add a resource key to the HTTP header for a subset of old files. For more information, see [Access link-shared files using resource keys](https://developers.google.com/drive/api/v3/resource-keys). */
-  id?: string;
-  /** The video source. */
-  source?: CreateVideoRequestSourceEnum | (string & {});
-  /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
-  objectId?: string;
-  /** The element properties for the video. The PageElementProperties.size property is optional. If you don't specify a size, a default size is chosen by the server. The PageElementProperties.transform property is optional. The transform must not have shear components. If you don't specify a transform, the video will be placed at the top left corner of the page. */
-  elementProperties?: PageElementProperties;
-}
-export type UpdatePageElementsZOrderRequestOperationEnum =
-  | "Z_ORDER_OPERATION_UNSPECIFIED"
-  | "BRING_TO_FRONT"
-  | "BRING_FORWARD"
-  | "SEND_BACKWARD"
-  | "SEND_TO_BACK";
 export type StringList = Array<string>;
-/** Updates the Z-order of page elements. Z-order is an ordering of the elements on the page from back to front. The page element in the front may cover the elements that are behind it. */
-export interface UpdatePageElementsZOrderRequest {
-  /** The Z-order operation to apply on the page elements. When applying the operation on multiple page elements, the relative Z-orders within these page elements before the operation is maintained. */
-  operation?: UpdatePageElementsZOrderRequestOperationEnum | (string & {});
-  /** The object IDs of the page elements to update. All the page elements must be on the same page and must not be grouped. */
-  pageElementObjectIds?: StringList;
-}
-export type UpdatePageElementTransformRequestApplyModeEnum =
-  | "APPLY_MODE_UNSPECIFIED"
-  | "RELATIVE"
-  | "ABSOLUTE";
-/** Updates the transform of a page element. Updating the transform of a group will change the absolute transform of the page elements in that group, which can change their visual appearance. See the documentation for PageElement.transform for more details. */
-export interface UpdatePageElementTransformRequest {
-  /** The input transform matrix used to update the page element. */
-  transform?: AffineTransform;
-  /** The apply mode of the transform update. */
-  applyMode?: UpdatePageElementTransformRequestApplyModeEnum | (string & {});
-  /** The object ID of the page element to update. */
-  objectId?: string;
-}
-export type TextStyleBaselineOffsetEnum =
-  | "BASELINE_OFFSET_UNSPECIFIED"
-  | "NONE"
-  | "SUPERSCRIPT"
-  | "SUBSCRIPT";
-/** Represents a font family and weight used to style a TextRun. */
-export interface WeightedFontFamily {
-  /** The font family of the text. The font family can be any font from the Font menu in Slides or from [Google Fonts] (https://fonts.google.com/). If the font name is unrecognized, the text is rendered in `Arial`. */
-  fontFamily?: string;
-  /** The rendered weight of the text. This field can have any value that is a multiple of `100` between `100` and `900`, inclusive. This range corresponds to the numerical values described in the CSS 2.1 Specification, [section 15.6](https://www.w3.org/TR/CSS21/fonts.html#font-boldness), with non-numerical values disallowed. Weights greater than or equal to `700` are considered bold, and weights less than `700`are not bold. The default value is `400` ("normal"). */
-  weight?: number;
-}
-export type LinkRelativeLinkEnum =
-  | "RELATIVE_SLIDE_LINK_UNSPECIFIED"
-  | "NEXT_SLIDE"
-  | "PREVIOUS_SLIDE"
-  | "FIRST_SLIDE"
-  | "LAST_SLIDE";
-/** A hypertext link. */
-export interface Link {
-  /** If set, indicates this is a link to a slide in this presentation, addressed by its position. */
-  relativeLink?: LinkRelativeLinkEnum | (string & {});
-  /** If set, indicates this is a link to the specific page in this presentation with this ID. A page with this ID may not exist. */
-  pageObjectId?: string;
-  /** If set, indicates this is a link to the external web page at this URL. */
-  url?: string;
-  /** If set, indicates this is a link to the slide at this zero-based index in the presentation. There may not be a slide at this index. */
-  slideIndex?: number;
-}
-/** A color that can either be fully opaque or fully transparent. */
-export interface OptionalColor {
-  /** If set, this will be used as an opaque color. If unset, this represents a transparent color. */
-  opaqueColor?: OpaqueColor;
-}
-/** Represents the styling that can be applied to a TextRun. If this text is contained in a shape with a parent placeholder, then these text styles may be inherited from the parent. Which text styles are inherited depend on the nesting level of lists: * A text run in a paragraph that is not in a list will inherit its text style from the the newline character in the paragraph at the 0 nesting level of the list inside the parent placeholder. * A text run in a paragraph that is in a list will inherit its text style from the newline character in the paragraph at its corresponding nesting level of the list inside the parent placeholder. Inherited text styles are represented as unset fields in this message. If text is contained in a shape without a parent placeholder, unsetting these fields will revert the style to a value matching the defaults in the Slides editor. */
-export interface TextStyle {
-  /** The text's vertical offset from its normal position. Text with `SUPERSCRIPT` or `SUBSCRIPT` baseline offsets is automatically rendered in a smaller font size, computed based on the `font_size` field. The `font_size` itself is not affected by changes in this field. */
-  baselineOffset?: TextStyleBaselineOffsetEnum | (string & {});
-  /** The font family and rendered weight of the text. This field is an extension of `font_family` meant to support explicit font weights without breaking backwards compatibility. As such, when reading the style of a range of text, the value of `weighted_font_family#font_family` will always be equal to that of `font_family`. However, when writing, if both fields are included in the field mask (either explicitly or through the wildcard `"*"`), their values are reconciled as follows: * If `font_family` is set and `weighted_font_family` is not, the value of `font_family` is applied with weight `400` ("normal"). * If both fields are set, the value of `font_family` must match that of `weighted_font_family#font_family`. If so, the font family and weight of `weighted_font_family` is applied. Otherwise, a 400 bad request error is returned. * If `weighted_font_family` is set and `font_family` is not, the font family and weight of `weighted_font_family` is applied. * If neither field is set, the font family and weight of the text inherit from the parent. Note that these properties cannot inherit separately from each other. If an update request specifies values for both `weighted_font_family` and `bold`, the `weighted_font_family` is applied first, then `bold`. If `weighted_font_family#weight` is not set, it defaults to `400`. If `weighted_font_family` is set, then `weighted_font_family#font_family` must also be set with a non-empty value. Otherwise, a 400 bad request error is returned. */
-  weightedFontFamily?: WeightedFontFamily;
-  /** Whether or not the text is rendered as bold. */
-  bold?: boolean;
-  /** The hyperlink destination of the text. If unset, there is no link. Links are not inherited from parent text. Changing the link in an update request causes some other changes to the text style of the range: * When setting a link, the text foreground color will be set to ThemeColorType.HYPERLINK and the text will be underlined. If these fields are modified in the same request, those values will be used instead of the link defaults. * Setting a link on a text range that overlaps with an existing link will also update the existing link to point to the new URL. * Links are not settable on newline characters. As a result, setting a link on a text range that crosses a paragraph boundary, such as `"ABC\n123"`, will separate the newline character(s) into their own text runs. The link will be applied separately to the runs before and after the newline. * Removing a link will update the text style of the range to match the style of the preceding text (or the default text styles if the preceding text is another link) unless different styles are being set in the same request. */
-  link?: Link;
-  /** Whether or not the text is struck through. */
-  strikethrough?: boolean;
-  /** The color of the text itself. If set, the color is either opaque or transparent, depending on if the `opaque_color` field in it is set. */
-  foregroundColor?: OptionalColor;
-  /** Whether or not the text is in small capital letters. */
-  smallCaps?: boolean;
-  /** The size of the text's font. When read, the `font_size` will specified in points. */
-  fontSize?: Dimension;
-  /** The background color of the text. If set, the color is either opaque or transparent, depending on if the `opaque_color` field in it is set. */
-  backgroundColor?: OptionalColor;
-  /** Whether or not the text is underlined. */
-  underline?: boolean;
-  /** The font family of the text. The font family can be any font from the Font menu in Slides or from [Google Fonts] (https://fonts.google.com/). If the font name is unrecognized, the text is rendered in `Arial`. Some fonts can affect the weight of the text. If an update request specifies values for both `font_family` and `bold`, the explicitly-set `bold` value is used. */
-  fontFamily?: string;
-  /** Whether or not the text is italicized. */
-  italic?: boolean;
-}
-export type RangeTypeEnum = "RANGE_TYPE_UNSPECIFIED" | "FIXED_RANGE" | "FROM_START_INDEX" | "ALL";
-/** Specifies a contiguous range of an indexed collection, such as characters in text. */
-export interface Range {
-  /** The optional zero-based index of the beginning of the collection. Required for `FIXED_RANGE` and `FROM_START_INDEX` ranges. */
-  startIndex?: number;
-  /** The optional zero-based index of the end of the collection. Required for `FIXED_RANGE` ranges. */
-  endIndex?: number;
-  /** The type of range. */
-  type?: RangeTypeEnum | (string & {});
-}
-/** Update the styling of text in a Shape or Table. */
-export interface UpdateTextStyleRequest {
-  /** The fields that should be updated. At least one field must be specified. The root `style` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example, to update the text style to bold, set `fields` to `"bold"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
-  fields?: string;
-  /** The location of the cell in the table containing the text to style. If `object_id` refers to a table, `cell_location` must have a value. Otherwise, it must not. */
-  cellLocation?: TableCellLocation;
-  /** The object ID of the shape or table with the text to be styled. */
-  objectId?: string;
-  /** The style(s) to set on the text. If the value for a particular style matches that of the parent, that style will be set to inherit. Certain text style changes may cause other changes meant to mirror the behavior of the Slides editor. See the documentation of TextStyle for more information. */
-  style?: TextStyle;
-  /** The range of text to style. The range may be extended to include adjacent newlines. If the range fully contains a paragraph belonging to a list, the paragraph's bullet is also updated with the matching text style. */
-  textRange?: Range;
-}
-/** The fill of the line. */
-export interface LineFill {
-  /** Solid color fill. */
-  solidFill?: SolidFill;
-}
-export type LinePropertiesStartArrowEnum =
-  | "ARROW_STYLE_UNSPECIFIED"
-  | "NONE"
-  | "STEALTH_ARROW"
-  | "FILL_ARROW"
-  | "FILL_CIRCLE"
-  | "FILL_SQUARE"
-  | "FILL_DIAMOND"
-  | "OPEN_ARROW"
-  | "OPEN_CIRCLE"
-  | "OPEN_SQUARE"
-  | "OPEN_DIAMOND";
-/** The properties for one end of a Line connection. */
-export interface LineConnection {
-  /** The index of the connection site on the connected page element. In most cases, it corresponds to the predefined connection site index from the ECMA-376 standard. More information on those connection sites can be found in both the description of the "cxn" attribute in section 20.1.9.9 and "Annex H. Example Predefined DrawingML Shape and Text Geometries" of "Office Open XML File Formats - Fundamentals and Markup Language Reference", part 1 of [ECMA-376 5th edition](https://ecma-international.org/publications-and-standards/standards/ecma-376/). The position of each connection site can also be viewed from Slides editor. */
-  connectionSiteIndex?: number;
-  /** The object ID of the connected page element. Some page elements, such as groups, tables, and lines do not have connection sites and therefore cannot be connected to a connector line. */
-  connectedObjectId?: string;
-}
-export type LinePropertiesEndArrowEnum =
-  | "ARROW_STYLE_UNSPECIFIED"
-  | "NONE"
-  | "STEALTH_ARROW"
-  | "FILL_ARROW"
-  | "FILL_CIRCLE"
-  | "FILL_SQUARE"
-  | "FILL_DIAMOND"
-  | "OPEN_ARROW"
-  | "OPEN_CIRCLE"
-  | "OPEN_SQUARE"
-  | "OPEN_DIAMOND";
-export type LinePropertiesDashStyleEnum =
-  | "DASH_STYLE_UNSPECIFIED"
-  | "SOLID"
-  | "DOT"
-  | "DASH"
-  | "DASH_DOT"
-  | "LONG_DASH"
-  | "LONG_DASH_DOT";
-/** The properties of the Line. When unset, these fields default to values that match the appearance of new lines created in the Slides editor. */
-export interface LineProperties {
-  /** The fill of the line. The default line fill matches the defaults for new lines created in the Slides editor. */
-  lineFill?: LineFill;
-  /** The style of the arrow at the beginning of the line. */
-  startArrow?: LinePropertiesStartArrowEnum | (string & {});
-  /** The connection at the end of the line. If unset, there is no connection. Only lines with a Type indicating it is a "connector" can have an `end_connection`. */
-  endConnection?: LineConnection;
-  /** The thickness of the line. */
-  weight?: Dimension;
-  /** The style of the arrow at the end of the line. */
-  endArrow?: LinePropertiesEndArrowEnum | (string & {});
-  /** The hyperlink destination of the line. If unset, there is no link. */
-  link?: Link;
-  /** The connection at the beginning of the line. If unset, there is no connection. Only lines with a Type indicating it is a "connector" can have a `start_connection`. */
-  startConnection?: LineConnection;
-  /** The dash style of the line. */
-  dashStyle?: LinePropertiesDashStyleEnum | (string & {});
-}
-/** Updates the properties of a Line. */
-export interface UpdateLinePropertiesRequest {
-  /** The object ID of the line the update is applied to. */
-  objectId?: string;
-  /** The line properties to update. */
-  lineProperties?: LineProperties;
-  /** The fields that should be updated. At least one field must be specified. The root `lineProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the line solid fill color, set `fields` to `"lineFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
-  fields?: string;
-}
-export type StringMap = { [key: string]: string | undefined };
-/** Duplicates a slide or page element. When duplicating a slide, the duplicate slide will be created immediately following the specified slide. When duplicating a page element, the duplicate will be placed on the same page at the same position as the original. */
-export interface DuplicateObjectRequest {
-  /** The object being duplicated may contain other objects, for example when duplicating a slide or a group page element. This map defines how the IDs of duplicated objects are generated: the keys are the IDs of the original objects and its values are the IDs that will be assigned to the corresponding duplicate object. The ID of the source object's duplicate may be specified in this map as well, using the same value of the `object_id` field as a key and the newly desired ID as the value. All keys must correspond to existing IDs in the presentation. All values must be unique in the presentation and must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the new ID must not be less than 5 or greater than 50. If any IDs of source objects are omitted from the map, a new random ID will be assigned. If the map is empty or unset, all duplicate objects will receive a new random ID. */
-  objectIds?: StringMap;
-  /** The ID of the object to duplicate. */
-  objectId?: string;
-}
-/** Creates a new table. */
-export interface CreateTableRequest {
-  /** Number of columns in the table. */
-  columns?: number;
-  /** Number of rows in the table. */
-  rows?: number;
-  /** The element properties for the table. The table will be created at the provided size, subject to a minimum size. If no size is provided, the table will be automatically sized. Table transforms must have a scale of 1 and no shear components. If no transform is provided, the table will be centered on the page. */
-  elementProperties?: PageElementProperties;
-  /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
-  objectId?: string;
-}
-export type ShadowAlignmentEnum =
-  | "RECTANGLE_POSITION_UNSPECIFIED"
-  | "TOP_LEFT"
-  | "TOP_CENTER"
-  | "TOP_RIGHT"
-  | "LEFT_CENTER"
-  | "CENTER"
-  | "RIGHT_CENTER"
-  | "BOTTOM_LEFT"
-  | "BOTTOM_CENTER"
-  | "BOTTOM_RIGHT";
-export type ShadowTypeEnum = "SHADOW_TYPE_UNSPECIFIED" | "OUTER";
-export type ShadowPropertyStateEnum = "RENDERED" | "NOT_RENDERED" | "INHERIT";
-/** The shadow properties of a page element. If these fields are unset, they may be inherited from a parent placeholder if it exists. If there is no parent, the fields will default to the value used for new page elements created in the Slides editor, which may depend on the page element kind. */
-export interface Shadow {
-  /** The alignment point of the shadow, that sets the origin for translate, scale and skew of the shadow. This property is read-only. */
-  alignment?: ShadowAlignmentEnum | (string & {});
-  /** The type of the shadow. This property is read-only. */
-  type?: ShadowTypeEnum | (string & {});
-  /** The alpha of the shadow's color, from 0.0 to 1.0. */
-  alpha?: number;
-  /** Transform that encodes the translate, scale, and skew of the shadow, relative to the alignment position. */
-  transform?: AffineTransform;
-  /** The shadow property state. Updating the shadow on a page element will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no shadow on a page element, set this field to `NOT_RENDERED`. In this case, any other shadow fields set in the same request will be ignored. */
-  propertyState?: ShadowPropertyStateEnum | (string & {});
-  /** The shadow color value. */
-  color?: OpaqueColor;
-  /** The radius of the shadow blur. The larger the radius, the more diffuse the shadow becomes. */
-  blurRadius?: Dimension;
-  /** Whether the shadow should rotate with the shape. This property is read-only. */
-  rotateWithShape?: boolean;
-}
-export type OutlinePropertyStateEnum = "RENDERED" | "NOT_RENDERED" | "INHERIT";
-/** The fill of the outline. */
-export type OutlineFill = LineFill;
-export type OutlineDashStyleEnum =
-  | "DASH_STYLE_UNSPECIFIED"
-  | "SOLID"
-  | "DOT"
-  | "DASH"
-  | "DASH_DOT"
-  | "LONG_DASH"
-  | "LONG_DASH_DOT";
-/** The outline of a PageElement. If these fields are unset, they may be inherited from a parent placeholder if it exists. If there is no parent, the fields will default to the value used for new page elements created in the Slides editor, which may depend on the page element kind. */
-export interface Outline {
-  /** The outline property state. Updating the outline on a page element will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no outline on a page element, set this field to `NOT_RENDERED`. In this case, any other outline fields set in the same request will be ignored. */
-  propertyState?: OutlinePropertyStateEnum | (string & {});
-  /** The fill of the outline. */
-  outlineFill?: LineFill;
-  /** The thickness of the outline. */
-  weight?: Dimension;
-  /** The dash style of the outline. */
-  dashStyle?: OutlineDashStyleEnum | (string & {});
-}
-export type AutofitAutofitTypeEnum =
-  | "AUTOFIT_TYPE_UNSPECIFIED"
-  | "NONE"
-  | "TEXT_AUTOFIT"
-  | "SHAPE_AUTOFIT";
-/** The autofit properties of a Shape. This property is only set for shapes that allow text. */
-export interface Autofit {
-  /** The autofit type of the shape. If the autofit type is AUTOFIT_TYPE_UNSPECIFIED, the autofit type is inherited from a parent placeholder if it exists. The field is automatically set to NONE if a request is made that might affect text fitting within its bounding text box. In this case, the font_scale is applied to the font_size and the line_spacing_reduction is applied to the line_spacing. Both properties are also reset to default values. */
-  autofitType?: AutofitAutofitTypeEnum | (string & {});
-  /** The font scale applied to the shape. For shapes with autofit_type NONE or SHAPE_AUTOFIT, this value is the default value of 1. For TEXT_AUTOFIT, this value multiplied by the font_size gives the font size that's rendered in the editor. This property is read-only. */
-  fontScale?: number;
-  /** The line spacing reduction applied to the shape. For shapes with autofit_type NONE or SHAPE_AUTOFIT, this value is the default value of 0. For TEXT_AUTOFIT, this value subtracted from the line_spacing gives the line spacing that's rendered in the editor. This property is read-only. */
-  lineSpacingReduction?: number;
-}
-export type ShapePropertiesContentAlignmentEnum =
-  | "CONTENT_ALIGNMENT_UNSPECIFIED"
-  | "CONTENT_ALIGNMENT_UNSUPPORTED"
-  | "TOP"
-  | "MIDDLE"
-  | "BOTTOM";
-export type ShapeBackgroundFillPropertyStateEnum = "RENDERED" | "NOT_RENDERED" | "INHERIT";
-/** The shape background fill. */
-export interface ShapeBackgroundFill {
-  /** Solid color fill. */
-  solidFill?: SolidFill;
-  /** The background fill property state. Updating the fill on a shape will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no fill on a shape, set this field to `NOT_RENDERED`. In this case, any other fill fields set in the same request will be ignored. */
-  propertyState?: ShapeBackgroundFillPropertyStateEnum | (string & {});
-}
-/** The properties of a Shape. If the shape is a placeholder shape as determined by the placeholder field, then these properties may be inherited from a parent placeholder shape. Determining the rendered value of the property depends on the corresponding property_state field value. Any text autofit settings on the shape are automatically deactivated by requests that can impact how text fits in the shape. */
-export interface ShapeProperties {
-  /** The shadow properties of the shape. If unset, the shadow is inherited from a parent placeholder if it exists. If the shape has no parent, then the default shadow matches the defaults for new shapes created in the Slides editor. This property is read-only. */
-  shadow?: Shadow;
-  /** The outline of the shape. If unset, the outline is inherited from a parent placeholder if it exists. If the shape has no parent, then the default outline depends on the shape type, matching the defaults for new shapes created in the Slides editor. */
-  outline?: Outline;
-  /** The autofit properties of the shape. This property is only set for shapes that allow text. */
-  autofit?: Autofit;
-  /** The hyperlink destination of the shape. If unset, there is no link. Links are not inherited from parent placeholders. */
-  link?: Link;
-  /** The alignment of the content in the shape. If unspecified, the alignment is inherited from a parent placeholder if it exists. If the shape has no parent, the default alignment matches the alignment for new shapes created in the Slides editor. */
-  contentAlignment?: ShapePropertiesContentAlignmentEnum | (string & {});
-  /** The background fill of the shape. If unset, the background fill is inherited from a parent placeholder if it exists. If the shape has no parent, then the default background fill depends on the shape type, matching the defaults for new shapes created in the Slides editor. */
-  shapeBackgroundFill?: ShapeBackgroundFill;
-}
-/** Update the properties of a Shape. */
-export interface UpdateShapePropertiesRequest {
-  /** The object ID of the shape the updates are applied to. */
-  objectId?: string;
-  /** The fields that should be updated. At least one field must be specified. The root `shapeProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the shape background solid fill color, set `fields` to `"shapeBackgroundFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
-  fields?: string;
-  /** The shape properties to update. */
-  shapeProperties?: ShapeProperties;
-}
-/** The properties of Page are only relevant for pages with page_type LAYOUT. */
-export interface LayoutProperties {
-  /** The name of the layout. */
-  name?: string;
-  /** The human-readable name of the layout. */
-  displayName?: string;
-  /** The object ID of the master that this layout is based on. */
-  masterObjectId?: string;
-}
-/** The properties of Page that are only relevant for pages with page_type MASTER. */
-export interface MasterProperties {
-  /** The human-readable name of the master. */
-  displayName?: string;
-}
-export type PageCommentsViewModeEnum =
-  | "COMMENTS_VIEW_MODE_UNSPECIFIED"
-  | "COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS"
-  | "COMMENTS_VIEW_MODE_OMITTED"
-  | "COMMENTS_VIEW_MODE_INCLUDED";
-export type CommentThreadStatusEnum = "STATUS_UNSPECIFIED" | "OPEN" | "RESOLVED";
-export type PostCommentActionEnum =
-  | "COMMENT_ACTION_TYPE_UNSPECIFIED"
-  | "NO_COMMENT_ACTION_CHANGE"
-  | "RESOLVE"
-  | "REOPEN";
-/** Represents a user who authored a comment post. [Developer Preview](https://developers.google.com/workspace/preview). */
-export interface PostAuthor {
-  /** The resource name of the post author user, which can also be used to identify the user in the [Google People API](https://developers.google.com/people/api/rest/v1/people). Format: `users/{user}`. Will not be populated if the anonymous field is `true` or if the post is from an imported presentation. */
-  user?: string;
-  /** The display name of the user. May be absent if the author is anonymous. */
-  displayName?: string;
-  /** Whether the user is anonymous. */
-  anonymous?: boolean;
-  /** Whether the user is the authenticated user making the request. */
-  me?: boolean;
-}
-/** Represents a single post in a comment thread. [Developer Preview](https://developers.google.com/workspace/preview). */
-export interface Post {
-  /** Action taken as part of creating the post. */
-  commentAction?: PostCommentActionEnum | (string & {});
-  /** Output only. The time the post was last updated. */
-  updateTime?: string;
-  /** Output only. The content of the post as HTML. */
-  contentHtml?: string;
-  /** Optional. The email of the user who is being newly assigned to the thread as part of this post. Returns a 400 bad request error if: - The parent thread is a CommentThread whose headPost does not have an assignee. - commentAction is specified as `RESOLVE` or `REOPEN`. - `assignee_email` exceeds 2048 UTF-8 code units. */
-  assigneeEmail?: string;
-  /** Output only. The time the post was created. */
-  createTime?: string;
-  /** The content of the post. Required to be non-empty if comment_action is not `RESOLVE` or `REOPEN`. This text content will be handled similarly to comments created in the Slides editor. It will have similar behaviors for formatting, notifications, etc. May not exceed 2048 UTF-8 code units. */
-  content?: string;
-  /** Output only. Whether the post is from an imported presentation. This field cannot be set directly by callers. */
-  fromImportedPresentation?: boolean;
-  /** Output only. The user who created the post. */
-  author?: PostAuthor;
-  /** Output only. The unique ID of the post. */
-  postId?: string;
-  /** Output only. Whether the post is from a copied presentation. This field cannot be set directly by callers. */
-  fromCopiedPresentation?: boolean;
-  /** Output only. Whether the post is deleted. If `true`, content and author fields will be empty. */
-  deleted?: boolean;
-}
-export type PostList = Array<Post>;
-/** Represents a single comment thread inside a presentation. [Developer Preview](https://developers.google.com/workspace/preview). */
-export interface CommentThread {
-  /** The ID of the CommentAnchor in the presentation that this thread is tied to. */
-  anchorId?: string;
-  /** Whether the thread is open or resolved. */
-  status?: CommentThreadStatusEnum | (string & {});
-  /** The unique ID of the comment thread. */
-  commentId?: string;
-  /** Replies to the head post. */
-  replies?: PostList;
-  /** The quoted text from the page element when the comment was created, formatted as plain-text. */
-  plainTextQuote?: string;
-  /** The first post in the thread. */
-  headPost?: Post;
-}
-export type CommentThreadList = Array<CommentThread>;
-/** The properties of Page that are only relevant for pages with page_type NOTES. */
-export interface NotesProperties {
-  /** The object ID of the shape on this notes page that contains the speaker notes for the corresponding slide. The actual shape may not always exist on the notes page. Inserting text using this object ID will automatically create the shape. In this case, the actual shape may have different object ID. The `GetPresentation` or `GetPage` action will always return the latest object ID. */
-  speakerNotesObjectId?: string;
-}
-export type PagePageTypeEnum = "SLIDE" | "MASTER" | "LAYOUT" | "NOTES" | "NOTES_MASTER";
-/** A PageElement kind representing a joined collection of PageElements. */
-export interface Group {
-  /** The collection of elements in the group. The minimum size of a group is 2. */
-  children?: PageElementList;
-}
-/** Properties of each row in a table. */
-export interface TableRowProperties {
-  /** Minimum height of the row. The row will be rendered in the Slides editor at a height equal to or greater than this value in order to show all the text in the row's cell(s). */
-  minRowHeight?: Dimension;
-}
-export type AutoTextTypeEnum = "TYPE_UNSPECIFIED" | "SLIDE_NUMBER";
-/** A TextElement kind that represents auto text. */
-export interface AutoText {
-  /** The type of this auto text. */
-  type?: AutoTextTypeEnum | (string & {});
-  /** The rendered content of this auto text, if available. */
-  content?: string;
-  /** The styling applied to this auto text. */
-  style?: TextStyle;
-}
-export type ParagraphStyleAlignmentEnum =
-  | "ALIGNMENT_UNSPECIFIED"
-  | "START"
-  | "CENTER"
-  | "END"
-  | "JUSTIFIED";
-export type ParagraphStyleDirectionEnum =
-  | "TEXT_DIRECTION_UNSPECIFIED"
-  | "LEFT_TO_RIGHT"
-  | "RIGHT_TO_LEFT";
-export type ParagraphStyleSpacingModeEnum =
-  | "SPACING_MODE_UNSPECIFIED"
-  | "NEVER_COLLAPSE"
-  | "COLLAPSE_LISTS";
-/** Styles that apply to a whole paragraph. If this text is contained in a shape with a parent placeholder, then these paragraph styles may be inherited from the parent. Which paragraph styles are inherited depend on the nesting level of lists: * A paragraph not in a list will inherit its paragraph style from the paragraph at the 0 nesting level of the list inside the parent placeholder. * A paragraph in a list will inherit its paragraph style from the paragraph at its corresponding nesting level of the list inside the parent placeholder. Inherited paragraph styles are represented as unset fields in this message. */
-export interface ParagraphStyle {
-  /** The amount indentation for the paragraph on the side that corresponds to the start of the text, based on the current text direction. If unset, the value is inherited from the parent. */
-  indentStart?: Dimension;
-  /** The amount of indentation for the start of the first line of the paragraph. If unset, the value is inherited from the parent. */
-  indentFirstLine?: Dimension;
-  /** The text alignment for this paragraph. */
-  alignment?: ParagraphStyleAlignmentEnum | (string & {});
-  /** The amount indentation for the paragraph on the side that corresponds to the end of the text, based on the current text direction. If unset, the value is inherited from the parent. */
-  indentEnd?: Dimension;
-  /** The text direction of this paragraph. If unset, the value defaults to LEFT_TO_RIGHT since text direction is not inherited. */
-  direction?: ParagraphStyleDirectionEnum | (string & {});
-  /** The amount of space between lines, as a percentage of normal, where normal is represented as 100.0. If unset, the value is inherited from the parent. */
-  lineSpacing?: number;
-  /** The amount of extra space above the paragraph. If unset, the value is inherited from the parent. */
-  spaceAbove?: Dimension;
-  /** The amount of extra space below the paragraph. If unset, the value is inherited from the parent. */
-  spaceBelow?: Dimension;
-  /** The spacing mode for the paragraph. */
-  spacingMode?: ParagraphStyleSpacingModeEnum | (string & {});
-}
-/** Describes the bullet of a paragraph. */
-export interface Bullet {
-  /** The nesting level of this paragraph in the list. */
-  nestingLevel?: number;
-  /** The ID of the list this paragraph belongs to. */
-  listId?: string;
-  /** The paragraph specific text style applied to this bullet. */
-  bulletStyle?: TextStyle;
-  /** The rendered bullet glyph for this paragraph. */
-  glyph?: string;
-}
-/** A TextElement kind that represents the beginning of a new paragraph. */
-export interface ParagraphMarker {
-  /** The paragraph's style */
-  style?: ParagraphStyle;
-  /** The bullet for this paragraph. If not present, the paragraph does not belong to a list. */
-  bullet?: Bullet;
-}
-/** A TextElement kind that represents a run of text that all has the same styling. */
-export interface TextRun {
-  /** The styling applied to this run. */
-  style?: TextStyle;
-  /** The text of this run. */
-  content?: string;
-}
-/** A TextElement describes the content of a range of indices in the text content of a Shape or TableCell. */
-export interface TextElement {
-  /** The zero-based start index of this text element, in Unicode code units. */
-  startIndex?: number;
-  /** The zero-based end index of this text element, exclusive, in Unicode code units. */
-  endIndex?: number;
-  /** A TextElement representing a spot in the text that is dynamically replaced with content that can change over time. */
-  autoText?: AutoText;
-  /** A marker representing the beginning of a new paragraph. The `start_index` and `end_index` of this TextElement represent the range of the paragraph. Other TextElements with an index range contained inside this paragraph's range are considered to be part of this paragraph. The range of indices of two separate paragraphs will never overlap. */
-  paragraphMarker?: ParagraphMarker;
-  /** A TextElement representing a run of text where all of the characters in the run have the same TextStyle. The `start_index` and `end_index` of TextRuns will always be fully contained in the index range of a single `paragraph_marker` TextElement. In other words, a TextRun will never span multiple paragraphs. */
-  textRun?: TextRun;
-}
-export type TextElementList = Array<TextElement>;
-/** Contains properties describing the look and feel of a list bullet at a given level of nesting. */
-export interface NestingLevel {
-  /** The style of a bullet at this level of nesting. */
-  bulletStyle?: TextStyle;
-}
-export type NestingLevelMap = { [key: string]: NestingLevel | undefined };
-/** A List describes the look and feel of bullets belonging to paragraphs associated with a list. A paragraph that is part of a list has an implicit reference to that list's ID. */
-export interface List {
-  /** The ID of the list. */
-  listId?: string;
-  /** A map of nesting levels to the properties of bullets at the associated level. A list has at most nine levels of nesting, so the possible values for the keys of this map are 0 through 8, inclusive. */
-  nestingLevel?: NestingLevelMap;
-}
-export type ListMap = { [key: string]: List | undefined };
-/** The general text content. The text must reside in a compatible shape (e.g. text box or rectangle) or a table cell in a page. */
-export interface TextContent {
-  /** The text contents broken down into its component parts, including styling information. This property is read-only. */
-  textElements?: TextElementList;
-  /** The bulleted lists contained in this text, keyed by list ID. */
-  lists?: ListMap;
-}
-/** Properties and contents of each table cell. */
-export interface TableCell {
-  /** Row span of the cell. */
-  rowSpan?: number;
-  /** The text content of the cell. */
-  text?: TextContent;
-  /** The location of the cell within the table. */
-  location?: TableCellLocation;
-  /** The properties of the table cell. */
-  tableCellProperties?: TableCellProperties;
-  /** Column span of the cell. */
-  columnSpan?: number;
-}
-export type TableCellList = Array<TableCell>;
-/** Properties and contents of each row in a table. */
-export interface TableRow {
-  /** Properties of the row. */
-  tableRowProperties?: TableRowProperties;
-  /** Height of a row. */
-  rowHeight?: Dimension;
-  /** Properties and contents of each cell. Cells that span multiple columns are represented only once with a column_span greater than 1. As a result, the length of this collection does not always match the number of columns of the entire table. */
-  tableCells?: TableCellList;
-}
-export type TableRowList = Array<TableRow>;
-/** The fill of the border. */
-export interface TableBorderFill {
-  /** Solid fill. */
-  solidFill?: SolidFill;
-}
-export type TableBorderPropertiesDashStyleEnum =
-  | "DASH_STYLE_UNSPECIFIED"
-  | "SOLID"
-  | "DOT"
-  | "DASH"
-  | "DASH_DOT"
-  | "LONG_DASH"
-  | "LONG_DASH_DOT";
-/** The border styling properties of the TableBorderCell. */
-export interface TableBorderProperties {
-  /** The fill of the table border. */
-  tableBorderFill?: TableBorderFill;
-  /** The thickness of the border. */
-  weight?: Dimension;
-  /** The dash style of the border. */
-  dashStyle?: TableBorderPropertiesDashStyleEnum | (string & {});
-}
-/** The properties of each border cell. */
-export interface TableBorderCell {
-  /** The location of the border within the border table. */
-  location?: TableCellLocation;
-  /** The border properties. */
-  tableBorderProperties?: TableBorderProperties;
-}
-export type TableBorderCellList = Array<TableBorderCell>;
-/** Contents of each border row in a table. */
-export interface TableBorderRow {
-  /** Properties of each border cell. When a border's adjacent table cells are merged, it is not included in the response. */
-  tableBorderCells?: TableBorderCellList;
-}
-export type TableBorderRowList = Array<TableBorderRow>;
-/** Properties of each column in a table. */
-export interface TableColumnProperties {
-  /** Width of a column. */
-  columnWidth?: Dimension;
-}
-export type TableColumnPropertiesList = Array<TableColumnProperties>;
-/** A PageElement kind representing a table. */
-export interface Table {
-  /** Number of columns in the table. */
-  columns?: number;
-  /** Properties and contents of each row. Cells that span multiple rows are contained in only one of these rows and have a row_span greater than 1. */
-  tableRows?: TableRowList;
-  /** Properties of horizontal cell borders. A table's horizontal cell borders are represented as a grid. The grid has one more row than the number of rows in the table and the same number of columns as the table. For example, if the table is 3 x 3, its horizontal borders will be represented as a grid with 4 rows and 3 columns. */
-  horizontalBorderRows?: TableBorderRowList;
-  /** Properties of vertical cell borders. A table's vertical cell borders are represented as a grid. The grid has the same number of rows as the table and one more column than the number of columns in the table. For example, if the table is 3 x 3, its vertical borders will be represented as a grid with 3 rows and 4 columns. */
-  verticalBorderRows?: TableBorderRowList;
-  /** Properties of each column. */
-  tableColumns?: TableColumnPropertiesList;
-  /** Number of rows in the table. */
-  rows?: number;
-}
-export type LineLineTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "STRAIGHT_CONNECTOR_1"
-  | "BENT_CONNECTOR_2"
-  | "BENT_CONNECTOR_3"
-  | "BENT_CONNECTOR_4"
-  | "BENT_CONNECTOR_5"
-  | "CURVED_CONNECTOR_2"
-  | "CURVED_CONNECTOR_3"
-  | "CURVED_CONNECTOR_4"
-  | "CURVED_CONNECTOR_5"
-  | "STRAIGHT_LINE";
-export type LineLineCategoryEnum = "LINE_CATEGORY_UNSPECIFIED" | "STRAIGHT" | "BENT" | "CURVED";
-/** A PageElement kind representing a non-connector line, straight connector, curved connector, or bent connector. */
-export interface Line {
-  /** The type of the line. */
-  lineType?: LineLineTypeEnum | (string & {});
-  /** The category of the line. It matches the `category` specified in CreateLineRequest, and can be updated with UpdateLineCategoryRequest. */
-  lineCategory?: LineLineCategoryEnum | (string & {});
-  /** The properties of the line. */
-  lineProperties?: LineProperties;
-}
-export type VideoSourceEnum = "SOURCE_UNSPECIFIED" | "YOUTUBE" | "DRIVE";
-/** The properties of the Video. */
-export interface VideoProperties {
-  /** Whether to mute the audio during video playback. Defaults to false. */
-  mute?: boolean;
-  /** The time at which to start playback, measured in seconds from the beginning of the video. If set, the start time should be before the end time. If you set this to a value that exceeds the video's length in seconds, the video will be played from the last second. If not set, the video will be played from the beginning. */
-  start?: number;
-  /** The time at which to end playback, measured in seconds from the beginning of the video. If set, the end time should be after the start time. If not set or if you set this to a value that exceeds the video's length, the video will be played until its end. */
-  end?: number;
-  /** Whether to enable video autoplay when the page is displayed in present mode. Defaults to false. */
-  autoPlay?: boolean;
-  /** The outline of the video. The default outline matches the defaults for new videos created in the Slides editor. */
-  outline?: Outline;
-}
-/** A PageElement kind representing a video. */
-export interface Video {
-  /** The video source. */
-  source?: VideoSourceEnum | (string & {});
-  /** An URL to a video. The URL is valid as long as the source video exists and sharing settings do not change. */
-  url?: string;
-  /** The properties of the video. */
-  videoProperties?: VideoProperties;
-  /** The video source's unique identifier for this video. */
-  id?: string;
+/** Groups objects to create an object group. For example, groups PageElements to create a Group on the same page as all the children. */
+export interface GroupObjectsRequest {
+  /** The object IDs of the objects to group. Only page elements can be grouped. There should be at least two page elements on the same page that are not already in another group. Some page elements, such as videos, tables and placeholders cannot be grouped. */
+  childrenObjectIds?: StringList;
+  /** A user-supplied object ID for the group to be created. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
+  groupObjectId?: string;
 }
 export type PlaceholderTypeEnum =
   | "NONE"
@@ -940,12 +109,1387 @@ export type PlaceholderTypeEnum =
   | "SLIDE_IMAGE";
 /** The placeholder information that uniquely identifies a placeholder shape. */
 export interface Placeholder {
-  /** The index of the placeholder. If the same placeholder types are present in the same page, they would have different index values. */
-  index?: number;
   /** The object ID of this shape's parent placeholder. If unset, the parent placeholder shape does not exist, so the shape does not inherit properties from any other shape. */
   parentObjectId?: string;
+  /** The index of the placeholder. If the same placeholder types are present in the same page, they would have different index values. */
+  index?: number;
   /** The type of the placeholder. */
   type?: PlaceholderTypeEnum | (string & {});
+}
+/** The user-specified ID mapping for a placeholder that will be created on a slide from a specified layout. */
+export interface LayoutPlaceholderIdMapping {
+  /** The object ID of the placeholder on a layout that will be applied to a slide. */
+  layoutPlaceholderObjectId?: string;
+  /** The placeholder on a layout that will be applied to a slide. Only type and index are needed. For example, a predefined `TITLE_AND_BODY` layout may usually have a TITLE placeholder with index 0 and a BODY placeholder with index 0. */
+  layoutPlaceholder?: Placeholder;
+  /** A user-supplied object ID for the placeholder identified above that to be created onto a slide. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
+  objectId?: string;
+}
+export type LayoutPlaceholderIdMappingList = Array<LayoutPlaceholderIdMapping>;
+export type LayoutReferencePredefinedLayoutEnum =
+  | "PREDEFINED_LAYOUT_UNSPECIFIED"
+  | "BLANK"
+  | "CAPTION_ONLY"
+  | "TITLE"
+  | "TITLE_AND_BODY"
+  | "TITLE_AND_TWO_COLUMNS"
+  | "TITLE_ONLY"
+  | "SECTION_HEADER"
+  | "SECTION_TITLE_AND_DESCRIPTION"
+  | "ONE_COLUMN_TEXT"
+  | "MAIN_POINT"
+  | "BIG_NUMBER";
+/** Slide layout reference. This may reference either: - A predefined layout - One of the layouts in the presentation. */
+export interface LayoutReference {
+  /** Layout ID: the object ID of one of the layouts in the presentation. */
+  layoutId?: string;
+  /** Predefined layout. */
+  predefinedLayout?: LayoutReferencePredefinedLayoutEnum | (string & {});
+}
+/** Creates a slide. */
+export interface CreateSlideRequest {
+  /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The ID length must be between 5 and 50 characters, inclusive. If you don't specify an ID, a unique one is generated. */
+  objectId?: string;
+  /** An optional list of object ID mappings from the placeholder(s) on the layout to the placeholders that are created on the slide from the specified layout. Can only be used when `slide_layout_reference` is specified. */
+  placeholderIdMappings?: LayoutPlaceholderIdMappingList;
+  /** The optional zero-based index indicating where to insert the slides. If you don't specify an index, the slide is created at the end. */
+  insertionIndex?: number;
+  /** Layout reference of the slide to be inserted, based on the *current master*, which is one of the following: - The master of the previous slide index. - The master of the first slide, if the insertion_index is zero. - The first master in the presentation, if there are no slides. If the LayoutReference is not found in the current master, a 400 bad request error is returned. If you don't specify a layout reference, the slide uses the predefined `BLANK` layout. */
+  slideLayoutReference?: LayoutReference;
+}
+export type DimensionUnitEnum = "UNIT_UNSPECIFIED" | "EMU" | "PT";
+/** A magnitude in a single direction in the specified units. */
+export interface Dimension {
+  /** The magnitude. */
+  magnitude?: number;
+  /** The units for magnitude. */
+  unit?: DimensionUnitEnum | (string & {});
+}
+/** A width and height. */
+export interface Size {
+  /** The width of the object. */
+  width?: Dimension;
+  /** The height of the object. */
+  height?: Dimension;
+}
+export type AffineTransformUnitEnum = "UNIT_UNSPECIFIED" | "EMU" | "PT";
+/** AffineTransform uses a 3x3 matrix with an implied last row of [ 0 0 1 ] to transform source coordinates (x,y) into destination coordinates (x', y') according to: x' x = shear_y scale_y translate_y 1 [ 1 ] After transformation, x' = scale_x * x + shear_x * y + translate_x; y' = scale_y * y + shear_y * x + translate_y; This message is therefore composed of these six matrix elements. */
+export interface AffineTransform {
+  /** The Y coordinate translation element. */
+  translateY?: number;
+  /** The X coordinate shearing element. */
+  shearX?: number;
+  /** The units for translate elements. */
+  unit?: AffineTransformUnitEnum | (string & {});
+  /** The X coordinate translation element. */
+  translateX?: number;
+  /** The Y coordinate scaling element. */
+  scaleY?: number;
+  /** The X coordinate scaling element. */
+  scaleX?: number;
+  /** The Y coordinate shearing element. */
+  shearY?: number;
+}
+/** Common properties for a page element. Note: When you initially create a PageElement, the API may modify the values of both `size` and `transform`, but the visual size will be unchanged. */
+export interface PageElementProperties {
+  /** The object ID of the page where the element is located. */
+  pageObjectId?: string;
+  /** The size of the element. */
+  size?: Size;
+  /** The transform for the element. */
+  transform?: AffineTransform;
+}
+export type CreateShapeRequestShapeTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "TEXT_BOX"
+  | "RECTANGLE"
+  | "ROUND_RECTANGLE"
+  | "ELLIPSE"
+  | "ARC"
+  | "BENT_ARROW"
+  | "BENT_UP_ARROW"
+  | "BEVEL"
+  | "BLOCK_ARC"
+  | "BRACE_PAIR"
+  | "BRACKET_PAIR"
+  | "CAN"
+  | "CHEVRON"
+  | "CHORD"
+  | "CLOUD"
+  | "CORNER"
+  | "CUBE"
+  | "CURVED_DOWN_ARROW"
+  | "CURVED_LEFT_ARROW"
+  | "CURVED_RIGHT_ARROW"
+  | "CURVED_UP_ARROW"
+  | "DECAGON"
+  | "DIAGONAL_STRIPE"
+  | "DIAMOND"
+  | "DODECAGON"
+  | "DONUT"
+  | "DOUBLE_WAVE"
+  | "DOWN_ARROW"
+  | "DOWN_ARROW_CALLOUT"
+  | "FOLDED_CORNER"
+  | "FRAME"
+  | "HALF_FRAME"
+  | "HEART"
+  | "HEPTAGON"
+  | "HEXAGON"
+  | "HOME_PLATE"
+  | "HORIZONTAL_SCROLL"
+  | "IRREGULAR_SEAL_1"
+  | "IRREGULAR_SEAL_2"
+  | "LEFT_ARROW"
+  | "LEFT_ARROW_CALLOUT"
+  | "LEFT_BRACE"
+  | "LEFT_BRACKET"
+  | "LEFT_RIGHT_ARROW"
+  | "LEFT_RIGHT_ARROW_CALLOUT"
+  | "LEFT_RIGHT_UP_ARROW"
+  | "LEFT_UP_ARROW"
+  | "LIGHTNING_BOLT"
+  | "MATH_DIVIDE"
+  | "MATH_EQUAL"
+  | "MATH_MINUS"
+  | "MATH_MULTIPLY"
+  | "MATH_NOT_EQUAL"
+  | "MATH_PLUS"
+  | "MOON"
+  | "NO_SMOKING"
+  | "NOTCHED_RIGHT_ARROW"
+  | "OCTAGON"
+  | "PARALLELOGRAM"
+  | "PENTAGON"
+  | "PIE"
+  | "PLAQUE"
+  | "PLUS"
+  | "QUAD_ARROW"
+  | "QUAD_ARROW_CALLOUT"
+  | "RIBBON"
+  | "RIBBON_2"
+  | "RIGHT_ARROW"
+  | "RIGHT_ARROW_CALLOUT"
+  | "RIGHT_BRACE"
+  | "RIGHT_BRACKET"
+  | "ROUND_1_RECTANGLE"
+  | "ROUND_2_DIAGONAL_RECTANGLE"
+  | "ROUND_2_SAME_RECTANGLE"
+  | "RIGHT_TRIANGLE"
+  | "SMILEY_FACE"
+  | "SNIP_1_RECTANGLE"
+  | "SNIP_2_DIAGONAL_RECTANGLE"
+  | "SNIP_2_SAME_RECTANGLE"
+  | "SNIP_ROUND_RECTANGLE"
+  | "STAR_10"
+  | "STAR_12"
+  | "STAR_16"
+  | "STAR_24"
+  | "STAR_32"
+  | "STAR_4"
+  | "STAR_5"
+  | "STAR_6"
+  | "STAR_7"
+  | "STAR_8"
+  | "STRIPED_RIGHT_ARROW"
+  | "SUN"
+  | "TRAPEZOID"
+  | "TRIANGLE"
+  | "UP_ARROW"
+  | "UP_ARROW_CALLOUT"
+  | "UP_DOWN_ARROW"
+  | "UTURN_ARROW"
+  | "VERTICAL_SCROLL"
+  | "WAVE"
+  | "WEDGE_ELLIPSE_CALLOUT"
+  | "WEDGE_RECTANGLE_CALLOUT"
+  | "WEDGE_ROUND_RECTANGLE_CALLOUT"
+  | "FLOW_CHART_ALTERNATE_PROCESS"
+  | "FLOW_CHART_COLLATE"
+  | "FLOW_CHART_CONNECTOR"
+  | "FLOW_CHART_DECISION"
+  | "FLOW_CHART_DELAY"
+  | "FLOW_CHART_DISPLAY"
+  | "FLOW_CHART_DOCUMENT"
+  | "FLOW_CHART_EXTRACT"
+  | "FLOW_CHART_INPUT_OUTPUT"
+  | "FLOW_CHART_INTERNAL_STORAGE"
+  | "FLOW_CHART_MAGNETIC_DISK"
+  | "FLOW_CHART_MAGNETIC_DRUM"
+  | "FLOW_CHART_MAGNETIC_TAPE"
+  | "FLOW_CHART_MANUAL_INPUT"
+  | "FLOW_CHART_MANUAL_OPERATION"
+  | "FLOW_CHART_MERGE"
+  | "FLOW_CHART_MULTIDOCUMENT"
+  | "FLOW_CHART_OFFLINE_STORAGE"
+  | "FLOW_CHART_OFFPAGE_CONNECTOR"
+  | "FLOW_CHART_ONLINE_STORAGE"
+  | "FLOW_CHART_OR"
+  | "FLOW_CHART_PREDEFINED_PROCESS"
+  | "FLOW_CHART_PREPARATION"
+  | "FLOW_CHART_PROCESS"
+  | "FLOW_CHART_PUNCHED_CARD"
+  | "FLOW_CHART_PUNCHED_TAPE"
+  | "FLOW_CHART_SORT"
+  | "FLOW_CHART_SUMMING_JUNCTION"
+  | "FLOW_CHART_TERMINATOR"
+  | "ARROW_EAST"
+  | "ARROW_NORTH_EAST"
+  | "ARROW_NORTH"
+  | "SPEECH"
+  | "STARBURST"
+  | "TEARDROP"
+  | "ELLIPSE_RIBBON"
+  | "ELLIPSE_RIBBON_2"
+  | "CLOUD_CALLOUT"
+  | "CUSTOM";
+/** Creates a new shape. */
+export interface CreateShapeRequest {
+  /** The element properties for the shape. */
+  elementProperties?: PageElementProperties;
+  /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If empty, a unique identifier will be generated. */
+  objectId?: string;
+  /** The shape type. */
+  shapeType?: CreateShapeRequestShapeTypeEnum | (string & {});
+}
+export type RangeTypeEnum = "RANGE_TYPE_UNSPECIFIED" | "FIXED_RANGE" | "FROM_START_INDEX" | "ALL";
+/** Specifies a contiguous range of an indexed collection, such as characters in text. */
+export interface Range {
+  /** The optional zero-based index of the end of the collection. Required for `FIXED_RANGE` ranges. */
+  endIndex?: number;
+  /** The type of range. */
+  type?: RangeTypeEnum | (string & {});
+  /** The optional zero-based index of the beginning of the collection. Required for `FIXED_RANGE` and `FROM_START_INDEX` ranges. */
+  startIndex?: number;
+}
+/** An anchor to a specific range of text within a Shape's text. To insert comments in speaker notes, use the ShapeTextAnchor with the speaker notes object ID. */
+export interface ShapeTextAnchor {
+  /** The object ID of the page element containing the text. */
+  objectId?: string;
+  /** The text range for the anchor. */
+  textRange?: Range;
+}
+/** A location of a single table cell within a table. */
+export interface TableCellLocation {
+  /** The 0-based row index. */
+  rowIndex?: number;
+  /** The 0-based column index. */
+  columnIndex?: number;
+}
+/** An anchor to a specific range of text within a TableCell's TextElement. */
+export interface TableCellTextAnchor {
+  /** The location of the cell in the table. */
+  cellLocation?: TableCellLocation;
+  /** The text range for the anchor. */
+  textRange?: Range;
+  /** The object ID of the table containing the cell. */
+  objectId?: string;
+}
+/** A table range represents a reference to a subset of a table. It's important to note that the cells specified by a table range do not necessarily form a rectangle. For example, let's say we have a 3 x 3 table where all the cells of the last row are merged together. The table looks like this: [ ] A table range with location = (0, 0), row span = 3 and column span = 2 specifies the following cells: x x [ x x x ] */
+export interface TableRange {
+  /** The starting location of the table range. */
+  location?: TableCellLocation;
+  /** The column span of the table range. */
+  columnSpan?: number;
+  /** The row span of the table range. */
+  rowSpan?: number;
+}
+/** An anchor to a specific range of cells within a Table. Used to anchor a comment to all of the text in each cell in a range within a table. */
+export interface TableAnchor {
+  /** The object ID of the table. */
+  objectId?: string;
+  /** The range of cells in the table to apply the anchor to. If omitted, all cells in the table will be used for the anchor. */
+  tableRange?: TableRange;
+}
+/** Inserts a CommentThread into the presentation. */
+export interface InsertCommentRequest {
+  /** Anchors a comment to a specific range of text within a Shape. */
+  shapeTextAnchor?: ShapeTextAnchor;
+  /** Anchors a comment to a specific range of text within a single cell in a Table. */
+  tableCellTextAnchor?: TableCellTextAnchor;
+  /** Optional. The email address of the assignee of the comment. Leave empty for a non-assigned comment. May not exceed 2048 UTF-8 code units. */
+  assigneeEmailAddress?: string;
+  /** The text of the comment, as plain text. This text content will be handled similarly to comments created in the Slides editor. It will have similar behaviors for formatting, notifications, etc. This field cannot be empty, and must not exceed 2048 UTF-8 code units. */
+  content?: string;
+  /** The object ID of the Page or PageElement that is tied to this comment. If the specified object_id is a Group, the comment will be anchored to at most 100 of the group's non-group descendants. */
+  objectId?: string;
+  /** Anchors a comment to a specific range of cells within a Table. Returns a 400 bad request error if no cells within the range contain text. */
+  tableAnchor?: TableAnchor;
+}
+export type CreateLineRequestLineCategoryEnum = "STRAIGHT" | "BENT" | "CURVED";
+export type CreateLineRequestCategoryEnum =
+  | "LINE_CATEGORY_UNSPECIFIED"
+  | "STRAIGHT"
+  | "BENT"
+  | "CURVED";
+/** Creates a line. */
+export interface CreateLineRequest {
+  /** The category of the line to be created. *Deprecated*: use `category` instead. The exact line type created is determined based on the category and how it's routed to connect to other page elements. If you specify both a `category` and a `line_category`, the `category` takes precedence. */
+  lineCategory?: CreateLineRequestLineCategoryEnum | (string & {});
+  /** The category of the line to be created. The exact line type created is determined based on the category and how it's routed to connect to other page elements. If you specify both a `category` and a `line_category`, the `category` takes precedence. If you do not specify a value for `category`, but specify a value for `line_category`, then the specified `line_category` value is used. If you do not specify either, then STRAIGHT is used. */
+  category?: CreateLineRequestCategoryEnum | (string & {});
+  /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
+  objectId?: string;
+  /** The element properties for the line. */
+  elementProperties?: PageElementProperties;
+}
+/** An RGB color. */
+export interface RgbColor {
+  /** The green component of the color, from 0.0 to 1.0. */
+  green?: number;
+  /** The red component of the color, from 0.0 to 1.0. */
+  red?: number;
+  /** The blue component of the color, from 0.0 to 1.0. */
+  blue?: number;
+}
+export type OpaqueColorThemeColorEnum =
+  | "THEME_COLOR_TYPE_UNSPECIFIED"
+  | "DARK1"
+  | "LIGHT1"
+  | "DARK2"
+  | "LIGHT2"
+  | "ACCENT1"
+  | "ACCENT2"
+  | "ACCENT3"
+  | "ACCENT4"
+  | "ACCENT5"
+  | "ACCENT6"
+  | "HYPERLINK"
+  | "FOLLOWED_HYPERLINK"
+  | "TEXT1"
+  | "BACKGROUND1"
+  | "TEXT2"
+  | "BACKGROUND2";
+/** A themeable solid color value. */
+export interface OpaqueColor {
+  /** An opaque RGB color. */
+  rgbColor?: RgbColor;
+  /** An opaque theme color. */
+  themeColor?: OpaqueColorThemeColorEnum | (string & {});
+}
+/** A solid color fill. The page or page element is filled entirely with the specified color value. If any field is unset, its value may be inherited from a parent placeholder if it exists. */
+export interface SolidFill {
+  /** The color value of the solid fill. */
+  color?: OpaqueColor;
+  /** The fraction of this `color` that should be applied to the pixel. That is, the final pixel color is defined by the equation: pixel color = alpha * (color) + (1.0 - alpha) * (background color) This means that a value of 1.0 corresponds to a solid color, whereas a value of 0.0 corresponds to a completely transparent color. */
+  alpha?: number;
+}
+/** The fill of the outline. */
+export interface OutlineFill {
+  /** Solid color fill. */
+  solidFill?: SolidFill;
+}
+export type OutlinePropertyStateEnum = "RENDERED" | "NOT_RENDERED" | "INHERIT";
+export type OutlineDashStyleEnum =
+  | "DASH_STYLE_UNSPECIFIED"
+  | "SOLID"
+  | "DOT"
+  | "DASH"
+  | "DASH_DOT"
+  | "LONG_DASH"
+  | "LONG_DASH_DOT";
+/** The outline of a PageElement. If these fields are unset, they may be inherited from a parent placeholder if it exists. If there is no parent, the fields will default to the value used for new page elements created in the Slides editor, which may depend on the page element kind. */
+export interface Outline {
+  /** The fill of the outline. */
+  outlineFill?: OutlineFill;
+  /** The outline property state. Updating the outline on a page element will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no outline on a page element, set this field to `NOT_RENDERED`. In this case, any other outline fields set in the same request will be ignored. */
+  propertyState?: OutlinePropertyStateEnum | (string & {});
+  /** The dash style of the outline. */
+  dashStyle?: OutlineDashStyleEnum | (string & {});
+  /** The thickness of the outline. */
+  weight?: Dimension;
+}
+/** The crop properties of an object enclosed in a container. For example, an Image. The crop properties is represented by the offsets of four edges which define a crop rectangle. The offsets are measured in percentage from the corresponding edges of the object's original bounding rectangle towards inside, relative to the object's original dimensions. - If the offset is in the interval (0, 1), the corresponding edge of crop rectangle is positioned inside of the object's original bounding rectangle. - If the offset is negative or greater than 1, the corresponding edge of crop rectangle is positioned outside of the object's original bounding rectangle. - If the left edge of the crop rectangle is on the right side of its right edge, the object will be flipped horizontally. - If the top edge of the crop rectangle is below its bottom edge, the object will be flipped vertically. - If all offsets and rotation angle is 0, the object is not cropped. After cropping, the content in the crop rectangle will be stretched to fit its container. */
+export interface CropProperties {
+  /** The offset specifies the left edge of the crop rectangle that is located to the right of the original bounding rectangle left edge, relative to the object's original width. */
+  leftOffset?: number;
+  /** The offset specifies the bottom edge of the crop rectangle that is located above the original bounding rectangle bottom edge, relative to the object's original height. */
+  bottomOffset?: number;
+  /** The offset specifies the right edge of the crop rectangle that is located to the left of the original bounding rectangle right edge, relative to the object's original width. */
+  rightOffset?: number;
+  /** The rotation angle of the crop window around its center, in radians. Rotation angle is applied after the offset. */
+  angle?: number;
+  /** The offset specifies the top edge of the crop rectangle that is located below the original bounding rectangle top edge, relative to the object's original height. */
+  topOffset?: number;
+}
+/** A color and position in a gradient band. */
+export interface ColorStop {
+  /** The relative position of the color stop in the gradient band measured in percentage. The value should be in the interval [0.0, 1.0]. */
+  position?: number;
+  /** The color of the gradient stop. */
+  color?: OpaqueColor;
+  /** The alpha value of this color in the gradient band. Defaults to 1.0, fully opaque. */
+  alpha?: number;
+}
+export type ColorStopList = Array<ColorStop>;
+export type RecolorNameEnum =
+  | "NONE"
+  | "LIGHT1"
+  | "LIGHT2"
+  | "LIGHT3"
+  | "LIGHT4"
+  | "LIGHT5"
+  | "LIGHT6"
+  | "LIGHT7"
+  | "LIGHT8"
+  | "LIGHT9"
+  | "LIGHT10"
+  | "DARK1"
+  | "DARK2"
+  | "DARK3"
+  | "DARK4"
+  | "DARK5"
+  | "DARK6"
+  | "DARK7"
+  | "DARK8"
+  | "DARK9"
+  | "DARK10"
+  | "GRAYSCALE"
+  | "NEGATIVE"
+  | "SEPIA"
+  | "CUSTOM";
+/** A recolor effect applied on an image. */
+export interface Recolor {
+  /** The recolor effect is represented by a gradient, which is a list of color stops. The colors in the gradient will replace the corresponding colors at the same position in the color palette and apply to the image. This property is read-only. */
+  recolorStops?: ColorStopList;
+  /** The name of the recolor effect. The name is determined from the `recolor_stops` by matching the gradient against the colors in the page's current color scheme. This property is read-only. */
+  name?: RecolorNameEnum | (string & {});
+}
+export type ShadowAlignmentEnum =
+  | "RECTANGLE_POSITION_UNSPECIFIED"
+  | "TOP_LEFT"
+  | "TOP_CENTER"
+  | "TOP_RIGHT"
+  | "LEFT_CENTER"
+  | "CENTER"
+  | "RIGHT_CENTER"
+  | "BOTTOM_LEFT"
+  | "BOTTOM_CENTER"
+  | "BOTTOM_RIGHT";
+export type ShadowTypeEnum = "SHADOW_TYPE_UNSPECIFIED" | "OUTER";
+export type ShadowPropertyStateEnum = "RENDERED" | "NOT_RENDERED" | "INHERIT";
+/** The shadow properties of a page element. If these fields are unset, they may be inherited from a parent placeholder if it exists. If there is no parent, the fields will default to the value used for new page elements created in the Slides editor, which may depend on the page element kind. */
+export interface Shadow {
+  /** The radius of the shadow blur. The larger the radius, the more diffuse the shadow becomes. */
+  blurRadius?: Dimension;
+  /** The alignment point of the shadow, that sets the origin for translate, scale and skew of the shadow. This property is read-only. */
+  alignment?: ShadowAlignmentEnum | (string & {});
+  /** The shadow color value. */
+  color?: OpaqueColor;
+  /** The alpha of the shadow's color, from 0.0 to 1.0. */
+  alpha?: number;
+  /** Whether the shadow should rotate with the shape. This property is read-only. */
+  rotateWithShape?: boolean;
+  /** The type of the shadow. This property is read-only. */
+  type?: ShadowTypeEnum | (string & {});
+  /** Transform that encodes the translate, scale, and skew of the shadow, relative to the alignment position. */
+  transform?: AffineTransform;
+  /** The shadow property state. Updating the shadow on a page element will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no shadow on a page element, set this field to `NOT_RENDERED`. In this case, any other shadow fields set in the same request will be ignored. */
+  propertyState?: ShadowPropertyStateEnum | (string & {});
+}
+export type LinkRelativeLinkEnum =
+  | "RELATIVE_SLIDE_LINK_UNSPECIFIED"
+  | "NEXT_SLIDE"
+  | "PREVIOUS_SLIDE"
+  | "FIRST_SLIDE"
+  | "LAST_SLIDE";
+/** A hypertext link. */
+export interface Link {
+  /** If set, indicates this is a link to the specific page in this presentation with this ID. A page with this ID may not exist. */
+  pageObjectId?: string;
+  /** If set, indicates this is a link to a slide in this presentation, addressed by its position. */
+  relativeLink?: LinkRelativeLinkEnum | (string & {});
+  /** If set, indicates this is a link to the external web page at this URL. */
+  url?: string;
+  /** If set, indicates this is a link to the slide at this zero-based index in the presentation. There may not be a slide at this index. */
+  slideIndex?: number;
+}
+/** The properties of the Image. */
+export interface ImageProperties {
+  /** The transparency effect of the image. The value should be in the interval [0.0, 1.0], where 0 means no effect and 1 means completely transparent. This property is read-only. */
+  transparency?: number;
+  /** The outline of the image. If not set, the image has no outline. */
+  outline?: Outline;
+  /** The crop properties of the image. If not set, the image is not cropped. This property is read-only. */
+  cropProperties?: CropProperties;
+  /** The brightness effect of the image. The value should be in the interval [-1.0, 1.0], where 0 means no effect. This property is read-only. */
+  brightness?: number;
+  /** The contrast effect of the image. The value should be in the interval [-1.0, 1.0], where 0 means no effect. This property is read-only. */
+  contrast?: number;
+  /** The recolor effect of the image. If not set, the image is not recolored. This property is read-only. */
+  recolor?: Recolor;
+  /** The shadow of the image. If not set, the image has no shadow. This property is read-only. */
+  shadow?: Shadow;
+  /** The hyperlink destination of the image. If unset, there is no link. */
+  link?: Link;
+}
+/** Update the properties of an Image. */
+export interface UpdateImagePropertiesRequest {
+  /** The object ID of the image the updates are applied to. */
+  objectId?: string;
+  /** The fields that should be updated. At least one field must be specified. The root `imageProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the image outline color, set `fields` to `"outline.outlineFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  fields?: string;
+  /** The image properties to update. */
+  imageProperties?: ImageProperties;
+}
+/** Deletes a CommentThread. Returns a 400 bad request error if the requesting user is not the author of the headPost. */
+export interface DeleteCommentRequest {
+  /** The ID of the CommentThread that is being deleted. */
+  commentId?: string;
+}
+/** Deletes a reply Post from a CommentThread. Returns a 400 bad request error if: - The requesting user is not the author of the post. - The reply post contains a comment action. - The reply post contains an assignee. */
+export interface DeleteCommentReplyRequest {
+  /** The ID of the CommentThread which the post belongs to. */
+  commentId?: string;
+  /** The ID of the reply Post being deleted. */
+  postId?: string;
+}
+export type CreateParagraphBulletsRequestBulletPresetEnum =
+  | "BULLET_DISC_CIRCLE_SQUARE"
+  | "BULLET_DIAMONDX_ARROW3D_SQUARE"
+  | "BULLET_CHECKBOX"
+  | "BULLET_ARROW_DIAMOND_DISC"
+  | "BULLET_STAR_CIRCLE_SQUARE"
+  | "BULLET_ARROW3D_CIRCLE_SQUARE"
+  | "BULLET_LEFTTRIANGLE_DIAMOND_DISC"
+  | "BULLET_DIAMONDX_HOLLOWDIAMOND_SQUARE"
+  | "BULLET_DIAMOND_CIRCLE_SQUARE"
+  | "NUMBERED_DIGIT_ALPHA_ROMAN"
+  | "NUMBERED_DIGIT_ALPHA_ROMAN_PARENS"
+  | "NUMBERED_DIGIT_NESTED"
+  | "NUMBERED_UPPERALPHA_ALPHA_ROMAN"
+  | "NUMBERED_UPPERROMAN_UPPERALPHA_DIGIT"
+  | "NUMBERED_ZERODIGIT_ALPHA_ROMAN";
+/** Creates bullets for all of the paragraphs that overlap with the given text index range. The nesting level of each paragraph will be determined by counting leading tabs in front of each paragraph. To avoid excess space between the bullet and the corresponding paragraph, these leading tabs are removed by this request. This may change the indices of parts of the text. If the paragraph immediately before paragraphs being updated is in a list with a matching preset, the paragraphs being updated are added to that preceding list. */
+export interface CreateParagraphBulletsRequest {
+  /** The optional table cell location if the text to be modified is in a table cell. If present, the object_id must refer to a table. */
+  cellLocation?: TableCellLocation;
+  /** The object ID of the shape or table containing the text to add bullets to. */
+  objectId?: string;
+  /** The kinds of bullet glyphs to be used. Defaults to the `BULLET_DISC_CIRCLE_SQUARE` preset. */
+  bulletPreset?: CreateParagraphBulletsRequestBulletPresetEnum | (string & {});
+  /** The range of text to apply the bullet presets to, based on TextElement indexes. */
+  textRange?: Range;
+}
+export type AutofitAutofitTypeEnum =
+  | "AUTOFIT_TYPE_UNSPECIFIED"
+  | "NONE"
+  | "TEXT_AUTOFIT"
+  | "SHAPE_AUTOFIT";
+/** The autofit properties of a Shape. This property is only set for shapes that allow text. */
+export interface Autofit {
+  /** The font scale applied to the shape. For shapes with autofit_type NONE or SHAPE_AUTOFIT, this value is the default value of 1. For TEXT_AUTOFIT, this value multiplied by the font_size gives the font size that's rendered in the editor. This property is read-only. */
+  fontScale?: number;
+  /** The line spacing reduction applied to the shape. For shapes with autofit_type NONE or SHAPE_AUTOFIT, this value is the default value of 0. For TEXT_AUTOFIT, this value subtracted from the line_spacing gives the line spacing that's rendered in the editor. This property is read-only. */
+  lineSpacingReduction?: number;
+  /** The autofit type of the shape. If the autofit type is AUTOFIT_TYPE_UNSPECIFIED, the autofit type is inherited from a parent placeholder if it exists. The field is automatically set to NONE if a request is made that might affect text fitting within its bounding text box. In this case, the font_scale is applied to the font_size and the line_spacing_reduction is applied to the line_spacing. Both properties are also reset to default values. */
+  autofitType?: AutofitAutofitTypeEnum | (string & {});
+}
+export type ShapeBackgroundFillPropertyStateEnum = "RENDERED" | "NOT_RENDERED" | "INHERIT";
+/** The shape background fill. */
+export interface ShapeBackgroundFill {
+  /** Solid color fill. */
+  solidFill?: SolidFill;
+  /** The background fill property state. Updating the fill on a shape will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no fill on a shape, set this field to `NOT_RENDERED`. In this case, any other fill fields set in the same request will be ignored. */
+  propertyState?: ShapeBackgroundFillPropertyStateEnum | (string & {});
+}
+export type ShapePropertiesContentAlignmentEnum =
+  | "CONTENT_ALIGNMENT_UNSPECIFIED"
+  | "CONTENT_ALIGNMENT_UNSUPPORTED"
+  | "TOP"
+  | "MIDDLE"
+  | "BOTTOM";
+/** The properties of a Shape. If the shape is a placeholder shape as determined by the placeholder field, then these properties may be inherited from a parent placeholder shape. Determining the rendered value of the property depends on the corresponding property_state field value. Any text autofit settings on the shape are automatically deactivated by requests that can impact how text fits in the shape. */
+export interface ShapeProperties {
+  /** The hyperlink destination of the shape. If unset, there is no link. Links are not inherited from parent placeholders. */
+  link?: Link;
+  /** The shadow properties of the shape. If unset, the shadow is inherited from a parent placeholder if it exists. If the shape has no parent, then the default shadow matches the defaults for new shapes created in the Slides editor. This property is read-only. */
+  shadow?: Shadow;
+  /** The autofit properties of the shape. This property is only set for shapes that allow text. */
+  autofit?: Autofit;
+  /** The outline of the shape. If unset, the outline is inherited from a parent placeholder if it exists. If the shape has no parent, then the default outline depends on the shape type, matching the defaults for new shapes created in the Slides editor. */
+  outline?: Outline;
+  /** The background fill of the shape. If unset, the background fill is inherited from a parent placeholder if it exists. If the shape has no parent, then the default background fill depends on the shape type, matching the defaults for new shapes created in the Slides editor. */
+  shapeBackgroundFill?: ShapeBackgroundFill;
+  /** The alignment of the content in the shape. If unspecified, the alignment is inherited from a parent placeholder if it exists. If the shape has no parent, the default alignment matches the alignment for new shapes created in the Slides editor. */
+  contentAlignment?: ShapePropertiesContentAlignmentEnum | (string & {});
+}
+/** Update the properties of a Shape. */
+export interface UpdateShapePropertiesRequest {
+  /** The object ID of the shape the updates are applied to. */
+  objectId?: string;
+  /** The shape properties to update. */
+  shapeProperties?: ShapeProperties;
+  /** The fields that should be updated. At least one field must be specified. The root `shapeProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the shape background solid fill color, set `fields` to `"shapeBackgroundFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  fields?: string;
+}
+export type TableBorderPropertiesDashStyleEnum =
+  | "DASH_STYLE_UNSPECIFIED"
+  | "SOLID"
+  | "DOT"
+  | "DASH"
+  | "DASH_DOT"
+  | "LONG_DASH"
+  | "LONG_DASH_DOT";
+/** The fill of the border. */
+export interface TableBorderFill {
+  /** Solid fill. */
+  solidFill?: SolidFill;
+}
+/** The border styling properties of the TableBorderCell. */
+export interface TableBorderProperties {
+  /** The dash style of the border. */
+  dashStyle?: TableBorderPropertiesDashStyleEnum | (string & {});
+  /** The thickness of the border. */
+  weight?: Dimension;
+  /** The fill of the table border. */
+  tableBorderFill?: TableBorderFill;
+}
+export type UpdateTableBorderPropertiesRequestBorderPositionEnum =
+  | "ALL"
+  | "BOTTOM"
+  | "INNER"
+  | "INNER_HORIZONTAL"
+  | "INNER_VERTICAL"
+  | "LEFT"
+  | "OUTER"
+  | "RIGHT"
+  | "TOP";
+/** Updates the properties of the table borders in a Table. */
+export interface UpdateTableBorderPropertiesRequest {
+  /** The object ID of the table. */
+  objectId?: string;
+  /** The table border properties to update. */
+  tableBorderProperties?: TableBorderProperties;
+  /** The border position in the table range the updates should apply to. If a border position is not specified, the updates will apply to all borders in the table range. */
+  borderPosition?: UpdateTableBorderPropertiesRequestBorderPositionEnum | (string & {});
+  /** The table range representing the subset of the table to which the updates are applied. If a table range is not specified, the updates will apply to the entire table. */
+  tableRange?: TableRange;
+  /** The fields that should be updated. At least one field must be specified. The root `tableBorderProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the table border solid fill color, set `fields` to `"tableBorderFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  fields?: string;
+}
+/** Updates the alt text title and/or description of a page element. */
+export interface UpdatePageElementAltTextRequest {
+  /** The updated alt text description of the page element. If unset the existing value will be maintained. The description is exposed to screen readers and other accessibility interfaces. Only use human readable values related to the content of the page element. */
+  description?: string;
+  /** The object ID of the page element the updates are applied to. */
+  objectId?: string;
+  /** The updated alt text title of the page element. If unset the existing value will be maintained. The title is exposed to screen readers and other accessibility interfaces. Only use human readable values related to the content of the page element. */
+  title?: string;
+}
+export type PostCommentActionEnum =
+  | "COMMENT_ACTION_TYPE_UNSPECIFIED"
+  | "NO_COMMENT_ACTION_CHANGE"
+  | "RESOLVE"
+  | "REOPEN";
+/** Represents a user who authored a comment post. */
+export interface PostAuthor {
+  /** Whether the user is anonymous. */
+  anonymous?: boolean;
+  /** The resource name of the post author user, which can also be used to identify the user in the [Google People API](https://developers.google.com/people/api/rest/v1/people). Format: `users/{user}`. Will not be populated if the anonymous field is `true` or if the post is from an imported presentation. */
+  user?: string;
+  /** The display name of the user. May be absent if the author is anonymous. */
+  displayName?: string;
+  /** Whether the user is the authenticated user making the request. */
+  me?: boolean;
+}
+/** Represents a single post in a comment thread. */
+export interface Post {
+  /** Output only. Whether the post is from an imported presentation. This field cannot be set directly by callers. */
+  fromImportedPresentation?: boolean;
+  /** The content of the post. Required to be non-empty if comment_action is not `RESOLVE` or `REOPEN`. This text content will be handled similarly to comments created in the Slides editor. It will have similar behaviors for formatting, notifications, etc. May not exceed 2048 UTF-8 code units. */
+  content?: string;
+  /** Action taken as part of creating the post. */
+  commentAction?: PostCommentActionEnum | (string & {});
+  /** Optional. The email of the user who is being newly assigned to the thread as part of this post. Returns a 400 bad request error if: - The parent thread is a CommentThread whose headPost does not have an assignee. - commentAction is specified as `RESOLVE` or `REOPEN`. - `assignee_email` exceeds 2048 UTF-8 code units. */
+  assigneeEmail?: string;
+  /** Output only. The time the post was created. */
+  createTime?: string;
+  /** Output only. Whether the post is deleted. If `true`, content and author fields will be empty. */
+  deleted?: boolean;
+  /** Output only. The content of the post as HTML. */
+  contentHtml?: string;
+  /** Output only. The time the post was last updated. */
+  updateTime?: string;
+  /** Output only. Whether the post is from a copied presentation. This field cannot be set directly by callers. */
+  fromCopiedPresentation?: boolean;
+  /** Output only. The unique ID of the post. */
+  postId?: string;
+  /** Output only. The user who created the post. */
+  author?: PostAuthor;
+}
+/** Inserts a reply Post into a CommentThread. */
+export interface AddCommentReplyRequest {
+  /** The ID of the CommentThread to add the reply to. */
+  commentId?: string;
+  /** The Post representing the reply. */
+  post?: Post;
+}
+/** Updates a Post in a CommentThread. Returns a 400 bad request error if: - The requesting user is not the author of the post. */
+export interface UpdateCommentPostRequest {
+  /** The ID of the post being updated. */
+  postId?: string;
+  /** The ID of the CommentThread which the post belongs to. */
+  commentId?: string;
+  /** The new text of the comment, as plain text. This text content will be handled similarly to comments created in the Slides editor. It will have similar behaviors for formatting, notifications, etc. This field cannot be empty, and must not exceed 2048 UTF-8 code units. */
+  content?: string;
+}
+/** Deletes bullets from all of the paragraphs that overlap with the given text index range. The nesting level of each paragraph will be visually preserved by adding indent to the start of the corresponding paragraph. */
+export interface DeleteParagraphBulletsRequest {
+  /** The range of text to delete bullets from, based on TextElement indexes. */
+  textRange?: Range;
+  /** The optional table cell location if the text to be modified is in a table cell. If present, the object_id must refer to a table. */
+  cellLocation?: TableCellLocation;
+  /** The object ID of the shape or table containing the text to delete bullets from. */
+  objectId?: string;
+}
+/** Unmerges cells in a Table. */
+export interface UnmergeTableCellsRequest {
+  /** The object ID of the table. */
+  objectId?: string;
+  /** The table range specifying which cells of the table to unmerge. All merged cells in this range will be unmerged, and cells that are already unmerged will not be affected. If the range has no merged cells, the request will do nothing. If there is text in any of the merged cells, the text will remain in the upper-left ("head") cell of the resulting block of unmerged cells. */
+  tableRange?: TableRange;
+}
+/** Deletes a row from a table. */
+export interface DeleteTableRowRequest {
+  /** The reference table cell location from which a row will be deleted. The row this cell spans will be deleted. If this is a merged cell, multiple rows will be deleted. If no rows remain in the table after this deletion, the whole table is deleted. */
+  cellLocation?: TableCellLocation;
+  /** The table to delete rows from. */
+  tableObjectId?: string;
+}
+export type PageBackgroundFillPropertyStateEnum = "RENDERED" | "NOT_RENDERED" | "INHERIT";
+/** The stretched picture fill. The page or page element is filled entirely with the specified picture. The picture is stretched to fit its container. */
+export interface StretchedPictureFill {
+  /** Reading the content_url: An URL to a picture with a default lifetime of 30 minutes. This URL is tagged with the account of the requester. Anyone with the URL effectively accesses the picture as the original requester. Access to the picture may be lost if the presentation's sharing settings change. Writing the content_url: The picture is fetched once at insertion time and a copy is stored for display inside the presentation. Pictures must be less than 50MB in size, cannot exceed 25 megapixels, and must be in one of PNG, JPEG, or GIF format. The provided URL can be at most 2 kB in length. */
+  contentUrl?: string;
+  /** The original size of the picture fill. This field is read-only. */
+  size?: Size;
+}
+/** The page background fill. */
+export interface PageBackgroundFill {
+  /** The background fill property state. Updating the fill on a page will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no fill on a page, set this field to `NOT_RENDERED`. In this case, any other fill fields set in the same request will be ignored. */
+  propertyState?: PageBackgroundFillPropertyStateEnum | (string & {});
+  /** Stretched picture fill. */
+  stretchedPictureFill?: StretchedPictureFill;
+  /** Solid color fill. */
+  solidFill?: SolidFill;
+}
+export type ThemeColorPairTypeEnum =
+  | "THEME_COLOR_TYPE_UNSPECIFIED"
+  | "DARK1"
+  | "LIGHT1"
+  | "DARK2"
+  | "LIGHT2"
+  | "ACCENT1"
+  | "ACCENT2"
+  | "ACCENT3"
+  | "ACCENT4"
+  | "ACCENT5"
+  | "ACCENT6"
+  | "HYPERLINK"
+  | "FOLLOWED_HYPERLINK"
+  | "TEXT1"
+  | "BACKGROUND1"
+  | "TEXT2"
+  | "BACKGROUND2";
+/** A pair mapping a theme color type to the concrete color it represents. */
+export interface ThemeColorPair {
+  /** The type of the theme color. */
+  type?: ThemeColorPairTypeEnum | (string & {});
+  /** The concrete color corresponding to the theme color type above. */
+  color?: RgbColor;
+}
+export type ThemeColorPairList = Array<ThemeColorPair>;
+/** The palette of predefined colors for a page. */
+export interface ColorScheme {
+  /** The ThemeColorType and corresponding concrete color pairs. */
+  colors?: ThemeColorPairList;
+}
+/** The properties of the Page. The page will inherit properties from the parent page. Depending on the page type the hierarchy is defined in either SlideProperties or LayoutProperties. */
+export interface PageProperties {
+  /** The background fill of the page. If unset, the background fill is inherited from a parent page if it exists. If the page has no parent, then the background fill defaults to the corresponding fill in the Slides editor. */
+  pageBackgroundFill?: PageBackgroundFill;
+  /** The color scheme of the page. If unset, the color scheme is inherited from a parent page. If the page has no parent, the color scheme uses a default Slides color scheme, matching the defaults in the Slides editor. Only the concrete colors of the first 12 ThemeColorTypes are editable. In addition, only the color scheme on `Master` pages can be updated. To update the field, a color scheme containing mappings from all the first 12 ThemeColorTypes to their concrete colors must be provided. Colors for the remaining ThemeColorTypes will be ignored. */
+  colorScheme?: ColorScheme;
+}
+/** Updates the properties of a Page. */
+export interface UpdatePagePropertiesRequest {
+  /** The page properties to update. */
+  pageProperties?: PageProperties;
+  /** The object ID of the page the update is applied to. */
+  objectId?: string;
+  /** The fields that should be updated. At least one field must be specified. The root `pageProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the page background solid fill color, set `fields` to `"pageBackgroundFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  fields?: string;
+}
+/** A criteria that matches a specific string of text in a shape or table. */
+export interface SubstringMatchCriteria {
+  /** Indicates whether the search should respect case: - `True`: the search is case sensitive. - `False`: the search is case insensitive. */
+  matchCase?: boolean;
+  /** The text to search for in the shape or table. */
+  text?: string;
+  /** Optional. True if the find value should be treated as a regular expression. Any backslashes in the pattern should be escaped. - `True`: the search text is treated as a regular expressions. - `False`: the search text is treated as a substring for matching. */
+  searchByRegex?: boolean;
+}
+/** Replaces all instances of text matching a criteria with replace text. */
+export interface ReplaceAllTextRequest {
+  /** The text that will replace the matched text. */
+  replaceText?: string;
+  /** Finds text in a shape matching this substring. */
+  containsText?: SubstringMatchCriteria;
+  /** If non-empty, limits the matches to page elements only on the given pages. Returns a 400 bad request error if given the page object ID of a notes master, or if a page with that object ID doesn't exist in the presentation. */
+  pageObjectIds?: StringList;
+}
+/** Deletes a column from a table. */
+export interface DeleteTableColumnRequest {
+  /** The reference table cell location from which a column will be deleted. The column this cell spans will be deleted. If this is a merged cell, multiple columns will be deleted. If no columns remain in the table after this deletion, the whole table is deleted. */
+  cellLocation?: TableCellLocation;
+  /** The table to delete columns from. */
+  tableObjectId?: string;
+}
+export type UpdatePageElementsZOrderRequestOperationEnum =
+  | "Z_ORDER_OPERATION_UNSPECIFIED"
+  | "BRING_TO_FRONT"
+  | "BRING_FORWARD"
+  | "SEND_BACKWARD"
+  | "SEND_TO_BACK";
+/** Updates the Z-order of page elements. Z-order is an ordering of the elements on the page from back to front. The page element in the front may cover the elements that are behind it. */
+export interface UpdatePageElementsZOrderRequest {
+  /** The object IDs of the page elements to update. All the page elements must be on the same page and must not be grouped. */
+  pageElementObjectIds?: StringList;
+  /** The Z-order operation to apply on the page elements. When applying the operation on multiple page elements, the relative Z-orders within these page elements before the operation is maintained. */
+  operation?: UpdatePageElementsZOrderRequestOperationEnum | (string & {});
+}
+export type ReplaceAllShapesWithImageRequestImageReplaceMethodEnum =
+  | "IMAGE_REPLACE_METHOD_UNSPECIFIED"
+  | "CENTER_INSIDE"
+  | "CENTER_CROP";
+export type ReplaceAllShapesWithImageRequestReplaceMethodEnum = "CENTER_INSIDE" | "CENTER_CROP";
+/** Replaces all shapes that match the given criteria with the provided image. The images replacing the shapes are rectangular after being inserted into the presentation and do not take on the forms of the shapes. */
+export interface ReplaceAllShapesWithImageRequest {
+  /** If set, this request will replace all of the shapes that contain the given text. */
+  containsText?: SubstringMatchCriteria;
+  /** The image URL. The image is fetched once at insertion time and a copy is stored for display inside the presentation. Images must be less than 50MB in size, cannot exceed 25 megapixels, and must be in one of PNG, JPEG, or GIF format. The provided URL can be at most 2 kB in length. The URL itself is saved with the image, and exposed via the Image.source_url field. */
+  imageUrl?: string;
+  /** If non-empty, limits the matches to page elements only on the given pages. Returns a 400 bad request error if given the page object ID of a notes page or a notes master, or if a page with that object ID doesn't exist in the presentation. */
+  pageObjectIds?: StringList;
+  /** The image replace method. If you specify both a `replace_method` and an `image_replace_method`, the `image_replace_method` takes precedence. If you do not specify a value for `image_replace_method`, but specify a value for `replace_method`, then the specified `replace_method` value is used. If you do not specify either, then CENTER_INSIDE is used. */
+  imageReplaceMethod?: ReplaceAllShapesWithImageRequestImageReplaceMethodEnum | (string & {});
+  /** The replace method. *Deprecated*: use `image_replace_method` instead. If you specify both a `replace_method` and an `image_replace_method`, the `image_replace_method` takes precedence. */
+  replaceMethod?: ReplaceAllShapesWithImageRequestReplaceMethodEnum | (string & {});
+}
+/** Deletes text from a shape or a table cell. */
+export interface DeleteTextRequest {
+  /** The optional table cell location if the text is to be deleted from a table cell. If present, the object_id must refer to a table. */
+  cellLocation?: TableCellLocation;
+  /** The object ID of the shape or table from which the text will be deleted. */
+  objectId?: string;
+  /** The range of text to delete, based on TextElement indexes. There is always an implicit newline character at the end of a shape's or table cell's text that cannot be deleted. `Range.Type.ALL` will use the correct bounds, but care must be taken when specifying explicit bounds for range types `FROM_START_INDEX` and `FIXED_RANGE`. For example, if the text is "ABC", followed by an implicit newline, then the maximum value is 2 for `text_range.start_index` and 3 for `text_range.end_index`. Deleting text that crosses a paragraph boundary may result in changes to paragraph styles and lists as the two paragraphs are merged. Ranges that include only one code unit of a surrogate pair are expanded to include both code units. */
+  textRange?: Range;
+}
+export type ParagraphStyleAlignmentEnum =
+  | "ALIGNMENT_UNSPECIFIED"
+  | "START"
+  | "CENTER"
+  | "END"
+  | "JUSTIFIED";
+export type ParagraphStyleDirectionEnum =
+  | "TEXT_DIRECTION_UNSPECIFIED"
+  | "LEFT_TO_RIGHT"
+  | "RIGHT_TO_LEFT";
+export type ParagraphStyleSpacingModeEnum =
+  | "SPACING_MODE_UNSPECIFIED"
+  | "NEVER_COLLAPSE"
+  | "COLLAPSE_LISTS";
+/** Styles that apply to a whole paragraph. If this text is contained in a shape with a parent placeholder, then these paragraph styles may be inherited from the parent. Which paragraph styles are inherited depend on the nesting level of lists: * A paragraph not in a list will inherit its paragraph style from the paragraph at the 0 nesting level of the list inside the parent placeholder. * A paragraph in a list will inherit its paragraph style from the paragraph at its corresponding nesting level of the list inside the parent placeholder. Inherited paragraph styles are represented as unset fields in this message. */
+export interface ParagraphStyle {
+  /** The amount of space between lines, as a percentage of normal, where normal is represented as 100.0. If unset, the value is inherited from the parent. */
+  lineSpacing?: number;
+  /** The amount indentation for the paragraph on the side that corresponds to the start of the text, based on the current text direction. If unset, the value is inherited from the parent. */
+  indentStart?: Dimension;
+  /** The amount of extra space above the paragraph. If unset, the value is inherited from the parent. */
+  spaceAbove?: Dimension;
+  /** The amount of indentation for the start of the first line of the paragraph. If unset, the value is inherited from the parent. */
+  indentFirstLine?: Dimension;
+  /** The text alignment for this paragraph. */
+  alignment?: ParagraphStyleAlignmentEnum | (string & {});
+  /** The amount indentation for the paragraph on the side that corresponds to the end of the text, based on the current text direction. If unset, the value is inherited from the parent. */
+  indentEnd?: Dimension;
+  /** The amount of extra space below the paragraph. If unset, the value is inherited from the parent. */
+  spaceBelow?: Dimension;
+  /** The text direction of this paragraph. If unset, the value defaults to LEFT_TO_RIGHT since text direction is not inherited. */
+  direction?: ParagraphStyleDirectionEnum | (string & {});
+  /** The spacing mode for the paragraph. */
+  spacingMode?: ParagraphStyleSpacingModeEnum | (string & {});
+}
+/** Updates the styling for all of the paragraphs within a Shape or Table that overlap with the given text index range. */
+export interface UpdateParagraphStyleRequest {
+  /** The fields that should be updated. At least one field must be specified. The root `style` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example, to update the paragraph alignment, set `fields` to `"alignment"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  fields?: string;
+  /** The location of the cell in the table containing the paragraph(s) to style. If `object_id` refers to a table, `cell_location` must have a value. Otherwise, it must not. */
+  cellLocation?: TableCellLocation;
+  /** The range of text containing the paragraph(s) to style. */
+  textRange?: Range;
+  /** The object ID of the shape or table with the text to be styled. */
+  objectId?: string;
+  /** The paragraph's style. */
+  style?: ParagraphStyle;
+}
+/** Updates the position of slides in the presentation. */
+export interface UpdateSlidesPositionRequest {
+  /** The IDs of the slides in the presentation that should be moved. The slides in this list must be in existing presentation order, without duplicates. */
+  slideObjectIds?: StringList;
+  /** The index where the slides should be inserted, based on the slide arrangement before the move takes place. Must be between zero and the number of slides in the presentation, inclusive. */
+  insertionIndex?: number;
+}
+export type ReplaceImageRequestImageReplaceMethodEnum =
+  | "IMAGE_REPLACE_METHOD_UNSPECIFIED"
+  | "CENTER_INSIDE"
+  | "CENTER_CROP";
+/** Replaces an existing image with a new image. Replacing an image removes some image effects from the existing image. */
+export interface ReplaceImageRequest {
+  /** The ID of the existing image that will be replaced. The ID can be retrieved from the response of a get request. */
+  imageObjectId?: string;
+  /** The image URL. The image is fetched once at insertion time and a copy is stored for display inside the presentation. Images must be less than 50MB, cannot exceed 25 megapixels, and must be in PNG, JPEG, or GIF format. The provided URL can't surpass 2 KB in length. The URL is saved with the image, and exposed through the Image.source_url field. */
+  url?: string;
+  /** The replacement method. */
+  imageReplaceMethod?: ReplaceImageRequestImageReplaceMethodEnum | (string & {});
+}
+export type UpdateLineCategoryRequestLineCategoryEnum =
+  | "LINE_CATEGORY_UNSPECIFIED"
+  | "STRAIGHT"
+  | "BENT"
+  | "CURVED";
+/** Updates the category of a line. */
+export interface UpdateLineCategoryRequest {
+  /** The line category to update to. The exact line type is determined based on the category to update to and how it's routed to connect to other page elements. */
+  lineCategory?: UpdateLineCategoryRequestLineCategoryEnum | (string & {});
+  /** The object ID of the line the update is applied to. Only a line with a category indicating it is a "connector" can be updated. The line may be rerouted after updating its category. */
+  objectId?: string;
+}
+export type CreateVideoRequestSourceEnum = "SOURCE_UNSPECIFIED" | "YOUTUBE" | "DRIVE";
+/** Creates a video. NOTE: Creating a video from Google Drive requires that the requesting app have at least one of the drive, drive.readonly, or drive.file OAuth scopes. */
+export interface CreateVideoRequest {
+  /** The video source. */
+  source?: CreateVideoRequestSourceEnum | (string & {});
+  /** The element properties for the video. The PageElementProperties.size property is optional. If you don't specify a size, a default size is chosen by the server. The PageElementProperties.transform property is optional. The transform must not have shear components. If you don't specify a transform, the video will be placed at the top left corner of the page. */
+  elementProperties?: PageElementProperties;
+  /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
+  objectId?: string;
+  /** The video source's unique identifier for this video. e.g. For YouTube video https://www.youtube.com/watch?v=7U3axjORYZ0, the ID is 7U3axjORYZ0. For a Google Drive video https://drive.google.com/file/d/1xCgQLFTJi5_Xl8DgW_lcUYq5e-q6Hi5Q the ID is 1xCgQLFTJi5_Xl8DgW_lcUYq5e-q6Hi5Q. To access a Google Drive video file, you might need to add a resource key to the HTTP header for a subset of old files. For more information, see [Access link-shared files using resource keys](https://developers.google.com/drive/api/v3/resource-keys). */
+  id?: string;
+}
+export type ReplaceAllShapesWithSheetsChartRequestLinkingModeEnum = "NOT_LINKED_IMAGE" | "LINKED";
+/** Replaces all shapes that match the given criteria with the provided Google Sheets chart. The chart will be scaled and centered to fit within the bounds of the original shape. NOTE: Replacing shapes with a chart requires at least one of the spreadsheets.readonly, spreadsheets, drive.readonly, or drive OAuth scopes. */
+export interface ReplaceAllShapesWithSheetsChartRequest {
+  /** The mode with which the chart is linked to the source spreadsheet. When not specified, the chart will be an image that is not linked. */
+  linkingMode?: ReplaceAllShapesWithSheetsChartRequestLinkingModeEnum | (string & {});
+  /** The criteria that the shapes must match in order to be replaced. The request will replace all of the shapes that contain the given text. */
+  containsText?: SubstringMatchCriteria;
+  /** If non-empty, limits the matches to page elements only on the given pages. Returns a 400 bad request error if given the page object ID of a notes page or a notes master, or if a page with that object ID doesn't exist in the presentation. */
+  pageObjectIds?: StringList;
+  /** The ID of the specific chart in the Google Sheets spreadsheet. */
+  chartId?: number;
+  /** The ID of the Google Sheets spreadsheet that contains the chart. */
+  spreadsheetId?: string;
+}
+export type CreateSheetsChartRequestLinkingModeEnum = "NOT_LINKED_IMAGE" | "LINKED";
+/** Creates an embedded Google Sheets chart. NOTE: Chart creation requires at least one of the spreadsheets.readonly, spreadsheets, drive.readonly, drive.file, or drive OAuth scopes. */
+export interface CreateSheetsChartRequest {
+  /** The ID of the specific chart in the Google Sheets spreadsheet. */
+  chartId?: number;
+  /** The ID of the Google Sheets spreadsheet that contains the chart. You might need to add a resource key to the HTTP header for a subset of old files. For more information, see [Access link-shared files using resource keys](https://developers.google.com/drive/api/v3/resource-keys). */
+  spreadsheetId?: string;
+  /** The element properties for the chart. When the aspect ratio of the provided size does not match the chart aspect ratio, the chart is scaled and centered with respect to the size in order to maintain aspect ratio. The provided transform is applied after this operation. */
+  elementProperties?: PageElementProperties;
+  /** The mode with which the chart is linked to the source spreadsheet. When not specified, the chart will be an image that is not linked. */
+  linkingMode?: CreateSheetsChartRequestLinkingModeEnum | (string & {});
+  /** A user-supplied object ID. If specified, the ID must be unique among all pages and page elements in the presentation. The ID should start with a word character [a-zA-Z0-9_] and then followed by any number of the following characters [a-zA-Z0-9_-:]. The length of the ID should not be less than 5 or greater than 50. If empty, a unique identifier will be generated. */
+  objectId?: string;
+}
+/** Inserts text into a shape or a table cell. */
+export interface InsertTextRequest {
+  /** The text to be inserted. Inserting a newline character will implicitly create a new ParagraphMarker at that index. The paragraph style of the new paragraph will be copied from the paragraph at the current insertion index, including lists and bullets. Text styles for inserted text will be determined automatically, generally preserving the styling of neighboring text. In most cases, the text will be added to the TextRun that exists at the insertion index. Some control characters (U+0000-U+0008, U+000C-U+001F) and characters from the Unicode Basic Multilingual Plane Private Use Area (U+E000-U+F8FF) will be stripped out of the inserted text. */
+  text?: string;
+  /** The index where the text will be inserted, in Unicode code units, based on TextElement indexes. The index is zero-based and is computed from the start of the string. The index may be adjusted to prevent insertions inside Unicode grapheme clusters. In these cases, the text will be inserted immediately after the grapheme cluster. */
+  insertionIndex?: number;
+  /** The object ID of the shape or table where the text will be inserted. */
+  objectId?: string;
+  /** The optional table cell location if the text is to be inserted into a table cell. If present, the object_id must refer to a table. */
+  cellLocation?: TableCellLocation;
+}
+/** The properties of Page are only relevant for pages with page_type LAYOUT. */
+export interface LayoutProperties {
+  /** The human-readable name of the layout. */
+  displayName?: string;
+  /** The object ID of the master that this layout is based on. */
+  masterObjectId?: string;
+  /** The name of the layout. */
+  name?: string;
+}
+/** The properties of Page that are only relevant for pages with page_type MASTER. */
+export interface MasterProperties {
+  /** The human-readable name of the master. */
+  displayName?: string;
+}
+export type PageCommentsViewModeEnum =
+  | "COMMENTS_VIEW_MODE_UNSPECIFIED"
+  | "COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS"
+  | "COMMENTS_VIEW_MODE_OMITTED"
+  | "COMMENTS_VIEW_MODE_INCLUDED";
+/** The properties of the SheetsChart. */
+export interface SheetsChartProperties {
+  /** The properties of the embedded chart image. */
+  chartImageProperties?: ImageProperties;
+}
+/** A PageElement kind representing a linked chart embedded from Google Sheets. */
+export interface SheetsChart {
+  /** The URL of an image of the embedded chart, with a default lifetime of 30 minutes. This URL is tagged with the account of the requester. Anyone with the URL effectively accesses the image as the original requester. Access to the image may be lost if the presentation's sharing settings change. */
+  contentUrl?: string;
+  /** The ID of the Google Sheets spreadsheet that contains the source chart. */
+  spreadsheetId?: string;
+  /** The ID of the specific chart in the Google Sheets spreadsheet that is embedded. */
+  chartId?: number;
+  /** The properties of the Sheets chart. */
+  sheetsChartProperties?: SheetsChartProperties;
+}
+/** Properties of each column in a table. */
+export interface TableColumnProperties {
+  /** Width of a column. */
+  columnWidth?: Dimension;
+}
+export type TableColumnPropertiesList = Array<TableColumnProperties>;
+/** Represents a font family and weight used to style a TextRun. */
+export interface WeightedFontFamily {
+  /** The font family of the text. The font family can be any font from the Font menu in Slides or from [Google Fonts] (https://fonts.google.com/). If the font name is unrecognized, the text is rendered in `Arial`. */
+  fontFamily?: string;
+  /** The rendered weight of the text. This field can have any value that is a multiple of `100` between `100` and `900`, inclusive. This range corresponds to the numerical values described in the CSS 2.1 Specification, [section 15.6](https://www.w3.org/TR/CSS21/fonts.html#font-boldness), with non-numerical values disallowed. Weights greater than or equal to `700` are considered bold, and weights less than `700`are not bold. The default value is `400` ("normal"). */
+  weight?: number;
+}
+/** A color that can either be fully opaque or fully transparent. */
+export interface OptionalColor {
+  /** If set, this will be used as an opaque color. If unset, this represents a transparent color. */
+  opaqueColor?: OpaqueColor;
+}
+export type TextStyleBaselineOffsetEnum =
+  | "BASELINE_OFFSET_UNSPECIFIED"
+  | "NONE"
+  | "SUPERSCRIPT"
+  | "SUBSCRIPT";
+/** Represents the styling that can be applied to a TextRun. If this text is contained in a shape with a parent placeholder, then these text styles may be inherited from the parent. Which text styles are inherited depend on the nesting level of lists: * A text run in a paragraph that is not in a list will inherit its text style from the the newline character in the paragraph at the 0 nesting level of the list inside the parent placeholder. * A text run in a paragraph that is in a list will inherit its text style from the newline character in the paragraph at its corresponding nesting level of the list inside the parent placeholder. Inherited text styles are represented as unset fields in this message. If text is contained in a shape without a parent placeholder, unsetting these fields will revert the style to a value matching the defaults in the Slides editor. */
+export interface TextStyle {
+  /** Whether or not the text is italicized. */
+  italic?: boolean;
+  /** The font family and rendered weight of the text. This field is an extension of `font_family` meant to support explicit font weights without breaking backwards compatibility. As such, when reading the style of a range of text, the value of `weighted_font_family#font_family` will always be equal to that of `font_family`. However, when writing, if both fields are included in the field mask (either explicitly or through the wildcard `"*"`), their values are reconciled as follows: * If `font_family` is set and `weighted_font_family` is not, the value of `font_family` is applied with weight `400` ("normal"). * If both fields are set, the value of `font_family` must match that of `weighted_font_family#font_family`. If so, the font family and weight of `weighted_font_family` is applied. Otherwise, a 400 bad request error is returned. * If `weighted_font_family` is set and `font_family` is not, the font family and weight of `weighted_font_family` is applied. * If neither field is set, the font family and weight of the text inherit from the parent. Note that these properties cannot inherit separately from each other. If an update request specifies values for both `weighted_font_family` and `bold`, the `weighted_font_family` is applied first, then `bold`. If `weighted_font_family#weight` is not set, it defaults to `400`. If `weighted_font_family` is set, then `weighted_font_family#font_family` must also be set with a non-empty value. Otherwise, a 400 bad request error is returned. */
+  weightedFontFamily?: WeightedFontFamily;
+  /** The font family of the text. The font family can be any font from the Font menu in Slides or from [Google Fonts] (https://fonts.google.com/). If the font name is unrecognized, the text is rendered in `Arial`. Some fonts can affect the weight of the text. If an update request specifies values for both `font_family` and `bold`, the explicitly-set `bold` value is used. */
+  fontFamily?: string;
+  /** The size of the text's font. When read, the `font_size` will specified in points. */
+  fontSize?: Dimension;
+  /** Whether or not the text is struck through. */
+  strikethrough?: boolean;
+  /** The background color of the text. If set, the color is either opaque or transparent, depending on if the `opaque_color` field in it is set. */
+  backgroundColor?: OptionalColor;
+  /** The hyperlink destination of the text. If unset, there is no link. Links are not inherited from parent text. Changing the link in an update request causes some other changes to the text style of the range: * When setting a link, the text foreground color will be set to ThemeColorType.HYPERLINK and the text will be underlined. If these fields are modified in the same request, those values will be used instead of the link defaults. * Setting a link on a text range that overlaps with an existing link will also update the existing link to point to the new URL. * Links are not settable on newline characters. As a result, setting a link on a text range that crosses a paragraph boundary, such as `"ABC\n123"`, will separate the newline character(s) into their own text runs. The link will be applied separately to the runs before and after the newline. * Removing a link will update the text style of the range to match the style of the preceding text (or the default text styles if the preceding text is another link) unless different styles are being set in the same request. */
+  link?: Link;
+  /** Whether or not the text is in small capital letters. */
+  smallCaps?: boolean;
+  /** Whether or not the text is rendered as bold. */
+  bold?: boolean;
+  /** Whether or not the text is underlined. */
+  underline?: boolean;
+  /** The text's vertical offset from its normal position. Text with `SUPERSCRIPT` or `SUBSCRIPT` baseline offsets is automatically rendered in a smaller font size, computed based on the `font_size` field. The `font_size` itself is not affected by changes in this field. */
+  baselineOffset?: TextStyleBaselineOffsetEnum | (string & {});
+  /** The color of the text itself. If set, the color is either opaque or transparent, depending on if the `opaque_color` field in it is set. */
+  foregroundColor?: OptionalColor;
+}
+/** Describes the bullet of a paragraph. */
+export interface Bullet {
+  /** The ID of the list this paragraph belongs to. */
+  listId?: string;
+  /** The nesting level of this paragraph in the list. */
+  nestingLevel?: number;
+  /** The paragraph specific text style applied to this bullet. */
+  bulletStyle?: TextStyle;
+  /** The rendered bullet glyph for this paragraph. */
+  glyph?: string;
+}
+/** A TextElement kind that represents the beginning of a new paragraph. */
+export interface ParagraphMarker {
+  /** The bullet for this paragraph. If not present, the paragraph does not belong to a list. */
+  bullet?: Bullet;
+  /** The paragraph's style */
+  style?: ParagraphStyle;
+}
+export type AutoTextTypeEnum = "TYPE_UNSPECIFIED" | "SLIDE_NUMBER";
+/** A TextElement kind that represents auto text. */
+export interface AutoText {
+  /** The styling applied to this auto text. */
+  style?: TextStyle;
+  /** The rendered content of this auto text, if available. */
+  content?: string;
+  /** The type of this auto text. */
+  type?: AutoTextTypeEnum | (string & {});
+}
+/** A TextElement kind that represents a run of text that all has the same styling. */
+export interface TextRun {
+  /** The text of this run. */
+  content?: string;
+  /** The styling applied to this run. */
+  style?: TextStyle;
+}
+/** A TextElement describes the content of a range of indices in the text content of a Shape or TableCell. */
+export interface TextElement {
+  /** The zero-based end index of this text element, exclusive, in Unicode code units. */
+  endIndex?: number;
+  /** A marker representing the beginning of a new paragraph. The `start_index` and `end_index` of this TextElement represent the range of the paragraph. Other TextElements with an index range contained inside this paragraph's range are considered to be part of this paragraph. The range of indices of two separate paragraphs will never overlap. */
+  paragraphMarker?: ParagraphMarker;
+  /** A TextElement representing a spot in the text that is dynamically replaced with content that can change over time. */
+  autoText?: AutoText;
+  /** A TextElement representing a run of text where all of the characters in the run have the same TextStyle. The `start_index` and `end_index` of TextRuns will always be fully contained in the index range of a single `paragraph_marker` TextElement. In other words, a TextRun will never span multiple paragraphs. */
+  textRun?: TextRun;
+  /** The zero-based start index of this text element, in Unicode code units. */
+  startIndex?: number;
+}
+export type TextElementList = Array<TextElement>;
+/** Contains properties describing the look and feel of a list bullet at a given level of nesting. */
+export interface NestingLevel {
+  /** The style of a bullet at this level of nesting. */
+  bulletStyle?: TextStyle;
+}
+export type NestingLevelMap = { [key: string]: NestingLevel | undefined };
+/** A List describes the look and feel of bullets belonging to paragraphs associated with a list. A paragraph that is part of a list has an implicit reference to that list's ID. */
+export interface List {
+  /** A map of nesting levels to the properties of bullets at the associated level. A list has at most nine levels of nesting, so the possible values for the keys of this map are 0 through 8, inclusive. */
+  nestingLevel?: NestingLevelMap;
+  /** The ID of the list. */
+  listId?: string;
+}
+export type ListMap = { [key: string]: List | undefined };
+/** The general text content. The text must reside in a compatible shape (e.g. text box or rectangle) or a table cell in a page. */
+export interface TextContent {
+  /** The text contents broken down into its component parts, including styling information. This property is read-only. */
+  textElements?: TextElementList;
+  /** The bulleted lists contained in this text, keyed by list ID. */
+  lists?: ListMap;
+}
+export type TableCellBackgroundFillPropertyStateEnum = "RENDERED" | "NOT_RENDERED" | "INHERIT";
+/** The table cell background fill. */
+export interface TableCellBackgroundFill {
+  /** Solid color fill. */
+  solidFill?: SolidFill;
+  /** The background fill property state. Updating the fill on a table cell will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no fill on a table cell, set this field to `NOT_RENDERED`. In this case, any other fill fields set in the same request will be ignored. */
+  propertyState?: TableCellBackgroundFillPropertyStateEnum | (string & {});
+}
+export type TableCellPropertiesContentAlignmentEnum =
+  | "CONTENT_ALIGNMENT_UNSPECIFIED"
+  | "CONTENT_ALIGNMENT_UNSUPPORTED"
+  | "TOP"
+  | "MIDDLE"
+  | "BOTTOM";
+/** The properties of the TableCell. */
+export interface TableCellProperties {
+  /** The background fill of the table cell. The default fill matches the fill for newly created table cells in the Slides editor. */
+  tableCellBackgroundFill?: TableCellBackgroundFill;
+  /** The alignment of the content in the table cell. The default alignment matches the alignment for newly created table cells in the Slides editor. */
+  contentAlignment?: TableCellPropertiesContentAlignmentEnum | (string & {});
+}
+/** Properties and contents of each table cell. */
+export interface TableCell {
+  /** Column span of the cell. */
+  columnSpan?: number;
+  /** The text content of the cell. */
+  text?: TextContent;
+  /** Row span of the cell. */
+  rowSpan?: number;
+  /** The location of the cell within the table. */
+  location?: TableCellLocation;
+  /** The properties of the table cell. */
+  tableCellProperties?: TableCellProperties;
+}
+export type TableCellList = Array<TableCell>;
+/** Properties of each row in a table. */
+export interface TableRowProperties {
+  /** Minimum height of the row. The row will be rendered in the Slides editor at a height equal to or greater than this value in order to show all the text in the row's cell(s). */
+  minRowHeight?: Dimension;
+}
+/** Properties and contents of each row in a table. */
+export interface TableRow {
+  /** Properties and contents of each cell. Cells that span multiple columns are represented only once with a column_span greater than 1. As a result, the length of this collection does not always match the number of columns of the entire table. */
+  tableCells?: TableCellList;
+  /** Height of a row. */
+  rowHeight?: Dimension;
+  /** Properties of the row. */
+  tableRowProperties?: TableRowProperties;
+}
+export type TableRowList = Array<TableRow>;
+/** The properties of each border cell. */
+export interface TableBorderCell {
+  /** The location of the border within the border table. */
+  location?: TableCellLocation;
+  /** The border properties. */
+  tableBorderProperties?: TableBorderProperties;
+}
+export type TableBorderCellList = Array<TableBorderCell>;
+/** Contents of each border row in a table. */
+export interface TableBorderRow {
+  /** Properties of each border cell. When a border's adjacent table cells are merged, it is not included in the response. */
+  tableBorderCells?: TableBorderCellList;
+}
+export type TableBorderRowList = Array<TableBorderRow>;
+/** A PageElement kind representing a table. */
+export interface Table {
+  /** Properties of each column. */
+  tableColumns?: TableColumnPropertiesList;
+  /** Properties and contents of each row. Cells that span multiple rows are contained in only one of these rows and have a row_span greater than 1. */
+  tableRows?: TableRowList;
+  /** Properties of horizontal cell borders. A table's horizontal cell borders are represented as a grid. The grid has one more row than the number of rows in the table and the same number of columns as the table. For example, if the table is 3 x 3, its horizontal borders will be represented as a grid with 4 rows and 3 columns. */
+  horizontalBorderRows?: TableBorderRowList;
+  /** Properties of vertical cell borders. A table's vertical cell borders are represented as a grid. The grid has the same number of rows as the table and one more column than the number of columns in the table. For example, if the table is 3 x 3, its vertical borders will be represented as a grid with 3 rows and 4 columns. */
+  verticalBorderRows?: TableBorderRowList;
+  /** Number of columns in the table. */
+  columns?: number;
+  /** Number of rows in the table. */
+  rows?: number;
+}
+/** A PageElement kind representing word art. */
+export interface WordArt {
+  /** The text rendered as word art. */
+  renderedText?: string;
+}
+/** The properties of the SpeakerSpotlight. */
+export interface SpeakerSpotlightProperties {
+  /** The outline of the Speaker Spotlight. If not set, it has no outline. */
+  outline?: Outline;
+  /** The shadow of the Speaker Spotlight. If not set, it has no shadow. */
+  shadow?: Shadow;
+}
+/** A PageElement kind representing a Speaker Spotlight. */
+export interface SpeakerSpotlight {
+  /** The properties of the Speaker Spotlight. */
+  speakerSpotlightProperties?: SpeakerSpotlightProperties;
+}
+/** The properties of the Video. */
+export interface VideoProperties {
+  /** The time at which to start playback, measured in seconds from the beginning of the video. If set, the start time should be before the end time. If you set this to a value that exceeds the video's length in seconds, the video will be played from the last second. If not set, the video will be played from the beginning. */
+  start?: number;
+  /** Whether to mute the audio during video playback. Defaults to false. */
+  mute?: boolean;
+  /** The outline of the video. The default outline matches the defaults for new videos created in the Slides editor. */
+  outline?: Outline;
+  /** Whether to enable video autoplay when the page is displayed in present mode. Defaults to false. */
+  autoPlay?: boolean;
+  /** The time at which to end playback, measured in seconds from the beginning of the video. If set, the end time should be after the start time. If not set or if you set this to a value that exceeds the video's length, the video will be played until its end. */
+  end?: number;
+}
+export type VideoSourceEnum = "SOURCE_UNSPECIFIED" | "YOUTUBE" | "DRIVE";
+/** A PageElement kind representing a video. */
+export interface Video {
+  /** An URL to a video. The URL is valid as long as the source video exists and sharing settings do not change. */
+  url?: string;
+  /** The properties of the video. */
+  videoProperties?: VideoProperties;
+  /** The video source's unique identifier for this video. */
+  id?: string;
+  /** The video source. */
+  source?: VideoSourceEnum | (string & {});
+}
+/** The properties for one end of a Line connection. */
+export interface LineConnection {
+  /** The index of the connection site on the connected page element. In most cases, it corresponds to the predefined connection site index from the ECMA-376 standard. More information on those connection sites can be found in both the description of the "cxn" attribute in section 20.1.9.9 and "Annex H. Example Predefined DrawingML Shape and Text Geometries" of "Office Open XML File Formats - Fundamentals and Markup Language Reference", part 1 of [ECMA-376 5th edition](https://ecma-international.org/publications-and-standards/standards/ecma-376/). The position of each connection site can also be viewed from Slides editor. */
+  connectionSiteIndex?: number;
+  /** The object ID of the connected page element. Some page elements, such as groups, tables, and lines do not have connection sites and therefore cannot be connected to a connector line. */
+  connectedObjectId?: string;
+}
+export type LinePropertiesDashStyleEnum =
+  | "DASH_STYLE_UNSPECIFIED"
+  | "SOLID"
+  | "DOT"
+  | "DASH"
+  | "DASH_DOT"
+  | "LONG_DASH"
+  | "LONG_DASH_DOT";
+export type LinePropertiesStartArrowEnum =
+  | "ARROW_STYLE_UNSPECIFIED"
+  | "NONE"
+  | "STEALTH_ARROW"
+  | "FILL_ARROW"
+  | "FILL_CIRCLE"
+  | "FILL_SQUARE"
+  | "FILL_DIAMOND"
+  | "OPEN_ARROW"
+  | "OPEN_CIRCLE"
+  | "OPEN_SQUARE"
+  | "OPEN_DIAMOND";
+export type LinePropertiesEndArrowEnum =
+  | "ARROW_STYLE_UNSPECIFIED"
+  | "NONE"
+  | "STEALTH_ARROW"
+  | "FILL_ARROW"
+  | "FILL_CIRCLE"
+  | "FILL_SQUARE"
+  | "FILL_DIAMOND"
+  | "OPEN_ARROW"
+  | "OPEN_CIRCLE"
+  | "OPEN_SQUARE"
+  | "OPEN_DIAMOND";
+/** The fill of the line. */
+export type LineFill = OutlineFill;
+/** The properties of the Line. When unset, these fields default to values that match the appearance of new lines created in the Slides editor. */
+export interface LineProperties {
+  /** The connection at the end of the line. If unset, there is no connection. Only lines with a Type indicating it is a "connector" can have an `end_connection`. */
+  endConnection?: LineConnection;
+  /** The dash style of the line. */
+  dashStyle?: LinePropertiesDashStyleEnum | (string & {});
+  /** The style of the arrow at the beginning of the line. */
+  startArrow?: LinePropertiesStartArrowEnum | (string & {});
+  /** The style of the arrow at the end of the line. */
+  endArrow?: LinePropertiesEndArrowEnum | (string & {});
+  /** The thickness of the line. */
+  weight?: Dimension;
+  /** The connection at the beginning of the line. If unset, there is no connection. Only lines with a Type indicating it is a "connector" can have a `start_connection`. */
+  startConnection?: LineConnection;
+  /** The fill of the line. The default line fill matches the defaults for new lines created in the Slides editor. */
+  lineFill?: OutlineFill;
+  /** The hyperlink destination of the line. If unset, there is no link. */
+  link?: Link;
+}
+export type LineLineCategoryEnum = "LINE_CATEGORY_UNSPECIFIED" | "STRAIGHT" | "BENT" | "CURVED";
+export type LineLineTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "STRAIGHT_CONNECTOR_1"
+  | "BENT_CONNECTOR_2"
+  | "BENT_CONNECTOR_3"
+  | "BENT_CONNECTOR_4"
+  | "BENT_CONNECTOR_5"
+  | "CURVED_CONNECTOR_2"
+  | "CURVED_CONNECTOR_3"
+  | "CURVED_CONNECTOR_4"
+  | "CURVED_CONNECTOR_5"
+  | "STRAIGHT_LINE";
+/** A PageElement kind representing a non-connector line, straight connector, curved connector, or bent connector. */
+export interface Line {
+  /** The properties of the line. */
+  lineProperties?: LineProperties;
+  /** The category of the line. It matches the `category` specified in CreateLineRequest, and can be updated with UpdateLineCategoryRequest. */
+  lineCategory?: LineLineCategoryEnum | (string & {});
+  /** The type of the line. */
+  lineType?: LineLineTypeEnum | (string & {});
+}
+/** A PageElement kind representing an image. */
+export interface Image {
+  /** Placeholders are page elements that inherit from corresponding placeholders on layouts and masters. If set, the image is a placeholder image and any inherited properties can be resolved by looking at the parent placeholder identified by the Placeholder.parent_object_id field. */
+  placeholder?: Placeholder;
+  /** An URL to an image with a default lifetime of 30 minutes. This URL is tagged with the account of the requester. Anyone with the URL effectively accesses the image as the original requester. Access to the image may be lost if the presentation's sharing settings change. */
+  contentUrl?: string;
+  /** The properties of the image. */
+  imageProperties?: ImageProperties;
+  /** The source URL is the URL used to insert the image. The source URL can be empty. */
+  sourceUrl?: string;
+}
+/** A PageElement kind representing a joined collection of PageElements. */
+export interface Group {
+  /** The collection of elements in the group. The minimum size of a group is 2. */
+  children?: PageElementList;
 }
 export type ShapeShapeTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -1102,194 +1646,75 @@ export interface Shape {
   /** The text content of the shape. */
   text?: TextContent;
 }
-/** The properties of the SpeakerSpotlight. */
-export interface SpeakerSpotlightProperties {
-  /** The shadow of the Speaker Spotlight. If not set, it has no shadow. */
-  shadow?: Shadow;
-  /** The outline of the Speaker Spotlight. If not set, it has no outline. */
-  outline?: Outline;
-}
-/** A PageElement kind representing a Speaker Spotlight. */
-export interface SpeakerSpotlight {
-  /** The properties of the Speaker Spotlight. */
-  speakerSpotlightProperties?: SpeakerSpotlightProperties;
-}
-/** A color and position in a gradient band. */
-export interface ColorStop {
-  /** The color of the gradient stop. */
-  color?: OpaqueColor;
-  /** The relative position of the color stop in the gradient band measured in percentage. The value should be in the interval [0.0, 1.0]. */
-  position?: number;
-  /** The alpha value of this color in the gradient band. Defaults to 1.0, fully opaque. */
-  alpha?: number;
-}
-export type ColorStopList = Array<ColorStop>;
-export type RecolorNameEnum =
-  | "NONE"
-  | "LIGHT1"
-  | "LIGHT2"
-  | "LIGHT3"
-  | "LIGHT4"
-  | "LIGHT5"
-  | "LIGHT6"
-  | "LIGHT7"
-  | "LIGHT8"
-  | "LIGHT9"
-  | "LIGHT10"
-  | "DARK1"
-  | "DARK2"
-  | "DARK3"
-  | "DARK4"
-  | "DARK5"
-  | "DARK6"
-  | "DARK7"
-  | "DARK8"
-  | "DARK9"
-  | "DARK10"
-  | "GRAYSCALE"
-  | "NEGATIVE"
-  | "SEPIA"
-  | "CUSTOM";
-/** A recolor effect applied on an image. */
-export interface Recolor {
-  /** The recolor effect is represented by a gradient, which is a list of color stops. The colors in the gradient will replace the corresponding colors at the same position in the color palette and apply to the image. This property is read-only. */
-  recolorStops?: ColorStopList;
-  /** The name of the recolor effect. The name is determined from the `recolor_stops` by matching the gradient against the colors in the page's current color scheme. This property is read-only. */
-  name?: RecolorNameEnum | (string & {});
-}
-/** The crop properties of an object enclosed in a container. For example, an Image. The crop properties is represented by the offsets of four edges which define a crop rectangle. The offsets are measured in percentage from the corresponding edges of the object's original bounding rectangle towards inside, relative to the object's original dimensions. - If the offset is in the interval (0, 1), the corresponding edge of crop rectangle is positioned inside of the object's original bounding rectangle. - If the offset is negative or greater than 1, the corresponding edge of crop rectangle is positioned outside of the object's original bounding rectangle. - If the left edge of the crop rectangle is on the right side of its right edge, the object will be flipped horizontally. - If the top edge of the crop rectangle is below its bottom edge, the object will be flipped vertically. - If all offsets and rotation angle is 0, the object is not cropped. After cropping, the content in the crop rectangle will be stretched to fit its container. */
-export interface CropProperties {
-  /** The offset specifies the right edge of the crop rectangle that is located to the left of the original bounding rectangle right edge, relative to the object's original width. */
-  rightOffset?: number;
-  /** The offset specifies the bottom edge of the crop rectangle that is located above the original bounding rectangle bottom edge, relative to the object's original height. */
-  bottomOffset?: number;
-  /** The rotation angle of the crop window around its center, in radians. Rotation angle is applied after the offset. */
-  angle?: number;
-  /** The offset specifies the top edge of the crop rectangle that is located below the original bounding rectangle top edge, relative to the object's original height. */
-  topOffset?: number;
-  /** The offset specifies the left edge of the crop rectangle that is located to the right of the original bounding rectangle left edge, relative to the object's original width. */
-  leftOffset?: number;
-}
-/** The properties of the Image. */
-export interface ImageProperties {
-  /** The hyperlink destination of the image. If unset, there is no link. */
-  link?: Link;
-  /** The shadow of the image. If not set, the image has no shadow. This property is read-only. */
-  shadow?: Shadow;
-  /** The brightness effect of the image. The value should be in the interval [-1.0, 1.0], where 0 means no effect. This property is read-only. */
-  brightness?: number;
-  /** The recolor effect of the image. If not set, the image is not recolored. This property is read-only. */
-  recolor?: Recolor;
-  /** The contrast effect of the image. The value should be in the interval [-1.0, 1.0], where 0 means no effect. This property is read-only. */
-  contrast?: number;
-  /** The outline of the image. If not set, the image has no outline. */
-  outline?: Outline;
-  /** The crop properties of the image. If not set, the image is not cropped. This property is read-only. */
-  cropProperties?: CropProperties;
-  /** The transparency effect of the image. The value should be in the interval [0.0, 1.0], where 0 means no effect and 1 means completely transparent. This property is read-only. */
-  transparency?: number;
-}
-/** The properties of the SheetsChart. */
-export interface SheetsChartProperties {
-  /** The properties of the embedded chart image. */
-  chartImageProperties?: ImageProperties;
-}
-/** A PageElement kind representing a linked chart embedded from Google Sheets. */
-export interface SheetsChart {
-  /** The URL of an image of the embedded chart, with a default lifetime of 30 minutes. This URL is tagged with the account of the requester. Anyone with the URL effectively accesses the image as the original requester. Access to the image may be lost if the presentation's sharing settings change. */
-  contentUrl?: string;
-  /** The ID of the Google Sheets spreadsheet that contains the source chart. */
-  spreadsheetId?: string;
-  /** The properties of the Sheets chart. */
-  sheetsChartProperties?: SheetsChartProperties;
-  /** The ID of the specific chart in the Google Sheets spreadsheet that is embedded. */
-  chartId?: number;
-}
-/** A PageElement kind representing an image. */
-export interface Image {
-  /** The properties of the image. */
-  imageProperties?: ImageProperties;
-  /** An URL to an image with a default lifetime of 30 minutes. This URL is tagged with the account of the requester. Anyone with the URL effectively accesses the image as the original requester. Access to the image may be lost if the presentation's sharing settings change. */
-  contentUrl?: string;
-  /** The source URL is the URL used to insert the image. The source URL can be empty. */
-  sourceUrl?: string;
-  /** Placeholders are page elements that inherit from corresponding placeholders on layouts and masters. If set, the image is a placeholder image and any inherited properties can be resolved by looking at the parent placeholder identified by the Placeholder.parent_object_id field. */
-  placeholder?: Placeholder;
-}
-/** A PageElement kind representing word art. */
-export interface WordArt {
-  /** The text rendered as word art. */
-  renderedText?: string;
-}
 /** A visual element rendered on a page. */
 export interface PageElement {
-  /** The description of the page element. Combined with title to display alt text. The field is not supported for Group elements. */
-  description?: string;
-  /** A collection of page elements joined as a single unit. */
-  elementGroup?: Group;
+  /** The transform of the page element. The visual appearance of the page element is determined by its absolute transform. To compute the absolute transform, preconcatenate a page element's transform with the transforms of all of its parent groups. If the page element is not in a group, its absolute transform is the same as the value in this field. The initial transform for the newly created Group is always the identity transform. */
+  transform?: AffineTransform;
+  /** A linked chart embedded from Google Sheets. Unlinked charts are represented as images. */
+  sheetsChart?: SheetsChart;
   /** A table page element. */
   table?: Table;
+  /** A word art page element. */
+  wordArt?: WordArt;
+  /** The size of the page element. */
+  size?: Size;
+  /** A Speaker Spotlight. */
+  speakerSpotlight?: SpeakerSpotlight;
+  /** A video page element. */
+  video?: Video;
   /** The object ID for this page element. Object IDs used by google.apps.slides.v1.Page and google.apps.slides.v1.PageElement share the same namespace. */
   objectId?: string;
   /** A line page element. */
   line?: Line;
-  /** The transform of the page element. The visual appearance of the page element is determined by its absolute transform. To compute the absolute transform, preconcatenate a page element's transform with the transforms of all of its parent groups. If the page element is not in a group, its absolute transform is the same as the value in this field. The initial transform for the newly created Group is always the identity transform. */
-  transform?: AffineTransform;
-  /** A video page element. */
-  video?: Video;
-  /** The size of the page element. */
-  size?: Size;
-  /** A generic shape. */
-  shape?: Shape;
-  /** A Speaker Spotlight. */
-  speakerSpotlight?: SpeakerSpotlight;
-  /** The title of the page element. Combined with description to display alt text. The field is not supported for Group elements. */
-  title?: string;
-  /** A linked chart embedded from Google Sheets. Unlinked charts are represented as images. */
-  sheetsChart?: SheetsChart;
+  /** The description of the page element. Combined with title to display alt text. The field is not supported for Group elements. */
+  description?: string;
   /** An image page element. */
   image?: Image;
-  /** A word art page element. */
-  wordArt?: WordArt;
+  /** A collection of page elements joined as a single unit. */
+  elementGroup?: Group;
+  /** The title of the page element. Combined with description to display alt text. The field is not supported for Group elements. */
+  title?: string;
+  /** A generic shape. */
+  shape?: Shape;
 }
 export type PageElementList = Array<PageElement>;
-/** Specifies a contiguous range of text within a shape or table cell's text. [Developer Preview](https://developers.google.com/workspace/preview). */
+/** Specifies a contiguous range of text within a shape or table cell's text. */
 export interface TextRange {
-  /** The zero-based index of the beginning range. This field is an Int32Value in order to accommodate future use cases with open-ended ranges. */
-  startIndex?: number;
   /** The zero-based index of the end of the range. This field is an Int32Value in order to accommodate future use cases with open-ended ranges. */
   endIndex?: number;
+  /** The zero-based index of the beginning range. This field is an Int32Value in order to accommodate future use cases with open-ended ranges. */
+  startIndex?: number;
 }
 export type TextRangeList = Array<TextRange>;
-/** Represents text ranges within a shape covered by a comment anchor. [Developer Preview](https://developers.google.com/workspace/preview). */
-export interface ShapeTextAnchors {
-  /** A list of text ranges covered by the comment anchor. */
-  ranges?: TextRangeList;
-}
-/** Represents text ranges within a table cell covered by a comment anchor. [Developer Preview](https://developers.google.com/workspace/preview). */
+/** Represents text ranges within a table cell covered by a comment anchor. */
 export interface TableCellTextRanges {
-  /** The location of the table cell. */
-  cellLocation?: TableCellLocation;
   /** A list of all text ranges covered by the anchor in this cell. */
   ranges?: TextRangeList;
+  /** The location of the table cell. */
+  cellLocation?: TableCellLocation;
 }
 export type TableCellTextRangesList = Array<TableCellTextRanges>;
-/** Represents table cell ranges within a table covered by a comment anchor. [Developer Preview](https://developers.google.com/workspace/preview). */
+/** Represents table cell ranges within a table covered by a comment anchor. */
 export interface TableCellAnchors {
   /** A list of all table cells in a table that have text covered by the anchor in the table. */
   cellRanges?: TableCellTextRangesList;
 }
-/** Represents comment anchor data tied to a Slides object, for example a `Page` or PageElement. [Developer Preview](https://developers.google.com/workspace/preview). */
+/** Represents text ranges within a shape covered by a comment anchor. */
+export interface ShapeTextAnchors {
+  /** A list of text ranges covered by the comment anchor. */
+  ranges?: TextRangeList;
+}
+/** Represents comment anchor data tied to a Slides object, for example a `Page` or PageElement. */
 export interface ObjectAnchor {
-  /** Populated for Shapes that have comments anchored to ranges of text in the shape's text. */
-  shapeTextAnchors?: ShapeTextAnchors;
-  /** Populated for Tables that have comments anchored to ranges of text in one or more of the table's cells. */
-  tableCellAnchors?: TableCellAnchors;
   /** Output only. The page or page element that the comment thread is anchored to. */
   objectId?: string;
+  /** Populated for Tables that have comments anchored to ranges of text in one or more of the table's cells. */
+  tableCellAnchors?: TableCellAnchors;
+  /** Populated for Shapes that have comments anchored to ranges of text in the shape's text. */
+  shapeTextAnchors?: ShapeTextAnchors;
 }
 export type ObjectAnchorList = Array<ObjectAnchor>;
-/** Contains a list of all locations in a `Page` that are anchored to a CommentThread via the same anchorId. Multiple separate anchors may refer to the same location, either within a `Page` or across different pages, [Developer Preview](https://developers.google.com/workspace/preview). */
+/** Contains a list of all locations in a `Page` that are anchored to a CommentThread via the same anchorId. Multiple separate anchors may refer to the same location, either within a `Page` or across different pages, */
 export interface CommentAnchor {
   /** Output only. The unique ID of the comment anchor. */
   anchorId?: string;
@@ -1297,487 +1722,170 @@ export interface CommentAnchor {
   objectAnchors?: ObjectAnchorList;
 }
 export type CommentAnchorList = Array<CommentAnchor>;
-export type ThemeColorPairTypeEnum =
-  | "THEME_COLOR_TYPE_UNSPECIFIED"
-  | "DARK1"
-  | "LIGHT1"
-  | "DARK2"
-  | "LIGHT2"
-  | "ACCENT1"
-  | "ACCENT2"
-  | "ACCENT3"
-  | "ACCENT4"
-  | "ACCENT5"
-  | "ACCENT6"
-  | "HYPERLINK"
-  | "FOLLOWED_HYPERLINK"
-  | "TEXT1"
-  | "BACKGROUND1"
-  | "TEXT2"
-  | "BACKGROUND2";
-/** A pair mapping a theme color type to the concrete color it represents. */
-export interface ThemeColorPair {
-  /** The type of the theme color. */
-  type?: ThemeColorPairTypeEnum | (string & {});
-  /** The concrete color corresponding to the theme color type above. */
-  color?: RgbColor;
+export type PagePageTypeEnum = "SLIDE" | "MASTER" | "LAYOUT" | "NOTES" | "NOTES_MASTER";
+export type PostList = Array<Post>;
+export type CommentThreadStatusEnum = "STATUS_UNSPECIFIED" | "OPEN" | "RESOLVED";
+/** Represents a single comment thread inside a presentation. */
+export interface CommentThread {
+  /** The quoted text from the page element when the comment was created, formatted as plain-text. */
+  plainTextQuote?: string;
+  /** Replies to the head post. */
+  replies?: PostList;
+  /** The unique ID of the comment thread. */
+  commentId?: string;
+  /** Whether the thread is open or resolved. */
+  status?: CommentThreadStatusEnum | (string & {});
+  /** The ID of the CommentAnchor in the presentation that this thread is tied to. */
+  anchorId?: string;
+  /** The first post in the thread. */
+  headPost?: Post;
 }
-export type ThemeColorPairList = Array<ThemeColorPair>;
-/** The palette of predefined colors for a page. */
-export interface ColorScheme {
-  /** The ThemeColorType and corresponding concrete color pairs. */
-  colors?: ThemeColorPairList;
-}
-export type PageBackgroundFillPropertyStateEnum = "RENDERED" | "NOT_RENDERED" | "INHERIT";
-/** The stretched picture fill. The page or page element is filled entirely with the specified picture. The picture is stretched to fit its container. */
-export interface StretchedPictureFill {
-  /** The original size of the picture fill. This field is read-only. */
-  size?: Size;
-  /** Reading the content_url: An URL to a picture with a default lifetime of 30 minutes. This URL is tagged with the account of the requester. Anyone with the URL effectively accesses the picture as the original requester. Access to the picture may be lost if the presentation's sharing settings change. Writing the content_url: The picture is fetched once at insertion time and a copy is stored for display inside the presentation. Pictures must be less than 50MB in size, cannot exceed 25 megapixels, and must be in one of PNG, JPEG, or GIF format. The provided URL can be at most 2 kB in length. */
-  contentUrl?: string;
-}
-/** The page background fill. */
-export interface PageBackgroundFill {
-  /** The background fill property state. Updating the fill on a page will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no fill on a page, set this field to `NOT_RENDERED`. In this case, any other fill fields set in the same request will be ignored. */
-  propertyState?: PageBackgroundFillPropertyStateEnum | (string & {});
-  /** Stretched picture fill. */
-  stretchedPictureFill?: StretchedPictureFill;
-  /** Solid color fill. */
-  solidFill?: SolidFill;
-}
-/** The properties of the Page. The page will inherit properties from the parent page. Depending on the page type the hierarchy is defined in either SlideProperties or LayoutProperties. */
-export interface PageProperties {
-  /** The color scheme of the page. If unset, the color scheme is inherited from a parent page. If the page has no parent, the color scheme uses a default Slides color scheme, matching the defaults in the Slides editor. Only the concrete colors of the first 12 ThemeColorTypes are editable. In addition, only the color scheme on `Master` pages can be updated. To update the field, a color scheme containing mappings from all the first 12 ThemeColorTypes to their concrete colors must be provided. Colors for the remaining ThemeColorTypes will be ignored. */
-  colorScheme?: ColorScheme;
-  /** The background fill of the page. If unset, the background fill is inherited from a parent page if it exists. If the page has no parent, then the background fill defaults to the corresponding fill in the Slides editor. */
-  pageBackgroundFill?: PageBackgroundFill;
+export type CommentThreadList = Array<CommentThread>;
+/** The properties of Page that are only relevant for pages with page_type NOTES. */
+export interface NotesProperties {
+  /** The object ID of the shape on this notes page that contains the speaker notes for the corresponding slide. The actual shape may not always exist on the notes page. Inserting text using this object ID will automatically create the shape. In this case, the actual shape may have different object ID. The `GetPresentation` or `GetPage` action will always return the latest object ID. */
+  speakerNotesObjectId?: string;
 }
 /** A page in a presentation. */
 export interface Page {
-  /** Layout specific properties. Only set if page_type = LAYOUT. */
-  layoutProperties?: LayoutProperties;
-  /** The object ID for this page. Object IDs used by Page and PageElement share the same namespace. */
-  objectId?: string;
-  /** Master specific properties. Only set if page_type = MASTER. */
-  masterProperties?: MasterProperties;
-  /** Output only. The comments view mode applied to the page. Only populated if the page was fetched via a GetPageRequest with a populated comments_view_mode. [Developer Preview](https://developers.google.com/workspace/preview). */
-  commentsViewMode?: PageCommentsViewModeEnum | (string & {});
-  /** Slide specific properties. Only set if page_type = SLIDE. */
-  slideProperties?: SlideProperties;
-  /** Output only. The comment threads associated with the page. Only populated if the page was fetched via a GetPageRequest with a populated comments_view_mode. Otherwise, comments are returned in the Presentation via the GetPresentationRequest. [Developer Preview](https://developers.google.com/workspace/preview). */
-  comments?: CommentThreadList;
-  /** Notes specific properties. Only set if page_type = NOTES. */
-  notesProperties?: NotesProperties;
-  /** The type of the page. */
-  pageType?: PagePageTypeEnum | (string & {});
-  /** The page elements rendered on the page. */
-  pageElements?: PageElementList;
-  /** Output only. The comment anchors present on the page. [Developer Preview](https://developers.google.com/workspace/preview). */
-  commentAnchors?: CommentAnchorList;
   /** Output only. The revision ID of the presentation. Can be used in update requests to assert the presentation revision hasn't changed since the last read operation. Only populated if the user has edit access to the presentation. The revision ID is not a sequential number but an opaque string. The format of the revision ID might change over time. A returned revision ID is only guaranteed to be valid for 24 hours after it has been returned and cannot be shared across users. If the revision ID is unchanged between calls, then the presentation has not changed. Conversely, a changed ID (for the same presentation and user) usually means the presentation has been updated. However, a changed ID can also be due to internal factors such as ID format changes. */
   revisionId?: string;
+  /** Layout specific properties. Only set if page_type = LAYOUT. */
+  layoutProperties?: LayoutProperties;
+  /** Master specific properties. Only set if page_type = MASTER. */
+  masterProperties?: MasterProperties;
   /** The properties of the page. */
   pageProperties?: PageProperties;
+  /** Output only. The comments view mode applied to the page. Only populated if the page was fetched via a GetPageRequest with a populated comments_view_mode. */
+  commentsViewMode?: PageCommentsViewModeEnum | (string & {});
+  /** The page elements rendered on the page. */
+  pageElements?: PageElementList;
+  /** Output only. The comment anchors present on the page. */
+  commentAnchors?: CommentAnchorList;
+  /** The type of the page. */
+  pageType?: PagePageTypeEnum | (string & {});
+  /** Output only. The comment threads associated with the page. Only populated if the page was fetched via a GetPageRequest with a populated comments_view_mode. Otherwise, comments are returned in the Presentation via the GetPresentationRequest. */
+  comments?: CommentThreadList;
+  /** Slide specific properties. Only set if page_type = SLIDE. */
+  slideProperties?: SlideProperties;
+  /** The object ID for this page. Object IDs used by Page and PageElement share the same namespace. */
+  objectId?: string;
+  /** Notes specific properties. Only set if page_type = NOTES. */
+  notesProperties?: NotesProperties;
 }
 /** The properties of Page that are only relevant for pages with page_type SLIDE. */
 export interface SlideProperties {
   /** The object ID of the master that this slide is based on. This property is read-only. */
   masterObjectId?: string;
-  /** The object ID of the layout that this slide is based on. This property is read-only. */
-  layoutObjectId?: string;
   /** The notes page that this slide is associated with. It defines the visual appearance of a notes page when printing or exporting slides with speaker notes. A notes page inherits properties from the notes master. The placeholder shape with type BODY on the notes page contains the speaker notes for this slide. The ID of this shape is identified by the speakerNotesObjectId field. The notes page is read-only except for the text content and styles of the speaker notes shape. This property is read-only. */
   notesPage?: Page;
+  /** The object ID of the layout that this slide is based on. This property is read-only. */
+  layoutObjectId?: string;
   /** Whether the slide is skipped in the presentation mode. Defaults to false. */
   isSkipped?: boolean;
 }
 /** Updates the properties of a Slide. */
 export interface UpdateSlidePropertiesRequest {
-  /** The fields that should be updated. At least one field must be specified. The root 'slideProperties' is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update whether a slide is skipped, set `fields` to `"isSkipped"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
-  fields?: string;
   /** The slide properties to update. */
   slideProperties?: SlideProperties;
+  /** The fields that should be updated. At least one field must be specified. The root 'slideProperties' is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update whether a slide is skipped, set `fields` to `"isSkipped"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  fields?: string;
   /** The object ID of the slide the update is applied to. */
   objectId?: string;
 }
-/** Inserts a reply Post into a CommentThread. [Developer Preview](https://developers.google.com/workspace/preview). */
-export interface AddCommentReplyRequest {
-  /** The Post representing the reply. */
-  post?: Post;
-  /** The ID of the CommentThread to add the reply to. */
-  commentId?: string;
-}
-/** A criteria that matches a specific string of text in a shape or table. */
-export interface SubstringMatchCriteria {
-  /** Optional. True if the find value should be treated as a regular expression. Any backslashes in the pattern should be escaped. - `True`: the search text is treated as a regular expressions. - `False`: the search text is treated as a substring for matching. */
-  searchByRegex?: boolean;
-  /** Indicates whether the search should respect case: - `True`: the search is case sensitive. - `False`: the search is case insensitive. */
-  matchCase?: boolean;
-  /** The text to search for in the shape or table. */
-  text?: string;
-}
-export type ReplaceAllShapesWithSheetsChartRequestLinkingModeEnum = "NOT_LINKED_IMAGE" | "LINKED";
-/** Replaces all shapes that match the given criteria with the provided Google Sheets chart. The chart will be scaled and centered to fit within the bounds of the original shape. NOTE: Replacing shapes with a chart requires at least one of the spreadsheets.readonly, spreadsheets, drive.readonly, or drive OAuth scopes. */
-export interface ReplaceAllShapesWithSheetsChartRequest {
-  /** The ID of the specific chart in the Google Sheets spreadsheet. */
-  chartId?: number;
-  /** The ID of the Google Sheets spreadsheet that contains the chart. */
-  spreadsheetId?: string;
-  /** The criteria that the shapes must match in order to be replaced. The request will replace all of the shapes that contain the given text. */
-  containsText?: SubstringMatchCriteria;
-  /** If non-empty, limits the matches to page elements only on the given pages. Returns a 400 bad request error if given the page object ID of a notes page or a notes master, or if a page with that object ID doesn't exist in the presentation. */
-  pageObjectIds?: StringList;
-  /** The mode with which the chart is linked to the source spreadsheet. When not specified, the chart will be an image that is not linked. */
-  linkingMode?: ReplaceAllShapesWithSheetsChartRequestLinkingModeEnum | (string & {});
-}
-/** Updates the alt text title and/or description of a page element. */
-export interface UpdatePageElementAltTextRequest {
-  /** The updated alt text description of the page element. If unset the existing value will be maintained. The description is exposed to screen readers and other accessibility interfaces. Only use human readable values related to the content of the page element. */
-  description?: string;
-  /** The updated alt text title of the page element. If unset the existing value will be maintained. The title is exposed to screen readers and other accessibility interfaces. Only use human readable values related to the content of the page element. */
-  title?: string;
-  /** The object ID of the page element the updates are applied to. */
+export type StringMap = { [key: string]: string | undefined };
+/** Duplicates a slide or page element. When duplicating a slide, the duplicate slide will be created immediately following the specified slide. When duplicating a page element, the duplicate will be placed on the same page at the same position as the original. */
+export interface DuplicateObjectRequest {
+  /** The ID of the object to duplicate. */
   objectId?: string;
-}
-/** Refreshes an embedded Google Sheets chart by replacing it with the latest version of the chart from Google Sheets. NOTE: Refreshing charts requires at least one of the spreadsheets.readonly, spreadsheets, drive.readonly, or drive OAuth scopes. */
-export interface RefreshSheetsChartRequest {
-  /** The object ID of the chart to refresh. */
-  objectId?: string;
-}
-/** Ungroups objects, such as groups. */
-export interface UngroupObjectsRequest {
-  /** The object IDs of the objects to ungroup. Only groups that are not inside other groups can be ungrouped. All the groups should be on the same page. The group itself is deleted. The visual sizes and positions of all the children are preserved. */
-  objectIds?: StringList;
-}
-export type CreateParagraphBulletsRequestBulletPresetEnum =
-  | "BULLET_DISC_CIRCLE_SQUARE"
-  | "BULLET_DIAMONDX_ARROW3D_SQUARE"
-  | "BULLET_CHECKBOX"
-  | "BULLET_ARROW_DIAMOND_DISC"
-  | "BULLET_STAR_CIRCLE_SQUARE"
-  | "BULLET_ARROW3D_CIRCLE_SQUARE"
-  | "BULLET_LEFTTRIANGLE_DIAMOND_DISC"
-  | "BULLET_DIAMONDX_HOLLOWDIAMOND_SQUARE"
-  | "BULLET_DIAMOND_CIRCLE_SQUARE"
-  | "NUMBERED_DIGIT_ALPHA_ROMAN"
-  | "NUMBERED_DIGIT_ALPHA_ROMAN_PARENS"
-  | "NUMBERED_DIGIT_NESTED"
-  | "NUMBERED_UPPERALPHA_ALPHA_ROMAN"
-  | "NUMBERED_UPPERROMAN_UPPERALPHA_DIGIT"
-  | "NUMBERED_ZERODIGIT_ALPHA_ROMAN";
-/** Creates bullets for all of the paragraphs that overlap with the given text index range. The nesting level of each paragraph will be determined by counting leading tabs in front of each paragraph. To avoid excess space between the bullet and the corresponding paragraph, these leading tabs are removed by this request. This may change the indices of parts of the text. If the paragraph immediately before paragraphs being updated is in a list with a matching preset, the paragraphs being updated are added to that preceding list. */
-export interface CreateParagraphBulletsRequest {
-  /** The range of text to apply the bullet presets to, based on TextElement indexes. */
-  textRange?: Range;
-  /** The object ID of the shape or table containing the text to add bullets to. */
-  objectId?: string;
-  /** The optional table cell location if the text to be modified is in a table cell. If present, the object_id must refer to a table. */
-  cellLocation?: TableCellLocation;
-  /** The kinds of bullet glyphs to be used. Defaults to the `BULLET_DISC_CIRCLE_SQUARE` preset. */
-  bulletPreset?: CreateParagraphBulletsRequestBulletPresetEnum | (string & {});
-}
-export type ReplaceAllShapesWithImageRequestImageReplaceMethodEnum =
-  | "IMAGE_REPLACE_METHOD_UNSPECIFIED"
-  | "CENTER_INSIDE"
-  | "CENTER_CROP";
-export type ReplaceAllShapesWithImageRequestReplaceMethodEnum = "CENTER_INSIDE" | "CENTER_CROP";
-/** Replaces all shapes that match the given criteria with the provided image. The images replacing the shapes are rectangular after being inserted into the presentation and do not take on the forms of the shapes. */
-export interface ReplaceAllShapesWithImageRequest {
-  /** If set, this request will replace all of the shapes that contain the given text. */
-  containsText?: SubstringMatchCriteria;
-  /** The image URL. The image is fetched once at insertion time and a copy is stored for display inside the presentation. Images must be less than 50MB in size, cannot exceed 25 megapixels, and must be in one of PNG, JPEG, or GIF format. The provided URL can be at most 2 kB in length. The URL itself is saved with the image, and exposed via the Image.source_url field. */
-  imageUrl?: string;
-  /** The image replace method. If you specify both a `replace_method` and an `image_replace_method`, the `image_replace_method` takes precedence. If you do not specify a value for `image_replace_method`, but specify a value for `replace_method`, then the specified `replace_method` value is used. If you do not specify either, then CENTER_INSIDE is used. */
-  imageReplaceMethod?: ReplaceAllShapesWithImageRequestImageReplaceMethodEnum | (string & {});
-  /** The replace method. *Deprecated*: use `image_replace_method` instead. If you specify both a `replace_method` and an `image_replace_method`, the `image_replace_method` takes precedence. */
-  replaceMethod?: ReplaceAllShapesWithImageRequestReplaceMethodEnum | (string & {});
-  /** If non-empty, limits the matches to page elements only on the given pages. Returns a 400 bad request error if given the page object ID of a notes page or a notes master, or if a page with that object ID doesn't exist in the presentation. */
-  pageObjectIds?: StringList;
+  /** The object being duplicated may contain other objects, for example when duplicating a slide or a group page element. This map defines how the IDs of duplicated objects are generated: the keys are the IDs of the original objects and its values are the IDs that will be assigned to the corresponding duplicate object. The ID of the source object's duplicate may be specified in this map as well, using the same value of the `object_id` field as a key and the newly desired ID as the value. All keys must correspond to existing IDs in the presentation. All values must be unique in the presentation and must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the new ID must not be less than 5 or greater than 50. If any IDs of source objects are omitted from the map, a new random ID will be assigned. If the map is empty or unset, all duplicate objects will receive a new random ID. */
+  objectIds?: StringMap;
 }
 /** Inserts columns into a table. Other columns in the table will be resized to fit the new column. */
 export interface InsertTableColumnsRequest {
-  /** The table to insert columns into. */
-  tableObjectId?: string;
   /** Whether to insert new columns to the right of the reference cell location. - `True`: insert to the right. - `False`: insert to the left. */
   insertRight?: boolean;
-  /** The reference table cell location from which columns will be inserted. A new column will be inserted to the left (or right) of the column where the reference cell is. If the reference cell is a merged cell, a new column will be inserted to the left (or right) of the merged cell. */
-  cellLocation?: TableCellLocation;
+  /** The table to insert columns into. */
+  tableObjectId?: string;
   /** The number of columns to be inserted. Maximum 20 per request. */
   number?: number;
-}
-export type ReplaceImageRequestImageReplaceMethodEnum =
-  | "IMAGE_REPLACE_METHOD_UNSPECIFIED"
-  | "CENTER_INSIDE"
-  | "CENTER_CROP";
-/** Replaces an existing image with a new image. Replacing an image removes some image effects from the existing image. */
-export interface ReplaceImageRequest {
-  /** The ID of the existing image that will be replaced. The ID can be retrieved from the response of a get request. */
-  imageObjectId?: string;
-  /** The replacement method. */
-  imageReplaceMethod?: ReplaceImageRequestImageReplaceMethodEnum | (string & {});
-  /** The image URL. The image is fetched once at insertion time and a copy is stored for display inside the presentation. Images must be less than 50MB, cannot exceed 25 megapixels, and must be in PNG, JPEG, or GIF format. The provided URL can't surpass 2 KB in length. The URL is saved with the image, and exposed through the Image.source_url field. */
-  url?: string;
-}
-/** Inserts rows into a table. */
-export interface InsertTableRowsRequest {
-  /** The number of rows to be inserted. Maximum 20 per request. */
-  number?: number;
-  /** The table to insert rows into. */
-  tableObjectId?: string;
-  /** The reference table cell location from which rows will be inserted. A new row will be inserted above (or below) the row where the reference cell is. If the reference cell is a merged cell, a new row will be inserted above (or below) the merged cell. */
+  /** The reference table cell location from which columns will be inserted. A new column will be inserted to the left (or right) of the column where the reference cell is. If the reference cell is a merged cell, a new column will be inserted to the left (or right) of the merged cell. */
   cellLocation?: TableCellLocation;
-  /** Whether to insert new rows below the reference cell location. - `True`: insert below the cell. - `False`: insert above the cell. */
-  insertBelow?: boolean;
 }
 export type IntegerList = Array<number>;
-/** Updates the properties of a Table column. */
-export interface UpdateTableColumnPropertiesRequest {
-  /** The table column properties to update. If the value of `table_column_properties#column_width` in the request is less than 406,400 EMU (32 points), a 400 bad request error is returned. */
-  tableColumnProperties?: TableColumnProperties;
-  /** The object ID of the table. */
-  objectId?: string;
-  /** The fields that should be updated. At least one field must be specified. The root `tableColumnProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the column width, set `fields` to `"column_width"`. If '"column_width"' is included in the field mask but the property is left unset, the column width will default to 406,400 EMU (32 points). */
-  fields?: string;
-  /** The list of zero-based indices specifying which columns to update. If no indices are provided, all columns in the table will be updated. */
-  columnIndices?: IntegerList;
-}
-export type UpdateLineCategoryRequestLineCategoryEnum =
-  | "LINE_CATEGORY_UNSPECIFIED"
-  | "STRAIGHT"
-  | "BENT"
-  | "CURVED";
-/** Updates the category of a line. */
-export interface UpdateLineCategoryRequest {
-  /** The line category to update to. The exact line type is determined based on the category to update to and how it's routed to connect to other page elements. */
-  lineCategory?: UpdateLineCategoryRequestLineCategoryEnum | (string & {});
-  /** The object ID of the line the update is applied to. Only a line with a category indicating it is a "connector" can be updated. The line may be rerouted after updating its category. */
-  objectId?: string;
-}
-/** Update the properties of a Video. */
-export interface UpdateVideoPropertiesRequest {
-  /** The fields that should be updated. At least one field must be specified. The root `videoProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the video outline color, set `fields` to `"outline.outlineFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
-  fields?: string;
-  /** The video properties to update. */
-  videoProperties?: VideoProperties;
-  /** The object ID of the video the updates are applied to. */
-  objectId?: string;
-}
-/** Groups objects to create an object group. For example, groups PageElements to create a Group on the same page as all the children. */
-export interface GroupObjectsRequest {
-  /** A user-supplied object ID for the group to be created. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
-  groupObjectId?: string;
-  /** The object IDs of the objects to group. Only page elements can be grouped. There should be at least two page elements on the same page that are not already in another group. Some page elements, such as videos, tables and placeholders cannot be grouped. */
-  childrenObjectIds?: StringList;
-}
-/** Replaces all instances of text matching a criteria with replace text. */
-export interface ReplaceAllTextRequest {
-  /** If non-empty, limits the matches to page elements only on the given pages. Returns a 400 bad request error if given the page object ID of a notes master, or if a page with that object ID doesn't exist in the presentation. */
-  pageObjectIds?: StringList;
-  /** The text that will replace the matched text. */
-  replaceText?: string;
-  /** Finds text in a shape matching this substring. */
-  containsText?: SubstringMatchCriteria;
-}
-/** Updates the position of slides in the presentation. */
-export interface UpdateSlidesPositionRequest {
-  /** The IDs of the slides in the presentation that should be moved. The slides in this list must be in existing presentation order, without duplicates. */
-  slideObjectIds?: StringList;
-  /** The index where the slides should be inserted, based on the slide arrangement before the move takes place. Must be between zero and the number of slides in the presentation, inclusive. */
-  insertionIndex?: number;
-}
-/** Deletes an object, either pages or page elements, from the presentation. */
-export interface DeleteObjectRequest {
-  /** The object ID of the page or page element to delete. If after a delete operation a group contains only 1 or no page elements, the group is also deleted. If a placeholder is deleted on a layout, any empty inheriting placeholders are also deleted. */
-  objectId?: string;
-}
-/** The user-specified ID mapping for a placeholder that will be created on a slide from a specified layout. */
-export interface LayoutPlaceholderIdMapping {
-  /** A user-supplied object ID for the placeholder identified above that to be created onto a slide. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
-  objectId?: string;
-  /** The placeholder on a layout that will be applied to a slide. Only type and index are needed. For example, a predefined `TITLE_AND_BODY` layout may usually have a TITLE placeholder with index 0 and a BODY placeholder with index 0. */
-  layoutPlaceholder?: Placeholder;
-  /** The object ID of the placeholder on a layout that will be applied to a slide. */
-  layoutPlaceholderObjectId?: string;
-}
-export type LayoutPlaceholderIdMappingList = Array<LayoutPlaceholderIdMapping>;
-export type LayoutReferencePredefinedLayoutEnum =
-  | "PREDEFINED_LAYOUT_UNSPECIFIED"
-  | "BLANK"
-  | "CAPTION_ONLY"
-  | "TITLE"
-  | "TITLE_AND_BODY"
-  | "TITLE_AND_TWO_COLUMNS"
-  | "TITLE_ONLY"
-  | "SECTION_HEADER"
-  | "SECTION_TITLE_AND_DESCRIPTION"
-  | "ONE_COLUMN_TEXT"
-  | "MAIN_POINT"
-  | "BIG_NUMBER";
-/** Slide layout reference. This may reference either: - A predefined layout - One of the layouts in the presentation. */
-export interface LayoutReference {
-  /** Predefined layout. */
-  predefinedLayout?: LayoutReferencePredefinedLayoutEnum | (string & {});
-  /** Layout ID: the object ID of one of the layouts in the presentation. */
-  layoutId?: string;
-}
-/** Creates a slide. */
-export interface CreateSlideRequest {
-  /** The optional zero-based index indicating where to insert the slides. If you don't specify an index, the slide is created at the end. */
-  insertionIndex?: number;
-  /** An optional list of object ID mappings from the placeholder(s) on the layout to the placeholders that are created on the slide from the specified layout. Can only be used when `slide_layout_reference` is specified. */
-  placeholderIdMappings?: LayoutPlaceholderIdMappingList;
-  /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The ID length must be between 5 and 50 characters, inclusive. If you don't specify an ID, a unique one is generated. */
-  objectId?: string;
-  /** Layout reference of the slide to be inserted, based on the *current master*, which is one of the following: - The master of the previous slide index. - The master of the first slide, if the insertion_index is zero. - The first master in the presentation, if there are no slides. If the LayoutReference is not found in the current master, a 400 bad request error is returned. If you don't specify a layout reference, the slide uses the predefined `BLANK` layout. */
-  slideLayoutReference?: LayoutReference;
-}
-/** Unmerges cells in a Table. */
-export interface UnmergeTableCellsRequest {
-  /** The object ID of the table. */
-  objectId?: string;
-  /** The table range specifying which cells of the table to unmerge. All merged cells in this range will be unmerged, and cells that are already unmerged will not be affected. If the range has no merged cells, the request will do nothing. If there is text in any of the merged cells, the text will remain in the upper-left ("head") cell of the resulting block of unmerged cells. */
-  tableRange?: TableRange;
-}
-/** Deletes bullets from all of the paragraphs that overlap with the given text index range. The nesting level of each paragraph will be visually preserved by adding indent to the start of the corresponding paragraph. */
-export interface DeleteParagraphBulletsRequest {
-  /** The object ID of the shape or table containing the text to delete bullets from. */
-  objectId?: string;
-  /** The optional table cell location if the text to be modified is in a table cell. If present, the object_id must refer to a table. */
-  cellLocation?: TableCellLocation;
-  /** The range of text to delete bullets from, based on TextElement indexes. */
-  textRange?: Range;
-}
-/** Updates a Post in a CommentThread. Returns a 400 bad request error if: - The requesting user is not the author of the post. [Developer Preview](https://developers.google.com/workspace/preview). */
-export interface UpdateCommentPostRequest {
-  /** The new text of the comment, as plain text. This text content will be handled similarly to comments created in the Slides editor. It will have similar behaviors for formatting, notifications, etc. This field cannot be empty, and must not exceed 2048 UTF-8 code units. */
-  content?: string;
-  /** The ID of the CommentThread which the post belongs to. */
-  commentId?: string;
-  /** The ID of the post being updated. */
-  postId?: string;
-}
-/** Update the properties of an Image. */
-export interface UpdateImagePropertiesRequest {
-  /** The fields that should be updated. At least one field must be specified. The root `imageProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the image outline color, set `fields` to `"outline.outlineFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
-  fields?: string;
-  /** The image properties to update. */
-  imageProperties?: ImageProperties;
-  /** The object ID of the image the updates are applied to. */
-  objectId?: string;
-}
-/** Updates the properties of a Page. */
-export interface UpdatePagePropertiesRequest {
-  /** The object ID of the page the update is applied to. */
-  objectId?: string;
-  /** The fields that should be updated. At least one field must be specified. The root `pageProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the page background solid fill color, set `fields` to `"pageBackgroundFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
-  fields?: string;
-  /** The page properties to update. */
-  pageProperties?: PageProperties;
-}
-/** Deletes text from a shape or a table cell. */
-export interface DeleteTextRequest {
-  /** The range of text to delete, based on TextElement indexes. There is always an implicit newline character at the end of a shape's or table cell's text that cannot be deleted. `Range.Type.ALL` will use the correct bounds, but care must be taken when specifying explicit bounds for range types `FROM_START_INDEX` and `FIXED_RANGE`. For example, if the text is "ABC", followed by an implicit newline, then the maximum value is 2 for `text_range.start_index` and 3 for `text_range.end_index`. Deleting text that crosses a paragraph boundary may result in changes to paragraph styles and lists as the two paragraphs are merged. Ranges that include only one code unit of a surrogate pair are expanded to include both code units. */
-  textRange?: Range;
-  /** The optional table cell location if the text is to be deleted from a table cell. If present, the object_id must refer to a table. */
-  cellLocation?: TableCellLocation;
-  /** The object ID of the shape or table from which the text will be deleted. */
-  objectId?: string;
-}
-/** An anchor to a specific range of text within a TableCell's TextElement. [Developer Preview](https://developers.google.com/workspace/preview). */
-export interface TableCellTextAnchor {
-  /** The location of the cell in the table. */
-  cellLocation?: TableCellLocation;
-  /** The object ID of the table containing the cell. */
-  objectId?: string;
-  /** The text range for the anchor. */
-  textRange?: Range;
-}
-/** An anchor to a specific range of cells within a Table. Used to anchor a comment to all of the text in each cell in a range within a table. [Developer Preview](https://developers.google.com/workspace/preview). */
-export interface TableAnchor {
-  /** The object ID of the table. */
-  objectId?: string;
-  /** The range of cells in the table to apply the anchor to. If omitted, all cells in the table will be used for the anchor. */
-  tableRange?: TableRange;
-}
-/** An anchor to a specific range of text within a Shape's text. [Developer Preview](https://developers.google.com/workspace/preview). To insert comments in speaker notes, use the ShapeTextAnchor with the speaker notes object ID. */
-export interface ShapeTextAnchor {
-  /** The object ID of the page element containing the text. */
-  objectId?: string;
-  /** The text range for the anchor. */
-  textRange?: Range;
-}
-/** Inserts a CommentThread into the presentation. [Developer Preview](https://developers.google.com/workspace/preview). */
-export interface InsertCommentRequest {
-  /** Anchors a comment to a specific range of text within a single cell in a Table. */
-  tableCellTextAnchor?: TableCellTextAnchor;
-  /** Anchors a comment to a specific range of cells within a Table. Returns a 400 bad request error if no cells within the range contain text. */
-  tableAnchor?: TableAnchor;
-  /** Anchors a comment to a specific range of text within a Shape. */
-  shapeTextAnchor?: ShapeTextAnchor;
-  /** The text of the comment, as plain text. This text content will be handled similarly to comments created in the Slides editor. It will have similar behaviors for formatting, notifications, etc. This field cannot be empty, and must not exceed 2048 UTF-8 code units. */
-  content?: string;
-  /** Optional. The email address of the assignee of the comment. Leave empty for a non-assigned comment. May not exceed 2048 UTF-8 code units. */
-  assigneeEmailAddress?: string;
-  /** The object ID of the Page or PageElement that is tied to this comment. If the specified object_id is a Group, the comment will be anchored to at most 100 of the group's non-group descendants. */
-  objectId?: string;
-}
-/** Updates the styling for all of the paragraphs within a Shape or Table that overlap with the given text index range. */
-export interface UpdateParagraphStyleRequest {
-  /** The location of the cell in the table containing the paragraph(s) to style. If `object_id` refers to a table, `cell_location` must have a value. Otherwise, it must not. */
-  cellLocation?: TableCellLocation;
-  /** The paragraph's style. */
-  style?: ParagraphStyle;
-  /** The range of text containing the paragraph(s) to style. */
-  textRange?: Range;
-  /** The object ID of the shape or table with the text to be styled. */
-  objectId?: string;
-  /** The fields that should be updated. At least one field must be specified. The root `style` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example, to update the paragraph alignment, set `fields` to `"alignment"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
-  fields?: string;
-}
-/** Deletes a row from a table. */
-export interface DeleteTableRowRequest {
-  /** The reference table cell location from which a row will be deleted. The row this cell spans will be deleted. If this is a merged cell, multiple rows will be deleted. If no rows remain in the table after this deletion, the whole table is deleted. */
-  cellLocation?: TableCellLocation;
-  /** The table to delete rows from. */
-  tableObjectId?: string;
-}
 /** Updates the properties of a Table row. */
 export interface UpdateTableRowPropertiesRequest {
   /** The object ID of the table. */
   objectId?: string;
   /** The list of zero-based indices specifying which rows to update. If no indices are provided, all rows in the table will be updated. */
   rowIndices?: IntegerList;
-  /** The table row properties to update. */
-  tableRowProperties?: TableRowProperties;
   /** The fields that should be updated. At least one field must be specified. The root `tableRowProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the minimum row height, set `fields` to `"min_row_height"`. If '"min_row_height"' is included in the field mask but the property is left unset, the minimum row height will default to 0. */
   fields?: string;
+  /** The table row properties to update. */
+  tableRowProperties?: TableRowProperties;
 }
-export type UpdateTableBorderPropertiesRequestBorderPositionEnum =
-  | "ALL"
-  | "BOTTOM"
-  | "INNER"
-  | "INNER_HORIZONTAL"
-  | "INNER_VERTICAL"
-  | "LEFT"
-  | "OUTER"
-  | "RIGHT"
-  | "TOP";
-/** Updates the properties of the table borders in a Table. */
-export interface UpdateTableBorderPropertiesRequest {
-  /** The table range representing the subset of the table to which the updates are applied. If a table range is not specified, the updates will apply to the entire table. */
-  tableRange?: TableRange;
-  /** The fields that should be updated. At least one field must be specified. The root `tableBorderProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the table border solid fill color, set `fields` to `"tableBorderFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
-  fields?: string;
-  /** The object ID of the table. */
+/** Update the properties of a Video. */
+export interface UpdateVideoPropertiesRequest {
+  /** The object ID of the video the updates are applied to. */
   objectId?: string;
-  /** The table border properties to update. */
-  tableBorderProperties?: TableBorderProperties;
-  /** The border position in the table range the updates should apply to. If a border position is not specified, the updates will apply to all borders in the table range. */
-  borderPosition?: UpdateTableBorderPropertiesRequestBorderPositionEnum | (string & {});
+  /** The fields that should be updated. At least one field must be specified. The root `videoProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the video outline color, set `fields` to `"outline.outlineFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  fields?: string;
+  /** The video properties to update. */
+  videoProperties?: VideoProperties;
+}
+/** Updates the properties of a Line. */
+export interface UpdateLinePropertiesRequest {
+  /** The fields that should be updated. At least one field must be specified. The root `lineProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the line solid fill color, set `fields` to `"lineFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  fields?: string;
+  /** The line properties to update. */
+  lineProperties?: LineProperties;
+  /** The object ID of the line the update is applied to. */
+  objectId?: string;
 }
 /** Reroutes a line such that it's connected at the two closest connection sites on the connected page elements. */
 export interface RerouteLineRequest {
   /** The object ID of the line to reroute. Only a line with a category indicating it is a "connector" can be rerouted. The start and end connections of the line must be on different page elements. */
   objectId?: string;
+}
+/** Inserts rows into a table. */
+export interface InsertTableRowsRequest {
+  /** Whether to insert new rows below the reference cell location. - `True`: insert below the cell. - `False`: insert above the cell. */
+  insertBelow?: boolean;
+  /** The reference table cell location from which rows will be inserted. A new row will be inserted above (or below) the row where the reference cell is. If the reference cell is a merged cell, a new row will be inserted above (or below) the merged cell. */
+  cellLocation?: TableCellLocation;
+  /** The table to insert rows into. */
+  tableObjectId?: string;
+  /** The number of rows to be inserted. Maximum 20 per request. */
+  number?: number;
+}
+/** Refreshes an embedded Google Sheets chart by replacing it with the latest version of the chart from Google Sheets. NOTE: Refreshing charts requires at least one of the spreadsheets.readonly, spreadsheets, drive.readonly, or drive OAuth scopes. */
+export interface RefreshSheetsChartRequest {
+  /** The object ID of the chart to refresh. */
+  objectId?: string;
+}
+/** Updates the properties of a Table column. */
+export interface UpdateTableColumnPropertiesRequest {
+  /** The table column properties to update. If the value of `table_column_properties#column_width` in the request is less than 406,400 EMU (32 points), a 400 bad request error is returned. */
+  tableColumnProperties?: TableColumnProperties;
+  /** The fields that should be updated. At least one field must be specified. The root `tableColumnProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the column width, set `fields` to `"column_width"`. If '"column_width"' is included in the field mask but the property is left unset, the column width will default to 406,400 EMU (32 points). */
+  fields?: string;
+  /** The list of zero-based indices specifying which columns to update. If no indices are provided, all columns in the table will be updated. */
+  columnIndices?: IntegerList;
+  /** The object ID of the table. */
+  objectId?: string;
+}
+/** Update the styling of text in a Shape or Table. */
+export interface UpdateTextStyleRequest {
+  /** The location of the cell in the table containing the text to style. If `object_id` refers to a table, `cell_location` must have a value. Otherwise, it must not. */
+  cellLocation?: TableCellLocation;
+  /** The object ID of the shape or table with the text to be styled. */
+  objectId?: string;
+  /** The fields that should be updated. At least one field must be specified. The root `style` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example, to update the text style to bold, set `fields` to `"bold"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  fields?: string;
+  /** The range of text to style. The range may be extended to include adjacent newlines. If the range fully contains a paragraph belonging to a list, the paragraph's bullet is also updated with the matching text style. */
+  textRange?: Range;
+  /** The style(s) to set on the text. If the value for a particular style matches that of the parent, that style will be set to inherit. Certain text style changes may cause other changes meant to mirror the behavior of the Slides editor. See the documentation of TextStyle for more information. */
+  style?: TextStyle;
 }
 /** Merges cells in a Table. */
 export interface MergeTableCellsRequest {
@@ -1786,268 +1894,160 @@ export interface MergeTableCellsRequest {
   /** The table range specifying which cells of the table to merge. Any text in the cells being merged will be concatenated and stored in the upper-left ("head") cell of the range. If the range is non-rectangular (which can occur in some cases where the range covers cells that are already merged), a 400 bad request error is returned. */
   tableRange?: TableRange;
 }
-export type CreateShapeRequestShapeTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "TEXT_BOX"
-  | "RECTANGLE"
-  | "ROUND_RECTANGLE"
-  | "ELLIPSE"
-  | "ARC"
-  | "BENT_ARROW"
-  | "BENT_UP_ARROW"
-  | "BEVEL"
-  | "BLOCK_ARC"
-  | "BRACE_PAIR"
-  | "BRACKET_PAIR"
-  | "CAN"
-  | "CHEVRON"
-  | "CHORD"
-  | "CLOUD"
-  | "CORNER"
-  | "CUBE"
-  | "CURVED_DOWN_ARROW"
-  | "CURVED_LEFT_ARROW"
-  | "CURVED_RIGHT_ARROW"
-  | "CURVED_UP_ARROW"
-  | "DECAGON"
-  | "DIAGONAL_STRIPE"
-  | "DIAMOND"
-  | "DODECAGON"
-  | "DONUT"
-  | "DOUBLE_WAVE"
-  | "DOWN_ARROW"
-  | "DOWN_ARROW_CALLOUT"
-  | "FOLDED_CORNER"
-  | "FRAME"
-  | "HALF_FRAME"
-  | "HEART"
-  | "HEPTAGON"
-  | "HEXAGON"
-  | "HOME_PLATE"
-  | "HORIZONTAL_SCROLL"
-  | "IRREGULAR_SEAL_1"
-  | "IRREGULAR_SEAL_2"
-  | "LEFT_ARROW"
-  | "LEFT_ARROW_CALLOUT"
-  | "LEFT_BRACE"
-  | "LEFT_BRACKET"
-  | "LEFT_RIGHT_ARROW"
-  | "LEFT_RIGHT_ARROW_CALLOUT"
-  | "LEFT_RIGHT_UP_ARROW"
-  | "LEFT_UP_ARROW"
-  | "LIGHTNING_BOLT"
-  | "MATH_DIVIDE"
-  | "MATH_EQUAL"
-  | "MATH_MINUS"
-  | "MATH_MULTIPLY"
-  | "MATH_NOT_EQUAL"
-  | "MATH_PLUS"
-  | "MOON"
-  | "NO_SMOKING"
-  | "NOTCHED_RIGHT_ARROW"
-  | "OCTAGON"
-  | "PARALLELOGRAM"
-  | "PENTAGON"
-  | "PIE"
-  | "PLAQUE"
-  | "PLUS"
-  | "QUAD_ARROW"
-  | "QUAD_ARROW_CALLOUT"
-  | "RIBBON"
-  | "RIBBON_2"
-  | "RIGHT_ARROW"
-  | "RIGHT_ARROW_CALLOUT"
-  | "RIGHT_BRACE"
-  | "RIGHT_BRACKET"
-  | "ROUND_1_RECTANGLE"
-  | "ROUND_2_DIAGONAL_RECTANGLE"
-  | "ROUND_2_SAME_RECTANGLE"
-  | "RIGHT_TRIANGLE"
-  | "SMILEY_FACE"
-  | "SNIP_1_RECTANGLE"
-  | "SNIP_2_DIAGONAL_RECTANGLE"
-  | "SNIP_2_SAME_RECTANGLE"
-  | "SNIP_ROUND_RECTANGLE"
-  | "STAR_10"
-  | "STAR_12"
-  | "STAR_16"
-  | "STAR_24"
-  | "STAR_32"
-  | "STAR_4"
-  | "STAR_5"
-  | "STAR_6"
-  | "STAR_7"
-  | "STAR_8"
-  | "STRIPED_RIGHT_ARROW"
-  | "SUN"
-  | "TRAPEZOID"
-  | "TRIANGLE"
-  | "UP_ARROW"
-  | "UP_ARROW_CALLOUT"
-  | "UP_DOWN_ARROW"
-  | "UTURN_ARROW"
-  | "VERTICAL_SCROLL"
-  | "WAVE"
-  | "WEDGE_ELLIPSE_CALLOUT"
-  | "WEDGE_RECTANGLE_CALLOUT"
-  | "WEDGE_ROUND_RECTANGLE_CALLOUT"
-  | "FLOW_CHART_ALTERNATE_PROCESS"
-  | "FLOW_CHART_COLLATE"
-  | "FLOW_CHART_CONNECTOR"
-  | "FLOW_CHART_DECISION"
-  | "FLOW_CHART_DELAY"
-  | "FLOW_CHART_DISPLAY"
-  | "FLOW_CHART_DOCUMENT"
-  | "FLOW_CHART_EXTRACT"
-  | "FLOW_CHART_INPUT_OUTPUT"
-  | "FLOW_CHART_INTERNAL_STORAGE"
-  | "FLOW_CHART_MAGNETIC_DISK"
-  | "FLOW_CHART_MAGNETIC_DRUM"
-  | "FLOW_CHART_MAGNETIC_TAPE"
-  | "FLOW_CHART_MANUAL_INPUT"
-  | "FLOW_CHART_MANUAL_OPERATION"
-  | "FLOW_CHART_MERGE"
-  | "FLOW_CHART_MULTIDOCUMENT"
-  | "FLOW_CHART_OFFLINE_STORAGE"
-  | "FLOW_CHART_OFFPAGE_CONNECTOR"
-  | "FLOW_CHART_ONLINE_STORAGE"
-  | "FLOW_CHART_OR"
-  | "FLOW_CHART_PREDEFINED_PROCESS"
-  | "FLOW_CHART_PREPARATION"
-  | "FLOW_CHART_PROCESS"
-  | "FLOW_CHART_PUNCHED_CARD"
-  | "FLOW_CHART_PUNCHED_TAPE"
-  | "FLOW_CHART_SORT"
-  | "FLOW_CHART_SUMMING_JUNCTION"
-  | "FLOW_CHART_TERMINATOR"
-  | "ARROW_EAST"
-  | "ARROW_NORTH_EAST"
-  | "ARROW_NORTH"
-  | "SPEECH"
-  | "STARBURST"
-  | "TEARDROP"
-  | "ELLIPSE_RIBBON"
-  | "ELLIPSE_RIBBON_2"
-  | "CLOUD_CALLOUT"
-  | "CUSTOM";
-/** Creates a new shape. */
-export interface CreateShapeRequest {
-  /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If empty, a unique identifier will be generated. */
+export type UpdatePageElementTransformRequestApplyModeEnum =
+  | "APPLY_MODE_UNSPECIFIED"
+  | "RELATIVE"
+  | "ABSOLUTE";
+/** Updates the transform of a page element. Updating the transform of a group will change the absolute transform of the page elements in that group, which can change their visual appearance. See the documentation for PageElement.transform for more details. */
+export interface UpdatePageElementTransformRequest {
+  /** The input transform matrix used to update the page element. */
+  transform?: AffineTransform;
+  /** The apply mode of the transform update. */
+  applyMode?: UpdatePageElementTransformRequestApplyModeEnum | (string & {});
+  /** The object ID of the page element to update. */
   objectId?: string;
-  /** The shape type. */
-  shapeType?: CreateShapeRequestShapeTypeEnum | (string & {});
-  /** The element properties for the shape. */
-  elementProperties?: PageElementProperties;
+}
+/** Deletes an object, either pages or page elements, from the presentation. */
+export interface DeleteObjectRequest {
+  /** The object ID of the page or page element to delete. If after a delete operation a group contains only 1 or no page elements, the group is also deleted. If a placeholder is deleted on a layout, any empty inheriting placeholders are also deleted. */
+  objectId?: string;
+}
+/** Ungroups objects, such as groups. */
+export interface UngroupObjectsRequest {
+  /** The object IDs of the objects to ungroup. Only groups that are not inside other groups can be ungrouped. All the groups should be on the same page. The group itself is deleted. The visual sizes and positions of all the children are preserved. */
+  objectIds?: StringList;
 }
 /** Creates an image. */
 export interface CreateImageRequest {
-  /** The element properties for the image. When the aspect ratio of the provided size does not match the image aspect ratio, the image is scaled and centered with respect to the size in order to maintain the aspect ratio. The provided transform is applied after this operation. The PageElementProperties.size property is optional. If you don't specify the size, the default size of the image is used. The PageElementProperties.transform property is optional. If you don't specify a transform, the image will be placed at the top-left corner of the page. */
-  elementProperties?: PageElementProperties;
   /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
   objectId?: string;
+  /** The element properties for the image. When the aspect ratio of the provided size does not match the image aspect ratio, the image is scaled and centered with respect to the size in order to maintain the aspect ratio. The provided transform is applied after this operation. The PageElementProperties.size property is optional. If you don't specify the size, the default size of the image is used. The PageElementProperties.transform property is optional. If you don't specify a transform, the image will be placed at the top-left corner of the page. */
+  elementProperties?: PageElementProperties;
   /** The image URL. The image is fetched once at insertion time and a copy is stored for display inside the presentation. Images must be less than 50 MB in size, can't exceed 25 megapixels, and must be in one of PNG, JPEG, or GIF formats. The provided URL must be publicly accessible and up to 2 KB in length. The URL is saved with the image, and exposed through the Image.source_url field. */
   url?: string;
 }
+/** Creates a new table. */
+export interface CreateTableRequest {
+  /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
+  objectId?: string;
+  /** Number of rows in the table. */
+  rows?: number;
+  /** The element properties for the table. The table will be created at the provided size, subject to a minimum size. If no size is provided, the table will be automatically sized. Table transforms must have a scale of 1 and no shear components. If no transform is provided, the table will be centered on the page. */
+  elementProperties?: PageElementProperties;
+  /** Number of columns in the table. */
+  columns?: number;
+}
+/** Update the properties of a TableCell. */
+export interface UpdateTableCellPropertiesRequest {
+  /** The fields that should be updated. At least one field must be specified. The root `tableCellProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the table cell background solid fill color, set `fields` to `"tableCellBackgroundFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  fields?: string;
+  /** The table range representing the subset of the table to which the updates are applied. If a table range is not specified, the updates will apply to the entire table. */
+  tableRange?: TableRange;
+  /** The table cell properties to update. */
+  tableCellProperties?: TableCellProperties;
+  /** The object ID of the table. */
+  objectId?: string;
+}
 /** A single kind of update to apply to a presentation. */
 export interface Request {
-  /** Updates the properties of a TableCell. */
-  updateTableCellProperties?: UpdateTableCellPropertiesRequest;
-  /** Inserts text into a shape or table cell. */
-  insertText?: InsertTextRequest;
-  /** Creates an embedded Google Sheets chart. */
-  createSheetsChart?: CreateSheetsChartRequest;
-  /** Deletes a reply Post from a CommentThread. [Developer Preview](https://developers.google.com/workspace/preview). */
-  deleteCommentReply?: DeleteCommentReplyRequest;
-  /** Deletes a CommentThread. [Developer Preview](https://developers.google.com/workspace/preview). */
-  deleteComment?: DeleteCommentRequest;
-  /** Deletes a column from a table. */
-  deleteTableColumn?: DeleteTableColumnRequest;
-  /** Creates a line. */
-  createLine?: CreateLineRequest;
-  /** Creates a video. */
-  createVideo?: CreateVideoRequest;
-  /** Updates the Z-order of page elements. */
-  updatePageElementsZOrder?: UpdatePageElementsZOrderRequest;
-  /** Updates the transform of a page element. */
-  updatePageElementTransform?: UpdatePageElementTransformRequest;
-  /** Updates the styling of text within a Shape or Table. */
-  updateTextStyle?: UpdateTextStyleRequest;
-  /** Updates the properties of a Line. */
-  updateLineProperties?: UpdateLinePropertiesRequest;
-  /** Duplicates a slide or page element. */
-  duplicateObject?: DuplicateObjectRequest;
-  /** Creates a new table. */
-  createTable?: CreateTableRequest;
-  /** Updates the properties of a Shape. */
-  updateShapeProperties?: UpdateShapePropertiesRequest;
-  /** Updates the properties of a Slide */
-  updateSlideProperties?: UpdateSlidePropertiesRequest;
-  /** Adds a reply to a CommentThread. [Developer Preview](https://developers.google.com/workspace/preview). */
-  addCommentReply?: AddCommentReplyRequest;
-  /** Replaces all shapes matching some criteria with a Google Sheets chart. */
-  replaceAllShapesWithSheetsChart?: ReplaceAllShapesWithSheetsChartRequest;
-  /** Updates the alt text title and/or description of a page element. */
-  updatePageElementAltText?: UpdatePageElementAltTextRequest;
-  /** Refreshes a Google Sheets chart. */
-  refreshSheetsChart?: RefreshSheetsChartRequest;
-  /** Ungroups objects, such as groups. */
-  ungroupObjects?: UngroupObjectsRequest;
-  /** Creates bullets for paragraphs. */
-  createParagraphBullets?: CreateParagraphBulletsRequest;
-  /** Replaces all shapes matching some criteria with an image. */
-  replaceAllShapesWithImage?: ReplaceAllShapesWithImageRequest;
-  /** Inserts columns into a table. */
-  insertTableColumns?: InsertTableColumnsRequest;
-  /** Replaces an existing image with a new image. */
-  replaceImage?: ReplaceImageRequest;
-  /** Inserts rows into a table. */
-  insertTableRows?: InsertTableRowsRequest;
-  /** Updates the properties of a Table column. */
-  updateTableColumnProperties?: UpdateTableColumnPropertiesRequest;
-  /** Updates the category of a line. */
-  updateLineCategory?: UpdateLineCategoryRequest;
-  /** Updates the properties of a Video. */
-  updateVideoProperties?: UpdateVideoPropertiesRequest;
   /** Groups objects, such as page elements. */
   groupObjects?: GroupObjectsRequest;
-  /** Replaces all instances of specified text. */
-  replaceAllText?: ReplaceAllTextRequest;
-  /** Updates the position of a set of slides in the presentation. */
-  updateSlidesPosition?: UpdateSlidesPositionRequest;
-  /** Deletes a page or page element from the presentation. */
-  deleteObject?: DeleteObjectRequest;
   /** Creates a new slide. */
   createSlide?: CreateSlideRequest;
-  /** Unmerges cells in a Table. */
-  unmergeTableCells?: UnmergeTableCellsRequest;
-  /** Deletes bullets from paragraphs. */
-  deleteParagraphBullets?: DeleteParagraphBulletsRequest;
-  /** Updates an existing post (head post or reply) of a CommentThread. [Developer Preview](https://developers.google.com/workspace/preview). */
-  updateCommentPost?: UpdateCommentPostRequest;
-  /** Updates the properties of an Image. */
-  updateImageProperties?: UpdateImagePropertiesRequest;
-  /** Updates the properties of a Page. */
-  updatePageProperties?: UpdatePagePropertiesRequest;
-  /** Deletes text from a shape or a table cell. */
-  deleteText?: DeleteTextRequest;
-  /** Inserts a CommentThread into the presentation. [Developer Preview](https://developers.google.com/workspace/preview). */
-  insertComment?: InsertCommentRequest;
-  /** Updates the styling of paragraphs within a Shape or Table. */
-  updateParagraphStyle?: UpdateParagraphStyleRequest;
-  /** Deletes a row from a table. */
-  deleteTableRow?: DeleteTableRowRequest;
-  /** Updates the properties of a Table row. */
-  updateTableRowProperties?: UpdateTableRowPropertiesRequest;
-  /** Updates the properties of the table borders in a Table. */
-  updateTableBorderProperties?: UpdateTableBorderPropertiesRequest;
-  /** Reroutes a line such that it's connected at the two closest connection sites on the connected page elements. */
-  rerouteLine?: RerouteLineRequest;
-  /** Merges cells in a Table. */
-  mergeTableCells?: MergeTableCellsRequest;
   /** Creates a new shape. */
   createShape?: CreateShapeRequest;
+  /** Inserts a CommentThread into the presentation. */
+  insertComment?: InsertCommentRequest;
+  /** Creates a line. */
+  createLine?: CreateLineRequest;
+  /** Updates the properties of an Image. */
+  updateImageProperties?: UpdateImagePropertiesRequest;
+  /** Deletes a CommentThread. */
+  deleteComment?: DeleteCommentRequest;
+  /** Deletes a reply Post from a CommentThread. */
+  deleteCommentReply?: DeleteCommentReplyRequest;
+  /** Creates bullets for paragraphs. */
+  createParagraphBullets?: CreateParagraphBulletsRequest;
+  /** Updates the properties of a Shape. */
+  updateShapeProperties?: UpdateShapePropertiesRequest;
+  /** Updates the properties of the table borders in a Table. */
+  updateTableBorderProperties?: UpdateTableBorderPropertiesRequest;
+  /** Updates the alt text title and/or description of a page element. */
+  updatePageElementAltText?: UpdatePageElementAltTextRequest;
+  /** Adds a reply to a CommentThread. */
+  addCommentReply?: AddCommentReplyRequest;
+  /** Updates an existing post (head post or reply) of a CommentThread. */
+  updateCommentPost?: UpdateCommentPostRequest;
+  /** Deletes bullets from paragraphs. */
+  deleteParagraphBullets?: DeleteParagraphBulletsRequest;
+  /** Unmerges cells in a Table. */
+  unmergeTableCells?: UnmergeTableCellsRequest;
+  /** Deletes a row from a table. */
+  deleteTableRow?: DeleteTableRowRequest;
+  /** Updates the properties of a Page. */
+  updatePageProperties?: UpdatePagePropertiesRequest;
+  /** Replaces all instances of specified text. */
+  replaceAllText?: ReplaceAllTextRequest;
+  /** Deletes a column from a table. */
+  deleteTableColumn?: DeleteTableColumnRequest;
+  /** Updates the Z-order of page elements. */
+  updatePageElementsZOrder?: UpdatePageElementsZOrderRequest;
+  /** Replaces all shapes matching some criteria with an image. */
+  replaceAllShapesWithImage?: ReplaceAllShapesWithImageRequest;
+  /** Deletes text from a shape or a table cell. */
+  deleteText?: DeleteTextRequest;
+  /** Updates the styling of paragraphs within a Shape or Table. */
+  updateParagraphStyle?: UpdateParagraphStyleRequest;
+  /** Updates the position of a set of slides in the presentation. */
+  updateSlidesPosition?: UpdateSlidesPositionRequest;
+  /** Replaces an existing image with a new image. */
+  replaceImage?: ReplaceImageRequest;
+  /** Updates the category of a line. */
+  updateLineCategory?: UpdateLineCategoryRequest;
+  /** Creates a video. */
+  createVideo?: CreateVideoRequest;
+  /** Replaces all shapes matching some criteria with a Google Sheets chart. */
+  replaceAllShapesWithSheetsChart?: ReplaceAllShapesWithSheetsChartRequest;
+  /** Creates an embedded Google Sheets chart. */
+  createSheetsChart?: CreateSheetsChartRequest;
+  /** Inserts text into a shape or table cell. */
+  insertText?: InsertTextRequest;
+  /** Updates the properties of a Slide */
+  updateSlideProperties?: UpdateSlidePropertiesRequest;
+  /** Duplicates a slide or page element. */
+  duplicateObject?: DuplicateObjectRequest;
+  /** Inserts columns into a table. */
+  insertTableColumns?: InsertTableColumnsRequest;
+  /** Updates the properties of a Table row. */
+  updateTableRowProperties?: UpdateTableRowPropertiesRequest;
+  /** Updates the properties of a Video. */
+  updateVideoProperties?: UpdateVideoPropertiesRequest;
+  /** Updates the properties of a Line. */
+  updateLineProperties?: UpdateLinePropertiesRequest;
+  /** Reroutes a line such that it's connected at the two closest connection sites on the connected page elements. */
+  rerouteLine?: RerouteLineRequest;
+  /** Inserts rows into a table. */
+  insertTableRows?: InsertTableRowsRequest;
+  /** Refreshes a Google Sheets chart. */
+  refreshSheetsChart?: RefreshSheetsChartRequest;
+  /** Updates the properties of a Table column. */
+  updateTableColumnProperties?: UpdateTableColumnPropertiesRequest;
+  /** Updates the styling of text within a Shape or Table. */
+  updateTextStyle?: UpdateTextStyleRequest;
+  /** Merges cells in a Table. */
+  mergeTableCells?: MergeTableCellsRequest;
+  /** Updates the transform of a page element. */
+  updatePageElementTransform?: UpdatePageElementTransformRequest;
+  /** Deletes a page or page element from the presentation. */
+  deleteObject?: DeleteObjectRequest;
+  /** Ungroups objects, such as groups. */
+  ungroupObjects?: UngroupObjectsRequest;
   /** Creates an image. */
   createImage?: CreateImageRequest;
+  /** Creates a new table. */
+  createTable?: CreateTableRequest;
+  /** Updates the properties of a TableCell. */
+  updateTableCellProperties?: UpdateTableCellPropertiesRequest;
 }
 export type RequestList = Array<Request>;
 /** Provides control over how write requests are executed. */
@@ -2073,10 +2073,25 @@ export type BatchUpdatePresentationResponseCommentUpdateStateEnum =
   | "NO_UPDATES_REQUESTED"
   | "ALL_SAVED"
   | "ALL_FAILED_UNKNOWN_REASON";
-/** The result of creating an image. */
-export interface CreateImageResponse {
-  /** The object ID of the created image. */
+/** The result of creating a reply. */
+export interface AddCommentReplyResponse {
+  /** The newly-inserted reply Post. */
+  post?: Post;
+}
+/** The result of grouping objects. */
+export interface GroupObjectsResponse {
+  /** The object ID of the created group. */
   objectId?: string;
+}
+/** The response of duplicating an object. */
+export interface DuplicateObjectResponse {
+  /** The ID of the new duplicate object. */
+  objectId?: string;
+}
+/** The result of creating a comment. */
+export interface InsertCommentResponse {
+  /** The newly-inserted comment thread. */
+  commentThread?: CommentThread;
 }
 /** The result of creating a slide. */
 export interface CreateSlideResponse {
@@ -2088,19 +2103,9 @@ export interface CreateShapeResponse {
   /** The object ID of the created shape. */
   objectId?: string;
 }
-/** The result of creating a reply. [Developer Preview](https://developers.google.com/workspace/preview). */
-export interface AddCommentReplyResponse {
-  /** The newly-inserted reply Post. */
-  post?: Post;
-}
-/** The result of grouping objects. */
-export interface GroupObjectsResponse {
-  /** The object ID of the created group. */
-  objectId?: string;
-}
-/** The result of replacing shapes with a Google Sheets chart. */
-export interface ReplaceAllShapesWithSheetsChartResponse {
-  /** The number of shapes replaced with charts. */
+/** The result of replacing text. */
+export interface ReplaceAllTextResponse {
+  /** The number of occurrences changed by replacing all text. */
   occurrencesChanged?: number;
 }
 /** The result of creating a video. */
@@ -2108,14 +2113,14 @@ export interface CreateVideoResponse {
   /** The object ID of the created video. */
   objectId?: string;
 }
+/** The result of replacing shapes with a Google Sheets chart. */
+export interface ReplaceAllShapesWithSheetsChartResponse {
+  /** The number of shapes replaced with charts. */
+  occurrencesChanged?: number;
+}
 /** The result of creating a line. */
 export interface CreateLineResponse {
   /** The object ID of the created line. */
-  objectId?: string;
-}
-/** The response of duplicating an object. */
-export interface DuplicateObjectResponse {
-  /** The ID of the new duplicate object. */
   objectId?: string;
 }
 /** The result of creating an embedded Google Sheets chart. */
@@ -2128,56 +2133,51 @@ export interface CreateTableResponse {
   /** The object ID of the created table. */
   objectId?: string;
 }
-/** The result of replacing text. */
-export interface ReplaceAllTextResponse {
-  /** The number of occurrences changed by replacing all text. */
-  occurrencesChanged?: number;
-}
-/** The result of creating a comment. [Developer Preview](https://developers.google.com/workspace/preview). */
-export interface InsertCommentResponse {
-  /** The newly-inserted comment thread. */
-  commentThread?: CommentThread;
-}
 /** The result of replacing shapes with an image. */
 export interface ReplaceAllShapesWithImageResponse {
   /** The number of shapes replaced with images. */
   occurrencesChanged?: number;
 }
+/** The result of creating an image. */
+export interface CreateImageResponse {
+  /** The object ID of the created image. */
+  objectId?: string;
+}
 /** A single response from an update. */
 export interface Response {
-  /** The result of creating an image. */
-  createImage?: CreateImageResponse;
+  /** The result of creating a reply. */
+  addCommentReply?: AddCommentReplyResponse;
+  /** The result of grouping objects. */
+  groupObjects?: GroupObjectsResponse;
+  /** The result of duplicating an object. */
+  duplicateObject?: DuplicateObjectResponse;
+  /** The result of creating a comment. */
+  insertComment?: InsertCommentResponse;
   /** The result of creating a slide. */
   createSlide?: CreateSlideResponse;
   /** The result of creating a shape. */
   createShape?: CreateShapeResponse;
-  /** The result of creating a reply. [Developer Preview](https://developers.google.com/workspace/preview). */
-  addCommentReply?: AddCommentReplyResponse;
-  /** The result of grouping objects. */
-  groupObjects?: GroupObjectsResponse;
-  /** The result of replacing all shapes matching some criteria with a Google Sheets chart. */
-  replaceAllShapesWithSheetsChart?: ReplaceAllShapesWithSheetsChartResponse;
+  /** The result of replacing text. */
+  replaceAllText?: ReplaceAllTextResponse;
   /** The result of creating a video. */
   createVideo?: CreateVideoResponse;
+  /** The result of replacing all shapes matching some criteria with a Google Sheets chart. */
+  replaceAllShapesWithSheetsChart?: ReplaceAllShapesWithSheetsChartResponse;
   /** The result of creating a line. */
   createLine?: CreateLineResponse;
-  /** The result of duplicating an object. */
-  duplicateObject?: DuplicateObjectResponse;
   /** The result of creating a Google Sheets chart. */
   createSheetsChart?: CreateSheetsChartResponse;
   /** The result of creating a table. */
   createTable?: CreateTableResponse;
-  /** The result of replacing text. */
-  replaceAllText?: ReplaceAllTextResponse;
-  /** The result of creating a comment. [Developer Preview](https://developers.google.com/workspace/preview). */
-  insertComment?: InsertCommentResponse;
   /** The result of replacing all shapes matching some criteria with an image. */
   replaceAllShapesWithImage?: ReplaceAllShapesWithImageResponse;
+  /** The result of creating an image. */
+  createImage?: CreateImageResponse;
 }
 export type ResponseList = Array<Response>;
 /** Response message from a batch update. */
 export interface BatchUpdatePresentationResponse {
-  /** Whether comment updates were applied in the batch request. [Developer Preview](https://developers.google.com/workspace/preview). */
+  /** Whether comment updates were applied in the batch request. */
   commentUpdateState?: BatchUpdatePresentationResponseCommentUpdateStateEnum;
   /** The updated write control after applying the request. */
   writeControl?: WriteControl;
@@ -2186,36 +2186,36 @@ export interface BatchUpdatePresentationResponse {
   /** The reply of the updates. This maps 1:1 with the updates, although replies to some requests may be empty. */
   replies?: ResponseList;
 }
-export type PageList = Array<Page>;
 export type PresentationCommentsViewModeEnum =
   | "COMMENTS_VIEW_MODE_UNSPECIFIED"
   | "COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS"
   | "COMMENTS_VIEW_MODE_OMITTED"
   | "COMMENTS_VIEW_MODE_INCLUDED";
+export type PageList = Array<Page>;
 /** A Google Slides presentation. */
 export interface Presentation {
-  /** Output only. The revision ID of the presentation. Can be used in update requests to assert the presentation revision hasn't changed since the last read operation. Only populated if the user has edit access to the presentation. The revision ID is not a sequential number but a nebulous string. The format of the revision ID may change over time, so it should be treated opaquely. A returned revision ID is only guaranteed to be valid for 24 hours after it has been returned and cannot be shared across users. If the revision ID is unchanged between calls, then the presentation has not changed. Conversely, a changed ID (for the same presentation and user) usually means the presentation has been updated. However, a changed ID can also be due to internal factors such as ID format changes. */
-  revisionId?: string;
-  /** The ID of the presentation. */
-  presentationId?: string;
-  /** Output only. The comment threads associated with the presentation. [Developer Preview](https://developers.google.com/workspace/preview). */
-  comments?: CommentThreadList;
+  /** Output only. The comments view mode applied to the presentation. */
+  commentsViewMode?: PresentationCommentsViewModeEnum | (string & {});
   /** The title of the presentation. */
   title?: string;
-  /** The slide masters in the presentation. A slide master contains all common page elements and the common properties for a set of layouts. They serve three purposes: - Placeholder shapes on a master contain the default text styles and shape properties of all placeholder shapes on pages that use that master. - The master page properties define the common page properties inherited by its layouts. - Any other shapes on the master slide appear on all slides using that master, regardless of their layout. */
-  masters?: PageList;
-  /** The size of pages in the presentation. */
-  pageSize?: Size;
-  /** The notes master in the presentation. It serves three purposes: - Placeholder shapes on a notes master contain the default text styles and shape properties of all placeholder shapes on notes pages. Specifically, a `SLIDE_IMAGE` placeholder shape contains the slide thumbnail, and a `BODY` placeholder shape contains the speaker notes. - The notes master page properties define the common page properties inherited by all notes pages. - Any other shapes on the notes master appear on all notes pages. The notes master is read-only. */
-  notesMaster?: Page;
-  /** The locale of the presentation, as an IETF BCP 47 language tag. */
-  locale?: string;
   /** The slides in the presentation. A slide inherits properties from a slide layout. */
   slides?: PageList;
+  /** Output only. The comment threads associated with the presentation. */
+  comments?: CommentThreadList;
+  /** Output only. The revision ID of the presentation. Can be used in update requests to assert the presentation revision hasn't changed since the last read operation. Only populated if the user has edit access to the presentation. The revision ID is not a sequential number but a nebulous string. The format of the revision ID may change over time, so it should be treated opaquely. A returned revision ID is only guaranteed to be valid for 24 hours after it has been returned and cannot be shared across users. If the revision ID is unchanged between calls, then the presentation has not changed. Conversely, a changed ID (for the same presentation and user) usually means the presentation has been updated. However, a changed ID can also be due to internal factors such as ID format changes. */
+  revisionId?: string;
+  /** The slide masters in the presentation. A slide master contains all common page elements and the common properties for a set of layouts. They serve three purposes: - Placeholder shapes on a master contain the default text styles and shape properties of all placeholder shapes on pages that use that master. - The master page properties define the common page properties inherited by its layouts. - Any other shapes on the master slide appear on all slides using that master, regardless of their layout. */
+  masters?: PageList;
+  /** The ID of the presentation. */
+  presentationId?: string;
+  /** The locale of the presentation, as an IETF BCP 47 language tag. */
+  locale?: string;
+  /** The notes master in the presentation. It serves three purposes: - Placeholder shapes on a notes master contain the default text styles and shape properties of all placeholder shapes on notes pages. Specifically, a `SLIDE_IMAGE` placeholder shape contains the slide thumbnail, and a `BODY` placeholder shape contains the speaker notes. - The notes master page properties define the common page properties inherited by all notes pages. - Any other shapes on the notes master appear on all notes pages. The notes master is read-only. */
+  notesMaster?: Page;
   /** The layouts in the presentation. A layout is a template that determines how content is arranged and styled on the slides that inherit from that layout. */
   layouts?: PageList;
-  /** Output only. The comments view mode applied to the presentation. [Developer Preview](https://developers.google.com/workspace/preview). */
-  commentsViewMode?: PresentationCommentsViewModeEnum | (string & {});
+  /** The size of pages in the presentation. */
+  pageSize?: Size;
 }
 export interface CreatePresentationsRequest {
   /** Request body */
@@ -2227,10 +2227,10 @@ export type GetPresentationsCommentsViewModeEnum =
   | "COMMENTS_VIEW_MODE_OMITTED"
   | "COMMENTS_VIEW_MODE_INCLUDED";
 export interface GetPresentationsRequest {
-  /** The comments view mode to apply to the presentation. This allows viewing the presentation with comments omitted or included. If one is not specified, COMMENTS_VIEW_MODE_OMITTED is used. [Developer Preview](https://developers.google.com/workspace/preview). */
-  commentsViewMode?: GetPresentationsCommentsViewModeEnum | (string & {});
   /** The ID of the presentation to retrieve. */
   presentationId: string;
+  /** The comments view mode to apply to the presentation. This allows viewing the presentation with comments omitted or included. If one is not specified, COMMENTS_VIEW_MODE_OMITTED is used. */
+  commentsViewMode?: GetPresentationsCommentsViewModeEnum | (string & {});
 }
 export type GetPresentationsPagesCommentsViewModeEnum =
   | "COMMENTS_VIEW_MODE_UNSPECIFIED"
@@ -2238,10 +2238,10 @@ export type GetPresentationsPagesCommentsViewModeEnum =
   | "COMMENTS_VIEW_MODE_OMITTED"
   | "COMMENTS_VIEW_MODE_INCLUDED";
 export interface GetPresentationsPagesRequest {
-  /** The comments view mode to apply to the page. This allows viewing the page with comments omitted or included. If one is not specified, COMMENTS_VIEW_MODE_OMITTED is used. [Developer Preview](https://developers.google.com/workspace/preview). */
-  commentsViewMode?: GetPresentationsPagesCommentsViewModeEnum | (string & {});
   /** The ID of the presentation to retrieve. */
   presentationId: string;
+  /** The comments view mode to apply to the page. This allows viewing the page with comments omitted or included. If one is not specified, COMMENTS_VIEW_MODE_OMITTED is used. */
+  commentsViewMode?: GetPresentationsPagesCommentsViewModeEnum | (string & {});
   /** The object ID of the page to retrieve. */
   pageObjectId: string;
 }
@@ -2257,23 +2257,23 @@ export interface GetThumbnailPresentationsPagesRequest {
   "thumbnailProperties.thumbnailSize"?:
     | GetThumbnailPresentationsPagesThumbnailProperties_thumbnailSizeEnum
     | (string & {});
+  /** The object ID of the page whose thumbnail to retrieve. */
+  pageObjectId: string;
   /** The optional mime type of the thumbnail image. If you don't specify the mime type, the mime type defaults to PNG. */
   "thumbnailProperties.mimeType"?:
     | GetThumbnailPresentationsPagesThumbnailProperties_mimeTypeEnum
     | (string & {});
-  /** The object ID of the page whose thumbnail to retrieve. */
-  pageObjectId: string;
   /** The ID of the presentation to retrieve. */
   presentationId: string;
 }
 /** The thumbnail of a page. */
 export interface Thumbnail {
-  /** The positive width in pixels of the thumbnail image. */
-  width?: number;
   /** The positive height in pixels of the thumbnail image. */
   height?: number;
   /** The content URL of the thumbnail image. The URL to the image has a default lifetime of 30 minutes. This URL is tagged with the account of the requester. Anyone with the URL effectively accesses the image as the original requester. Access to the image may be lost if the presentation's sharing settings change. The mime type of the thumbnail image is the same as specified in the `GetPageThumbnailRequest`. */
   contentUrl?: string;
+  /** The positive width in pixels of the thumbnail image. */
+  width?: number;
 }
 export type BatchUpdatePresentationsError =
   | NotFound
@@ -2288,8 +2288,8 @@ export const batchUpdatePresentations: API.OperationMethod<
   BatchUpdatePresentationsError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(62, __c1, 30) as any as S.Schema<BatchUpdatePresentationsRequest>,
-  output: __S(68, __c2, 4) as any as S.Schema<BatchUpdatePresentationResponse>,
+  input: __S(61, __c1, 29) as any as S.Schema<BatchUpdatePresentationsRequest>,
+  output: __S(67, __c2, 3) as any as S.Schema<BatchUpdatePresentationResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -2345,7 +2345,7 @@ export const getPresentationsPages: API.OperationMethod<
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetPresentationsPagesRequest>,
-  output: __S(185, __c5, 25) as any as S.Schema<Page>,
+  output: __S(184, __c5, 24) as any as S.Schema<Page>,
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -2374,531 +2374,524 @@ export const getThumbnailPresentationsPages: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(101, __c3, 5)),
+          childrenObjectIds: S.optional(__S(0, __c0, 0)),
+          groupObjectId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GroupObjectsRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          layoutPlaceholderObjectId: S.optional(S.String),
+          layoutPlaceholder: S.optional(__S(96, __c3, 0)),
+          objectId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LayoutPlaceholderIdMapping" });
+    case 3:
+      return S.Array(__S(2, __c0, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          layoutId: S.optional(S.String),
+          predefinedLayout: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LayoutReference" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          objectId: S.optional(S.String),
+          placeholderIdMappings: S.optional(__S(3, __c0, 3)),
+          insertionIndex: S.optional(S.Number),
+          slideLayoutReference: S.optional(__S(4, __c0, 4)),
+        }),
+      ).annotate({ identifier: "CreateSlideRequest" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          pageObjectId: S.optional(S.String),
+          size: S.optional(__S(98, __c3, 2)),
+          transform: S.optional(__S(99, __c3, 3)),
+        }),
+      ).annotate({ identifier: "PageElementProperties" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          elementProperties: S.optional(__S(6, __c0, 6)),
+          objectId: S.optional(S.String),
+          shapeType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateShapeRequest" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          endIndex: S.optional(S.Number),
+          type: S.optional(S.String),
+          startIndex: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Range" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          objectId: S.optional(S.String),
+          textRange: S.optional(__S(8, __c0, 8)),
+        }),
+      ).annotate({ identifier: "ShapeTextAnchor" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          cellLocation: S.optional(__S(100, __c3, 4)),
+          textRange: S.optional(__S(8, __c0, 8)),
+          objectId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TableCellTextAnchor" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(100, __c3, 4)),
           columnSpan: S.optional(S.Number),
           rowSpan: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TableRange" });
-    case 1:
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          objectId: S.optional(S.String),
+          tableRange: S.optional(__S(11, __c0, 11)),
+        }),
+      ).annotate({ identifier: "TableAnchor" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          shapeTextAnchor: S.optional(__S(9, __c0, 9)),
+          tableCellTextAnchor: S.optional(__S(10, __c0, 10)),
+          assigneeEmailAddress: S.optional(S.String),
+          content: S.optional(S.String),
+          objectId: S.optional(S.String),
+          tableAnchor: S.optional(__S(12, __c0, 12)),
+        }),
+      ).annotate({ identifier: "InsertCommentRequest" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          lineCategory: S.optional(S.String),
+          category: S.optional(S.String),
+          objectId: S.optional(S.String),
+          elementProperties: S.optional(__S(6, __c0, 6)),
+        }),
+      ).annotate({ identifier: "CreateLineRequest" });
+    case 15:
       return S.suspend(() =>
         S.Struct({
           objectId: S.optional(S.String),
           fields: S.optional(S.String),
-          tableCellProperties: S.optional(__S(100, __c3, 4)),
-          tableRange: S.optional(__S(0, __c0, 0)),
+          imageProperties: S.optional(__S(112, __c3, 16)),
         }),
-      ).annotate({ identifier: "UpdateTableCellPropertiesRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          objectId: S.optional(S.String),
-          insertionIndex: S.optional(S.Number),
-          cellLocation: S.optional(__S(101, __c3, 5)),
-          text: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "InsertTextRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          pageObjectId: S.optional(S.String),
-          size: S.optional(__S(103, __c3, 7)),
-          transform: S.optional(__S(104, __c3, 8)),
-        }),
-      ).annotate({ identifier: "PageElementProperties" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          linkingMode: S.optional(S.String),
-          spreadsheetId: S.optional(S.String),
-          elementProperties: S.optional(__S(3, __c0, 3)),
-          objectId: S.optional(S.String),
-          chartId: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "CreateSheetsChartRequest" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          postId: S.optional(S.String),
-          commentId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DeleteCommentReplyRequest" });
-    case 6:
+      ).annotate({ identifier: "UpdateImagePropertiesRequest" });
+    case 16:
       return S.suspend(() =>
         S.Struct({
           commentId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteCommentRequest" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          tableObjectId: S.optional(S.String),
-          cellLocation: S.optional(__S(101, __c3, 5)),
-        }),
-      ).annotate({ identifier: "DeleteTableColumnRequest" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          objectId: S.optional(S.String),
-          lineCategory: S.optional(S.String),
-          category: S.optional(S.String),
-          elementProperties: S.optional(__S(3, __c0, 3)),
-        }),
-      ).annotate({ identifier: "CreateLineRequest" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          source: S.optional(S.String),
-          objectId: S.optional(S.String),
-          elementProperties: S.optional(__S(3, __c0, 3)),
-        }),
-      ).annotate({ identifier: "CreateVideoRequest" });
-    case 10:
-      return S.Array(S.String);
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          operation: S.optional(S.String),
-          pageElementObjectIds: S.optional(__S(10, __c0, 10)),
-        }),
-      ).annotate({ identifier: "UpdatePageElementsZOrderRequest" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          transform: S.optional(__S(104, __c3, 8)),
-          applyMode: S.optional(S.String),
-          objectId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdatePageElementTransformRequest" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          startIndex: S.optional(S.Number),
-          endIndex: S.optional(S.Number),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Range" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          fields: S.optional(S.String),
-          cellLocation: S.optional(__S(101, __c3, 5)),
-          objectId: S.optional(S.String),
-          style: S.optional(__S(108, __c3, 12)),
-          textRange: S.optional(__S(13, __c0, 13)),
-        }),
-      ).annotate({ identifier: "UpdateTextStyleRequest" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          objectId: S.optional(S.String),
-          lineProperties: S.optional(__S(111, __c3, 15)),
-          fields: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateLinePropertiesRequest" });
-    case 16:
-      return S.Record(S.String, S.String);
     case 17:
       return S.suspend(() =>
         S.Struct({
-          objectIds: S.optional(__S(16, __c0, 16)),
-          objectId: S.optional(S.String),
+          commentId: S.optional(S.String),
+          postId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DuplicateObjectRequest" });
+      ).annotate({ identifier: "DeleteCommentReplyRequest" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          columns: S.optional(S.Number),
-          rows: S.optional(S.Number),
-          elementProperties: S.optional(__S(3, __c0, 3)),
+          cellLocation: S.optional(__S(100, __c3, 4)),
           objectId: S.optional(S.String),
+          bulletPreset: S.optional(S.String),
+          textRange: S.optional(__S(8, __c0, 8)),
         }),
-      ).annotate({ identifier: "CreateTableRequest" });
+      ).annotate({ identifier: "CreateParagraphBulletsRequest" });
     case 19:
       return S.suspend(() =>
         S.Struct({
           objectId: S.optional(S.String),
+          shapeProperties: S.optional(__S(115, __c3, 19)),
           fields: S.optional(S.String),
-          shapeProperties: S.optional(__S(116, __c3, 20)),
         }),
       ).annotate({ identifier: "UpdateShapePropertiesRequest" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(S.String),
-          slideProperties: S.optional(__S(186, __c5, 26)),
           objectId: S.optional(S.String),
+          tableBorderProperties: S.optional(__S(116, __c3, 20)),
+          borderPosition: S.optional(S.String),
+          tableRange: S.optional(__S(11, __c0, 11)),
+          fields: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UpdateSlidePropertiesRequest" });
+      ).annotate({ identifier: "UpdateTableBorderPropertiesRequest" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          post: S.optional(__S(120, __c3, 24)),
-          commentId: S.optional(S.String),
+          description: S.optional(S.String),
+          objectId: S.optional(S.String),
+          title: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AddCommentReplyRequest" });
+      ).annotate({ identifier: "UpdatePageElementAltTextRequest" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          searchByRegex: S.optional(S.Boolean),
-          matchCase: S.optional(S.Boolean),
-          text: S.optional(S.String),
+          commentId: S.optional(S.String),
+          post: S.optional(__S(118, __c3, 22)),
         }),
-      ).annotate({ identifier: "SubstringMatchCriteria" });
+      ).annotate({ identifier: "AddCommentReplyRequest" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          chartId: S.optional(S.Number),
-          spreadsheetId: S.optional(S.String),
-          containsText: S.optional(__S(22, __c0, 22)),
-          pageObjectIds: S.optional(__S(10, __c0, 10)),
-          linkingMode: S.optional(S.String),
+          postId: S.optional(S.String),
+          commentId: S.optional(S.String),
+          content: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ReplaceAllShapesWithSheetsChartRequest" });
+      ).annotate({ identifier: "UpdateCommentPostRequest" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          title: S.optional(S.String),
+          textRange: S.optional(__S(8, __c0, 8)),
+          cellLocation: S.optional(__S(100, __c3, 4)),
           objectId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UpdatePageElementAltTextRequest" });
+      ).annotate({ identifier: "DeleteParagraphBulletsRequest" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          objectId: S.optional(S.String),
+          cellLocation: S.optional(__S(100, __c3, 4)),
+          tableObjectId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RefreshSheetsChartRequest" });
+      ).annotate({ identifier: "DeleteTableRowRequest" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          objectIds: S.optional(__S(10, __c0, 10)),
+          pageProperties: S.optional(__S(124, __c3, 28)),
+          objectId: S.optional(S.String),
+          fields: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UngroupObjectsRequest" });
+      ).annotate({ identifier: "UpdatePagePropertiesRequest" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          textRange: S.optional(__S(13, __c0, 13)),
-          objectId: S.optional(S.String),
-          cellLocation: S.optional(__S(101, __c3, 5)),
-          bulletPreset: S.optional(S.String),
+          matchCase: S.optional(S.Boolean),
+          text: S.optional(S.String),
+          searchByRegex: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "CreateParagraphBulletsRequest" });
+      ).annotate({ identifier: "SubstringMatchCriteria" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          containsText: S.optional(__S(22, __c0, 22)),
-          imageUrl: S.optional(S.String),
-          imageReplaceMethod: S.optional(S.String),
-          replaceMethod: S.optional(S.String),
-          pageObjectIds: S.optional(__S(10, __c0, 10)),
+          replaceText: S.optional(S.String),
+          containsText: S.optional(__S(27, __c0, 27)),
+          pageObjectIds: S.optional(__S(0, __c0, 0)),
         }),
-      ).annotate({ identifier: "ReplaceAllShapesWithImageRequest" });
+      ).annotate({ identifier: "ReplaceAllTextRequest" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          tableObjectId: S.optional(S.String),
-          insertRight: S.optional(S.Boolean),
-          cellLocation: S.optional(__S(101, __c3, 5)),
-          number: S.optional(S.Number),
+          pageElementObjectIds: S.optional(__S(0, __c0, 0)),
+          operation: S.optional(S.String),
         }),
-      ).annotate({ identifier: "InsertTableColumnsRequest" });
+      ).annotate({ identifier: "UpdatePageElementsZOrderRequest" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          imageObjectId: S.optional(S.String),
+          containsText: S.optional(__S(27, __c0, 27)),
+          imageUrl: S.optional(S.String),
+          pageObjectIds: S.optional(__S(0, __c0, 0)),
           imageReplaceMethod: S.optional(S.String),
-          url: S.optional(S.String),
+          replaceMethod: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ReplaceImageRequest" });
+      ).annotate({ identifier: "ReplaceAllShapesWithImageRequest" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          number: S.optional(S.Number),
-          tableObjectId: S.optional(S.String),
-          cellLocation: S.optional(__S(101, __c3, 5)),
-          insertBelow: S.optional(S.Boolean),
+          cellLocation: S.optional(__S(100, __c3, 4)),
+          objectId: S.optional(S.String),
+          textRange: S.optional(__S(8, __c0, 8)),
         }),
-      ).annotate({ identifier: "InsertTableRowsRequest" });
+      ).annotate({ identifier: "DeleteTextRequest" });
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Number);
+      return S.suspend(() =>
+        S.Struct({
+          fields: S.optional(S.String),
+          cellLocation: S.optional(__S(100, __c3, 4)),
+          textRange: S.optional(__S(8, __c0, 8)),
+          objectId: S.optional(S.String),
+          style: S.optional(__S(125, __c3, 29)),
+        }),
+      ).annotate({ identifier: "UpdateParagraphStyleRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tableColumnProperties: S.optional(__S(148, __c4, 20)),
-          objectId: S.optional(S.String),
-          fields: S.optional(S.String),
-          columnIndices: S.optional(__S(32, __c1, 0)),
+          slideObjectIds: S.optional(__S(0, __c0, 0)),
+          insertionIndex: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "UpdateTableColumnPropertiesRequest" });
+      ).annotate({ identifier: "UpdateSlidesPositionRequest" });
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          imageObjectId: S.optional(S.String),
+          url: S.optional(S.String),
+          imageReplaceMethod: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReplaceImageRequest" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
           lineCategory: S.optional(S.String),
           objectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateLineCategoryRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          fields: S.optional(S.String),
-          videoProperties: S.optional(__S(152, __c4, 24)),
-          objectId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateVideoPropertiesRequest" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          groupObjectId: S.optional(S.String),
-          childrenObjectIds: S.optional(__S(10, __c0, 10)),
+          source: S.optional(S.String),
+          elementProperties: S.optional(__S(6, __c0, 6)),
+          objectId: S.optional(S.String),
+          id: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GroupObjectsRequest" });
+      ).annotate({ identifier: "CreateVideoRequest" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          pageObjectIds: S.optional(__S(10, __c0, 10)),
-          replaceText: S.optional(S.String),
-          containsText: S.optional(__S(22, __c0, 22)),
+          linkingMode: S.optional(S.String),
+          containsText: S.optional(__S(27, __c0, 27)),
+          pageObjectIds: S.optional(__S(0, __c0, 0)),
+          chartId: S.optional(S.Number),
+          spreadsheetId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ReplaceAllTextRequest" });
+      ).annotate({ identifier: "ReplaceAllShapesWithSheetsChartRequest" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          slideObjectIds: S.optional(__S(10, __c0, 10)),
-          insertionIndex: S.optional(S.Number),
+          chartId: S.optional(S.Number),
+          spreadsheetId: S.optional(S.String),
+          elementProperties: S.optional(__S(6, __c0, 6)),
+          linkingMode: S.optional(S.String),
+          objectId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UpdateSlidesPositionRequest" });
+      ).annotate({ identifier: "CreateSheetsChartRequest" });
     case 7:
       return S.suspend(() =>
         S.Struct({
+          text: S.optional(S.String),
+          insertionIndex: S.optional(S.Number),
           objectId: S.optional(S.String),
-          layoutPlaceholder: S.optional(__S(154, __c4, 26)),
-          layoutPlaceholderObjectId: S.optional(S.String),
+          cellLocation: S.optional(__S(100, __c3, 4)),
         }),
-      ).annotate({ identifier: "LayoutPlaceholderIdMapping" });
+      ).annotate({ identifier: "InsertTextRequest" });
     case 8:
-      return S.Array(__S(39, __c1, 7));
-    case 9:
       return S.suspend(() =>
         S.Struct({
-          predefinedLayout: S.optional(S.String),
-          layoutId: S.optional(S.String),
+          slideProperties: S.optional(__S(185, __c5, 25)),
+          fields: S.optional(S.String),
+          objectId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "LayoutReference" });
+      ).annotate({ identifier: "UpdateSlidePropertiesRequest" });
+    case 9:
+      return S.Record(S.String, S.String);
     case 10:
       return S.suspend(() =>
         S.Struct({
-          insertionIndex: S.optional(S.Number),
-          placeholderIdMappings: S.optional(__S(40, __c1, 8)),
           objectId: S.optional(S.String),
-          slideLayoutReference: S.optional(__S(41, __c1, 9)),
+          objectIds: S.optional(__S(41, __c1, 9)),
         }),
-      ).annotate({ identifier: "CreateSlideRequest" });
+      ).annotate({ identifier: "DuplicateObjectRequest" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          objectId: S.optional(S.String),
-          tableRange: S.optional(__S(0, __c0, 0)),
+          insertRight: S.optional(S.Boolean),
+          tableObjectId: S.optional(S.String),
+          number: S.optional(S.Number),
+          cellLocation: S.optional(__S(100, __c3, 4)),
         }),
-      ).annotate({ identifier: "UnmergeTableCellsRequest" });
+      ).annotate({ identifier: "InsertTableColumnsRequest" });
     case 12:
-      return S.suspend(() =>
-        S.Struct({
-          objectId: S.optional(S.String),
-          cellLocation: S.optional(__S(101, __c3, 5)),
-          textRange: S.optional(__S(13, __c0, 13)),
-        }),
-      ).annotate({ identifier: "DeleteParagraphBulletsRequest" });
+      return S.Array(S.Number);
     case 13:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(S.String),
-          commentId: S.optional(S.String),
-          postId: S.optional(S.String),
+          objectId: S.optional(S.String),
+          rowIndices: S.optional(__S(44, __c1, 12)),
+          fields: S.optional(S.String),
+          tableRowProperties: S.optional(__S(149, __c4, 21)),
         }),
-      ).annotate({ identifier: "UpdateCommentPostRequest" });
+      ).annotate({ identifier: "UpdateTableRowPropertiesRequest" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(S.String),
-          imageProperties: S.optional(__S(162, __c5, 2)),
           objectId: S.optional(S.String),
+          fields: S.optional(S.String),
+          videoProperties: S.optional(__S(160, __c5, 0)),
         }),
-      ).annotate({ identifier: "UpdateImagePropertiesRequest" });
+      ).annotate({ identifier: "UpdateVideoPropertiesRequest" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          objectId: S.optional(S.String),
           fields: S.optional(S.String),
-          pageProperties: S.optional(__S(184, __c5, 24)),
+          lineProperties: S.optional(__S(163, __c5, 3)),
+          objectId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UpdatePagePropertiesRequest" });
+      ).annotate({ identifier: "UpdateLinePropertiesRequest" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          textRange: S.optional(__S(13, __c0, 13)),
-          cellLocation: S.optional(__S(101, __c3, 5)),
           objectId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DeleteTextRequest" });
+      ).annotate({ identifier: "RerouteLineRequest" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          cellLocation: S.optional(__S(101, __c3, 5)),
-          objectId: S.optional(S.String),
-          textRange: S.optional(__S(13, __c0, 13)),
+          insertBelow: S.optional(S.Boolean),
+          cellLocation: S.optional(__S(100, __c3, 4)),
+          tableObjectId: S.optional(S.String),
+          number: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "TableCellTextAnchor" });
+      ).annotate({ identifier: "InsertTableRowsRequest" });
     case 18:
       return S.suspend(() =>
         S.Struct({
+          tableColumnProperties: S.optional(__S(130, __c4, 2)),
+          fields: S.optional(S.String),
+          columnIndices: S.optional(__S(44, __c1, 12)),
           objectId: S.optional(S.String),
-          textRange: S.optional(__S(13, __c0, 13)),
         }),
-      ).annotate({ identifier: "ShapeTextAnchor" });
+      ).annotate({ identifier: "UpdateTableColumnPropertiesRequest" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          tableCellTextAnchor: S.optional(__S(49, __c1, 17)),
-          tableAnchor: S.optional(__S(43, __c1, 11)),
-          shapeTextAnchor: S.optional(__S(50, __c1, 18)),
-          content: S.optional(S.String),
-          assigneeEmailAddress: S.optional(S.String),
+          cellLocation: S.optional(__S(100, __c3, 4)),
           objectId: S.optional(S.String),
+          fields: S.optional(S.String),
+          textRange: S.optional(__S(8, __c0, 8)),
+          style: S.optional(__S(134, __c4, 6)),
         }),
-      ).annotate({ identifier: "InsertCommentRequest" });
+      ).annotate({ identifier: "UpdateTextStyleRequest" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          cellLocation: S.optional(__S(101, __c3, 5)),
-          style: S.optional(__S(128, __c4, 0)),
-          textRange: S.optional(__S(13, __c0, 13)),
+          transform: S.optional(__S(99, __c3, 3)),
+          applyMode: S.optional(S.String),
           objectId: S.optional(S.String),
-          fields: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UpdateParagraphStyleRequest" });
+      ).annotate({ identifier: "UpdatePageElementTransformRequest" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          cellLocation: S.optional(__S(101, __c3, 5)),
-          tableObjectId: S.optional(S.String),
+          objectIds: S.optional(__S(0, __c0, 0)),
         }),
-      ).annotate({ identifier: "DeleteTableRowRequest" });
+      ).annotate({ identifier: "UngroupObjectsRequest" });
     case 22:
       return S.suspend(() =>
         S.Struct({
           objectId: S.optional(S.String),
-          rowIndices: S.optional(__S(32, __c1, 0)),
-          tableRowProperties: S.optional(__S(126, __c3, 30)),
-          fields: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateTableRowPropertiesRequest" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          tableRange: S.optional(__S(0, __c0, 0)),
-          fields: S.optional(S.String),
-          objectId: S.optional(S.String),
-          tableBorderProperties: S.optional(__S(143, __c4, 15)),
-          borderPosition: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateTableBorderPropertiesRequest" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          objectId: S.optional(S.String),
-          shapeType: S.optional(S.String),
-          elementProperties: S.optional(__S(3, __c0, 3)),
-        }),
-      ).annotate({ identifier: "CreateShapeRequest" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          elementProperties: S.optional(__S(3, __c0, 3)),
-          objectId: S.optional(S.String),
+          elementProperties: S.optional(__S(6, __c0, 6)),
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateImageRequest" });
-    case 26:
+    case 23:
       return S.suspend(() =>
         S.Struct({
-          updateTableCellProperties: S.optional(__S(1, __c0, 1)),
-          insertText: S.optional(__S(2, __c0, 2)),
-          createSheetsChart: S.optional(__S(4, __c0, 4)),
-          deleteCommentReply: S.optional(__S(5, __c0, 5)),
-          deleteComment: S.optional(__S(6, __c0, 6)),
-          deleteTableColumn: S.optional(__S(7, __c0, 7)),
-          createLine: S.optional(__S(8, __c0, 8)),
-          createVideo: S.optional(__S(9, __c0, 9)),
-          updatePageElementsZOrder: S.optional(__S(11, __c0, 11)),
-          updatePageElementTransform: S.optional(__S(12, __c0, 12)),
-          updateTextStyle: S.optional(__S(14, __c0, 14)),
-          updateLineProperties: S.optional(__S(15, __c0, 15)),
-          duplicateObject: S.optional(__S(17, __c0, 17)),
-          createTable: S.optional(__S(18, __c0, 18)),
+          objectId: S.optional(S.String),
+          rows: S.optional(S.Number),
+          elementProperties: S.optional(__S(6, __c0, 6)),
+          columns: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CreateTableRequest" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          fields: S.optional(S.String),
+          tableRange: S.optional(__S(11, __c0, 11)),
+          tableCellProperties: S.optional(__S(146, __c4, 18)),
+          objectId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateTableCellPropertiesRequest" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          groupObjects: S.optional(__S(1, __c0, 1)),
+          createSlide: S.optional(__S(5, __c0, 5)),
+          createShape: S.optional(__S(7, __c0, 7)),
+          insertComment: S.optional(__S(13, __c0, 13)),
+          createLine: S.optional(__S(14, __c0, 14)),
+          updateImageProperties: S.optional(__S(15, __c0, 15)),
+          deleteComment: S.optional(__S(16, __c0, 16)),
+          deleteCommentReply: S.optional(__S(17, __c0, 17)),
+          createParagraphBullets: S.optional(__S(18, __c0, 18)),
           updateShapeProperties: S.optional(__S(19, __c0, 19)),
-          updateSlideProperties: S.optional(__S(20, __c0, 20)),
-          addCommentReply: S.optional(__S(21, __c0, 21)),
-          replaceAllShapesWithSheetsChart: S.optional(__S(23, __c0, 23)),
-          updatePageElementAltText: S.optional(__S(24, __c0, 24)),
-          refreshSheetsChart: S.optional(__S(25, __c0, 25)),
-          ungroupObjects: S.optional(__S(26, __c0, 26)),
-          createParagraphBullets: S.optional(__S(27, __c0, 27)),
-          replaceAllShapesWithImage: S.optional(__S(28, __c0, 28)),
-          insertTableColumns: S.optional(__S(29, __c0, 29)),
-          replaceImage: S.optional(__S(30, __c0, 30)),
-          insertTableRows: S.optional(__S(31, __c0, 31)),
-          updateTableColumnProperties: S.optional(__S(33, __c1, 1)),
-          updateLineCategory: S.optional(__S(34, __c1, 2)),
-          updateVideoProperties: S.optional(__S(35, __c1, 3)),
-          groupObjects: S.optional(__S(36, __c1, 4)),
-          replaceAllText: S.optional(__S(37, __c1, 5)),
-          updateSlidesPosition: S.optional(__S(38, __c1, 6)),
-          deleteObject: S.optional(__S(25, __c0, 25)),
-          createSlide: S.optional(__S(42, __c1, 10)),
-          unmergeTableCells: S.optional(__S(43, __c1, 11)),
-          deleteParagraphBullets: S.optional(__S(44, __c1, 12)),
-          updateCommentPost: S.optional(__S(45, __c1, 13)),
-          updateImageProperties: S.optional(__S(46, __c1, 14)),
-          updatePageProperties: S.optional(__S(47, __c1, 15)),
-          deleteText: S.optional(__S(48, __c1, 16)),
-          insertComment: S.optional(__S(51, __c1, 19)),
-          updateParagraphStyle: S.optional(__S(52, __c1, 20)),
-          deleteTableRow: S.optional(__S(53, __c1, 21)),
-          updateTableRowProperties: S.optional(__S(54, __c1, 22)),
-          updateTableBorderProperties: S.optional(__S(55, __c1, 23)),
-          rerouteLine: S.optional(__S(25, __c0, 25)),
-          mergeTableCells: S.optional(__S(43, __c1, 11)),
-          createShape: S.optional(__S(56, __c1, 24)),
-          createImage: S.optional(__S(57, __c1, 25)),
+          updateTableBorderProperties: S.optional(__S(20, __c0, 20)),
+          updatePageElementAltText: S.optional(__S(21, __c0, 21)),
+          addCommentReply: S.optional(__S(22, __c0, 22)),
+          updateCommentPost: S.optional(__S(23, __c0, 23)),
+          deleteParagraphBullets: S.optional(__S(24, __c0, 24)),
+          unmergeTableCells: S.optional(__S(12, __c0, 12)),
+          deleteTableRow: S.optional(__S(25, __c0, 25)),
+          updatePageProperties: S.optional(__S(26, __c0, 26)),
+          replaceAllText: S.optional(__S(28, __c0, 28)),
+          deleteTableColumn: S.optional(__S(25, __c0, 25)),
+          updatePageElementsZOrder: S.optional(__S(29, __c0, 29)),
+          replaceAllShapesWithImage: S.optional(__S(30, __c0, 30)),
+          deleteText: S.optional(__S(31, __c0, 31)),
+          updateParagraphStyle: S.optional(__S(32, __c1, 0)),
+          updateSlidesPosition: S.optional(__S(33, __c1, 1)),
+          replaceImage: S.optional(__S(34, __c1, 2)),
+          updateLineCategory: S.optional(__S(35, __c1, 3)),
+          createVideo: S.optional(__S(36, __c1, 4)),
+          replaceAllShapesWithSheetsChart: S.optional(__S(37, __c1, 5)),
+          createSheetsChart: S.optional(__S(38, __c1, 6)),
+          insertText: S.optional(__S(39, __c1, 7)),
+          updateSlideProperties: S.optional(__S(40, __c1, 8)),
+          duplicateObject: S.optional(__S(42, __c1, 10)),
+          insertTableColumns: S.optional(__S(43, __c1, 11)),
+          updateTableRowProperties: S.optional(__S(45, __c1, 13)),
+          updateVideoProperties: S.optional(__S(46, __c1, 14)),
+          updateLineProperties: S.optional(__S(47, __c1, 15)),
+          rerouteLine: S.optional(__S(48, __c1, 16)),
+          insertTableRows: S.optional(__S(49, __c1, 17)),
+          refreshSheetsChart: S.optional(__S(48, __c1, 16)),
+          updateTableColumnProperties: S.optional(__S(50, __c1, 18)),
+          updateTextStyle: S.optional(__S(51, __c1, 19)),
+          mergeTableCells: S.optional(__S(12, __c0, 12)),
+          updatePageElementTransform: S.optional(__S(52, __c1, 20)),
+          deleteObject: S.optional(__S(48, __c1, 16)),
+          ungroupObjects: S.optional(__S(53, __c1, 21)),
+          createImage: S.optional(__S(54, __c1, 22)),
+          createTable: S.optional(__S(55, __c1, 23)),
+          updateTableCellProperties: S.optional(__S(56, __c1, 24)),
         }),
       ).annotate({ identifier: "Request" });
+    case 26:
+      return S.Array(__S(57, __c1, 25));
     case 27:
-      return S.Array(__S(58, __c1, 26));
-    case 28:
       return S.suspend(() =>
         S.Struct({
           requiredRevisionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "WriteControl" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          requests: S.optional(__S(58, __c1, 26)),
+          writeControl: S.optional(__S(59, __c1, 27)),
+        }),
+      ).annotate({ identifier: "BatchUpdatePresentationRequest" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          requests: S.optional(__S(59, __c1, 27)),
-          writeControl: S.optional(__S(60, __c1, 28)),
-        }),
-      ).annotate({ identifier: "BatchUpdatePresentationRequest" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
           presentationId: S.String.pipe(T.Label()),
-          body: S.optional(__S(61, __c1, 29).pipe(T.HttpBody())),
+          body: S.optional(__S(60, __c1, 28).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2907,12 +2900,18 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchUpdatePresentationsRequest" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          post: S.optional(__S(118, __c3, 22)),
+        }),
+      ).annotate({ identifier: "AddCommentReplyResponse" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          post: S.optional(__S(120, __c3, 24)),
+          commentThread: S.optional(__S(181, __c5, 21)),
         }),
-      ).annotate({ identifier: "AddCommentReplyResponse" });
+      ).annotate({ identifier: "InsertCommentResponse" });
   }
 }
 function __c2(j: number): any {
@@ -2922,41 +2921,35 @@ function __c2(j: number): any {
         S.Struct({
           occurrencesChanged: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "ReplaceAllShapesWithSheetsChartResponse" });
+      ).annotate({ identifier: "ReplaceAllTextResponse" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          commentThread: S.optional(__S(122, __c3, 26)),
-        }),
-      ).annotate({ identifier: "InsertCommentResponse" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          createImage: S.optional(__S(25, __c0, 25)),
-          createSlide: S.optional(__S(25, __c0, 25)),
-          createShape: S.optional(__S(25, __c0, 25)),
-          addCommentReply: S.optional(__S(63, __c1, 31)),
-          groupObjects: S.optional(__S(25, __c0, 25)),
-          replaceAllShapesWithSheetsChart: S.optional(__S(64, __c2, 0)),
-          createVideo: S.optional(__S(25, __c0, 25)),
-          createLine: S.optional(__S(25, __c0, 25)),
-          duplicateObject: S.optional(__S(25, __c0, 25)),
-          createSheetsChart: S.optional(__S(25, __c0, 25)),
-          createTable: S.optional(__S(25, __c0, 25)),
+          addCommentReply: S.optional(__S(62, __c1, 30)),
+          groupObjects: S.optional(__S(48, __c1, 16)),
+          duplicateObject: S.optional(__S(48, __c1, 16)),
+          insertComment: S.optional(__S(63, __c1, 31)),
+          createSlide: S.optional(__S(48, __c1, 16)),
+          createShape: S.optional(__S(48, __c1, 16)),
           replaceAllText: S.optional(__S(64, __c2, 0)),
-          insertComment: S.optional(__S(65, __c2, 1)),
+          createVideo: S.optional(__S(48, __c1, 16)),
+          replaceAllShapesWithSheetsChart: S.optional(__S(64, __c2, 0)),
+          createLine: S.optional(__S(48, __c1, 16)),
+          createSheetsChart: S.optional(__S(48, __c1, 16)),
+          createTable: S.optional(__S(48, __c1, 16)),
           replaceAllShapesWithImage: S.optional(__S(64, __c2, 0)),
+          createImage: S.optional(__S(48, __c1, 16)),
         }),
       ).annotate({ identifier: "Response" });
+    case 2:
+      return S.Array(__S(65, __c2, 1));
     case 3:
-      return S.Array(__S(66, __c2, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
           commentUpdateState: S.optional(S.String),
-          writeControl: S.optional(__S(60, __c1, 28)),
+          writeControl: S.optional(__S(59, __c1, 27)),
           presentationId: S.optional(S.String),
-          replies: S.optional(__S(67, __c2, 3)),
+          replies: S.optional(__S(66, __c2, 2)),
         }),
       ).annotate({ identifier: "BatchUpdatePresentationResponse" });
   }
@@ -2966,265 +2959,267 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          red: S.optional(S.Number),
-          blue: S.optional(S.Number),
-          green: S.optional(S.Number),
+          parentObjectId: S.optional(S.String),
+          index: S.optional(S.Number),
+          type: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RgbColor" });
+      ).annotate({ identifier: "Placeholder" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          themeColor: S.optional(S.String),
-          rgbColor: S.optional(__S(96, __c3, 0)),
-        }),
-      ).annotate({ identifier: "OpaqueColor" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          color: S.optional(__S(97, __c3, 1)),
-          alpha: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SolidFill" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          propertyState: S.optional(S.String),
-          solidFill: S.optional(__S(98, __c3, 2)),
-        }),
-      ).annotate({ identifier: "TableCellBackgroundFill" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          tableCellBackgroundFill: S.optional(__S(99, __c3, 3)),
-          contentAlignment: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TableCellProperties" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          rowIndex: S.optional(S.Number),
-          columnIndex: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TableCellLocation" });
-    case 6:
       return S.suspend(() =>
         S.Struct({
           magnitude: S.optional(S.Number),
           unit: S.optional(S.String),
         }),
       ).annotate({ identifier: "Dimension" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          width: S.optional(__S(97, __c3, 1)),
+          height: S.optional(__S(97, __c3, 1)),
+        }),
+      ).annotate({ identifier: "Size" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          translateY: S.optional(S.Number),
+          shearX: S.optional(S.Number),
+          unit: S.optional(S.String),
+          translateX: S.optional(S.Number),
+          scaleY: S.optional(S.Number),
+          scaleX: S.optional(S.Number),
+          shearY: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AffineTransform" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          rowIndex: S.optional(S.Number),
+          columnIndex: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TableCellLocation" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          green: S.optional(S.Number),
+          red: S.optional(S.Number),
+          blue: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "RgbColor" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          rgbColor: S.optional(__S(101, __c3, 5)),
+          themeColor: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OpaqueColor" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          width: S.optional(__S(102, __c3, 6)),
-          height: S.optional(__S(102, __c3, 6)),
+          color: S.optional(__S(102, __c3, 6)),
+          alpha: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "Size" });
+      ).annotate({ identifier: "SolidFill" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          scaleY: S.optional(S.Number),
-          unit: S.optional(S.String),
-          shearY: S.optional(S.Number),
-          shearX: S.optional(S.Number),
-          scaleX: S.optional(S.Number),
-          translateY: S.optional(S.Number),
-          translateX: S.optional(S.Number),
+          solidFill: S.optional(__S(103, __c3, 7)),
         }),
-      ).annotate({ identifier: "AffineTransform" });
+      ).annotate({ identifier: "OutlineFill" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          fontFamily: S.optional(S.String),
-          weight: S.optional(S.Number),
+          outlineFill: S.optional(__S(104, __c3, 8)),
+          propertyState: S.optional(S.String),
+          dashStyle: S.optional(S.String),
+          weight: S.optional(__S(97, __c3, 1)),
         }),
-      ).annotate({ identifier: "WeightedFontFamily" });
+      ).annotate({ identifier: "Outline" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          relativeLink: S.optional(S.String),
+          leftOffset: S.optional(S.Number),
+          bottomOffset: S.optional(S.Number),
+          rightOffset: S.optional(S.Number),
+          angle: S.optional(S.Number),
+          topOffset: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CropProperties" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          position: S.optional(S.Number),
+          color: S.optional(__S(102, __c3, 6)),
+          alpha: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ColorStop" });
+    case 12:
+      return S.Array(__S(107, __c3, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          recolorStops: S.optional(__S(108, __c3, 12)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Recolor" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          blurRadius: S.optional(__S(97, __c3, 1)),
+          alignment: S.optional(S.String),
+          color: S.optional(__S(102, __c3, 6)),
+          alpha: S.optional(S.Number),
+          rotateWithShape: S.optional(S.Boolean),
+          type: S.optional(S.String),
+          transform: S.optional(__S(99, __c3, 3)),
+          propertyState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Shadow" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
           pageObjectId: S.optional(S.String),
+          relativeLink: S.optional(S.String),
           url: S.optional(S.String),
           slideIndex: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Link" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          opaqueColor: S.optional(__S(97, __c3, 1)),
-        }),
-      ).annotate({ identifier: "OptionalColor" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          baselineOffset: S.optional(S.String),
-          weightedFontFamily: S.optional(__S(105, __c3, 9)),
-          bold: S.optional(S.Boolean),
-          link: S.optional(__S(106, __c3, 10)),
-          strikethrough: S.optional(S.Boolean),
-          foregroundColor: S.optional(__S(107, __c3, 11)),
-          smallCaps: S.optional(S.Boolean),
-          fontSize: S.optional(__S(102, __c3, 6)),
-          backgroundColor: S.optional(__S(107, __c3, 11)),
-          underline: S.optional(S.Boolean),
-          fontFamily: S.optional(S.String),
-          italic: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TextStyle" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          solidFill: S.optional(__S(98, __c3, 2)),
-        }),
-      ).annotate({ identifier: "LineFill" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          connectionSiteIndex: S.optional(S.Number),
-          connectedObjectId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LineConnection" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          lineFill: S.optional(__S(109, __c3, 13)),
-          startArrow: S.optional(S.String),
-          endConnection: S.optional(__S(110, __c3, 14)),
-          weight: S.optional(__S(102, __c3, 6)),
-          endArrow: S.optional(S.String),
-          link: S.optional(__S(106, __c3, 10)),
-          startConnection: S.optional(__S(110, __c3, 14)),
-          dashStyle: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LineProperties" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          alignment: S.optional(S.String),
-          type: S.optional(S.String),
-          alpha: S.optional(S.Number),
-          transform: S.optional(__S(104, __c3, 8)),
-          propertyState: S.optional(S.String),
-          color: S.optional(__S(97, __c3, 1)),
-          blurRadius: S.optional(__S(102, __c3, 6)),
-          rotateWithShape: S.optional(S.Boolean),
+          transparency: S.optional(S.Number),
+          outline: S.optional(__S(105, __c3, 9)),
+          cropProperties: S.optional(__S(106, __c3, 10)),
+          brightness: S.optional(S.Number),
+          contrast: S.optional(S.Number),
+          recolor: S.optional(__S(109, __c3, 13)),
+          shadow: S.optional(__S(110, __c3, 14)),
+          link: S.optional(__S(111, __c3, 15)),
         }),
-      ).annotate({ identifier: "Shadow" });
+      ).annotate({ identifier: "ImageProperties" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          propertyState: S.optional(S.String),
-          outlineFill: S.optional(__S(109, __c3, 13)),
-          weight: S.optional(__S(102, __c3, 6)),
-          dashStyle: S.optional(S.String),
+          fontScale: S.optional(S.Number),
+          lineSpacingReduction: S.optional(S.Number),
+          autofitType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Outline" });
+      ).annotate({ identifier: "Autofit" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          autofitType: S.optional(S.String),
-          fontScale: S.optional(S.Number),
-          lineSpacingReduction: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Autofit" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          solidFill: S.optional(__S(98, __c3, 2)),
+          solidFill: S.optional(__S(103, __c3, 7)),
           propertyState: S.optional(S.String),
         }),
       ).annotate({ identifier: "ShapeBackgroundFill" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          link: S.optional(__S(111, __c3, 15)),
+          shadow: S.optional(__S(110, __c3, 14)),
+          autofit: S.optional(__S(113, __c3, 17)),
+          outline: S.optional(__S(105, __c3, 9)),
+          shapeBackgroundFill: S.optional(__S(114, __c3, 18)),
+          contentAlignment: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ShapeProperties" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          shadow: S.optional(__S(112, __c3, 16)),
-          outline: S.optional(__S(113, __c3, 17)),
-          autofit: S.optional(__S(114, __c3, 18)),
-          link: S.optional(__S(106, __c3, 10)),
-          contentAlignment: S.optional(S.String),
-          shapeBackgroundFill: S.optional(__S(115, __c3, 19)),
+          dashStyle: S.optional(S.String),
+          weight: S.optional(__S(97, __c3, 1)),
+          tableBorderFill: S.optional(__S(104, __c3, 8)),
         }),
-      ).annotate({ identifier: "ShapeProperties" });
+      ).annotate({ identifier: "TableBorderProperties" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
+          anonymous: S.optional(S.Boolean),
+          user: S.optional(S.String),
+          displayName: S.optional(S.String),
+          me: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "PostAuthor" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          fromImportedPresentation: S.optional(S.Boolean),
+          content: S.optional(S.String),
+          commentAction: S.optional(S.String),
+          assigneeEmail: S.optional(S.String),
+          createTime: S.optional(S.String),
+          deleted: S.optional(S.Boolean),
+          contentHtml: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          fromCopiedPresentation: S.optional(S.Boolean),
+          postId: S.optional(S.String),
+          author: S.optional(__S(117, __c3, 21)),
+        }),
+      ).annotate({ identifier: "Post" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          contentUrl: S.optional(S.String),
+          size: S.optional(__S(98, __c3, 2)),
+        }),
+      ).annotate({ identifier: "StretchedPictureFill" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          propertyState: S.optional(S.String),
+          stretchedPictureFill: S.optional(__S(119, __c3, 23)),
+          solidFill: S.optional(__S(103, __c3, 7)),
+        }),
+      ).annotate({ identifier: "PageBackgroundFill" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          color: S.optional(__S(101, __c3, 5)),
+        }),
+      ).annotate({ identifier: "ThemeColorPair" });
+    case 26:
+      return S.Array(__S(121, __c3, 25));
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          colors: S.optional(__S(122, __c3, 26)),
+        }),
+      ).annotate({ identifier: "ColorScheme" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          pageBackgroundFill: S.optional(__S(120, __c3, 24)),
+          colorScheme: S.optional(__S(123, __c3, 27)),
+        }),
+      ).annotate({ identifier: "PageProperties" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          lineSpacing: S.optional(S.Number),
+          indentStart: S.optional(__S(97, __c3, 1)),
+          spaceAbove: S.optional(__S(97, __c3, 1)),
+          indentFirstLine: S.optional(__S(97, __c3, 1)),
+          alignment: S.optional(S.String),
+          indentEnd: S.optional(__S(97, __c3, 1)),
+          spaceBelow: S.optional(__S(97, __c3, 1)),
+          direction: S.optional(S.String),
+          spacingMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ParagraphStyle" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
           displayName: S.optional(S.String),
           masterObjectId: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "LayoutProperties" });
-    case 22:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "MasterProperties" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          user: S.optional(S.String),
-          displayName: S.optional(S.String),
-          anonymous: S.optional(S.Boolean),
-          me: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "PostAuthor" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          commentAction: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          contentHtml: S.optional(S.String),
-          assigneeEmail: S.optional(S.String),
-          createTime: S.optional(S.String),
-          content: S.optional(S.String),
-          fromImportedPresentation: S.optional(S.Boolean),
-          author: S.optional(__S(119, __c3, 23)),
-          postId: S.optional(S.String),
-          fromCopiedPresentation: S.optional(S.Boolean),
-          deleted: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Post" });
-    case 25:
-      return S.Array(__S(120, __c3, 24));
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          anchorId: S.optional(S.String),
-          status: S.optional(S.String),
-          commentId: S.optional(S.String),
-          replies: S.optional(__S(121, __c3, 25)),
-          plainTextQuote: S.optional(S.String),
-          headPost: S.optional(__S(120, __c3, 24)),
-        }),
-      ).annotate({ identifier: "CommentThread" });
-    case 27:
-      return S.Array(__S(122, __c3, 26));
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          speakerNotesObjectId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NotesProperties" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          children: S.optional(S.suspend(() => __S(168, __c5, 8))),
-        }),
-      ).annotate({ identifier: "Group" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          minRowHeight: S.optional(__S(102, __c3, 6)),
-        }),
-      ).annotate({ identifier: "TableRowProperties" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          content: S.optional(S.String),
-          style: S.optional(__S(108, __c3, 12)),
-        }),
-      ).annotate({ identifier: "AutoText" });
   }
 }
 function __c4(j: number): any {
@@ -3232,209 +3227,205 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          indentStart: S.optional(__S(102, __c3, 6)),
-          indentFirstLine: S.optional(__S(102, __c3, 6)),
-          alignment: S.optional(S.String),
-          indentEnd: S.optional(__S(102, __c3, 6)),
-          direction: S.optional(S.String),
-          lineSpacing: S.optional(S.Number),
-          spaceAbove: S.optional(__S(102, __c3, 6)),
-          spaceBelow: S.optional(__S(102, __c3, 6)),
-          spacingMode: S.optional(S.String),
+          chartImageProperties: S.optional(__S(112, __c3, 16)),
         }),
-      ).annotate({ identifier: "ParagraphStyle" });
+      ).annotate({ identifier: "SheetsChartProperties" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nestingLevel: S.optional(S.Number),
-          listId: S.optional(S.String),
-          bulletStyle: S.optional(__S(108, __c3, 12)),
-          glyph: S.optional(S.String),
+          contentUrl: S.optional(S.String),
+          spreadsheetId: S.optional(S.String),
+          chartId: S.optional(S.Number),
+          sheetsChartProperties: S.optional(__S(128, __c4, 0)),
         }),
-      ).annotate({ identifier: "Bullet" });
+      ).annotate({ identifier: "SheetsChart" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          style: S.optional(__S(128, __c4, 0)),
-          bullet: S.optional(__S(129, __c4, 1)),
+          columnWidth: S.optional(__S(97, __c3, 1)),
         }),
-      ).annotate({ identifier: "ParagraphMarker" });
+      ).annotate({ identifier: "TableColumnProperties" });
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          style: S.optional(__S(108, __c3, 12)),
-          content: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TextRun" });
+      return S.Array(__S(130, __c4, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          startIndex: S.optional(S.Number),
-          endIndex: S.optional(S.Number),
-          autoText: S.optional(__S(127, __c3, 31)),
-          paragraphMarker: S.optional(__S(130, __c4, 2)),
-          textRun: S.optional(__S(131, __c4, 3)),
+          fontFamily: S.optional(S.String),
+          weight: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "TextElement" });
+      ).annotate({ identifier: "WeightedFontFamily" });
     case 5:
-      return S.Array(__S(132, __c4, 4));
+      return S.suspend(() =>
+        S.Struct({
+          opaqueColor: S.optional(__S(102, __c3, 6)),
+        }),
+      ).annotate({ identifier: "OptionalColor" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          bulletStyle: S.optional(__S(108, __c3, 12)),
+          italic: S.optional(S.Boolean),
+          weightedFontFamily: S.optional(__S(132, __c4, 4)),
+          fontFamily: S.optional(S.String),
+          fontSize: S.optional(__S(97, __c3, 1)),
+          strikethrough: S.optional(S.Boolean),
+          backgroundColor: S.optional(__S(133, __c4, 5)),
+          link: S.optional(__S(111, __c3, 15)),
+          smallCaps: S.optional(S.Boolean),
+          bold: S.optional(S.Boolean),
+          underline: S.optional(S.Boolean),
+          baselineOffset: S.optional(S.String),
+          foregroundColor: S.optional(__S(133, __c4, 5)),
         }),
-      ).annotate({ identifier: "NestingLevel" });
+      ).annotate({ identifier: "TextStyle" });
     case 7:
-      return S.Record(S.String, __S(134, __c4, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
           listId: S.optional(S.String),
-          nestingLevel: S.optional(__S(135, __c4, 7)),
+          nestingLevel: S.optional(S.Number),
+          bulletStyle: S.optional(__S(134, __c4, 6)),
+          glyph: S.optional(S.String),
         }),
-      ).annotate({ identifier: "List" });
+      ).annotate({ identifier: "Bullet" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          bullet: S.optional(__S(135, __c4, 7)),
+          style: S.optional(__S(125, __c3, 29)),
+        }),
+      ).annotate({ identifier: "ParagraphMarker" });
     case 9:
-      return S.Record(S.String, __S(136, __c4, 8));
+      return S.suspend(() =>
+        S.Struct({
+          style: S.optional(__S(134, __c4, 6)),
+          content: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AutoText" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          textElements: S.optional(__S(133, __c4, 5)),
-          lists: S.optional(__S(137, __c4, 9)),
+          content: S.optional(S.String),
+          style: S.optional(__S(134, __c4, 6)),
         }),
-      ).annotate({ identifier: "TextContent" });
+      ).annotate({ identifier: "TextRun" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          rowSpan: S.optional(S.Number),
-          text: S.optional(__S(138, __c4, 10)),
-          location: S.optional(__S(101, __c3, 5)),
-          tableCellProperties: S.optional(__S(100, __c3, 4)),
-          columnSpan: S.optional(S.Number),
+          endIndex: S.optional(S.Number),
+          paragraphMarker: S.optional(__S(136, __c4, 8)),
+          autoText: S.optional(__S(137, __c4, 9)),
+          textRun: S.optional(__S(138, __c4, 10)),
+          startIndex: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "TableCell" });
+      ).annotate({ identifier: "TextElement" });
     case 12:
       return S.Array(__S(139, __c4, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          tableRowProperties: S.optional(__S(126, __c3, 30)),
-          rowHeight: S.optional(__S(102, __c3, 6)),
-          tableCells: S.optional(__S(140, __c4, 12)),
+          bulletStyle: S.optional(__S(134, __c4, 6)),
         }),
-      ).annotate({ identifier: "TableRow" });
+      ).annotate({ identifier: "NestingLevel" });
     case 14:
-      return S.Array(__S(141, __c4, 13));
+      return S.Record(S.String, __S(141, __c4, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          tableBorderFill: S.optional(__S(109, __c3, 13)),
-          weight: S.optional(__S(102, __c3, 6)),
-          dashStyle: S.optional(S.String),
+          nestingLevel: S.optional(__S(142, __c4, 14)),
+          listId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TableBorderProperties" });
+      ).annotate({ identifier: "List" });
     case 16:
+      return S.Record(S.String, __S(143, __c4, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(101, __c3, 5)),
-          tableBorderProperties: S.optional(__S(143, __c4, 15)),
+          textElements: S.optional(__S(140, __c4, 12)),
+          lists: S.optional(__S(144, __c4, 16)),
         }),
-      ).annotate({ identifier: "TableBorderCell" });
-    case 17:
-      return S.Array(__S(144, __c4, 16));
+      ).annotate({ identifier: "TextContent" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          tableBorderCells: S.optional(__S(145, __c4, 17)),
+          tableCellBackgroundFill: S.optional(__S(114, __c3, 18)),
+          contentAlignment: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TableBorderRow" });
+      ).annotate({ identifier: "TableCellProperties" });
     case 19:
-      return S.Array(__S(146, __c4, 18));
-    case 20:
       return S.suspend(() =>
         S.Struct({
-          columnWidth: S.optional(__S(102, __c3, 6)),
+          columnSpan: S.optional(S.Number),
+          text: S.optional(__S(145, __c4, 17)),
+          rowSpan: S.optional(S.Number),
+          location: S.optional(__S(100, __c3, 4)),
+          tableCellProperties: S.optional(__S(146, __c4, 18)),
         }),
-      ).annotate({ identifier: "TableColumnProperties" });
+      ).annotate({ identifier: "TableCell" });
+    case 20:
+      return S.Array(__S(147, __c4, 19));
     case 21:
-      return S.Array(__S(148, __c4, 20));
+      return S.suspend(() =>
+        S.Struct({
+          minRowHeight: S.optional(__S(97, __c3, 1)),
+        }),
+      ).annotate({ identifier: "TableRowProperties" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          columns: S.optional(S.Number),
-          tableRows: S.optional(__S(142, __c4, 14)),
-          horizontalBorderRows: S.optional(__S(147, __c4, 19)),
-          verticalBorderRows: S.optional(__S(147, __c4, 19)),
-          tableColumns: S.optional(__S(149, __c4, 21)),
-          rows: S.optional(S.Number),
+          tableCells: S.optional(__S(148, __c4, 20)),
+          rowHeight: S.optional(__S(97, __c3, 1)),
+          tableRowProperties: S.optional(__S(149, __c4, 21)),
         }),
-      ).annotate({ identifier: "Table" });
+      ).annotate({ identifier: "TableRow" });
     case 23:
-      return S.suspend(() =>
-        S.Struct({
-          lineType: S.optional(S.String),
-          lineCategory: S.optional(S.String),
-          lineProperties: S.optional(__S(111, __c3, 15)),
-        }),
-      ).annotate({ identifier: "Line" });
+      return S.Array(__S(150, __c4, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          mute: S.optional(S.Boolean),
-          start: S.optional(S.Number),
-          end: S.optional(S.Number),
-          autoPlay: S.optional(S.Boolean),
-          outline: S.optional(__S(113, __c3, 17)),
+          location: S.optional(__S(100, __c3, 4)),
+          tableBorderProperties: S.optional(__S(116, __c3, 20)),
         }),
-      ).annotate({ identifier: "VideoProperties" });
+      ).annotate({ identifier: "TableBorderCell" });
     case 25:
-      return S.suspend(() =>
-        S.Struct({
-          source: S.optional(S.String),
-          url: S.optional(S.String),
-          videoProperties: S.optional(__S(152, __c4, 24)),
-          id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Video" });
+      return S.Array(__S(152, __c4, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
-          index: S.optional(S.Number),
-          parentObjectId: S.optional(S.String),
-          type: S.optional(S.String),
+          tableBorderCells: S.optional(__S(153, __c4, 25)),
         }),
-      ).annotate({ identifier: "Placeholder" });
+      ).annotate({ identifier: "TableBorderRow" });
     case 27:
-      return S.suspend(() =>
-        S.Struct({
-          placeholder: S.optional(__S(154, __c4, 26)),
-          shapeProperties: S.optional(__S(116, __c3, 20)),
-          shapeType: S.optional(S.String),
-          text: S.optional(__S(138, __c4, 10)),
-        }),
-      ).annotate({ identifier: "Shape" });
+      return S.Array(__S(154, __c4, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
-          shadow: S.optional(__S(112, __c3, 16)),
-          outline: S.optional(__S(113, __c3, 17)),
+          tableColumns: S.optional(__S(131, __c4, 3)),
+          tableRows: S.optional(__S(151, __c4, 23)),
+          horizontalBorderRows: S.optional(__S(155, __c4, 27)),
+          verticalBorderRows: S.optional(__S(155, __c4, 27)),
+          columns: S.optional(S.Number),
+          rows: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "SpeakerSpotlightProperties" });
+      ).annotate({ identifier: "Table" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          speakerSpotlightProperties: S.optional(__S(156, __c4, 28)),
+          renderedText: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SpeakerSpotlight" });
+      ).annotate({ identifier: "WordArt" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          color: S.optional(__S(97, __c3, 1)),
-          position: S.optional(S.Number),
-          alpha: S.optional(S.Number),
+          outline: S.optional(__S(105, __c3, 9)),
+          shadow: S.optional(__S(110, __c3, 14)),
         }),
-      ).annotate({ identifier: "ColorStop" });
+      ).annotate({ identifier: "SpeakerSpotlightProperties" });
     case 31:
-      return S.Array(__S(158, __c4, 30));
+      return S.suspend(() =>
+        S.Struct({
+          speakerSpotlightProperties: S.optional(__S(158, __c4, 30)),
+        }),
+      ).annotate({ identifier: "SpeakerSpotlight" });
   }
 }
 function __c5(j: number): any {
@@ -3442,104 +3433,109 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          recolorStops: S.optional(__S(159, __c4, 31)),
-          name: S.optional(S.String),
+          start: S.optional(S.Number),
+          mute: S.optional(S.Boolean),
+          outline: S.optional(__S(105, __c3, 9)),
+          autoPlay: S.optional(S.Boolean),
+          end: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "Recolor" });
+      ).annotate({ identifier: "VideoProperties" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          rightOffset: S.optional(S.Number),
-          bottomOffset: S.optional(S.Number),
-          angle: S.optional(S.Number),
-          topOffset: S.optional(S.Number),
-          leftOffset: S.optional(S.Number),
+          url: S.optional(S.String),
+          videoProperties: S.optional(__S(160, __c5, 0)),
+          id: S.optional(S.String),
+          source: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CropProperties" });
+      ).annotate({ identifier: "Video" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          link: S.optional(__S(106, __c3, 10)),
-          shadow: S.optional(__S(112, __c3, 16)),
-          brightness: S.optional(S.Number),
-          recolor: S.optional(__S(160, __c5, 0)),
-          contrast: S.optional(S.Number),
-          outline: S.optional(__S(113, __c3, 17)),
-          cropProperties: S.optional(__S(161, __c5, 1)),
-          transparency: S.optional(S.Number),
+          connectionSiteIndex: S.optional(S.Number),
+          connectedObjectId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ImageProperties" });
+      ).annotate({ identifier: "LineConnection" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          chartImageProperties: S.optional(__S(162, __c5, 2)),
+          endConnection: S.optional(__S(162, __c5, 2)),
+          dashStyle: S.optional(S.String),
+          startArrow: S.optional(S.String),
+          endArrow: S.optional(S.String),
+          weight: S.optional(__S(97, __c3, 1)),
+          startConnection: S.optional(__S(162, __c5, 2)),
+          lineFill: S.optional(__S(104, __c3, 8)),
+          link: S.optional(__S(111, __c3, 15)),
         }),
-      ).annotate({ identifier: "SheetsChartProperties" });
+      ).annotate({ identifier: "LineProperties" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          contentUrl: S.optional(S.String),
-          spreadsheetId: S.optional(S.String),
-          sheetsChartProperties: S.optional(__S(163, __c5, 3)),
-          chartId: S.optional(S.Number),
+          lineProperties: S.optional(__S(163, __c5, 3)),
+          lineCategory: S.optional(S.String),
+          lineType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SheetsChart" });
+      ).annotate({ identifier: "Line" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          imageProperties: S.optional(__S(162, __c5, 2)),
+          placeholder: S.optional(__S(96, __c3, 0)),
           contentUrl: S.optional(S.String),
+          imageProperties: S.optional(__S(112, __c3, 16)),
           sourceUrl: S.optional(S.String),
-          placeholder: S.optional(__S(154, __c4, 26)),
         }),
       ).annotate({ identifier: "Image" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          renderedText: S.optional(S.String),
+          children: S.optional(S.suspend(() => __S(169, __c5, 9))),
         }),
-      ).annotate({ identifier: "WordArt" });
+      ).annotate({ identifier: "Group" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          elementGroup: S.optional(__S(125, __c3, 29)),
-          table: S.optional(__S(150, __c4, 22)),
+          placeholder: S.optional(__S(96, __c3, 0)),
+          shapeProperties: S.optional(__S(115, __c3, 19)),
+          shapeType: S.optional(S.String),
+          text: S.optional(__S(145, __c4, 17)),
+        }),
+      ).annotate({ identifier: "Shape" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          transform: S.optional(__S(99, __c3, 3)),
+          sheetsChart: S.optional(__S(129, __c4, 1)),
+          table: S.optional(__S(156, __c4, 28)),
+          wordArt: S.optional(__S(157, __c4, 29)),
+          size: S.optional(__S(98, __c3, 2)),
+          speakerSpotlight: S.optional(__S(159, __c4, 31)),
+          video: S.optional(__S(161, __c5, 1)),
           objectId: S.optional(S.String),
-          line: S.optional(__S(151, __c4, 23)),
-          transform: S.optional(__S(104, __c3, 8)),
-          video: S.optional(__S(153, __c4, 25)),
-          size: S.optional(__S(103, __c3, 7)),
-          shape: S.optional(__S(155, __c4, 27)),
-          speakerSpotlight: S.optional(__S(157, __c4, 29)),
-          title: S.optional(S.String),
-          sheetsChart: S.optional(__S(164, __c5, 4)),
+          line: S.optional(__S(164, __c5, 4)),
+          description: S.optional(S.String),
           image: S.optional(__S(165, __c5, 5)),
-          wordArt: S.optional(__S(166, __c5, 6)),
+          elementGroup: S.optional(__S(166, __c5, 6)),
+          title: S.optional(S.String),
+          shape: S.optional(__S(167, __c5, 7)),
         }),
       ).annotate({ identifier: "PageElement" });
-    case 8:
-      return S.Array(__S(167, __c5, 7));
     case 9:
+      return S.Array(__S(168, __c5, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          startIndex: S.optional(S.Number),
           endIndex: S.optional(S.Number),
+          startIndex: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TextRange" });
-    case 10:
-      return S.Array(__S(169, __c5, 9));
     case 11:
-      return S.suspend(() =>
-        S.Struct({
-          ranges: S.optional(__S(170, __c5, 10)),
-        }),
-      ).annotate({ identifier: "ShapeTextAnchors" });
+      return S.Array(__S(170, __c5, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          cellLocation: S.optional(__S(101, __c3, 5)),
-          ranges: S.optional(__S(170, __c5, 10)),
+          ranges: S.optional(__S(171, __c5, 11)),
+          cellLocation: S.optional(__S(100, __c3, 4)),
         }),
       ).annotate({ identifier: "TableCellTextRanges" });
     case 13:
@@ -3553,82 +3549,72 @@ function __c5(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          shapeTextAnchors: S.optional(__S(171, __c5, 11)),
-          tableCellAnchors: S.optional(__S(174, __c5, 14)),
+          ranges: S.optional(__S(171, __c5, 11)),
+        }),
+      ).annotate({ identifier: "ShapeTextAnchors" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
           objectId: S.optional(S.String),
+          tableCellAnchors: S.optional(__S(174, __c5, 14)),
+          shapeTextAnchors: S.optional(__S(175, __c5, 15)),
         }),
       ).annotate({ identifier: "ObjectAnchor" });
-    case 16:
-      return S.Array(__S(175, __c5, 15));
     case 17:
+      return S.Array(__S(176, __c5, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           anchorId: S.optional(S.String),
-          objectAnchors: S.optional(__S(176, __c5, 16)),
+          objectAnchors: S.optional(__S(177, __c5, 17)),
         }),
       ).annotate({ identifier: "CommentAnchor" });
-    case 18:
-      return S.Array(__S(177, __c5, 17));
     case 19:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          color: S.optional(__S(96, __c3, 0)),
-        }),
-      ).annotate({ identifier: "ThemeColorPair" });
+      return S.Array(__S(178, __c5, 18));
     case 20:
-      return S.Array(__S(179, __c5, 19));
+      return S.Array(__S(118, __c3, 22));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          colors: S.optional(__S(180, __c5, 20)),
+          plainTextQuote: S.optional(S.String),
+          replies: S.optional(__S(180, __c5, 20)),
+          commentId: S.optional(S.String),
+          status: S.optional(S.String),
+          anchorId: S.optional(S.String),
+          headPost: S.optional(__S(118, __c3, 22)),
         }),
-      ).annotate({ identifier: "ColorScheme" });
+      ).annotate({ identifier: "CommentThread" });
     case 22:
-      return S.suspend(() =>
-        S.Struct({
-          size: S.optional(__S(103, __c3, 7)),
-          contentUrl: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StretchedPictureFill" });
+      return S.Array(__S(181, __c5, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
-          propertyState: S.optional(S.String),
-          stretchedPictureFill: S.optional(__S(182, __c5, 22)),
-          solidFill: S.optional(__S(98, __c3, 2)),
+          speakerNotesObjectId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PageBackgroundFill" });
+      ).annotate({ identifier: "NotesProperties" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          colorScheme: S.optional(__S(181, __c5, 21)),
-          pageBackgroundFill: S.optional(__S(183, __c5, 23)),
+          revisionId: S.optional(S.String),
+          layoutProperties: S.optional(__S(126, __c3, 30)),
+          masterProperties: S.optional(__S(127, __c3, 31)),
+          pageProperties: S.optional(__S(124, __c3, 28)),
+          commentsViewMode: S.optional(S.String),
+          pageElements: S.optional(__S(169, __c5, 9)),
+          commentAnchors: S.optional(__S(179, __c5, 19)),
+          pageType: S.optional(S.String),
+          comments: S.optional(__S(182, __c5, 22)),
+          slideProperties: S.optional(S.suspend(() => __S(185, __c5, 25))),
+          objectId: S.optional(S.String),
+          notesProperties: S.optional(__S(183, __c5, 23)),
         }),
-      ).annotate({ identifier: "PageProperties" });
+      ).annotate({ identifier: "Page" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          layoutProperties: S.optional(__S(117, __c3, 21)),
-          objectId: S.optional(S.String),
-          masterProperties: S.optional(__S(118, __c3, 22)),
-          commentsViewMode: S.optional(S.String),
-          slideProperties: S.optional(S.suspend(() => __S(186, __c5, 26))),
-          comments: S.optional(__S(123, __c3, 27)),
-          notesProperties: S.optional(__S(124, __c3, 28)),
-          pageType: S.optional(S.String),
-          pageElements: S.optional(__S(168, __c5, 8)),
-          commentAnchors: S.optional(__S(178, __c5, 18)),
-          revisionId: S.optional(S.String),
-          pageProperties: S.optional(__S(184, __c5, 24)),
-        }),
-      ).annotate({ identifier: "Page" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
           masterObjectId: S.optional(S.String),
+          notesPage: S.optional(__S(184, __c5, 24)),
           layoutObjectId: S.optional(S.String),
-          notesPage: S.optional(__S(185, __c5, 25)),
           isSkipped: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SlideProperties" });
@@ -3653,21 +3639,21 @@ function __c6(j: number): any {
 function __c7(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(185, __c5, 25));
+      return S.Array(__S(184, __c5, 24));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          revisionId: S.optional(S.String),
-          presentationId: S.optional(S.String),
-          comments: S.optional(__S(123, __c3, 27)),
-          title: S.optional(S.String),
-          masters: S.optional(__S(224, __c7, 0)),
-          pageSize: S.optional(__S(103, __c3, 7)),
-          notesMaster: S.optional(__S(185, __c5, 25)),
-          locale: S.optional(S.String),
-          slides: S.optional(__S(224, __c7, 0)),
-          layouts: S.optional(__S(224, __c7, 0)),
           commentsViewMode: S.optional(S.String),
+          title: S.optional(S.String),
+          slides: S.optional(__S(224, __c7, 0)),
+          comments: S.optional(__S(182, __c5, 22)),
+          revisionId: S.optional(S.String),
+          masters: S.optional(__S(224, __c7, 0)),
+          presentationId: S.optional(S.String),
+          locale: S.optional(S.String),
+          notesMaster: S.optional(__S(184, __c5, 24)),
+          layouts: S.optional(__S(224, __c7, 0)),
+          pageSize: S.optional(__S(98, __c3, 2)),
         }),
       ).annotate({ identifier: "Presentation" });
   }
@@ -3677,8 +3663,8 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          commentsViewMode: S.optional(S.String.pipe(T.Query())),
           presentationId: S.String.pipe(T.Label()),
+          commentsViewMode: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3694,8 +3680,8 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          commentsViewMode: S.optional(S.String.pipe(T.Query())),
           presentationId: S.String.pipe(T.Label()),
+          commentsViewMode: S.optional(S.String.pipe(T.Query())),
           pageObjectId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -3713,8 +3699,8 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           "thumbnailProperties.thumbnailSize": S.optional(S.String.pipe(T.Query())),
-          "thumbnailProperties.mimeType": S.optional(S.String.pipe(T.Query())),
           pageObjectId: S.String.pipe(T.Label()),
+          "thumbnailProperties.mimeType": S.optional(S.String.pipe(T.Query())),
           presentationId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -3727,9 +3713,9 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          width: S.optional(S.Number),
           height: S.optional(S.Number),
           contentUrl: S.optional(S.String),
+          width: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Thumbnail" });
   }

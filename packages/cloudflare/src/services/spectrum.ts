@@ -116,6 +116,7 @@ export interface AppsCreateRequestOriginDns {
   type?: AppsCreateRequestOriginDnsType | (string & {});
 }
 export type AppsCreateRequestOriginPort = string | number;
+export type AppsCreateRequestOriginWorkerStatus = "available" | "not_found" | "unknown";
 export type AppsCreateRequestProxyProtocol = "off" | "v1" | "v2" | "simple";
 export type AppsCreateRequestTls = "off" | "flexible" | "full" | "strict";
 export interface CreateAppRequest {
@@ -141,6 +142,10 @@ export interface CreateAppRequest {
   originPort?: AppsCreateRequestOriginPort;
   /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
   originWorkerId?: string;
+  /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
+  originWorkerName?: string;
+  /** Lookup status of the Worker origin. Unknown indicates that its name could not be resolved. Only returned for Worker origins. */
+  originWorkerStatus?: AppsCreateRequestOriginWorkerStatus | (string & {});
   /** Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol. */
   proxyProtocol?: AppsCreateRequestProxyProtocol | (string & {});
   /** The type of TLS termination associated with the application. */
@@ -193,6 +198,10 @@ export interface AppsCreateResultSpectrumConfigAppConfigOriginDns {
   type?: AppsCreateResultSpectrumConfigAppConfigOriginDnsType | null;
 }
 export type AppsCreateResultSpectrumConfigAppConfigOriginPort = string | number;
+export type AppsCreateResultSpectrumConfigAppConfigOriginWorkerStatus =
+  | "available"
+  | "not_found"
+  | "unknown";
 export type AppsCreateResultSpectrumConfigAppConfigProxyProtocol = "off" | "v1" | "v2" | "simple";
 export type AppsCreateResultSpectrumConfigAppConfigTls = "off" | "flexible" | "full" | "strict";
 export interface AppsCreateResultSpectrumConfigAppConfig {
@@ -222,6 +231,10 @@ export interface AppsCreateResultSpectrumConfigAppConfig {
   originPort?: AppsCreateResultSpectrumConfigAppConfigOriginPort | null;
   /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
   originWorkerId?: string | null;
+  /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
+  originWorkerName?: string | null;
+  /** Lookup status of the Worker origin. Unknown indicates that its name could not be resolved. Only returned for Worker origins. */
+  originWorkerStatus?: AppsCreateResultSpectrumConfigAppConfigOriginWorkerStatus | null;
   /** Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol. */
   proxyProtocol?: AppsCreateResultSpectrumConfigAppConfigProxyProtocol | null;
   /** The type of TLS termination associated with the application. */
@@ -553,6 +566,10 @@ export interface AppsGetResultSpectrumConfigAppConfigOriginDns {
   type?: AppsGetResultSpectrumConfigAppConfigOriginDnsType | null;
 }
 export type AppsGetResultSpectrumConfigAppConfigOriginPort = string | number;
+export type AppsGetResultSpectrumConfigAppConfigOriginWorkerStatus =
+  | "available"
+  | "not_found"
+  | "unknown";
 export type AppsGetResultSpectrumConfigAppConfigProxyProtocol = "off" | "v1" | "v2" | "simple";
 export type AppsGetResultSpectrumConfigAppConfigTls = "off" | "flexible" | "full" | "strict";
 export interface AppsGetResultSpectrumConfigAppConfig {
@@ -582,6 +599,10 @@ export interface AppsGetResultSpectrumConfigAppConfig {
   originPort?: AppsGetResultSpectrumConfigAppConfigOriginPort | null;
   /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
   originWorkerId?: string | null;
+  /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
+  originWorkerName?: string | null;
+  /** Lookup status of the Worker origin. Unknown indicates that its name could not be resolved. Only returned for Worker origins. */
+  originWorkerStatus?: AppsGetResultSpectrumConfigAppConfigOriginWorkerStatus | null;
   /** Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol. */
   proxyProtocol?: AppsGetResultSpectrumConfigAppConfigProxyProtocol | null;
   /** The type of TLS termination associated with the application. */
@@ -667,6 +688,7 @@ export interface AppsListResultCase0ItemOriginDns {
   type?: AppsListResultCase0ItemOriginDnsType | null;
 }
 export type AppsListResultCase0ItemOriginPort = string | number;
+export type AppsListResultCase0ItemOriginWorkerStatus = "available" | "not_found" | "unknown";
 export type AppsListResultCase0ItemProxyProtocol = "off" | "v1" | "v2" | "simple";
 export type AppsListResultCase0ItemTls = "off" | "flexible" | "full" | "strict";
 export interface AppsListResultCase0Item {
@@ -696,6 +718,10 @@ export interface AppsListResultCase0Item {
   originPort?: AppsListResultCase0ItemOriginPort | null;
   /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
   originWorkerId?: string | null;
+  /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
+  originWorkerName?: string | null;
+  /** Lookup status of the Worker origin. Unknown indicates that its name could not be resolved. Only returned for Worker origins. */
+  originWorkerStatus?: AppsListResultCase0ItemOriginWorkerStatus | null;
   /** Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol. */
   proxyProtocol?: AppsListResultCase0ItemProxyProtocol | null;
   /** The type of TLS termination associated with the application. */
@@ -789,6 +815,7 @@ export interface AppsUpdateRequestOriginDns {
   type?: AppsUpdateRequestOriginDnsType | (string & {});
 }
 export type AppsUpdateRequestOriginPort = string | number;
+export type AppsUpdateRequestOriginWorkerStatus = "available" | "not_found" | "unknown";
 export type AppsUpdateRequestProxyProtocol = "off" | "v1" | "v2" | "simple";
 export type AppsUpdateRequestTls = "off" | "flexible" | "full" | "strict";
 export interface UpdateAppRequest {
@@ -816,6 +843,10 @@ export interface UpdateAppRequest {
   originPort?: AppsUpdateRequestOriginPort;
   /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
   originWorkerId?: string;
+  /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
+  originWorkerName?: string;
+  /** Lookup status of the Worker origin. Unknown indicates that its name could not be resolved. Only returned for Worker origins. */
+  originWorkerStatus?: AppsUpdateRequestOriginWorkerStatus | (string & {});
   /** Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol. */
   proxyProtocol?: AppsUpdateRequestProxyProtocol | (string & {});
   /** The type of TLS termination associated with the application. */
@@ -868,6 +899,10 @@ export interface AppsUpdateResultSpectrumConfigAppConfigOriginDns {
   type?: AppsUpdateResultSpectrumConfigAppConfigOriginDnsType | null;
 }
 export type AppsUpdateResultSpectrumConfigAppConfigOriginPort = string | number;
+export type AppsUpdateResultSpectrumConfigAppConfigOriginWorkerStatus =
+  | "available"
+  | "not_found"
+  | "unknown";
 export type AppsUpdateResultSpectrumConfigAppConfigProxyProtocol = "off" | "v1" | "v2" | "simple";
 export type AppsUpdateResultSpectrumConfigAppConfigTls = "off" | "flexible" | "full" | "strict";
 export interface AppsUpdateResultSpectrumConfigAppConfig {
@@ -897,6 +932,10 @@ export interface AppsUpdateResultSpectrumConfigAppConfig {
   originPort?: AppsUpdateResultSpectrumConfigAppConfigOriginPort | null;
   /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
   originWorkerId?: string | null;
+  /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
+  originWorkerName?: string | null;
+  /** Lookup status of the Worker origin. Unknown indicates that its name could not be resolved. Only returned for Worker origins. */
+  originWorkerStatus?: AppsUpdateResultSpectrumConfigAppConfigOriginWorkerStatus | null;
   /** Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol. */
   proxyProtocol?: AppsUpdateResultSpectrumConfigAppConfigProxyProtocol | null;
   /** The type of TLS termination associated with the application. */
@@ -1162,6 +1201,8 @@ function __c1(j: number): any {
           originDns: S.optional(__S(25, __c3, 1).pipe(T.Body("origin_dns"))),
           originPort: S.optional(__S(9, __c1, 1).pipe(T.Body("origin_port"))),
           originWorkerId: S.optional(S.String.pipe(T.Body("origin_worker_id"))),
+          originWorkerName: S.optional(S.String.pipe(T.Body("origin_worker_name"))),
+          originWorkerStatus: S.optional(S.String.pipe(T.Body("origin_worker_status"))),
           proxyProtocol: S.optional(S.String.pipe(T.Body("proxy_protocol"))),
           tls: S.optional(S.String),
           virtualNetworkId: S.optional(S.String.pipe(T.Body("virtual_network_id"))),
@@ -1188,6 +1229,8 @@ function __c1(j: number): any {
             "originDns",
             "originPort",
             "originWorkerId",
+            "originWorkerName",
+            "originWorkerStatus",
             "proxyProtocol",
             "tls",
             "virtualNetworkId",
@@ -1229,6 +1272,8 @@ function __c2(j: number): any {
           originDns: S.optional(__S(25, __c3, 1).pipe(T.Body("origin_dns"))),
           originPort: S.optional(__S(17, __c2, 1).pipe(T.Body("origin_port"))),
           originWorkerId: S.optional(S.String.pipe(T.Body("origin_worker_id"))),
+          originWorkerName: S.optional(S.String.pipe(T.Body("origin_worker_name"))),
+          originWorkerStatus: S.optional(S.String.pipe(T.Body("origin_worker_status"))),
           proxyProtocol: S.optional(S.String.pipe(T.Body("proxy_protocol"))),
           tls: S.optional(S.String),
           virtualNetworkId: S.optional(S.String.pipe(T.Body("virtual_network_id"))),
@@ -1253,6 +1298,8 @@ function __c2(j: number): any {
             "originDns",
             "originPort",
             "originWorkerId",
+            "originWorkerName",
+            "originWorkerStatus",
             "proxyProtocol",
             "tls",
             "virtualNetworkId",
@@ -1497,6 +1544,8 @@ function __c10(j: number): any {
             "originDns",
             "originPort",
             "originWorkerId",
+            "originWorkerName",
+            "originWorkerStatus",
             "proxyProtocol",
             "tls",
             "virtualNetworkId",

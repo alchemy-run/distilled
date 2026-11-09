@@ -102,8 +102,6 @@ export interface GetServerTypeResponseServerType {
   memory: number;
   /** Disk size a Server of this type will have in GB. */
   disk: number;
-  /** This field is deprecated. Use the deprecation object instead. */
-  deprecated: boolean;
   /** Price per [Location](#tag/locations). */
   prices: GetServerTypeResponseServerTypePricesList;
   /** Type of Server boot drive. Local has higher speed. Network has better availability. */
@@ -175,8 +173,6 @@ export interface ListServerTypesResponseServerTypesItem {
   memory: number;
   /** Disk size a Server of this type will have in GB. */
   disk: number;
-  /** This field is deprecated. Use the deprecation object instead. */
-  deprecated: boolean;
   /** Price per [Location](#tag/locations). */
   prices: ListServerTypesResponseServerTypesItemPricesList;
   /** Type of Server boot drive. Local has higher speed. Network has better availability. */
@@ -327,7 +323,6 @@ function __c1(j: number): any {
           cores: S.Number,
           memory: S.Number,
           disk: S.Number,
-          deprecated: S.Boolean,
           prices: __S(10, __c1, 2),
           storage_type: S.String,
           cpu_type: S.String,

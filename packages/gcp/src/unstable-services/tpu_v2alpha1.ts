@@ -89,111 +89,7 @@ export interface CancelProjectsLocationsOperationsRequest {
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-export type NodeStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "CREATING"
-  | "READY"
-  | "RESTARTING"
-  | "REIMAGING"
-  | "DELETING"
-  | "REPAIRING"
-  | "STOPPED"
-  | "STOPPING"
-  | "STARTING"
-  | "PREEMPTED"
-  | "TERMINATED"
-  | "HIDING"
-  | "HIDDEN"
-  | "UNHIDING"
-  | "UNKNOWN";
-/** Customer's encryption key. */
-export interface CustomerEncryptionKey {
-  /** The name of the encryption key that is stored in Google Cloud KMS. For example: "kmsKeyName": "projects/KMS_PROJECT_ID/locations/REGION/keyRings/KEY_REGION/cryptoKeys/KEY The fully-qualifed key name may be returned for resource GET requests. For example: "kmsKeyName": "projects/KMS_PROJECT_ID/locations/REGION/keyRings/KEY_REGION/cryptoKeys/KEY/cryptoKeyVersions/1 */
-  kmsKeyName?: string;
-}
-/** Boot disk configurations. */
-export interface BootDiskConfig {
-  /** Optional. Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. To learn more about IOPS, see [Provisioning persistent disk performance](https://cloud.google.com/compute/docs/disks/performance#provisioned-iops). */
-  provisionedIops?: string;
-  /** Optional. The storage pool in which the boot disk is created. You can provide this as a partial or full URL to the resource. */
-  storagePool?: string;
-  /** Optional. Whether the boot disk will be created with confidential compute mode. */
-  enableConfidentialCompute?: boolean;
-  /** Optional. Size of the boot disk in GB. It must be larger than or equal to the size of the image. */
-  diskSizeGb?: string;
-  /** Optional. Customer encryption key for boot disk. */
-  customerEncryptionKey?: CustomerEncryptionKey;
-  /** Optional. Indicates how much throughput to provision for the disk. This sets the number of throughput MB per second that the disk can handle. */
-  provisionedThroughput?: string;
-  /** Optional. Image from which boot disk is to be created. If not specified, the default image for the runtime version will be used. Example: `projects/$PROJECT_ID/global/images/$IMAGE_NAME`. */
-  sourceImage?: string;
-}
-export type StringList = Array<string>;
-/** Network related configurations. */
-export interface NetworkConfig {
-  /** The name of the subnetwork for the TPU node. It must be a preexisting Google Compute Engine subnetwork. If none is provided, "default" will be used. */
-  subnetwork?: string;
-  /** Indicates that external IP addresses would be associated with the TPU workers. If set to false, the specified subnetwork or network should have Private Google Access enabled. */
-  enableExternalIps?: boolean;
-  /** The name of the network for the TPU node. It must be a preexisting Google Compute Engine network. If none is provided, "default" will be used. */
-  network?: string;
-  /** Optional. Specifies networking queue count for TPU VM instance's network interface. */
-  queueCount?: number;
-  /** Allows the TPU node to send and receive packets with non-matching destination or source IPs. This is required if you plan to use the TPU workers to forward routes. */
-  canIpForward?: boolean;
-}
 export type StringMap = { [key: string]: string | undefined };
-export type NetworkConfigList = Array<NetworkConfig>;
-export type NodeApiVersionEnum = "API_VERSION_UNSPECIFIED" | "V1_ALPHA1" | "V1" | "V2_ALPHA1";
-/** A set of Shielded Instance options. */
-export interface ShieldedInstanceConfig {
-  /** Defines whether the instance has Secure Boot enabled. */
-  enableSecureBoot?: boolean;
-}
-export type NodeHealthEnum =
-  | "HEALTH_UNSPECIFIED"
-  | "HEALTHY"
-  | "TIMEOUT"
-  | "UNHEALTHY_TENSORFLOW"
-  | "UNHEALTHY_MAINTENANCE";
-export type AttachedDiskModeEnum = "DISK_MODE_UNSPECIFIED" | "READ_WRITE" | "READ_ONLY";
-/** A node-attached disk resource. */
-export interface AttachedDisk {
-  /** The mode in which to attach this disk. If not specified, the default is READ_WRITE mode. Only applicable to data_disks. */
-  mode?: AttachedDiskModeEnum | (string & {});
-  /** Specifies the full path to an existing disk. For example: "projects/my-project/zones/us-central1-c/disks/my-disk". */
-  sourceDisk?: string;
-  /** Optional. The list of worker IDs this disk is attached to. */
-  workerIds?: StringList;
-}
-export type AttachedDiskList = Array<AttachedDisk>;
-export type SymptomSymptomTypeEnum =
-  | "SYMPTOM_TYPE_UNSPECIFIED"
-  | "LOW_MEMORY"
-  | "OUT_OF_MEMORY"
-  | "EXECUTE_TIMED_OUT"
-  | "MESH_BUILD_FAIL"
-  | "HBM_OUT_OF_MEMORY"
-  | "PROJECT_ABUSE";
-/** A Symptom instance. */
-export interface Symptom {
-  /** Type of the Symptom. */
-  symptomType?: SymptomSymptomTypeEnum | (string & {});
-  /** Detailed information of the current Symptom. */
-  details?: string;
-  /** Timestamp when the Symptom is created. */
-  createTime?: string;
-  /** A string used to uniquely distinguish a worker within a TPU node. */
-  workerId?: string;
-}
-export type SymptomList = Array<Symptom>;
-/** A service account. */
-export interface ServiceAccount {
-  /** Email address of the service account. If empty, default Compute service account will be used. */
-  email?: string;
-  /** The list of scopes to be made available for this service account. If empty, access to all Cloud APIs will be allowed. */
-  scope?: StringList;
-}
 export type AcceleratorConfigTypeEnum =
   | "TYPE_UNSPECIFIED"
   | "V2"
@@ -209,41 +105,6 @@ export interface AcceleratorConfig {
   /** Required. Type of TPU. */
   type?: AcceleratorConfigTypeEnum | (string & {});
 }
-export type SchedulingConfigProvisioningModelEnum =
-  | "PROVISIONING_MODEL_UNSPECIFIED"
-  | "STANDARD"
-  | "SPOT"
-  | "RESERVATION_BOUND";
-/** Sets the scheduling options for this node. */
-export interface SchedulingConfig {
-  /** Defines whether the node is preemptible. */
-  preemptible?: boolean;
-  /** Optional. Defines the provisioning model for the node. */
-  provisioningModel?: SchedulingConfigProvisioningModelEnum | (string & {});
-  /** Optional. Defines whether the node is Spot VM. */
-  spot?: boolean;
-  /** Whether the node is created under a reservation. */
-  reserved?: boolean;
-  /** Optional. Name of the reservation in which the node should be provisioned. */
-  reservationName?: string;
-  /** Output only. The time at which the node will be terminated. */
-  terminationTimestamp?: string;
-}
-/** An access config attached to the TPU worker. */
-export interface AccessConfig {
-  /** Output only. An external IP address associated with the TPU worker. */
-  externalIp?: string;
-}
-/** A network endpoint over which a TPU worker can be reached. */
-export interface NetworkEndpoint {
-  /** The internal IP address of this network endpoint. */
-  ipAddress?: string;
-  /** The access config for the TPU worker. */
-  accessConfig?: AccessConfig;
-  /** The port of this network endpoint. */
-  port?: number;
-}
-export type NetworkEndpointList = Array<NetworkEndpoint>;
 export type UpcomingMaintenanceMaintenanceStatusEnum = "UNKNOWN" | "PENDING" | "ONGOING";
 export type UpcomingMaintenanceTypeEnum = "UNKNOWN_TYPE" | "SCHEDULED" | "UNSCHEDULED";
 /** Upcoming Maintenance notification information. */
@@ -261,64 +122,203 @@ export interface UpcomingMaintenance {
   /** Defines the type of maintenance. */
   type?: UpcomingMaintenanceTypeEnum | (string & {});
 }
+export type StringList = Array<string>;
+/** A service account. */
+export interface ServiceAccount {
+  /** Email address of the service account. If empty, default Compute service account will be used. */
+  email?: string;
+  /** The list of scopes to be made available for this service account. If empty, access to all Cloud APIs will be allowed. */
+  scope?: StringList;
+}
+/** Network related configurations. */
+export interface NetworkConfig {
+  /** Optional. Specifies networking queue count for TPU VM instance's network interface. */
+  queueCount?: number;
+  /** The name of the subnetwork for the TPU node. It must be a preexisting Google Compute Engine subnetwork. If none is provided, "default" will be used. */
+  subnetwork?: string;
+  /** The name of the network for the TPU node. It must be a preexisting Google Compute Engine network. If none is provided, "default" will be used. */
+  network?: string;
+  /** Indicates that external IP addresses would be associated with the TPU workers. If set to false, the specified subnetwork or network should have Private Google Access enabled. */
+  enableExternalIps?: boolean;
+  /** Allows the TPU node to send and receive packets with non-matching destination or source IPs. This is required if you plan to use the TPU workers to forward routes. */
+  canIpForward?: boolean;
+}
+export type NetworkConfigList = Array<NetworkConfig>;
+export type SymptomSymptomTypeEnum =
+  | "SYMPTOM_TYPE_UNSPECIFIED"
+  | "LOW_MEMORY"
+  | "OUT_OF_MEMORY"
+  | "EXECUTE_TIMED_OUT"
+  | "MESH_BUILD_FAIL"
+  | "HBM_OUT_OF_MEMORY"
+  | "PROJECT_ABUSE";
+/** A Symptom instance. */
+export interface Symptom {
+  /** Timestamp when the Symptom is created. */
+  createTime?: string;
+  /** Type of the Symptom. */
+  symptomType?: SymptomSymptomTypeEnum | (string & {});
+  /** A string used to uniquely distinguish a worker within a TPU node. */
+  workerId?: string;
+  /** Detailed information of the current Symptom. */
+  details?: string;
+}
+export type SymptomList = Array<Symptom>;
+export type NodeStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "CREATING"
+  | "READY"
+  | "RESTARTING"
+  | "REIMAGING"
+  | "DELETING"
+  | "REPAIRING"
+  | "STOPPED"
+  | "STOPPING"
+  | "STARTING"
+  | "PREEMPTED"
+  | "TERMINATED"
+  | "HIDING"
+  | "HIDDEN"
+  | "UNHIDING"
+  | "UNKNOWN";
+export type SchedulingConfigProvisioningModelEnum =
+  | "PROVISIONING_MODEL_UNSPECIFIED"
+  | "STANDARD"
+  | "SPOT"
+  | "RESERVATION_BOUND";
+/** Sets the scheduling options for this node. */
+export interface SchedulingConfig {
+  /** Optional. Defines the provisioning model for the node. */
+  provisioningModel?: SchedulingConfigProvisioningModelEnum | (string & {});
+  /** Defines whether the node is preemptible. */
+  preemptible?: boolean;
+  /** Optional. Name of the reservation in which the node should be provisioned. */
+  reservationName?: string;
+  /** Whether the node is created under a reservation. */
+  reserved?: boolean;
+  /** Optional. Defines whether the node is Spot VM. */
+  spot?: boolean;
+  /** Output only. The time at which the node will be terminated. */
+  terminationTimestamp?: string;
+}
+export type AttachedDiskModeEnum = "DISK_MODE_UNSPECIFIED" | "READ_WRITE" | "READ_ONLY";
+/** A node-attached disk resource. */
+export interface AttachedDisk {
+  /** Optional. The list of worker IDs this disk is attached to. */
+  workerIds?: StringList;
+  /** The mode in which to attach this disk. If not specified, the default is READ_WRITE mode. Only applicable to data_disks. */
+  mode?: AttachedDiskModeEnum | (string & {});
+  /** Specifies the full path to an existing disk. For example: "projects/my-project/zones/us-central1-c/disks/my-disk". */
+  sourceDisk?: string;
+}
+export type AttachedDiskList = Array<AttachedDisk>;
+/** A set of Shielded Instance options. */
+export interface ShieldedInstanceConfig {
+  /** Defines whether the instance has Secure Boot enabled. */
+  enableSecureBoot?: boolean;
+}
+export type NodeApiVersionEnum = "API_VERSION_UNSPECIFIED" | "V1_ALPHA1" | "V1" | "V2_ALPHA1";
+/** Customer's encryption key. */
+export interface CustomerEncryptionKey {
+  /** The name of the encryption key that is stored in Google Cloud KMS. For example: "kmsKeyName": "projects/KMS_PROJECT_ID/locations/REGION/keyRings/KEY_REGION/cryptoKeys/KEY The fully-qualifed key name may be returned for resource GET requests. For example: "kmsKeyName": "projects/KMS_PROJECT_ID/locations/REGION/keyRings/KEY_REGION/cryptoKeys/KEY/cryptoKeyVersions/1 */
+  kmsKeyName?: string;
+}
+/** Boot disk configurations. */
+export interface BootDiskConfig {
+  /** Optional. Indicates how much throughput to provision for the disk. This sets the number of throughput MB per second that the disk can handle. */
+  provisionedThroughput?: string;
+  /** Optional. Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. To learn more about IOPS, see [Provisioning persistent disk performance](https://cloud.google.com/compute/docs/disks/performance#provisioned-iops). */
+  provisionedIops?: string;
+  /** Optional. Customer encryption key for boot disk. */
+  customerEncryptionKey?: CustomerEncryptionKey;
+  /** Optional. Whether the boot disk will be created with confidential compute mode. */
+  enableConfidentialCompute?: boolean;
+  /** Optional. Size of the boot disk in GB. It must be larger than or equal to the size of the image. */
+  diskSizeGb?: string;
+  /** Optional. Image from which boot disk is to be created. If not specified, the default image for the runtime version will be used. Example: `projects/$PROJECT_ID/global/images/$IMAGE_NAME`. */
+  sourceImage?: string;
+  /** Optional. The storage pool in which the boot disk is created. You can provide this as a partial or full URL to the resource. */
+  storagePool?: string;
+}
+/** An access config attached to the TPU worker. */
+export interface AccessConfig {
+  /** Output only. An external IP address associated with the TPU worker. */
+  externalIp?: string;
+}
+/** A network endpoint over which a TPU worker can be reached. */
+export interface NetworkEndpoint {
+  /** The access config for the TPU worker. */
+  accessConfig?: AccessConfig;
+  /** The internal IP address of this network endpoint. */
+  ipAddress?: string;
+  /** The port of this network endpoint. */
+  port?: number;
+}
+export type NetworkEndpointList = Array<NetworkEndpoint>;
+export type NodeHealthEnum =
+  | "HEALTH_UNSPECIFIED"
+  | "HEALTHY"
+  | "TIMEOUT"
+  | "UNHEALTHY_TENSORFLOW"
+  | "UNHEALTHY_MAINTENANCE";
 /** A TPU instance. */
 export interface Node {
-  /** Output only. Immutable. The name of the TPU. */
-  name?: string;
-  /** Output only. The current state for the TPU Node. */
-  state?: NodeStateEnum | (string & {});
   /** Output only. If this field is populated, it contains a description of why the TPU Node is unhealthy. */
   healthDescription?: string;
-  /** Optional. Boot disk configuration. */
-  bootDiskConfig?: BootDiskConfig;
-  /** Tags to apply to the TPU Node. Tags are used to identify valid sources or targets for network firewalls. */
-  tags?: StringList;
-  /** Network configurations for the TPU node. network_config and network_configs are mutually exclusive, you can only specify one of them. If both are specified, an error will be returned. */
-  networkConfig?: NetworkConfig;
-  /** The user-supplied description of the TPU. Maximum of 512 characters. */
-  description?: string;
-  /** Custom metadata to apply to the TPU Node. Can set startup-script and shutdown-script */
-  metadata?: StringMap;
-  /** Output only. The time when the node was created. */
-  createTime?: string;
-  /** Optional. Repeated network configurations for the TPU node. This field is used to specify multiple networks configs for the TPU node. network_config and network_configs are mutually exclusive, you can only specify one of them. If both are specified, an error will be returned. */
-  networkConfigs?: NetworkConfigList;
-  /** Output only. The API version that created this Node. */
-  apiVersion?: NodeApiVersionEnum | (string & {});
-  /** Output only. The unique identifier for the TPU Node. */
-  id?: string;
-  /** Shielded Instance options. */
-  shieldedInstanceConfig?: ShieldedInstanceConfig;
-  /** The health status of the TPU node. */
-  health?: NodeHealthEnum | (string & {});
-  /** Output only. Whether the Node belongs to a Multislice group. */
-  multisliceNode?: boolean;
-  /** The additional data disks for the Node. */
-  dataDisks?: AttachedDiskList;
   /** Resource labels to represent user-provided metadata. */
   labels?: StringMap;
-  /** Output only. The qualified name of the QueuedResource that requested this Node. */
-  queuedResource?: string;
-  /** Output only. The Symptoms that have occurred to the TPU Node. */
-  symptoms?: SymptomList;
-  /** The Google Cloud Platform Service Account to be used by the TPU node VMs. If None is specified, the default compute service account will be used. */
-  serviceAccount?: ServiceAccount;
-  /** The CIDR block that the TPU node will use when selecting an IP address. This CIDR block must be a /29 block; the Compute Engine networks API forbids a smaller block, and using a larger block would be wasteful (a node can only consume one IP address). Errors will occur if the CIDR block has already been used for a currently existing TPU node, the CIDR block conflicts with any subnetworks in the user's provided network, or the provided network is peered with another network that is using that CIDR block. */
-  cidrBlock?: string;
   /** The AccleratorConfig for the TPU Node. */
   acceleratorConfig?: AcceleratorConfig;
-  /** The scheduling options for this node. */
-  schedulingConfig?: SchedulingConfig;
-  /** Optional. Whether Autocheckpoint is enabled. */
-  autocheckpointEnabled?: boolean;
-  /** The type of hardware accelerators associated with this node. */
-  acceleratorType?: string;
-  /** Output only. The network endpoints where TPU workers can be accessed and sent work. It is recommended that runtime clients of the node reach out to the 0th entry in this map first. */
-  networkEndpoints?: NetworkEndpointList;
-  /** Required. The runtime version running in the Node. */
-  runtimeVersion?: string;
   /** Output only. Upcoming maintenance on this TPU node. */
   upcomingMaintenance?: UpcomingMaintenance;
+  /** Output only. The qualified name of the QueuedResource that requested this Node. */
+  queuedResource?: string;
+  /** Output only. Immutable. The name of the TPU. */
+  name?: string;
+  /** The Google Cloud Platform Service Account to be used by the TPU node VMs. If None is specified, the default compute service account will be used. */
+  serviceAccount?: ServiceAccount;
+  /** Optional. Repeated network configurations for the TPU node. This field is used to specify multiple networks configs for the TPU node. network_config and network_configs are mutually exclusive, you can only specify one of them. If both are specified, an error will be returned. */
+  networkConfigs?: NetworkConfigList;
+  /** The CIDR block that the TPU node will use when selecting an IP address. This CIDR block must be a /29 block; the Compute Engine networks API forbids a smaller block, and using a larger block would be wasteful (a node can only consume one IP address). Errors will occur if the CIDR block has already been used for a currently existing TPU node, the CIDR block conflicts with any subnetworks in the user's provided network, or the provided network is peered with another network that is using that CIDR block. */
+  cidrBlock?: string;
+  /** Network configurations for the TPU node. network_config and network_configs are mutually exclusive, you can only specify one of them. If both are specified, an error will be returned. */
+  networkConfig?: NetworkConfig;
+  /** Output only. The Symptoms that have occurred to the TPU Node. */
+  symptoms?: SymptomList;
+  /** Custom metadata to apply to the TPU Node. Can set startup-script and shutdown-script */
+  metadata?: StringMap;
+  /** Output only. The current state for the TPU Node. */
+  state?: NodeStateEnum | (string & {});
+  /** Output only. The time when the node was created. */
+  createTime?: string;
+  /** The scheduling options for this node. */
+  schedulingConfig?: SchedulingConfig;
+  /** The additional data disks for the Node. */
+  dataDisks?: AttachedDiskList;
+  /** Required. The runtime version running in the Node. */
+  runtimeVersion?: string;
+  /** The type of hardware accelerators associated with this node. */
+  acceleratorType?: string;
+  /** Shielded Instance options. */
+  shieldedInstanceConfig?: ShieldedInstanceConfig;
+  /** Output only. The API version that created this Node. */
+  apiVersion?: NodeApiVersionEnum | (string & {});
+  /** Optional. Boot disk configuration. */
+  bootDiskConfig?: BootDiskConfig;
+  /** Output only. The network endpoints where TPU workers can be accessed and sent work. It is recommended that runtime clients of the node reach out to the 0th entry in this map first. */
+  networkEndpoints?: NetworkEndpointList;
+  /** Tags to apply to the TPU Node. Tags are used to identify valid sources or targets for network firewalls. */
+  tags?: StringList;
+  /** Optional. Whether Autocheckpoint is enabled. */
+  autocheckpointEnabled?: boolean;
+  /** The user-supplied description of the TPU. Maximum of 512 characters. */
+  description?: string;
+  /** Output only. Whether the Node belongs to a Multislice group. */
+  multisliceNode?: boolean;
+  /** The health status of the TPU node. */
+  health?: NodeHealthEnum | (string & {});
+  /** Output only. The unique identifier for the TPU Node. */
+  id?: string;
 }
 export interface CreateProjectsLocationsNodesRequest {
   /** Idempotent request UUID. */
@@ -334,98 +334,26 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
 }
-/** BestEffort tier definition. */
-export interface BestEffort {}
-/** Defines the maximum lifetime of the requested resource. */
-export interface RunDuration {
-  /** The time at which the requested resource will be terminated. */
-  terminationTime?: string;
-  /** The maximum duration of the requested resource. */
-  maxRunDuration?: string;
-}
-export type QueuedResourceStateStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "CREATING"
-  | "ACCEPTED"
-  | "PROVISIONING"
-  | "FAILED"
-  | "DELETING"
-  | "ACTIVE"
-  | "SUSPENDING"
-  | "SUSPENDED"
-  | "WAITING_FOR_RESOURCES";
-/** Further data for the suspending state. */
-export type SuspendingData = BestEffort;
-/** Further data for the creating state. */
-export type CreatingData = BestEffort;
-/** Further data for the suspended state. */
-export type SuspendedData = BestEffort;
-/** Further data for the failed state. */
-export interface FailedData {
-  /** The error that caused the queued resource to enter the FAILED state. */
-  error?: Status;
-}
-/** Further data for the accepted state. */
-export type AcceptedData = BestEffort;
-/** Further data for the active state. */
-export type ActiveData = BestEffort;
-/** Further data for the provisioning state. */
-export type ProvisioningData = BestEffort;
-export type QueuedResourceStateStateInitiatorEnum =
-  | "STATE_INITIATOR_UNSPECIFIED"
-  | "USER"
-  | "SERVICE";
-/** Further data for the deleting state. */
-export type DeletingData = BestEffort;
-/** QueuedResourceState defines the details of the QueuedResource request. */
-export interface QueuedResourceState {
-  /** State of the QueuedResource request. */
-  state?: QueuedResourceStateStateEnum | (string & {});
-  /** Further data for the suspending state. */
-  suspendingData?: BestEffort;
-  /** Further data for the creating state. */
-  creatingData?: BestEffort;
-  /** Further data for the suspended state. */
-  suspendedData?: BestEffort;
-  /** Further data for the failed state. */
-  failedData?: FailedData;
-  /** Further data for the accepted state. */
-  acceptedData?: BestEffort;
-  /** Further data for the active state. */
-  activeData?: BestEffort;
-  /** Further data for the provisioning state. */
-  provisioningData?: BestEffort;
-  /** Output only. The initiator of the QueuedResources's current state. Used to indicate whether the SUSPENDING/SUSPENDED state was initiated by the user or the service. */
-  stateInitiator?: QueuedResourceStateStateInitiatorEnum | (string & {});
-  /** Further data for the deleting state. */
-  deletingData?: BestEffort;
-}
-export type QueuedResourceProvisioningModelEnum =
-  | "PROVISIONING_MODEL_UNSPECIFIED"
-  | "STANDARD"
-  | "SPOT"
-  | "RESERVATION_BOUND"
-  | "FLEX_START";
 export type MultiNodeParamsWorkloadTypeEnum =
   | "WORKLOAD_TYPE_UNSPECIFIED"
   | "THROUGHPUT_OPTIMIZED"
@@ -441,14 +369,14 @@ export interface MultiNodeParams {
 }
 /** Details of the TPU node(s) being requested. Users can request either a single node or multiple nodes. NodeSpec provides the specification for node(s) to be created. */
 export interface NodeSpec {
-  /** The unqualified resource name. Should follow the `^[A-Za-z0-9_.~+%-]+$` regex format. This is only specified when requesting a single node. In case of multi-node requests, multi_node_params must be populated instead. It's an error to specify both node_id and multi_node_params. */
-  nodeId?: string;
-  /** Required. The node. */
-  node?: Node;
   /** Required. The parent resource name. */
   parent?: string;
+  /** Required. The node. */
+  node?: Node;
   /** Optional. Fields to specify in case of multi-node request. */
   multiNodeParams?: MultiNodeParams;
+  /** The unqualified resource name. Should follow the `^[A-Za-z0-9_.~+%-]+$` regex format. This is only specified when requesting a single node. In case of multi-node requests, multi_node_params must be populated instead. It's an error to specify both node_id and multi_node_params. */
+  nodeId?: string;
 }
 export type NodeSpecList = Array<NodeSpec>;
 /** Details of the TPU resource(s) being requested. */
@@ -456,15 +384,30 @@ export interface Tpu {
   /** The TPU node(s) being requested. */
   nodeSpec?: NodeSpecList;
 }
+/** BestEffort tier definition. */
+export interface BestEffort {}
 /** Guaranteed tier definition. */
 export interface Guaranteed {
-  /** Optional. Specifies the request should be scheduled on reserved capacity. */
-  reserved?: boolean;
   /** Optional. Defines the minimum duration of the guarantee. If specified, the requested resources will only be provisioned if they can be allocated for at least the given duration. */
   minDuration?: string;
+  /** Optional. Specifies the request should be scheduled on reserved capacity. */
+  reserved?: boolean;
 }
 /** Spot tier definition. */
 export type Spot = BestEffort;
+/** Defines the maximum lifetime of the requested resource. */
+export interface RunDuration {
+  /** The maximum duration of the requested resource. */
+  maxRunDuration?: string;
+  /** The time at which the requested resource will be terminated. */
+  terminationTime?: string;
+}
+export type QueuedResourceProvisioningModelEnum =
+  | "PROVISIONING_MODEL_UNSPECIFIED"
+  | "STANDARD"
+  | "SPOT"
+  | "RESERVATION_BOUND"
+  | "FLEX_START";
 /** Represents a time interval, encoded as a Timestamp start (inclusive) and a Timestamp end (exclusive). The start must be less than or equal to the end. When the start equals the end, the interval is empty (matches no time). When both start and end are unspecified, the interval matches any time. */
 export interface Interval {
   /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
@@ -474,41 +417,98 @@ export interface Interval {
 }
 /** Defines the policy of the QueuedRequest. */
 export interface QueueingPolicy {
-  /** An absolute time at which resources may be created. */
-  validAfterTime?: string;
-  /** A relative time after which resources should not be created. If the request cannot be fulfilled by this time the request will be failed. */
-  validUntilDuration?: string;
   /** A relative time after which resources may be created. */
   validAfterDuration?: string;
-  /** An absolute time after which resources should not be created. If the request cannot be fulfilled by this time the request will be failed. */
-  validUntilTime?: string;
+  /** A relative time after which resources should not be created. If the request cannot be fulfilled by this time the request will be failed. */
+  validUntilDuration?: string;
   /** An absolute time interval within which resources may be created. */
   validInterval?: Interval;
+  /** An absolute time at which resources may be created. */
+  validAfterTime?: string;
+  /** An absolute time after which resources should not be created. If the request cannot be fulfilled by this time the request will be failed. */
+  validUntilTime?: string;
+}
+/** Further data for the active state. */
+export type ActiveData = BestEffort;
+/** Further data for the accepted state. */
+export type AcceptedData = BestEffort;
+/** Further data for the deleting state. */
+export type DeletingData = BestEffort;
+/** Further data for the suspended state. */
+export type SuspendedData = BestEffort;
+/** Further data for the suspending state. */
+export type SuspendingData = BestEffort;
+export type QueuedResourceStateStateInitiatorEnum =
+  | "STATE_INITIATOR_UNSPECIFIED"
+  | "USER"
+  | "SERVICE";
+export type QueuedResourceStateStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "CREATING"
+  | "ACCEPTED"
+  | "PROVISIONING"
+  | "FAILED"
+  | "DELETING"
+  | "ACTIVE"
+  | "SUSPENDING"
+  | "SUSPENDED"
+  | "WAITING_FOR_RESOURCES";
+/** Further data for the creating state. */
+export type CreatingData = BestEffort;
+/** Further data for the provisioning state. */
+export type ProvisioningData = BestEffort;
+/** Further data for the failed state. */
+export interface FailedData {
+  /** The error that caused the queued resource to enter the FAILED state. */
+  error?: Status;
+}
+/** QueuedResourceState defines the details of the QueuedResource request. */
+export interface QueuedResourceState {
+  /** Further data for the active state. */
+  activeData?: BestEffort;
+  /** Further data for the accepted state. */
+  acceptedData?: BestEffort;
+  /** Further data for the deleting state. */
+  deletingData?: BestEffort;
+  /** Further data for the suspended state. */
+  suspendedData?: BestEffort;
+  /** Further data for the suspending state. */
+  suspendingData?: BestEffort;
+  /** Output only. The initiator of the QueuedResources's current state. Used to indicate whether the SUSPENDING/SUSPENDED state was initiated by the user or the service. */
+  stateInitiator?: QueuedResourceStateStateInitiatorEnum | (string & {});
+  /** State of the QueuedResource request. */
+  state?: QueuedResourceStateStateEnum | (string & {});
+  /** Further data for the creating state. */
+  creatingData?: BestEffort;
+  /** Further data for the provisioning state. */
+  provisioningData?: BestEffort;
+  /** Further data for the failed state. */
+  failedData?: FailedData;
 }
 /** A QueuedResource represents a request for resources that will be placed in a queue and fulfilled when the necessary resources are available. */
 export interface QueuedResource {
-  /** The BestEffort tier. */
-  bestEffort?: BestEffort;
-  /** Optional. The duration of the requested resource. */
-  runDuration?: RunDuration;
-  /** Output only. State of the QueuedResource request. */
-  state?: QueuedResourceState;
-  /** Output only. Immutable. The name of the QueuedResource. */
-  name?: string;
-  /** Optional. The provisioning model for the resource. */
-  provisioningModel?: QueuedResourceProvisioningModelEnum | (string & {});
+  /** Output only. The time when the QueuedResource was created. */
+  createTime?: string;
   /** Name of the reservation in which the resource should be provisioned. Format: projects/{project}/locations/{zone}/reservations/{reservation} */
   reservationName?: string;
   /** Defines a TPU resource. */
   tpu?: Tpu;
-  /** Output only. The time when the QueuedResource was created. */
-  createTime?: string;
+  /** The BestEffort tier. */
+  bestEffort?: BestEffort;
   /** The Guaranteed tier. */
   guaranteed?: Guaranteed;
   /** Optional. The Spot tier. */
   spot?: BestEffort;
+  /** Output only. Immutable. The name of the QueuedResource. */
+  name?: string;
+  /** Optional. The duration of the requested resource. */
+  runDuration?: RunDuration;
+  /** Optional. The provisioning model for the resource. */
+  provisioningModel?: QueuedResourceProvisioningModelEnum | (string & {});
   /** The queueing policy of the QueuedRequest. */
   queueingPolicy?: QueueingPolicy;
+  /** Output only. State of the QueuedResource request. */
+  state?: QueuedResourceState;
 }
 export interface CreateProjectsLocationsQueuedResourcesRequest {
   /** Required. The parent resource name. */
@@ -533,10 +533,10 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export interface DeleteProjectsLocationsQueuedResourcesRequest {
   /** Idempotent request UUID. */
   requestId?: string;
-  /** If set to true, all running nodes belonging to this queued resource will be deleted first and then the queued resource will be deleted. Otherwise (i.e. force=false), the queued resource will only be deleted if its nodes have already been deleted or the queued resource is in the ACCEPTED, FAILED, or SUSPENDED state. */
-  force?: boolean;
   /** Required. The resource name. */
   name: string;
+  /** If set to true, all running nodes belonging to this queued resource will be deleted first and then the queued resource will be deleted. Otherwise (i.e. force=false), the queued resource will only be deleted if its nodes have already been deleted or the queued resource is in the ACCEPTED, FAILED, or SUSPENDED state. */
+  force?: boolean;
 }
 /** Request for GenerateServiceIdentity. */
 export type GenerateServiceIdentityRequest = BestEffort;
@@ -558,10 +558,10 @@ export interface GenerateServiceIdentityResponse {
 }
 /** Request for GetGuestAttributes. */
 export interface GetGuestAttributesRequest {
-  /** The guest attributes path to be queried. */
-  queryPath?: string;
   /** The 0-based worker ID. If it is empty, all workers' GuestAttributes will be returned. */
   workerIds?: StringList;
+  /** The guest attributes path to be queried. */
+  queryPath?: string;
 }
 export interface GetGuestAttributesProjectsLocationsNodesRequest {
   /** Required. The resource name. */
@@ -603,12 +603,12 @@ export interface GetMaintenanceInfoProjectsLocationsQueuedResourcesRequest {
 }
 /** A tuple containing node name / ID and maintenance info. */
 export interface NodeUpcomingMaintenanceInfo {
+  /** Unqualified node name. */
+  nodeName?: string;
   /** Upcoming maintenance info for this node. */
   upcomingMaintenance?: UpcomingMaintenance;
   /** UID of this node. */
   nodeUid?: string;
-  /** Unqualified node name. */
-  nodeName?: string;
 }
 export type NodeUpcomingMaintenanceInfoList = Array<NodeUpcomingMaintenanceInfo>;
 /** Response for GetMaintenanceInfo. */
@@ -622,16 +622,16 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
 }
 export interface GetProjectsLocationsAcceleratorTypesRequest {
   /** Required. The resource name. */
@@ -640,12 +640,12 @@ export interface GetProjectsLocationsAcceleratorTypesRequest {
 export type AcceleratorConfigList = Array<AcceleratorConfig>;
 /** A accelerator type that a Node can be configured with. */
 export interface AcceleratorType {
-  /** The resource name. */
-  name?: string;
-  /** The accelerator type. */
-  type?: string;
   /** The accelerator config. */
   acceleratorConfigs?: AcceleratorConfigList;
+  /** The accelerator type. */
+  type?: string;
+  /** The resource name. */
+  name?: string;
 }
 export interface GetProjectsLocationsNodesRequest {
   /** Required. The resource name. */
@@ -671,46 +671,46 @@ export interface RuntimeVersion {
   version?: string;
 }
 export interface ListProjectsLocationsRequest {
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
-  /** Optional. Do not use this field. It is unsupported and is ignored unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: LocationList;
 }
 export interface ListProjectsLocationsAcceleratorTypesRequest {
-  /** List filter. */
-  filter?: string;
-  /** The maximum number of items to return. */
-  pageSize?: number;
   /** Sort results. */
   orderBy?: string;
+  /** The maximum number of items to return. */
+  pageSize?: number;
   /** Required. The parent resource name. */
   parent: string;
   /** The next_page_token value returned from a previous List request, if any. */
   pageToken?: string;
+  /** List filter. */
+  filter?: string;
 }
 export type AcceleratorTypeList = Array<AcceleratorType>;
 /** Response for ListAcceleratorTypes. */
 export interface ListAcceleratorTypesResponse {
   /** The listed nodes. */
   acceleratorTypes?: AcceleratorTypeList;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** The next page token or empty if none. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export interface ListProjectsLocationsNodesRequest {
   /** The maximum number of items to return. */
@@ -725,58 +725,58 @@ export type NodeList = Array<Node>;
 export interface ListNodesResponse {
   /** The listed nodes. */
   nodes?: NodeList;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** The next page token or empty if none. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
-  /** The standard list page token. */
-  pageToken?: string;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list page size. */
   pageSize?: number;
+  /** The standard list page token. */
+  pageToken?: string;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
+  /** The name of the operation's parent resource. */
+  name: string;
   /** The standard list filter. */
   filter?: string;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList;
 }
 export interface ListProjectsLocationsQueuedResourcesRequest {
   /** The next_page_token value returned from a previous List request, if any. */
   pageToken?: string;
-  /** The maximum number of items to return. */
-  pageSize?: number;
   /** Required. The parent resource name. */
   parent: string;
+  /** The maximum number of items to return. */
+  pageSize?: number;
 }
 export type QueuedResourceList = Array<QueuedResource>;
 /** Response for ListQueuedResources. */
 export interface ListQueuedResourcesResponse {
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
   /** The listed queued resources. */
   queuedResources?: QueuedResourceList;
   /** The next page token or empty if none. */
   nextPageToken?: string;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
 }
 export interface ListProjectsLocationsReservationsRequest {
-  /** The maximum number of items to return. Defaults to 0 if not specified, which means no limit. */
-  pageSize?: number;
   /** The next_page_token value returned from a previous List request, if any. */
   pageToken?: string;
   /** Required. The parent for reservations. */
   parent: string;
+  /** The maximum number of items to return. Defaults to 0 if not specified, which means no limit. */
+  pageSize?: number;
 }
 export type ReservationStateEnum =
   | "STATE_UNSPECIFIED"
@@ -798,41 +798,41 @@ export interface Standard {
   interval?: Interval;
   /** The current usage of the reservation. */
   usage?: Usage;
-  /** The size of the reservation, in the units specified in the 'capacity_units' field. */
-  size?: number;
   /** The resource type of the reservation. */
   resourceType?: string;
   /** Capacity units this reservation is measured in. */
   capacityUnits?: StandardCapacityUnitsEnum;
+  /** The size of the reservation, in the units specified in the 'capacity_units' field. */
+  size?: number;
 }
 /** A reservation describes the amount of a resource 'allotted' for a defined period of time. */
 export interface Reservation {
-  /** The reservation name with the format: projects/{projectID}/locations/{location}/reservations/{reservationID} */
-  name?: string;
   /** Output only. The state of the Reservation. */
   state?: ReservationStateEnum;
+  /** The reservation name with the format: projects/{projectID}/locations/{location}/reservations/{reservationID} */
+  name?: string;
   /** A standard reservation. */
   standard?: Standard;
 }
 export type ReservationList = Array<Reservation>;
 /** Response for ListReservations. */
 export interface ListReservationsResponse {
-  /** The listed reservations. */
-  reservations?: ReservationList;
   /** The next page token or empty if none. */
   nextPageToken?: string;
+  /** The listed reservations. */
+  reservations?: ReservationList;
 }
 export interface ListProjectsLocationsRuntimeVersionsRequest {
-  /** Sort results. */
-  orderBy?: string;
-  /** Required. The parent resource name. */
-  parent: string;
   /** List filter. */
   filter?: string;
-  /** The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string;
+  /** Sort results. */
+  orderBy?: string;
   /** The maximum number of items to return. */
   pageSize?: number;
+  /** Required. The parent resource name. */
+  parent: string;
+  /** The next_page_token value returned from a previous List request, if any. */
+  pageToken?: string;
 }
 export type RuntimeVersionList = Array<RuntimeVersion>;
 /** Response for ListRuntimeVersions. */
@@ -845,10 +845,10 @@ export interface ListRuntimeVersionsResponse {
   unreachable?: StringList;
 }
 export interface PatchProjectsLocationsNodesRequest {
-  /** Output only. Immutable. The name of the TPU. */
-  name: string;
   /** Required. Mask of fields from Node to update. Supported fields: [description, tags, labels, metadata, network_config.enable_external_ips]. */
   updateMask?: string;
+  /** Output only. Immutable. The name of the TPU. */
+  name: string;
   /** Request body */
   body?: Node;
 }
@@ -1209,7 +1209,7 @@ export const getProjectsLocationsRuntimeVersions: API.OperationMethod<
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+/** Lists information about the supported locations for this service. This method lists locations based on the resource scope provided in the ListLocationsRequest.name field: * **Global locations**: If `name` is empty, the method lists the public locations available to all projects. * **Project-specific locations**: If `name` follows the format `projects/{project}`, the method lists locations visible to that specific project. This includes public, private, or other project-specific locations enabled for the project. For gRPC and client library implementations, the resource name is passed as the `name` field. For direct service calls, the resource name is incorporated into the request path based on the specific service implementation and version. */
 export const listProjectsLocations: API.PaginatedOperationMethod<
   ListProjectsLocationsRequest,
   ListLocationsResponse,
@@ -1538,8 +1538,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          queryPath: S.optional(S.String),
           workerIds: S.optional(__S(464, __c29, 0)),
+          queryPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetGuestAttributesRequest" });
     case 1:
@@ -1605,9 +1605,9 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          nodeName: S.optional(S.String),
           upcomingMaintenance: S.optional(__S(480, __c30, 0)),
           nodeUid: S.optional(S.String),
-          nodeName: S.optional(S.String),
         }),
       ).annotate({ identifier: "NodeUpcomingMaintenanceInfo" });
     case 2:
@@ -1641,11 +1641,11 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(544, __c34, 0)),
-          name: S.optional(S.String),
-          labels: S.optional(__S(496, __c31, 0)),
           locationId: S.optional(S.String),
+          labels: S.optional(__S(496, __c31, 0)),
+          name: S.optional(S.String),
           displayName: S.optional(S.String),
+          metadata: S.optional(__S(544, __c34, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1673,9 +1673,9 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          type: S.optional(S.String),
           acceleratorConfigs: S.optional(__S(96, __c6, 0)),
+          type: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "AcceleratorType" });
   }
@@ -1760,11 +1760,11 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           extraLocationTypes: S.optional(__S(464, __c29, 0).pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1778,8 +1778,8 @@ function __c12(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(193, __c12, 1)),
           nextPageToken: S.optional(S.String),
+          locations: S.optional(__S(193, __c12, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
@@ -1789,11 +1789,11 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1808,8 +1808,8 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           acceleratorTypes: S.optional(__S(209, __c13, 1)),
-          unreachable: S.optional(__S(464, __c29, 0)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(464, __c29, 0)),
         }),
       ).annotate({ identifier: "ListAcceleratorTypesResponse" });
   }
@@ -1836,8 +1836,8 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nodes: S.optional(__S(225, __c14, 1)),
-          unreachable: S.optional(__S(464, __c29, 0)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(464, __c29, 0)),
         }),
       ).annotate({ identifier: "ListNodesResponse" });
   }
@@ -1847,10 +1847,10 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1865,9 +1865,9 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(464, __c29, 0)),
           operations: S.optional(__S(241, __c15, 1)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(464, __c29, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -1878,8 +1878,8 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1893,9 +1893,9 @@ function __c16(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          unreachable: S.optional(__S(464, __c29, 0)),
           queuedResources: S.optional(__S(257, __c16, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(464, __c29, 0)),
         }),
       ).annotate({ identifier: "ListQueuedResourcesResponse" });
   }
@@ -1905,9 +1905,9 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1927,16 +1927,16 @@ function __c17(j: number): any {
         S.Struct({
           interval: S.optional(__S(624, __c39, 0)),
           usage: S.optional(__S(273, __c17, 1)),
-          size: S.optional(S.Number),
           resourceType: S.optional(S.String),
           capacityUnits: S.optional(S.String),
+          size: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Standard" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           state: S.optional(S.String),
+          name: S.optional(S.String),
           standard: S.optional(__S(274, __c17, 2)),
         }),
       ).annotate({ identifier: "Reservation" });
@@ -1945,8 +1945,8 @@ function __c17(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          reservations: S.optional(__S(276, __c17, 4)),
           nextPageToken: S.optional(S.String),
+          reservations: S.optional(__S(276, __c17, 4)),
         }),
       ).annotate({ identifier: "ListReservationsResponse" });
   }
@@ -1956,11 +1956,11 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1986,8 +1986,8 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           body: S.optional(__S(542, __c33, 14).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -2199,78 +2199,78 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          kmsKeyName: S.optional(S.String),
+          email: S.optional(S.String),
+          scope: S.optional(__S(464, __c29, 0)),
         }),
-      ).annotate({ identifier: "CustomerEncryptionKey" });
+      ).annotate({ identifier: "ServiceAccount" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          provisionedIops: S.optional(S.String),
-          storagePool: S.optional(S.String),
-          enableConfidentialCompute: S.optional(S.Boolean),
-          diskSizeGb: S.optional(S.String),
-          customerEncryptionKey: S.optional(__S(528, __c33, 0)),
-          provisionedThroughput: S.optional(S.String),
-          sourceImage: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BootDiskConfig" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          subnetwork: S.optional(S.String),
-          enableExternalIps: S.optional(S.Boolean),
-          network: S.optional(S.String),
           queueCount: S.optional(S.Number),
+          subnetwork: S.optional(S.String),
+          network: S.optional(S.String),
+          enableExternalIps: S.optional(S.Boolean),
           canIpForward: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "NetworkConfig" });
+    case 2:
+      return S.Array(__S(529, __c33, 1));
     case 3:
-      return S.Array(__S(530, __c33, 2));
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          symptomType: S.optional(S.String),
+          workerId: S.optional(S.String),
+          details: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Symptom" });
     case 4:
+      return S.Array(__S(531, __c33, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningModel: S.optional(S.String),
+          preemptible: S.optional(S.Boolean),
+          reservationName: S.optional(S.String),
+          reserved: S.optional(S.Boolean),
+          spot: S.optional(S.Boolean),
+          terminationTimestamp: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SchedulingConfig" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          workerIds: S.optional(__S(464, __c29, 0)),
+          mode: S.optional(S.String),
+          sourceDisk: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AttachedDisk" });
+    case 7:
+      return S.Array(__S(534, __c33, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           enableSecureBoot: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ShieldedInstanceConfig" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          mode: S.optional(S.String),
-          sourceDisk: S.optional(S.String),
-          workerIds: S.optional(__S(464, __c29, 0)),
-        }),
-      ).annotate({ identifier: "AttachedDisk" });
-    case 6:
-      return S.Array(__S(533, __c33, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          symptomType: S.optional(S.String),
-          details: S.optional(S.String),
-          createTime: S.optional(S.String),
-          workerId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Symptom" });
-    case 8:
-      return S.Array(__S(535, __c33, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          email: S.optional(S.String),
-          scope: S.optional(__S(464, __c29, 0)),
+          kmsKeyName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ServiceAccount" });
+      ).annotate({ identifier: "CustomerEncryptionKey" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          preemptible: S.optional(S.Boolean),
-          provisioningModel: S.optional(S.String),
-          spot: S.optional(S.Boolean),
-          reserved: S.optional(S.Boolean),
-          reservationName: S.optional(S.String),
-          terminationTimestamp: S.optional(S.String),
+          provisionedThroughput: S.optional(S.String),
+          provisionedIops: S.optional(S.String),
+          customerEncryptionKey: S.optional(__S(537, __c33, 9)),
+          enableConfidentialCompute: S.optional(S.Boolean),
+          diskSizeGb: S.optional(S.String),
+          sourceImage: S.optional(S.String),
+          storagePool: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SchedulingConfig" });
+      ).annotate({ identifier: "BootDiskConfig" });
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -2280,8 +2280,8 @@ function __c33(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          ipAddress: S.optional(S.String),
           accessConfig: S.optional(__S(539, __c33, 11)),
+          ipAddress: S.optional(S.String),
           port: S.optional(S.Number),
         }),
       ).annotate({ identifier: "NetworkEndpoint" });
@@ -2290,34 +2290,34 @@ function __c33(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          state: S.optional(S.String),
           healthDescription: S.optional(S.String),
-          bootDiskConfig: S.optional(__S(529, __c33, 1)),
-          tags: S.optional(__S(464, __c29, 0)),
-          networkConfig: S.optional(__S(530, __c33, 2)),
-          description: S.optional(S.String),
-          metadata: S.optional(__S(496, __c31, 0)),
-          createTime: S.optional(S.String),
-          networkConfigs: S.optional(__S(531, __c33, 3)),
-          apiVersion: S.optional(S.String),
-          id: S.optional(S.String),
-          shieldedInstanceConfig: S.optional(__S(532, __c33, 4)),
-          health: S.optional(S.String),
-          multisliceNode: S.optional(S.Boolean),
-          dataDisks: S.optional(__S(534, __c33, 6)),
           labels: S.optional(__S(496, __c31, 0)),
-          queuedResource: S.optional(S.String),
-          symptoms: S.optional(__S(536, __c33, 8)),
-          serviceAccount: S.optional(__S(537, __c33, 9)),
-          cidrBlock: S.optional(S.String),
           acceleratorConfig: S.optional(__S(512, __c32, 0)),
-          schedulingConfig: S.optional(__S(538, __c33, 10)),
-          autocheckpointEnabled: S.optional(S.Boolean),
-          acceleratorType: S.optional(S.String),
-          networkEndpoints: S.optional(__S(541, __c33, 13)),
-          runtimeVersion: S.optional(S.String),
           upcomingMaintenance: S.optional(__S(480, __c30, 0)),
+          queuedResource: S.optional(S.String),
+          name: S.optional(S.String),
+          serviceAccount: S.optional(__S(528, __c33, 0)),
+          networkConfigs: S.optional(__S(530, __c33, 2)),
+          cidrBlock: S.optional(S.String),
+          networkConfig: S.optional(__S(529, __c33, 1)),
+          symptoms: S.optional(__S(532, __c33, 4)),
+          metadata: S.optional(__S(496, __c31, 0)),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          schedulingConfig: S.optional(__S(533, __c33, 5)),
+          dataDisks: S.optional(__S(535, __c33, 7)),
+          runtimeVersion: S.optional(S.String),
+          acceleratorType: S.optional(S.String),
+          shieldedInstanceConfig: S.optional(__S(536, __c33, 8)),
+          apiVersion: S.optional(S.String),
+          bootDiskConfig: S.optional(__S(538, __c33, 10)),
+          networkEndpoints: S.optional(__S(541, __c33, 13)),
+          tags: S.optional(__S(464, __c29, 0)),
+          autocheckpointEnabled: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          multisliceNode: S.optional(S.Boolean),
+          health: S.optional(S.String),
+          id: S.optional(S.String),
         }),
       ).annotate({ identifier: "Node" });
   }
@@ -2335,8 +2335,8 @@ function __c35(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.Number),
           message: S.optional(S.String),
+          code: S.optional(S.Number),
           details: S.optional(__S(560, __c35, 0)),
         }),
       ).annotate({ identifier: "Status" });
@@ -2347,10 +2347,10 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           metadata: S.optional(__S(544, __c34, 0)),
-          response: S.optional(__S(544, __c34, 0)),
           error: S.optional(__S(561, __c35, 1)),
+          name: S.optional(S.String),
+          response: S.optional(__S(544, __c34, 0)),
           done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
@@ -2380,87 +2380,87 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          terminationTime: S.optional(S.String),
-          maxRunDuration: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RunDuration" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          error: S.optional(__S(561, __c35, 1)),
-        }),
-      ).annotate({ identifier: "FailedData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
-          suspendingData: S.optional(__S(432, __c27, 0)),
-          creatingData: S.optional(__S(432, __c27, 0)),
-          suspendedData: S.optional(__S(432, __c27, 0)),
-          failedData: S.optional(__S(609, __c38, 1)),
-          acceptedData: S.optional(__S(432, __c27, 0)),
-          activeData: S.optional(__S(432, __c27, 0)),
-          provisioningData: S.optional(__S(432, __c27, 0)),
-          stateInitiator: S.optional(S.String),
-          deletingData: S.optional(__S(432, __c27, 0)),
-        }),
-      ).annotate({ identifier: "QueuedResourceState" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           nodeCount: S.optional(S.Number),
           nodeIdPrefix: S.optional(S.String),
           workloadType: S.optional(S.String),
         }),
       ).annotate({ identifier: "MultiNodeParams" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.optional(S.String),
+          node: S.optional(__S(542, __c33, 14)),
+          multiNodeParams: S.optional(__S(608, __c38, 0)),
+          nodeId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NodeSpec" });
+    case 2:
+      return S.Array(__S(609, __c38, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          nodeSpec: S.optional(__S(610, __c38, 2)),
+        }),
+      ).annotate({ identifier: "Tpu" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          nodeId: S.optional(S.String),
-          node: S.optional(__S(542, __c33, 14)),
-          parent: S.optional(S.String),
-          multiNodeParams: S.optional(__S(611, __c38, 3)),
+          minDuration: S.optional(S.String),
+          reserved: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "NodeSpec" });
+      ).annotate({ identifier: "Guaranteed" });
     case 5:
-      return S.Array(__S(612, __c38, 4));
+      return S.suspend(() =>
+        S.Struct({
+          maxRunDuration: S.optional(S.String),
+          terminationTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RunDuration" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          nodeSpec: S.optional(__S(613, __c38, 5)),
+          validAfterDuration: S.optional(S.String),
+          validUntilDuration: S.optional(S.String),
+          validInterval: S.optional(__S(624, __c39, 0)),
+          validAfterTime: S.optional(S.String),
+          validUntilTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Tpu" });
+      ).annotate({ identifier: "QueueingPolicy" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          reserved: S.optional(S.Boolean),
-          minDuration: S.optional(S.String),
+          error: S.optional(__S(561, __c35, 1)),
         }),
-      ).annotate({ identifier: "Guaranteed" });
+      ).annotate({ identifier: "FailedData" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          validAfterTime: S.optional(S.String),
-          validUntilDuration: S.optional(S.String),
-          validAfterDuration: S.optional(S.String),
-          validUntilTime: S.optional(S.String),
-          validInterval: S.optional(__S(624, __c39, 0)),
+          activeData: S.optional(__S(432, __c27, 0)),
+          acceptedData: S.optional(__S(432, __c27, 0)),
+          deletingData: S.optional(__S(432, __c27, 0)),
+          suspendedData: S.optional(__S(432, __c27, 0)),
+          suspendingData: S.optional(__S(432, __c27, 0)),
+          stateInitiator: S.optional(S.String),
+          state: S.optional(S.String),
+          creatingData: S.optional(__S(432, __c27, 0)),
+          provisioningData: S.optional(__S(432, __c27, 0)),
+          failedData: S.optional(__S(615, __c38, 7)),
         }),
-      ).annotate({ identifier: "QueueingPolicy" });
+      ).annotate({ identifier: "QueuedResourceState" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          bestEffort: S.optional(__S(432, __c27, 0)),
-          runDuration: S.optional(__S(608, __c38, 0)),
-          state: S.optional(__S(610, __c38, 2)),
-          name: S.optional(S.String),
-          provisioningModel: S.optional(S.String),
-          reservationName: S.optional(S.String),
-          tpu: S.optional(__S(614, __c38, 6)),
           createTime: S.optional(S.String),
-          guaranteed: S.optional(__S(615, __c38, 7)),
+          reservationName: S.optional(S.String),
+          tpu: S.optional(__S(611, __c38, 3)),
+          bestEffort: S.optional(__S(432, __c27, 0)),
+          guaranteed: S.optional(__S(612, __c38, 4)),
           spot: S.optional(__S(432, __c27, 0)),
-          queueingPolicy: S.optional(__S(616, __c38, 8)),
+          name: S.optional(S.String),
+          runDuration: S.optional(__S(613, __c38, 5)),
+          provisioningModel: S.optional(S.String),
+          queueingPolicy: S.optional(__S(614, __c38, 6)),
+          state: S.optional(__S(616, __c38, 8)),
         }),
       ).annotate({ identifier: "QueuedResource" });
   }
@@ -2515,8 +2515,8 @@ function __c42(j: number): any {
       return S.suspend(() =>
         S.Struct({
           requestId: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          force: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",

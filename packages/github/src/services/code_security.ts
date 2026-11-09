@@ -81,6 +81,8 @@ export interface CreateConfigurationRequestDependencyGraphAutosubmitActionOption
 }
 /** The enablement status of Dependabot alerts */
 export type CreateConfigurationRequestDependabotAlerts = "enabled" | "disabled" | "not_set";
+/** The enablement status of reachability analysis for Dependabot. Only available for organizations with access to reachability analysis. Requires Dependabot alerts to be enabled when set to `enabled`. Must be `disabled` when Dependabot alerts is `disabled`. `not_set` leaves existing repository settings unchanged. */
+export type CreateConfigurationRequestDependabotReachability = "enabled" | "disabled" | "not_set";
 /** The enablement status of Dependabot security updates */
 export type CreateConfigurationRequestDependabotSecurityUpdates =
   | "enabled"
@@ -169,6 +171,11 @@ export type CreateConfigurationRequestSecretScanningGenericSecrets =
   | "enabled"
   | "disabled"
   | "not_set";
+/** The enablement status of generic secrets push protection */
+export type CreateConfigurationRequestSecretScanningGenericSecretsPushProtection =
+  | "enabled"
+  | "disabled"
+  | "not_set";
 /** The enablement status of secret scanning delegated alert dismissal */
 export type CreateConfigurationRequestSecretScanningDelegatedAlertDismissal =
   | "enabled"
@@ -207,6 +214,8 @@ export interface CreateConfigurationRequest {
   dependency_graph_autosubmit_action_options?: CreateConfigurationRequestDependencyGraphAutosubmitActionOptions;
   /** The enablement status of Dependabot alerts */
   dependabot_alerts?: CreateConfigurationRequestDependabotAlerts | (string & {});
+  /** The enablement status of reachability analysis for Dependabot. Only available for organizations with access to reachability analysis. Requires Dependabot alerts to be enabled when set to `enabled`. Must be `disabled` when Dependabot alerts is `disabled`. `not_set` leaves existing repository settings unchanged. */
+  dependabot_reachability?: CreateConfigurationRequestDependabotReachability | (string & {});
   /** The enablement status of Dependabot security updates */
   dependabot_security_updates?: CreateConfigurationRequestDependabotSecurityUpdates | (string & {});
   /** The enablement status of Dependabot delegated alert dismissal. Requires Dependabot alerts to be enabled. */
@@ -247,6 +256,10 @@ export interface CreateConfigurationRequest {
   secret_scanning_generic_secrets?:
     | CreateConfigurationRequestSecretScanningGenericSecrets
     | (string & {});
+  /** The enablement status of generic secrets push protection */
+  secret_scanning_generic_secrets_push_protection?:
+    | CreateConfigurationRequestSecretScanningGenericSecretsPushProtection
+    | (string & {});
   /** The enablement status of secret scanning delegated alert dismissal */
   secret_scanning_delegated_alert_dismissal?:
     | CreateConfigurationRequestSecretScanningDelegatedAlertDismissal
@@ -282,6 +295,8 @@ export type CodeSecurityConfigurationDependencyGraphAutosubmitActionOptions =
   CreateConfigurationRequestDependencyGraphAutosubmitActionOptions;
 /** The enablement status of Dependabot alerts */
 export type CodeSecurityConfigurationDependabotAlerts = "enabled" | "disabled" | "not_set";
+/** The enablement status of reachability analysis for Dependabot. Only returned for organizations and enterprises with access to reachability analysis. */
+export type CodeSecurityConfigurationDependabotReachability = "enabled" | "disabled" | "not_set";
 /** The enablement status of Dependabot security updates */
 export type CodeSecurityConfigurationDependabotSecurityUpdates = "enabled" | "disabled" | "not_set";
 /** The enablement status of Dependabot delegated alert dismissal */
@@ -363,6 +378,11 @@ export type CodeSecurityConfigurationSecretScanningGenericSecrets =
   | "enabled"
   | "disabled"
   | "not_set";
+/** The enablement status of generic secrets push protection */
+export type CodeSecurityConfigurationSecretScanningGenericSecretsPushProtection =
+  | "enabled"
+  | "disabled"
+  | "not_set";
 /** The enablement status of secret scanning delegated alert dismissal */
 export type CodeSecurityConfigurationSecretScanningDelegatedAlertDismissal =
   | "enabled"
@@ -403,6 +423,8 @@ export interface CodeSecurityConfiguration {
   dependency_graph_autosubmit_action_options?: CreateConfigurationRequestDependencyGraphAutosubmitActionOptions;
   /** The enablement status of Dependabot alerts */
   dependabot_alerts?: CodeSecurityConfigurationDependabotAlerts;
+  /** The enablement status of reachability analysis for Dependabot. Only returned for organizations and enterprises with access to reachability analysis. */
+  dependabot_reachability?: CodeSecurityConfigurationDependabotReachability;
   /** The enablement status of Dependabot security updates */
   dependabot_security_updates?: CodeSecurityConfigurationDependabotSecurityUpdates;
   /** The enablement status of Dependabot delegated alert dismissal */
@@ -429,6 +451,8 @@ export interface CodeSecurityConfiguration {
   secret_scanning_non_provider_patterns?: CodeSecurityConfigurationSecretScanningNonProviderPatterns;
   /** The enablement status of Copilot secret scanning */
   secret_scanning_generic_secrets?: CodeSecurityConfigurationSecretScanningGenericSecrets;
+  /** The enablement status of generic secrets push protection */
+  secret_scanning_generic_secrets_push_protection?: CodeSecurityConfigurationSecretScanningGenericSecretsPushProtection;
   /** The enablement status of secret scanning delegated alert dismissal */
   secret_scanning_delegated_alert_dismissal?: CodeSecurityConfigurationSecretScanningDelegatedAlertDismissal;
   /** The enablement status of secret scanning extended metadata */
@@ -470,6 +494,11 @@ export type CreateConfigurationForEnterpriseRequestDependencyGraphAutosubmitActi
   CreateConfigurationRequestDependencyGraphAutosubmitActionOptions;
 /** The enablement status of Dependabot alerts */
 export type CreateConfigurationForEnterpriseRequestDependabotAlerts =
+  | "enabled"
+  | "disabled"
+  | "not_set";
+/** The enablement status of reachability analysis for Dependabot. Only available for enterprises with access to reachability analysis. Requires Dependabot alerts to be enabled when set to `enabled`. Must be `disabled` when Dependabot alerts is `disabled`. `not_set` leaves existing repository settings unchanged. */
+export type CreateConfigurationForEnterpriseRequestDependabotReachability =
   | "enabled"
   | "disabled"
   | "not_set";
@@ -518,6 +547,11 @@ export type CreateConfigurationForEnterpriseRequestSecretScanningGenericSecrets 
   | "enabled"
   | "disabled"
   | "not_set";
+/** The enablement status of generic secrets push protection */
+export type CreateConfigurationForEnterpriseRequestSecretScanningGenericSecretsPushProtection =
+  | "enabled"
+  | "disabled"
+  | "not_set";
 /** The enablement status of secret scanning delegated alert dismissal */
 export type CreateConfigurationForEnterpriseRequestSecretScanningDelegatedAlertDismissal =
   | "enabled"
@@ -559,6 +593,10 @@ export interface CreateConfigurationForEnterpriseRequest {
   dependency_graph_autosubmit_action_options?: CreateConfigurationRequestDependencyGraphAutosubmitActionOptions;
   /** The enablement status of Dependabot alerts */
   dependabot_alerts?: CreateConfigurationForEnterpriseRequestDependabotAlerts | (string & {});
+  /** The enablement status of reachability analysis for Dependabot. Only available for enterprises with access to reachability analysis. Requires Dependabot alerts to be enabled when set to `enabled`. Must be `disabled` when Dependabot alerts is `disabled`. `not_set` leaves existing repository settings unchanged. */
+  dependabot_reachability?:
+    | CreateConfigurationForEnterpriseRequestDependabotReachability
+    | (string & {});
   /** The enablement status of Dependabot security updates */
   dependabot_security_updates?:
     | CreateConfigurationForEnterpriseRequestDependabotSecurityUpdates
@@ -592,6 +630,10 @@ export interface CreateConfigurationForEnterpriseRequest {
   /** The enablement status of Copilot secret scanning */
   secret_scanning_generic_secrets?:
     | CreateConfigurationForEnterpriseRequestSecretScanningGenericSecrets
+    | (string & {});
+  /** The enablement status of generic secrets push protection */
+  secret_scanning_generic_secrets_push_protection?:
+    | CreateConfigurationForEnterpriseRequestSecretScanningGenericSecretsPushProtection
     | (string & {});
   /** The enablement status of secret scanning delegated alert dismissal */
   secret_scanning_delegated_alert_dismissal?:
@@ -959,6 +1001,8 @@ export type UpdateConfigurationRequestDependencyGraphAutosubmitActionOptions =
   CreateConfigurationRequestDependencyGraphAutosubmitActionOptions;
 /** The enablement status of Dependabot alerts */
 export type UpdateConfigurationRequestDependabotAlerts = "enabled" | "disabled" | "not_set";
+/** The enablement status of reachability analysis for Dependabot. Only available for organizations with access to reachability analysis. Requires Dependabot alerts to be enabled when set to `enabled`. Must be `disabled` when Dependabot alerts is `disabled`. `not_set` leaves existing repository settings unchanged. Omit this field to preserve the configuration's current value. */
+export type UpdateConfigurationRequestDependabotReachability = "enabled" | "disabled" | "not_set";
 /** The enablement status of Dependabot security updates */
 export type UpdateConfigurationRequestDependabotSecurityUpdates =
   | "enabled"
@@ -1033,6 +1077,11 @@ export type UpdateConfigurationRequestSecretScanningGenericSecrets =
   | "enabled"
   | "disabled"
   | "not_set";
+/** The enablement status of generic secrets push protection */
+export type UpdateConfigurationRequestSecretScanningGenericSecretsPushProtection =
+  | "enabled"
+  | "disabled"
+  | "not_set";
 /** The enablement status of secret scanning delegated alert dismissal */
 export type UpdateConfigurationRequestSecretScanningDelegatedAlertDismissal =
   | "enabled"
@@ -1073,6 +1122,8 @@ export interface UpdateConfigurationRequest {
   dependency_graph_autosubmit_action_options?: CreateConfigurationRequestDependencyGraphAutosubmitActionOptions;
   /** The enablement status of Dependabot alerts */
   dependabot_alerts?: UpdateConfigurationRequestDependabotAlerts | (string & {});
+  /** The enablement status of reachability analysis for Dependabot. Only available for organizations with access to reachability analysis. Requires Dependabot alerts to be enabled when set to `enabled`. Must be `disabled` when Dependabot alerts is `disabled`. `not_set` leaves existing repository settings unchanged. Omit this field to preserve the configuration's current value. */
+  dependabot_reachability?: UpdateConfigurationRequestDependabotReachability | (string & {});
   /** The enablement status of Dependabot security updates */
   dependabot_security_updates?: UpdateConfigurationRequestDependabotSecurityUpdates | (string & {});
   /** The enablement status of Dependabot delegated alert dismissal. Requires Dependabot alerts to be enabled. */
@@ -1112,6 +1163,10 @@ export interface UpdateConfigurationRequest {
   /** The enablement status of Copilot secret scanning */
   secret_scanning_generic_secrets?:
     | UpdateConfigurationRequestSecretScanningGenericSecrets
+    | (string & {});
+  /** The enablement status of generic secrets push protection */
+  secret_scanning_generic_secrets_push_protection?:
+    | UpdateConfigurationRequestSecretScanningGenericSecretsPushProtection
     | (string & {});
   /** The enablement status of secret scanning delegated alert dismissal */
   secret_scanning_delegated_alert_dismissal?:
@@ -1154,6 +1209,11 @@ export type UpdateEnterpriseConfigurationRequestDependabotAlerts =
   | "enabled"
   | "disabled"
   | "not_set";
+/** The enablement status of reachability analysis for Dependabot. Only available for enterprises with access to reachability analysis. Requires Dependabot alerts to be enabled when set to `enabled`. Must be `disabled` when Dependabot alerts is `disabled`. `not_set` leaves existing repository settings unchanged. Omit this field to preserve the configuration's current value. */
+export type UpdateEnterpriseConfigurationRequestDependabotReachability =
+  | "enabled"
+  | "disabled"
+  | "not_set";
 /** The enablement status of Dependabot security updates */
 export type UpdateEnterpriseConfigurationRequestDependabotSecurityUpdates =
   | "enabled"
@@ -1193,6 +1253,11 @@ export type UpdateEnterpriseConfigurationRequestSecretScanningNonProviderPattern
   | "not_set";
 /** The enablement status of Copilot secret scanning */
 export type UpdateEnterpriseConfigurationRequestSecretScanningGenericSecrets =
+  | "enabled"
+  | "disabled"
+  | "not_set";
+/** The enablement status of generic secrets push protection */
+export type UpdateEnterpriseConfigurationRequestSecretScanningGenericSecretsPushProtection =
   | "enabled"
   | "disabled"
   | "not_set";
@@ -1239,6 +1304,10 @@ export interface UpdateEnterpriseConfigurationRequest {
   dependency_graph_autosubmit_action_options?: CreateConfigurationRequestDependencyGraphAutosubmitActionOptions;
   /** The enablement status of Dependabot alerts */
   dependabot_alerts?: UpdateEnterpriseConfigurationRequestDependabotAlerts | (string & {});
+  /** The enablement status of reachability analysis for Dependabot. Only available for enterprises with access to reachability analysis. Requires Dependabot alerts to be enabled when set to `enabled`. Must be `disabled` when Dependabot alerts is `disabled`. `not_set` leaves existing repository settings unchanged. Omit this field to preserve the configuration's current value. */
+  dependabot_reachability?:
+    | UpdateEnterpriseConfigurationRequestDependabotReachability
+    | (string & {});
   /** The enablement status of Dependabot security updates */
   dependabot_security_updates?:
     | UpdateEnterpriseConfigurationRequestDependabotSecurityUpdates
@@ -1272,6 +1341,10 @@ export interface UpdateEnterpriseConfigurationRequest {
   /** The enablement status of Copilot secret scanning */
   secret_scanning_generic_secrets?:
     | UpdateEnterpriseConfigurationRequestSecretScanningGenericSecrets
+    | (string & {});
+  /** The enablement status of generic secrets push protection */
+  secret_scanning_generic_secrets_push_protection?:
+    | UpdateEnterpriseConfigurationRequestSecretScanningGenericSecretsPushProtection
     | (string & {});
   /** The enablement status of secret scanning delegated alert dismissal */
   secret_scanning_delegated_alert_dismissal?:
@@ -1952,6 +2025,7 @@ function __c15(j: number): any {
           dependency_graph_autosubmit_action: S.optional(S.String),
           dependency_graph_autosubmit_action_options: S.optional(__S(160, __c20, 0)),
           dependabot_alerts: S.optional(S.String),
+          dependabot_reachability: S.optional(S.String),
           dependabot_security_updates: S.optional(S.String),
           dependabot_delegated_alert_dismissal: S.optional(S.String),
           code_scanning_default_setup: S.optional(S.String),
@@ -1966,6 +2040,7 @@ function __c15(j: number): any {
           secret_scanning_validity_checks: S.optional(S.String),
           secret_scanning_non_provider_patterns: S.optional(S.String),
           secret_scanning_generic_secrets: S.optional(S.String),
+          secret_scanning_generic_secrets_push_protection: S.optional(S.String),
           secret_scanning_delegated_alert_dismissal: S.optional(S.String),
           secret_scanning_extended_metadata: S.optional(S.String),
           private_vulnerability_reporting: S.optional(S.String),
@@ -1995,6 +2070,7 @@ function __c16(j: number): any {
           dependency_graph_autosubmit_action: S.optional(S.String),
           dependency_graph_autosubmit_action_options: S.optional(__S(160, __c20, 0)),
           dependabot_alerts: S.optional(S.String),
+          dependabot_reachability: S.optional(S.String),
           dependabot_security_updates: S.optional(S.String),
           code_scanning_default_setup: S.optional(S.String),
           code_scanning_default_setup_options: S.optional(S.NullOr(__S(152, __c19, 0))),
@@ -2006,6 +2082,7 @@ function __c16(j: number): any {
           secret_scanning_validity_checks: S.optional(S.String),
           secret_scanning_non_provider_patterns: S.optional(S.String),
           secret_scanning_generic_secrets: S.optional(S.String),
+          secret_scanning_generic_secrets_push_protection: S.optional(S.String),
           secret_scanning_delegated_alert_dismissal: S.optional(S.String),
           secret_scanning_extended_metadata: S.optional(S.String),
           private_vulnerability_reporting: S.optional(S.String),
@@ -2034,6 +2111,7 @@ function __c17(j: number): any {
           dependency_graph_autosubmit_action: S.optional(S.String),
           dependency_graph_autosubmit_action_options: S.optional(__S(160, __c20, 0)),
           dependabot_alerts: S.optional(S.String),
+          dependabot_reachability: S.optional(S.String),
           dependabot_security_updates: S.optional(S.String),
           dependabot_delegated_alert_dismissal: S.optional(S.String),
           code_scanning_options: S.optional(S.NullOr(__S(161, __c20, 1))),
@@ -2048,6 +2126,7 @@ function __c17(j: number): any {
           secret_scanning_validity_checks: S.optional(S.String),
           secret_scanning_non_provider_patterns: S.optional(S.String),
           secret_scanning_generic_secrets: S.optional(S.String),
+          secret_scanning_generic_secrets_push_protection: S.optional(S.String),
           secret_scanning_delegated_alert_dismissal: S.optional(S.String),
           secret_scanning_extended_metadata: S.optional(S.String),
           private_vulnerability_reporting: S.optional(S.String),
@@ -2145,6 +2224,7 @@ function __c20(j: number): any {
           dependency_graph_autosubmit_action: S.optional(S.String),
           dependency_graph_autosubmit_action_options: S.optional(__S(160, __c20, 0)),
           dependabot_alerts: S.optional(S.String),
+          dependabot_reachability: S.optional(S.String),
           dependabot_security_updates: S.optional(S.String),
           dependabot_delegated_alert_dismissal: S.optional(S.NullOr(S.String)),
           code_scanning_options: S.optional(S.NullOr(__S(161, __c20, 1))),
@@ -2158,6 +2238,7 @@ function __c20(j: number): any {
           secret_scanning_validity_checks: S.optional(S.String),
           secret_scanning_non_provider_patterns: S.optional(S.String),
           secret_scanning_generic_secrets: S.optional(S.String),
+          secret_scanning_generic_secrets_push_protection: S.optional(S.String),
           secret_scanning_delegated_alert_dismissal: S.optional(S.String),
           secret_scanning_extended_metadata: S.optional(S.String),
           private_vulnerability_reporting: S.optional(S.String),
@@ -2184,6 +2265,7 @@ function __c21(j: number): any {
           dependency_graph_autosubmit_action: S.optional(S.String),
           dependency_graph_autosubmit_action_options: S.optional(__S(160, __c20, 0)),
           dependabot_alerts: S.optional(S.String),
+          dependabot_reachability: S.optional(S.String),
           dependabot_security_updates: S.optional(S.String),
           code_scanning_options: S.optional(S.NullOr(__S(161, __c20, 1))),
           code_scanning_default_setup: S.optional(S.String),
@@ -2195,6 +2277,7 @@ function __c21(j: number): any {
           secret_scanning_validity_checks: S.optional(S.String),
           secret_scanning_non_provider_patterns: S.optional(S.String),
           secret_scanning_generic_secrets: S.optional(S.String),
+          secret_scanning_generic_secrets_push_protection: S.optional(S.String),
           secret_scanning_delegated_alert_dismissal: S.optional(S.String),
           secret_scanning_extended_metadata: S.optional(S.String),
           private_vulnerability_reporting: S.optional(S.String),

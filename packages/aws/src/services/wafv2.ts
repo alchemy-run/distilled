@@ -1086,9 +1086,28 @@ export type PaymentNetworks = PaymentNetwork[];
 export interface CryptoConfig {
   PaymentNetworks: PaymentNetwork[];
 }
+export type ConnectedAccountArn = string;
+export type ConnectedAccountChain = "BASE" | "SOLANA" | (string & {});
+export type ConnectedAccountPriceAmount = string;
+export interface ConnectedAccountPrice {
+  Amount: string;
+  Currency: CryptoCurrency;
+}
+export type ConnectedAccountPrices = ConnectedAccountPrice[];
+export interface ConnectedAccountChainConfig {
+  Chain: ConnectedAccountChain;
+  Prices: ConnectedAccountPrice[];
+}
+export type ConnectedAccountPaymentNetworks = ConnectedAccountChainConfig[];
+export interface ConnectedAccountConfig {
+  ConnectedAccountArn: string;
+  PaymentNetworks: ConnectedAccountChainConfig[];
+}
+export type ConnectedAccountConfigs = ConnectedAccountConfig[];
 export type CurrencyMode = "REAL" | "TEST" | (string & {});
 export interface MonetizationConfig {
   CryptoConfig?: CryptoConfig;
+  ConnectedAccountConfigs?: ConnectedAccountConfig[];
   CurrencyMode?: CurrencyMode;
 }
 export interface CreateRuleGroupRequest {
@@ -1156,8 +1175,15 @@ export interface RequestBodyAssociatedResourceTypeConfig {
 export type RequestBody = {
   [key in AssociatedResourceType]?: RequestBodyAssociatedResourceTypeConfig;
 };
+export interface ChallengeJavascriptSdkInjectionConfig {}
+export type ChallengeJavascriptSdkInjection = {
+  [key in AssociatedResourceType]?: ChallengeJavascriptSdkInjectionConfig;
+};
 export interface AssociationConfig {
   RequestBody?: { [key: string]: RequestBodyAssociatedResourceTypeConfig | undefined };
+  ChallengeJavascriptSdkInjection?: {
+    [key: string]: ChallengeJavascriptSdkInjectionConfig | undefined;
+  };
 }
 export type LowReputationMode = "ACTIVE_UNDER_DDOS" | "ALWAYS_ON" | (string & {});
 export interface OnSourceDDoSProtectionConfig {
@@ -2187,6 +2213,7 @@ export type ParameterExceptionField =
   | "PRICE_AMOUNT"
   | "PAYMENT_NETWORK"
   | "PRE_PARSE_TEXT_TRANSFORMATION"
+  | "CHALLENGE_JAVASCRIPT_SDK_INJECTION_CONFIG"
   | (string & {});
 export type ParameterExceptionParameter = string;
 export type ErrorReason = string;
@@ -5104,7 +5131,7 @@ function __c17(j: number): any {
           VisibilityConfig: __S(336, __c10, 16),
           Tags: S.optional(__S(449, __c14, 1)),
           CustomResponseBodies: S.optional(__S(577, __c18, 1)),
-          MonetizationConfig: S.optional(__S(583, __c18, 7)),
+          MonetizationConfig: S.optional(__S(587, __c18, 11)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateRuleGroupRequest" });
   }
@@ -5134,9 +5161,22 @@ function __c18(j: number): any {
         identifier: "CryptoConfig",
       });
     case 7:
+      return S.suspend(() => S.Struct({ Chain: S.String, Prices: __S(579, __c18, 3) })).annotate({
+        identifier: "ConnectedAccountChainConfig",
+      });
+    case 8:
+      return S.Array(__S(583, __c18, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({ ConnectedAccountArn: S.String, PaymentNetworks: __S(584, __c18, 8) }),
+      ).annotate({ identifier: "ConnectedAccountConfig" });
+    case 10:
+      return S.Array(__S(585, __c18, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
           CryptoConfig: S.optional(__S(582, __c18, 6)),
+          ConnectedAccountConfigs: S.optional(__S(586, __c18, 10)),
           CurrencyMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "MonetizationConfig" });
@@ -5159,10 +5199,10 @@ function __c19(j: number): any {
           CaptchaConfig: S.optional(__S(338, __c10, 18)),
           ChallengeConfig: S.optional(__S(338, __c10, 18)),
           TokenDomains: S.optional(__S(96, __c3, 0)),
-          AssociationConfig: S.optional(__S(647, __c20, 7)),
-          OnSourceDDoSProtectionConfig: S.optional(__S(648, __c20, 8)),
-          ApplicationConfig: S.optional(__S(651, __c20, 11)),
-          MonetizationConfig: S.optional(__S(583, __c18, 7)),
+          AssociationConfig: S.optional(__S(648, __c20, 8)),
+          OnSourceDDoSProtectionConfig: S.optional(__S(649, __c20, 9)),
+          ApplicationConfig: S.optional(__S(652, __c20, 12)),
+          MonetizationConfig: S.optional(__S(587, __c18, 11)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateWebACLRequest" });
   }
@@ -5199,21 +5239,26 @@ function __c20(j: number): any {
     case 6:
       return S.Record(S.String, /*@__PURE__*/ __S(645, __c20, 5).pipe(S.optional));
     case 7:
-      return S.suspend(() => S.Struct({ RequestBody: S.optional(__S(646, __c20, 6)) })).annotate({
-        identifier: "AssociationConfig",
-      });
+      return S.Record(S.String, /*@__PURE__*/ __S(224, __c7, 0).pipe(S.optional));
     case 8:
+      return S.suspend(() =>
+        S.Struct({
+          RequestBody: S.optional(__S(646, __c20, 6)),
+          ChallengeJavascriptSdkInjection: S.optional(__S(647, __c20, 7)),
+        }),
+      ).annotate({ identifier: "AssociationConfig" });
+    case 9:
       return S.suspend(() => S.Struct({ ALBLowReputationMode: S.String })).annotate({
         identifier: "OnSourceDDoSProtectionConfig",
       });
-    case 9:
+    case 10:
       return S.suspend(() =>
         S.Struct({ Name: S.optional(S.String), Values: S.optional(__S(96, __c3, 0)) }),
       ).annotate({ identifier: "ApplicationAttribute" });
-    case 10:
-      return S.Array(__S(649, __c20, 9));
     case 11:
-      return S.suspend(() => S.Struct({ Attributes: S.optional(__S(650, __c20, 10)) })).annotate({
+      return S.Array(__S(650, __c20, 10));
+    case 12:
+      return S.suspend(() => S.Struct({ Attributes: S.optional(__S(651, __c20, 11)) })).annotate({
         identifier: "ApplicationConfig",
       });
   }
@@ -5833,7 +5878,7 @@ function __c52(j: number): any {
           CustomResponseBodies: S.optional(__S(577, __c18, 1)),
           AvailableLabels: S.optional(__S(1057, __c33, 1)),
           ConsumedLabels: S.optional(__S(1057, __c33, 1)),
-          MonetizationConfig: S.optional(__S(583, __c18, 7)),
+          MonetizationConfig: S.optional(__S(587, __c18, 11)),
         }),
       ).annotate({ identifier: "RuleGroup" });
     case 2:
@@ -6026,11 +6071,11 @@ function __c56(j: number): any {
           CaptchaConfig: S.optional(__S(338, __c10, 18)),
           ChallengeConfig: S.optional(__S(338, __c10, 18)),
           TokenDomains: S.optional(__S(96, __c3, 0)),
-          AssociationConfig: S.optional(__S(647, __c20, 7)),
+          AssociationConfig: S.optional(__S(648, __c20, 8)),
           RetrofittedByFirewallManager: S.optional(S.Boolean),
-          OnSourceDDoSProtectionConfig: S.optional(__S(648, __c20, 8)),
-          ApplicationConfig: S.optional(__S(651, __c20, 11)),
-          MonetizationConfig: S.optional(__S(583, __c18, 7)),
+          OnSourceDDoSProtectionConfig: S.optional(__S(649, __c20, 9)),
+          ApplicationConfig: S.optional(__S(652, __c20, 12)),
+          MonetizationConfig: S.optional(__S(587, __c18, 11)),
         }),
       ).annotate({ identifier: "WebACL" });
   }
@@ -6528,7 +6573,7 @@ function __c81(j: number): any {
           VisibilityConfig: __S(336, __c10, 16),
           LockToken: S.String,
           CustomResponseBodies: S.optional(__S(577, __c18, 1)),
-          MonetizationConfig: S.optional(__S(583, __c18, 7)),
+          MonetizationConfig: S.optional(__S(587, __c18, 11)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateRuleGroupRequest" });
   }
@@ -6551,10 +6596,10 @@ function __c82(j: number): any {
           CaptchaConfig: S.optional(__S(338, __c10, 18)),
           ChallengeConfig: S.optional(__S(338, __c10, 18)),
           TokenDomains: S.optional(__S(96, __c3, 0)),
-          AssociationConfig: S.optional(__S(647, __c20, 7)),
-          OnSourceDDoSProtectionConfig: S.optional(__S(648, __c20, 8)),
-          ApplicationConfig: S.optional(__S(651, __c20, 11)),
-          MonetizationConfig: S.optional(__S(583, __c18, 7)),
+          AssociationConfig: S.optional(__S(648, __c20, 8)),
+          OnSourceDDoSProtectionConfig: S.optional(__S(649, __c20, 9)),
+          ApplicationConfig: S.optional(__S(652, __c20, 12)),
+          MonetizationConfig: S.optional(__S(587, __c18, 11)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateWebACLRequest" });
   }

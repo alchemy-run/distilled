@@ -82,37 +82,37 @@ export class NotFound
   ) {}
 
 export interface DeleteLicenseAssignmentsRequest {
+  /** A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
+  skuId: string;
   /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
   productId: string;
   /** The user's current primary email address. If the user's email address changes, use the new email address in your API requests. Since a `userId` is subject to change, do not use a `userId` value as a key for persistent data. This key could break if the current user's email address changes. If the `userId` is suspended, the license status changes. */
   userId: string;
-  /** A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
-  skuId: string;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 export interface GetLicenseAssignmentsRequest {
+  /** The user's current primary email address. If the user's email address changes, use the new email address in your API requests. Since a `userId` is subject to change, do not use a `userId` value as a key for persistent data. This key could break if the current user's email address changes. If the `userId` is suspended, the license status changes. */
+  userId: string;
   /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
   productId: string;
   /** A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
   skuId: string;
-  /** The user's current primary email address. If the user's email address changes, use the new email address in your API requests. Since a `userId` is subject to change, do not use a `userId` value as a key for persistent data. This key could break if the current user's email address changes. If the `userId` is suspended, the license status changes. */
-  userId: string;
 }
 /** Representation of a license assignment. */
 export interface LicenseAssignment {
-  /** A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
-  skuId?: string;
-  /** The user's current primary email address. If the user's email address changes, use the new email address in your API requests. Since a `userId` is subject to change, do not use a `userId` value as a key for persistent data. This key could break if the current user's email address changes. If the `userId` is suspended, the license status changes. */
-  userId?: string;
-  /** Link to this page. */
-  selfLink?: string;
   /** Identifies the resource as a LicenseAssignment, which is `licensing#licenseAssignment`. */
   kind?: string;
-  /** Display Name of the sku of the product. */
-  skuName?: string;
   /** A product's unique identifier. For more information about products in this version of the API, see Product and SKU IDs. */
   productId?: string;
+  /** A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
+  skuId?: string;
+  /** Display Name of the sku of the product. */
+  skuName?: string;
+  /** Link to this page. */
+  selfLink?: string;
+  /** The user's current primary email address. If the user's email address changes, use the new email address in your API requests. Since a `userId` is subject to change, do not use a `userId` value as a key for persistent data. This key could break if the current user's email address changes. If the `userId` is suspended, the license status changes. */
+  userId?: string;
   /** Display Name of the product. */
   productName?: string;
   /** ETag of the resource. */
@@ -124,45 +124,45 @@ export interface LicenseAssignmentInsert {
   userId?: string;
 }
 export interface InsertLicenseAssignmentsRequest {
-  /** A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
-  skuId: string;
   /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
   productId: string;
+  /** A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
+  skuId: string;
   /** Request body */
   body?: LicenseAssignmentInsert;
 }
 export interface ListForProductAndSkuLicenseAssignmentsRequest {
-  /** Token to fetch the next page of data. The `maxResults` query string is related to the `pageToken` since `maxResults` determines how many entries are returned on each page. This is an optional query string. If not specified, the server returns the first page. */
-  pageToken?: string;
+  /** The `maxResults` query string determines how many entries are returned on each page of a large response. This is an optional parameter. The value must be a positive number. */
+  maxResults?: number;
+  /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
+  productId: string;
   /** A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
   skuId: string;
   /** The customer's unique ID as defined in the Admin console, such as `C00000000`. If the customer is suspended, the server returns an error. */
   customerId: string;
-  /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
-  productId: string;
-  /** The `maxResults` query string determines how many entries are returned on each page of a large response. This is an optional parameter. The value must be a positive number. */
-  maxResults?: number;
+  /** Token to fetch the next page of data. The `maxResults` query string is related to the `pageToken` since `maxResults` determines how many entries are returned on each page. This is an optional query string. If not specified, the server returns the first page. */
+  pageToken?: string;
 }
 export type LicenseAssignmentList_ = Array<LicenseAssignment>;
 export interface LicenseAssignmentList {
-  /** The token that you must submit in a subsequent request to retrieve additional license results matching your query parameters. The `maxResults` query string is related to the `nextPageToken` since `maxResults` determines how many entries are returned on each next page. */
-  nextPageToken?: string;
-  /** ETag of the resource. */
-  etag?: string;
   /** The LicenseAssignments in this page of results. */
   items: LicenseAssignmentList_;
   /** Identifies the resource as a collection of LicenseAssignments. */
   kind?: string;
+  /** The token that you must submit in a subsequent request to retrieve additional license results matching your query parameters. The `maxResults` query string is related to the `nextPageToken` since `maxResults` determines how many entries are returned on each next page. */
+  nextPageToken?: string;
+  /** ETag of the resource. */
+  etag?: string;
 }
 export interface ListForProductLicenseAssignmentsRequest {
-  /** Token to fetch the next page of data. The `maxResults` query string is related to the `pageToken` since `maxResults` determines how many entries are returned on each page. This is an optional query string. If not specified, the server returns the first page. */
-  pageToken?: string;
-  /** The `maxResults` query string determines how many entries are returned on each page of a large response. This is an optional parameter. The value must be a positive number. */
-  maxResults?: number;
   /** The customer's unique ID as defined in the Admin console, such as `C00000000`. If the customer is suspended, the server returns an error. */
   customerId: string;
+  /** The `maxResults` query string determines how many entries are returned on each page of a large response. This is an optional parameter. The value must be a positive number. */
+  maxResults?: number;
   /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
   productId: string;
+  /** Token to fetch the next page of data. The `maxResults` query string is related to the `pageToken` since `maxResults` determines how many entries are returned on each page. This is an optional query string. If not specified, the server returns the first page. */
+  pageToken?: string;
 }
 export interface PatchLicenseAssignmentsRequest {
   /** A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
@@ -175,12 +175,12 @@ export interface PatchLicenseAssignmentsRequest {
   body?: LicenseAssignment;
 }
 export interface UpdateLicenseAssignmentsRequest {
+  /** The user's current primary email address. If the user's email address changes, use the new email address in your API requests. Since a `userId` is subject to change, do not use a `userId` value as a key for persistent data. This key could break if the current user's email address changes. If the `userId` is suspended, the license status changes. */
+  userId: string;
   /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
   productId: string;
   /** A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
   skuId: string;
-  /** The user's current primary email address. If the user's email address changes, use the new email address in your API requests. Since a `userId` is subject to change, do not use a `userId` value as a key for persistent data. This key could break if the current user's email address changes. If the `userId` is suspended, the license status changes. */
-  userId: string;
   /** Request body */
   body?: LicenseAssignment;
 }
@@ -336,9 +336,9 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          userId: S.String.pipe(T.Label()),
           productId: S.String.pipe(T.Label()),
           skuId: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
           body: S.optional(__S(6, __c3, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -355,9 +355,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          skuId: S.String.pipe(T.Label()),
           productId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          skuId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -375,9 +375,9 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          userId: S.String.pipe(T.Label()),
           productId: S.String.pipe(T.Label()),
           skuId: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -393,12 +393,12 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          skuId: S.optional(S.String),
-          userId: S.optional(S.String),
-          selfLink: S.optional(S.String),
           kind: S.optional(S.String),
-          skuName: S.optional(S.String),
           productId: S.optional(S.String),
+          skuId: S.optional(S.String),
+          skuName: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          userId: S.optional(S.String),
           productName: S.optional(S.String),
           etags: S.optional(S.String),
         }),
@@ -416,8 +416,8 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          skuId: S.String.pipe(T.Label()),
           productId: S.String.pipe(T.Label()),
+          skuId: S.String.pipe(T.Label()),
           body: S.optional(__S(8, __c4, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -434,11 +434,11 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          productId: S.String.pipe(T.Label()),
           skuId: S.String.pipe(T.Label()),
           customerId: S.String.pipe(T.Query()),
-          productId: S.String.pipe(T.Label()),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -456,10 +456,10 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
-          etag: S.optional(S.String),
           items: __S(12, __c6, 0),
           kind: S.optional(S.String),
+          nextPageToken: S.optional(S.String),
+          etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "LicenseAssignmentList" });
   }
@@ -469,10 +469,10 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
           customerId: S.String.pipe(T.Query()),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
           productId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",

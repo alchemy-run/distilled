@@ -41,7 +41,13 @@ export type DataModelingJobRunModeEnum = "full_refresh" | "incremental";
 export interface DataModelingJob {
   id: string;
   saved_query_id: string | null;
+  /** Model name, or null if permanently deleted. */
+  saved_query_name: string | null;
+  /** Whether the model is soft-deleted, or null if permanently deleted. */
+  saved_query_deleted: boolean | null;
   status: DataModelingJobStatusEnum;
+  /** The engine that ran this materialization job. */
+  engine: string;
   /** What this run wrote: full_refresh rebuilt the whole table, so rows_materialized is the table's size; incremental wrote only its window, so rows_materialized counts just the rows synced. Null for runs from before modes were recorded, or that failed before the plan resolved. * `full_refresh` - Full refresh * `incremental` - Incremental */
   run_mode: DataModelingJobRunModeEnum | null;
   /** Why this run rebuilt the whole table instead of updating only new rows, for example first run, definition changed, or table missing. Null when the run was incremental. */
@@ -56,6 +62,16 @@ export interface DataModelingJob {
   workflow_run_id: string | null;
   /** Total rows expected to be materialized */
   rows_expected: number | null;
+  /** Bytes read by this run, or null if it has not been measured yet. */
+  read_bytes: number | null;
+  /** Rows read by this run, including probes and retries. */
+  read_rows: number | null;
+  /** ClickHouse CPU time in microseconds. */
+  cpu_microseconds: number | null;
+  /** Number of ClickHouse queries measured for this run. */
+  query_count: number | null;
+  /** When usage was last measured. Null means unmeasured. */
+  usage_updated_at: string | null;
 }
 export interface GetDataModelingJobsRecentRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -65,6 +81,8 @@ export interface GetDataModelingJobsRunningRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
 }
+export type ListDataModelingJobsRequestEngine = "clickhouse" | "duckgres" | "managed_warehouse";
+export type ListDataModelingJobsRequestSavedQueryIdsList = Array<string>;
 export type ListDataModelingJobsRequestStatus =
   | "Cancelled"
   | "Completed"
@@ -74,11 +92,21 @@ export type ListDataModelingJobsRequestStatus =
 export interface ListDataModelingJobsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Include jobs finished at or after this time. */
+  after?: string;
+  /** Include jobs from every materialization engine. Defaults to ClickHouse jobs only. */
+  all_engines?: boolean;
+  /** Include jobs finished before this time. */
+  before?: string;
+  /** * `clickhouse` - ClickHouse * `duckgres` - Duckgres * `managed_warehouse` - Managed warehouse */
+  engine?: ListDataModelingJobsRequestEngine | (string & {});
   /** Number of results to return per page. */
   limit?: number;
   /** The initial index from which to return the results. */
   offset?: number;
   saved_query_id?: string;
+  /** Comma-separated materialized view IDs. */
+  saved_query_ids?: ListDataModelingJobsRequestSavedQueryIdsList;
   /** * `Cancelled` - Cancelled * `Completed` - Completed * `Failed` - Failed * `Running` - Running * `Skipped` - Skipped */
   status?: ListDataModelingJobsRequestStatus | (string & {});
 }
@@ -148,8 +176,8 @@ export const listDataModelingJobs: API.OperationMethod<
   ListDataModelingJobsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<ListDataModelingJobsRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<PaginatedDataModelingJobList>,
+  input: __S(17, __c4, 1) as any as S.Schema<ListDataModelingJobsRequest>,
+  output: __S(19, __c4, 3) as any as S.Schema<PaginatedDataModelingJobList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -182,7 +210,10 @@ function __c1(j: number): any {
         S.Struct({
           id: S.String,
           saved_query_id: S.NullOr(S.String),
+          saved_query_name: S.NullOr(S.String),
+          saved_query_deleted: S.NullOr(S.Boolean),
           status: S.String,
+          engine: S.String,
           run_mode: S.NullOr(S.String),
           full_refresh_reason: S.NullOr(S.String),
           rows_materialized: S.Number,
@@ -193,6 +224,11 @@ function __c1(j: number): any {
           workflow_id: S.NullOr(S.String),
           workflow_run_id: S.NullOr(S.String),
           rows_expected: S.NullOr(S.Number),
+          read_bytes: S.NullOr(S.Number),
+          read_rows: S.NullOr(S.Number),
+          cpu_microseconds: S.NullOr(S.Number),
+          query_count: S.NullOr(S.Number),
+          usage_updated_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "DataModelingJob" });
   }
@@ -232,12 +268,19 @@ function __c3(j: number): any {
 function __c4(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          after: S.optional(S.String.pipe(T.Query())),
+          all_engines: S.optional(S.Boolean.pipe(T.Query())),
+          before: S.optional(S.String.pipe(T.Query())),
+          engine: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           saved_query_id: S.optional(S.String.pipe(T.Query())),
+          saved_query_ids: S.optional(__S(16, __c4, 0).pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -247,15 +290,15 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListDataModelingJobsRequest" });
-    case 1:
-      return S.Array(__S(4, __c1, 0));
     case 2:
+      return S.Array(__S(4, __c1, 0));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(17, __c4, 1),
+          results: __S(18, __c4, 2),
         }),
       ).annotate({ identifier: "PaginatedDataModelingJobList" });
   }

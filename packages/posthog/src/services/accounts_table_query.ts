@@ -307,9 +307,13 @@ export interface HogQLQueryModifiers {
   inCohortVia?: InCohortVia | (string & {}) | null;
   inlineCohortCalculation?: InlineCohortCalculation | (string & {}) | null;
   materializationMode?: MaterializationMode | (string & {}) | null;
+  /** Reuse eligible bounded event aggregates within one query execution. When unset, the server may enable it via the cloud feature flag. */
+  materializeRepeatedCTEs?: boolean | null;
   materializedColumnsOptimizationMode?: MaterializedColumnsOptimizationMode | (string & {}) | null;
   /** Merge sibling aggregating LEFT JOINs over federated Postgres tables into one UNION ALL join, so their scans overlap */
   mergeFederatedAggregateJoins?: boolean | null;
+  /** Replace negated person-property filters in the WHERE of an `events` query (such as `email not_icontains`) with `person_id NOT IN (SELECT id FROM persons WHERE <the filters fail>)`, so the query no longer joins every person. Applies only when every filtered person property has a materialized column, nothing else in the query reads that persons join, and the join would be a LEFT JOIN. */
+  negatedPersonFiltersNotIn?: boolean | null;
   optimizeJoinedFilters?: boolean | null;
   optimizeProjections?: boolean | null;
   /** HogQL parser backend; absent -> `rust_py_with_cpp_shadow` (rust-py is primary, cpp runs as a sampled shadow). `*_shadow` modes return the primary result and sample-compare against the other parser, reporting divergences without failing the request. The `rust_py_*` modes drive the same hand-rolled Rust parser as `rust_*` but build `posthog.hogql.ast` dataclass instances directly via PyO3, skipping the JSON round-trip. */
@@ -327,12 +331,14 @@ export interface HogQLQueryModifiers {
   /** Pre-filter raw_sessions aggregation by `session_id_v7 IN (cheap pre-aggregation that only materializes the columns referenced by the outer-WHERE session predicate)`. Useful when the breakdown/SELECT pulls in many session columns (e.g. `$channel_type`) but the filter only references one (e.g. `$entry_current_url`). */
   sessionPropertyPreAggregation?: boolean | null;
   sessionTableVersion?: SessionTableVersion | (string & {}) | null;
+  /** Padding, in minutes, on each side of the event time range when it filters the sessions table by session start. Defaults to 3 days. It can only narrow the range: values above the default are ignored. Lower it only for a query that keeps just the sessions that start inside its own time range. */
+  sessionTimestampBufferMinutes?: number | null;
   sessionsV2JoinMode?: SessionsV2JoinMode | (string & {}) | null;
   timings?: boolean | null;
   /** Remove provably redundant casts and nullability wrappers (e.g. `toString(String)`, `assumeNotNull(non_nullable)`, dead `ifNull` fallbacks) using inferred expression types */
   typeAwareCastSimplification?: boolean | null;
   useMaterializedViews?: boolean | null;
-  /** Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, the project's stored value applies, then the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA` instance settings. This is an internal rollout switch. PostHog staff set the project value in Django admin and the project settings API ignores it. */
+  /** Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, a staff person's `ph_new_events_schema` cookie applies, then the project's listing in the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA_TEAMS` instance setting, then the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA` instance setting. This is an internal rollout switch, and the project settings API ignores it. */
   useNewEventsSchema?: boolean | null;
   usePreaggregatedIntermediateResults?: boolean | null;
   /** Try to automatically convert HogQL queries to use preaggregated tables at the AST level * */
@@ -341,6 +347,47 @@ export interface HogQLQueryModifiers {
   /** Serve filters on the stored session-entry attribution properties (`$channel_type`, `$entry_utm_*`, `$entry_referring_domain`) by recomputing the value from the session's first pageview. Resolved server-side; not intended to be set by clients. */
   webAnalyticsFirstPageviewFilters?: boolean | null;
 }
+export type AccountsTableQueryResponseColumnsItem =
+  | AccountsTableAccountFieldColumn
+  | AccountsTableTagsColumn
+  | AccountsTableTagsColumn
+  | AccountsTableRelationshipColumn
+  | AccountsTableCustomPropertyColumn
+  | AccountsTableCustomPropertyHistoryColumn;
+export type AccountsTableQueryResponseColumnsList = Array<AccountsTableQueryResponseColumnsItem>;
+export type AccountsTableCustomPropertyDisplayType =
+  | "text"
+  | "link"
+  | "number"
+  | "currency"
+  | "percent"
+  | "date"
+  | "datetime"
+  | "boolean"
+  | "select";
+export interface AccountsTableCustomPropertyOption {
+  color: string;
+  id?: string | null;
+  label: string;
+}
+export type AccountsTableCustomPropertyDefinitionOptionsList =
+  Array<AccountsTableCustomPropertyOption>;
+export interface AccountsTableCustomPropertySource {
+  id: string;
+}
+export interface AccountsTableCustomPropertyDefinition {
+  description?: string | null;
+  display_type: AccountsTableCustomPropertyDisplayType | (string & {});
+  has_workflow_reference: boolean;
+  id: string;
+  is_big_number?: boolean | null;
+  is_canonical: boolean;
+  name: string;
+  options?: AccountsTableCustomPropertyDefinitionOptionsList | null;
+  source?: AccountsTableCustomPropertySource | null;
+}
+export type AccountsTableQueryResponseCustomPropertyDefinitionsList =
+  Array<AccountsTableCustomPropertyDefinition>;
 export type AccountsTableQueryResponseMetricsResultsList = Array<number | null>;
 export type QueryStatusLabelsList = Array<string>;
 export interface ClickhouseQueryProgress {
@@ -410,7 +457,7 @@ export interface QueryStatus {
   end_time?: string | null;
   /** If the query failed, this will be set to true. More information can be found in the error_message field. */
   error?: boolean | null;
-  /** Stable machine-readable code for the error (the DRF exception code), when known. */
+  /** Stable machine-readable code for the error, when known: the DRF exception code, the ClickHouse error name, the HogQL error code, or `unhandled_<exception class>` for a failure that no handler classified. */
   error_code?: string | null;
   error_message?: string | null;
   expiration_time?: string | null;
@@ -429,9 +476,20 @@ export interface QueryStatus {
   task_id?: string | null;
   team_id?: number;
 }
+export interface AccountsTableRelationshipDefinition {
+  description?: string | null;
+  id: string;
+  is_controlled: boolean;
+  is_single_holder?: boolean | null;
+  name: string;
+}
+export type AccountsTableQueryResponseRelationshipDefinitionsList =
+  Array<AccountsTableRelationshipDefinition>;
 export interface ResolvedDateRangeResponse {
   date_from?: string;
   date_to?: string;
+  /** The earliest timestamp the query reads, when only its first interval depends on rows from before date_from. Lifecycle sets it to the start of the interval before the range. */
+  read_from?: string | null;
 }
 /** Requested direct Account fields, keyed by their typed field reference. */
 export type AccountsTableRowAccountFieldsMap = { [key: string]: string | null | undefined };
@@ -490,10 +548,14 @@ export interface DataWarehouseSourceUsage {
   source_type?: string | null;
   /** Warehouse table name that was referenced */
   table_name: string;
+  /** Whether the query read a history table of this source */
+  uses_history_table?: boolean | null;
 }
 export type AccountsTableQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export interface DataWarehouseSyncWarning {
+  /** True when the last sync is still within the table's sync interval, so the data is current and the warning only says it will stop updating (a sync paused recently). False or absent when the data is out of date. */
+  data_is_current?: boolean | null;
   /** Human-readable warning shown to the user */
   message: string;
   /** Name of the ExternalDataSchema responsible for syncing the table */
@@ -519,11 +581,20 @@ export interface AccessControlFilterWarning {
   /** Tells warning kinds apart in the shared `warnings` list */
   type?: string;
 }
+export interface BreakdownNotAppliedWarning {
+  /** Human-readable warning shown to the user */
+  message: string;
+  /** Tells warning kinds apart in the shared `warnings` list */
+  type?: string;
+}
 export type AccountsTableQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type AccountsTableQueryResponseWarningsList = Array<AccountsTableQueryResponseWarningsItem>;
 export interface AccountsTableQueryResponse {
+  columns?: AccountsTableQueryResponseColumnsList | null;
+  customPropertyDefinitions?: AccountsTableQueryResponseCustomPropertyDefinitionsList | null;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
   error?: string | null;
   hasMore: boolean;
@@ -538,6 +609,7 @@ export interface AccountsTableQueryResponse {
   offset: number;
   /** Query status indicates whether next to the provided data, a query is still running. */
   query_status?: QueryStatus | null;
+  relationshipDefinitions?: AccountsTableQueryResponseRelationshipDefinitionsList | null;
   /** The resolved previous/comparison period date range, when comparing against another period */
   resolved_compare_date_range?: ResolvedDateRangeResponse | null;
   /** The date range used for the query */
@@ -547,7 +619,7 @@ export interface AccountsTableQueryResponse {
   timings?: AccountsTableQueryResponseTimingsList | null;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: AccountsTableQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: AccountsTableQueryResponseWarningsList | null;
 }
 /** A typed column that supports server-side sorting. */
@@ -580,6 +652,8 @@ export interface AccountsTableQuery2 {
   filterGroups?: AccountsTableQueryFilterGroupsList | null;
   /** Filters are combined with AND. Values within tag and assignment filters use OR. */
   filters?: AccountsTableQueryFiltersList | null;
+  /** Omit missing definitions and custom-property filters incompatible with their current types. */
+  ignoreMissingDefinitions?: boolean | null;
   /** Include churned accounts. Churned accounts are hidden by default. */
   includeChurned?: boolean | null;
   /** Include ignored accounts. Ignored accounts are hidden by default. */
@@ -594,6 +668,7 @@ export interface AccountsTableQuery2 {
   response?: AccountsTableQueryResponse | null;
   sort?: AccountsTableSort | null;
   tags?: QueryLogTags | null;
+  useDefaultColumns?: boolean | null;
   /** version of the node, used for schema migrations */
   version?: number | null;
 }
@@ -605,6 +680,7 @@ export type BreakdownType =
   | "person"
   | "event"
   | "event_metadata"
+  | "element"
   | "group"
   | "session"
   | "hogql"
@@ -616,6 +692,7 @@ export type MultipleBreakdownType =
   | "person"
   | "event"
   | "event_metadata"
+  | "element"
   | "group"
   | "session"
   | "hogql"
@@ -642,6 +719,12 @@ export interface BreakdownFilter {
   breakdown_type?: BreakdownType | (string & {}) | null;
   breakdowns?: BreakdownFilterBreakdownsList | null;
 }
+export interface CompareFilter {
+  /** Whether to compare the current date range to a previous date range. */
+  compare?: boolean | null;
+  /** The date range to compare to. The value is a relative date. Examples of relative dates are: `-1y` for 1 year ago, `-14m` for 14 months ago, `-100w` for 100 weeks ago, `-14d` for 14 days ago, `-30h` for 30 hours ago. */
+  compare_to?: string | null;
+}
 export type IntervalType =
   | "second"
   | "minute"
@@ -651,6 +734,43 @@ export type IntervalType =
   | "month"
   | "quarter"
   | "year";
+export type MetricsFilterOp = "eq" | "neq" | "regex" | "not_regex";
+export type MetricsAttributeScope = "resource" | "attribute" | "auto";
+export interface MetricsQueryFilter {
+  key: string;
+  op: MetricsFilterOp | (string & {});
+  scope?: MetricsAttributeScope | (string & {}) | null;
+  value: string;
+}
+export type DashboardFilterMetricFiltersList = Array<MetricsQueryFilter>;
+/** The selected values. Empty when `all` is true: All stands for every option of the variable. */
+export type MetricsDashboardVariableSelectionValuesList = Array<string>;
+export interface MetricsDashboardVariableSelection {
+  all?: boolean | null;
+  /** The selected values. Empty when `all` is true: All stands for every option of the variable. */
+  values: MetricsDashboardVariableSelectionValuesList;
+}
+export type MetricsDashboardVariableCustomValuesList = Array<string>;
+export type MetricsDashboardVariableSource = "custom" | "promql" | "sql" | "textbox";
+export interface MetricsDashboardVariable {
+  /** The text that All puts in a PromQL query. `.*` when it is empty. */
+  allValue?: string | null;
+  current?: MetricsDashboardVariableSelection | null;
+  /** The options when `source` is `custom`. */
+  customValues?: MetricsDashboardVariableCustomValuesList | null;
+  includeAll?: boolean | null;
+  /** Shown in the dashboard filter bar. The name is shown when it is empty. */
+  label?: string | null;
+  multi?: boolean | null;
+  /** Letters, digits and underscores. Tiles refer to it as `$name`. */
+  name: string;
+  /** The options query when `source` is `promql` or `sql`. It can refer to other variables. PromQL supports `label_values(label)`, `label_values(selector, label)`, `label_names()`, `metrics(regex)` and `query_result(expr)`. SQL returns the options in its first column. */
+  query?: string | null;
+  /** RE2 pattern that options must match. When it has a capture group, the option is the first group. */
+  regex?: string | null;
+  source: MetricsDashboardVariableSource | (string & {});
+}
+export type DashboardFilterMetricVariablesList = Array<MetricsDashboardVariable>;
 export type PropertyOperator =
   | "exact"
   | "is_not"
@@ -678,6 +798,7 @@ export type PropertyOperator =
   | "in"
   | "not_in"
   | "is_cleaned_path_exact"
+  | "is_cleaned_path_not_exact"
   | "flag_evaluates_to"
   | "semver_eq"
   | "semver_neq"
@@ -781,6 +902,10 @@ export interface SessionPropertyFilter {
   value?: SessionPropertyFilterValue | null;
 }
 export interface CohortPropertyFilter {
+  /** Set by the feature flag API when the cohort is deleted or does not exist. */
+  cohort_deleted?: boolean | null;
+  /** Set by the feature flag API when the cohort does not exist, so it cannot be restored. */
+  cohort_missing?: boolean | null;
   cohort_name?: string | null;
   key?: string;
   label?: string | null;
@@ -1067,6 +1192,8 @@ export type DashboardFilterPropertiesItem =
 export type DashboardFilterPropertiesList = Array<DashboardFilterPropertiesItem>;
 export interface DashboardFilter {
   breakdown_filter?: BreakdownFilter | null;
+  /** Period comparison forced onto every insight that supports one. Absent/null = inherit. */
+  compareFilter?: CompareFilter | null;
   date_from?: string | null;
   date_to?: string | null;
   explicitDate?: boolean | null;
@@ -1074,6 +1201,9 @@ export interface DashboardFilter {
   filterTestAccounts?: boolean | null;
   /** Time granularity forced onto every insight that supports one. Absent/null = inherit. */
   interval?: IntervalType | (string & {}) | null;
+  metricFilters?: DashboardFilterMetricFiltersList | null;
+  /** Variables that metrics tiles refer to as `$name`. Other tiles ignore them. */
+  metricVariables?: DashboardFilterMetricVariablesList | null;
   properties?: DashboardFilterPropertiesList | null;
 }
 export type LimitContext = "posthog_ai";
@@ -1118,8 +1248,8 @@ export const createCustomerAnalyticsAccountsTableQuery: API.OperationMethod<
   CreateCustomerAnalyticsAccountsTableQueryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(50, __c1, 18) as any as S.Schema<CreateCustomerAnalyticsAccountsTableQueryRequest>,
-  output: __S(39, __c1, 7) as any as S.Schema<AccountsTableQueryResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<CreateCustomerAnalyticsAccountsTableQueryRequest>,
+  output: __S(47, __c1, 15) as any as S.Schema<AccountsTableQueryResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1216,8 +1346,10 @@ function __c0(j: number): any {
           inCohortVia: S.optional(S.NullOr(S.String)),
           inlineCohortCalculation: S.optional(S.NullOr(S.String)),
           materializationMode: S.optional(S.NullOr(S.String)),
+          materializeRepeatedCTEs: S.optional(S.NullOr(S.Boolean)),
           materializedColumnsOptimizationMode: S.optional(S.NullOr(S.String)),
           mergeFederatedAggregateJoins: S.optional(S.NullOr(S.Boolean)),
+          negatedPersonFiltersNotIn: S.optional(S.NullOr(S.Boolean)),
           optimizeJoinedFilters: S.optional(S.NullOr(S.Boolean)),
           optimizeProjections: S.optional(S.NullOr(S.Boolean)),
           parserMode: S.optional(S.NullOr(S.String)),
@@ -1231,6 +1363,7 @@ function __c0(j: number): any {
           sessionIdPushdown: S.optional(S.NullOr(S.Boolean)),
           sessionPropertyPreAggregation: S.optional(S.NullOr(S.Boolean)),
           sessionTableVersion: S.optional(S.NullOr(S.String)),
+          sessionTimestampBufferMinutes: S.optional(S.NullOr(S.Number)),
           sessionsV2JoinMode: S.optional(S.NullOr(S.String)),
           timings: S.optional(S.NullOr(S.Boolean)),
           typeAwareCastSimplification: S.optional(S.NullOr(S.Boolean)),
@@ -1243,8 +1376,42 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "HogQLQueryModifiers" });
     case 18:
-      return S.Array(/*@__PURE__*/ S.NullOr(S.Number));
+      return S.Array(S.Unknown);
     case 19:
+      return S.suspend(() =>
+        S.Struct({
+          color: S.String,
+          id: S.optional(S.NullOr(S.String)),
+          label: S.String,
+        }),
+      ).annotate({ identifier: "AccountsTableCustomPropertyOption" });
+    case 20:
+      return S.Array(__S(19, __c0, 19));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+        }),
+      ).annotate({ identifier: "AccountsTableCustomPropertySource" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          display_type: S.String,
+          has_workflow_reference: S.Boolean,
+          id: S.String,
+          is_big_number: S.optional(S.NullOr(S.Boolean)),
+          is_canonical: S.Boolean,
+          name: S.String,
+          options: S.optional(S.NullOr(__S(20, __c0, 20))),
+          source: S.optional(S.NullOr(__S(21, __c0, 21))),
+        }),
+      ).annotate({ identifier: "AccountsTableCustomPropertyDefinition" });
+    case 23:
+      return S.Array(__S(22, __c0, 22));
+    case 24:
+      return S.Array(/*@__PURE__*/ S.NullOr(S.Number));
+    case 25:
       return S.suspend(() =>
         S.Struct({
           active_cpu_time: S.optional(S.Number),
@@ -1254,7 +1421,7 @@ function __c0(j: number): any {
           time_elapsed: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ClickhouseQueryProgress" });
-    case 20:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           actionable: S.Boolean,
@@ -1267,28 +1434,28 @@ function __c0(j: number): any {
           message: S.String,
         }),
       ).annotate({ identifier: "QueryScanWarning" });
-    case 21:
-      return S.Array(__S(20, __c0, 20));
-    case 22:
+    case 27:
+      return S.Array(__S(26, __c0, 26));
+    case 28:
       return S.suspend(() =>
         S.Struct({
           assistant_prompt: S.optional(S.NullOr(S.String)),
-          findings: __S(21, __c0, 21),
+          findings: __S(27, __c0, 27),
           project_share: S.optional(S.NullOr(S.Number)),
           range_share: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "QueryScanAnalysis" });
-    case 23:
+    case 29:
       return S.suspend(() =>
         S.Struct({
-          analysis: S.optional(S.NullOr(__S(22, __c0, 22))),
+          analysis: S.optional(S.NullOr(__S(28, __c0, 28))),
           analysis_requested: S.optional(S.NullOr(S.Boolean)),
           duration_ms: S.Number,
           killed: S.optional(S.NullOr(S.Boolean)),
           rows_read: S.Number,
         }),
       ).annotate({ identifier: "QueryScanSummary" });
-    case 24:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           budget_remaining_bytes: S.optional(S.NullOr(S.Number)),
@@ -1306,108 +1473,125 @@ function __c0(j: number): any {
           labels: S.optional(S.NullOr(__S(1, __c0, 1))),
           pickup_time: S.optional(S.NullOr(S.String)),
           query_async: S.optional(S.Boolean),
-          query_progress: S.optional(S.NullOr(__S(19, __c0, 19))),
-          query_scan: S.optional(S.NullOr(__S(23, __c0, 23))),
+          query_progress: S.optional(S.NullOr(__S(25, __c0, 25))),
+          query_scan: S.optional(S.NullOr(__S(29, __c0, 29))),
           results: S.optional(S.Unknown),
           start_time: S.optional(S.NullOr(S.String)),
           task_id: S.optional(S.NullOr(S.String)),
           team_id: S.optional(S.Number),
         }),
       ).annotate({ identifier: "QueryStatus" });
-    case 25:
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          id: S.String,
+          is_controlled: S.Boolean,
+          is_single_holder: S.optional(S.NullOr(S.Boolean)),
+          name: S.String,
+        }),
+      ).annotate({ identifier: "AccountsTableRelationshipDefinition" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(31, __c0, 31));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           date_from: S.optional(S.String),
           date_to: S.optional(S.String),
+          read_from: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ResolvedDateRangeResponse" });
-    case 26:
+    case 2:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
-    case 27:
+    case 3:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
-    case 28:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           timestamp: S.String,
           value: S.Number,
         }),
       ).annotate({ identifier: "AccountsTableCustomPropertyHistoryPoint" });
-    case 29:
-      return S.Array(__S(28, __c0, 28));
-    case 30:
-      return S.Record(S.String, __S(29, __c0, 29));
-    case 31:
+    case 5:
+      return S.Array(__S(36, __c1, 4));
+    case 6:
+      return S.Record(S.String, __S(37, __c1, 5));
+    case 7:
       return S.Record(S.String, __S(2, __c0, 2));
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          accountFields: __S(26, __c0, 26),
-          customProperties: __S(27, __c0, 27),
-          customPropertyHistory: __S(30, __c0, 30),
+          accountFields: __S(34, __c1, 2),
+          customProperties: __S(35, __c1, 3),
+          customPropertyHistory: __S(38, __c1, 6),
           externalId: S.optional(S.NullOr(S.String)),
           id: S.String,
           logoDomain: S.optional(S.NullOr(S.String)),
           name: S.String,
           noteCount: S.optional(S.NullOr(S.Number)),
-          relationships: __S(31, __c0, 31),
+          relationships: __S(39, __c1, 7),
           tags: S.optional(S.NullOr(__S(1, __c0, 1))),
         }),
       ).annotate({ identifier: "AccountsTableRow" });
-    case 1:
-      return S.Array(__S(32, __c1, 0));
-    case 2:
+    case 9:
+      return S.Array(__S(40, __c1, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
           k: S.optional(S.String),
           t: S.optional(S.Number),
         }),
       ).annotate({ identifier: "QueryTiming" });
-    case 3:
-      return S.Array(__S(34, __c1, 2));
-    case 4:
+    case 11:
+      return S.Array(__S(42, __c1, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           source_type: S.optional(S.NullOr(S.String)),
           table_name: S.String,
+          uses_history_table: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "DataWarehouseSourceUsage" });
-    case 5:
-      return S.Array(__S(36, __c1, 4));
-    case 6:
+    case 13:
+      return S.Array(__S(44, __c1, 12));
+    case 14:
       return S.Array(S.Unknown);
-    case 7:
+    case 15:
       return S.suspend(() =>
         S.Struct({
+          columns: S.optional(S.NullOr(__S(18, __c0, 18))),
+          customPropertyDefinitions: S.optional(S.NullOr(__S(23, __c0, 23))),
           error: S.optional(S.NullOr(S.String)),
           hasMore: S.Boolean,
           hogql: S.optional(S.NullOr(S.String)),
           kind: S.optional(S.String),
           limit: S.Number,
-          metricsResults: S.optional(S.NullOr(__S(18, __c0, 18))),
+          metricsResults: S.optional(S.NullOr(__S(24, __c0, 24))),
           modifiers: S.optional(S.NullOr(__S(17, __c0, 17))),
           offset: S.Number,
-          query_status: S.optional(S.NullOr(__S(24, __c0, 24))),
-          resolved_compare_date_range: S.optional(S.NullOr(__S(25, __c0, 25))),
-          resolved_date_range: S.optional(S.NullOr(__S(25, __c0, 25))),
-          results: __S(33, __c1, 1),
-          timings: S.optional(S.NullOr(__S(35, __c1, 3))),
-          used_data_warehouse_sources: S.optional(S.NullOr(__S(37, __c1, 5))),
-          warnings: S.optional(S.NullOr(__S(38, __c1, 6))),
+          query_status: S.optional(S.NullOr(__S(30, __c0, 30))),
+          relationshipDefinitions: S.optional(S.NullOr(__S(32, __c1, 0))),
+          resolved_compare_date_range: S.optional(S.NullOr(__S(33, __c1, 1))),
+          resolved_date_range: S.optional(S.NullOr(__S(33, __c1, 1))),
+          results: __S(41, __c1, 9),
+          timings: S.optional(S.NullOr(__S(43, __c1, 11))),
+          used_data_warehouse_sources: S.optional(S.NullOr(__S(45, __c1, 13))),
+          warnings: S.optional(S.NullOr(__S(46, __c1, 14))),
         }),
       ).annotate({ identifier: "AccountsTableQueryResponse" });
-    case 8:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           column: S.Unknown,
           direction: S.String,
         }),
       ).annotate({ identifier: "AccountsTableSort" });
-    case 9:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.NullOr(S.String)),
@@ -1416,12 +1600,13 @@ function __c1(j: number): any {
           scene: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "QueryLogTags" });
-    case 10:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           columns: __S(0, __c0, 0),
           filterGroups: S.optional(S.NullOr(__S(4, __c0, 4))),
           filters: S.optional(S.NullOr(__S(5, __c0, 5))),
+          ignoreMissingDefinitions: S.optional(S.NullOr(S.Boolean)),
           includeChurned: S.optional(S.NullOr(S.Boolean)),
           includeIgnored: S.optional(S.NullOr(S.Boolean)),
           kind: S.optional(S.String),
@@ -1429,13 +1614,14 @@ function __c1(j: number): any {
           metrics: S.optional(S.NullOr(__S(6, __c0, 6))),
           modifiers: S.optional(S.NullOr(__S(17, __c0, 17))),
           offset: S.optional(S.NullOr(S.Number)),
-          response: S.optional(S.NullOr(__S(39, __c1, 7))),
-          sort: S.optional(S.NullOr(__S(40, __c1, 8))),
-          tags: S.optional(S.NullOr(__S(41, __c1, 9))),
+          response: S.optional(S.NullOr(__S(47, __c1, 15))),
+          sort: S.optional(S.NullOr(__S(48, __c1, 16))),
+          tags: S.optional(S.NullOr(__S(49, __c1, 17))),
+          useDefaultColumns: S.optional(S.NullOr(S.Boolean)),
           version: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "AccountsTableQuery2" });
-    case 11:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           group_type_index: S.optional(S.NullOr(S.Number)),
@@ -1445,9 +1631,9 @@ function __c1(j: number): any {
           type: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "Breakdown" });
-    case 12:
-      return S.Array(__S(43, __c1, 11));
-    case 13:
+    case 20:
+      return S.Array(__S(51, __c1, 19));
+    case 21:
       return S.suspend(() =>
         S.Struct({
           breakdown: S.optional(S.NullOr(S.Unknown)),
@@ -1458,39 +1644,88 @@ function __c1(j: number): any {
           breakdown_normalize_url: S.optional(S.NullOr(S.Boolean)),
           breakdown_path_cleaning: S.optional(S.NullOr(S.Boolean)),
           breakdown_type: S.optional(S.NullOr(S.String)),
-          breakdowns: S.optional(S.NullOr(__S(44, __c1, 12))),
+          breakdowns: S.optional(S.NullOr(__S(52, __c1, 20))),
         }),
       ).annotate({ identifier: "BreakdownFilter" });
-    case 14:
-      return S.Array(S.Unknown);
-    case 15:
+    case 22:
       return S.suspend(() =>
         S.Struct({
-          breakdown_filter: S.optional(S.NullOr(__S(45, __c1, 13))),
+          compare: S.optional(S.NullOr(S.Boolean)),
+          compare_to: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CompareFilter" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          op: S.String,
+          scope: S.optional(S.NullOr(S.String)),
+          value: S.String,
+        }),
+      ).annotate({ identifier: "MetricsQueryFilter" });
+    case 24:
+      return S.Array(__S(55, __c1, 23));
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          all: S.optional(S.NullOr(S.Boolean)),
+          values: __S(1, __c0, 1),
+        }),
+      ).annotate({ identifier: "MetricsDashboardVariableSelection" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          allValue: S.optional(S.NullOr(S.String)),
+          current: S.optional(S.NullOr(__S(57, __c1, 25))),
+          customValues: S.optional(S.NullOr(__S(1, __c0, 1))),
+          includeAll: S.optional(S.NullOr(S.Boolean)),
+          label: S.optional(S.NullOr(S.String)),
+          multi: S.optional(S.NullOr(S.Boolean)),
+          name: S.String,
+          query: S.optional(S.NullOr(S.String)),
+          regex: S.optional(S.NullOr(S.String)),
+          source: S.String,
+        }),
+      ).annotate({ identifier: "MetricsDashboardVariable" });
+    case 27:
+      return S.Array(__S(58, __c1, 26));
+    case 28:
+      return S.Array(S.Unknown);
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          breakdown_filter: S.optional(S.NullOr(__S(53, __c1, 21))),
+          compareFilter: S.optional(S.NullOr(__S(54, __c1, 22))),
           date_from: S.optional(S.NullOr(S.String)),
           date_to: S.optional(S.NullOr(S.String)),
           explicitDate: S.optional(S.NullOr(S.Boolean)),
           filterTestAccounts: S.optional(S.NullOr(S.Boolean)),
           interval: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(46, __c1, 14))),
+          metricFilters: S.optional(S.NullOr(__S(56, __c1, 24))),
+          metricVariables: S.optional(S.NullOr(__S(59, __c1, 27))),
+          properties: S.optional(S.NullOr(__S(60, __c1, 28))),
         }),
       ).annotate({ identifier: "DashboardFilter" });
-    case 16:
+    case 30:
       return S.Record(S.String, S.Unknown);
-    case 17:
-      return S.Record(S.String, __S(48, __c1, 16));
-    case 18:
+    case 31:
+      return S.Record(S.String, __S(62, __c1, 30));
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           async: S.optional(S.NullOr(S.Boolean)),
-          query: __S(42, __c1, 10),
+          query: __S(50, __c1, 18),
           client_query_id: S.optional(S.NullOr(S.String)),
-          filters_override: S.optional(S.NullOr(__S(47, __c1, 15))),
+          filters_override: S.optional(S.NullOr(__S(61, __c1, 29))),
           limit_context: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
           refresh: S.optional(S.String),
-          variables_override: S.optional(S.NullOr(__S(49, __c1, 17))),
+          variables_override: S.optional(S.NullOr(__S(63, __c1, 31))),
         }).pipe(
           T.Http({
             method: "POST",

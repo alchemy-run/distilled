@@ -120,6 +120,50 @@ export interface FileSystemDestroyRequest {
   recursive?: boolean;
 }
 export interface FileSystemDestroyResponse {}
+export interface FileSystemSearchRetrieveRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Maximum number of results to return, best first. */
+  limit?: number;
+  /** Also include the best matches of every type, up to this many per type, so each type can show a preview. */
+  per_type?: number;
+  /** Search text. Supports the same field filters as the list search (type:, user:, path:, name:, negation with - or !). Free words are ranked by relevance. */
+  search: string;
+}
+/** Sort key of the match. Lower sorts first. Compare element by element with other results. */
+export type FileSystemRankedSearchItemRankList = Array<number>;
+export interface FileSystemRankedSearchItem {
+  /** The matching file system entry. */
+  entry: FileSystem2;
+  /** Sort key of the match. Lower sorts first. Compare element by element with other results. */
+  rank: FileSystemRankedSearchItemRankList;
+}
+/** Matches, best first. */
+export type FileSystemRankedSearchResponseResultsList = Array<FileSystemRankedSearchItem>;
+/** Search words that the best result matched. Use it to tell the user which words were dropped when matched_all_words is false. */
+export type FileSystemRankedSearchResponseMatchedWordsList = Array<string>;
+export interface FileSystemRankedSearchTypeCount {
+  /** File system type, for example insight or dashboard. */
+  type: string;
+  /** Number of matches of this type. */
+  count: number;
+}
+/** Number of matches for each type, largest first. */
+export type FileSystemRankedSearchResponseTypeCountsList = Array<FileSystemRankedSearchTypeCount>;
+export interface FileSystemRankedSearchResponse {
+  /** Matches, best first. */
+  results: FileSystemRankedSearchResponseResultsList;
+  /** True when every result contains every search word. False when no entry matched every word and the results match only some words. */
+  matched_all_words: boolean;
+  /** Search words that the best result matched. Use it to tell the user which words were dropped when matched_all_words is false. */
+  matched_words: FileSystemRankedSearchResponseMatchedWordsList;
+  /** Number of matches for each type, largest first. */
+  type_counts: FileSystemRankedSearchResponseTypeCountsList;
+  /** True when no entry matched the words as typed, so every result is a close spelling. */
+  matched_with_typos: boolean;
+  /** True when the search stopped at its candidate limit, so type_counts are lower bounds. */
+  counts_capped: boolean;
+}
 export interface FileSystemUndoDeleteCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -142,6 +186,8 @@ export interface ListFileSystemRequest {
   project_id: string;
   /** Include meta.content_type for notebooks and insights on this page, without their contents. */
   include_content_type?: boolean;
+  /** Include meta.tags, the tag names, for dashboards and insights on this page. */
+  include_tags?: boolean;
   /** Number of results to return per page. */
   limit?: number;
   /** The initial index from which to return the results. */
@@ -156,6 +202,16 @@ export interface PaginatedFileSystemList {
   previous?: string | null;
   results?: PaginatedFileSystemListResultsList;
 }
+export interface ListFileSystemFrequentRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Maximum number of frequently viewed items to return. */
+  limit?: number;
+  /** A search term. */
+  search?: string;
+}
+export type ListFileSystemFrequentResponseBodyList = Array<FileSystem2>;
+export type ListFileSystemFrequentResponse = ListFileSystemFrequentResponseBodyList;
 export interface UpdateFileSystemRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -187,8 +243,8 @@ export const createFileSystem: API.OperationMethod<
   CreateFileSystemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<CreateFileSystemRequest>,
-  output: __S(10, __c2, 2) as any as S.Schema<FileSystem2>,
+  input: __S(24, __c3, 0) as any as S.Schema<CreateFileSystemRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<FileSystem2>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -203,8 +259,8 @@ export const createFileSystemHomeFolder: API.OperationMethod<
   CreateFileSystemHomeFolderError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<CreateFileSystemHomeFolderRequest>,
-  output: __S(13, __c3, 1) as any as S.Schema<FileSystemHomeFolder>,
+  input: __S(40, __c5, 0) as any as S.Schema<CreateFileSystemHomeFolderRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<FileSystemHomeFolder>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -219,13 +275,30 @@ export const fileSystemDestroy: API.OperationMethod<
   FileSystemDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<FileSystemDestroyRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<FileSystemDestroyResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<FileSystemDestroyRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<FileSystemDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FileSystemDestroy",
+}));
+
+export type FileSystemSearchRetrieveError = PosthogOpError;
+/** Search files by relevance Ranks entries by words matched, typos, word proximity, name before folder, exact words, word position, exactness, the user's recent views, and recency. */
+export const fileSystemSearchRetrieve: API.OperationMethod<
+  FileSystemSearchRetrieveRequest,
+  FileSystemRankedSearchResponse,
+  FileSystemSearchRetrieveError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(64, __c8, 0) as any as S.Schema<FileSystemSearchRetrieveRequest>,
+  output: __S(71, __c8, 7) as any as S.Schema<FileSystemRankedSearchResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FileSystemSearchRetrieve",
 }));
 
 export type FileSystemUndoDeleteCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -235,8 +308,8 @@ export const fileSystemUndoDeleteCreate: API.OperationMethod<
   FileSystemUndoDeleteCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<FileSystemUndoDeleteCreateRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<FileSystemUndoDeleteCreateResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<FileSystemUndoDeleteCreateRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<FileSystemUndoDeleteCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -251,8 +324,8 @@ export const getFileSystem: API.OperationMethod<
   GetFileSystemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<GetFileSystemRequest>,
-  output: __S(10, __c2, 2) as any as S.Schema<FileSystem2>,
+  input: __S(80, __c10, 0) as any as S.Schema<GetFileSystemRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<FileSystem2>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -267,13 +340,30 @@ export const listFileSystem: API.OperationMethod<
   ListFileSystemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<ListFileSystemRequest>,
-  output: __S(34, __c8, 2) as any as S.Schema<PaginatedFileSystemList>,
+  input: __S(88, __c11, 0) as any as S.Schema<ListFileSystemRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<PaginatedFileSystemList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFileSystem",
+}));
+
+export type ListFileSystemFrequentError = PosthogOpError;
+/** List frequently viewed files */
+export const listFileSystemFrequent: API.OperationMethod<
+  ListFileSystemFrequentRequest,
+  ListFileSystemFrequentResponse,
+  ListFileSystemFrequentError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<ListFileSystemFrequentRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<ListFileSystemFrequentResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFileSystemFrequent",
 }));
 
 export type UpdateFileSystemError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -283,8 +373,8 @@ export const updateFileSystem: API.OperationMethod<
   UpdateFileSystemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<UpdateFileSystemRequest>,
-  output: __S(10, __c2, 2) as any as S.Schema<FileSystem2>,
+  input: __S(8, __c1, 0) as any as S.Schema<UpdateFileSystemRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<FileSystem2>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -299,8 +389,8 @@ export const updateFileSystemPartial: API.OperationMethod<
   UpdateFileSystemPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<UpdateFileSystemPartialRequest>,
-  output: __S(10, __c2, 2) as any as S.Schema<FileSystem2>,
+  input: __S(16, __c2, 0) as any as S.Schema<UpdateFileSystemPartialRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<FileSystem2>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -310,6 +400,47 @@ export const updateFileSystemPartial: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/file_system/frequent/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListFileSystemFrequentRequest" });
+    case 1:
+      return S.suspend(() => __S(96, __c12, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListFileSystemFrequentResponse",
+      });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          path: S.optional(S.String),
+          type: S.optional(S.String),
+          ref: S.optional(S.NullOr(S.String)),
+          href: S.optional(S.NullOr(S.String)),
+          meta: S.optional(S.Unknown),
+          shortcut: S.optional(S.NullOr(S.Boolean)),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/api/projects/{project_id}/file_system/{id}/", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateFileSystemRequest" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -332,7 +463,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "UpdateFileSystemPartialRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -350,7 +481,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateFileSystemRequest" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -364,7 +495,7 @@ function __c2(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(8, __c2, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(32, __c4, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
@@ -380,14 +511,14 @@ function __c2(j: number): any {
           meta: S.optional(S.Unknown),
           shortcut: S.optional(S.NullOr(S.Boolean)),
           created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(9, __c2, 1))),
+          created_by: S.optional(S.NullOr(__S(33, __c4, 1))),
           last_viewed_at: S.optional(S.NullOr(S.String)),
           user_access_level: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "FileSystem2" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -410,7 +541,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "FileSystemHomeFolder" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -428,13 +559,65 @@ function __c4(j: number): any {
       ).annotate({ identifier: "FileSystemDestroyRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "FileSystemDestroyResponse" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          per_type: S.optional(S.Number.pipe(T.Query())),
+          search: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/file_system/search/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "FileSystemSearchRetrieveRequest" });
+    case 1:
+      return S.Array(S.Number);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          entry: __S(34, __c4, 2),
+          rank: __S(65, __c8, 1),
+        }),
+      ).annotate({ identifier: "FileSystemRankedSearchItem" });
+    case 3:
+      return S.Array(__S(66, __c8, 2));
+    case 4:
+      return S.Array(S.String);
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          count: S.Number,
+        }),
+      ).annotate({ identifier: "FileSystemRankedSearchTypeCount" });
+    case 6:
+      return S.Array(__S(69, __c8, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(67, __c8, 3),
+          matched_all_words: S.Boolean,
+          matched_words: __S(68, __c8, 4),
+          type_counts: __S(70, __c8, 6),
+          matched_with_typos: S.Boolean,
+          counts_capped: S.Boolean,
+        }),
+      ).annotate({ identifier: "FileSystemRankedSearchResponse" });
+  }
+}
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -456,7 +639,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "FileSystemUndoDeleteCreateRequest" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -469,13 +652,14 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetFileSystemRequest" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           include_content_type: S.optional(S.Boolean.pipe(T.Query())),
+          include_tags: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
@@ -484,35 +668,20 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "ListFileSystemRequest" });
     case 1:
-      return S.Array(__S(10, __c2, 2));
-    case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(33, __c8, 1)),
+          results: S.optional(__S(96, __c12, 0)),
         }),
       ).annotate({ identifier: "PaginatedFileSystemList" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          path: S.optional(S.String),
-          type: S.optional(S.String),
-          ref: S.optional(S.NullOr(S.String)),
-          href: S.optional(S.NullOr(S.String)),
-          meta: S.optional(S.Unknown),
-          shortcut: S.optional(S.NullOr(S.Boolean)),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/api/projects/{project_id}/file_system/{id}/", code: 200 }),
-        ),
-      ).annotate({ identifier: "UpdateFileSystemRequest" });
+      return S.Array(__S(34, __c4, 2));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -227,6 +227,8 @@ export interface GetVulnerabilityDiscoveryReportResponseReportFindingsItemTraceI
   path: string;
   scope: string;
   why: string;
+  /** Repository the step is in, present only when it is not the finding's repository (a library or consumer of the same report). `path` is then relative to that repository. */
+  repo?: string | null;
 }
 export type GetVulnerabilityDiscoveryReportResponseReportFindingsItemTraceList =
   Array<GetVulnerabilityDiscoveryReportResponseReportFindingsItemTraceItem>;
@@ -1338,6 +1340,7 @@ function __c6(j: number): any {
           path: S.String,
           scope: S.String,
           why: S.String,
+          repo: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({
         identifier: "GetVulnerabilityDiscoveryReportResponseReportFindingsItemTraceItem",

@@ -266,8 +266,6 @@ export interface CreateServerResponseServerServerType {
   memory: number;
   /** Disk size a Server of this type will have in GB. */
   disk: number;
-  /** This field is deprecated. Use the deprecation object instead. */
-  deprecated: boolean;
   /** Price per [Location](#tag/locations). */
   prices: CreateServerResponseServerServerTypePricesList;
   /** Type of Server boot drive. Local has higher speed. Network has better availability. */
@@ -365,8 +363,6 @@ export interface CreateServerResponseServerImage {
   rapid_deploy?: boolean;
   /** Protection configuration for the Resource. */
   protection: CreateServerResponseServerImageProtection;
-  /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
-  deprecated: string | null;
   /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
   deprecation: CreateServerResponseServerServerTypeDeprecation | null;
   /** Point in time where the Image was deleted (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
@@ -699,8 +695,6 @@ export interface GetServerResponseServerServerType {
   memory: number;
   /** Disk size a Server of this type will have in GB. */
   disk: number;
-  /** This field is deprecated. Use the deprecation object instead. */
-  deprecated: boolean;
   /** Price per [Location](#tag/locations). */
   prices: GetServerResponseServerServerTypePricesList;
   /** Type of Server boot drive. Local has higher speed. Network has better availability. */
@@ -773,8 +767,6 @@ export interface GetServerResponseServerImage {
   rapid_deploy?: boolean;
   /** Protection configuration for the Resource. */
   protection: CreateServerResponseServerImageProtection;
-  /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
-  deprecated: string | null;
   /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
   deprecation: CreateServerResponseServerServerTypeDeprecation | null;
   /** Point in time where the Image was deleted (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
@@ -1073,8 +1065,6 @@ export interface ListServersResponseServersItemServerType {
   memory: number;
   /** Disk size a Server of this type will have in GB. */
   disk: number;
-  /** This field is deprecated. Use the deprecation object instead. */
-  deprecated: boolean;
   /** Price per [Location](#tag/locations). */
   prices: ListServersResponseServersItemServerTypePricesList;
   /** Type of Server boot drive. Local has higher speed. Network has better availability. */
@@ -1149,8 +1139,6 @@ export interface ListServersResponseServersItemImage {
   rapid_deploy?: boolean;
   /** Protection configuration for the Resource. */
   protection: CreateServerResponseServerImageProtection;
-  /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
-  deprecated: string | null;
   /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
   deprecation: CreateServerResponseServerServerTypeDeprecation | null;
   /** Point in time where the Image was deleted (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
@@ -1405,8 +1393,6 @@ export interface UpdateServerResponseServerServerType {
   memory: number;
   /** Disk size a Server of this type will have in GB. */
   disk: number;
-  /** This field is deprecated. Use the deprecation object instead. */
-  deprecated: boolean;
   /** Price per [Location](#tag/locations). */
   prices: UpdateServerResponseServerServerTypePricesList;
   /** Type of Server boot drive. Local has higher speed. Network has better availability. */
@@ -1479,8 +1465,6 @@ export interface UpdateServerResponseServerImage {
   rapid_deploy?: boolean;
   /** Protection configuration for the Resource. */
   protection: CreateServerResponseServerImageProtection;
-  /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
-  deprecated: string | null;
   /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
   deprecation: CreateServerResponseServerServerTypeDeprecation | null;
   /** Point in time where the Image was deleted (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
@@ -1906,7 +1890,6 @@ function __c2(j: number): any {
           cores: S.Number,
           memory: S.Number,
           disk: S.Number,
-          deprecated: S.Boolean,
           prices: __S(78, __c2, 14),
           storage_type: S.String,
           cpu_type: S.String,
@@ -1959,7 +1942,6 @@ function __c2(j: number): any {
           os_version: S.NullOr(S.String),
           rapid_deploy: S.optional(S.Boolean),
           protection: __S(85, __c2, 21),
-          deprecated: S.NullOr(S.String),
           deprecation: S.NullOr(__S(79, __c2, 15)),
           deleted: S.NullOr(S.String),
           labels: __S(65, __c2, 1),

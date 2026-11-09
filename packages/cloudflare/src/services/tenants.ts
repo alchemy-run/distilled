@@ -177,29 +177,55 @@ export interface GetTenantResponse {
   tenantUnits: GetResponseTenantUnitsList;
   customerId?: string | null;
 }
+export interface AccountsListRequestAccountPubname {
+  /** (case-insensitive) Filter the list of accounts to where the account_pubname contains a particular string. */
+  contains?: string;
+  /** (case-insensitive) Filter the list of accounts to where the account_pubname ends with a particular string. */
+  endsWith?: string;
+  /** (case-insensitive) Filter the list of accounts to where the account_pubname starts with a particular string. */
+  startsWith?: string;
+}
+export type AccountsListRequestDirection = "asc" | "desc";
+export interface AccountsListRequestName {
+  /** (case-insensitive) Filter the list of accounts to where the name contains a particular string. */
+  contains?: string;
+  /** (case-insensitive) Filter the list of accounts to where the name ends with a particular string. */
+  endsWith?: string;
+  /** (case-insensitive) Filter the list of accounts to where the name starts with a particular string. */
+  startsWith?: string;
+}
+export type AccountsListRequestOrderBy = "account_name";
+export type AccountsListRequestStatus = "active" | "deleted";
 export interface ListAccountsRequest {
   tenantId: string;
+  accountPubname?: AccountsListRequestAccountPubname;
+  /** Sort direction for the order_by field. Valid values: `asc`, `desc`. Defaults to `asc` when order_by is specified. */
+  direction?: AccountsListRequestDirection | (string & {});
+  /** Whether to calculate and return the exact `result_info.total_size` for cursor pagination. Defaults to true. When false, `total_size` is omitted. */
+  includeTotal?: boolean;
+  name?: AccountsListRequestName;
+  /** Field to order results by. Currently supported values: `account_name`. */
+  orderBy?: AccountsListRequestOrderBy | (string & {});
+  /** The amount of items to return. Defaults to 10. */
+  pageSize?: number;
+  /** An opaque token returned from the last list response that when provided will retrieve the next page. */
+  pageToken?: string;
+  /** Filter accounts by lifecycle status. Defaults to `active`. */
+  status?: AccountsListRequestStatus | (string & {});
 }
+export type AccountsListResultItemAccountType = "standard" | "enterprise";
 export interface AccountsListResultItemSettings {
-  abuseContactEmail: string;
   accessApprovalExpiry: string;
   apiAccessEnabled: boolean;
-  /** Use [DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings) instead. Deprecated. */
-  defaultNameservers: string;
-  enforceTwofactor: boolean;
-  /** Use [DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings) instead. Deprecated. */
+  enforceTwoFactor: boolean;
   useAccountCustomNsByDefault: boolean;
 }
-export type AccountsListResultItemType = "standard" | "enterprise";
-export type AccountsListResultItemTagsMap = { [key: string]: string | undefined };
 export interface AccountsListResultItem {
-  id: string;
+  accountPubname: string;
+  accountTag: string;
+  accountType: AccountsListResultItemAccountType;
   createdOn: string;
-  name: string;
   settings: AccountsListResultItemSettings;
-  type: AccountsListResultItemType;
-  /** Account tags, present only when `include_tags=true` is requested. */
-  tags?: AccountsListResultItemTagsMap | null;
 }
 export type AccountsListResultList = Array<AccountsListResultItem>;
 export interface ListAccountsResponse {
@@ -268,7 +294,7 @@ export const getTenant: API.OperationMethod<
 }));
 
 export type ListAccountsError = CloudflareOpError;
-/** Lists the Cloudflare accounts associated with this tenant. */
+/** Lists all Cloudflare accounts across this tenant's hierarchy using the legacy Account response shape. Use `GET /organizations/{organization_id}/accounts` to list only accounts immediately attached to a specific Organization using the modern Account response shape. Use `page_token` and `page_size` for cursor pagination. */
 export const listAccounts: API.PaginatedOperationMethod<
   ListAccountsRequest,
   ListAccountsResponse,
@@ -277,7 +303,7 @@ export const listAccounts: API.PaginatedOperationMethod<
   AccountsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(48, __c3, 0) as any as S.Schema<ListAccountsRequest>,
+    input: __S(49, __c3, 1) as any as S.Schema<ListAccountsRequest>,
     output: __S(53, __c3, 5) as any as S.Schema<ListAccountsResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
@@ -480,33 +506,46 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          contains: S.optional(S.String),
+          endsWith: S.optional(S.String),
+          startsWith: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AccountsListRequestAccountPubname" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           tenantId: S.String.pipe(T.Label("tenant_id")),
+          accountPubname: S.optional(
+            __S(48, __c3, 0).pipe(T.Body("account_pubname"), T.DeepQuery("account_pubname")),
+          ),
+          direction: S.optional(S.String.pipe(T.Query())),
+          includeTotal: S.optional(S.Boolean.pipe(T.Query("include_total"))),
+          name: S.optional(__S(48, __c3, 0).pipe(T.DeepQuery("name"))),
+          orderBy: S.optional(S.String.pipe(T.Query("order_by"))),
+          pageSize: S.optional(S.Number.pipe(T.Query("page_size"))),
+          pageToken: S.optional(S.String.pipe(T.Query("page_token"))),
+          status: S.optional(S.String.pipe(T.Query())),
         })
           .pipe(T.Http({ method: "GET", uri: "/tenants/{tenant_id}/accounts", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListAccountsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          abuseContactEmail: S.String.pipe(T.Body("abuse_contact_email")),
           accessApprovalExpiry: S.String.pipe(T.Body("access_approval_expiry")),
           apiAccessEnabled: S.Boolean.pipe(T.Body("api_access_enabled")),
-          defaultNameservers: S.String.pipe(T.Body("default_nameservers")),
-          enforceTwofactor: S.Boolean.pipe(T.Body("enforce_twofactor")),
+          enforceTwoFactor: S.Boolean.pipe(T.Body("enforce_two_factor")),
           useAccountCustomNsByDefault: S.Boolean.pipe(T.Body("use_account_custom_ns_by_default")),
         }),
       ).annotate({ identifier: "AccountsListResultItemSettings" });
-    case 2:
-      return S.Record(S.String, S.String);
     case 3:
       return S.suspend(() =>
         S.Struct({
-          id: S.String,
+          accountPubname: S.String.pipe(T.Body("account_pubname")),
+          accountTag: S.String.pipe(T.Body("account_tag")),
+          accountType: S.String.pipe(T.Body("account_type")),
           createdOn: S.String.pipe(T.Body("created_on")),
-          name: S.String,
-          settings: __S(49, __c3, 1),
-          type: S.String,
-          tags: S.optional(S.NullOr(__S(50, __c3, 2))),
+          settings: __S(50, __c3, 2),
         }),
       ).annotate({ identifier: "AccountsListResultItem" });
     case 4:

@@ -398,9 +398,7 @@ export interface ChatCompletionTool {
 }
 /** A list of tools the model may call. Currently, only functions are supported as a tool. Use this to provide a list of functions the model may generate JSON inputs for. A max of 128 functions are supported. */
 export type ChatRequestToolsList = Array<ChatCompletionTool>;
-export type ChatCompletionToolChoiceOptionCase0 = "none";
-export type ChatCompletionToolChoiceOptionCase1 = "auto";
-export type ChatCompletionToolChoiceOptionCase2 = "required";
+export type ChatCompletionToolChoiceOptionCase0 = "none" | "auto" | "required";
 /** A wrapper for a function name reference. */
 export interface FunctionName {
   /** The name of the function to call. */
@@ -412,33 +410,28 @@ export interface ChatCompletionNamedToolChoice {
   type: ChatCompletionToolType | (string & {});
   function: FunctionName;
 }
-export interface ChatCompletionToolChoiceOptionCase3 {
+export interface ChatCompletionToolChoiceOptionCase1 {
   named: ChatCompletionNamedToolChoice;
 }
 /** Controls which (if any) tool is called by the model. `none` means the model will not call any tool and instead generates a message. `auto` means the model can pick between generating a message or calling one or more tools. `required` means the model must call one or more tools. Specifying a particular tool via `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool. `none` is the default when no tools are present. `auto` is the default if tools are present.present. */
 export type ChatCompletionToolChoiceOption =
   | ChatCompletionToolChoiceOptionCase0
-  | ChatCompletionToolChoiceOptionCase1
-  | ChatCompletionToolChoiceOptionCase2
-  | ChatCompletionToolChoiceOptionCase3;
-/** The model does not call a function, and responds to the end-user. */
-export type ChatCompletionFunctionCallCase0 = "none";
-/** The model can pick between an end-user or calling a function. */
-export type ChatCompletionFunctionCallCase1 = "auto";
+  | ChatCompletionToolChoiceOptionCase1;
+/** - `none`: The model does not call a function, and responds to the end-user. - `auto`: The model can pick between an end-user or calling a function. */
+export type ChatCompletionFunctionCallCase0 = "none" | "auto";
 /** Forces the model to call the specified function. */
-export interface ChatCompletionFunctionCallCase2Function {
+export interface ChatCompletionFunctionCallCase1Function {
   name: string;
 }
 /** Forces the model to call the specified function. */
-export interface ChatCompletionFunctionCallCase2 {
+export interface ChatCompletionFunctionCallCase1 {
   /** Forces the model to call the specified function. */
-  Function: ChatCompletionFunctionCallCase2Function;
+  Function: ChatCompletionFunctionCallCase1Function;
 }
 /** Deprecated in favor of `tool_choice`. Controls which (if any) function is called by the model. */
 export type ChatCompletionFunctionCall =
   | ChatCompletionFunctionCallCase0
-  | ChatCompletionFunctionCallCase1
-  | ChatCompletionFunctionCallCase2;
+  | ChatCompletionFunctionCallCase1;
 /** Deprecated: A function the model may generate JSON inputs for. Use `ChatCompletionTool` instead. */
 export interface ChatCompletionFunctions {
   /** The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64. */
@@ -803,7 +796,7 @@ export interface FieldRankingRuleConfig {
   enabled: boolean;
   order?: FieldRankingRuleConfigOrderList;
 }
-export type FacetValuesSort = "alpha" | "count";
+export type FacetValuesSort = "alpha" | "count" | "sampledCount";
 export interface FieldFilterableConfig {
   enabled: boolean;
   sortBy: FacetValuesSort;
@@ -1112,7 +1105,8 @@ export interface FilterableAttributesPatterns {
   /** The filtering and faceting features enabled for attributes matching these patterns. If not specified, defaults to equality filtering enabled. */
   features?: FilterableAttributesFeatures;
 }
-export type FilterableAttributesRule = string | FilterableAttributesPatterns;
+/** A rule declaring which attributes can be used for filtering and faceting. A rule takes one of two forms. The object form lists attribute patterns together with the filtering and faceting features they enable. The string form names a single attribute and is a shorthand for an object matching that attribute with the default features. */
+export type FilterableAttributesRule = FilterableAttributesPatterns | string;
 /** Attributes that can be used as [filters](https://www.meilisearch.com/docs/learn/filtering_and_sorting/filter_search_results) and [facets](https://www.meilisearch.com/docs/learn/filtering_and_sorting/search_with_facet_filters). Strings or objects with `attributePatterns` and `features`. */
 export type SettingsUncheckedFilterableAttributesList = Array<FilterableAttributesRule>;
 /** Attributes that can be used to [sort search results](https://www.meilisearch.com/docs/learn/filtering_and_sorting/sort_search_results). */
@@ -1969,43 +1963,28 @@ export interface GetrankingRulesRequest {
   /** Unique identifier of the index. */
   index_uid: string;
 }
-/** Sorted by decreasing number of matched query terms. */
-export type RankingRuleViewCase0 = "words";
-/** Sorted by increasing number of typos. */
-export type RankingRuleViewCase1 = "typo";
-/** Sorted by increasing distance between matched query terms. */
-export type RankingRuleViewCase2 = "proximity";
-/** Documents with query words contained in more important attributes and at a closer-to-the-front position in it are considered better. */
-export type RankingRuleViewCase3 = "attribute";
-/** Documents with query words contained in more important attributes are considered better. Position of the query words in an attribute is not considered. */
-export type RankingRuleViewCase4 = "attributeRank";
-/** Documents with query words that are closer to the front of an attribute are considered better. Attribute rank is not considered. */
-export type RankingRuleViewCase5 = "wordPosition";
-/** Dynamically sort at query time the documents. None, one or multiple Asc/Desc sortable attributes can be used in place of this criterion at query time. */
-export type RankingRuleViewCase6 = "sort";
-/** Sorted by the similarity of the matched words with the query words. */
-export type RankingRuleViewCase7 = "exactness";
+/** - `words`: Sorted by decreasing number of matched query terms. - `typo`: Sorted by increasing number of typos. - `proximity`: Sorted by increasing distance between matched query terms. - `attribute`: Documents with query words contained in more important attributes and at a closer-to-the-front position in it are considered better. - `attributeRank`: Documents with query words contained in more important attributes are considered better. Position of the query words in an attribute is not considered. - `wordPosition`: Documents with query words that are closer to the front of an attribute are considered better. Attribute rank is not considered. - `sort`: Dynamically sort at query time the documents. None, one or multiple Asc/Desc sortable attributes can be used in place of this criterion at query time. - `exactness`: Sorted by the similarity of the matched words with the query words. */
+export type RankingRuleViewCase0 =
+  | "words"
+  | "typo"
+  | "proximity"
+  | "attribute"
+  | "attributeRank"
+  | "wordPosition"
+  | "sort"
+  | "exactness";
 /** Sorted by the increasing value of the field specified. */
-export interface RankingRuleViewCase8 {
+export interface RankingRuleViewCase1 {
   /** Sorted by the increasing value of the field specified. */
   asc: string;
 }
 /** Sorted by the decreasing value of the field specified. */
-export interface RankingRuleViewCase9 {
+export interface RankingRuleViewCase2 {
   /** Sorted by the decreasing value of the field specified. */
   desc: string;
 }
-export type RankingRuleView =
-  | RankingRuleViewCase0
-  | RankingRuleViewCase1
-  | RankingRuleViewCase2
-  | RankingRuleViewCase3
-  | RankingRuleViewCase4
-  | RankingRuleViewCase5
-  | RankingRuleViewCase6
-  | RankingRuleViewCase7
-  | RankingRuleViewCase8
-  | RankingRuleViewCase9;
+/** A single ranking rule. Accepts one of the built-in rules (`words`, `typo`, `proximity`, `attribute`, `attributeRank`, `wordPosition`, `sort`, `exactness`) or a sort rule of the form `attribute:asc` or `attribute:desc`. */
+export type RankingRuleView = RankingRuleViewCase0 | RankingRuleViewCase1 | RankingRuleViewCase2;
 export type GetrankingRulesResponseBodyList = Array<RankingRuleView>;
 export type GetrankingRulesResponse = GetrankingRulesResponseBodyList;
 export interface GetRuleRequest {
@@ -2161,6 +2140,7 @@ export interface SearchHit {
   _rankingScore?: number | null;
   /** Per-rule score breakdown (words, typo, proximity, etc.). Present when `showRankingScoreDetails` was true. */
   _rankingScoreDetails?: SearchHitRankingScoreDetailsMap | null;
+  [key: string]: unknown;
 }
 /** Results of the query */
 export type GetSimilarResponseHitsList = Array<SearchHit>;
@@ -2951,6 +2931,13 @@ export interface FederationOptions {
   /** Position of this query in the list of queries */
   queryPosition?: number | null;
 }
+export interface InlineDynamicSearchRule {
+  uid: string;
+  precedence?: number | null;
+  active?: boolean;
+  conditions?: Conditions;
+  actions?: RuleActions;
+}
 /** A `SearchQuery` + an index UID and optional FederationOptions. */
 export interface SearchQueryWithIndex {
   /** Index unique identifier */
@@ -2991,7 +2978,7 @@ export interface SearchQueryWithIndex {
   matchingStrategy?: MatchingStrategy | (string & {});
   /** Restrict search to the specified attributes */
   attributesToSearchOn?: SearchQueryWithIndexAttributesToSearchOnList | null;
-  /** Exclude results below the specified ranking score */
+  /** Stop the search at the first document whose [ranking score](https://www.meilisearch.com/docs/learn/relevancy/ranking_score) is below this value (between 0.0 and 1.0). All the documents after this document are excluded from the hits. Excluded hits do not count toward `estimatedTotalHits`, `totalHits`, or facet distribution. When used together with `page` and `hitsPerPage`, this parameter may reduce performance because Meilisearch must score all matching documents. */
   rankingScoreThreshold?: number | null;
   /** Languages to use for query tokenization */
   locales?: SearchQueryWithIndexLocalesList | null;
@@ -3012,6 +2999,7 @@ export interface SearchQueryWithIndex {
   /** Adds a detailed performance details field */
   showPerformanceDetails?: boolean | null;
   federationOptions?: FederationOptions | null;
+  inlineRule?: InlineDynamicSearchRule | null;
 }
 /** An array of search queries to execute. Each query can target a different index and have its own parameters. When `federation` is `null`, results are returned separately for each query. When `federation` is set, results are merged. Each query object must include `indexUid` to specify which index to search. */
 export type MultiSearchWithPostRequestQueriesList = Array<SearchQueryWithIndex>;
@@ -3047,6 +3035,7 @@ export interface MultiSearchWithPostRequest {
 /** Combined search results from all queries */
 export type MultiSearchWithPostResponseHitsList = Array<SearchHit>;
 export type Vec = Array<number>;
+/** List of vectors per query, if `retrieveVectors` is set to `true` */
 export type MultiSearchWithPostResponseQueryVectorsMap = { [key: string]: Vec | undefined };
 export type MultiSearchWithPostResponseFacetDistributionValueMap = {
   [key: string]: number | undefined;
@@ -3078,6 +3067,83 @@ export interface ComputedFacets {
   stats: ComputedFacetsStatsMap;
 }
 export type FederatedFacets = { [key: string]: ComputedFacets | undefined };
+/** Outcome of the time condition */
+export type TimeConditionOutcome = "satisfied" | "noConstraint" | "tooEarly" | "tooLate";
+/** Outcome of the query empty condition */
+export type QueryEmptyConditionOutcome =
+  | "satisfied"
+  | "noConstraint"
+  | "queryNotEmpty"
+  | "queryEmpty";
+/** - `satisfied`: The query contains all the words of the condition - `noConstraint`: No query words condition */
+export type QueryWordsConditionOutcomeCase0 = "satisfied" | "noConstraint";
+/** At least the specified word is missing in the query */
+export interface QueryWordsConditionOutcomeCase1MissingWord {
+  /** Missing word in query */
+  word: string;
+}
+/** At least the specified word is missing in the query */
+export interface QueryWordsConditionOutcomeCase1 {
+  /** At least the specified word is missing in the query */
+  missingWord: QueryWordsConditionOutcomeCase1MissingWord;
+}
+/** Outcome of the query words condition */
+export type QueryWordsConditionOutcome =
+  | QueryWordsConditionOutcomeCase0
+  | QueryWordsConditionOutcomeCase1;
+/** - `satisfied`: The filter satifies all constraints in the condition - `noConstraint`: No filter condition */
+export type FilterConditionOutcomeCase0 = "satisfied" | "noConstraint";
+/** At least one field from the condition is missing from the filter */
+export interface FilterConditionOutcomeCase1MissingConstraintOnField {
+  /** Missing field in filter */
+  field: string;
+}
+/** At least one field from the condition is missing from the filter */
+export interface FilterConditionOutcomeCase1 {
+  /** At least one field from the condition is missing from the filter */
+  missingConstraintOnField: FilterConditionOutcomeCase1MissingConstraintOnField;
+}
+/** At least one field has a condition not met in the filter */
+export interface FilterConditionOutcomeCase2UnmetConstraintOnField {
+  /** Field with unmet constraint in filter */
+  field: string;
+}
+/** At least one field has a condition not met in the filter */
+export interface FilterConditionOutcomeCase2 {
+  /** At least one field has a condition not met in the filter */
+  unmetConstraintOnField: FilterConditionOutcomeCase2UnmetConstraintOnField;
+}
+/** The filter does not constraint enough field to satisfy the condition */
+export interface FilterConditionOutcomeCase3NotEnoughFields {
+  /** Number of fields in the filter */
+  fieldCountInFilter: number;
+  /** Number of fields in the condition */
+  fieldCountInCondition: number;
+}
+/** The filter does not constraint enough field to satisfy the condition */
+export interface FilterConditionOutcomeCase3 {
+  /** The filter does not constraint enough field to satisfy the condition */
+  notEnoughFields: FilterConditionOutcomeCase3NotEnoughFields;
+}
+/** Outcome of the filter condition */
+export type FilterConditionOutcome =
+  | FilterConditionOutcomeCase0
+  | FilterConditionOutcomeCase1
+  | FilterConditionOutcomeCase2
+  | FilterConditionOutcomeCase3;
+/** Outcome of applying conditions to a query. */
+export interface ConditionOutcomes {
+  /** Whether the rule was active */
+  satisfiesActiveCondition: boolean;
+  /** Whether the current time falls in the range of time specified by the condition */
+  satisfiesTimeCondition?: TimeConditionOutcome;
+  /** Whether the query emptiness condition aligns with the actual query */
+  satisfiesQueryEmptyCondition?: QueryEmptyConditionOutcome;
+  /** Whether the query words meet the condition */
+  satisfiesQueryWordsCondition?: QueryWordsConditionOutcome;
+  /** Whether the filter meets the condition */
+  satisfiesFilterCondition?: FilterConditionOutcome;
+}
 /** Metadata about a search query (included when requested via header). */
 export interface SearchMetadata {
   /** Query string set for the query, if not already present in the response. Only set if: 1. the metadata corresponds to a query in a federated search request, **and** 2. that federated search request query is not a placeholder search (empty or missing `q`) Never set for regular search and non-federated multi-search because the query(ies) are already present in the response. */
@@ -3090,6 +3156,7 @@ export interface SearchMetadata {
   primaryKey?: string | null;
   /** Remote that processed the query (federated search only). */
   remote?: string | null;
+  inlineRuleConditionOutcomes?: ConditionOutcomes | null;
 }
 /** Metadata for each query */
 export type MultiSearchWithPostResponseMetadataList = Array<SearchMetadata>;
@@ -3114,6 +3181,7 @@ export interface MultiSearchWithPostResponse {
   estimatedTotalHits?: number;
   /** Combined search results from all queries */
   hits: MultiSearchWithPostResponseHitsList;
+  /** List of vectors per query, if `retrieveVectors` is set to `true` */
   queryVectors?: MultiSearchWithPostResponseQueryVectorsMap | null;
   /** Total processing time in milliseconds */
   processingTimeMs: number;
@@ -3678,7 +3746,7 @@ export interface SearchWithPostRequest {
   matchingStrategy?: MatchingStrategy | (string & {});
   /** Restrict the search to the listed attributes only. Each attribute must be in the index [searchable attributes](https://www.meilisearch.com/docs/learn/relevancy/displayed_searchable_attributes) list. The order of attributes in this parameter does not affect relevancy. */
   attributesToSearchOn?: SearchWithPostRequestAttributesToSearchOnList | null;
-  /** Exclude from the results any document whose [ranking score](https://www.meilisearch.com/docs/learn/relevancy/ranking_score) is below this value (between 0.0 and 1.0). Excluded hits do not count toward `estimatedTotalHits`, `totalHits`, or facet distribution. When used together with `page` and `hitsPerPage`, this parameter may reduce performance because Meilisearch must score all matching documents. */
+  /** Stop the search at the first document whose [ranking score](https://www.meilisearch.com/docs/learn/relevancy/ranking_score) is below this value (between 0.0 and 1.0). All the documents after this document are excluded from the hits. Excluded hits do not count toward `estimatedTotalHits`, `totalHits`, or facet distribution. When used together with `page` and `hitsPerPage`, this parameter may reduce performance because Meilisearch must score all matching documents. */
   rankingScoreThreshold?: number | null;
   /** Explicitly specify the language(s) of the query. Pass an array of [supported ISO-639 locales](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-localized-attributes-one-of-0). This overrides auto-detection; use it when auto-detection is wrong for the query or the documents. See also the [localizedAttributes](https://www.meilisearch.com/docs/reference/api/settings/list-all-settings#response-localized-attributes-one-of-0) settings and [Language](https://www.meilisearch.com/docs/learn/resources/language). */
   locales?: SearchWithPostRequestLocalesList | null;
@@ -3698,6 +3766,7 @@ export interface SearchWithPostRequest {
   showRankingScoreDetails?: boolean;
   /** When true, the response includes a `performanceDetails` object with a timing breakdown of the query processing. */
   showPerformanceDetails?: boolean;
+  inlineRule?: InlineDynamicSearchRule | null;
 }
 /** Matching documents. Each hit contains document fields and, when requested, `_formatted`, `_matchesPosition`, `_rankingScore`, `_rankingScoreDetails`, `_geoDistance`. */
 export type SearchWithPostResponseHitsList = Array<SearchHit>;
@@ -3794,7 +3863,7 @@ export interface SearchWithUrlQueryRequest {
   matchingStrategy?: MatchingStrategy | (string & {});
   /** Restrict the search to the listed attributes only. Each attribute must be in the index [searchable attributes](https://www.meilisearch.com/docs/learn/relevancy/displayed_searchable_attributes) list. The order of attributes in this parameter does not affect relevancy. */
   attributesToSearchOn?: SearchWithUrlQueryRequestAttributesToSearchOnList;
-  /** Exclude from the results any document whose [ranking score](https://www.meilisearch.com/docs/learn/relevancy/ranking_score) is below this value (between 0.0 and 1.0). Excluded hits do not count toward `estimatedTotalHits`, `totalHits`, or facet distribution. When used together with `page` and `hitsPerPage`, this parameter may reduce performance because Meilisearch must score all matching documents. */
+  /** Stop the search at the first document whose [ranking score](https://www.meilisearch.com/docs/learn/relevancy/ranking_score) is below this value (between 0.0 and 1.0). All the documents after this document are excluded from the hits. Excluded hits do not count toward `estimatedTotalHits`, `totalHits`, or facet distribution. When used together with `page` and `hitsPerPage`, this parameter may reduce performance because Meilisearch must score all matching documents. */
   rankingScoreThreshold?: number;
   /** Explicitly specify the language(s) of the query. Pass an array of [supported ISO-639 locales](https://www.meilisearch.com/docs/reference/api/settings/update-all-settings#body-localized-attributes-one-of-0). This overrides auto-detection; use it when auto-detection is wrong for the query or the documents. See also the [localizedAttributes](https://www.meilisearch.com/docs/reference/api/settings/list-all-settings#response-localized-attributes-one-of-0) settings and [Language](https://www.meilisearch.com/docs/learn/resources/language). */
   locales?: SearchWithUrlQueryRequestLocalesList;
@@ -5653,7 +5722,7 @@ export const listWorkspaces: API.OperationMethod<
 }));
 
 export type McpError = MeilisearchOpError;
-/** Model context protocol (MCP) The `/mcp` route exposes [the MCP open protocol](https://modelcontextprotocol.io) that enables seamless integration between LLM applications and external data sources and tools. */
+/** Model context protocol (MCP) The `/mcp` route exposes an [MCP server](https://www.meilisearch.com/docs/getting_started/integrations/mcp) for LLM applications to search Meilisearch. */
 export const mcp: API.OperationMethod<McpRequest, McpResponse, McpError, MeilisearchOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(5858, __c183, 2) as any as S.Schema<McpRequest>,
@@ -5700,7 +5769,7 @@ export const patchApiKey: API.OperationMethod<
 }));
 
 export type PatchchatError = NotFound | MeilisearchOpError;
-/** Update chat Updates the `chat` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update chat Updates the `chat` setting for the index. */
 export const patchchat: API.OperationMethod<
   PatchchatRequest,
   PatchchatResponse,
@@ -5717,7 +5786,7 @@ export const patchchat: API.OperationMethod<
 }));
 
 export type PatchembeddersError = NotFound | MeilisearchOpError;
-/** Update embedders Updates the `embedders` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update embedders Updates the `embedders` setting for the index. */
 export const patchembedders: API.OperationMethod<
   PatchembeddersRequest,
   PatchembeddersResponse,
@@ -5734,7 +5803,7 @@ export const patchembedders: API.OperationMethod<
 }));
 
 export type PatchfacetingError = NotFound | MeilisearchOpError;
-/** Update faceting Updates the `faceting` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update faceting Updates the `faceting` setting for the index. */
 export const patchfaceting: API.OperationMethod<
   PatchfacetingRequest,
   PatchfacetingResponse,
@@ -5768,7 +5837,7 @@ export const patchFeatures: API.OperationMethod<
 }));
 
 export type PatchpaginationError = NotFound | MeilisearchOpError;
-/** Update pagination Updates the `pagination` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update pagination Updates the `pagination` setting for the index. */
 export const patchpagination: API.OperationMethod<
   PatchpaginationRequest,
   PatchpaginationResponse,
@@ -5802,7 +5871,7 @@ export const patchSettings: API.OperationMethod<
 }));
 
 export type PatchtypoToleranceError = NotFound | MeilisearchOpError;
-/** Update typoTolerance Updates the `typoTolerance` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update typoTolerance Updates the `typoTolerance` setting for the index. */
 export const patchtypoTolerance: API.OperationMethod<
   PatchtypoToleranceRequest,
   PatchtypoToleranceResponse,
@@ -5887,7 +5956,7 @@ export const postSimilar: API.OperationMethod<
 }));
 
 export type PutdictionaryError = NotFound | MeilisearchOpError;
-/** Update dictionary Updates the `dictionary` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update dictionary Updates the `dictionary` setting for the index. */
 export const putdictionary: API.OperationMethod<
   PutdictionaryRequest,
   PutdictionaryResponse,
@@ -5904,7 +5973,7 @@ export const putdictionary: API.OperationMethod<
 }));
 
 export type PutdisplayedAttributesError = NotFound | MeilisearchOpError;
-/** Update displayedAttributes Updates the `displayedAttributes` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update displayedAttributes Updates the `displayedAttributes` setting for the index. */
 export const putdisplayedAttributes: API.OperationMethod<
   PutdisplayedAttributesRequest,
   PutdisplayedAttributesResponse,
@@ -5921,7 +5990,7 @@ export const putdisplayedAttributes: API.OperationMethod<
 }));
 
 export type PutdistinctAttributeError = NotFound | MeilisearchOpError;
-/** Update distinctAttribute Updates the `distinctAttribute` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update distinctAttribute Updates the `distinctAttribute` setting for the index. */
 export const putdistinctAttribute: API.OperationMethod<
   PutdistinctAttributeRequest,
   PutdistinctAttributeResponse,
@@ -5938,7 +6007,7 @@ export const putdistinctAttribute: API.OperationMethod<
 }));
 
 export type PutfilterableAttributesError = NotFound | MeilisearchOpError;
-/** Update filterableAttributes Updates the `filterableAttributes` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update filterableAttributes Updates the `filterableAttributes` setting for the index. */
 export const putfilterableAttributes: API.OperationMethod<
   PutfilterableAttributesRequest,
   PutfilterableAttributesResponse,
@@ -5955,7 +6024,7 @@ export const putfilterableAttributes: API.OperationMethod<
 }));
 
 export type PutforeignKeysError = NotFound | MeilisearchOpError;
-/** Update foreignKeys Updates the `foreignKeys` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update foreignKeys Updates the `foreignKeys` setting for the index. */
 export const putforeignKeys: API.OperationMethod<
   PutforeignKeysRequest,
   PutforeignKeysResponse,
@@ -5972,7 +6041,7 @@ export const putforeignKeys: API.OperationMethod<
 }));
 
 export type PutlocalizedAttributesError = NotFound | MeilisearchOpError;
-/** Update localizedAttributes Updates the `localizedAttributes` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update localizedAttributes Updates the `localizedAttributes` setting for the index. */
 export const putlocalizedAttributes: API.OperationMethod<
   PutlocalizedAttributesRequest,
   PutlocalizedAttributesResponse,
@@ -5989,7 +6058,7 @@ export const putlocalizedAttributes: API.OperationMethod<
 }));
 
 export type PutnonSeparatorTokensError = NotFound | MeilisearchOpError;
-/** Update nonSeparatorTokens Updates the `nonSeparatorTokens` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update nonSeparatorTokens Updates the `nonSeparatorTokens` setting for the index. */
 export const putnonSeparatorTokens: API.OperationMethod<
   PutnonSeparatorTokensRequest,
   PutnonSeparatorTokensResponse,
@@ -6006,7 +6075,7 @@ export const putnonSeparatorTokens: API.OperationMethod<
 }));
 
 export type PutproximityPrecisionError = NotFound | MeilisearchOpError;
-/** Update proximityPrecision Updates the `proximityPrecision` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update proximityPrecision Updates the `proximityPrecision` setting for the index. */
 export const putproximityPrecision: API.OperationMethod<
   PutproximityPrecisionRequest,
   PutproximityPrecisionResponse,
@@ -6023,7 +6092,7 @@ export const putproximityPrecision: API.OperationMethod<
 }));
 
 export type PutrankingRulesError = NotFound | MeilisearchOpError;
-/** Update rankingRules Updates the `rankingRules` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update rankingRules Updates the `rankingRules` setting for the index. */
 export const putrankingRules: API.OperationMethod<
   PutrankingRulesRequest,
   PutrankingRulesResponse,
@@ -6040,7 +6109,7 @@ export const putrankingRules: API.OperationMethod<
 }));
 
 export type PutsearchableAttributesError = NotFound | MeilisearchOpError;
-/** Update searchableAttributes Updates the `searchableAttributes` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update searchableAttributes Updates the `searchableAttributes` setting for the index. */
 export const putsearchableAttributes: API.OperationMethod<
   PutsearchableAttributesRequest,
   PutsearchableAttributesResponse,
@@ -6057,7 +6126,7 @@ export const putsearchableAttributes: API.OperationMethod<
 }));
 
 export type PutsearchCutoffMsError = NotFound | MeilisearchOpError;
-/** Update searchCutoffMs Updates the `searchCutoffMs` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update searchCutoffMs Updates the `searchCutoffMs` setting for the index. */
 export const putsearchCutoffMs: API.OperationMethod<
   PutsearchCutoffMsRequest,
   PutsearchCutoffMsResponse,
@@ -6074,7 +6143,7 @@ export const putsearchCutoffMs: API.OperationMethod<
 }));
 
 export type PutseparatorTokensError = NotFound | MeilisearchOpError;
-/** Update separatorTokens Updates the `separatorTokens` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update separatorTokens Updates the `separatorTokens` setting for the index. */
 export const putseparatorTokens: API.OperationMethod<
   PutseparatorTokensRequest,
   PutseparatorTokensResponse,
@@ -6091,7 +6160,7 @@ export const putseparatorTokens: API.OperationMethod<
 }));
 
 export type PutsortableAttributesError = NotFound | MeilisearchOpError;
-/** Update sortableAttributes Updates the `sortableAttributes` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update sortableAttributes Updates the `sortableAttributes` setting for the index. */
 export const putsortableAttributes: API.OperationMethod<
   PutsortableAttributesRequest,
   PutsortableAttributesResponse,
@@ -6108,7 +6177,7 @@ export const putsortableAttributes: API.OperationMethod<
 }));
 
 export type PutstopWordsError = NotFound | MeilisearchOpError;
-/** Update stopWords Updates the `stopWords` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update stopWords Updates the `stopWords` setting for the index. */
 export const putstopWords: API.OperationMethod<
   PutstopWordsRequest,
   PutstopWordsResponse,
@@ -6125,7 +6194,7 @@ export const putstopWords: API.OperationMethod<
 }));
 
 export type PutsynonymsError = NotFound | MeilisearchOpError;
-/** Update synonyms Updates the `synonyms` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update synonyms Updates the `synonyms` setting for the index. */
 export const putsynonyms: API.OperationMethod<
   PutsynonymsRequest,
   PutsynonymsResponse,
@@ -6261,7 +6330,7 @@ export const searchGetprefix: API.OperationMethod<
 }));
 
 export type SearchPutfacetError = NotFound | MeilisearchOpError;
-/** Update facetSearch Updates the `facetSearch` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update facetSearch Updates the `facetSearch` setting for the index. */
 export const searchPutfacet: API.OperationMethod<
   SearchPutfacetRequest,
   SearchPutfacetResponse,
@@ -6278,7 +6347,7 @@ export const searchPutfacet: API.OperationMethod<
 }));
 
 export type SearchPutprefixError = NotFound | MeilisearchOpError;
-/** Update prefixSearch Updates the `prefixSearch` setting for the index. Send the new value in the request body; send null to reset to default. */
+/** Update prefixSearch Updates the `prefixSearch` setting for the index. */
 export const searchPutprefix: API.OperationMethod<
   SearchPutprefixRequest,
   SearchPutprefixResponse,
@@ -7214,6 +7283,7 @@ function __c39(j: number): any {
           showRankingScore: S.optional(S.Boolean),
           showRankingScoreDetails: S.optional(S.Boolean),
           showPerformanceDetails: S.optional(S.Boolean),
+          inlineRule: S.optional(S.NullOr(__S(5953, __c186, 1))),
         }).pipe(T.Http({ method: "POST", uri: "/indexes/{index_uid}/search", code: 200 })),
       ).annotate({ identifier: "SearchWithPostRequest" });
   }
@@ -7237,7 +7307,7 @@ function __c40(j: number): any {
           facetDistribution: S.optional(S.NullOr(__S(2784, __c87, 0))),
           facetStats: S.optional(S.NullOr(__S(5985, __c187, 1))),
           requestUid: S.optional(S.NullOr(S.String)),
-          metadata: S.optional(S.NullOr(__S(5986, __c187, 2))),
+          metadata: S.optional(S.NullOr(__S(5987, __c187, 3))),
           performanceDetails: S.optional(S.Unknown),
           remoteErrors: S.optional(S.NullOr(__S(5920, __c185, 0))),
           semanticHitCount: S.optional(S.NullOr(S.Number)),
@@ -9255,12 +9325,15 @@ function __c162(j: number): any {
       return S.Record(S.String, __S(5185, __c162, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          _formatted: S.optional(__S(2784, __c87, 0)),
-          _matchesPosition: S.optional(S.NullOr(__S(5186, __c162, 2))),
-          _rankingScore: S.optional(S.NullOr(S.Number)),
-          _rankingScoreDetails: S.optional(S.NullOr(__S(2784, __c87, 0))),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            _formatted: S.optional(__S(2784, __c87, 0)),
+            _matchesPosition: S.optional(S.NullOr(__S(5186, __c162, 2))),
+            _rankingScore: S.optional(S.NullOr(S.Number)),
+            _rankingScoreDetails: S.optional(S.NullOr(__S(2784, __c87, 0))),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "SearchHit" });
     case 4:
       return S.Array(__S(5187, __c162, 3));
@@ -9766,6 +9839,7 @@ function __c184(j: number): any {
           showRankingScoreDetails: S.optional(S.Boolean),
           showPerformanceDetails: S.optional(S.NullOr(S.Boolean)),
           federationOptions: S.optional(S.NullOr(__S(5888, __c184, 0))),
+          inlineRule: S.optional(S.NullOr(__S(5953, __c186, 1))),
         }),
       ).annotate({ identifier: "SearchQueryWithIndex" });
     case 2:
@@ -9811,7 +9885,7 @@ function __c184(j: number): any {
     case 9:
       return S.Record(S.String, __S(5896, __c184, 8));
     case 10:
-      return S.Array(__S(5986, __c187, 2));
+      return S.Array(__S(5987, __c187, 3));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -9851,6 +9925,16 @@ function __c186(j: number): any {
           userContext: S.String,
         }),
       ).annotate({ identifier: "Personalize" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          uid: S.String,
+          precedence: S.optional(S.NullOr(S.Number)),
+          active: S.optional(S.Boolean),
+          conditions: S.optional(__S(4931, __c154, 3)),
+          actions: S.optional(__S(4936, __c154, 8)),
+        }),
+      ).annotate({ identifier: "InlineDynamicSearchRule" });
   }
 }
 function __c187(j: number): any {
@@ -9867,11 +9951,22 @@ function __c187(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          satisfiesActiveCondition: S.Boolean,
+          satisfiesTimeCondition: S.optional(S.String),
+          satisfiesQueryEmptyCondition: S.optional(S.String),
+          satisfiesQueryWordsCondition: S.optional(S.Unknown),
+          satisfiesFilterCondition: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "ConditionOutcomes" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           query: S.optional(S.NullOr(S.String)),
           queryUid: S.String,
           indexUid: S.String,
           primaryKey: S.optional(S.NullOr(S.String)),
           remote: S.optional(S.NullOr(S.String)),
+          inlineRuleConditionOutcomes: S.optional(S.NullOr(__S(5986, __c187, 2))),
         }),
       ).annotate({ identifier: "SearchMetadata" });
   }

@@ -173,6 +173,7 @@ export type LifeCycleState =
   | "deleted"
   | "error"
   | "updating"
+  | "misconfigured"
   | (string & {});
 export type AwsAccountId = string;
 export interface CreateAccessPointResponse {

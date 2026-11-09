@@ -107,41 +107,21 @@ export interface CancelProjectsLocationsOperationsRequest {
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-export type InstanceConfigInstanceSizeEnum =
-  | "INSTANCE_SIZE_UNSPECIFIED"
-  | "STANDARD_SMALL"
-  | "STANDARD_MEDIUM"
-  | "STANDARD_LARGE"
-  | "STANDARD_XLARGE"
-  | "STANDARD_2XLARGE"
-  | "STANDARD_3XLARGE"
-  | "MULTIREGION_SMALL"
-  | "MULTIREGION_MEDIUM"
-  | "MULTIREGION_LARGE"
-  | "MULTIREGION_XLARGE"
-  | "MULTIREGION_2XLARGE"
-  | "MULTIREGION_3XLARGE"
-  | "DEV_SMALL"
-  | "SANDBOX_SMALL"
-  | "TRIAL_SMALL"
-  | "TIME_LIMITED_TRIAL_SMALL";
-/** Message storing the instance configuration. */
-export interface InstanceConfig {
-  /** The instance size of this the instance configuration. */
-  instanceSize?: InstanceConfigInstanceSizeEnum | (string & {});
+/** Message storing info about the first admin user. Next ID: 3 */
+export interface AdminUser {
+  /** Optional. Last/family name of the first admin user. */
+  familyName?: string;
+  /** Optional. First/given name of the first admin user. */
+  givenName?: string;
 }
+/** LINT.IfChange First Channel to receive the updates. Meant to dev/test instances */
+export type Early = CancelOperationRequest;
 export type StringList = Array<string>;
-/** Message storing the URIs of the ContactCenter. */
-export interface URIs {
-  /** Virtual Agent Streaming Service Uri of the ContactCenter. */
-  virtualAgentStreamingServiceUri?: string;
-  /** Root Uri of the ContactCenter. */
-  rootUri?: string;
-  /** Chat Bot Uri of the ContactCenter */
-  chatBotUri?: string;
-  /** Media Uri of the ContactCenter. */
-  mediaUri?: string;
+export interface FeatureConfig {
+  /** Optional. If true - enables the agent desktop feature. Default is false. */
+  agentDesktopEnabled?: boolean;
 }
+export type StringMap = { [key: string]: string | undefined };
 export type SAMLParamsAuthenticationContextsItemEnum =
   | "AUTHENTICATION_CONTEXT_UNSPECIFIED"
   | "INTERNET_PROTOCOL"
@@ -173,85 +153,41 @@ export type SAMLParamsAuthenticationContextsItemEnumList = Array<
 >;
 /** Message storing SAML params to enable Google as IDP. */
 export interface SAMLParams {
-  /** SAML certificate */
-  certificate?: string;
   /** IdP field that maps to the user's email address */
   emailMapping?: string;
-  /** Email address of the first admin users. */
-  userEmail?: string;
-  /** Single sign-on URL */
-  ssoUri?: string;
-  /** Entity id URL */
-  entityId?: string;
+  /** SAML certificate */
+  certificate?: string;
   /** Additional contexts used for authentication. */
   authenticationContexts?: SAMLParamsAuthenticationContextsItemEnumList;
+  /** Entity id URL */
+  entityId?: string;
+  /** Single sign-on URL */
+  ssoUri?: string;
+  /** Email address of the first admin users. */
+  userEmail?: string;
 }
-export type WeeklyScheduleDaysItemEnum =
-  | "DAY_OF_WEEK_UNSPECIFIED"
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY"
-  | "SUNDAY";
-export type WeeklyScheduleDaysItemEnumList = Array<WeeklyScheduleDaysItemEnum | (string & {})>;
-/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
-export interface TimeOfDay {
-  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
-  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
-  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  nanos?: number;
-  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number;
-}
-/** Message representing a weekly schedule. */
-export interface WeeklySchedule {
-  /** Optional. Duration of the schedule. */
-  duration?: string;
-  /** Required. Days of the week this schedule applies to. */
-  days?: WeeklyScheduleDaysItemEnumList;
-  /** Required. Daily start time of the schedule. */
-  startTime?: TimeOfDay;
-  /** Optional. Daily end time of the schedule. If `end_time` is before `start_time`, the schedule will be considered as ending on the next day. */
-  endTime?: TimeOfDay;
-}
-export type WeeklyScheduleList = Array<WeeklySchedule>;
-/** Instances in this Channel will receive updates after all instances in `Normal` were updated. They also will only be updated outside of their peak hours. */
-export interface Critical {
-  /** Required. Hours during which the instance should not be updated. */
-  peakHours?: WeeklyScheduleList;
-}
-/** Instances in this Channel will receive updates after all instances in `Early` were updated + 2 days. */
-export type Normal = CancelOperationRequest;
-/** Message storing info about the first admin user. Next ID: 3 */
-export interface AdminUser {
-  /** Optional. First/given name of the first admin user. */
-  givenName?: string;
-  /** Optional. Last/family name of the first admin user. */
-  familyName?: string;
-}
-/** LINT.IfChange First Channel to receive the updates. Meant to dev/test instances */
-export type Early = CancelOperationRequest;
-export type ContactCenterStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "STATE_DEPLOYING"
-  | "STATE_DEPLOYED"
-  | "STATE_TERMINATING"
-  | "STATE_FAILED"
-  | "STATE_TERMINATING_FAILED"
-  | "STATE_TERMINATED"
-  | "STATE_IN_GRACE_PERIOD"
-  | "STATE_FAILING_OVER"
-  | "STATE_DEGRADED"
-  | "STATE_REPAIRING"
-  | "STATE_EXPIRING";
-export type StringMap = { [key: string]: string | undefined };
-export interface FeatureConfig {
-  /** Optional. If true - enables the agent desktop feature. Default is false. */
-  agentDesktopEnabled?: boolean;
+export type InstanceConfigInstanceSizeEnum =
+  | "INSTANCE_SIZE_UNSPECIFIED"
+  | "STANDARD_SMALL"
+  | "STANDARD_MEDIUM"
+  | "STANDARD_LARGE"
+  | "STANDARD_XLARGE"
+  | "STANDARD_2XLARGE"
+  | "STANDARD_3XLARGE"
+  | "MULTIREGION_SMALL"
+  | "MULTIREGION_MEDIUM"
+  | "MULTIREGION_LARGE"
+  | "MULTIREGION_XLARGE"
+  | "MULTIREGION_2XLARGE"
+  | "MULTIREGION_3XLARGE"
+  | "DEV_SMALL"
+  | "SANDBOX_SMALL"
+  | "TRIAL_SMALL"
+  | "TIME_LIMITED_TRIAL_SMALL";
+/** Message storing the instance configuration. */
+export interface InstanceConfig {
+  /** The instance size of this the instance configuration. */
+  instanceSize?: InstanceConfigInstanceSizeEnum | (string & {});
 }
 /** Defines a logical CCAIP component that e.g. "EMAIL", "CRM". For more information see go/ccaip-private-path-v2. Each logical component is associated with a list of service attachments. */
 export interface Component {
@@ -270,71 +206,135 @@ export interface PscSetting {
 }
 /** Defines ingress and egress private traffic settings for CCAIP instances. */
 export interface PrivateAccess {
+  /** List of ingress components that should not be accessed via the Internet. For more information see go/ccaip-private-path-v2. */
+  ingressSettings?: ComponentList;
   /** List of egress components that should not be accessed via the Internet. For more information see go/ccaip-private-path-v2. */
   egressSettings?: ComponentList;
   /** Private service connect settings. */
   pscSetting?: PscSetting;
-  /** List of ingress components that should not be accessed via the Internet. For more information see go/ccaip-private-path-v2. */
-  ingressSettings?: ComponentList;
+}
+/** Instances in this Channel will receive updates after all instances in `Early` were updated + 2 days. */
+export type Normal = CancelOperationRequest;
+/** Message storing the URIs of the ContactCenter. */
+export interface URIs {
+  /** Chat Bot Uri of the ContactCenter */
+  chatBotUri?: string;
+  /** Root Uri of the ContactCenter. */
+  rootUri?: string;
+  /** Virtual Agent Streaming Service Uri of the ContactCenter. */
+  virtualAgentStreamingServiceUri?: string;
+  /** Media Uri of the ContactCenter. */
+  mediaUri?: string;
+}
+export type ContactCenterStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "STATE_DEPLOYING"
+  | "STATE_DEPLOYED"
+  | "STATE_TERMINATING"
+  | "STATE_FAILED"
+  | "STATE_TERMINATING_FAILED"
+  | "STATE_TERMINATED"
+  | "STATE_IN_GRACE_PERIOD"
+  | "STATE_FAILING_OVER"
+  | "STATE_DEGRADED"
+  | "STATE_REPAIRING"
+  | "STATE_EXPIRING";
+/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
+export interface TimeOfDay {
+  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
+  minutes?: number;
+  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number;
+  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number;
+  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
+  nanos?: number;
+}
+export type WeeklyScheduleDaysItemEnum =
+  | "DAY_OF_WEEK_UNSPECIFIED"
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+export type WeeklyScheduleDaysItemEnumList = Array<WeeklyScheduleDaysItemEnum | (string & {})>;
+/** Message representing a weekly schedule. */
+export interface WeeklySchedule {
+  /** Optional. Daily end time of the schedule. If `end_time` is before `start_time`, the schedule will be considered as ending on the next day. */
+  endTime?: TimeOfDay;
+  /** Required. Days of the week this schedule applies to. */
+  days?: WeeklyScheduleDaysItemEnumList;
+  /** Required. Daily start time of the schedule. */
+  startTime?: TimeOfDay;
+  /** Optional. Duration of the schedule. */
+  duration?: string;
+}
+export type WeeklyScheduleList = Array<WeeklySchedule>;
+/** Instances in this Channel will receive updates after all instances in `Normal` were updated. They also will only be updated outside of their peak hours. */
+export interface Critical {
+  /** Required. Hours during which the instance should not be updated. */
+  peakHours?: WeeklyScheduleList;
 }
 /** Message describing ContactCenter object */
 export interface ContactCenter {
-  /** The configuration of this instance, it is currently immutable once created. */
-  instanceConfig?: InstanceConfig;
-  /** Output only. TODO(b/283407860) Deprecate this field. */
-  privateComponents?: StringList;
-  /** Optional. Email address of the first admin user. */
-  userEmail?: string;
-  /** Required. Immutable. At least 2 and max 16 char long, must conform to [RFC 1035](https://www.ietf.org/rfc/rfc1035.txt). */
-  customerDomainPrefix?: string;
-  /** Output only. URIs to access the deployed ContactCenters. */
-  uris?: URIs;
-  /** Optional. Params that sets up Google as IdP. */
-  samlParams?: SAMLParams;
-  /** Output only. UJET release version, unique for each new release. */
-  releaseVersion?: string;
-  /** name of resource */
-  name?: string;
-  /** Required. A user friendly name for the ContactCenter. */
-  displayName?: string;
-  /** Output only. Timestamp in UTC of when this resource was soft-deleted. */
-  deleteTime?: string;
-  /** Optional. Critical release channel. */
-  critical?: Critical;
-  /** Output only. Timestamp in UTC of when this resource is considered expired. */
-  expireTime?: string;
-  /** Output only. [Output only] Update time stamp */
-  updateTime?: string;
-  /** Optional. Normal release channel. */
-  normal?: CancelOperationRequest;
   /** Optional. Info about the first admin user, such as given name and family name. */
   adminUser?: AdminUser;
+  /** Output only. UJET release version, unique for each new release. */
+  releaseVersion?: string;
+  /** Required. A user friendly name for the ContactCenter. */
+  displayName?: string;
   /** Optional. Early release channel. */
   early?: CancelOperationRequest;
-  /** Output only. [Output only] Create time stamp */
-  createTime?: string;
-  /** Optional. Whether to enable users to be created in the CCAIP-instance concurrently to having users in Cloud identity */
-  ccaipManagedUsers?: boolean;
-  /** Output only. The state of this contact center. */
-  state?: ContactCenterStateEnum | (string & {});
-  /** Labels as key value pairs */
-  labels?: StringMap;
+  /** Output only. TODO(b/283407860) Deprecate this field. */
+  privateComponents?: StringList;
   /** Optional. Feature configuration to populate the feature flags. */
   featureConfig?: FeatureConfig;
-  /** Optional. VPC-SC related networking configuration. */
-  privateAccess?: PrivateAccess;
+  /** name of resource */
+  name?: string;
+  /** Optional. Whether to enable users to be created in the CCAIP-instance concurrently to having users in Cloud identity */
+  ccaipManagedUsers?: boolean;
   /** Output only. Timestamp in UTC of when this resource is going to be hard-deleted. */
   purgeTime?: string;
+  /** Optional. Email address of the first admin user. */
+  userEmail?: string;
+  /** Labels as key value pairs */
+  labels?: StringMap;
+  /** Output only. [Output only] Create time stamp */
+  createTime?: string;
+  /** Optional. Params that sets up Google as IdP. */
+  samlParams?: SAMLParams;
+  /** Output only. [Output only] Update time stamp */
+  updateTime?: string;
   /** Immutable. The KMS key name to encrypt the user input (`ContactCenter`). */
   kmsKey?: string;
+  /** The configuration of this instance, it is currently immutable once created. */
+  instanceConfig?: InstanceConfig;
+  /** Optional. VPC-SC related networking configuration. */
+  privateAccess?: PrivateAccess;
+  /** Output only. Timestamp in UTC of when this resource was soft-deleted. */
+  deleteTime?: string;
+  /** Output only. Timestamp in UTC of when this resource is considered expired. */
+  expireTime?: string;
+  /** Optional. Normal release channel. */
+  normal?: CancelOperationRequest;
+  /** Output only. URIs to access the deployed ContactCenters. */
+  uris?: URIs;
+  /** Required. Immutable. At least 2 and max 16 char long, must conform to [RFC 1035](https://www.ietf.org/rfc/rfc1035.txt). */
+  customerDomainPrefix?: string;
   /** Optional. Whether the advanced reporting feature is enabled. */
   advancedReportingEnabled?: boolean;
+  /** Output only. The state of this contact center. */
+  state?: ContactCenterStateEnum | (string & {});
+  /** Optional. Critical release channel. */
+  critical?: Critical;
 }
 export interface CreateProjectsLocationsContactCentersRequest {
-  /** Required. Id of the requesting object If auto-generating Id server-side, remove this field and contact_center_id from the method_signature of Create RPC */
-  contactCenterId?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. Id of the requesting object If auto-generating Id server-side, remove this field and contact_center_id from the method_signature of Create RPC */
+  contactCenterId?: string;
   /** Required. Value for parent. */
   parent: string;
   /** Request body */
@@ -344,104 +344,35 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
 }
 export interface DeleteProjectsLocationsContactCentersRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. Name of the resource */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
-}
-/** Template specifying rules for generating a single event that occurs during a shift. An event may represent a meeting, break, lunch, etc. */
-export interface EventTemplate {
-  /** Required. The time increment (in minutes) used to generate the set of possible event start times between `minimum_minutes_after_shift_start` and `maximum_minutes_after_shift_start`. For example, if the minimum minutes after shift start are 30, maximum minutes after shift start are 45, and the start time increment is 5 minutes, the event can take place 30, 35, 40, or 45 minutes after the start of the shift. */
-  startTimeIncrementMinutes?: number;
-  /** Required. Unique ID of this template. */
-  id?: string;
-  /** Optional. Minimum number of minutes after the beginning of a shift that this event can start. */
-  minimumMinutesAfterShiftStart?: number;
-  /** Required. Fixed duration in minutes of this event. */
-  durationMinutes?: number;
-  /** Optional. Maximum number of minutes after the beginning of a shift that this event can start. */
-  maximumMinutesAfterShiftStart?: number;
-}
-export type EventTemplateList = Array<EventTemplate>;
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface Contactcenteraiplatform_Date {
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
-}
-export type Contactcenteraiplatform_DateList = Array<Contactcenteraiplatform_Date>;
-/** List of dates. */
-export interface DateList {
-  /** Optional. Values in the list. */
-  values?: Contactcenteraiplatform_DateList;
-}
-/** Template specifying rules for generating shifts. A shift is a unit of work that specifies a start time, end time, and may contain events (e.g. lunch, breaks etc.). Shifts will be assigned to specific dates in the response. */
-export interface ShiftTemplate {
-  /** Required. Earliest time in the day that a shift can start. This value is specified with hours and minutes; seconds and nanos are ignored. */
-  earliestStartTime?: TimeOfDay;
-  /** Optional. Rules for generating events for each shift. Exactly one event will be included in each shift for each `EventTemplate` specified. */
-  eventTemplates?: EventTemplateList;
-  /** Required. Latest time in the day that a shift can start. This value is specified with hours and minutes; seconds and nanos are ignored. If this value is less than the `earliest_start_time`, it may imply an overnight shift. */
-  latestStartTime?: TimeOfDay;
-  /** Required. Fixed duration of a shift generated by this template. */
-  durationMinutes?: number;
-  /** Optional. A list of specific employee IDs that can be assigned to shifts generated by this template. If this field is present, there will be `EmployeeSchedule`s in the response for which the `EmployeeSchedule.employee_id` field is set to one of the IDs in this list. The number of employee schedules with an assigned employee ID will be between `minimum_employee_count` and `maximum_employee_count`. If this field is empty, between `minimum_employee_count` and `maximum_employee_count` employees can be assigned to shifts generated by this template and the employee schedules won't have an assigned employee ID. Currently, only one assignable employee ID is supported. */
-  assignableEmployeeIds?: StringList;
-  /** Optional. Fixed dates when shifts from this template should not be generated. */
-  daysOffDates?: DateList;
-  /** Optional. The time increment (in minutes) used to generate the set of possible start times between `earliest_start_time` and `latest_start_time`. For example, if the earliest start time is 8:00, the latest start time is 8:30, and the start time increment is 10 minutes, then all possible start times for this shift template are: 8:00, 8:10, 8:20, and 8:30. */
-  startTimeIncrementMinutes?: number;
-  /** Optional. Fixed number of days off per week. An employee has a given day off if they are not assigned to a shift that starts on that day. A week is 7 days and begins on Sunday. */
-  daysOffCountPerWeek?: number;
-  /** Optional. Minimum minutes between the end of one event and the start of the next. */
-  minimumIntereventGapMinutes?: number;
-  /** Required. Unique ID of this template. */
-  id?: string;
-  /** Required. Maximum number of employees that can be assigned to all shifts generated by this template on working days. */
-  maximumEmployeeCount?: number;
-  /** Optional. Minimum number of employees that can be assigned to all shifts generated by this template on working days. */
-  minimumEmployeeCount?: number;
-}
-export type ShiftTemplateList = Array<ShiftTemplate>;
-export type SolverConfigScheduleTypeEnum =
-  | "SCHEDULE_TYPE_UNSPECIFIED"
-  | "SINGLE_SHIFT"
-  | "WEEKLY_WITH_FIXED_EVENTS"
-  | "WEEKLY_WITH_VARIABLE_EVENTS";
-/** Specifies additional parameters for the solver generating shifts. */
-export interface SolverConfig {
-  /** Optional. Maximum time the solver should spend on the problem. If not set, defaults to 1 minute. The choice of a time limit should depend on the size of the problem. To give an example, when solving a 7-day instance with 2 `ShiftTemplates`, each with ~20 possible start times and holding 2 events with ~30 possible start times, and two days off per week, recommended values are: <10s for fast solutions (and likely suboptimal), (10s, 300s) for good quality solutions, and >300s for an exhaustive search. Larger instances may require longer time limits. This value is not a hard limit and it does not account for the communication overhead. The expected latency to solve the problem may slightly exceed this value. */
-  maximumProcessingDuration?: string;
-  /** Required. Specifies the type of schedule to generate. */
-  scheduleType?: SolverConfigScheduleTypeEnum | (string & {});
 }
 /** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
 export interface TimeZone {
@@ -452,39 +383,24 @@ export interface TimeZone {
 }
 /** Represents civil time (or occasionally physical time). This type can represent a civil time in one of a few possible ways: * When utc_offset is set and time_zone is unset: a civil time on a calendar day with a particular offset from UTC. * When time_zone is set and utc_offset is unset: a civil time on a calendar day in a particular time zone. * When neither time_zone nor utc_offset is set: a civil time on a calendar day in local time. The date is relative to the Proleptic Gregorian Calendar. If year, month, or day are 0, the DateTime is considered not to have a specific year, month, or day respectively. This type may also be used to represent a physical time if all the date and time fields are set and either case of the `time_offset` oneof is set. Consider using `Timestamp` message for physical time instead. If your use case also would like to store the user's timezone, that can be done in another field. This type is more flexible than some applications may want. Make sure to document and validate your application's limitations. */
 export interface DateTime {
-  /** Time zone. */
-  timeZone?: TimeZone;
-  /** Optional. Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999, defaults to 0. */
-  nanos?: number;
-  /** Optional. Year of date. Must be from 1 to 9999, or 0 if specifying a datetime without a year. */
-  year?: number;
   /** Optional. Hours of day in 24 hour format. Should be from 0 to 23, defaults to 0 (midnight). An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
   hours?: number;
   /** Optional. Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a datetime without a day. */
   day?: number;
+  /** Optional. Month of year. Must be from 1 to 12, or 0 if specifying a datetime without a month. */
+  month?: number;
+  /** Optional. Year of date. Must be from 1 to 9999, or 0 if specifying a datetime without a year. */
+  year?: number;
   /** UTC offset. Must be whole seconds, between -18 hours and +18 hours. For example, a UTC offset of -4:00 would be represented as { seconds: -14400 }. */
   utcOffset?: string;
   /** Optional. Minutes of hour of day. Must be from 0 to 59, defaults to 0. */
   minutes?: number;
   /** Optional. Seconds of minutes of the time. Must normally be from 0 to 59, defaults to 0. An API may allow the value 60 if it allows leap-seconds. */
   seconds?: number;
-  /** Optional. Month of year. Must be from 1 to 12, or 0 if specifying a datetime without a month. */
-  month?: number;
-}
-/** Specifies the number of employees required to cover the demand in the given time interval. The length of the interval must be strictly positive. */
-export interface WorkforceDemand {
-  /** Required. Start of the time interval for the given demand (inclusive). These values are read down to the minute; seconds and all smaller units are ignored. */
-  startTime?: DateTime;
-  /** Required. End of the time interval for the given demand (exclusive). These values are read down to the minute; seconds and all smaller units are ignored. */
-  endTime?: DateTime;
-  /** Optional. Number of employees needed to cover the demand for this interval. */
-  employeeCount?: number;
-}
-export type WorkforceDemandList_ = Array<WorkforceDemand>;
-/** List of workforce demands. */
-export interface WorkforceDemandList {
-  /** Optional. Values in the list. */
-  values?: WorkforceDemandList_;
+  /** Time zone. */
+  timeZone?: TimeZone;
+  /** Optional. Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999, defaults to 0. */
+  nanos?: number;
 }
 /** Specifies a time interval during which the overlap with events (generated from event templates) should be minimal. */
 export interface UnwantedEventInterval {
@@ -504,23 +420,107 @@ export interface EmployeeInfo {
 export type EmployeeInfoList = Array<EmployeeInfo>;
 /** Specifies the time interval during which the solver should generate shifts. The start time must be before the end time. */
 export interface PlanningHorizon {
+  /** Required. Start of the time interval for the given demand (inclusive). These values are read down to the minute; seconds and all smaller units are ignored. */
+  startTime?: DateTime;
+  /** Required. End of the time interval for the given demand (exclusive). These values are read down to the minute; seconds and all smaller units are ignored. */
+  endTime?: DateTime;
+}
+/** Specifies the number of employees required to cover the demand in the given time interval. The length of the interval must be strictly positive. */
+export interface WorkforceDemand {
   /** Required. End of the time interval for the given demand (exclusive). These values are read down to the minute; seconds and all smaller units are ignored. */
   endTime?: DateTime;
   /** Required. Start of the time interval for the given demand (inclusive). These values are read down to the minute; seconds and all smaller units are ignored. */
   startTime?: DateTime;
+  /** Optional. Number of employees needed to cover the demand for this interval. */
+  employeeCount?: number;
 }
+export type WorkforceDemandList_ = Array<WorkforceDemand>;
+/** List of workforce demands. */
+export interface WorkforceDemandList {
+  /** Optional. Values in the list. */
+  values?: WorkforceDemandList_;
+}
+export type SolverConfigScheduleTypeEnum =
+  | "SCHEDULE_TYPE_UNSPECIFIED"
+  | "SINGLE_SHIFT"
+  | "WEEKLY_WITH_FIXED_EVENTS"
+  | "WEEKLY_WITH_VARIABLE_EVENTS";
+/** Specifies additional parameters for the solver generating shifts. */
+export interface SolverConfig {
+  /** Optional. Maximum time the solver should spend on the problem. If not set, defaults to 1 minute. The choice of a time limit should depend on the size of the problem. To give an example, when solving a 7-day instance with 2 `ShiftTemplates`, each with ~20 possible start times and holding 2 events with ~30 possible start times, and two days off per week, recommended values are: <10s for fast solutions (and likely suboptimal), (10s, 300s) for good quality solutions, and >300s for an exhaustive search. Larger instances may require longer time limits. This value is not a hard limit and it does not account for the communication overhead. The expected latency to solve the problem may slightly exceed this value. */
+  maximumProcessingDuration?: string;
+  /** Required. Specifies the type of schedule to generate. */
+  scheduleType?: SolverConfigScheduleTypeEnum | (string & {});
+}
+/** Template specifying rules for generating a single event that occurs during a shift. An event may represent a meeting, break, lunch, etc. */
+export interface EventTemplate {
+  /** Optional. Minimum number of minutes after the beginning of a shift that this event can start. */
+  minimumMinutesAfterShiftStart?: number;
+  /** Required. The time increment (in minutes) used to generate the set of possible event start times between `minimum_minutes_after_shift_start` and `maximum_minutes_after_shift_start`. For example, if the minimum minutes after shift start are 30, maximum minutes after shift start are 45, and the start time increment is 5 minutes, the event can take place 30, 35, 40, or 45 minutes after the start of the shift. */
+  startTimeIncrementMinutes?: number;
+  /** Optional. Maximum number of minutes after the beginning of a shift that this event can start. */
+  maximumMinutesAfterShiftStart?: number;
+  /** Required. Fixed duration in minutes of this event. */
+  durationMinutes?: number;
+  /** Required. Unique ID of this template. */
+  id?: string;
+}
+export type EventTemplateList = Array<EventTemplate>;
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface Contactcenteraiplatform_Date {
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number;
+}
+export type Contactcenteraiplatform_DateList = Array<Contactcenteraiplatform_Date>;
+/** List of dates. */
+export interface DateList {
+  /** Optional. Values in the list. */
+  values?: Contactcenteraiplatform_DateList;
+}
+/** Template specifying rules for generating shifts. A shift is a unit of work that specifies a start time, end time, and may contain events (e.g. lunch, breaks etc.). Shifts will be assigned to specific dates in the response. */
+export interface ShiftTemplate {
+  /** Required. Latest time in the day that a shift can start. This value is specified with hours and minutes; seconds and nanos are ignored. If this value is less than the `earliest_start_time`, it may imply an overnight shift. */
+  latestStartTime?: TimeOfDay;
+  /** Optional. Minimum minutes between the end of one event and the start of the next. */
+  minimumIntereventGapMinutes?: number;
+  /** Optional. Rules for generating events for each shift. Exactly one event will be included in each shift for each `EventTemplate` specified. */
+  eventTemplates?: EventTemplateList;
+  /** Optional. Fixed dates when shifts from this template should not be generated. */
+  daysOffDates?: DateList;
+  /** Optional. Minimum number of employees that can be assigned to all shifts generated by this template on working days. */
+  minimumEmployeeCount?: number;
+  /** Required. Earliest time in the day that a shift can start. This value is specified with hours and minutes; seconds and nanos are ignored. */
+  earliestStartTime?: TimeOfDay;
+  /** Required. Fixed duration of a shift generated by this template. */
+  durationMinutes?: number;
+  /** Optional. A list of specific employee IDs that can be assigned to shifts generated by this template. If this field is present, there will be `EmployeeSchedule`s in the response for which the `EmployeeSchedule.employee_id` field is set to one of the IDs in this list. The number of employee schedules with an assigned employee ID will be between `minimum_employee_count` and `maximum_employee_count`. If this field is empty, between `minimum_employee_count` and `maximum_employee_count` employees can be assigned to shifts generated by this template and the employee schedules won't have an assigned employee ID. Currently, only one assignable employee ID is supported. */
+  assignableEmployeeIds?: StringList;
+  /** Required. Maximum number of employees that can be assigned to all shifts generated by this template on working days. */
+  maximumEmployeeCount?: number;
+  /** Required. Unique ID of this template. */
+  id?: string;
+  /** Optional. Fixed number of days off per week. An employee has a given day off if they are not assigned to a shift that starts on that day. A week is 7 days and begins on Sunday. */
+  daysOffCountPerWeek?: number;
+  /** Optional. The time increment (in minutes) used to generate the set of possible start times between `earliest_start_time` and `latest_start_time`. For example, if the earliest start time is 8:00, the latest start time is 8:30, and the start time increment is 10 minutes, then all possible start times for this shift template are: 8:00, 8:10, 8:20, and 8:30. */
+  startTimeIncrementMinutes?: number;
+}
+export type ShiftTemplateList = Array<ShiftTemplate>;
 /** Request with constraints for generating shifts. The shifts generated must adhere to these constraints. */
 export interface GenerateShiftsRequest {
-  /** Required. Set of shift templates specifying rules for generating shifts. A shift template can be used for generating multiple shifts. */
-  shiftTemplates?: ShiftTemplateList;
-  /** Required. Parameters for the solver. */
-  solverConfig?: SolverConfig;
-  /** Required. All the workforce demands that the generated shifts need to cover. The planning horizon is defined between the earliest start time and the latest end time across all the entries. This field cannot be empty. */
-  workforceDemands?: WorkforceDemandList;
   /** Optional. Employee information that should be considered when generating shifts. */
   employeeInfo?: EmployeeInfoList;
   /** Required. The solver will generate the maximum number of shifts per shift template. */
   planningHorizon?: PlanningHorizon;
+  /** Required. All the workforce demands that the generated shifts need to cover. The planning horizon is defined between the earliest start time and the latest end time across all the entries. This field cannot be empty. */
+  workforceDemands?: WorkforceDemandList;
+  /** Required. Parameters for the solver. */
+  solverConfig?: SolverConfig;
+  /** Required. Set of shift templates specifying rules for generating shifts. A shift template can be used for generating multiple shifts. */
+  shiftTemplates?: ShiftTemplateList;
 }
 export interface GenerateShiftsProjectsLocationsRequest {
   /** Required. Name of the parent resource associated with the request. Format: projects/{project}/locations/{location} */
@@ -536,14 +536,14 @@ export interface GetProjectsLocationsRequest {
 export interface Location {
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
 }
 export interface GetProjectsLocationsContactCentersRequest {
   /** Required. Name of the resource */
@@ -554,74 +554,74 @@ export interface GetProjectsLocationsOperationsRequest {
   name: string;
 }
 export interface ListProjectsLocationsRequest {
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string;
   /** A list of locations that matches the specified filter in the request. */
   locations?: LocationList;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
 }
 export interface ListProjectsLocationsContactCentersRequest {
-  /** Required. Parent value for ListContactCentersRequest */
-  parent: string;
-  /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
-  /** A token identifying a page of results the server should return. */
-  pageToken?: string;
   /** Filtering results */
   filter?: string;
+  /** A token identifying a page of results the server should return. */
+  pageToken?: string;
+  /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
+  /** Required. Parent value for ListContactCentersRequest */
+  parent: string;
   /** Hint for how to order the results */
   orderBy?: string;
 }
 export type ContactCenterList = Array<ContactCenter>;
 /** Message for response to listing ContactCenters */
 export interface ListContactCentersResponse {
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
   /** The list of ContactCenter */
   contactCenters?: ContactCenterList;
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page token. */
   pageToken?: string;
-  /** The standard list page size. */
-  pageSize?: number;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list filter. */
   filter?: string;
+  /** The standard list page size. */
+  pageSize?: number;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList;
 }
 export interface PatchProjectsLocationsContactCentersRequest {
-  /** Required. Field mask is used to specify the fields to be overwritten in the ContactCenter resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
   /** name of resource */
   name: string;
+  /** Required. Field mask is used to specify the fields to be overwritten in the ContactCenter resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Request body */
@@ -661,12 +661,12 @@ export interface Quota {
 export type QuotaList = Array<Quota>;
 /** Represents a quota for contact centers. */
 export interface ContactCenterQuota {
-  /** Quota details per contact center instance type. */
-  quotas?: QuotaList;
   /** Deprecated: Use the Quota fields instead. Reflects the count sum of contact centers on a billing account. */
   contactCenterCountSum?: number;
   /** Deprecated: Use the Quota fields instead. Reflects the count limit of contact centers on a billing account. */
   contactCenterCountLimit?: number;
+  /** Quota details per contact center instance type. */
+  quotas?: QuotaList;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -974,10 +974,10 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          metadata: S.optional(__S(448, __c14, 0)),
-          labels: S.optional(__S(384, __c12, 0)),
           locationId: S.optional(S.String),
+          labels: S.optional(__S(384, __c12, 0)),
           displayName: S.optional(S.String),
+          metadata: S.optional(__S(448, __c14, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1019,11 +1019,11 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(512, __c16, 0).pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(512, __c16, 0).pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1037,8 +1037,8 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           locations: S.optional(__S(129, __c4, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
@@ -1048,10 +1048,10 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1066,9 +1066,9 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(512, __c16, 0)),
           contactCenters: S.optional(__S(161, __c5, 1)),
-          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListContactCentersResponse" });
   }
@@ -1079,10 +1079,10 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1096,8 +1096,8 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(512, __c16, 0)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(512, __c16, 0)),
           operations: S.optional(__S(193, __c6, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -1108,8 +1108,8 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(429, __c13, 13).pipe(T.HttpBody())),
         }).pipe(
@@ -1149,9 +1149,9 @@ function __c8(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          quotas: S.optional(__S(258, __c8, 2)),
           contactCenterCountSum: S.optional(S.Number),
           contactCenterCountLimit: S.optional(S.Number),
+          quotas: S.optional(__S(258, __c8, 2)),
         }),
       ).annotate({ identifier: "ContactCenterQuota" });
   }
@@ -1184,8 +1184,8 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contactCenterId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
+          contactCenterId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           body: S.optional(__S(429, __c13, 13).pipe(T.HttpBody())),
         }).pipe(
@@ -1209,113 +1209,113 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          instanceSize: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "InstanceConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          virtualAgentStreamingServiceUri: S.optional(S.String),
-          rootUri: S.optional(S.String),
-          chatBotUri: S.optional(S.String),
-          mediaUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "URIs" });
-    case 2:
-      return S.Array(S.String);
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          certificate: S.optional(S.String),
-          emailMapping: S.optional(S.String),
-          userEmail: S.optional(S.String),
-          ssoUri: S.optional(S.String),
-          entityId: S.optional(S.String),
-          authenticationContexts: S.optional(__S(418, __c13, 2)),
-        }),
-      ).annotate({ identifier: "SAMLParams" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          duration: S.optional(S.String),
-          days: S.optional(__S(418, __c13, 2)),
-          startTime: S.optional(__S(544, __c17, 0)),
-          endTime: S.optional(__S(544, __c17, 0)),
-        }),
-      ).annotate({ identifier: "WeeklySchedule" });
-    case 5:
-      return S.Array(__S(420, __c13, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          peakHours: S.optional(__S(421, __c13, 5)),
-        }),
-      ).annotate({ identifier: "Critical" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          givenName: S.optional(S.String),
           familyName: S.optional(S.String),
+          givenName: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdminUser" });
-    case 8:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           agentDesktopEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "FeatureConfig" });
-    case 9:
+    case 2:
+      return S.Array(S.String);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          emailMapping: S.optional(S.String),
+          certificate: S.optional(S.String),
+          authenticationContexts: S.optional(__S(418, __c13, 2)),
+          entityId: S.optional(S.String),
+          ssoUri: S.optional(S.String),
+          userEmail: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SAMLParams" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          instanceSize: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InstanceConfig" });
+    case 5:
       return S.suspend(() =>
         S.Struct({
           serviceAttachmentNames: S.optional(__S(512, __c16, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Component" });
-    case 10:
-      return S.Array(__S(425, __c13, 9));
-    case 11:
+    case 6:
+      return S.Array(__S(421, __c13, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           allowedConsumerProjectIds: S.optional(__S(512, __c16, 0)),
           producerProjectIds: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "PscSetting" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          ingressSettings: S.optional(__S(422, __c13, 6)),
+          egressSettings: S.optional(__S(422, __c13, 6)),
+          pscSetting: S.optional(__S(423, __c13, 7)),
+        }),
+      ).annotate({ identifier: "PrivateAccess" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          chatBotUri: S.optional(S.String),
+          rootUri: S.optional(S.String),
+          virtualAgentStreamingServiceUri: S.optional(S.String),
+          mediaUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "URIs" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          endTime: S.optional(__S(544, __c17, 0)),
+          days: S.optional(__S(418, __c13, 2)),
+          startTime: S.optional(__S(544, __c17, 0)),
+          duration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WeeklySchedule" });
+    case 11:
+      return S.Array(__S(426, __c13, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          egressSettings: S.optional(__S(426, __c13, 10)),
-          pscSetting: S.optional(__S(427, __c13, 11)),
-          ingressSettings: S.optional(__S(426, __c13, 10)),
+          peakHours: S.optional(__S(427, __c13, 11)),
         }),
-      ).annotate({ identifier: "PrivateAccess" });
+      ).annotate({ identifier: "Critical" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          instanceConfig: S.optional(__S(416, __c13, 0)),
-          privateComponents: S.optional(__S(512, __c16, 0)),
-          userEmail: S.optional(S.String),
-          customerDomainPrefix: S.optional(S.String),
-          uris: S.optional(__S(417, __c13, 1)),
-          samlParams: S.optional(__S(419, __c13, 3)),
+          adminUser: S.optional(__S(416, __c13, 0)),
           releaseVersion: S.optional(S.String),
-          name: S.optional(S.String),
           displayName: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          critical: S.optional(__S(422, __c13, 6)),
-          expireTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          normal: S.optional(__S(320, __c10, 0)),
-          adminUser: S.optional(__S(423, __c13, 7)),
           early: S.optional(__S(320, __c10, 0)),
-          createTime: S.optional(S.String),
+          privateComponents: S.optional(__S(512, __c16, 0)),
+          featureConfig: S.optional(__S(417, __c13, 1)),
+          name: S.optional(S.String),
           ccaipManagedUsers: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          labels: S.optional(__S(384, __c12, 0)),
-          featureConfig: S.optional(__S(424, __c13, 8)),
-          privateAccess: S.optional(__S(428, __c13, 12)),
           purgeTime: S.optional(S.String),
+          userEmail: S.optional(S.String),
+          labels: S.optional(__S(384, __c12, 0)),
+          createTime: S.optional(S.String),
+          samlParams: S.optional(__S(419, __c13, 3)),
+          updateTime: S.optional(S.String),
           kmsKey: S.optional(S.String),
+          instanceConfig: S.optional(__S(420, __c13, 4)),
+          privateAccess: S.optional(__S(424, __c13, 8)),
+          deleteTime: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          normal: S.optional(__S(320, __c10, 0)),
+          uris: S.optional(__S(425, __c13, 9)),
+          customerDomainPrefix: S.optional(S.String),
           advancedReportingEnabled: S.optional(S.Boolean),
+          state: S.optional(S.String),
+          critical: S.optional(__S(428, __c13, 12)),
         }),
       ).annotate({ identifier: "ContactCenter" });
   }
@@ -1333,18 +1333,18 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.Number),
           message: S.optional(S.String),
           details: S.optional(__S(480, __c15, 0)),
+          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           done: S.optional(S.Boolean),
-          error: S.optional(__S(481, __c15, 1)),
           metadata: S.optional(__S(448, __c14, 0)),
           response: S.optional(__S(448, __c14, 0)),
+          error: S.optional(__S(481, __c15, 1)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
@@ -1361,10 +1361,10 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          minutes: S.optional(S.Number),
           hours: S.optional(S.Number),
           seconds: S.optional(S.Number),
           nanos: S.optional(S.Number),
-          minutes: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TimeOfDay" });
   }
@@ -1374,8 +1374,8 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -1407,127 +1407,127 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          startTimeIncrementMinutes: S.optional(S.Number),
           id: S.optional(S.String),
-          minimumMinutesAfterShiftStart: S.optional(S.Number),
-          durationMinutes: S.optional(S.Number),
-          maximumMinutesAfterShiftStart: S.optional(S.Number),
+          version: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EventTemplate" });
+      ).annotate({ identifier: "TimeZone" });
     case 1:
-      return S.Array(__S(640, __c20, 0));
+      return S.suspend(() =>
+        S.Struct({
+          hours: S.optional(S.Number),
+          day: S.optional(S.Number),
+          month: S.optional(S.Number),
+          year: S.optional(S.Number),
+          utcOffset: S.optional(S.String),
+          minutes: S.optional(S.Number),
+          seconds: S.optional(S.Number),
+          timeZone: S.optional(__S(640, __c20, 0)),
+          nanos: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DateTime" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          year: S.optional(S.Number),
-          month: S.optional(S.Number),
-          day: S.optional(S.Number),
+          startTime: S.optional(__S(641, __c20, 1)),
+          durationMinutes: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "Contactcenteraiplatform_Date" });
+      ).annotate({ identifier: "UnwantedEventInterval" });
     case 3:
       return S.Array(__S(642, __c20, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(643, __c20, 3)),
+          id: S.optional(S.String),
+          unwantedEventIntervals: S.optional(__S(643, __c20, 3)),
         }),
-      ).annotate({ identifier: "DateList" });
+      ).annotate({ identifier: "EmployeeInfo" });
     case 5:
+      return S.Array(__S(644, __c20, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          earliestStartTime: S.optional(__S(544, __c17, 0)),
-          eventTemplates: S.optional(__S(641, __c20, 1)),
-          latestStartTime: S.optional(__S(544, __c17, 0)),
-          durationMinutes: S.optional(S.Number),
-          assignableEmployeeIds: S.optional(__S(512, __c16, 0)),
-          daysOffDates: S.optional(__S(644, __c20, 4)),
-          startTimeIncrementMinutes: S.optional(S.Number),
-          daysOffCountPerWeek: S.optional(S.Number),
-          minimumIntereventGapMinutes: S.optional(S.Number),
-          id: S.optional(S.String),
-          maximumEmployeeCount: S.optional(S.Number),
-          minimumEmployeeCount: S.optional(S.Number),
+          startTime: S.optional(__S(641, __c20, 1)),
+          endTime: S.optional(__S(641, __c20, 1)),
         }),
-      ).annotate({ identifier: "ShiftTemplate" });
-    case 6:
-      return S.Array(__S(645, __c20, 5));
+      ).annotate({ identifier: "PlanningHorizon" });
     case 7:
+      return S.suspend(() =>
+        S.Struct({
+          endTime: S.optional(__S(641, __c20, 1)),
+          startTime: S.optional(__S(641, __c20, 1)),
+          employeeCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "WorkforceDemand" });
+    case 8:
+      return S.Array(__S(647, __c20, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          values: S.optional(__S(648, __c20, 8)),
+        }),
+      ).annotate({ identifier: "WorkforceDemandList" });
+    case 10:
       return S.suspend(() =>
         S.Struct({
           maximumProcessingDuration: S.optional(S.String),
           scheduleType: S.optional(S.String),
         }),
       ).annotate({ identifier: "SolverConfig" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          version: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TimeZone" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          timeZone: S.optional(__S(648, __c20, 8)),
-          nanos: S.optional(S.Number),
-          year: S.optional(S.Number),
-          hours: S.optional(S.Number),
-          day: S.optional(S.Number),
-          utcOffset: S.optional(S.String),
-          minutes: S.optional(S.Number),
-          seconds: S.optional(S.Number),
-          month: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "DateTime" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          startTime: S.optional(__S(649, __c20, 9)),
-          endTime: S.optional(__S(649, __c20, 9)),
-          employeeCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "WorkforceDemand" });
     case 11:
-      return S.Array(__S(650, __c20, 10));
-    case 12:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(651, __c20, 11)),
+          minimumMinutesAfterShiftStart: S.optional(S.Number),
+          startTimeIncrementMinutes: S.optional(S.Number),
+          maximumMinutesAfterShiftStart: S.optional(S.Number),
+          durationMinutes: S.optional(S.Number),
+          id: S.optional(S.String),
         }),
-      ).annotate({ identifier: "WorkforceDemandList" });
+      ).annotate({ identifier: "EventTemplate" });
+    case 12:
+      return S.Array(__S(651, __c20, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.optional(__S(649, __c20, 9)),
-          durationMinutes: S.optional(S.Number),
+          month: S.optional(S.Number),
+          year: S.optional(S.Number),
+          day: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "UnwantedEventInterval" });
+      ).annotate({ identifier: "Contactcenteraiplatform_Date" });
     case 14:
       return S.Array(__S(653, __c20, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          unwantedEventIntervals: S.optional(__S(654, __c20, 14)),
+          values: S.optional(__S(654, __c20, 14)),
         }),
-      ).annotate({ identifier: "EmployeeInfo" });
+      ).annotate({ identifier: "DateList" });
     case 16:
-      return S.Array(__S(655, __c20, 15));
-    case 17:
       return S.suspend(() =>
         S.Struct({
-          endTime: S.optional(__S(649, __c20, 9)),
-          startTime: S.optional(__S(649, __c20, 9)),
+          latestStartTime: S.optional(__S(544, __c17, 0)),
+          minimumIntereventGapMinutes: S.optional(S.Number),
+          eventTemplates: S.optional(__S(652, __c20, 12)),
+          daysOffDates: S.optional(__S(655, __c20, 15)),
+          minimumEmployeeCount: S.optional(S.Number),
+          earliestStartTime: S.optional(__S(544, __c17, 0)),
+          durationMinutes: S.optional(S.Number),
+          assignableEmployeeIds: S.optional(__S(512, __c16, 0)),
+          maximumEmployeeCount: S.optional(S.Number),
+          id: S.optional(S.String),
+          daysOffCountPerWeek: S.optional(S.Number),
+          startTimeIncrementMinutes: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "PlanningHorizon" });
+      ).annotate({ identifier: "ShiftTemplate" });
+    case 17:
+      return S.Array(__S(656, __c20, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          shiftTemplates: S.optional(__S(646, __c20, 6)),
-          solverConfig: S.optional(__S(647, __c20, 7)),
-          workforceDemands: S.optional(__S(652, __c20, 12)),
-          employeeInfo: S.optional(__S(656, __c20, 16)),
-          planningHorizon: S.optional(__S(657, __c20, 17)),
+          employeeInfo: S.optional(__S(645, __c20, 5)),
+          planningHorizon: S.optional(__S(646, __c20, 6)),
+          workforceDemands: S.optional(__S(649, __c20, 9)),
+          solverConfig: S.optional(__S(650, __c20, 10)),
+          shiftTemplates: S.optional(__S(657, __c20, 17)),
         }),
       ).annotate({ identifier: "GenerateShiftsRequest" });
     case 19:

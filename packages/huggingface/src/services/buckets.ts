@@ -253,6 +253,8 @@ export interface GetFileMetadataResponse {
   size: number;
   /** The content type of the file */
   contentType?: string;
+  /** ISO 8601 timestamp of when the file was added to the bucket */
+  uploadedAt: string;
 }
 export interface GetResourceGroupRequest {
   namespace: string;
@@ -274,6 +276,7 @@ export interface ListFilesRequest {
   path: string;
   limit?: number;
   cursor?: string;
+  startAfter?: string;
   recursive?: string;
   sort?: ListFilesRequestSort | (string & {});
   direction?: ListFilesRequestDirection | (string & {});
@@ -735,6 +738,7 @@ function __c3(j: number): any {
           etag: S.String,
           size: S.Number,
           contentType: S.optional(S.String),
+          uploadedAt: S.String,
         }),
       ).annotate({ identifier: "GetFileMetadataResponse" });
   }
@@ -766,6 +770,7 @@ function __c5(j: number): any {
           path: S.String.pipe(T.Label()),
           limit: S.optional(S.Number.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
+          startAfter: S.optional(S.String.pipe(T.Query())),
           recursive: S.optional(S.String.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           direction: S.optional(S.String.pipe(T.Query())),

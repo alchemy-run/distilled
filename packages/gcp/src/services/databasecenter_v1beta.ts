@@ -84,127 +84,34 @@ export class NotFound
   ) {}
 
 export interface AggregateFleetV1betaRequest {
+  /** Optional. Valid values to order by are: * resource_groups_count * resources_count * and all fields supported by `group_by` The default order is ascending. Add "DESC" after the field name to indicate descending order. Add "ASC" after the field name to indicate ascending order. It supports ordering using multiple fields. For example: `order_by = "resource_groups_count"` sorts response in ascending order `order_by = "resource_groups_count DESC"` sorts response in descending order `order_by = "product.type, product.version DESC, location"` orders by type in ascending order, version in descending order and location in ascending order */
+  orderBy?: string;
+  /** Optional. The expression to filter resources. Supported fields are: `full_resource_name`, `resource_type`, `container`, `product.type`, `product.engine`, `product.version`, `location`, `labels`, `issues`, fields of availability_info, data_protection_info, 'resource_name', etc. The expression is a list of zero or more restrictions combined via logical operators `AND` and `OR`. When `AND` and `OR` are both used in the expression, parentheses must be appropriately used to group the combinations. Example: `location="us-east1"` Example: `container="projects/123" OR container="projects/456"` Example: `(container="projects/123" OR container="projects/456") AND location="us-east1"` */
+  filter?: string;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  "baselineDate.day"?: number;
+  /** Required. Parent can be a project, a folder, or an organization. The search is limited to the resources within the `scope`. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
+  parent?: string;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "baselineDate.year"?: number;
+  /** Optional. A field that statistics are grouped by. Valid values are any combination of the following: * container * product.type * product.engine * product.version * location * sub_resource_type * management_type * tag.key * tag.value * tag.source * tag.inherited * label.key * label.value * label.source * has_maintenance_schedule * has_deny_maintenance_schedules Comma separated list. */
+  groupBy?: string;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "baselineDate.month"?: number;
   /** Optional. A page token, received from a previous `AggregateFleet` call. Provide this to retrieve the subsequent page. All other parameters should match the parameters in the call that provided the page token except for page_size which can be different. */
   pageToken?: string;
   /** Optional. If unspecified, at most 50 items will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "baselineDate.day"?: number;
-  /** Optional. The expression to filter resources. Supported fields are: `full_resource_name`, `resource_type`, `container`, `product.type`, `product.engine`, `product.version`, `location`, `labels`, `issues`, fields of availability_info, data_protection_info, 'resource_name', etc. The expression is a list of zero or more restrictions combined via logical operators `AND` and `OR`. When `AND` and `OR` are both used in the expression, parentheses must be appropriately used to group the combinations. Example: `location="us-east1"` Example: `container="projects/123" OR container="projects/456"` Example: `(container="projects/123" OR container="projects/456") AND location="us-east1"` */
-  filter?: string;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "baselineDate.month"?: number;
-  /** Optional. Valid values to order by are: * resource_groups_count * resources_count * and all fields supported by `group_by` The default order is ascending. Add "DESC" after the field name to indicate descending order. Add "ASC" after the field name to indicate ascending order. It supports ordering using multiple fields. For example: `order_by = "resource_groups_count"` sorts response in ascending order `order_by = "resource_groups_count DESC"` sorts response in descending order `order_by = "product.type, product.version DESC, location"` orders by type in ascending order, version in descending order and location in ascending order */
-  orderBy?: string;
-  /** Optional. A field that statistics are grouped by. Valid values are any combination of the following: * container * product.type * product.engine * product.version * location * sub_resource_type * management_type * tag.key * tag.value * tag.source * tag.inherited * label.key * label.value * label.source * has_maintenance_schedule * has_deny_maintenance_schedules Comma separated list. */
-  groupBy?: string;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "baselineDate.year"?: number;
-  /** Required. Parent can be a project, a folder, or an organization. The search is limited to the resources within the `scope`. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
-  parent?: string;
 }
-export type DimensionManagementTypeEnum =
-  | "MANAGEMENT_TYPE_UNSPECIFIED"
-  | "MANAGEMENT_TYPE_GCP_MANAGED"
-  | "MANAGEMENT_TYPE_SELF_MANAGED";
-export type DimensionSubResourceTypeEnum =
-  | "SUB_RESOURCE_TYPE_UNSPECIFIED"
-  | "SUB_RESOURCE_TYPE_PRIMARY"
-  | "SUB_RESOURCE_TYPE_SECONDARY"
-  | "SUB_RESOURCE_TYPE_READ_REPLICA"
-  | "SUB_RESOURCE_TYPE_EXTERNAL_PRIMARY"
-  | "SUB_RESOURCE_TYPE_READ_POOL"
-  | "SUB_RESOURCE_TYPE_RESERVATION"
-  | "SUB_RESOURCE_TYPE_DATASET"
-  | "SUB_RESOURCE_TYPE_OTHER";
-export type DimensionEditionEnum =
-  | "EDITION_UNSPECIFIED"
-  | "EDITION_ENTERPRISE"
-  | "EDITION_ENTERPRISE_PLUS"
-  | "EDITION_STANDARD";
-export type DimensionProductTypeEnum =
-  | "PRODUCT_TYPE_UNSPECIFIED"
-  | "PRODUCT_TYPE_CLOUD_SQL"
-  | "PRODUCT_TYPE_ALLOYDB"
-  | "PRODUCT_TYPE_SPANNER"
-  | "PRODUCT_TYPE_BIGTABLE"
-  | "PRODUCT_TYPE_MEMORYSTORE"
-  | "PRODUCT_TYPE_FIRESTORE"
-  | "PRODUCT_TYPE_COMPUTE_ENGINE"
-  | "PRODUCT_TYPE_ORACLE_ON_GCP"
-  | "PRODUCT_TYPE_BIGQUERY"
-  | "PRODUCT_TYPE_OTHER";
-export type DimensionResourceCategoryEnum =
-  | "RESOURCE_CATEGORY_UNSPECIFIED"
-  | "INSTANCE"
-  | "CLUSTER"
-  | "DATABASE"
-  | "DATASET"
-  | "RESERVATION";
-export type DimensionProductEngineEnum =
-  | "ENGINE_UNSPECIFIED"
-  | "ENGINE_MYSQL"
-  | "ENGINE_POSTGRES"
-  | "ENGINE_SQL_SERVER"
-  | "ENGINE_NATIVE"
-  | "ENGINE_MEMORYSTORE_FOR_REDIS"
-  | "ENGINE_MEMORYSTORE_FOR_REDIS_CLUSTER"
-  | "ENGINE_MEMORSTORE_FOR_VALKEY"
-  | "ENGINE_MEMORYSTORE_FOR_VALKEY"
-  | "ENGINE_FIRESTORE_WITH_NATIVE_MODE"
-  | "ENGINE_FIRESTORE_WITH_DATASTORE_MODE"
-  | "ENGINE_EXADATA_ORACLE"
-  | "ENGINE_ADB_SERVERLESS_ORACLE"
-  | "ENGINE_FIRESTORE_WITH_MONGODB_COMPATIBILITY_MODE"
-  | "ENGINE_OTHER";
-/** Dimension used to aggregate the fleet. */
-export interface Dimension {
-  /** Label key of the resource. */
-  labelKey?: string;
-  /** The type of resource defined according to the pattern: {Service Name}/{Type}. Ex: sqladmin.googleapis.com/Instance alloydb.googleapis.com/Cluster alloydb.googleapis.com/Instance spanner.googleapis.com/Instance */
-  resourceType?: string;
-  /** Specifies where the resource is created. For Google Cloud resources, it is the full name of the project. */
-  container?: string;
-  /** Label value of the resource. */
-  labelValue?: string;
-  /** The location of the resources. It supports returning only regional locations in Google Cloud. */
-  location?: string;
-  /** Tag inheritance value of the resource. */
-  tagInherited?: boolean;
-  /** Tag key of the resource. */
-  tagKey?: string;
-  /** The management type of the resource. */
-  managementType?: DimensionManagementTypeEnum;
-  /** Label source of the resource. */
-  labelSource?: string;
-  /** Whether the resource has deny maintenance schedules. */
-  hasDenyMaintenanceSchedules?: boolean;
-  /** Subtype of the resource specified at creation time. */
-  subResourceType?: DimensionSubResourceTypeEnum;
-  /** Tag value of the resource. */
-  tagValue?: string;
-  /** The edition of the resource. */
-  edition?: DimensionEditionEnum;
-  /** Whether the resource has a maintenance schedule. */
-  hasMaintenanceSchedule?: boolean;
-  /** Tag source of the resource. */
-  tagSource?: string;
-  /** Type to identify a product */
-  productType?: DimensionProductTypeEnum;
-  /** Version of the underlying database engine */
-  productVersion?: string;
-  /** The category of the resource. */
-  resourceCategory?: DimensionResourceCategoryEnum;
-  /** Engine refers to underlying database binary running in an instance. */
-  productEngine?: DimensionProductEngineEnum;
-}
-export type DimensionList = Array<Dimension>;
+export type StringList = Array<string>;
 export type ProductEngineEnum =
   | "ENGINE_UNSPECIFIED"
   | "ENGINE_MYSQL"
   | "ENGINE_POSTGRES"
   | "ENGINE_SQL_SERVER"
   | "ENGINE_NATIVE"
+  | "ENGINE_CLOUD_SPANNER_WITH_POSTGRES_DIALECT"
+  | "ENGINE_CLOUD_SPANNER_WITH_GOOGLESQL_DIALECT"
   | "ENGINE_MEMORYSTORE_FOR_REDIS"
   | "ENGINE_MEMORYSTORE_FOR_REDIS_CLUSTER"
   | "ENGINE_MEMORSTORE_FOR_VALKEY"
@@ -220,6 +127,7 @@ export type ProductTypeEnum =
   | "PRODUCT_TYPE_CLOUD_SQL"
   | "PRODUCT_TYPE_ALLOYDB"
   | "PRODUCT_TYPE_SPANNER"
+  | "PRODUCT_TYPE_ON_PREM"
   | "PRODUCT_TYPE_BIGTABLE"
   | "PRODUCT_TYPE_MEMORYSTORE"
   | "PRODUCT_TYPE_FIRESTORE"
@@ -229,12 +137,12 @@ export type ProductTypeEnum =
   | "PRODUCT_TYPE_OTHER";
 /** Product specification for databasecenter resources. */
 export interface Product {
-  /** Optional. The specific engine that the underlying database is running. */
-  engine?: ProductEngineEnum | (string & {});
   /** Optional. Minor version of the underlying database engine. Example values: For MySQL, it could be "8.0.35", "5.7.25" etc. For PostgreSQL, it could be "14.4", "15.5" etc. */
   minorVersion?: string;
   /** Optional. Version of the underlying database engine. Example values: For MySQL, it could be "8.0", "5.7" etc. For Postgres, it could be "14", "15" etc. */
   version?: string;
+  /** Optional. The specific engine that the underlying database is running. */
+  engine?: ProductEngineEnum | (string & {});
   /** Optional. Type of specific database product. It could be CloudSQL, AlloyDB etc.. */
   type?: ProductTypeEnum | (string & {});
 }
@@ -252,43 +160,142 @@ export interface ResourceDetails {
 export type ResourceDetailsList = Array<ResourceDetails>;
 /** Captures the details of items that have increased or decreased in some bucket when compared to some point in history. It is currently used to capture the delta of resources that have been added or removed in the fleet as well as to capture the resources that have a change in Issue/Signal status. */
 export interface DeltaDetails {
-  /** Details of resources that have decreased. */
-  decreasedResources?: ResourceDetailsList;
   /** Details of resources that have increased. */
   increasedResources?: ResourceDetailsList;
+  /** Details of resources that have decreased. */
+  decreasedResources?: ResourceDetailsList;
 }
+export type DimensionProductEngineEnum =
+  | "ENGINE_UNSPECIFIED"
+  | "ENGINE_MYSQL"
+  | "ENGINE_POSTGRES"
+  | "ENGINE_SQL_SERVER"
+  | "ENGINE_NATIVE"
+  | "ENGINE_CLOUD_SPANNER_WITH_POSTGRES_DIALECT"
+  | "ENGINE_CLOUD_SPANNER_WITH_GOOGLESQL_DIALECT"
+  | "ENGINE_MEMORYSTORE_FOR_REDIS"
+  | "ENGINE_MEMORYSTORE_FOR_REDIS_CLUSTER"
+  | "ENGINE_MEMORSTORE_FOR_VALKEY"
+  | "ENGINE_MEMORYSTORE_FOR_VALKEY"
+  | "ENGINE_FIRESTORE_WITH_NATIVE_MODE"
+  | "ENGINE_FIRESTORE_WITH_DATASTORE_MODE"
+  | "ENGINE_EXADATA_ORACLE"
+  | "ENGINE_ADB_SERVERLESS_ORACLE"
+  | "ENGINE_FIRESTORE_WITH_MONGODB_COMPATIBILITY_MODE"
+  | "ENGINE_OTHER";
+export type DimensionEditionEnum =
+  | "EDITION_UNSPECIFIED"
+  | "EDITION_ENTERPRISE"
+  | "EDITION_ENTERPRISE_PLUS"
+  | "EDITION_STANDARD";
+export type DimensionManagementTypeEnum =
+  | "MANAGEMENT_TYPE_UNSPECIFIED"
+  | "MANAGEMENT_TYPE_GCP_MANAGED"
+  | "MANAGEMENT_TYPE_SELF_MANAGED";
+export type DimensionResourceCategoryEnum =
+  | "RESOURCE_CATEGORY_UNSPECIFIED"
+  | "INSTANCE"
+  | "CLUSTER"
+  | "DATABASE"
+  | "DATASET"
+  | "RESERVATION";
+export type DimensionProductTypeEnum =
+  | "PRODUCT_TYPE_UNSPECIFIED"
+  | "PRODUCT_TYPE_CLOUD_SQL"
+  | "PRODUCT_TYPE_ALLOYDB"
+  | "PRODUCT_TYPE_SPANNER"
+  | "PRODUCT_TYPE_ON_PREM"
+  | "PRODUCT_TYPE_BIGTABLE"
+  | "PRODUCT_TYPE_MEMORYSTORE"
+  | "PRODUCT_TYPE_FIRESTORE"
+  | "PRODUCT_TYPE_COMPUTE_ENGINE"
+  | "PRODUCT_TYPE_ORACLE_ON_GCP"
+  | "PRODUCT_TYPE_BIGQUERY"
+  | "PRODUCT_TYPE_OTHER";
+export type DimensionSubResourceTypeEnum =
+  | "SUB_RESOURCE_TYPE_UNSPECIFIED"
+  | "SUB_RESOURCE_TYPE_PRIMARY"
+  | "SUB_RESOURCE_TYPE_SECONDARY"
+  | "SUB_RESOURCE_TYPE_READ_REPLICA"
+  | "SUB_RESOURCE_TYPE_EXTERNAL_PRIMARY"
+  | "SUB_RESOURCE_TYPE_READ_POOL"
+  | "SUB_RESOURCE_TYPE_RESERVATION"
+  | "SUB_RESOURCE_TYPE_DATASET"
+  | "SUB_RESOURCE_TYPE_OTHER";
+/** Dimension used to aggregate the fleet. */
+export interface Dimension {
+  /** Specifies where the resource is created. For Google Cloud resources, it is the full name of the project. */
+  container?: string;
+  /** Engine refers to underlying database binary running in an instance. */
+  productEngine?: DimensionProductEngineEnum;
+  /** Tag key of the resource. */
+  tagKey?: string;
+  /** Tag value of the resource. */
+  tagValue?: string;
+  /** Label key of the resource. */
+  labelKey?: string;
+  /** The edition of the resource. */
+  edition?: DimensionEditionEnum;
+  /** Whether the resource has deny maintenance schedules. */
+  hasDenyMaintenanceSchedules?: boolean;
+  /** Whether the resource has a maintenance schedule. */
+  hasMaintenanceSchedule?: boolean;
+  /** Label value of the resource. */
+  labelValue?: string;
+  /** Tag source of the resource. */
+  tagSource?: string;
+  /** The type of resource defined according to the pattern: {Service Name}/{Type}. Ex: sqladmin.googleapis.com/Instance alloydb.googleapis.com/Cluster alloydb.googleapis.com/Instance spanner.googleapis.com/Instance */
+  resourceType?: string;
+  /** Version of the underlying database engine */
+  productVersion?: string;
+  /** The location of the resources. It supports returning only regional locations in Google Cloud. */
+  location?: string;
+  /** The management type of the resource. */
+  managementType?: DimensionManagementTypeEnum;
+  /** Label source of the resource. */
+  labelSource?: string;
+  /** The category of the resource. */
+  resourceCategory?: DimensionResourceCategoryEnum;
+  /** Tag inheritance value of the resource. */
+  tagInherited?: boolean;
+  /** Type to identify a product */
+  productType?: DimensionProductTypeEnum;
+  /** Subtype of the resource specified at creation time. */
+  subResourceType?: DimensionSubResourceTypeEnum;
+}
+export type DimensionList = Array<Dimension>;
 /** Individual row grouped by a particular dimension. */
 export interface AggregateFleetRow {
   /** Number of resources that have a particular dimension. */
   resourcesCount?: number;
+  /** Optional. Delta counts and details of resources which were added to/deleted from fleet. */
+  deltaDetails?: DeltaDetails;
   /** Group by dimension. */
   dimension?: DimensionList;
   /** Number of resource groups that have a particular dimension. */
   resourceGroupsCount?: number;
-  /** Optional. Delta counts and details of resources which were added to/deleted from fleet. */
-  deltaDetails?: DeltaDetails;
 }
 export type AggregateFleetRowList = Array<AggregateFleetRow>;
-export type StringList = Array<string>;
 /** The response message to aggregate a fleet by some group by fields. */
 export interface AggregateFleetResponse {
   /** Output only. The total number of rows in the entire list. */
   totalSize?: string;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
-  /** Represents a row grouped by the fields in the input. */
-  rows?: AggregateFleetRowList;
-  /** Count of all resource groups in the fleet. This includes counts from all pages. */
-  resourceGroupsTotalCount?: number;
   /** Unordered list. List of unreachable regions from where data could not be retrieved. */
   unreachable?: StringList;
+  /** Count of all resource groups in the fleet. This includes counts from all pages. */
+  resourceGroupsTotalCount?: number;
   /** Count of all resources in the fleet. This includes counts from all pages. */
   resourceTotalCount?: number;
+  /** Represents a row grouped by the fields in the input. */
+  rows?: AggregateFleetRowList;
 }
 export type SignalTypeGroupSignalTypesItemEnum =
   | "SIGNAL_TYPE_UNSPECIFIED"
   | "SIGNAL_TYPE_RESOURCE_FAILOVER_PROTECTED"
   | "SIGNAL_TYPE_GROUP_MULTIREGIONAL"
+  | "SIGNAL_TYPE_NO_PROMOTABLE_REPLICA"
   | "SIGNAL_TYPE_NO_AUTOMATED_BACKUP_POLICY"
   | "SIGNAL_TYPE_SHORT_BACKUP_RETENTION"
   | "SIGNAL_TYPE_LAST_BACKUP_FAILED"
@@ -331,6 +338,7 @@ export type SignalTypeGroupSignalTypesItemEnum =
   | "SIGNAL_TYPE_WEAK_ROOT_PASSWORD"
   | "SIGNAL_TYPE_ENCRYPTION_KEY_NOT_CUSTOMER_MANAGED"
   | "SIGNAL_TYPE_SERVER_AUTHENTICATION_NOT_REQUIRED"
+  | "SIGNAL_TYPE_EXPOSED_BY_OWNERSHIP_CHAINING"
   | "SIGNAL_TYPE_EXPOSED_TO_EXTERNAL_SCRIPTS"
   | "SIGNAL_TYPE_EXPOSED_TO_LOCAL_DATA_LOADS"
   | "SIGNAL_TYPE_CONNECTION_ATTEMPTS_NOT_LOGGED"
@@ -380,11 +388,14 @@ export type SignalTypeGroupSignalTypesItemEnum =
   | "SIGNAL_TYPE_LOCATION_ORG_POLICY_NOT_SATISFIED"
   | "SIGNAL_TYPE_OUTDATED_MINOR_VERSION"
   | "SIGNAL_TYPE_SCHEMA_NOT_OPTIMIZED"
+  | "SIGNAL_TYPE_MANY_IDLE_CONNECTIONS"
   | "SIGNAL_TYPE_REPLICATION_LAG"
+  | "SIGNAL_TYPE_OUTDATED_VERSION"
   | "SIGNAL_TYPE_OUTDATED_CLIENT"
   | "SIGNAL_TYPE_DATABOOST_DISABLED"
   | "SIGNAL_TYPE_RECOMMENDED_MAINTENANCE_POLICIES"
   | "SIGNAL_TYPE_EXTENDED_SUPPORT"
+  | "SIGNAL_TYPE_PERFORMANCE_KPI_CHANGE"
   | "SIGNAL_TYPE_VERSION_NEARING_END_OF_LIFE"
   | "SIGNAL_TYPE_HIGH_MAINTENANCE_DOWNTIME_RISK"
   | "SIGNAL_TYPE_LOW_CACHE_HIT_AND_MAINTENANCE_DOWNTIME"
@@ -394,20 +405,20 @@ export type SignalTypeGroupSignalTypesItemEnumList = Array<
 >;
 /** A group of signal types that specifies what the user is interested in. Used by QueryDatabaseResourceGroups API. Example: signal_type_group { name = "AVAILABILITY" types = [SIGNAL_TYPE_NO_PROMOTABLE_REPLICA] } */
 export interface SignalTypeGroup {
-  /** Optional. List of signal types present in the group. */
-  signalTypes?: SignalTypeGroupSignalTypesItemEnumList;
   /** Required. The display name of a signal group. */
   displayName?: string;
+  /** Optional. List of signal types present in the group. */
+  signalTypes?: SignalTypeGroupSignalTypesItemEnumList;
 }
 export type SignalTypeGroupList = Array<SignalTypeGroup>;
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Databasecenter_Date {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
   year?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   month?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number;
 }
 /** AggregateIssueStatsRequest represents the input to the AggregateIssueStats method. */
 export interface AggregateIssueStatsRequest {
@@ -424,17 +435,11 @@ export interface AggregateIssueStatsV1betaRequest {
   /** Request body */
   body?: AggregateIssueStatsRequest;
 }
-export type IssueStatsIssueSeverityEnum =
-  | "ISSUE_SEVERITY_UNSPECIFIED"
-  | "ISSUE_SEVERITY_LOW"
-  | "ISSUE_SEVERITY_MEDIUM"
-  | "ISSUE_SEVERITY_HIGH"
-  | "ISSUE_SEVERITY_CRITICAL"
-  | "ISSUE_SEVERITY_IRRELEVANT";
 export type IssueStatsSignalTypeEnum =
   | "SIGNAL_TYPE_UNSPECIFIED"
   | "SIGNAL_TYPE_RESOURCE_FAILOVER_PROTECTED"
   | "SIGNAL_TYPE_GROUP_MULTIREGIONAL"
+  | "SIGNAL_TYPE_NO_PROMOTABLE_REPLICA"
   | "SIGNAL_TYPE_NO_AUTOMATED_BACKUP_POLICY"
   | "SIGNAL_TYPE_SHORT_BACKUP_RETENTION"
   | "SIGNAL_TYPE_LAST_BACKUP_FAILED"
@@ -477,6 +482,7 @@ export type IssueStatsSignalTypeEnum =
   | "SIGNAL_TYPE_WEAK_ROOT_PASSWORD"
   | "SIGNAL_TYPE_ENCRYPTION_KEY_NOT_CUSTOMER_MANAGED"
   | "SIGNAL_TYPE_SERVER_AUTHENTICATION_NOT_REQUIRED"
+  | "SIGNAL_TYPE_EXPOSED_BY_OWNERSHIP_CHAINING"
   | "SIGNAL_TYPE_EXPOSED_TO_EXTERNAL_SCRIPTS"
   | "SIGNAL_TYPE_EXPOSED_TO_LOCAL_DATA_LOADS"
   | "SIGNAL_TYPE_CONNECTION_ATTEMPTS_NOT_LOGGED"
@@ -526,64 +532,74 @@ export type IssueStatsSignalTypeEnum =
   | "SIGNAL_TYPE_LOCATION_ORG_POLICY_NOT_SATISFIED"
   | "SIGNAL_TYPE_OUTDATED_MINOR_VERSION"
   | "SIGNAL_TYPE_SCHEMA_NOT_OPTIMIZED"
+  | "SIGNAL_TYPE_MANY_IDLE_CONNECTIONS"
   | "SIGNAL_TYPE_REPLICATION_LAG"
+  | "SIGNAL_TYPE_OUTDATED_VERSION"
   | "SIGNAL_TYPE_OUTDATED_CLIENT"
   | "SIGNAL_TYPE_DATABOOST_DISABLED"
   | "SIGNAL_TYPE_RECOMMENDED_MAINTENANCE_POLICIES"
   | "SIGNAL_TYPE_EXTENDED_SUPPORT"
+  | "SIGNAL_TYPE_PERFORMANCE_KPI_CHANGE"
   | "SIGNAL_TYPE_VERSION_NEARING_END_OF_LIFE"
   | "SIGNAL_TYPE_HIGH_MAINTENANCE_DOWNTIME_RISK"
   | "SIGNAL_TYPE_LOW_CACHE_HIT_AND_MAINTENANCE_DOWNTIME"
   | "SIGNAL_TYPE_MISSING_ENHANCED_PROTECTION";
+export type IssueStatsIssueSeverityEnum =
+  | "ISSUE_SEVERITY_UNSPECIFIED"
+  | "ISSUE_SEVERITY_LOW"
+  | "ISSUE_SEVERITY_MEDIUM"
+  | "ISSUE_SEVERITY_HIGH"
+  | "ISSUE_SEVERITY_CRITICAL"
+  | "ISSUE_SEVERITY_IRRELEVANT";
 /** IssueStats holds stats for a particular signal category. */
 export interface IssueStats {
-  /** Severity of the issue. */
-  issueSeverity?: IssueStatsIssueSeverityEnum;
-  /** Type of signal which is an issue. */
-  signalType?: IssueStatsSignalTypeEnum;
-  /** Number of resources having issues of a given type. */
-  resourceCount?: number;
   /** Optional. Delta counts and details of resources for which issue was raised or fixed. */
   deltaDetails?: DeltaDetails;
+  /** Number of resources having issues of a given type. */
+  resourceCount?: number;
+  /** Type of signal which is an issue. */
+  signalType?: IssueStatsSignalTypeEnum;
+  /** Severity of the issue. */
+  issueSeverity?: IssueStatsIssueSeverityEnum;
 }
 export type IssueStatsList = Array<IssueStats>;
 /** IssueGroupStats refers to stats for a particulare combination of relevant health issues of database resources. */
 export interface IssueGroupStats {
-  /** Total count of resources returned by the filter for which any of the specified issues are applicable. */
-  resourcesCount?: number;
-  /** Database resource level health card name. This will corresponds to one of the requested input group names. */
-  displayName?: string;
   /** List of issues stats containing count of resources having particular issue category. */
   issueStats?: IssueStatsList;
+  /** The number of resource groups from the total groups as defined above that are healthy with respect to all of the specified issues. */
+  healthyResourceGroupsCount?: number;
+  /** Total count of resources returned by the filter for which any of the specified issues are applicable. */
+  resourcesCount?: number;
   /** The number of resources from the total defined above in field total_resources_count that are healthy with respect to all of the specified issues. */
   healthyResourcesCount?: number;
   /** Total count of the groups of resources returned by the filter that also have one or more resources for which any of the specified issues are applicable. */
   resourceGroupsCount?: number;
-  /** The number of resource groups from the total groups as defined above that are healthy with respect to all of the specified issues. */
-  healthyResourceGroupsCount?: number;
+  /** Database resource level health card name. This will corresponds to one of the requested input group names. */
+  displayName?: string;
 }
 export type IssueGroupStatsList = Array<IssueGroupStats>;
 /** The response message containing one of more group of relevant health issues for database resources. */
 export interface AggregateIssueStatsResponse {
-  /** Total count of the resources filtered in based on the user given filter. */
-  totalResourcesCount?: number;
-  /** Total count of the resource filtered in based on the user given filter. */
-  totalResourceGroupsCount?: number;
   /** Unordered list. List of unreachable regions from where data could not be retrieved. */
   unreachable?: StringList;
+  /** Total count of the resource filtered in based on the user given filter. */
+  totalResourceGroupsCount?: number;
+  /** Total count of the resources filtered in based on the user given filter. */
+  totalResourcesCount?: number;
   /** List of issue group stats where each group contains stats for resources having a particular combination of relevant issues. */
   issueGroupStats?: IssueGroupStatsList;
 }
 /** AggregateQueryStatsRequest represents the input to the AggregateQueryStats method. */
 export interface AggregateQueryStatsRequest {
+  /** Optional. The expression to order the results by. Example: `order_by="execution_count"` Example: `order_by="execution_count desc"` Supported order by fields are `execution_count`, `rows_processed`, `total_cpu_time`, `avg_cpu_time`. */
+  orderBy?: string;
   /** Optional. If unspecified, at most 100 query stats will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
   /** Optional. The expression to filter resources. Supported fields are: `full_resource_name`, `resource_type`, `container`, `product.type`, `product.engine`, `product.version`, `location`, `labels`, `issues`, fields of availability_info, data_protection_info,'resource_name', etc. The expression is a list of zero or more restrictions combined via logical operators `AND` and `OR`. When `AND` and `OR` are both used in the expression, parentheses must be appropriately used to group the combinations. Example: `location="us-east1"` Example: `container="projects/123" OR container="projects/456"` Example: `(container="projects/123" OR container="projects/456") AND location="us-east1"` Additional specific fields for query stats are: `metric_window`, `query_hash`, `normalized_query`. Example: `metric_window="LAST_ONE_DAY"` (Possible values for `metric_window` are: `LAST_ONE_DAY`, `LAST_ONE_WEEK`, `LAST_TWO_WEEKS`) Example: `query_hash="12345678"` Example: `normalized_query="SELECT * FROM table"` */
   filter?: string;
   /** Optional. A page token, received from a previous `AggregateQueryStatsRequest` call. Provide this to retrieve the subsequent page. All parameters except page_token should match the parameters in the call that provided the page token. */
   pageToken?: string;
-  /** Optional. The expression to order the results by. Example: `order_by="execution_count"` Example: `order_by="execution_count desc"` Supported order by fields are `execution_count`, `rows_processed`, `total_cpu_time`, `avg_cpu_time`. */
-  orderBy?: string;
 }
 export interface AggregateQueryStatsFoldersRequest {
   /** Required. Parent can be a project, a folder, or an organization. The search is limited to the resources within the `parent`. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
@@ -610,34 +626,34 @@ export type QueryMetricsMetricsWindowEnum =
 export interface QueryMetrics {
   /** The average execution period of the query across all runs. */
   avgCpuTime?: string;
+  /** The average number of rows processed by the query across all runs. */
+  rowsProcessed?: string;
   /** The number of times the query was executed. */
   executionCount?: string;
   /** The total CPU time consumed by the query across all runs. */
   totalCpuTime?: string;
-  /** The average number of rows processed by the query across all runs. */
-  rowsProcessed?: string;
   /** The window over which the metrics are aggregated. */
   metricsWindow?: QueryMetricsMetricsWindowEnum;
 }
 /** Metadata about inefficient query signal info for a database resource. */
 export interface InefficientQueryInfo {
+  /** Cost of additional disk usage in bytes */
+  storageCostBytes?: string;
   /** SQL statement of the index. Based on the ddl type, this will be either CREATE INDEX or DROP INDEX. */
   sqlIndexStatement?: string;
+  /** Name of the database where index is required. For example, "db1", which is the name of the database present in the instance. */
+  database?: string;
   /** Count of queries to be impacted if index is applied */
   impactedQueriesCount?: string;
   /** Name of the table where index is required */
   table?: string;
-  /** Cost of additional disk usage in bytes */
-  storageCostBytes?: string;
-  /** Name of the database where index is required. For example, "db1", which is the name of the database present in the instance. */
-  database?: string;
 }
 /** QueryStats contains the stats for a particular combination of query_hash, query_string and resource_type. */
 export interface QueryStats {
-  /** The query hash of the query. */
-  queryHash?: string;
   /** The type of the resource. sqladmin.googleapis.com/Instance alloydb.googleapis.com/Cluster alloydb.googleapis.com/Instance */
   resourceType?: string;
+  /** The query hash of the query. */
+  queryHash?: string;
   /** The resource ids for which the query stats are collected. */
   resourceIds?: ResourceIdList;
   /** Metrics related to the query performance. */
@@ -660,10 +676,10 @@ export type QueryStatsInfoList = Array<QueryStatsInfo>;
 export interface AggregateQueryStatsResponse {
   /** Unordered list. List of unreachable regions from where data could not be retrieved. */
   unreachable?: StringList;
-  /** List of query stats where each group contains stats for resources having a particular combination of relevant query stats. */
-  queryStats?: QueryStatsInfoList;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** List of query stats where each group contains stats for resources having a particular combination of relevant query stats. */
+  queryStats?: QueryStatsInfoList;
 }
 export interface AggregateQueryStatsOrganizationsRequest {
   /** Required. Parent can be a project, a folder, or an organization. The search is limited to the resources within the `parent`. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
@@ -677,128 +693,17 @@ export interface AggregateQueryStatsProjectsRequest {
   /** Request body */
   body?: AggregateQueryStatsRequest;
 }
-export type SignalFilterSignalTypeEnum =
-  | "SIGNAL_TYPE_UNSPECIFIED"
-  | "SIGNAL_TYPE_RESOURCE_FAILOVER_PROTECTED"
-  | "SIGNAL_TYPE_GROUP_MULTIREGIONAL"
-  | "SIGNAL_TYPE_NO_AUTOMATED_BACKUP_POLICY"
-  | "SIGNAL_TYPE_SHORT_BACKUP_RETENTION"
-  | "SIGNAL_TYPE_LAST_BACKUP_FAILED"
-  | "SIGNAL_TYPE_LAST_BACKUP_OLD"
-  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_2_0"
-  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_3"
-  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_2"
-  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_1"
-  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_0"
-  | "SIGNAL_TYPE_VIOLATES_CIS_CONTROLS_V8_0"
-  | "SIGNAL_TYPE_VIOLATES_NIST_800_53"
-  | "SIGNAL_TYPE_VIOLATES_NIST_800_53_R5"
-  | "SIGNAL_TYPE_VIOLATES_NIST_CYBERSECURITY_FRAMEWORK_V1_0"
-  | "SIGNAL_TYPE_VIOLATES_ISO_27001"
-  | "SIGNAL_TYPE_VIOLATES_ISO_27001_V2022"
-  | "SIGNAL_TYPE_VIOLATES_PCI_DSS_V3_2_1"
-  | "SIGNAL_TYPE_VIOLATES_PCI_DSS_V4_0"
-  | "SIGNAL_TYPE_VIOLATES_CLOUD_CONTROLS_MATRIX_V4"
-  | "SIGNAL_TYPE_VIOLATES_HIPAA"
-  | "SIGNAL_TYPE_VIOLATES_SOC2_V2017"
-  | "SIGNAL_TYPE_LOGS_NOT_OPTIMIZED_FOR_TROUBLESHOOTING"
-  | "SIGNAL_TYPE_QUERY_DURATIONS_NOT_LOGGED"
-  | "SIGNAL_TYPE_VERBOSE_ERROR_LOGGING"
-  | "SIGNAL_TYPE_QUERY_LOCK_WAITS_NOT_LOGGED"
-  | "SIGNAL_TYPE_LOGGING_MOST_ERRORS"
-  | "SIGNAL_TYPE_LOGGING_ONLY_CRITICAL_ERRORS"
-  | "SIGNAL_TYPE_MINIMAL_ERROR_LOGGING"
-  | "SIGNAL_TYPE_QUERY_STATS_LOGGED"
-  | "SIGNAL_TYPE_EXCESSIVE_LOGGING_OF_CLIENT_HOSTNAME"
-  | "SIGNAL_TYPE_EXCESSIVE_LOGGING_OF_PARSER_STATS"
-  | "SIGNAL_TYPE_EXCESSIVE_LOGGING_OF_PLANNER_STATS"
-  | "SIGNAL_TYPE_NOT_LOGGING_ONLY_DDL_STATEMENTS"
-  | "SIGNAL_TYPE_LOGGING_QUERY_STATS"
-  | "SIGNAL_TYPE_NOT_LOGGING_TEMPORARY_FILES"
-  | "SIGNAL_TYPE_CONNECTION_MAX_NOT_CONFIGURED"
-  | "SIGNAL_TYPE_USER_OPTIONS_CONFIGURED"
-  | "SIGNAL_TYPE_EXPOSED_TO_PUBLIC_ACCESS"
-  | "SIGNAL_TYPE_UNENCRYPTED_CONNECTIONS"
-  | "SIGNAL_TYPE_NO_ROOT_PASSWORD"
-  | "SIGNAL_TYPE_WEAK_ROOT_PASSWORD"
-  | "SIGNAL_TYPE_ENCRYPTION_KEY_NOT_CUSTOMER_MANAGED"
-  | "SIGNAL_TYPE_SERVER_AUTHENTICATION_NOT_REQUIRED"
-  | "SIGNAL_TYPE_EXPOSED_TO_EXTERNAL_SCRIPTS"
-  | "SIGNAL_TYPE_EXPOSED_TO_LOCAL_DATA_LOADS"
-  | "SIGNAL_TYPE_CONNECTION_ATTEMPTS_NOT_LOGGED"
-  | "SIGNAL_TYPE_DISCONNECTIONS_NOT_LOGGED"
-  | "SIGNAL_TYPE_LOGGING_EXCESSIVE_STATEMENT_INFO"
-  | "SIGNAL_TYPE_EXPOSED_TO_REMOTE_ACCESS"
-  | "SIGNAL_TYPE_DATABASE_NAMES_EXPOSED"
-  | "SIGNAL_TYPE_SENSITIVE_TRACE_INFO_NOT_MASKED"
-  | "SIGNAL_TYPE_PUBLIC_IP_ENABLED"
-  | "SIGNAL_TYPE_IDLE"
-  | "SIGNAL_TYPE_OVERPROVISIONED"
-  | "SIGNAL_TYPE_HIGH_NUMBER_OF_OPEN_TABLES"
-  | "SIGNAL_TYPE_HIGH_NUMBER_OF_TABLES"
-  | "SIGNAL_TYPE_HIGH_TRANSACTION_ID_UTILIZATION"
-  | "SIGNAL_TYPE_UNDERPROVISIONED"
-  | "SIGNAL_TYPE_OUT_OF_DISK"
-  | "SIGNAL_TYPE_SERVER_CERTIFICATE_NEAR_EXPIRY"
-  | "SIGNAL_TYPE_DATABASE_AUDITING_DISABLED"
-  | "SIGNAL_TYPE_RESTRICT_AUTHORIZED_NETWORKS"
-  | "SIGNAL_TYPE_VIOLATE_POLICY_RESTRICT_PUBLIC_IP"
-  | "SIGNAL_TYPE_QUOTA_LIMIT"
-  | "SIGNAL_TYPE_NO_PASSWORD_POLICY"
-  | "SIGNAL_TYPE_CONNECTIONS_PERFORMANCE_IMPACT"
-  | "SIGNAL_TYPE_TMP_TABLES_PERFORMANCE_IMPACT"
-  | "SIGNAL_TYPE_TRANS_LOGS_PERFORMANCE_IMPACT"
-  | "SIGNAL_TYPE_HIGH_JOINS_WITHOUT_INDEXES"
-  | "SIGNAL_TYPE_SUPERUSER_WRITING_TO_USER_TABLES"
-  | "SIGNAL_TYPE_USER_GRANTED_ALL_PERMISSIONS"
-  | "SIGNAL_TYPE_DATA_EXPORT_TO_EXTERNAL_CLOUD_STORAGE_BUCKET"
-  | "SIGNAL_TYPE_DATA_EXPORT_TO_PUBLIC_CLOUD_STORAGE_BUCKET"
-  | "SIGNAL_TYPE_WEAK_PASSWORD_HASH_ALGORITHM"
-  | "SIGNAL_TYPE_NO_USER_PASSWORD_POLICY"
-  | "SIGNAL_TYPE_HOT_NODE"
-  | "SIGNAL_TYPE_NO_DELETION_PROTECTION"
-  | "SIGNAL_TYPE_NO_POINT_IN_TIME_RECOVERY"
-  | "SIGNAL_TYPE_RESOURCE_SUSPENDED"
-  | "SIGNAL_TYPE_EXPENSIVE_COMMANDS"
-  | "SIGNAL_TYPE_NO_MAINTENANCE_POLICY_CONFIGURED"
-  | "SIGNAL_TYPE_INEFFICIENT_QUERY"
-  | "SIGNAL_TYPE_READ_INTENSIVE_WORKLOAD"
-  | "SIGNAL_TYPE_MEMORY_LIMIT"
-  | "SIGNAL_TYPE_MAX_SERVER_MEMORY"
-  | "SIGNAL_TYPE_LARGE_ROWS"
-  | "SIGNAL_TYPE_HIGH_WRITE_PRESSURE"
-  | "SIGNAL_TYPE_HIGH_READ_PRESSURE"
-  | "SIGNAL_TYPE_ENCRYPTION_ORG_POLICY_NOT_SATISFIED"
-  | "SIGNAL_TYPE_LOCATION_ORG_POLICY_NOT_SATISFIED"
-  | "SIGNAL_TYPE_OUTDATED_MINOR_VERSION"
-  | "SIGNAL_TYPE_SCHEMA_NOT_OPTIMIZED"
-  | "SIGNAL_TYPE_REPLICATION_LAG"
-  | "SIGNAL_TYPE_OUTDATED_CLIENT"
-  | "SIGNAL_TYPE_DATABOOST_DISABLED"
-  | "SIGNAL_TYPE_RECOMMENDED_MAINTENANCE_POLICIES"
-  | "SIGNAL_TYPE_EXTENDED_SUPPORT"
-  | "SIGNAL_TYPE_VERSION_NEARING_END_OF_LIFE"
-  | "SIGNAL_TYPE_HIGH_MAINTENANCE_DOWNTIME_RISK"
-  | "SIGNAL_TYPE_LOW_CACHE_HIT_AND_MAINTENANCE_DOWNTIME"
-  | "SIGNAL_TYPE_MISSING_ENHANCED_PROTECTION";
 export type SignalFilterSignalStatusEnum =
   | "SIGNAL_STATUS_UNSPECIFIED"
   | "SIGNAL_STATUS_NOT_APPLICABLE"
   | "SIGNAL_STATUS_OK"
   | "SIGNAL_STATUS_ISSUE"
   | "SIGNAL_STATUS_NOT_ENABLED";
-/** A filter for Signals. If signal_type is left unset, all signals should be returned. For example, the following filter returns all issues. signal_filter: { signal_status: SIGNAL_STATUS_ISSUE; } Another example, the following filter returns issues of the given type: signal_filter: { type: SIGNAL_TYPE_NO_PROMOTABLE_REPLICA signal_status: ISSUE } If signal_status is left unset or set to SIGNAL_STATE_UNSPECIFIED, an error should be returned. */
-export interface SignalFilter {
-  /** Optional. Represents the type of the Signal for which the filter is for. */
-  signalType?: SignalFilterSignalTypeEnum | (string & {});
-  /** Optional. Represents the status of the Signal for which the filter is for. */
-  signalStatus?: SignalFilterSignalStatusEnum | (string & {});
-}
-export type SignalFilterList = Array<SignalFilter>;
-export type SignalProductsFiltersSignalTypeEnum =
+export type SignalFilterSignalTypeEnum =
   | "SIGNAL_TYPE_UNSPECIFIED"
   | "SIGNAL_TYPE_RESOURCE_FAILOVER_PROTECTED"
   | "SIGNAL_TYPE_GROUP_MULTIREGIONAL"
+  | "SIGNAL_TYPE_NO_PROMOTABLE_REPLICA"
   | "SIGNAL_TYPE_NO_AUTOMATED_BACKUP_POLICY"
   | "SIGNAL_TYPE_SHORT_BACKUP_RETENTION"
   | "SIGNAL_TYPE_LAST_BACKUP_FAILED"
@@ -841,6 +746,7 @@ export type SignalProductsFiltersSignalTypeEnum =
   | "SIGNAL_TYPE_WEAK_ROOT_PASSWORD"
   | "SIGNAL_TYPE_ENCRYPTION_KEY_NOT_CUSTOMER_MANAGED"
   | "SIGNAL_TYPE_SERVER_AUTHENTICATION_NOT_REQUIRED"
+  | "SIGNAL_TYPE_EXPOSED_BY_OWNERSHIP_CHAINING"
   | "SIGNAL_TYPE_EXPOSED_TO_EXTERNAL_SCRIPTS"
   | "SIGNAL_TYPE_EXPOSED_TO_LOCAL_DATA_LOADS"
   | "SIGNAL_TYPE_CONNECTION_ATTEMPTS_NOT_LOGGED"
@@ -890,11 +796,131 @@ export type SignalProductsFiltersSignalTypeEnum =
   | "SIGNAL_TYPE_LOCATION_ORG_POLICY_NOT_SATISFIED"
   | "SIGNAL_TYPE_OUTDATED_MINOR_VERSION"
   | "SIGNAL_TYPE_SCHEMA_NOT_OPTIMIZED"
+  | "SIGNAL_TYPE_MANY_IDLE_CONNECTIONS"
   | "SIGNAL_TYPE_REPLICATION_LAG"
+  | "SIGNAL_TYPE_OUTDATED_VERSION"
   | "SIGNAL_TYPE_OUTDATED_CLIENT"
   | "SIGNAL_TYPE_DATABOOST_DISABLED"
   | "SIGNAL_TYPE_RECOMMENDED_MAINTENANCE_POLICIES"
   | "SIGNAL_TYPE_EXTENDED_SUPPORT"
+  | "SIGNAL_TYPE_PERFORMANCE_KPI_CHANGE"
+  | "SIGNAL_TYPE_VERSION_NEARING_END_OF_LIFE"
+  | "SIGNAL_TYPE_HIGH_MAINTENANCE_DOWNTIME_RISK"
+  | "SIGNAL_TYPE_LOW_CACHE_HIT_AND_MAINTENANCE_DOWNTIME"
+  | "SIGNAL_TYPE_MISSING_ENHANCED_PROTECTION";
+/** A filter for Signals. If signal_type is left unset, all signals should be returned. For example, the following filter returns all issues. signal_filter: { signal_status: SIGNAL_STATUS_ISSUE; } Another example, the following filter returns issues of the given type: signal_filter: { type: SIGNAL_TYPE_NO_PROMOTABLE_REPLICA signal_status: ISSUE } If signal_status is left unset or set to SIGNAL_STATE_UNSPECIFIED, an error should be returned. */
+export interface SignalFilter {
+  /** Optional. Represents the status of the Signal for which the filter is for. */
+  signalStatus?: SignalFilterSignalStatusEnum | (string & {});
+  /** Optional. Represents the type of the Signal for which the filter is for. */
+  signalType?: SignalFilterSignalTypeEnum | (string & {});
+}
+export type SignalFilterList = Array<SignalFilter>;
+export type SignalProductsFiltersSignalTypeEnum =
+  | "SIGNAL_TYPE_UNSPECIFIED"
+  | "SIGNAL_TYPE_RESOURCE_FAILOVER_PROTECTED"
+  | "SIGNAL_TYPE_GROUP_MULTIREGIONAL"
+  | "SIGNAL_TYPE_NO_PROMOTABLE_REPLICA"
+  | "SIGNAL_TYPE_NO_AUTOMATED_BACKUP_POLICY"
+  | "SIGNAL_TYPE_SHORT_BACKUP_RETENTION"
+  | "SIGNAL_TYPE_LAST_BACKUP_FAILED"
+  | "SIGNAL_TYPE_LAST_BACKUP_OLD"
+  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_2_0"
+  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_3"
+  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_2"
+  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_1"
+  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_0"
+  | "SIGNAL_TYPE_VIOLATES_CIS_CONTROLS_V8_0"
+  | "SIGNAL_TYPE_VIOLATES_NIST_800_53"
+  | "SIGNAL_TYPE_VIOLATES_NIST_800_53_R5"
+  | "SIGNAL_TYPE_VIOLATES_NIST_CYBERSECURITY_FRAMEWORK_V1_0"
+  | "SIGNAL_TYPE_VIOLATES_ISO_27001"
+  | "SIGNAL_TYPE_VIOLATES_ISO_27001_V2022"
+  | "SIGNAL_TYPE_VIOLATES_PCI_DSS_V3_2_1"
+  | "SIGNAL_TYPE_VIOLATES_PCI_DSS_V4_0"
+  | "SIGNAL_TYPE_VIOLATES_CLOUD_CONTROLS_MATRIX_V4"
+  | "SIGNAL_TYPE_VIOLATES_HIPAA"
+  | "SIGNAL_TYPE_VIOLATES_SOC2_V2017"
+  | "SIGNAL_TYPE_LOGS_NOT_OPTIMIZED_FOR_TROUBLESHOOTING"
+  | "SIGNAL_TYPE_QUERY_DURATIONS_NOT_LOGGED"
+  | "SIGNAL_TYPE_VERBOSE_ERROR_LOGGING"
+  | "SIGNAL_TYPE_QUERY_LOCK_WAITS_NOT_LOGGED"
+  | "SIGNAL_TYPE_LOGGING_MOST_ERRORS"
+  | "SIGNAL_TYPE_LOGGING_ONLY_CRITICAL_ERRORS"
+  | "SIGNAL_TYPE_MINIMAL_ERROR_LOGGING"
+  | "SIGNAL_TYPE_QUERY_STATS_LOGGED"
+  | "SIGNAL_TYPE_EXCESSIVE_LOGGING_OF_CLIENT_HOSTNAME"
+  | "SIGNAL_TYPE_EXCESSIVE_LOGGING_OF_PARSER_STATS"
+  | "SIGNAL_TYPE_EXCESSIVE_LOGGING_OF_PLANNER_STATS"
+  | "SIGNAL_TYPE_NOT_LOGGING_ONLY_DDL_STATEMENTS"
+  | "SIGNAL_TYPE_LOGGING_QUERY_STATS"
+  | "SIGNAL_TYPE_NOT_LOGGING_TEMPORARY_FILES"
+  | "SIGNAL_TYPE_CONNECTION_MAX_NOT_CONFIGURED"
+  | "SIGNAL_TYPE_USER_OPTIONS_CONFIGURED"
+  | "SIGNAL_TYPE_EXPOSED_TO_PUBLIC_ACCESS"
+  | "SIGNAL_TYPE_UNENCRYPTED_CONNECTIONS"
+  | "SIGNAL_TYPE_NO_ROOT_PASSWORD"
+  | "SIGNAL_TYPE_WEAK_ROOT_PASSWORD"
+  | "SIGNAL_TYPE_ENCRYPTION_KEY_NOT_CUSTOMER_MANAGED"
+  | "SIGNAL_TYPE_SERVER_AUTHENTICATION_NOT_REQUIRED"
+  | "SIGNAL_TYPE_EXPOSED_BY_OWNERSHIP_CHAINING"
+  | "SIGNAL_TYPE_EXPOSED_TO_EXTERNAL_SCRIPTS"
+  | "SIGNAL_TYPE_EXPOSED_TO_LOCAL_DATA_LOADS"
+  | "SIGNAL_TYPE_CONNECTION_ATTEMPTS_NOT_LOGGED"
+  | "SIGNAL_TYPE_DISCONNECTIONS_NOT_LOGGED"
+  | "SIGNAL_TYPE_LOGGING_EXCESSIVE_STATEMENT_INFO"
+  | "SIGNAL_TYPE_EXPOSED_TO_REMOTE_ACCESS"
+  | "SIGNAL_TYPE_DATABASE_NAMES_EXPOSED"
+  | "SIGNAL_TYPE_SENSITIVE_TRACE_INFO_NOT_MASKED"
+  | "SIGNAL_TYPE_PUBLIC_IP_ENABLED"
+  | "SIGNAL_TYPE_IDLE"
+  | "SIGNAL_TYPE_OVERPROVISIONED"
+  | "SIGNAL_TYPE_HIGH_NUMBER_OF_OPEN_TABLES"
+  | "SIGNAL_TYPE_HIGH_NUMBER_OF_TABLES"
+  | "SIGNAL_TYPE_HIGH_TRANSACTION_ID_UTILIZATION"
+  | "SIGNAL_TYPE_UNDERPROVISIONED"
+  | "SIGNAL_TYPE_OUT_OF_DISK"
+  | "SIGNAL_TYPE_SERVER_CERTIFICATE_NEAR_EXPIRY"
+  | "SIGNAL_TYPE_DATABASE_AUDITING_DISABLED"
+  | "SIGNAL_TYPE_RESTRICT_AUTHORIZED_NETWORKS"
+  | "SIGNAL_TYPE_VIOLATE_POLICY_RESTRICT_PUBLIC_IP"
+  | "SIGNAL_TYPE_QUOTA_LIMIT"
+  | "SIGNAL_TYPE_NO_PASSWORD_POLICY"
+  | "SIGNAL_TYPE_CONNECTIONS_PERFORMANCE_IMPACT"
+  | "SIGNAL_TYPE_TMP_TABLES_PERFORMANCE_IMPACT"
+  | "SIGNAL_TYPE_TRANS_LOGS_PERFORMANCE_IMPACT"
+  | "SIGNAL_TYPE_HIGH_JOINS_WITHOUT_INDEXES"
+  | "SIGNAL_TYPE_SUPERUSER_WRITING_TO_USER_TABLES"
+  | "SIGNAL_TYPE_USER_GRANTED_ALL_PERMISSIONS"
+  | "SIGNAL_TYPE_DATA_EXPORT_TO_EXTERNAL_CLOUD_STORAGE_BUCKET"
+  | "SIGNAL_TYPE_DATA_EXPORT_TO_PUBLIC_CLOUD_STORAGE_BUCKET"
+  | "SIGNAL_TYPE_WEAK_PASSWORD_HASH_ALGORITHM"
+  | "SIGNAL_TYPE_NO_USER_PASSWORD_POLICY"
+  | "SIGNAL_TYPE_HOT_NODE"
+  | "SIGNAL_TYPE_NO_DELETION_PROTECTION"
+  | "SIGNAL_TYPE_NO_POINT_IN_TIME_RECOVERY"
+  | "SIGNAL_TYPE_RESOURCE_SUSPENDED"
+  | "SIGNAL_TYPE_EXPENSIVE_COMMANDS"
+  | "SIGNAL_TYPE_NO_MAINTENANCE_POLICY_CONFIGURED"
+  | "SIGNAL_TYPE_INEFFICIENT_QUERY"
+  | "SIGNAL_TYPE_READ_INTENSIVE_WORKLOAD"
+  | "SIGNAL_TYPE_MEMORY_LIMIT"
+  | "SIGNAL_TYPE_MAX_SERVER_MEMORY"
+  | "SIGNAL_TYPE_LARGE_ROWS"
+  | "SIGNAL_TYPE_HIGH_WRITE_PRESSURE"
+  | "SIGNAL_TYPE_HIGH_READ_PRESSURE"
+  | "SIGNAL_TYPE_ENCRYPTION_ORG_POLICY_NOT_SATISFIED"
+  | "SIGNAL_TYPE_LOCATION_ORG_POLICY_NOT_SATISFIED"
+  | "SIGNAL_TYPE_OUTDATED_MINOR_VERSION"
+  | "SIGNAL_TYPE_SCHEMA_NOT_OPTIMIZED"
+  | "SIGNAL_TYPE_MANY_IDLE_CONNECTIONS"
+  | "SIGNAL_TYPE_REPLICATION_LAG"
+  | "SIGNAL_TYPE_OUTDATED_VERSION"
+  | "SIGNAL_TYPE_OUTDATED_CLIENT"
+  | "SIGNAL_TYPE_DATABOOST_DISABLED"
+  | "SIGNAL_TYPE_RECOMMENDED_MAINTENANCE_POLICIES"
+  | "SIGNAL_TYPE_EXTENDED_SUPPORT"
+  | "SIGNAL_TYPE_PERFORMANCE_KPI_CHANGE"
   | "SIGNAL_TYPE_VERSION_NEARING_END_OF_LIFE"
   | "SIGNAL_TYPE_HIGH_MAINTENANCE_DOWNTIME_RISK"
   | "SIGNAL_TYPE_LOW_CACHE_HIT_AND_MAINTENANCE_DOWNTIME"
@@ -910,26 +936,56 @@ export interface SignalProductsFilters {
 export type SignalProductsFiltersList = Array<SignalProductsFilters>;
 /** QueryDatabaseResourceGroupsRequest is the request to get a list of database groups. */
 export interface QueryDatabaseResourceGroupsRequest {
-  /** Optional. A field that specifies the sort order of the results. The following fields are sortable: * full_resource_name * product.type * product.engine * product.version * container * issue_count * machine_config.vcpu_count * machine_config.memory_size_bytes * machine_config.shard_count * resource_name * issue_severity * signal_type * location * resource_type * instance_type * edition * modes * metrics.p99_cpu_utilization * metrics.p95_cpu_utilization * metrics.current_storage_used_bytes * metrics.node_count * metrics.processing_unit_count * metrics.current_memory_used_bytes * metrics.peak_storage_utilization * metrics.peak_number_connections * metrics.peak_memory_utilization The default order is ascending. Add "DESC" after the field name to indicate descending order. Add "ASC" after the field name to indicate ascending order. It only supports a single field at a time. For example: `order_by = "full_resource_name"` sorts response in ascending order `order_by = "full_resource_name DESC"` sorts response in descending order `order_by = "issue_count DESC"` sorts response in descending order of count of all issues associated with a resource. More explicitly, `order_by = "full_resource_name, product"` is not supported. */
-  orderBy?: string;
   /** Required. Parent can be a project, a folder, or an organization. The search is limited to the resources within the `scope`. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
   parent?: string;
+  /** Optional. A field that specifies the sort order of the results. The following fields are sortable: * full_resource_name * product.type * product.engine * product.version * container * issue_count * machine_config.vcpu_count * machine_config.memory_size_bytes * machine_config.shard_count * resource_name * issue_severity * signal_type * location * resource_type * instance_type * edition * modes * metrics.p99_cpu_utilization * metrics.p95_cpu_utilization * metrics.current_storage_used_bytes * metrics.node_count * metrics.processing_unit_count * metrics.current_memory_used_bytes * metrics.peak_storage_utilization * metrics.peak_number_connections * metrics.peak_memory_utilization The default order is ascending. Add "DESC" after the field name to indicate descending order. Add "ASC" after the field name to indicate ascending order. It only supports a single field at a time. For example: `order_by = "full_resource_name"` sorts response in ascending order `order_by = "full_resource_name DESC"` sorts response in descending order `order_by = "issue_count DESC"` sorts response in descending order of count of all issues associated with a resource. More explicitly, `order_by = "full_resource_name, product"` is not supported. */
+  orderBy?: string;
   /** Optional. The expression to filter resources. The following fields are filterable: * full_resource_name * resource_type * container * product.type * product.engine * product.version * location * labels * resource_category * machine_config.cpu_count * machine_config.memory_size_bytes * machine_config.shard_count * resource_name * tags * backupdr_config.backupdr_managed * edition * modes The expression is a list of zero or more restrictions combined via logical operators `AND` and `OR`. When `AND` and `OR` are both used in the expression, parentheses must be appropriately used to group the combinations. Example: `location="us-east1"` Example: `container="projects/123" OR container="projects/456"` Example: `(container="projects/123" OR container="projects/456") AND location="us-east1"` Example: `full_resource_name=~"test"` Example: `full_resource_name=~"test.*master"` */
   filter?: string;
-  /** Optional. A page token, received from a previous `QueryDatabaseResourceGroupsRequest` call. Provide this to retrieve the subsequent page. All parameters except page_token should match the parameters in the call that provided the page page token. */
-  pageToken?: string;
-  /** Optional. If unspecified, at most 50 resource groups will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Optional. Filters based on signals. The list will be ORed together and then ANDed with the `filters` field above. */
   signalFilters?: SignalFilterList;
-  /** Optional. Groups of signal types that are requested. */
-  signalTypeGroups?: SignalTypeGroupList;
+  /** Optional. If unspecified, at most 50 resource groups will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
+  /** Optional. A page token, received from a previous `QueryDatabaseResourceGroupsRequest` call. Provide this to retrieve the subsequent page. All parameters except page_token should match the parameters in the call that provided the page page token. */
+  pageToken?: string;
   /** Optional. Filters based on signal and product. The filter list will be ORed across pairs and ANDed within a signal and products pair. */
   signalProductsFilters?: SignalProductsFiltersList;
+  /** Optional. Groups of signal types that are requested. */
+  signalTypeGroups?: SignalTypeGroupList;
 }
 export interface QueryDatabaseResourceGroupsV1betaRequest {
   /** Request body */
   body?: QueryDatabaseResourceGroupsRequest;
+}
+/** BackupDRConfig to capture the backup and disaster recovery details of database resource. */
+export interface BackupDRConfig {
+  /** Indicates if the resource is managed by BackupDR. */
+  backupdrManaged?: boolean;
+}
+export type DatabaseResourceResourceCategoryEnum =
+  | "RESOURCE_CATEGORY_UNSPECIFIED"
+  | "INSTANCE"
+  | "CLUSTER"
+  | "DATABASE"
+  | "DATASET"
+  | "RESERVATION";
+export type DatabaseResourceEditionEnum =
+  | "EDITION_UNSPECIFIED"
+  | "EDITION_ENTERPRISE"
+  | "EDITION_ENTERPRISE_PLUS"
+  | "EDITION_STANDARD";
+/** MachineConfig describes the configuration of a machine specific to a Database Resource. */
+export interface MachineConfig {
+  /** Optional. The number of vCPUs (if applicable). */
+  vcpuCount?: number;
+  /** Optional. Max slots for BigQuery Reservations. Max slots are in increments of 50. */
+  maxReservationSlotCount?: string;
+  /** Memory size in bytes. */
+  memorySizeBytes?: string;
+  /** Optional. The number of Shards (if applicable). */
+  shardCount?: number;
+  /** Optional. Baseline slots for BigQuery Reservations. Baseline slots are in increments of 50. */
+  baselineSlotCount?: string;
 }
 export type MaintenanceInfoPossibleFailureReasonsItemEnum =
   | "POSSIBLE_FAILURE_REASON_UNSPECIFIED"
@@ -943,11 +999,34 @@ export interface TimeOfDay {
   minutes?: number;
   /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
   seconds?: number;
-  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
   /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
   nanos?: number;
+  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number;
 }
+/** Deny maintenance period for the database resource. It specifies the time range during which the maintenance cannot start. This is configured by the customer. */
+export interface ResourceMaintenanceDenySchedule {
+  /** Optional. Deny period end date. */
+  endDate?: Databasecenter_Date;
+  /** Optional. Time in UTC when the deny period starts on start_date and ends on end_date. */
+  time?: TimeOfDay;
+  /** Optional. The start date of the deny maintenance period. */
+  startDate?: Databasecenter_Date;
+}
+export type ResourceMaintenanceDenyScheduleList = Array<ResourceMaintenanceDenySchedule>;
+/** Upcoming maintenance window for the database resource. */
+export interface UpcomingMaintenance {
+  /** Output only. Start time of the upcoming maintenance. Start time is always populated when an upcoming maintenance is scheduled. */
+  startTime?: string;
+  /** Output only. End time of the upcoming maintenance. This is only populated for an engine, if end time is public for the engine. */
+  endTime?: string;
+}
+export type ResourceMaintenanceSchedulePhaseEnum =
+  | "PHASE_UNSPECIFIED"
+  | "PHASE_WEEK1"
+  | "PHASE_WEEK2"
+  | "PHASE_WEEK5"
+  | "PHASE_ANY";
 export type ResourceMaintenanceScheduleDayEnum =
   | "DAY_OF_WEEK_UNSPECIFIED"
   | "MONDAY"
@@ -957,79 +1036,101 @@ export type ResourceMaintenanceScheduleDayEnum =
   | "FRIDAY"
   | "SATURDAY"
   | "SUNDAY";
-export type ResourceMaintenanceSchedulePhaseEnum =
-  | "PHASE_UNSPECIFIED"
-  | "PHASE_WEEK1"
-  | "PHASE_WEEK2"
-  | "PHASE_WEEK5"
-  | "PHASE_ANY";
 /** Maintenance window for the database resource. It specifies preferred time and day of the week and phase in some cases, when the maintenance can start. */
 export interface ResourceMaintenanceSchedule {
+  /** Optional. Phase of the maintenance window. This is to capture order of maintenance. For example, for Cloud SQL resources, this can be used to capture if the maintenance window is in Week1, Week2, Week5, etc. Non production resources are usually part of early phase. For more details, refer to Cloud SQL resources - https://cloud.google.com/sql/docs/mysql/maintenance */
+  phase?: ResourceMaintenanceSchedulePhaseEnum;
   /** Optional. Preferred time to start the maintenance operation on the specified day. */
   startTime?: TimeOfDay;
   /** Optional. Preferred day of the week for maintenance, e.g. MONDAY, TUESDAY, etc. */
   day?: ResourceMaintenanceScheduleDayEnum;
-  /** Optional. Phase of the maintenance window. This is to capture order of maintenance. For example, for Cloud SQL resources, this can be used to capture if the maintenance window is in Week1, Week2, Week5, etc. Non production resources are usually part of early phase. For more details, refer to Cloud SQL resources - https://cloud.google.com/sql/docs/mysql/maintenance */
-  phase?: ResourceMaintenanceSchedulePhaseEnum;
 }
-/** Deny maintenance period for the database resource. It specifies the time range during which the maintenance cannot start. This is configured by the customer. */
-export interface ResourceMaintenanceDenySchedule {
-  /** Optional. Time in UTC when the deny period starts on start_date and ends on end_date. */
-  time?: TimeOfDay;
-  /** Optional. Deny period end date. */
-  endDate?: Databasecenter_Date;
-  /** Optional. The start date of the deny maintenance period. */
-  startDate?: Databasecenter_Date;
-}
-export type ResourceMaintenanceDenyScheduleList = Array<ResourceMaintenanceDenySchedule>;
 export type MaintenanceInfoStateEnum =
   | "MAINTENANCE_STATE_UNSPECIFIED"
   | "MAINTENANCE_STATE_SCHEDULED"
   | "MAINTENANCE_STATE_IN_PROGRESS"
   | "MAINTENANCE_STATE_COMPLETED"
   | "MAINTENANCE_STATE_FAILED";
-/** Upcoming maintenance window for the database resource. */
-export interface UpcomingMaintenance {
-  /** Output only. Start time of the upcoming maintenance. Start time is always populated when an upcoming maintenance is scheduled. */
-  startTime?: string;
-  /** Output only. End time of the upcoming maintenance. This is only populated for an engine, if end time is public for the engine. */
-  endTime?: string;
-}
 /** MaintenanceInfo to capture the maintenance details of database resource. */
 export interface MaintenanceInfo {
   /** Output only. List of possible reasons why the maintenance is not completed. This is an optional field and is only populated if there are any reasons for failures recorded for the maintenance by DB Center. FAILURE maintenance status may not always have a failure reason. */
   possibleFailureReasons?: MaintenanceInfoPossibleFailureReasonsItemEnumList;
-  /** Optional. Maintenance window for the database resource. */
-  maintenanceSchedule?: ResourceMaintenanceSchedule;
   /** Optional. List of Deny maintenance period for the database resource. */
   denyMaintenanceSchedules?: ResourceMaintenanceDenyScheduleList;
-  /** Output only. Previous maintenance version of the database resource. Example: "MYSQL_8_0_41.R20250531.01_15". This is available once a minor version maintenance is complete on a database resource. */
-  previousMaintenanceVersion?: string;
-  /** Output only. Resource maintenance state. This is to capture the current state of the maintenance. */
-  state?: MaintenanceInfoStateEnum;
   /** Output only. Upcoming maintenance window for the database resource. This is only populated for an engine, if upcoming maintenance is scheduled for the resource. This schedule is generated per engine and engine version, and there is only one upcoming maintenance window at any given time. In case of upcoming maintenance, the maintenance_state will be set to SCHEDULED first, and then IN_PROGRESS when the maintenance window starts. */
   upcomingMaintenance?: UpcomingMaintenance;
-  /** Output only. Current Maintenance version of the database resource. Example: "MYSQL_8_0_41.R20250531.01_15" */
-  maintenanceVersion?: string;
   /** Output only. The date when the maintenance version was released. */
   currentVersionReleaseDate?: Databasecenter_Date;
+  /** Optional. Maintenance window for the database resource. */
+  maintenanceSchedule?: ResourceMaintenanceSchedule;
+  /** Output only. Resource maintenance state. This is to capture the current state of the maintenance. */
+  state?: MaintenanceInfoStateEnum;
+  /** Output only. Current Maintenance version of the database resource. Example: "MYSQL_8_0_41.R20250531.01_15" */
+  maintenanceVersion?: string;
+  /** Output only. Previous maintenance version of the database resource. Example: "MYSQL_8_0_41.R20250531.01_15". This is available once a minor version maintenance is complete on a database resource. */
+  previousMaintenanceVersion?: string;
 }
+export type LineageProcessTypeEnum =
+  | "PROCESS_TYPE_UNSPECIFIED"
+  | "COMPOSER"
+  | "DATASTREAM"
+  | "DATAFLOW"
+  | "BIGQUERY"
+  | "DATA_FUSION"
+  | "DATAPROC";
+/** lineage information of the affiliated resources This captures source, target and process which created the lineage. */
+export interface Lineage {
+  /** Optional. Type of process which created the lineage. */
+  processType?: LineageProcessTypeEnum;
+  /** Optional. FQN of source table / column */
+  sourceFqn?: string;
+  /** Optional. FQN of process which created the lineage i.e. dataplex, datastream etc. */
+  processFqn?: string;
+  /** Optional. FQN of target table / column */
+  targetFqn?: string;
+}
+export type LineageList = Array<Lineage>;
+/** Affiliation information of a resource */
+export interface Affiliation {
+  /** Optional. Multiple lineages can be created from a resource. For example, a resource can be replicated to multiple target resources. In this case, there will be multiple lineages for the resource, one for each target resource. */
+  lineages?: LineageList;
+  /** Optional. resource id of affiliated resource */
+  resourceId?: string;
+  /** Optional. Full resource name */
+  fullResourceName?: string;
+}
+export type AffiliationList = Array<Affiliation>;
+/** Label is a key value pair applied to a resource. */
+export interface Label {
+  /** The value part of the label. */
+  value?: string;
+  /** The key part of the label. */
+  key?: string;
+  /** The source of the Label. Source is empty if the label is directly attached to the resource and not inherited. */
+  source?: string;
+}
+export type LabelList = Array<Label>;
 /** Tag is a key value pair attached to a resource. */
 export interface Tag {
   /** Indicates the inheritance status of a tag value attached to the given resource. If the tag value is inherited from one of the resource's ancestors, inherited will be true. If false, then the tag value is directly attached to the resource. */
   inherited?: boolean;
-  /** The value part of the tag. */
-  value?: string;
   /** The source of the tag. According to https://cloud.google.com/resource-manager/docs/tags/tags-overview#tags_and_labels, tags can be created only at the project or organization level. Tags can be inherited from different project as well not just the current project where the database resource is present. Format: "projects/{PROJECT_ID}", "projects/{PROJECT_NUMBER}", "organizations/{ORGANIZATION_ID}" */
   source?: string;
+  /** The value part of the tag. */
+  value?: string;
   key?: string;
 }
 export type TagList = Array<Tag>;
-/** BackupDRConfig to capture the backup and disaster recovery details of database resource. */
-export interface BackupDRConfig {
-  /** Indicates if the resource is managed by BackupDR. */
-  backupdrManaged?: boolean;
-}
+export type DatabaseResourceSubResourceTypeEnum =
+  | "SUB_RESOURCE_TYPE_UNSPECIFIED"
+  | "SUB_RESOURCE_TYPE_PRIMARY"
+  | "SUB_RESOURCE_TYPE_SECONDARY"
+  | "SUB_RESOURCE_TYPE_READ_REPLICA"
+  | "SUB_RESOURCE_TYPE_EXTERNAL_PRIMARY"
+  | "SUB_RESOURCE_TYPE_READ_POOL"
+  | "SUB_RESOURCE_TYPE_RESERVATION"
+  | "SUB_RESOURCE_TYPE_DATASET"
+  | "SUB_RESOURCE_TYPE_OTHER";
 /** TypedValue represents the value of the metric based on data type. */
 export interface TypedValue {
   /** The value of the metric as int. */
@@ -1046,71 +1147,25 @@ export interface MetricData {
 }
 /** Metrics represents the metrics for a database resource. */
 export interface Metrics {
-  /** Number of nodes in instance for spanner or bigtable. */
-  nodeCount?: MetricData;
-  /** Peak storage utilization observed for the resource. The value is a fraction between 0.0 and 1.0 (may momentarily exceed 1.0 in some cases). */
-  peakStorageUtilization?: MetricData;
-  /** Number of processing units in spanner. */
-  processingUnitCount?: MetricData;
-  /** P95 CPU utilization observed for the resource. The value is a fraction between 0.0 and 1.0 (may momentarily exceed 1.0 in some cases). */
-  p95CpuUtilization?: MetricData;
-  /** Peak number of connections observed for the resource. The value is a positive integer. */
-  peakNumberConnections?: MetricData;
-  /** P99 CPU utilization observed for the resource. The value is a fraction between 0.0 and 1.0 (may momentarily exceed 1.0 in some cases). */
-  p99CpuUtilization?: MetricData;
-  /** Current storage used by the resource in bytes. */
-  currentStorageUsedBytes?: MetricData;
   /** Current memory used by the resource in bytes. */
   currentMemoryUsedBytes?: MetricData;
+  /** Peak number of connections observed for the resource. The value is a positive integer. */
+  peakNumberConnections?: MetricData;
+  /** Current storage used by the resource in bytes. */
+  currentStorageUsedBytes?: MetricData;
   /** Peak memory utilization observed for the resource. The value is a fraction between 0.0 and 1.0 (may momentarily exceed 1.0 in some cases). */
   peakMemoryUtilization?: MetricData;
+  /** P99 CPU utilization observed for the resource. The value is a fraction between 0.0 and 1.0 (may momentarily exceed 1.0 in some cases). */
+  p99CpuUtilization?: MetricData;
+  /** Number of nodes in instance for spanner or bigtable. */
+  nodeCount?: MetricData;
+  /** P95 CPU utilization observed for the resource. The value is a fraction between 0.0 and 1.0 (may momentarily exceed 1.0 in some cases). */
+  p95CpuUtilization?: MetricData;
+  /** Number of processing units in spanner. */
+  processingUnitCount?: MetricData;
+  /** Peak storage utilization observed for the resource. The value is a fraction between 0.0 and 1.0 (may momentarily exceed 1.0 in some cases). */
+  peakStorageUtilization?: MetricData;
 }
-/** MachineConfig describes the configuration of a machine specific to a Database Resource. */
-export interface MachineConfig {
-  /** Optional. Max slots for BigQuery Reservations. Max slots are in increments of 50. */
-  maxReservationSlotCount?: string;
-  /** Memory size in bytes. */
-  memorySizeBytes?: string;
-  /** Optional. The number of vCPUs (if applicable). */
-  vcpuCount?: number;
-  /** Optional. Baseline slots for BigQuery Reservations. Baseline slots are in increments of 50. */
-  baselineSlotCount?: string;
-  /** Optional. The number of Shards (if applicable). */
-  shardCount?: number;
-}
-export type DatabaseResourceResourceCategoryEnum =
-  | "RESOURCE_CATEGORY_UNSPECIFIED"
-  | "INSTANCE"
-  | "CLUSTER"
-  | "DATABASE"
-  | "DATASET"
-  | "RESERVATION";
-export type DatabaseResourceSubResourceTypeEnum =
-  | "SUB_RESOURCE_TYPE_UNSPECIFIED"
-  | "SUB_RESOURCE_TYPE_PRIMARY"
-  | "SUB_RESOURCE_TYPE_SECONDARY"
-  | "SUB_RESOURCE_TYPE_READ_REPLICA"
-  | "SUB_RESOURCE_TYPE_EXTERNAL_PRIMARY"
-  | "SUB_RESOURCE_TYPE_READ_POOL"
-  | "SUB_RESOURCE_TYPE_RESERVATION"
-  | "SUB_RESOURCE_TYPE_DATASET"
-  | "SUB_RESOURCE_TYPE_OTHER";
-/** Label is a key value pair applied to a resource. */
-export interface Label {
-  /** The source of the Label. Source is empty if the label is directly attached to the resource and not inherited. */
-  source?: string;
-  /** The key part of the label. */
-  key?: string;
-  /** The value part of the label. */
-  value?: string;
-}
-export type LabelList = Array<Label>;
-export type SignalSignalStatusEnum =
-  | "SIGNAL_STATUS_UNSPECIFIED"
-  | "SIGNAL_STATUS_NOT_APPLICABLE"
-  | "SIGNAL_STATUS_OK"
-  | "SIGNAL_STATUS_ISSUE"
-  | "SIGNAL_STATUS_NOT_ENABLED";
 export type SignalIssueSeverityEnum =
   | "ISSUE_SEVERITY_UNSPECIFIED"
   | "ISSUE_SEVERITY_LOW"
@@ -1122,6 +1177,7 @@ export type SignalSignalTypeEnum =
   | "SIGNAL_TYPE_UNSPECIFIED"
   | "SIGNAL_TYPE_RESOURCE_FAILOVER_PROTECTED"
   | "SIGNAL_TYPE_GROUP_MULTIREGIONAL"
+  | "SIGNAL_TYPE_NO_PROMOTABLE_REPLICA"
   | "SIGNAL_TYPE_NO_AUTOMATED_BACKUP_POLICY"
   | "SIGNAL_TYPE_SHORT_BACKUP_RETENTION"
   | "SIGNAL_TYPE_LAST_BACKUP_FAILED"
@@ -1164,6 +1220,7 @@ export type SignalSignalTypeEnum =
   | "SIGNAL_TYPE_WEAK_ROOT_PASSWORD"
   | "SIGNAL_TYPE_ENCRYPTION_KEY_NOT_CUSTOMER_MANAGED"
   | "SIGNAL_TYPE_SERVER_AUTHENTICATION_NOT_REQUIRED"
+  | "SIGNAL_TYPE_EXPOSED_BY_OWNERSHIP_CHAINING"
   | "SIGNAL_TYPE_EXPOSED_TO_EXTERNAL_SCRIPTS"
   | "SIGNAL_TYPE_EXPOSED_TO_LOCAL_DATA_LOADS"
   | "SIGNAL_TYPE_CONNECTION_ATTEMPTS_NOT_LOGGED"
@@ -1213,44 +1270,211 @@ export type SignalSignalTypeEnum =
   | "SIGNAL_TYPE_LOCATION_ORG_POLICY_NOT_SATISFIED"
   | "SIGNAL_TYPE_OUTDATED_MINOR_VERSION"
   | "SIGNAL_TYPE_SCHEMA_NOT_OPTIMIZED"
+  | "SIGNAL_TYPE_MANY_IDLE_CONNECTIONS"
   | "SIGNAL_TYPE_REPLICATION_LAG"
+  | "SIGNAL_TYPE_OUTDATED_VERSION"
   | "SIGNAL_TYPE_OUTDATED_CLIENT"
   | "SIGNAL_TYPE_DATABOOST_DISABLED"
   | "SIGNAL_TYPE_RECOMMENDED_MAINTENANCE_POLICIES"
   | "SIGNAL_TYPE_EXTENDED_SUPPORT"
+  | "SIGNAL_TYPE_PERFORMANCE_KPI_CHANGE"
   | "SIGNAL_TYPE_VERSION_NEARING_END_OF_LIFE"
   | "SIGNAL_TYPE_HIGH_MAINTENANCE_DOWNTIME_RISK"
   | "SIGNAL_TYPE_LOW_CACHE_HIT_AND_MAINTENANCE_DOWNTIME"
   | "SIGNAL_TYPE_MISSING_ENHANCED_PROTECTION";
-/** Compliances associated with signals. */
-export interface RegulatoryStandard {
-  /** Name of industry compliance standards, such as such as CIS, PCI, and OWASP. */
-  standard?: string;
-  /** Version of the standard or benchmark, for example, 1.1. */
-  version?: string;
-}
-export type RegulatoryStandardList = Array<RegulatoryStandard>;
-/** Info associated with SCC signals. */
-export interface SCCInfo {
-  /** External URI which points to a SCC page associated with the signal. */
-  externalUri?: string;
-  /** Compliances that are associated with the signal. */
-  regulatoryStandards?: RegulatoryStandardList;
-  /** Name by which SCC calls this signal. */
-  category?: string;
-  /** Name of the signal. */
-  signal?: string;
-}
+export type SignalSignalStatusEnum =
+  | "SIGNAL_STATUS_UNSPECIFIED"
+  | "SIGNAL_STATUS_NOT_APPLICABLE"
+  | "SIGNAL_STATUS_OK"
+  | "SIGNAL_STATUS_ISSUE"
+  | "SIGNAL_STATUS_NOT_ENABLED";
 /** Sub resource details For Spanner/Bigtable instance certain data protection settings are at sub resource level like database/table. This message is used to capture such sub resource details. */
 export interface SubResource {
+  /** Optional. Resource type associated with the sub resource where backup settings are configured. E.g. "spanner.googleapis.com/Database" for Spanner where backup retention is configured on database within an instance OPTIONAL */
+  resourceType?: string;
   /** Specifies where the resource is created. For Google Cloud resources, it is the full name of the project. */
   container?: string;
   /** Optional. Product information associated with the sub resource where backup retention settings are configured. e.g. ``` product: { type : PRODUCT_TYPE_SPANNER engine : ENGINE_CLOUD_SPANNER_WITH_POSTGRES_DIALECT } ``` for Spanner where backup is configured on database within an instance OPTIONAL */
   product?: Product;
   /** Optional. Resource name associated with the sub resource where backup settings are configured. E.g."//spanner.googleapis.com/projects/project1/instances/inst1/databases/db1" for Spanner where backup retention is configured on database within an instance OPTIONAL */
   fullResourceName?: string;
-  /** Optional. Resource type associated with the sub resource where backup settings are configured. E.g. "spanner.googleapis.com/Database" for Spanner where backup retention is configured on database within an instance OPTIONAL */
-  resourceType?: string;
+}
+/** Deletion protection signal info for a database resource. */
+export interface DeletionProtectionInfo {
+  /** Is deletion protection enabled. */
+  deletionProtectionEnabled?: boolean;
+  /** Optional. Sub resource details associated with the signal. */
+  subResource?: SubResource;
+}
+export type ResourceMaintenanceScheduleList = Array<ResourceMaintenanceSchedule>;
+/** Info associated with maintenance recommendation. */
+export interface MaintenanceRecommendationInfo {
+  /** Optional. List of recommended maintenance schedules for the database resource. */
+  resourceMaintenanceSchedules?: ResourceMaintenanceScheduleList;
+}
+/** Automated backup policy signal info */
+export interface AutomatedBackupPolicyInfo {
+  /** Optional. Sub resource details associated with the signal. */
+  subResource?: SubResource;
+  /** Is automated policy enabled. */
+  isEnabled?: boolean;
+}
+export type AdditionalDetailSignalTypeEnum =
+  | "SIGNAL_TYPE_UNSPECIFIED"
+  | "SIGNAL_TYPE_RESOURCE_FAILOVER_PROTECTED"
+  | "SIGNAL_TYPE_GROUP_MULTIREGIONAL"
+  | "SIGNAL_TYPE_NO_PROMOTABLE_REPLICA"
+  | "SIGNAL_TYPE_NO_AUTOMATED_BACKUP_POLICY"
+  | "SIGNAL_TYPE_SHORT_BACKUP_RETENTION"
+  | "SIGNAL_TYPE_LAST_BACKUP_FAILED"
+  | "SIGNAL_TYPE_LAST_BACKUP_OLD"
+  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_2_0"
+  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_3"
+  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_2"
+  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_1"
+  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_0"
+  | "SIGNAL_TYPE_VIOLATES_CIS_CONTROLS_V8_0"
+  | "SIGNAL_TYPE_VIOLATES_NIST_800_53"
+  | "SIGNAL_TYPE_VIOLATES_NIST_800_53_R5"
+  | "SIGNAL_TYPE_VIOLATES_NIST_CYBERSECURITY_FRAMEWORK_V1_0"
+  | "SIGNAL_TYPE_VIOLATES_ISO_27001"
+  | "SIGNAL_TYPE_VIOLATES_ISO_27001_V2022"
+  | "SIGNAL_TYPE_VIOLATES_PCI_DSS_V3_2_1"
+  | "SIGNAL_TYPE_VIOLATES_PCI_DSS_V4_0"
+  | "SIGNAL_TYPE_VIOLATES_CLOUD_CONTROLS_MATRIX_V4"
+  | "SIGNAL_TYPE_VIOLATES_HIPAA"
+  | "SIGNAL_TYPE_VIOLATES_SOC2_V2017"
+  | "SIGNAL_TYPE_LOGS_NOT_OPTIMIZED_FOR_TROUBLESHOOTING"
+  | "SIGNAL_TYPE_QUERY_DURATIONS_NOT_LOGGED"
+  | "SIGNAL_TYPE_VERBOSE_ERROR_LOGGING"
+  | "SIGNAL_TYPE_QUERY_LOCK_WAITS_NOT_LOGGED"
+  | "SIGNAL_TYPE_LOGGING_MOST_ERRORS"
+  | "SIGNAL_TYPE_LOGGING_ONLY_CRITICAL_ERRORS"
+  | "SIGNAL_TYPE_MINIMAL_ERROR_LOGGING"
+  | "SIGNAL_TYPE_QUERY_STATS_LOGGED"
+  | "SIGNAL_TYPE_EXCESSIVE_LOGGING_OF_CLIENT_HOSTNAME"
+  | "SIGNAL_TYPE_EXCESSIVE_LOGGING_OF_PARSER_STATS"
+  | "SIGNAL_TYPE_EXCESSIVE_LOGGING_OF_PLANNER_STATS"
+  | "SIGNAL_TYPE_NOT_LOGGING_ONLY_DDL_STATEMENTS"
+  | "SIGNAL_TYPE_LOGGING_QUERY_STATS"
+  | "SIGNAL_TYPE_NOT_LOGGING_TEMPORARY_FILES"
+  | "SIGNAL_TYPE_CONNECTION_MAX_NOT_CONFIGURED"
+  | "SIGNAL_TYPE_USER_OPTIONS_CONFIGURED"
+  | "SIGNAL_TYPE_EXPOSED_TO_PUBLIC_ACCESS"
+  | "SIGNAL_TYPE_UNENCRYPTED_CONNECTIONS"
+  | "SIGNAL_TYPE_NO_ROOT_PASSWORD"
+  | "SIGNAL_TYPE_WEAK_ROOT_PASSWORD"
+  | "SIGNAL_TYPE_ENCRYPTION_KEY_NOT_CUSTOMER_MANAGED"
+  | "SIGNAL_TYPE_SERVER_AUTHENTICATION_NOT_REQUIRED"
+  | "SIGNAL_TYPE_EXPOSED_BY_OWNERSHIP_CHAINING"
+  | "SIGNAL_TYPE_EXPOSED_TO_EXTERNAL_SCRIPTS"
+  | "SIGNAL_TYPE_EXPOSED_TO_LOCAL_DATA_LOADS"
+  | "SIGNAL_TYPE_CONNECTION_ATTEMPTS_NOT_LOGGED"
+  | "SIGNAL_TYPE_DISCONNECTIONS_NOT_LOGGED"
+  | "SIGNAL_TYPE_LOGGING_EXCESSIVE_STATEMENT_INFO"
+  | "SIGNAL_TYPE_EXPOSED_TO_REMOTE_ACCESS"
+  | "SIGNAL_TYPE_DATABASE_NAMES_EXPOSED"
+  | "SIGNAL_TYPE_SENSITIVE_TRACE_INFO_NOT_MASKED"
+  | "SIGNAL_TYPE_PUBLIC_IP_ENABLED"
+  | "SIGNAL_TYPE_IDLE"
+  | "SIGNAL_TYPE_OVERPROVISIONED"
+  | "SIGNAL_TYPE_HIGH_NUMBER_OF_OPEN_TABLES"
+  | "SIGNAL_TYPE_HIGH_NUMBER_OF_TABLES"
+  | "SIGNAL_TYPE_HIGH_TRANSACTION_ID_UTILIZATION"
+  | "SIGNAL_TYPE_UNDERPROVISIONED"
+  | "SIGNAL_TYPE_OUT_OF_DISK"
+  | "SIGNAL_TYPE_SERVER_CERTIFICATE_NEAR_EXPIRY"
+  | "SIGNAL_TYPE_DATABASE_AUDITING_DISABLED"
+  | "SIGNAL_TYPE_RESTRICT_AUTHORIZED_NETWORKS"
+  | "SIGNAL_TYPE_VIOLATE_POLICY_RESTRICT_PUBLIC_IP"
+  | "SIGNAL_TYPE_QUOTA_LIMIT"
+  | "SIGNAL_TYPE_NO_PASSWORD_POLICY"
+  | "SIGNAL_TYPE_CONNECTIONS_PERFORMANCE_IMPACT"
+  | "SIGNAL_TYPE_TMP_TABLES_PERFORMANCE_IMPACT"
+  | "SIGNAL_TYPE_TRANS_LOGS_PERFORMANCE_IMPACT"
+  | "SIGNAL_TYPE_HIGH_JOINS_WITHOUT_INDEXES"
+  | "SIGNAL_TYPE_SUPERUSER_WRITING_TO_USER_TABLES"
+  | "SIGNAL_TYPE_USER_GRANTED_ALL_PERMISSIONS"
+  | "SIGNAL_TYPE_DATA_EXPORT_TO_EXTERNAL_CLOUD_STORAGE_BUCKET"
+  | "SIGNAL_TYPE_DATA_EXPORT_TO_PUBLIC_CLOUD_STORAGE_BUCKET"
+  | "SIGNAL_TYPE_WEAK_PASSWORD_HASH_ALGORITHM"
+  | "SIGNAL_TYPE_NO_USER_PASSWORD_POLICY"
+  | "SIGNAL_TYPE_HOT_NODE"
+  | "SIGNAL_TYPE_NO_DELETION_PROTECTION"
+  | "SIGNAL_TYPE_NO_POINT_IN_TIME_RECOVERY"
+  | "SIGNAL_TYPE_RESOURCE_SUSPENDED"
+  | "SIGNAL_TYPE_EXPENSIVE_COMMANDS"
+  | "SIGNAL_TYPE_NO_MAINTENANCE_POLICY_CONFIGURED"
+  | "SIGNAL_TYPE_INEFFICIENT_QUERY"
+  | "SIGNAL_TYPE_READ_INTENSIVE_WORKLOAD"
+  | "SIGNAL_TYPE_MEMORY_LIMIT"
+  | "SIGNAL_TYPE_MAX_SERVER_MEMORY"
+  | "SIGNAL_TYPE_LARGE_ROWS"
+  | "SIGNAL_TYPE_HIGH_WRITE_PRESSURE"
+  | "SIGNAL_TYPE_HIGH_READ_PRESSURE"
+  | "SIGNAL_TYPE_ENCRYPTION_ORG_POLICY_NOT_SATISFIED"
+  | "SIGNAL_TYPE_LOCATION_ORG_POLICY_NOT_SATISFIED"
+  | "SIGNAL_TYPE_OUTDATED_MINOR_VERSION"
+  | "SIGNAL_TYPE_SCHEMA_NOT_OPTIMIZED"
+  | "SIGNAL_TYPE_MANY_IDLE_CONNECTIONS"
+  | "SIGNAL_TYPE_REPLICATION_LAG"
+  | "SIGNAL_TYPE_OUTDATED_VERSION"
+  | "SIGNAL_TYPE_OUTDATED_CLIENT"
+  | "SIGNAL_TYPE_DATABOOST_DISABLED"
+  | "SIGNAL_TYPE_RECOMMENDED_MAINTENANCE_POLICIES"
+  | "SIGNAL_TYPE_EXTENDED_SUPPORT"
+  | "SIGNAL_TYPE_PERFORMANCE_KPI_CHANGE"
+  | "SIGNAL_TYPE_VERSION_NEARING_END_OF_LIFE"
+  | "SIGNAL_TYPE_HIGH_MAINTENANCE_DOWNTIME_RISK"
+  | "SIGNAL_TYPE_LOW_CACHE_HIT_AND_MAINTENANCE_DOWNTIME"
+  | "SIGNAL_TYPE_MISSING_ENHANCED_PROTECTION";
+/** Info associated with recommendation. */
+export interface RecommendationInfo {
+  /** ID of recommender. Examples: "google.cloudsql.instance.PerformanceRecommender" */
+  recommenderId?: string;
+  /** Name of recommendation. Examples: organizations/1234/locations/us-central1/recommenders/google.cloudsql.instance.PerformanceRecommender/recommendations/9876 */
+  recommender?: string;
+  /** Contains an identifier for a subtype of recommendations produced for the same recommender. Subtype is a function of content and impact, meaning a new subtype might be added when significant changes to `content` or `primary_impact.category` are introduced. See the Recommenders section to see a list of subtypes for a given Recommender. Examples: For recommender = "google.cloudsql.instance.PerformanceRecommender", recommender_subtype can be "MYSQL_HIGH_NUMBER_OF_OPEN_TABLES_BEST_PRACTICE"/"POSTGRES_HIGH_TRANSACTION_ID_UTILIZATION_BEST_PRACTICE" */
+  recommenderSubtype?: string;
+}
+export type BackupRunInfoStateEnum = "STATE_UNSPECIFIED" | "SUCCEEDED" | "FAILED";
+export type BackupRunInfoOperationErrorTypeEnum =
+  | "OPERATION_ERROR_TYPE_UNSPECIFIED"
+  | "KMS_KEY_ERROR"
+  | "DATABASE_ERROR"
+  | "STOCKOUT_ERROR"
+  | "CANCELLATION_ERROR"
+  | "SQLSERVER_ERROR"
+  | "INTERNAL_ERROR";
+/** Metadata about latest backup run state for a database resource. */
+export interface BackupRunInfo {
+  /** Additional information about the error encountered. */
+  errorMessage?: string;
+  /** Output only. The state of this run. */
+  state?: BackupRunInfoStateEnum;
+  /** Optional. Sub resource details associated with the backup run. */
+  subResource?: SubResource;
+  /** The time the backup operation started. */
+  startTime?: string;
+  /** Optional. OperationErrorType to expose specific error when backup operation of database resource failed, that is state is FAILED. */
+  operationErrorType?: BackupRunInfoOperationErrorTypeEnum;
+  /** The time the backup operation completed. */
+  endTime?: string;
+}
+export type ResourceSuspensionInfoSuspensionReasonEnum =
+  | "SUSPENSION_REASON_UNSPECIFIED"
+  | "WIPEOUT_HIDE_EVENT"
+  | "WIPEOUT_PURGE_EVENT"
+  | "BILLING_DISABLED"
+  | "ABUSER_DETECTED"
+  | "ENCRYPTION_KEY_INACCESSIBLE"
+  | "REPLICATED_CLUSTER_ENCRYPTION_KEY_INACCESSIBLE";
+/** Resource suspension info for a database resource. */
+export interface ResourceSuspensionInfo {
+  /** Suspension reason for the resource. */
+  suspensionReason?: ResourceSuspensionInfoSuspensionReasonEnum;
+  /** Is resource suspended. */
+  resourceSuspended?: boolean;
 }
 /** Metadata about backup retention settings for a database resource. */
 export interface RetentionSettingsInfo {
@@ -1263,227 +1487,74 @@ export interface RetentionSettingsInfo {
   /** Optional. Sub resource details associated with the backup configuration. */
   subResource?: SubResource;
 }
-/** Deletion protection signal info for a database resource. */
-export interface DeletionProtectionInfo {
-  /** Is deletion protection enabled. */
-  deletionProtectionEnabled?: boolean;
-  /** Optional. Sub resource details associated with the signal. */
-  subResource?: SubResource;
+/** Compliances associated with signals. */
+export interface RegulatoryStandard {
+  /** Version of the standard or benchmark, for example, 1.1. */
+  version?: string;
+  /** Name of industry compliance standards, such as such as CIS, PCI, and OWASP. */
+  standard?: string;
 }
-export type AdditionalDetailSignalTypeEnum =
-  | "SIGNAL_TYPE_UNSPECIFIED"
-  | "SIGNAL_TYPE_RESOURCE_FAILOVER_PROTECTED"
-  | "SIGNAL_TYPE_GROUP_MULTIREGIONAL"
-  | "SIGNAL_TYPE_NO_AUTOMATED_BACKUP_POLICY"
-  | "SIGNAL_TYPE_SHORT_BACKUP_RETENTION"
-  | "SIGNAL_TYPE_LAST_BACKUP_FAILED"
-  | "SIGNAL_TYPE_LAST_BACKUP_OLD"
-  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_2_0"
-  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_3"
-  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_2"
-  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_1"
-  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_0"
-  | "SIGNAL_TYPE_VIOLATES_CIS_CONTROLS_V8_0"
-  | "SIGNAL_TYPE_VIOLATES_NIST_800_53"
-  | "SIGNAL_TYPE_VIOLATES_NIST_800_53_R5"
-  | "SIGNAL_TYPE_VIOLATES_NIST_CYBERSECURITY_FRAMEWORK_V1_0"
-  | "SIGNAL_TYPE_VIOLATES_ISO_27001"
-  | "SIGNAL_TYPE_VIOLATES_ISO_27001_V2022"
-  | "SIGNAL_TYPE_VIOLATES_PCI_DSS_V3_2_1"
-  | "SIGNAL_TYPE_VIOLATES_PCI_DSS_V4_0"
-  | "SIGNAL_TYPE_VIOLATES_CLOUD_CONTROLS_MATRIX_V4"
-  | "SIGNAL_TYPE_VIOLATES_HIPAA"
-  | "SIGNAL_TYPE_VIOLATES_SOC2_V2017"
-  | "SIGNAL_TYPE_LOGS_NOT_OPTIMIZED_FOR_TROUBLESHOOTING"
-  | "SIGNAL_TYPE_QUERY_DURATIONS_NOT_LOGGED"
-  | "SIGNAL_TYPE_VERBOSE_ERROR_LOGGING"
-  | "SIGNAL_TYPE_QUERY_LOCK_WAITS_NOT_LOGGED"
-  | "SIGNAL_TYPE_LOGGING_MOST_ERRORS"
-  | "SIGNAL_TYPE_LOGGING_ONLY_CRITICAL_ERRORS"
-  | "SIGNAL_TYPE_MINIMAL_ERROR_LOGGING"
-  | "SIGNAL_TYPE_QUERY_STATS_LOGGED"
-  | "SIGNAL_TYPE_EXCESSIVE_LOGGING_OF_CLIENT_HOSTNAME"
-  | "SIGNAL_TYPE_EXCESSIVE_LOGGING_OF_PARSER_STATS"
-  | "SIGNAL_TYPE_EXCESSIVE_LOGGING_OF_PLANNER_STATS"
-  | "SIGNAL_TYPE_NOT_LOGGING_ONLY_DDL_STATEMENTS"
-  | "SIGNAL_TYPE_LOGGING_QUERY_STATS"
-  | "SIGNAL_TYPE_NOT_LOGGING_TEMPORARY_FILES"
-  | "SIGNAL_TYPE_CONNECTION_MAX_NOT_CONFIGURED"
-  | "SIGNAL_TYPE_USER_OPTIONS_CONFIGURED"
-  | "SIGNAL_TYPE_EXPOSED_TO_PUBLIC_ACCESS"
-  | "SIGNAL_TYPE_UNENCRYPTED_CONNECTIONS"
-  | "SIGNAL_TYPE_NO_ROOT_PASSWORD"
-  | "SIGNAL_TYPE_WEAK_ROOT_PASSWORD"
-  | "SIGNAL_TYPE_ENCRYPTION_KEY_NOT_CUSTOMER_MANAGED"
-  | "SIGNAL_TYPE_SERVER_AUTHENTICATION_NOT_REQUIRED"
-  | "SIGNAL_TYPE_EXPOSED_TO_EXTERNAL_SCRIPTS"
-  | "SIGNAL_TYPE_EXPOSED_TO_LOCAL_DATA_LOADS"
-  | "SIGNAL_TYPE_CONNECTION_ATTEMPTS_NOT_LOGGED"
-  | "SIGNAL_TYPE_DISCONNECTIONS_NOT_LOGGED"
-  | "SIGNAL_TYPE_LOGGING_EXCESSIVE_STATEMENT_INFO"
-  | "SIGNAL_TYPE_EXPOSED_TO_REMOTE_ACCESS"
-  | "SIGNAL_TYPE_DATABASE_NAMES_EXPOSED"
-  | "SIGNAL_TYPE_SENSITIVE_TRACE_INFO_NOT_MASKED"
-  | "SIGNAL_TYPE_PUBLIC_IP_ENABLED"
-  | "SIGNAL_TYPE_IDLE"
-  | "SIGNAL_TYPE_OVERPROVISIONED"
-  | "SIGNAL_TYPE_HIGH_NUMBER_OF_OPEN_TABLES"
-  | "SIGNAL_TYPE_HIGH_NUMBER_OF_TABLES"
-  | "SIGNAL_TYPE_HIGH_TRANSACTION_ID_UTILIZATION"
-  | "SIGNAL_TYPE_UNDERPROVISIONED"
-  | "SIGNAL_TYPE_OUT_OF_DISK"
-  | "SIGNAL_TYPE_SERVER_CERTIFICATE_NEAR_EXPIRY"
-  | "SIGNAL_TYPE_DATABASE_AUDITING_DISABLED"
-  | "SIGNAL_TYPE_RESTRICT_AUTHORIZED_NETWORKS"
-  | "SIGNAL_TYPE_VIOLATE_POLICY_RESTRICT_PUBLIC_IP"
-  | "SIGNAL_TYPE_QUOTA_LIMIT"
-  | "SIGNAL_TYPE_NO_PASSWORD_POLICY"
-  | "SIGNAL_TYPE_CONNECTIONS_PERFORMANCE_IMPACT"
-  | "SIGNAL_TYPE_TMP_TABLES_PERFORMANCE_IMPACT"
-  | "SIGNAL_TYPE_TRANS_LOGS_PERFORMANCE_IMPACT"
-  | "SIGNAL_TYPE_HIGH_JOINS_WITHOUT_INDEXES"
-  | "SIGNAL_TYPE_SUPERUSER_WRITING_TO_USER_TABLES"
-  | "SIGNAL_TYPE_USER_GRANTED_ALL_PERMISSIONS"
-  | "SIGNAL_TYPE_DATA_EXPORT_TO_EXTERNAL_CLOUD_STORAGE_BUCKET"
-  | "SIGNAL_TYPE_DATA_EXPORT_TO_PUBLIC_CLOUD_STORAGE_BUCKET"
-  | "SIGNAL_TYPE_WEAK_PASSWORD_HASH_ALGORITHM"
-  | "SIGNAL_TYPE_NO_USER_PASSWORD_POLICY"
-  | "SIGNAL_TYPE_HOT_NODE"
-  | "SIGNAL_TYPE_NO_DELETION_PROTECTION"
-  | "SIGNAL_TYPE_NO_POINT_IN_TIME_RECOVERY"
-  | "SIGNAL_TYPE_RESOURCE_SUSPENDED"
-  | "SIGNAL_TYPE_EXPENSIVE_COMMANDS"
-  | "SIGNAL_TYPE_NO_MAINTENANCE_POLICY_CONFIGURED"
-  | "SIGNAL_TYPE_INEFFICIENT_QUERY"
-  | "SIGNAL_TYPE_READ_INTENSIVE_WORKLOAD"
-  | "SIGNAL_TYPE_MEMORY_LIMIT"
-  | "SIGNAL_TYPE_MAX_SERVER_MEMORY"
-  | "SIGNAL_TYPE_LARGE_ROWS"
-  | "SIGNAL_TYPE_HIGH_WRITE_PRESSURE"
-  | "SIGNAL_TYPE_HIGH_READ_PRESSURE"
-  | "SIGNAL_TYPE_ENCRYPTION_ORG_POLICY_NOT_SATISFIED"
-  | "SIGNAL_TYPE_LOCATION_ORG_POLICY_NOT_SATISFIED"
-  | "SIGNAL_TYPE_OUTDATED_MINOR_VERSION"
-  | "SIGNAL_TYPE_SCHEMA_NOT_OPTIMIZED"
-  | "SIGNAL_TYPE_REPLICATION_LAG"
-  | "SIGNAL_TYPE_OUTDATED_CLIENT"
-  | "SIGNAL_TYPE_DATABOOST_DISABLED"
-  | "SIGNAL_TYPE_RECOMMENDED_MAINTENANCE_POLICIES"
-  | "SIGNAL_TYPE_EXTENDED_SUPPORT"
-  | "SIGNAL_TYPE_VERSION_NEARING_END_OF_LIFE"
-  | "SIGNAL_TYPE_HIGH_MAINTENANCE_DOWNTIME_RISK"
-  | "SIGNAL_TYPE_LOW_CACHE_HIT_AND_MAINTENANCE_DOWNTIME"
-  | "SIGNAL_TYPE_MISSING_ENHANCED_PROTECTION";
-export type AdditionalDetailSignalSourceEnum =
-  | "SIGNAL_SOURCE_UNSPECIFIED"
-  | "SIGNAL_SOURCE_RESOURCE_METADATA"
-  | "SIGNAL_SOURCE_SECURITY_FINDINGS"
-  | "SIGNAL_SOURCE_RECOMMENDER"
-  | "SIGNAL_SOURCE_MODERN_OBSERVABILITY";
-export type ResourceMaintenanceScheduleList = Array<ResourceMaintenanceSchedule>;
-/** Info associated with maintenance recommendation. */
-export interface MaintenanceRecommendationInfo {
-  /** Optional. List of recommended maintenance schedules for the database resource. */
-  resourceMaintenanceSchedules?: ResourceMaintenanceScheduleList;
-}
-export type ResourceSuspensionInfoSuspensionReasonEnum =
-  | "SUSPENSION_REASON_UNSPECIFIED"
-  | "WIPEOUT_HIDE_EVENT"
-  | "WIPEOUT_PURGE_EVENT"
-  | "BILLING_DISABLED"
-  | "ABUSER_DETECTED"
-  | "ENCRYPTION_KEY_INACCESSIBLE"
-  | "REPLICATED_CLUSTER_ENCRYPTION_KEY_INACCESSIBLE";
-/** Resource suspension info for a database resource. */
-export interface ResourceSuspensionInfo {
-  /** Is resource suspended. */
-  resourceSuspended?: boolean;
-  /** Suspension reason for the resource. */
-  suspensionReason?: ResourceSuspensionInfoSuspensionReasonEnum;
-}
-export type BackupRunInfoOperationErrorTypeEnum =
-  | "OPERATION_ERROR_TYPE_UNSPECIFIED"
-  | "KMS_KEY_ERROR"
-  | "DATABASE_ERROR"
-  | "STOCKOUT_ERROR"
-  | "CANCELLATION_ERROR"
-  | "SQLSERVER_ERROR"
-  | "INTERNAL_ERROR";
-export type BackupRunInfoStateEnum = "STATE_UNSPECIFIED" | "SUCCEEDED" | "FAILED";
-/** Metadata about latest backup run state for a database resource. */
-export interface BackupRunInfo {
-  /** The time the backup operation started. */
-  startTime?: string;
-  /** Optional. OperationErrorType to expose specific error when backup operation of database resource failed, that is state is FAILED. */
-  operationErrorType?: BackupRunInfoOperationErrorTypeEnum;
-  /** Additional information about the error encountered. */
-  errorMessage?: string;
-  /** Optional. Sub resource details associated with the backup run. */
-  subResource?: SubResource;
-  /** Output only. The state of this run. */
-  state?: BackupRunInfoStateEnum;
-  /** The time the backup operation completed. */
-  endTime?: string;
-}
-/** Info associated with recommendation. */
-export interface RecommendationInfo {
-  /** Name of recommendation. Examples: organizations/1234/locations/us-central1/recommenders/google.cloudsql.instance.PerformanceRecommender/recommendations/9876 */
-  recommender?: string;
-  /** Contains an identifier for a subtype of recommendations produced for the same recommender. Subtype is a function of content and impact, meaning a new subtype might be added when significant changes to `content` or `primary_impact.category` are introduced. See the Recommenders section to see a list of subtypes for a given Recommender. Examples: For recommender = "google.cloudsql.instance.PerformanceRecommender", recommender_subtype can be "MYSQL_HIGH_NUMBER_OF_OPEN_TABLES_BEST_PRACTICE"/"POSTGRES_HIGH_TRANSACTION_ID_UTILIZATION_BEST_PRACTICE" */
-  recommenderSubtype?: string;
-  /** ID of recommender. Examples: "google.cloudsql.instance.PerformanceRecommender" */
-  recommenderId?: string;
+export type RegulatoryStandardList = Array<RegulatoryStandard>;
+/** Info associated with SCC signals. */
+export interface SCCInfo {
+  /** Name of the signal. */
+  signal?: string;
+  /** Compliances that are associated with the signal. */
+  regulatoryStandards?: RegulatoryStandardList;
+  /** Name by which SCC calls this signal. */
+  category?: string;
+  /** External URI which points to a SCC page associated with the signal. */
+  externalUri?: string;
 }
 /** Info associated with outdated minor version. */
 export interface OutdatedMinorVersionInfo {
   /** Recommended minor version of the underlying database engine. Example values: For MySQL, it could be "8.0.35", "5.7.25" etc. For PostgreSQL, it could be "14.4", "15.5" etc. */
   recommendedMinorVersion?: string;
 }
-/** Automated backup policy signal info */
-export interface AutomatedBackupPolicyInfo {
-  /** Optional. Sub resource details associated with the signal. */
-  subResource?: SubResource;
-  /** Is automated policy enabled. */
-  isEnabled?: boolean;
-}
+export type AdditionalDetailSignalSourceEnum =
+  | "SIGNAL_SOURCE_UNSPECIFIED"
+  | "SIGNAL_SOURCE_RESOURCE_METADATA"
+  | "SIGNAL_SOURCE_SECURITY_FINDINGS"
+  | "SIGNAL_SOURCE_RECOMMENDER"
+  | "SIGNAL_SOURCE_MODERN_OBSERVABILITY";
 /** Details related to signal. */
 export interface AdditionalDetail {
-  /** Inefficient query information applies to signals with type SIGNAL_TYPE_INEFFICIENT_QUERY. */
-  inefficientQueryInfo?: InefficientQueryInfo;
-  /** SCC information applies to SCC signals. */
-  sccInfo?: SCCInfo;
-  /** Event time when signal was recorded by source service. */
-  signalEventTime?: string;
-  /** Short backup retention information applies to signals with type SIGNAL_TYPE_SHORT_BACKUP_RETENTION. */
-  shortBackupRetentionInfo?: RetentionSettingsInfo;
   /** Deletion protection information applies to signals with type SIGNAL_TYPE_NO_DELETION_PROTECTION */
   deletionProtectionInfo?: DeletionProtectionInfo;
-  /** Type of the signal. */
-  signalType?: AdditionalDetailSignalTypeEnum;
-  /** Where the signal is coming from. */
-  signalSource?: AdditionalDetailSignalSourceEnum;
   /** Maintenance recommendation information applies to signals with type SIGNAL_TYPE_RECOMMENDED_MAINTENANCE_POLICIES. */
   maintenanceRecommendationInfo?: MaintenanceRecommendationInfo;
-  /** Resource suspension information applies to signals with type SIGNAL_TYPE_RESOURCE_SUSPENDED. */
-  resourceSuspensionInfo?: ResourceSuspensionInfo;
-  /** Backup run information applies to signals with types SIGNAL_TYPE_LAST_BACKUP_FAILED and SIGNAL_TYPE_LAST_BACKUP_OLD. */
-  backupRunInfo?: BackupRunInfo;
-  /** Recommendation information applies to recommendations. */
-  recommendationInfo?: RecommendationInfo;
-  /** Outdated minor version information applies to signals with type SIGNAL_TYPE_OUTDATED_MINOR_VERSION. */
-  outdatedMinorVersionInfo?: OutdatedMinorVersionInfo;
   /** Automated backup policy information applies to signals with type SIGNAL_TYPE_NO_AUTOMATED_BACKUP_POLICY. */
   automatedBackupPolicyInfo?: AutomatedBackupPolicyInfo;
+  /** Type of the signal. */
+  signalType?: AdditionalDetailSignalTypeEnum;
+  /** Recommendation information applies to recommendations. */
+  recommendationInfo?: RecommendationInfo;
+  /** Backup run information applies to signals with types SIGNAL_TYPE_LAST_BACKUP_FAILED and SIGNAL_TYPE_LAST_BACKUP_OLD. */
+  backupRunInfo?: BackupRunInfo;
+  /** Resource suspension information applies to signals with type SIGNAL_TYPE_RESOURCE_SUSPENDED. */
+  resourceSuspensionInfo?: ResourceSuspensionInfo;
+  /** Short backup retention information applies to signals with type SIGNAL_TYPE_SHORT_BACKUP_RETENTION. */
+  shortBackupRetentionInfo?: RetentionSettingsInfo;
+  /** SCC information applies to SCC signals. */
+  sccInfo?: SCCInfo;
+  /** Inefficient query information applies to signals with type SIGNAL_TYPE_INEFFICIENT_QUERY. */
+  inefficientQueryInfo?: InefficientQueryInfo;
+  /** Outdated minor version information applies to signals with type SIGNAL_TYPE_OUTDATED_MINOR_VERSION. */
+  outdatedMinorVersionInfo?: OutdatedMinorVersionInfo;
+  /** Event time when signal was recorded by source service. */
+  signalEventTime?: string;
+  /** Where the signal is coming from. */
+  signalSource?: AdditionalDetailSignalSourceEnum;
 }
 export type AdditionalDetailList = Array<AdditionalDetail>;
 /** Represents a signal. */
 export interface Signal {
-  /** Status of the signal. */
-  signalStatus?: SignalSignalStatusEnum;
   /** Severity of the issue. */
   issueSeverity?: SignalIssueSeverityEnum;
   /** Type of the signal. */
   signalType?: SignalSignalTypeEnum;
+  /** Status of the signal. */
+  signalStatus?: SignalSignalStatusEnum;
   /** Additional information related to the signal. In the case of composite signals, this field encapsulates details associated with granular signals, having a signal status of "ISSUE"; signals with a status of "OK" are not included. For granular signals, it encompasses information relevant to the signal, regardless of the signal status. */
   additionalDetails?: AdditionalDetailList;
   /** Timestamp when the issue was created (when signal status is ISSUE). */
@@ -1500,87 +1571,52 @@ export interface SignalGroup {
   signals?: SignalList;
 }
 export type SignalGroupList = Array<SignalGroup>;
-export type DatabaseResourceEditionEnum =
-  | "EDITION_UNSPECIFIED"
-  | "EDITION_ENTERPRISE"
-  | "EDITION_ENTERPRISE_PLUS"
-  | "EDITION_STANDARD";
-export type LineageProcessTypeEnum =
-  | "PROCESS_TYPE_UNSPECIFIED"
-  | "COMPOSER"
-  | "DATASTREAM"
-  | "DATAFLOW"
-  | "BIGQUERY"
-  | "DATA_FUSION"
-  | "DATAPROC";
-/** lineage information of the affiliated resources This captures source, target and process which created the lineage. */
-export interface Lineage {
-  /** Optional. FQN of process which created the lineage i.e. dataplex, datastream etc. */
-  processFqn?: string;
-  /** Optional. FQN of source table / column */
-  sourceFqn?: string;
-  /** Optional. FQN of target table / column */
-  targetFqn?: string;
-  /** Optional. Type of process which created the lineage. */
-  processType?: LineageProcessTypeEnum;
-}
-export type LineageList = Array<Lineage>;
-/** Affiliation information of a resource */
-export interface Affiliation {
-  /** Optional. Multiple lineages can be created from a resource. For example, a resource can be replicated to multiple target resources. In this case, there will be multiple lineages for the resource, one for each target resource. */
-  lineages?: LineageList;
-  /** Optional. Full resource name */
-  fullResourceName?: string;
-  /** Optional. resource id of affiliated resource */
-  resourceId?: string;
-}
-export type AffiliationList = Array<Affiliation>;
 /** DatabaseResource represents every individually configured database unit representing compute and/or storage. */
 export interface DatabaseResource {
-  /** Optional. The maintenance information of the resource. */
-  maintenanceInfo?: MaintenanceInfo;
-  /** The product this resource represents. */
-  product?: Product;
-  /** Tags applied on the resource. The requirements for tags assigned to Google Cloud resources may be found at https://cloud.google.com/resource-manager/docs/tags/tags-overview */
-  tags?: TagList;
-  /** Optional. Backup and disaster recovery details for the resource. */
-  backupdrConfig?: BackupDRConfig;
-  /** Specifies where the resource is created. For Google Cloud resources, it is the full name of the project. */
-  container?: string;
-  /** Observable metrics for the resource e.g. CPU utilization, memory utilization, etc. */
-  metrics?: Metrics;
-  /** The location of the resources. It supports returning only regional locations in Google Cloud. These are of the form: "us-central1", "us-east1", etc. See https://cloud.google.com/about/locations for a list of such regions. */
-  location?: string;
-  /** Machine configuration like CPU, memory, etc for the resource. */
-  machineConfig?: MachineConfig;
-  /** The name of the resource(The last part of the full resource name). Example: For full resource name - `//cloudsql.googleapis.com/projects/project-number/instances/mysql-1`, resource name - `mysql-1` For full resource name - `//cloudsql.googleapis.com/projects/project-number/instances/postgres-1` , resource name - `postgres-1` Note: In some cases, there might be more than one resource with the same resource name. */
-  resourceName?: string;
-  /** The category of the resource. */
-  resourceCategory?: DatabaseResourceResourceCategoryEnum;
-  /** Subtype of the resource specified at creation time. */
-  subResourceType?: DatabaseResourceSubResourceTypeEnum;
-  /** The full resource name, based on CAIS resource name format https://cloud.google.com/asset-inventory/docs/resource-name-format Example: `//cloudsql.googleapis.com/projects/project-number/instances/mysql-1` `//cloudsql.googleapis.com/projects/project-number/instances/postgres-1` `//spanner.googleapis.com/projects/project-number/instances/spanner-instance-1` `//alloydb.googleapis.com/projects/project-number/locations/us-central1/clusters/c1` `//alloydb.googleapis.com/projects/project-number/locations/us-central1/clusters/c1/instances/i1` */
-  fullResourceName?: string;
-  /** List of children associated with a database group. */
-  childResources?: DatabaseResourceList;
-  /** Labels applied on the resource. The requirements for labels assigned to Google Cloud resources may be found at https://cloud.google.com/resource-manager/docs/labels-overview#requirements */
-  labels?: LabelList;
-  /** The list of signal groups and count of issues related to the resource. Only those signals which have been requested would be included. */
-  signalGroups?: SignalGroupList;
   /** The type of resource defined according to the pattern: {Service Name}/{Type}. Ex: sqladmin.googleapis.com/Instance alloydb.googleapis.com/Cluster alloydb.googleapis.com/Instance spanner.googleapis.com/Instance */
   resourceType?: string;
+  /** Optional. Backup and disaster recovery details for the resource. */
+  backupdrConfig?: BackupDRConfig;
+  /** The category of the resource. */
+  resourceCategory?: DatabaseResourceResourceCategoryEnum;
   /** The edition of the resource. */
   edition?: DatabaseResourceEditionEnum;
+  /** Machine configuration like CPU, memory, etc for the resource. */
+  machineConfig?: MachineConfig;
+  /** Optional. The maintenance information of the resource. */
+  maintenanceInfo?: MaintenanceInfo;
+  /** List of children associated with a database group. */
+  childResources?: DatabaseResourceList;
   /** Optional. Affiliation details of the resource. */
   affiliations?: AffiliationList;
+  /** Labels applied on the resource. The requirements for labels assigned to Google Cloud resources may be found at https://cloud.google.com/resource-manager/docs/labels-overview#requirements */
+  labels?: LabelList;
+  /** Tags applied on the resource. The requirements for tags assigned to Google Cloud resources may be found at https://cloud.google.com/resource-manager/docs/tags/tags-overview */
+  tags?: TagList;
+  /** The product this resource represents. */
+  product?: Product;
+  /** The name of the resource(The last part of the full resource name). Example: For full resource name - `//cloudsql.googleapis.com/projects/project-number/instances/mysql-1`, resource name - `mysql-1` For full resource name - `//cloudsql.googleapis.com/projects/project-number/instances/postgres-1` , resource name - `postgres-1` Note: In some cases, there might be more than one resource with the same resource name. */
+  resourceName?: string;
+  /** Subtype of the resource specified at creation time. */
+  subResourceType?: DatabaseResourceSubResourceTypeEnum;
+  /** Specifies where the resource is created. For Google Cloud resources, it is the full name of the project. */
+  container?: string;
+  /** The location of the resources. It supports returning only regional locations in Google Cloud. These are of the form: "us-central1", "us-east1", etc. See https://cloud.google.com/about/locations for a list of such regions. */
+  location?: string;
+  /** Observable metrics for the resource e.g. CPU utilization, memory utilization, etc. */
+  metrics?: Metrics;
+  /** The list of signal groups and count of issues related to the resource. Only those signals which have been requested would be included. */
+  signalGroups?: SignalGroupList;
+  /** The full resource name, based on CAIS resource name format https://cloud.google.com/asset-inventory/docs/resource-name-format Example: `//cloudsql.googleapis.com/projects/project-number/instances/mysql-1` `//cloudsql.googleapis.com/projects/project-number/instances/postgres-1` `//spanner.googleapis.com/projects/project-number/instances/spanner-instance-1` `//alloydb.googleapis.com/projects/project-number/locations/us-central1/clusters/c1` `//alloydb.googleapis.com/projects/project-number/locations/us-central1/clusters/c1/instances/i1` */
+  fullResourceName?: string;
 }
 export type DatabaseResourceList = Array<DatabaseResource>;
 /** Count of issues for a group of signals. */
 export interface IssueCount {
-  /** Title of a signal group corresponding to the request. */
-  displayName?: string;
   /** The count of the number of issues associated with those resources that are explicitly filtered in by the filters present in the request. A signal is an issue when its SignalStatus field is set to SIGNAL_STATUS_ISSUE. */
   issueCount?: number;
+  /** Title of a signal group corresponding to the request. */
+  displayName?: string;
 }
 export type IssueCountList = Array<IssueCount>;
 /** DatabaseResourceGroup represents all resources that serve a common data set. It is considered notionally as a single entity, powered by any number of units of compute and storage. */
@@ -1595,27 +1631,27 @@ export type DatabaseResourceGroupList = Array<DatabaseResourceGroup>;
 export interface QueryDatabaseResourceGroupsResponse {
   /** Output only. The total number of resource groups in the entire list. */
   totalSize?: string;
-  /** List of database resource groups that pass the filter. */
-  resourceGroups?: DatabaseResourceGroupList;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
   /** Unordered list. List of unreachable regions from where data could not be retrieved. */
   unreachable?: StringList;
+  /** List of database resource groups that pass the filter. */
+  resourceGroups?: DatabaseResourceGroupList;
 }
 /** QueryIssuesRequest is the request to get a list of issues. */
 export interface QueryIssuesRequest {
-  /** Optional. Following fields are sortable: SignalType Product Location IssueSeverity The default order is ascending. Add "DESC" after the field name to indicate descending order. Add "ASC" after the field name to indicate ascending order. It only supports a single field at a time. */
-  orderBy?: string;
-  /** Required. Parent can be a project, a folder, or an organization. The list is limited to the one attached to resources within the `scope` that a user has access to. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
-  parent?: string;
-  /** Optional. Supported fields are: 'product', `location`, `issue_severity`, 'tags', 'labels', */
-  filter?: string;
-  /** Optional. If unspecified, at most 50 issues will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Optional. A page token, received from a previous `QueryIssues` call. Provide this to retrieve the subsequent page. All parameters except page size should match the parameters used in the call that provided the page token. */
   pageToken?: string;
+  /** Required. Parent can be a project, a folder, or an organization. The list is limited to the one attached to resources within the `scope` that a user has access to. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
+  parent?: string;
+  /** Optional. If unspecified, at most 50 issues will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
+  /** Optional. Following fields are sortable: SignalType Product Location IssueSeverity The default order is ascending. Add "DESC" after the field name to indicate descending order. Add "ASC" after the field name to indicate ascending order. It only supports a single field at a time. */
+  orderBy?: string;
   /** Optional. Filters based on signal and product. The filter list will be ORed across pairs and ANDed within a signal and products pair. */
   signalProductsFilters?: SignalProductsFiltersList;
+  /** Optional. Supported fields are: 'product', `location`, `issue_severity`, 'tags', 'labels', */
+  filter?: string;
 }
 export interface QueryIssuesV1betaRequest {
   /** Request body */
@@ -1639,12 +1675,12 @@ export interface QueryIssuesResponse {
   unreachable?: StringList;
 }
 export interface QueryProductsV1betaRequest {
-  /** Optional. If unspecified, at most 50 products will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Required. Parent can be a project, a folder, or an organization. The allowed values are: * projects/{PROJECT_ID}/locations/{LOCATION} (e.g.,"projects/foo-bar/locations/us-central1") * projects/{PROJECT_NUMBER}/locations/{LOCATION} (e.g.,"projects/12345678/locations/us-central1") * folders/{FOLDER_NUMBER}/locations/{LOCATION} (e.g.,"folders/1234567/locations/us-central1") * organizations/{ORGANIZATION_NUMBER}/locations/{LOCATION} (e.g.,"organizations/123456/locations/us-central1") * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
   parent?: string;
   /** Optional. A page token, received from a previous `ListLocations` call. Provide this to retrieve the subsequent page. All other parameters except page size should match the call that provided the page page token. */
   pageToken?: string;
+  /** Optional. If unspecified, at most 50 products will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
 }
 /** QueryProductsResponse represents the response containing a list of products. */
 export interface QueryProductsResponse {
@@ -1826,12 +1862,12 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String),
-          parent: S.optional(S.String),
-          filter: S.optional(S.String),
-          pageSize: S.optional(S.Number),
           pageToken: S.optional(S.String),
+          parent: S.optional(S.String),
+          pageSize: S.optional(S.Number),
+          orderBy: S.optional(S.String),
           signalProductsFilters: S.optional(__S(449, __c14, 1)),
+          filter: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryIssuesRequest" });
     case 1:
@@ -1849,7 +1885,7 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          signal: S.optional(__S(480, __c15, 0)),
+          signal: S.optional(__S(484, __c15, 4)),
           resource: S.optional(__S(488, __c15, 8)),
         }),
       ).annotate({ identifier: "DatabaseResourceIssue" });
@@ -1860,7 +1896,7 @@ function __c0(j: number): any {
         S.Struct({
           resourceIssues: S.optional(__S(3, __c0, 3)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(129, __c4, 1)),
+          unreachable: S.optional(__S(128, __c4, 0)),
         }),
       ).annotate({ identifier: "QueryIssuesResponse" });
   }
@@ -1870,9 +1906,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1886,7 +1922,7 @@ function __c1(j: number): any {
         S.Struct({
           products: S.optional(__S(512, __c16, 0)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(129, __c4, 1)),
+          unreachable: S.optional(__S(128, __c4, 0)),
         }),
       ).annotate({ identifier: "QueryProductsResponse" });
   }
@@ -1896,15 +1932,15 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          "baselineDate.day": S.optional(S.Number.pipe(T.Query())),
+          parent: S.optional(S.String.pipe(T.Query())),
+          "baselineDate.year": S.optional(S.Number.pipe(T.Query())),
+          groupBy: S.optional(S.String.pipe(T.Query())),
+          "baselineDate.month": S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          "baselineDate.day": S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          "baselineDate.month": S.optional(S.Number.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          groupBy: S.optional(S.String.pipe(T.Query())),
-          "baselineDate.year": S.optional(S.Number.pipe(T.Query())),
-          parent: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1916,25 +1952,25 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          labelKey: S.optional(S.String),
-          resourceType: S.optional(S.String),
           container: S.optional(S.String),
-          labelValue: S.optional(S.String),
-          location: S.optional(S.String),
-          tagInherited: S.optional(S.Boolean),
+          productEngine: S.optional(S.String),
           tagKey: S.optional(S.String),
+          tagValue: S.optional(S.String),
+          labelKey: S.optional(S.String),
+          edition: S.optional(S.String),
+          hasDenyMaintenanceSchedules: S.optional(S.Boolean),
+          hasMaintenanceSchedule: S.optional(S.Boolean),
+          labelValue: S.optional(S.String),
+          tagSource: S.optional(S.String),
+          resourceType: S.optional(S.String),
+          productVersion: S.optional(S.String),
+          location: S.optional(S.String),
           managementType: S.optional(S.String),
           labelSource: S.optional(S.String),
-          hasDenyMaintenanceSchedules: S.optional(S.Boolean),
-          subResourceType: S.optional(S.String),
-          tagValue: S.optional(S.String),
-          edition: S.optional(S.String),
-          hasMaintenanceSchedule: S.optional(S.Boolean),
-          tagSource: S.optional(S.String),
-          productType: S.optional(S.String),
-          productVersion: S.optional(S.String),
           resourceCategory: S.optional(S.String),
-          productEngine: S.optional(S.String),
+          tagInherited: S.optional(S.Boolean),
+          productType: S.optional(S.String),
+          subResourceType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Dimension" });
     case 2:
@@ -1943,9 +1979,9 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourcesCount: S.optional(S.Number),
+          deltaDetails: S.optional(__S(98, __c3, 2)),
           dimension: S.optional(__S(66, __c2, 2)),
           resourceGroupsCount: S.optional(S.Number),
-          deltaDetails: S.optional(__S(98, __c3, 2)),
         }),
       ).annotate({ identifier: "AggregateFleetRow" });
     case 4:
@@ -1955,10 +1991,10 @@ function __c2(j: number): any {
         S.Struct({
           totalSize: S.optional(S.String),
           nextPageToken: S.optional(S.String),
-          rows: S.optional(__S(68, __c2, 4)),
+          unreachable: S.optional(__S(128, __c4, 0)),
           resourceGroupsTotalCount: S.optional(S.Number),
-          unreachable: S.optional(__S(129, __c4, 1)),
           resourceTotalCount: S.optional(S.Number),
+          rows: S.optional(__S(68, __c2, 4)),
         }),
       ).annotate({ identifier: "AggregateFleetResponse" });
   }
@@ -1969,7 +2005,7 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           location: S.optional(S.String),
-          product: S.optional(__S(128, __c4, 0)),
+          product: S.optional(__S(129, __c4, 1)),
           fullResourceName: S.optional(S.String),
           container: S.optional(S.String),
         }),
@@ -1979,8 +2015,8 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          decreasedResources: S.optional(__S(97, __c3, 1)),
           increasedResources: S.optional(__S(97, __c3, 1)),
+          decreasedResources: S.optional(__S(97, __c3, 1)),
         }),
       ).annotate({ identifier: "DeltaDetails" });
   }
@@ -1988,16 +2024,16 @@ function __c3(j: number): any {
 function __c4(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          engine: S.optional(S.String),
           minorVersion: S.optional(S.String),
           version: S.optional(S.String),
+          engine: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "Product" });
-    case 1:
-      return S.Array(S.String);
   }
 }
 function __c5(j: number): any {
@@ -2026,10 +2062,10 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          issueSeverity: S.optional(S.String),
-          signalType: S.optional(S.String),
-          resourceCount: S.optional(S.Number),
           deltaDetails: S.optional(__S(98, __c3, 2)),
+          resourceCount: S.optional(S.Number),
+          signalType: S.optional(S.String),
+          issueSeverity: S.optional(S.String),
         }),
       ).annotate({ identifier: "IssueStats" });
     case 3:
@@ -2037,12 +2073,12 @@ function __c5(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          resourcesCount: S.optional(S.Number),
-          displayName: S.optional(S.String),
           issueStats: S.optional(__S(163, __c5, 3)),
+          healthyResourceGroupsCount: S.optional(S.Number),
+          resourcesCount: S.optional(S.Number),
           healthyResourcesCount: S.optional(S.Number),
           resourceGroupsCount: S.optional(S.Number),
-          healthyResourceGroupsCount: S.optional(S.Number),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "IssueGroupStats" });
     case 5:
@@ -2050,9 +2086,9 @@ function __c5(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          totalResourcesCount: S.optional(S.Number),
+          unreachable: S.optional(__S(128, __c4, 0)),
           totalResourceGroupsCount: S.optional(S.Number),
-          unreachable: S.optional(__S(129, __c4, 1)),
+          totalResourcesCount: S.optional(S.Number),
           issueGroupStats: S.optional(__S(165, __c5, 5)),
         }),
       ).annotate({ identifier: "AggregateIssueStatsResponse" });
@@ -2063,8 +2099,8 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          signalTypes: S.optional(__S(224, __c7, 0)),
           displayName: S.optional(S.String),
+          signalTypes: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "SignalTypeGroup" });
     case 1:
@@ -2079,8 +2115,8 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           year: S.optional(S.Number),
-          day: S.optional(S.Number),
           month: S.optional(S.Number),
+          day: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Databasecenter_Date" });
   }
@@ -2107,16 +2143,16 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          orderBy: S.optional(S.String),
           pageSize: S.optional(S.Number),
           filter: S.optional(S.String),
           pageToken: S.optional(S.String),
-          orderBy: S.optional(S.String),
         }),
       ).annotate({ identifier: "AggregateQueryStatsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          product: S.optional(__S(128, __c4, 0)),
+          product: S.optional(__S(129, __c4, 1)),
           resourceType: S.optional(S.String),
           fullResourceName: S.optional(S.String),
         }),
@@ -2127,17 +2163,17 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           avgCpuTime: S.optional(S.String),
+          rowsProcessed: S.optional(S.String),
           executionCount: S.optional(S.String),
           totalCpuTime: S.optional(S.String),
-          rowsProcessed: S.optional(S.String),
           metricsWindow: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryMetrics" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          queryHash: S.optional(S.String),
           resourceType: S.optional(S.String),
+          queryHash: S.optional(S.String),
           resourceIds: S.optional(__S(290, __c9, 2)),
           queryMetrics: S.optional(__S(291, __c9, 3)),
           inefficientQueryInfo: S.optional(__S(320, __c10, 0)),
@@ -2158,9 +2194,9 @@ function __c9(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(129, __c4, 1)),
-          queryStats: S.optional(__S(295, __c9, 7)),
+          unreachable: S.optional(__S(128, __c4, 0)),
           nextPageToken: S.optional(S.String),
+          queryStats: S.optional(__S(295, __c9, 7)),
         }),
       ).annotate({ identifier: "AggregateQueryStatsResponse" });
   }
@@ -2170,11 +2206,11 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          storageCostBytes: S.optional(S.String),
           sqlIndexStatement: S.optional(S.String),
+          database: S.optional(S.String),
           impactedQueriesCount: S.optional(S.String),
           table: S.optional(S.String),
-          storageCostBytes: S.optional(S.String),
-          database: S.optional(S.String),
         }),
       ).annotate({ identifier: "InefficientQueryInfo" });
   }
@@ -2218,8 +2254,8 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          signalType: S.optional(S.String),
           signalStatus: S.optional(S.String),
+          signalType: S.optional(S.String),
         }),
       ).annotate({ identifier: "SignalFilter" });
     case 1:
@@ -2227,14 +2263,14 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String),
           parent: S.optional(S.String),
+          orderBy: S.optional(S.String),
           filter: S.optional(S.String),
-          pageToken: S.optional(S.String),
-          pageSize: S.optional(S.Number),
           signalFilters: S.optional(__S(417, __c13, 1)),
-          signalTypeGroups: S.optional(__S(193, __c6, 1)),
+          pageSize: S.optional(S.Number),
+          pageToken: S.optional(S.String),
           signalProductsFilters: S.optional(__S(449, __c14, 1)),
+          signalTypeGroups: S.optional(__S(193, __c6, 1)),
         }),
       ).annotate({ identifier: "QueryDatabaseResourceGroupsRequest" });
     case 3:
@@ -2252,8 +2288,8 @@ function __c13(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
           issueCount: S.optional(S.Number),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "IssueCount" });
     case 5:
@@ -2271,9 +2307,9 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           totalSize: S.optional(S.String),
-          resourceGroups: S.optional(__S(423, __c13, 7)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(129, __c4, 1)),
+          unreachable: S.optional(__S(128, __c4, 0)),
+          resourceGroups: S.optional(__S(423, __c13, 7)),
         }),
       ).annotate({ identifier: "QueryDatabaseResourceGroupsResponse" });
   }
@@ -2292,160 +2328,154 @@ function __c14(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          minutes: S.optional(S.Number),
-          seconds: S.optional(S.Number),
-          hours: S.optional(S.Number),
-          nanos: S.optional(S.Number),
+          backupdrManaged: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "TimeOfDay" });
+      ).annotate({ identifier: "BackupDRConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.optional(__S(450, __c14, 2)),
-          day: S.optional(S.String),
-          phase: S.optional(S.String),
+          vcpuCount: S.optional(S.Number),
+          maxReservationSlotCount: S.optional(S.String),
+          memorySizeBytes: S.optional(S.String),
+          shardCount: S.optional(S.Number),
+          baselineSlotCount: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ResourceMaintenanceSchedule" });
+      ).annotate({ identifier: "MachineConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          time: S.optional(__S(450, __c14, 2)),
+          minutes: S.optional(S.Number),
+          seconds: S.optional(S.Number),
+          nanos: S.optional(S.Number),
+          hours: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TimeOfDay" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           endDate: S.optional(__S(225, __c7, 1)),
+          time: S.optional(__S(452, __c14, 4)),
           startDate: S.optional(__S(225, __c7, 1)),
         }),
       ).annotate({ identifier: "ResourceMaintenanceDenySchedule" });
-    case 5:
-      return S.Array(__S(452, __c14, 4));
     case 6:
+      return S.Array(__S(453, __c14, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpcomingMaintenance" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          possibleFailureReasons: S.optional(__S(224, __c7, 0)),
-          maintenanceSchedule: S.optional(__S(451, __c14, 3)),
-          denyMaintenanceSchedules: S.optional(__S(453, __c14, 5)),
-          previousMaintenanceVersion: S.optional(S.String),
-          state: S.optional(S.String),
-          upcomingMaintenance: S.optional(__S(454, __c14, 6)),
-          maintenanceVersion: S.optional(S.String),
-          currentVersionReleaseDate: S.optional(__S(225, __c7, 1)),
-        }),
-      ).annotate({ identifier: "MaintenanceInfo" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          inherited: S.optional(S.Boolean),
-          value: S.optional(S.String),
-          source: S.optional(S.String),
-          key: S.optional(S.String),
+          phase: S.optional(S.String),
+          startTime: S.optional(__S(452, __c14, 4)),
+          day: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Tag" });
+      ).annotate({ identifier: "ResourceMaintenanceSchedule" });
     case 9:
-      return S.Array(__S(456, __c14, 8));
+      return S.suspend(() =>
+        S.Struct({
+          possibleFailureReasons: S.optional(__S(224, __c7, 0)),
+          denyMaintenanceSchedules: S.optional(__S(454, __c14, 6)),
+          upcomingMaintenance: S.optional(__S(455, __c14, 7)),
+          currentVersionReleaseDate: S.optional(__S(225, __c7, 1)),
+          maintenanceSchedule: S.optional(__S(456, __c14, 8)),
+          state: S.optional(S.String),
+          maintenanceVersion: S.optional(S.String),
+          previousMaintenanceVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MaintenanceInfo" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          backupdrManaged: S.optional(S.Boolean),
+          processType: S.optional(S.String),
+          sourceFqn: S.optional(S.String),
+          processFqn: S.optional(S.String),
+          targetFqn: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BackupDRConfig" });
+      ).annotate({ identifier: "Lineage" });
     case 11:
+      return S.Array(__S(458, __c14, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          lineages: S.optional(__S(459, __c14, 11)),
+          resourceId: S.optional(S.String),
+          fullResourceName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Affiliation" });
+    case 13:
+      return S.Array(__S(460, __c14, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          key: S.optional(S.String),
+          source: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Label" });
+    case 15:
+      return S.Array(__S(462, __c14, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          inherited: S.optional(S.Boolean),
+          source: S.optional(S.String),
+          value: S.optional(S.String),
+          key: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Tag" });
+    case 17:
+      return S.Array(__S(464, __c14, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           int64Value: S.optional(S.String),
           doubleValue: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TypedValue" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(__S(459, __c14, 11)),
-          observationTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MetricData" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          nodeCount: S.optional(__S(460, __c14, 12)),
-          peakStorageUtilization: S.optional(__S(460, __c14, 12)),
-          processingUnitCount: S.optional(__S(460, __c14, 12)),
-          p95CpuUtilization: S.optional(__S(460, __c14, 12)),
-          peakNumberConnections: S.optional(__S(460, __c14, 12)),
-          p99CpuUtilization: S.optional(__S(460, __c14, 12)),
-          currentStorageUsedBytes: S.optional(__S(460, __c14, 12)),
-          currentMemoryUsedBytes: S.optional(__S(460, __c14, 12)),
-          peakMemoryUtilization: S.optional(__S(460, __c14, 12)),
-        }),
-      ).annotate({ identifier: "Metrics" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          maxReservationSlotCount: S.optional(S.String),
-          memorySizeBytes: S.optional(S.String),
-          vcpuCount: S.optional(S.Number),
-          baselineSlotCount: S.optional(S.String),
-          shardCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "MachineConfig" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          source: S.optional(S.String),
-          key: S.optional(S.String),
-          value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Label" });
-    case 16:
-      return S.Array(__S(463, __c14, 15));
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          standard: S.optional(S.String),
-          version: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RegulatoryStandard" });
-    case 18:
-      return S.Array(__S(465, __c14, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          externalUri: S.optional(S.String),
-          regulatoryStandards: S.optional(__S(466, __c14, 18)),
-          category: S.optional(S.String),
-          signal: S.optional(S.String),
+          value: S.optional(__S(466, __c14, 18)),
+          observationTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SCCInfo" });
+      ).annotate({ identifier: "MetricData" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          container: S.optional(S.String),
-          product: S.optional(__S(128, __c4, 0)),
-          fullResourceName: S.optional(S.String),
-          resourceType: S.optional(S.String),
+          currentMemoryUsedBytes: S.optional(__S(467, __c14, 19)),
+          peakNumberConnections: S.optional(__S(467, __c14, 19)),
+          currentStorageUsedBytes: S.optional(__S(467, __c14, 19)),
+          peakMemoryUtilization: S.optional(__S(467, __c14, 19)),
+          p99CpuUtilization: S.optional(__S(467, __c14, 19)),
+          nodeCount: S.optional(__S(467, __c14, 19)),
+          p95CpuUtilization: S.optional(__S(467, __c14, 19)),
+          processingUnitCount: S.optional(__S(467, __c14, 19)),
+          peakStorageUtilization: S.optional(__S(467, __c14, 19)),
         }),
-      ).annotate({ identifier: "SubResource" });
+      ).annotate({ identifier: "Metrics" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          quantityBasedRetention: S.optional(S.Number),
-          durationBasedRetention: S.optional(S.String),
-          timestampBasedRetentionTime: S.optional(S.String),
-          subResource: S.optional(__S(468, __c14, 20)),
+          resourceType: S.optional(S.String),
+          container: S.optional(S.String),
+          product: S.optional(__S(129, __c4, 1)),
+          fullResourceName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RetentionSettingsInfo" });
+      ).annotate({ identifier: "SubResource" });
     case 22:
       return S.suspend(() =>
         S.Struct({
           deletionProtectionEnabled: S.optional(S.Boolean),
-          subResource: S.optional(__S(468, __c14, 20)),
+          subResource: S.optional(__S(469, __c14, 21)),
         }),
       ).annotate({ identifier: "DeletionProtectionInfo" });
     case 23:
-      return S.Array(__S(451, __c14, 3));
+      return S.Array(__S(456, __c14, 8));
     case 24:
       return S.suspend(() =>
         S.Struct({
@@ -2455,60 +2485,52 @@ function __c14(j: number): any {
     case 25:
       return S.suspend(() =>
         S.Struct({
-          resourceSuspended: S.optional(S.Boolean),
-          suspensionReason: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResourceSuspensionInfo" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          startTime: S.optional(S.String),
-          operationErrorType: S.optional(S.String),
-          errorMessage: S.optional(S.String),
-          subResource: S.optional(__S(468, __c14, 20)),
-          state: S.optional(S.String),
-          endTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BackupRunInfo" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          recommender: S.optional(S.String),
-          recommenderSubtype: S.optional(S.String),
-          recommenderId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RecommendationInfo" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          recommendedMinorVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OutdatedMinorVersionInfo" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          subResource: S.optional(__S(468, __c14, 20)),
+          subResource: S.optional(__S(469, __c14, 21)),
           isEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AutomatedBackupPolicyInfo" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          recommenderId: S.optional(S.String),
+          recommender: S.optional(S.String),
+          recommenderSubtype: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RecommendationInfo" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          errorMessage: S.optional(S.String),
+          state: S.optional(S.String),
+          subResource: S.optional(__S(469, __c14, 21)),
+          startTime: S.optional(S.String),
+          operationErrorType: S.optional(S.String),
+          endTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BackupRunInfo" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          suspensionReason: S.optional(S.String),
+          resourceSuspended: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ResourceSuspensionInfo" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          quantityBasedRetention: S.optional(S.Number),
+          durationBasedRetention: S.optional(S.String),
+          timestampBasedRetentionTime: S.optional(S.String),
+          subResource: S.optional(__S(469, __c14, 21)),
+        }),
+      ).annotate({ identifier: "RetentionSettingsInfo" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          inefficientQueryInfo: S.optional(__S(320, __c10, 0)),
-          sccInfo: S.optional(__S(467, __c14, 19)),
-          signalEventTime: S.optional(S.String),
-          shortBackupRetentionInfo: S.optional(__S(469, __c14, 21)),
-          deletionProtectionInfo: S.optional(__S(470, __c14, 22)),
-          signalType: S.optional(S.String),
-          signalSource: S.optional(S.String),
-          maintenanceRecommendationInfo: S.optional(__S(472, __c14, 24)),
-          resourceSuspensionInfo: S.optional(__S(473, __c14, 25)),
-          backupRunInfo: S.optional(__S(474, __c14, 26)),
-          recommendationInfo: S.optional(__S(475, __c14, 27)),
-          outdatedMinorVersionInfo: S.optional(__S(476, __c14, 28)),
-          automatedBackupPolicyInfo: S.optional(__S(477, __c14, 29)),
+          version: S.optional(S.String),
+          standard: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AdditionalDetail" });
+      ).annotate({ identifier: "RegulatoryStandard" });
     case 31:
       return S.Array(__S(478, __c14, 30));
   }
@@ -2518,67 +2540,81 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          signalStatus: S.optional(S.String),
-          issueSeverity: S.optional(S.String),
-          signalType: S.optional(S.String),
-          additionalDetails: S.optional(__S(479, __c14, 31)),
-          issueCreateTime: S.optional(S.String),
+          signal: S.optional(S.String),
+          regulatoryStandards: S.optional(__S(479, __c14, 31)),
+          category: S.optional(S.String),
+          externalUri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Signal" });
+      ).annotate({ identifier: "SCCInfo" });
     case 1:
-      return S.Array(__S(480, __c15, 0));
+      return S.suspend(() =>
+        S.Struct({
+          recommendedMinorVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OutdatedMinorVersionInfo" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          issueCount: S.optional(S.Number),
-          signals: S.optional(__S(481, __c15, 1)),
+          deletionProtectionInfo: S.optional(__S(470, __c14, 22)),
+          maintenanceRecommendationInfo: S.optional(__S(472, __c14, 24)),
+          automatedBackupPolicyInfo: S.optional(__S(473, __c14, 25)),
+          signalType: S.optional(S.String),
+          recommendationInfo: S.optional(__S(474, __c14, 26)),
+          backupRunInfo: S.optional(__S(475, __c14, 27)),
+          resourceSuspensionInfo: S.optional(__S(476, __c14, 28)),
+          shortBackupRetentionInfo: S.optional(__S(477, __c14, 29)),
+          sccInfo: S.optional(__S(480, __c15, 0)),
+          inefficientQueryInfo: S.optional(__S(320, __c10, 0)),
+          outdatedMinorVersionInfo: S.optional(__S(481, __c15, 1)),
+          signalEventTime: S.optional(S.String),
+          signalSource: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SignalGroup" });
+      ).annotate({ identifier: "AdditionalDetail" });
     case 3:
       return S.Array(__S(482, __c15, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          processFqn: S.optional(S.String),
-          sourceFqn: S.optional(S.String),
-          targetFqn: S.optional(S.String),
-          processType: S.optional(S.String),
+          issueSeverity: S.optional(S.String),
+          signalType: S.optional(S.String),
+          signalStatus: S.optional(S.String),
+          additionalDetails: S.optional(__S(483, __c15, 3)),
+          issueCreateTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Lineage" });
+      ).annotate({ identifier: "Signal" });
     case 5:
       return S.Array(__S(484, __c15, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          lineages: S.optional(__S(485, __c15, 5)),
-          fullResourceName: S.optional(S.String),
-          resourceId: S.optional(S.String),
+          displayName: S.optional(S.String),
+          issueCount: S.optional(S.Number),
+          signals: S.optional(__S(485, __c15, 5)),
         }),
-      ).annotate({ identifier: "Affiliation" });
+      ).annotate({ identifier: "SignalGroup" });
     case 7:
       return S.Array(__S(486, __c15, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          maintenanceInfo: S.optional(__S(455, __c14, 7)),
-          product: S.optional(__S(128, __c4, 0)),
-          tags: S.optional(__S(457, __c14, 9)),
-          backupdrConfig: S.optional(__S(458, __c14, 10)),
-          container: S.optional(S.String),
-          metrics: S.optional(__S(461, __c14, 13)),
-          location: S.optional(S.String),
-          machineConfig: S.optional(__S(462, __c14, 14)),
-          resourceName: S.optional(S.String),
-          resourceCategory: S.optional(S.String),
-          subResourceType: S.optional(S.String),
-          fullResourceName: S.optional(S.String),
-          childResources: S.optional(S.suspend(() => __S(489, __c15, 9))),
-          labels: S.optional(__S(464, __c14, 16)),
-          signalGroups: S.optional(__S(483, __c15, 3)),
           resourceType: S.optional(S.String),
+          backupdrConfig: S.optional(__S(450, __c14, 2)),
+          resourceCategory: S.optional(S.String),
           edition: S.optional(S.String),
-          affiliations: S.optional(__S(487, __c15, 7)),
+          machineConfig: S.optional(__S(451, __c14, 3)),
+          maintenanceInfo: S.optional(__S(457, __c14, 9)),
+          childResources: S.optional(S.suspend(() => __S(489, __c15, 9))),
+          affiliations: S.optional(__S(461, __c14, 13)),
+          labels: S.optional(__S(463, __c14, 15)),
+          tags: S.optional(__S(465, __c14, 17)),
+          product: S.optional(__S(129, __c4, 1)),
+          resourceName: S.optional(S.String),
+          subResourceType: S.optional(S.String),
+          container: S.optional(S.String),
+          location: S.optional(S.String),
+          metrics: S.optional(__S(468, __c14, 20)),
+          signalGroups: S.optional(__S(487, __c15, 7)),
+          fullResourceName: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseResource" });
     case 9:
@@ -2588,7 +2624,7 @@ function __c15(j: number): any {
 function __c16(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(128, __c4, 0));
+      return S.Array(__S(129, __c4, 1));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

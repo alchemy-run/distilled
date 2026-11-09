@@ -520,7 +520,7 @@ export const getZoneRrset: API.OperationMethod<
 }));
 
 export type ListZoneRrsetsError = HetznerOpError;
-/** List RRSets Returns all [RRSets](#tag/zone-rrsets) in the [Zone](#tag/zones). Use the provided URI parameters to modify the result. The maximum value for `per_page` on this endpoint is `100` instead of `50`. Only applicable for [Zones](#tag/zones) in primary mode. #### Operation specific errors */
+/** List RRSets Returns all [RRSets](#tag/zone-rrsets) in the [Zone](#tag/zones). Use the provided URI parameters to modify the result. Only applicable for [Zones](#tag/zones) in primary mode. #### Operation specific errors */
 export const listZoneRrsets: API.PaginatedOperationMethod<
   ListZoneRrsetsRequest,
   ListZoneRrsetsResponse,

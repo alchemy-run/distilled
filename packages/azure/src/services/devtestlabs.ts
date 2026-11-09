@@ -1466,6 +1466,8 @@ export interface LabVirtualMachineCreationParameter {
   /** The tags of the resource. */
   tags?: LabVirtualMachineCreationParameterTagsMap;
 }
+/** The configured credential state of a formula. */
+export type FormulaCredentialState = "NotConfigured" | "PasswordConfigured" | "SshKeyConfigured";
 /** Properties of a formula. */
 export interface FormulaProperties {
   /** The description of the formula. */
@@ -1478,6 +1480,8 @@ export interface FormulaProperties {
   creationDate?: string;
   /** The content of the formula. */
   formulaContent?: LabVirtualMachineCreationParameter;
+  /** The configured credential state of the formula. This property does not expose the credential value or storage mechanism. */
+  credentialState?: FormulaCredentialState;
   /** Information about a VM from which a formula is to be created. */
   vm?: FormulaPropertiesFromVm;
   /** The provisioning status of the resource. */
@@ -9374,6 +9378,7 @@ function __c75(j: number): any {
           osType: S.optional(S.String),
           creationDate: S.optional(S.String),
           formulaContent: S.optional(__S(1202, __c75, 2)),
+          credentialState: S.optional(S.String),
           vm: S.optional(__S(1200, __c75, 0)),
           provisioningState: S.optional(S.String),
           uniqueIdentifier: S.optional(S.String),

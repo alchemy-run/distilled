@@ -1724,6 +1724,14 @@ export interface SitesLansCreateRequestNat {
   /** A valid CIDR notation representing an IP range. */
   staticPrefix?: string;
 }
+export interface SitesLansCreateRequestRemoteSubnetsItem {
+  /** A valid CIDR notation representing an IP range. */
+  localAliasPrefix: string;
+  /** A valid CIDR notation representing an IP range. */
+  remotePrefix: string;
+}
+export type SitesLansCreateRequestRemoteSubnetsList =
+  Array<SitesLansCreateRequestRemoteSubnetsItem>;
 export type SitesLansCreateRequestRoutedSubnetsItemNat = SitesLansCreateRequestNat;
 export interface SitesLansCreateRequestRoutedSubnetsItem {
   /** A valid IPv4 address. */
@@ -1798,6 +1806,7 @@ export interface CreateSiteLanRequest {
   name?: string;
   nat?: SitesLansCreateRequestNat;
   physport?: number;
+  remoteSubnets?: SitesLansCreateRequestRemoteSubnetsList;
   routedSubnets?: SitesLansCreateRequestRoutedSubnetsList;
   /** If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address. */
   staticAddressing?: SitesLansCreateRequestStaticAddressing;
@@ -1808,6 +1817,9 @@ export interface SitesLansCreateResultItemNat {
   /** A valid CIDR notation representing an IP range. */
   staticPrefix?: string | null;
 }
+export type SitesLansCreateResultItemRemoteSubnetsItem = SitesLansCreateRequestRemoteSubnetsItem;
+export type SitesLansCreateResultItemRemoteSubnetsList =
+  Array<SitesLansCreateRequestRemoteSubnetsItem>;
 export type SitesLansCreateResultItemRoutedSubnetsItemNat = SitesLansCreateResultItemNat;
 export interface SitesLansCreateResultItemRoutedSubnetsItem {
   /** A valid IPv4 address. */
@@ -1880,6 +1892,7 @@ export interface SitesLansCreateResultItem {
   name?: string | null;
   nat?: SitesLansCreateResultItemNat | null;
   physport?: number | null;
+  remoteSubnets?: SitesLansCreateResultItemRemoteSubnetsList | null;
   routedSubnets?: SitesLansCreateResultItemRoutedSubnetsList | null;
   /** Identifier */
   siteId?: string | null;
@@ -2479,6 +2492,9 @@ export interface DeleteSiteLanRequest {
   lanId: string;
 }
 export type SitesLansDeleteResponseNat = SitesLansCreateResultItemNat;
+export type SitesLansDeleteResponseRemoteSubnetsItem = SitesLansCreateRequestRemoteSubnetsItem;
+export type SitesLansDeleteResponseRemoteSubnetsList =
+  Array<SitesLansCreateRequestRemoteSubnetsItem>;
 export type SitesLansDeleteResponseRoutedSubnetsItemNat = SitesLansCreateResultItemNat;
 export type SitesLansDeleteResponseRoutedSubnetsItem = SitesLansCreateResultItemRoutedSubnetsItem;
 export type SitesLansDeleteResponseRoutedSubnetsList =
@@ -2546,6 +2562,7 @@ export interface DeleteSiteLanResponse {
   name?: string | null;
   nat?: SitesLansCreateResultItemNat | null;
   physport?: number | null;
+  remoteSubnets?: SitesLansDeleteResponseRemoteSubnetsList | null;
   routedSubnets?: SitesLansDeleteResponseRoutedSubnetsList | null;
   /** Identifier */
   siteId?: string | null;
@@ -3958,6 +3975,8 @@ export interface GetSiteLanRequest {
   lanId: string;
 }
 export type SitesLansGetResponseNat = SitesLansCreateResultItemNat;
+export type SitesLansGetResponseRemoteSubnetsItem = SitesLansCreateRequestRemoteSubnetsItem;
+export type SitesLansGetResponseRemoteSubnetsList = Array<SitesLansCreateRequestRemoteSubnetsItem>;
 export type SitesLansGetResponseRoutedSubnetsItemNat = SitesLansCreateResultItemNat;
 export type SitesLansGetResponseRoutedSubnetsItem = SitesLansCreateResultItemRoutedSubnetsItem;
 export type SitesLansGetResponseRoutedSubnetsList =
@@ -4025,6 +4044,7 @@ export interface GetSiteLanResponse {
   name?: string | null;
   nat?: SitesLansCreateResultItemNat | null;
   physport?: number | null;
+  remoteSubnets?: SitesLansGetResponseRemoteSubnetsList | null;
   routedSubnets?: SitesLansGetResponseRoutedSubnetsList | null;
   /** Identifier */
   siteId?: string | null;
@@ -5224,6 +5244,9 @@ export interface ListSiteLansRequest {
   siteId: string;
 }
 export type SitesLansListResultItemNat = SitesLansCreateResultItemNat;
+export type SitesLansListResultItemRemoteSubnetsItem = SitesLansCreateRequestRemoteSubnetsItem;
+export type SitesLansListResultItemRemoteSubnetsList =
+  Array<SitesLansCreateRequestRemoteSubnetsItem>;
 export type SitesLansListResultItemRoutedSubnetsItemNat = SitesLansCreateResultItemNat;
 export type SitesLansListResultItemRoutedSubnetsItem = SitesLansCreateResultItemRoutedSubnetsItem;
 export type SitesLansListResultItemRoutedSubnetsList =
@@ -5290,6 +5313,7 @@ export interface SitesLansListResultItem {
   name?: string | null;
   nat?: SitesLansCreateResultItemNat | null;
   physport?: number | null;
+  remoteSubnets?: SitesLansListResultItemRemoteSubnetsList | null;
   routedSubnets?: SitesLansListResultItemRoutedSubnetsList | null;
   /** Identifier */
   siteId?: string | null;
@@ -5672,6 +5696,8 @@ export interface PatchSiteAclResponse {
   unidirectional?: boolean | null;
 }
 export type SitesLansEditRequestNat = SitesLansCreateRequestNat;
+export type SitesLansEditRequestRemoteSubnetsItem = SitesLansCreateRequestRemoteSubnetsItem;
+export type SitesLansEditRequestRemoteSubnetsList = Array<SitesLansCreateRequestRemoteSubnetsItem>;
 export type SitesLansEditRequestRoutedSubnetsItemNat = SitesLansCreateRequestNat;
 export type SitesLansEditRequestRoutedSubnetsItem = SitesLansCreateRequestRoutedSubnetsItem;
 export type SitesLansEditRequestRoutedSubnetsList = Array<SitesLansCreateRequestRoutedSubnetsItem>;
@@ -5741,6 +5767,7 @@ export interface PatchSiteLanRequest {
   name?: string;
   nat?: SitesLansCreateRequestNat;
   physport?: number;
+  remoteSubnets?: SitesLansEditRequestRemoteSubnetsList;
   routedSubnets?: SitesLansEditRequestRoutedSubnetsList;
   /** If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address. */
   staticAddressing?: SitesLansEditRequestStaticAddressing;
@@ -5748,6 +5775,8 @@ export interface PatchSiteLanRequest {
   vlanTag?: number;
 }
 export type SitesLansEditResponseNat = SitesLansCreateResultItemNat;
+export type SitesLansEditResponseRemoteSubnetsItem = SitesLansCreateRequestRemoteSubnetsItem;
+export type SitesLansEditResponseRemoteSubnetsList = Array<SitesLansCreateRequestRemoteSubnetsItem>;
 export type SitesLansEditResponseRoutedSubnetsItemNat = SitesLansCreateResultItemNat;
 export type SitesLansEditResponseRoutedSubnetsItem = SitesLansCreateResultItemRoutedSubnetsItem;
 export type SitesLansEditResponseRoutedSubnetsList =
@@ -5815,6 +5844,7 @@ export interface PatchSiteLanResponse {
   name?: string | null;
   nat?: SitesLansCreateResultItemNat | null;
   physport?: number | null;
+  remoteSubnets?: SitesLansEditResponseRemoteSubnetsList | null;
   routedSubnets?: SitesLansEditResponseRoutedSubnetsList | null;
   /** Identifier */
   siteId?: string | null;
@@ -6703,6 +6733,9 @@ export interface UpdateSiteAclResponse {
   unidirectional?: boolean | null;
 }
 export type SitesLansUpdateRequestNat = SitesLansCreateRequestNat;
+export type SitesLansUpdateRequestRemoteSubnetsItem = SitesLansCreateRequestRemoteSubnetsItem;
+export type SitesLansUpdateRequestRemoteSubnetsList =
+  Array<SitesLansCreateRequestRemoteSubnetsItem>;
 export type SitesLansUpdateRequestRoutedSubnetsItemNat = SitesLansCreateRequestNat;
 export type SitesLansUpdateRequestRoutedSubnetsItem = SitesLansCreateRequestRoutedSubnetsItem;
 export type SitesLansUpdateRequestRoutedSubnetsList =
@@ -6773,6 +6806,7 @@ export interface UpdateSiteLanRequest {
   name?: string;
   nat?: SitesLansCreateRequestNat;
   physport?: number;
+  remoteSubnets?: SitesLansUpdateRequestRemoteSubnetsList;
   routedSubnets?: SitesLansUpdateRequestRoutedSubnetsList;
   /** If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address. */
   staticAddressing?: SitesLansUpdateRequestStaticAddressing;
@@ -6780,6 +6814,9 @@ export interface UpdateSiteLanRequest {
   vlanTag?: number;
 }
 export type SitesLansUpdateResponseNat = SitesLansCreateResultItemNat;
+export type SitesLansUpdateResponseRemoteSubnetsItem = SitesLansCreateRequestRemoteSubnetsItem;
+export type SitesLansUpdateResponseRemoteSubnetsList =
+  Array<SitesLansCreateRequestRemoteSubnetsItem>;
 export type SitesLansUpdateResponseRoutedSubnetsItemNat = SitesLansCreateResultItemNat;
 export type SitesLansUpdateResponseRoutedSubnetsItem = SitesLansCreateResultItemRoutedSubnetsItem;
 export type SitesLansUpdateResponseRoutedSubnetsList =
@@ -6847,6 +6884,7 @@ export interface UpdateSiteLanResponse {
   name?: string | null;
   nat?: SitesLansCreateResultItemNat | null;
   physport?: number | null;
+  remoteSubnets?: SitesLansUpdateResponseRemoteSubnetsList | null;
   routedSubnets?: SitesLansUpdateResponseRoutedSubnetsList | null;
   /** Identifier */
   siteId?: string | null;
@@ -9293,6 +9331,7 @@ function __c4(j: number): any {
           name: S.optional(S.String),
           nat: S.optional(__S(1824, __c57, 0)),
           physport: S.optional(S.Number),
+          remoteSubnets: S.optional(__S(1761, __c55, 1).pipe(T.Body("remote_subnets"))),
           routedSubnets: S.optional(__S(1826, __c57, 2).pipe(T.Body("routed_subnets"))),
           staticAddressing: S.optional(__S(1829, __c57, 5).pipe(T.Body("static_addressing"))),
           vlanTag: S.optional(S.Number.pipe(T.Body("vlan_tag"))),
@@ -10538,6 +10577,7 @@ function __c54(j: number): any {
           name: S.optional(S.String),
           nat: S.optional(__S(1824, __c57, 0)),
           physport: S.optional(S.Number),
+          remoteSubnets: S.optional(__S(1761, __c55, 1).pipe(T.Body("remote_subnets"))),
           routedSubnets: S.optional(__S(1826, __c57, 2).pipe(T.Body("routed_subnets"))),
           staticAddressing: S.optional(__S(1829, __c57, 5).pipe(T.Body("static_addressing"))),
           vlanTag: S.optional(S.Number.pipe(T.Body("vlan_tag"))),
@@ -10558,54 +10598,63 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          localAliasPrefix: S.String.pipe(T.Body("local_alias_prefix")),
+          remotePrefix: S.String.pipe(T.Body("remote_prefix")),
+        }),
+      ).annotate({ identifier: "SitesLansCreateRequestRemoteSubnetsItem" });
+    case 1:
+      return S.Array(__S(1760, __c55, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           code: S.Number,
           type: S.String,
           value: S.String,
         }),
       ).annotate({ identifier: "SitesLansCreateRequestStaticAddressingDhcpServerDhcpOptionsItem" });
-    case 1:
-      return S.Array(__S(1760, __c55, 0));
-    case 2:
-      return S.Record(S.String, S.Unknown);
     case 3:
+      return S.Array(__S(1762, __c55, 2));
+    case 4:
+      return S.Record(S.String, S.Unknown);
+    case 5:
       return S.suspend(() =>
         S.Struct({
           staticPrefix: S.optional(S.NullOr(S.String).pipe(T.Body("static_prefix"))),
         }),
       ).annotate({ identifier: "SitesLansCreateResultItemNat" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           nextHop: S.String.pipe(T.Body("next_hop")),
           prefix: S.String,
-          nat: S.optional(S.NullOr(__S(1763, __c55, 3))),
+          nat: S.optional(S.NullOr(__S(1765, __c55, 5))),
         }),
       ).annotate({ identifier: "SitesLansCreateResultItemRoutedSubnetsItem" });
-    case 5:
-      return S.Array(__S(1764, __c55, 4));
-    case 6:
+    case 7:
+      return S.Array(__S(1766, __c55, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           serverAddresses: S.optional(S.NullOr(__S(288, __c9, 0)).pipe(T.Body("server_addresses"))),
         }),
       ).annotate({ identifier: "SitesLansCreateResultItemStaticAddressingDhcpRelay" });
-    case 7:
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          dhcpOptions: S.optional(S.NullOr(__S(1761, __c55, 1)).pipe(T.Body("dhcp_options"))),
+          dhcpOptions: S.optional(S.NullOr(__S(1763, __c55, 3)).pipe(T.Body("dhcp_options"))),
           dhcpPoolEnd: S.optional(S.NullOr(S.String).pipe(T.Body("dhcp_pool_end"))),
           dhcpPoolStart: S.optional(S.NullOr(S.String).pipe(T.Body("dhcp_pool_start"))),
           dnsServer: S.optional(S.NullOr(S.String).pipe(T.Body("dns_server"))),
           dnsServers: S.optional(S.NullOr(__S(288, __c9, 0)).pipe(T.Body("dns_servers"))),
-          reservations: S.optional(S.NullOr(__S(1762, __c55, 2))),
+          reservations: S.optional(S.NullOr(__S(1764, __c55, 4))),
         }),
       ).annotate({ identifier: "SitesLansCreateResultItemStaticAddressingDhcpServer" });
-    case 8:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           address: S.String,
-          dhcpRelay: S.optional(S.NullOr(__S(1766, __c55, 6)).pipe(T.Body("dhcp_relay"))),
-          dhcpServer: S.optional(S.NullOr(__S(1767, __c55, 7)).pipe(T.Body("dhcp_server"))),
+          dhcpRelay: S.optional(S.NullOr(__S(1768, __c55, 8)).pipe(T.Body("dhcp_relay"))),
+          dhcpServer: S.optional(S.NullOr(__S(1769, __c55, 9)).pipe(T.Body("dhcp_server"))),
           secondaryAddress: S.optional(S.NullOr(S.String).pipe(T.Body("secondary_address"))),
           virtualAddress: S.optional(S.NullOr(S.String).pipe(T.Body("virtual_address"))),
         }),
@@ -10623,12 +10672,13 @@ function __c56(j: number): any {
           isBreakout: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_breakout"))),
           isPrioritized: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_prioritized"))),
           name: S.optional(S.NullOr(S.String)),
-          nat: S.optional(S.NullOr(__S(1763, __c55, 3))),
+          nat: S.optional(S.NullOr(__S(1765, __c55, 5))),
           physport: S.optional(S.NullOr(S.Number)),
-          routedSubnets: S.optional(S.NullOr(__S(1765, __c55, 5)).pipe(T.Body("routed_subnets"))),
+          remoteSubnets: S.optional(S.NullOr(__S(1761, __c55, 1)).pipe(T.Body("remote_subnets"))),
+          routedSubnets: S.optional(S.NullOr(__S(1767, __c55, 7)).pipe(T.Body("routed_subnets"))),
           siteId: S.optional(S.NullOr(S.String).pipe(T.Body("site_id"))),
           staticAddressing: S.optional(
-            S.NullOr(__S(1768, __c55, 8)).pipe(T.Body("static_addressing")),
+            S.NullOr(__S(1770, __c55, 10)).pipe(T.Body("static_addressing")),
           ),
           vlanTag: S.optional(S.NullOr(S.Number).pipe(T.Body("vlan_tag"))),
         }),
@@ -10671,12 +10721,12 @@ function __c57(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          dhcpOptions: S.optional(__S(1761, __c55, 1).pipe(T.Body("dhcp_options"))),
+          dhcpOptions: S.optional(__S(1763, __c55, 3).pipe(T.Body("dhcp_options"))),
           dhcpPoolEnd: S.optional(S.String.pipe(T.Body("dhcp_pool_end"))),
           dhcpPoolStart: S.optional(S.String.pipe(T.Body("dhcp_pool_start"))),
           dnsServer: S.optional(S.String.pipe(T.Body("dns_server"))),
           dnsServers: S.optional(__S(288, __c9, 0).pipe(T.Body("dns_servers"))),
-          reservations: S.optional(__S(1762, __c55, 2)),
+          reservations: S.optional(__S(1764, __c55, 4)),
         }),
       ).annotate({ identifier: "SitesLansCreateRequestStaticAddressingDhcpServer" });
     case 5:
@@ -11203,12 +11253,13 @@ function __c77(j: number): any {
           isBreakout: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_breakout"))),
           isPrioritized: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_prioritized"))),
           name: S.optional(S.NullOr(S.String)),
-          nat: S.optional(S.NullOr(__S(1763, __c55, 3))),
+          nat: S.optional(S.NullOr(__S(1765, __c55, 5))),
           physport: S.optional(S.NullOr(S.Number)),
-          routedSubnets: S.optional(S.NullOr(__S(1765, __c55, 5)).pipe(T.Body("routed_subnets"))),
+          remoteSubnets: S.optional(S.NullOr(__S(1761, __c55, 1)).pipe(T.Body("remote_subnets"))),
+          routedSubnets: S.optional(S.NullOr(__S(1767, __c55, 7)).pipe(T.Body("routed_subnets"))),
           siteId: S.optional(S.NullOr(S.String).pipe(T.Body("site_id"))),
           staticAddressing: S.optional(
-            S.NullOr(__S(1768, __c55, 8)).pipe(T.Body("static_addressing")),
+            S.NullOr(__S(1770, __c55, 10)).pipe(T.Body("static_addressing")),
           ),
           vlanTag: S.optional(S.NullOr(S.Number).pipe(T.Body("vlan_tag"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -13493,6 +13544,7 @@ function __c127(j: number): any {
           name: S.optional(S.String),
           nat: S.optional(__S(1824, __c57, 0)),
           physport: S.optional(S.Number),
+          remoteSubnets: S.optional(__S(1761, __c55, 1).pipe(T.Body("remote_subnets"))),
           routedSubnets: S.optional(__S(1826, __c57, 2).pipe(T.Body("routed_subnets"))),
           staticAddressing: S.optional(__S(1829, __c57, 5).pipe(T.Body("static_addressing"))),
           vlanTag: S.optional(S.Number.pipe(T.Body("vlan_tag"))),

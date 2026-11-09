@@ -115,6 +115,7 @@ export interface AggregateEventsResponseDataCase0Item {
   eventData?: string;
   eventName?: string;
   flags?: string;
+  groupId?: string;
   osName?: string;
   projectId?: string;
   projectName?: string;
@@ -122,6 +123,7 @@ export interface AggregateEventsResponseDataCase0Item {
   requestHostname?: string;
   requestPath?: string;
   route?: string;
+  userId?: string;
   utmCampaign?: string;
   utmContent?: string;
   utmMedium?: string;
@@ -139,6 +141,7 @@ export interface AggregateEventsResponseDataCase1Item {
   eventData: string;
   eventName: string;
   flags: string;
+  groupId: string;
   osName: string;
   projectId: string;
   projectName: string;
@@ -146,12 +149,14 @@ export interface AggregateEventsResponseDataCase1Item {
   requestHostname: string;
   requestPath: string;
   route: string;
+  userId: string;
   utmCampaign: string;
   utmContent: string;
   utmMedium: string;
   utmSource: string;
   utmTerm: string;
   visitorId: string;
+  [key: string]: unknown;
 }
 export type AggregateEventsResponseDataCase1List = Array<AggregateEventsResponseDataCase1Item>;
 export type AggregateEventsResponseData =
@@ -242,6 +247,7 @@ export interface AggregatePageviewsResponseDataCase0Item {
   deviceType?: string;
   environment?: string;
   flags?: string;
+  groupId?: string;
   osName?: string;
   projectId?: string;
   projectName?: string;
@@ -249,6 +255,7 @@ export interface AggregatePageviewsResponseDataCase0Item {
   requestHostname?: string;
   requestPath?: string;
   route?: string;
+  userId?: string;
   utmCampaign?: string;
   utmContent?: string;
   utmMedium?: string;
@@ -265,6 +272,7 @@ export interface AggregatePageviewsResponseDataCase1Item {
   deviceType: string;
   environment: string;
   flags: string;
+  groupId: string;
   osName: string;
   projectId: string;
   projectName: string;
@@ -272,12 +280,14 @@ export interface AggregatePageviewsResponseDataCase1Item {
   requestHostname: string;
   requestPath: string;
   route: string;
+  userId: string;
   utmCampaign: string;
   utmContent: string;
   utmMedium: string;
   utmSource: string;
   utmTerm: string;
   visitorId: string;
+  [key: string]: unknown;
 }
 export type AggregatePageviewsResponseDataCase1List =
   Array<AggregatePageviewsResponseDataCase1Item>;

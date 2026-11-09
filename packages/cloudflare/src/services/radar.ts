@@ -10470,21 +10470,32 @@ export interface GetBotRequest {
   /** Format in which results will be returned. */
   format?: BotsGetRequestFormat | (string & {});
 }
+export type BotsGetResponseBotCategoriesList = Array<string>;
 export type BotsGetResponseBotUserAgentPatternsList = Array<string>;
 export type BotsGetResponseBotUserAgentsList = Array<string>;
 export interface BotsGetResponseBot {
-  /** The category of the bot. */
+  /** Who can operate the bot: DIRECT bots reach origins under their own identity, while INTERMEDIARY bots forward requests on behalf of another agent or a person. */
+  accessLevel: string;
+  /** The categories of the bot. */
+  categories: BotsGetResponseBotCategoriesList;
+  /** The category of the bot. Deprecated: use `categories`. */
   category: string;
+  /** How the bot uses the content it fetches (e.g., immediate, reference or full). */
+  contentUse: string;
   /** A summary for the bot (e.g., purpose). */
   description: string;
+  /** The link to the bot documentation. */
+  documentationUrl: string;
   /** The kind of the bot. */
   kind: string;
   /** The name of the bot. */
   name: string;
   /** The organization that owns and operates the bot. */
   operator: string;
-  /** The link to the bot documentation. */
+  /** The link to the bot documentation. Deprecated: use `documentationUrl`. */
   operatorUrl: string;
+  /** The link to the operator's website. */
+  operatorWebsiteUrl: string;
   /** A kebab-case identifier derived from the bot name. */
   slug: string;
   userAgentPatterns: BotsGetResponseBotUserAgentPatternsList;
@@ -20277,27 +20288,29 @@ export interface ListBgpRoutesPathsResponse {
   paths: ListBgpRoutesPathsResponsePathsList;
 }
 export type BotsListRequestBotCategory =
+  | "ACADEMIC_RESEARCH"
+  | "ADVERTISING_AND_MARKETING"
+  | "AI_ASSISTANT"
+  | "AI_CRAWLER"
+  | "COMMERCE"
+  | "FEED_FETCHER"
+  | "MONITORING_AND_ANALYTICS"
+  | "OTHER"
+  | "PAGE_PREVIEW"
   | "SEARCH_ENGINE_CRAWLER"
   | "SEARCH_ENGINE_OPTIMIZATION"
-  | "MONITORING_AND_ANALYTICS"
-  | "ADVERTISING_AND_MARKETING"
-  | "SOCIAL_MEDIA_MARKETING"
-  | "PAGE_PREVIEW"
-  | "ACADEMIC_RESEARCH"
   | "SECURITY"
   | "ACCESSIBILITY"
-  | "WEBHOOKS"
-  | "FEED_FETCHER"
-  | "AI_CRAWLER"
   | "AGGREGATOR"
-  | "AI_ASSISTANT"
   | "AI_SEARCH"
-  | "ARCHIVER";
+  | "ARCHIVER"
+  | "SOCIAL_MEDIA_MARKETING"
+  | "WEBHOOKS";
 export type BotsListRequestBotVerificationStatus = "VERIFIED";
 export type BotsListRequestFormat = "JSON" | "CSV";
 export type BotsListRequestKind = "AGENT" | "BOT";
 export interface ListBotsRequest {
-  /** Filters results by bot category. */
+  /** Filters results by bot category. `ACCESSIBILITY`, `AGGREGATOR`, `AI_SEARCH`, `ARCHIVER`, `SOCIAL_MEDIA_MARKETING` and `WEBHOOKS` are deprecated legacy categories that match only that exact category. */
   botCategory?: BotsListRequestBotCategory | (string & {});
   /** Filters results by bot operator. */
   botOperator?: string;
@@ -20312,10 +20325,17 @@ export interface ListBotsRequest {
   /** Skips the specified number of objects before fetching the results. */
   offset?: number;
 }
+export type BotsListResponseBotsItemCategoriesList = Array<string>;
 export type BotsListResponseBotsItemUserAgentPatternsList = Array<string>;
 export interface BotsListResponseBotsItem {
-  /** The category of the bot. */
+  /** Who can operate the bot: DIRECT bots reach origins under their own identity, while INTERMEDIARY bots forward requests on behalf of another agent or a person. */
+  accessLevel: string;
+  /** The categories of the bot. */
+  categories: BotsListResponseBotsItemCategoriesList;
+  /** The category of the bot. Deprecated: use `categories`. */
   category: string;
+  /** How the bot uses the content it fetches (e.g., immediate, reference or full). */
+  contentUse: string;
   /** A summary for the bot (e.g., purpose). */
   description: string;
   /** The kind of the bot. */
@@ -20606,6 +20626,7 @@ export type ListTldsRequestFormat = "JSON" | "CSV";
 export type ListTldsRequestTldType =
   | "GENERIC"
   | "COUNTRY_CODE"
+  | "SPECIAL_USE"
   | "GENERIC_RESTRICTED"
   | "INFRASTRUCTURE"
   | "SPONSORED";
@@ -20620,7 +20641,7 @@ export interface ListTldsRequest {
   tld?: string;
   /** Filters results by TLD manager. */
   tldManager?: string;
-  /** Filters results by TLD type. */
+  /** Filters results by TLD type. GENERIC_RESTRICTED and SPONSORED are deprecated and return no results, as IANA consolidated them into GENERIC. INFRASTRUCTURE is deprecated, as IANA reclassified .arpa as SPECIAL_USE. */
   tldType?: ListTldsRequestTldType | (string & {});
 }
 export type ListTldsResponseTldsItem = GetTldResponseTld;
@@ -28335,6 +28356,7 @@ export type SearchGlobalRequestExclude =
   | "ADM1S"
   | "ASNS"
   | "BOTS"
+  | "BOT_OPERATORS"
   | "CERTIFICATE_AUTHORITIES"
   | "CERTIFICATE_LOGS"
   | "ORIGINS"
@@ -28350,6 +28372,7 @@ export type SearchGlobalRequestInclude =
   | "ADM1S"
   | "ASNS"
   | "BOTS"
+  | "BOT_OPERATORS"
   | "CERTIFICATE_AUTHORITIES"
   | "CERTIFICATE_LOGS"
   | "ORIGINS"
@@ -29968,22 +29991,24 @@ export type BotsSummaryRequestDimension = "BOT" | "BOT_KIND" | "BOT_OPERATOR" | 
 export type BotsSummaryRequestAsnList = Array<string>;
 export type BotsSummaryRequestBotList = Array<string>;
 export type BotsSummaryRequestBotCategory =
+  | "ACADEMIC_RESEARCH"
+  | "ADVERTISING_AND_MARKETING"
+  | "AI_ASSISTANT"
+  | "AI_CRAWLER"
+  | "COMMERCE"
+  | "FEED_FETCHER"
+  | "MONITORING_AND_ANALYTICS"
+  | "OTHER"
+  | "PAGE_PREVIEW"
   | "SEARCH_ENGINE_CRAWLER"
   | "SEARCH_ENGINE_OPTIMIZATION"
-  | "MONITORING_AND_ANALYTICS"
-  | "ADVERTISING_AND_MARKETING"
-  | "SOCIAL_MEDIA_MARKETING"
-  | "PAGE_PREVIEW"
-  | "ACADEMIC_RESEARCH"
   | "SECURITY"
   | "ACCESSIBILITY"
-  | "WEBHOOKS"
-  | "FEED_FETCHER"
-  | "AI_CRAWLER"
   | "AGGREGATOR"
-  | "AI_ASSISTANT"
   | "AI_SEARCH"
-  | "ARCHIVER";
+  | "ARCHIVER"
+  | "SOCIAL_MEDIA_MARKETING"
+  | "WEBHOOKS";
 export type BotsSummaryRequestBotCategoryList = Array<
   BotsSummaryRequestBotCategory | (string & {})
 >;
@@ -30008,7 +30033,7 @@ export interface SummaryBotRequest {
   asn?: BotsSummaryRequestAsnList;
   /** Filters results by bot name. */
   bot?: BotsSummaryRequestBotList;
-  /** Filters results by bot category. */
+  /** Filters results by bot category. `ACCESSIBILITY`, `AGGREGATOR`, `AI_SEARCH`, `ARCHIVER`, `SOCIAL_MEDIA_MARKETING` and `WEBHOOKS` are deprecated legacy categories that match only that exact category. */
   botCategory?: BotsSummaryRequestBotCategoryList;
   /** Filters results by bot kind. Deprecated: the Verified Bot / Signed Agent distinction is being removed. */
   botKind?: BotsSummaryRequestBotKindList;
@@ -34928,22 +34953,24 @@ export type BotsTimeseriesRequestAggInterval = "15m" | "1h" | "1d" | "1w";
 export type BotsTimeseriesRequestAsnList = Array<string>;
 export type BotsTimeseriesRequestBotList = Array<string>;
 export type BotsTimeseriesRequestBotCategory =
+  | "ACADEMIC_RESEARCH"
+  | "ADVERTISING_AND_MARKETING"
+  | "AI_ASSISTANT"
+  | "AI_CRAWLER"
+  | "COMMERCE"
+  | "FEED_FETCHER"
+  | "MONITORING_AND_ANALYTICS"
+  | "OTHER"
+  | "PAGE_PREVIEW"
   | "SEARCH_ENGINE_CRAWLER"
   | "SEARCH_ENGINE_OPTIMIZATION"
-  | "MONITORING_AND_ANALYTICS"
-  | "ADVERTISING_AND_MARKETING"
-  | "SOCIAL_MEDIA_MARKETING"
-  | "PAGE_PREVIEW"
-  | "ACADEMIC_RESEARCH"
   | "SECURITY"
   | "ACCESSIBILITY"
-  | "WEBHOOKS"
-  | "FEED_FETCHER"
-  | "AI_CRAWLER"
   | "AGGREGATOR"
-  | "AI_ASSISTANT"
   | "AI_SEARCH"
-  | "ARCHIVER";
+  | "ARCHIVER"
+  | "SOCIAL_MEDIA_MARKETING"
+  | "WEBHOOKS";
 export type BotsTimeseriesRequestBotCategoryList = Array<
   BotsTimeseriesRequestBotCategory | (string & {})
 >;
@@ -34968,7 +34995,7 @@ export interface TimeseriesBotRequest {
   asn?: BotsTimeseriesRequestAsnList;
   /** Filters results by bot name. */
   bot?: BotsTimeseriesRequestBotList;
-  /** Filters results by bot category. */
+  /** Filters results by bot category. `ACCESSIBILITY`, `AGGREGATOR`, `AI_SEARCH`, `ARCHIVER`, `SOCIAL_MEDIA_MARKETING` and `WEBHOOKS` are deprecated legacy categories that match only that exact category. */
   botCategory?: BotsTimeseriesRequestBotCategoryList;
   /** Filters results by bot kind. Deprecated: the Verified Bot / Signed Agent distinction is being removed. */
   botKind?: BotsTimeseriesRequestBotKindList;
@@ -35767,22 +35794,24 @@ export type BotsTimeseriesGroupsRequestAggInterval = "15m" | "1h" | "1d" | "1w";
 export type BotsTimeseriesGroupsRequestAsnList = Array<string>;
 export type BotsTimeseriesGroupsRequestBotList = Array<string>;
 export type BotsTimeseriesGroupsRequestBotCategory =
+  | "ACADEMIC_RESEARCH"
+  | "ADVERTISING_AND_MARKETING"
+  | "AI_ASSISTANT"
+  | "AI_CRAWLER"
+  | "COMMERCE"
+  | "FEED_FETCHER"
+  | "MONITORING_AND_ANALYTICS"
+  | "OTHER"
+  | "PAGE_PREVIEW"
   | "SEARCH_ENGINE_CRAWLER"
   | "SEARCH_ENGINE_OPTIMIZATION"
-  | "MONITORING_AND_ANALYTICS"
-  | "ADVERTISING_AND_MARKETING"
-  | "SOCIAL_MEDIA_MARKETING"
-  | "PAGE_PREVIEW"
-  | "ACADEMIC_RESEARCH"
   | "SECURITY"
   | "ACCESSIBILITY"
-  | "WEBHOOKS"
-  | "FEED_FETCHER"
-  | "AI_CRAWLER"
   | "AGGREGATOR"
-  | "AI_ASSISTANT"
   | "AI_SEARCH"
-  | "ARCHIVER";
+  | "ARCHIVER"
+  | "SOCIAL_MEDIA_MARKETING"
+  | "WEBHOOKS";
 export type BotsTimeseriesGroupsRequestBotCategoryList = Array<
   BotsTimeseriesGroupsRequestBotCategory | (string & {})
 >;
@@ -35811,7 +35840,7 @@ export interface TimeseriesGroupsBotRequest {
   asn?: BotsTimeseriesGroupsRequestAsnList;
   /** Filters results by bot name. */
   bot?: BotsTimeseriesGroupsRequestBotList;
-  /** Filters results by bot category. */
+  /** Filters results by bot category. `ACCESSIBILITY`, `AGGREGATOR`, `AI_SEARCH`, `ARCHIVER`, `SOCIAL_MEDIA_MARKETING` and `WEBHOOKS` are deprecated legacy categories that match only that exact category. */
   botCategory?: BotsTimeseriesGroupsRequestBotCategoryList;
   /** Filters results by bot kind. Deprecated: the Verified Bot / Signed Agent distinction is being removed. */
   botKind?: BotsTimeseriesGroupsRequestBotKindList;
@@ -45300,7 +45329,7 @@ export const responseTTLDnsTimeseriesGroup: API.OperationMethod<
 }));
 
 export type SearchGlobalError = CloudflareOpError;
-/** Searches for locations, autonomous systems, reports, bots, certificate logs, certificate authorities, industries and verticals. Location names can be localized by sending an `Accept-Language` HTTP header with a BCP 47 language tag (e.g., `Accept-Language: pt-PT`). The full quality-value chain is supported (e.g., `pt-PT,pt;q=0.9,en;q=0.8`). */
+/** Searches for locations, autonomous systems, reports, bots, bot operators, certificate logs, certificate authorities, industries and verticals. Location names can be localized by sending an `Accept-Language` HTTP header with a BCP 47 language tag (e.g., `Accept-Language: pt-PT`). The full quality-value chain is supported (e.g., `pt-PT,pt;q=0.9,en;q=0.8`). */
 export const searchGlobal: API.OperationMethod<
   SearchGlobalRequest,
   SearchGlobalResponse,
@@ -48359,7 +48388,10 @@ function __c56(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          accessLevel: S.String,
+          categories: __S(16, __c1, 0),
           category: S.String,
+          contentUse: S.String,
           description: S.String,
           kind: S.String,
           name: S.String,
@@ -55201,12 +55233,17 @@ function __c290(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          accessLevel: S.String,
+          categories: __S(16, __c1, 0),
           category: S.String,
+          contentUse: S.String,
           description: S.String,
+          documentationUrl: S.String,
           kind: S.String,
           name: S.String,
           operator: S.String,
           operatorUrl: S.String,
+          operatorWebsiteUrl: S.String,
           slug: S.String,
           userAgentPatterns: __S(16, __c1, 0),
           userAgents: __S(16, __c1, 0),

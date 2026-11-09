@@ -441,7 +441,7 @@ export interface ResourceSharingProfile {
 export type ReservationType = "Targeted" | "Block" | "Open";
 /** capacity reservation group Properties. */
 export interface CapacityReservationGroupPropertiesInput {
-  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. The capacity reservation group resource can generally be shared across subscriptions belonging to a single Azure AAD tenant or across AAD tenants if there is a trust relationship established between the tenants. Block capacity reservation does not support sharing across subscriptions. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
+  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. The capacity reservation group resource can be shared only across subscriptions belonging to the same Microsoft Entra ID tenant. Sharing across tenants is not supported. Block capacity reservation does not support sharing across subscriptions. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
   sharingProfile?: ResourceSharingProfile;
   /** Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations that enable a VM to consume capacity only from this capacity block when it is associated using a capacity reservation group, 'Targeted' for reservations that enable a VM to consume capacity from an explicitly associated capacity reservation group and fall back to the publicly available capacity if the reservation is full, and 'Open' for reservations that a VM consumes when it is eligible from an implicitly associated capacity reservation group with the matching VM size and zone without associating that capacity reservation group and fall back to the publicly available capacity if the reservation is full. The reservation type is immutable and cannot be changed after the capacity reservation group is created. */
   reservationType?: ReservationType | (string & {});
@@ -545,7 +545,7 @@ export interface CapacityReservationGroupProperties {
   virtualMachinesAssociated?: CapacityReservationGroupPropertiesVirtualMachinesAssociatedList;
   /** The capacity reservation group instance view which has the list of instance views for all the capacity reservations that belong to the capacity reservation group. */
   instanceView?: CapacityReservationGroupInstanceView;
-  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. The capacity reservation group resource can generally be shared across subscriptions belonging to a single Azure AAD tenant or across AAD tenants if there is a trust relationship established between the tenants. Block capacity reservation does not support sharing across subscriptions. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
+  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. The capacity reservation group resource can be shared only across subscriptions belonging to the same Microsoft Entra ID tenant. Sharing across tenants is not supported. Block capacity reservation does not support sharing across subscriptions. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
   sharingProfile?: ResourceSharingProfile;
   /** Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations that enable a VM to consume capacity only from this capacity block when it is associated using a capacity reservation group, 'Targeted' for reservations that enable a VM to consume capacity from an explicitly associated capacity reservation group and fall back to the publicly available capacity if the reservation is full, and 'Open' for reservations that a VM consumes when it is eligible from an implicitly associated capacity reservation group with the matching VM size and zone without associating that capacity reservation group and fall back to the publicly available capacity if the reservation is full. The reservation type is immutable and cannot be changed after the capacity reservation group is created. */
   reservationType?: ReservationType;
@@ -1767,13 +1767,13 @@ export interface DiskRestorePointInstanceView {
 }
 /** The disk restore points information. */
 export type RestorePointInstanceViewDiskRestorePointsList = Array<DiskRestorePointInstanceView>;
-/** The resource status information. */
+/** The aggregate status information for the restore point. The list may include separate aggregate entries for replication and, in supported API versions, Instant Access, as applicable. For more information about Instant Access, see [Use virtual machine restore points](https://learn.microsoft.com/azure/virtual-machines/virtual-machines-create-restore-points#instant-access). */
 export type RestorePointInstanceViewStatusesList = Array<InstanceViewStatus>;
 /** The instance view of a restore point. */
 export interface RestorePointInstanceView {
   /** The disk restore points information. */
   diskRestorePoints?: RestorePointInstanceViewDiskRestorePointsList;
-  /** The resource status information. */
+  /** The aggregate status information for the restore point. The list may include separate aggregate entries for replication and, in supported API versions, Instant Access, as applicable. For more information about Instant Access, see [Use virtual machine restore points](https://learn.microsoft.com/azure/virtual-machines/virtual-machines-create-restore-points#instant-access). */
   statuses?: RestorePointInstanceViewStatusesList;
 }
 /** The restore point properties. */
@@ -2812,7 +2812,7 @@ export interface InterconnectBlockProperties {
 }
 /** The availability zones. */
 export type GetInterconnectBlockResponseZonesList = Array<string>;
-/** Specifies the policy for resource's placement in availability zone. Possible values are: **Any** (used for Virtual Machines), **Auto** (used for Virtual Machine Scale Sets) - An availability zone will be automatically picked by system as part of resource creation. */
+/** Specifies the policy for the resource's placement in an availability zone. Use **Auto** for Virtual Machines and Virtual Machine Scale Sets to let the system automatically select an availability zone during resource creation. **Any** remains supported for Virtual Machines for backward compatibility. */
 export type ZonePlacementPolicyType = "Any" | "Auto";
 /** This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any'/'Auto', availability zone selected by the system must be present in the list of availability zones passed with 'includeZones'. If 'includeZones' is not provided, all availability zones in region will be considered for selection. */
 export type PlacementIncludeZonesList = Array<string>;
@@ -2820,7 +2820,7 @@ export type PlacementIncludeZonesList = Array<string>;
 export type PlacementExcludeZonesList = Array<string>;
 /** Describes the user-defined constraints for resource hardware placement. */
 export interface Placement {
-  /** Specifies the policy for resource's placement in availability zone. Possible values are: **Any** (used for Virtual Machines), **Auto** (used for Virtual Machine Scale Sets) - An availability zone will be automatically picked by system as part of resource creation. */
+  /** Specifies the policy for the resource's placement in an availability zone. Use **Auto** for Virtual Machines and Virtual Machine Scale Sets to let the system automatically select an availability zone during resource creation. **Any** remains supported for Virtual Machines for backward compatibility. */
   zonePlacementPolicy?: ZonePlacementPolicyType | (string & {});
   /** This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any'/'Auto', availability zone selected by the system must be present in the list of availability zones passed with 'includeZones'. If 'includeZones' is not provided, all availability zones in region will be considered for selection. */
   includeZones?: PlacementIncludeZonesList;
@@ -3015,12 +3015,12 @@ export interface GetSpotPlacementScoreRequest {
   /** The name of the Azure region. */
   location: string;
 }
-/** Describes what are the supported resource types for a diagnostic. */
-export type DiagnosticPropertiesSupportedResourceTypesList = Array<string>;
-/** Contains additional properties of a diagnostic */
-export interface DiagnosticProperties {
-  /** Describes what are the supported resource types for a diagnostic. */
-  supportedResourceTypes?: DiagnosticPropertiesSupportedResourceTypesList;
+/** Describes the supported resource types for placement scoring. */
+export type PlacementScoresPropertiesSupportedResourceTypesList = Array<string>;
+/** Contains additional properties of a placement scores resource. */
+export interface PlacementScoresProperties {
+  /** Describes the supported resource types for placement scoring. */
+  supportedResourceTypes?: PlacementScoresPropertiesSupportedResourceTypesList;
 }
 export interface GetSpotPlacementScoreResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3031,8 +3031,8 @@ export interface GetSpotPlacementScoreResponse {
   type?: string;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
-  /** Contains additional properties of a diagnostic */
-  properties?: DiagnosticProperties;
+  /** Contains additional properties of a placement scores resource. */
+  properties?: PlacementScoresProperties;
 }
 export interface GetSshPublicKeyRequest {
   /** The ID of the target subscription. */
@@ -3073,6 +3073,11 @@ export interface GetVirtualMachineRequest {
 }
 /** Resource tags. */
 export type GetVirtualMachineResponseTagsMap = { [key: string]: string | undefined };
+/** Specifies the FlexProfile for a virtual machine. When set, Azure may deploy a compatible alternative VM size based on capacity and placement considerations, and the deployed size is returned in hardwareProfile.vmSize. See the properties.flexProfile description for the full usage rules, including how it interacts with hardwareProfile.vmSize. */
+export interface FlexProfile {
+  /** Specifies the preferred VM size, for example Standard_D4s_v5. Azure may deploy a compatible alternative size based on capacity and placement considerations. Supported VM families for FlexProfile may vary by region. The recommended way to get the list of available sizes is using these APIs: [List all available virtual machine sizes in a region](https://docs.microsoft.com/rest/api/compute/resourceskus/list), [List all available virtual machine sizes for resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). */
+  preferredVMSize: string;
+}
 /** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set when you create the scale set. */
 export interface ImageReference {
   /** Resource Id */
@@ -3196,7 +3201,7 @@ export interface StorageProfile {
   dataDisks?: StorageProfileDataDisksList;
   /** Specifies the disk controller type configured for the VM. **Note:** This property will be set to the default disk controller type if not specified provided virtual machine is being created with 'hyperVGeneration' set to V2 based on the capabilities of the operating system disk and VM size from the the specified minimum api version. You need to deallocate the VM before updating its disk controller type unless you are updating the VM size in the VM configuration which implicitly deallocates and reallocates the VM. Minimum api-version: 2022-08-01. */
   diskControllerType?: DiskControllerTypes;
-  /** Specifies whether the regional disks should be aligned/moved to the VM zone. This is applicable only for VMs with placement property set. Please note that this change is irreversible. Minimum api-version: 2024-11-01. */
+  /** Specifies whether the regional disks should be aligned/moved to the VM zone. This is applicable **only** for VMs with placement.zonePlacementPolicy set to **Any**. Please note that this change is irreversible. Minimum api-version: 2024-11-01. */
   alignRegionalDisksToVMZone?: boolean;
   /** Specifies the Disk API version used when applying additionalDiskProperties to managed disks. The value must be in the format YYYY-MM-DD (e.g., "2026-03-02"). */
   diskApiVersion?: DiskApiVersion;
@@ -3338,6 +3343,8 @@ export interface VirtualMachineNetworkInterfaceIPConfigurationProperties {
   publicIPAddressConfiguration?: VirtualMachinePublicIPAddressConfiguration;
   /** Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'. */
   privateIPAddressVersion?: IPVersions | (string & {});
+  /** The private IP address prefix length. If specified and the allocation method is dynamic, the service will allocate a CIDR block instead of a single IP address. */
+  privateIPAddressPrefixLength?: number;
   /** Specifies an array of references to application security group. */
   applicationSecurityGroups?: VirtualMachineNetworkInterfaceIPConfigurationPropertiesApplicationSecurityGroupsList;
   /** Specifies an array of references to backend address pools of application gateways. A virtual machine can reference backend address pools of multiple application gateways. Multiple virtual machines cannot use the same application gateway. */
@@ -3768,6 +3775,8 @@ export interface ResiliencyProfile {
 export interface VirtualMachineProperties {
   /** Specifies the hardware settings for the virtual machine. */
   hardwareProfile?: HardwareProfile;
+  /** [Preview Feature] Specifies a FlexProfile for VM size. Azure may deploy a compatible alternative VM size based on capacity and placement considerations, and returns the deployed size in hardwareProfile.vmSize. A request that adds flexProfile must omit hardwareProfile.vmSize. For a virtual machine that uses FlexProfile, a hardwareProfile.vmSize equal to the deployed size is ignored, so a GET response can be sent back unchanged. A PATCH request that omits flexProfile keeps it. A PUT request that omits flexProfile and sets hardwareProfile.vmSize clears it. This property cannot exist along with a non-null properties.availabilitySet, properties.capacityReservation, properties.host, properties.hostGroup, properties.proximityPlacementGroup or properties.virtualMachineScaleSet. */
+  flexProfile?: FlexProfile;
   /** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the virtual machine. */
   scheduledEventsPolicy?: ScheduledEventsPolicy;
   /** Specifies the storage settings for the virtual machine disks. */
@@ -4672,6 +4681,8 @@ export interface VirtualMachineScaleSetIPConfigurationProperties {
   publicIPAddressConfiguration?: VirtualMachineScaleSetPublicIPAddressConfiguration;
   /** Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'. */
   privateIPAddressVersion?: IPVersion | (string & {});
+  /** The private IP address prefix length. If specified and the allocation method is dynamic, the service will allocate a CIDR block instead of a single IP address. */
+  privateIPAddressPrefixLength?: number;
   /** Specifies an array of references to backend address pools of application gateways. A scale set can reference backend address pools of multiple application gateways. Multiple scale sets cannot use the same application gateway. */
   applicationGatewayBackendAddressPools?: VirtualMachineScaleSetIPConfigurationPropertiesApplicationGatewayBackendAddressPoolsList;
   /** Specifies an array of references to application security group. */
@@ -7323,7 +7334,7 @@ export interface MigrateVirtualMachineToVMScaleSetResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
-/** The desired regions */
+/** The desired regions. If not set, the location from the request URI is used as the desired location. Each location in this list must be a valid Azure region. */
 export type PostSpotPlacementScoreRequestDesiredLocationsList = Array<string>;
 /** SpotPlacementRecommender API response. */
 export interface ResourceSize {
@@ -7337,11 +7348,11 @@ export interface PostSpotPlacementScoreRequest {
   subscriptionId: string;
   /** The name of the Azure region. */
   location: string;
-  /** The desired regions */
+  /** The desired regions. If not set, the location from the request URI is used as the desired location. Each location in this list must be a valid Azure region. */
   desiredLocations?: PostSpotPlacementScoreRequestDesiredLocationsList;
   /** The desired virtual machine SKU sizes. */
   desiredSizes?: PostSpotPlacementScoreRequestDesiredSizesList;
-  /** Desired instance count per region/zone based on the scope. */
+  /** Desired instance count per region/zone based on the scope. If not set, defaults to 1. */
   desiredCount?: number;
   /** Defines if the scope is zonal or regional. */
   availabilityZones?: boolean;
@@ -8204,7 +8215,7 @@ export interface StorageProfileInput {
   dataDisks?: StorageProfileInputDataDisksList;
   /** Specifies the disk controller type configured for the VM. **Note:** This property will be set to the default disk controller type if not specified provided virtual machine is being created with 'hyperVGeneration' set to V2 based on the capabilities of the operating system disk and VM size from the the specified minimum api version. You need to deallocate the VM before updating its disk controller type unless you are updating the VM size in the VM configuration which implicitly deallocates and reallocates the VM. Minimum api-version: 2022-08-01. */
   diskControllerType?: DiskControllerTypes | (string & {});
-  /** Specifies whether the regional disks should be aligned/moved to the VM zone. This is applicable only for VMs with placement property set. Please note that this change is irreversible. Minimum api-version: 2024-11-01. */
+  /** Specifies whether the regional disks should be aligned/moved to the VM zone. This is applicable **only** for VMs with placement.zonePlacementPolicy set to **Any**. Please note that this change is irreversible. Minimum api-version: 2024-11-01. */
   alignRegionalDisksToVMZone?: boolean;
   /** Specifies the Disk API version used when applying additionalDiskProperties to managed disks. The value must be in the format YYYY-MM-DD (e.g., "2026-03-02"). */
   diskApiVersion?: DiskApiVersion | (string & {});
@@ -8263,6 +8274,8 @@ export type VirtualMachinePropertiesInputHostGroup =
 export interface VirtualMachinePropertiesInput {
   /** Specifies the hardware settings for the virtual machine. */
   hardwareProfile?: HardwareProfile;
+  /** [Preview Feature] Specifies a FlexProfile for VM size. Azure may deploy a compatible alternative VM size based on capacity and placement considerations, and returns the deployed size in hardwareProfile.vmSize. A request that adds flexProfile must omit hardwareProfile.vmSize. For a virtual machine that uses FlexProfile, a hardwareProfile.vmSize equal to the deployed size is ignored, so a GET response can be sent back unchanged. A PATCH request that omits flexProfile keeps it. A PUT request that omits flexProfile and sets hardwareProfile.vmSize clears it. This property cannot exist along with a non-null properties.availabilitySet, properties.capacityReservation, properties.host, properties.hostGroup, properties.proximityPlacementGroup or properties.virtualMachineScaleSet. */
+  flexProfile?: FlexProfile;
   /** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the virtual machine. */
   scheduledEventsPolicy?: ScheduledEventsPolicy;
   /** Specifies the storage settings for the virtual machine disks. */
@@ -8667,6 +8680,8 @@ export interface VirtualMachineScaleSetUpdateIPConfigurationProperties {
   publicIPAddressConfiguration?: VirtualMachineScaleSetUpdatePublicIPAddressConfiguration;
   /** Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'. */
   privateIPAddressVersion?: IPVersion | (string & {});
+  /** The private IP address prefix length. If specified and the allocation method is dynamic, the service will allocate a CIDR block instead of a single IP address. */
+  privateIPAddressPrefixLength?: number | null;
   /** The application gateway backend address pools. */
   applicationGatewayBackendAddressPools?: VirtualMachineScaleSetUpdateIPConfigurationPropertiesApplicationGatewayBackendAddressPoolsList;
   /** Specifies an array of references to application security group. */
@@ -9633,7 +9648,7 @@ export interface VirtualMachinesAttachDetachDataDisksResponse {
   dataDisks?: StorageProfileDataDisksList;
   /** Specifies the disk controller type configured for the VM. **Note:** This property will be set to the default disk controller type if not specified provided virtual machine is being created with 'hyperVGeneration' set to V2 based on the capabilities of the operating system disk and VM size from the the specified minimum api version. You need to deallocate the VM before updating its disk controller type unless you are updating the VM size in the VM configuration which implicitly deallocates and reallocates the VM. Minimum api-version: 2022-08-01. */
   diskControllerType?: DiskControllerTypes;
-  /** Specifies whether the regional disks should be aligned/moved to the VM zone. This is applicable only for VMs with placement property set. Please note that this change is irreversible. Minimum api-version: 2024-11-01. */
+  /** Specifies whether the regional disks should be aligned/moved to the VM zone. This is applicable **only** for VMs with placement.zonePlacementPolicy set to **Any**. Please note that this change is irreversible. Minimum api-version: 2024-11-01. */
   alignRegionalDisksToVMZone?: boolean;
   /** Specifies the Disk API version used when applying additionalDiskProperties to managed disks. The value must be in the format YYYY-MM-DD (e.g., "2026-03-02"). */
   diskApiVersion?: DiskApiVersion;
@@ -10175,7 +10190,7 @@ export interface VirtualMachineScaleSetVMsAttachDetachDataDisksResponse {
   dataDisks?: StorageProfileDataDisksList;
   /** Specifies the disk controller type configured for the VM. **Note:** This property will be set to the default disk controller type if not specified provided virtual machine is being created with 'hyperVGeneration' set to V2 based on the capabilities of the operating system disk and VM size from the the specified minimum api version. You need to deallocate the VM before updating its disk controller type unless you are updating the VM size in the VM configuration which implicitly deallocates and reallocates the VM. Minimum api-version: 2022-08-01. */
   diskControllerType?: DiskControllerTypes;
-  /** Specifies whether the regional disks should be aligned/moved to the VM zone. This is applicable only for VMs with placement property set. Please note that this change is irreversible. Minimum api-version: 2024-11-01. */
+  /** Specifies whether the regional disks should be aligned/moved to the VM zone. This is applicable **only** for VMs with placement.zonePlacementPolicy set to **Any**. Please note that this change is irreversible. Minimum api-version: 2024-11-01. */
   alignRegionalDisksToVMZone?: boolean;
   /** Specifies the Disk API version used when applying additionalDiskProperties to managed disks. The value must be in the format YYYY-MM-DD (e.g., "2026-03-02"). */
   diskApiVersion?: DiskApiVersion;
@@ -17059,6 +17074,7 @@ function __c103(j: number): any {
       return S.suspend(() =>
         S.Struct({
           hardwareProfile: S.optional(__S(2016, __c63, 0)),
+          flexProfile: S.optional(__S(7616, __c238, 0)),
           scheduledEventsPolicy: S.optional(__S(4931, __c154, 3)),
           storageProfile: S.optional(__S(3264, __c102, 0)),
           additionalCapabilities: S.optional(__S(7872, __c246, 0)),
@@ -17082,7 +17098,7 @@ function __c103(j: number): any {
           capacityReservation: S.optional(__S(7879, __c246, 7)),
           interconnectBlockProfile: S.optional(__S(7880, __c246, 8)),
           applicationProfile: S.optional(__S(7781, __c243, 5)),
-          resiliencyProfile: S.optional(__S(7617, __c238, 1)),
+          resiliencyProfile: S.optional(__S(7618, __c238, 2)),
         }),
       ).annotate({ identifier: "VirtualMachinePropertiesInput" });
     case 1:
@@ -17094,7 +17110,7 @@ function __c103(j: number): any {
           systemData: S.optional(__S(5024, __c157, 0)),
           tags: S.optional(__S(4992, __c156, 0)),
           location: S.String,
-          properties: S.optional(__S(7618, __c238, 2)),
+          properties: S.optional(__S(7619, __c238, 3)),
           plan: S.optional(__S(7881, __c246, 9)),
           resources: S.optional(__S(7936, __c248, 0)),
           identity: S.optional(__S(7884, __c246, 12)),
@@ -17385,6 +17401,7 @@ function __c113(j: number): any {
           primary: S.optional(S.Boolean),
           publicIPAddressConfiguration: S.optional(__S(3620, __c113, 4)),
           privateIPAddressVersion: S.optional(S.String),
+          privateIPAddressPrefixLength: S.optional(S.NullOr(S.Number)),
           applicationGatewayBackendAddressPools: S.optional(__S(5152, __c161, 0)),
           applicationSecurityGroups: S.optional(__S(5152, __c161, 0)),
           loadBalancerBackendAddressPools: S.optional(__S(5152, __c161, 0)),
@@ -20222,7 +20239,7 @@ function __c234(j: number): any {
         S.Struct({
           supportedResourceTypes: S.optional(__S(64, __c2, 0)),
         }),
-      ).annotate({ identifier: "DiagnosticProperties" });
+      ).annotate({ identifier: "PlacementScoresProperties" });
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -20285,7 +20302,7 @@ function __c237(j: number): any {
           systemData: S.optional(__S(5024, __c157, 0)),
           tags: S.optional(__S(4992, __c156, 0)),
           location: S.String,
-          properties: S.optional(__S(7618, __c238, 2)),
+          properties: S.optional(__S(7619, __c238, 3)),
           plan: S.optional(__S(7881, __c246, 9)),
           resources: S.optional(__S(7936, __c248, 0)),
           identity: S.optional(__S(7884, __c246, 12)),
@@ -20303,19 +20320,26 @@ function __c238(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          isEnabled: S.optional(S.Boolean),
+          preferredVMSize: S.String,
         }),
-      ).annotate({ identifier: "ZoneMovement" });
+      ).annotate({ identifier: "FlexProfile" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          zoneMovement: S.optional(__S(7616, __c238, 0)),
+          isEnabled: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "ResiliencyProfile" });
+      ).annotate({ identifier: "ZoneMovement" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          zoneMovement: S.optional(__S(7617, __c238, 1)),
+        }),
+      ).annotate({ identifier: "ResiliencyProfile" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           hardwareProfile: S.optional(__S(2016, __c63, 0)),
+          flexProfile: S.optional(__S(7616, __c238, 0)),
           scheduledEventsPolicy: S.optional(__S(4931, __c154, 3)),
           storageProfile: S.optional(__S(8000, __c250, 0)),
           additionalCapabilities: S.optional(__S(7872, __c246, 0)),
@@ -20343,7 +20367,7 @@ function __c238(j: number): any {
           interconnectBlockProfile: S.optional(__S(7880, __c246, 8)),
           applicationProfile: S.optional(__S(7781, __c243, 5)),
           timeCreated: S.optional(S.String),
-          resiliencyProfile: S.optional(__S(7617, __c238, 1)),
+          resiliencyProfile: S.optional(__S(7618, __c238, 2)),
         }),
       ).annotate({ identifier: "VirtualMachineProperties" });
   }
@@ -20771,6 +20795,7 @@ function __c250(j: number): any {
           primary: S.optional(S.Boolean),
           publicIPAddressConfiguration: S.optional(__S(8005, __c250, 5)),
           privateIPAddressVersion: S.optional(S.String),
+          privateIPAddressPrefixLength: S.optional(S.Number),
           applicationSecurityGroups: S.optional(__S(5152, __c161, 0)),
           applicationGatewayBackendAddressPools: S.optional(__S(5152, __c161, 0)),
           loadBalancerBackendAddressPools: S.optional(__S(5152, __c161, 0)),
@@ -21750,6 +21775,7 @@ function __c274(j: number): any {
           primary: S.optional(S.Boolean),
           publicIPAddressConfiguration: S.optional(__S(8769, __c274, 1)),
           privateIPAddressVersion: S.optional(S.String),
+          privateIPAddressPrefixLength: S.optional(S.Number),
           applicationGatewayBackendAddressPools: S.optional(__S(5152, __c161, 0)),
           applicationSecurityGroups: S.optional(__S(5152, __c161, 0)),
           loadBalancerBackendAddressPools: S.optional(__S(5152, __c161, 0)),

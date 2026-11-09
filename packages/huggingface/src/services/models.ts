@@ -58,12 +58,20 @@ export interface AddResourceGroupResponse {
   addedBy: string;
 }
 export type BatchHandleAccessRequestsRequestStatus = "accepted" | "rejected" | "pending" | "reset";
-export interface BatchHandleAccessRequestsRequestRequestsItem {
-  /** Either userId or user must be provided */
-  userId?: string;
-  /** Either userId or user must be provided */
-  user?: string;
+export interface BatchHandleAccessRequestsRequestRequestsItemCase0 {
+  /** Id of the request as returned by the listing endpoint; the only identifier when the requester's profile is not shared */
+  requestId: string;
 }
+export interface BatchHandleAccessRequestsRequestRequestsItemCase1 {
+  userId: string;
+}
+export interface BatchHandleAccessRequestsRequestRequestsItemCase2 {
+  user: string;
+}
+export type BatchHandleAccessRequestsRequestRequestsItem =
+  | BatchHandleAccessRequestsRequestRequestsItemCase0
+  | BatchHandleAccessRequestsRequestRequestsItemCase1
+  | BatchHandleAccessRequestsRequestRequestsItemCase2;
 export type BatchHandleAccessRequestsRequestRequestsList =
   Array<BatchHandleAccessRequestsRequestRequestsItem>;
 export interface BatchHandleAccessRequestsRequest {
@@ -76,6 +84,7 @@ export interface BatchHandleAccessRequestsRequest {
 }
 export type BatchHandleAccessRequestsResponseBodyItemError = "user_not_found" | "request_not_found";
 export interface BatchHandleAccessRequestsResponseBodyItem {
+  requestId?: string;
   userId?: string;
   user?: string;
   ok: boolean;
@@ -348,6 +357,52 @@ export interface GetResourceGroupResponse {
   name: string;
   numUsers?: number;
 }
+export interface GetSafetensorsMetadataRequest {
+  namespace: string;
+  repo: string;
+  path: string;
+}
+export type GetSafetensorsMetadataResponseIndexMetadataMap = { [key: string]: unknown | undefined };
+/** The index file, without its `weight_map`: each shard header lists its tensors */
+export interface GetSafetensorsMetadataResponseIndex {
+  metadata?: GetSafetensorsMetadataResponseIndexMetadataMap;
+}
+export type GetSafetensorsMetadataResponseHeadersValueValueCase0ShapeList = Array<number>;
+export type GetSafetensorsMetadataResponseHeadersValueValueCase0DataOffsetsList = Array<unknown>;
+export interface GetSafetensorsMetadataResponseHeadersValueValueCase0 {
+  dtype: string;
+  shape: GetSafetensorsMetadataResponseHeadersValueValueCase0ShapeList;
+  data_offsets: GetSafetensorsMetadataResponseHeadersValueValueCase0DataOffsetsList;
+}
+export type GetSafetensorsMetadataResponseHeadersValueValueCase1Map = {
+  [key: string]: string | undefined;
+};
+export type GetSafetensorsMetadataResponseHeadersValueValue =
+  | GetSafetensorsMetadataResponseHeadersValueValueCase0
+  | GetSafetensorsMetadataResponseHeadersValueValueCase1Map;
+export type GetSafetensorsMetadataResponseHeadersValueMap = {
+  [key: string]: GetSafetensorsMetadataResponseHeadersValueValue | undefined;
+};
+/** The header of each shard, by shard file name: `__metadata__`, then the `dtype`, `shape` and `data_offsets` of each tensor */
+export type GetSafetensorsMetadataResponseHeadersMap = {
+  [key: string]: GetSafetensorsMetadataResponseHeadersValueMap | undefined;
+};
+/** Number of parameters per dtype */
+export type GetSafetensorsMetadataResponseParameterCountMap = { [key: string]: number | undefined };
+/** The index file, then every shard file */
+export type GetSafetensorsMetadataResponseFilepathsList = Array<string>;
+export interface GetSafetensorsMetadataResponse {
+  sharded: boolean;
+  /** The index file, without its `weight_map`: each shard header lists its tensors */
+  index: GetSafetensorsMetadataResponseIndex;
+  /** The header of each shard, by shard file name: `__metadata__`, then the `dtype`, `shape` and `data_offsets` of each tensor */
+  headers: GetSafetensorsMetadataResponseHeadersMap;
+  /** Number of parameters per dtype */
+  parameterCount: GetSafetensorsMetadataResponseParameterCountMap;
+  parameterTotal?: number;
+  /** The index file, then every shard file */
+  filepaths: GetSafetensorsMetadataResponseFilepathsList;
+}
 export interface GetSecurityStatusRequest {
   namespace: string;
   repo: string;
@@ -395,7 +450,9 @@ export type GetTrendingResponseRecentlyTrendingItemCase0RepoDataDatasetsServerIn
   | "harbor"
   | "verifiers"
   | "openenv"
-  | "nemo-gym";
+  | "nemo-gym"
+  | "agentenv"
+  | "lerobot";
 export type GetTrendingResponseRecentlyTrendingItemCase0RepoDataDatasetsServerInfoLibrariesList =
   Array<GetTrendingResponseRecentlyTrendingItemCase0RepoDataDatasetsServerInfoLibrariesItem>;
 export type GetTrendingResponseRecentlyTrendingItemCase0RepoDataDatasetsServerInfoFormatsItem =
@@ -470,9 +527,11 @@ export type GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferen
   | "fireworks-ai"
   | "groq"
   | "hf-inference"
+  | "humain-ai"
   | "novita"
   | "nscale"
   | "openai"
+  | "openrouter"
   | "ovhcloud"
   | "publicai"
   | "replicate"
@@ -963,17 +1022,48 @@ export interface GrantAccessRequest {
   user?: string;
 }
 export interface GrantAccessResponse {}
-export type HandleAccessRequestRequestStatus = "accepted" | "rejected" | "pending" | "reset";
+export type HandleAccessRequestRequestBodyCase0Status =
+  | "accepted"
+  | "rejected"
+  | "pending"
+  | "reset";
+export interface HandleAccessRequestRequestBodyCase0 {
+  status: HandleAccessRequestRequestBodyCase0Status | (string & {});
+  rejectionReason?: string;
+  resetReason?: string;
+  /** Id of the request as returned by the listing endpoint; the only identifier when the requester's profile is not shared */
+  requestId: string;
+}
+export type HandleAccessRequestRequestBodyCase1Status =
+  | "accepted"
+  | "rejected"
+  | "pending"
+  | "reset";
+export interface HandleAccessRequestRequestBodyCase1 {
+  status: HandleAccessRequestRequestBodyCase1Status | (string & {});
+  rejectionReason?: string;
+  resetReason?: string;
+  userId: string;
+}
+export type HandleAccessRequestRequestBodyCase2Status =
+  | "accepted"
+  | "rejected"
+  | "pending"
+  | "reset";
+export interface HandleAccessRequestRequestBodyCase2 {
+  status: HandleAccessRequestRequestBodyCase2Status | (string & {});
+  rejectionReason?: string;
+  resetReason?: string;
+  user: string;
+}
+export type HandleAccessRequestRequestBody =
+  | HandleAccessRequestRequestBodyCase0
+  | HandleAccessRequestRequestBodyCase1
+  | HandleAccessRequestRequestBodyCase2;
 export interface HandleAccessRequestRequest {
   namespace: string;
   repo: string;
-  /** Either userId or user must be provided */
-  userId?: string;
-  /** Either userId or user must be provided */
-  user?: string;
-  status: HandleAccessRequestRequestStatus | (string & {});
-  rejectionReason?: string;
-  resetReason?: string;
+  body?: HandleAccessRequestRequestBody;
 }
 export interface HandleAccessRequestResponse {}
 export type ListAccessRequestsRequestStatus = "pending" | "accepted" | "rejected" | "reset";
@@ -1003,6 +1093,7 @@ export interface ListAccessRequestsResponseBodyItemUserServiceAccount {
   description?: string;
 }
 export type ListAccessRequestsResponseBodyItemUserVerifiedOrgNamesList = Array<string>;
+/** Absent when the requester's profile is not shared */
 export interface ListAccessRequestsResponseBodyItemUser {
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
@@ -1079,6 +1170,9 @@ export type ListAccessRequestsResponseBodyItemStatus =
   | "reset";
 export type ListAccessRequestsResponseBodyItemFieldsMap = { [key: string]: string | undefined };
 export interface ListAccessRequestsResponseBodyItem {
+  /** Id of the request, usable to accept/reject it even when the requester identity is not shared */
+  requestId: string;
+  /** Absent when the requester's profile is not shared */
   user?: ListAccessRequestsResponseBodyItemUser;
   grantedBy?: ListAccessRequestsResponseBodyItemGrantedBy;
   status: ListAccessRequestsResponseBodyItemStatus;
@@ -1642,6 +1736,16 @@ export type UpdateRepoSettingsRequestDiscussionsSorting =
   | "reactions";
 export type UpdateRepoSettingsRequestGatedCase1 = "auto" | "manual";
 export type UpdateRepoSettingsRequestGated = boolean | UpdateRepoSettingsRequestGatedCase1;
+export interface UpdateRepoSettingsRequestGatedProfileSharingCase0 {
+  username: boolean;
+  email: boolean;
+}
+export type UpdateRepoSettingsRequestGatedProfileSharingCase1 =
+  UpdateRepoSettingsRequestGatedProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type UpdateRepoSettingsRequestGatedProfileSharing =
+  | UpdateRepoSettingsRequestGatedProfileSharingCase0
+  | UpdateRepoSettingsRequestGatedProfileSharingCase0;
 export type UpdateRepoSettingsRequestGatedNotificationsMode = "bulk" | "real-time";
 export interface UpdateRepoSettingsRequest {
   namespace: string;
@@ -1654,6 +1758,8 @@ export interface UpdateRepoSettingsRequest {
   gated?: UpdateRepoSettingsRequestGated;
   /** If true, members of the owning org (except admins) must also go through the gated access-request flow. */
   orgMembersGated?: boolean;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  gatedProfileSharing?: UpdateRepoSettingsRequestGatedProfileSharing;
   gatedNotificationsEmail?: string;
   gatedNotificationsMode?: UpdateRepoSettingsRequestGatedNotificationsMode | (string & {});
 }
@@ -1665,6 +1771,14 @@ export type UpdateRepoSettingsResponseDiscussionsSorting =
   | "reactions";
 export type UpdateRepoSettingsResponseGatedCase1 = "auto" | "manual";
 export type UpdateRepoSettingsResponseGated = boolean | UpdateRepoSettingsResponseGatedCase1;
+export type UpdateRepoSettingsResponseGatedProfileSharingCase0 =
+  UpdateRepoSettingsRequestGatedProfileSharingCase0;
+export type UpdateRepoSettingsResponseGatedProfileSharingCase1 =
+  UpdateRepoSettingsRequestGatedProfileSharingCase0;
+/** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+export type UpdateRepoSettingsResponseGatedProfileSharing =
+  | UpdateRepoSettingsRequestGatedProfileSharingCase0
+  | UpdateRepoSettingsRequestGatedProfileSharingCase0;
 export type UpdateRepoSettingsResponseGatedNotificationsMode = "bulk" | "real-time";
 export interface UpdateRepoSettingsResponse {
   private?: boolean;
@@ -1675,6 +1789,8 @@ export interface UpdateRepoSettingsResponse {
   gated?: UpdateRepoSettingsResponseGated;
   /** If true, members of the owning org (except admins) must also go through the gated access-request flow. */
   orgMembersGated?: boolean;
+  /** What Hugging Face shares with the repo authors when a user requests access. Defaults to the username and email. */
+  gatedProfileSharing?: UpdateRepoSettingsResponseGatedProfileSharing;
   gatedNotificationsEmail?: string;
   gatedNotificationsMode?: UpdateRepoSettingsResponseGatedNotificationsMode;
 }
@@ -1723,8 +1839,8 @@ export const batchHandleAccessRequests: API.OperationMethod<
   BatchHandleAccessRequestsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(210, __c13, 2) as any as S.Schema<BatchHandleAccessRequestsRequest>,
-  output: __S(213, __c13, 5) as any as S.Schema<BatchHandleAccessRequestsResponse>,
+  input: __S(209, __c13, 1) as any as S.Schema<BatchHandleAccessRequestsRequest>,
+  output: __S(212, __c13, 4) as any as S.Schema<BatchHandleAccessRequestsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1740,8 +1856,8 @@ export const cancelAccessRequest: API.OperationMethod<
   CancelAccessRequestError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<CancelAccessRequestRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<CancelAccessRequestResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<CancelAccessRequestRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<CancelAccessRequestResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1757,8 +1873,8 @@ export const checkUploadMethod: API.OperationMethod<
   CheckUploadMethodError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(610, __c38, 2) as any as S.Schema<CheckUploadMethodRequest>,
-  output: __S(613, __c38, 5) as any as S.Schema<CheckUploadMethodResponse>,
+  input: __S(642, __c40, 2) as any as S.Schema<CheckUploadMethodRequest>,
+  output: __S(645, __c40, 5) as any as S.Schema<CheckUploadMethodResponse>,
   errors: [UnprocessableEntity],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1774,8 +1890,8 @@ export const commit: API.OperationMethod<
   CommitError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<CommitRequest>,
-  output: __S(625, __c39, 1) as any as S.Schema<CommitResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<CommitRequest>,
+  output: __S(657, __c41, 1) as any as S.Schema<CommitResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1791,8 +1907,8 @@ export const createBranch: API.OperationMethod<
   CreateBranchError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<CreateBranchRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<CreateBranchResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<CreateBranchRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<CreateBranchResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1808,8 +1924,8 @@ export const createTag: API.OperationMethod<
   CreateTagError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<CreateTagRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<CreateTagResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<CreateTagRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<CreateTagResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1825,8 +1941,8 @@ export const deleteBranch: API.OperationMethod<
   DeleteBranchError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<DeleteBranchRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<DeleteBranchResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<DeleteBranchRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<DeleteBranchResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1842,8 +1958,8 @@ export const deleteLargeFile: API.OperationMethod<
   DeleteLargeFileError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<DeleteLargeFileRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<DeleteLargeFileResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<DeleteLargeFileRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<DeleteLargeFileResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1860,7 +1976,7 @@ export const deleteLargeFiles: API.OperationMethod<
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17, __c1, 1) as any as S.Schema<DeleteLargeFilesRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<DeleteLargeFilesResponse>,
+  output: __S(448, __c28, 0) as any as S.Schema<DeleteLargeFilesResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -1877,7 +1993,7 @@ export const deleteTag: API.OperationMethod<
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<DeleteTagRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<DeleteTagResponse>,
+  output: __S(448, __c28, 0) as any as S.Schema<DeleteTagResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2021,6 +2137,23 @@ export const getResourceGroup: API.OperationMethod<
   span: "GetResourceGroup",
 }));
 
+export type GetSafetensorsMetadataError = HuggingFaceOpError;
+/** Get safetensors metadata Get the parsed headers of all the shards of a sharded safetensors model in a single request, instead of reading the index and then the header of every shard. Only the `main` revision is served: the `ETag` is the commit sha of `main`, and requests with a matching `If-None-Match` get a 304. Returns 400 when the path isn't a `.safetensors.index.json` file and 422 when the files can't be parsed. The response is brotli-compressed when the client accepts it, otherwise gzip-compressed or plain JSON. */
+export const getSafetensorsMetadata: API.OperationMethod<
+  GetSafetensorsMetadataRequest,
+  GetSafetensorsMetadataResponse,
+  GetSafetensorsMetadataError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(224, __c14, 0) as any as S.Schema<GetSafetensorsMetadataRequest>,
+  output: __S(229, __c14, 5) as any as S.Schema<GetSafetensorsMetadataResponse>,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSafetensorsMetadata",
+}));
+
 export type GetSecurityStatusError = HuggingFaceOpError;
 /** Get security status Get the security status of a repo */
 export const getSecurityStatus: API.OperationMethod<
@@ -2029,8 +2162,8 @@ export const getSecurityStatus: API.OperationMethod<
   GetSecurityStatusError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetSecurityStatusRequest>,
-  output: __S(227, __c14, 3) as any as S.Schema<GetSecurityStatusResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetSecurityStatusRequest>,
+  output: __S(259, __c16, 3) as any as S.Schema<GetSecurityStatusResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2046,8 +2179,8 @@ export const getTrending: API.OperationMethod<
   GetTrendingError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetTrendingRequest>,
-  output: __S(242, __c15, 2) as any as S.Schema<GetTrendingResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetTrendingRequest>,
+  output: __S(274, __c17, 2) as any as S.Schema<GetTrendingResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2056,15 +2189,15 @@ export const getTrending: API.OperationMethod<
 }));
 
 export type GrantAccessError = HuggingFaceOpError;
-/** Grant access Grant access to a user for a gated repository */
+/** Grant access Grant access to a user for a gated repository. */
 export const grantAccess: API.OperationMethod<
   GrantAccessRequest,
   GrantAccessResponse,
   GrantAccessError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GrantAccessRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<GrantAccessResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<GrantAccessRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<GrantAccessResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2080,8 +2213,8 @@ export const handleAccessRequest: API.OperationMethod<
   HandleAccessRequestError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<HandleAccessRequestRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<HandleAccessRequestResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<HandleAccessRequestRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<HandleAccessRequestResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2097,8 +2230,8 @@ export const listAccessRequests: API.OperationMethod<
   ListAccessRequestsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<ListAccessRequestsRequest>,
-  output: __S(296, __c18, 8) as any as S.Schema<ListAccessRequestsResponse>,
+  input: __S(321, __c20, 1) as any as S.Schema<ListAccessRequestsRequest>,
+  output: __S(328, __c20, 8) as any as S.Schema<ListAccessRequestsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2114,8 +2247,8 @@ export const listCommits: API.OperationMethod<
   ListCommitsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<ListCommitsRequest>,
-  output: __S(310, __c19, 6) as any as S.Schema<ListCommitsResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<ListCommitsRequest>,
+  output: __S(342, __c21, 6) as any as S.Schema<ListCommitsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2131,8 +2264,8 @@ export const listFolderContent: API.OperationMethod<
   ListFolderContentError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<ListFolderContentRequest>,
-  output: __S(340, __c21, 4) as any as S.Schema<ListFolderContentResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<ListFolderContentRequest>,
+  output: __S(372, __c23, 4) as any as S.Schema<ListFolderContentResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2148,8 +2281,8 @@ export const listLargeFiles: API.OperationMethod<
   ListLargeFilesError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(370, __c23, 2) as any as S.Schema<ListLargeFilesRequest>,
-  output: __S(373, __c23, 5) as any as S.Schema<ListLargeFilesResponse>,
+  input: __S(402, __c25, 2) as any as S.Schema<ListLargeFilesRequest>,
+  output: __S(405, __c25, 5) as any as S.Schema<ListLargeFilesResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2165,8 +2298,8 @@ export const listLikers: API.OperationMethod<
   ListLikersError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<ListLikersRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<ListLikersResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<ListLikersRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<ListLikersResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2182,8 +2315,8 @@ export const listPathsInfo: API.OperationMethod<
   ListPathsInfoError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<ListPathsInfoRequest>,
-  output: __S(404, __c25, 4) as any as S.Schema<ListPathsInfoResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<ListPathsInfoRequest>,
+  output: __S(468, __c29, 4) as any as S.Schema<ListPathsInfoResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2199,8 +2332,8 @@ export const listReferences: API.OperationMethod<
   ListReferencesError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<ListReferencesRequest>,
-  output: __S(451, __c28, 3) as any as S.Schema<ListReferencesResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<ListReferencesRequest>,
+  output: __S(483, __c30, 3) as any as S.Schema<ListReferencesResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2216,8 +2349,8 @@ export const requestAccess: API.OperationMethod<
   RequestAccessError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(465, __c29, 1) as any as S.Schema<RequestAccessRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<RequestAccessResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<RequestAccessRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<RequestAccessResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2233,8 +2366,8 @@ export const resolveFile: API.OperationMethod<
   ResolveFileError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<ResolveFileRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<ResolveFileResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<ResolveFileRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<ResolveFileResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2250,8 +2383,8 @@ export const resolveFileCached: API.OperationMethod<
   ResolveFileCachedError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<ResolveFileCachedRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<ResolveFileCachedResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<ResolveFileCachedRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<ResolveFileCachedResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2267,8 +2400,8 @@ export const squashRef: API.OperationMethod<
   SquashRefError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<SquashRefRequest>,
-  output: __S(529, __c33, 1) as any as S.Schema<SquashRefResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<SquashRefRequest>,
+  output: __S(561, __c35, 1) as any as S.Schema<SquashRefResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2284,8 +2417,8 @@ export const updateRepoSettings: API.OperationMethod<
   UpdateRepoSettingsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<UpdateRepoSettingsRequest>,
-  output: __S(545, __c34, 1) as any as S.Schema<UpdateRepoSettingsResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<UpdateRepoSettingsRequest>,
+  output: __S(577, __c36, 1) as any as S.Schema<UpdateRepoSettingsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2301,8 +2434,8 @@ export const xetReadToken: API.OperationMethod<
   XetReadTokenError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<XetReadTokenRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<XetReadTokenResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<XetReadTokenRequest>,
+  output: __S(608, __c38, 0) as any as S.Schema<XetReadTokenResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2318,8 +2451,8 @@ export const xetWriteToken: API.OperationMethod<
   XetWriteTokenError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<XetWriteTokenRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<XetWriteTokenResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<XetWriteTokenRequest>,
+  output: __S(608, __c38, 0) as any as S.Schema<XetWriteTokenResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2634,15 +2767,8 @@ function __c12(j: number): any {
 function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.optional(S.String),
-          user: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BatchHandleAccessRequestsRequestRequestsItem" });
+      return S.Array(S.Unknown);
     case 1:
-      return S.Array(__S(208, __c13, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
@@ -2650,7 +2776,7 @@ function __c13(j: number): any {
           status: S.String,
           rejectionReason: S.optional(S.String),
           resetReason: S.optional(S.String),
-          requests: __S(209, __c13, 1),
+          requests: __S(208, __c13, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2659,24 +2785,72 @@ function __c13(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchHandleAccessRequestsRequest" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
+          requestId: S.optional(S.String),
           userId: S.optional(S.String),
           user: S.optional(S.String),
           ok: S.Boolean,
           error: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchHandleAccessRequestsResponseBodyItem" });
+    case 3:
+      return S.Array(__S(210, __c13, 2));
     case 4:
-      return S.Array(__S(211, __c13, 3));
-    case 5:
-      return S.suspend(() => __S(212, __c13, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(211, __c13, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "BatchHandleAccessRequestsResponse",
       });
   }
 }
 function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          path: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/models/{namespace}/{repo}/safetensors-metadata/{path}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetSafetensorsMetadataRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          metadata: S.optional(__S(240, __c15, 0)),
+        }),
+      ).annotate({ identifier: "GetSafetensorsMetadataResponseIndex" });
+    case 2:
+      return S.Record(S.String, S.Unknown);
+    case 3:
+      return S.Record(S.String, __S(226, __c14, 2));
+    case 4:
+      return S.Record(S.String, S.Number);
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          sharded: S.Boolean,
+          index: __S(225, __c14, 1),
+          headers: __S(227, __c14, 3),
+          parameterCount: __S(228, __c14, 4),
+          parameterTotal: S.optional(S.Number),
+          filepaths: __S(32, __c2, 0),
+        }),
+      ).annotate({ identifier: "GetSafetensorsMetadataResponse" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2693,17 +2867,17 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "GetSecurityStatusResponseFilesWithIssuesItem" });
     case 2:
-      return S.Array(__S(225, __c14, 1));
+      return S.Array(__S(257, __c16, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           scansDone: S.Boolean,
-          filesWithIssues: __S(226, __c14, 2),
+          filesWithIssues: __S(258, __c16, 2),
         }),
       ).annotate({ identifier: "GetSecurityStatusResponse" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2717,12 +2891,12 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          recentlyTrending: __S(241, __c15, 1),
+          recentlyTrending: __S(273, __c17, 1),
         }),
       ).annotate({ identifier: "GetTrendingResponse" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2741,18 +2915,14 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GrantAccessRequest" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
-          userId: S.optional(S.String),
-          user: S.optional(S.String),
-          status: S.String,
-          rejectionReason: S.optional(S.String),
-          resetReason: S.optional(S.String),
+          body: S.optional(S.Unknown.pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2763,9 +2933,11 @@ function __c17(j: number): any {
       ).annotate({ identifier: "HandleAccessRequestRequest" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
@@ -2783,7 +2955,7 @@ function __c18(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListAccessRequestsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -2792,9 +2964,9 @@ function __c18(j: number): any {
           avatarUrl: S.String,
         }),
       ).annotate({ identifier: "ListAccessRequestsResponseBodyItemUserOrgsItem" });
-    case 2:
-      return S.Array(__S(289, __c18, 1));
     case 3:
+      return S.Array(__S(322, __c20, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -2803,11 +2975,11 @@ function __c18(j: number): any {
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAccessRequestsResponseBodyItemUserServiceAccount" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           _id: S.String,
-          orgs: S.optional(__S(290, __c18, 2)),
+          orgs: S.optional(__S(323, __c20, 3)),
           avatarUrl: S.String,
           fullname: S.String,
           isPro: S.Boolean,
@@ -2828,34 +3000,33 @@ function __c18(j: number): any {
           isFollowing: S.optional(S.Boolean),
           reasonToFollow: S.optional(S.String),
           primaryOrgAvatarUrl: S.optional(S.String),
-          serviceAccount: S.optional(__S(291, __c18, 3)),
+          serviceAccount: S.optional(__S(324, __c20, 4)),
           type: S.String,
           email: S.optional(S.String),
           verifiedOrgNames: __S(32, __c2, 0),
         }),
       ).annotate({ identifier: "ListAccessRequestsResponseBodyItemUser" });
-    case 5:
-      return S.Record(S.String, S.String);
     case 6:
       return S.suspend(() =>
         S.Struct({
-          user: S.optional(__S(292, __c18, 4)),
+          requestId: S.String,
+          user: S.optional(__S(325, __c20, 5)),
           grantedBy: S.optional(S.Unknown),
           status: S.String,
-          fields: S.optional(__S(293, __c18, 5)),
+          fields: S.optional(__S(320, __c20, 0)),
           timestamp: S.String,
           reviewedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAccessRequestsResponseBodyItem" });
     case 7:
-      return S.Array(__S(294, __c18, 6));
+      return S.Array(__S(326, __c20, 6));
     case 8:
-      return S.suspend(() => __S(295, __c18, 7).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(327, __c20, 7).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAccessRequestsResponse",
       });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2864,7 +3035,7 @@ function __c19(j: number): any {
           repo: S.String.pipe(T.Label()),
           rev: S.String.pipe(T.Label()),
           p: S.optional(S.Number.pipe(T.Query())),
-          expand: S.optional(__S(320, __c20, 0).pipe(T.Query())),
+          expand: S.optional(__S(352, __c22, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/models/{namespace}/{repo}/commits/{rev}", code: 200 }),
@@ -2878,7 +3049,7 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "ListCommitsResponseBodyItemAuthorsItem" });
     case 2:
-      return S.Array(__S(305, __c19, 1));
+      return S.Array(__S(337, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2892,26 +3063,26 @@ function __c19(j: number): any {
           id: S.String,
           title: S.String,
           message: S.String,
-          authors: __S(306, __c19, 2),
+          authors: __S(338, __c21, 2),
           date: S.String,
-          formatted: S.optional(__S(307, __c19, 3)),
+          formatted: S.optional(__S(339, __c21, 3)),
         }),
       ).annotate({ identifier: "ListCommitsResponseBodyItem" });
     case 5:
-      return S.Array(__S(308, __c19, 4));
+      return S.Array(__S(340, __c21, 4));
     case 6:
-      return S.suspend(() => __S(309, __c19, 5).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(341, __c21, 5).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCommitsResponse",
       });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2946,21 +3117,21 @@ function __c21(j: number): any {
           type: S.String,
           oid: S.String,
           size: S.optional(S.Number),
-          lfs: S.optional(__S(337, __c21, 1)),
+          lfs: S.optional(__S(369, __c23, 1)),
           xetHash: S.optional(S.String),
-          lastCommit: S.optional(__S(352, __c22, 0)),
-          securityFileStatus: S.optional(__S(356, __c22, 4)),
+          lastCommit: S.optional(__S(384, __c24, 0)),
+          securityFileStatus: S.optional(__S(388, __c24, 4)),
         }),
       ).annotate({ identifier: "ListFolderContentResponseBodyItem" });
     case 3:
-      return S.Array(__S(338, __c21, 2));
+      return S.Array(__S(370, __c23, 2));
     case 4:
-      return S.suspend(() => __S(339, __c21, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(371, __c23, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListFolderContentResponse",
       });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2981,7 +3152,7 @@ function __c22(j: number): any {
         identifier: "ListFolderContentResponseBodyItemSecurityFileStatusJFrogScanPickleImportsItem",
       });
     case 2:
-      return S.Array(__S(353, __c22, 1));
+      return S.Array(__S(385, __c24, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2989,7 +3160,7 @@ function __c22(j: number): any {
           message: S.optional(S.String),
           reportLink: S.optional(S.String),
           reportLabel: S.optional(S.String),
-          pickleImports: S.optional(__S(354, __c22, 2)),
+          pickleImports: S.optional(__S(386, __c24, 2)),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListFolderContentResponseBodyItemSecurityFileStatusJFrogScan" });
@@ -2997,16 +3168,16 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          jFrogScan: S.optional(__S(355, __c22, 3)),
-          protectAiScan: S.optional(__S(355, __c22, 3)),
-          avScan: __S(355, __c22, 3),
-          pickleImportScan: __S(355, __c22, 3),
-          virusTotalScan: S.optional(__S(355, __c22, 3)),
+          jFrogScan: S.optional(__S(387, __c24, 3)),
+          protectAiScan: S.optional(__S(387, __c24, 3)),
+          avScan: __S(387, __c24, 3),
+          pickleImportScan: __S(387, __c24, 3),
+          virusTotalScan: S.optional(__S(387, __c24, 3)),
         }),
       ).annotate({ identifier: "ListFolderContentResponseBodyItemSecurityFileStatus" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3040,7 +3211,7 @@ function __c23(j: number): any {
           type: S.String,
           isPro: S.Boolean,
           isUserFollowing: S.optional(S.Boolean),
-          primaryOrg: S.optional(__S(368, __c23, 0)),
+          primaryOrg: S.optional(__S(400, __c25, 0)),
         }),
       ).annotate({
         identifier: "GetTrendingResponseRecentlyTrendingItemCase1RepoDataAuthorDataCase1",
@@ -3062,7 +3233,7 @@ function __c23(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          pusher: S.optional(__S(369, __c23, 1)),
+          pusher: S.optional(__S(401, __c25, 1)),
           ref: S.optional(S.String),
           fileOid: S.String,
           oid: S.String,
@@ -3073,26 +3244,49 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "ListLargeFilesResponseBodyItem" });
     case 4:
-      return S.Array(__S(371, __c23, 3));
+      return S.Array(__S(403, __c25, 3));
     case 5:
-      return S.suspend(() => __S(372, __c23, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(404, __c25, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListLargeFilesResponse",
       });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
-          expand: S.optional(__S(320, __c20, 0).pipe(T.Query())),
+          expand: S.optional(__S(352, __c22, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/models/{namespace}/{repo}/likers", code: 200 })),
       ).annotate({ identifier: "ListLikersRequest" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/models/{namespace}/{repo}/user-access-request/cancel",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CancelAccessRequestRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelAccessRequestResponse" });
+  }
+}
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3122,45 +3316,22 @@ function __c25(j: number): any {
           type: S.String,
           oid: S.String,
           size: S.Number,
-          lfs: S.optional(__S(401, __c25, 1)),
+          lfs: S.optional(__S(465, __c29, 1)),
           xetHash: S.optional(S.String),
           path: S.String,
-          lastCommit: S.optional(__S(352, __c22, 0)),
-          securityFileStatus: S.optional(__S(356, __c22, 4)),
+          lastCommit: S.optional(__S(384, __c24, 0)),
+          securityFileStatus: S.optional(__S(388, __c24, 4)),
         }),
       ).annotate({ identifier: "ListPathsInfoResponseBodyItem" });
     case 3:
-      return S.Array(__S(402, __c25, 2));
+      return S.Array(__S(466, __c29, 2));
     case 4:
-      return S.suspend(() => __S(403, __c25, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(467, __c29, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPathsInfoResponse",
       });
   }
 }
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/models/{namespace}/{repo}/user-access-request/cancel",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CancelAccessRequestRequest" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelAccessRequestResponse" });
-  }
-}
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3179,33 +3350,31 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "ListReferencesResponseTagsItem" });
     case 2:
-      return S.Array(__S(449, __c28, 1));
+      return S.Array(__S(481, __c30, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tags: __S(450, __c28, 2),
-          branches: __S(450, __c28, 2),
-          converts: __S(450, __c28, 2),
-          pullRequests: S.optional(__S(450, __c28, 2)),
+          tags: __S(482, __c30, 2),
+          branches: __S(482, __c30, 2),
+          converts: __S(482, __c30, 2),
+          pullRequests: S.optional(__S(482, __c30, 2)),
         }),
       ).annotate({ identifier: "ListReferencesResponse" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
-          body: S.optional(__S(464, __c29, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(240, __c15, 0).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/{namespace}/{repo}/ask-access", code: 200 })),
       ).annotate({ identifier: "RequestAccessRequest" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3222,7 +3391,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ResolveFileRequest" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3236,7 +3405,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "ResolveFileResponse" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3257,7 +3426,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ResolveFileCachedRequest" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3282,7 +3451,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "SquashRefResponse" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3295,6 +3464,7 @@ function __c34(j: number): any {
           discussionsSorting: S.optional(S.String),
           gated: S.optional(S.Unknown),
           orgMembersGated: S.optional(S.Boolean),
+          gatedProfileSharing: S.optional(S.Unknown),
           gatedNotificationsEmail: S.optional(S.String),
           gatedNotificationsMode: S.optional(S.String),
         }).pipe(
@@ -3310,13 +3480,14 @@ function __c34(j: number): any {
           discussionsSorting: S.optional(S.String),
           gated: S.optional(S.Unknown),
           orgMembersGated: S.optional(S.Boolean),
+          gatedProfileSharing: S.optional(S.Unknown),
           gatedNotificationsEmail: S.optional(S.String),
           gatedNotificationsMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateRepoSettingsResponse" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3334,7 +3505,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "XetReadTokenRequest" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3346,7 +3517,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "XetReadTokenResponse" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3364,7 +3535,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "XetWriteTokenRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3375,14 +3546,14 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "CheckUploadMethodRequestFilesItem" });
     case 1:
-      return S.Array(__S(608, __c38, 0));
+      return S.Array(__S(640, __c40, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           rev: S.String.pipe(T.Label()),
-          files: __S(609, __c38, 1),
+          files: __S(641, __c40, 1),
           gitAttributes: S.optional(S.String),
           gitIgnore: S.optional(S.String),
         }).pipe(
@@ -3403,17 +3574,17 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "CheckUploadMethodResponseFilesItem" });
     case 4:
-      return S.Array(__S(611, __c38, 3));
+      return S.Array(__S(643, __c40, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          files: __S(612, __c38, 4),
+          files: __S(644, __c40, 4),
           commitOid: S.String,
         }),
       ).annotate({ identifier: "CheckUploadMethodResponse" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3440,7 +3611,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CommitResponse" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3457,7 +3628,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "CreateBranchRequest" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3473,7 +3644,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "CreateTagRequest" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3491,7 +3662,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "DeleteBranchRequest" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

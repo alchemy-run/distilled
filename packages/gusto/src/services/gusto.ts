@@ -1432,6 +1432,7 @@ export interface MetadataWithOneEntity {
   state?: string | null;
   valid_from?: string | null;
   valid_up_to?: string | null;
+  [key: string]: unknown;
 }
 export type MetadataWithMultipleEntitiesEntitiesList = Array<MetadataWithOneEntity>;
 /** multiple entities */
@@ -4391,6 +4392,7 @@ export interface EmployeeBenefit {
   employee_uuid?: string;
   /** The UUID of the employee benefit. */
   uuid: string;
+  [key: string]: unknown;
 }
 export type GetCompanyBenefitEmployeeBenefitsResponseBodyList = Array<EmployeeBenefit>;
 export type GetCompanyBenefitEmployeeBenefitsResponse =
@@ -4899,6 +4901,7 @@ export interface ShowEmployeesItem {
   work_email?: string | null;
   all_home_addresses?: ShowEmployeesItemAllHomeAddressesList;
   current_home_address?: EmployeeHomeAddress;
+  [key: string]: unknown;
 }
 export type ShowEmployees = Array<ShowEmployeesItem>;
 export type GetCompanyEmployeesResponse = ShowEmployees;
@@ -5452,6 +5455,7 @@ export interface PayrollShowEmployeeCompensationsItem {
   benefits?: PayrollShowEmployeeCompensationsItemBenefitsList;
   /** An array of employer and employee taxes for the pay period. Only included for processed or calculated payrolls when `taxes` is present in the `include` parameter. */
   taxes?: PayrollShowEmployeeCompensationsItemTaxesList;
+  [key: string]: unknown;
 }
 export type PayrollShowEmployeeCompensationsList = Array<PayrollShowEmployeeCompensationsItem>;
 export interface PayrollTaxesTypeItem {
@@ -8929,6 +8933,7 @@ export interface EmployeeBenefitForCompanyBenefitInput {
   employee_uuid: string;
   /** The UUID of the employee benefit. Required for updating an effective dated employee benefit. */
   uuid?: string;
+  [key: string]: unknown;
 }
 /** The list of employee benefits to create or update */
 export type PutCompanyBenefitEmployeeBenefitsRequestEmployeeBenefitsList =
@@ -14512,7 +14517,7 @@ export const getV1CompaniesCompanyIdUnprocessedTerminationPayPeriods: API.Operat
 }));
 
 export type GetV1CompaniesPayrollBlockersCompanyUuidError = NotFound | GustoOpError;
-/** Get all payroll blockers for a company Returns a list of reasons that prevent the company from running payrolls. See the [Payroll Blockers guide](https://docs.gusto.com/embedded-payroll/docs/payroll-blockers) for a complete list of reasons. The list is empty if there are no payroll blockers. scope: `payrolls:run` */
+/** Get all payroll blockers for a company Returns a list of reasons that prevent the company from running payrolls. See the [Payroll Blockers guide](https://docs.gusto.com/embedded-payroll/docs/payroll-blockers) for a complete list of reasons. The list is empty if there are no payroll blockers. scope: `payrolls:read` */
 export const getV1CompaniesPayrollBlockersCompanyUuid: API.OperationMethod<
   GetV1CompaniesPayrollBlockersCompanyUuidRequest,
   GetV1CompaniesPayrollBlockersCompanyUuidResponse,
@@ -16689,29 +16694,32 @@ function __c6(j: number): any {
       ).annotate({ identifier: "EmployeeBenefitContribution" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          active: S.optional(S.Boolean),
-          catch_up: S.optional(S.NullOr(S.Boolean)),
-          company_contribution: S.optional(S.String),
-          company_contribution_annual_maximum: S.optional(S.NullOr(S.String)),
-          contribute_as_percentage: S.optional(S.Boolean),
-          contribution: S.optional(__S(96, __c6, 0)),
-          coverage_amount: S.optional(S.NullOr(S.String)),
-          coverage_salary_multiplier: S.optional(S.NullOr(S.String)),
-          deduct_as_percentage: S.optional(S.Boolean),
-          deduction_reduces_taxable_income: S.optional(S.NullOr(S.String)),
-          effective_date: S.optional(S.String),
-          elective: S.optional(S.Boolean),
-          employee_deduction: S.optional(S.String),
-          employee_deduction_annual_maximum: S.optional(S.NullOr(S.String)),
-          expiration_date: S.optional(S.NullOr(S.String)),
-          limit_option: S.optional(S.NullOr(S.String)),
-          retirement_loan_identifier: S.optional(S.NullOr(S.String)),
-          version: S.optional(S.String),
-          company_benefit_uuid: S.optional(S.String),
-          employee_uuid: S.optional(S.String),
-          uuid: S.String,
-        }),
+        S.StructWithRest(
+          S.Struct({
+            active: S.optional(S.Boolean),
+            catch_up: S.optional(S.NullOr(S.Boolean)),
+            company_contribution: S.optional(S.String),
+            company_contribution_annual_maximum: S.optional(S.NullOr(S.String)),
+            contribute_as_percentage: S.optional(S.Boolean),
+            contribution: S.optional(__S(96, __c6, 0)),
+            coverage_amount: S.optional(S.NullOr(S.String)),
+            coverage_salary_multiplier: S.optional(S.NullOr(S.String)),
+            deduct_as_percentage: S.optional(S.Boolean),
+            deduction_reduces_taxable_income: S.optional(S.NullOr(S.String)),
+            effective_date: S.optional(S.String),
+            elective: S.optional(S.Boolean),
+            employee_deduction: S.optional(S.String),
+            employee_deduction_annual_maximum: S.optional(S.NullOr(S.String)),
+            expiration_date: S.optional(S.NullOr(S.String)),
+            limit_option: S.optional(S.NullOr(S.String)),
+            retirement_loan_identifier: S.optional(S.NullOr(S.String)),
+            version: S.optional(S.String),
+            company_benefit_uuid: S.optional(S.String),
+            employee_uuid: S.optional(S.String),
+            uuid: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "EmployeeBenefit" });
     case 2:
       return S.Array(__S(97, __c6, 1));
@@ -17213,47 +17221,50 @@ function __c22(j: number): any {
       ).annotate({ identifier: "EmployeeHomeAddress" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          applicable_tax_ids: S.optional(__S(448, __c28, 0)),
-          company_uuid: S.optional(S.String),
-          current_employment_status: S.optional(S.NullOr(S.String)),
-          custom_fields: S.optional(__S(369, __c23, 1)),
-          date_of_birth: S.optional(S.NullOr(S.String)),
-          department: S.optional(S.NullOr(S.String)),
-          department_uuid: S.optional(S.NullOr(S.String)),
-          eligible_paid_time_off: S.optional(__S(450, __c28, 2)),
-          email: S.optional(S.NullOr(S.String)),
-          employee_code: S.optional(S.String),
-          first_name: S.String,
-          flsa_status: S.optional(S.String),
-          garnishments: S.optional(__S(384, __c24, 0)),
-          has_ssn: S.optional(S.Boolean),
-          hidden_ssn: S.optional(S.String),
-          hired_at: S.optional(S.String),
-          historical: S.optional(S.Boolean),
-          jobs: S.optional(__S(400, __c25, 0)),
-          last_name: S.String,
-          manager_uuid: S.optional(S.NullOr(S.String)),
-          member_portal_invitation_status: S.optional(S.NullOr(__S(6496, __c406, 0))),
-          middle_initial: S.optional(S.NullOr(S.String)),
-          onboarded: S.optional(S.Boolean),
-          onboarding_documents_config: S.optional(__S(432, __c27, 0)),
-          onboarding_status: S.optional(S.NullOr(S.String)),
-          partner_portal_invitation_sent: S.optional(S.NullOr(S.Boolean)),
-          payment_method: S.optional(S.String),
-          phone: S.optional(S.NullOr(S.String)),
-          preferred_first_name: S.optional(S.NullOr(S.String)),
-          ssn: S.optional(S.String),
-          terminated: S.optional(S.Boolean),
-          terminations: S.optional(__S(416, __c26, 0)),
-          title: S.optional(S.String),
-          two_percent_shareholder: S.optional(S.NullOr(S.Boolean)),
-          uuid: S.String,
-          version: S.optional(S.String),
-          work_email: S.optional(S.NullOr(S.String)),
-          all_home_addresses: S.optional(__S(354, __c22, 2)),
-          current_home_address: S.optional(__S(355, __c22, 3)),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            applicable_tax_ids: S.optional(__S(448, __c28, 0)),
+            company_uuid: S.optional(S.String),
+            current_employment_status: S.optional(S.NullOr(S.String)),
+            custom_fields: S.optional(__S(369, __c23, 1)),
+            date_of_birth: S.optional(S.NullOr(S.String)),
+            department: S.optional(S.NullOr(S.String)),
+            department_uuid: S.optional(S.NullOr(S.String)),
+            eligible_paid_time_off: S.optional(__S(450, __c28, 2)),
+            email: S.optional(S.NullOr(S.String)),
+            employee_code: S.optional(S.String),
+            first_name: S.String,
+            flsa_status: S.optional(S.String),
+            garnishments: S.optional(__S(384, __c24, 0)),
+            has_ssn: S.optional(S.Boolean),
+            hidden_ssn: S.optional(S.String),
+            hired_at: S.optional(S.String),
+            historical: S.optional(S.Boolean),
+            jobs: S.optional(__S(400, __c25, 0)),
+            last_name: S.String,
+            manager_uuid: S.optional(S.NullOr(S.String)),
+            member_portal_invitation_status: S.optional(S.NullOr(__S(6496, __c406, 0))),
+            middle_initial: S.optional(S.NullOr(S.String)),
+            onboarded: S.optional(S.Boolean),
+            onboarding_documents_config: S.optional(__S(432, __c27, 0)),
+            onboarding_status: S.optional(S.NullOr(S.String)),
+            partner_portal_invitation_sent: S.optional(S.NullOr(S.Boolean)),
+            payment_method: S.optional(S.String),
+            phone: S.optional(S.NullOr(S.String)),
+            preferred_first_name: S.optional(S.NullOr(S.String)),
+            ssn: S.optional(S.String),
+            terminated: S.optional(S.Boolean),
+            terminations: S.optional(__S(416, __c26, 0)),
+            title: S.optional(S.String),
+            two_percent_shareholder: S.optional(S.NullOr(S.Boolean)),
+            uuid: S.String,
+            version: S.optional(S.String),
+            work_email: S.optional(S.NullOr(S.String)),
+            all_home_addresses: S.optional(__S(354, __c22, 2)),
+            current_home_address: S.optional(__S(355, __c22, 3)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "ShowEmployeesItem" });
     case 5:
       return S.Array(__S(356, __c22, 4));
@@ -17796,27 +17807,30 @@ function __c45(j: number): any {
       return S.Array(__S(723, __c45, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          check_amount: S.optional(S.NullOr(S.String)),
-          custom_withholdings: S.optional(__S(1699, __c106, 3)),
-          employee_uuid: S.optional(S.String),
-          excluded: S.optional(S.Boolean),
-          first_name: S.optional(S.NullOr(S.String)),
-          fixed_compensations: S.optional(__S(1701, __c106, 5)),
-          gross_pay: S.optional(S.NullOr(S.String)),
-          hourly_compensations: S.optional(__S(1703, __c106, 7)),
-          last_name: S.optional(S.NullOr(S.String)),
-          memo: S.optional(S.NullOr(S.String)),
-          net_pay: S.optional(S.NullOr(S.String)),
-          paid_time_off: S.optional(__S(1705, __c106, 9)),
-          payment_method: S.optional(S.NullOr(S.String)),
-          preferred_first_name: S.optional(S.NullOr(S.String)),
-          reimbursements: S.optional(__S(1707, __c106, 11)),
-          version: S.optional(S.String),
-          deductions: S.optional(__S(753, __c47, 1)),
-          benefits: S.optional(__S(722, __c45, 2)),
-          taxes: S.optional(__S(724, __c45, 4)),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            check_amount: S.optional(S.NullOr(S.String)),
+            custom_withholdings: S.optional(__S(1699, __c106, 3)),
+            employee_uuid: S.optional(S.String),
+            excluded: S.optional(S.Boolean),
+            first_name: S.optional(S.NullOr(S.String)),
+            fixed_compensations: S.optional(__S(1701, __c106, 5)),
+            gross_pay: S.optional(S.NullOr(S.String)),
+            hourly_compensations: S.optional(__S(1703, __c106, 7)),
+            last_name: S.optional(S.NullOr(S.String)),
+            memo: S.optional(S.NullOr(S.String)),
+            net_pay: S.optional(S.NullOr(S.String)),
+            paid_time_off: S.optional(__S(1705, __c106, 9)),
+            payment_method: S.optional(S.NullOr(S.String)),
+            preferred_first_name: S.optional(S.NullOr(S.String)),
+            reimbursements: S.optional(__S(1707, __c106, 11)),
+            version: S.optional(S.String),
+            deductions: S.optional(__S(753, __c47, 1)),
+            benefits: S.optional(__S(722, __c45, 2)),
+            taxes: S.optional(__S(724, __c45, 4)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "PayrollShowEmployeeCompensationsItem" });
     case 6:
       return S.Array(__S(725, __c45, 5));
@@ -22547,29 +22561,32 @@ function __c237(j: number): any {
       ).annotate({ identifier: "EmployeeBenefitForCompanyBenefitInputContribution" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          active: S.optional(S.Boolean),
-          catch_up: S.optional(S.NullOr(S.Boolean)),
-          company_contribution: S.optional(S.String),
-          company_contribution_annual_maximum: S.optional(S.NullOr(S.String)),
-          contribute_as_percentage: S.optional(S.Boolean),
-          contribution: S.optional(__S(3792, __c237, 0)),
-          coverage_amount: S.optional(S.NullOr(S.String)),
-          coverage_salary_multiplier: S.optional(S.NullOr(S.String)),
-          deduct_as_percentage: S.optional(S.Boolean),
-          deduction_reduces_taxable_income: S.optional(S.NullOr(S.String)),
-          effective_date: S.optional(S.String),
-          elective: S.optional(S.Boolean),
-          employee_deduction: S.optional(S.String),
-          employee_deduction_annual_maximum: S.optional(S.NullOr(S.String)),
-          expiration_date: S.optional(S.NullOr(S.String)),
-          limit_option: S.optional(S.NullOr(S.String)),
-          retirement_loan_identifier: S.optional(S.NullOr(S.String)),
-          version: S.optional(S.String),
-          action: S.optional(S.String),
-          employee_uuid: S.String,
-          uuid: S.optional(S.String),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            active: S.optional(S.Boolean),
+            catch_up: S.optional(S.NullOr(S.Boolean)),
+            company_contribution: S.optional(S.String),
+            company_contribution_annual_maximum: S.optional(S.NullOr(S.String)),
+            contribute_as_percentage: S.optional(S.Boolean),
+            contribution: S.optional(__S(3792, __c237, 0)),
+            coverage_amount: S.optional(S.NullOr(S.String)),
+            coverage_salary_multiplier: S.optional(S.NullOr(S.String)),
+            deduct_as_percentage: S.optional(S.Boolean),
+            deduction_reduces_taxable_income: S.optional(S.NullOr(S.String)),
+            effective_date: S.optional(S.String),
+            elective: S.optional(S.Boolean),
+            employee_deduction: S.optional(S.String),
+            employee_deduction_annual_maximum: S.optional(S.NullOr(S.String)),
+            expiration_date: S.optional(S.NullOr(S.String)),
+            limit_option: S.optional(S.NullOr(S.String)),
+            retirement_loan_identifier: S.optional(S.NullOr(S.String)),
+            version: S.optional(S.String),
+            action: S.optional(S.String),
+            employee_uuid: S.String,
+            uuid: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "EmployeeBenefitForCompanyBenefitInput" });
     case 2:
       return S.Array(__S(3793, __c237, 1));

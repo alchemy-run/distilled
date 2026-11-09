@@ -148,9 +148,11 @@ export type GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemProvi
   | "fireworks-ai"
   | "groq"
   | "hf-inference"
+  | "humain-ai"
   | "novita"
   | "nscale"
   | "openai"
+  | "openrouter"
   | "ovhcloud"
   | "publicai"
   | "replicate"
@@ -357,7 +359,9 @@ export type GetPaperResponseLinkedDatasetsItemDatasetsServerInfoLibrariesItem =
   | "harbor"
   | "verifiers"
   | "openenv"
-  | "nemo-gym";
+  | "nemo-gym"
+  | "agentenv"
+  | "lerobot";
 export type GetPaperResponseLinkedDatasetsItemDatasetsServerInfoLibrariesList =
   Array<GetPaperResponseLinkedDatasetsItemDatasetsServerInfoLibrariesItem>;
 export type GetPaperResponseLinkedDatasetsItemDatasetsServerInfoFormatsItem =
@@ -711,6 +715,14 @@ export interface UpdatePaperLinksRequest {
   organizationId?: string | null;
 }
 export type UpdatePaperLinksResponse = unknown;
+/** Media URLs, in display order */
+export type UpdatePaperMediaRequestMediaUrlsList = Array<string>;
+export interface UpdatePaperMediaRequest {
+  paperId: string;
+  /** Media URLs, in display order */
+  mediaUrls: UpdatePaperMediaRequestMediaUrlsList;
+}
+export type UpdatePaperMediaResponse = unknown;
 export type ClaimPaperAuthorshipError = HuggingFaceOpError;
 /** Claim paper authorship */
 export const claimPaperAuthorship: API.OperationMethod<
@@ -830,6 +842,23 @@ export const updatePaperLinks: API.OperationMethod<
   span: "UpdatePaperLinks",
 }));
 
+export type UpdatePaperMediaError = HuggingFaceOpError;
+/** Update paper media Replace the media shown on a Daily Papers submission. Requires the requester to be the paper author, the Daily Papers submitter, or a papers admin. */
+export const updatePaperMedia: API.OperationMethod<
+  UpdatePaperMediaRequest,
+  UpdatePaperMediaResponse,
+  UpdatePaperMediaError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(320, __c10, 0) as any as S.Schema<UpdatePaperMediaRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<UpdatePaperMediaResponse>,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePaperMedia",
+}));
+
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
   switch (j) {
@@ -868,12 +897,12 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          authors: __S(98, __c3, 2),
-          mediaUrls: S.optional(__S(64, __c2, 0)),
+          authors: __S(66, __c2, 2),
+          mediaUrls: S.optional(__S(96, __c3, 0)),
           publishedAt: S.String,
           submittedOnDailyAt: S.optional(S.String),
           title: S.String,
-          submittedOnDailyBy: S.optional(__S(96, __c3, 0)),
+          submittedOnDailyBy: S.optional(__S(64, __c2, 0)),
           summary: S.String,
           upvotes: S.Number,
           withdrawnAt: S.optional(S.String),
@@ -881,7 +910,7 @@ function __c1(j: number): any {
           projectPage: S.optional(S.String),
           githubRepo: S.optional(S.String),
           ai_summary: S.optional(S.String),
-          ai_keywords: S.optional(__S(64, __c2, 0)),
+          ai_keywords: S.optional(__S(96, __c3, 0)),
           ai_summary_model: S.optional(S.String),
           githubStars: S.optional(S.Number),
         }),
@@ -893,10 +922,10 @@ function __c1(j: number): any {
           publishedAt: S.String,
           title: S.String,
           summary: S.String,
-          mediaUrls: S.optional(__S(64, __c2, 0)),
+          mediaUrls: S.optional(__S(96, __c3, 0)),
           thumbnail: S.String,
           numComments: S.Number,
-          submittedBy: __S(96, __c3, 0),
+          submittedBy: __S(64, __c2, 0),
           isAuthorParticipating: S.Boolean,
         }),
       ).annotate({ identifier: "GetDailyPapersResponseBodyItem" });
@@ -909,12 +938,6 @@ function __c1(j: number): any {
   }
 }
 function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -939,12 +962,18 @@ function __c3(j: number): any {
           name: S.String,
           status: S.optional(S.String),
           statusLastChangedAt: S.optional(S.String),
-          user: S.optional(__S(96, __c3, 0)),
+          user: S.optional(__S(64, __c2, 0)),
           hidden: S.Boolean,
         }),
       ).annotate({ identifier: "GetDailyPapersResponseBodyItemPaperAuthorsItem" });
     case 2:
-      return S.Array(__S(97, __c3, 1));
+      return S.Array(__S(65, __c2, 1));
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
   }
 }
 function __c4(j: number): any {
@@ -1012,7 +1041,7 @@ function __c4(j: number): any {
           resourceGroup: S.optional(__S(133, __c4, 5)),
           numParameters: S.optional(S.Number),
           authorData: S.optional(S.Unknown),
-          widgetOutputUrls: S.optional(__S(64, __c2, 0)),
+          widgetOutputUrls: S.optional(__S(96, __c3, 0)),
           isPreRelease: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GetPaperResponseLinkedModelsItem" });
@@ -1074,7 +1103,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           reaction: S.String,
-          users: __S(64, __c2, 0),
+          users: __S(96, __c3, 0),
           count: S.Number,
         }),
       ).annotate({ identifier: "GetPaperResponseCommentsItemDataReactionsItem" });
@@ -1096,8 +1125,8 @@ function __c4(j: number): any {
           hiddenReason: S.optional(S.String),
           latest: __S(141, __c4, 13),
           numEdits: S.Number,
-          editors: __S(64, __c2, 0),
-          editorAvatarUrls: __S(64, __c2, 0),
+          editors: __S(96, __c3, 0),
+          editorAvatarUrls: __S(96, __c3, 0),
           reactions: __S(143, __c4, 15),
           identifiedLanguage: S.optional(__S(144, __c4, 16)),
           relatedEventId: S.optional(S.String),
@@ -1121,12 +1150,12 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          authors: __S(98, __c3, 2),
-          mediaUrls: S.optional(__S(64, __c2, 0)),
+          authors: __S(66, __c2, 2),
+          mediaUrls: S.optional(__S(96, __c3, 0)),
           publishedAt: S.String,
           submittedOnDailyAt: S.optional(S.String),
           title: S.String,
-          submittedOnDailyBy: S.optional(__S(96, __c3, 0)),
+          submittedOnDailyBy: S.optional(__S(64, __c2, 0)),
           summary: S.String,
           upvotes: S.Number,
           withdrawnAt: S.optional(S.String),
@@ -1134,7 +1163,7 @@ function __c4(j: number): any {
           projectPage: S.optional(S.String),
           githubRepo: S.optional(S.String),
           ai_summary: S.optional(S.String),
-          ai_keywords: S.optional(__S(64, __c2, 0)),
+          ai_keywords: S.optional(__S(96, __c3, 0)),
           ai_summary_model: S.optional(S.String),
           githubStars: S.optional(S.Number),
           submissionDeadline: S.optional(S.String),
@@ -1193,7 +1222,7 @@ function __c7(j: number): any {
           upvotes: S.Number,
           publishedAt: S.String,
           thumbnailUrl: S.optional(S.String),
-          authors: __S(98, __c3, 2),
+          authors: __S(66, __c2, 2),
           summary: S.String,
           projectPage: S.optional(S.String),
           githubRepo: S.optional(S.String),
@@ -1233,6 +1262,17 @@ function __c9(j: number): any {
           organizationId: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/api/papers/{paperId}/links", code: 200 })),
       ).annotate({ identifier: "UpdatePaperLinksRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          paperId: S.String.pipe(T.Label()),
+          mediaUrls: __S(96, __c3, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/api/papers/{paperId}/media", code: 200 })),
+      ).annotate({ identifier: "UpdatePaperMediaRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

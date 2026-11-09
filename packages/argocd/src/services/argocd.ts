@@ -750,10 +750,17 @@ export interface V1alpha1ManagedNamespaceMetadata {
   annotations?: V1alpha1ManagedNamespaceMetadataAnnotationsMap;
   labels?: V1alpha1ManagedNamespaceMetadataLabelsMap;
 }
+export interface V1alpha1SyncPolicyManualDefaults {
+  applyOnly?: boolean;
+  dryRun?: boolean;
+  force?: boolean;
+  prune?: boolean;
+}
 export type V1alpha1SyncPolicySyncOptionsList = Array<string>;
 export interface V1alpha1SyncPolicy {
   automated?: V1alpha1SyncPolicyAutomated;
   managedNamespaceMetadata?: V1alpha1ManagedNamespaceMetadata;
+  manualDefaults?: V1alpha1SyncPolicyManualDefaults;
   retry?: V1alpha1RetryStrategy;
   syncOptions?: V1alpha1SyncPolicySyncOptionsList;
 }
@@ -1072,6 +1079,7 @@ export interface V1alpha1PluginGenerator {
   /** Values contains key/value pairs which are passed directly as parameters to the template. These values will not be sent as parameters to the plugin. */
   values?: V1alpha1PluginGeneratorValuesMap;
 }
+export type V1alpha1PullRequestGeneratorAzureDevOpsExcludedLabelsList = Array<string>;
 export type V1alpha1PullRequestGeneratorAzureDevOpsLabelsList = Array<string>;
 /** SecretRef struct for a reference to a secret key. */
 export interface V1alpha1SecretRef {
@@ -1082,6 +1090,7 @@ export interface V1alpha1SecretRef {
 export interface V1alpha1PullRequestGeneratorAzureDevOps {
   /** The Azure DevOps API URL to talk to. If blank, use https://dev.azure.com/. */
   api?: string;
+  excludedLabels?: V1alpha1PullRequestGeneratorAzureDevOpsExcludedLabelsList;
   labels?: V1alpha1PullRequestGeneratorAzureDevOpsLabelsList;
   /** Azure DevOps org to scan. Required. */
   organization?: string;
@@ -1139,10 +1148,12 @@ export interface V1alpha1PullRequestGeneratorFilter {
 }
 /** Filters for which pull requests should be considered. */
 export type V1alpha1PullRequestGeneratorFiltersList = Array<V1alpha1PullRequestGeneratorFilter>;
+export type V1alpha1PullRequestGeneratorGiteaExcludedLabelsList = Array<string>;
 export type V1alpha1PullRequestGeneratorGiteaLabelsList = Array<string>;
 /** PullRequestGeneratorGitea defines connection info specific to Gitea. */
 export interface V1alpha1PullRequestGeneratorGitea {
   api?: string;
+  excludedLabels?: V1alpha1PullRequestGeneratorGiteaExcludedLabelsList;
   /** Allow insecure tls, for self-signed certificates; default: false. */
   insecure?: boolean;
   labels?: V1alpha1PullRequestGeneratorGiteaLabelsList;
@@ -1152,6 +1163,7 @@ export interface V1alpha1PullRequestGeneratorGitea {
   repo?: string;
   tokenRef?: V1alpha1SecretRef;
 }
+export type V1alpha1PullRequestGeneratorGithubExcludedLabelsList = Array<string>;
 export type V1alpha1PullRequestGeneratorGithubLabelsList = Array<string>;
 /** PullRequestGeneratorGithub defines connection info specific to GitHub. */
 export interface V1alpha1PullRequestGeneratorGithub {
@@ -1159,6 +1171,7 @@ export interface V1alpha1PullRequestGeneratorGithub {
   api?: string;
   /** AppSecretName is a reference to a GitHub App repo-creds secret with permission to access pull requests. */
   appSecretName?: string;
+  excludedLabels?: V1alpha1PullRequestGeneratorGithubExcludedLabelsList;
   labels?: V1alpha1PullRequestGeneratorGithubLabelsList;
   /** GitHub org or user to scan. Required. */
   owner?: string;
@@ -1166,12 +1179,14 @@ export interface V1alpha1PullRequestGeneratorGithub {
   repo?: string;
   tokenRef?: V1alpha1SecretRef;
 }
+export type V1alpha1PullRequestGeneratorGitLabExcludedLabelsList = Array<string>;
 export type V1alpha1PullRequestGeneratorGitLabLabelsList = Array<string>;
 /** PullRequestGeneratorGitLab defines connection info specific to GitLab. */
 export interface V1alpha1PullRequestGeneratorGitLab {
   /** The GitLab API URL to talk to. If blank, uses https://gitlab.com/. */
   api?: string;
   caRef?: V1alpha1ConfigMapKeyRef;
+  excludedLabels?: V1alpha1PullRequestGeneratorGitLabExcludedLabelsList;
   insecure?: boolean;
   labels?: V1alpha1PullRequestGeneratorGitLabLabelsList;
   /** GitLab project to scan. Required. */
@@ -2472,11 +2487,13 @@ export type ClusterOIDCConfigScopesList = Array<string>;
 export interface ClusterOIDCConfig {
   cliClientID?: string;
   clientID?: string;
+  deviceURL?: string;
   enablePKCEAuthentication?: boolean;
   idTokenClaims?: ClusterOIDCConfigIdTokenClaimsMap;
   issuer?: string;
   name?: string;
   scopes?: ClusterOIDCConfigScopesList;
+  tokenURL?: string;
 }
 export type ClusterPlugin = V1alpha1PluginConfigMapRef;
 export type ClusterSettingsPluginsList = Array<V1alpha1PluginConfigMapRef>;
@@ -4964,7 +4981,7 @@ export const updateApplicationServiceSpec: API.OperationMethod<
   ArgocdOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<UpdateApplicationServiceSpecRequest>,
-  output: __S(3660, __c114, 12) as any as S.Schema<V1alpha1ApplicationSpec>,
+  output: __S(3661, __c114, 13) as any as S.Schema<V1alpha1ApplicationSpec>,
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
@@ -5479,7 +5496,7 @@ function __c11(j: number): any {
           validate: S.optional(S.Boolean.pipe(T.Query())),
           metadata: S.optional(__S(3525, __c110, 5)),
           operation: S.optional(__S(3687, __c115, 7)),
-          spec: S.optional(__S(3660, __c114, 12)),
+          spec: S.optional(__S(3661, __c114, 13)),
           status: S.optional(__S(3702, __c115, 22)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/applications", code: 200 })),
       ).annotate({ identifier: "CreateApplicationServiceRequest" });
@@ -5542,7 +5559,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           metadata: S.optional(__S(451, __c14, 3)),
-          spec: S.optional(__S(3660, __c114, 12)),
+          spec: S.optional(__S(3661, __c114, 13)),
         }),
       ).annotate({ identifier: "V1alpha1ApplicationSetTemplate" });
     case 5:
@@ -5626,6 +5643,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           api: S.optional(S.String),
+          excludedLabels: S.optional(__S(1984, __c62, 0)),
           labels: S.optional(__S(1984, __c62, 0)),
           organization: S.optional(S.String),
           project: S.optional(S.String),
@@ -5689,6 +5707,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           api: S.optional(S.String),
+          excludedLabels: S.optional(__S(1984, __c62, 0)),
           insecure: S.optional(S.Boolean),
           labels: S.optional(__S(1984, __c62, 0)),
           owner: S.optional(S.String),
@@ -5701,6 +5720,7 @@ function __c14(j: number): any {
         S.Struct({
           api: S.optional(S.String),
           appSecretName: S.optional(S.String),
+          excludedLabels: S.optional(__S(1984, __c62, 0)),
           labels: S.optional(__S(1984, __c62, 0)),
           owner: S.optional(S.String),
           repo: S.optional(S.String),
@@ -5712,6 +5732,7 @@ function __c14(j: number): any {
         S.Struct({
           api: S.optional(S.String),
           caRef: S.optional(__S(468, __c14, 20)),
+          excludedLabels: S.optional(__S(1984, __c62, 0)),
           insecure: S.optional(S.Boolean),
           labels: S.optional(__S(1984, __c62, 0)),
           project: S.optional(S.String),
@@ -7757,11 +7778,13 @@ function __c90(j: number): any {
         S.Struct({
           cliClientID: S.optional(S.String),
           clientID: S.optional(S.String),
+          deviceURL: S.optional(S.String),
           enablePKCEAuthentication: S.optional(S.Boolean),
           idTokenClaims: S.optional(__S(2893, __c90, 13)),
           issuer: S.optional(S.String),
           name: S.optional(S.String),
           scopes: S.optional(__S(1984, __c62, 0)),
+          tokenURL: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterOIDCConfig" });
     case 15:
@@ -8600,13 +8623,23 @@ function __c114(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
+          applyOnly: S.optional(S.Boolean),
+          dryRun: S.optional(S.Boolean),
+          force: S.optional(S.Boolean),
+          prune: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "V1alpha1SyncPolicyManualDefaults" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
           automated: S.optional(__S(3657, __c114, 9)),
           managedNamespaceMetadata: S.optional(__S(3658, __c114, 10)),
+          manualDefaults: S.optional(__S(3659, __c114, 11)),
           retry: S.optional(__S(3649, __c114, 1)),
           syncOptions: S.optional(__S(1984, __c62, 0)),
         }),
       ).annotate({ identifier: "V1alpha1SyncPolicy" });
-    case 12:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           destination: S.optional(__S(3552, __c111, 0)),
@@ -8617,7 +8650,7 @@ function __c114(j: number): any {
           source: S.optional(__S(3606, __c112, 22)),
           sourceHydrator: S.optional(__S(3656, __c114, 8)),
           sources: S.optional(__S(3650, __c114, 2)),
-          syncPolicy: S.optional(__S(3659, __c114, 11)),
+          syncPolicy: S.optional(__S(3660, __c114, 12)),
         }),
       ).annotate({ identifier: "V1alpha1ApplicationSpec" });
   }
@@ -8830,7 +8863,7 @@ function __c115(j: number): any {
         S.Struct({
           metadata: S.optional(__S(3525, __c110, 5)),
           operation: S.optional(__S(3687, __c115, 7)),
-          spec: S.optional(__S(3660, __c114, 12)),
+          spec: S.optional(__S(3661, __c114, 13)),
           status: S.optional(__S(3702, __c115, 22)),
         }),
       ).annotate({ identifier: "V1alpha1Application" });
@@ -9258,7 +9291,7 @@ function __c144(j: number): any {
           project: S.optional(S.String.pipe(T.Query())),
           metadata: S.optional(__S(3525, __c110, 5)),
           operation: S.optional(__S(3687, __c115, 7)),
-          spec: S.optional(__S(3660, __c114, 12)),
+          spec: S.optional(__S(3661, __c114, 13)),
           status: S.optional(__S(3702, __c115, 22)),
         }).pipe(
           T.Http({
@@ -9286,7 +9319,7 @@ function __c145(j: number): any {
           source: S.optional(__S(3606, __c112, 22)),
           sourceHydrator: S.optional(__S(3656, __c114, 8)),
           sources: S.optional(__S(3650, __c114, 2)),
-          syncPolicy: S.optional(__S(3659, __c114, 11)),
+          syncPolicy: S.optional(__S(3660, __c114, 12)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/applications/{name}/spec", code: 200 })),
       ).annotate({ identifier: "UpdateApplicationServiceSpecRequest" });
   }

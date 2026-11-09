@@ -83,26 +83,16 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Information that is specific to TfLite models. */
-export interface TfLiteModel {
-  /** The AutoML model id referencing a model you created with the AutoML API. The name should have format 'projects//locations//models/' (This is the model resource name returned from the AutoML API) */
-  automlModel?: string;
-  /** Output only. The size of the TFLite model */
-  sizeBytes?: string;
-  /** The TfLite file containing the model. (Stored in Google Cloud). The gcs_tflite_uri should have form: gs://some-bucket/some-model.tflite Note: If you update the file in the original location, it is necessary to call UpdateModel for ML to pick up and validate the updated file. */
-  gcsTfliteUri?: string;
-}
-export type StringList = Array<string>;
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
 }
 /** State common to all model types. Includes publishing and validation information. */
 export interface ModelState {
@@ -113,40 +103,50 @@ export interface ModelState {
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
 }
 export type OperationList = Array<Operation>;
+/** Information that is specific to TfLite models. */
+export interface TfLiteModel {
+  /** Output only. The size of the TFLite model */
+  sizeBytes?: string;
+  /** The TfLite file containing the model. (Stored in Google Cloud). The gcs_tflite_uri should have form: gs://some-bucket/some-model.tflite Note: If you update the file in the original location, it is necessary to call UpdateModel for ML to pick up and validate the updated file. */
+  gcsTfliteUri?: string;
+  /** The AutoML model id referencing a model you created with the AutoML API. The name should have format 'projects//locations//models/' (This is the model resource name returned from the AutoML API) */
+  automlModel?: string;
+}
+export type StringList = Array<string>;
 /** An ML model hosted in Firebase ML */
 export interface Model {
-  /** A TFLite Model */
-  tfliteModel?: TfLiteModel;
+  /** Output only. Timestamp when this model was updated in Firebase ML. */
+  updateTime?: string;
+  /** State common to all model types. Includes publishing and validation information. */
+  state?: ModelState;
+  /** Output only. The model_hash will change if a new file is available for download. */
+  modelHash?: string;
+  /** Output only. Lists operation ids associated with this model whose status is NOT done. */
+  activeOperations?: OperationList;
+  /** Output only. See RFC7232 https://tools.ietf.org/html/rfc7232#section-2.3 */
+  etag?: string;
   /** Output only. Timestamp when this model was created in Firebase ML. */
   createTime?: string;
   /** Required. The name of the model to create. The name can be up to 32 characters long and can consist only of ASCII Latin letters A-Z and a-z, underscores(_) and ASCII digits 0-9. It must start with a letter. */
   displayName?: string;
-  /** Output only. See RFC7232 https://tools.ietf.org/html/rfc7232#section-2.3 */
-  etag?: string;
-  /** User defined tags which can be used to group/filter models during listing */
-  tags?: StringList;
-  /** Output only. Timestamp when this model was updated in Firebase ML. */
-  updateTime?: string;
+  /** A TFLite Model */
+  tfliteModel?: TfLiteModel;
   /** The resource name of the Model. Model names have the form `projects/{project_id}/models/{model_id}` The name is ignored when creating a model. */
   name?: string;
-  /** State common to all model types. Includes publishing and validation information. */
-  state?: ModelState;
-  /** Output only. Lists operation ids associated with this model whose status is NOT done. */
-  activeOperations?: OperationList;
-  /** Output only. The model_hash will change if a new file is available for download. */
-  modelHash?: string;
+  /** User defined tags which can be used to group/filter models during listing */
+  tags?: StringList;
 }
 export interface CreateProjectsModelsRequest {
   /** Required. The parent project resource where the model is to be created. The parent must have the form `projects/{project_id}` */
@@ -171,10 +171,10 @@ export interface DownloadModelResponse {
   expireTime?: string;
   /** Output only. A download URI for the model/zip file. */
   downloadUri?: string;
-  /** Output only. The format of the model being downloaded. */
-  modelFormat?: DownloadModelResponseModelFormatEnum;
   /** Output only. The size of the file(s), if this information is available. */
   sizeBytes?: string;
+  /** Output only. The format of the model being downloaded. */
+  modelFormat?: DownloadModelResponseModelFormatEnum;
 }
 export interface GetProjectsModelsRequest {
   /** Required. The name of the model to get. The name must have the form `projects/{project_id}/models/{model_id}` */
@@ -185,14 +185,14 @@ export interface GetProjectsOperationsRequest {
   name: string;
 }
 export interface ListProjectsModelsRequest {
-  /** The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string;
-  /** A filter for the list e.g. 'tags: abc' to list models which are tagged with "abc" */
-  filter?: string;
-  /** The maximum number of items to return */
-  pageSize?: number;
   /** Required. The name of the parent to list models for. The parent must have the form `projects/{project_id}' */
   parent: string;
+  /** The maximum number of items to return */
+  pageSize?: number;
+  /** A filter for the list e.g. 'tags: abc' to list models which are tagged with "abc" */
+  filter?: string;
+  /** The next_page_token value returned from a previous List request, if any. */
+  pageToken?: string;
 }
 export type ModelList = Array<Model>;
 /** The response for list models */
@@ -376,19 +376,19 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(S.String),
           details: S.optional(__S(17, __c2, 1)),
           code: S.optional(S.Number),
+          message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
+          metadata: S.optional(__S(16, __c2, 0)),
+          done: S.optional(S.Boolean),
           response: S.optional(__S(16, __c2, 0)),
           name: S.optional(S.String),
-          done: S.optional(S.Boolean),
           error: S.optional(__S(18, __c2, 2)),
-          metadata: S.optional(__S(16, __c2, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -398,35 +398,35 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          automlModel: S.optional(S.String),
-          sizeBytes: S.optional(S.String),
-          gcsTfliteUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TfLiteModel" });
-    case 1:
-      return S.Array(S.String);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           published: S.optional(S.Boolean),
           validationError: S.optional(__S(18, __c2, 2)),
         }),
       ).annotate({ identifier: "ModelState" });
-    case 3:
+    case 1:
       return S.Array(__S(19, __c2, 3));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          sizeBytes: S.optional(S.String),
+          gcsTfliteUri: S.optional(S.String),
+          automlModel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TfLiteModel" });
+    case 3:
+      return S.Array(S.String);
     case 4:
       return S.suspend(() =>
         S.Struct({
-          tfliteModel: S.optional(__S(24, __c3, 0)),
+          updateTime: S.optional(S.String),
+          state: S.optional(__S(24, __c3, 0)),
+          modelHash: S.optional(S.String),
+          activeOperations: S.optional(__S(25, __c3, 1)),
+          etag: S.optional(S.String),
           createTime: S.optional(S.String),
           displayName: S.optional(S.String),
-          etag: S.optional(S.String),
-          tags: S.optional(__S(25, __c3, 1)),
-          updateTime: S.optional(S.String),
+          tfliteModel: S.optional(__S(26, __c3, 2)),
           name: S.optional(S.String),
-          state: S.optional(__S(26, __c3, 2)),
-          activeOperations: S.optional(__S(27, __c3, 3)),
-          modelHash: S.optional(S.String),
+          tags: S.optional(__S(27, __c3, 3)),
         }),
       ).annotate({ identifier: "Model" });
   }
@@ -468,8 +468,8 @@ function __c5(j: number): any {
         S.Struct({
           expireTime: S.optional(S.String),
           downloadUri: S.optional(S.String),
-          modelFormat: S.optional(S.String),
           sizeBytes: S.optional(S.String),
+          modelFormat: S.optional(S.String),
         }),
       ).annotate({ identifier: "DownloadModelResponse" });
   }
@@ -511,10 +511,10 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",

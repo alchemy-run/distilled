@@ -93,26 +93,38 @@ export interface CancelProjectsLocationsOperationsRequest {
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-export type StringMap = { [key: string]: string | undefined };
-export type AgentConnectivityTemplateAccessPathEnum =
-  | "ACCESS_PATH_UNSPECIFIED"
-  | "CLIENT_TO_AGENT"
-  | "AGENT_TO_ANYWHERE";
-export type EgressNetworkConfigVpcEgressEnum =
-  | "VPC_EGRESS_UNSPECIFIED"
-  | "ALL_TRAFFIC"
-  | "PRIVATE_RANGES_ONLY";
+export type AgentConnectivityTemplateDeploymentModelEnum =
+  | "DEPLOYMENT_MODEL_UNSPECIFIED"
+  | "CENTRALIZED"
+  | "AMBIENT";
+export type AgentConnectivityTemplateAgentComputeEnum =
+  | "AGENT_COMPUTE_UNSPECIFIED"
+  | "GKE"
+  | "CLOUD_RUN"
+  | "BORG"
+  | "GCE_VM";
+export type AgentConnectivityTemplateAccessTypesItemEnum =
+  | "ACCESS_TYPE_UNSPECIFIED"
+  | "PUBLIC"
+  | "PRIVATE";
+export type AgentConnectivityTemplateAccessTypesItemEnumList = Array<
+  AgentConnectivityTemplateAccessTypesItemEnum | (string & {})
+>;
 export type EgressNetworkConfigTlsConfigAdditionalRootsEnum =
   | "ADDITIONAL_ROOTS_UNSPECIFIED"
   | "NO_ADDITIONAL_ROOTS"
   | "PUBLICLY_TRUSTED_ROOTS";
 /** Configuration for TLS connections. */
 export interface EgressNetworkConfigTlsConfig {
-  /** Optional. The additional roots to trust. */
-  additionalRoots?: EgressNetworkConfigTlsConfigAdditionalRootsEnum | (string & {});
   /** Optional. The trust config resource name. Format: projects/{project}/locations/{location}/trustConfigs/{trust_config} */
   trustConfig?: string;
+  /** Optional. The additional roots to trust. */
+  additionalRoots?: EgressNetworkConfigTlsConfigAdditionalRootsEnum | (string & {});
 }
+export type EgressNetworkConfigVpcEgressEnum =
+  | "VPC_EGRESS_UNSPECIFIED"
+  | "ALL_TRAFFIC"
+  | "PRIVATE_RANGES_ONLY";
 export type StringList = Array<string>;
 /** DNS Peering configuration. */
 export interface DnsPeeringConfig {
@@ -125,64 +137,52 @@ export interface DnsPeeringConfig {
 }
 /** Egress network config */
 export interface EgressNetworkConfig {
-  /** Optional. The VPC egress setting. */
-  vpcEgress?: EgressNetworkConfigVpcEgressEnum | (string & {});
-  /** Optional. Deprecated: Use tls_config instead. The trust config resource name. Format: projects/{project}/locations/{location}/trustConfigs/{trust_config} */
-  trustConfig?: string;
   /** Optional. The TLS configuration for the egress traffic. */
   tlsConfig?: EgressNetworkConfigTlsConfig;
+  /** Optional. Deprecated: Use tls_config instead. The trust config resource name. Format: projects/{project}/locations/{location}/trustConfigs/{trust_config} */
+  trustConfig?: string;
   /** Optional. The network attachment resource name. Format: projects/{project}/regions/{region}/networkAttachments/{network_attachment_id} */
   networkAttachment?: string;
+  /** Optional. The VPC egress setting. */
+  vpcEgress?: EgressNetworkConfigVpcEgressEnum | (string & {});
   /** Optional. DNS Peering configuration. */
   dnsPeeringConfig?: DnsPeeringConfig;
 }
-export type AgentConnectivityTemplateAgentComputeEnum =
-  | "AGENT_COMPUTE_UNSPECIFIED"
-  | "GKE"
-  | "CLOUD_RUN"
-  | "BORG"
-  | "GCE_VM";
-export type AgentConnectivityTemplateDeploymentModelEnum =
-  | "DEPLOYMENT_MODEL_UNSPECIFIED"
-  | "CENTRALIZED"
-  | "AMBIENT";
-export type AgentConnectivityTemplateAccessTypesItemEnum =
-  | "ACCESS_TYPE_UNSPECIFIED"
-  | "PUBLIC"
-  | "PRIVATE";
-export type AgentConnectivityTemplateAccessTypesItemEnumList = Array<
-  AgentConnectivityTemplateAccessTypesItemEnum | (string & {})
->;
+export type StringMap = { [key: string]: string | undefined };
+export type AgentConnectivityTemplateAccessPathEnum =
+  | "ACCESS_PATH_UNSPECIFIED"
+  | "CLIENT_TO_AGENT"
+  | "AGENT_TO_ANYWHERE";
 /** AgentConnectivityTemplate represents a reusable network configuration. */
 export interface AgentConnectivityTemplate {
-  /** Optional. A free-text description of the resource. Max length 1024 characters. */
-  description?: string;
-  /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
-  etag?: string;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** Optional. Set of label tags associated with the AgentConnectivityTemplate resource. */
-  labels?: StringMap;
-  /** Required. Immutable. The path of the access. Maps roughly to ingress/egress, though we keep CLIENT_TO_AGENT and AGENT_TO_ANYWHERE as carryovers from Agent Gateway's original resource model. The path is immutable once set. Exactly one path can be set. */
-  accessPath?: AgentConnectivityTemplateAccessPathEnum | (string & {});
-  /** Optional. Configuration for egress network traffic. */
-  egressNetworkConfig?: EgressNetworkConfig;
+  /** Optional. The deployment model for the gateway. */
+  deploymentModel?: AgentConnectivityTemplateDeploymentModelEnum | (string & {});
   /** Optional. The compute environment where the agent is hosted. Exactly one type of compute must be chosen. */
   agentCompute?: AgentConnectivityTemplateAgentComputeEnum | (string & {});
-  /** Required. The deployment model for the gateway. */
-  deploymentModel?: AgentConnectivityTemplateDeploymentModelEnum | (string & {});
   /** Optional. The types of network access provided to the gateway. Both PUBLIC and PRIVATE can be configured. */
   accessTypes?: AgentConnectivityTemplateAccessTypesItemEnumList;
+  /** Optional. Configuration for egress network traffic. */
+  egressNetworkConfig?: EgressNetworkConfig;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string;
   /** Identifier. Name of the AgentConnectivityTemplate resource. It matches pattern `projects/*\/locations/*\/agentConnectivityTemplates/`. */
   name?: string;
+  /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
+  etag?: string;
+  /** Optional. Set of label tags associated with the AgentConnectivityTemplate resource. */
+  labels?: StringMap;
+  /** Optional. Immutable. The path of the access. Maps roughly to ingress/egress, though we keep CLIENT_TO_AGENT and AGENT_TO_ANYWHERE as carryovers from Agent Gateway's original resource model. The path is immutable once set. Exactly one path can be set. */
+  accessPath?: AgentConnectivityTemplateAccessPathEnum | (string & {});
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
 }
 export interface CreateProjectsLocationsAgentConnectivityTemplatesRequest {
-  /** Required. The parent resource of the AgentConnectivityTemplate. Must be in the format `projects/*\/locations/*`. */
-  parent: string;
   /** Required. Short name of the AgentConnectivityTemplate resource to be created. */
   agentConnectivityTemplateId?: string;
+  /** Required. The parent resource of the AgentConnectivityTemplate. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
   /** Request body */
   body?: AgentConnectivityTemplate;
 }
@@ -190,25 +190,50 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
+}
+export type AgentGatewayGoogleManagedGovernedAccessPathEnum =
+  | "GOVERNED_ACCESS_PATH_UNSPECIFIED"
+  | "AGENT_TO_ANYWHERE"
+  | "CLIENT_TO_AGENT";
+/** Configuration for Google Managed deployment mode. Proxy is orchestrated and managed by GoogleCloud in a tenant project. */
+export interface AgentGatewayGoogleManaged {
+  /** Optional. Operating Mode of Agent Gateway. */
+  governedAccessPath?: AgentGatewayGoogleManagedGovernedAccessPathEnum | (string & {});
+}
+/** Configuration for Self Managed deployment mode. Attach to existing Application Load Balancers or Secure Web Proxies. */
+export interface AgentGatewaySelfManaged {
+  /** Optional. List of supported Google Cloud networking proxies in the Project and Location. resource_uris is mutually exclusive with resource_uri. */
+  resourceUris?: StringList;
+  /** Optional. A supported Google Cloud networking proxy in the Project and Location */
+  resourceUri?: string;
+}
+/** AgentGatewayOutputCard contains informational output-only fields */
+export interface AgentGatewayAgentGatewayOutputCard {
+  /** Output only. mTLS Endpoint associated with this AgentGateway */
+  mtlsEndpoint?: string;
+  /** Output only. Service Account used by Service Extensions to operate. */
+  serviceExtensionsServiceAccount?: string;
+  /** Output only. Root Certificates for Agents to validate this AgentGateway */
+  rootCertificates?: StringList;
 }
 /** Configuration for Egress */
 export interface AgentGatewayNetworkConfigEgress {
@@ -235,65 +260,40 @@ export type AgentGatewayProtocolsItemEnum = "PROTOCOL_UNSPECIFIED" | "MCP";
 export type AgentGatewayProtocolsItemEnumList = Array<
   AgentGatewayProtocolsItemEnum | (string & {})
 >;
-/** AgentGatewayOutputCard contains informational output-only fields */
-export interface AgentGatewayAgentGatewayOutputCard {
-  /** Output only. Service Account used by Service Extensions to operate. */
-  serviceExtensionsServiceAccount?: string;
-  /** Output only. Root Certificates for Agents to validate this AgentGateway */
-  rootCertificates?: StringList;
-  /** Output only. mTLS Endpoint associated with this AgentGateway */
-  mtlsEndpoint?: string;
-}
-/** Configuration for Self Managed deployment mode. Attach to existing Application Load Balancers or Secure Web Proxies. */
-export interface AgentGatewaySelfManaged {
-  /** Optional. A supported Google Cloud networking proxy in the Project and Location */
-  resourceUri?: string;
-  /** Optional. List of supported Google Cloud networking proxies in the Project and Location. resource_uris is mutually exclusive with resource_uri. */
-  resourceUris?: StringList;
-}
-export type AgentGatewayGoogleManagedGovernedAccessPathEnum =
-  | "GOVERNED_ACCESS_PATH_UNSPECIFIED"
-  | "AGENT_TO_ANYWHERE"
-  | "CLIENT_TO_AGENT";
-/** Configuration for Google Managed deployment mode. Proxy is orchestrated and managed by GoogleCloud in a tenant project. */
-export interface AgentGatewayGoogleManaged {
-  /** Optional. Operating Mode of Agent Gateway. */
-  governedAccessPath?: AgentGatewayGoogleManagedGovernedAccessPathEnum | (string & {});
-}
 /** AgentGateway represents the agent gateway resource. */
 export interface AgentGateway {
-  /** Optional. Network configuration for the AgentGateway. */
-  networkConfig?: AgentGatewayNetworkConfig;
-  /** Optional. Deprecated. */
-  protocols?: AgentGatewayProtocolsItemEnumList;
-  /** Output only. Field for populated AgentGateway card. */
-  agentGatewayCard?: AgentGatewayAgentGatewayOutputCard;
-  /** Optional. Set of label tags associated with the AgentGateway resource. */
-  labels?: StringMap;
-  /** Optional. The resource name of the AgentConnectivityTemplate. Format: projects/{project}/locations/{location}/agentConnectivityTemplates/{template} */
-  agentConnectivityTemplate?: string;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string;
-  /** Optional. A list of Agent registries containing the agents, MCP servers and tools governed by the Agent Gateway. Note: Currently limited to project-scoped registries Must be of format `//agentregistry.googleapis.com/projects/{project}/locations/{location}/` */
-  registries?: StringList;
-  /** Optional. Attach to existing Application Load Balancers or Secure Web Proxies. */
-  selfManaged?: AgentGatewaySelfManaged;
-  /** Optional. A free-text description of the resource. Max length 1024 characters. */
-  description?: string;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
-  etag?: string;
   /** Optional. Proxy is orchestrated and managed by GoogleCloud in a tenant project. */
   googleManaged?: AgentGatewayGoogleManaged;
   /** Identifier. Name of the AgentGateway resource. It matches pattern `projects/*\/locations/*\/agentGateways/`. */
   name?: string;
+  /** Optional. Attach to existing Application Load Balancers or Secure Web Proxies. */
+  selfManaged?: AgentGatewaySelfManaged;
+  /** Optional. Set of label tags associated with the AgentGateway resource. */
+  labels?: StringMap;
+  /** Output only. Field for populated AgentGateway card. */
+  agentGatewayCard?: AgentGatewayAgentGatewayOutputCard;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
+  /** Optional. Network configuration for the AgentGateway. */
+  networkConfig?: AgentGatewayNetworkConfig;
+  /** Optional. A list of Agent registries containing the agents, MCP servers and tools governed by the Agent Gateway. Note: Currently limited to project-scoped registries Must be of format `//agentregistry.googleapis.com/projects/{project}/locations/{location}/` */
+  registries?: StringList;
+  /** Optional. The resource name of the AgentConnectivityTemplate. Format: projects/{project}/locations/{location}/agentConnectivityTemplates/{template} */
+  agentConnectivityTemplate?: string;
+  /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
+  etag?: string;
+  /** Optional. Deprecated. */
+  protocols?: AgentGatewayProtocolsItemEnumList;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string;
 }
 export interface CreateProjectsLocationsAgentGatewaysRequest {
-  /** Required. Short name of the AgentGateway resource to be created. */
-  agentGatewayId?: string;
   /** Required. The parent resource of the AgentGateway. Must be in the format `projects/*\/locations/*`. */
   parent: string;
+  /** Required. Short name of the AgentGateway resource to be created. */
+  agentGatewayId?: string;
   /** Request body */
   body?: AgentGateway;
 }
@@ -307,53 +307,50 @@ export type AuthzExtensionLoadBalancingSchemeEnum =
   | "EXTERNAL_MANAGED";
 /** `AuthzExtension` is a resource that allows traffic forwarding to a callout backend service to make an authorization decision. */
 export interface AuthzExtension {
-  /** Optional. Set of labels associated with the `AuthzExtension` resource. The format must comply with [the requirements for labels](/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
-  labels?: StringMap;
-  /** Optional. The format of communication supported by the callout extension. This field is supported only for regional `AuthzExtension` resources. If not specified, the default value `EXT_PROC_GRPC` is used. Global `AuthzExtension` resources use the `EXT_PROC_GRPC` wire format. */
-  wireFormat?: AuthzExtensionWireFormatEnum | (string & {});
-  /** Optional. List of the HTTP headers to forward to the extension (from the client). If omitted, all headers are sent. Each element is a string indicating the header name. */
-  forwardHeaders?: StringList;
-  /** Optional. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. The supported values are `INTERNAL_MANAGED` and `EXTERNAL_MANAGED`. You can omit this field for `AuthzExtensions` resources that don't reference a backend service. For more information, see [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
-  loadBalancingScheme?: AuthzExtensionLoadBalancingSchemeEnum | (string & {});
-  /** Optional. A human-readable description of the resource. */
-  description?: string;
-  /** Optional. List of the Envoy attributes to forward to the extension server. The attributes provided here are included as part of the `ProcessingRequest.attributes` field (of type `map`), where the keys are the attribute names. Refer to the [documentation](https://cloud.google.com/service-extensions/docs/cel-matcher-language-reference#attributes) for the names of attributes that can be forwarded. If omitted, no attributes are sent. Each element is a string indicating the attribute name. */
-  forwardAttributes?: StringList;
-  /** Required. Specifies the timeout for each individual message on the stream. The timeout must be between 10-10000 milliseconds. */
-  timeout?: string;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** Required. The reference to the service that runs the extension. To configure a callout extension: For global AuthzExtension, `service` must be a fully-qualified reference to a [backend service](https://cloud.google.com/compute/docs/reference/rest/v1/backendServices) in the format: `https://www.googleapis.com/compute/v1/projects/{project}/global/backendServices/{backendService}`. For regional AuthzExtension, `service` must be a fully-qualified reference to one of the following: * a [backend service](https://cloud.google.com/compute/docs/reference/rest/v1/backendServices) in the format: `https://www.googleapis.com/compute/v1/projects/{project}/regions/{region}/backendServices/{backendService}`. * a fully qualified domain name that can be resolved by the Google Cloud DNS. * `iap.googleapis.com` and it can only be referenced by an AuthzPolicy with the policyProfile set to REQUEST_AUTHZ. * `modelarmor..rep.googleapis.com` and it can only be referenced by an AuthzPolicy with the policyProfile set to CONTENT_AUTHZ. */
-  service?: string;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string;
-  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata is available under the namespace `com.google.authz_extension.`. The following variables are supported in the metadata Struct: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. */
-  metadata?: DocumentMap;
   /** Required. Identifier. Name of the `AuthzExtension` resource in the following format: `projects/{project}/locations/{location}/authzExtensions/{authz_extension}`. */
   name?: string;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
+  /** Optional. Set of labels associated with the `AuthzExtension` resource. The format must comply with [the requirements for labels](/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
+  labels?: StringMap;
   /** Optional. Determines how the proxy behaves if the call to the extension fails or times out. When set to `TRUE`, request or response processing continues without error. Any subsequent extensions in the extension chain are also executed. When set to `FALSE` or the default setting of `FALSE` is used, one of the following happens: * If response headers have not been delivered to the downstream client, a generic 500 error is returned to the client. The error response can be tailored by configuring a custom error response in the load balancer. * If response headers have been delivered, then the HTTP stream to the downstream client is reset. */
   failOpen?: boolean;
+  /** Optional. The format of communication supported by the callout extension. This field is supported only for regional `AuthzExtension` resources. If not specified, the default value `EXT_PROC_GRPC` is used. Global `AuthzExtension` resources use the `EXT_PROC_GRPC` wire format. */
+  wireFormat?: AuthzExtensionWireFormatEnum | (string & {});
+  /** Optional. A human-readable description of the resource. */
+  description?: string;
+  /** Required. The reference to the service that runs the extension. To configure a callout extension: For global AuthzExtension, `service` must be a fully-qualified reference to a [backend service](https://cloud.google.com/compute/docs/reference/rest/v1/backendServices) in the format: `https://www.googleapis.com/compute/v1/projects/{project}/global/backendServices/{backendService}`. For regional AuthzExtension, `service` must be a fully-qualified reference to one of the following: * a [backend service](https://cloud.google.com/compute/docs/reference/rest/v1/backendServices) in the format: `https://www.googleapis.com/compute/v1/projects/{project}/regions/{region}/backendServices/{backendService}`. * a fully qualified domain name that can be resolved by the Google Cloud DNS. * `iap.googleapis.com` and it can only be referenced by an AuthzPolicy with the policyProfile set to REQUEST_AUTHZ. * `modelarmor..rep.googleapis.com` and it can only be referenced by an AuthzPolicy with the policyProfile set to CONTENT_AUTHZ. */
+  service?: string;
+  /** Required. Specifies the timeout for each individual message on the stream. The timeout must be between 10-10000 milliseconds. */
+  timeout?: string;
   /** Optional. The `:authority` header in the gRPC request sent from Envoy to the extension service. It is required when the `service` field points to a backend service. */
   authority?: string;
+  /** Optional. List of the Envoy attributes to forward to the extension server. The attributes provided here are included as part of the `ProcessingRequest.attributes` field (of type `map`), where the keys are the attribute names. Refer to the [documentation](https://cloud.google.com/service-extensions/docs/cel-matcher-language-reference#attributes) for the names of attributes that can be forwarded. If omitted, no attributes are sent. Each element is a string indicating the attribute name. */
+  forwardAttributes?: StringList;
+  /** Optional. List of the HTTP headers to forward to the extension (from the client). If omitted, all headers are sent. Each element is a string indicating the header name. */
+  forwardHeaders?: StringList;
+  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata is available under the namespace `com.google.authz_extension.`. The following variables are supported in the metadata Struct: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. */
+  metadata?: DocumentMap;
+  /** Optional. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. The supported values are `INTERNAL_MANAGED` and `EXTERNAL_MANAGED`. You can omit this field for `AuthzExtensions` resources that don't reference a backend service. For more information, see [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
+  loadBalancingScheme?: AuthzExtensionLoadBalancingSchemeEnum | (string & {});
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
 }
 export interface CreateProjectsLocationsAuthzExtensionsRequest {
-  /** Required. The parent resource of the `AuthzExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Required. User-provided ID of the `AuthzExtension` resource to be created. */
-  authzExtensionId?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. User-provided ID of the `AuthzExtension` resource to be created. */
+  authzExtensionId?: string;
+  /** Required. The parent resource of the `AuthzExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
+  parent: string;
   /** Request body */
   body?: AuthzExtension;
 }
-export type ExtensionChainExtensionResponseBodySendModeEnum =
-  | "BODY_SEND_MODE_UNSPECIFIED"
-  | "BODY_SEND_MODE_STREAMED"
-  | "BODY_SEND_MODE_FULL_DUPLEX_STREAMED";
-export type ExtensionChainExtensionRequestBodySendModeEnum =
-  | "BODY_SEND_MODE_UNSPECIFIED"
-  | "BODY_SEND_MODE_STREAMED"
-  | "BODY_SEND_MODE_FULL_DUPLEX_STREAMED";
+/** Specifies the set of targets to which `CdnEdgeExtension` should be applied to. */
+export interface CdnEdgeExtensionTarget {
+  /** Required. A list of references to the resources that are targeted by `CdnEdgeExtension`. Types of resources supported: `EdgeCacheService`. The format must be the full resource name of [EdgeCacheService](https://cloud.google.com/media-cdn/docs/reference/rest/v1/projects.locations.edgeCacheServices) in the following format: `//networkservices.googleapis.com/projects/{project}/locations/{location}/edgeCacheServices/{edgeCacheService}`. */
+  resources?: StringList;
+}
 export type ExtensionChainExtensionSupportedEventsItemEnum =
   | "EVENT_TYPE_UNSPECIFIED"
   | "REQUEST_HEADERS"
@@ -365,34 +362,42 @@ export type ExtensionChainExtensionSupportedEventsItemEnum =
 export type ExtensionChainExtensionSupportedEventsItemEnumList = Array<
   ExtensionChainExtensionSupportedEventsItemEnum | (string & {})
 >;
+export type ExtensionChainExtensionRequestBodySendModeEnum =
+  | "BODY_SEND_MODE_UNSPECIFIED"
+  | "BODY_SEND_MODE_STREAMED"
+  | "BODY_SEND_MODE_FULL_DUPLEX_STREAMED";
+export type ExtensionChainExtensionResponseBodySendModeEnum =
+  | "BODY_SEND_MODE_UNSPECIFIED"
+  | "BODY_SEND_MODE_STREAMED"
+  | "BODY_SEND_MODE_FULL_DUPLEX_STREAMED";
 /** A single extension in the chain to execute for the matching request. */
 export interface ExtensionChainExtension {
-  /** Optional. Specifies the timeout for each individual message on the stream. The timeout must be between `10`-`10000` milliseconds. Required for callout extensions. This field is not supported for plugin extensions. Setting it results in a validation error. */
-  timeout?: string;
-  /** Required. The reference to the service that runs the extension. To configure a callout extension, `service` must be a fully-qualified reference to a [backend service](https://cloud.google.com/compute/docs/reference/rest/v1/backendServices) in the format: `https://www.googleapis.com/compute/v1/projects/{project}/regions/{region}/backendServices/{backendService}` or `https://www.googleapis.com/compute/v1/projects/{project}/global/backendServices/{backendService}`. To configure a plugin extension, `service` must be a reference to a [`WasmPlugin` resource](https://cloud.google.com/service-extensions/docs/reference/rest/v1beta1/projects.locations.wasmPlugins) in the format: `projects/{project}/locations/{location}/wasmPlugins/{plugin}` or `//networkservices.googleapis.com/projects/{project}/locations/{location}/wasmPlugins/{wasmPlugin}`. Plugin extensions are currently supported for the `LbTrafficExtension`, the `LbRouteExtension`, and the `LbEdgeExtension` resources. */
-  service?: string;
-  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. For `AuthzExtension` resources, the metadata is available under the namespace `com.google.authz_extension.`. For other types of extensions, the metadata is available under the namespace `com.google....`. For example: `com.google.lb_traffic_extension.lbtrafficextension1.chain1.ext1`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set for plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. This field is subject to following limitations: * The total size of the metadata must be less than 1KiB. * The total number of keys in the metadata must be less than 16. * The length of each key must be less than 64 characters. * The length of each value must be less than 1024 characters. * All values must be strings. */
-  metadata?: DocumentMap;
-  /** Optional. Configures the send mode for response processing. If unspecified, the default value `STREAMED` is used. The field can only be set if `supported_events` includes `RESPONSE_BODY`. If `supported_events` includes `RESPONSE_BODY`, but `response_body_send_mode` is unset, the default value `STREAMED` is used. When this field is set to `FULL_DUPLEX_STREAMED`, `supported_events` must include both `RESPONSE_BODY` and `RESPONSE_TRAILERS`. This field can be set only for `LbTrafficExtension` resources, and only when the `service` field of the extension points to a `BackendService`. */
-  responseBodySendMode?: ExtensionChainExtensionResponseBodySendModeEnum | (string & {});
+  /** Optional. List of the Envoy attributes to forward to the extension server. The attributes provided here are included as part of the `ProcessingRequest.attributes` field (of type `map`), where the keys are the attribute names. Refer to the [documentation](https://cloud.google.com/service-extensions/docs/cel-matcher-language-reference#attributes) for the names of attributes that can be forwarded. If omitted, no attributes are sent. Each element is a string indicating the attribute name. */
+  forwardAttributes?: StringList;
+  /** Optional. A set of events during request or response processing for which this extension is called. For the `LbTrafficExtension` resource, this field is required. For the `LbRouteExtension` resource, this field is optional. If unspecified, `REQUEST_HEADERS` event is assumed as supported. For the `LbEdgeExtension` resource, this field is required and must only contain `REQUEST_HEADERS` event. For the `AuthzExtension` resource, this field is optional. `REQUEST_HEADERS` is the only supported event. If unspecified, `REQUEST_HEADERS` event is assumed as supported. For the `CdnEdgeExtension` resource, this field is optional. Eligible values are `REQUEST_HEADERS` and `RESPONSE_HEADERS`. If unspecified, both are assumed as supported. */
+  supportedEvents?: ExtensionChainExtensionSupportedEventsItemEnumList;
   /** Optional. When set to `TRUE`, the response from an extension service is allowed to set the `com.google.envoy.dynamic_forwarding` namespace in the dynamic metadata. This field is not supported for plugin extensions or AuthzExtensions. Setting it results in a validation error. */
   allowDynamicForwarding?: boolean;
+  /** Required. The reference to the service that runs the extension. To configure a callout extension, `service` must be a fully-qualified reference to a [backend service](https://cloud.google.com/compute/docs/reference/rest/v1/backendServices) in the format: `https://www.googleapis.com/compute/v1/projects/{project}/regions/{region}/backendServices/{backendService}` or `https://www.googleapis.com/compute/v1/projects/{project}/global/backendServices/{backendService}`. To configure a plugin extension, `service` must be a reference to a [`WasmPlugin` resource](https://cloud.google.com/service-extensions/docs/reference/rest/v1beta1/projects.locations.wasmPlugins) in the format: `projects/{project}/locations/{location}/wasmPlugins/{plugin}` or `//networkservices.googleapis.com/projects/{project}/locations/{location}/wasmPlugins/{wasmPlugin}`. Plugin extensions are currently supported for the `LbTrafficExtension`, the `LbRouteExtension`, the `LbEdgeExtension`, and the `CdnEdgeExtension` resources. */
+  service?: string;
+  /** Optional. Specifies the timeout for each individual message on the stream. The timeout must be between `10`-`10000` milliseconds. Required for callout extensions. This field is not supported for plugin extensions. Setting it results in a validation error. */
+  timeout?: string;
+  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. For `AuthzExtension` resources, the metadata is available under the namespace `com.google.authz_extension.`. For other types of extensions, the metadata is available under the namespace `com.google....`. For example: `com.google.lb_traffic_extension.lbtrafficextension1.chain1.ext1`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set for plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. This field is subject to following limitations: * The total size of the metadata must be less than 1KiB. * The total number of keys in the metadata must be less than 16. * The length of each key must be less than 64 characters. * The length of each value must be less than 1024 characters. * All values must be strings. */
+  metadata?: DocumentMap;
+  /** Optional. Configures the send mode for request body processing. The field can only be set if `supported_events` includes `REQUEST_BODY`. If `supported_events` includes `REQUEST_BODY`, but `request_body_send_mode` is unset, the default value `STREAMED` is used. When this field is set to `FULL_DUPLEX_STREAMED`, `supported_events` must include both `REQUEST_BODY` and `REQUEST_TRAILERS`. This field can be set only for `LbTrafficExtension` and `LbRouteExtension` resources, and only when the `service` field of the extension points to a `BackendService`. Only `FULL_DUPLEX_STREAMED` mode is supported for `LbRouteExtension` resources. */
+  requestBodySendMode?: ExtensionChainExtensionRequestBodySendModeEnum | (string & {});
+  /** Optional. The `:authority` header in the gRPC request sent from Envoy to the extension service. Required for Callout extensions. This field is not supported for plugin extensions. Setting it results in a validation error. */
+  authority?: string;
+  /** Optional. Configures the send mode for response processing. If unspecified, the default value `STREAMED` is used. The field can only be set if `supported_events` includes `RESPONSE_BODY`. If `supported_events` includes `RESPONSE_BODY`, but `response_body_send_mode` is unset, the default value `STREAMED` is used. When this field is set to `FULL_DUPLEX_STREAMED`, `supported_events` must include both `RESPONSE_BODY` and `RESPONSE_TRAILERS`. This field can be set only for `LbTrafficExtension` resources, and only when the `service` field of the extension points to a `BackendService`. */
+  responseBodySendMode?: ExtensionChainExtensionResponseBodySendModeEnum | (string & {});
+  /** Optional. List of the HTTP headers to forward to the extension (from the client or backend). If omitted, all headers are sent. Each element is a string indicating the header name. */
+  forwardHeaders?: StringList;
   /** Optional. The name for this extension. The name is logged as part of the HTTP request logs. The name must conform with RFC-1034, is restricted to lower-cased letters, numbers and hyphens, and can have a maximum length of 63 characters. Additionally, the first character must be a letter and the last a letter or a number. This field is required except for AuthzExtension. */
   name?: string;
   /** Optional. When set to `true`, the calls to the extension backend are performed asynchronously, without pausing the processing of the ongoing request. In this mode, only `STREAMED` (default) body processing is supported. Responses, if any, are ignored. Supported by regional `LbTrafficExtension` and `LbRouteExtension` resources. */
   observabilityMode?: boolean;
   /** Optional. Determines how the proxy behaves if the call to the extension fails or times out. When set to `TRUE`, request or response processing continues without error. Any subsequent extensions in the extension chain are also executed. When set to `FALSE` or the default setting of `FALSE` is used, one of the following happens: * If response headers have not been delivered to the downstream client, a generic 500 error is returned to the client. The error response can be tailored by configuring a custom error response in the load balancer. * If response headers have been delivered, then the HTTP stream to the downstream client is reset. */
   failOpen?: boolean;
-  /** Optional. List of the HTTP headers to forward to the extension (from the client or backend). If omitted, all headers are sent. Each element is a string indicating the header name. */
-  forwardHeaders?: StringList;
-  /** Optional. Configures the send mode for request body processing. The field can only be set if `supported_events` includes `REQUEST_BODY`. If `supported_events` includes `REQUEST_BODY`, but `request_body_send_mode` is unset, the default value `STREAMED` is used. When this field is set to `FULL_DUPLEX_STREAMED`, `supported_events` must include both `REQUEST_BODY` and `REQUEST_TRAILERS`. This field can be set only for `LbTrafficExtension` and `LbRouteExtension` resources, and only when the `service` field of the extension points to a `BackendService`. Only `FULL_DUPLEX_STREAMED` mode is supported for `LbRouteExtension` resources. */
-  requestBodySendMode?: ExtensionChainExtensionRequestBodySendModeEnum | (string & {});
-  /** Optional. The `:authority` header in the gRPC request sent from Envoy to the extension service. Required for Callout extensions. This field is not supported for plugin extensions. Setting it results in a validation error. */
-  authority?: string;
-  /** Optional. A set of events during request or response processing for which this extension is called. For the `LbTrafficExtension` resource, this field is required. For the `LbRouteExtension` resource, this field is optional. If unspecified, `REQUEST_HEADERS` event is assumed as supported. For the `LbEdgeExtension` resource, this field is required and must only contain `REQUEST_HEADERS` event. For the `AuthzExtension` resource, this field is optional. `REQUEST_HEADERS` is the only supported event. If unspecified, `REQUEST_HEADERS` event is assumed as supported. For the `CdnEdgeExtension` resource, this field is optional. Eligible values are `REQUEST_HEADERS` and `RESPONSE_HEADERS`. If unspecified, both are assumed as supported. */
-  supportedEvents?: ExtensionChainExtensionSupportedEventsItemEnumList;
-  /** Optional. List of the Envoy attributes to forward to the extension server. The attributes provided here are included as part of the `ProcessingRequest.attributes` field (of type `map`), where the keys are the attribute names. Refer to the [documentation](https://cloud.google.com/service-extensions/docs/cel-matcher-language-reference#attributes) for the names of attributes that can be forwarded. If omitted, no attributes are sent. Each element is a string indicating the attribute name. */
-  forwardAttributes?: StringList;
 }
 export type ExtensionChainExtensionList = Array<ExtensionChainExtension>;
 /** Conditions under which this chain is invoked for a request. */
@@ -402,7 +407,7 @@ export interface ExtensionChainMatchCondition {
 }
 /** A single extension chain wrapper that contains the match conditions and extensions to execute. */
 export interface ExtensionChain {
-  /** Required. A set of extensions to execute for the matching request. At least one extension is required. Up to 3 extensions can be defined for each extension chain for `LbTrafficExtension` resource. `LbRouteExtension`, `LbEdgeExtension`, and `LbTcpExtension` chains are limited to 1 extension per extension chain. */
+  /** Required. A set of extensions to execute for the matching request. At least one extension is required. Up to 3 extensions can be defined for each extension chain for `LbTrafficExtension` and `CdnEdgeExtension` resources. `LbRouteExtension`, `LbEdgeExtension`, and `LbTcpExtension` chains are limited to 1 extension per extension chain. */
   extensions?: ExtensionChainExtensionList;
   /** Required. The name for this extension chain. The name is logged as part of the HTTP request logs. The name must conform with RFC-1034, is restricted to lower-cased letters, numbers and hyphens, and can have a maximum length of 63 characters. Additionally, the first character must be a letter and the last a letter or a number. */
   name?: string;
@@ -410,56 +415,56 @@ export interface ExtensionChain {
   matchCondition?: ExtensionChainMatchCondition;
 }
 export type ExtensionChainList = Array<ExtensionChain>;
-/** Specifies the set of targets to which `CdnEdgeExtension` should be applied to. */
-export interface CdnEdgeExtensionTarget {
-  /** Required. A list of references to the resources that are targeted by `CdnEdgeExtension`. Types of resources supported: `EdgeCacheService`. The format must be the full resource name of [EdgeCacheService](https://cloud.google.com/media-cdn/docs/reference/rest/v1/projects.locations.edgeCacheServices) in the following format: `//networkservices.googleapis.com/projects/{project}/locations/{location}/edgeCacheServices/{edgeCacheService}`. */
-  resources?: StringList;
-}
 /** `CdnEdgeExtension` is a resource that lets the extension service modify the headers of both requests to the cache and responses from the cache served by an [`EdgeCacheService`](https://cloud.google.com/media-cdn/docs/reference/rest/v1/projects.locations.edgeCacheServices). */
 export interface CdnEdgeExtension {
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string;
-  /** Optional. A human-readable description of the resource. */
-  description?: string;
-  /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 5 extension chains per resource. */
-  extensionChains?: ExtensionChainList;
   /** Optional. Set of labels associated with the `CdnEdgeExtension` resource. The format must comply with [the requirements for labels](https://cloud.google.com/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
   labels?: StringMap;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
   /** Required. Identifier. Name of the `CdnEdgeExtension` resource in the following format: `projects/{project}/locations/{location}/cdnEdgeExtensions/{cdn_edge_extension}`. */
   name?: string;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
   /** Required. Specifies the set of resources to which this extension should be applied to. */
   target?: CdnEdgeExtensionTarget;
+  /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 5 extension chains per resource. */
+  extensionChains?: ExtensionChainList;
+  /** Optional. A human-readable description of the resource. */
+  description?: string;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
 }
 export interface CreateProjectsLocationsCdnEdgeExtensionsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Required. User-provided ID of the `CdnEdgeExtension` resource to be created. */
-  cdnEdgeExtensionId?: string;
   /** Required. The parent resource of the `CdnEdgeExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Required. User-provided ID of the `CdnEdgeExtension` resource to be created. */
+  cdnEdgeExtensionId?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: CdnEdgeExtension;
 }
+/** Specification of a port-based selector. */
+export interface TrafficPortSelector {
+  /** Optional. A list of ports. Can be port numbers or port range (example, [80-90] specifies all ports from 80 to 90, including 80 and 90) or named ports or * to specify all ports. If the list is empty, all ports are selected. */
+  ports?: StringList;
+}
+/** Defines a name-pair value for a single label. */
+export interface MetadataLabels {
+  /** Required. Label name presented as key in xDS Node Metadata. */
+  labelName?: string;
+  /** Required. Label value presented as value corresponding to the above key, in xDS Node Metadata. */
+  labelValue?: string;
+}
+export type MetadataLabelsList = Array<MetadataLabels>;
 export type MetadataLabelMatcherMetadataLabelMatchCriteriaEnum =
   | "METADATA_LABEL_MATCH_CRITERIA_UNSPECIFIED"
   | "MATCH_ANY"
   | "MATCH_ALL";
-/** Defines a name-pair value for a single label. */
-export interface MetadataLabels {
-  /** Required. Label value presented as value corresponding to the above key, in xDS Node Metadata. */
-  labelValue?: string;
-  /** Required. Label name presented as key in xDS Node Metadata. */
-  labelName?: string;
-}
-export type MetadataLabelsList = Array<MetadataLabels>;
 /** The matcher that is based on node metadata presented by xDS clients. */
 export interface MetadataLabelMatcher {
-  /** Specifies how matching should be done. Supported values are: MATCH_ANY: At least one of the Labels specified in the matcher should match the metadata presented by xDS client. MATCH_ALL: The metadata presented by the xDS client should contain all of the labels specified here. The selection is determined based on the best match. For example, suppose there are three EndpointPolicy resources P1, P2 and P3 and if P1 has a the matcher as MATCH_ANY , P2 has MATCH_ALL , and P3 has MATCH_ALL . If a client with label connects, the config from P1 will be selected. If a client with label connects, the config from P2 will be selected. If a client with label connects, the config from P3 will be selected. If there is more than one best match, (for example, if a config P4 with selector exists and if a client with label connects), pick up the one with older creation time. */
-  metadataLabelMatchCriteria?: MetadataLabelMatcherMetadataLabelMatchCriteriaEnum | (string & {});
   /** The list of label value pairs that must match labels in the provided metadata based on filterMatchCriteria This list can have at most 64 entries. The list can be empty if the match criteria is MATCH_ANY, to specify a wildcard match (i.e this matches any client). */
   metadataLabels?: MetadataLabelsList;
+  /** Specifies how matching should be done. Supported values are: MATCH_ANY: At least one of the Labels specified in the matcher should match the metadata presented by xDS client. MATCH_ALL: The metadata presented by the xDS client should contain all of the labels specified here. The selection is determined based on the best match. For example, suppose there are three EndpointPolicy resources P1, P2 and P3 and if P1 has a the matcher as MATCH_ANY , P2 has MATCH_ALL , and P3 has MATCH_ALL . If a client with label connects, the config from P1 will be selected. If a client with label connects, the config from P2 will be selected. If a client with label connects, the config from P3 will be selected. If there is more than one best match, (for example, if a config P4 with selector exists and if a client with label connects), pick up the one with older creation time. */
+  metadataLabelMatchCriteria?: MetadataLabelMatcherMetadataLabelMatchCriteriaEnum | (string & {});
 }
 /** A definition of a matcher that selects endpoints to which the policies should be applied. */
 export interface EndpointMatcher {
@@ -470,37 +475,32 @@ export type EndpointPolicyTypeEnum =
   | "ENDPOINT_POLICY_TYPE_UNSPECIFIED"
   | "SIDECAR_PROXY"
   | "GRPC_SERVER";
-/** Specification of a port-based selector. */
-export interface TrafficPortSelector {
-  /** Optional. A list of ports. Can be port numbers or port range (example, [80-90] specifies all ports from 80 to 90, including 80 and 90) or named ports or * to specify all ports. If the list is empty, all ports are selected. */
-  ports?: StringList;
-}
 /** EndpointPolicy is a resource that helps apply desired configuration on the endpoints that match specific criteria. For example, this resource can be used to apply "authentication config" an all endpoints that serve on port 8080. */
 export interface EndpointPolicy {
-  /** Optional. A free-text description of the resource. Max length 1024 characters. */
-  description?: string;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string;
-  /** Optional. A URL referring to a SecurityPolicy resource. SecurityPolicy is used to enforce rate limiting policy on the inbound traffic at the identified backends. If this field is not set, rate limiting is disabled for this endpoint. */
-  securityPolicy?: string;
-  /** Required. A matcher that selects endpoints to which the policies should be applied. */
-  endpointMatcher?: EndpointMatcher;
-  /** Optional. Set of label tags associated with the EndpointPolicy resource. */
-  labels?: StringMap;
-  /** Required. The type of endpoint policy. This is primarily used to validate the configuration. */
-  type?: EndpointPolicyTypeEnum | (string & {});
-  /** Optional. A URL referring to ServerTlsPolicy resource. ServerTlsPolicy is used to determine the authentication policy to be applied to terminate the inbound traffic at the identified backends. If this field is not set, authentication is disabled(open) for this endpoint. */
-  serverTlsPolicy?: string;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** Identifier. Name of the EndpointPolicy resource. It matches pattern `projects/{project}/locations/*\/endpointPolicies/{endpoint_policy}`. */
-  name?: string;
   /** Optional. Port selector for the (matched) endpoints. If no port selector is provided, the matched config is applied to all ports. */
   trafficPortSelector?: TrafficPortSelector;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Optional. A URL referring to ServerTlsPolicy resource. ServerTlsPolicy is used to determine the authentication policy to be applied to terminate the inbound traffic at the identified backends. If this field is not set, authentication is disabled(open) for this endpoint. */
+  serverTlsPolicy?: string;
+  /** Optional. A URL referring to a SecurityPolicy resource. SecurityPolicy is used to enforce rate limiting policy on the inbound traffic at the identified backends. If this field is not set, rate limiting is disabled for this endpoint. */
+  securityPolicy?: string;
+  /** Optional. Set of label tags associated with the EndpointPolicy resource. */
+  labels?: StringMap;
+  /** Identifier. Name of the EndpointPolicy resource. It matches pattern `projects/{project}/locations/*\/endpointPolicies/{endpoint_policy}`. */
+  name?: string;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
   /** Optional. This field specifies the URL of AuthorizationPolicy resource that applies authorization policies to the inbound traffic at the matched endpoints. Refer to Authorization. If this field is not specified, authorization is disabled(no authz checks) for this endpoint. */
   authorizationPolicy?: string;
+  /** Required. A matcher that selects endpoints to which the policies should be applied. */
+  endpointMatcher?: EndpointMatcher;
   /** Optional. Deprecated: This field is not used and is a no-op. A URL referring to a ClientTlsPolicy resource. ClientTlsPolicy can be set to specify the authentication for traffic from the proxy to the actual endpoints. More specifically, it is applied to the outgoing traffic from the proxy to the endpoint. This is typically used for sidecar model where the proxy identifies itself as endpoint to the control plane, with the connection between sidecar and endpoint requiring authentication. If this field is not set, authentication is disabled(open). Applicable only when EndpointPolicyType is SIDECAR_PROXY. */
   clientTlsPolicy?: string;
+  /** Required. The type of endpoint policy. This is primarily used to validate the configuration. */
+  type?: EndpointPolicyTypeEnum | (string & {});
 }
 export interface CreateProjectsLocationsEndpointPoliciesRequest {
   /** Required. The parent resource of the EndpointPolicy. Must be in the format `projects/*\/locations/*`. */
@@ -510,16 +510,204 @@ export interface CreateProjectsLocationsEndpointPoliciesRequest {
   /** Request body */
   body?: EndpointPolicy;
 }
+/** Private Service Connect (PSC) endpoint details. */
+export interface ExpressLinkPscEndpointInfoPscEndpoint {
+  /** Output only. Whether the PSC endpoint is accessible from all regions. */
+  allowGlobalAccess?: boolean;
+  /** Output only. The IP address of the PSC endpoint. */
+  pscEndpointAddress?: string;
+  /** Output only. The ForwardingRule resource name of the PSC endpoint. Should match the pattern: `projects/*\/regions/*\/forwardingRules/`. */
+  forwardingRule?: string;
+  /** Output only. The resource name of the consumer VPC network. Should match the pattern: `projects/*\/global/networks/`. */
+  vpcNetwork?: string;
+}
+export type ExpressLinkPscEndpointInfoPscEndpointList =
+  Array<ExpressLinkPscEndpointInfoPscEndpoint>;
+/** Private Service Connect (PSC) endpoint information populated in the Get API responses if the ExpressLink resource is bound to a PSC service. */
+export interface ExpressLinkPscEndpointInfo {
+  /** Output only. A list of PSC endpoints mapped to the PSC producer service. */
+  pscEndpoints?: ExpressLinkPscEndpointInfoPscEndpointList;
+}
+export type ExpressLinkAuthenticationMethodIdentityTypeEnum =
+  | "IDENTITY_TYPE_UNSPECIFIED"
+  | "SERVICE_ACCOUNT"
+  | "AGENT_IDENTITY"
+  | "WORKLOAD_IDENTITY"
+  | "OAUTH";
+export type ExpressLinkAuthenticationMethodCredentialTypeEnum =
+  | "CREDENTIAL_TYPE_UNSPECIFIED"
+  | "GCP_ACCESS_TOKEN"
+  | "JWT"
+  | "BOUND_GCP_ACCESS_TOKEN"
+  | "BOUND_JWT"
+  | "MTLS";
+/** AuthenticationMethod specifies identity type and credential type pair. */
+export interface ExpressLinkAuthenticationMethod {
+  /** Output only. Identity type supported or used. */
+  identityType?: ExpressLinkAuthenticationMethodIdentityTypeEnum | (string & {});
+  /** Output only. Credential type supported or used. */
+  credentialType?: ExpressLinkAuthenticationMethodCredentialTypeEnum | (string & {});
+}
+export type ExpressLinkAuthenticationMethodList = Array<ExpressLinkAuthenticationMethod>;
+export type ExpressLinkCloudRunSecurityInfoMtlsTierEnum =
+  | "MTLS_TIER_UNSPECIFIED"
+  | "STRICT"
+  | "PERMISSIVE";
+/** CloudRunSecurityInfo provides security details for Cloud Run to Cloud Run ExpressLinks. */
+export interface ExpressLinkCloudRunSecurityInfo {
+  /** Output only. The inbound server authentication methods required by the destination Cloud Run service. */
+  serverAuthenticationMethods?: ExpressLinkAuthenticationMethodList;
+  /** Output only. Identifies the level of mTLS transport security in use. */
+  mtlsTier?: ExpressLinkCloudRunSecurityInfoMtlsTierEnum | (string & {});
+}
+/** Match defines the predicate used to match requests to destination services. */
+export interface ExpressLinkMatch {
+  /** Optional. Specifies the hostname to match against the HTTP request host header. Hostname is the fully qualified domain name of a network host, as defined by RFC1123 with the exception that: - IPs are not allowed. - Wildcard labels (`*.`) are not allowed. Hostname must be "precise" which is a domain name without the terminating dot of a network host (e.g. `foo.example.com`). Note that as per RFC1035 and RFC1123, a label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character. No other punctuation is allowed. */
+  hostname?: string;
+}
+export type ExpressLinkMatchList = Array<ExpressLinkMatch>;
+/** WorkloadInfo provides observability details for a single Cloud Run source workload. */
+export interface ExpressLinkCloudRunSourceInfoWorkloadInfo {
+  /** Output only. Consumer VPC network resource name. */
+  vpcNetwork?: string;
+  /** Output only. The outbound authentication methods the workload is capable of. */
+  clientAuthenticationMethods?: ExpressLinkAuthenticationMethodList;
+  /** Output only. The URI of the source workload (e.g. Cloud Run revision). */
+  workloadUri?: string;
+}
+export type ExpressLinkCloudRunSourceInfoWorkloadInfoList =
+  Array<ExpressLinkCloudRunSourceInfoWorkloadInfo>;
+/** CloudRunSourceInfo provides observability details for Cloud Run source services. */
+export interface ExpressLinkCloudRunSourceInfo {
+  /** Output only. Observability details for Cloud Run source workloads. */
+  workloads?: ExpressLinkCloudRunSourceInfoWorkloadInfoList;
+}
+export type ExpressLinkConnectionStatusCredentialTypeEnum =
+  | "CREDENTIAL_TYPE_UNSPECIFIED"
+  | "GCP_ACCESS_TOKEN"
+  | "JWT"
+  | "BOUND_GCP_ACCESS_TOKEN"
+  | "BOUND_JWT"
+  | "MTLS";
+export type ExpressLinkConnectionStatusRouteTypeEnum =
+  | "ROUTE_TYPE_UNSPECIFIED"
+  | "HTTP"
+  | "TCP"
+  | "GRPC";
+export type ExpressLinkConnectionStatusErrorEnum =
+  | "CODE_UNSPECIFIED"
+  | "NOT_FOUND"
+  | "PARTIAL_RESOLUTION_ERROR";
+/** HostnameInfo provides details about a hostname that routes to this destination. */
+export interface ExpressLinkConnectionStatusHostnameInfo {
+  /** Output only. The hostname string. */
+  hostname?: string;
+}
+export type ExpressLinkConnectionStatusHostnameInfoList =
+  Array<ExpressLinkConnectionStatusHostnameInfo>;
+/** ConnectionStatus details the resolved state, error status, and negotiated configuration of the ExpressLink resource. */
+export interface ExpressLinkConnectionStatus {
+  /** Output only. Detailed error message explaining the binding failure. */
+  errorMessage?: string;
+  /** Output only. The negotiated credential type. */
+  credentialType?: ExpressLinkConnectionStatusCredentialTypeEnum | (string & {});
+  /** Output only. The URI of the source workload this status applies to. */
+  workloadUri?: string;
+  /** Output only. The route type of the connection (e.g. HTTP). */
+  routeType?: ExpressLinkConnectionStatusRouteTypeEnum | (string & {});
+  /** Output only. Code representing the type of error encountered. */
+  error?: ExpressLinkConnectionStatusErrorEnum | (string & {});
+  /** Output only. The list of hostnames that will route to this destination. */
+  hostnames?: ExpressLinkConnectionStatusHostnameInfoList;
+}
+export type ExpressLinkConnectionStatusList = Array<ExpressLinkConnectionStatus>;
+/** The source of the traffic. This defines where the connection originates from. */
+export interface ExpressLinkSource {
+  /** Optional. A list of resources attached to the ExpressLink. The resources can be Cloud Run services of the format: `//run.googleapis.com/projects/*\/locations/*\/services/`. The location of the resources must match the location of the ExpressLink (unless the ExpressLink is global). */
+  services?: StringList;
+}
+/** ForwardingRuleInfo provides operational details when the ExpressLink destination is a Forwarding Rule. */
+export interface ExpressLinkForwardingRuleInfo {
+  /** Output only. The port or port range of the forwarding rule. */
+  port?: string;
+  /** Output only. The IP address of the forwarding rule. */
+  ipAddress?: string;
+}
+/** The destination of the traffic. This defines the service that the source wants to connect to. */
+export interface ExpressLinkDestination {
+  /** Optional. The service URIs to which the ExpressLink resource is bound. Can be one of the following (all the service URIs should have the same type): `//compute.googleapis.com/projects/*\/regions/*\/serviceAttachments/`; `//compute.googleapis.com/projects/*\/regions/*\/forwardingRules/`; `//run.googleapis.com/projects/*\/locations/*\/services/`. */
+  services?: StringList;
+}
+/** ExpressLink provides automated, zero-friction service-to-service secure connectivity across network boundaries without manual infrastructure configuration toil. */
+export interface ExpressLink {
+  /** Output only. Private Service Connect (PSC) endpoint information if the ExpressLink destination is a PSC service. */
+  pscEndpointInfo?: ExpressLinkPscEndpointInfo;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Optional. Set of label tags associated with the ExpressLink resource. */
+  labels?: StringMap;
+  /** Output only. Cloud Run security information if the ExpressLink destination is a Cloud Run service. */
+  cloudRunSecurityInfo?: ExpressLinkCloudRunSecurityInfo;
+  /** Optional. A list of matches define conditions used to match requests to destination services. Each match is independent with the OR semantic, i.e. we consider it matched if ANY one of the matches is satisfied. If an ExpressLink has only one Cloud Run service, Match is optional. If not specified, only the default hostname `-..run.app` can be used. If an ExpressLink has multiple Cloud Run services, at least one Match with valid hostname is required. */
+  matches?: ExpressLinkMatchList;
+  /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
+  etag?: string;
+  /** Output only. Cloud Run source observability details. */
+  cloudRunSourceInfo?: ExpressLinkCloudRunSourceInfo;
+  /** Output only. The connection status and negotiated parameters. */
+  connectionStatus?: ExpressLinkConnectionStatusList;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
+  /** Optional. The source service(s) for this binding. */
+  source?: ExpressLinkSource;
+  /** Output only. Forwarding Rule information if the ExpressLink destination is a Forwarding Rule. */
+  forwardingRuleInfo?: ExpressLinkForwardingRuleInfo;
+  /** Identifier. Name of the ExpressLink resource. It matches pattern `projects/*\/locations/*\/expressLinks/`. */
+  name?: string;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string;
+  /** Optional. The destination service(s) for this binding. */
+  destination?: ExpressLinkDestination;
+}
+export interface CreateProjectsLocationsExpressLinksRequest {
+  /** Required. Short name of the ExpressLink resource to be created. */
+  expressLinkId?: string;
+  /** Required. The parent resource of the ExpressLink. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Request body */
+  body?: ExpressLink;
+}
+export type ExtensionBindingTargetScopeResourceTypesItemEnum =
+  | "RESOURCE_TYPE_UNSPECIFIED"
+  | "AI_APPLICATION"
+  | "AGENT_GATEWAY";
+export type ExtensionBindingTargetScopeResourceTypesItemEnumList = Array<
+  ExtensionBindingTargetScopeResourceTypesItemEnum | (string & {})
+>;
+/** Specifies the scope of resources to which this binding should attach. */
+export interface ExtensionBindingTargetScope {
+  /** Required. The types of resources to which the binding should attach. Limited to 1 resource type. */
+  resourceTypes?: ExtensionBindingTargetScopeResourceTypesItemEnumList;
+  /** Required. The parent resource that defines the scope, in the format `projects/{project_number}`. When the scope is a project, the binding applies to the resources that meet all of the following conditions: * The resource belongs to the specified project. * The resource is in the same location as the `ExtensionBinding`. * The resource type is listed in `resource_types`. */
+  parent?: string;
+}
+/** Specifies a list of targets to which this `ExtensionBinding` should attach. */
+export interface ExtensionBindingTarget {
+  /** Optional. The references to the target resources to which this binding should attach. Exactly one of `resources` or `scope` must be set. For AI Application resources, specify the full resource name in the format: `projects/{project}/locations/{location}/applications/{application}`. Limited to 1 resource. */
+  resources?: StringList;
+  /** Optional. Specifies the scope of resources to which this binding should attach. Exactly one of `resources` or `scope` must be set. */
+  scope?: ExtensionBindingTargetScope;
+}
 /** Specifies matching logic for string values. */
 export interface ExtensionBindingMatchConditionStringMatch {
   /** Optional. The input string must have the suffix specified here. An empty suffix is not allowed. Examples: * `abc` matches the value `xyz.abc`. */
   suffix?: string;
-  /** Optional. The input string must contain the substring specified here. An empty substring is not allowed. Examples: * `abc` matches the value `xyz.abc.def`. */
-  contains?: string;
-  /** Optional. The input string must match exactly the string specified here. Examples: * `abc` only matches the value `abc`. */
-  exact?: string;
   /** Optional. If true, the `exact`, `prefix`, `suffix`, or `contains` match is case insensitive. For example, the matcher `data` matches both `Data` and `data` when set to true. */
   ignoreCase?: boolean;
+  /** Optional. The input string must match exactly the string specified here. Examples: * `abc` only matches the value `abc`. */
+  exact?: string;
+  /** Optional. The input string must contain the substring specified here. An empty substring is not allowed. Examples: * `abc` matches the value `xyz.abc.def`. */
+  contains?: string;
   /** Optional. The input string must have the prefix specified here. An empty prefix is not allowed. Examples: * `abc` matches the value `abc.xyz`. */
   prefix?: string;
 }
@@ -541,14 +729,14 @@ export interface ExtensionBindingMatchConditionToDestinationHeaderSet {
 }
 /** Describes properties of a single destination. */
 export interface ExtensionBindingMatchConditionToDestination {
-  /** Optional. A list of paths to match against. Limited to 10 paths. If not specified, any path is allowed. Note that this path match includes the query parameters. For gRPC services, this should be a fully-qualified name of the form /package.service/method. */
-  paths?: ExtensionBindingMatchConditionStringMatchList;
   /** Optional. A list of non-empty strings whose value is matched against the resource to which a request is sent (e.g., an Agent in AiApplication). If not specified, any resource is allowed. If specified, a match occurs if any of the resources matches the resource value in the request. Limited to 5 resources. When matching against resources in the AgentRegistry, use the URNs of the registry resources. */
   resources?: ExtensionBindingMatchConditionStringMatchList;
-  /** Optional. A list of HTTP Hosts to match against. Limited to 10 hosts. If not specified, any host is allowed. If specified, a match occurs if any of the hosts matches the host value in the request. */
-  hosts?: ExtensionBindingMatchConditionStringMatchList;
   /** Optional. A set of HTTP headers to match against. If not specified, requests with any headers are matched. */
   headerSet?: ExtensionBindingMatchConditionToDestinationHeaderSet;
+  /** Optional. A list of paths to match against. Limited to 10 paths. If not specified, any path is allowed. Note that this path match includes the query parameters. For gRPC services, this should be a fully-qualified name of the form /package.service/method. */
+  paths?: ExtensionBindingMatchConditionStringMatchList;
+  /** Optional. A list of HTTP Hosts to match against. Limited to 10 hosts. If not specified, any host is allowed. If specified, a match occurs if any of the hosts matches the host value in the request. */
+  hosts?: ExtensionBindingMatchConditionStringMatchList;
 }
 /** Describes properties of one or more destinations of a request. */
 export interface ExtensionBindingMatchConditionTo {
@@ -563,91 +751,48 @@ export interface ExtensionBindingMatchCondition {
   to?: ExtensionBindingMatchConditionTo;
 }
 export type ExtensionBindingMatchConditionList = Array<ExtensionBindingMatchCondition>;
-export type ExtensionBindingTargetScopeResourceTypesItemEnum =
-  | "RESOURCE_TYPE_UNSPECIFIED"
-  | "AI_APPLICATION"
-  | "AGENT_GATEWAY";
-export type ExtensionBindingTargetScopeResourceTypesItemEnumList = Array<
-  ExtensionBindingTargetScopeResourceTypesItemEnum | (string & {})
->;
-/** Specifies the scope of resources to which this binding should attach. */
-export interface ExtensionBindingTargetScope {
-  /** Required. The types of resources to which the binding should attach. Limited to 1 resource type. */
-  resourceTypes?: ExtensionBindingTargetScopeResourceTypesItemEnumList;
-  /** Required. The parent resource that defines the scope, in the format `projects/{project_number}`. When the scope is a project, the binding applies to the resources that meet all of the following conditions: * The resource belongs to the specified project. * The resource is in the same location as the `ExtensionBinding`. * The resource type is listed in `resource_types`. */
-  parent?: string;
-}
-/** Specifies a list of targets to which this `ExtensionBinding` should attach. */
-export interface ExtensionBindingTarget {
-  /** Optional. Specifies the scope of resources to which this binding should attach. Exactly one of `resources` or `scope` must be set. */
-  scope?: ExtensionBindingTargetScope;
-  /** Optional. The references to the target resources to which this binding should attach. Exactly one of `resources` or `scope` must be set. For AI Application resources, specify the full resource name in the format: `projects/{project}/locations/{location}/applications/{application}`. Limited to 1 resource. */
-  resources?: StringList;
-}
 /** `ExtensionBinding` is a resource representing the attachment of an extension to a service. */
 export interface ExtensionBinding {
-  /** Identifier. Name of the `ExtensionBinding` resource in the following format: `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
-  name?: string;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
   /** Optional. Set of labels associated with the `ExtensionBinding` resource. The format must comply with [the following requirements](https://cloud.google.com/compute/docs/labeling-resources#requirements). */
   labels?: StringMap;
+  /** Identifier. Name of the `ExtensionBinding` resource in the following format: `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
+  name?: string;
+  /** Optional. Etag of the resource. If provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
+  etag?: string;
+  /** Optional. This field is not supported. */
+  priority?: number;
+  /** Required. Specifies a target to which this `ExtensionBinding` should be attached. */
+  target?: ExtensionBindingTarget;
+  /** Optional. A list of match conditions to evaluate against the incoming request. The extension is invoked if the request matches at least one condition, or if no match conditions are specified. A request matches a condition only if it matches every field that is set in that condition. Limited to 5 conditions. */
+  matchConditions?: ExtensionBindingMatchConditionList;
   /** Required. The name of the extension that this binding should attach to target resources. Format: For Google-provided extensions, specify the service endpoint, for example `modelarmor.us-central1.rep.googleapis.com`. */
   producerExtension?: string;
   /** Optional. Additional metadata that should be passed to the attached extension with each request. This field is subject to the following limitations: * The total size of the metadata must be less than 1 KiB. * The total number of keys must be less than 16. * The length of each key must be less than 64 characters. * The length of each value must be less than 1024 characters. */
   producerMetadata?: StringMap;
-  /** Optional. A list of match conditions to evaluate against the incoming request. The extension is invoked if the request matches at least one condition, or if no match conditions are specified. A request matches a condition only if it matches every field that is set in that condition. Limited to 5 conditions. */
-  matchConditions?: ExtensionBindingMatchConditionList;
-  /** Required. Specifies a target to which this `ExtensionBinding` should be attached. */
-  target?: ExtensionBindingTarget;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
   /** Optional. Determines the behavior of the extension binding when the call to the extension fails or times out. Default value is `FALSE`. When set to `TRUE`, failures of the extension are silently ignored. */
   failOpen?: boolean;
   /** Optional. A human-readable description of the resource. */
   description?: string;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** Optional. Priority of the extension binding. Lower numbers indicate higher priority. The priority determines the order in which extension bindings are applied to a request. */
-  priority?: number;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string;
-  /** Optional. Etag of the resource. If provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
-  etag?: string;
 }
 export interface CreateProjectsLocationsExtensionBindingsRequest {
-  /** Required. Short name of the `ExtensionBinding` resource to be created. */
-  extensionBindingId?: string;
   /** Required. The parent resource of the `ExtensionBinding` resource. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Required. Short name of the `ExtensionBinding` resource to be created. */
+  extensionBindingId?: string;
   /** Request body */
   body?: ExtensionBinding;
 }
-export type GatewayRoutingModeEnum = "EXPLICIT_ROUTING_MODE" | "NEXT_HOP_ROUTING_MODE";
 export type GatewayTypeEnum = "TYPE_UNSPECIFIED" | "OPEN_MESH" | "SECURE_WEB_GATEWAY";
-export type IntegerList = Array<number>;
 export type GatewayEnvoyHeadersEnum = "ENVOY_HEADERS_UNSPECIFIED" | "NONE" | "DEBUG_HEADERS";
+export type GatewayRoutingModeEnum = "EXPLICIT_ROUTING_MODE" | "NEXT_HOP_ROUTING_MODE";
+export type IntegerList = Array<number>;
 export type GatewayIpVersionEnum = "IP_VERSION_UNSPECIFIED" | "IPV4" | "IPV6";
 /** Gateway represents the configuration for a proxy, typically a load balancer. It captures the ip:port over which the services are exposed by the proxy, along with any policy configurations. Routes have reference to to Gateways to dictate how requests should be routed by this Gateway. */
 export interface Gateway {
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** Optional. The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY. */
-  routingMode?: GatewayRoutingModeEnum | (string & {});
-  /** Optional. If true, the Gateway will listen on all ports. This is mutually exclusive with the `ports` field. This field only applies to gateways of type 'SECURE_WEB_GATEWAY'. */
-  allPorts?: boolean;
-  /** Optional. Scope determines how configuration across multiple Gateway instances are merged. The configuration for multiple Gateway instances with the same scope will be merged as presented as a single configuration to the proxy/load balancer. Max length 64 characters. Scope should start with a letter and can only have letters, numbers, hyphens. */
-  scope?: string;
-  /** Optional. The relative resource name identifying the subnetwork in which this SWG is allocated. For example: `projects/*\/regions/us-central1/subnetworks/network-1` Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY". */
-  subnetwork?: string;
-  /** Optional. A free-text description of the resource. Max length 1024 characters. */
-  description?: string;
-  /** Optional. A fully-qualified ServerTLSPolicy URL reference. Specifies how TLS traffic is terminated. If empty, TLS termination is disabled. */
-  serverTlsPolicy?: string;
-  /** Output only. Server-defined URL of this resource */
-  selfLink?: string;
-  /** Optional. If true, the gateway will allow traffic from clients outside of the region where the gateway is located. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. */
-  allowGlobalAccess?: boolean;
-  /** Optional. A fully-qualified GatewaySecurityPolicy URL reference. Defines how a server should apply security policy to inbound (VM to Proxy) initiated connections. For example: `projects/*\/locations/*\/gatewaySecurityPolicies/swg-policy`. This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'. */
-  gatewaySecurityPolicy?: string;
   /** Optional. Set of label tags associated with the Gateway resource. */
   labels?: StringMap;
   /** Optional. The relative resource name identifying the VPC network that is using this configuration. For example: `projects/*\/global/networks/network-1`. Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'. */
@@ -656,12 +801,34 @@ export interface Gateway {
   type?: GatewayTypeEnum | (string & {});
   /** Identifier. Name of the Gateway resource. It matches pattern `projects/*\/locations/*\/gateways/`. */
   name?: string;
-  /** Required. One or more port numbers (1-65535), on which the Gateway will receive traffic. The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 5 ports. Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports. */
-  ports?: IntegerList;
-  /** Optional. Determines if envoy will insert internal debug headers into upstream requests. Other Envoy headers may still be injected. By default, envoy will not insert any debug headers. */
-  envoyHeaders?: GatewayEnvoyHeadersEnum | (string & {});
+  /** Optional. A fully-qualified ServerTLSPolicy URL reference. Specifies how TLS traffic is terminated. If empty, TLS termination is disabled. */
+  serverTlsPolicy?: string;
   /** Optional. A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection. This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'. */
   certificateUrls?: StringList;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string;
+  /** Optional. Determines if envoy will insert internal debug headers into upstream requests. Other Envoy headers may still be injected. By default, envoy will not insert any debug headers. */
+  envoyHeaders?: GatewayEnvoyHeadersEnum | (string & {});
+  /** Optional. Scope determines how configuration across multiple Gateway instances are merged. The configuration for multiple Gateway instances with the same scope will be merged as presented as a single configuration to the proxy/load balancer. Max length 64 characters. Scope should start with a letter and can only have letters, numbers, hyphens. */
+  scope?: string;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Optional. If true, the gateway will allow traffic from clients outside of the region where the gateway is located. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. */
+  allowGlobalAccess?: boolean;
+  /** Optional. The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY. */
+  routingMode?: GatewayRoutingModeEnum | (string & {});
+  /** Optional. A fully-qualified GatewaySecurityPolicy URL reference. Defines how a server should apply security policy to inbound (VM to Proxy) initiated connections. For example: `projects/*\/locations/*\/gatewaySecurityPolicies/swg-policy`. This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'. */
+  gatewaySecurityPolicy?: string;
+  /** Output only. Server-defined URL of this resource */
+  selfLink?: string;
+  /** Optional. If true, the Gateway will listen on all ports. This is mutually exclusive with the `ports` field. This field only applies to gateways of type 'SECURE_WEB_GATEWAY'. */
+  allPorts?: boolean;
+  /** Optional. The relative resource name identifying the subnetwork in which this SWG is allocated. For example: `projects/*\/regions/us-central1/subnetworks/network-1` Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY". */
+  subnetwork?: string;
+  /** Required. One or more port numbers (1-65535), on which the Gateway will receive traffic. The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 5 ports. Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports. */
+  ports?: IntegerList;
   /** Optional. Zero or one IPv4 or IPv6 address on which the Gateway will receive the traffic. When no address is provided, an IP from the subnetwork is allocated This field only applies to gateways of type 'SECURE_WEB_GATEWAY'. Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6. */
   addresses?: StringList;
   /** Optional. The IP Version that will be used by this gateway. Valid options are IPV4 or IPV6. Default is IPV4. */
@@ -675,18 +842,6 @@ export interface CreateProjectsLocationsGatewaysRequest {
   /** Request body */
   body?: Gateway;
 }
-export type GrpcRouteMethodMatchTypeEnum = "TYPE_UNSPECIFIED" | "EXACT" | "REGULAR_EXPRESSION";
-/** Specifies a match against a method. */
-export interface GrpcRouteMethodMatch {
-  /** Optional. Specifies how to match against the name. If not specified, a default value of "EXACT" is used. */
-  type?: GrpcRouteMethodMatchTypeEnum | (string & {});
-  /** Required. Name of the method to match against. If unspecified, will match all methods. */
-  grpcMethod?: string;
-  /** Optional. Specifies that matches are case sensitive. The default value is true. case_sensitive must not be used with a type of REGULAR_EXPRESSION. */
-  caseSensitive?: boolean;
-  /** Required. Name of the service to match against. If unspecified, will match all services. */
-  grpcService?: string;
-}
 export type GrpcRouteHeaderMatchTypeEnum = "TYPE_UNSPECIFIED" | "EXACT" | "REGULAR_EXPRESSION";
 /** A match against a collection of headers. */
 export interface GrpcRouteHeaderMatch {
@@ -698,33 +853,39 @@ export interface GrpcRouteHeaderMatch {
   key?: string;
 }
 export type GrpcRouteHeaderMatchList = Array<GrpcRouteHeaderMatch>;
+export type GrpcRouteMethodMatchTypeEnum = "TYPE_UNSPECIFIED" | "EXACT" | "REGULAR_EXPRESSION";
+/** Specifies a match against a method. */
+export interface GrpcRouteMethodMatch {
+  /** Optional. Specifies that matches are case sensitive. The default value is true. case_sensitive must not be used with a type of REGULAR_EXPRESSION. */
+  caseSensitive?: boolean;
+  /** Required. Name of the service to match against. If unspecified, will match all services. */
+  grpcService?: string;
+  /** Required. Name of the method to match against. If unspecified, will match all methods. */
+  grpcMethod?: string;
+  /** Optional. Specifies how to match against the name. If not specified, a default value of "EXACT" is used. */
+  type?: GrpcRouteMethodMatchTypeEnum | (string & {});
+}
 /** Criteria for matching traffic. A RouteMatch will be considered to match when all supplied fields match. */
 export interface GrpcRouteRouteMatch {
-  /** Optional. A gRPC method to match against. If this field is empty or omitted, will match all methods. */
-  method?: GrpcRouteMethodMatch;
   /** Optional. Specifies a collection of headers to match. */
   headers?: GrpcRouteHeaderMatchList;
+  /** Optional. A gRPC method to match against. If this field is empty or omitted, will match all methods. */
+  method?: GrpcRouteMethodMatch;
 }
 export type GrpcRouteRouteMatchList = Array<GrpcRouteRouteMatch>;
-/** The specification for cookie-based stateful session affinity where the date plane supplies a "session cookie" with the name "GSSA" which encodes a specific destination host and each request containing that cookie will be directed to that host as long as the destination host remains up and healthy. The gRPC proxyless mesh library or sidecar proxy will manage the session cookie but the client application code is responsible for copying the cookie from each RPC in the session to the next. */
-export interface GrpcRouteStatefulSessionAffinityPolicy {
-  /** Required. The cookie TTL value for the Set-Cookie header generated by the data plane. The lifetime of the cookie may be set to a value from 0 to 86400 seconds (24 hours) inclusive. Set this to 0s to use a session cookie and disable cookie expiration. */
-  cookieTtl?: string;
+/** The specifications for retries. Specifies one or more conditions for which this retry rule applies. Valid values are: */
+export interface GrpcRouteRetryPolicy {
+  /** - connect-failure: Router will retry on failures connecting to Backend Services, for example due to connection timeouts. - refused-stream: Router will retry if the backend service resets the stream with a REFUSED_STREAM error code. This reset type indicates that it is safe to retry. - cancelled: Router will retry if the gRPC status code in the response header is set to cancelled - deadline-exceeded: Router will retry if the gRPC status code in the response header is set to deadline-exceeded - resource-exhausted: Router will retry if the gRPC status code in the response header is set to resource-exhausted - unavailable: Router will retry if the gRPC status code in the response header is set to unavailable */
+  retryConditions?: StringList;
+  /** Specifies the allowed number of retries. This number must be > 0. If not specified, default to 1. */
+  numRetries?: number;
 }
-/** The destination to which traffic will be routed. */
-export interface GrpcRouteDestination {
-  /** Required. The URL of a destination service to which to route traffic. Must refer to either a BackendService or ServiceDirectoryService. */
-  serviceName?: string;
-  /** Optional. Specifies the proportion of requests forwarded to the backend referenced by the serviceName field. This is computed as: - weight/Sum(weights in this destination list). For non-zero values, there may be some epsilon from the exact proportion defined here depending on the precision an implementation supports. If only one serviceName is specified and it has a weight greater than 0, 100% of the traffic is forwarded to that backend. If weights are specified for any one service name, they need to be specified for all of them. If weights are unspecified for all services, then, traffic is distributed in equal proportions to all of them. */
-  weight?: number;
-}
-export type GrpcRouteDestinationList = Array<GrpcRouteDestination>;
 /** Specification of how client requests are delayed as part of fault injection before being sent to a destination. */
 export interface GrpcRouteFaultInjectionPolicyDelay {
-  /** The percentage of traffic on which delay will be injected. The value must be between [0, 100] */
-  percentage?: number;
   /** Specify a fixed delay before forwarding the request. */
   fixedDelay?: string;
+  /** The percentage of traffic on which delay will be injected. The value must be between [0, 100] */
+  percentage?: number;
 }
 /** Specification of how client requests are aborted as part of fault injection before being sent to a destination. */
 export interface GrpcRouteFaultInjectionPolicyAbort {
@@ -740,27 +901,33 @@ export interface GrpcRouteFaultInjectionPolicy {
   /** The specification for aborting to client requests. */
   abort?: GrpcRouteFaultInjectionPolicyAbort;
 }
-/** The specifications for retries. Specifies one or more conditions for which this retry rule applies. Valid values are: */
-export interface GrpcRouteRetryPolicy {
-  /** - connect-failure: Router will retry on failures connecting to Backend Services, for example due to connection timeouts. - refused-stream: Router will retry if the backend service resets the stream with a REFUSED_STREAM error code. This reset type indicates that it is safe to retry. - cancelled: Router will retry if the gRPC status code in the response header is set to cancelled - deadline-exceeded: Router will retry if the gRPC status code in the response header is set to deadline-exceeded - resource-exhausted: Router will retry if the gRPC status code in the response header is set to resource-exhausted - unavailable: Router will retry if the gRPC status code in the response header is set to unavailable */
-  retryConditions?: StringList;
-  /** Specifies the allowed number of retries. This number must be > 0. If not specified, default to 1. */
-  numRetries?: number;
+/** The destination to which traffic will be routed. */
+export interface GrpcRouteDestination {
+  /** Required. The URL of a destination service to which to route traffic. Must refer to either a BackendService or ServiceDirectoryService. */
+  serviceName?: string;
+  /** Optional. Specifies the proportion of requests forwarded to the backend referenced by the serviceName field. This is computed as: - weight/Sum(weights in this destination list). For non-zero values, there may be some epsilon from the exact proportion defined here depending on the precision an implementation supports. If only one serviceName is specified and it has a weight greater than 0, 100% of the traffic is forwarded to that backend. If weights are specified for any one service name, they need to be specified for all of them. If weights are unspecified for all services, then, traffic is distributed in equal proportions to all of them. */
+  weight?: number;
+}
+export type GrpcRouteDestinationList = Array<GrpcRouteDestination>;
+/** The specification for cookie-based stateful session affinity where the date plane supplies a "session cookie" with the name "GSSA" which encodes a specific destination host and each request containing that cookie will be directed to that host as long as the destination host remains up and healthy. The gRPC proxyless mesh library or sidecar proxy will manage the session cookie but the client application code is responsible for copying the cookie from each RPC in the session to the next. */
+export interface GrpcRouteStatefulSessionAffinityPolicy {
+  /** Required. The cookie TTL value for the Set-Cookie header generated by the data plane. The lifetime of the cookie may be set to a value from 0 to 86400 seconds (24 hours) inclusive. Set this to 0s to use a session cookie and disable cookie expiration. */
+  cookieTtl?: string;
 }
 /** Specifies how to route matched traffic. */
 export interface GrpcRouteRouteAction {
+  /** Optional. Specifies the retry policy associated with this route. */
+  retryPolicy?: GrpcRouteRetryPolicy;
+  /** Optional. The specification for fault injection introduced into traffic to test the resiliency of clients to destination service failure. As part of fault injection, when clients send requests to a destination, delays can be introduced on a percentage of requests before sending those requests to the destination service. Similarly requests from clients can be aborted by for a percentage of requests. timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy */
+  faultInjectionPolicy?: GrpcRouteFaultInjectionPolicy;
+  /** Optional. Specifies the idle timeout for the selected route. The idle timeout is defined as the period in which there are no bytes sent or received on either the upstream or downstream connection. If not set, the default idle timeout is 1 hour. If set to 0s, the timeout will be disabled. */
+  idleTimeout?: string;
+  /** Optional. The destination services to which traffic should be forwarded. If multiple destinations are specified, traffic will be split between Backend Service(s) according to the weight field of these destinations. */
+  destinations?: GrpcRouteDestinationList;
   /** Optional. Specifies the timeout for selected route. Timeout is computed from the time the request has been fully processed (i.e. end of stream) up until the response has been completely processed. Timeout includes all retries. */
   timeout?: string;
   /** Optional. Specifies cookie-based stateful session affinity. */
   statefulSessionAffinity?: GrpcRouteStatefulSessionAffinityPolicy;
-  /** Optional. The destination services to which traffic should be forwarded. If multiple destinations are specified, traffic will be split between Backend Service(s) according to the weight field of these destinations. */
-  destinations?: GrpcRouteDestinationList;
-  /** Optional. The specification for fault injection introduced into traffic to test the resiliency of clients to destination service failure. As part of fault injection, when clients send requests to a destination, delays can be introduced on a percentage of requests before sending those requests to the destination service. Similarly requests from clients can be aborted by for a percentage of requests. timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy */
-  faultInjectionPolicy?: GrpcRouteFaultInjectionPolicy;
-  /** Optional. Specifies the retry policy associated with this route. */
-  retryPolicy?: GrpcRouteRetryPolicy;
-  /** Optional. Specifies the idle timeout for the selected route. The idle timeout is defined as the period in which there are no bytes sent or received on either the upstream or downstream connection. If not set, the default idle timeout is 1 hour. If set to 0s, the timeout will be disabled. */
-  idleTimeout?: string;
 }
 /** Describes how to route traffic. */
 export interface GrpcRouteRouteRule {
@@ -772,26 +939,26 @@ export interface GrpcRouteRouteRule {
 export type GrpcRouteRouteRuleList = Array<GrpcRouteRouteRule>;
 /** GrpcRoute is the resource defining how gRPC traffic routed by a Mesh or Gateway resource is routed. */
 export interface GrpcRoute {
-  /** Required. A list of detailed rules defining how to route traffic. Within a single GrpcRoute, the GrpcRoute.RouteAction associated with the first matching GrpcRoute.RouteRule will be executed. At least one rule must be supplied. */
-  rules?: GrpcRouteRouteRuleList;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string;
-  /** Optional. Meshes defines a list of meshes this GrpcRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` */
-  meshes?: StringList;
   /** Required. Service hostnames with an optional port for which this route describes traffic. Format: [:] Hostname is the fully qualified domain name of a network host. This matches the RFC 1123 definition of a hostname with 2 notable exceptions: - IPs are not allowed. - A hostname may be prefixed with a wildcard label (`*.`). The wildcard label must appear by itself as the first label. Hostname can be "precise" which is a domain name without the terminating dot of a network host (e.g. `foo.example.com`) or "wildcard", which is a domain name prefixed with a single wildcard label (e.g. `*.example.com`). Note that as per RFC1035 and RFC1123, a label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character. No other punctuation is allowed. The routes associated with a Mesh or Gateway must have unique hostnames. If you attempt to attach multiple routes with conflicting hostnames, the configuration will be rejected. For example, while it is acceptable for routes for the hostnames `*.foo.bar.com` and `*.bar.com` to be associated with the same route, it is not possible to associate two routes both with `*.bar.com` or both with `bar.com`. If a port is specified, then gRPC clients must use the channel URI with the port to match this rule (i.e. "xds:///service:123"), otherwise they must supply the URI without a port (i.e. "xds:///service"). */
   hostnames?: StringList;
-  /** Optional. Gateways defines a list of gateways this GrpcRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
-  gateways?: StringList;
   /** Optional. Set of label tags associated with the GrpcRoute resource. */
   labels?: StringMap;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string;
-  /** Output only. Server-defined URL of this resource */
-  selfLink?: string;
-  /** Optional. A free-text description of the resource. Max length 1024 characters. */
-  description?: string;
+  /** Optional. Gateways defines a list of gateways this GrpcRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
+  gateways?: StringList;
   /** Identifier. Name of the GrpcRoute resource. It matches pattern `projects/*\/locations/*\/grpcRoutes/` */
   name?: string;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string;
+  /** Output only. Server-defined URL of this resource */
+  selfLink?: string;
+  /** Optional. Meshes defines a list of meshes this GrpcRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` */
+  meshes?: StringList;
+  /** Required. A list of detailed rules defining how to route traffic. Within a single GrpcRoute, the GrpcRoute.RouteAction associated with the first matching GrpcRoute.RouteRule will be executed. At least one rule must be supplied. */
+  rules?: GrpcRouteRouteRuleList;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
 }
 export interface CreateProjectsLocationsGrpcRoutesRequest {
   /** Required. The parent resource of the GrpcRoute. Must be in the format `projects/*\/locations/*`. */
@@ -801,61 +968,97 @@ export interface CreateProjectsLocationsGrpcRoutesRequest {
   /** Request body */
   body?: GrpcRoute;
 }
-/** Specification of how client requests are delayed as part of fault injection before being sent to a destination. */
-export type HttpRouteFaultInjectionPolicyDelay = GrpcRouteFaultInjectionPolicyDelay;
-/** Specification of how client requests are aborted as part of fault injection before being sent to a destination. */
-export type HttpRouteFaultInjectionPolicyAbort = GrpcRouteFaultInjectionPolicyAbort;
-/** The specification for fault injection introduced into traffic to test the resiliency of clients to destination service failure. As part of fault injection, when clients send requests to a destination, delays can be introduced by client proxy on a percentage of requests before sending those requests to the destination service. Similarly requests can be aborted by client proxy for a percentage of requests. */
-export type HttpRouteFaultInjectionPolicy = GrpcRouteFaultInjectionPolicy;
+/** Represents an integer value range. */
+export interface HttpRouteHeaderMatchIntegerRange {
+  /** Start of the range (inclusive) */
+  start?: number;
+  /** End of the range (exclusive) */
+  end?: number;
+}
+/** Specifies how to select a route rule based on HTTP request headers. */
+export interface HttpRouteHeaderMatch {
+  /** The value of the header must start with the contents of prefix_match. */
+  prefixMatch?: string;
+  /** A header with header_name must exist. The match takes place whether or not the header has a value. */
+  presentMatch?: boolean;
+  /** The name of the HTTP header to match against. */
+  header?: string;
+  /** The value of the header must end with the contents of suffix_match. */
+  suffixMatch?: string;
+  /** The value of the header should match exactly the content of exact_match. */
+  exactMatch?: string;
+  /** The value of the header must match the regular expression specified in regex_match. For regular expression grammar, please see: https://github.com/google/re2/wiki/Syntax */
+  regexMatch?: string;
+  /** If specified, the match result will be inverted before checking. Default value is set to false. */
+  invertMatch?: boolean;
+  /** If specified, the rule will match if the request header value is within the range. */
+  rangeMatch?: HttpRouteHeaderMatchIntegerRange;
+}
+export type HttpRouteHeaderMatchList = Array<HttpRouteHeaderMatch>;
+/** Specifications to match a query parameter in the request. */
+export interface HttpRouteQueryParameterMatch {
+  /** The value of the query parameter must exactly match the contents of exact_match. Only one of exact_match, regex_match, or present_match must be set. */
+  exactMatch?: string;
+  /** The value of the query parameter must match the regular expression specified by regex_match. For regular expression grammar, please see https://github.com/google/re2/wiki/Syntax Only one of exact_match, regex_match, or present_match must be set. */
+  regexMatch?: string;
+  /** The name of the query parameter to match. */
+  queryParameter?: string;
+  /** Specifies that the QueryParameterMatcher matches if request contains query parameter, irrespective of whether the parameter has a value or not. Only one of exact_match, regex_match, or present_match must be set. */
+  presentMatch?: boolean;
+}
+export type HttpRouteQueryParameterMatchList = Array<HttpRouteQueryParameterMatch>;
+/** RouteMatch defines specifications used to match requests. If multiple match types are set, this RouteMatch will match if ALL type of matches are matched. */
+export interface HttpRouteRouteMatch {
+  /** The HTTP request path value must satisfy the regular expression specified by regex_match after removing any query parameters and anchor supplied with the original URL. For regular expression grammar, please see https://github.com/google/re2/wiki/Syntax Only one of full_path_match, prefix_match, or regex_match should be used. */
+  regexMatch?: string;
+  /** Specifies if prefix_match and full_path_match matches are case sensitive. The default value is false. */
+  ignoreCase?: boolean;
+  /** The HTTP request path value must begin with specified prefix_match. prefix_match must begin with a /. Only one of full_path_match, prefix_match, or regex_match should be used. */
+  prefixMatch?: string;
+  /** Specifies a list of HTTP request headers to match against. ALL of the supplied headers must be matched. */
+  headers?: HttpRouteHeaderMatchList;
+  /** Specifies a list of query parameters to match against. ALL of the query parameters must be matched. */
+  queryParameters?: HttpRouteQueryParameterMatchList;
+  /** The HTTP request path value should exactly match this value. Only one of full_path_match, prefix_match, or regex_match should be used. */
+  fullPathMatch?: string;
+}
+export type HttpRouteRouteMatchList = Array<HttpRouteRouteMatch>;
 /** The specification for modifying HTTP header in HTTP request and HTTP response. */
 export interface HttpRouteHeaderModifier {
   /** Completely overwrite/replace the headers with given map where key is the name of the header, value is the value of the header. */
   set?: StringMap;
-  /** Add the headers with given map where key is the name of the header, value is the value of the header. */
-  add?: StringMap;
   /** Remove headers (matching by header names) specified in the list. */
   remove?: StringList;
+  /** Add the headers with given map where key is the name of the header, value is the value of the header. */
+  add?: StringMap;
 }
 /** Specifications of a destination to which the request should be routed to. */
 export interface HttpRouteDestination {
-  /** Optional. The specification for modifying the headers of a matching request prior to delivery of the request to the destination. If HeaderModifiers are set on both the Destination and the RouteAction, they will be merged. Conflicts between the two will not be resolved on the configuration. */
-  requestHeaderModifier?: HttpRouteHeaderModifier;
-  /** The URL of a BackendService to route traffic to. */
-  serviceName?: string;
   /** Optional. The specification for modifying the headers of a response prior to sending the response back to the client. If HeaderModifiers are set on both the Destination and the RouteAction, they will be merged. Conflicts between the two will not be resolved on the configuration. */
   responseHeaderModifier?: HttpRouteHeaderModifier;
+  /** The URL of a BackendService to route traffic to. */
+  serviceName?: string;
+  /** Optional. The specification for modifying the headers of a matching request prior to delivery of the request to the destination. If HeaderModifiers are set on both the Destination and the RouteAction, they will be merged. Conflicts between the two will not be resolved on the configuration. */
+  requestHeaderModifier?: HttpRouteHeaderModifier;
   /** Specifies the proportion of requests forwarded to the backend referenced by the serviceName field. This is computed as: - weight/Sum(weights in this destination list). For non-zero values, there may be some epsilon from the exact proportion defined here depending on the precision an implementation supports. If only one serviceName is specified and it has a weight greater than 0, 100% of the traffic is forwarded to that backend. If weights are specified for any one service name, they need to be specified for all of them. If weights are unspecified for all services, then, traffic is distributed in equal proportions to all of them. */
   weight?: number;
 }
 /** Specifies the policy on how requests are shadowed to a separate mirrored destination service. The proxy does not wait for responses from the shadow service. Prior to sending traffic to the shadow service, the host/authority header is suffixed with -shadow. Mirroring is currently not supported for Cloud Run destinations. */
 export interface HttpRouteRequestMirrorPolicy {
-  /** Optional. The percentage of requests to get mirrored to the desired destination. */
-  mirrorPercent?: number;
   /** The destination the requests will be mirrored to. The weight of the destination will be ignored. */
   destination?: HttpRouteDestination;
+  /** Optional. The percentage of requests to get mirrored to the desired destination. */
+  mirrorPercent?: number;
 }
-export type HttpRouteDestinationList = Array<HttpRouteDestination>;
-/** The Specification for allowing client side cross-origin requests. */
-export interface HttpRouteCorsPolicy {
-  /** Specifies the content for Access-Control-Allow-Headers header. */
-  allowHeaders?: StringList;
-  /** Specifies the content for Access-Control-Allow-Methods header. */
-  allowMethods?: StringList;
-  /** If true, the CORS policy is disabled. The default value is false, which indicates that the CORS policy is in effect. */
-  disabled?: boolean;
-  /** Specifies the list of origins that will be allowed to do CORS requests. An origin is allowed if it matches either an item in allow_origins or an item in allow_origin_regexes. */
-  allowOrigins?: StringList;
-  /** Specifies how long result of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header. */
-  maxAge?: string;
-  /** In response to a preflight request, setting this to true indicates that the actual request can include user credentials. This translates to the Access-Control-Allow-Credentials header. Default value is false. */
-  allowCredentials?: boolean;
-  /** Specifies the content for Access-Control-Expose-Headers header. */
-  exposeHeaders?: StringList;
-  /** Specifies the regular expression patterns that match allowed origins. For regular expression grammar, please see https://github.com/google/re2/wiki/Syntax. */
-  allowOriginRegexes?: StringList;
+/** The specifications for retries. */
+export interface HttpRouteRetryPolicy {
+  /** Specifies the allowed number of retries. This number must be > 0. If not specified, default to 1. */
+  numRetries?: number;
+  /** Specifies a non-zero timeout per retry attempt. */
+  perTryTimeout?: string;
+  /** Specifies one or more conditions when this retry policy applies. Valid values are: 5xx: Proxy will attempt a retry if the destination service responds with any 5xx response code, of if the destination service does not respond at all, example: disconnect, reset, read timeout, connection failure and refused streams. gateway-error: Similar to 5xx, but only applies to response codes 502, 503, 504. reset: Proxy will attempt a retry if the destination service does not respond at all (disconnect/reset/read timeout) connect-failure: Proxy will retry on failures connecting to destination for example due to connection timeouts. retriable-4xx: Proxy will retry fro retriable 4xx response codes. Currently the only retriable error supported is 409. refused-stream: Proxy will retry if the destination resets the stream with a REFUSED_STREAM error code. This reset type indicates that it is safe to retry. */
+  retryConditions?: StringList;
 }
-/** The specification for cookie-based stateful session affinity where the date plane supplies a "session cookie" with the name "GSSA" which encodes a specific destination host and each request containing that cookie will be directed to that host as long as the destination host remains up and healthy. The gRPC proxyless mesh library or sidecar proxy will manage the session cookie but the client application code is responsible for copying the cookie from each RPC in the session to the next. */
-export type HttpRouteStatefulSessionAffinityPolicy = GrpcRouteStatefulSessionAffinityPolicy;
 /** The specification for modifying the URL of the request, prior to forwarding the request to the destination. */
 export interface HttpRouteURLRewrite {
   /** Prior to forwarding the request to the selected destination, the matching portion of the requests path is replaced by this value. */
@@ -863,6 +1066,12 @@ export interface HttpRouteURLRewrite {
   /** Prior to forwarding the request to the selected destination, the requests host header is replaced by this value. */
   hostRewrite?: string;
 }
+/** Specification of how client requests are delayed as part of fault injection before being sent to a destination. */
+export type HttpRouteFaultInjectionPolicyDelay = GrpcRouteFaultInjectionPolicyDelay;
+/** Specification of how client requests are aborted as part of fault injection before being sent to a destination. */
+export type HttpRouteFaultInjectionPolicyAbort = GrpcRouteFaultInjectionPolicyAbort;
+/** The specification for fault injection introduced into traffic to test the resiliency of clients to destination service failure. As part of fault injection, when clients send requests to a destination, delays can be introduced by client proxy on a percentage of requests before sending those requests to the destination service. Similarly requests can be aborted by client proxy for a percentage of requests. */
+export type HttpRouteFaultInjectionPolicy = GrpcRouteFaultInjectionPolicy;
 export type HttpRouteRedirectResponseCodeEnum =
   | "RESPONSE_CODE_UNSPECIFIED"
   | "MOVED_PERMANENTLY_DEFAULT"
@@ -872,159 +1081,117 @@ export type HttpRouteRedirectResponseCodeEnum =
   | "PERMANENT_REDIRECT";
 /** The specification for redirecting traffic. */
 export interface HttpRouteRedirect {
-  /** Indicates that during redirection, the matched prefix (or path) should be swapped with this value. This option allows URLs be dynamically created based on the request. */
-  prefixRewrite?: string;
   /** The host that will be used in the redirect response instead of the one that was supplied in the request. */
   hostRedirect?: string;
   /** The path that will be used in the redirect response instead of the one that was supplied in the request. path_redirect can not be supplied together with prefix_redirect. Supply one alone or neither. If neither is supplied, the path of the original request will be used for the redirect. */
   pathRedirect?: string;
-  /** if set to true, any accompanying query portion of the original URL is removed prior to redirecting the request. If set to false, the query portion of the original URL is retained. The default is set to false. */
-  stripQuery?: boolean;
-  /** The HTTP Status code to use for the redirect. */
-  responseCode?: HttpRouteRedirectResponseCodeEnum | (string & {});
   /** The port that will be used in the redirected request instead of the one that was supplied in the request. */
   portRedirect?: number;
+  /** Indicates that during redirection, the matched prefix (or path) should be swapped with this value. This option allows URLs be dynamically created based on the request. */
+  prefixRewrite?: string;
   /** If set to true, the URL scheme in the redirected request is set to https. If set to false, the URL scheme of the redirected request will remain the same as that of the request. The default is set to false. */
   httpsRedirect?: boolean;
+  /** The HTTP Status code to use for the redirect. */
+  responseCode?: HttpRouteRedirectResponseCodeEnum | (string & {});
+  /** if set to true, any accompanying query portion of the original URL is removed prior to redirecting the request. If set to false, the query portion of the original URL is retained. The default is set to false. */
+  stripQuery?: boolean;
 }
-/** The specifications for retries. */
-export interface HttpRouteRetryPolicy {
-  /** Specifies a non-zero timeout per retry attempt. */
-  perTryTimeout?: string;
-  /** Specifies the allowed number of retries. This number must be > 0. If not specified, default to 1. */
-  numRetries?: number;
-  /** Specifies one or more conditions when this retry policy applies. Valid values are: 5xx: Proxy will attempt a retry if the destination service responds with any 5xx response code, of if the destination service does not respond at all, example: disconnect, reset, read timeout, connection failure and refused streams. gateway-error: Similar to 5xx, but only applies to response codes 502, 503, 504. reset: Proxy will attempt a retry if the destination service does not respond at all (disconnect/reset/read timeout) connect-failure: Proxy will retry on failures connecting to destination for example due to connection timeouts. retriable-4xx: Proxy will retry fro retriable 4xx response codes. Currently the only retriable error supported is 409. refused-stream: Proxy will retry if the destination resets the stream with a REFUSED_STREAM error code. This reset type indicates that it is safe to retry. */
-  retryConditions?: StringList;
+/** The specification for cookie-based stateful session affinity where the date plane supplies a "session cookie" with the name "GSSA" which encodes a specific destination host and each request containing that cookie will be directed to that host as long as the destination host remains up and healthy. The gRPC proxyless mesh library or sidecar proxy will manage the session cookie but the client application code is responsible for copying the cookie from each RPC in the session to the next. */
+export type HttpRouteStatefulSessionAffinityPolicy = GrpcRouteStatefulSessionAffinityPolicy;
+export type HttpRouteDestinationList = Array<HttpRouteDestination>;
+/** The Specification for allowing client side cross-origin requests. */
+export interface HttpRouteCorsPolicy {
+  /** Specifies the regular expression patterns that match allowed origins. For regular expression grammar, please see https://github.com/google/re2/wiki/Syntax. */
+  allowOriginRegexes?: StringList;
+  /** Specifies the content for Access-Control-Allow-Methods header. */
+  allowMethods?: StringList;
+  /** In response to a preflight request, setting this to true indicates that the actual request can include user credentials. This translates to the Access-Control-Allow-Credentials header. Default value is false. */
+  allowCredentials?: boolean;
+  /** Specifies the list of origins that will be allowed to do CORS requests. An origin is allowed if it matches either an item in allow_origins or an item in allow_origin_regexes. */
+  allowOrigins?: StringList;
+  /** Specifies how long result of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header. */
+  maxAge?: string;
+  /** Specifies the content for Access-Control-Expose-Headers header. */
+  exposeHeaders?: StringList;
+  /** Specifies the content for Access-Control-Allow-Headers header. */
+  allowHeaders?: StringList;
+  /** If true, the CORS policy is disabled. The default value is false, which indicates that the CORS policy is in effect. */
+  disabled?: boolean;
 }
 /** Static HTTP response object to be returned. */
 export interface HttpRouteHttpDirectResponse {
-  /** Optional. Response body as a string. Maximum body length is 1024 characters. */
-  stringBody?: string;
-  /** Optional. Response body as bytes. Maximum body size is 4096B. */
-  bytesBody?: string;
   /** Required. Status to return as part of HTTP Response. Must be a positive integer. */
   status?: number;
+  /** Optional. Response body as bytes. Maximum body size is 4096B. */
+  bytesBody?: string;
+  /** Optional. Response body as a string. Maximum body length is 1024 characters. */
+  stringBody?: string;
 }
 /** The specifications for routing traffic and applying associated policies. */
 export interface HttpRouteRouteAction {
-  /** Optional. Specifies the idle timeout for the selected route. The idle timeout is defined as the period in which there are no bytes sent or received on either the upstream or downstream connection. If not set, the default idle timeout is 1 hour. If set to 0s, the timeout will be disabled. */
-  idleTimeout?: string;
   /** Specifies the timeout for selected route. Timeout is computed from the time the request has been fully processed (i.e. end of stream) up until the response has been completely processed. Timeout includes all retries. */
   timeout?: string;
-  /** The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced on a percentage of requests before sending those requests to the backend service. Similarly requests from clients can be aborted for a percentage of requests. timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy */
-  faultInjectionPolicy?: GrpcRouteFaultInjectionPolicy;
   /** Specifies the policy on how requests intended for the routes destination are shadowed to a separate mirrored destination. Proxy will not wait for the shadow destination to respond before returning the response. Prior to sending traffic to the shadow service, the host/authority header is suffixed with -shadow. */
   requestMirrorPolicy?: HttpRouteRequestMirrorPolicy;
-  /** The specification for modifying the headers of a response prior to sending the response back to the client. If HeaderModifiers are set on both the Destination and the RouteAction, they will be merged. Conflicts between the two will not be resolved on the configuration. */
-  responseHeaderModifier?: HttpRouteHeaderModifier;
-  /** The destination to which traffic should be forwarded. */
-  destinations?: HttpRouteDestinationList;
-  /** The specification for allowing client side cross-origin requests. */
-  corsPolicy?: HttpRouteCorsPolicy;
-  /** Optional. Specifies cookie-based stateful session affinity. */
-  statefulSessionAffinity?: GrpcRouteStatefulSessionAffinityPolicy;
-  /** The specification for rewrite URL before forwarding requests to the destination. */
-  urlRewrite?: HttpRouteURLRewrite;
-  /** If set, the request is directed as configured by this field. */
-  redirect?: HttpRouteRedirect;
   /** Specifies the retry policy associated with this route. */
   retryPolicy?: HttpRouteRetryPolicy;
-  /** Optional. Static HTTP Response object to be returned regardless of the request. */
-  directResponse?: HttpRouteHttpDirectResponse;
   /** The specification for modifying the headers of a matching request prior to delivery of the request to the destination. If HeaderModifiers are set on both the Destination and the RouteAction, they will be merged. Conflicts between the two will not be resolved on the configuration. */
   requestHeaderModifier?: HttpRouteHeaderModifier;
+  /** The specification for rewrite URL before forwarding requests to the destination. */
+  urlRewrite?: HttpRouteURLRewrite;
+  /** The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced on a percentage of requests before sending those requests to the backend service. Similarly requests from clients can be aborted for a percentage of requests. timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy */
+  faultInjectionPolicy?: GrpcRouteFaultInjectionPolicy;
+  /** If set, the request is directed as configured by this field. */
+  redirect?: HttpRouteRedirect;
+  /** Optional. Specifies cookie-based stateful session affinity. */
+  statefulSessionAffinity?: GrpcRouteStatefulSessionAffinityPolicy;
+  /** The destination to which traffic should be forwarded. */
+  destinations?: HttpRouteDestinationList;
+  /** The specification for modifying the headers of a response prior to sending the response back to the client. If HeaderModifiers are set on both the Destination and the RouteAction, they will be merged. Conflicts between the two will not be resolved on the configuration. */
+  responseHeaderModifier?: HttpRouteHeaderModifier;
+  /** The specification for allowing client side cross-origin requests. */
+  corsPolicy?: HttpRouteCorsPolicy;
+  /** Optional. Static HTTP Response object to be returned regardless of the request. */
+  directResponse?: HttpRouteHttpDirectResponse;
+  /** Optional. Specifies the idle timeout for the selected route. The idle timeout is defined as the period in which there are no bytes sent or received on either the upstream or downstream connection. If not set, the default idle timeout is 1 hour. If set to 0s, the timeout will be disabled. */
+  idleTimeout?: string;
 }
-/** Represents an integer value range. */
-export interface HttpRouteHeaderMatchIntegerRange {
-  /** End of the range (exclusive) */
-  end?: number;
-  /** Start of the range (inclusive) */
-  start?: number;
-}
-/** Specifies how to select a route rule based on HTTP request headers. */
-export interface HttpRouteHeaderMatch {
-  /** If specified, the rule will match if the request header value is within the range. */
-  rangeMatch?: HttpRouteHeaderMatchIntegerRange;
-  /** If specified, the match result will be inverted before checking. Default value is set to false. */
-  invertMatch?: boolean;
-  /** A header with header_name must exist. The match takes place whether or not the header has a value. */
-  presentMatch?: boolean;
-  /** The value of the header must start with the contents of prefix_match. */
-  prefixMatch?: string;
-  /** The value of the header must match the regular expression specified in regex_match. For regular expression grammar, please see: https://github.com/google/re2/wiki/Syntax */
-  regexMatch?: string;
-  /** The name of the HTTP header to match against. */
-  header?: string;
-  /** The value of the header should match exactly the content of exact_match. */
-  exactMatch?: string;
-  /** The value of the header must end with the contents of suffix_match. */
-  suffixMatch?: string;
-}
-export type HttpRouteHeaderMatchList = Array<HttpRouteHeaderMatch>;
-/** Specifications to match a query parameter in the request. */
-export interface HttpRouteQueryParameterMatch {
-  /** The name of the query parameter to match. */
-  queryParameter?: string;
-  /** The value of the query parameter must match the regular expression specified by regex_match. For regular expression grammar, please see https://github.com/google/re2/wiki/Syntax Only one of exact_match, regex_match, or present_match must be set. */
-  regexMatch?: string;
-  /** Specifies that the QueryParameterMatcher matches if request contains query parameter, irrespective of whether the parameter has a value or not. Only one of exact_match, regex_match, or present_match must be set. */
-  presentMatch?: boolean;
-  /** The value of the query parameter must exactly match the contents of exact_match. Only one of exact_match, regex_match, or present_match must be set. */
-  exactMatch?: string;
-}
-export type HttpRouteQueryParameterMatchList = Array<HttpRouteQueryParameterMatch>;
-/** RouteMatch defines specifications used to match requests. If multiple match types are set, this RouteMatch will match if ALL type of matches are matched. */
-export interface HttpRouteRouteMatch {
-  /** The HTTP request path value should exactly match this value. Only one of full_path_match, prefix_match, or regex_match should be used. */
-  fullPathMatch?: string;
-  /** Specifies a list of HTTP request headers to match against. ALL of the supplied headers must be matched. */
-  headers?: HttpRouteHeaderMatchList;
-  /** Specifies a list of query parameters to match against. ALL of the query parameters must be matched. */
-  queryParameters?: HttpRouteQueryParameterMatchList;
-  /** The HTTP request path value must begin with specified prefix_match. prefix_match must begin with a /. Only one of full_path_match, prefix_match, or regex_match should be used. */
-  prefixMatch?: string;
-  /** Specifies if prefix_match and full_path_match matches are case sensitive. The default value is false. */
-  ignoreCase?: boolean;
-  /** The HTTP request path value must satisfy the regular expression specified by regex_match after removing any query parameters and anchor supplied with the original URL. For regular expression grammar, please see https://github.com/google/re2/wiki/Syntax Only one of full_path_match, prefix_match, or regex_match should be used. */
-  regexMatch?: string;
-}
-export type HttpRouteRouteMatchList = Array<HttpRouteRouteMatch>;
 /** Specifies how to match traffic and how to route traffic when traffic is matched. */
 export interface HttpRouteRouteRule {
-  /** The detailed rule defining how to route matched traffic. */
-  action?: HttpRouteRouteAction;
   /** A list of matches define conditions used for matching the rule against incoming HTTP requests. Each match is independent, i.e. this rule will be matched if ANY one of the matches is satisfied. If no matches field is specified, this rule will unconditionally match traffic. If a default rule is desired to be configured, add a rule with no matches specified to the end of the rules list. */
   matches?: HttpRouteRouteMatchList;
+  /** The detailed rule defining how to route matched traffic. */
+  action?: HttpRouteRouteAction;
 }
 export type HttpRouteRouteRuleList = Array<HttpRouteRouteRule>;
 /** HttpRoute is the resource defining how HTTP traffic should be routed by a Mesh or Gateway resource. */
 export interface HttpRoute {
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string;
-  /** Output only. Server-defined URL of this resource */
-  selfLink?: string;
+  /** Required. Rules that define how traffic is routed and handled. Rules will be matched sequentially based on the RouteMatch specified for the rule. */
+  rules?: HttpRouteRouteRuleList;
   /** Identifier. Name of the HttpRoute resource. It matches pattern `projects/*\/locations/*\/httpRoutes/http_route_name>`. */
   name?: string;
   /** Optional. Set of label tags associated with the HttpRoute resource. */
   labels?: StringMap;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string;
-  /** Optional. Meshes defines a list of meshes this HttpRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` The attached Mesh should be of a type SIDECAR */
-  meshes?: StringList;
-  /** Required. Hostnames define a set of hosts that should match against the HTTP host header to select a HttpRoute to process the request. Hostname is the fully qualified domain name of a network host, as defined by RFC 1123 with the exception that: - IPs are not allowed. - A hostname may be prefixed with a wildcard label (`*.`). The wildcard label must appear by itself as the first label. Hostname can be "precise" which is a domain name without the terminating dot of a network host (e.g. `foo.example.com`) or "wildcard", which is a domain name prefixed with a single wildcard label (e.g. `*.example.com`). Note that as per RFC1035 and RFC1123, a label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character. No other punctuation is allowed. The routes associated with a Mesh or Gateways must have unique hostnames. If you attempt to attach multiple routes with conflicting hostnames, the configuration will be rejected. For example, while it is acceptable for routes for the hostnames `*.foo.bar.com` and `*.bar.com` to be associated with the same Mesh (or Gateways under the same scope), it is not possible to associate two routes both with `*.bar.com` or both with `bar.com`. */
-  hostnames?: StringList;
-  /** Required. Rules that define how traffic is routed and handled. Rules will be matched sequentially based on the RouteMatch specified for the rule. */
-  rules?: HttpRouteRouteRuleList;
-  /** Optional. Gateways defines a list of gateways this HttpRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
-  gateways?: StringList;
   /** Optional. A free-text description of the resource. Max length 1024 characters. */
   description?: string;
+  /** Output only. Server-defined URL of this resource */
+  selfLink?: string;
+  /** Optional. Gateways defines a list of gateways this HttpRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
+  gateways?: StringList;
+  /** Required. Hostnames define a set of hosts that should match against the HTTP host header to select a HttpRoute to process the request. Hostname is the fully qualified domain name of a network host, as defined by RFC 1123 with the exception that: - IPs are not allowed. - A hostname may be prefixed with a wildcard label (`*.`). The wildcard label must appear by itself as the first label. Hostname can be "precise" which is a domain name without the terminating dot of a network host (e.g. `foo.example.com`) or "wildcard", which is a domain name prefixed with a single wildcard label (e.g. `*.example.com`). Note that as per RFC1035 and RFC1123, a label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character. No other punctuation is allowed. The routes associated with a Mesh or Gateways must have unique hostnames. If you attempt to attach multiple routes with conflicting hostnames, the configuration will be rejected. For example, while it is acceptable for routes for the hostnames `*.foo.bar.com` and `*.bar.com` to be associated with the same Mesh (or Gateways under the same scope), it is not possible to associate two routes both with `*.bar.com` or both with `bar.com`. */
+  hostnames?: StringList;
+  /** Optional. Meshes defines a list of meshes this HttpRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` The attached Mesh should be of a type SIDECAR */
+  meshes?: StringList;
 }
 export interface CreateProjectsLocationsHttpRoutesRequest {
-  /** Required. Short name of the HttpRoute resource to be created. */
-  httpRouteId?: string;
   /** Required. The parent resource of the HttpRoute. Must be in the format `projects/*\/locations/*`. */
   parent: string;
+  /** Required. Short name of the HttpRoute resource to be created. */
+  httpRouteId?: string;
   /** Optional. Idempotent request UUID. */
   requestId?: string;
   /** Request body */
@@ -1036,30 +1203,30 @@ export type LbEdgeExtensionLoadBalancingSchemeEnum =
   | "EXTERNAL_MANAGED";
 /** `LbEdgeExtension` is a resource that lets the extension service influence the selection of backend services and Cloud CDN cache keys by modifying request headers. */
 export interface LbEdgeExtension {
+  /** Required. All forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `EXTERNAL_MANAGED`. */
+  loadBalancingScheme?: LbEdgeExtensionLoadBalancingSchemeEnum | (string & {});
+  /** Required. A list of references to the forwarding rules to which this service extension is attached. At least one forwarding rule is required. Only one `LbEdgeExtension` resource can be associated with a forwarding rule. */
+  forwardingRules?: StringList;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
+  /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 5 extension chains per resource. */
+  extensionChains?: ExtensionChainList;
+  /** Optional. Set of labels associated with the `LbEdgeExtension` resource. The format must comply with [the requirements for labels](https://cloud.google.com/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
+  labels?: StringMap;
   /** Optional. A human-readable description of the resource. */
   description?: string;
   /** Required. Identifier. Name of the `LbEdgeExtension` resource in the following format: `projects/{project}/locations/{location}/lbEdgeExtensions/{lb_edge_extension}`. */
   name?: string;
-  /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 5 extension chains per resource. */
-  extensionChains?: ExtensionChainList;
-  /** Required. All forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `EXTERNAL_MANAGED`. */
-  loadBalancingScheme?: LbEdgeExtensionLoadBalancingSchemeEnum | (string & {});
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** Optional. Set of labels associated with the `LbEdgeExtension` resource. The format must comply with [the requirements for labels](https://cloud.google.com/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
-  labels?: StringMap;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string;
-  /** Required. A list of references to the forwarding rules to which this service extension is attached. At least one forwarding rule is required. Only one `LbEdgeExtension` resource can be associated with a forwarding rule. */
-  forwardingRules?: StringList;
 }
 export interface CreateProjectsLocationsLbEdgeExtensionsRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Required. User-provided ID of the `LbEdgeExtension` resource to be created. */
   lbEdgeExtensionId?: string;
   /** Required. The parent resource of the `LbEdgeExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Request body */
   body?: LbEdgeExtension;
 }
@@ -1071,22 +1238,22 @@ export type LbRouteExtensionLoadBalancingSchemeEnum =
 export interface LbRouteExtension {
   /** Optional. A human-readable description of the resource. */
   description?: string;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** Required. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `INTERNAL_MANAGED`, `EXTERNAL_MANAGED`. For more information, refer to [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
-  loadBalancingScheme?: LbRouteExtensionLoadBalancingSchemeEnum | (string & {});
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string;
-  /** Optional. Set of labels associated with the `LbRouteExtension` resource. The format must comply with [the requirements for labels](https://cloud.google.com/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
-  labels?: StringMap;
-  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata applies to all extensions in all extensions chains in this resource. The metadata is available under the key `com.google.lb_route_extension.`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set if at least one of the extension chains contains plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. */
-  metadata?: DocumentMap;
-  /** Required. A list of references to the forwarding rules to which this service extension is attached. At least one forwarding rule is required. Only one `LbRouteExtension` resource can be associated with a forwarding rule. */
-  forwardingRules?: StringList;
-  /** Required. Identifier. Name of the `LbRouteExtension` resource in the following format: `projects/{project}/locations/{location}/lbRouteExtensions/{lb_route_extension}`. */
-  name?: string;
   /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 5 extension chains per resource. */
   extensionChains?: ExtensionChainList;
+  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata applies to all extensions in all extensions chains in this resource. The metadata is available under the key `com.google.lb_route_extension.`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set if at least one of the extension chains contains plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. */
+  metadata?: DocumentMap;
+  /** Required. Identifier. Name of the `LbRouteExtension` resource in the following format: `projects/{project}/locations/{location}/lbRouteExtensions/{lb_route_extension}`. */
+  name?: string;
+  /** Required. A list of references to the forwarding rules to which this service extension is attached. At least one forwarding rule is required. Only one `LbRouteExtension` resource can be associated with a forwarding rule. */
+  forwardingRules?: StringList;
+  /** Optional. Set of labels associated with the `LbRouteExtension` resource. The format must comply with [the requirements for labels](https://cloud.google.com/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
+  labels?: StringMap;
+  /** Required. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `INTERNAL_MANAGED`, `EXTERNAL_MANAGED`. For more information, refer to [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
+  loadBalancingScheme?: LbRouteExtensionLoadBalancingSchemeEnum | (string & {});
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
 }
 export interface CreateProjectsLocationsLbRouteExtensionsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -1104,28 +1271,28 @@ export type LbTcpExtensionLoadBalancingSchemeEnum =
   | "EXTERNAL_MANAGED";
 /** `LbTcpExtension` is a resource that allows traffic forwarding to different backend services to make allow/deny decisions on TCP connections for all L7 Load Balancers within a network. Currently only internal load-balancers are supported. */
 export interface LbTcpExtension {
-  /** Required. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `INTERNAL_MANAGED`. For more information, refer to [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
-  loadBalancingScheme?: LbTcpExtensionLoadBalancingSchemeEnum | (string & {});
-  /** Optional. Set of labels associated with the `LbTcpExtension` resource. The format must comply with [the requirements for labels](/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
-  labels?: StringMap;
-  /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 1 extension chain per resource. */
-  extensionChains?: ExtensionChainList;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string;
-  /** Optional. If set, this `LbTcpExtension` resource applies to all `ForwardingRule` resources in these VPC networks. Values should be relative resource names identifying VPC networks, for example `projects/*\/global/networks/network-1`. Currently limited to 1 network per resource. Limited to 1 network per resource. */
-  networks?: StringList;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string;
   /** Required. Identifier. Name of the `LbTcpExtension` resource in the following format: `projects/{project}/locations/{location}/LbTcpExtension/{lb_tcp_extension}` */
   name?: string;
+  /** Optional. If set, this `LbTcpExtension` resource applies to all `ForwardingRule` resources in these VPC networks. Values should be relative resource names identifying VPC networks, for example `projects/*\/global/networks/network-1`. Currently limited to 1 network per resource. Limited to 1 network per resource. */
+  networks?: StringList;
+  /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 1 extension chain per resource. */
+  extensionChains?: ExtensionChainList;
+  /** Required. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `INTERNAL_MANAGED`. For more information, refer to [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
+  loadBalancingScheme?: LbTcpExtensionLoadBalancingSchemeEnum | (string & {});
   /** Optional. A human-readable description of the resource. */
   description?: string;
+  /** Optional. Set of labels associated with the `LbTcpExtension` resource. The format must comply with [the requirements for labels](/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
+  labels?: StringMap;
 }
 export interface CreateProjectsLocationsLbTcpExtensionsRequest {
-  /** Required. User-provided ID of the `LbTcpExtension` resource to be created. */
-  lbTcpExtensionId?: string;
   /** Required. The parent resource of the `LbTcpExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Required. User-provided ID of the `LbTcpExtension` resource to be created. */
+  lbTcpExtensionId?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Request body */
@@ -1137,64 +1304,63 @@ export type LbTrafficExtensionLoadBalancingSchemeEnum =
   | "EXTERNAL_MANAGED";
 /** `LbTrafficExtension` is a resource that lets the extension service modify the headers and payloads of both requests and responses without impacting the choice of backend services or any other security policies associated with the backend service. */
 export interface LbTrafficExtension {
-  /** Required. Identifier. Name of the `LbTrafficExtension` resource in the following format: `projects/{project}/locations/{location}/lbTrafficExtensions/{lb_traffic_extension}`. */
-  name?: string;
-  /** Optional. A human-readable description of the resource. */
-  description?: string;
-  /** Required. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `INTERNAL_MANAGED` and `EXTERNAL_MANAGED`. For more information, refer to [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
-  loadBalancingScheme?: LbTrafficExtensionLoadBalancingSchemeEnum | (string & {});
-  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata applies to all extensions in all extensions chains in this resource. The metadata is available under the key `com.google.lb_traffic_extension.`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set if at least one of the extension chains contains plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. */
-  metadata?: DocumentMap;
   /** Optional. A list of references to the forwarding rules to which this service extension is attached. At least one forwarding rule is required. Only one `LbTrafficExtension` resource can be associated with a forwarding rule. */
   forwardingRules?: StringList;
+  /** Required. Identifier. Name of the `LbTrafficExtension` resource in the following format: `projects/{project}/locations/{location}/lbTrafficExtensions/{lb_traffic_extension}`. */
+  name?: string;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string;
-  /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 5 extension chains per resource. */
-  extensionChains?: ExtensionChainList;
+  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata applies to all extensions in all extensions chains in this resource. The metadata is available under the key `com.google.lb_traffic_extension.`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set if at least one of the extension chains contains plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. */
+  metadata?: DocumentMap;
   /** Optional. Set of labels associated with the `LbTrafficExtension` resource. The format must comply with [the requirements for labels](https://cloud.google.com/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
   labels?: StringMap;
+  /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 5 extension chains per resource. */
+  extensionChains?: ExtensionChainList;
+  /** Optional. A human-readable description of the resource. */
+  description?: string;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
+  /** Required. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `INTERNAL_MANAGED` and `EXTERNAL_MANAGED`. For more information, refer to [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
+  loadBalancingScheme?: LbTrafficExtensionLoadBalancingSchemeEnum | (string & {});
 }
 export interface CreateProjectsLocationsLbTrafficExtensionsRequest {
   /** Required. User-provided ID of the `LbTrafficExtension` resource to be created. */
   lbTrafficExtensionId?: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The parent resource of the `LbTrafficExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: LbTrafficExtension;
 }
 export type MeshEnvoyHeadersEnum = "ENVOY_HEADERS_UNSPECIFIED" | "NONE" | "DEBUG_HEADERS";
 /** Mesh represents a logical configuration grouping for workload to workload communication within a service mesh. Routes that point to mesh dictate how requests are routed within this logical mesh boundary. */
 export interface Mesh {
-  /** Optional. Set of label tags associated with the Mesh resource. */
-  labels?: StringMap;
-  /** Optional. A free-text description of the resource. Max length 1024 characters. */
-  description?: string;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string;
-  /** Optional. If set to a valid TCP port (1-65535), instructs the SIDECAR proxy to listen on the specified port of localhost (127.0.0.1) address. The SIDECAR proxy will expect all traffic to be redirected to this port regardless of its actual ip:port destination. If unset, a port '15001' is used as the interception port. This is applicable only for sidecar proxy deployments. */
-  interceptionPort?: number;
   /** Output only. Server-defined URL of this resource */
   selfLink?: string;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
   /** Identifier. Name of the Mesh resource. It matches pattern `projects/*\/locations/*\/meshes/`. */
   name?: string;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
   /** Optional. Determines if envoy will insert internal debug headers into upstream requests. Other Envoy headers may still be injected. By default, envoy will not insert any debug headers. */
   envoyHeaders?: MeshEnvoyHeadersEnum | (string & {});
+  /** Optional. Set of label tags associated with the Mesh resource. */
+  labels?: StringMap;
+  /** Optional. If set to a valid TCP port (1-65535), instructs the SIDECAR proxy to listen on the specified port of localhost (127.0.0.1) address. The SIDECAR proxy will expect all traffic to be redirected to this port regardless of its actual ip:port destination. If unset, a port '15001' is used as the interception port. This is applicable only for sidecar proxy deployments. */
+  interceptionPort?: number;
 }
 export interface CreateProjectsLocationsMeshesRequest {
-  /** Required. Short name of the Mesh resource to be created. */
-  meshId?: string;
   /** Required. The parent resource of the Mesh. Must be in the format `projects/*\/locations/*`. */
   parent: string;
+  /** Required. Short name of the Mesh resource to be created. */
+  meshId?: string;
   /** Request body */
   body?: Mesh;
 }
-export type ProducerExtensionPhaseEnum = "PHASE_UNSPECIFIED" | "TRAFFIC" | "AUTHZ";
 export type ProducerExtensionExtensionSettingsSupportedEventsItemEnum =
   | "EVENT_TYPE_UNSPECIFIED"
   | "REQUEST_HEADERS"
@@ -1208,75 +1374,75 @@ export type ProducerExtensionExtensionSettingsSupportedEventsItemEnumList = Arra
 >;
 /** The configuration for the service that this `ProducerExtension` offers. */
 export interface ProducerExtensionExtensionSettings {
-  /** Required. The event types supported by the extension. */
-  supportedEvents?: ProducerExtensionExtensionSettingsSupportedEventsItemEnumList;
   /** Required. URI of the PSC attachment. */
   service?: string;
-  /** Optional. Whether the extension should function in observability mode. */
+  /** Optional. This field is not supported. */
   observabilityMode?: boolean;
+  /** Required. The event types supported by the extension. */
+  supportedEvents?: ProducerExtensionExtensionSettingsSupportedEventsItemEnumList;
   /** Optional. The `:authority` header in the request sent to the extension service. */
   authority?: string;
 }
+export type ProducerExtensionPhaseEnum = "PHASE_UNSPECIFIED" | "TRAFFIC" | "AUTHZ";
 /** `ProducerExtension` is a resource representing producer defined configuration for their service extension. */
 export interface ProducerExtension {
-  /** Identifier. Name of the `ProducerExtension` resource in the following format: `projects/{project}/locations/{location}/producerExtensions/{producer_extension}`. */
-  name?: string;
-  /** Optional. A human-readable description of the resource. */
-  description?: string;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string;
-  /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
-  etag?: string;
-  /** Required. The phase in which this `ProducerExtension` should execute. */
-  phase?: ProducerExtensionPhaseEnum | (string & {});
   /** Output only. The timestamp when the resource was created. */
   createTime?: string;
-  /** Required. The configuration for the service that this `ProducerExtension` offers. */
-  extensionSettings?: ProducerExtensionExtensionSettings;
   /** Optional. Set of labels associated with the `ProducerExtension` resource. The format must comply with [the following requirements](https://cloud.google.com/compute/docs/labeling-resources#requirements). */
   labels?: StringMap;
+  /** Identifier. Name of the `ProducerExtension` resource in the following format: `projects/{project}/locations/{location}/producerExtensions/{producer_extension}`. */
+  name?: string;
+  /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
+  etag?: string;
+  /** Required. The configuration for the service that this `ProducerExtension` offers. */
+  extensionSettings?: ProducerExtensionExtensionSettings;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
+  /** Optional. A human-readable description of the resource. */
+  description?: string;
+  /** Required. The phase in which this `ProducerExtension` should execute. */
+  phase?: ProducerExtensionPhaseEnum | (string & {});
 }
 export interface CreateProjectsLocationsProducerExtensionsRequest {
-  /** Required. Short name of the `ProducerExtension` resource to be created. */
-  producerExtensionId?: string;
   /** Required. The parent resource of the `ProducerExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Required. Short name of the `ProducerExtension` resource to be created. */
+  producerExtensionId?: string;
   /** Request body */
   body?: ProducerExtension;
 }
 /** ServiceBinding can be used to: - Bind a Service Directory Service to be used in a BackendService resource. This feature will be deprecated soon. - Bind a Private Service Connect producer service to be used in consumer Cloud Service Mesh or Application Load Balancers. - Bind a Cloud Run service to be used in consumer Cloud Service Mesh or Application Load Balancers. */
 export interface ServiceBinding {
-  /** Output only. The unique identifier of the Service Directory Service against which the ServiceBinding resource is validated. This is populated when the Service Binding resource is used in another resource (like Backend Service). This is of the UUID4 format. This field is for Service Directory integration which will be deprecated soon. */
-  serviceId?: string;
   /** Identifier. Name of the ServiceBinding resource. It matches pattern `projects/*\/locations/*\/serviceBindings/`. */
   name?: string;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** Optional. A free-text description of the resource. Max length 1024 characters. */
-  description?: string;
   /** Optional. Set of label tags associated with the ServiceBinding resource. */
   labels?: StringMap;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string;
   /** Optional. The full Service Directory Service name of the format `projects/*\/locations/*\/namespaces/*\/services/*`. This field is for Service Directory integration which will be deprecated soon. */
   service?: string;
+  /** Output only. The unique identifier of the Service Directory Service against which the ServiceBinding resource is validated. This is populated when the Service Binding resource is used in another resource (like Backend Service). This is of the UUID4 format. This field is for Service Directory integration which will be deprecated soon. */
+  serviceId?: string;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
 }
 export interface CreateProjectsLocationsServiceBindingsRequest {
+  /** Required. Short name of the ServiceBinding resource to be created. */
+  serviceBindingId?: string;
   /** Required. The parent resource of the ServiceBinding. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees this for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Required. Short name of the ServiceBinding resource to be created. */
-  serviceBindingId?: string;
   /** Request body */
   body?: ServiceBinding;
 }
-export type ServiceLbPolicyLoadBalancingAlgorithmEnum =
-  | "LOAD_BALANCING_ALGORITHM_UNSPECIFIED"
-  | "SPRAY_TO_WORLD"
-  | "SPRAY_TO_REGION"
-  | "WATERFALL_BY_REGION"
-  | "WATERFALL_BY_ZONE";
+/** Option to specify if an unhealthy IG/NEG should be considered for load balancing and traffic routing. */
+export interface ServiceLbPolicyAutoCapacityDrain {
+  /** Optional. If set to 'True', an unhealthy IG/NEG will be set as drained. - An IG/NEG is considered unhealthy if less than 25% of the instances/endpoints in the IG/NEG are healthy. - This option will never result in draining more than 50% of the configured IGs/NEGs for the Backend Service. */
+  enable?: boolean;
+}
 /** Option to specify health based failover behavior. This is not related to Network load balancer FailoverPolicy. */
 export interface ServiceLbPolicyFailoverConfig {
   /** Optional. The percentage threshold that a load balancer will begin to send traffic to failover backends. If the percentage of endpoints in a MIG/NEG is smaller than this value, traffic would be sent to failover backends if possible. This field should be set to a value between 1 and 99. The default value is 50 for Global external HTTP(S) load balancer (classic) and Proxyless service mesh, and 70 for others. */
@@ -1296,93 +1462,94 @@ export interface ServiceLbPolicyIsolationConfig {
   /** Optional. The isolation granularity of the load balancer. */
   isolationGranularity?: ServiceLbPolicyIsolationConfigIsolationGranularityEnum | (string & {});
 }
-/** Option to specify if an unhealthy IG/NEG should be considered for global load balancing and traffic routing. */
-export interface ServiceLbPolicyAutoCapacityDrain {
-  /** Optional. If set to 'True', an unhealthy IG/NEG will be set as drained. - An IG/NEG is considered unhealthy if less than 25% of the instances/endpoints in the IG/NEG are healthy. - This option will never result in draining more than 50% of the configured IGs/NEGs for the Backend Service. */
-  enable?: boolean;
-}
-/** ServiceLbPolicy holds global load balancing and traffic distribution configuration that can be applied to a BackendService. */
+export type ServiceLbPolicyLoadBalancingAlgorithmEnum =
+  | "LOAD_BALANCING_ALGORITHM_UNSPECIFIED"
+  | "SPRAY_TO_WORLD"
+  | "SPRAY_TO_REGION"
+  | "WATERFALL_BY_REGION"
+  | "WATERFALL_BY_ZONE";
+/** ServiceLbPolicy holds load balancing and traffic distribution configuration that can be applied to a global or regional BackendService. */
 export interface ServiceLbPolicy {
+  /** Optional. Configuration to automatically move traffic away for unhealthy IG/NEG for the associated Backend Service. */
+  autoCapacityDrain?: ServiceLbPolicyAutoCapacityDrain;
+  /** Optional. Configuration related to health based failover. */
+  failoverConfig?: ServiceLbPolicyFailoverConfig;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string;
+  /** Output only. The timestamp when this resource was last updated. */
+  updateTime?: string;
   /** Identifier. Name of the ServiceLbPolicy resource. It matches pattern `projects/{project}/locations/{location}/serviceLbPolicies/{service_lb_policy_name}`. */
   name?: string;
+  /** Optional. Configuration to provide isolation support for the associated Backend Service. */
+  isolationConfig?: ServiceLbPolicyIsolationConfig;
+  /** Optional. The type of load balancing algorithm to be used. The default behavior is WATERFALL_BY_REGION. */
+  loadBalancingAlgorithm?: ServiceLbPolicyLoadBalancingAlgorithmEnum | (string & {});
   /** Output only. The timestamp when this resource was created. */
   createTime?: string;
   /** Optional. Set of label tags associated with the ServiceLbPolicy resource. */
   labels?: StringMap;
-  /** Optional. The type of load balancing algorithm to be used. The default behavior is WATERFALL_BY_REGION. */
-  loadBalancingAlgorithm?: ServiceLbPolicyLoadBalancingAlgorithmEnum | (string & {});
-  /** Output only. The timestamp when this resource was last updated. */
-  updateTime?: string;
-  /** Optional. Configuration related to health based failover. */
-  failoverConfig?: ServiceLbPolicyFailoverConfig;
-  /** Optional. Configuration to provide isolation support for the associated Backend Service. */
-  isolationConfig?: ServiceLbPolicyIsolationConfig;
-  /** Optional. A free-text description of the resource. Max length 1024 characters. */
-  description?: string;
-  /** Optional. Configuration to automatically move traffic away for unhealthy IG/NEG for the associated Backend Service. */
-  autoCapacityDrain?: ServiceLbPolicyAutoCapacityDrain;
 }
 export interface CreateProjectsLocationsServiceLbPoliciesRequest {
-  /** Required. The parent resource of the ServiceLbPolicy. Must be in the format `projects/{project}/locations/{location}`. */
-  parent: string;
   /** Required. Short name of the ServiceLbPolicy resource to be created. E.g. for resource name `projects/{project}/locations/{location}/serviceLbPolicies/{service_lb_policy_name}`. the id is value of {service_lb_policy_name} */
   serviceLbPolicyId?: string;
+  /** Required. The parent resource of the ServiceLbPolicy. Must be in the format `projects/{project}/locations/{location}`. */
+  parent: string;
   /** Request body */
   body?: ServiceLbPolicy;
 }
+/** RouteMatch defines the predicate used to match requests to a given action. Multiple match types are "OR"ed for evaluation. If no routeMatch field is specified, this rule will unconditionally match traffic. */
+export interface TcpRouteRouteMatch {
+  /** Required. Specifies the destination port to match against. */
+  port?: string;
+  /** Required. Must be specified in the CIDR range format. A CIDR range consists of an IP Address and a prefix length to construct the subnet mask. By default, the prefix length is 32 (i.e. matches a single IP address). Only IPV4 addresses are supported. Examples: "10.0.0.1" - matches against this exact IP address. "10.0.0.0/8" - matches against any IP address within the 10.0.0.0 subnet and 255.255.255.0 mask. "0.0.0.0/0" - matches against any IP address'. */
+  address?: string;
+}
+export type TcpRouteRouteMatchList = Array<TcpRouteRouteMatch>;
 /** Describe the destination for traffic to be routed to. */
 export interface TcpRouteRouteDestination {
-  /** Required. The URL of a BackendService to route traffic to. */
-  serviceName?: string;
   /** Optional. Specifies the proportion of requests forwarded to the backend referenced by the serviceName field. This is computed as: - weight/Sum(weights in this destination list). For non-zero values, there may be some epsilon from the exact proportion defined here depending on the precision an implementation supports. If only one serviceName is specified and it has a weight greater than 0, 100% of the traffic is forwarded to that backend. If weights are specified for any one service name, they need to be specified for all of them. If weights are unspecified for all services, then, traffic is distributed in equal proportions to all of them. */
   weight?: number;
+  /** Required. The URL of a BackendService to route traffic to. */
+  serviceName?: string;
 }
 export type TcpRouteRouteDestinationList = Array<TcpRouteRouteDestination>;
 /** The specifications for routing traffic and applying associated policies. */
 export interface TcpRouteRouteAction {
-  /** Optional. Specifies the idle timeout for the selected route. The idle timeout is defined as the period in which there are no bytes sent or received on either the upstream or downstream connection. If not set, the default idle timeout is 30 seconds. If set to 0s, the timeout will be disabled. */
-  idleTimeout?: string;
-  /** Optional. The destination services to which traffic should be forwarded. At least one destination service is required. Only one of route destination or original destination can be set. */
-  destinations?: TcpRouteRouteDestinationList;
   /** Optional. If true, Router will use the destination IP and port of the original connection as the destination of the request. Default is false. Only one of route destinations or original destination can be set. */
   originalDestination?: boolean;
+  /** Optional. The destination services to which traffic should be forwarded. At least one destination service is required. Only one of route destination or original destination can be set. */
+  destinations?: TcpRouteRouteDestinationList;
+  /** Optional. Specifies the idle timeout for the selected route. The idle timeout is defined as the period in which there are no bytes sent or received on either the upstream or downstream connection. If not set, the default idle timeout is 30 seconds. If set to 0s, the timeout will be disabled. */
+  idleTimeout?: string;
 }
-/** RouteMatch defines the predicate used to match requests to a given action. Multiple match types are "OR"ed for evaluation. If no routeMatch field is specified, this rule will unconditionally match traffic. */
-export interface TcpRouteRouteMatch {
-  /** Required. Must be specified in the CIDR range format. A CIDR range consists of an IP Address and a prefix length to construct the subnet mask. By default, the prefix length is 32 (i.e. matches a single IP address). Only IPV4 addresses are supported. Examples: "10.0.0.1" - matches against this exact IP address. "10.0.0.0/8" - matches against any IP address within the 10.0.0.0 subnet and 255.255.255.0 mask. "0.0.0.0/0" - matches against any IP address'. */
-  address?: string;
-  /** Required. Specifies the destination port to match against. */
-  port?: string;
-}
-export type TcpRouteRouteMatchList = Array<TcpRouteRouteMatch>;
 /** Specifies how to match traffic and how to route traffic when traffic is matched. */
 export interface TcpRouteRouteRule {
-  /** Required. The detailed rule defining how to route matched traffic. */
-  action?: TcpRouteRouteAction;
   /** Optional. RouteMatch defines the predicate used to match requests to a given action. Multiple match types are "OR"ed for evaluation. If no routeMatch field is specified, this rule will unconditionally match traffic. */
   matches?: TcpRouteRouteMatchList;
+  /** Required. The detailed rule defining how to route matched traffic. */
+  action?: TcpRouteRouteAction;
 }
 export type TcpRouteRouteRuleList = Array<TcpRouteRouteRule>;
 /** TcpRoute is the resource defining how TCP traffic should be routed by a Mesh/Gateway resource. */
 export interface TcpRoute {
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** Identifier. Name of the TcpRoute resource. It matches pattern `projects/*\/locations/*\/tcpRoutes/tcp_route_name>`. */
-  name?: string;
-  /** Output only. Server-defined URL of this resource */
-  selfLink?: string;
-  /** Optional. Meshes defines a list of meshes this TcpRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` The attached Mesh should be of a type SIDECAR */
-  meshes?: StringList;
-  /** Optional. A free-text description of the resource. Max length 1024 characters. */
-  description?: string;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string;
   /** Required. Rules that define how traffic is routed and handled. At least one RouteRule must be supplied. If there are multiple rules then the action taken will be the first rule to match. */
   rules?: TcpRouteRouteRuleList;
-  /** Optional. Set of label tags associated with the TcpRoute resource. */
-  labels?: StringMap;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string;
+  /** Output only. Server-defined URL of this resource */
+  selfLink?: string;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Optional. Meshes defines a list of meshes this TcpRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` The attached Mesh should be of a type SIDECAR */
+  meshes?: StringList;
   /** Optional. Gateways defines a list of gateways this TcpRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
   gateways?: StringList;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
+  /** Optional. Set of label tags associated with the TcpRoute resource. */
+  labels?: StringMap;
+  /** Identifier. Name of the TcpRoute resource. It matches pattern `projects/*\/locations/*\/tcpRoutes/tcp_route_name>`. */
+  name?: string;
 }
 export interface CreateProjectsLocationsTcpRoutesRequest {
   /** Required. Short name of the TcpRoute resource to be created. */
@@ -1392,14 +1559,80 @@ export interface CreateProjectsLocationsTcpRoutesRequest {
   /** Request body */
   body?: TcpRoute;
 }
-/** RouteMatch defines the predicate used to match requests to a given action. Multiple match types are "AND"ed for evaluation. */
-export interface TlsRouteRouteMatch {
-  /** Optional. ALPN (Application-Layer Protocol Negotiation) to match against. Examples: "http/1.1", "h2". At least one of sni_host and alpn is required. Up to 5 alpns across all matches can be set. */
-  alpn?: StringList;
-  /** Optional. SNI (server name indicator) to match against. SNI will be matched against all wildcard domains, i.e. `www.example.com` will be first matched against `www.example.com`, then `*.example.com`, then `*.com.` Partial wildcards are not supported, and values like *w.example.com are invalid. At least one of sni_host and alpn is required. Up to 100 sni hosts across all matches can be set. */
-  sniHost?: StringList;
+/** Configuration for metrics collection. */
+export interface MetricsConfiguration {
+  /** Optional. Indicates whether metrics are enabled or disabled. Set to true to explicitly enable, or false to explicitly disable. */
+  enabled?: boolean;
 }
-export type TlsRouteRouteMatchList = Array<TlsRouteRouteMatch>;
+/** Specifies the set of targets to which the TelemetryPolicy should be applied. */
+export interface TelemetryTarget {
+  /** Required. Lists references to the resources that are targeted by the policy. Types of resources supported: - `run.googleapis.com/` - `compute.googleapis.com/` - `networkservices.googleapis.com/` The format must be the full resource name of a supported resource. Examples: `//run.googleapis.com/projects/{project}/locations/{location}/services/{service}` `//compute.googleapis.com/projects/my-project/global/forwardingRules/my-fr-1` `//compute.googleapis.com/projects/my-project/regions/us-central1/forwardingRules/my-fr-1` `//networkservices.googleapis.com/projects/my-project/locations/us-central1/gateways/my-secure-web-proxy-gateway` `//networkservices.googleapis.com/projects/my-project/locations/us-east1/agentGateways/my-agent-gateway` */
+  resources?: StringList;
+}
+/** Key-value pairs for adding context to spans. Supports literal_value (static) and from_header_value (dynamic extraction). Note: literal_value and from_header_value are mutually exclusive, but at least one of them must be set. */
+export interface TracingConfigurationCustomSpanAttribute {
+  /** Optional. Specifies an incoming request header name from which the value for the custom span attribute should be dynamically extracted. Note: the value of the header might be changed during the request processing; in this case the resulting value will be stored. */
+  fromHeaderValue?: string;
+  /** Required. Defines the key for a custom attribute that is added to the trace spans generated by the Google Cloud Load Balancer (GCLB). */
+  attributeName?: string;
+  /** Optional. Assigns a static, constant value to the custom trace span attribute defined by the corresponding attribute_name. */
+  literalValue?: string;
+}
+export type TracingConfigurationCustomSpanAttributeList =
+  Array<TracingConfigurationCustomSpanAttribute>;
+/** Configures honoring a sampled bit in downstream traceparentID headers. */
+export interface TracingConfigurationParentBasedSampling {
+  /** Optional. Specifies the sampling rate to use when the sampled bit is set in the incoming traceparentID header. */
+  samplingRate?: number;
+  /** Optional. Provides a master switch to respect a sampled bit in incoming traceparentID headers. Default is false. */
+  enabled?: boolean;
+}
+/** Configuration for tracing collection. */
+export interface TracingConfiguration {
+  /** Optional. Specifies the tracing sampling rate. The sampling rate is a float number in the interval [0, 1]. The sampling rate is applied to all requests to the targeted resources. The default value is 0.0. */
+  samplingRate?: number;
+  /** Optional. Provides key-value pairs for adding context to spans. Supports literalValue (static) and fromHeaderValue (dynamic extraction). */
+  customSpanAttributes?: TracingConfigurationCustomSpanAttributeList;
+  /** Optional. Configures honoring a sampled bit in downstream traceparentID headers. */
+  parentBasedSampling?: TracingConfigurationParentBasedSampling;
+}
+/** Provides a configuration for telemetry. */
+export interface TelemetryPolicy {
+  /** Output only. Indicates the timestamp when the resource was created. */
+  createTime?: string;
+  /** Output only. Specifies the server-assigned unique identifier for the policy. */
+  uid?: string;
+  /** Provides a mechanism for optimistic concurrency control. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
+  etag?: string;
+  /** Optional. Specifies the top-level configuration block within the telemetry policy that contains all the settings for how metrics will be applied to the target resources. */
+  metricsConfiguration?: MetricsConfiguration;
+  /** Optional. Set of label tags associated with the TelemetryPolicy resource. */
+  labels?: StringMap;
+  /** Required. Specifies the set of targets to which this telemetry policy applies. */
+  telemetryTarget?: TelemetryTarget;
+  /** Output only. The time when this resource was soft-deleted. Only populated if the resource is in the process of being deleted. */
+  deleteTime?: string;
+  /** Identifier. Represents the resource name of the policy. Format: `projects/{project}/locations/{location}/telemetryPolicies/{telemetry_policy}` */
+  name?: string;
+  /** Output only. Indicates the timestamp when the resource was last updated. */
+  updateTime?: string;
+  /** Optional. User-provided annotations. */
+  annotations?: StringMap;
+  /** Optional. Specifies the top-level configuration block within the telemetry policy that contains all the settings for how tracing will be applied to the target resources. */
+  tracingConfiguration?: TracingConfiguration;
+  /** Output only. If true, the service is currently reconciling the resource to the desired state. */
+  reconciling?: boolean;
+  /** Optional. Provides a human-readable name for the policy. */
+  displayName?: string;
+}
+export interface CreateProjectsLocationsTelemetryPoliciesRequest {
+  /** Required. The ID to use for the telemetry policy, which will become the final component of the telemetry policy's resource name. This value must be 4-63 characters long, and match the regular expression `[a-z]([-a-z0-9]{2,61}[a-z0-9])`. */
+  telemetryPolicyId?: string;
+  /** Required. The parent resource where this policy will be created. Must be in the format `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Request body */
+  body?: TelemetryPolicy;
+}
 /** Describe the destination for traffic to be routed to. */
 export interface TlsRouteRouteDestination {
   /** Required. The URL of a BackendService to route traffic to. */
@@ -1415,22 +1648,26 @@ export interface TlsRouteRouteAction {
   /** Required. The destination services to which traffic should be forwarded. At least one destination service is required. */
   destinations?: TlsRouteRouteDestinationList;
 }
+/** RouteMatch defines the predicate used to match requests to a given action. Multiple match types are "AND"ed for evaluation. */
+export interface TlsRouteRouteMatch {
+  /** Optional. ALPN (Application-Layer Protocol Negotiation) to match against. Examples: "http/1.1", "h2". At least one of sni_host and alpn is required. Up to 5 alpns across all matches can be set. */
+  alpn?: StringList;
+  /** Optional. SNI (server name indicator) to match against. SNI will be matched against all wildcard domains, i.e. `www.example.com` will be first matched against `www.example.com`, then `*.example.com`, then `*.com.` Partial wildcards are not supported, and values like *w.example.com are invalid. At least one of sni_host and alpn is required. Up to 100 sni hosts across all matches can be set. */
+  sniHost?: StringList;
+}
+export type TlsRouteRouteMatchList = Array<TlsRouteRouteMatch>;
 /** Specifies how to match traffic and how to route traffic when traffic is matched. */
 export interface TlsRouteRouteRule {
-  /** Required. RouteMatch defines the predicate used to match requests to a given action. Multiple match types are "OR"ed for evaluation. Atleast one RouteMatch must be supplied. */
-  matches?: TlsRouteRouteMatchList;
   /** Required. The detailed rule defining how to route matched traffic. */
   action?: TlsRouteRouteAction;
+  /** Required. RouteMatch defines the predicate used to match requests to a given action. Multiple match types are "OR"ed for evaluation. Atleast one RouteMatch must be supplied. */
+  matches?: TlsRouteRouteMatchList;
 }
 export type TlsRouteRouteRuleList = Array<TlsRouteRouteRule>;
 /** TlsRoute defines how traffic should be routed based on SNI and other matching L3 attributes. */
 export interface TlsRoute {
   /** Optional. A free-text description of the resource. Max length 1024 characters. */
   description?: string;
-  /** Output only. Server-defined URL of this resource */
-  selfLink?: string;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string;
   /** Required. Rules that define how traffic is routed and handled. At least one RouteRule must be supplied. If there are multiple rules then the action taken will be the first rule to match. */
@@ -1439,12 +1676,16 @@ export interface TlsRoute {
   targetProxies?: StringList;
   /** Optional. Gateways defines a list of gateways this TlsRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
   gateways?: StringList;
-  /** Optional. Set of label tags associated with the TlsRoute resource. */
-  labels?: StringMap;
-  /** Identifier. Name of the TlsRoute resource. It matches pattern `projects/*\/locations/*\/tlsRoutes/tls_route_name>`. */
-  name?: string;
   /** Optional. Meshes defines a list of meshes this TlsRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` The attached Mesh should be of a type SIDECAR */
   meshes?: StringList;
+  /** Output only. Server-defined URL of this resource */
+  selfLink?: string;
+  /** Identifier. Name of the TlsRoute resource. It matches pattern `projects/*\/locations/*\/tlsRoutes/tls_route_name>`. */
+  name?: string;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Optional. Set of label tags associated with the TlsRoute resource. */
+  labels?: StringMap;
 }
 export interface CreateProjectsLocationsTlsRoutesRequest {
   /** Required. The parent resource of the TlsRoute. Must be in the format `projects/*\/locations/*`. */
@@ -1470,96 +1711,96 @@ export type WasmPluginLogConfigMinLogLevelEnum =
   | "CRITICAL";
 /** Specifies the logging options for the activity performed by this plugin. If logging is enabled, plugin logs are exported to Cloud Logging. */
 export interface WasmPluginLogConfig {
-  /** Optional. Non-empty default. Specifies the lowest level of the plugin logs that are exported to Cloud Logging. This setting relates to the logs generated by using logging statements in your Wasm code. This field is can be set only if logging is enabled for the plugin. If the field is not provided when logging is enabled, it is set to `INFO` by default. */
+  /** Optional. Specifies whether to enable logging for activity by this plugin. Defaults to `false`. */
+  enable?: boolean;
+  /** Optional. Non-empty default. Specifies the lowest level of the plugin logs that are exported to Cloud Logging. This setting relates to the logs generated by using logging statements in your Wasm code. This field can be set only if logging is enabled for the plugin. If the field is not provided when logging is enabled, it is set to `INFO` by default. */
   minLogLevel?: WasmPluginLogConfigMinLogLevelEnum | (string & {});
   /** Optional. Non-empty default. Configures the sampling rate of activity logs, where `1.0` means all logged activity is reported and `0.0` means no activity is reported. A floating point value between `0.0` and `1.0` indicates that a percentage of log messages is stored. The default value when logging is enabled is `1.0`. The value of the field must be between `0` and `1` (inclusive). This field can be specified only if logging is enabled for this plugin. */
   sampleRate?: number;
-  /** Optional. Specifies whether to enable logging for activity by this plugin. Defaults to `false`. */
-  enable?: boolean;
 }
 /** Details of a `WasmPluginVersion` resource to be inlined in the `WasmPlugin` resource. */
 export interface WasmPluginVersionDetails {
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** Configuration for the plugin. The configuration is provided to the plugin at runtime through the `ON_CONFIGURE` callback. When a new `WasmPluginVersion` version is created, the digest of the contents is saved in the `plugin_config_digest` field. */
-  pluginConfigData?: string;
-  /** URI of the plugin configuration stored in the Artifact Registry. The configuration is provided to the plugin at runtime through the `ON_CONFIGURE` callback. The URI can refer to one of the following repository formats: * Container images: the `plugin_config_uri` must point to a container that contains a single file with the name `plugin.config`. When a new `WasmPluginVersion` resource is created, the digest of the image is saved in the `plugin_config_digest` field. When pulling a container image from Artifact Registry, the digest value is used instead of an image tag. * Generic artifacts: the `plugin_config_uri` must be in this format: `projects/{project}/locations/{location}/repositories/{repository}/ genericArtifacts/{package}:{version}`. The specified package and version must contain a file with the name `plugin.config`. When a new `WasmPluginVersion` resource is created, the checksum of the contents of the file is saved in the `plugin_config_digest` field. */
-  pluginConfigUri?: string;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string;
-  /** Optional. A human-readable description of the resource. */
-  description?: string;
-  /** Output only. This field holds the digest (usually checksum) value for the plugin configuration. The value is calculated based on the contents of `plugin_config_data` field or the image defined by the `plugin_config_uri` field. */
-  pluginConfigDigest?: string;
   /** Optional. Set of labels associated with the `WasmPluginVersion` resource. */
   labels?: StringMap;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Output only. This field holds the digest (usually checksum) value for the plugin configuration. The value is calculated based on the contents of `plugin_config_data` field or the image defined by the `plugin_config_uri` field. */
+  pluginConfigDigest?: string;
+  /** Configuration for the plugin. The configuration is provided to the plugin at runtime through the `ON_CONFIGURE` callback. When a new `WasmPluginVersion` version is created, the digest of the contents is saved in the `plugin_config_digest` field. */
+  pluginConfigData?: string;
+  /** Optional. A human-readable description of the resource. */
+  description?: string;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
   /** Optional. URI of the image containing the Wasm module, stored in Artifact Registry. The URI can refer to one of the following repository formats: * Container images: the `image_uri` must point to a container that contains a single file with the name `plugin.wasm`. When a new `WasmPluginVersion` resource is created, the digest of the image is saved in the `image_digest` field. When pulling a container image from Artifact Registry, the digest value is used instead of an image tag. * Generic artifacts: the `image_uri` must be in this format: `projects/{project}/locations/{location}/repositories/{repository}/ genericArtifacts/{package}:{version}`. The specified package and version must contain a file with the name `plugin.wasm`. When a new `WasmPluginVersion` resource is created, the checksum of the contents of the file is saved in the `image_digest` field. */
   imageUri?: string;
   /** Output only. This field holds the digest (usually checksum) value for the plugin image. The value is calculated based on the `image_uri` field. If the `image_uri` field refers to a container image, the digest value is obtained from the container image. If the `image_uri` field refers to a generic artifact, the digest value is calculated based on the contents of the file. */
   imageDigest?: string;
+  /** URI of the plugin configuration stored in the Artifact Registry. The configuration is provided to the plugin at runtime through the `ON_CONFIGURE` callback. The URI can refer to one of the following repository formats: * Container images: the `plugin_config_uri` must point to a container that contains a single file with the name `plugin.config`. When a new `WasmPluginVersion` resource is created, the digest of the image is saved in the `plugin_config_digest` field. When pulling a container image from Artifact Registry, the digest value is used instead of an image tag. * Generic artifacts: the `plugin_config_uri` must be in this format: `projects/{project}/locations/{location}/repositories/{repository}/ genericArtifacts/{package}:{version}`. The specified package and version must contain a file with the name `plugin.config`. When a new `WasmPluginVersion` resource is created, the checksum of the contents of the file is saved in the `plugin_config_digest` field. */
+  pluginConfigUri?: string;
 }
 export type WasmPluginVersionDetailsMap = { [key: string]: WasmPluginVersionDetails | undefined };
 /** `WasmPlugin` is a resource representing a service executing a customer-provided Wasm module. */
 export interface WasmPlugin {
-  /** Identifier. Name of the `WasmPlugin` resource in the following format: `projects/{project}/locations/{location}/wasmPlugins/{wasm_plugin}`. */
-  name?: string;
-  /** Optional. The name of the customer-managed [CryptoKey](https://cloud.google.com/kms/docs/reference/rest/v1/projects.locations.keyRings.cryptoKeys) to be used to encrypt the `WasmPlugin` image (provided by image_uri) and configuration (provided by plugin_config_data or plugin_config_uri) that are stored by the `Service Extensions` product at rest. Format: `projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}` By default, Google Cloud automatically encrypts all data at rest using Google-owned and Google-managed encryption keys. If you need ownership and control of the keys that protect your data at rest, you can specify a customer-managed encryption key (CMEK) to encrypt your `WasmPlugin` data. For more information, see [Using customer-managed encryption keys](https://cloud.google.com/service-extensions/docs/cmek). */
-  kmsKeyName?: string;
-  /** Optional. A human-readable description of the resource. */
-  description?: string;
   /** Output only. The name of the specific [CryptoKeyVersion](https://cloud.google.com/kms/docs/reference/rest/v1/projects.locations.keyRings.cryptoKeys.cryptoKeyVersions) used to encrypt the `WasmPlugin` data, if the kms_key_name field is set. Format: `projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}/cryptoKeyVersions/{version}` This is a read-only field. `WasmPlugin` data is automatically encrypted using the most recent `CryptoKeyVersion` of the `CryptoKey` provided in the `kms_key_name` field. See [Cloud KMS resources](https://cloud.google.com/kms/docs/resource-hierarchy) for more information. */
   kmsKeyVersion?: string;
+  /** Optional. The ID of the `WasmPluginVersion` resource that is the currently serving one. The version referred to must be a child of this `WasmPlugin` resource. */
+  mainVersionId?: string;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Identifier. Name of the `WasmPlugin` resource in the following format: `projects/{project}/locations/{location}/wasmPlugins/{wasm_plugin}`. */
+  name?: string;
   /** Output only. List of all [extensions](https://cloud.google.com/service-extensions/docs/overview) that use this `WasmPlugin` resource. */
   usedBy?: WasmPluginUsedByList;
   /** Optional. Specifies the logging options for the activity performed by this plugin. If logging is enabled, plugin logs are exported to Cloud Logging. Note that the settings relate to the logs generated by using logging statements in your Wasm code. */
   logConfig?: WasmPluginLogConfig;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** Optional. The ID of the `WasmPluginVersion` resource that is the currently serving one. The version referred to must be a child of this `WasmPlugin` resource. */
-  mainVersionId?: string;
-  /** Optional. All versions of this `WasmPlugin` resource in the key-value format. The key is the resource ID, and the value is the `VersionDetails` object. Lets you create or update a `WasmPlugin` resource and its versions in a single request. When the `main_version_id` field is not empty, it must point to one of the `VersionDetails` objects in the map. If provided in a `PATCH` request, the new versions replace the previous set. Any version omitted from the `versions` field is removed. Because the `WasmPluginVersion` resource is immutable, if a `WasmPluginVersion` resource with the same name already exists and differs, the request fails. Note: In a `GET` request, this field is populated only if the field `GetWasmPluginRequest.view` is set to `WASM_PLUGIN_VIEW_FULL`. */
-  versions?: WasmPluginVersionDetailsMap;
+  /** Optional. The name of the customer-managed [CryptoKey](https://cloud.google.com/kms/docs/reference/rest/v1/projects.locations.keyRings.cryptoKeys) to be used to encrypt the `WasmPlugin` image (provided by image_uri) and configuration (provided by plugin_config_data or plugin_config_uri) that are stored by the `Service Extensions` product at rest. Format: `projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}` By default, Google Cloud automatically encrypts all data at rest using Google-owned and Google-managed encryption keys. If you need ownership and control of the keys that protect your data at rest, you can specify a customer-managed encryption key (CMEK) to encrypt your `WasmPlugin` data. For more information, see [Using customer-managed encryption keys](https://cloud.google.com/service-extensions/docs/cmek). */
+  kmsKeyName?: string;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string;
+  /** Optional. All versions of this `WasmPlugin` resource in the key-value format. The key is the resource ID, and the value is the `VersionDetails` object. Lets you create or update a `WasmPlugin` resource and its versions in a single request. When the `main_version_id` field is not empty, it must point to one of the `VersionDetails` objects in the map. If provided in a `PATCH` request, the new versions replace the previous set. Any version omitted from the `versions` field is removed. Because the `WasmPluginVersion` resource is immutable, if a `WasmPluginVersion` resource with the same name already exists and differs, the request fails. Note: In a `GET` request, this field is populated only if the field `GetWasmPluginRequest.view` is set to `WASM_PLUGIN_VIEW_FULL`. */
+  versions?: WasmPluginVersionDetailsMap;
+  /** Optional. A human-readable description of the resource. */
+  description?: string;
   /** Optional. Set of labels associated with the `WasmPlugin` resource. The format must comply with [the following requirements](/compute/docs/labeling-resources#requirements). */
   labels?: StringMap;
 }
 export interface CreateProjectsLocationsWasmPluginsRequest {
-  /** Required. The parent resource of the `WasmPlugin` resource. Must be in the format `projects/{project}/locations/global`. */
-  parent: string;
   /** Required. User-provided ID of the `WasmPlugin` resource to be created. */
   wasmPluginId?: string;
+  /** Required. The parent resource of the `WasmPlugin` resource. Must be in the format `projects/{project}/locations/global`. */
+  parent: string;
   /** Request body */
   body?: WasmPlugin;
 }
 /** A single immutable version of a `WasmPlugin` resource. Defines the Wasm module used and optionally its runtime config. */
 export interface WasmPluginVersion {
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** Output only. This field holds the digest (usually checksum) value for the plugin configuration. The value is calculated based on the contents of `plugin_config_data` field or the image defined by the `plugin_config_uri` field. */
-  pluginConfigDigest?: string;
-  /** Configuration for the plugin. The configuration is provided to the plugin at runtime through the `ON_CONFIGURE` callback. When a new `WasmPluginVersion` resource is created, the digest of the contents is saved in the `plugin_config_digest` field. */
-  pluginConfigData?: string;
+  /** Optional. Set of labels associated with the `WasmPluginVersion` resource. */
+  labels?: StringMap;
+  /** URI of the plugin configuration stored in the Artifact Registry. The configuration is provided to the plugin at runtime through the `ON_CONFIGURE` callback. The URI can refer to one of the following repository formats: * Container images: the `plugin_config_uri` must point to a container that contains a single file with the name `plugin.config`. When a new `WasmPluginVersion` resource is created, the digest of the image is saved in the `plugin_config_digest` field. When pulling a container image from Artifact Registry, the digest value is used instead of an image tag. * Generic artifacts: the `plugin_config_uri` must be in this format: `projects/{project}/locations/{location}/repositories/{repository}/ genericArtifacts/{package}:{version}`. The specified package and version must contain a file with the name `plugin.config`. When a new `WasmPluginVersion` resource is created, the checksum of the contents of the file is saved in the `plugin_config_digest` field. */
+  pluginConfigUri?: string;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string;
   /** Identifier. Name of the `WasmPluginVersion` resource in the following format: `projects/{project}/locations/{location}/wasmPlugins/{wasm_plugin}/ versions/{wasm_plugin_version}`. */
   name?: string;
-  /** Optional. Set of labels associated with the `WasmPluginVersion` resource. */
-  labels?: StringMap;
+  /** Output only. This field holds the digest (usually checksum) value for the plugin configuration. The value is calculated based on the contents of `plugin_config_data` field or the image defined by the `plugin_config_uri` field. */
+  pluginConfigDigest?: string;
   /** Output only. This field holds the digest (usually checksum) value for the plugin image. The value is calculated based on the `image_uri` field. If the `image_uri` field refers to a container image, the digest value is obtained from the container image. If the `image_uri` field refers to a generic artifact, the digest value is calculated based on the contents of the file. */
   imageDigest?: string;
-  /** Optional. URI of the image containing the Wasm module, stored in Artifact Registry. The URI can refer to one of the following repository formats: * Container images: the `image_uri` must point to a container that contains a single file with the name `plugin.wasm`. When a new `WasmPluginVersion` resource is created, the digest of the image is saved in the `image_digest` field. When pulling a container image from Artifact Registry, the digest value is used instead of an image tag. * Generic artifacts: the `image_uri` must be in this format: `projects/{project}/locations/{location}/repositories/{repository}/ genericArtifacts/{package}:{version}`. The specified package and version must contain a file with the name `plugin.wasm`. When a new `WasmPluginVersion` resource is created, the checksum of the contents of the file is saved in the `image_digest` field. */
-  imageUri?: string;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Configuration for the plugin. The configuration is provided to the plugin at runtime through the `ON_CONFIGURE` callback. When a new `WasmPluginVersion` resource is created, the digest of the contents is saved in the `plugin_config_digest` field. */
+  pluginConfigData?: string;
   /** Optional. A human-readable description of the resource. */
   description?: string;
-  /** URI of the plugin configuration stored in the Artifact Registry. The configuration is provided to the plugin at runtime through the `ON_CONFIGURE` callback. The URI can refer to one of the following repository formats: * Container images: the `plugin_config_uri` must point to a container that contains a single file with the name `plugin.config`. When a new `WasmPluginVersion` resource is created, the digest of the image is saved in the `plugin_config_digest` field. When pulling a container image from Artifact Registry, the digest value is used instead of an image tag. * Generic artifacts: the `plugin_config_uri` must be in this format: `projects/{project}/locations/{location}/repositories/{repository}/ genericArtifacts/{package}:{version}`. The specified package and version must contain a file with the name `plugin.config`. When a new `WasmPluginVersion` resource is created, the checksum of the contents of the file is saved in the `plugin_config_digest` field. */
-  pluginConfigUri?: string;
+  /** Optional. URI of the image containing the Wasm module, stored in Artifact Registry. The URI can refer to one of the following repository formats: * Container images: the `image_uri` must point to a container that contains a single file with the name `plugin.wasm`. When a new `WasmPluginVersion` resource is created, the digest of the image is saved in the `image_digest` field. When pulling a container image from Artifact Registry, the digest value is used instead of an image tag. * Generic artifacts: the `image_uri` must be in this format: `projects/{project}/locations/{location}/repositories/{repository}/ genericArtifacts/{package}:{version}`. The specified package and version must contain a file with the name `plugin.wasm`. When a new `WasmPluginVersion` resource is created, the checksum of the contents of the file is saved in the `image_digest` field. */
+  imageUri?: string;
 }
 export interface CreateProjectsLocationsWasmPluginsVersionsRequest {
-  /** Required. The parent resource of the `WasmPluginVersion` resource. Must be in the format `projects/{project}/locations/global/wasmPlugins/{wasm_plugin}`. */
-  parent: string;
   /** Required. User-provided ID of the `WasmPluginVersion` resource to be created. */
   wasmPluginVersionId?: string;
+  /** Required. The parent resource of the `WasmPluginVersion` resource. Must be in the format `projects/{project}/locations/global/wasmPlugins/{wasm_plugin}`. */
+  parent: string;
   /** Request body */
   body?: WasmPluginVersion;
 }
@@ -1582,14 +1823,20 @@ export interface DeleteProjectsLocationsAuthzExtensionsRequest {
   requestId?: string;
 }
 export interface DeleteProjectsLocationsCdnEdgeExtensionsRequest {
-  /** Required. The name of the `CdnEdgeExtension` resource to delete. Must be in the format `projects/{project}/locations/{location}/cdnEdgeExtensions/{cdn_edge_extension}`. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The name of the `CdnEdgeExtension` resource to delete. Must be in the format `projects/{project}/locations/{location}/cdnEdgeExtensions/{cdn_edge_extension}`. */
+  name: string;
 }
 export interface DeleteProjectsLocationsEndpointPoliciesRequest {
   /** Required. A name of the EndpointPolicy to delete. Must be in the format `projects/*\/locations/*\/endpointPolicies/*`. */
   name: string;
+}
+export interface DeleteProjectsLocationsExpressLinksRequest {
+  /** Required. A name of the ExpressLink to delete. Must be in the format `projects/*\/locations/*\/expressLinks/*`. */
+  name: string;
+  /** Optional. The etag of the ExpressLink to delete. */
+  etag?: string;
 }
 export interface DeleteProjectsLocationsExtensionBindingsRequest {
   /** Required. A name of the `ExtensionBinding` resource to delete. Must be in the format `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
@@ -1610,10 +1857,10 @@ export interface DeleteProjectsLocationsHttpRoutesRequest {
   name: string;
 }
 export interface DeleteProjectsLocationsLbEdgeExtensionsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The name of the `LbEdgeExtension` resource to delete. Must be in the format `projects/{project}/locations/{location}/lbEdgeExtensions/{lb_edge_extension}`. */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
 }
 export interface DeleteProjectsLocationsLbRouteExtensionsRequest {
   /** Required. The name of the `LbRouteExtension` resource to delete. Must be in the format `projects/{project}/locations/{location}/lbRouteExtensions/{lb_route_extension}`. */
@@ -1622,10 +1869,10 @@ export interface DeleteProjectsLocationsLbRouteExtensionsRequest {
   requestId?: string;
 }
 export interface DeleteProjectsLocationsLbTcpExtensionsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The name of the `LbTcpExtension` resource to delete. Must be in the format `projects/{project}/locations/{location}/LbTcpExtensions/{lb_tcp_extension}`. */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
 }
 export interface DeleteProjectsLocationsLbTrafficExtensionsRequest {
   /** Required. The name of the `LbTrafficExtension` resource to delete. Must be in the format `projects/{project}/locations/{location}/lbTrafficExtensions/{lb_traffic_extension}`. */
@@ -1648,10 +1895,10 @@ export interface DeleteProjectsLocationsProducerExtensionsRequest {
   etag?: string;
 }
 export interface DeleteProjectsLocationsServiceBindingsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees this for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. A name of the ServiceBinding to delete. Must be in the format `projects/*\/locations/*\/serviceBindings/*`. */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees this for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
 }
 export interface DeleteProjectsLocationsServiceLbPoliciesRequest {
   /** Required. A name of the ServiceLbPolicy to delete. Must be in the format `projects/{project}/locations/{location}/serviceLbPolicies/*`. */
@@ -1660,6 +1907,12 @@ export interface DeleteProjectsLocationsServiceLbPoliciesRequest {
 export interface DeleteProjectsLocationsTcpRoutesRequest {
   /** Required. A name of the TcpRoute to delete. Must be in the format `projects/*\/locations/*\/tcpRoutes/*`. */
   name: string;
+}
+export interface DeleteProjectsLocationsTelemetryPoliciesRequest {
+  /** Required. A name of the TelemetryPolicy to delete. Must be in the format `projects/{project}/locations/{location}/telemetryPolicies/{telemetry_policy}`. */
+  name: string;
+  /** Optional. The etag of the TelemetryPolicy. If this is provided, it must match the server's etag. */
+  etag?: string;
 }
 export interface DeleteProjectsLocationsTlsRoutesRequest {
   /** Required. A name of the TlsRoute to delete. Must be in the format `projects/*\/locations/*\/tlsRoutes/*`. */
@@ -1679,14 +1932,14 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
 }
@@ -1710,6 +1963,16 @@ export interface GetProjectsLocationsEndpointPoliciesRequest {
   /** Required. A name of the EndpointPolicy to get. Must be in the format `projects/*\/locations/*\/endpointPolicies/*`. */
   name: string;
 }
+export type GetProjectsLocationsExpressLinksViewEnum =
+  | "EXPRESS_LINK_VIEW_UNSPECIFIED"
+  | "EXPRESS_LINK_VIEW_BASIC"
+  | "EXPRESS_LINK_VIEW_FULL";
+export interface GetProjectsLocationsExpressLinksRequest {
+  /** Required. A name of the ExpressLink to get. Must be in the format `projects/*\/locations/*\/expressLinks/*`. */
+  name: string;
+  /** Optional. Determines the information level of the ExpressLink resource returned in the API response. */
+  view?: GetProjectsLocationsExpressLinksViewEnum | (string & {});
+}
 export interface GetProjectsLocationsExtensionBindingsRequest {
   /** Required. A name of the `ExtensionBinding` resource to get. Must be in the format `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
   name: string;
@@ -1724,16 +1987,16 @@ export interface GetProjectsLocationsGatewaysRouteViewsRequest {
 }
 /** GatewayRouteView defines view-only resource for Routes to a Gateway */
 export interface GatewayRouteView {
-  /** Output only. Location where the route exists. */
-  routeLocation?: string;
+  /** Output only. Identifier. Full path name of the GatewayRouteView resource. Format: projects/{project_number}/locations/{location}/gateways/{gateway}/routeViews/{route_view} */
+  name?: string;
   /** Output only. Project number where the route exists. */
   routeProjectNumber?: string;
   /** Output only. Type of the route: HttpRoute,GrpcRoute,TcpRoute, or TlsRoute */
   routeType?: string;
-  /** Output only. Identifier. Full path name of the GatewayRouteView resource. Format: projects/{project_number}/locations/{location}/gateways/{gateway}/routeViews/{route_view} */
-  name?: string;
   /** Output only. The resource id for the route. */
   routeId?: string;
+  /** Output only. Location where the route exists. */
+  routeLocation?: string;
 }
 export interface GetProjectsLocationsGrpcRoutesRequest {
   /** Required. A name of the GrpcRoute to get. Must be in the format `projects/*\/locations/*\/grpcRoutes/*`. */
@@ -1769,14 +2032,14 @@ export interface GetProjectsLocationsMeshesRouteViewsRequest {
 }
 /** MeshRouteView defines view-only resource for Routes to a Mesh */
 export interface MeshRouteView {
-  /** Output only. Project number where the route exists. */
-  routeProjectNumber?: string;
-  /** Output only. Location where the route exists. */
-  routeLocation?: string;
-  /** Output only. The resource id for the route. */
-  routeId?: string;
   /** Output only. Identifier. Full path name of the MeshRouteView resource. Format: projects/{project_number}/locations/{location}/meshes/{mesh}/routeViews/{route_view} */
   name?: string;
+  /** Output only. Location where the route exists. */
+  routeLocation?: string;
+  /** Output only. Project number where the route exists. */
+  routeProjectNumber?: string;
+  /** Output only. The resource id for the route. */
+  routeId?: string;
   /** Output only. Type of the route: HttpRoute,GrpcRoute,TcpRoute, or TlsRoute */
   routeType?: string;
 }
@@ -1800,6 +2063,10 @@ export interface GetProjectsLocationsTcpRoutesRequest {
   /** Required. A name of the TcpRoute to get. Must be in the format `projects/*\/locations/*\/tcpRoutes/*`. */
   name: string;
 }
+export interface GetProjectsLocationsTelemetryPoliciesRequest {
+  /** Required. A name of the TelemetryPolicy to get. Must be in the format `projects/{project}/locations/{location}/telemetryPolicies/{telemetry_policy}`. */
+  name: string;
+}
 export interface GetProjectsLocationsTlsRoutesRequest {
   /** Required. A name of the TlsRoute to get. Must be in the format `projects/*\/locations/*\/tlsRoutes/*`. */
   name: string;
@@ -1809,66 +2076,66 @@ export type GetProjectsLocationsWasmPluginsViewEnum =
   | "WASM_PLUGIN_VIEW_BASIC"
   | "WASM_PLUGIN_VIEW_FULL";
 export interface GetProjectsLocationsWasmPluginsRequest {
-  /** Determines how much data must be returned in the response. See [AIP-157](https://google.aip.dev/157). */
-  view?: GetProjectsLocationsWasmPluginsViewEnum | (string & {});
   /** Required. A name of the `WasmPlugin` resource to get. Must be in the format `projects/{project}/locations/global/wasmPlugins/{wasm_plugin}`. */
   name: string;
+  /** Determines how much data must be returned in the response. See [AIP-157](https://google.aip.dev/157). */
+  view?: GetProjectsLocationsWasmPluginsViewEnum | (string & {});
 }
 export interface GetProjectsLocationsWasmPluginsVersionsRequest {
   /** Required. A name of the `WasmPluginVersion` resource to get. Must be in the format `projects/{project}/locations/global/wasmPlugins/{wasm_plugin}/versions/{wasm_plugin_version}`. */
   name: string;
 }
 export interface ListProjectsLocationsRequest {
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: LocationList;
 }
 export interface ListProjectsLocationsAgentConnectivityTemplatesRequest {
+  /** Optional. The value returned by the last `ListAgentConnectivityTemplatesResponse` Indicates that this is a continuation of a prior `ListAgentConnectivityTemplates` call, and that the system should return the next page of data. */
+  pageToken?: string;
   /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
   returnPartialSuccess?: boolean;
   /** Required. The project and location from which the AgentConnectivityTemplates should be listed, specified in the format `projects/*\/locations/*`. */
   parent: string;
   /** Optional. Maximum number of AgentConnectivityTemplates to return per call. */
   pageSize?: number;
-  /** Optional. The value returned by the last `ListAgentConnectivityTemplatesResponse` Indicates that this is a continuation of a prior `ListAgentConnectivityTemplates` call, and that the system should return the next page of data. */
-  pageToken?: string;
 }
 export type AgentConnectivityTemplateList = Array<AgentConnectivityTemplate>;
 /** Response returned by the ListAgentConnectivityTemplates method. */
 export interface ListAgentConnectivityTemplatesResponse {
+  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
+  nextPageToken?: string;
   /** List of AgentConnectivityTemplate resources. */
   agentConnectivityTemplates?: AgentConnectivityTemplateList;
   /** Unordered list. Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
   unreachable?: StringList;
-  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string;
 }
 export interface ListProjectsLocationsAgentGatewaysRequest {
-  /** Optional. Maximum number of AgentGateways to return per call. */
-  pageSize?: number;
-  /** Required. The project and location from which the AgentGateways should be listed, specified in the format `projects/*\/locations/*`. */
-  parent: string;
+  /** Optional. A filter expression to filter the results listed in the response. The expression must follow the syntax described in [AIP-160](https://google.aip.dev/160). */
+  filter?: string;
   /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
   returnPartialSuccess?: boolean;
   /** Optional. The value returned by the last `ListAgentGatewaysResponse` Indicates that this is a continuation of a prior `ListAgentGateways` call, and that the system should return the next page of data. */
   pageToken?: string;
-  /** Optional. A filter expression to filter the results listed in the response. The expression must follow the syntax described in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  /** Required. The project and location from which the AgentGateways should be listed, specified in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Optional. Maximum number of AgentGateways to return per call. */
+  pageSize?: number;
 }
 export type AgentGatewayList = Array<AgentGateway>;
 /** Response returned by the ListAgentGateways method. */
@@ -1881,16 +2148,16 @@ export interface ListAgentGatewaysResponse {
   nextPageToken?: string;
 }
 export interface ListProjectsLocationsAuthzExtensionsRequest {
-  /** Optional. A token identifying a page of results that the server returns. */
-  pageToken?: string;
   /** Required. The project and location from which the `AuthzExtension` resources are listed. These values are specified in the following format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
   pageSize?: number;
-  /** Optional. Filtering results. */
-  filter?: string;
+  /** Optional. A token identifying a page of results that the server returns. */
+  pageToken?: string;
   /** Optional. Hint about how to order the results. */
   orderBy?: string;
+  /** Optional. Filtering results. */
+  filter?: string;
 }
 export type AuthzExtensionList = Array<AuthzExtension>;
 /** Message for response to listing `AuthzExtension` resources. */
@@ -1907,40 +2174,64 @@ export interface ListProjectsLocationsCdnEdgeExtensionsRequest {
   parent: string;
   /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
   pageSize?: number;
-  /** Optional. Filtering results. */
-  filter?: string;
   /** Optional. A token identifying a page of results that the server returns. */
   pageToken?: string;
   /** Optional. Hint about how to order the results. */
   orderBy?: string;
+  /** Optional. Filtering results. */
+  filter?: string;
 }
 export type CdnEdgeExtensionList = Array<CdnEdgeExtension>;
 /** Message for response to listing `CdnEdgeExtension` resources. */
 export interface ListCdnEdgeExtensionsResponse {
-  /** The list of `CdnEdgeExtension` resources. */
-  cdnEdgeExtensions?: CdnEdgeExtensionList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** The list of `CdnEdgeExtension` resources. */
+  cdnEdgeExtensions?: CdnEdgeExtensionList;
   /** A token identifying a page of results that the server returns. */
   nextPageToken?: string;
 }
 export interface ListProjectsLocationsEndpointPoliciesRequest {
   /** Maximum number of EndpointPolicies to return per call. */
   pageSize?: number;
+  /** The value returned by the last `ListEndpointPoliciesResponse` Indicates that this is a continuation of a prior `ListEndpointPolicies` call, and that the system should return the next page of data. */
+  pageToken?: string;
   /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
   returnPartialSuccess?: boolean;
   /** Required. The project and location from which the EndpointPolicies should be listed, specified in the format `projects/*\/locations/*`. */
   parent: string;
-  /** The value returned by the last `ListEndpointPoliciesResponse` Indicates that this is a continuation of a prior `ListEndpointPolicies` call, and that the system should return the next page of data. */
-  pageToken?: string;
 }
 export type EndpointPolicyList = Array<EndpointPolicy>;
 /** Response returned by the ListEndpointPolicies method. */
 export interface ListEndpointPoliciesResponse {
-  /** List of EndpointPolicy resources. */
-  endpointPolicies?: EndpointPolicyList;
   /** Unreachable resources. Populated when the request opts into return_partial_success and reading across collections e.g. when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
+  /** List of EndpointPolicy resources. */
+  endpointPolicies?: EndpointPolicyList;
+  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
+  nextPageToken?: string;
+}
+export type ListProjectsLocationsExpressLinksViewEnum =
+  | "EXPRESS_LINK_VIEW_UNSPECIFIED"
+  | "EXPRESS_LINK_VIEW_BASIC"
+  | "EXPRESS_LINK_VIEW_FULL";
+export interface ListProjectsLocationsExpressLinksRequest {
+  /** Optional. Determines the information level of the ExpressLink resources returned in the API response. */
+  view?: ListProjectsLocationsExpressLinksViewEnum | (string & {});
+  /** Maximum number of ExpressLinks to return per call. */
+  pageSize?: number;
+  /** The value returned by the last `ListExpressLinksResponse` Indicates that this is a continuation of a prior `ListExpressLinks` call, and that the system should return the next page of data. */
+  pageToken?: string;
+  /** Required. The project and location from which the ExpressLinks should be listed, specified in the format `projects/*\/locations/*`. */
+  parent: string;
+}
+export type ExpressLinkList = Array<ExpressLink>;
+/** Response returned by the ListExpressLinks method. */
+export interface ListExpressLinksResponse {
+  /** Unordered list. Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
+  unreachable?: StringList;
+  /** List of ExpressLink resources. */
+  expressLinks?: ExpressLinkList;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string;
 }
@@ -1957,36 +2248,36 @@ export type ExtensionBindingList = Array<ExtensionBinding>;
 export interface ListExtensionBindingsResponse {
   /** Unordered list. Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. The resource names are in the format `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
   unreachable?: StringList;
-  /** List of `ExtensionBinding` resources. */
-  extensionBindings?: ExtensionBindingList;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string;
+  /** List of `ExtensionBinding` resources. */
+  extensionBindings?: ExtensionBindingList;
 }
 export interface ListProjectsLocationsGatewaysRequest {
   /** Required. The project and location from which the Gateways should be listed, specified in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Maximum number of Gateways to return per call. */
-  pageSize?: number;
   /** The value returned by the last `ListGatewaysResponse` Indicates that this is a continuation of a prior `ListGateways` call, and that the system should return the next page of data. */
   pageToken?: string;
+  /** Maximum number of Gateways to return per call. */
+  pageSize?: number;
 }
 export type GatewayList = Array<Gateway>;
 /** Response returned by the ListGateways method. */
 export interface ListGatewaysResponse {
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
   /** List of Gateway resources. */
   gateways?: GatewayList;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
 }
 export interface ListProjectsLocationsGatewaysRouteViewsRequest {
   /** Maximum number of GatewayRouteViews to return per call. */
   pageSize?: number;
-  /** The value returned by the last `ListGatewayRouteViewsResponse` Indicates that this is a continuation of a prior `ListGatewayRouteViews` call, and that the system should return the next page of data. */
-  pageToken?: string;
   /** Required. The Gateway to which a Route is associated. Formats: projects/{project_number}/locations/{location}/gateways/{gateway} */
   parent: string;
+  /** The value returned by the last `ListGatewayRouteViewsResponse` Indicates that this is a continuation of a prior `ListGatewayRouteViews` call, and that the system should return the next page of data. */
+  pageToken?: string;
 }
 export type GatewayRouteViewList = Array<GatewayRouteView>;
 /** Response returned by the ListGatewayRouteViews method. */
@@ -1999,12 +2290,12 @@ export interface ListGatewayRouteViewsResponse {
   unreachable?: StringList;
 }
 export interface ListProjectsLocationsGrpcRoutesRequest {
+  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
+  returnPartialSuccess?: boolean;
   /** The value returned by the last `ListGrpcRoutesResponse` Indicates that this is a continuation of a prior `ListGrpcRoutes` call, and that the system should return the next page of data. */
   pageToken?: string;
   /** Required. The project and location from which the GrpcRoutes should be listed, specified in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
-  returnPartialSuccess?: boolean;
   /** Maximum number of GrpcRoutes to return per call. */
   pageSize?: number;
 }
@@ -2021,48 +2312,50 @@ export interface ListGrpcRoutesResponse {
 export interface ListProjectsLocationsHttpRoutesRequest {
   /** The value returned by the last `ListHttpRoutesResponse` Indicates that this is a continuation of a prior `ListHttpRoutes` call, and that the system should return the next page of data. */
   pageToken?: string;
-  /** Maximum number of HttpRoutes to return per call. */
-  pageSize?: number;
-  /** Required. The project and location from which the HttpRoutes should be listed, specified in the format `projects/*\/locations/*`. */
-  parent: string;
   /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
   returnPartialSuccess?: boolean;
   /** Optional. Filter expression to restrict the list. */
   filter?: string;
+  /** Maximum number of HttpRoutes to return per call. */
+  pageSize?: number;
+  /** Required. The project and location from which the HttpRoutes should be listed, specified in the format `projects/*\/locations/*`. */
+  parent: string;
 }
 export type HttpRouteList = Array<HttpRoute>;
 /** Response returned by the ListHttpRoutes method. */
 export interface ListHttpRoutesResponse {
   /** List of HttpRoute resources. */
   httpRoutes?: HttpRouteList;
-  /** Unreachable resources. Populated when the request opts into return_partial_success and reading across collections e.g. when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string;
+  /** Unreachable resources. Populated when the request opts into return_partial_success and reading across collections e.g. when attempting to list all resources across all supported locations. */
+  unreachable?: StringList;
 }
 export interface ListProjectsLocationsLbEdgeExtensionsRequest {
-  /** Required. The project and location from which the `LbEdgeExtension` resources are listed. These values are specified in the following format: `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
-  pageSize?: number;
   /** Optional. A token identifying a page of results that the server returns. */
   pageToken?: string;
-  /** Optional. Filtering results. */
-  filter?: string;
+  /** Required. The project and location from which the `LbEdgeExtension` resources are listed. These values are specified in the following format: `projects/{project}/locations/{location}`. */
+  parent: string;
   /** Optional. Hint about how to order the results. */
   orderBy?: string;
+  /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
+  pageSize?: number;
+  /** Optional. Filtering results. */
+  filter?: string;
 }
 export type LbEdgeExtensionList = Array<LbEdgeExtension>;
 /** Message for response to listing `LbEdgeExtension` resources. */
 export interface ListLbEdgeExtensionsResponse {
   /** A token identifying a page of results that the server returns. */
   nextPageToken?: string;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** The list of `LbEdgeExtension` resources. */
   lbEdgeExtensions?: LbEdgeExtensionList;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export interface ListProjectsLocationsLbRouteExtensionsRequest {
+  /** Optional. Filtering results. */
+  filter?: string;
   /** Optional. Hint about how to order the results. */
   orderBy?: string;
   /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
@@ -2071,52 +2364,50 @@ export interface ListProjectsLocationsLbRouteExtensionsRequest {
   pageToken?: string;
   /** Required. The project and location from which the `LbRouteExtension` resources are listed. These values are specified in the following format: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Optional. Filtering results. */
-  filter?: string;
 }
 export type LbRouteExtensionList = Array<LbRouteExtension>;
 /** Message for response to listing `LbRouteExtension` resources. */
 export interface ListLbRouteExtensionsResponse {
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
   /** The list of `LbRouteExtension` resources. */
   lbRouteExtensions?: LbRouteExtensionList;
   /** A token identifying a page of results that the server returns. */
   nextPageToken?: string;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
 }
 export interface ListProjectsLocationsLbTcpExtensionsRequest {
+  /** Optional. A token identifying a page of results that the server returns. */
+  pageToken?: string;
+  /** Optional. Filtering results. */
+  filter?: string;
   /** Optional. Hint for how to order the results. */
   orderBy?: string;
   /** Required. The project and location from which the `LbTcpExtension` resources are listed, specified in the following format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
   pageSize?: number;
-  /** Optional. A token identifying a page of results that the server returns. */
-  pageToken?: string;
-  /** Optional. Filtering results. */
-  filter?: string;
 }
 export type LbTcpExtensionList = Array<LbTcpExtension>;
 /** Message for response to listing `LbTcpExtension` resources. */
 export interface ListLbTcpExtensionsResponse {
+  /** The list of `LbTcpExtension` resources. */
+  lbTcpExtensions?: LbTcpExtensionList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
   /** A token identifying a page of results that the server returns. */
   nextPageToken?: string;
-  /** The list of `LbTcpExtension` resources. */
-  lbTcpExtensions?: LbTcpExtensionList;
 }
 export interface ListProjectsLocationsLbTrafficExtensionsRequest {
-  /** Required. The project and location from which the `LbTrafficExtension` resources are listed. These values are specified in the following format: `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Optional. Filtering results. */
-  filter?: string;
-  /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
-  pageSize?: number;
-  /** Optional. Hint about how to order the results. */
-  orderBy?: string;
   /** Optional. A token identifying a page of results that the server returns. */
   pageToken?: string;
+  /** Optional. Filtering results. */
+  filter?: string;
+  /** Optional. Hint about how to order the results. */
+  orderBy?: string;
+  /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
+  pageSize?: number;
+  /** Required. The project and location from which the `LbTrafficExtension` resources are listed. These values are specified in the following format: `projects/{project}/locations/{location}`. */
+  parent: string;
 }
 export type LbTrafficExtensionList = Array<LbTrafficExtension>;
 /** Message for response to listing `LbTrafficExtension` resources. */
@@ -2129,54 +2420,54 @@ export interface ListLbTrafficExtensionsResponse {
   nextPageToken?: string;
 }
 export interface ListProjectsLocationsMeshesRequest {
-  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
-  returnPartialSuccess?: boolean;
-  /** Maximum number of Meshes to return per call. */
-  pageSize?: number;
   /** Required. The project and location from which the Meshes should be listed, specified in the format `projects/*\/locations/*`. */
   parent: string;
+  /** Maximum number of Meshes to return per call. */
+  pageSize?: number;
   /** The value returned by the last `ListMeshesResponse` Indicates that this is a continuation of a prior `ListMeshes` call, and that the system should return the next page of data. */
   pageToken?: string;
+  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
+  returnPartialSuccess?: boolean;
 }
 export type MeshList = Array<Mesh>;
 /** Response returned by the ListMeshes method. */
 export interface ListMeshesResponse {
   /** Unreachable resources. Populated when the request opts into `return_partial_success` and reading across collections e.g. when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
-  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string;
   /** List of Mesh resources. */
   meshes?: MeshList;
+  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
+  nextPageToken?: string;
 }
 export interface ListProjectsLocationsMeshesRouteViewsRequest {
-  /** Maximum number of MeshRouteViews to return per call. */
-  pageSize?: number;
-  /** The value returned by the last `ListMeshRouteViewsResponse` Indicates that this is a continuation of a prior `ListMeshRouteViews` call, and that the system should return the next page of data. */
-  pageToken?: string;
   /** Required. The Mesh to which a Route is associated. Format: projects/{project_number}/locations/{location}/meshes/{mesh} */
   parent: string;
+  /** The value returned by the last `ListMeshRouteViewsResponse` Indicates that this is a continuation of a prior `ListMeshRouteViews` call, and that the system should return the next page of data. */
+  pageToken?: string;
+  /** Maximum number of MeshRouteViews to return per call. */
+  pageSize?: number;
 }
 export type MeshRouteViewList = Array<MeshRouteView>;
 /** Response returned by the ListMeshRouteViews method. */
 export interface ListMeshRouteViewsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
-  /** List of MeshRouteView resources. */
-  meshRouteViews?: MeshRouteViewList;
   /** Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
   unreachable?: StringList;
+  /** List of MeshRouteView resources. */
+  meshRouteViews?: MeshRouteViewList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** The name of the operation's parent resource. */
-  name: string;
-  /** The standard list page token. */
-  pageToken?: string;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
   /** The standard list filter. */
   filter?: string;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
+  /** The name of the operation's parent resource. */
+  name: string;
   /** The standard list page size. */
   pageSize?: number;
+  /** The standard list page token. */
+  pageToken?: string;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
@@ -2191,73 +2482,91 @@ export interface ListOperationsResponse {
 export interface ListProjectsLocationsProducerExtensionsRequest {
   /** Required. The project and location from which the `ProducerExtension` resources should be listed, specified in the format `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Optional. The value returned by the last `ListProducerExtensionsResponse` Indicates that this is a continuation of a prior `ListProducerExtensions` call, and that the system should return the next page of data. */
-  pageToken?: string;
   /** Optional. Maximum number of `ProducerExtension` resources to return per call. */
   pageSize?: number;
+  /** Optional. The value returned by the last `ListProducerExtensionsResponse` Indicates that this is a continuation of a prior `ListProducerExtensions` call, and that the system should return the next page of data. */
+  pageToken?: string;
 }
 export type ProducerExtensionList = Array<ProducerExtension>;
 /** Response returned by the `ListProducerExtensions` method. */
 export interface ListProducerExtensionsResponse {
   /** Unordered list. Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. The resource names are in the format: `projects/{project}/locations/{location}/producerExtensions/{producer_extension}`. */
   unreachable?: StringList;
-  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string;
   /** List of `ProducerExtension` resources. */
   producerExtensions?: ProducerExtensionList;
+  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
+  nextPageToken?: string;
 }
 export interface ListProjectsLocationsServiceBindingsRequest {
   /** Maximum number of ServiceBindings to return per call. */
   pageSize?: number;
-  /** The value returned by the last `ListServiceBindingsResponse` Indicates that this is a continuation of a prior `ListRouters` call, and that the system should return the next page of data. */
-  pageToken?: string;
   /** Required. The project and location from which the ServiceBindings should be listed, specified in the format `projects/*\/locations/*`. */
   parent: string;
+  /** The value returned by the last `ListServiceBindingsResponse` Indicates that this is a continuation of a prior `ListRouters` call, and that the system should return the next page of data. */
+  pageToken?: string;
 }
 export type ServiceBindingList = Array<ServiceBinding>;
 /** Response returned by the ListServiceBindings method. */
 export interface ListServiceBindingsResponse {
+  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
+  nextPageToken?: string;
   /** Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
   unreachable?: StringList;
   /** List of ServiceBinding resources. */
   serviceBindings?: ServiceBindingList;
-  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string;
 }
 export interface ListProjectsLocationsServiceLbPoliciesRequest {
-  /** Maximum number of ServiceLbPolicies to return per call. */
-  pageSize?: number;
-  /** Required. The project and location from which the ServiceLbPolicies should be listed, specified in the format `projects/{project}/locations/{location}`. */
-  parent: string;
   /** The value returned by the last `ListServiceLbPoliciesResponse` Indicates that this is a continuation of a prior `ListRouters` call, and that the system should return the next page of data. */
   pageToken?: string;
+  /** Required. The project and location from which the ServiceLbPolicies should be listed, specified in the format `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Maximum number of ServiceLbPolicies to return per call. */
+  pageSize?: number;
 }
 export type ServiceLbPolicyList = Array<ServiceLbPolicy>;
 /** Response returned by the ListServiceLbPolicies method. */
 export interface ListServiceLbPoliciesResponse {
-  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string;
   /** Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
   unreachable?: StringList;
+  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
+  nextPageToken?: string;
   /** List of ServiceLbPolicy resources. */
   serviceLbPolicies?: ServiceLbPolicyList;
 }
 export interface ListProjectsLocationsTcpRoutesRequest {
-  /** Required. The project and location from which the TcpRoutes should be listed, specified in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** The value returned by the last `ListTcpRoutesResponse` Indicates that this is a continuation of a prior `ListTcpRoutes` call, and that the system should return the next page of data. */
-  pageToken?: string;
   /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
   returnPartialSuccess?: boolean;
   /** Maximum number of TcpRoutes to return per call. */
   pageSize?: number;
+  /** The value returned by the last `ListTcpRoutesResponse` Indicates that this is a continuation of a prior `ListTcpRoutes` call, and that the system should return the next page of data. */
+  pageToken?: string;
+  /** Required. The project and location from which the TcpRoutes should be listed, specified in the format `projects/*\/locations/*`. */
+  parent: string;
 }
 export type TcpRouteList = Array<TcpRoute>;
 /** Response returned by the ListTcpRoutes method. */
 export interface ListTcpRoutesResponse {
   /** List of TcpRoute resources. */
   tcpRoutes?: TcpRouteList;
+  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
+  nextPageToken?: string;
   /** Unreachable resources. Populated when the request opts into return_partial_success and reading across collections e.g. when attempting to list all resources across all supported locations. */
+  unreachable?: StringList;
+}
+export interface ListProjectsLocationsTelemetryPoliciesRequest {
+  /** Required. The project and location from which the TelemetryPolicies should be listed, specified in the format `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Optional. A page token, received from a previous `ListTelemetryPolicies` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
+  /** Optional. The maximum number of policies to return. The service may return fewer than this value. If unspecified, at most 50 policies will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
+}
+export type TelemetryPolicyList = Array<TelemetryPolicy>;
+/** Response returned by the ListTelemetryPolicies method. */
+export interface ListTelemetryPoliciesResponse {
+  /** List of TelemetryPolicy resources. */
+  telemetryPolicies?: TelemetryPolicyList;
+  /** Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
   unreachable?: StringList;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string;
@@ -2275,10 +2584,10 @@ export interface ListProjectsLocationsTlsRoutesRequest {
 export type TlsRouteList = Array<TlsRoute>;
 /** Response returned by the ListTlsRoutes method. */
 export interface ListTlsRoutesResponse {
-  /** List of TlsRoute resources. */
-  tlsRoutes?: TlsRouteList;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string;
+  /** List of TlsRoute resources. */
+  tlsRoutes?: TlsRouteList;
   /** Unreachable resources. Populated when the request opts into return_partial_success and reading across collections e.g. when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
 }
@@ -2301,22 +2610,22 @@ export interface ListWasmPluginsResponse {
   wasmPlugins?: WasmPluginList;
 }
 export interface ListProjectsLocationsWasmPluginsVersionsRequest {
-  /** Required. The `WasmPlugin` resource whose `WasmPluginVersion`s are listed, specified in the following format: `projects/{project}/locations/global/wasmPlugins/{wasm_plugin}`. */
-  parent: string;
   /** Maximum number of `WasmPluginVersion` resources to return per call. If not specified, at most 50 `WasmPluginVersion` resources are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
   pageSize?: number;
   /** The value returned by the last `ListWasmPluginVersionsResponse` call. Indicates that this is a continuation of a prior `ListWasmPluginVersions` call, and that the next page of data is to be returned. */
   pageToken?: string;
+  /** Required. The `WasmPlugin` resource whose `WasmPluginVersion`s are listed, specified in the following format: `projects/{project}/locations/global/wasmPlugins/{wasm_plugin}`. */
+  parent: string;
 }
 export type WasmPluginVersionList = Array<WasmPluginVersion>;
 /** Response returned by the `ListWasmPluginVersions` method. */
 export interface ListWasmPluginVersionsResponse {
-  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string;
   /** Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
   unreachable?: StringList;
   /** List of `WasmPluginVersion` resources. */
   wasmPluginVersions?: WasmPluginVersionList;
+  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
+  nextPageToken?: string;
 }
 export interface PatchProjectsLocationsAgentConnectivityTemplatesRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the AgentConnectivityTemplate resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
@@ -2327,30 +2636,30 @@ export interface PatchProjectsLocationsAgentConnectivityTemplatesRequest {
   body?: AgentConnectivityTemplate;
 }
 export interface PatchProjectsLocationsAgentGatewaysRequest {
-  /** Identifier. Name of the AgentGateway resource. It matches pattern `projects/*\/locations/*\/agentGateways/`. */
-  name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the AgentGateway resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
+  /** Identifier. Name of the AgentGateway resource. It matches pattern `projects/*\/locations/*\/agentGateways/`. */
+  name: string;
   /** Request body */
   body?: AgentGateway;
 }
 export interface PatchProjectsLocationsAuthzExtensionsRequest {
-  /** Required. Identifier. Name of the `AuthzExtension` resource in the following format: `projects/{project}/locations/{location}/authzExtensions/{authz_extension}`. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Optional. Used to specify the fields to be overwritten in the `AuthzExtension` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
   updateMask?: string;
+  /** Required. Identifier. Name of the `AuthzExtension` resource in the following format: `projects/{project}/locations/{location}/authzExtensions/{authz_extension}`. */
+  name: string;
   /** Request body */
   body?: AuthzExtension;
 }
 export interface PatchProjectsLocationsCdnEdgeExtensionsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. Identifier. Name of the `CdnEdgeExtension` resource in the following format: `projects/{project}/locations/{location}/cdnEdgeExtensions/{cdn_edge_extension}`. */
   name: string;
   /** Optional. Used to specify the fields to be overwritten in the `CdnEdgeExtension` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
   updateMask?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: CdnEdgeExtension;
 }
@@ -2361,6 +2670,14 @@ export interface PatchProjectsLocationsEndpointPoliciesRequest {
   name: string;
   /** Request body */
   body?: EndpointPolicy;
+}
+export interface PatchProjectsLocationsExpressLinksRequest {
+  /** Identifier. Name of the ExpressLink resource. It matches pattern `projects/*\/locations/*\/expressLinks/`. */
+  name: string;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the ExpressLink resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
+  /** Request body */
+  body?: ExpressLink;
 }
 export interface PatchProjectsLocationsExtensionBindingsRequest {
   /** Identifier. Name of the `ExtensionBinding` resource in the following format: `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
@@ -2379,10 +2696,10 @@ export interface PatchProjectsLocationsGatewaysRequest {
   body?: Gateway;
 }
 export interface PatchProjectsLocationsGrpcRoutesRequest {
-  /** Optional. Field mask is used to specify the fields to be overwritten in the GrpcRoute resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
   /** Identifier. Name of the GrpcRoute resource. It matches pattern `projects/*\/locations/*\/grpcRoutes/` */
   name: string;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the GrpcRoute resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
   /** Request body */
   body?: GrpcRoute;
 }
@@ -2395,12 +2712,12 @@ export interface PatchProjectsLocationsHttpRoutesRequest {
   body?: HttpRoute;
 }
 export interface PatchProjectsLocationsLbEdgeExtensionsRequest {
-  /** Required. Identifier. Name of the `LbEdgeExtension` resource in the following format: `projects/{project}/locations/{location}/lbEdgeExtensions/{lb_edge_extension}`. */
-  name: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Optional. Used to specify the fields to be overwritten in the `LbEdgeExtension` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
   updateMask?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Required. Identifier. Name of the `LbEdgeExtension` resource in the following format: `projects/{project}/locations/{location}/lbEdgeExtensions/{lb_edge_extension}`. */
+  name: string;
   /** Request body */
   body?: LbEdgeExtension;
 }
@@ -2427,10 +2744,10 @@ export interface PatchProjectsLocationsLbTcpExtensionsRequest {
 export interface PatchProjectsLocationsLbTrafficExtensionsRequest {
   /** Required. Identifier. Name of the `LbTrafficExtension` resource in the following format: `projects/{project}/locations/{location}/lbTrafficExtensions/{lb_traffic_extension}`. */
   name: string;
-  /** Optional. Used to specify the fields to be overwritten in the `LbTrafficExtension` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
-  updateMask?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Optional. Used to specify the fields to be overwritten in the `LbTrafficExtension` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
+  updateMask?: string;
   /** Request body */
   body?: LbTrafficExtension;
 }
@@ -2445,18 +2762,18 @@ export interface PatchProjectsLocationsMeshesRequest {
 export interface PatchProjectsLocationsServiceBindingsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees this for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Optional. Field mask is used to specify the fields to be overwritten in the ServiceBinding resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
   /** Identifier. Name of the ServiceBinding resource. It matches pattern `projects/*\/locations/*\/serviceBindings/`. */
   name: string;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the ServiceBinding resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
   /** Request body */
   body?: ServiceBinding;
 }
 export interface PatchProjectsLocationsServiceLbPoliciesRequest {
-  /** Identifier. Name of the ServiceLbPolicy resource. It matches pattern `projects/{project}/locations/{location}/serviceLbPolicies/{service_lb_policy_name}`. */
-  name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the ServiceLbPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
+  /** Identifier. Name of the ServiceLbPolicy resource. It matches pattern `projects/{project}/locations/{location}/serviceLbPolicies/{service_lb_policy_name}`. */
+  name: string;
   /** Request body */
   body?: ServiceLbPolicy;
 }
@@ -2468,11 +2785,21 @@ export interface PatchProjectsLocationsTcpRoutesRequest {
   /** Request body */
   body?: TcpRoute;
 }
-export interface PatchProjectsLocationsTlsRoutesRequest {
-  /** Identifier. Name of the TlsRoute resource. It matches pattern `projects/*\/locations/*\/tlsRoutes/tls_route_name>`. */
+export interface PatchProjectsLocationsTelemetryPoliciesRequest {
+  /** Identifier. Represents the resource name of the policy. Format: `projects/{project}/locations/{location}/telemetryPolicies/{telemetry_policy}` */
   name: string;
+  /** Optional. If set to true, and the telemetry policy is not found, a new telemetry policy will be created. In this situation, `update_mask` is ignored. */
+  allowMissing?: boolean;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the TelemetryPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the `update_mask` is not provided, the service will treat it as an implied field mask equivalent to all fields provided in the request message. This means that only the fields populated in the `telemetry_policy` field will be updated. The special value `*` can be used to indicate full replacement. */
+  updateMask?: string;
+  /** Request body */
+  body?: TelemetryPolicy;
+}
+export interface PatchProjectsLocationsTlsRoutesRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the TlsRoute resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
+  /** Identifier. Name of the TlsRoute resource. It matches pattern `projects/*\/locations/*\/tlsRoutes/tls_route_name>`. */
+  name: string;
   /** Request body */
   body?: TlsRoute;
 }
@@ -2497,8 +2824,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(2112, __c66, 0) as any as S.Schema<Empty>,
+  input: __S(2464, __c77, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(2496, __c78, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2520,11 +2847,11 @@ export const createProjectsLocationsAgentConnectivityTemplates: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2496,
-    __c78,
+    2848,
+    __c89,
     0,
   ) as any as S.Schema<CreateProjectsLocationsAgentConnectivityTemplatesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2545,8 +2872,8 @@ export const createProjectsLocationsAgentGateways: API.OperationMethod<
   CreateProjectsLocationsAgentGatewaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<CreateProjectsLocationsAgentGatewaysRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(3424, __c107, 0) as any as S.Schema<CreateProjectsLocationsAgentGatewaysRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2567,8 +2894,8 @@ export const createProjectsLocationsAuthzExtensions: API.OperationMethod<
   CreateProjectsLocationsAuthzExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<CreateProjectsLocationsAuthzExtensionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(3872, __c121, 0) as any as S.Schema<CreateProjectsLocationsAuthzExtensionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2589,8 +2916,8 @@ export const createProjectsLocationsCdnEdgeExtensions: API.OperationMethod<
   CreateProjectsLocationsCdnEdgeExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<CreateProjectsLocationsCdnEdgeExtensionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(4256, __c133, 0) as any as S.Schema<CreateProjectsLocationsCdnEdgeExtensionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2611,13 +2938,35 @@ export const createProjectsLocationsEndpointPolicies: API.OperationMethod<
   CreateProjectsLocationsEndpointPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<CreateProjectsLocationsEndpointPoliciesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(4704, __c147, 0) as any as S.Schema<CreateProjectsLocationsEndpointPoliciesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsEndpointPolicies",
+}));
+
+export type CreateProjectsLocationsExpressLinksError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Creates a new ExpressLink in a given project and location. */
+export const createProjectsLocationsExpressLinks: API.OperationMethod<
+  CreateProjectsLocationsExpressLinksRequest,
+  Operation,
+  CreateProjectsLocationsExpressLinksError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsLocationsExpressLinksRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsExpressLinks",
 }));
 
 export type CreateProjectsLocationsExtensionBindingsError =
@@ -2633,8 +2982,8 @@ export const createProjectsLocationsExtensionBindings: API.OperationMethod<
   CreateProjectsLocationsExtensionBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsLocationsExtensionBindingsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(384, __c12, 0) as any as S.Schema<CreateProjectsLocationsExtensionBindingsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2655,8 +3004,8 @@ export const createProjectsLocationsGateways: API.OperationMethod<
   CreateProjectsLocationsGatewaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<CreateProjectsLocationsGatewaysRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(768, __c24, 0) as any as S.Schema<CreateProjectsLocationsGatewaysRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2677,8 +3026,8 @@ export const createProjectsLocationsGrpcRoutes: API.OperationMethod<
   CreateProjectsLocationsGrpcRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<CreateProjectsLocationsGrpcRoutesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(1056, __c33, 0) as any as S.Schema<CreateProjectsLocationsGrpcRoutesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2699,8 +3048,8 @@ export const createProjectsLocationsHttpRoutes: API.OperationMethod<
   CreateProjectsLocationsHttpRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<CreateProjectsLocationsHttpRoutesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(1184, __c37, 0) as any as S.Schema<CreateProjectsLocationsHttpRoutesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2721,8 +3070,8 @@ export const createProjectsLocationsLbEdgeExtensions: API.OperationMethod<
   CreateProjectsLocationsLbEdgeExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<CreateProjectsLocationsLbEdgeExtensionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(1248, __c39, 0) as any as S.Schema<CreateProjectsLocationsLbEdgeExtensionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2743,8 +3092,8 @@ export const createProjectsLocationsLbRouteExtensions: API.OperationMethod<
   CreateProjectsLocationsLbRouteExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<CreateProjectsLocationsLbRouteExtensionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(1312, __c41, 0) as any as S.Schema<CreateProjectsLocationsLbRouteExtensionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2765,8 +3114,8 @@ export const createProjectsLocationsLbTcpExtensions: API.OperationMethod<
   CreateProjectsLocationsLbTcpExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<CreateProjectsLocationsLbTcpExtensionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(1376, __c43, 0) as any as S.Schema<CreateProjectsLocationsLbTcpExtensionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2787,8 +3136,8 @@ export const createProjectsLocationsLbTrafficExtensions: API.OperationMethod<
   CreateProjectsLocationsLbTrafficExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<CreateProjectsLocationsLbTrafficExtensionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(1440, __c45, 0) as any as S.Schema<CreateProjectsLocationsLbTrafficExtensionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2809,8 +3158,8 @@ export const createProjectsLocationsMeshes: API.OperationMethod<
   CreateProjectsLocationsMeshesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<CreateProjectsLocationsMeshesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(1504, __c47, 0) as any as S.Schema<CreateProjectsLocationsMeshesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2831,8 +3180,8 @@ export const createProjectsLocationsProducerExtensions: API.OperationMethod<
   CreateProjectsLocationsProducerExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<CreateProjectsLocationsProducerExtensionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(1568, __c49, 0) as any as S.Schema<CreateProjectsLocationsProducerExtensionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2853,8 +3202,8 @@ export const createProjectsLocationsServiceBindings: API.OperationMethod<
   CreateProjectsLocationsServiceBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<CreateProjectsLocationsServiceBindingsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(1632, __c51, 0) as any as S.Schema<CreateProjectsLocationsServiceBindingsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2875,8 +3224,8 @@ export const createProjectsLocationsServiceLbPolicies: API.OperationMethod<
   CreateProjectsLocationsServiceLbPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<CreateProjectsLocationsServiceLbPoliciesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(1696, __c53, 0) as any as S.Schema<CreateProjectsLocationsServiceLbPoliciesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2897,13 +3246,35 @@ export const createProjectsLocationsTcpRoutes: API.OperationMethod<
   CreateProjectsLocationsTcpRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<CreateProjectsLocationsTcpRoutesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(1760, __c55, 0) as any as S.Schema<CreateProjectsLocationsTcpRoutesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsTcpRoutes",
+}));
+
+export type CreateProjectsLocationsTelemetryPoliciesError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Creates a new TelemetryPolicy in a given project and location. */
+export const createProjectsLocationsTelemetryPolicies: API.OperationMethod<
+  CreateProjectsLocationsTelemetryPoliciesRequest,
+  Operation,
+  CreateProjectsLocationsTelemetryPoliciesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1824, __c57, 0) as any as S.Schema<CreateProjectsLocationsTelemetryPoliciesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsTelemetryPolicies",
 }));
 
 export type CreateProjectsLocationsTlsRoutesError =
@@ -2919,8 +3290,8 @@ export const createProjectsLocationsTlsRoutes: API.OperationMethod<
   CreateProjectsLocationsTlsRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<CreateProjectsLocationsTlsRoutesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(1888, __c59, 0) as any as S.Schema<CreateProjectsLocationsTlsRoutesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2941,8 +3312,8 @@ export const createProjectsLocationsWasmPlugins: API.OperationMethod<
   CreateProjectsLocationsWasmPluginsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<CreateProjectsLocationsWasmPluginsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(1952, __c61, 0) as any as S.Schema<CreateProjectsLocationsWasmPluginsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2963,8 +3334,8 @@ export const createProjectsLocationsWasmPluginsVersions: API.OperationMethod<
   CreateProjectsLocationsWasmPluginsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<CreateProjectsLocationsWasmPluginsVersionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(2016, __c63, 0) as any as S.Schema<CreateProjectsLocationsWasmPluginsVersionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2986,11 +3357,11 @@ export const deleteProjectsLocationsAgentConnectivityTemplates: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1632,
-    __c51,
+    2080,
+    __c65,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsAgentConnectivityTemplatesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3011,8 +3382,8 @@ export const deleteProjectsLocationsAgentGateways: API.OperationMethod<
   DeleteProjectsLocationsAgentGatewaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<DeleteProjectsLocationsAgentGatewaysRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(2112, __c66, 0) as any as S.Schema<DeleteProjectsLocationsAgentGatewaysRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3033,8 +3404,8 @@ export const deleteProjectsLocationsAuthzExtensions: API.OperationMethod<
   DeleteProjectsLocationsAuthzExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<DeleteProjectsLocationsAuthzExtensionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(2144, __c67, 0) as any as S.Schema<DeleteProjectsLocationsAuthzExtensionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3055,8 +3426,8 @@ export const deleteProjectsLocationsCdnEdgeExtensions: API.OperationMethod<
   DeleteProjectsLocationsCdnEdgeExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<DeleteProjectsLocationsCdnEdgeExtensionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(2176, __c68, 0) as any as S.Schema<DeleteProjectsLocationsCdnEdgeExtensionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3077,13 +3448,35 @@ export const deleteProjectsLocationsEndpointPolicies: API.OperationMethod<
   DeleteProjectsLocationsEndpointPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<DeleteProjectsLocationsEndpointPoliciesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(2208, __c69, 0) as any as S.Schema<DeleteProjectsLocationsEndpointPoliciesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsEndpointPolicies",
+}));
+
+export type DeleteProjectsLocationsExpressLinksError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Deletes a single ExpressLink. */
+export const deleteProjectsLocationsExpressLinks: API.OperationMethod<
+  DeleteProjectsLocationsExpressLinksRequest,
+  Operation,
+  DeleteProjectsLocationsExpressLinksError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2240, __c70, 0) as any as S.Schema<DeleteProjectsLocationsExpressLinksRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsExpressLinks",
 }));
 
 export type DeleteProjectsLocationsExtensionBindingsError =
@@ -3099,8 +3492,8 @@ export const deleteProjectsLocationsExtensionBindings: API.OperationMethod<
   DeleteProjectsLocationsExtensionBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<DeleteProjectsLocationsExtensionBindingsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(2272, __c71, 0) as any as S.Schema<DeleteProjectsLocationsExtensionBindingsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3121,8 +3514,8 @@ export const deleteProjectsLocationsGateways: API.OperationMethod<
   DeleteProjectsLocationsGatewaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<DeleteProjectsLocationsGatewaysRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(2304, __c72, 0) as any as S.Schema<DeleteProjectsLocationsGatewaysRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3143,8 +3536,8 @@ export const deleteProjectsLocationsGrpcRoutes: API.OperationMethod<
   DeleteProjectsLocationsGrpcRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<DeleteProjectsLocationsGrpcRoutesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(2336, __c73, 0) as any as S.Schema<DeleteProjectsLocationsGrpcRoutesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3165,8 +3558,8 @@ export const deleteProjectsLocationsHttpRoutes: API.OperationMethod<
   DeleteProjectsLocationsHttpRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<DeleteProjectsLocationsHttpRoutesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(2368, __c74, 0) as any as S.Schema<DeleteProjectsLocationsHttpRoutesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3187,8 +3580,8 @@ export const deleteProjectsLocationsLbEdgeExtensions: API.OperationMethod<
   DeleteProjectsLocationsLbEdgeExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<DeleteProjectsLocationsLbEdgeExtensionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(2400, __c75, 0) as any as S.Schema<DeleteProjectsLocationsLbEdgeExtensionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3209,8 +3602,8 @@ export const deleteProjectsLocationsLbRouteExtensions: API.OperationMethod<
   DeleteProjectsLocationsLbRouteExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<DeleteProjectsLocationsLbRouteExtensionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(2432, __c76, 0) as any as S.Schema<DeleteProjectsLocationsLbRouteExtensionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3231,8 +3624,8 @@ export const deleteProjectsLocationsLbTcpExtensions: API.OperationMethod<
   DeleteProjectsLocationsLbTcpExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<DeleteProjectsLocationsLbTcpExtensionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(2528, __c79, 0) as any as S.Schema<DeleteProjectsLocationsLbTcpExtensionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3253,8 +3646,8 @@ export const deleteProjectsLocationsLbTrafficExtensions: API.OperationMethod<
   DeleteProjectsLocationsLbTrafficExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<DeleteProjectsLocationsLbTrafficExtensionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(2560, __c80, 0) as any as S.Schema<DeleteProjectsLocationsLbTrafficExtensionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3275,8 +3668,8 @@ export const deleteProjectsLocationsMeshes: API.OperationMethod<
   DeleteProjectsLocationsMeshesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<DeleteProjectsLocationsMeshesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(2592, __c81, 0) as any as S.Schema<DeleteProjectsLocationsMeshesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3297,8 +3690,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(2112, __c66, 0) as any as S.Schema<Empty>,
+  input: __S(2624, __c82, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(2496, __c78, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3319,8 +3712,8 @@ export const deleteProjectsLocationsProducerExtensions: API.OperationMethod<
   DeleteProjectsLocationsProducerExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<DeleteProjectsLocationsProducerExtensionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(2656, __c83, 0) as any as S.Schema<DeleteProjectsLocationsProducerExtensionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3341,8 +3734,8 @@ export const deleteProjectsLocationsServiceBindings: API.OperationMethod<
   DeleteProjectsLocationsServiceBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<DeleteProjectsLocationsServiceBindingsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(2688, __c84, 0) as any as S.Schema<DeleteProjectsLocationsServiceBindingsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3363,8 +3756,8 @@ export const deleteProjectsLocationsServiceLbPolicies: API.OperationMethod<
   DeleteProjectsLocationsServiceLbPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<DeleteProjectsLocationsServiceLbPoliciesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(2720, __c85, 0) as any as S.Schema<DeleteProjectsLocationsServiceLbPoliciesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3385,13 +3778,35 @@ export const deleteProjectsLocationsTcpRoutes: API.OperationMethod<
   DeleteProjectsLocationsTcpRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<DeleteProjectsLocationsTcpRoutesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(2752, __c86, 0) as any as S.Schema<DeleteProjectsLocationsTcpRoutesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsTcpRoutes",
+}));
+
+export type DeleteProjectsLocationsTelemetryPoliciesError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Deletes a single TelemetryPolicy. */
+export const deleteProjectsLocationsTelemetryPolicies: API.OperationMethod<
+  DeleteProjectsLocationsTelemetryPoliciesRequest,
+  Operation,
+  DeleteProjectsLocationsTelemetryPoliciesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2784, __c87, 0) as any as S.Schema<DeleteProjectsLocationsTelemetryPoliciesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsTelemetryPolicies",
 }));
 
 export type DeleteProjectsLocationsTlsRoutesError =
@@ -3407,8 +3822,8 @@ export const deleteProjectsLocationsTlsRoutes: API.OperationMethod<
   DeleteProjectsLocationsTlsRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<DeleteProjectsLocationsTlsRoutesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(2816, __c88, 0) as any as S.Schema<DeleteProjectsLocationsTlsRoutesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3429,8 +3844,8 @@ export const deleteProjectsLocationsWasmPlugins: API.OperationMethod<
   DeleteProjectsLocationsWasmPluginsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<DeleteProjectsLocationsWasmPluginsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(3072, __c96, 0) as any as S.Schema<DeleteProjectsLocationsWasmPluginsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3451,8 +3866,8 @@ export const deleteProjectsLocationsWasmPluginsVersions: API.OperationMethod<
   DeleteProjectsLocationsWasmPluginsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<DeleteProjectsLocationsWasmPluginsVersionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(3104, __c97, 0) as any as S.Schema<DeleteProjectsLocationsWasmPluginsVersionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3468,8 +3883,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Location>,
+  input: __S(3136, __c98, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(3168, __c99, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3486,11 +3901,11 @@ export const getProjectsLocationsAgentConnectivityTemplates: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2464,
-    __c77,
+    3200,
+    __c100,
     0,
   ) as any as S.Schema<GetProjectsLocationsAgentConnectivityTemplatesRequest>,
-  output: __S(2531, __c79, 3) as any as S.Schema<AgentConnectivityTemplate>,
+  output: __S(2883, __c90, 3) as any as S.Schema<AgentConnectivityTemplate>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3506,8 +3921,8 @@ export const getProjectsLocationsAgentGateways: API.OperationMethod<
   GetProjectsLocationsAgentGatewaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<GetProjectsLocationsAgentGatewaysRequest>,
-  output: __S(3110, __c97, 6) as any as S.Schema<AgentGateway>,
+  input: __S(3232, __c101, 0) as any as S.Schema<GetProjectsLocationsAgentGatewaysRequest>,
+  output: __S(3462, __c108, 6) as any as S.Schema<AgentGateway>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3523,8 +3938,8 @@ export const getProjectsLocationsAuthzExtensions: API.OperationMethod<
   GetProjectsLocationsAuthzExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<GetProjectsLocationsAuthzExtensionsRequest>,
-  output: __S(3520, __c110, 0) as any as S.Schema<AuthzExtension>,
+  input: __S(3264, __c102, 0) as any as S.Schema<GetProjectsLocationsAuthzExtensionsRequest>,
+  output: __S(3904, __c122, 0) as any as S.Schema<AuthzExtension>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3540,8 +3955,8 @@ export const getProjectsLocationsCdnEdgeExtensions: API.OperationMethod<
   GetProjectsLocationsCdnEdgeExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<GetProjectsLocationsCdnEdgeExtensionsRequest>,
-  output: __S(3937, __c123, 1) as any as S.Schema<CdnEdgeExtension>,
+  input: __S(3296, __c103, 0) as any as S.Schema<GetProjectsLocationsCdnEdgeExtensionsRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<CdnEdgeExtension>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3557,13 +3972,30 @@ export const getProjectsLocationsEndpointPolicies: API.OperationMethod<
   GetProjectsLocationsEndpointPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<GetProjectsLocationsEndpointPoliciesRequest>,
-  output: __S(4325, __c135, 5) as any as S.Schema<EndpointPolicy>,
+  input: __S(3328, __c104, 0) as any as S.Schema<GetProjectsLocationsEndpointPoliciesRequest>,
+  output: __S(4741, __c148, 5) as any as S.Schema<EndpointPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsEndpointPolicies",
+}));
+
+export type GetProjectsLocationsExpressLinksError = NotFound | Forbidden | GcpOpError;
+/** Gets details of a single ExpressLink. */
+export const getProjectsLocationsExpressLinks: API.OperationMethod<
+  GetProjectsLocationsExpressLinksRequest,
+  ExpressLink,
+  GetProjectsLocationsExpressLinksError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3360, __c105, 0) as any as S.Schema<GetProjectsLocationsExpressLinksRequest>,
+  output: __S(47, __c1, 15) as any as S.Schema<ExpressLink>,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsExpressLinks",
 }));
 
 export type GetProjectsLocationsExtensionBindingsError = NotFound | Forbidden | GcpOpError;
@@ -3574,8 +4006,8 @@ export const getProjectsLocationsExtensionBindings: API.OperationMethod<
   GetProjectsLocationsExtensionBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<GetProjectsLocationsExtensionBindingsRequest>,
-  output: __S(43, __c1, 11) as any as S.Schema<ExtensionBinding>,
+  input: __S(3392, __c106, 0) as any as S.Schema<GetProjectsLocationsExtensionBindingsRequest>,
+  output: __S(427, __c13, 11) as any as S.Schema<ExtensionBinding>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3591,8 +4023,8 @@ export const getProjectsLocationsGateways: API.OperationMethod<
   GetProjectsLocationsGatewaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<GetProjectsLocationsGatewaysRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<Gateway>,
+  input: __S(3488, __c109, 0) as any as S.Schema<GetProjectsLocationsGatewaysRequest>,
+  output: __S(801, __c25, 1) as any as S.Schema<Gateway>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3608,8 +4040,8 @@ export const getProjectsLocationsGatewaysRouteViews: API.OperationMethod<
   GetProjectsLocationsGatewaysRouteViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<GetProjectsLocationsGatewaysRouteViewsRequest>,
-  output: __S(2944, __c92, 0) as any as S.Schema<GatewayRouteView>,
+  input: __S(3520, __c110, 0) as any as S.Schema<GetProjectsLocationsGatewaysRouteViewsRequest>,
+  output: __S(3552, __c111, 0) as any as S.Schema<GatewayRouteView>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3625,8 +4057,8 @@ export const getProjectsLocationsGrpcRoutes: API.OperationMethod<
   GetProjectsLocationsGrpcRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<GetProjectsLocationsGrpcRoutesRequest>,
-  output: __S(777, __c24, 9) as any as S.Schema<GrpcRoute>,
+  input: __S(3584, __c112, 0) as any as S.Schema<GetProjectsLocationsGrpcRoutesRequest>,
+  output: __S(1161, __c36, 9) as any as S.Schema<GrpcRoute>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3642,8 +4074,8 @@ export const getProjectsLocationsHttpRoutes: API.OperationMethod<
   GetProjectsLocationsHttpRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<GetProjectsLocationsHttpRoutesRequest>,
-  output: __S(851, __c26, 19) as any as S.Schema<HttpRoute>,
+  input: __S(3616, __c113, 0) as any as S.Schema<GetProjectsLocationsHttpRoutesRequest>,
+  output: __S(1235, __c38, 19) as any as S.Schema<HttpRoute>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3659,8 +4091,8 @@ export const getProjectsLocationsLbEdgeExtensions: API.OperationMethod<
   GetProjectsLocationsLbEdgeExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<GetProjectsLocationsLbEdgeExtensionsRequest>,
-  output: __S(896, __c28, 0) as any as S.Schema<LbEdgeExtension>,
+  input: __S(3648, __c114, 0) as any as S.Schema<GetProjectsLocationsLbEdgeExtensionsRequest>,
+  output: __S(1280, __c40, 0) as any as S.Schema<LbEdgeExtension>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3676,8 +4108,8 @@ export const getProjectsLocationsLbRouteExtensions: API.OperationMethod<
   GetProjectsLocationsLbRouteExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<GetProjectsLocationsLbRouteExtensionsRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<LbRouteExtension>,
+  input: __S(3680, __c115, 0) as any as S.Schema<GetProjectsLocationsLbRouteExtensionsRequest>,
+  output: __S(1344, __c42, 0) as any as S.Schema<LbRouteExtension>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3693,8 +4125,8 @@ export const getProjectsLocationsLbTcpExtensions: API.OperationMethod<
   GetProjectsLocationsLbTcpExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<GetProjectsLocationsLbTcpExtensionsRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<LbTcpExtension>,
+  input: __S(3712, __c116, 0) as any as S.Schema<GetProjectsLocationsLbTcpExtensionsRequest>,
+  output: __S(1408, __c44, 0) as any as S.Schema<LbTcpExtension>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3710,8 +4142,8 @@ export const getProjectsLocationsLbTrafficExtensions: API.OperationMethod<
   GetProjectsLocationsLbTrafficExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<GetProjectsLocationsLbTrafficExtensionsRequest>,
-  output: __S(1088, __c34, 0) as any as S.Schema<LbTrafficExtension>,
+  input: __S(3744, __c117, 0) as any as S.Schema<GetProjectsLocationsLbTrafficExtensionsRequest>,
+  output: __S(1472, __c46, 0) as any as S.Schema<LbTrafficExtension>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3727,8 +4159,8 @@ export const getProjectsLocationsMeshes: API.OperationMethod<
   GetProjectsLocationsMeshesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<GetProjectsLocationsMeshesRequest>,
-  output: __S(1152, __c36, 0) as any as S.Schema<Mesh>,
+  input: __S(3776, __c118, 0) as any as S.Schema<GetProjectsLocationsMeshesRequest>,
+  output: __S(1536, __c48, 0) as any as S.Schema<Mesh>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3744,8 +4176,8 @@ export const getProjectsLocationsMeshesRouteViews: API.OperationMethod<
   GetProjectsLocationsMeshesRouteViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<GetProjectsLocationsMeshesRouteViewsRequest>,
-  output: __S(3296, __c103, 0) as any as S.Schema<MeshRouteView>,
+  input: __S(3808, __c119, 0) as any as S.Schema<GetProjectsLocationsMeshesRouteViewsRequest>,
+  output: __S(3840, __c120, 0) as any as S.Schema<MeshRouteView>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3761,8 +4193,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(3936, __c123, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3778,8 +4210,8 @@ export const getProjectsLocationsProducerExtensions: API.OperationMethod<
   GetProjectsLocationsProducerExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<GetProjectsLocationsProducerExtensionsRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<ProducerExtension>,
+  input: __S(3968, __c124, 0) as any as S.Schema<GetProjectsLocationsProducerExtensionsRequest>,
+  output: __S(1601, __c50, 1) as any as S.Schema<ProducerExtension>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3795,8 +4227,8 @@ export const getProjectsLocationsServiceBindings: API.OperationMethod<
   GetProjectsLocationsServiceBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<GetProjectsLocationsServiceBindingsRequest>,
-  output: __S(1280, __c40, 0) as any as S.Schema<ServiceBinding>,
+  input: __S(4000, __c125, 0) as any as S.Schema<GetProjectsLocationsServiceBindingsRequest>,
+  output: __S(1664, __c52, 0) as any as S.Schema<ServiceBinding>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3812,8 +4244,8 @@ export const getProjectsLocationsServiceLbPolicies: API.OperationMethod<
   GetProjectsLocationsServiceLbPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<GetProjectsLocationsServiceLbPoliciesRequest>,
-  output: __S(1347, __c42, 3) as any as S.Schema<ServiceLbPolicy>,
+  input: __S(4032, __c126, 0) as any as S.Schema<GetProjectsLocationsServiceLbPoliciesRequest>,
+  output: __S(1731, __c54, 3) as any as S.Schema<ServiceLbPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3829,13 +4261,30 @@ export const getProjectsLocationsTcpRoutes: API.OperationMethod<
   GetProjectsLocationsTcpRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<GetProjectsLocationsTcpRoutesRequest>,
-  output: __S(1413, __c44, 5) as any as S.Schema<TcpRoute>,
+  input: __S(4064, __c127, 0) as any as S.Schema<GetProjectsLocationsTcpRoutesRequest>,
+  output: __S(1799, __c56, 7) as any as S.Schema<TcpRoute>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTcpRoutes",
+}));
+
+export type GetProjectsLocationsTelemetryPoliciesError = NotFound | Forbidden | GcpOpError;
+/** Gets details of a single TelemetryPolicy. */
+export const getProjectsLocationsTelemetryPolicies: API.OperationMethod<
+  GetProjectsLocationsTelemetryPoliciesRequest,
+  TelemetryPolicy,
+  GetProjectsLocationsTelemetryPoliciesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4096, __c128, 0) as any as S.Schema<GetProjectsLocationsTelemetryPoliciesRequest>,
+  output: __S(1861, __c58, 5) as any as S.Schema<TelemetryPolicy>,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsTelemetryPolicies",
 }));
 
 export type GetProjectsLocationsTlsRoutesError = NotFound | Forbidden | GcpOpError;
@@ -3846,8 +4295,8 @@ export const getProjectsLocationsTlsRoutes: API.OperationMethod<
   GetProjectsLocationsTlsRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<GetProjectsLocationsTlsRoutesRequest>,
-  output: __S(1477, __c46, 5) as any as S.Schema<TlsRoute>,
+  input: __S(4128, __c129, 0) as any as S.Schema<GetProjectsLocationsTlsRoutesRequest>,
+  output: __S(1925, __c60, 5) as any as S.Schema<TlsRoute>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3863,8 +4312,8 @@ export const getProjectsLocationsWasmPlugins: API.OperationMethod<
   GetProjectsLocationsWasmPluginsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<GetProjectsLocationsWasmPluginsRequest>,
-  output: __S(1541, __c48, 5) as any as S.Schema<WasmPlugin>,
+  input: __S(4160, __c130, 0) as any as S.Schema<GetProjectsLocationsWasmPluginsRequest>,
+  output: __S(1989, __c62, 5) as any as S.Schema<WasmPlugin>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3880,8 +4329,8 @@ export const getProjectsLocationsWasmPluginsVersions: API.OperationMethod<
   GetProjectsLocationsWasmPluginsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<GetProjectsLocationsWasmPluginsVersionsRequest>,
-  output: __S(1600, __c50, 0) as any as S.Schema<WasmPluginVersion>,
+  input: __S(4192, __c131, 0) as any as S.Schema<GetProjectsLocationsWasmPluginsVersionsRequest>,
+  output: __S(2048, __c64, 0) as any as S.Schema<WasmPluginVersion>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3898,8 +4347,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(3650, __c114, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(4224, __c132, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(4226, __c132, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3921,11 +4370,11 @@ export const listProjectsLocationsAgentConnectivityTemplates: API.PaginatedOpera
   ListAgentConnectivityTemplatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3680,
-    __c115,
+    4384,
+    __c137,
     0,
   ) as any as S.Schema<ListProjectsLocationsAgentConnectivityTemplatesRequest>,
-  output: __S(3682, __c115, 2) as any as S.Schema<ListAgentConnectivityTemplatesResponse>,
+  output: __S(4386, __c137, 2) as any as S.Schema<ListAgentConnectivityTemplatesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3943,8 +4392,8 @@ export const listProjectsLocationsAgentGateways: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAgentGatewaysResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<ListProjectsLocationsAgentGatewaysRequest>,
-  output: __S(3714, __c116, 2) as any as S.Schema<ListAgentGatewaysResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<ListProjectsLocationsAgentGatewaysRequest>,
+  output: __S(4418, __c138, 2) as any as S.Schema<ListAgentGatewaysResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3962,8 +4411,8 @@ export const listProjectsLocationsAuthzExtensions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAuthzExtensionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<ListProjectsLocationsAuthzExtensionsRequest>,
-  output: __S(3746, __c117, 2) as any as S.Schema<ListAuthzExtensionsResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<ListProjectsLocationsAuthzExtensionsRequest>,
+  output: __S(4450, __c139, 2) as any as S.Schema<ListAuthzExtensionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3981,8 +4430,8 @@ export const listProjectsLocationsCdnEdgeExtensions: API.PaginatedOperationMetho
   GcpOpContext,
   ListCdnEdgeExtensionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<ListProjectsLocationsCdnEdgeExtensionsRequest>,
-  output: __S(3778, __c118, 2) as any as S.Schema<ListCdnEdgeExtensionsResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<ListProjectsLocationsCdnEdgeExtensionsRequest>,
+  output: __S(4482, __c140, 2) as any as S.Schema<ListCdnEdgeExtensionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4000,13 +4449,32 @@ export const listProjectsLocationsEndpointPolicies: API.PaginatedOperationMethod
   GcpOpContext,
   ListEndpointPoliciesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<ListProjectsLocationsEndpointPoliciesRequest>,
-  output: __S(3810, __c119, 2) as any as S.Schema<ListEndpointPoliciesResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<ListProjectsLocationsEndpointPoliciesRequest>,
+  output: __S(4514, __c141, 2) as any as S.Schema<ListEndpointPoliciesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEndpointPolicies",
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
+})) as any;
+
+export type ListProjectsLocationsExpressLinksError = NotFound | Forbidden | GcpOpError;
+/** Lists ExpressLinks in a given project and location. */
+export const listProjectsLocationsExpressLinks: API.PaginatedOperationMethod<
+  ListProjectsLocationsExpressLinksRequest,
+  ListExpressLinksResponse,
+  ListProjectsLocationsExpressLinksError,
+  GcpOpContext,
+  ListExpressLinksResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(4544, __c142, 0) as any as S.Schema<ListProjectsLocationsExpressLinksRequest>,
+  output: __S(4546, __c142, 2) as any as S.Schema<ListExpressLinksResponse>,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsExpressLinks",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4019,8 +4487,8 @@ export const listProjectsLocationsExtensionBindings: API.PaginatedOperationMetho
   GcpOpContext,
   ListExtensionBindingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<ListProjectsLocationsExtensionBindingsRequest>,
-  output: __S(3842, __c120, 2) as any as S.Schema<ListExtensionBindingsResponse>,
+  input: __S(4576, __c143, 0) as any as S.Schema<ListProjectsLocationsExtensionBindingsRequest>,
+  output: __S(4578, __c143, 2) as any as S.Schema<ListExtensionBindingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4038,8 +4506,8 @@ export const listProjectsLocationsGateways: API.PaginatedOperationMethod<
   GcpOpContext,
   ListGatewaysResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<ListProjectsLocationsGatewaysRequest>,
-  output: __S(3970, __c124, 2) as any as S.Schema<ListGatewaysResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<ListProjectsLocationsGatewaysRequest>,
+  output: __S(4610, __c144, 2) as any as S.Schema<ListGatewaysResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4057,8 +4525,8 @@ export const listProjectsLocationsGatewaysRouteViews: API.PaginatedOperationMeth
   GcpOpContext,
   ListGatewayRouteViewsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<ListProjectsLocationsGatewaysRouteViewsRequest>,
-  output: __S(4002, __c125, 2) as any as S.Schema<ListGatewayRouteViewsResponse>,
+  input: __S(4640, __c145, 0) as any as S.Schema<ListProjectsLocationsGatewaysRouteViewsRequest>,
+  output: __S(4642, __c145, 2) as any as S.Schema<ListGatewayRouteViewsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4076,8 +4544,8 @@ export const listProjectsLocationsGrpcRoutes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListGrpcRoutesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<ListProjectsLocationsGrpcRoutesRequest>,
-  output: __S(4034, __c126, 2) as any as S.Schema<ListGrpcRoutesResponse>,
+  input: __S(4672, __c146, 0) as any as S.Schema<ListProjectsLocationsGrpcRoutesRequest>,
+  output: __S(4674, __c146, 2) as any as S.Schema<ListGrpcRoutesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4095,8 +4563,8 @@ export const listProjectsLocationsHttpRoutes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListHttpRoutesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<ListProjectsLocationsHttpRoutesRequest>,
-  output: __S(4066, __c127, 2) as any as S.Schema<ListHttpRoutesResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<ListProjectsLocationsHttpRoutesRequest>,
+  output: __S(4770, __c149, 2) as any as S.Schema<ListHttpRoutesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4114,8 +4582,8 @@ export const listProjectsLocationsLbEdgeExtensions: API.PaginatedOperationMethod
   GcpOpContext,
   ListLbEdgeExtensionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<ListProjectsLocationsLbEdgeExtensionsRequest>,
-  output: __S(4098, __c128, 2) as any as S.Schema<ListLbEdgeExtensionsResponse>,
+  input: __S(4800, __c150, 0) as any as S.Schema<ListProjectsLocationsLbEdgeExtensionsRequest>,
+  output: __S(4802, __c150, 2) as any as S.Schema<ListLbEdgeExtensionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4133,8 +4601,8 @@ export const listProjectsLocationsLbRouteExtensions: API.PaginatedOperationMetho
   GcpOpContext,
   ListLbRouteExtensionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<ListProjectsLocationsLbRouteExtensionsRequest>,
-  output: __S(4130, __c129, 2) as any as S.Schema<ListLbRouteExtensionsResponse>,
+  input: __S(4832, __c151, 0) as any as S.Schema<ListProjectsLocationsLbRouteExtensionsRequest>,
+  output: __S(4834, __c151, 2) as any as S.Schema<ListLbRouteExtensionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4152,8 +4620,8 @@ export const listProjectsLocationsLbTcpExtensions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLbTcpExtensionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<ListProjectsLocationsLbTcpExtensionsRequest>,
-  output: __S(4162, __c130, 2) as any as S.Schema<ListLbTcpExtensionsResponse>,
+  input: __S(4864, __c152, 0) as any as S.Schema<ListProjectsLocationsLbTcpExtensionsRequest>,
+  output: __S(4866, __c152, 2) as any as S.Schema<ListLbTcpExtensionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4171,8 +4639,8 @@ export const listProjectsLocationsLbTrafficExtensions: API.PaginatedOperationMet
   GcpOpContext,
   ListLbTrafficExtensionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<ListProjectsLocationsLbTrafficExtensionsRequest>,
-  output: __S(4194, __c131, 2) as any as S.Schema<ListLbTrafficExtensionsResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<ListProjectsLocationsLbTrafficExtensionsRequest>,
+  output: __S(4898, __c153, 2) as any as S.Schema<ListLbTrafficExtensionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4190,8 +4658,8 @@ export const listProjectsLocationsMeshes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListMeshesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<ListProjectsLocationsMeshesRequest>,
-  output: __S(4226, __c132, 2) as any as S.Schema<ListMeshesResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<ListProjectsLocationsMeshesRequest>,
+  output: __S(4930, __c154, 2) as any as S.Schema<ListMeshesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4209,8 +4677,8 @@ export const listProjectsLocationsMeshesRouteViews: API.PaginatedOperationMethod
   GcpOpContext,
   ListMeshRouteViewsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<ListProjectsLocationsMeshesRouteViewsRequest>,
-  output: __S(4258, __c133, 2) as any as S.Schema<ListMeshRouteViewsResponse>,
+  input: __S(4960, __c155, 0) as any as S.Schema<ListProjectsLocationsMeshesRouteViewsRequest>,
+  output: __S(4962, __c155, 2) as any as S.Schema<ListMeshRouteViewsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4228,8 +4696,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(4354, __c136, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(4992, __c156, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(4994, __c156, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4247,8 +4715,8 @@ export const listProjectsLocationsProducerExtensions: API.PaginatedOperationMeth
   GcpOpContext,
   ListProducerExtensionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<ListProjectsLocationsProducerExtensionsRequest>,
-  output: __S(4386, __c137, 2) as any as S.Schema<ListProducerExtensionsResponse>,
+  input: __S(5024, __c157, 0) as any as S.Schema<ListProjectsLocationsProducerExtensionsRequest>,
+  output: __S(5026, __c157, 2) as any as S.Schema<ListProducerExtensionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4266,8 +4734,8 @@ export const listProjectsLocationsServiceBindings: API.PaginatedOperationMethod<
   GcpOpContext,
   ListServiceBindingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<ListProjectsLocationsServiceBindingsRequest>,
-  output: __S(4418, __c138, 2) as any as S.Schema<ListServiceBindingsResponse>,
+  input: __S(5056, __c158, 0) as any as S.Schema<ListProjectsLocationsServiceBindingsRequest>,
+  output: __S(5058, __c158, 2) as any as S.Schema<ListServiceBindingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4285,8 +4753,8 @@ export const listProjectsLocationsServiceLbPolicies: API.PaginatedOperationMetho
   GcpOpContext,
   ListServiceLbPoliciesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<ListProjectsLocationsServiceLbPoliciesRequest>,
-  output: __S(4450, __c139, 2) as any as S.Schema<ListServiceLbPoliciesResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<ListProjectsLocationsServiceLbPoliciesRequest>,
+  output: __S(66, __c2, 2) as any as S.Schema<ListServiceLbPoliciesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4304,13 +4772,32 @@ export const listProjectsLocationsTcpRoutes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTcpRoutesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<ListProjectsLocationsTcpRoutesRequest>,
-  output: __S(4482, __c140, 2) as any as S.Schema<ListTcpRoutesResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<ListProjectsLocationsTcpRoutesRequest>,
+  output: __S(98, __c3, 2) as any as S.Schema<ListTcpRoutesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTcpRoutes",
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
+})) as any;
+
+export type ListProjectsLocationsTelemetryPoliciesError = NotFound | Forbidden | GcpOpError;
+/** Lists TelemetryPolicies in a given project and location. */
+export const listProjectsLocationsTelemetryPolicies: API.PaginatedOperationMethod<
+  ListProjectsLocationsTelemetryPoliciesRequest,
+  ListTelemetryPoliciesResponse,
+  ListProjectsLocationsTelemetryPoliciesError,
+  GcpOpContext,
+  ListTelemetryPoliciesResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(128, __c4, 0) as any as S.Schema<ListProjectsLocationsTelemetryPoliciesRequest>,
+  output: __S(130, __c4, 2) as any as S.Schema<ListTelemetryPoliciesResponse>,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsTelemetryPolicies",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4323,8 +4810,8 @@ export const listProjectsLocationsTlsRoutes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTlsRoutesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<ListProjectsLocationsTlsRoutesRequest>,
-  output: __S(4514, __c141, 2) as any as S.Schema<ListTlsRoutesResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<ListProjectsLocationsTlsRoutesRequest>,
+  output: __S(162, __c5, 2) as any as S.Schema<ListTlsRoutesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4342,8 +4829,8 @@ export const listProjectsLocationsWasmPlugins: API.PaginatedOperationMethod<
   GcpOpContext,
   ListWasmPluginsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<ListProjectsLocationsWasmPluginsRequest>,
-  output: __S(4546, __c142, 2) as any as S.Schema<ListWasmPluginsResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<ListProjectsLocationsWasmPluginsRequest>,
+  output: __S(194, __c6, 2) as any as S.Schema<ListWasmPluginsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4361,8 +4848,8 @@ export const listProjectsLocationsWasmPluginsVersions: API.PaginatedOperationMet
   GcpOpContext,
   ListWasmPluginVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<ListProjectsLocationsWasmPluginsVersionsRequest>,
-  output: __S(4578, __c143, 2) as any as S.Schema<ListWasmPluginVersionsResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<ListProjectsLocationsWasmPluginsVersionsRequest>,
+  output: __S(226, __c7, 2) as any as S.Schema<ListWasmPluginVersionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4385,11 +4872,11 @@ export const patchProjectsLocationsAgentConnectivityTemplates: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4608,
-    __c144,
+    256,
+    __c8,
     0,
   ) as any as S.Schema<PatchProjectsLocationsAgentConnectivityTemplatesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4410,8 +4897,8 @@ export const patchProjectsLocationsAgentGateways: API.OperationMethod<
   PatchProjectsLocationsAgentGatewaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<PatchProjectsLocationsAgentGatewaysRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(288, __c9, 0) as any as S.Schema<PatchProjectsLocationsAgentGatewaysRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4432,8 +4919,8 @@ export const patchProjectsLocationsAuthzExtensions: API.OperationMethod<
   PatchProjectsLocationsAuthzExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<PatchProjectsLocationsAuthzExtensionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(320, __c10, 0) as any as S.Schema<PatchProjectsLocationsAuthzExtensionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4454,8 +4941,8 @@ export const patchProjectsLocationsCdnEdgeExtensions: API.OperationMethod<
   PatchProjectsLocationsCdnEdgeExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<PatchProjectsLocationsCdnEdgeExtensionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(352, __c11, 0) as any as S.Schema<PatchProjectsLocationsCdnEdgeExtensionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4476,13 +4963,35 @@ export const patchProjectsLocationsEndpointPolicies: API.OperationMethod<
   PatchProjectsLocationsEndpointPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<PatchProjectsLocationsEndpointPoliciesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(448, __c14, 0) as any as S.Schema<PatchProjectsLocationsEndpointPoliciesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsEndpointPolicies",
+}));
+
+export type PatchProjectsLocationsExpressLinksError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Updates the parameters of a single ExpressLink. */
+export const patchProjectsLocationsExpressLinks: API.OperationMethod<
+  PatchProjectsLocationsExpressLinksRequest,
+  Operation,
+  PatchProjectsLocationsExpressLinksError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(480, __c15, 0) as any as S.Schema<PatchProjectsLocationsExpressLinksRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsExpressLinks",
 }));
 
 export type PatchProjectsLocationsExtensionBindingsError =
@@ -4498,8 +5007,8 @@ export const patchProjectsLocationsExtensionBindings: API.OperationMethod<
   PatchProjectsLocationsExtensionBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<PatchProjectsLocationsExtensionBindingsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(512, __c16, 0) as any as S.Schema<PatchProjectsLocationsExtensionBindingsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4520,8 +5029,8 @@ export const patchProjectsLocationsGateways: API.OperationMethod<
   PatchProjectsLocationsGatewaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<PatchProjectsLocationsGatewaysRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(544, __c17, 0) as any as S.Schema<PatchProjectsLocationsGatewaysRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4542,8 +5051,8 @@ export const patchProjectsLocationsGrpcRoutes: API.OperationMethod<
   PatchProjectsLocationsGrpcRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<PatchProjectsLocationsGrpcRoutesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(576, __c18, 0) as any as S.Schema<PatchProjectsLocationsGrpcRoutesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4564,8 +5073,8 @@ export const patchProjectsLocationsHttpRoutes: API.OperationMethod<
   PatchProjectsLocationsHttpRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<PatchProjectsLocationsHttpRoutesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(608, __c19, 0) as any as S.Schema<PatchProjectsLocationsHttpRoutesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4586,8 +5095,8 @@ export const patchProjectsLocationsLbEdgeExtensions: API.OperationMethod<
   PatchProjectsLocationsLbEdgeExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<PatchProjectsLocationsLbEdgeExtensionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(640, __c20, 0) as any as S.Schema<PatchProjectsLocationsLbEdgeExtensionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4608,8 +5117,8 @@ export const patchProjectsLocationsLbRouteExtensions: API.OperationMethod<
   PatchProjectsLocationsLbRouteExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<PatchProjectsLocationsLbRouteExtensionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(672, __c21, 0) as any as S.Schema<PatchProjectsLocationsLbRouteExtensionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4630,8 +5139,8 @@ export const patchProjectsLocationsLbTcpExtensions: API.OperationMethod<
   PatchProjectsLocationsLbTcpExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<PatchProjectsLocationsLbTcpExtensionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(704, __c22, 0) as any as S.Schema<PatchProjectsLocationsLbTcpExtensionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4652,8 +5161,8 @@ export const patchProjectsLocationsLbTrafficExtensions: API.OperationMethod<
   PatchProjectsLocationsLbTrafficExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<PatchProjectsLocationsLbTrafficExtensionsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(736, __c23, 0) as any as S.Schema<PatchProjectsLocationsLbTrafficExtensionsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4674,8 +5183,8 @@ export const patchProjectsLocationsMeshes: API.OperationMethod<
   PatchProjectsLocationsMeshesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<PatchProjectsLocationsMeshesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(832, __c26, 0) as any as S.Schema<PatchProjectsLocationsMeshesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4696,8 +5205,8 @@ export const patchProjectsLocationsServiceBindings: API.OperationMethod<
   PatchProjectsLocationsServiceBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<PatchProjectsLocationsServiceBindingsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(864, __c27, 0) as any as S.Schema<PatchProjectsLocationsServiceBindingsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4718,8 +5227,8 @@ export const patchProjectsLocationsServiceLbPolicies: API.OperationMethod<
   PatchProjectsLocationsServiceLbPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<PatchProjectsLocationsServiceLbPoliciesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(896, __c28, 0) as any as S.Schema<PatchProjectsLocationsServiceLbPoliciesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4740,13 +5249,35 @@ export const patchProjectsLocationsTcpRoutes: API.OperationMethod<
   PatchProjectsLocationsTcpRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<PatchProjectsLocationsTcpRoutesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(928, __c29, 0) as any as S.Schema<PatchProjectsLocationsTcpRoutesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsTcpRoutes",
+}));
+
+export type PatchProjectsLocationsTelemetryPoliciesError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Updates the parameters of a single TelemetryPolicy. */
+export const patchProjectsLocationsTelemetryPolicies: API.OperationMethod<
+  PatchProjectsLocationsTelemetryPoliciesRequest,
+  Operation,
+  PatchProjectsLocationsTelemetryPoliciesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(960, __c30, 0) as any as S.Schema<PatchProjectsLocationsTelemetryPoliciesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsTelemetryPolicies",
 }));
 
 export type PatchProjectsLocationsTlsRoutesError =
@@ -4762,8 +5293,8 @@ export const patchProjectsLocationsTlsRoutes: API.OperationMethod<
   PatchProjectsLocationsTlsRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<PatchProjectsLocationsTlsRoutesRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(992, __c31, 0) as any as S.Schema<PatchProjectsLocationsTlsRoutesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4784,8 +5315,8 @@ export const patchProjectsLocationsWasmPlugins: API.OperationMethod<
   PatchProjectsLocationsWasmPluginsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<PatchProjectsLocationsWasmPluginsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<Operation>,
+  input: __S(1024, __c32, 0) as any as S.Schema<PatchProjectsLocationsWasmPluginsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4799,17 +5330,17 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          extensionBindingId: S.optional(S.String.pipe(T.Query())),
+          expressLinkId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(43, __c1, 11).pipe(T.HttpBody())),
+          body: S.optional(__S(47, __c1, 15).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "v1beta1/{+parent}/extensionBindings",
+            uri: "v1beta1/{+parent}/expressLinks",
             baseUrl: "https://networkservices.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "CreateProjectsLocationsExtensionBindingsRequest" });
+      ).annotate({ identifier: "CreateProjectsLocationsExpressLinksRequest" });
   }
 }
 function __c1(j: number): any {
@@ -4817,85 +5348,105 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          suffix: S.optional(S.String),
-          contains: S.optional(S.String),
-          exact: S.optional(S.String),
-          ignoreCase: S.optional(S.Boolean),
-          prefix: S.optional(S.String),
+          allowGlobalAccess: S.optional(S.Boolean),
+          pscEndpointAddress: S.optional(S.String),
+          forwardingRule: S.optional(S.String),
+          vpcNetwork: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ExtensionBindingMatchConditionStringMatch" });
+      ).annotate({ identifier: "ExpressLinkPscEndpointInfoPscEndpoint" });
     case 1:
       return S.Array(__S(32, __c1, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          value: S.optional(__S(32, __c1, 0)),
+          pscEndpoints: S.optional(__S(33, __c1, 1)),
         }),
-      ).annotate({ identifier: "ExtensionBindingMatchConditionHeaderMatch" });
+      ).annotate({ identifier: "ExpressLinkPscEndpointInfo" });
     case 3:
-      return S.Array(__S(34, __c1, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
-          headers: S.optional(__S(35, __c1, 3)),
+          identityType: S.optional(S.String),
+          credentialType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ExtensionBindingMatchConditionToDestinationHeaderSet" });
+      ).annotate({ identifier: "ExpressLinkAuthenticationMethod" });
+    case 4:
+      return S.Array(__S(35, __c1, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          paths: S.optional(__S(33, __c1, 1)),
-          resources: S.optional(__S(33, __c1, 1)),
-          hosts: S.optional(__S(33, __c1, 1)),
-          headerSet: S.optional(__S(36, __c1, 4)),
+          serverAuthenticationMethods: S.optional(__S(36, __c1, 4)),
+          mtlsTier: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ExtensionBindingMatchConditionToDestination" });
+      ).annotate({ identifier: "ExpressLinkCloudRunSecurityInfo" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          destination: S.optional(__S(37, __c1, 5)),
-          notDestination: S.optional(__S(37, __c1, 5)),
+          hostname: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ExtensionBindingMatchConditionTo" });
+      ).annotate({ identifier: "ExpressLinkMatch" });
     case 7:
-      return S.suspend(() =>
-        S.Struct({
-          to: S.optional(__S(38, __c1, 6)),
-        }),
-      ).annotate({ identifier: "ExtensionBindingMatchCondition" });
+      return S.Array(__S(38, __c1, 6));
     case 8:
-      return S.Array(__S(39, __c1, 7));
-    case 9:
       return S.suspend(() =>
         S.Struct({
-          resourceTypes: S.optional(__S(2688, __c84, 0)),
-          parent: S.optional(S.String),
+          vpcNetwork: S.optional(S.String),
+          clientAuthenticationMethods: S.optional(__S(36, __c1, 4)),
+          workloadUri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ExtensionBindingTargetScope" });
+      ).annotate({ identifier: "ExpressLinkCloudRunSourceInfoWorkloadInfo" });
+    case 9:
+      return S.Array(__S(40, __c1, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          scope: S.optional(__S(41, __c1, 9)),
-          resources: S.optional(__S(2656, __c83, 0)),
+          workloads: S.optional(__S(41, __c1, 9)),
         }),
-      ).annotate({ identifier: "ExtensionBindingTarget" });
+      ).annotate({ identifier: "ExpressLinkCloudRunSourceInfo" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          labels: S.optional(__S(2624, __c82, 0)),
-          producerExtension: S.optional(S.String),
-          producerMetadata: S.optional(__S(2624, __c82, 0)),
-          matchConditions: S.optional(__S(40, __c1, 8)),
-          target: S.optional(__S(42, __c1, 10)),
-          failOpen: S.optional(S.Boolean),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          priority: S.optional(S.Number),
-          updateTime: S.optional(S.String),
-          etag: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          credentialType: S.optional(S.String),
+          workloadUri: S.optional(S.String),
+          routeType: S.optional(S.String),
+          error: S.optional(S.String),
+          hostnames: S.optional(__S(39, __c1, 7)),
         }),
-      ).annotate({ identifier: "ExtensionBinding" });
+      ).annotate({ identifier: "ExpressLinkConnectionStatus" });
+    case 12:
+      return S.Array(__S(43, __c1, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          services: S.optional(__S(3008, __c94, 0)),
+        }),
+      ).annotate({ identifier: "ExpressLinkSource" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          port: S.optional(S.String),
+          ipAddress: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExpressLinkForwardingRuleInfo" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          pscEndpointInfo: S.optional(__S(34, __c1, 2)),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2976, __c93, 0)),
+          cloudRunSecurityInfo: S.optional(__S(37, __c1, 5)),
+          matches: S.optional(__S(39, __c1, 7)),
+          etag: S.optional(S.String),
+          cloudRunSourceInfo: S.optional(__S(42, __c1, 10)),
+          connectionStatus: S.optional(__S(44, __c1, 12)),
+          updateTime: S.optional(S.String),
+          source: S.optional(__S(45, __c1, 13)),
+          forwardingRuleInfo: S.optional(__S(46, __c1, 14)),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          destination: S.optional(__S(45, __c1, 13)),
+        }),
+      ).annotate({ identifier: "ExpressLink" });
   }
 }
 function __c2(j: number): any {
@@ -4903,3033 +5454,9 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3520, __c110, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsAuthzExtensionsRequest" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3937, __c123, 1).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsCdnEdgeExtensionsRequest" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4325, __c135, 5).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsEndpointPoliciesRequest" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(43, __c1, 11).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsExtensionBindingsRequest" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(417, __c13, 1).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsGatewaysRequest" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(777, __c24, 9).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsGrpcRoutesRequest" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(851, __c26, 19).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsHttpRoutesRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsLbEdgeExtensionsRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(960, __c30, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsLbRouteExtensionsRequest" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsLbTcpExtensionsRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          gatewayId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(417, __c13, 1).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/gateways",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsGatewaysRequest" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Number);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          routingMode: S.optional(S.String),
-          allPorts: S.optional(S.Boolean),
-          scope: S.optional(S.String),
-          subnetwork: S.optional(S.String),
-          description: S.optional(S.String),
-          serverTlsPolicy: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          allowGlobalAccess: S.optional(S.Boolean),
-          gatewaySecurityPolicy: S.optional(S.String),
-          labels: S.optional(__S(2624, __c82, 0)),
-          network: S.optional(S.String),
-          type: S.optional(S.String),
-          name: S.optional(S.String),
-          ports: S.optional(__S(416, __c13, 0)),
-          envoyHeaders: S.optional(S.String),
-          certificateUrls: S.optional(__S(2656, __c83, 0)),
-          addresses: S.optional(__S(2656, __c83, 0)),
-          ipVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Gateway" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1088, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsLbTrafficExtensionsRequest" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsMeshesRequest" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsServiceBindingsRequest" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1347, __c42, 3).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsServiceLbPoliciesRequest" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1413, __c44, 5).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsTcpRoutesRequest" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1477, __c46, 5).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsTlsRoutesRequest" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1541, __c48, 5).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsWasmPluginsRequest" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          grpcRouteId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(777, __c24, 9).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/grpcRoutes",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsGrpcRoutesRequest" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cookieTtl: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GrpcRouteStatefulSessionAffinityPolicy" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          percentage: S.optional(S.Number),
-          fixedDelay: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GrpcRouteFaultInjectionPolicyDelay" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          httpStatus: S.optional(S.Number),
-          percentage: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GrpcRouteFaultInjectionPolicyAbort" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          delay: S.optional(__S(705, __c22, 1)),
-          abort: S.optional(__S(706, __c22, 2)),
-        }),
-      ).annotate({ identifier: "GrpcRouteFaultInjectionPolicy" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceName: S.optional(S.String),
-          weight: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GrpcRouteDestination" });
-    case 1:
-      return S.Array(__S(736, __c23, 0));
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          grpcMethod: S.optional(S.String),
-          caseSensitive: S.optional(S.Boolean),
-          grpcService: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GrpcRouteMethodMatch" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(S.String),
-          type: S.optional(S.String),
-          key: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GrpcRouteHeaderMatch" });
-    case 2:
-      return S.Array(__S(769, __c24, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          method: S.optional(__S(768, __c24, 0)),
-          headers: S.optional(__S(770, __c24, 2)),
-        }),
-      ).annotate({ identifier: "GrpcRouteRouteMatch" });
-    case 4:
-      return S.Array(__S(771, __c24, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          retryConditions: S.optional(__S(2656, __c83, 0)),
-          numRetries: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GrpcRouteRetryPolicy" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          timeout: S.optional(S.String),
-          statefulSessionAffinity: S.optional(__S(704, __c22, 0)),
-          destinations: S.optional(__S(737, __c23, 1)),
-          faultInjectionPolicy: S.optional(__S(707, __c22, 3)),
-          retryPolicy: S.optional(__S(773, __c24, 5)),
-          idleTimeout: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GrpcRouteRouteAction" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          matches: S.optional(__S(772, __c24, 4)),
-          action: S.optional(__S(774, __c24, 6)),
-        }),
-      ).annotate({ identifier: "GrpcRouteRouteRule" });
-    case 8:
-      return S.Array(__S(775, __c24, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          rules: S.optional(__S(776, __c24, 8)),
-          updateTime: S.optional(S.String),
-          meshes: S.optional(__S(2656, __c83, 0)),
-          hostnames: S.optional(__S(2656, __c83, 0)),
-          gateways: S.optional(__S(2656, __c83, 0)),
-          labels: S.optional(__S(2624, __c82, 0)),
-          createTime: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GrpcRoute" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          httpRouteId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(851, __c26, 19).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/httpRoutes",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsHttpRoutesRequest" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          set: S.optional(__S(2624, __c82, 0)),
-          add: S.optional(__S(2624, __c82, 0)),
-          remove: S.optional(__S(2656, __c83, 0)),
-        }),
-      ).annotate({ identifier: "HttpRouteHeaderModifier" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          requestHeaderModifier: S.optional(__S(832, __c26, 0)),
-          serviceName: S.optional(S.String),
-          responseHeaderModifier: S.optional(__S(832, __c26, 0)),
-          weight: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "HttpRouteDestination" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          mirrorPercent: S.optional(S.Number),
-          destination: S.optional(__S(833, __c26, 1)),
-        }),
-      ).annotate({ identifier: "HttpRouteRequestMirrorPolicy" });
-    case 3:
-      return S.Array(__S(833, __c26, 1));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          allowHeaders: S.optional(__S(2656, __c83, 0)),
-          allowMethods: S.optional(__S(2656, __c83, 0)),
-          disabled: S.optional(S.Boolean),
-          allowOrigins: S.optional(__S(2656, __c83, 0)),
-          maxAge: S.optional(S.String),
-          allowCredentials: S.optional(S.Boolean),
-          exposeHeaders: S.optional(__S(2656, __c83, 0)),
-          allowOriginRegexes: S.optional(__S(2656, __c83, 0)),
-        }),
-      ).annotate({ identifier: "HttpRouteCorsPolicy" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          pathPrefixRewrite: S.optional(S.String),
-          hostRewrite: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HttpRouteURLRewrite" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          prefixRewrite: S.optional(S.String),
-          hostRedirect: S.optional(S.String),
-          pathRedirect: S.optional(S.String),
-          stripQuery: S.optional(S.Boolean),
-          responseCode: S.optional(S.String),
-          portRedirect: S.optional(S.Number),
-          httpsRedirect: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "HttpRouteRedirect" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          perTryTimeout: S.optional(S.String),
-          numRetries: S.optional(S.Number),
-          retryConditions: S.optional(__S(2656, __c83, 0)),
-        }),
-      ).annotate({ identifier: "HttpRouteRetryPolicy" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          stringBody: S.optional(S.String),
-          bytesBody: S.optional(S.String),
-          status: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "HttpRouteHttpDirectResponse" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          idleTimeout: S.optional(S.String),
-          timeout: S.optional(S.String),
-          faultInjectionPolicy: S.optional(__S(707, __c22, 3)),
-          requestMirrorPolicy: S.optional(__S(834, __c26, 2)),
-          responseHeaderModifier: S.optional(__S(832, __c26, 0)),
-          destinations: S.optional(__S(835, __c26, 3)),
-          corsPolicy: S.optional(__S(836, __c26, 4)),
-          statefulSessionAffinity: S.optional(__S(704, __c22, 0)),
-          urlRewrite: S.optional(__S(837, __c26, 5)),
-          redirect: S.optional(__S(838, __c26, 6)),
-          retryPolicy: S.optional(__S(839, __c26, 7)),
-          directResponse: S.optional(__S(840, __c26, 8)),
-          requestHeaderModifier: S.optional(__S(832, __c26, 0)),
-        }),
-      ).annotate({ identifier: "HttpRouteRouteAction" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          end: S.optional(S.Number),
-          start: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "HttpRouteHeaderMatchIntegerRange" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          rangeMatch: S.optional(__S(842, __c26, 10)),
-          invertMatch: S.optional(S.Boolean),
-          presentMatch: S.optional(S.Boolean),
-          prefixMatch: S.optional(S.String),
-          regexMatch: S.optional(S.String),
-          header: S.optional(S.String),
-          exactMatch: S.optional(S.String),
-          suffixMatch: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HttpRouteHeaderMatch" });
-    case 12:
-      return S.Array(__S(843, __c26, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          queryParameter: S.optional(S.String),
-          regexMatch: S.optional(S.String),
-          presentMatch: S.optional(S.Boolean),
-          exactMatch: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HttpRouteQueryParameterMatch" });
-    case 14:
-      return S.Array(__S(845, __c26, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          fullPathMatch: S.optional(S.String),
-          headers: S.optional(__S(844, __c26, 12)),
-          queryParameters: S.optional(__S(846, __c26, 14)),
-          prefixMatch: S.optional(S.String),
-          ignoreCase: S.optional(S.Boolean),
-          regexMatch: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HttpRouteRouteMatch" });
-    case 16:
-      return S.Array(__S(847, __c26, 15));
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.optional(__S(841, __c26, 9)),
-          matches: S.optional(__S(848, __c26, 16)),
-        }),
-      ).annotate({ identifier: "HttpRouteRouteRule" });
-    case 18:
-      return S.Array(__S(849, __c26, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          name: S.optional(S.String),
-          labels: S.optional(__S(2624, __c82, 0)),
-          createTime: S.optional(S.String),
-          meshes: S.optional(__S(2656, __c83, 0)),
-          hostnames: S.optional(__S(2656, __c83, 0)),
-          rules: S.optional(__S(850, __c26, 18)),
-          gateways: S.optional(__S(2656, __c83, 0)),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HttpRoute" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          lbEdgeExtensionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/lbEdgeExtensions",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsLbEdgeExtensionsRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          extensionChains: S.optional(__S(3908, __c122, 4)),
-          loadBalancingScheme: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(2624, __c82, 0)),
-          updateTime: S.optional(S.String),
-          forwardingRules: S.optional(__S(2656, __c83, 0)),
-        }),
-      ).annotate({ identifier: "LbEdgeExtension" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          lbRouteExtensionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(960, __c30, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/lbRouteExtensions",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsLbRouteExtensionsRequest" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          loadBalancingScheme: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(2624, __c82, 0)),
-          metadata: S.optional(__S(2560, __c80, 0)),
-          forwardingRules: S.optional(__S(2656, __c83, 0)),
-          name: S.optional(S.String),
-          extensionChains: S.optional(__S(3908, __c122, 4)),
-        }),
-      ).annotate({ identifier: "LbRouteExtension" });
-  }
-}
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          lbTcpExtensionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/lbTcpExtensions",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsLbTcpExtensionsRequest" });
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          loadBalancingScheme: S.optional(S.String),
-          labels: S.optional(__S(2624, __c82, 0)),
-          extensionChains: S.optional(__S(3908, __c122, 4)),
-          createTime: S.optional(S.String),
-          networks: S.optional(__S(2656, __c83, 0)),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LbTcpExtension" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          lbTrafficExtensionId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/lbTrafficExtensions",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsLbTrafficExtensionsRequest" });
-  }
-}
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          loadBalancingScheme: S.optional(S.String),
-          metadata: S.optional(__S(2560, __c80, 0)),
-          forwardingRules: S.optional(__S(2656, __c83, 0)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          extensionChains: S.optional(__S(3908, __c122, 4)),
-          labels: S.optional(__S(2624, __c82, 0)),
-        }),
-      ).annotate({ identifier: "LbTrafficExtension" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          meshId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/meshes",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsMeshesRequest" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(2624, __c82, 0)),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          interceptionPort: S.optional(S.Number),
-          selfLink: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          envoyHeaders: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Mesh" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          producerExtensionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1217, __c38, 1).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/producerExtensions",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsProducerExtensionsRequest" });
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          supportedEvents: S.optional(__S(2688, __c84, 0)),
-          service: S.optional(S.String),
-          observabilityMode: S.optional(S.Boolean),
-          authority: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ProducerExtensionExtensionSettings" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          phase: S.optional(S.String),
-          createTime: S.optional(S.String),
-          extensionSettings: S.optional(__S(1216, __c38, 0)),
-          labels: S.optional(__S(2624, __c82, 0)),
-        }),
-      ).annotate({ identifier: "ProducerExtension" });
-  }
-}
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          serviceBindingId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/serviceBindings",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsServiceBindingsRequest" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          labels: S.optional(__S(2624, __c82, 0)),
-          updateTime: S.optional(S.String),
-          service: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ServiceBinding" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          serviceLbPolicyId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1347, __c42, 3).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/serviceLbPolicies",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsServiceLbPoliciesRequest" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          failoverHealthThreshold: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ServiceLbPolicyFailoverConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          isolationMode: S.optional(S.String),
-          isolationGranularity: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ServiceLbPolicyIsolationConfig" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          enable: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ServiceLbPolicyAutoCapacityDrain" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(2624, __c82, 0)),
-          loadBalancingAlgorithm: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          failoverConfig: S.optional(__S(1344, __c42, 0)),
-          isolationConfig: S.optional(__S(1345, __c42, 1)),
-          description: S.optional(S.String),
-          autoCapacityDrain: S.optional(__S(1346, __c42, 2)),
-        }),
-      ).annotate({ identifier: "ServiceLbPolicy" });
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tcpRouteId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1413, __c44, 5).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/tcpRoutes",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsTcpRoutesRequest" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          idleTimeout: S.optional(S.String),
-          destinations: S.optional(__S(737, __c23, 1)),
-          originalDestination: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TcpRouteRouteAction" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          address: S.optional(S.String),
-          port: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TcpRouteRouteMatch" });
-    case 2:
-      return S.Array(__S(1409, __c44, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.optional(__S(1408, __c44, 0)),
-          matches: S.optional(__S(1410, __c44, 2)),
-        }),
-      ).annotate({ identifier: "TcpRouteRouteRule" });
-    case 4:
-      return S.Array(__S(1411, __c44, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          meshes: S.optional(__S(2656, __c83, 0)),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          rules: S.optional(__S(1412, __c44, 4)),
-          labels: S.optional(__S(2624, __c82, 0)),
-          gateways: S.optional(__S(2656, __c83, 0)),
-        }),
-      ).annotate({ identifier: "TcpRoute" });
-  }
-}
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          tlsRouteId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1477, __c46, 5).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/tlsRoutes",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsTlsRoutesRequest" });
-  }
-}
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          alpn: S.optional(__S(2656, __c83, 0)),
-          sniHost: S.optional(__S(2656, __c83, 0)),
-        }),
-      ).annotate({ identifier: "TlsRouteRouteMatch" });
-    case 1:
-      return S.Array(__S(1472, __c46, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          idleTimeout: S.optional(S.String),
-          destinations: S.optional(__S(737, __c23, 1)),
-        }),
-      ).annotate({ identifier: "TlsRouteRouteAction" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          matches: S.optional(__S(1473, __c46, 1)),
-          action: S.optional(__S(1474, __c46, 2)),
-        }),
-      ).annotate({ identifier: "TlsRouteRouteRule" });
-    case 4:
-      return S.Array(__S(1475, __c46, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          rules: S.optional(__S(1476, __c46, 4)),
-          targetProxies: S.optional(__S(2656, __c83, 0)),
-          gateways: S.optional(__S(2656, __c83, 0)),
-          labels: S.optional(__S(2624, __c82, 0)),
-          name: S.optional(S.String),
-          meshes: S.optional(__S(2656, __c83, 0)),
-        }),
-      ).annotate({ identifier: "TlsRoute" });
-  }
-}
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          wasmPluginId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1541, __c48, 5).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/wasmPlugins",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsWasmPluginsRequest" });
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WasmPluginUsedBy" });
-    case 1:
-      return S.Array(__S(1536, __c48, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          minLogLevel: S.optional(S.String),
-          sampleRate: S.optional(S.Number),
-          enable: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "WasmPluginLogConfig" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          pluginConfigData: S.optional(S.String),
-          pluginConfigUri: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          pluginConfigDigest: S.optional(S.String),
-          labels: S.optional(__S(2624, __c82, 0)),
-          imageUri: S.optional(S.String),
-          imageDigest: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WasmPluginVersionDetails" });
-    case 4:
-      return S.Record(S.String, __S(1539, __c48, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          kmsKeyName: S.optional(S.String),
-          description: S.optional(S.String),
-          kmsKeyVersion: S.optional(S.String),
-          usedBy: S.optional(__S(1537, __c48, 1)),
-          logConfig: S.optional(__S(1538, __c48, 2)),
-          createTime: S.optional(S.String),
-          mainVersionId: S.optional(S.String),
-          versions: S.optional(__S(1540, __c48, 4)),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(2624, __c82, 0)),
-        }),
-      ).annotate({ identifier: "WasmPlugin" });
-  }
-}
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          wasmPluginVersionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/versions",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsWasmPluginsVersionsRequest" });
-  }
-}
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          pluginConfigDigest: S.optional(S.String),
-          pluginConfigData: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          labels: S.optional(__S(2624, __c82, 0)),
-          imageDigest: S.optional(S.String),
-          imageUri: S.optional(S.String),
-          description: S.optional(S.String),
-          pluginConfigUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WasmPluginVersion" });
-  }
-}
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          etag: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsAgentConnectivityTemplatesRequest" });
-  }
-}
-function __c52(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          etag: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsAgentGatewaysRequest" });
-  }
-}
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsAuthzExtensionsRequest" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsCdnEdgeExtensionsRequest" });
-  }
-}
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsEndpointPoliciesRequest" });
-  }
-}
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          etag: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsExtensionBindingsRequest" });
-  }
-}
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsGatewaysRequest" });
-  }
-}
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsGrpcRoutesRequest" });
-  }
-}
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsHttpRoutesRequest" });
-  }
-}
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsLbEdgeExtensionsRequest" });
-  }
-}
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsLbRouteExtensionsRequest" });
-  }
-}
-function __c62(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsLbTcpExtensionsRequest" });
-  }
-}
-function __c63(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsLbTrafficExtensionsRequest" });
-  }
-}
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsMeshesRequest" });
-  }
-}
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+name}:cancel",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
-  }
-}
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
-  }
-}
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
-  }
-}
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          etag: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsProducerExtensionsRequest" });
-  }
-}
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsServiceBindingsRequest" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsServiceLbPoliciesRequest" });
-  }
-}
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsTcpRoutesRequest" });
-  }
-}
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsTlsRoutesRequest" });
-  }
-}
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsWasmPluginsRequest" });
-  }
-}
-function __c74(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsWasmPluginsVersionsRequest" });
-  }
-}
-function __c75(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsRequest" });
-  }
-}
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          displayName: S.optional(S.String),
-          labels: S.optional(__S(2624, __c82, 0)),
-          name: S.optional(S.String),
-          metadata: S.optional(__S(2560, __c80, 0)),
-          locationId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Location" });
-  }
-}
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsAgentConnectivityTemplatesRequest" });
-  }
-}
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          agentConnectivityTemplateId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2531, __c79, 3).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/agentConnectivityTemplates",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsAgentConnectivityTemplatesRequest" });
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          additionalRoots: S.optional(S.String),
-          trustConfig: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EgressNetworkConfigTlsConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          domains: S.optional(__S(2656, __c83, 0)),
-          domain: S.optional(S.String),
-          targetNetwork: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DnsPeeringConfig" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          vpcEgress: S.optional(S.String),
-          trustConfig: S.optional(S.String),
-          tlsConfig: S.optional(__S(2528, __c79, 0)),
-          networkAttachment: S.optional(S.String),
-          dnsPeeringConfig: S.optional(__S(2529, __c79, 1)),
-        }),
-      ).annotate({ identifier: "EgressNetworkConfig" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          etag: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(2624, __c82, 0)),
-          accessPath: S.optional(S.String),
-          egressNetworkConfig: S.optional(__S(2530, __c79, 2)),
-          agentCompute: S.optional(S.String),
-          deploymentModel: S.optional(S.String),
-          accessTypes: S.optional(__S(2688, __c84, 0)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AgentConnectivityTemplate" });
-  }
-}
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2560, __c80, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          details: S.optional(__S(2592, __c81, 0)),
-          code: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Status" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          response: S.optional(__S(2560, __c80, 0)),
-          error: S.optional(__S(2593, __c81, 1)),
-          done: S.optional(S.Boolean),
-          metadata: S.optional(__S(2560, __c80, 0)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Operation" });
-  }
-}
-function __c82(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c83(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsAgentGatewaysRequest" });
-  }
-}
-function __c86(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsAuthzExtensionsRequest" });
-  }
-}
-function __c87(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsCdnEdgeExtensionsRequest" });
-  }
-}
-function __c88(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsEndpointPoliciesRequest" });
-  }
-}
-function __c89(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsExtensionBindingsRequest" });
-  }
-}
-function __c90(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsGatewaysRequest" });
-  }
-}
-function __c91(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsGatewaysRouteViewsRequest" });
-  }
-}
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          routeLocation: S.optional(S.String),
-          routeProjectNumber: S.optional(S.String),
-          routeType: S.optional(S.String),
-          name: S.optional(S.String),
-          routeId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GatewayRouteView" });
-  }
-}
-function __c93(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsGrpcRoutesRequest" });
-  }
-}
-function __c94(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsHttpRoutesRequest" });
-  }
-}
-function __c95(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsLbEdgeExtensionsRequest" });
-  }
-}
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          agentGatewayId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3110, __c97, 6).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/agentGateways",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsAgentGatewaysRequest" });
-  }
-}
-function __c97(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          networkAttachment: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AgentGatewayNetworkConfigEgress" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          domains: S.optional(__S(2656, __c83, 0)),
-          targetProject: S.optional(S.String),
-          targetNetwork: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AgentGatewayNetworkConfigDnsPeeringConfig" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          egress: S.optional(__S(3104, __c97, 0)),
-          dnsPeeringConfig: S.optional(__S(3105, __c97, 1)),
-        }),
-      ).annotate({ identifier: "AgentGatewayNetworkConfig" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          serviceExtensionsServiceAccount: S.optional(S.String),
-          rootCertificates: S.optional(__S(2656, __c83, 0)),
-          mtlsEndpoint: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AgentGatewayAgentGatewayOutputCard" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          resourceUri: S.optional(S.String),
-          resourceUris: S.optional(__S(2656, __c83, 0)),
-        }),
-      ).annotate({ identifier: "AgentGatewaySelfManaged" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          governedAccessPath: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AgentGatewayGoogleManaged" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          networkConfig: S.optional(__S(3106, __c97, 2)),
-          protocols: S.optional(__S(2688, __c84, 0)),
-          agentGatewayCard: S.optional(__S(3107, __c97, 3)),
-          labels: S.optional(__S(2624, __c82, 0)),
-          agentConnectivityTemplate: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          registries: S.optional(__S(2656, __c83, 0)),
-          selfManaged: S.optional(__S(3108, __c97, 4)),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          googleManaged: S.optional(__S(3109, __c97, 5)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AgentGateway" });
-  }
-}
-function __c98(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsLbRouteExtensionsRequest" });
-  }
-}
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsLbTcpExtensionsRequest" });
-  }
-}
-function __c100(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsLbTrafficExtensionsRequest" });
-  }
-}
-function __c101(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsMeshesRequest" });
-  }
-}
-function __c102(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsMeshesRouteViewsRequest" });
-  }
-}
-function __c103(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          routeProjectNumber: S.optional(S.String),
-          routeLocation: S.optional(S.String),
-          routeId: S.optional(S.String),
-          name: S.optional(S.String),
-          routeType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MeshRouteView" });
-  }
-}
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
-  }
-}
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsProducerExtensionsRequest" });
-  }
-}
-function __c106(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsServiceBindingsRequest" });
-  }
-}
-function __c107(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsServiceLbPoliciesRequest" });
-  }
-}
-function __c108(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsTcpRoutesRequest" });
-  }
-}
-function __c109(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          authzExtensionId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3520, __c110, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/authzExtensions",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsAuthzExtensionsRequest" });
-  }
-}
-function __c110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(2624, __c82, 0)),
-          wireFormat: S.optional(S.String),
-          forwardHeaders: S.optional(__S(2656, __c83, 0)),
-          loadBalancingScheme: S.optional(S.String),
-          description: S.optional(S.String),
-          forwardAttributes: S.optional(__S(2656, __c83, 0)),
-          timeout: S.optional(S.String),
-          createTime: S.optional(S.String),
-          service: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          metadata: S.optional(__S(2560, __c80, 0)),
-          name: S.optional(S.String),
-          failOpen: S.optional(S.Boolean),
-          authority: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuthzExtension" });
-  }
-}
-function __c111(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsTlsRoutesRequest" });
-  }
-}
-function __c112(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          view: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsWasmPluginsRequest" });
-  }
-}
-function __c113(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsWasmPluginsVersionsRequest" });
-  }
-}
-function __c114(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(2656, __c83, 0).pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}/locations",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsRequest" });
-    case 1:
-      return S.Array(__S(2432, __c76, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          locations: S.optional(__S(3649, __c114, 1)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListLocationsResponse" });
-  }
-}
-function __c115(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+parent}/agentConnectivityTemplates",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsAgentConnectivityTemplatesRequest" });
-    case 1:
-      return S.Array(__S(2531, __c79, 3));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          agentConnectivityTemplates: S.optional(__S(3681, __c115, 1)),
-          unreachable: S.optional(__S(2656, __c83, 0)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListAgentConnectivityTemplatesResponse" });
-  }
-}
-function __c116(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+parent}/agentGateways",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsAgentGatewaysRequest" });
-    case 1:
-      return S.Array(__S(3110, __c97, 6));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          unreachable: S.optional(__S(2656, __c83, 0)),
-          agentGateways: S.optional(__S(3713, __c116, 1)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListAgentGatewaysResponse" });
-  }
-}
-function __c117(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+parent}/authzExtensions",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsAuthzExtensionsRequest" });
-    case 1:
-      return S.Array(__S(3520, __c110, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          authzExtensions: S.optional(__S(3745, __c117, 1)),
-          nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2656, __c83, 0)),
-        }),
-      ).annotate({ identifier: "ListAuthzExtensionsResponse" });
-  }
-}
-function __c118(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+parent}/cdnEdgeExtensions",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsCdnEdgeExtensionsRequest" });
-    case 1:
-      return S.Array(__S(3937, __c123, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          cdnEdgeExtensions: S.optional(__S(3777, __c118, 1)),
-          unreachable: S.optional(__S(2656, __c83, 0)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListCdnEdgeExtensionsResponse" });
-  }
-}
-function __c119(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+parent}/endpointPolicies",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsEndpointPoliciesRequest" });
-    case 1:
-      return S.Array(__S(4325, __c135, 5));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          endpointPolicies: S.optional(__S(3809, __c119, 1)),
-          unreachable: S.optional(__S(2656, __c83, 0)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListEndpointPoliciesResponse" });
-  }
-}
-function __c120(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+parent}/extensionBindings",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsExtensionBindingsRequest" });
-    case 1:
-      return S.Array(__S(43, __c1, 11));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          unreachable: S.optional(__S(2656, __c83, 0)),
-          extensionBindings: S.optional(__S(3841, __c120, 1)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListExtensionBindingsResponse" });
-  }
-}
-function __c121(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          cdnEdgeExtensionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3937, __c123, 1).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/cdnEdgeExtensions",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsCdnEdgeExtensionsRequest" });
-  }
-}
-function __c122(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          timeout: S.optional(S.String),
-          service: S.optional(S.String),
-          metadata: S.optional(__S(2560, __c80, 0)),
-          responseBodySendMode: S.optional(S.String),
-          allowDynamicForwarding: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          observabilityMode: S.optional(S.Boolean),
-          failOpen: S.optional(S.Boolean),
-          forwardHeaders: S.optional(__S(2656, __c83, 0)),
-          requestBodySendMode: S.optional(S.String),
-          authority: S.optional(S.String),
-          supportedEvents: S.optional(__S(2688, __c84, 0)),
-          forwardAttributes: S.optional(__S(2656, __c83, 0)),
-        }),
-      ).annotate({ identifier: "ExtensionChainExtension" });
-    case 1:
-      return S.Array(__S(3904, __c122, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          celExpression: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExtensionChainMatchCondition" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          extensions: S.optional(__S(3905, __c122, 1)),
-          name: S.optional(S.String),
-          matchCondition: S.optional(__S(3906, __c122, 2)),
-        }),
-      ).annotate({ identifier: "ExtensionChain" });
-    case 4:
-      return S.Array(__S(3907, __c122, 3));
-  }
-}
-function __c123(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resources: S.optional(__S(2656, __c83, 0)),
-        }),
-      ).annotate({ identifier: "CdnEdgeExtensionTarget" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          extensionChains: S.optional(__S(3908, __c122, 4)),
-          labels: S.optional(__S(2624, __c82, 0)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          target: S.optional(__S(3936, __c123, 0)),
-        }),
-      ).annotate({ identifier: "CdnEdgeExtension" });
-  }
-}
-function __c124(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+parent}/gateways",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsGatewaysRequest" });
-    case 1:
-      return S.Array(__S(417, __c13, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          gateways: S.optional(__S(3969, __c124, 1)),
-          nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2656, __c83, 0)),
-        }),
-      ).annotate({ identifier: "ListGatewaysResponse" });
-  }
-}
-function __c125(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+parent}/routeViews",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsGatewaysRouteViewsRequest" });
-    case 1:
-      return S.Array(__S(2944, __c92, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          nextPageToken: S.optional(S.String),
-          gatewayRouteViews: S.optional(__S(4001, __c125, 1)),
-          unreachable: S.optional(__S(2656, __c83, 0)),
-        }),
-      ).annotate({ identifier: "ListGatewayRouteViewsResponse" });
-  }
-}
-function __c126(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+parent}/grpcRoutes",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsGrpcRoutesRequest" });
-    case 1:
-      return S.Array(__S(777, __c24, 9));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          grpcRoutes: S.optional(__S(4033, __c126, 1)),
-          nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2656, __c83, 0)),
-        }),
-      ).annotate({ identifier: "ListGrpcRoutesResponse" });
-  }
-}
-function __c127(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+parent}/httpRoutes",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsHttpRoutesRequest" });
-    case 1:
-      return S.Array(__S(851, __c26, 19));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          httpRoutes: S.optional(__S(4065, __c127, 1)),
-          unreachable: S.optional(__S(2656, __c83, 0)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListHttpRoutesResponse" });
-  }
-}
-function __c128(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+parent}/lbEdgeExtensions",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsLbEdgeExtensionsRequest" });
-    case 1:
-      return S.Array(__S(896, __c28, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2656, __c83, 0)),
-          lbEdgeExtensions: S.optional(__S(4097, __c128, 1)),
-        }),
-      ).annotate({ identifier: "ListLbEdgeExtensionsResponse" });
-  }
-}
-function __c129(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+parent}/lbRouteExtensions",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsLbRouteExtensionsRequest" });
-    case 1:
-      return S.Array(__S(960, __c30, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          lbRouteExtensions: S.optional(__S(4129, __c129, 1)),
-          nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2656, __c83, 0)),
-        }),
-      ).annotate({ identifier: "ListLbRouteExtensionsResponse" });
-  }
-}
-function __c130(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+parent}/lbTcpExtensions",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsLbTcpExtensionsRequest" });
-    case 1:
-      return S.Array(__S(1024, __c32, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          unreachable: S.optional(__S(2656, __c83, 0)),
-          nextPageToken: S.optional(S.String),
-          lbTcpExtensions: S.optional(__S(4161, __c130, 1)),
-        }),
-      ).annotate({ identifier: "ListLbTcpExtensionsResponse" });
-  }
-}
-function __c131(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+parent}/lbTrafficExtensions",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsLbTrafficExtensionsRequest" });
-    case 1:
-      return S.Array(__S(1088, __c34, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          lbTrafficExtensions: S.optional(__S(4193, __c131, 1)),
-          unreachable: S.optional(__S(2656, __c83, 0)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListLbTrafficExtensionsResponse" });
-  }
-}
-function __c132(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+parent}/meshes",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsMeshesRequest" });
-    case 1:
-      return S.Array(__S(1152, __c36, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          unreachable: S.optional(__S(2656, __c83, 0)),
-          nextPageToken: S.optional(S.String),
-          meshes: S.optional(__S(4225, __c132, 1)),
-        }),
-      ).annotate({ identifier: "ListMeshesResponse" });
-  }
-}
-function __c133(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+parent}/routeViews",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsMeshesRouteViewsRequest" });
-    case 1:
-      return S.Array(__S(3296, __c103, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          nextPageToken: S.optional(S.String),
-          meshRouteViews: S.optional(__S(4257, __c133, 1)),
-          unreachable: S.optional(__S(2656, __c83, 0)),
-        }),
-      ).annotate({ identifier: "ListMeshRouteViewsResponse" });
-  }
-}
-function __c134(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          endpointPolicyId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4325, __c135, 5).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/endpointPolicies",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsEndpointPoliciesRequest" });
-  }
-}
-function __c135(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          labelValue: S.optional(S.String),
-          labelName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MetadataLabels" });
-    case 1:
-      return S.Array(__S(4320, __c135, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          metadataLabelMatchCriteria: S.optional(S.String),
-          metadataLabels: S.optional(__S(4321, __c135, 1)),
-        }),
-      ).annotate({ identifier: "MetadataLabelMatcher" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          metadataLabelMatcher: S.optional(__S(4322, __c135, 2)),
-        }),
-      ).annotate({ identifier: "EndpointMatcher" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          ports: S.optional(__S(2656, __c83, 0)),
-        }),
-      ).annotate({ identifier: "TrafficPortSelector" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          securityPolicy: S.optional(S.String),
-          endpointMatcher: S.optional(__S(4323, __c135, 3)),
-          labels: S.optional(__S(2624, __c82, 0)),
-          type: S.optional(S.String),
-          serverTlsPolicy: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          trafficPortSelector: S.optional(__S(4324, __c135, 4)),
-          authorizationPolicy: S.optional(S.String),
-          clientTlsPolicy: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EndpointPolicy" });
-  }
-}
-function __c136(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}/operations",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
-    case 1:
-      return S.Array(__S(2594, __c81, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(4353, __c136, 1)),
-          unreachable: S.optional(__S(2656, __c83, 0)),
-        }),
-      ).annotate({ identifier: "ListOperationsResponse" });
-  }
-}
-function __c137(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+parent}/producerExtensions",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsProducerExtensionsRequest" });
-    case 1:
-      return S.Array(__S(1217, __c38, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          unreachable: S.optional(__S(2656, __c83, 0)),
-          nextPageToken: S.optional(S.String),
-          producerExtensions: S.optional(__S(4385, __c137, 1)),
-        }),
-      ).annotate({ identifier: "ListProducerExtensionsResponse" });
-  }
-}
-function __c138(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+parent}/serviceBindings",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsServiceBindingsRequest" });
-    case 1:
-      return S.Array(__S(1280, __c40, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          unreachable: S.optional(__S(2656, __c83, 0)),
-          serviceBindings: S.optional(__S(4417, __c138, 1)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListServiceBindingsResponse" });
-  }
-}
-function __c139(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7939,26 +5466,26 @@ function __c139(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsServiceLbPoliciesRequest" });
     case 1:
-      return S.Array(__S(1347, __c42, 3));
+      return S.Array(__S(1731, __c54, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          unreachable: S.optional(__S(3008, __c94, 0)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2656, __c83, 0)),
-          serviceLbPolicies: S.optional(__S(4449, __c139, 1)),
+          serviceLbPolicies: S.optional(__S(65, __c2, 1)),
         }),
       ).annotate({ identifier: "ListServiceLbPoliciesResponse" });
   }
 }
-function __c140(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7968,18 +5495,46 @@ function __c140(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsTcpRoutesRequest" });
     case 1:
-      return S.Array(__S(1413, __c44, 5));
+      return S.Array(__S(1799, __c56, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tcpRoutes: S.optional(__S(4481, __c140, 1)),
-          unreachable: S.optional(__S(2656, __c83, 0)),
+          tcpRoutes: S.optional(__S(97, __c3, 1)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "ListTcpRoutesResponse" });
   }
 }
-function __c141(j: number): any {
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+parent}/telemetryPolicies",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsTelemetryPoliciesRequest" });
+    case 1:
+      return S.Array(__S(1861, __c58, 5));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          telemetryPolicies: S.optional(__S(129, __c4, 1)),
+          unreachable: S.optional(__S(3008, __c94, 0)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListTelemetryPoliciesResponse" });
+  }
+}
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7997,18 +5552,18 @@ function __c141(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsTlsRoutesRequest" });
     case 1:
-      return S.Array(__S(1477, __c46, 5));
+      return S.Array(__S(1925, __c60, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tlsRoutes: S.optional(__S(4513, __c141, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2656, __c83, 0)),
+          tlsRoutes: S.optional(__S(161, __c5, 1)),
+          unreachable: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "ListTlsRoutesResponse" });
   }
 }
-function __c142(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8025,25 +5580,25 @@ function __c142(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsWasmPluginsRequest" });
     case 1:
-      return S.Array(__S(1541, __c48, 5));
+      return S.Array(__S(1989, __c62, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2656, __c83, 0)),
+          unreachable: S.optional(__S(3008, __c94, 0)),
           nextPageToken: S.optional(S.String),
-          wasmPlugins: S.optional(__S(4545, __c142, 1)),
+          wasmPlugins: S.optional(__S(193, __c6, 1)),
         }),
       ).annotate({ identifier: "ListWasmPluginsResponse" });
   }
 }
-function __c143(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8053,25 +5608,25 @@ function __c143(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsWasmPluginsVersionsRequest" });
     case 1:
-      return S.Array(__S(1600, __c50, 0));
+      return S.Array(__S(2048, __c64, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          unreachable: S.optional(__S(3008, __c94, 0)),
+          wasmPluginVersions: S.optional(__S(225, __c7, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2656, __c83, 0)),
-          wasmPluginVersions: S.optional(__S(4577, __c143, 1)),
         }),
       ).annotate({ identifier: "ListWasmPluginVersionsResponse" });
   }
 }
-function __c144(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2531, __c79, 3).pipe(T.HttpBody())),
+          body: S.optional(__S(2883, __c90, 3).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8082,14 +5637,14 @@ function __c144(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsAgentConnectivityTemplatesRequest" });
   }
 }
-function __c145(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3110, __c97, 6).pipe(T.HttpBody())),
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(3462, __c108, 6).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8098,6 +5653,3351 @@ function __c145(j: number): any {
           }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsAgentGatewaysRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          requestId: S.optional(S.String.pipe(T.Query())),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(3904, __c122, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsAuthzExtensionsRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          requestId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(4352, __c136, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsCdnEdgeExtensionsRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          extensionBindingId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(427, __c13, 11).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/extensionBindings",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsExtensionBindingsRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceTypes: S.optional(__S(3040, __c95, 0)),
+          parent: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExtensionBindingTargetScope" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          resources: S.optional(__S(3008, __c94, 0)),
+          scope: S.optional(__S(416, __c13, 0)),
+        }),
+      ).annotate({ identifier: "ExtensionBindingTarget" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          suffix: S.optional(S.String),
+          ignoreCase: S.optional(S.Boolean),
+          exact: S.optional(S.String),
+          contains: S.optional(S.String),
+          prefix: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExtensionBindingMatchConditionStringMatch" });
+    case 3:
+      return S.Array(__S(418, __c13, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          value: S.optional(__S(418, __c13, 2)),
+        }),
+      ).annotate({ identifier: "ExtensionBindingMatchConditionHeaderMatch" });
+    case 5:
+      return S.Array(__S(420, __c13, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          headers: S.optional(__S(421, __c13, 5)),
+        }),
+      ).annotate({ identifier: "ExtensionBindingMatchConditionToDestinationHeaderSet" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          resources: S.optional(__S(419, __c13, 3)),
+          headerSet: S.optional(__S(422, __c13, 6)),
+          paths: S.optional(__S(419, __c13, 3)),
+          hosts: S.optional(__S(419, __c13, 3)),
+        }),
+      ).annotate({ identifier: "ExtensionBindingMatchConditionToDestination" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          destination: S.optional(__S(423, __c13, 7)),
+          notDestination: S.optional(__S(423, __c13, 7)),
+        }),
+      ).annotate({ identifier: "ExtensionBindingMatchConditionTo" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          to: S.optional(__S(424, __c13, 8)),
+        }),
+      ).annotate({ identifier: "ExtensionBindingMatchCondition" });
+    case 10:
+      return S.Array(__S(425, __c13, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(2976, __c93, 0)),
+          name: S.optional(S.String),
+          etag: S.optional(S.String),
+          priority: S.optional(S.Number),
+          target: S.optional(__S(417, __c13, 1)),
+          matchConditions: S.optional(__S(426, __c13, 10)),
+          producerExtension: S.optional(S.String),
+          producerMetadata: S.optional(__S(2976, __c93, 0)),
+          createTime: S.optional(S.String),
+          failOpen: S.optional(S.Boolean),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExtensionBinding" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(4741, __c148, 5).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsEndpointPoliciesRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(47, __c1, 15).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsExpressLinksRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(427, __c13, 11).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsExtensionBindingsRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(801, __c25, 1).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsGatewaysRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1161, __c36, 9).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsGrpcRoutesRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(1235, __c38, 19).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsHttpRoutesRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsLbEdgeExtensionsRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsLbRouteExtensionsRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          requestId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1408, __c44, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsLbTcpExtensionsRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1472, __c46, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsLbTrafficExtensionsRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          gatewayId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(801, __c25, 1).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/gateways",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsGatewaysRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(2976, __c93, 0)),
+          network: S.optional(S.String),
+          type: S.optional(S.String),
+          name: S.optional(S.String),
+          serverTlsPolicy: S.optional(S.String),
+          certificateUrls: S.optional(__S(3008, __c94, 0)),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          envoyHeaders: S.optional(S.String),
+          scope: S.optional(S.String),
+          createTime: S.optional(S.String),
+          allowGlobalAccess: S.optional(S.Boolean),
+          routingMode: S.optional(S.String),
+          gatewaySecurityPolicy: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          allPorts: S.optional(S.Boolean),
+          subnetwork: S.optional(S.String),
+          ports: S.optional(__S(800, __c25, 0)),
+          addresses: S.optional(__S(3008, __c94, 0)),
+          ipVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Gateway" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1536, __c48, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsMeshesRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1664, __c52, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsServiceBindingsRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(1731, __c54, 3).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsServiceLbPoliciesRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(1799, __c56, 7).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsTcpRoutesRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1861, __c58, 5).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsTelemetryPoliciesRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(1925, __c60, 5).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsTlsRoutesRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1989, __c62, 5).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsWasmPluginsRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          grpcRouteId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1161, __c36, 9).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/grpcRoutes",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsGrpcRoutesRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          fixedDelay: S.optional(S.String),
+          percentage: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GrpcRouteFaultInjectionPolicyDelay" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          httpStatus: S.optional(S.Number),
+          percentage: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GrpcRouteFaultInjectionPolicyAbort" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          delay: S.optional(__S(1088, __c34, 0)),
+          abort: S.optional(__S(1089, __c34, 1)),
+        }),
+      ).annotate({ identifier: "GrpcRouteFaultInjectionPolicy" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          cookieTtl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GrpcRouteStatefulSessionAffinityPolicy" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceName: S.optional(S.String),
+          weight: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GrpcRouteDestination" });
+    case 1:
+      return S.Array(__S(1120, __c35, 0));
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          type: S.optional(S.String),
+          key: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GrpcRouteHeaderMatch" });
+    case 1:
+      return S.Array(__S(1152, __c36, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          caseSensitive: S.optional(S.Boolean),
+          grpcService: S.optional(S.String),
+          grpcMethod: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GrpcRouteMethodMatch" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          headers: S.optional(__S(1153, __c36, 1)),
+          method: S.optional(__S(1154, __c36, 2)),
+        }),
+      ).annotate({ identifier: "GrpcRouteRouteMatch" });
+    case 4:
+      return S.Array(__S(1155, __c36, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          retryConditions: S.optional(__S(3008, __c94, 0)),
+          numRetries: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GrpcRouteRetryPolicy" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          retryPolicy: S.optional(__S(1157, __c36, 5)),
+          faultInjectionPolicy: S.optional(__S(1090, __c34, 2)),
+          idleTimeout: S.optional(S.String),
+          destinations: S.optional(__S(1121, __c35, 1)),
+          timeout: S.optional(S.String),
+          statefulSessionAffinity: S.optional(__S(1091, __c34, 3)),
+        }),
+      ).annotate({ identifier: "GrpcRouteRouteAction" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          matches: S.optional(__S(1156, __c36, 4)),
+          action: S.optional(__S(1158, __c36, 6)),
+        }),
+      ).annotate({ identifier: "GrpcRouteRouteRule" });
+    case 8:
+      return S.Array(__S(1159, __c36, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          hostnames: S.optional(__S(3008, __c94, 0)),
+          labels: S.optional(__S(2976, __c93, 0)),
+          createTime: S.optional(S.String),
+          gateways: S.optional(__S(3008, __c94, 0)),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          meshes: S.optional(__S(3008, __c94, 0)),
+          rules: S.optional(__S(1160, __c36, 8)),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GrpcRoute" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          httpRouteId: S.optional(S.String.pipe(T.Query())),
+          requestId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1235, __c38, 19).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/httpRoutes",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsHttpRoutesRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          start: S.optional(S.Number),
+          end: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "HttpRouteHeaderMatchIntegerRange" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          prefixMatch: S.optional(S.String),
+          presentMatch: S.optional(S.Boolean),
+          header: S.optional(S.String),
+          suffixMatch: S.optional(S.String),
+          exactMatch: S.optional(S.String),
+          regexMatch: S.optional(S.String),
+          invertMatch: S.optional(S.Boolean),
+          rangeMatch: S.optional(__S(1216, __c38, 0)),
+        }),
+      ).annotate({ identifier: "HttpRouteHeaderMatch" });
+    case 2:
+      return S.Array(__S(1217, __c38, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          exactMatch: S.optional(S.String),
+          regexMatch: S.optional(S.String),
+          queryParameter: S.optional(S.String),
+          presentMatch: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "HttpRouteQueryParameterMatch" });
+    case 4:
+      return S.Array(__S(1219, __c38, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          regexMatch: S.optional(S.String),
+          ignoreCase: S.optional(S.Boolean),
+          prefixMatch: S.optional(S.String),
+          headers: S.optional(__S(1218, __c38, 2)),
+          queryParameters: S.optional(__S(1220, __c38, 4)),
+          fullPathMatch: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HttpRouteRouteMatch" });
+    case 6:
+      return S.Array(__S(1221, __c38, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          set: S.optional(__S(2976, __c93, 0)),
+          remove: S.optional(__S(3008, __c94, 0)),
+          add: S.optional(__S(2976, __c93, 0)),
+        }),
+      ).annotate({ identifier: "HttpRouteHeaderModifier" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          responseHeaderModifier: S.optional(__S(1223, __c38, 7)),
+          serviceName: S.optional(S.String),
+          requestHeaderModifier: S.optional(__S(1223, __c38, 7)),
+          weight: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "HttpRouteDestination" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          destination: S.optional(__S(1224, __c38, 8)),
+          mirrorPercent: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "HttpRouteRequestMirrorPolicy" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          numRetries: S.optional(S.Number),
+          perTryTimeout: S.optional(S.String),
+          retryConditions: S.optional(__S(3008, __c94, 0)),
+        }),
+      ).annotate({ identifier: "HttpRouteRetryPolicy" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          pathPrefixRewrite: S.optional(S.String),
+          hostRewrite: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HttpRouteURLRewrite" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          hostRedirect: S.optional(S.String),
+          pathRedirect: S.optional(S.String),
+          portRedirect: S.optional(S.Number),
+          prefixRewrite: S.optional(S.String),
+          httpsRedirect: S.optional(S.Boolean),
+          responseCode: S.optional(S.String),
+          stripQuery: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "HttpRouteRedirect" });
+    case 13:
+      return S.Array(__S(1224, __c38, 8));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          allowOriginRegexes: S.optional(__S(3008, __c94, 0)),
+          allowMethods: S.optional(__S(3008, __c94, 0)),
+          allowCredentials: S.optional(S.Boolean),
+          allowOrigins: S.optional(__S(3008, __c94, 0)),
+          maxAge: S.optional(S.String),
+          exposeHeaders: S.optional(__S(3008, __c94, 0)),
+          allowHeaders: S.optional(__S(3008, __c94, 0)),
+          disabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "HttpRouteCorsPolicy" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.Number),
+          bytesBody: S.optional(S.String),
+          stringBody: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HttpRouteHttpDirectResponse" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          timeout: S.optional(S.String),
+          requestMirrorPolicy: S.optional(__S(1225, __c38, 9)),
+          retryPolicy: S.optional(__S(1226, __c38, 10)),
+          requestHeaderModifier: S.optional(__S(1223, __c38, 7)),
+          urlRewrite: S.optional(__S(1227, __c38, 11)),
+          faultInjectionPolicy: S.optional(__S(1090, __c34, 2)),
+          redirect: S.optional(__S(1228, __c38, 12)),
+          statefulSessionAffinity: S.optional(__S(1091, __c34, 3)),
+          destinations: S.optional(__S(1229, __c38, 13)),
+          responseHeaderModifier: S.optional(__S(1223, __c38, 7)),
+          corsPolicy: S.optional(__S(1230, __c38, 14)),
+          directResponse: S.optional(__S(1231, __c38, 15)),
+          idleTimeout: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HttpRouteRouteAction" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          matches: S.optional(__S(1222, __c38, 6)),
+          action: S.optional(__S(1232, __c38, 16)),
+        }),
+      ).annotate({ identifier: "HttpRouteRouteRule" });
+    case 18:
+      return S.Array(__S(1233, __c38, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          updateTime: S.optional(S.String),
+          rules: S.optional(__S(1234, __c38, 18)),
+          name: S.optional(S.String),
+          labels: S.optional(__S(2976, __c93, 0)),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          gateways: S.optional(__S(3008, __c94, 0)),
+          hostnames: S.optional(__S(3008, __c94, 0)),
+          meshes: S.optional(__S(3008, __c94, 0)),
+        }),
+      ).annotate({ identifier: "HttpRoute" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          requestId: S.optional(S.String.pipe(T.Query())),
+          lbEdgeExtensionId: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/lbEdgeExtensions",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsLbEdgeExtensionsRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          loadBalancingScheme: S.optional(S.String),
+          forwardingRules: S.optional(__S(3008, __c94, 0)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          extensionChains: S.optional(__S(4292, __c134, 4)),
+          labels: S.optional(__S(2976, __c93, 0)),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LbEdgeExtension" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          requestId: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          lbRouteExtensionId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/lbRouteExtensions",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsLbRouteExtensionsRequest" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          extensionChains: S.optional(__S(4292, __c134, 4)),
+          metadata: S.optional(__S(2912, __c91, 0)),
+          name: S.optional(S.String),
+          forwardingRules: S.optional(__S(3008, __c94, 0)),
+          labels: S.optional(__S(2976, __c93, 0)),
+          loadBalancingScheme: S.optional(S.String),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LbRouteExtension" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          lbTcpExtensionId: S.optional(S.String.pipe(T.Query())),
+          requestId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1408, __c44, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/lbTcpExtensions",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsLbTcpExtensionsRequest" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          networks: S.optional(__S(3008, __c94, 0)),
+          extensionChains: S.optional(__S(4292, __c134, 4)),
+          loadBalancingScheme: S.optional(S.String),
+          description: S.optional(S.String),
+          labels: S.optional(__S(2976, __c93, 0)),
+        }),
+      ).annotate({ identifier: "LbTcpExtension" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          lbTrafficExtensionId: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1472, __c46, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/lbTrafficExtensions",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsLbTrafficExtensionsRequest" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          forwardingRules: S.optional(__S(3008, __c94, 0)),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          metadata: S.optional(__S(2912, __c91, 0)),
+          labels: S.optional(__S(2976, __c93, 0)),
+          extensionChains: S.optional(__S(4292, __c134, 4)),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          loadBalancingScheme: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LbTrafficExtension" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          meshId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1536, __c48, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/meshes",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsMeshesRequest" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          selfLink: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          envoyHeaders: S.optional(S.String),
+          labels: S.optional(__S(2976, __c93, 0)),
+          interceptionPort: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Mesh" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          producerExtensionId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1601, __c50, 1).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/producerExtensions",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsProducerExtensionsRequest" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          service: S.optional(S.String),
+          observabilityMode: S.optional(S.Boolean),
+          supportedEvents: S.optional(__S(3040, __c95, 0)),
+          authority: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProducerExtensionExtensionSettings" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2976, __c93, 0)),
+          name: S.optional(S.String),
+          etag: S.optional(S.String),
+          extensionSettings: S.optional(__S(1600, __c50, 0)),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          phase: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProducerExtension" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceBindingId: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1664, __c52, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/serviceBindings",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsServiceBindingsRequest" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          labels: S.optional(__S(2976, __c93, 0)),
+          service: S.optional(S.String),
+          serviceId: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServiceBinding" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceLbPolicyId: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          body: S.optional(__S(1731, __c54, 3).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/serviceLbPolicies",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsServiceLbPoliciesRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enable: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ServiceLbPolicyAutoCapacityDrain" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          failoverHealthThreshold: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ServiceLbPolicyFailoverConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          isolationMode: S.optional(S.String),
+          isolationGranularity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServiceLbPolicyIsolationConfig" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          autoCapacityDrain: S.optional(__S(1728, __c54, 0)),
+          failoverConfig: S.optional(__S(1729, __c54, 1)),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          isolationConfig: S.optional(__S(1730, __c54, 2)),
+          loadBalancingAlgorithm: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2976, __c93, 0)),
+        }),
+      ).annotate({ identifier: "ServiceLbPolicy" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tcpRouteId: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          body: S.optional(__S(1799, __c56, 7).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/tcpRoutes",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsTcpRoutesRequest" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          port: S.optional(S.String),
+          address: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TcpRouteRouteMatch" });
+    case 1:
+      return S.Array(__S(1792, __c56, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          weight: S.optional(S.Number),
+          serviceName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TcpRouteRouteDestination" });
+    case 3:
+      return S.Array(__S(1794, __c56, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          originalDestination: S.optional(S.Boolean),
+          destinations: S.optional(__S(1795, __c56, 3)),
+          idleTimeout: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TcpRouteRouteAction" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          matches: S.optional(__S(1793, __c56, 1)),
+          action: S.optional(__S(1796, __c56, 4)),
+        }),
+      ).annotate({ identifier: "TcpRouteRouteRule" });
+    case 6:
+      return S.Array(__S(1797, __c56, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          rules: S.optional(__S(1798, __c56, 6)),
+          description: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          createTime: S.optional(S.String),
+          meshes: S.optional(__S(3008, __c94, 0)),
+          gateways: S.optional(__S(3008, __c94, 0)),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(2976, __c93, 0)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TcpRoute" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          telemetryPolicyId: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          body: S.optional(__S(1861, __c58, 5).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/telemetryPolicies",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsTelemetryPoliciesRequest" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "MetricsConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          fromHeaderValue: S.optional(S.String),
+          attributeName: S.optional(S.String),
+          literalValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TracingConfigurationCustomSpanAttribute" });
+    case 2:
+      return S.Array(__S(1857, __c58, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          samplingRate: S.optional(S.Number),
+          enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TracingConfigurationParentBasedSampling" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          samplingRate: S.optional(S.Number),
+          customSpanAttributes: S.optional(__S(1858, __c58, 2)),
+          parentBasedSampling: S.optional(__S(1859, __c58, 3)),
+        }),
+      ).annotate({ identifier: "TracingConfiguration" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          etag: S.optional(S.String),
+          metricsConfiguration: S.optional(__S(1856, __c58, 0)),
+          labels: S.optional(__S(2976, __c93, 0)),
+          telemetryTarget: S.optional(__S(4320, __c135, 0)),
+          deleteTime: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          annotations: S.optional(__S(2976, __c93, 0)),
+          tracingConfiguration: S.optional(__S(1860, __c58, 4)),
+          reconciling: S.optional(S.Boolean),
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TelemetryPolicy" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          tlsRouteId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1925, __c60, 5).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/tlsRoutes",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsTlsRoutesRequest" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          idleTimeout: S.optional(S.String),
+          destinations: S.optional(__S(1121, __c35, 1)),
+        }),
+      ).annotate({ identifier: "TlsRouteRouteAction" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          alpn: S.optional(__S(3008, __c94, 0)),
+          sniHost: S.optional(__S(3008, __c94, 0)),
+        }),
+      ).annotate({ identifier: "TlsRouteRouteMatch" });
+    case 2:
+      return S.Array(__S(1921, __c60, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.optional(__S(1920, __c60, 0)),
+          matches: S.optional(__S(1922, __c60, 2)),
+        }),
+      ).annotate({ identifier: "TlsRouteRouteRule" });
+    case 4:
+      return S.Array(__S(1923, __c60, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          rules: S.optional(__S(1924, __c60, 4)),
+          targetProxies: S.optional(__S(3008, __c94, 0)),
+          gateways: S.optional(__S(3008, __c94, 0)),
+          meshes: S.optional(__S(3008, __c94, 0)),
+          selfLink: S.optional(S.String),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2976, __c93, 0)),
+        }),
+      ).annotate({ identifier: "TlsRoute" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          wasmPluginId: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          body: S.optional(__S(1989, __c62, 5).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/wasmPlugins",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsWasmPluginsRequest" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WasmPluginUsedBy" });
+    case 1:
+      return S.Array(__S(1984, __c62, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          enable: S.optional(S.Boolean),
+          minLogLevel: S.optional(S.String),
+          sampleRate: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "WasmPluginLogConfig" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(2976, __c93, 0)),
+          createTime: S.optional(S.String),
+          pluginConfigDigest: S.optional(S.String),
+          pluginConfigData: S.optional(S.String),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          imageUri: S.optional(S.String),
+          imageDigest: S.optional(S.String),
+          pluginConfigUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WasmPluginVersionDetails" });
+    case 4:
+      return S.Record(S.String, __S(1987, __c62, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          kmsKeyVersion: S.optional(S.String),
+          mainVersionId: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          usedBy: S.optional(__S(1985, __c62, 1)),
+          logConfig: S.optional(__S(1986, __c62, 2)),
+          kmsKeyName: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          versions: S.optional(__S(1988, __c62, 4)),
+          description: S.optional(S.String),
+          labels: S.optional(__S(2976, __c93, 0)),
+        }),
+      ).annotate({ identifier: "WasmPlugin" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          wasmPluginVersionId: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/versions",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsWasmPluginsVersionsRequest" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(2976, __c93, 0)),
+          pluginConfigUri: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          pluginConfigDigest: S.optional(S.String),
+          imageDigest: S.optional(S.String),
+          createTime: S.optional(S.String),
+          pluginConfigData: S.optional(S.String),
+          description: S.optional(S.String),
+          imageUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WasmPluginVersion" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          etag: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsAgentConnectivityTemplatesRequest" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          etag: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsAgentGatewaysRequest" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsAuthzExtensionsRequest" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsCdnEdgeExtensionsRequest" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsEndpointPoliciesRequest" });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          etag: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsExpressLinksRequest" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          etag: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsExtensionBindingsRequest" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsGatewaysRequest" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsGrpcRoutesRequest" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsHttpRoutesRequest" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsLbEdgeExtensionsRequest" });
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsLbRouteExtensionsRequest" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+name}:cancel",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsLbTcpExtensionsRequest" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsLbTrafficExtensionsRequest" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsMeshesRequest" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          etag: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsProducerExtensionsRequest" });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsServiceBindingsRequest" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsServiceLbPoliciesRequest" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsTcpRoutesRequest" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          etag: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsTelemetryPoliciesRequest" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsTlsRoutesRequest" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          agentConnectivityTemplateId: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          body: S.optional(__S(2883, __c90, 3).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/agentConnectivityTemplates",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsAgentConnectivityTemplatesRequest" });
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          trustConfig: S.optional(S.String),
+          additionalRoots: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EgressNetworkConfigTlsConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          domains: S.optional(__S(3008, __c94, 0)),
+          domain: S.optional(S.String),
+          targetNetwork: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DnsPeeringConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          tlsConfig: S.optional(__S(2880, __c90, 0)),
+          trustConfig: S.optional(S.String),
+          networkAttachment: S.optional(S.String),
+          vpcEgress: S.optional(S.String),
+          dnsPeeringConfig: S.optional(__S(2881, __c90, 1)),
+        }),
+      ).annotate({ identifier: "EgressNetworkConfig" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          deploymentModel: S.optional(S.String),
+          agentCompute: S.optional(S.String),
+          accessTypes: S.optional(__S(3040, __c95, 0)),
+          egressNetworkConfig: S.optional(__S(2882, __c90, 2)),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(2976, __c93, 0)),
+          accessPath: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AgentConnectivityTemplate" });
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(2912, __c91, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.Number),
+          message: S.optional(S.String),
+          details: S.optional(__S(2944, __c92, 0)),
+        }),
+      ).annotate({ identifier: "Status" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          done: S.optional(S.Boolean),
+          metadata: S.optional(__S(2912, __c91, 0)),
+          error: S.optional(__S(2945, __c92, 1)),
+          name: S.optional(S.String),
+          response: S.optional(__S(2912, __c91, 0)),
+        }),
+      ).annotate({ identifier: "Operation" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsWasmPluginsRequest" });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsWasmPluginsVersionsRequest" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsRequest" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(2976, __c93, 0)),
+          metadata: S.optional(__S(2912, __c91, 0)),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          locationId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Location" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsAgentConnectivityTemplatesRequest" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsAgentGatewaysRequest" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsAuthzExtensionsRequest" });
+  }
+}
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsCdnEdgeExtensionsRequest" });
+  }
+}
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsEndpointPoliciesRequest" });
+  }
+}
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          view: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsExpressLinksRequest" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsExtensionBindingsRequest" });
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          agentGatewayId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(3462, __c108, 6).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/agentGateways",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsAgentGatewaysRequest" });
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          governedAccessPath: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AgentGatewayGoogleManaged" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          resourceUris: S.optional(__S(3008, __c94, 0)),
+          resourceUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AgentGatewaySelfManaged" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          mtlsEndpoint: S.optional(S.String),
+          serviceExtensionsServiceAccount: S.optional(S.String),
+          rootCertificates: S.optional(__S(3008, __c94, 0)),
+        }),
+      ).annotate({ identifier: "AgentGatewayAgentGatewayOutputCard" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          networkAttachment: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AgentGatewayNetworkConfigEgress" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          domains: S.optional(__S(3008, __c94, 0)),
+          targetProject: S.optional(S.String),
+          targetNetwork: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AgentGatewayNetworkConfigDnsPeeringConfig" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          egress: S.optional(__S(3459, __c108, 3)),
+          dnsPeeringConfig: S.optional(__S(3460, __c108, 4)),
+        }),
+      ).annotate({ identifier: "AgentGatewayNetworkConfig" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          googleManaged: S.optional(__S(3456, __c108, 0)),
+          name: S.optional(S.String),
+          selfManaged: S.optional(__S(3457, __c108, 1)),
+          labels: S.optional(__S(2976, __c93, 0)),
+          agentGatewayCard: S.optional(__S(3458, __c108, 2)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          networkConfig: S.optional(__S(3461, __c108, 5)),
+          registries: S.optional(__S(3008, __c94, 0)),
+          agentConnectivityTemplate: S.optional(S.String),
+          etag: S.optional(S.String),
+          protocols: S.optional(__S(3040, __c95, 0)),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AgentGateway" });
+  }
+}
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsGatewaysRequest" });
+  }
+}
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsGatewaysRouteViewsRequest" });
+  }
+}
+function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          routeProjectNumber: S.optional(S.String),
+          routeType: S.optional(S.String),
+          routeId: S.optional(S.String),
+          routeLocation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GatewayRouteView" });
+  }
+}
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsGrpcRoutesRequest" });
+  }
+}
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsHttpRoutesRequest" });
+  }
+}
+function __c114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsLbEdgeExtensionsRequest" });
+  }
+}
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsLbRouteExtensionsRequest" });
+  }
+}
+function __c116(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsLbTcpExtensionsRequest" });
+  }
+}
+function __c117(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsLbTrafficExtensionsRequest" });
+  }
+}
+function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsMeshesRequest" });
+  }
+}
+function __c119(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsMeshesRouteViewsRequest" });
+  }
+}
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          routeLocation: S.optional(S.String),
+          routeProjectNumber: S.optional(S.String),
+          routeId: S.optional(S.String),
+          routeType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MeshRouteView" });
+  }
+}
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          requestId: S.optional(S.String.pipe(T.Query())),
+          authzExtensionId: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          body: S.optional(__S(3904, __c122, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/authzExtensions",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsAuthzExtensionsRequest" });
+  }
+}
+function __c122(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(2976, __c93, 0)),
+          failOpen: S.optional(S.Boolean),
+          wireFormat: S.optional(S.String),
+          description: S.optional(S.String),
+          service: S.optional(S.String),
+          timeout: S.optional(S.String),
+          authority: S.optional(S.String),
+          forwardAttributes: S.optional(__S(3008, __c94, 0)),
+          forwardHeaders: S.optional(__S(3008, __c94, 0)),
+          metadata: S.optional(__S(2912, __c91, 0)),
+          loadBalancingScheme: S.optional(S.String),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuthzExtension" });
+  }
+}
+function __c123(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
+  }
+}
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsProducerExtensionsRequest" });
+  }
+}
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsServiceBindingsRequest" });
+  }
+}
+function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsServiceLbPoliciesRequest" });
+  }
+}
+function __c127(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsTcpRoutesRequest" });
+  }
+}
+function __c128(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsTelemetryPoliciesRequest" });
+  }
+}
+function __c129(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsTlsRoutesRequest" });
+  }
+}
+function __c130(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          view: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsWasmPluginsRequest" });
+  }
+}
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsWasmPluginsVersionsRequest" });
+  }
+}
+function __c132(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          extraLocationTypes: S.optional(__S(3008, __c94, 0).pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}/locations",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsRequest" });
+    case 1:
+      return S.Array(__S(3168, __c99, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          locations: S.optional(__S(4225, __c132, 1)),
+        }),
+      ).annotate({ identifier: "ListLocationsResponse" });
+  }
+}
+function __c133(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          cdnEdgeExtensionId: S.optional(S.String.pipe(T.Query())),
+          requestId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(4352, __c136, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/cdnEdgeExtensions",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsCdnEdgeExtensionsRequest" });
+  }
+}
+function __c134(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          forwardAttributes: S.optional(__S(3008, __c94, 0)),
+          supportedEvents: S.optional(__S(3040, __c95, 0)),
+          allowDynamicForwarding: S.optional(S.Boolean),
+          service: S.optional(S.String),
+          timeout: S.optional(S.String),
+          metadata: S.optional(__S(2912, __c91, 0)),
+          requestBodySendMode: S.optional(S.String),
+          authority: S.optional(S.String),
+          responseBodySendMode: S.optional(S.String),
+          forwardHeaders: S.optional(__S(3008, __c94, 0)),
+          name: S.optional(S.String),
+          observabilityMode: S.optional(S.Boolean),
+          failOpen: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ExtensionChainExtension" });
+    case 1:
+      return S.Array(__S(4288, __c134, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          celExpression: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExtensionChainMatchCondition" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          extensions: S.optional(__S(4289, __c134, 1)),
+          name: S.optional(S.String),
+          matchCondition: S.optional(__S(4290, __c134, 2)),
+        }),
+      ).annotate({ identifier: "ExtensionChain" });
+    case 4:
+      return S.Array(__S(4291, __c134, 3));
+  }
+}
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resources: S.optional(__S(3008, __c94, 0)),
+        }),
+      ).annotate({ identifier: "CdnEdgeExtensionTarget" });
+  }
+}
+function __c136(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(2976, __c93, 0)),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          target: S.optional(__S(4320, __c135, 0)),
+          extensionChains: S.optional(__S(4292, __c134, 4)),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CdnEdgeExtension" });
+  }
+}
+function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+parent}/agentConnectivityTemplates",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsAgentConnectivityTemplatesRequest" });
+    case 1:
+      return S.Array(__S(2883, __c90, 3));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          agentConnectivityTemplates: S.optional(__S(4385, __c137, 1)),
+          unreachable: S.optional(__S(3008, __c94, 0)),
+        }),
+      ).annotate({ identifier: "ListAgentConnectivityTemplatesResponse" });
+  }
+}
+function __c138(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+parent}/agentGateways",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsAgentGatewaysRequest" });
+    case 1:
+      return S.Array(__S(3462, __c108, 6));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          unreachable: S.optional(__S(3008, __c94, 0)),
+          agentGateways: S.optional(__S(4417, __c138, 1)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListAgentGatewaysResponse" });
+  }
+}
+function __c139(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+parent}/authzExtensions",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsAuthzExtensionsRequest" });
+    case 1:
+      return S.Array(__S(3904, __c122, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          authzExtensions: S.optional(__S(4449, __c139, 1)),
+          nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(3008, __c94, 0)),
+        }),
+      ).annotate({ identifier: "ListAuthzExtensionsResponse" });
+  }
+}
+function __c140(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+parent}/cdnEdgeExtensions",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsCdnEdgeExtensionsRequest" });
+    case 1:
+      return S.Array(__S(4352, __c136, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          unreachable: S.optional(__S(3008, __c94, 0)),
+          cdnEdgeExtensions: S.optional(__S(4481, __c140, 1)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListCdnEdgeExtensionsResponse" });
+  }
+}
+function __c141(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+parent}/endpointPolicies",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsEndpointPoliciesRequest" });
+    case 1:
+      return S.Array(__S(4741, __c148, 5));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          unreachable: S.optional(__S(3008, __c94, 0)),
+          endpointPolicies: S.optional(__S(4513, __c141, 1)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListEndpointPoliciesResponse" });
+  }
+}
+function __c142(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          view: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+parent}/expressLinks",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsExpressLinksRequest" });
+    case 1:
+      return S.Array(__S(47, __c1, 15));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          unreachable: S.optional(__S(3008, __c94, 0)),
+          expressLinks: S.optional(__S(4545, __c142, 1)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListExpressLinksResponse" });
+  }
+}
+function __c143(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+parent}/extensionBindings",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsExtensionBindingsRequest" });
+    case 1:
+      return S.Array(__S(427, __c13, 11));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          unreachable: S.optional(__S(3008, __c94, 0)),
+          nextPageToken: S.optional(S.String),
+          extensionBindings: S.optional(__S(4577, __c143, 1)),
+        }),
+      ).annotate({ identifier: "ListExtensionBindingsResponse" });
+  }
+}
+function __c144(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+parent}/gateways",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsGatewaysRequest" });
+    case 1:
+      return S.Array(__S(801, __c25, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          unreachable: S.optional(__S(3008, __c94, 0)),
+          gateways: S.optional(__S(4609, __c144, 1)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListGatewaysResponse" });
+  }
+}
+function __c145(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+parent}/routeViews",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsGatewaysRouteViewsRequest" });
+    case 1:
+      return S.Array(__S(3552, __c111, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          gatewayRouteViews: S.optional(__S(4641, __c145, 1)),
+          unreachable: S.optional(__S(3008, __c94, 0)),
+        }),
+      ).annotate({ identifier: "ListGatewayRouteViewsResponse" });
+  }
+}
+function __c146(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+parent}/grpcRoutes",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsGrpcRoutesRequest" });
+    case 1:
+      return S.Array(__S(1161, __c36, 9));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          grpcRoutes: S.optional(__S(4673, __c146, 1)),
+          nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(3008, __c94, 0)),
+        }),
+      ).annotate({ identifier: "ListGrpcRoutesResponse" });
+  }
+}
+function __c147(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          endpointPolicyId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(4741, __c148, 5).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/endpointPolicies",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsEndpointPoliciesRequest" });
+  }
+}
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ports: S.optional(__S(3008, __c94, 0)),
+        }),
+      ).annotate({ identifier: "TrafficPortSelector" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          labelName: S.optional(S.String),
+          labelValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MetadataLabels" });
+    case 2:
+      return S.Array(__S(4737, __c148, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          metadataLabels: S.optional(__S(4738, __c148, 2)),
+          metadataLabelMatchCriteria: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MetadataLabelMatcher" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          metadataLabelMatcher: S.optional(__S(4739, __c148, 3)),
+        }),
+      ).annotate({ identifier: "EndpointMatcher" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          trafficPortSelector: S.optional(__S(4736, __c148, 0)),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          serverTlsPolicy: S.optional(S.String),
+          securityPolicy: S.optional(S.String),
+          labels: S.optional(__S(2976, __c93, 0)),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          authorizationPolicy: S.optional(S.String),
+          endpointMatcher: S.optional(__S(4740, __c148, 4)),
+          clientTlsPolicy: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EndpointPolicy" });
+  }
+}
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+parent}/httpRoutes",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsHttpRoutesRequest" });
+    case 1:
+      return S.Array(__S(1235, __c38, 19));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          httpRoutes: S.optional(__S(4769, __c149, 1)),
+          nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(3008, __c94, 0)),
+        }),
+      ).annotate({ identifier: "ListHttpRoutesResponse" });
+  }
+}
+function __c150(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+parent}/lbEdgeExtensions",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsLbEdgeExtensionsRequest" });
+    case 1:
+      return S.Array(__S(1280, __c40, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          lbEdgeExtensions: S.optional(__S(4801, __c150, 1)),
+          unreachable: S.optional(__S(3008, __c94, 0)),
+        }),
+      ).annotate({ identifier: "ListLbEdgeExtensionsResponse" });
+  }
+}
+function __c151(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+parent}/lbRouteExtensions",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsLbRouteExtensionsRequest" });
+    case 1:
+      return S.Array(__S(1344, __c42, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          unreachable: S.optional(__S(3008, __c94, 0)),
+          lbRouteExtensions: S.optional(__S(4833, __c151, 1)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListLbRouteExtensionsResponse" });
+  }
+}
+function __c152(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+parent}/lbTcpExtensions",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsLbTcpExtensionsRequest" });
+    case 1:
+      return S.Array(__S(1408, __c44, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          lbTcpExtensions: S.optional(__S(4865, __c152, 1)),
+          unreachable: S.optional(__S(3008, __c94, 0)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListLbTcpExtensionsResponse" });
+  }
+}
+function __c153(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+parent}/lbTrafficExtensions",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsLbTrafficExtensionsRequest" });
+    case 1:
+      return S.Array(__S(1472, __c46, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          lbTrafficExtensions: S.optional(__S(4897, __c153, 1)),
+          unreachable: S.optional(__S(3008, __c94, 0)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListLbTrafficExtensionsResponse" });
+  }
+}
+function __c154(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+parent}/meshes",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsMeshesRequest" });
+    case 1:
+      return S.Array(__S(1536, __c48, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          unreachable: S.optional(__S(3008, __c94, 0)),
+          meshes: S.optional(__S(4929, __c154, 1)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListMeshesResponse" });
+  }
+}
+function __c155(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+parent}/routeViews",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsMeshesRouteViewsRequest" });
+    case 1:
+      return S.Array(__S(3840, __c120, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          unreachable: S.optional(__S(3008, __c94, 0)),
+          meshRouteViews: S.optional(__S(4961, __c155, 1)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListMeshRouteViewsResponse" });
+  }
+}
+function __c156(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}/operations",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
+    case 1:
+      return S.Array(__S(2946, __c92, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          operations: S.optional(__S(4993, __c156, 1)),
+          unreachable: S.optional(__S(3008, __c94, 0)),
+        }),
+      ).annotate({ identifier: "ListOperationsResponse" });
+  }
+}
+function __c157(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+parent}/producerExtensions",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsProducerExtensionsRequest" });
+    case 1:
+      return S.Array(__S(1601, __c50, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          unreachable: S.optional(__S(3008, __c94, 0)),
+          producerExtensions: S.optional(__S(5025, __c157, 1)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListProducerExtensionsResponse" });
+  }
+}
+function __c158(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+parent}/serviceBindings",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsServiceBindingsRequest" });
+    case 1:
+      return S.Array(__S(1664, __c52, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(3008, __c94, 0)),
+          serviceBindings: S.optional(__S(5057, __c158, 1)),
+        }),
+      ).annotate({ identifier: "ListServiceBindingsResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

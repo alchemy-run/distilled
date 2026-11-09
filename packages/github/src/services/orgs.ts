@@ -570,6 +570,8 @@ export interface CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionReq
     | CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequestValuesEditableBy
     | (string & {})
     | null;
+  /** A regular expression (RE2 syntax) that values of the property must match. Only supported for properties with a `value_type` of `string`. */
+  regex?: string | null;
   /** Whether setting properties values is mandatory */
   require_explicit_values?: boolean;
 }
@@ -596,9 +598,9 @@ export interface CustomProperty {
   /** The URL that can be used to fetch, update, or delete info about this property via the API. */
   url?: string;
   /** The source type of the property */
-  source_type?: CustomPropertySourceType | (string & {});
+  source_type?: CustomPropertySourceType;
   /** The type of the value for the property */
-  value_type: CustomPropertyValueType | (string & {});
+  value_type: CustomPropertyValueType;
   /** Whether the property is required. */
   required?: boolean;
   /** Default value of the property */
@@ -608,13 +610,52 @@ export interface CustomProperty {
   /** An ordered list of the allowed values of the property. The property can have up to 200 allowed values. */
   allowed_values?: CustomPropertyAllowedValuesList | null;
   /** Who can edit the values of the property */
-  values_editable_by?: CustomPropertyValuesEditableBy | (string & {}) | null;
+  values_editable_by?: CustomPropertyValuesEditableBy | null;
+  /** A regular expression (RE2 syntax) that values of the property must match. Only present for properties with a `value_type` of `string` that define a regular expression. */
+  regex?: string | null;
+  /** Whether setting properties values is mandatory */
+  require_explicit_values?: boolean;
+}
+/** The type of the value for the property */
+export type CustomPropertyBatchItemPayloadValueType =
+  | "string"
+  | "single_select"
+  | "multi_select"
+  | "true_false"
+  | "url";
+export type CustomPropertyBatchItemPayloadDefaultValueCase1List = Array<string>;
+/** Default value of the property */
+export type CustomPropertyBatchItemPayloadDefaultValue =
+  | string
+  | CustomPropertyBatchItemPayloadDefaultValueCase1List;
+/** An ordered list of the allowed values of the property. The property can have up to 200 allowed values. */
+export type CustomPropertyBatchItemPayloadAllowedValuesList = Array<string>;
+/** Who can edit the values of the property */
+export type CustomPropertyBatchItemPayloadValuesEditableBy = "org_actors" | "org_and_repo_actors";
+/** Payload for a single custom property definition when creating or updating custom properties in a batch */
+export interface CustomPropertyBatchItemPayload {
+  /** The name of the property */
+  property_name: string;
+  /** The type of the value for the property */
+  value_type: CustomPropertyBatchItemPayloadValueType | (string & {});
+  /** Whether the property is required. */
+  required?: boolean;
+  /** Default value of the property */
+  default_value?: CustomPropertyBatchItemPayloadDefaultValue | null;
+  /** Short description of the property */
+  description?: string | null;
+  /** An ordered list of the allowed values of the property. The property can have up to 200 allowed values. */
+  allowed_values?: CustomPropertyBatchItemPayloadAllowedValuesList | null;
+  /** Who can edit the values of the property */
+  values_editable_by?: CustomPropertyBatchItemPayloadValuesEditableBy | (string & {}) | null;
+  /** A regular expression (RE2 syntax) that values of the property must match. Only supported for properties with a `value_type` of `string`. */
+  regex?: string | null;
   /** Whether setting properties values is mandatory */
   require_explicit_values?: boolean;
 }
 /** The array of custom properties to create or update. */
 export type CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionsRequestPropertiesList =
-  Array<CustomProperty>;
+  Array<CustomPropertyBatchItemPayload>;
 export interface CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -1412,6 +1453,7 @@ export interface MinimalRepository {
   updated_at?: string | null;
   permissions?: MinimalRepositoryPermissions;
   role_name?: string;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string;
   delete_branch_on_merge?: boolean;
   subscribers_count?: number;
@@ -1747,6 +1789,8 @@ export type AppPermissionsOrganizationCustomProperties = "read" | "write" | "adm
 export type AppPermissionsOrganizationCopilotSeatManagement = "read" | "write";
 /** The level of permission to grant the access token to view and manage Copilot cloud agent settings for an organization. */
 export type AppPermissionsOrganizationCopilotAgentSettings = "read" | "write";
+/** The level of permission to grant the access token to make Copilot requests billed to the organization where the app is installed. This property is in public preview and is subject to change. */
+export type AppPermissionsOrganizationCopilotRequests = "read";
 /** The level of permission to grant the access token for managing external custom properties for repositories in an organization. */
 export type AppPermissionsOrganizationExternalPropertiesForRepos = "read" | "write" | "admin";
 /** The level of permission to grant the access token to view and manage announcement banners for an organization. */
@@ -1861,6 +1905,8 @@ export interface AppPermissions {
   organization_copilot_seat_management?: AppPermissionsOrganizationCopilotSeatManagement;
   /** The level of permission to grant the access token to view and manage Copilot cloud agent settings for an organization. */
   organization_copilot_agent_settings?: AppPermissionsOrganizationCopilotAgentSettings;
+  /** The level of permission to grant the access token to make Copilot requests billed to the organization where the app is installed. This property is in public preview and is subject to change. */
+  organization_copilot_requests?: AppPermissionsOrganizationCopilotRequests;
   /** The level of permission to grant the access token for managing external custom properties for repositories in an organization. */
   organization_external_properties_for_repos?: AppPermissionsOrganizationExternalPropertiesForRepos;
   /** The level of permission to grant the access token to view and manage announcement banners for an organization. */
@@ -3339,9 +3385,9 @@ export const customPropertiesForReposCreateOrUpdateOrganizationDefinitions: API.
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    480,
+    482,
     __c30,
-    0,
+    2,
   ) as any as S.Schema<CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionsRequest>,
   output: __S(
     497,
@@ -5748,6 +5794,7 @@ function __c28(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           allowed_values: S.optional(S.NullOr(__S(416, __c26, 0))),
           values_editable_by: S.optional(S.NullOr(S.String)),
+          regex: S.optional(S.NullOr(S.String)),
           require_explicit_values: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -5775,6 +5822,7 @@ function __c29(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           allowed_values: S.optional(S.NullOr(__S(416, __c26, 0))),
           values_editable_by: S.optional(S.NullOr(S.String)),
+          regex: S.optional(S.NullOr(S.String)),
           require_explicit_values: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CustomProperty" });
@@ -5785,8 +5833,24 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          property_name: S.String,
+          value_type: S.String,
+          required: S.optional(S.Boolean),
+          default_value: S.optional(S.NullOr(S.Unknown)),
+          description: S.optional(S.NullOr(S.String)),
+          allowed_values: S.optional(S.NullOr(__S(416, __c26, 0))),
+          values_editable_by: S.optional(S.NullOr(S.String)),
+          regex: S.optional(S.NullOr(S.String)),
+          require_explicit_values: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CustomPropertyBatchItemPayload" });
+    case 1:
+      return S.Array(__S(480, __c30, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           org: S.String.pipe(T.Label()),
-          properties: __S(496, __c31, 0),
+          properties: __S(481, __c30, 1),
         }).pipe(T.Http({ method: "PATCH", uri: "/orgs/{org}/properties/schema", code: 200 })),
       ).annotate({
         identifier: "CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionsRequest",
@@ -7149,6 +7213,7 @@ function __c93(j: number): any {
           organization_custom_properties: S.optional(S.String),
           organization_copilot_seat_management: S.optional(S.String),
           organization_copilot_agent_settings: S.optional(S.String),
+          organization_copilot_requests: S.optional(S.String),
           organization_external_properties_for_repos: S.optional(S.String),
           organization_announcement_banners: S.optional(S.String),
           organization_events: S.optional(S.String),

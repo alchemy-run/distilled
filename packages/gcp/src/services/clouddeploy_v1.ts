@@ -111,10 +111,10 @@ export interface AdvanceProjectsLocationsDeliveryPipelinesReleasesRolloutsReques
 export interface AdvanceRolloutResponse {}
 /** The request object used by `ApproveRollout`. */
 export interface ApproveRolloutRequest {
-  /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
-  overrideDeployPolicy?: StringList;
   /** Required. True = approve; false = reject */
   approved?: boolean;
+  /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
+  overrideDeployPolicy?: StringList;
 }
 export interface ApproveProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest {
   /** Required. Name of the Rollout. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
@@ -157,63 +157,17 @@ export interface CancelProjectsLocationsOperationsRequest {
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-/** Cloud Storage bucket containing Skaffold Config modules. */
-export interface SkaffoldGCSSource {
-  /** Required. Cloud Storage source paths to copy recursively. For example, providing "gs://my-bucket/dir/configs/*" will result in Skaffold copying all files within the "dir/configs" directory in the bucket "my-bucket". */
-  source?: string;
-  /** Optional. Relative path from the source to the Skaffold file. */
-  path?: string;
-}
-/** Git repository containing Skaffold Config modules. */
-export interface SkaffoldGitSource {
-  /** Optional. Relative path from the repository root to the Skaffold file. */
-  path?: string;
-  /** Optional. Git branch or tag to use when cloning the repository. */
-  ref?: string;
-  /** Required. Git repository the package should be cloned from. */
-  repo?: string;
-}
-/** Cloud Build V2 Repository containing Skaffold Configs. */
-export interface SkaffoldGCBRepoSource {
-  /** Optional. Branch or tag to use when cloning the repository. */
-  ref?: string;
-  /** Optional. Relative path from the repository root to the Skaffold Config file. */
-  path?: string;
-  /** Required. Name of the Cloud Build V2 Repository. Format is projects/{project}/locations/{location}/connections/{connection}/repositories/{repository}. */
-  repository?: string;
-}
-/** Skaffold Config modules and their remote source. */
-export interface SkaffoldModules {
-  /** Optional. Cloud Storage bucket containing the Skaffold Config modules. */
-  googleCloudStorage?: SkaffoldGCSSource;
-  /** Optional. Remote git repository containing the Skaffold Config modules. */
-  git?: SkaffoldGitSource;
-  /** Optional. The Skaffold Config modules to use from the specified source. */
-  configs?: StringList;
-  /** Optional. Cloud Build V2 repository containing the Skaffold Config modules. */
-  googleCloudBuildRepo?: SkaffoldGCBRepoSource;
-}
-export type SkaffoldModulesList = Array<SkaffoldModules>;
-/** CustomTargetSkaffoldActions represents the `CustomTargetType` configuration using Skaffold custom actions. */
-export interface CustomTargetSkaffoldActions {
-  /** Required. The Skaffold custom action responsible for deploy operations. */
-  deployAction?: string;
-  /** Optional. List of Skaffold modules Cloud Deploy will include in the Skaffold Config as required before performing diagnose. */
-  includeSkaffoldModules?: SkaffoldModulesList;
-  /** Optional. The Skaffold custom action responsible for render operations. If not provided then Cloud Deploy will perform the render operations via `skaffold render`. */
-  renderAction?: string;
-}
 export type StringMap = { [key: string]: string | undefined };
 /** This task is represented by a container that is executed in the Cloud Build execution environment. */
 export interface ContainerTask {
+  /** Optional. Environment variables that are set in the container. */
+  env?: StringMap;
   /** Optional. Command is the container entrypoint to use. This overrides the default entrypoint defined in the container image. */
   command?: StringList;
   /** Optional. Args is the container arguments to use. This overrides the default arguments defined in the container image. */
   args?: StringList;
   /** Required. Image is the container image to use. */
   image?: string;
-  /** Optional. Environment variables that are set in the container. */
-  env?: StringMap;
 }
 /** A Task represents a unit of work that is executed as part of a Job. */
 export interface Task {
@@ -227,40 +181,86 @@ export interface CustomTargetTasks {
   /** Required. The task responsible for deploy operations. */
   deploy?: Task;
 }
+/** Cloud Build V2 Repository containing Skaffold Configs. */
+export interface SkaffoldGCBRepoSource {
+  /** Optional. Relative path from the repository root to the Skaffold Config file. */
+  path?: string;
+  /** Required. Name of the Cloud Build V2 Repository. Format is projects/{project}/locations/{location}/connections/{connection}/repositories/{repository}. */
+  repository?: string;
+  /** Optional. Branch or tag to use when cloning the repository. */
+  ref?: string;
+}
+/** Git repository containing Skaffold Config modules. */
+export interface SkaffoldGitSource {
+  /** Optional. Git branch or tag to use when cloning the repository. */
+  ref?: string;
+  /** Optional. Relative path from the repository root to the Skaffold file. */
+  path?: string;
+  /** Required. Git repository the package should be cloned from. */
+  repo?: string;
+}
+/** Cloud Storage bucket containing Skaffold Config modules. */
+export interface SkaffoldGCSSource {
+  /** Required. Cloud Storage source paths to copy recursively. For example, providing "gs://my-bucket/dir/configs/*" will result in Skaffold copying all files within the "dir/configs" directory in the bucket "my-bucket". */
+  source?: string;
+  /** Optional. Relative path from the source to the Skaffold file. */
+  path?: string;
+}
+/** Skaffold Config modules and their remote source. */
+export interface SkaffoldModules {
+  /** Optional. The Skaffold Config modules to use from the specified source. */
+  configs?: StringList;
+  /** Optional. Cloud Build V2 repository containing the Skaffold Config modules. */
+  googleCloudBuildRepo?: SkaffoldGCBRepoSource;
+  /** Optional. Remote git repository containing the Skaffold Config modules. */
+  git?: SkaffoldGitSource;
+  /** Optional. Cloud Storage bucket containing the Skaffold Config modules. */
+  googleCloudStorage?: SkaffoldGCSSource;
+}
+export type SkaffoldModulesList = Array<SkaffoldModules>;
+/** CustomTargetSkaffoldActions represents the `CustomTargetType` configuration using Skaffold custom actions. */
+export interface CustomTargetSkaffoldActions {
+  /** Required. The Skaffold custom action responsible for deploy operations. */
+  deployAction?: string;
+  /** Optional. List of Skaffold modules Cloud Deploy will include in the Skaffold Config as required before performing diagnose. */
+  includeSkaffoldModules?: SkaffoldModulesList;
+  /** Optional. The Skaffold custom action responsible for render operations. If not provided then Cloud Deploy will perform the render operations via `skaffold render`. */
+  renderAction?: string;
+}
 /** A `CustomTargetType` resource in the Cloud Deploy API. A `CustomTargetType` defines a type of custom target that can be referenced in a `Target` in order to facilitate deploying to other systems besides the supported runtimes. */
 export interface CustomTargetType {
-  /** Optional. Configures render and deploy for the `CustomTargetType` using Skaffold custom actions. */
-  customActions?: CustomTargetSkaffoldActions;
-  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
-  annotations?: StringMap;
-  /** Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
-  labels?: StringMap;
-  /** Output only. Most recent time at which the `CustomTargetType` was updated. */
-  updateTime?: string;
-  /** Output only. Resource id of the `CustomTargetType`. */
-  customTargetTypeId?: string;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
-  /** Output only. Time at which the `CustomTargetType` was created. */
-  createTime?: string;
   /** Optional. Configures render and deploy for the `CustomTargetType` using tasks. */
   tasks?: CustomTargetTasks;
+  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
+  annotations?: StringMap;
+  /** Output only. Time at which the `CustomTargetType` was created. */
+  createTime?: string;
+  /** Output only. Most recent time at which the `CustomTargetType` was updated. */
+  updateTime?: string;
+  /** Optional. Configures render and deploy for the `CustomTargetType` using Skaffold custom actions. */
+  customActions?: CustomTargetSkaffoldActions;
   /** Output only. Unique identifier of the `CustomTargetType`. */
   uid?: string;
-  /** Optional. Description of the `CustomTargetType`. Max length is 255 characters. */
-  description?: string;
   /** Identifier. Name of the `CustomTargetType`. Format is `projects/{project}/locations/{location}/customTargetTypes/{customTargetType}`. The `customTargetType` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
   name?: string;
+  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
+  /** Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
+  labels?: StringMap;
+  /** Output only. Resource id of the `CustomTargetType`. */
+  customTargetTypeId?: string;
+  /** Optional. Description of the `CustomTargetType`. Max length is 255 characters. */
+  description?: string;
 }
 export interface CreateProjectsLocationsCustomTargetTypesRequest {
   /** Required. The parent collection in which the `CustomTargetType` must be created. The format is `projects/{project_id}/locations/{location_name}`. */
   parent: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
   validateOnly?: boolean;
   /** Required. ID of the `CustomTargetType`. */
   customTargetTypeId?: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Request body */
   body?: CustomTargetType;
 }
@@ -268,40 +268,53 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
 }
-/** DeployParameters contains deploy parameters information. */
-export interface DeployParameters {
-  /** Optional. Deploy parameters are applied to targets with match labels. If unspecified, deploy parameters are applied to all targets (including child targets of a multi-target). */
-  matchTargetLabels?: StringMap;
-  /** Required. Values are deploy parameters in key-value pairs. */
-  values?: StringMap;
+export type IntegerList = Array<number>;
+export type TaskList = Array<Task>;
+/** Verify contains the verify job configuration information. */
+export interface Verify {
+  /** Optional. The tasks that will run as a part of the verify job. The tasks are executed sequentially in the order specified. */
+  tasks?: TaskList;
 }
-export type DeployParametersList = Array<DeployParameters>;
+/** Predeploy contains the predeploy job configuration information. */
+export interface Predeploy {
+  /** Optional. The tasks that will run as a part of the predeploy job. The tasks are executed sequentially in the order specified. Only one of `actions` or `tasks` can be specified. */
+  tasks?: TaskList;
+  /** Optional. A sequence of Skaffold custom actions to invoke during execution of the predeploy job. */
+  actions?: StringList;
+}
+/** Postdeploy contains the postdeploy job configuration information. */
+export interface Postdeploy {
+  /** Optional. A sequence of Skaffold custom actions to invoke during execution of the postdeploy job. */
+  actions?: StringList;
+  /** Optional. The tasks that will run as a part of the postdeploy job. The tasks are executed sequentially in the order specified. Only one of `actions` or `tasks` can be specified. */
+  tasks?: TaskList;
+}
 /** CustomCheck configures a third-party metric provider to run the analysis, via a Task that runs at a specified frequency. */
 export interface CustomCheck {
-  /** Required. The ID of the custom Analysis check. */
-  id?: string;
   /** Optional. The frequency at which the custom check will be run, with a minimum and default of 5 minutes. */
   frequency?: string;
+  /** Required. The ID of the custom Analysis check. */
+  id?: string;
   /** Required. The Task to be run for this custom check. */
   task?: Task;
 }
@@ -323,83 +336,52 @@ export interface GoogleCloudAnalysis {
 }
 /** Analysis contains the configuration for the set of analyses to be performed on the target. */
 export interface Analysis {
-  /** Optional. Custom analysis checks from 3P metric providers. */
-  customChecks?: CustomCheckList;
   /** Required. The amount of time in minutes the analysis on the target will last. If all analysis checks have successfully completed before the specified duration, the analysis is successful. If a check is still running while the specified duration passes, it will wait for that check to complete to determine if the analysis is successful. The maximum duration is 48 hours. */
   duration?: string;
+  /** Optional. Custom analysis checks from 3P metric providers. */
+  customChecks?: CustomCheckList;
   /** Optional. Google Cloud - based analysis checks. */
   googleCloud?: GoogleCloudAnalysis;
 }
-export type TaskList = Array<Task>;
-/** Postdeploy contains the postdeploy job configuration information. */
-export interface Postdeploy {
-  /** Optional. The tasks that will run as a part of the postdeploy job. The tasks are executed sequentially in the order specified. Only one of `actions` or `tasks` can be specified. */
-  tasks?: TaskList;
-  /** Optional. A sequence of Skaffold custom actions to invoke during execution of the postdeploy job. */
-  actions?: StringList;
-}
-/** Verify contains the verify job configuration information. */
-export interface Verify {
-  /** Optional. The tasks that will run as a part of the verify job. The tasks are executed sequentially in the order specified. */
-  tasks?: TaskList;
-}
-/** Predeploy contains the predeploy job configuration information. */
-export interface Predeploy {
-  /** Optional. A sequence of Skaffold custom actions to invoke during execution of the predeploy job. */
-  actions?: StringList;
-  /** Optional. The tasks that will run as a part of the predeploy job. The tasks are executed sequentially in the order specified. Only one of `actions` or `tasks` can be specified. */
-  tasks?: TaskList;
-}
-/** Standard represents the standard deployment strategy. */
-export interface Standard {
-  /** Optional. Configuration for the analysis job. If this is not configured, the analysis job will not be present. */
-  analysis?: Analysis;
-  /** Optional. Configuration for the postdeploy job. If this is not configured, the postdeploy job will not be present. */
-  postdeploy?: Postdeploy;
-  /** Optional. Configuration for the verify job. Cannot be set if `verify` is set to true. */
-  verifyConfig?: Verify;
-  /** Optional. Configuration for the predeploy job. If this is not configured, the predeploy job will not be present. */
-  predeploy?: Predeploy;
-  /** Optional. Whether to verify a deployment via `skaffold verify`. */
-  verify?: boolean;
-}
-export type IntegerList = Array<number>;
 /** CanaryDeployment represents the canary deployment configuration */
 export interface CanaryDeployment {
-  /** Optional. Configuration for the predeploy job of the first phase. If this is not configured, there will be no predeploy job for this phase. */
-  predeploy?: Predeploy;
-  /** Optional. Configuration for the analysis job. If configured, the analysis will run after each percentage deployment. */
-  analysis?: Analysis;
   /** Required. The percentage based deployments that will occur as a part of a `Rollout`. List is expected in ascending order and each integer n is 0 <= n < 100. If the GatewayServiceMesh is configured for Kubernetes, then the range for n is 0 <= n <= 100. */
   percentages?: IntegerList;
   /** Optional. Whether to run verify tests after each percentage deployment via `skaffold verify`. */
   verify?: boolean;
-  /** Optional. Configuration for the postdeploy job of the last phase. If this is not configured, there will be no postdeploy job for this phase. */
-  postdeploy?: Postdeploy;
   /** Optional. Configuration for the verify job. Cannot be set if `verify` is set to true. */
   verifyConfig?: Verify;
+  /** Optional. Configuration for the predeploy job of the first phase. If this is not configured, there will be no predeploy job for this phase. */
+  predeploy?: Predeploy;
+  /** Optional. Configuration for the postdeploy job of the last phase. If this is not configured, there will be no postdeploy job for this phase. */
+  postdeploy?: Postdeploy;
+  /** Optional. Configuration for the analysis job. If configured, the analysis will run after each percentage deployment. */
+  analysis?: Analysis;
 }
-/** CloudRunConfig contains the Cloud Run runtime configuration. */
-export interface CloudRunConfig {
-  /** Optional. A list of tags that are added to the prior revision while the canary phase is in progress. */
-  priorRevisionTags?: StringList;
-  /** Optional. A list of tags that are added to the final stable revision when the stable phase is applied. */
-  stableRevisionTags?: StringList;
-  /** Optional. Whether Cloud Deploy should update the traffic stanza in a Cloud Run Service on the user's behalf to facilitate traffic splitting. This is required to be true for CanaryDeployments, but optional for CustomCanaryDeployments. */
-  automaticTrafficControl?: boolean;
-  /** Optional. A list of tags that are added to the canary revision while the canary phase is in progress. */
-  canaryRevisionTags?: StringList;
+/** PhaseConfig represents the configuration for a phase in the custom canary deployment. */
+export interface PhaseConfig {
+  /** Required. The ID to assign to the `Rollout` phase. This value must consist of lower-case letters, numbers, and hyphens, start with a letter and end with a letter or a number, and have a max length of 63 characters. In other words, it must match the following regex: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
+  phaseId?: string;
+  /** Required. Percentage deployment for the phase. */
+  percentage?: number;
+  /** Optional. Configuration for the verify job. Cannot be set if `verify` is set to true. */
+  verifyConfig?: Verify;
+  /** Optional. Configuration for the postdeploy job of this phase. If this is not configured, there will be no postdeploy job for this phase. */
+  postdeploy?: Postdeploy;
+  /** Optional. Configuration for the predeploy job of this phase. If this is not configured, there will be no predeploy job for this phase. */
+  predeploy?: Predeploy;
+  /** Optional. Configuration for the analysis job of this phase. If this is not configured, there will be no analysis job for this phase. */
+  analysis?: Analysis;
+  /** Optional. Whether to run verify tests after the deployment via `skaffold verify`. */
+  verify?: boolean;
+  /** Optional. Skaffold profiles to use when rendering the manifest for this phase. These are in addition to the profiles list specified in the `DeliveryPipeline` stage. */
+  profiles?: StringList;
 }
-/** Information about the Kubernetes Service networking configuration. */
-export interface ServiceNetworking {
-  /** Required. Name of the Kubernetes Deployment whose traffic is managed by the specified Service. */
-  deployment?: string;
-  /** Required. Name of the Kubernetes Service. */
-  service?: string;
-  /** Optional. The label to use when selecting Pods for the Deployment resource. This label must already be present in the Deployment. */
-  podSelectorLabel?: string;
-  /** Optional. Whether to disable Pod overprovisioning. If Pod overprovisioning is disabled then Cloud Deploy will limit the number of total Pods used for the deployment strategy to the number of Pods the Deployment has on the cluster. */
-  disablePodOverprovisioning?: boolean;
+export type PhaseConfigList = Array<PhaseConfig>;
+/** CustomCanaryDeployment represents the custom canary deployment configuration. */
+export interface CustomCanaryDeployment {
+  /** Required. Configuration for each phase in the canary deployment in the order executed. */
+  phaseConfigs?: PhaseConfigList;
 }
 /** Information about route destinations for the Gateway API service mesh. */
 export interface RouteDestinations {
@@ -410,86 +392,104 @@ export interface RouteDestinations {
 }
 /** Information about the Kubernetes Gateway API service mesh configuration. */
 export interface GatewayServiceMesh {
-  /** Required. Name of the Kubernetes Service. */
-  service?: string;
-  /** Optional. The amount of time to migrate traffic back from the canary Service to the original Service during the stable phase deployment. If specified, must be between 15s and 3600s. If unspecified, there is no cutback time. */
-  stableCutbackDuration?: string;
-  /** Optional. The time to wait for route updates to propagate. The maximum configurable time is 3 hours, in seconds format. If unspecified, there is no wait time. */
-  routeUpdateWaitTime?: string;
-  /** Required. Name of the Gateway API HTTPRoute. */
-  httpRoute?: string;
   /** Optional. The label to use when selecting Pods for the Deployment and Service resources. This label must already be present in both resources. */
   podSelectorLabel?: string;
-  /** Optional. Route destinations allow configuring the Gateway API HTTPRoute to be deployed to additional clusters. This option is available for multi-cluster service mesh set ups that require the route to exist in the clusters that call the service. If unspecified, the HTTPRoute will only be deployed to the Target cluster. */
-  routeDestinations?: RouteDestinations;
+  /** Optional. The amount of time to migrate traffic back from the canary Service to the original Service during the stable phase deployment. If specified, must be between 15s and 3600s. If unspecified, there is no cutback time. */
+  stableCutbackDuration?: string;
+  /** Required. Name of the Gateway API HTTPRoute. */
+  httpRoute?: string;
+  /** Required. Name of the Kubernetes Service. */
+  service?: string;
   /** Required. Name of the Kubernetes Deployment whose traffic is managed by the specified HTTPRoute and Service. */
   deployment?: string;
+  /** Optional. The time to wait for route updates to propagate. The maximum configurable time is 3 hours, in seconds format. If unspecified, there is no wait time. */
+  routeUpdateWaitTime?: string;
+  /** Optional. Route destinations allow configuring the Gateway API HTTPRoute to be deployed to additional clusters. This option is available for multi-cluster service mesh set ups that require the route to exist in the clusters that call the service. If unspecified, the HTTPRoute will only be deployed to the Target cluster. */
+  routeDestinations?: RouteDestinations;
+}
+/** Information about the Kubernetes Service networking configuration. */
+export interface ServiceNetworking {
+  /** Optional. The label to use when selecting Pods for the Deployment resource. This label must already be present in the Deployment. */
+  podSelectorLabel?: string;
+  /** Optional. Whether to disable Pod overprovisioning. If Pod overprovisioning is disabled then Cloud Deploy will limit the number of total Pods used for the deployment strategy to the number of Pods the Deployment has on the cluster. */
+  disablePodOverprovisioning?: boolean;
+  /** Required. Name of the Kubernetes Deployment whose traffic is managed by the specified Service. */
+  deployment?: string;
+  /** Required. Name of the Kubernetes Service. */
+  service?: string;
 }
 /** KubernetesConfig contains the Kubernetes runtime configuration. */
 export interface KubernetesConfig {
-  /** Optional. Kubernetes Service networking configuration. */
-  serviceNetworking?: ServiceNetworking;
   /** Optional. Kubernetes Gateway API service mesh configuration. */
   gatewayServiceMesh?: GatewayServiceMesh;
+  /** Optional. Kubernetes Service networking configuration. */
+  serviceNetworking?: ServiceNetworking;
+}
+/** CloudRunConfig contains the Cloud Run runtime configuration. */
+export interface CloudRunConfig {
+  /** Optional. A list of tags that are added to the final stable revision when the stable phase is applied. */
+  stableRevisionTags?: StringList;
+  /** Optional. A list of tags that are added to the canary revision while the canary phase is in progress. */
+  canaryRevisionTags?: StringList;
+  /** Optional. Whether Cloud Deploy should update the traffic stanza in a Cloud Run Service on the user's behalf to facilitate traffic splitting. This is required to be true for CanaryDeployments, but optional for CustomCanaryDeployments. */
+  automaticTrafficControl?: boolean;
+  /** Optional. A list of tags that are added to the prior revision while the canary phase is in progress. */
+  priorRevisionTags?: StringList;
 }
 /** RuntimeConfig contains the runtime specific configurations for a deployment strategy. */
 export interface RuntimeConfig {
-  /** Optional. Cloud Run runtime configuration. */
-  cloudRun?: CloudRunConfig;
   /** Optional. Kubernetes runtime configuration. */
   kubernetes?: KubernetesConfig;
-}
-/** PhaseConfig represents the configuration for a phase in the custom canary deployment. */
-export interface PhaseConfig {
-  /** Optional. Whether to run verify tests after the deployment via `skaffold verify`. */
-  verify?: boolean;
-  /** Optional. Configuration for the analysis job of this phase. If this is not configured, there will be no analysis job for this phase. */
-  analysis?: Analysis;
-  /** Required. The ID to assign to the `Rollout` phase. This value must consist of lower-case letters, numbers, and hyphens, start with a letter and end with a letter or a number, and have a max length of 63 characters. In other words, it must match the following regex: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
-  phaseId?: string;
-  /** Optional. Configuration for the postdeploy job of this phase. If this is not configured, there will be no postdeploy job for this phase. */
-  postdeploy?: Postdeploy;
-  /** Optional. Configuration for the predeploy job of this phase. If this is not configured, there will be no predeploy job for this phase. */
-  predeploy?: Predeploy;
-  /** Optional. Skaffold profiles to use when rendering the manifest for this phase. These are in addition to the profiles list specified in the `DeliveryPipeline` stage. */
-  profiles?: StringList;
-  /** Required. Percentage deployment for the phase. */
-  percentage?: number;
-  /** Optional. Configuration for the verify job. Cannot be set if `verify` is set to true. */
-  verifyConfig?: Verify;
-}
-export type PhaseConfigList = Array<PhaseConfig>;
-/** CustomCanaryDeployment represents the custom canary deployment configuration. */
-export interface CustomCanaryDeployment {
-  /** Required. Configuration for each phase in the canary deployment in the order executed. */
-  phaseConfigs?: PhaseConfigList;
+  /** Optional. Cloud Run runtime configuration. */
+  cloudRun?: CloudRunConfig;
 }
 /** Canary represents the canary deployment strategy. */
 export interface Canary {
   /** Optional. Configures the progressive based deployment for a Target. */
   canaryDeployment?: CanaryDeployment;
-  /** Optional. Runtime specific configurations for the deployment strategy. The runtime configuration is used to determine how Cloud Deploy will split traffic to enable a progressive deployment. */
-  runtimeConfig?: RuntimeConfig;
   /** Optional. Configures the progressive based deployment for a Target, but allows customizing at the phase level where a phase represents each of the percentage deployments. */
   customCanaryDeployment?: CustomCanaryDeployment;
+  /** Optional. Runtime specific configurations for the deployment strategy. The runtime configuration is used to determine how Cloud Deploy will split traffic to enable a progressive deployment. */
+  runtimeConfig?: RuntimeConfig;
+}
+/** Standard represents the standard deployment strategy. */
+export interface Standard {
+  /** Optional. Whether to verify a deployment via `skaffold verify`. */
+  verify?: boolean;
+  /** Optional. Configuration for the predeploy job. If this is not configured, the predeploy job will not be present. */
+  predeploy?: Predeploy;
+  /** Optional. Configuration for the analysis job. If this is not configured, the analysis job will not be present. */
+  analysis?: Analysis;
+  /** Optional. Configuration for the postdeploy job. If this is not configured, the postdeploy job will not be present. */
+  postdeploy?: Postdeploy;
+  /** Optional. Configuration for the verify job. Cannot be set if `verify` is set to true. */
+  verifyConfig?: Verify;
 }
 /** Strategy contains deployment strategy information. */
 export interface Strategy {
-  /** Optional. Standard deployment strategy executes a single deploy and allows verifying the deployment. */
-  standard?: Standard;
   /** Optional. Canary deployment strategy provides progressive percentage based deployments to a Target. */
   canary?: Canary;
+  /** Optional. Standard deployment strategy executes a single deploy and allows verifying the deployment. */
+  standard?: Standard;
 }
+/** DeployParameters contains deploy parameters information. */
+export interface DeployParameters {
+  /** Required. Values are deploy parameters in key-value pairs. */
+  values?: StringMap;
+  /** Optional. Deploy parameters are applied to targets with match labels. If unspecified, deploy parameters are applied to all targets (including child targets of a multi-target). */
+  matchTargetLabels?: StringMap;
+}
+export type DeployParametersList = Array<DeployParameters>;
 /** Stage specifies a location to which to deploy. */
 export interface Stage {
   /** Optional. The target_id to which this stage points. This field refers exclusively to the last segment of a target name. For example, this field would just be `my-target` (rather than `projects/project/locations/location/targets/my-target`). The location of the `Target` is inferred to be the same as the location of the `DeliveryPipeline` that contains this `Stage`. */
   targetId?: string;
-  /** Optional. Skaffold profiles to use when rendering the manifest for this stage's `Target`. */
-  profiles?: StringList;
-  /** Optional. The deploy parameters to use for the target in this stage. */
-  deployParameters?: DeployParametersList;
   /** Optional. The strategy to use for a `Rollout` to this stage. */
   strategy?: Strategy;
+  /** Optional. The deploy parameters to use for the target in this stage. */
+  deployParameters?: DeployParametersList;
+  /** Optional. Skaffold profiles to use when rendering the manifest for this stage's `Target`. */
+  profiles?: StringList;
 }
 export type StageList = Array<Stage>;
 /** SerialPipeline defines a sequential set of stages for a `DeliveryPipeline`. */
@@ -497,87 +497,74 @@ export interface SerialPipeline {
   /** Optional. Each stage specifies configuration for a `Target`. The ordering of this list defines the promotion flow. */
   stages?: StageList;
 }
+/** TargetsTypeCondition contains information on whether the Targets defined in the Delivery Pipeline are of the same type. */
+export interface TargetsTypeCondition {
+  /** Human readable error message. */
+  errorDetails?: string;
+  /** True if the targets are all a comparable type. For example this is true if all targets are GKE clusters. This is false if some targets are Cloud Run targets and others are GKE clusters. */
+  status?: boolean;
+}
 /** PipelineReadyCondition contains information around the status of the Pipeline. */
 export interface PipelineReadyCondition {
-  /** True if the Pipeline is in a valid state. Otherwise at least one condition in `PipelineCondition` is in an invalid state. Iterate over those conditions and see which condition(s) has status = false to find out what is wrong with the Pipeline. */
-  status?: boolean;
   /** Last time the condition was updated. */
   updateTime?: string;
+  /** True if the Pipeline is in a valid state. Otherwise at least one condition in `PipelineCondition` is in an invalid state. Iterate over those conditions and see which condition(s) has status = false to find out what is wrong with the Pipeline. */
+  status?: boolean;
 }
 /** `TargetsPresentCondition` contains information on any Targets referenced in the Delivery Pipeline that do not actually exist. */
 export interface TargetsPresentCondition {
-  /** True if there aren't any missing Targets. */
-  status?: boolean;
   /** The list of Target names that do not exist. For example, `projects/{project_id}/locations/{location_name}/targets/{target_name}`. */
   missingTargets?: StringList;
   /** Last time the condition was updated. */
   updateTime?: string;
-}
-/** TargetsTypeCondition contains information on whether the Targets defined in the Delivery Pipeline are of the same type. */
-export interface TargetsTypeCondition {
-  /** True if the targets are all a comparable type. For example this is true if all targets are GKE clusters. This is false if some targets are Cloud Run targets and others are GKE clusters. */
+  /** True if there aren't any missing Targets. */
   status?: boolean;
-  /** Human readable error message. */
-  errorDetails?: string;
 }
 /** PipelineCondition contains all conditions relevant to a Delivery Pipeline. */
 export interface PipelineCondition {
+  /** Details on the whether the targets enumerated in the pipeline are of the same type. */
+  targetsTypeCondition?: TargetsTypeCondition;
   /** Details around the Pipeline's overall status. */
   pipelineReadyCondition?: PipelineReadyCondition;
   /** Details around targets enumerated in the pipeline. */
   targetsPresentCondition?: TargetsPresentCondition;
-  /** Details on the whether the targets enumerated in the pipeline are of the same type. */
-  targetsTypeCondition?: TargetsTypeCondition;
 }
 /** A `DeliveryPipeline` resource in the Cloud Deploy API. A `DeliveryPipeline` defines a pipeline through which a Skaffold configuration can progress. */
 export interface DeliveryPipeline {
-  /** Optional. SerialPipeline defines a sequential set of stages for a `DeliveryPipeline`. */
-  serialPipeline?: SerialPipeline;
-  /** Output only. Time at which the pipeline was created. */
-  createTime?: string;
-  /** Identifier. Name of the `DeliveryPipeline`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}`. The `deliveryPipeline` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
-  name?: string;
-  /** Output only. Information around the state of the Delivery Pipeline. */
-  condition?: PipelineCondition;
-  /** Optional. Description of the `DeliveryPipeline`. Max length is 255 characters. */
-  description?: string;
   /** Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
   labels?: StringMap;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
+  /** Output only. Time at which the pipeline was created. */
+  createTime?: string;
   /** Output only. Most recent time at which the pipeline was updated. */
   updateTime?: string;
-  /** Output only. Unique identifier of the `DeliveryPipeline`. */
-  uid?: string;
+  /** Identifier. Name of the `DeliveryPipeline`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}`. The `deliveryPipeline` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
+  name?: string;
   /** Optional. When suspended, no new releases or rollouts can be created, but in-progress ones will complete. */
   suspended?: boolean;
+  /** Optional. SerialPipeline defines a sequential set of stages for a `DeliveryPipeline`. */
+  serialPipeline?: SerialPipeline;
   /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. */
   annotations?: StringMap;
+  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
+  /** Optional. Description of the `DeliveryPipeline`. Max length is 255 characters. */
+  description?: string;
+  /** Output only. Information around the state of the Delivery Pipeline. */
+  condition?: PipelineCondition;
+  /** Output only. Unique identifier of the `DeliveryPipeline`. */
+  uid?: string;
 }
 export interface CreateProjectsLocationsDeliveryPipelinesRequest {
-  /** Required. ID of the `DeliveryPipeline`. */
-  deliveryPipelineId?: string;
   /** Required. The parent collection in which the `DeliveryPipeline` must be created. The format is `projects/{project_id}/locations/{location_name}`. */
   parent: string;
-  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
-  validateOnly?: boolean;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
+  validateOnly?: boolean;
+  /** Required. ID of the `DeliveryPipeline`. */
+  deliveryPipelineId?: string;
   /** Request body */
   body?: DeliveryPipeline;
-}
-/** Contains criteria for selecting Targets. This could be used to select targets for a Deploy Policy or for an Automation. */
-export interface TargetAttribute {
-  /** Optional. ID of the `Target`. The value of this field could be one of the following: * The last segment of a target name * "*", all targets in a location */
-  id?: string;
-  /** Target labels. */
-  labels?: StringMap;
-}
-export type TargetAttributeList = Array<TargetAttribute>;
-/** AutomationResourceSelector contains the information to select the resources to which an Automation is going to be applied. */
-export interface AutomationResourceSelector {
-  /** Optional. Contains attributes about a target. */
-  targets?: TargetAttributeList;
 }
 /** The targets involved in a single timed promotion. */
 export interface Targets {
@@ -589,10 +576,10 @@ export interface Targets {
 export type TargetsList = Array<Targets>;
 /** `TimedPromoteReleaseCondition` contains conditions specific to an Automation with a Timed Promote Release rule defined. */
 export interface TimedPromoteReleaseCondition {
-  /** Output only. When the next scheduled promotion(s) will occur. */
-  nextPromotionTime?: string;
   /** Output only. A list of targets involved in the upcoming timed promotion(s). */
   targetsList?: TargetsList;
+  /** Output only. When the next scheduled promotion(s) will occur. */
+  nextPromotionTime?: string;
 }
 /** `AutomationRuleCondition` contains conditions relevant to an `Automation` rule. */
 export interface AutomationRuleCondition {
@@ -600,6 +587,52 @@ export interface AutomationRuleCondition {
   targetsPresentCondition?: TargetsPresentCondition;
   /** Optional. TimedPromoteReleaseCondition contains rule conditions specific to a an Automation with a timed promote release rule defined. */
   timedPromoteReleaseCondition?: TimedPromoteReleaseCondition;
+}
+/** The `PromoteRelease` rule will automatically promote a release from the current target to a specified target. */
+export interface PromoteReleaseRule {
+  /** Output only. Information around the state of the Automation rule. */
+  condition?: AutomationRuleCondition;
+  /** Optional. How long the release need to be paused until being promoted to the next target. */
+  wait?: string;
+  /** Required. ID of the rule. This id must be unique in the `Automation` resource to which this rule belongs. The format is `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
+  id?: string;
+  /** Optional. The ID of the stage in the pipeline to which this `Release` is deploying. If unspecified, default it to the next stage in the promotion flow. The value of this field could be one of the following: * The last segment of a target name * "@next", the next target in the promotion sequence */
+  destinationTargetId?: string;
+  /** Optional. The starting phase of the rollout created by this operation. Default to the first phase. */
+  destinationPhase?: string;
+}
+/** The `AdvanceRollout` automation rule will automatically advance a successful Rollout to the next phase. */
+export interface AdvanceRolloutRule {
+  /** Required. ID of the rule. This id must be unique in the `Automation` resource to which this rule belongs. The format is `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
+  id?: string;
+  /** Optional. Proceeds only after phase name matched any one in the list. This value must consist of lower-case letters, numbers, and hyphens, start with a letter and end with a letter or a number, and have a max length of 63 characters. In other words, it must match the following regex: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
+  sourcePhases?: StringList;
+  /** Output only. Information around the state of the Automation rule. */
+  condition?: AutomationRuleCondition;
+  /** Optional. How long to wait after a rollout is finished. */
+  wait?: string;
+}
+/** The `TimedPromoteReleaseRule` will automatically promote a release from the current target(s) to the specified target(s) on a configured schedule. */
+export interface TimedPromoteReleaseRule {
+  /** Required. Schedule in crontab format. e.g. "0 9 * * 1" for every Monday at 9am. */
+  schedule?: string;
+  /** Optional. The starting phase of the rollout created by this rule. Default to the first phase. */
+  destinationPhase?: string;
+  /** Required. The time zone in IANA format [IANA Time Zone Database](https://www.iana.org/time-zones) (e.g. America/New_York). */
+  timeZone?: string;
+  /** Required. ID of the rule. This ID must be unique in the `Automation` resource to which this rule belongs. The format is `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
+  id?: string;
+  /** Optional. The ID of the stage in the pipeline to which this `Release` is deploying. If unspecified, default it to the next stage in the promotion flow. The value of this field could be one of the following: * The last segment of a target name * "@next", the next target in the promotion sequence */
+  destinationTargetId?: string;
+  /** Output only. Information around the state of the Automation rule. */
+  condition?: AutomationRuleCondition;
+}
+/** Rolls back a `Rollout`. */
+export interface Rollback {
+  /** Optional. The starting phase ID for the `Rollout`. If unspecified, the `Rollout` will start in the stable phase. */
+  destinationPhase?: string;
+  /** Optional. If pending rollout exists on the target, the rollback operation will be aborted. */
+  disableRollbackIfRolloutPending?: boolean;
 }
 export type Clouddeploy_RetryBackoffModeEnum =
   | "BACKOFF_MODE_UNSPECIFIED"
@@ -614,232 +647,182 @@ export interface Clouddeploy_Retry {
   /** Required. Total number of retries. Retry is skipped if set to 0; The minimum value is 1, and the maximum value is 10. */
   attempts?: string;
 }
-/** Rolls back a `Rollout`. */
-export interface Rollback {
-  /** Optional. If pending rollout exists on the target, the rollback operation will be aborted. */
-  disableRollbackIfRolloutPending?: boolean;
-  /** Optional. The starting phase ID for the `Rollout`. If unspecified, the `Rollout` will start in the stable phase. */
-  destinationPhase?: string;
-}
 /** Configuration of the repair phase. */
 export interface RepairPhaseConfig {
-  /** Optional. Retries a failed job. */
-  retry?: Clouddeploy_Retry;
   /** Optional. Rolls back a `Rollout`. */
   rollback?: Rollback;
+  /** Optional. Retries a failed job. */
+  retry?: Clouddeploy_Retry;
 }
 export type RepairPhaseConfigList = Array<RepairPhaseConfig>;
 /** The `RepairRolloutRule` automation rule will automatically repair a failed `Rollout`. */
 export interface RepairRolloutRule {
-  /** Output only. Information around the state of the 'Automation' rule. */
-  condition?: AutomationRuleCondition;
-  /** Optional. Jobs to repair. Proceeds only after job name matched any one in the list, or for all jobs if unspecified or empty. The phase that includes the job must match the phase ID specified in `source_phase`. This value must consist of lower-case letters, numbers, and hyphens, start with a letter and end with a letter or a number, and have a max length of 63 characters. In other words, it must match the following regex: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
-  jobs?: StringList;
-  /** Optional. Phases within which jobs are subject to automatic repair actions on failure. Proceeds only after phase name matched any one in the list, or for all phases if unspecified. This value must consist of lower-case letters, numbers, and hyphens, start with a letter and end with a letter or a number, and have a max length of 63 characters. In other words, it must match the following regex: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
-  phases?: StringList;
-  /** Required. ID of the rule. This id must be unique in the `Automation` resource to which this rule belongs. The format is `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
-  id?: string;
   /** Required. Defines the types of automatic repair phases for failed jobs. */
   repairPhases?: RepairPhaseConfigList;
-}
-/** The `AdvanceRollout` automation rule will automatically advance a successful Rollout to the next phase. */
-export interface AdvanceRolloutRule {
+  /** Optional. Jobs to repair. Proceeds only after job name matched any one in the list, or for all jobs if unspecified or empty. The phase that includes the job must match the phase ID specified in `source_phase`. This value must consist of lower-case letters, numbers, and hyphens, start with a letter and end with a letter or a number, and have a max length of 63 characters. In other words, it must match the following regex: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
+  jobs?: StringList;
   /** Required. ID of the rule. This id must be unique in the `Automation` resource to which this rule belongs. The format is `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
   id?: string;
-  /** Optional. How long to wait after a rollout is finished. */
-  wait?: string;
-  /** Output only. Information around the state of the Automation rule. */
+  /** Output only. Information around the state of the 'Automation' rule. */
   condition?: AutomationRuleCondition;
-  /** Optional. Proceeds only after phase name matched any one in the list. This value must consist of lower-case letters, numbers, and hyphens, start with a letter and end with a letter or a number, and have a max length of 63 characters. In other words, it must match the following regex: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
-  sourcePhases?: StringList;
-}
-/** The `PromoteRelease` rule will automatically promote a release from the current target to a specified target. */
-export interface PromoteReleaseRule {
-  /** Optional. How long the release need to be paused until being promoted to the next target. */
-  wait?: string;
-  /** Optional. The starting phase of the rollout created by this operation. Default to the first phase. */
-  destinationPhase?: string;
-  /** Output only. Information around the state of the Automation rule. */
-  condition?: AutomationRuleCondition;
-  /** Required. ID of the rule. This id must be unique in the `Automation` resource to which this rule belongs. The format is `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
-  id?: string;
-  /** Optional. The ID of the stage in the pipeline to which this `Release` is deploying. If unspecified, default it to the next stage in the promotion flow. The value of this field could be one of the following: * The last segment of a target name * "@next", the next target in the promotion sequence */
-  destinationTargetId?: string;
-}
-/** The `TimedPromoteReleaseRule` will automatically promote a release from the current target(s) to the specified target(s) on a configured schedule. */
-export interface TimedPromoteReleaseRule {
-  /** Optional. The starting phase of the rollout created by this rule. Default to the first phase. */
-  destinationPhase?: string;
-  /** Optional. The ID of the stage in the pipeline to which this `Release` is deploying. If unspecified, default it to the next stage in the promotion flow. The value of this field could be one of the following: * The last segment of a target name * "@next", the next target in the promotion sequence */
-  destinationTargetId?: string;
-  /** Output only. Information around the state of the Automation rule. */
-  condition?: AutomationRuleCondition;
-  /** Required. ID of the rule. This ID must be unique in the `Automation` resource to which this rule belongs. The format is `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
-  id?: string;
-  /** Required. Schedule in crontab format. e.g. "0 9 * * 1" for every Monday at 9am. */
-  schedule?: string;
-  /** Required. The time zone in IANA format [IANA Time Zone Database](https://www.iana.org/time-zones) (e.g. America/New_York). */
-  timeZone?: string;
+  /** Optional. Phases within which jobs are subject to automatic repair actions on failure. Proceeds only after phase name matched any one in the list, or for all phases if unspecified. This value must consist of lower-case letters, numbers, and hyphens, start with a letter and end with a letter or a number, and have a max length of 63 characters. In other words, it must match the following regex: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
+  phases?: StringList;
 }
 /** `AutomationRule` defines the automation activities. */
 export interface AutomationRule {
-  /** Optional. The `RepairRolloutRule` will automatically repair a failed rollout. */
-  repairRolloutRule?: RepairRolloutRule;
-  /** Optional. The `AdvanceRolloutRule` will automatically advance a successful Rollout. */
-  advanceRolloutRule?: AdvanceRolloutRule;
   /** Optional. `PromoteReleaseRule` will automatically promote a release from the current target to a specified target. */
   promoteReleaseRule?: PromoteReleaseRule;
+  /** Optional. The `AdvanceRolloutRule` will automatically advance a successful Rollout. */
+  advanceRolloutRule?: AdvanceRolloutRule;
   /** Optional. The `TimedPromoteReleaseRule` will automatically promote a release from the current target(s) to the specified target(s) on a configured schedule. */
   timedPromoteReleaseRule?: TimedPromoteReleaseRule;
+  /** Optional. The `RepairRolloutRule` will automatically repair a failed rollout. */
+  repairRolloutRule?: RepairRolloutRule;
 }
 export type AutomationRuleList = Array<AutomationRule>;
+/** Contains criteria for selecting Targets. This could be used to select targets for a Deploy Policy or for an Automation. */
+export interface TargetAttribute {
+  /** Optional. ID of the `Target`. The value of this field could be one of the following: * The last segment of a target name * "*", all targets in a location */
+  id?: string;
+  /** Target labels. */
+  labels?: StringMap;
+}
+export type TargetAttributeList = Array<TargetAttribute>;
+/** AutomationResourceSelector contains the information to select the resources to which an Automation is going to be applied. */
+export interface AutomationResourceSelector {
+  /** Optional. Contains attributes about a target. */
+  targets?: TargetAttributeList;
+}
 /** An `Automation` resource in the Cloud Deploy API. An `Automation` enables the automation of manually driven actions for a Delivery Pipeline, which includes Release promotion among Targets, Rollout repair and Rollout deployment strategy advancement. The intention of Automation is to reduce manual intervention in the continuous delivery process. */
 export interface Automation {
-  /** Required. Selected resources to which the automation will be applied. */
-  selector?: AutomationResourceSelector;
-  /** Required. List of Automation rules associated with the Automation resource. Must have at least one rule and limited to 250 rules per Delivery Pipeline. Note: the order of the rules here is not the same as the order of execution. */
-  rules?: AutomationRuleList;
-  /** Output only. Name of the `Automation`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{delivery_pipeline}/automations/{automation}`. */
-  name?: string;
-  /** Optional. Description of the `Automation`. Max length is 255 characters. */
-  description?: string;
-  /** Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 63 characters. */
-  labels?: StringMap;
-  /** Output only. Time at which the automation was updated. */
-  updateTime?: string;
-  /** Required. Email address of the user-managed IAM service account that creates Cloud Deploy release and rollout resources. */
-  serviceAccount?: string;
-  /** Optional. When Suspended, automation is deactivated from execution. */
-  suspended?: boolean;
   /** Optional. The weak etag of the `Automation` resource. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
   etag?: string;
   /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. Annotations must meet the following constraints: * Annotations are key/value pairs. * Valid annotation keys have two segments: an optional prefix and name, separated by a slash (`/`). * The name segment is required and must be 63 characters or less, beginning and ending with an alphanumeric character (`[a-z0-9A-Z]`) with dashes (`-`), underscores (`_`), dots (`.`), and alphanumerics between. * The prefix is optional. If specified, the prefix must be a DNS subdomain: a series of DNS labels separated by dots(`.`), not longer than 253 characters in total, followed by a slash (`/`). See https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/#syntax-and-character-set for more details. */
   annotations?: StringMap;
+  /** Output only. Name of the `Automation`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{delivery_pipeline}/automations/{automation}`. */
+  name?: string;
+  /** Required. List of Automation rules associated with the Automation resource. Must have at least one rule and limited to 250 rules per Delivery Pipeline. Note: the order of the rules here is not the same as the order of execution. */
+  rules?: AutomationRuleList;
   /** Output only. Time at which the automation was created. */
   createTime?: string;
+  /** Output only. Time at which the automation was updated. */
+  updateTime?: string;
+  /** Required. Selected resources to which the automation will be applied. */
+  selector?: AutomationResourceSelector;
+  /** Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 63 characters. */
+  labels?: StringMap;
+  /** Required. Email address of the user-managed IAM service account that creates Cloud Deploy release and rollout resources. */
+  serviceAccount?: string;
+  /** Optional. When Suspended, automation is deactivated from execution. */
+  suspended?: boolean;
   /** Output only. Unique identifier of the `Automation`. */
   uid?: string;
+  /** Optional. Description of the `Automation`. Max length is 255 characters. */
+  description?: string;
 }
 export interface CreateProjectsLocationsDeliveryPipelinesAutomationsRequest {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The parent collection in which the `Automation` must be created. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}`. */
   parent: string;
-  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
-  validateOnly?: boolean;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Required. ID of the `Automation`. */
   automationId?: string;
+  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
+  validateOnly?: boolean;
   /** Request body */
   body?: Automation;
 }
-/** Description of an a image to use during Skaffold rendering. */
-export interface BuildArtifact {
-  /** Optional. Image name in Skaffold configuration. */
-  image?: string;
-  /** Optional. Image tag to use. This will generally be the full path to an image, such as "gcr.io/my-project/busybox:1.2.3" or "gcr.io/my-project/busybox@sha256:abc123". */
-  tag?: string;
-}
-export type BuildArtifactList = Array<BuildArtifact>;
-/** Details of ToolVersions for the release. */
-export interface ToolVersions {
-  /** Optional. The Docker version to use for Cloud Deploy operations. */
-  docker?: string;
-  /** Optional. The Skaffold version to use for Cloud Deploy operations. */
-  skaffold?: string;
-  /** Optional. The Kubectl version to use for Cloud Deploy operations. */
-  kubectl?: string;
-  /** Optional. The Helm version to use for Cloud Deploy operations. */
-  helm?: string;
-  /** Optional. The kpt version to use for Cloud Deploy operations. */
-  kpt?: string;
-  /** Optional. The Kustomize version to use for Cloud Deploy operations. */
-  kustomize?: string;
-}
 /** Contains the paths to the artifacts, relative to the URI, for a phase. */
 export interface PhaseArtifact {
-  /** Output only. File path of the directory of rendered job manifests relative to the URI. This is only set if it is applicable. */
-  jobManifestsPath?: string;
   /** Output only. File path of the rendered manifest relative to the URI. */
   manifestPath?: string;
   /** Output only. File path of the resolved Skaffold configuration relative to the URI. */
   skaffoldConfigPath?: string;
+  /** Output only. File path of the directory of rendered job manifests relative to the URI. This is only set if it is applicable. */
+  jobManifestsPath?: string;
 }
 export type PhaseArtifactMap = { [key: string]: PhaseArtifact | undefined };
 /** The artifacts produced by a target render operation. */
 export interface TargetArtifact {
   /** Output only. File path of the resolved Skaffold configuration for the stable phase, relative to the URI. */
   skaffoldConfigPath?: string;
-  /** Output only. URI of a directory containing the artifacts. This contains deployment configuration used by Skaffold during a rollout, and all paths are relative to this location. */
-  artifactUri?: string;
   /** Output only. Map from the phase ID to the phase artifacts for the `Target`. */
   phaseArtifacts?: PhaseArtifactMap;
+  /** Output only. URI of a directory containing the artifacts. This contains deployment configuration used by Skaffold during a rollout, and all paths are relative to this location. */
+  artifactUri?: string;
   /** Output only. File path of the rendered manifest relative to the URI for the stable phase. */
   manifestPath?: string;
 }
 export type TargetArtifactMap = { [key: string]: TargetArtifact | undefined };
-/** Information specifying a Custom Target. */
-export interface CustomTarget {
-  /** Required. The name of the CustomTargetType. Format must be `projects/{project}/locations/{location}/customTargetTypes/{custom_target_type}`. */
-  customTargetType?: string;
+/** ReleaseReadyCondition contains information around the status of the Release. If a release is not ready, you cannot create a rollout with the release. */
+export interface ReleaseReadyCondition {
+  /** True if the Release is in a valid state. Otherwise at least one condition in `ReleaseCondition` is in an invalid state. Iterate over those conditions and see which condition(s) has status = false to find out what is wrong with the Release. */
+  status?: boolean;
+}
+export type ToolVersionSupportedConditionToolVersionSupportStateEnum =
+  | "TOOL_VERSION_SUPPORT_STATE_UNSPECIFIED"
+  | "TOOL_VERSION_SUPPORT_STATE_SUPPORTED"
+  | "TOOL_VERSION_SUPPORT_STATE_MAINTENANCE_MODE"
+  | "TOOL_VERSION_SUPPORT_STATE_UNSUPPORTED";
+/** ToolVersionSupportedCondition contains information about when support for the release's version of a tool ends. */
+export interface ToolVersionSupportedCondition {
+  /** Output only. The time at which this release's version of the tool will enter maintenance mode. */
+  maintenanceModeTime?: string;
+  /** Output only. The tool support state for this release's version of the tool. */
+  toolVersionSupportState?:
+    | ToolVersionSupportedConditionToolVersionSupportStateEnum
+    | (string & {});
+  /** Output only. The time at which this release's version of the tool will no longer be supported. */
+  supportExpirationTime?: string;
+  /** Output only. True if the version of Tool used by this release is supported. */
+  status?: boolean;
+}
+export type SkaffoldSupportedConditionSkaffoldSupportStateEnum =
+  | "SKAFFOLD_SUPPORT_STATE_UNSPECIFIED"
+  | "SKAFFOLD_SUPPORT_STATE_SUPPORTED"
+  | "SKAFFOLD_SUPPORT_STATE_MAINTENANCE_MODE"
+  | "SKAFFOLD_SUPPORT_STATE_UNSUPPORTED";
+/** SkaffoldSupportedCondition contains information about when support for the release's version of Skaffold ends. */
+export interface SkaffoldSupportedCondition {
+  /** The time at which this release's version of Skaffold will enter maintenance mode. */
+  maintenanceModeTime?: string;
+  /** True if the version of Skaffold used by this release is supported. */
+  status?: boolean;
+  /** The Skaffold support state for this release's version of Skaffold. */
+  skaffoldSupportState?: SkaffoldSupportedConditionSkaffoldSupportStateEnum | (string & {});
+  /** The time at which this release's version of Skaffold will no longer be supported. */
+  supportExpirationTime?: string;
+}
+/** ReleaseCondition contains all conditions relevant to a Release. */
+export interface ReleaseCondition {
+  /** Details around the Releases's overall status. */
+  releaseReadyCondition?: ReleaseReadyCondition;
+  /** Output only. Details around the support state of the release's Skaffold version. */
+  skaffoldVersionSupportedCondition?: ToolVersionSupportedCondition;
+  /** Output only. Details around the support state of the release's Helm version. */
+  helmVersionSupportedCondition?: ToolVersionSupportedCondition;
+  /** Output only. Details around the support state of the release's Docker version. */
+  dockerVersionSupportedCondition?: ToolVersionSupportedCondition;
+  /** Output only. Details around the support state of the release's kpt version. */
+  kptVersionSupportedCondition?: ToolVersionSupportedCondition;
+  /** Output only. Details around the support state of the release's Kubectl version. */
+  kubectlVersionSupportedCondition?: ToolVersionSupportedCondition;
+  /** Output only. Details around the support state of the release's Kustomize version. */
+  kustomizeVersionSupportedCondition?: ToolVersionSupportedCondition;
+  /** Details around the support state of the release's Skaffold version. */
+  skaffoldSupportedCondition?: SkaffoldSupportedCondition;
 }
 /** Information specifying a GKE Cluster. */
 export interface GkeCluster {
-  /** Optional. If set, the cluster will be accessed using the DNS endpoint. Note that both `dns_endpoint` and `internal_ip` cannot be set to true. */
-  dnsEndpoint?: boolean;
-  /** Optional. If true, `cluster` is accessed using the private IP address of the control plane endpoint. Otherwise, the default IP address of the control plane endpoint is used. The default IP address is the private IP address for clusters with private control-plane endpoints and the public IP address otherwise. Only specify this option when `cluster` is a [private GKE cluster](https://cloud.google.com/kubernetes-engine/docs/concepts/private-cluster-concept). Note that `internal_ip` and `dns_endpoint` cannot both be set to true. */
-  internalIp?: boolean;
-  /** Optional. If set, used to configure a [proxy](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/#proxy) to the Kubernetes server. */
-  proxyUrl?: string;
   /** Optional. Information specifying a GKE Cluster. Format is `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}`. */
   cluster?: string;
+  /** Optional. If set, used to configure a [proxy](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/#proxy) to the Kubernetes server. */
+  proxyUrl?: string;
+  /** Optional. If true, `cluster` is accessed using the private IP address of the control plane endpoint. Otherwise, the default IP address of the control plane endpoint is used. The default IP address is the private IP address for clusters with private control-plane endpoints and the public IP address otherwise. Only specify this option when `cluster` is a [private GKE cluster](https://cloud.google.com/kubernetes-engine/docs/concepts/private-cluster-concept). Note that `internal_ip` and `dns_endpoint` cannot both be set to true. */
+  internalIp?: boolean;
+  /** Optional. If set, the cluster will be accessed using the DNS endpoint. Note that both `dns_endpoint` and `internal_ip` cannot be set to true. */
+  dnsEndpoint?: boolean;
 }
-export type ExecutionConfigUsagesItemEnum =
-  | "EXECUTION_ENVIRONMENT_USAGE_UNSPECIFIED"
-  | "RENDER"
-  | "DEPLOY"
-  | "VERIFY"
-  | "PREDEPLOY"
-  | "POSTDEPLOY"
-  | "ANALYSIS";
-export type ExecutionConfigUsagesItemEnumList = Array<
-  ExecutionConfigUsagesItemEnum | (string & {})
->;
-/** Execution using a private Cloud Build pool. */
-export interface PrivatePool {
-  /** Optional. Google service account to use for execution. If unspecified, the project execution service account (-compute@developer.gserviceaccount.com) will be used. */
-  serviceAccount?: string;
-  /** Optional. Cloud Storage location where execution outputs should be stored. This can either be a bucket ("gs://my-bucket") or a path within a bucket ("gs://my-bucket/my-dir"). If unspecified, a default bucket located in the same region will be used. */
-  artifactStorage?: string;
-  /** Required. Resource name of the Cloud Build worker pool to use. The format is `projects/{project}/locations/{location}/workerPools/{pool}`. */
-  workerPool?: string;
-}
-/** Execution using the default Cloud Build pool. */
-export interface DefaultPool {
-  /** Optional. Cloud Storage location where execution outputs should be stored. This can either be a bucket ("gs://my-bucket") or a path within a bucket ("gs://my-bucket/my-dir"). If unspecified, a default bucket located in the same region will be used. */
-  artifactStorage?: string;
-  /** Optional. Google service account to use for execution. If unspecified, the project execution service account (-compute@developer.gserviceaccount.com) will be used. */
-  serviceAccount?: string;
-}
-/** Configuration of the environment to use when calling Skaffold. */
-export interface ExecutionConfig {
-  /** Optional. Cloud Storage location in which to store execution outputs. This can either be a bucket ("gs://my-bucket") or a path within a bucket ("gs://my-bucket/my-dir"). If unspecified, a default bucket located in the same region will be used. */
-  artifactStorage?: string;
-  /** Optional. If true, additional logging will be enabled when running builds in this execution environment. */
-  verbose?: boolean;
-  /** Required. Usages when this configuration should be applied. */
-  usages?: ExecutionConfigUsagesItemEnumList;
-  /** Optional. The resource name of the `WorkerPool`, with the format `projects/{project}/locations/{location}/workerPools/{worker_pool}`. If this optional field is unspecified, the default Cloud Build pool will be used. */
-  workerPool?: string;
-  /** Optional. Use private Cloud Build pool. */
-  privatePool?: PrivatePool;
-  /** Optional. Execution timeout for a Cloud Build Execution. This must be between 10m and 24h in seconds format. If unspecified, a default timeout of 1h is used. */
-  executionTimeout?: string;
-  /** Optional. Use default Cloud Build pool. */
-  defaultPool?: DefaultPool;
-  /** Optional. Google service account to use for execution. If unspecified, the project execution service account (-compute@developer.gserviceaccount.com) is used. */
-  serviceAccount?: string;
-}
-export type ExecutionConfigList = Array<ExecutionConfig>;
 /** Information specifying an Anthos Cluster. */
 export interface AnthosCluster {
   /** Optional. Membership of the GKE Hub-registered cluster to which to apply the Skaffold configuration. Format is `projects/{project}/locations/{location}/memberships/{membership_name}`. */
@@ -855,96 +838,142 @@ export interface AssociatedEntities {
   gkeClusters?: GkeClusterList;
 }
 export type AssociatedEntitiesMap = { [key: string]: AssociatedEntities | undefined };
-/** Information specifying where to deploy a Cloud Run Service. */
-export interface CloudRunLocation {
-  /** Required. The location for the Cloud Run Service. Format must be `projects/{project}/locations/{location}`. */
-  location?: string;
+/** Execution using the default Cloud Build pool. */
+export interface DefaultPool {
+  /** Optional. Google service account to use for execution. If unspecified, the project execution service account (-compute@developer.gserviceaccount.com) will be used. */
+  serviceAccount?: string;
+  /** Optional. Cloud Storage location where execution outputs should be stored. This can either be a bucket ("gs://my-bucket") or a path within a bucket ("gs://my-bucket/my-dir"). If unspecified, a default bucket located in the same region will be used. */
+  artifactStorage?: string;
 }
+/** Execution using a private Cloud Build pool. */
+export interface PrivatePool {
+  /** Optional. Google service account to use for execution. If unspecified, the project execution service account (-compute@developer.gserviceaccount.com) will be used. */
+  serviceAccount?: string;
+  /** Required. Resource name of the Cloud Build worker pool to use. The format is `projects/{project}/locations/{location}/workerPools/{pool}`. */
+  workerPool?: string;
+  /** Optional. Cloud Storage location where execution outputs should be stored. This can either be a bucket ("gs://my-bucket") or a path within a bucket ("gs://my-bucket/my-dir"). If unspecified, a default bucket located in the same region will be used. */
+  artifactStorage?: string;
+}
+export type ExecutionConfigUsagesItemEnum =
+  | "EXECUTION_ENVIRONMENT_USAGE_UNSPECIFIED"
+  | "RENDER"
+  | "DEPLOY"
+  | "VERIFY"
+  | "PREDEPLOY"
+  | "POSTDEPLOY"
+  | "ANALYSIS";
+export type ExecutionConfigUsagesItemEnumList = Array<
+  ExecutionConfigUsagesItemEnum | (string & {})
+>;
+/** Configuration of the environment to use when calling Skaffold. */
+export interface ExecutionConfig {
+  /** Optional. The resource name of the `WorkerPool`, with the format `projects/{project}/locations/{location}/workerPools/{worker_pool}`. If this optional field is unspecified, the default Cloud Build pool will be used. */
+  workerPool?: string;
+  /** Optional. Use default Cloud Build pool. */
+  defaultPool?: DefaultPool;
+  /** Optional. Use private Cloud Build pool. */
+  privatePool?: PrivatePool;
+  /** Optional. Google service account to use for execution. If unspecified, the project execution service account (-compute@developer.gserviceaccount.com) is used. */
+  serviceAccount?: string;
+  /** Required. Usages when this configuration should be applied. */
+  usages?: ExecutionConfigUsagesItemEnumList;
+  /** Optional. Cloud Storage location in which to store execution outputs. This can either be a bucket ("gs://my-bucket") or a path within a bucket ("gs://my-bucket/my-dir"). If unspecified, a default bucket located in the same region will be used. */
+  artifactStorage?: string;
+  /** Optional. Execution timeout for a Cloud Build Execution. This must be between 10m and 24h in seconds format. If unspecified, a default timeout of 1h is used. */
+  executionTimeout?: string;
+  /** Optional. If true, additional logging will be enabled when running builds in this execution environment. */
+  verbose?: boolean;
+}
+export type ExecutionConfigList = Array<ExecutionConfig>;
 /** Information specifying a multiTarget. */
 export interface MultiTarget {
   /** Required. The target_ids of this multiTarget. */
   targetIds?: StringList;
 }
+/** Information specifying a Custom Target. */
+export interface CustomTarget {
+  /** Required. The name of the CustomTargetType. Format must be `projects/{project}/locations/{location}/customTargetTypes/{custom_target_type}`. */
+  customTargetType?: string;
+}
+/** Information specifying where to deploy a Cloud Run Service. */
+export interface CloudRunLocation {
+  /** Required. The location for the Cloud Run Service. Format must be `projects/{project}/locations/{location}`. */
+  location?: string;
+}
 /** A `Target` resource in the Cloud Deploy API. A `Target` defines a location to which a Skaffold configuration can be deployed. */
 export interface Target {
-  /** Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
-  labels?: StringMap;
-  /** Output only. Resource id of the `Target`. */
-  targetId?: string;
-  /** Output only. Time at which the `Target` was created. */
-  createTime?: string;
-  /** Optional. Information specifying a Custom Target. */
-  customTarget?: CustomTarget;
-  /** Optional. Information specifying a GKE Cluster. */
-  gke?: GkeCluster;
-  /** Output only. Unique identifier of the `Target`. */
-  uid?: string;
-  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
-  annotations?: StringMap;
-  /** Optional. Configurations for all execution that relates to this `Target`. Each `ExecutionEnvironmentUsage` value may only be used in a single configuration; using the same value multiple times is an error. When one or more configurations are specified, they must include the `RENDER` and `DEPLOY` `ExecutionEnvironmentUsage` values. When no configurations are specified, execution will use the default specified in `DefaultPool`. */
-  executionConfigs?: ExecutionConfigList;
-  /** Optional. Whether or not the `Target` requires approval. */
-  requireApproval?: boolean;
-  /** Optional. Information specifying an Anthos Cluster. */
-  anthosCluster?: AnthosCluster;
-  /** Optional. Map of entity IDs to their associated entities. Associated entities allows specifying places other than the deployment target for specific features. For example, the Gateway API canary can be configured to deploy the HTTPRoute to a different cluster(s) than the deployment cluster using associated entities. An entity ID must consist of lower-case letters, numbers, and hyphens, start with a letter and end with a letter or a number, and have a max length of 63 characters. In other words, it must match the following regex: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
-  associatedEntities?: AssociatedEntitiesMap;
-  /** Optional. The deploy parameters to use for this target. */
-  deployParameters?: StringMap;
   /** Identifier. Name of the `Target`. Format is `projects/{project}/locations/{location}/targets/{target}`. The `target` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
   name?: string;
-  /** Optional. Description of the `Target`. Max length is 255 characters. */
-  description?: string;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
-  /** Optional. Information specifying a Cloud Run deployment target. */
-  run?: CloudRunLocation;
-  /** Output only. Most recent time at which the `Target` was updated. */
-  updateTime?: string;
+  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
+  annotations?: StringMap;
+  /** Optional. Information specifying a GKE Cluster. */
+  gke?: GkeCluster;
+  /** Optional. Map of entity IDs to their associated entities. Associated entities allows specifying places other than the deployment target for specific features. For example, the Gateway API canary can be configured to deploy the HTTPRoute to a different cluster(s) than the deployment cluster using associated entities. An entity ID must consist of lower-case letters, numbers, and hyphens, start with a letter and end with a letter or a number, and have a max length of 63 characters. In other words, it must match the following regex: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
+  associatedEntities?: AssociatedEntitiesMap;
+  /** Optional. Configurations for all execution that relates to this `Target`. Each `ExecutionEnvironmentUsage` value may only be used in a single configuration; using the same value multiple times is an error. When one or more configurations are specified, they must include the `RENDER` and `DEPLOY` `ExecutionEnvironmentUsage` values. When no configurations are specified, execution will use the default specified in `DefaultPool`. */
+  executionConfigs?: ExecutionConfigList;
   /** Optional. Information specifying a multiTarget. */
   multiTarget?: MultiTarget;
+  /** Optional. Information specifying a Custom Target. */
+  customTarget?: CustomTarget;
+  /** Optional. The deploy parameters to use for this target. */
+  deployParameters?: StringMap;
+  /** Output only. Most recent time at which the `Target` was updated. */
+  updateTime?: string;
+  /** Optional. Information specifying an Anthos Cluster. */
+  anthosCluster?: AnthosCluster;
+  /** Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
+  labels?: StringMap;
+  /** Optional. Whether or not the `Target` requires approval. */
+  requireApproval?: boolean;
+  /** Optional. Information specifying a Cloud Run deployment target. */
+  run?: CloudRunLocation;
+  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
+  /** Output only. Resource id of the `Target`. */
+  targetId?: string;
+  /** Optional. Description of the `Target`. Max length is 255 characters. */
+  description?: string;
+  /** Output only. Unique identifier of the `Target`. */
+  uid?: string;
+  /** Output only. Time at which the `Target` was created. */
+  createTime?: string;
 }
 export type TargetList = Array<Target>;
-export type CustomTargetTypeList = Array<CustomTargetType>;
 /** KubernetesRenderMetadata contains Kubernetes information associated with a `Release` render. */
 export interface KubernetesRenderMetadata {
+  /** Output only. Namespace the Kubernetes resources will be applied to in the GKE cluster. Only set if applying resources to a single namespace. */
+  kubernetesNamespace?: string;
   /** Output only. Name of the canary version of the Kubernetes Deployment that will be applied to the GKE cluster. Only set if a canary deployment strategy was configured. */
   canaryDeployment?: string;
   /** Output only. Name of the Kubernetes Deployment that will be applied to the GKE cluster. Only set if a single Deployment was provided in the rendered manifest. */
   deployment?: string;
-  /** Output only. Namespace the Kubernetes resources will be applied to in the GKE cluster. Only set if applying resources to a single namespace. */
-  kubernetesNamespace?: string;
-}
-/** CloudRunRenderMetadata contains Cloud Run information associated with a `Release` render. */
-export interface CloudRunRenderMetadata {
-  /** Output only. The name of the Cloud Run Job in the rendered manifest. Format is `projects/{project}/locations/{location}/jobs/{job}`. */
-  job?: string;
-  /** Output only. The name of the Cloud Run Worker Pool in the rendered manifest. Format is `projects/{project}/locations/{location}/workerPools/{worker_pool}`. */
-  workerPool?: string;
-  /** Output only. The name of the Cloud Run Revision in the rendered manifest. Format is `projects/{project}/locations/{location}/services/{service}/revisions/{revision}`. */
-  revision?: string;
-  /** Output only. The name of the Cloud Run Service in the rendered manifest. Format is `projects/{project}/locations/{location}/services/{service}`. */
-  service?: string;
 }
 /** CustomMetadata contains information from a user-defined operation. */
 export interface CustomMetadata {
   /** Output only. Key-value pairs provided by the user-defined operation. */
   values?: StringMap;
 }
+/** CloudRunRenderMetadata contains Cloud Run information associated with a `Release` render. */
+export interface CloudRunRenderMetadata {
+  /** Output only. The name of the Cloud Run Revision in the rendered manifest. Format is `projects/{project}/locations/{location}/services/{service}/revisions/{revision}`. */
+  revision?: string;
+  /** Output only. The name of the Cloud Run Service in the rendered manifest. Format is `projects/{project}/locations/{location}/services/{service}`. */
+  service?: string;
+  /** Output only. The name of the Cloud Run Worker Pool in the rendered manifest. Format is `projects/{project}/locations/{location}/workerPools/{worker_pool}`. */
+  workerPool?: string;
+  /** Output only. The name of the Cloud Run Job in the rendered manifest. Format is `projects/{project}/locations/{location}/jobs/{job}`. */
+  job?: string;
+}
 /** RenderMetadata includes information associated with a `Release` render. */
 export interface RenderMetadata {
   /** Output only. Metadata associated with rendering for a Kubernetes cluster (GKE or GKE Enterprise target). */
   kubernetes?: KubernetesRenderMetadata;
-  /** Output only. Metadata associated with rendering for Cloud Run. */
-  cloudRun?: CloudRunRenderMetadata;
   /** Output only. Custom metadata provided by user-defined render operation. */
   custom?: CustomMetadata;
+  /** Output only. Metadata associated with rendering for Cloud Run. */
+  cloudRun?: CloudRunRenderMetadata;
 }
-export type TargetRenderRenderingStateEnum =
-  | "TARGET_RENDER_STATE_UNSPECIFIED"
-  | "SUCCEEDED"
-  | "FAILED"
-  | "IN_PROGRESS";
 export type TargetRenderFailureCauseEnum =
   | "FAILURE_CAUSE_UNSPECIFIED"
   | "CLOUD_BUILD_UNAVAILABLE"
@@ -954,143 +983,114 @@ export type TargetRenderFailureCauseEnum =
   | "CUSTOM_ACTION_NOT_FOUND"
   | "DEPLOYMENT_STRATEGY_NOT_SUPPORTED"
   | "RENDER_FEATURE_NOT_SUPPORTED";
+export type TargetRenderRenderingStateEnum =
+  | "TARGET_RENDER_STATE_UNSPECIFIED"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "IN_PROGRESS";
 /** Details of rendering for a single target. */
 export interface TargetRender {
-  /** Output only. The resource name of the Cloud Build `Build` object that is used to render the manifest for this target. Format is `projects/{project}/locations/{location}/builds/{build}`. */
-  renderingBuild?: string;
-  /** Output only. Metadata related to the `Release` render for this Target. */
-  metadata?: RenderMetadata;
-  /** Output only. Current state of the render operation for this Target. */
-  renderingState?: TargetRenderRenderingStateEnum | (string & {});
   /** Output only. Additional information about the render failure, if available. */
   failureMessage?: string;
+  /** Output only. Metadata related to the `Release` render for this Target. */
+  metadata?: RenderMetadata;
+  /** Output only. The resource name of the Cloud Build `Build` object that is used to render the manifest for this target. Format is `projects/{project}/locations/{location}/builds/{build}`. */
+  renderingBuild?: string;
   /** Output only. Reason this render failed. This will always be unspecified while the render in progress. */
   failureCause?: TargetRenderFailureCauseEnum | (string & {});
+  /** Output only. Current state of the render operation for this Target. */
+  renderingState?: TargetRenderRenderingStateEnum | (string & {});
 }
 export type TargetRenderMap = { [key: string]: TargetRender | undefined };
-export type ToolVersionSupportedConditionToolVersionSupportStateEnum =
-  | "TOOL_VERSION_SUPPORT_STATE_UNSPECIFIED"
-  | "TOOL_VERSION_SUPPORT_STATE_SUPPORTED"
-  | "TOOL_VERSION_SUPPORT_STATE_MAINTENANCE_MODE"
-  | "TOOL_VERSION_SUPPORT_STATE_UNSUPPORTED";
-/** ToolVersionSupportedCondition contains information about when support for the release's version of a tool ends. */
-export interface ToolVersionSupportedCondition {
-  /** Output only. The tool support state for this release's version of the tool. */
-  toolVersionSupportState?:
-    | ToolVersionSupportedConditionToolVersionSupportStateEnum
-    | (string & {});
-  /** Output only. True if the version of Tool used by this release is supported. */
-  status?: boolean;
-  /** Output only. The time at which this release's version of the tool will enter maintenance mode. */
-  maintenanceModeTime?: string;
-  /** Output only. The time at which this release's version of the tool will no longer be supported. */
-  supportExpirationTime?: string;
-}
-export type SkaffoldSupportedConditionSkaffoldSupportStateEnum =
-  | "SKAFFOLD_SUPPORT_STATE_UNSPECIFIED"
-  | "SKAFFOLD_SUPPORT_STATE_SUPPORTED"
-  | "SKAFFOLD_SUPPORT_STATE_MAINTENANCE_MODE"
-  | "SKAFFOLD_SUPPORT_STATE_UNSUPPORTED";
-/** SkaffoldSupportedCondition contains information about when support for the release's version of Skaffold ends. */
-export interface SkaffoldSupportedCondition {
-  /** The Skaffold support state for this release's version of Skaffold. */
-  skaffoldSupportState?: SkaffoldSupportedConditionSkaffoldSupportStateEnum | (string & {});
-  /** The time at which this release's version of Skaffold will no longer be supported. */
-  supportExpirationTime?: string;
-  /** The time at which this release's version of Skaffold will enter maintenance mode. */
-  maintenanceModeTime?: string;
-  /** True if the version of Skaffold used by this release is supported. */
-  status?: boolean;
-}
-/** ReleaseReadyCondition contains information around the status of the Release. If a release is not ready, you cannot create a rollout with the release. */
-export interface ReleaseReadyCondition {
-  /** True if the Release is in a valid state. Otherwise at least one condition in `ReleaseCondition` is in an invalid state. Iterate over those conditions and see which condition(s) has status = false to find out what is wrong with the Release. */
-  status?: boolean;
-}
-/** ReleaseCondition contains all conditions relevant to a Release. */
-export interface ReleaseCondition {
-  /** Output only. Details around the support state of the release's kpt version. */
-  kptVersionSupportedCondition?: ToolVersionSupportedCondition;
-  /** Output only. Details around the support state of the release's Docker version. */
-  dockerVersionSupportedCondition?: ToolVersionSupportedCondition;
-  /** Details around the support state of the release's Skaffold version. */
-  skaffoldSupportedCondition?: SkaffoldSupportedCondition;
-  /** Details around the Releases's overall status. */
-  releaseReadyCondition?: ReleaseReadyCondition;
-  /** Output only. Details around the support state of the release's Helm version. */
-  helmVersionSupportedCondition?: ToolVersionSupportedCondition;
-  /** Output only. Details around the support state of the release's Kustomize version. */
-  kustomizeVersionSupportedCondition?: ToolVersionSupportedCondition;
-  /** Output only. Details around the support state of the release's Skaffold version. */
-  skaffoldVersionSupportedCondition?: ToolVersionSupportedCondition;
-  /** Output only. Details around the support state of the release's Kubectl version. */
-  kubectlVersionSupportedCondition?: ToolVersionSupportedCondition;
-}
+export type CustomTargetTypeList = Array<CustomTargetType>;
 export type ReleaseRenderStateEnum =
   | "RENDER_STATE_UNSPECIFIED"
   | "SUCCEEDED"
   | "FAILED"
   | "IN_PROGRESS";
+/** Description of an a image to use during Skaffold rendering. */
+export interface BuildArtifact {
+  /** Optional. Image name in Skaffold configuration. */
+  image?: string;
+  /** Optional. Image tag to use. This will generally be the full path to an image, such as "gcr.io/my-project/busybox:1.2.3" or "gcr.io/my-project/busybox@sha256:abc123". */
+  tag?: string;
+}
+export type BuildArtifactList = Array<BuildArtifact>;
+/** Details of ToolVersions for the release. */
+export interface ToolVersions {
+  /** Optional. The Skaffold version to use for Cloud Deploy operations. */
+  skaffold?: string;
+  /** Optional. The Docker version to use for Cloud Deploy operations. */
+  docker?: string;
+  /** Optional. The kpt version to use for Cloud Deploy operations. */
+  kpt?: string;
+  /** Optional. The Helm version to use for Cloud Deploy operations. */
+  helm?: string;
+  /** Optional. The Kubectl version to use for Cloud Deploy operations. */
+  kubectl?: string;
+  /** Optional. The Kustomize version to use for Cloud Deploy operations. */
+  kustomize?: string;
+}
 /** A `Release` resource in the Cloud Deploy API. A `Release` defines a specific Skaffold configuration instance that can be deployed. */
 export interface Release {
-  /** Output only. Time at which the render began. */
-  renderStartTime?: string;
-  /** Output only. Indicates whether this is an abandoned release. */
-  abandoned?: boolean;
-  /** Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
-  labels?: StringMap;
-  /** Optional. Description of the `Release`. Max length is 255 characters. */
-  description?: string;
-  /** Optional. List of artifacts to pass through to Skaffold command. */
-  buildArtifacts?: BuildArtifactList;
-  /** Optional. The tool versions to use for this release and all subsequent operations involving this release. If unset, tool versions are frozen when the release is created. */
-  toolVersions?: ToolVersions;
-  /** Output only. Map from target ID to the target artifacts created during the render operation. */
-  targetArtifacts?: TargetArtifactMap;
-  /** Output only. Snapshot of the targets taken at release creation time. */
-  targetSnapshots?: TargetList;
-  /** Output only. Unique identifier of the `Release`. */
-  uid?: string;
+  /** Output only. Time at which the render completed. */
+  renderEndTime?: string;
   /** Optional. The deploy parameters to use for all targets in this release. */
   deployParameters?: StringMap;
   /** Optional. The Skaffold version to use when operating on this release, such as "1.20.0". Not all versions are valid; Cloud Deploy supports a specific set of versions. If unset, the most recent supported Skaffold version will be used. */
   skaffoldVersion?: string;
-  /** Output only. Snapshot of the parent pipeline taken at release creation time. */
-  deliveryPipelineSnapshot?: DeliveryPipeline;
-  /** Output only. Snapshot of the custom target types referenced by the targets taken at release creation time. */
-  customTargetTypeSnapshots?: CustomTargetTypeList;
-  /** Output only. Map from target ID to details of the render operation for that target. */
-  targetRenders?: TargetRenderMap;
-  /** Output only. Time at which the render completed. */
-  renderEndTime?: string;
+  /** Output only. Map from target ID to the target artifacts created during the render operation. */
+  targetArtifacts?: TargetArtifactMap;
   /** Output only. Information around the state of the Release. */
   condition?: ReleaseCondition;
-  /** Optional. Filepath of the Skaffold config inside of the config URI. */
-  skaffoldConfigPath?: string;
+  /** Output only. Snapshot of the targets taken at release creation time. */
+  targetSnapshots?: TargetList;
+  /** Output only. Map from target ID to details of the render operation for that target. */
+  targetRenders?: TargetRenderMap;
+  /** Output only. Unique identifier of the `Release`. */
+  uid?: string;
+  /** Output only. Indicates whether this is an abandoned release. */
+  abandoned?: boolean;
   /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
   etag?: string;
-  /** Output only. Current state of the render operation. */
-  renderState?: ReleaseRenderStateEnum | (string & {});
-  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
-  annotations?: StringMap;
-  /** Output only. Time at which the `Release` was created. */
-  createTime?: string;
   /** Optional. Cloud Storage URI of tar.gz archive containing Skaffold configuration. */
   skaffoldConfigUri?: string;
+  /** Output only. Snapshot of the custom target types referenced by the targets taken at release creation time. */
+  customTargetTypeSnapshots?: CustomTargetTypeList;
+  /** Output only. Current state of the render operation. */
+  renderState?: ReleaseRenderStateEnum | (string & {});
+  /** Optional. List of artifacts to pass through to Skaffold command. */
+  buildArtifacts?: BuildArtifactList;
+  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
+  annotations?: StringMap;
+  /** Optional. Description of the `Release`. Max length is 255 characters. */
+  description?: string;
+  /** Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
+  labels?: StringMap;
+  /** Optional. Filepath of the Skaffold config inside of the config URI. */
+  skaffoldConfigPath?: string;
   /** Identifier. Name of the `Release`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}`. The `release` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
   name?: string;
+  /** Output only. Time at which the render began. */
+  renderStartTime?: string;
+  /** Output only. Snapshot of the parent pipeline taken at release creation time. */
+  deliveryPipelineSnapshot?: DeliveryPipeline;
+  /** Optional. The tool versions to use for this release and all subsequent operations involving this release. If unset, tool versions are frozen when the release is created. */
+  toolVersions?: ToolVersions;
+  /** Output only. Time at which the `Release` was created. */
+  createTime?: string;
 }
 export interface CreateProjectsLocationsDeliveryPipelinesReleasesRequest {
-  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
-  validateOnly?: boolean;
-  /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
-  overrideDeployPolicy?: StringList;
+  /** Required. The parent collection in which the `Release` is created. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}`. */
+  parent: string;
   /** Required. ID of the `Release`. */
   releaseId?: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Required. The parent collection in which the `Release` is created. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}`. */
-  parent: string;
+  /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
+  overrideDeployPolicy?: StringList;
+  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
+  validateOnly?: boolean;
   /** Request body */
   body?: Release;
 }
@@ -1116,11 +1116,68 @@ export type RolloutDeployFailureCauseEnum =
   | "VERIFICATION_CONFIG_NOT_FOUND"
   | "CLOUD_BUILD_REQUEST_FAILED"
   | "OPERATION_FEATURE_NOT_SUPPORTED";
+export type RolloutApprovalStateEnum =
+  | "APPROVAL_STATE_UNSPECIFIED"
+  | "NEEDS_APPROVAL"
+  | "DOES_NOT_NEED_APPROVAL"
+  | "APPROVED"
+  | "REJECTED";
+/** AutomationRolloutMetadata contains Automation-related actions that were performed on a rollout. */
+export interface AutomationRolloutMetadata {
+  /** Output only. The names of the AutomationRuns initiated by an advance rollout rule. */
+  advanceAutomationRuns?: StringList;
+  /** Output only. The name of the AutomationRun initiated by a promote release rule. */
+  promoteAutomationRun?: string;
+  /** Output only. The names of the AutomationRuns initiated by a repair rollout rule. */
+  repairAutomationRuns?: StringList;
+}
+/** CloudRunMetadata contains information from a Cloud Run deployment. */
+export interface CloudRunMetadata {
+  /** Output only. The previous Cloud Run Revision name associated with a `Rollout`. Only set when a canary deployment strategy is configured. Format for service is projects/{project}/locations/{location}/services/{service}/revisions/{revision}. Format for worker pool is projects/{project}/locations/{location}/workerPools/{workerpool}/revisions/{revision}. */
+  previousRevision?: string;
+  /** Output only. The Cloud Run worker pool associated with a `Rollout`. Format is `projects/{project}/locations/{location}/workerPools/{worker_pool}`. */
+  workerPool?: string;
+  /** Output only. The Cloud Run Revision id associated with a `Rollout`. */
+  revision?: string;
+  /** Output only. The Cloud Run Service urls that are associated with a `Rollout`. */
+  serviceUrls?: StringList;
+  /** Output only. The name of the Cloud Run job that is associated with a `Rollout`. Format is `projects/{project}/locations/{location}/jobs/{job_name}`. */
+  job?: string;
+  /** Output only. The name of the Cloud Run Service that is associated with a `Rollout`. Format is `projects/{project}/locations/{location}/services/{service}`. */
+  service?: string;
+}
+/** Metadata includes information associated with a `Rollout`. */
+export interface Metadata {
+  /** Output only. AutomationRolloutMetadata contains the information about the interactions between Automation service and this rollout. */
+  automation?: AutomationRolloutMetadata;
+  /** Output only. Custom metadata provided by user-defined `Rollout` operations. */
+  custom?: CustomMetadata;
+  /** Output only. The name of the Cloud Run Service that is associated with a `Rollout`. */
+  cloudRun?: CloudRunMetadata;
+}
+/** An advanceChildRollout Job. */
+export type AdvanceChildRolloutJob = AbandonReleaseRequest;
+/** An analysis Job. */
+export interface AnalysisJob {
+  /** Output only. Google Cloud - based analysis checks that are run as part of the analysis Job. */
+  googleCloud?: GoogleCloudAnalysis;
+  /** Output only. Custom analysis checks from 3P metric providers that are run as part of the analysis Job. */
+  customChecks?: CustomCheckList;
+  /** Output only. The amount of time in minutes the analysis Job will run, up to a maximum of 48 hours. If any check in this Job is still running when the duration ends, the Job keeps running until that check completes. */
+  duration?: string;
+}
+/** A createChildRollout Job. */
+export type CreateChildRolloutJob = AbandonReleaseRequest;
 /** A postdeploy Job. */
 export interface PostdeployJob {
   /** Output only. The custom actions that the postdeploy Job executes. */
   actions?: StringList;
   /** Output only. The tasks that are executed as part of the postdeploy Job. */
+  tasks?: TaskList;
+}
+/** A verify Job. */
+export interface VerifyJob {
+  /** Output only. The tasks that are executed as part of the verify Job. */
   tasks?: TaskList;
 }
 /** A predeploy Job. */
@@ -1130,17 +1187,6 @@ export interface PredeployJob {
   /** Output only. The tasks that are executed as part of the predeploy Job. */
   tasks?: TaskList;
 }
-/** An analysis Job. */
-export interface AnalysisJob {
-  /** Output only. Custom analysis checks from 3P metric providers that are run as part of the analysis Job. */
-  customChecks?: CustomCheckList;
-  /** Output only. The amount of time in minutes the analysis Job will run, up to a maximum of 48 hours. If any check in this Job is still running when the duration ends, the Job keeps running until that check completes. */
-  duration?: string;
-  /** Output only. Google Cloud - based analysis checks that are run as part of the analysis Job. */
-  googleCloud?: GoogleCloudAnalysis;
-}
-/** A createChildRollout Job. */
-export type CreateChildRolloutJob = AbandonReleaseRequest;
 export type JobStateEnum =
   | "STATE_UNSPECIFIED"
   | "PENDING"
@@ -1153,45 +1199,38 @@ export type JobStateEnum =
   | "IGNORED";
 /** A deploy Job. */
 export type DeployJob = AbandonReleaseRequest;
-/** An advanceChildRollout Job. */
-export type AdvanceChildRolloutJob = AbandonReleaseRequest;
-/** A verify Job. */
-export interface VerifyJob {
-  /** Output only. The tasks that are executed as part of the verify Job. */
-  tasks?: TaskList;
-}
 /** Job represents an operation for a `Rollout`. */
 export interface Job {
-  /** Output only. A postdeploy Job. */
-  postdeployJob?: PostdeployJob;
-  /** Output only. A predeploy Job. */
-  predeployJob?: PredeployJob;
-  /** Output only. The ID of the Job. */
-  id?: string;
-  /** Output only. The name of the `JobRun` responsible for the most recent invocation of this Job. */
-  jobRun?: string;
-  /** Output only. An analysis Job. */
-  analysisJob?: AnalysisJob;
-  /** Output only. A createChildRollout Job. */
-  createChildRolloutJob?: AbandonReleaseRequest;
-  /** Output only. Additional information on why the Job was skipped, if available. */
-  skipMessage?: string;
-  /** Output only. The current state of the Job. */
-  state?: JobStateEnum | (string & {});
-  /** Output only. A deploy Job. */
-  deployJob?: AbandonReleaseRequest;
   /** Output only. An advanceChildRollout Job. */
   advanceChildRolloutJob?: AbandonReleaseRequest;
+  /** Output only. An analysis Job. */
+  analysisJob?: AnalysisJob;
+  /** Output only. The ID of the Job. */
+  id?: string;
+  /** Output only. A createChildRollout Job. */
+  createChildRolloutJob?: AbandonReleaseRequest;
+  /** Output only. A postdeploy Job. */
+  postdeployJob?: PostdeployJob;
+  /** Output only. The name of the `JobRun` responsible for the most recent invocation of this Job. */
+  jobRun?: string;
   /** Output only. A verify Job. */
   verifyJob?: VerifyJob;
+  /** Output only. A predeploy Job. */
+  predeployJob?: PredeployJob;
+  /** Output only. The current state of the Job. */
+  state?: JobStateEnum | (string & {});
+  /** Output only. Additional information on why the Job was skipped, if available. */
+  skipMessage?: string;
+  /** Output only. A deploy Job. */
+  deployJob?: AbandonReleaseRequest;
 }
 export type JobList = Array<Job>;
 /** ChildRollouts job composition */
 export interface ChildRolloutJobs {
-  /** Output only. List of CreateChildRolloutJobs */
-  createRolloutJobs?: JobList;
   /** Output only. List of AdvanceChildRolloutJobs */
   advanceRolloutJobs?: JobList;
+  /** Output only. List of CreateChildRolloutJobs */
+  createRolloutJobs?: JobList;
 }
 export type PhaseStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1203,14 +1242,14 @@ export type PhaseStateEnum =
   | "SKIPPED";
 /** Deployment job composition. */
 export interface DeploymentJobs {
-  /** Output only. The verify Job. Runs after a deploy if the deploy succeeds. */
-  verifyJob?: Job;
-  /** Output only. The deploy Job. This is the deploy job in the phase. */
-  deployJob?: Job;
   /** Output only. The predeploy Job, which is the first job on the phase. */
   predeployJob?: Job;
+  /** Output only. The deploy Job. This is the deploy job in the phase. */
+  deployJob?: Job;
   /** Output only. The postdeploy Job, which is the last job on the phase. */
   postdeployJob?: Job;
+  /** Output only. The verify Job. Runs after a deploy if the deploy succeeds. */
+  verifyJob?: Job;
   /** Output only. The analysis Job. Runs after a verify if there is a verify job and the verify job succeeds. */
   analysisJob?: Job;
 }
@@ -1228,173 +1267,78 @@ export interface Phase {
   deploymentJobs?: DeploymentJobs;
 }
 export type PhaseList = Array<Phase>;
-export type RolloutApprovalStateEnum =
-  | "APPROVAL_STATE_UNSPECIFIED"
-  | "NEEDS_APPROVAL"
-  | "DOES_NOT_NEED_APPROVAL"
-  | "APPROVED"
-  | "REJECTED";
-/** CloudRunMetadata contains information from a Cloud Run deployment. */
-export interface CloudRunMetadata {
-  /** Output only. The name of the Cloud Run Service that is associated with a `Rollout`. Format is `projects/{project}/locations/{location}/services/{service}`. */
-  service?: string;
-  /** Output only. The previous Cloud Run Revision name associated with a `Rollout`. Only set when a canary deployment strategy is configured. Format for service is projects/{project}/locations/{location}/services/{service}/revisions/{revision}. Format for worker pool is projects/{project}/locations/{location}/workerPools/{workerpool}/revisions/{revision}. */
-  previousRevision?: string;
-  /** Output only. The Cloud Run Service urls that are associated with a `Rollout`. */
-  serviceUrls?: StringList;
-  /** Output only. The name of the Cloud Run job that is associated with a `Rollout`. Format is `projects/{project}/locations/{location}/jobs/{job_name}`. */
-  job?: string;
-  /** Output only. The Cloud Run Revision id associated with a `Rollout`. */
-  revision?: string;
-  /** Output only. The Cloud Run worker pool associated with a `Rollout`. Format is `projects/{project}/locations/{location}/workerPools/{worker_pool}`. */
-  workerPool?: string;
-}
-/** AutomationRolloutMetadata contains Automation-related actions that were performed on a rollout. */
-export interface AutomationRolloutMetadata {
-  /** Output only. The name of the AutomationRun initiated by a promote release rule. */
-  promoteAutomationRun?: string;
-  /** Output only. The names of the AutomationRuns initiated by a repair rollout rule. */
-  repairAutomationRuns?: StringList;
-  /** Output only. The names of the AutomationRuns initiated by an advance rollout rule. */
-  advanceAutomationRuns?: StringList;
-}
-/** Metadata includes information associated with a `Rollout`. */
-export interface Metadata {
-  /** Output only. The name of the Cloud Run Service that is associated with a `Rollout`. */
-  cloudRun?: CloudRunMetadata;
-  /** Output only. AutomationRolloutMetadata contains the information about the interactions between Automation service and this rollout. */
-  automation?: AutomationRolloutMetadata;
-  /** Output only. Custom metadata provided by user-defined `Rollout` operations. */
-  custom?: CustomMetadata;
-}
 /** A `Rollout` resource in the Cloud Deploy API. A `Rollout` contains information around a specific deployment to a `Target`. */
 export interface Rollout {
-  /** Optional. Description of the `Rollout` for user purposes. Max length is 255 characters. */
-  description?: string;
-  /** Output only. Current state of the `Rollout`. */
-  state?: RolloutStateEnum | (string & {});
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
-  /** Output only. Unique identifier of the `Rollout`. */
-  uid?: string;
-  /** Output only. Name of the `Rollout` that is rolled back by this `Rollout`. Empty if this `Rollout` wasn't created as a rollback. */
-  rollbackOfRollout?: string;
-  /** Output only. Time at which the `Rollout` was created. */
-  createTime?: string;
-  /** Output only. The reason this rollout failed. This will always be unspecified while the rollout is in progress. */
-  deployFailureCause?: RolloutDeployFailureCauseEnum | (string & {});
-  /** Required. The ID of Target to which this `Rollout` is deploying. */
-  targetId?: string;
-  /** Output only. Additional information about the rollout failure, if available. */
-  failureReason?: string;
-  /** Output only. Time at which the `Rollout` started deploying. */
-  deployStartTime?: string;
-  /** Identifier. Name of the `Rollout`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. The `rollout` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
-  name?: string;
-  /** Output only. The phases that represent the workflows of this `Rollout`. */
-  phases?: PhaseList;
-  /** Output only. Time at which the `Rollout` finished deploying. */
-  deployEndTime?: string;
-  /** Output only. Time at which the `Rollout` was approved. */
-  approveTime?: string;
-  /** Output only. Name of the `ControllerRollout`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
-  controllerRollout?: string;
-  /** Output only. The AutomationRun actively repairing the rollout. */
-  activeRepairAutomationRun?: string;
-  /** Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
-  labels?: StringMap;
   /** Output only. Time at which the `Rollout` was enqueued. */
   enqueueTime?: string;
+  /** Output only. Time at which the `Rollout` was approved. */
+  approveTime?: string;
+  /** Output only. The AutomationRun actively repairing the rollout. */
+  activeRepairAutomationRun?: string;
+  /** Identifier. Name of the `Rollout`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. The `rollout` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
+  name?: string;
+  /** Output only. Unique identifier of the `Rollout`. */
+  uid?: string;
+  /** Output only. Current state of the `Rollout`. */
+  state?: RolloutStateEnum | (string & {});
+  /** Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
+  labels?: StringMap;
+  /** Output only. The reason this rollout failed. This will always be unspecified while the rollout is in progress. */
+  deployFailureCause?: RolloutDeployFailureCauseEnum | (string & {});
   /** Output only. Approval state of the `Rollout`. */
   approvalState?: RolloutApprovalStateEnum | (string & {});
   /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
   annotations?: StringMap;
+  /** Output only. Time at which the `Rollout` finished deploying. */
+  deployEndTime?: string;
+  /** Output only. Name of the `Rollout` that is rolled back by this `Rollout`. Empty if this `Rollout` wasn't created as a rollback. */
+  rollbackOfRollout?: string;
+  /** Optional. Description of the `Rollout` for user purposes. Max length is 255 characters. */
+  description?: string;
+  /** Output only. Additional information about the rollout failure, if available. */
+  failureReason?: string;
+  /** Required. The ID of Target to which this `Rollout` is deploying. */
+  targetId?: string;
   /** Output only. Metadata contains information about the rollout. */
   metadata?: Metadata;
+  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
+  /** Output only. The phases that represent the workflows of this `Rollout`. */
+  phases?: PhaseList;
+  /** Output only. Time at which the `Rollout` started deploying. */
+  deployStartTime?: string;
   /** Output only. Names of `Rollouts` that rolled back this `Rollout`. */
   rolledBackByRollouts?: StringList;
   /** Output only. The resource name of the Cloud Build `Build` object that is used to deploy the Rollout. Format is `projects/{project}/locations/{location}/builds/{build}`. */
   deployingBuild?: string;
+  /** Output only. Name of the `ControllerRollout`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
+  controllerRollout?: string;
+  /** Output only. Time at which the `Rollout` was created. */
+  createTime?: string;
 }
 export interface CreateProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest {
   /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
   validateOnly?: boolean;
+  /** Required. The parent collection in which the `Rollout` must be created. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}/releases/{release_name}`. */
+  parent: string;
+  /** Optional. The starting phase ID for the `Rollout`. If empty the `Rollout` will start at the first phase. */
+  startingPhaseId?: string;
   /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
   overrideDeployPolicy?: StringList;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Required. ID of the `Rollout`. */
   rolloutId?: string;
-  /** Optional. The starting phase ID for the `Rollout`. If empty the `Rollout` will start at the first phase. */
-  startingPhaseId?: string;
-  /** Required. The parent collection in which the `Rollout` must be created. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}/releases/{release_name}`. */
-  parent: string;
   /** Request body */
   body?: Rollout;
 }
-export type WeeklyWindowDaysOfWeekItemEnum =
-  | "DAY_OF_WEEK_UNSPECIFIED"
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY"
-  | "SUNDAY";
-export type WeeklyWindowDaysOfWeekItemEnumList = Array<
-  WeeklyWindowDaysOfWeekItemEnum | (string & {})
+export type RolloutRestrictionInvokersItemEnum =
+  | "INVOKER_UNSPECIFIED"
+  | "USER"
+  | "DEPLOY_AUTOMATION";
+export type RolloutRestrictionInvokersItemEnumList = Array<
+  RolloutRestrictionInvokersItemEnum | (string & {})
 >;
-/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
-export interface TimeOfDay {
-  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number;
-  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
-  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
-  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  nanos?: number;
-}
-/** Weekly windows. For example, blocking actions every Saturday and Sunday. Another example would be blocking actions every weekday from 5pm to midnight. */
-export interface WeeklyWindow {
-  /** Optional. Days of week. If left empty, all days of the week will be included. */
-  daysOfWeek?: WeeklyWindowDaysOfWeekItemEnumList;
-  /** Optional. End time (exclusive). Use 24:00 to indicate midnight. If you specify end_time you must also specify start_time. If left empty, this will block for the entire day for the days specified in days_of_week. */
-  endTime?: TimeOfDay;
-  /** Optional. Start time (inclusive). Use 00:00 for the beginning of the day. If you specify start_time you must also specify end_time. If left empty, this will block for the entire day for the days specified in days_of_week. */
-  startTime?: TimeOfDay;
-}
-export type WeeklyWindowList = Array<WeeklyWindow>;
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface Clouddeploy_Date {
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
-}
-/** One-time window within which actions are restricted. For example, blocking actions over New Year's Eve from December 31st at 5pm to January 1st at 9am. */
-export interface OneTimeWindow {
-  /** Required. Start time (inclusive). Use 00:00 for the beginning of the day. */
-  startTime?: TimeOfDay;
-  /** Required. End time (exclusive). You may use 24:00 for the end of the day. */
-  endTime?: TimeOfDay;
-  /** Required. End date. */
-  endDate?: Clouddeploy_Date;
-  /** Required. Start date. */
-  startDate?: Clouddeploy_Date;
-}
-export type OneTimeWindowList = Array<OneTimeWindow>;
-/** Time windows within which actions are restricted. See the [documentation](https://cloud.google.com/deploy/docs/deploy-policy#dates_times) for more information on how to configure dates/times. */
-export interface TimeWindows {
-  /** Optional. Recurring weekly windows within which actions are restricted. */
-  weeklyWindows?: WeeklyWindowList;
-  /** Optional. One-time windows within which actions are restricted. */
-  oneTimeWindows?: OneTimeWindowList;
-  /** Required. The time zone in IANA format [IANA Time Zone Database](https://www.iana.org/time-zones) (e.g. America/New_York). */
-  timeZone?: string;
-}
 export type RolloutRestrictionActionsItemEnum =
   | "ROLLOUT_ACTIONS_UNSPECIFIED"
   | "ADVANCE"
@@ -1408,23 +1352,79 @@ export type RolloutRestrictionActionsItemEnum =
 export type RolloutRestrictionActionsItemEnumList = Array<
   RolloutRestrictionActionsItemEnum | (string & {})
 >;
-export type RolloutRestrictionInvokersItemEnum =
-  | "INVOKER_UNSPECIFIED"
-  | "USER"
-  | "DEPLOY_AUTOMATION";
-export type RolloutRestrictionInvokersItemEnumList = Array<
-  RolloutRestrictionInvokersItemEnum | (string & {})
+/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
+export interface TimeOfDay {
+  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
+  minutes?: number;
+  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number;
+  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number;
+  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
+  nanos?: number;
+}
+export type WeeklyWindowDaysOfWeekItemEnum =
+  | "DAY_OF_WEEK_UNSPECIFIED"
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+export type WeeklyWindowDaysOfWeekItemEnumList = Array<
+  WeeklyWindowDaysOfWeekItemEnum | (string & {})
 >;
+/** Weekly windows. For example, blocking actions every Saturday and Sunday. Another example would be blocking actions every weekday from 5pm to midnight. */
+export interface WeeklyWindow {
+  /** Optional. Start time (inclusive). Use 00:00 for the beginning of the day. If you specify start_time you must also specify end_time. If left empty, this will block for the entire day for the days specified in days_of_week. */
+  startTime?: TimeOfDay;
+  /** Optional. Days of week. If left empty, all days of the week will be included. */
+  daysOfWeek?: WeeklyWindowDaysOfWeekItemEnumList;
+  /** Optional. End time (exclusive). Use 24:00 to indicate midnight. If you specify end_time you must also specify start_time. If left empty, this will block for the entire day for the days specified in days_of_week. */
+  endTime?: TimeOfDay;
+}
+export type WeeklyWindowList = Array<WeeklyWindow>;
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface Clouddeploy_Date {
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number;
+}
+/** One-time window within which actions are restricted. For example, blocking actions over New Year's Eve from December 31st at 5pm to January 1st at 9am. */
+export interface OneTimeWindow {
+  /** Required. End date. */
+  endDate?: Clouddeploy_Date;
+  /** Required. End time (exclusive). You may use 24:00 for the end of the day. */
+  endTime?: TimeOfDay;
+  /** Required. Start date. */
+  startDate?: Clouddeploy_Date;
+  /** Required. Start time (inclusive). Use 00:00 for the beginning of the day. */
+  startTime?: TimeOfDay;
+}
+export type OneTimeWindowList = Array<OneTimeWindow>;
+/** Time windows within which actions are restricted. See the [documentation](https://cloud.google.com/deploy/docs/deploy-policy#dates_times) for more information on how to configure dates/times. */
+export interface TimeWindows {
+  /** Required. The time zone in IANA format [IANA Time Zone Database](https://www.iana.org/time-zones) (e.g. America/New_York). */
+  timeZone?: string;
+  /** Optional. Recurring weekly windows within which actions are restricted. */
+  weeklyWindows?: WeeklyWindowList;
+  /** Optional. One-time windows within which actions are restricted. */
+  oneTimeWindows?: OneTimeWindowList;
+}
 /** Rollout restrictions. */
 export interface RolloutRestriction {
-  /** Required. Time window within which actions are restricted. */
-  timeWindows?: TimeWindows;
-  /** Required. Restriction rule ID. Required and must be unique within a DeployPolicy. The format is `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
-  id?: string;
-  /** Optional. Rollout actions to be restricted as part of the policy. If left empty, all actions will be restricted. */
-  actions?: RolloutRestrictionActionsItemEnumList;
   /** Optional. What invoked the action. If left empty, all invoker types will be restricted. */
   invokers?: RolloutRestrictionInvokersItemEnumList;
+  /** Optional. Rollout actions to be restricted as part of the policy. If left empty, all actions will be restricted. */
+  actions?: RolloutRestrictionActionsItemEnumList;
+  /** Required. Restriction rule ID. Required and must be unique within a DeployPolicy. The format is `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
+  id?: string;
+  /** Required. Time window within which actions are restricted. */
+  timeWindows?: TimeWindows;
 }
 /** Deploy Policy rule. */
 export interface PolicyRule {
@@ -1434,10 +1434,10 @@ export interface PolicyRule {
 export type PolicyRuleList = Array<PolicyRule>;
 /** Contains criteria for selecting DeliveryPipelines. */
 export interface DeliveryPipelineAttribute {
-  /** Optional. ID of the `DeliveryPipeline`. The value of this field could be one of the following: * The last segment of a pipeline name * "*", all delivery pipelines in a location */
-  id?: string;
   /** DeliveryPipeline labels. */
   labels?: StringMap;
+  /** Optional. ID of the `DeliveryPipeline`. The value of this field could be one of the following: * The last segment of a pipeline name * "*", all delivery pipelines in a location */
+  id?: string;
 }
 /** Contains information on the resources to select for a deploy policy. Attributes provided must all match the resource in order for policy restrictions to apply. For example, if delivery pipelines attributes given are an id "prod" and labels "foo: bar", a delivery pipeline resource must match both that id and have that label in order to be subject to the policy. */
 export interface DeployPolicyResourceSelector {
@@ -1449,102 +1449,102 @@ export interface DeployPolicyResourceSelector {
 export type DeployPolicyResourceSelectorList = Array<DeployPolicyResourceSelector>;
 /** A `DeployPolicy` resource in the Cloud Deploy API. A `DeployPolicy` inhibits manual or automation-driven actions within a Delivery Pipeline or Target. */
 export interface DeployPolicy {
-  /** The weak etag of the `DeployPolicy` resource. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
-  /** Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
-  labels?: StringMap;
-  /** Optional. When suspended, the policy will not prevent actions from occurring, even if the action violates the policy. */
-  suspended?: boolean;
-  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. Annotations must meet the following constraints: * Annotations are key/value pairs. * Valid annotation keys have two segments: an optional prefix and name, separated by a slash (`/`). * The name segment is required and must be 63 characters or less, beginning and ending with an alphanumeric character (`[a-z0-9A-Z]`) with dashes (`-`), underscores (`_`), dots (`.`), and alphanumerics between. * The prefix is optional. If specified, the prefix must be a DNS subdomain: a series of DNS labels separated by dots(`.`), not longer than 253 characters in total, followed by a slash (`/`). See https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/#syntax-and-character-set for more details. */
-  annotations?: StringMap;
-  /** Output only. Time at which the deploy policy was created. */
-  createTime?: string;
-  /** Output only. Name of the `DeployPolicy`. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. The `deployPolicy` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
-  name?: string;
   /** Required. Rules to apply. At least one rule must be present. */
   rules?: PolicyRuleList;
-  /** Output only. Unique identifier of the `DeployPolicy`. */
-  uid?: string;
+  /** Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
+  labels?: StringMap;
+  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. Annotations must meet the following constraints: * Annotations are key/value pairs. * Valid annotation keys have two segments: an optional prefix and name, separated by a slash (`/`). * The name segment is required and must be 63 characters or less, beginning and ending with an alphanumeric character (`[a-z0-9A-Z]`) with dashes (`-`), underscores (`_`), dots (`.`), and alphanumerics between. * The prefix is optional. If specified, the prefix must be a DNS subdomain: a series of DNS labels separated by dots(`.`), not longer than 253 characters in total, followed by a slash (`/`). See https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/#syntax-and-character-set for more details. */
+  annotations?: StringMap;
   /** Required. Selected resources to which the policy will be applied. At least one selector is required. If one selector matches the resource the policy applies. For example, if there are two selectors and the action being attempted matches one of them, the policy will apply to that action. */
   selectors?: DeployPolicyResourceSelectorList;
-  /** Optional. Description of the `DeployPolicy`. Max length is 255 characters. */
-  description?: string;
+  /** Output only. Time at which the deploy policy was created. */
+  createTime?: string;
   /** Output only. Most recent time at which the deploy policy was updated. */
   updateTime?: string;
+  /** Optional. When suspended, the policy will not prevent actions from occurring, even if the action violates the policy. */
+  suspended?: boolean;
+  /** The weak etag of the `DeployPolicy` resource. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
+  /** Optional. Description of the `DeployPolicy`. Max length is 255 characters. */
+  description?: string;
+  /** Output only. Name of the `DeployPolicy`. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. The `deployPolicy` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
+  name?: string;
+  /** Output only. Unique identifier of the `DeployPolicy`. */
+  uid?: string;
 }
 export interface CreateProjectsLocationsDeployPoliciesRequest {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Required. ID of the `DeployPolicy`. */
-  deployPolicyId?: string;
-  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
-  validateOnly?: boolean;
   /** Required. The parent collection in which the `DeployPolicy` must be created. The format is `projects/{project_id}/locations/{location_name}`. */
   parent: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
+  validateOnly?: boolean;
+  /** Required. ID of the `DeployPolicy`. */
+  deployPolicyId?: string;
   /** Request body */
   body?: DeployPolicy;
 }
 export interface CreateProjectsLocationsTargetsRequest {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  /** Required. ID of the `Target`. */
+  targetId?: string;
   /** Required. The parent collection in which the `Target` must be created. The format is `projects/{project_id}/locations/{location_name}`. */
   parent: string;
   /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
   validateOnly?: boolean;
-  /** Required. ID of the `Target`. */
-  targetId?: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: Target;
 }
 export interface DeleteProjectsLocationsCustomTargetTypesRequest {
-  /** Optional. If set to true, then deleting an already deleted or non-existing `CustomTargetType` will succeed. */
-  allowMissing?: boolean;
+  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
   /** Optional. If set to true, the request is validated but no actual change is made. */
   validateOnly?: boolean;
   /** Required. The name of the `CustomTargetType` to delete. Format must be `projects/{project_id}/locations/{location_name}/customTargetTypes/{custom_target_type}`. */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
+  /** Optional. If set to true, then deleting an already deleted or non-existing `CustomTargetType` will succeed. */
+  allowMissing?: boolean;
 }
 export interface DeleteProjectsLocationsDeliveryPipelinesRequest {
-  /** Optional. If set to true, all child resources under this pipeline will also be deleted. Otherwise, the request will only work if the pipeline has no child resources. */
-  force?: boolean;
   /** Optional. If set, validate the request and preview the review, but do not actually post it. */
   validateOnly?: boolean;
-  /** Optional. If set to true, then deleting an already deleted or non-existing `DeliveryPipeline` will succeed. */
-  allowMissing?: boolean;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
   etag?: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Required. The name of the `DeliveryPipeline` to delete. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}`. */
   name: string;
+  /** Optional. If set to true, then deleting an already deleted or non-existing `DeliveryPipeline` will succeed. */
+  allowMissing?: boolean;
+  /** Optional. If set to true, all child resources under this pipeline will also be deleted. Otherwise, the request will only work if the pipeline has no child resources. */
+  force?: boolean;
 }
 export interface DeleteProjectsLocationsDeliveryPipelinesAutomationsRequest {
   /** Optional. If set to true, then deleting an already deleted or non-existing `Automation` will succeed. */
   allowMissing?: boolean;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Required. The name of the `Automation` to delete. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}/automations/{automation_name}`. */
-  name: string;
-  /** Optional. If set, validate the request and verify whether the resource exists, but do not actually post it. */
-  validateOnly?: boolean;
   /** Optional. The weak etag of the request. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
   etag?: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Optional. If set, validate the request and verify whether the resource exists, but do not actually post it. */
+  validateOnly?: boolean;
+  /** Required. The name of the `Automation` to delete. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}/automations/{automation_name}`. */
+  name: string;
 }
 export interface DeleteProjectsLocationsDeployPoliciesRequest {
+  /** Required. The name of the `DeployPolicy` to delete. The format is `projects/{project_id}/locations/{location_name}/deployPolicies/{deploy_policy_name}`. */
+  name: string;
+  /** Optional. If set to true, then deleting an already deleted or non-existing `DeployPolicy` will succeed. */
+  allowMissing?: boolean;
+  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Optional. If set, validate the request and preview the review, but do not actually post it. */
   validateOnly?: boolean;
-  /** Required. The name of the `DeployPolicy` to delete. The format is `projects/{project_id}/locations/{location_name}/deployPolicies/{deploy_policy_name}`. */
-  name: string;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
-  /** Optional. If set to true, then deleting an already deleted or non-existing `DeployPolicy` will succeed. */
-  allowMissing?: boolean;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -1555,12 +1555,12 @@ export interface DeleteProjectsLocationsTargetsRequest {
   name: string;
   /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
   etag?: string;
+  /** Optional. If set, validate the request and preview the review, but do not actually post it. */
+  validateOnly?: boolean;
   /** Optional. If set to true, then deleting an already deleted or non-existing `Target` will succeed. */
   allowMissing?: boolean;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Optional. If set, validate the request and preview the review, but do not actually post it. */
-  validateOnly?: boolean;
 }
 export interface GetConfigProjectsLocationsRequest {
   /** Required. Name of requested configuration. */
@@ -1568,26 +1568,26 @@ export interface GetConfigProjectsLocationsRequest {
 }
 /** Details of a supported Skaffold version. */
 export interface SkaffoldVersion {
+  /** Release version number. For example, "1.20.3". */
+  version?: string;
   /** The time at which this version of Skaffold will no longer be supported. */
   supportExpirationTime?: string;
   /** Date when this version is expected to no longer be supported. */
   supportEndDate?: Clouddeploy_Date;
-  /** Release version number. For example, "1.20.3". */
-  version?: string;
   /** The time at which this version of Skaffold will enter maintenance mode. */
   maintenanceModeTime?: string;
 }
 export type SkaffoldVersionList = Array<SkaffoldVersion>;
 /** Service-wide configuration. */
 export interface Config {
-  /** Output only. Default tool versions. These tool versions are assigned when a Release is created without specifying tool versions. */
-  defaultToolVersions?: ToolVersions;
   /** Default Skaffold version that is assigned when a Release is created without specifying a Skaffold version. */
   defaultSkaffoldVersion?: string;
-  /** All supported versions of Skaffold. */
-  supportedVersions?: SkaffoldVersionList;
+  /** Output only. Default tool versions. These tool versions are assigned when a Release is created without specifying tool versions. */
+  defaultToolVersions?: ToolVersions;
   /** Name of the configuration. */
   name?: string;
+  /** All supported versions of Skaffold. */
+  supportedVersions?: SkaffoldVersionList;
 }
 export interface GetIamPolicyProjectsLocationsCustomTargetTypesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -1595,6 +1595,27 @@ export interface GetIamPolicyProjectsLocationsCustomTargetTypesRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
 }
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string;
+}
+/** Associates `members`, or principals, with a `role`. */
+export interface Binding {
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string;
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList;
+}
+export type BindingList = Array<Binding>;
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
   | "ADMIN_READ"
@@ -1602,10 +1623,10 @@ export type AuditLogConfigLogTypeEnum =
   | "DATA_READ";
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
   /** The log type that this config enables. */
   logType?: AuditLogConfigLogTypeEnum | (string & {});
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: StringList;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
@@ -1616,37 +1637,16 @@ export interface AuditConfig {
   auditLogConfigs?: AuditLogConfigList;
 }
 export type AuditConfigList = Array<AuditConfig>;
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-}
-/** Associates `members`, or principals, with a `role`. */
-export interface Binding {
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
-}
-export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
-  /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList;
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string;
+  /** Specifies cloud audit logging configuration for this policy. */
+  auditConfigs?: AuditConfigList;
 }
 export interface GetIamPolicyProjectsLocationsDeliveryPipelinesRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -1672,14 +1672,14 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
 }
@@ -1695,16 +1695,35 @@ export interface GetProjectsLocationsDeliveryPipelinesAutomationRunsRequest {
   /** Required. Name of the `AutomationRun`. Format must be `projects/{project}/locations/{location}/deliveryPipelines/{delivery_pipeline}/automationRuns/{automation_run}`. */
   name: string;
 }
+export type AutomationRunStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "SUCCEEDED"
+  | "CANCELLED"
+  | "FAILED"
+  | "IN_PROGRESS"
+  | "PENDING"
+  | "ABORTED";
+/** Contains the information of an automated advance-rollout operation. */
+export interface AdvanceRolloutOperation {
+  /** Output only. The name of the rollout that initiates the `AutomationRun`. */
+  rollout?: string;
+  /** Output only. The phase the rollout will be advanced to. */
+  destinationPhase?: string;
+  /** Output only. The phase of a deployment that initiated the operation. */
+  sourcePhase?: string;
+  /** Output only. How long the operation will be paused. */
+  wait?: string;
+}
 /** Contains the information of an automated promote-release operation. */
 export interface PromoteReleaseOperation {
-  /** Output only. The starting phase of the rollout created by this operation. */
-  phase?: string;
-  /** Output only. The ID of the target that represents the promotion stage to which the release will be promoted. The value of this field is the last segment of a target name. */
-  targetId?: string;
   /** Output only. The name of the rollout that initiates the `AutomationRun`. */
   rollout?: string;
   /** Output only. How long the operation will be paused. */
   wait?: string;
+  /** Output only. The ID of the target that represents the promotion stage to which the release will be promoted. The value of this field is the last segment of a target name. */
+  targetId?: string;
+  /** Output only. The starting phase of the rollout created by this operation. */
+  phase?: string;
 }
 export type RetryPhaseBackoffModeEnum =
   | "BACKOFF_MODE_UNSPECIFIED"
@@ -1720,14 +1739,14 @@ export type RetryAttemptStateEnum =
   | "REPAIR_STATE_ABORTED";
 /** RetryAttempt represents an action of retrying the failed Cloud Deploy job. */
 export interface RetryAttempt {
-  /** Output only. Description of the state of the Retry. */
-  stateDesc?: string;
   /** Output only. The index of this retry attempt. */
   attempt?: string;
   /** Output only. Valid state of this retry action. */
   state?: RetryAttemptStateEnum;
   /** Output only. How long the operation will be paused. */
   wait?: string;
+  /** Output only. Description of the state of the Retry. */
+  stateDesc?: string;
 }
 export type RetryAttemptList = Array<RetryAttempt>;
 /** RetryPhase contains the retry attempts and the metadata for initiating a new attempt. */
@@ -1749,16 +1768,16 @@ export type RollbackAttemptStateEnum =
   | "REPAIR_STATE_ABORTED";
 /** RollbackAttempt represents an action of rolling back a Cloud Deploy 'Target'. */
 export interface RollbackAttempt {
-  /** Output only. If active rollout exists on the target, abort this rollback. */
-  disableRollbackIfRolloutPending?: boolean;
-  /** Output only. The phase to which the rollout will be rolled back to. */
-  destinationPhase?: string;
   /** Output only. ID of the rollback `Rollout` to create. */
   rolloutId?: string;
-  /** Output only. Description of the state of the Rollback. */
-  stateDesc?: string;
   /** Output only. Valid state of this rollback action. */
   state?: RollbackAttemptStateEnum;
+  /** Output only. The phase to which the rollout will be rolled back to. */
+  destinationPhase?: string;
+  /** Output only. Description of the state of the Rollback. */
+  stateDesc?: string;
+  /** Output only. If active rollout exists on the target, abort this rollback. */
+  disableRollbackIfRolloutPending?: boolean;
 }
 /** RepairPhase tracks the repair attempts that have been made for each `RepairPhaseConfig` specified in the `Automation` resource. */
 export interface RepairPhase {
@@ -1770,53 +1789,25 @@ export interface RepairPhase {
 export type RepairPhaseList = Array<RepairPhase>;
 /** Contains the information for an automated `repair rollout` operation. */
 export interface RepairRolloutOperation {
-  /** Output only. Records of the repair attempts. Each repair phase may have multiple retry attempts or single rollback attempt. */
-  repairPhases?: RepairPhaseList;
-  /** Output only. The index of the current repair action in the repair sequence. */
-  currentRepairPhaseIndex?: string;
   /** Output only. The phase ID of the phase that includes the job being repaired. */
   phaseId?: string;
   /** Output only. The job ID for the Job to repair. */
   jobId?: string;
   /** Output only. The name of the rollout that initiates the `AutomationRun`. */
   rollout?: string;
-}
-/** Contains the information of an automated timed promote-release operation. */
-export interface TimedPromoteReleaseOperation {
-  /** Output only. The name of the release to be promoted. */
-  release?: string;
-  /** Output only. The ID of the target that represents the promotion stage to which the release will be promoted. The value of this field is the last segment of a target name. */
-  targetId?: string;
-  /** Output only. The starting phase of the rollout created by this operation. */
-  phase?: string;
-}
-export type AutomationRunStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "SUCCEEDED"
-  | "CANCELLED"
-  | "FAILED"
-  | "IN_PROGRESS"
-  | "PENDING"
-  | "ABORTED";
-/** Contains the information of an automated advance-rollout operation. */
-export interface AdvanceRolloutOperation {
-  /** Output only. How long the operation will be paused. */
-  wait?: string;
-  /** Output only. The phase of a deployment that initiated the operation. */
-  sourcePhase?: string;
-  /** Output only. The phase the rollout will be advanced to. */
-  destinationPhase?: string;
-  /** Output only. The name of the rollout that initiates the `AutomationRun`. */
-  rollout?: string;
+  /** Output only. Records of the repair attempts. Each repair phase may have multiple retry attempts or single rollback attempt. */
+  repairPhases?: RepairPhaseList;
+  /** Output only. The index of the current repair action in the repair sequence. */
+  currentRepairPhaseIndex?: string;
 }
 /** Policy violation details. */
 export interface PolicyViolationDetails {
   /** Id of the rule that triggered the policy violation. */
   ruleId?: string;
-  /** Name of the policy that was violated. Policy resource will be in the format of `projects/{project}/locations/{location}/policies/{policy}`. */
-  policy?: string;
   /** User readable message about why the request violated a policy. This is not intended for machine parsing. */
   failureMessage?: string;
+  /** Name of the policy that was violated. Policy resource will be in the format of `projects/{project}/locations/{location}/policies/{policy}`. */
+  policy?: string;
 }
 export type PolicyViolationDetailsList = Array<PolicyViolationDetails>;
 /** Returned from an action if one or more policies were violated, and therefore the action was prevented. Contains information about what policies were violated and why. */
@@ -1824,46 +1815,55 @@ export interface PolicyViolation {
   /** Policy violation details. */
   policyViolationDetails?: PolicyViolationDetailsList;
 }
+/** Contains the information of an automated timed promote-release operation. */
+export interface TimedPromoteReleaseOperation {
+  /** Output only. The ID of the target that represents the promotion stage to which the release will be promoted. The value of this field is the last segment of a target name. */
+  targetId?: string;
+  /** Output only. The starting phase of the rollout created by this operation. */
+  phase?: string;
+  /** Output only. The name of the release to be promoted. */
+  release?: string;
+}
 /** An `AutomationRun` resource in the Cloud Deploy API. An `AutomationRun` represents an execution instance of an automation rule. */
 export interface AutomationRun {
-  /** Output only. The ID of the automation rule that initiated the operation. */
-  ruleId?: string;
-  /** Output only. Time at which the automationRun was updated. */
-  updateTime?: string;
-  /** Output only. Time the `AutomationRun` expires. An `AutomationRun` expires after 14 days from its creation date. */
-  expireTime?: string;
-  /** Output only. The ID of the automation that initiated the operation. */
-  automationId?: string;
-  /** Output only. Promotes a release to a specified 'Target'. */
-  promoteReleaseOperation?: PromoteReleaseOperation;
-  /** Output only. Repairs a failed 'Rollout'. */
-  repairRolloutOperation?: RepairRolloutOperation;
-  /** Output only. Promotes a release to a specified 'Target' as defined in a Timed Promote Release rule. */
-  timedPromoteReleaseOperation?: TimedPromoteReleaseOperation;
-  /** Output only. Current state of the `AutomationRun`. */
-  state?: AutomationRunStateEnum;
-  /** Output only. Earliest time the `AutomationRun` will attempt to resume. Wait-time is configured by `wait` in automation rule. */
-  waitUntilTime?: string;
-  /** Output only. The ID of the source target that initiates the `AutomationRun`. The value of this field is the last segment of a target name. */
-  targetId?: string;
-  /** Output only. Advances a rollout to the next phase. */
-  advanceRolloutOperation?: AdvanceRolloutOperation;
-  /** Output only. The weak etag of the `AutomationRun` resource. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
-  /** Output only. Explains the current state of the `AutomationRun`. Present only when an explanation is needed. */
-  stateDescription?: string;
-  /** Output only. Time at which the `AutomationRun` was created. */
-  createTime?: string;
-  /** Output only. Name of the `AutomationRun`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{delivery_pipeline}/automationRuns/{automation_run}`. */
-  name?: string;
-  /** Output only. Email address of the user-managed IAM service account that performs the operations against Cloud Deploy resources. */
-  serviceAccount?: string;
-  /** Output only. Contains information about what policies prevented the `AutomationRun` from proceeding. */
-  policyViolation?: PolicyViolation;
-  /** Output only. Unique identifier of the `AutomationRun`. */
-  uid?: string;
   /** Output only. Snapshot of the Automation taken at AutomationRun creation time. */
   automationSnapshot?: Automation;
+  /** Output only. Current state of the `AutomationRun`. */
+  state?: AutomationRunStateEnum;
+  /** Output only. Advances a rollout to the next phase. */
+  advanceRolloutOperation?: AdvanceRolloutOperation;
+  /** Output only. Earliest time the `AutomationRun` will attempt to resume. Wait-time is configured by `wait` in automation rule. */
+  waitUntilTime?: string;
+  /** Output only. Promotes a release to a specified 'Target'. */
+  promoteReleaseOperation?: PromoteReleaseOperation;
+  /** Output only. Time at which the `AutomationRun` was created. */
+  createTime?: string;
+  /** Output only. Repairs a failed 'Rollout'. */
+  repairRolloutOperation?: RepairRolloutOperation;
+  /** Output only. The ID of the automation rule that initiated the operation. */
+  ruleId?: string;
+  /** Output only. Name of the `AutomationRun`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{delivery_pipeline}/automationRuns/{automation_run}`. */
+  name?: string;
+  /** Output only. The ID of the automation that initiated the operation. */
+  automationId?: string;
+  /** Output only. Explains the current state of the `AutomationRun`. Present only when an explanation is needed. */
+  stateDescription?: string;
+  /** Output only. Contains information about what policies prevented the `AutomationRun` from proceeding. */
+  policyViolation?: PolicyViolation;
+  /** Output only. The ID of the source target that initiates the `AutomationRun`. The value of this field is the last segment of a target name. */
+  targetId?: string;
+  /** Output only. Time at which the automationRun was updated. */
+  updateTime?: string;
+  /** Output only. Unique identifier of the `AutomationRun`. */
+  uid?: string;
+  /** Output only. Email address of the user-managed IAM service account that performs the operations against Cloud Deploy resources. */
+  serviceAccount?: string;
+  /** Output only. Promotes a release to a specified 'Target' as defined in a Timed Promote Release rule. */
+  timedPromoteReleaseOperation?: TimedPromoteReleaseOperation;
+  /** Output only. Time the `AutomationRun` expires. An `AutomationRun` expires after 14 days from its creation date. */
+  expireTime?: string;
+  /** Output only. The weak etag of the `AutomationRun` resource. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
 }
 export interface GetProjectsLocationsDeliveryPipelinesAutomationsRequest {
   /** Required. Name of the `Automation`. Format must be `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}/automations/{automation_name}`. */
@@ -1881,49 +1881,19 @@ export interface GetProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRunsReq
   /** Required. Name of the `JobRun`. Format must be `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}/releases/{release_name}/rollouts/{rollout_name}/jobRuns/{job_run_name}`. */
   name: string;
 }
-export type PredeployJobRunFailureCauseEnum =
-  | "FAILURE_CAUSE_UNSPECIFIED"
-  | "CLOUD_BUILD_UNAVAILABLE"
-  | "EXECUTION_FAILED"
-  | "DEADLINE_EXCEEDED"
-  | "CLOUD_BUILD_REQUEST_FAILED";
-/** PredeployJobRunMetadata contains metadata about the predeploy `JobRun`. */
-export interface PredeployJobRunMetadata {
-  /** Output only. Custom metadata provided by user-defined predeploy operation. */
-  custom?: CustomMetadata;
+/** AdvanceChildRolloutJobRun contains information specific to a advanceChildRollout `JobRun`. */
+export interface AdvanceChildRolloutJobRun {
+  /** Output only. the ID of the ChildRollout's Phase. */
+  rolloutPhaseId?: string;
+  /** Output only. Name of the `ChildRollout`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
+  rollout?: string;
 }
-/** PredeployJobRun contains information specific to a predeploy `JobRun`. */
-export interface PredeployJobRun {
-  /** Output only. The reason the predeploy failed. This will always be unspecified while the predeploy is in progress or if it succeeded. */
-  failureCause?: PredeployJobRunFailureCauseEnum;
-  /** Output only. Metadata containing information about the predeploy `JobRun`. */
-  metadata?: PredeployJobRunMetadata;
-  /** Output only. Additional information about the predeploy failure, if available. */
-  failureMessage?: string;
-  /** Output only. The resource name of the Cloud Build `Build` object that is used to execute the custom actions associated with the predeploy Job. Format is `projects/{project}/locations/{location}/builds/{build}`. */
-  build?: string;
-}
-export type PostdeployJobRunFailureCauseEnum =
-  | "FAILURE_CAUSE_UNSPECIFIED"
-  | "CLOUD_BUILD_UNAVAILABLE"
-  | "EXECUTION_FAILED"
-  | "DEADLINE_EXCEEDED"
-  | "CLOUD_BUILD_REQUEST_FAILED";
-/** PostdeployJobRunMetadata contains metadata about the postdeploy `JobRun`. */
-export interface PostdeployJobRunMetadata {
-  /** Output only. Custom metadata provided by user-defined postdeploy operation. */
-  custom?: CustomMetadata;
-}
-/** PostdeployJobRun contains information specific to a postdeploy `JobRun`. */
-export interface PostdeployJobRun {
-  /** Output only. The reason the postdeploy failed. This will always be unspecified while the postdeploy is in progress or if it succeeded. */
-  failureCause?: PostdeployJobRunFailureCauseEnum;
-  /** Output only. Metadata containing information about the postdeploy `JobRun`. */
-  metadata?: PostdeployJobRunMetadata;
-  /** Output only. Additional information about the postdeploy failure, if available. */
-  failureMessage?: string;
-  /** Output only. The resource name of the Cloud Build `Build` object that is used to execute the custom actions associated with the postdeploy Job. Format is `projects/{project}/locations/{location}/builds/{build}`. */
-  build?: string;
+/** The artifacts produced by a deploy operation. */
+export interface DeployArtifact {
+  /** Output only. URI of a directory containing the artifacts. All paths are relative to this location. */
+  artifactUri?: string;
+  /** Output only. File paths of the manifests applied during the deploy operation relative to the URI. */
+  manifestPaths?: StringList;
 }
 export type DeployJobRunFailureCauseEnum =
   | "FAILURE_CAUSE_UNSPECIFIED"
@@ -1940,94 +1910,25 @@ export interface CustomTargetDeployMetadata {
 }
 /** DeployJobRunMetadata surfaces information associated with a `DeployJobRun` to the user. */
 export interface DeployJobRunMetadata {
+  /** Output only. Custom Target metadata associated with a `DeployJobRun`. */
+  customTarget?: CustomTargetDeployMetadata;
   /** Output only. The name of the Cloud Run Service that is associated with a `DeployJobRun`. */
   cloudRun?: CloudRunMetadata;
   /** Output only. Custom metadata provided by user-defined deploy operation. */
   custom?: CustomMetadata;
-  /** Output only. Custom Target metadata associated with a `DeployJobRun`. */
-  customTarget?: CustomTargetDeployMetadata;
-}
-/** The artifacts produced by a deploy operation. */
-export interface DeployArtifact {
-  /** Output only. File paths of the manifests applied during the deploy operation relative to the URI. */
-  manifestPaths?: StringList;
-  /** Output only. URI of a directory containing the artifacts. All paths are relative to this location. */
-  artifactUri?: string;
 }
 /** DeployJobRun contains information specific to a deploy `JobRun`. */
 export interface DeployJobRun {
-  /** Output only. The reason the deploy failed. This will always be unspecified while the deploy is in progress or if it succeeded. */
-  failureCause?: DeployJobRunFailureCauseEnum;
-  /** Output only. Additional information about the deploy failure, if available. */
-  failureMessage?: string;
-  /** Output only. The resource name of the Cloud Build `Build` object that is used to deploy. Format is `projects/{project}/locations/{location}/builds/{build}`. */
-  build?: string;
-  /** Output only. Metadata containing information about the deploy job run. */
-  metadata?: DeployJobRunMetadata;
   /** Output only. The artifact of a deploy job run, if available. */
   artifact?: DeployArtifact;
-}
-/** FailedAlertPolicy contains information about an alert policy that was found to be firing during an alert policy check. */
-export interface FailedAlertPolicy {
-  /** Output only. The name of the alert policy that was found to be firing. Format is `projects/{project}/locations/{location}/alertPolicies/{alertPolicy}`. */
-  alertPolicy?: string;
-  /** Output only. Open alerts for the alerting policies that matched the alert policy check configuration. */
-  alerts?: StringList;
-}
-export type FailedAlertPolicyList = Array<FailedAlertPolicy>;
-/** AlertPolicyCheckStatus contains information specific to a single run of an alert policy check. */
-export interface AlertPolicyCheckStatus {
-  /** Output only. The alert policies that were found to be firing during this check. This will be empty if no incidents were found. */
-  failedAlertPolicies?: FailedAlertPolicyList;
-  /** Output only. Additional information about the alert policy check failure, if available. This will be empty if the alert policy check succeeded. */
+  /** Output only. The reason the deploy failed. This will always be unspecified while the deploy is in progress or if it succeeded. */
+  failureCause?: DeployJobRunFailureCauseEnum;
+  /** Output only. The resource name of the Cloud Build `Build` object that is used to deploy. Format is `projects/{project}/locations/{location}/builds/{build}`. */
+  build?: string;
+  /** Output only. Additional information about the deploy failure, if available. */
   failureMessage?: string;
-  /** Output only. The alert policies that this analysis monitors. Format is `projects/{project}/locations/{location}/alertPolicies/{alertPolicy}`. */
-  alertPolicies?: StringList;
-  /** Output only. The resolved labels used to filter for specific incidents. */
-  labels?: StringMap;
-  /** Output only. The ID of this analysis. */
-  id?: string;
-}
-export type AlertPolicyCheckStatusList = Array<AlertPolicyCheckStatus>;
-export type CustomCheckStatusFailureCauseEnum =
-  | "FAILURE_CAUSE_UNSPECIFIED"
-  | "CLOUD_BUILD_UNAVAILABLE"
-  | "EXECUTION_FAILED"
-  | "DEADLINE_EXCEEDED"
-  | "CLOUD_BUILD_REQUEST_FAILED";
-/** CustomCheckStatus contains information specific to a single iteration of a custom analysis job. */
-export interface CustomCheckStatus {
-  /** Output only. The reason the analysis failed. This will always be unspecified while the analysis is in progress or if it succeeded. */
-  failureCause?: CustomCheckStatusFailureCauseEnum;
-  /** Output only. Additional information about the analysis failure, if available. */
-  failureMessage?: string;
-  /** Output only. The resource name of the Cloud Build `Build` object that was used to execute the latest run of this custom action check. Format is `projects/{project}/locations/{location}/builds/{build}`. */
-  latestBuild?: string;
-  /** Output only. Custom metadata provided by the user-defined custom check operation. result. */
-  metadata?: CustomMetadata;
-  /** Output only. The ID of the custom check. */
-  id?: string;
-  /** Output only. The task that ran for this custom check. */
-  task?: Task;
-  /** Output only. The frequency in minutes at which the custom check is run. */
-  frequency?: string;
-}
-export type CustomCheckStatusList = Array<CustomCheckStatus>;
-/** AnalysisJobRun contains information specific to an analysis `JobRun`. */
-export interface AnalysisJobRun {
-  /** Output only. The status of the running alert policy checks configured for this analysis. */
-  alertPolicyAnalyses?: AlertPolicyCheckStatusList;
-  /** Output only. The status of the running custom checks configured for this analysis. */
-  customCheckAnalyses?: CustomCheckStatusList;
-  /** Output only. The ID of the configured check that failed. This will always be blank while the analysis is in progress or if it succeeded. */
-  failedCheckId?: string;
-}
-/** CreateChildRolloutJobRun contains information specific to a createChildRollout `JobRun`. */
-export interface CreateChildRolloutJobRun {
-  /** Output only. Name of the `ChildRollout`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
-  rollout?: string;
-  /** Output only. The ID of the childRollout Phase initiated by this JobRun. */
-  rolloutPhaseId?: string;
+  /** Output only. Metadata containing information about the deploy job run. */
+  metadata?: DeployJobRunMetadata;
 }
 /** VerifyJobRunMetadata contains metadata about the verify `JobRun`. */
 export interface VerifyJobRunMetadata {
@@ -2045,23 +1946,60 @@ export type VerifyJobRunFailureCauseEnum =
 export interface VerifyJobRun {
   /** Output only. Metadata containing information about the verify `JobRun`. */
   metadata?: VerifyJobRunMetadata;
-  /** Output only. URI of a directory containing the verify artifacts. This contains the Skaffold event log. */
-  artifactUri?: string;
-  /** Output only. Additional information about the verify failure, if available. */
-  failureMessage?: string;
   /** Output only. The resource name of the Cloud Build `Build` object that is used to verify. Format is `projects/{project}/locations/{location}/builds/{build}`. */
   build?: string;
-  /** Output only. File path of the Skaffold event log relative to the artifact URI. */
-  eventLogPath?: string;
+  /** Output only. URI of a directory containing the verify artifacts. This contains the Skaffold event log. */
+  artifactUri?: string;
   /** Output only. The reason the verify failed. This will always be unspecified while the verify is in progress or if it succeeded. */
   failureCause?: VerifyJobRunFailureCauseEnum;
+  /** Output only. Additional information about the verify failure, if available. */
+  failureMessage?: string;
+  /** Output only. File path of the Skaffold event log relative to the artifact URI. */
+  eventLogPath?: string;
 }
-/** AdvanceChildRolloutJobRun contains information specific to a advanceChildRollout `JobRun`. */
-export interface AdvanceChildRolloutJobRun {
-  /** Output only. the ID of the ChildRollout's Phase. */
-  rolloutPhaseId?: string;
-  /** Output only. Name of the `ChildRollout`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
-  rollout?: string;
+export type PostdeployJobRunFailureCauseEnum =
+  | "FAILURE_CAUSE_UNSPECIFIED"
+  | "CLOUD_BUILD_UNAVAILABLE"
+  | "EXECUTION_FAILED"
+  | "DEADLINE_EXCEEDED"
+  | "CLOUD_BUILD_REQUEST_FAILED";
+/** PostdeployJobRunMetadata contains metadata about the postdeploy `JobRun`. */
+export interface PostdeployJobRunMetadata {
+  /** Output only. Custom metadata provided by user-defined postdeploy operation. */
+  custom?: CustomMetadata;
+}
+/** PostdeployJobRun contains information specific to a postdeploy `JobRun`. */
+export interface PostdeployJobRun {
+  /** Output only. Additional information about the postdeploy failure, if available. */
+  failureMessage?: string;
+  /** Output only. The resource name of the Cloud Build `Build` object that is used to execute the custom actions associated with the postdeploy Job. Format is `projects/{project}/locations/{location}/builds/{build}`. */
+  build?: string;
+  /** Output only. The reason the postdeploy failed. This will always be unspecified while the postdeploy is in progress or if it succeeded. */
+  failureCause?: PostdeployJobRunFailureCauseEnum;
+  /** Output only. Metadata containing information about the postdeploy `JobRun`. */
+  metadata?: PostdeployJobRunMetadata;
+}
+export type PredeployJobRunFailureCauseEnum =
+  | "FAILURE_CAUSE_UNSPECIFIED"
+  | "CLOUD_BUILD_UNAVAILABLE"
+  | "EXECUTION_FAILED"
+  | "DEADLINE_EXCEEDED"
+  | "CLOUD_BUILD_REQUEST_FAILED";
+/** PredeployJobRunMetadata contains metadata about the predeploy `JobRun`. */
+export interface PredeployJobRunMetadata {
+  /** Output only. Custom metadata provided by user-defined predeploy operation. */
+  custom?: CustomMetadata;
+}
+/** PredeployJobRun contains information specific to a predeploy `JobRun`. */
+export interface PredeployJobRun {
+  /** Output only. The reason the predeploy failed. This will always be unspecified while the predeploy is in progress or if it succeeded. */
+  failureCause?: PredeployJobRunFailureCauseEnum;
+  /** Output only. The resource name of the Cloud Build `Build` object that is used to execute the custom actions associated with the predeploy Job. Format is `projects/{project}/locations/{location}/builds/{build}`. */
+  build?: string;
+  /** Output only. Additional information about the predeploy failure, if available. */
+  failureMessage?: string;
+  /** Output only. Metadata containing information about the predeploy `JobRun`. */
+  metadata?: PredeployJobRunMetadata;
 }
 export type JobRunStateEnum =
   | "STATE_UNSPECIFIED"
@@ -2070,40 +2008,102 @@ export type JobRunStateEnum =
   | "FAILED"
   | "TERMINATING"
   | "TERMINATED";
+/** FailedAlertPolicy contains information about an alert policy that was found to be firing during an alert policy check. */
+export interface FailedAlertPolicy {
+  /** Output only. Open alerts for the alerting policies that matched the alert policy check configuration. */
+  alerts?: StringList;
+  /** Output only. The name of the alert policy that was found to be firing. Format is `projects/{project}/locations/{location}/alertPolicies/{alertPolicy}`. */
+  alertPolicy?: string;
+}
+export type FailedAlertPolicyList = Array<FailedAlertPolicy>;
+/** AlertPolicyCheckStatus contains information specific to a single run of an alert policy check. */
+export interface AlertPolicyCheckStatus {
+  /** Output only. The ID of this analysis. */
+  id?: string;
+  /** Output only. The alert policies that were found to be firing during this check. This will be empty if no incidents were found. */
+  failedAlertPolicies?: FailedAlertPolicyList;
+  /** Output only. The alert policies that this analysis monitors. Format is `projects/{project}/locations/{location}/alertPolicies/{alertPolicy}`. */
+  alertPolicies?: StringList;
+  /** Output only. Additional information about the alert policy check failure, if available. This will be empty if the alert policy check succeeded. */
+  failureMessage?: string;
+  /** Output only. The resolved labels used to filter for specific incidents. */
+  labels?: StringMap;
+}
+export type AlertPolicyCheckStatusList = Array<AlertPolicyCheckStatus>;
+export type CustomCheckStatusFailureCauseEnum =
+  | "FAILURE_CAUSE_UNSPECIFIED"
+  | "CLOUD_BUILD_UNAVAILABLE"
+  | "EXECUTION_FAILED"
+  | "DEADLINE_EXCEEDED"
+  | "CLOUD_BUILD_REQUEST_FAILED";
+/** CustomCheckStatus contains information specific to a single iteration of a custom analysis job. */
+export interface CustomCheckStatus {
+  /** Output only. The reason the analysis failed. This will always be unspecified while the analysis is in progress or if it succeeded. */
+  failureCause?: CustomCheckStatusFailureCauseEnum;
+  /** Output only. The frequency in minutes at which the custom check is run. */
+  frequency?: string;
+  /** Output only. The ID of the custom check. */
+  id?: string;
+  /** Output only. Additional information about the analysis failure, if available. */
+  failureMessage?: string;
+  /** Output only. Custom metadata provided by the user-defined custom check operation. result. */
+  metadata?: CustomMetadata;
+  /** Output only. The resource name of the Cloud Build `Build` object that was used to execute the latest run of this custom action check. Format is `projects/{project}/locations/{location}/builds/{build}`. */
+  latestBuild?: string;
+  /** Output only. The task that ran for this custom check. */
+  task?: Task;
+}
+export type CustomCheckStatusList = Array<CustomCheckStatus>;
+/** AnalysisJobRun contains information specific to an analysis `JobRun`. */
+export interface AnalysisJobRun {
+  /** Output only. The ID of the configured check that failed. This will always be blank while the analysis is in progress or if it succeeded. */
+  failedCheckId?: string;
+  /** Output only. The status of the running alert policy checks configured for this analysis. */
+  alertPolicyAnalyses?: AlertPolicyCheckStatusList;
+  /** Output only. The status of the running custom checks configured for this analysis. */
+  customCheckAnalyses?: CustomCheckStatusList;
+}
+/** CreateChildRolloutJobRun contains information specific to a createChildRollout `JobRun`. */
+export interface CreateChildRolloutJobRun {
+  /** Output only. Name of the `ChildRollout`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
+  rollout?: string;
+  /** Output only. The ID of the childRollout Phase initiated by this JobRun. */
+  rolloutPhaseId?: string;
+}
 /** A `JobRun` resource in the Cloud Deploy API. A `JobRun` contains information of a single `Rollout` job evaluation. */
 export interface JobRun {
-  /** Output only. Unique identifier of the `JobRun`. */
-  uid?: string;
-  /** Output only. Information specific to a predeploy `JobRun`. */
-  predeployJobRun?: PredeployJobRun;
-  /** Output only. Name of the `JobRun`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{releases}/rollouts/{rollouts}/jobRuns/{uuid}`. */
-  name?: string;
-  /** Output only. Information specific to a postdeploy `JobRun`. */
-  postdeployJobRun?: PostdeployJobRun;
-  /** Output only. Information specific to a deploy `JobRun`. */
-  deployJobRun?: DeployJobRun;
-  /** Output only. Information specific to an analysis `JobRun`. */
-  analysisJobRun?: AnalysisJobRun;
-  /** Output only. Information specific to a createChildRollout `JobRun`. */
-  createChildRolloutJobRun?: CreateChildRolloutJobRun;
-  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
-  /** Output only. Time at which the `JobRun` ended. */
-  endTime?: string;
-  /** Output only. Time at which the `JobRun` was started. */
-  startTime?: string;
-  /** Output only. Time at which the `JobRun` was created. */
-  createTime?: string;
-  /** Output only. Information specific to a verify `JobRun`. */
-  verifyJobRun?: VerifyJobRun;
-  /** Output only. ID of the `Rollout` phase this `JobRun` belongs in. */
-  phaseId?: string;
   /** Output only. Information specific to an advanceChildRollout `JobRun` */
   advanceChildRolloutJobRun?: AdvanceChildRolloutJobRun;
+  /** Output only. Time at which the `JobRun` was started. */
+  startTime?: string;
+  /** Output only. Unique identifier of the `JobRun`. */
+  uid?: string;
+  /** Output only. Information specific to a deploy `JobRun`. */
+  deployJobRun?: DeployJobRun;
+  /** Output only. ID of the `Rollout` phase this `JobRun` belongs in. */
+  phaseId?: string;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
+  /** Output only. Information specific to a verify `JobRun`. */
+  verifyJobRun?: VerifyJobRun;
+  /** Output only. Information specific to a postdeploy `JobRun`. */
+  postdeployJobRun?: PostdeployJobRun;
+  /** Output only. Information specific to a predeploy `JobRun`. */
+  predeployJobRun?: PredeployJobRun;
   /** Output only. The current state of the `JobRun`. */
   state?: JobRunStateEnum;
+  /** Output only. Time at which the `JobRun` ended. */
+  endTime?: string;
+  /** Output only. Name of the `JobRun`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{releases}/rollouts/{rollouts}/jobRuns/{uuid}`. */
+  name?: string;
+  /** Output only. Time at which the `JobRun` was created. */
+  createTime?: string;
+  /** Output only. Information specific to an analysis `JobRun`. */
+  analysisJobRun?: AnalysisJobRun;
   /** Output only. ID of the `Rollout` job this `JobRun` corresponds to. */
   jobId?: string;
+  /** Output only. Information specific to a createChildRollout `JobRun`. */
+  createChildRolloutJobRun?: CreateChildRolloutJobRun;
 }
 export interface GetProjectsLocationsDeployPoliciesRequest {
   /** Required. Name of the `DeployPolicy`. Format must be `projects/{project_id}/locations/{location_name}/deployPolicies/{deploy_policy_name}`. */
@@ -2119,10 +2119,10 @@ export interface GetProjectsLocationsTargetsRequest {
 }
 /** The request object used by `IgnoreJob`. */
 export interface IgnoreJobRequest {
-  /** Required. The job ID for the Job to ignore. */
-  jobId?: string;
   /** Required. The phase ID the Job to ignore belongs to. */
   phaseId?: string;
+  /** Required. The job ID for the Job to ignore. */
+  jobId?: string;
   /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
   overrideDeployPolicy?: StringList;
 }
@@ -2137,143 +2137,143 @@ export interface IgnoreJobResponse {}
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string;
   /** A list of locations that matches the specified filter in the request. */
   locations?: LocationList;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
 }
 export interface ListProjectsLocationsCustomTargetTypesRequest {
-  /** Optional. Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
   /** Required. The parent that owns this collection of custom target types. Format must be `projects/{project_id}/locations/{location_name}`. */
   parent: string;
-  /** Optional. A page token, received from a previous `ListCustomTargetTypes` call. Provide this to retrieve the subsequent page. When paginating, all other provided parameters match the call that provided the page token. */
-  pageToken?: string;
+  /** Optional. Field to sort by. See https://google.aip.dev/132#ordering for more details. */
+  orderBy?: string;
   /** Optional. Filter custom target types to be returned. See https://google.aip.dev/160 for more details. */
   filter?: string;
   /** Optional. The maximum number of `CustomTargetType` objects to return. The service may return fewer than this value. If unspecified, at most 50 `CustomTargetType` objects will be returned. The maximum value is 1000; values above 1000 will be set to 1000. */
   pageSize?: number;
+  /** Optional. A page token, received from a previous `ListCustomTargetTypes` call. Provide this to retrieve the subsequent page. When paginating, all other provided parameters match the call that provided the page token. */
+  pageToken?: string;
 }
 /** The response object from `ListCustomTargetTypes.` */
 export interface ListCustomTargetTypesResponse {
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
   /** The `CustomTargetType` objects. */
   customTargetTypes?: CustomTargetTypeList;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
 }
 export interface ListProjectsLocationsDeliveryPipelinesRequest {
   /** A page token, received from a previous `ListDeliveryPipelines` call. Provide this to retrieve the subsequent page. When paginating, all other provided parameters match the call that provided the page token. */
   pageToken?: string;
-  /** Filter pipelines to be returned. See https://google.aip.dev/160 for more details. */
-  filter?: string;
   /** Required. The parent, which owns this collection of pipelines. Format must be `projects/{project_id}/locations/{location_name}`. */
   parent: string;
   /** The maximum number of pipelines to return. The service may return fewer than this value. If unspecified, at most 50 pipelines will be returned. The maximum value is 1000; values above 1000 will be set to 1000. */
   pageSize?: number;
   /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string;
+  /** Filter pipelines to be returned. See https://google.aip.dev/160 for more details. */
+  filter?: string;
 }
 export type DeliveryPipelineList = Array<DeliveryPipeline>;
 /** The response object from `ListDeliveryPipelines`. */
 export interface ListDeliveryPipelinesResponse {
-  /** The `DeliveryPipeline` objects. */
-  deliveryPipelines?: DeliveryPipelineList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** The `DeliveryPipeline` objects. */
+  deliveryPipelines?: DeliveryPipelineList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
 }
 export interface ListProjectsLocationsDeliveryPipelinesAutomationRunsRequest {
-  /** Required. The parent `Delivery Pipeline`, which owns this collection of automationRuns. Format must be `projects/{project}/locations/{location}/deliveryPipelines/{delivery_pipeline}`. */
-  parent: string;
   /** A page token, received from a previous `ListAutomationRuns` call. Provide this to retrieve the subsequent page. When paginating, all other provided parameters match the call that provided the page token. */
   pageToken?: string;
-  /** Field to sort by. */
-  orderBy?: string;
   /** Filter automationRuns to be returned. All fields can be used in the filter. */
   filter?: string;
+  /** Required. The parent `Delivery Pipeline`, which owns this collection of automationRuns. Format must be `projects/{project}/locations/{location}/deliveryPipelines/{delivery_pipeline}`. */
+  parent: string;
   /** The maximum number of automationRuns to return. The service may return fewer than this value. If unspecified, at most 50 automationRuns will be returned. The maximum value is 1000; values above 1000 will be set to 1000. */
   pageSize?: number;
+  /** Field to sort by. */
+  orderBy?: string;
 }
 export type AutomationRunList = Array<AutomationRun>;
 /** The response object from `ListAutomationRuns`. */
 export interface ListAutomationRunsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList;
-  /** The `AutomationRuns` objects. */
-  automationRuns?: AutomationRunList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** The `AutomationRuns` objects. */
+  automationRuns?: AutomationRunList;
 }
 export interface ListProjectsLocationsDeliveryPipelinesAutomationsRequest {
-  /** The maximum number of automations to return. The service may return fewer than this value. If unspecified, at most 50 automations will be returned. The maximum value is 1000; values above 1000 will be set to 1000. */
-  pageSize?: number;
   /** Filter automations to be returned. All fields can be used in the filter. */
   filter?: string;
-  /** Field to sort by. */
-  orderBy?: string;
-  /** A page token, received from a previous `ListAutomations` call. Provide this to retrieve the subsequent page. When paginating, all other provided parameters match the call that provided the page token. */
-  pageToken?: string;
   /** Required. The parent `Delivery Pipeline`, which owns this collection of automations. Format must be `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}`. */
   parent: string;
+  /** A page token, received from a previous `ListAutomations` call. Provide this to retrieve the subsequent page. When paginating, all other provided parameters match the call that provided the page token. */
+  pageToken?: string;
+  /** The maximum number of automations to return. The service may return fewer than this value. If unspecified, at most 50 automations will be returned. The maximum value is 1000; values above 1000 will be set to 1000. */
+  pageSize?: number;
+  /** Field to sort by. */
+  orderBy?: string;
 }
 export type AutomationList = Array<Automation>;
 /** The response object from `ListAutomations`. */
 export interface ListAutomationsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** The `Automation` objects. */
   automations?: AutomationList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export interface ListProjectsLocationsDeliveryPipelinesReleasesRequest {
   /** Optional. A page token, received from a previous `ListReleases` call. Provide this to retrieve the subsequent page. When paginating, all other provided parameters match the call that provided the page token. */
   pageToken?: string;
-  /** Optional. Filter releases to be returned. See https://google.aip.dev/160 for more details. */
-  filter?: string;
-  /** Optional. The maximum number of `Release` objects to return. The service may return fewer than this value. If unspecified, at most 50 `Release` objects will be returned. The maximum value is 1000; values above 1000 will be set to 1000. */
-  pageSize?: number;
   /** Optional. Field to sort by. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string;
+  /** Optional. The maximum number of `Release` objects to return. The service may return fewer than this value. If unspecified, at most 50 `Release` objects will be returned. The maximum value is 1000; values above 1000 will be set to 1000. */
+  pageSize?: number;
+  /** Optional. Filter releases to be returned. See https://google.aip.dev/160 for more details. */
+  filter?: string;
   /** Required. The `DeliveryPipeline` which owns this collection of `Release` objects. */
   parent: string;
 }
 export type ReleaseList = Array<Release>;
 /** The response object from `ListReleases`. */
 export interface ListReleasesResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** The `Release` objects. */
   releases?: ReleaseList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export interface ListProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest {
-  /** Optional. A page token, received from a previous `ListRollouts` call. Provide this to retrieve the subsequent page. When paginating, all other provided parameters match the call that provided the page token. */
-  pageToken?: string;
   /** Optional. Filter rollouts to be returned. See https://google.aip.dev/160 for more details. */
   filter?: string;
   /** Required. The `Release` which owns this collection of `Rollout` objects. */
   parent: string;
-  /** Optional. The maximum number of `Rollout` objects to return. The service may return fewer than this value. If unspecified, at most 50 `Rollout` objects will be returned. The maximum value is 1000; values above 1000 will be set to 1000. */
-  pageSize?: number;
+  /** Optional. A page token, received from a previous `ListRollouts` call. Provide this to retrieve the subsequent page. When paginating, all other provided parameters match the call that provided the page token. */
+  pageToken?: string;
   /** Optional. Field to sort by. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string;
+  /** Optional. The maximum number of `Rollout` objects to return. The service may return fewer than this value. If unspecified, at most 50 `Rollout` objects will be returned. The maximum value is 1000; values above 1000 will be set to 1000. */
+  pageSize?: number;
 }
 export type RolloutList = Array<Rollout>;
 /** ListRolloutsResponse is the response object returned by `ListRollouts`. */
@@ -2286,16 +2286,16 @@ export interface ListRolloutsResponse {
   unreachable?: StringList;
 }
 export interface ListProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRunsRequest {
-  /** Optional. Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
-  /** Optional. The maximum number of `JobRun` objects to return. The service may return fewer than this value. If unspecified, at most 50 `JobRun` objects will be returned. The maximum value is 1000; values above 1000 will be set to 1000. */
-  pageSize?: number;
-  /** Required. The `Rollout` which owns this collection of `JobRun` objects. */
-  parent: string;
-  /** Optional. Filter results to be returned. See https://google.aip.dev/160 for more details. */
-  filter?: string;
   /** Optional. A page token, received from a previous `ListJobRuns` call. Provide this to retrieve the subsequent page. When paginating, all other provided parameters match the call that provided the page token. */
   pageToken?: string;
+  /** Optional. Field to sort by. See https://google.aip.dev/132#ordering for more details. */
+  orderBy?: string;
+  /** Required. The `Rollout` which owns this collection of `JobRun` objects. */
+  parent: string;
+  /** Optional. The maximum number of `JobRun` objects to return. The service may return fewer than this value. If unspecified, at most 50 `JobRun` objects will be returned. The maximum value is 1000; values above 1000 will be set to 1000. */
+  pageSize?: number;
+  /** Optional. Filter results to be returned. See https://google.aip.dev/160 for more details. */
+  filter?: string;
 }
 export type JobRunList = Array<JobRun>;
 /** ListJobRunsResponse is the response object returned by `ListJobRuns`. */
@@ -2308,12 +2308,12 @@ export interface ListJobRunsResponse {
   nextPageToken?: string;
 }
 export interface ListProjectsLocationsDeployPoliciesRequest {
+  /** A page token, received from a previous `ListDeployPolicies` call. Provide this to retrieve the subsequent page. When paginating, all other provided parameters match the call that provided the page token. */
+  pageToken?: string;
   /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string;
   /** The maximum number of deploy policies to return. The service may return fewer than this value. If unspecified, at most 50 deploy policies will be returned. The maximum value is 1000; values above 1000 will be set to 1000. */
   pageSize?: number;
-  /** A page token, received from a previous `ListDeployPolicies` call. Provide this to retrieve the subsequent page. When paginating, all other provided parameters match the call that provided the page token. */
-  pageToken?: string;
   /** Filter deploy policies to be returned. See https://google.aip.dev/160 for more details. All fields can be used in the filter. */
   filter?: string;
   /** Required. The parent, which owns this collection of deploy policies. Format must be `projects/{project_id}/locations/{location_name}`. */
@@ -2322,109 +2322,109 @@ export interface ListProjectsLocationsDeployPoliciesRequest {
 export type DeployPolicyList = Array<DeployPolicy>;
 /** The response object from `ListDeployPolicies`. */
 export interface ListDeployPoliciesResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
   /** The `DeployPolicy` objects. */
   deployPolicies?: DeployPolicyList;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
-  /** The standard list filter. */
-  filter?: string;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
   /** The standard list page token. */
   pageToken?: string;
   /** The standard list page size. */
   pageSize?: number;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
+  /** The standard list filter. */
+  filter?: string;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string;
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
 }
 export interface ListProjectsLocationsTargetsRequest {
   /** Required. The parent, which owns this collection of targets. Format must be `projects/{project_id}/locations/{location_name}`. */
   parent: string;
-  /** Optional. A page token, received from a previous `ListTargets` call. Provide this to retrieve the subsequent page. When paginating, all other provided parameters match the call that provided the page token. */
-  pageToken?: string;
   /** Optional. Field to sort by. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string;
-  /** Optional. The maximum number of `Target` objects to return. The service may return fewer than this value. If unspecified, at most 50 `Target` objects will be returned. The maximum value is 1000; values above 1000 will be set to 1000. */
-  pageSize?: number;
   /** Optional. Filter targets to be returned. See https://google.aip.dev/160 for more details. */
   filter?: string;
+  /** Optional. The maximum number of `Target` objects to return. The service may return fewer than this value. If unspecified, at most 50 `Target` objects will be returned. The maximum value is 1000; values above 1000 will be set to 1000. */
+  pageSize?: number;
+  /** Optional. A page token, received from a previous `ListTargets` call. Provide this to retrieve the subsequent page. When paginating, all other provided parameters match the call that provided the page token. */
+  pageToken?: string;
 }
 /** The response object from `ListTargets`. */
 export interface ListTargetsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** The `Target` objects. */
   targets?: TargetList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
 }
 export interface PatchProjectsLocationsCustomTargetTypesRequest {
   /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
   validateOnly?: boolean;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Identifier. Name of the `CustomTargetType`. Format is `projects/{project}/locations/{location}/customTargetTypes/{customTargetType}`. The `customTargetType` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
-  name: string;
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the `CustomTargetType` resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it's in the mask. If the user doesn't provide a mask then all fields are overwritten. */
   updateMask?: string;
+  /** Identifier. Name of the `CustomTargetType`. Format is `projects/{project}/locations/{location}/customTargetTypes/{customTargetType}`. The `customTargetType` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
+  name: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Optional. If set to true, updating a `CustomTargetType` that does not exist will result in the creation of a new `CustomTargetType`. */
   allowMissing?: boolean;
   /** Request body */
   body?: CustomTargetType;
 }
 export interface PatchProjectsLocationsDeliveryPipelinesRequest {
-  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
-  validateOnly?: boolean;
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the `DeliveryPipeline` resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it's in the mask. If the user doesn't provide a mask then all fields are overwritten. */
   updateMask?: string;
-  /** Identifier. Name of the `DeliveryPipeline`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}`. The `deliveryPipeline` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
-  name: string;
-  /** Optional. If set to true, updating a `DeliveryPipeline` that does not exist will result in the creation of a new `DeliveryPipeline`. */
-  allowMissing?: boolean;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
+  validateOnly?: boolean;
+  /** Optional. If set to true, updating a `DeliveryPipeline` that does not exist will result in the creation of a new `DeliveryPipeline`. */
+  allowMissing?: boolean;
+  /** Identifier. Name of the `DeliveryPipeline`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}`. The `deliveryPipeline` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
+  name: string;
   /** Request body */
   body?: DeliveryPipeline;
 }
 export interface PatchProjectsLocationsDeliveryPipelinesAutomationsRequest {
-  /** Required. Field mask is used to specify the fields to be overwritten by the update in the `Automation` resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it's in the mask. If the user doesn't provide a mask then all fields are overwritten. */
-  updateMask?: string;
-  /** Optional. If set to true, updating a `Automation` that does not exist will result in the creation of a new `Automation`. */
-  allowMissing?: boolean;
   /** Output only. Name of the `Automation`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{delivery_pipeline}/automations/{automation}`. */
   name: string;
-  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
-  validateOnly?: boolean;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Optional. If set to true, updating a `Automation` that does not exist will result in the creation of a new `Automation`. */
+  allowMissing?: boolean;
+  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
+  validateOnly?: boolean;
+  /** Required. Field mask is used to specify the fields to be overwritten by the update in the `Automation` resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it's in the mask. If the user doesn't provide a mask then all fields are overwritten. */
+  updateMask?: string;
   /** Request body */
   body?: Automation;
 }
 export interface PatchProjectsLocationsDeployPoliciesRequest {
-  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
-  validateOnly?: boolean;
-  /** Required. Field mask is used to specify the fields to be overwritten by the update in the `DeployPolicy` resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it's in the mask. If the user doesn't provide a mask then all fields are overwritten. */
-  updateMask?: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Optional. If set to true, updating a `DeployPolicy` that does not exist will result in the creation of a new `DeployPolicy`. */
-  allowMissing?: boolean;
+  /** Required. Field mask is used to specify the fields to be overwritten by the update in the `DeployPolicy` resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it's in the mask. If the user doesn't provide a mask then all fields are overwritten. */
+  updateMask?: string;
+  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
+  validateOnly?: boolean;
   /** Output only. Name of the `DeployPolicy`. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. The `deployPolicy` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
   name: string;
+  /** Optional. If set to true, updating a `DeployPolicy` that does not exist will result in the creation of a new `DeployPolicy`. */
+  allowMissing?: boolean;
   /** Request body */
   body?: DeployPolicy;
 }
@@ -2433,23 +2433,23 @@ export interface PatchProjectsLocationsTargetsRequest {
   updateMask?: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
-  validateOnly?: boolean;
-  /** Identifier. Name of the `Target`. Format is `projects/{project}/locations/{location}/targets/{target}`. The `target` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
-  name: string;
   /** Optional. If set to true, updating a `Target` that does not exist will result in the creation of a new `Target`. */
   allowMissing?: boolean;
+  /** Identifier. Name of the `Target`. Format is `projects/{project}/locations/{location}/targets/{target}`. The `target` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
+  name: string;
+  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
+  validateOnly?: boolean;
   /** Request body */
   body?: Target;
 }
 /** RetryJobRequest is the request object used by `RetryJob`. */
 export interface RetryJobRequest {
+  /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
+  overrideDeployPolicy?: StringList;
   /** Required. The job ID for the Job to retry. */
   jobId?: string;
   /** Required. The phase ID the Job to retry belongs to. */
   phaseId?: string;
-  /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
-  overrideDeployPolicy?: StringList;
 }
 export interface RetryJobProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest {
   /** Required. Name of the Rollout. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
@@ -2468,20 +2468,20 @@ export interface RollbackTargetConfig {
 }
 /** The request object for `RollbackTarget`. */
 export interface RollbackTargetRequest {
-  /** Optional. Configs for the rollback `Rollout`. */
-  rollbackConfig?: RollbackTargetConfig;
-  /** Required. ID of the rollback `Rollout` to create. */
-  rolloutId?: string;
   /** Optional. If provided, this must be the latest `Rollout` that is on the `Target`. */
   rolloutToRollBack?: string;
-  /** Optional. ID of the `Release` to roll back to. If this isn't specified, the previous successful `Rollout` to the specified target will be used to determine the `Release`. */
-  releaseId?: string;
-  /** Required. ID of the `Target` that is being rolled back. */
-  targetId?: string;
   /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deploy_policy}`. */
   overrideDeployPolicy?: StringList;
+  /** Required. ID of the rollback `Rollout` to create. */
+  rolloutId?: string;
+  /** Optional. Configs for the rollback `Rollout`. */
+  rollbackConfig?: RollbackTargetConfig;
+  /** Required. ID of the `Target` that is being rolled back. */
+  targetId?: string;
   /** Optional. If set to true, the request is validated and the user is provided with a `RollbackTargetResponse`. */
   validateOnly?: boolean;
+  /** Optional. ID of the `Release` to roll back to. If this isn't specified, the previous successful `Rollout` to the specified target will be used to determine the `Release`. */
+  releaseId?: string;
 }
 export interface RollbackTargetProjectsLocationsDeliveryPipelinesRequest {
   /** Required. The `DeliveryPipeline` for which the rollback `Rollout` must be created. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}`. */
@@ -2496,10 +2496,10 @@ export interface RollbackTargetResponse {
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string;
 }
 export interface SetIamPolicyProjectsLocationsCustomTargetTypesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -2571,11 +2571,11 @@ export const abandonProjectsLocationsDeliveryPipelinesReleases: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1792,
-    __c56,
+    1760,
+    __c55,
     0,
   ) as any as S.Schema<AbandonProjectsLocationsDeliveryPipelinesReleasesRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<AbandonReleaseResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<AbandonReleaseResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2597,11 +2597,11 @@ export const advanceProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2177,
-    __c68,
+    2145,
+    __c67,
     1,
   ) as any as S.Schema<AdvanceProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<AdvanceRolloutResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<AdvanceRolloutResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2623,11 +2623,11 @@ export const approveProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2593,
-    __c81,
+    2561,
+    __c80,
     1,
   ) as any as S.Schema<ApproveProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<ApproveRolloutResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<ApproveRolloutResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2649,11 +2649,11 @@ export const cancelProjectsLocationsDeliveryPipelinesAutomationRuns: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2816,
-    __c88,
+    2784,
+    __c87,
     0,
   ) as any as S.Schema<CancelProjectsLocationsDeliveryPipelinesAutomationRunsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<CancelAutomationRunResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<CancelAutomationRunResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2675,11 +2675,11 @@ export const cancelProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2848,
-    __c89,
+    2816,
+    __c88,
     0,
   ) as any as S.Schema<CancelProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<CancelRolloutResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<CancelRolloutResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2700,8 +2700,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Empty>,
+  input: __S(2880, __c90, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2981,7 +2981,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Empty>,
+  output: __S(1792, __c56, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3147,7 +3147,7 @@ export const getProjectsLocationsDeliveryPipelines: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<GetProjectsLocationsDeliveryPipelinesRequest>,
-  output: __S(311, __c9, 23) as any as S.Schema<DeliveryPipeline>,
+  output: __S(312, __c9, 24) as any as S.Schema<DeliveryPipeline>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3240,7 +3240,7 @@ export const getProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Operatio
     __c48,
     0,
   ) as any as S.Schema<GetProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest>,
-  output: __S(744, __c23, 8) as any as S.Schema<Rollout>,
+  output: __S(745, __c23, 9) as any as S.Schema<Rollout>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3264,7 +3264,7 @@ export const getProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns: API.O
     __c49,
     0,
   ) as any as S.Schema<GetProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRunsRequest>,
-  output: __S(1616, __c50, 16) as any as S.Schema<JobRun>,
+  output: __S(1617, __c50, 17) as any as S.Schema<JobRun>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3281,7 +3281,7 @@ export const getProjectsLocationsDeployPolicies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<GetProjectsLocationsDeployPoliciesRequest>,
-  output: __S(843, __c26, 11) as any as S.Schema<DeployPolicy>,
+  output: __S(844, __c26, 12) as any as S.Schema<DeployPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3337,11 +3337,11 @@ export const ignoreJobProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1728,
+    1729,
     __c54,
-    0,
+    1,
   ) as any as S.Schema<IgnoreJobProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<IgnoreJobResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<IgnoreJobResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3358,8 +3358,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(1826, __c57, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3377,8 +3377,8 @@ export const listProjectsLocationsCustomTargetTypes: API.PaginatedOperationMetho
   GcpOpContext,
   ListCustomTargetTypesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ListProjectsLocationsCustomTargetTypesRequest>,
-  output: __S(1889, __c59, 1) as any as S.Schema<ListCustomTargetTypesResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ListProjectsLocationsCustomTargetTypesRequest>,
+  output: __S(1857, __c58, 1) as any as S.Schema<ListCustomTargetTypesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3396,8 +3396,8 @@ export const listProjectsLocationsDeliveryPipelines: API.PaginatedOperationMetho
   GcpOpContext,
   ListDeliveryPipelinesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<ListProjectsLocationsDeliveryPipelinesRequest>,
-  output: __S(1922, __c60, 2) as any as S.Schema<ListDeliveryPipelinesResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<ListProjectsLocationsDeliveryPipelinesRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<ListDeliveryPipelinesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3419,11 +3419,11 @@ export const listProjectsLocationsDeliveryPipelinesAutomationRuns: API.Paginated
   ListAutomationRunsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1952,
-    __c61,
+    1920,
+    __c60,
     0,
   ) as any as S.Schema<ListProjectsLocationsDeliveryPipelinesAutomationRunsRequest>,
-  output: __S(1954, __c61, 2) as any as S.Schema<ListAutomationRunsResponse>,
+  output: __S(1922, __c60, 2) as any as S.Schema<ListAutomationRunsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3445,11 +3445,11 @@ export const listProjectsLocationsDeliveryPipelinesAutomations: API.PaginatedOpe
   ListAutomationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1984,
-    __c62,
+    1952,
+    __c61,
     0,
   ) as any as S.Schema<ListProjectsLocationsDeliveryPipelinesAutomationsRequest>,
-  output: __S(1986, __c62, 2) as any as S.Schema<ListAutomationsResponse>,
+  output: __S(1954, __c61, 2) as any as S.Schema<ListAutomationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3468,11 +3468,11 @@ export const listProjectsLocationsDeliveryPipelinesReleases: API.PaginatedOperat
   ListReleasesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2016,
-    __c63,
+    1984,
+    __c62,
     0,
   ) as any as S.Schema<ListProjectsLocationsDeliveryPipelinesReleasesRequest>,
-  output: __S(2018, __c63, 2) as any as S.Schema<ListReleasesResponse>,
+  output: __S(1986, __c62, 2) as any as S.Schema<ListReleasesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3494,11 +3494,11 @@ export const listProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Paginat
   ListRolloutsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2048,
-    __c64,
+    2016,
+    __c63,
     0,
   ) as any as S.Schema<ListProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest>,
-  output: __S(2050, __c64, 2) as any as S.Schema<ListRolloutsResponse>,
+  output: __S(2018, __c63, 2) as any as S.Schema<ListRolloutsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3520,11 +3520,11 @@ export const listProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns: API.
   ListJobRunsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2080,
-    __c65,
+    2048,
+    __c64,
     0,
   ) as any as S.Schema<ListProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRunsRequest>,
-  output: __S(2082, __c65, 2) as any as S.Schema<ListJobRunsResponse>,
+  output: __S(2050, __c64, 2) as any as S.Schema<ListJobRunsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3542,8 +3542,8 @@ export const listProjectsLocationsDeployPolicies: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDeployPoliciesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<ListProjectsLocationsDeployPoliciesRequest>,
-  output: __S(2114, __c66, 2) as any as S.Schema<ListDeployPoliciesResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<ListProjectsLocationsDeployPoliciesRequest>,
+  output: __S(2082, __c65, 2) as any as S.Schema<ListDeployPoliciesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3561,8 +3561,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(2146, __c67, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(2114, __c66, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3580,8 +3580,8 @@ export const listProjectsLocationsTargets: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTargetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<ListProjectsLocationsTargetsRequest>,
-  output: __S(2241, __c70, 1) as any as S.Schema<ListTargetsResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<ListProjectsLocationsTargetsRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<ListTargetsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3603,7 +3603,7 @@ export const patchProjectsLocationsCustomTargetTypes: API.OperationMethod<
   PatchProjectsLocationsCustomTargetTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<PatchProjectsLocationsCustomTargetTypesRequest>,
+  input: __S(2240, __c70, 0) as any as S.Schema<PatchProjectsLocationsCustomTargetTypesRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3625,7 +3625,7 @@ export const patchProjectsLocationsDeliveryPipelines: API.OperationMethod<
   PatchProjectsLocationsDeliveryPipelinesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<PatchProjectsLocationsDeliveryPipelinesRequest>,
+  input: __S(2272, __c71, 0) as any as S.Schema<PatchProjectsLocationsDeliveryPipelinesRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3648,8 +3648,8 @@ export const patchProjectsLocationsDeliveryPipelinesAutomations: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2336,
-    __c73,
+    2304,
+    __c72,
     0,
   ) as any as S.Schema<PatchProjectsLocationsDeliveryPipelinesAutomationsRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<Operation>,
@@ -3673,7 +3673,7 @@ export const patchProjectsLocationsDeployPolicies: API.OperationMethod<
   PatchProjectsLocationsDeployPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<PatchProjectsLocationsDeployPoliciesRequest>,
+  input: __S(2336, __c73, 0) as any as S.Schema<PatchProjectsLocationsDeployPoliciesRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3695,7 +3695,7 @@ export const patchProjectsLocationsTargets: API.OperationMethod<
   PatchProjectsLocationsTargetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<PatchProjectsLocationsTargetsRequest>,
+  input: __S(2368, __c74, 0) as any as S.Schema<PatchProjectsLocationsTargetsRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3718,11 +3718,11 @@ export const retryJobProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2432,
-    __c76,
-    0,
+    2401,
+    __c75,
+    1,
   ) as any as S.Schema<RetryJobProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<RetryJobResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<RetryJobResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3744,11 +3744,11 @@ export const rollbackTargetProjectsLocationsDeliveryPipelines: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2466,
-    __c77,
+    2434,
+    __c76,
     2,
   ) as any as S.Schema<RollbackTargetProjectsLocationsDeliveryPipelinesRequest>,
-  output: __S(2467, __c77, 3) as any as S.Schema<RollbackTargetResponse>,
+  output: __S(2435, __c76, 3) as any as S.Schema<RollbackTargetResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3770,8 +3770,8 @@ export const setIamPolicyProjectsLocationsCustomTargetTypes: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2496,
-    __c78,
+    2464,
+    __c77,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsCustomTargetTypesRequest>,
   output: __S(1159, __c36, 7) as any as S.Schema<Policy>,
@@ -3796,8 +3796,8 @@ export const setIamPolicyProjectsLocationsDeliveryPipelines: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2560,
-    __c80,
+    2528,
+    __c79,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsDeliveryPipelinesRequest>,
   output: __S(1159, __c36, 7) as any as S.Schema<Policy>,
@@ -3821,7 +3821,7 @@ export const setIamPolicyProjectsLocationsDeployPolicies: API.OperationMethod<
   SetIamPolicyProjectsLocationsDeployPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<SetIamPolicyProjectsLocationsDeployPoliciesRequest>,
+  input: __S(2592, __c81, 0) as any as S.Schema<SetIamPolicyProjectsLocationsDeployPoliciesRequest>,
   output: __S(1159, __c36, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3843,7 +3843,7 @@ export const setIamPolicyProjectsLocationsTargets: API.OperationMethod<
   SetIamPolicyProjectsLocationsTargetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<SetIamPolicyProjectsLocationsTargetsRequest>,
+  input: __S(2624, __c82, 0) as any as S.Schema<SetIamPolicyProjectsLocationsTargetsRequest>,
   output: __S(1159, __c36, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3866,11 +3866,11 @@ export const terminateProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns:
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2688,
-    __c84,
+    2656,
+    __c83,
     0,
   ) as any as S.Schema<TerminateProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRunsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<TerminateJobRunResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<TerminateJobRunResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3892,11 +3892,11 @@ export const testIamPermissionsProjectsLocationsDeliveryPipelines: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2720,
-    __c85,
+    2688,
+    __c84,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsDeliveryPipelinesRequest>,
-  output: __S(2752, __c86, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2720, __c85, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3917,8 +3917,8 @@ export const testIamPermissionsProjectsLocationsTargets: API.OperationMethod<
   TestIamPermissionsProjectsLocationsTargetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsTargetsRequest>,
-  output: __S(2752, __c86, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsTargetsRequest>,
+  output: __S(2720, __c85, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3933,9 +3933,9 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           customTargetTypeId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(167, __c5, 7).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -3960,19 +3960,19 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(64, __c2, 0)),
-          code: S.optional(S.Number),
           message: S.optional(S.String),
+          code: S.optional(S.Number),
+          details: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          done: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          response: S.optional(__S(32, __c1, 0)),
-          error: S.optional(__S(65, __c2, 1)),
           metadata: S.optional(__S(32, __c1, 0)),
+          done: S.optional(S.Boolean),
+          response: S.optional(__S(32, __c1, 0)),
+          name: S.optional(S.String),
+          error: S.optional(__S(65, __c2, 1)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -3988,10 +3988,10 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          command: S.optional(__S(2208, __c69, 0)),
-          args: S.optional(__S(2208, __c69, 0)),
-          image: S.optional(S.String),
           env: S.optional(__S(96, __c3, 0)),
+          command: S.optional(__S(2176, __c68, 0)),
+          args: S.optional(__S(2176, __c68, 0)),
+          image: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContainerTask" });
     case 1:
@@ -4007,66 +4007,66 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(S.String),
-          path: S.optional(S.String),
+          render: S.optional(__S(129, __c4, 1)),
+          deploy: S.optional(__S(129, __c4, 1)),
         }),
-      ).annotate({ identifier: "SkaffoldGCSSource" });
+      ).annotate({ identifier: "CustomTargetTasks" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           path: S.optional(S.String),
+          repository: S.optional(S.String),
           ref: S.optional(S.String),
-          repo: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SkaffoldGitSource" });
+      ).annotate({ identifier: "SkaffoldGCBRepoSource" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           ref: S.optional(S.String),
           path: S.optional(S.String),
-          repository: S.optional(S.String),
+          repo: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SkaffoldGCBRepoSource" });
+      ).annotate({ identifier: "SkaffoldGitSource" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          googleCloudStorage: S.optional(__S(160, __c5, 0)),
-          git: S.optional(__S(161, __c5, 1)),
-          configs: S.optional(__S(2208, __c69, 0)),
-          googleCloudBuildRepo: S.optional(__S(162, __c5, 2)),
+          source: S.optional(S.String),
+          path: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SkaffoldModules" });
+      ).annotate({ identifier: "SkaffoldGCSSource" });
     case 4:
-      return S.Array(__S(163, __c5, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
-          deployAction: S.optional(S.String),
-          includeSkaffoldModules: S.optional(__S(164, __c5, 4)),
-          renderAction: S.optional(S.String),
+          configs: S.optional(__S(2176, __c68, 0)),
+          googleCloudBuildRepo: S.optional(__S(161, __c5, 1)),
+          git: S.optional(__S(162, __c5, 2)),
+          googleCloudStorage: S.optional(__S(163, __c5, 3)),
         }),
-      ).annotate({ identifier: "CustomTargetSkaffoldActions" });
+      ).annotate({ identifier: "SkaffoldModules" });
+    case 5:
+      return S.Array(__S(164, __c5, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          render: S.optional(__S(129, __c4, 1)),
-          deploy: S.optional(__S(129, __c4, 1)),
+          deployAction: S.optional(S.String),
+          includeSkaffoldModules: S.optional(__S(165, __c5, 5)),
+          renderAction: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CustomTargetTasks" });
+      ).annotate({ identifier: "CustomTargetSkaffoldActions" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          customActions: S.optional(__S(165, __c5, 5)),
+          tasks: S.optional(__S(160, __c5, 0)),
           annotations: S.optional(__S(96, __c3, 0)),
-          labels: S.optional(__S(96, __c3, 0)),
-          updateTime: S.optional(S.String),
-          customTargetTypeId: S.optional(S.String),
-          etag: S.optional(S.String),
           createTime: S.optional(S.String),
-          tasks: S.optional(__S(166, __c5, 6)),
+          updateTime: S.optional(S.String),
+          customActions: S.optional(__S(166, __c5, 6)),
           uid: S.optional(S.String),
-          description: S.optional(S.String),
           name: S.optional(S.String),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(96, __c3, 0)),
+          customTargetTypeId: S.optional(S.String),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomTargetType" });
   }
@@ -4076,11 +4076,11 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deliveryPipelineId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(311, __c9, 23).pipe(T.HttpBody())),
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          deliveryPipelineId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(312, __c9, 24).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4096,9 +4096,9 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.Boolean),
-          missingTargets: S.optional(__S(2208, __c69, 0)),
+          missingTargets: S.optional(__S(2176, __c68, 0)),
           updateTime: S.optional(S.String),
+          status: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TargetsPresentCondition" });
   }
@@ -4106,237 +4106,237 @@ function __c7(j: number): any {
 function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          frequency: S.optional(S.String),
-          task: S.optional(__S(129, __c4, 1)),
-        }),
-      ).annotate({ identifier: "CustomCheck" });
-    case 1:
-      return S.Array(__S(256, __c8, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          alertPolicies: S.optional(__S(2208, __c69, 0)),
-          labels: S.optional(__S(96, __c3, 0)),
-        }),
-      ).annotate({ identifier: "AlertPolicyCheck" });
-    case 3:
-      return S.Array(__S(258, __c8, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          alertPolicyChecks: S.optional(__S(259, __c8, 3)),
-        }),
-      ).annotate({ identifier: "GoogleCloudAnalysis" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          customChecks: S.optional(__S(257, __c8, 1)),
-          duration: S.optional(S.String),
-          googleCloud: S.optional(__S(260, __c8, 4)),
-        }),
-      ).annotate({ identifier: "Analysis" });
-    case 6:
       return S.Array(__S(129, __c4, 1));
-    case 7:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          tasks: S.optional(__S(262, __c8, 6)),
+          tasks: S.optional(__S(256, __c8, 0)),
         }),
       ).annotate({ identifier: "Verify" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          actions: S.optional(__S(2208, __c69, 0)),
-          tasks: S.optional(__S(262, __c8, 6)),
-        }),
-      ).annotate({ identifier: "Predeploy" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          matchTargetLabels: S.optional(__S(96, __c3, 0)),
-          values: S.optional(__S(96, __c3, 0)),
-        }),
-      ).annotate({ identifier: "DeployParameters" });
-    case 1:
-      return S.Array(__S(288, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tasks: S.optional(__S(262, __c8, 6)),
-          actions: S.optional(__S(2208, __c69, 0)),
+          actions: S.optional(__S(2176, __c68, 0)),
+          tasks: S.optional(__S(256, __c8, 0)),
         }),
       ).annotate({ identifier: "Postdeploy" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          analysis: S.optional(__S(261, __c8, 5)),
-          postdeploy: S.optional(__S(290, __c9, 2)),
-          verifyConfig: S.optional(__S(263, __c8, 7)),
-          predeploy: S.optional(__S(264, __c8, 8)),
-          verify: S.optional(S.Boolean),
+          frequency: S.optional(S.String),
+          id: S.optional(S.String),
+          task: S.optional(__S(129, __c4, 1)),
         }),
-      ).annotate({ identifier: "Standard" });
+      ).annotate({ identifier: "CustomCheck" });
     case 4:
-      return S.Array(S.Number);
+      return S.Array(__S(259, __c8, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          predeploy: S.optional(__S(264, __c8, 8)),
-          analysis: S.optional(__S(261, __c8, 5)),
-          percentages: S.optional(__S(292, __c9, 4)),
-          verify: S.optional(S.Boolean),
-          postdeploy: S.optional(__S(290, __c9, 2)),
-          verifyConfig: S.optional(__S(263, __c8, 7)),
+          id: S.optional(S.String),
+          alertPolicies: S.optional(__S(2176, __c68, 0)),
+          labels: S.optional(__S(96, __c3, 0)),
         }),
-      ).annotate({ identifier: "CanaryDeployment" });
+      ).annotate({ identifier: "AlertPolicyCheck" });
     case 6:
-      return S.suspend(() =>
-        S.Struct({
-          priorRevisionTags: S.optional(__S(2208, __c69, 0)),
-          stableRevisionTags: S.optional(__S(2208, __c69, 0)),
-          automaticTrafficControl: S.optional(S.Boolean),
-          canaryRevisionTags: S.optional(__S(2208, __c69, 0)),
-        }),
-      ).annotate({ identifier: "CloudRunConfig" });
+      return S.Array(__S(261, __c8, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          deployment: S.optional(S.String),
-          service: S.optional(S.String),
-          podSelectorLabel: S.optional(S.String),
-          disablePodOverprovisioning: S.optional(S.Boolean),
+          alertPolicyChecks: S.optional(__S(262, __c8, 6)),
         }),
-      ).annotate({ identifier: "ServiceNetworking" });
-    case 8:
+      ).annotate({ identifier: "GoogleCloudAnalysis" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          tasks: S.optional(__S(256, __c8, 0)),
+          actions: S.optional(__S(2176, __c68, 0)),
+        }),
+      ).annotate({ identifier: "Predeploy" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          duration: S.optional(S.String),
+          customChecks: S.optional(__S(260, __c8, 4)),
+          googleCloud: S.optional(__S(263, __c8, 7)),
+        }),
+      ).annotate({ identifier: "Analysis" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          percentages: S.optional(__S(288, __c9, 0)),
+          verify: S.optional(S.Boolean),
+          verifyConfig: S.optional(__S(257, __c8, 1)),
+          predeploy: S.optional(__S(289, __c9, 1)),
+          postdeploy: S.optional(__S(258, __c8, 2)),
+          analysis: S.optional(__S(290, __c9, 2)),
+        }),
+      ).annotate({ identifier: "CanaryDeployment" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          phaseId: S.optional(S.String),
+          percentage: S.optional(S.Number),
+          verifyConfig: S.optional(__S(257, __c8, 1)),
+          postdeploy: S.optional(__S(258, __c8, 2)),
+          predeploy: S.optional(__S(289, __c9, 1)),
+          analysis: S.optional(__S(290, __c9, 2)),
+          verify: S.optional(S.Boolean),
+          profiles: S.optional(__S(2176, __c68, 0)),
+        }),
+      ).annotate({ identifier: "PhaseConfig" });
+    case 5:
+      return S.Array(__S(292, __c9, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          phaseConfigs: S.optional(__S(293, __c9, 5)),
+        }),
+      ).annotate({ identifier: "CustomCanaryDeployment" });
+    case 7:
       return S.suspend(() =>
         S.Struct({
           propagateService: S.optional(S.Boolean),
-          destinationIds: S.optional(__S(2208, __c69, 0)),
+          destinationIds: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "RouteDestinations" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          podSelectorLabel: S.optional(S.String),
+          stableCutbackDuration: S.optional(S.String),
+          httpRoute: S.optional(S.String),
+          service: S.optional(S.String),
+          deployment: S.optional(S.String),
+          routeUpdateWaitTime: S.optional(S.String),
+          routeDestinations: S.optional(__S(295, __c9, 7)),
+        }),
+      ).annotate({ identifier: "GatewayServiceMesh" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          service: S.optional(S.String),
-          stableCutbackDuration: S.optional(S.String),
-          routeUpdateWaitTime: S.optional(S.String),
-          httpRoute: S.optional(S.String),
           podSelectorLabel: S.optional(S.String),
-          routeDestinations: S.optional(__S(296, __c9, 8)),
+          disablePodOverprovisioning: S.optional(S.Boolean),
           deployment: S.optional(S.String),
+          service: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GatewayServiceMesh" });
+      ).annotate({ identifier: "ServiceNetworking" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          serviceNetworking: S.optional(__S(295, __c9, 7)),
-          gatewayServiceMesh: S.optional(__S(297, __c9, 9)),
+          gatewayServiceMesh: S.optional(__S(296, __c9, 8)),
+          serviceNetworking: S.optional(__S(297, __c9, 9)),
         }),
       ).annotate({ identifier: "KubernetesConfig" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          cloudRun: S.optional(__S(294, __c9, 6)),
-          kubernetes: S.optional(__S(298, __c9, 10)),
+          stableRevisionTags: S.optional(__S(2176, __c68, 0)),
+          canaryRevisionTags: S.optional(__S(2176, __c68, 0)),
+          automaticTrafficControl: S.optional(S.Boolean),
+          priorRevisionTags: S.optional(__S(2176, __c68, 0)),
         }),
-      ).annotate({ identifier: "RuntimeConfig" });
+      ).annotate({ identifier: "CloudRunConfig" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          verify: S.optional(S.Boolean),
-          analysis: S.optional(__S(261, __c8, 5)),
-          phaseId: S.optional(S.String),
-          postdeploy: S.optional(__S(290, __c9, 2)),
-          predeploy: S.optional(__S(264, __c8, 8)),
-          profiles: S.optional(__S(2208, __c69, 0)),
-          percentage: S.optional(S.Number),
-          verifyConfig: S.optional(__S(263, __c8, 7)),
+          kubernetes: S.optional(__S(298, __c9, 10)),
+          cloudRun: S.optional(__S(299, __c9, 11)),
         }),
-      ).annotate({ identifier: "PhaseConfig" });
+      ).annotate({ identifier: "RuntimeConfig" });
     case 13:
-      return S.Array(__S(300, __c9, 12));
+      return S.suspend(() =>
+        S.Struct({
+          canaryDeployment: S.optional(__S(291, __c9, 3)),
+          customCanaryDeployment: S.optional(__S(294, __c9, 6)),
+          runtimeConfig: S.optional(__S(300, __c9, 12)),
+        }),
+      ).annotate({ identifier: "Canary" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          phaseConfigs: S.optional(__S(301, __c9, 13)),
+          verify: S.optional(S.Boolean),
+          predeploy: S.optional(__S(289, __c9, 1)),
+          analysis: S.optional(__S(290, __c9, 2)),
+          postdeploy: S.optional(__S(258, __c8, 2)),
+          verifyConfig: S.optional(__S(257, __c8, 1)),
         }),
-      ).annotate({ identifier: "CustomCanaryDeployment" });
+      ).annotate({ identifier: "Standard" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          canaryDeployment: S.optional(__S(293, __c9, 5)),
-          runtimeConfig: S.optional(__S(299, __c9, 11)),
-          customCanaryDeployment: S.optional(__S(302, __c9, 14)),
+          canary: S.optional(__S(301, __c9, 13)),
+          standard: S.optional(__S(302, __c9, 14)),
         }),
-      ).annotate({ identifier: "Canary" });
+      ).annotate({ identifier: "Strategy" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          standard: S.optional(__S(291, __c9, 3)),
-          canary: S.optional(__S(303, __c9, 15)),
+          values: S.optional(__S(96, __c3, 0)),
+          matchTargetLabels: S.optional(__S(96, __c3, 0)),
         }),
-      ).annotate({ identifier: "Strategy" });
+      ).annotate({ identifier: "DeployParameters" });
     case 17:
+      return S.Array(__S(304, __c9, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           targetId: S.optional(S.String),
-          profiles: S.optional(__S(2208, __c69, 0)),
-          deployParameters: S.optional(__S(289, __c9, 1)),
-          strategy: S.optional(__S(304, __c9, 16)),
+          strategy: S.optional(__S(303, __c9, 15)),
+          deployParameters: S.optional(__S(305, __c9, 17)),
+          profiles: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "Stage" });
-    case 18:
-      return S.Array(__S(305, __c9, 17));
     case 19:
-      return S.suspend(() =>
-        S.Struct({
-          stages: S.optional(__S(306, __c9, 18)),
-        }),
-      ).annotate({ identifier: "SerialPipeline" });
+      return S.Array(__S(306, __c9, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
+          stages: S.optional(__S(307, __c9, 19)),
         }),
-      ).annotate({ identifier: "PipelineReadyCondition" });
+      ).annotate({ identifier: "SerialPipeline" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.Boolean),
           errorDetails: S.optional(S.String),
+          status: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TargetsTypeCondition" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          pipelineReadyCondition: S.optional(__S(308, __c9, 20)),
-          targetsPresentCondition: S.optional(__S(224, __c7, 0)),
-          targetsTypeCondition: S.optional(__S(309, __c9, 21)),
+          updateTime: S.optional(S.String),
+          status: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "PipelineCondition" });
+      ).annotate({ identifier: "PipelineReadyCondition" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          serialPipeline: S.optional(__S(307, __c9, 19)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          condition: S.optional(__S(310, __c9, 22)),
-          description: S.optional(S.String),
+          targetsTypeCondition: S.optional(__S(309, __c9, 21)),
+          pipelineReadyCondition: S.optional(__S(310, __c9, 22)),
+          targetsPresentCondition: S.optional(__S(224, __c7, 0)),
+        }),
+      ).annotate({ identifier: "PipelineCondition" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
           labels: S.optional(__S(96, __c3, 0)),
-          etag: S.optional(S.String),
+          createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
-          uid: S.optional(S.String),
+          name: S.optional(S.String),
           suspended: S.optional(S.Boolean),
+          serialPipeline: S.optional(__S(308, __c9, 20)),
           annotations: S.optional(__S(96, __c3, 0)),
+          etag: S.optional(S.String),
+          description: S.optional(S.String),
+          condition: S.optional(__S(311, __c9, 23)),
+          uid: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeliveryPipeline" });
   }
@@ -4346,10 +4346,10 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          requestId: S.optional(S.String.pipe(T.Query())),
           automationId: S.optional(S.String.pipe(T.Query())),
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           body: S.optional(__S(400, __c12, 16).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -4375,37 +4375,66 @@ function __c11(j: number): any {
 function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(352, __c11, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          targets: S.optional(__S(384, __c12, 0)),
-        }),
-      ).annotate({ identifier: "AutomationResourceSelector" });
-    case 2:
       return S.suspend(() =>
         S.Struct({
           destinationTargetId: S.optional(S.String),
           sourceTargetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Targets" });
-    case 3:
-      return S.Array(__S(386, __c12, 2));
-    case 4:
+    case 1:
+      return S.Array(__S(384, __c12, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
+          targetsList: S.optional(__S(385, __c12, 1)),
           nextPromotionTime: S.optional(S.String),
-          targetsList: S.optional(__S(387, __c12, 3)),
         }),
       ).annotate({ identifier: "TimedPromoteReleaseCondition" });
-    case 5:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           targetsPresentCondition: S.optional(__S(224, __c7, 0)),
-          timedPromoteReleaseCondition: S.optional(__S(388, __c12, 4)),
+          timedPromoteReleaseCondition: S.optional(__S(386, __c12, 2)),
         }),
       ).annotate({ identifier: "AutomationRuleCondition" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          condition: S.optional(__S(387, __c12, 3)),
+          wait: S.optional(S.String),
+          id: S.optional(S.String),
+          destinationTargetId: S.optional(S.String),
+          destinationPhase: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PromoteReleaseRule" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          sourcePhases: S.optional(__S(2176, __c68, 0)),
+          condition: S.optional(__S(387, __c12, 3)),
+          wait: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AdvanceRolloutRule" });
     case 6:
+      return S.suspend(() =>
+        S.Struct({
+          schedule: S.optional(S.String),
+          destinationPhase: S.optional(S.String),
+          timeZone: S.optional(S.String),
+          id: S.optional(S.String),
+          destinationTargetId: S.optional(S.String),
+          condition: S.optional(__S(387, __c12, 3)),
+        }),
+      ).annotate({ identifier: "TimedPromoteReleaseRule" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          destinationPhase: S.optional(S.String),
+          disableRollbackIfRolloutPending: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Rollback" });
+    case 8:
       return S.suspend(() =>
         S.Struct({
           wait: S.optional(S.String),
@@ -4413,88 +4442,59 @@ function __c12(j: number): any {
           attempts: S.optional(S.String),
         }),
       ).annotate({ identifier: "Clouddeploy_Retry" });
-    case 7:
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          disableRollbackIfRolloutPending: S.optional(S.Boolean),
-          destinationPhase: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Rollback" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          retry: S.optional(__S(390, __c12, 6)),
           rollback: S.optional(__S(391, __c12, 7)),
+          retry: S.optional(__S(392, __c12, 8)),
         }),
       ).annotate({ identifier: "RepairPhaseConfig" });
-    case 9:
-      return S.Array(__S(392, __c12, 8));
     case 10:
-      return S.suspend(() =>
-        S.Struct({
-          condition: S.optional(__S(389, __c12, 5)),
-          jobs: S.optional(__S(2208, __c69, 0)),
-          phases: S.optional(__S(2208, __c69, 0)),
-          id: S.optional(S.String),
-          repairPhases: S.optional(__S(393, __c12, 9)),
-        }),
-      ).annotate({ identifier: "RepairRolloutRule" });
+      return S.Array(__S(393, __c12, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
+          repairPhases: S.optional(__S(394, __c12, 10)),
+          jobs: S.optional(__S(2176, __c68, 0)),
           id: S.optional(S.String),
-          wait: S.optional(S.String),
-          condition: S.optional(__S(389, __c12, 5)),
-          sourcePhases: S.optional(__S(2208, __c69, 0)),
+          condition: S.optional(__S(387, __c12, 3)),
+          phases: S.optional(__S(2176, __c68, 0)),
         }),
-      ).annotate({ identifier: "AdvanceRolloutRule" });
+      ).annotate({ identifier: "RepairRolloutRule" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          wait: S.optional(S.String),
-          destinationPhase: S.optional(S.String),
-          condition: S.optional(__S(389, __c12, 5)),
-          id: S.optional(S.String),
-          destinationTargetId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PromoteReleaseRule" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          destinationPhase: S.optional(S.String),
-          destinationTargetId: S.optional(S.String),
-          condition: S.optional(__S(389, __c12, 5)),
-          id: S.optional(S.String),
-          schedule: S.optional(S.String),
-          timeZone: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TimedPromoteReleaseRule" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          repairRolloutRule: S.optional(__S(394, __c12, 10)),
-          advanceRolloutRule: S.optional(__S(395, __c12, 11)),
-          promoteReleaseRule: S.optional(__S(396, __c12, 12)),
-          timedPromoteReleaseRule: S.optional(__S(397, __c12, 13)),
+          promoteReleaseRule: S.optional(__S(388, __c12, 4)),
+          advanceRolloutRule: S.optional(__S(389, __c12, 5)),
+          timedPromoteReleaseRule: S.optional(__S(390, __c12, 6)),
+          repairRolloutRule: S.optional(__S(395, __c12, 11)),
         }),
       ).annotate({ identifier: "AutomationRule" });
+    case 13:
+      return S.Array(__S(396, __c12, 12));
+    case 14:
+      return S.Array(__S(352, __c11, 0));
     case 15:
-      return S.Array(__S(398, __c12, 14));
+      return S.suspend(() =>
+        S.Struct({
+          targets: S.optional(__S(398, __c12, 14)),
+        }),
+      ).annotate({ identifier: "AutomationResourceSelector" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          selector: S.optional(__S(385, __c12, 1)),
-          rules: S.optional(__S(399, __c12, 15)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          labels: S.optional(__S(96, __c3, 0)),
-          updateTime: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          suspended: S.optional(S.Boolean),
           etag: S.optional(S.String),
           annotations: S.optional(__S(96, __c3, 0)),
+          name: S.optional(S.String),
+          rules: S.optional(__S(397, __c12, 13)),
           createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          selector: S.optional(__S(399, __c12, 15)),
+          labels: S.optional(__S(96, __c3, 0)),
+          serviceAccount: S.optional(S.String),
+          suspended: S.optional(S.Boolean),
           uid: S.optional(S.String),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Automation" });
   }
@@ -4504,11 +4504,11 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          overrideDeployPolicy: S.optional(__S(2208, __c69, 0).pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           releaseId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          overrideDeployPolicy: S.optional(__S(2176, __c68, 0).pipe(T.Query())),
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           body: S.optional(__S(623, __c19, 15).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -4541,100 +4541,100 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customTargetType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CustomTarget" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          dnsEndpoint: S.optional(S.Boolean),
-          internalIp: S.optional(S.Boolean),
-          proxyUrl: S.optional(S.String),
           cluster: S.optional(S.String),
+          proxyUrl: S.optional(S.String),
+          internalIp: S.optional(S.Boolean),
+          dnsEndpoint: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GkeCluster" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          serviceAccount: S.optional(S.String),
-          artifactStorage: S.optional(S.String),
-          workerPool: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PrivatePool" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          artifactStorage: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DefaultPool" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          artifactStorage: S.optional(S.String),
-          verbose: S.optional(S.Boolean),
-          usages: S.optional(__S(480, __c15, 0)),
-          workerPool: S.optional(S.String),
-          privatePool: S.optional(__S(514, __c16, 2)),
-          executionTimeout: S.optional(S.String),
-          defaultPool: S.optional(__S(515, __c16, 3)),
-          serviceAccount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExecutionConfig" });
-    case 5:
-      return S.Array(__S(516, __c16, 4));
-    case 6:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           membership: S.optional(S.String),
         }),
       ).annotate({ identifier: "AnthosCluster" });
-    case 7:
-      return S.Array(__S(518, __c16, 6));
-    case 8:
+    case 2:
       return S.Array(__S(513, __c16, 1));
-    case 9:
+    case 3:
+      return S.Array(__S(512, __c16, 0));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          anthosClusters: S.optional(__S(519, __c16, 7)),
-          gkeClusters: S.optional(__S(520, __c16, 8)),
+          anthosClusters: S.optional(__S(514, __c16, 2)),
+          gkeClusters: S.optional(__S(515, __c16, 3)),
         }),
       ).annotate({ identifier: "AssociatedEntities" });
+    case 5:
+      return S.Record(S.String, __S(516, __c16, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          serviceAccount: S.optional(S.String),
+          artifactStorage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DefaultPool" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          serviceAccount: S.optional(S.String),
+          workerPool: S.optional(S.String),
+          artifactStorage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrivatePool" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          workerPool: S.optional(S.String),
+          defaultPool: S.optional(__S(518, __c16, 6)),
+          privatePool: S.optional(__S(519, __c16, 7)),
+          serviceAccount: S.optional(S.String),
+          usages: S.optional(__S(480, __c15, 0)),
+          artifactStorage: S.optional(S.String),
+          executionTimeout: S.optional(S.String),
+          verbose: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ExecutionConfig" });
+    case 9:
+      return S.Array(__S(520, __c16, 8));
     case 10:
-      return S.Record(S.String, __S(521, __c16, 9));
+      return S.suspend(() =>
+        S.Struct({
+          targetIds: S.optional(__S(2176, __c68, 0)),
+        }),
+      ).annotate({ identifier: "MultiTarget" });
     case 11:
+      return S.suspend(() =>
+        S.Struct({
+          customTargetType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomTarget" });
+    case 12:
       return S.suspend(() =>
         S.Struct({
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudRunLocation" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          targetIds: S.optional(__S(2208, __c69, 0)),
-        }),
-      ).annotate({ identifier: "MultiTarget" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(96, __c3, 0)),
-          targetId: S.optional(S.String),
-          createTime: S.optional(S.String),
-          customTarget: S.optional(__S(512, __c16, 0)),
-          gke: S.optional(__S(513, __c16, 1)),
-          uid: S.optional(S.String),
-          annotations: S.optional(__S(96, __c3, 0)),
-          executionConfigs: S.optional(__S(517, __c16, 5)),
-          requireApproval: S.optional(S.Boolean),
-          anthosCluster: S.optional(__S(518, __c16, 6)),
-          associatedEntities: S.optional(__S(522, __c16, 10)),
-          deployParameters: S.optional(__S(96, __c3, 0)),
           name: S.optional(S.String),
-          description: S.optional(S.String),
-          etag: S.optional(S.String),
-          run: S.optional(__S(523, __c16, 11)),
+          annotations: S.optional(__S(96, __c3, 0)),
+          gke: S.optional(__S(512, __c16, 0)),
+          associatedEntities: S.optional(__S(517, __c16, 5)),
+          executionConfigs: S.optional(__S(521, __c16, 9)),
+          multiTarget: S.optional(__S(522, __c16, 10)),
+          customTarget: S.optional(__S(523, __c16, 11)),
+          deployParameters: S.optional(__S(96, __c3, 0)),
           updateTime: S.optional(S.String),
-          multiTarget: S.optional(__S(524, __c16, 12)),
+          anthosCluster: S.optional(__S(513, __c16, 1)),
+          labels: S.optional(__S(96, __c3, 0)),
+          requireApproval: S.optional(S.Boolean),
+          run: S.optional(__S(524, __c16, 12)),
+          etag: S.optional(S.String),
+          targetId: S.optional(S.String),
+          description: S.optional(S.String),
+          uid: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Target" });
   }
@@ -4644,11 +4644,11 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          docker: S.optional(S.String),
           skaffold: S.optional(S.String),
-          kubectl: S.optional(S.String),
-          helm: S.optional(S.String),
+          docker: S.optional(S.String),
           kpt: S.optional(S.String),
+          helm: S.optional(S.String),
+          kubectl: S.optional(S.String),
           kustomize: S.optional(S.String),
         }),
       ).annotate({ identifier: "ToolVersions" });
@@ -4665,133 +4665,133 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          image: S.optional(S.String),
-          tag: S.optional(S.String),
+          manifestPath: S.optional(S.String),
+          skaffoldConfigPath: S.optional(S.String),
+          jobManifestsPath: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BuildArtifact" });
+      ).annotate({ identifier: "PhaseArtifact" });
     case 1:
-      return S.Array(__S(608, __c19, 0));
+      return S.Record(S.String, __S(608, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          jobManifestsPath: S.optional(S.String),
-          manifestPath: S.optional(S.String),
           skaffoldConfigPath: S.optional(S.String),
+          phaseArtifacts: S.optional(__S(609, __c19, 1)),
+          artifactUri: S.optional(S.String),
+          manifestPath: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PhaseArtifact" });
+      ).annotate({ identifier: "TargetArtifact" });
     case 3:
       return S.Record(S.String, __S(610, __c19, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          skaffoldConfigPath: S.optional(S.String),
-          artifactUri: S.optional(S.String),
-          phaseArtifacts: S.optional(__S(611, __c19, 3)),
-          manifestPath: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TargetArtifact" });
-    case 5:
-      return S.Record(S.String, __S(612, __c19, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          canaryDeployment: S.optional(S.String),
-          deployment: S.optional(S.String),
-          kubernetesNamespace: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "KubernetesRenderMetadata" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          job: S.optional(S.String),
-          workerPool: S.optional(S.String),
-          revision: S.optional(S.String),
-          service: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CloudRunRenderMetadata" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          kubernetes: S.optional(__S(614, __c19, 6)),
-          cloudRun: S.optional(__S(615, __c19, 7)),
-          custom: S.optional(__S(448, __c14, 0)),
-        }),
-      ).annotate({ identifier: "RenderMetadata" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          renderingBuild: S.optional(S.String),
-          metadata: S.optional(__S(616, __c19, 8)),
-          renderingState: S.optional(S.String),
-          failureMessage: S.optional(S.String),
-          failureCause: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TargetRender" });
-    case 10:
-      return S.Record(S.String, __S(617, __c19, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          toolVersionSupportState: S.optional(S.String),
-          status: S.optional(S.Boolean),
-          maintenanceModeTime: S.optional(S.String),
-          supportExpirationTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ToolVersionSupportedCondition" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          skaffoldSupportState: S.optional(S.String),
-          supportExpirationTime: S.optional(S.String),
-          maintenanceModeTime: S.optional(S.String),
-          status: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "SkaffoldSupportedCondition" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
           status: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ReleaseReadyCondition" });
-    case 14:
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          kptVersionSupportedCondition: S.optional(__S(619, __c19, 11)),
-          dockerVersionSupportedCondition: S.optional(__S(619, __c19, 11)),
-          skaffoldSupportedCondition: S.optional(__S(620, __c19, 12)),
-          releaseReadyCondition: S.optional(__S(621, __c19, 13)),
-          helmVersionSupportedCondition: S.optional(__S(619, __c19, 11)),
-          kustomizeVersionSupportedCondition: S.optional(__S(619, __c19, 11)),
-          skaffoldVersionSupportedCondition: S.optional(__S(619, __c19, 11)),
-          kubectlVersionSupportedCondition: S.optional(__S(619, __c19, 11)),
+          maintenanceModeTime: S.optional(S.String),
+          toolVersionSupportState: S.optional(S.String),
+          supportExpirationTime: S.optional(S.String),
+          status: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ToolVersionSupportedCondition" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          maintenanceModeTime: S.optional(S.String),
+          status: S.optional(S.Boolean),
+          skaffoldSupportState: S.optional(S.String),
+          supportExpirationTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SkaffoldSupportedCondition" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          releaseReadyCondition: S.optional(__S(612, __c19, 4)),
+          skaffoldVersionSupportedCondition: S.optional(__S(613, __c19, 5)),
+          helmVersionSupportedCondition: S.optional(__S(613, __c19, 5)),
+          dockerVersionSupportedCondition: S.optional(__S(613, __c19, 5)),
+          kptVersionSupportedCondition: S.optional(__S(613, __c19, 5)),
+          kubectlVersionSupportedCondition: S.optional(__S(613, __c19, 5)),
+          kustomizeVersionSupportedCondition: S.optional(__S(613, __c19, 5)),
+          skaffoldSupportedCondition: S.optional(__S(614, __c19, 6)),
         }),
       ).annotate({ identifier: "ReleaseCondition" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          kubernetesNamespace: S.optional(S.String),
+          canaryDeployment: S.optional(S.String),
+          deployment: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KubernetesRenderMetadata" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          revision: S.optional(S.String),
+          service: S.optional(S.String),
+          workerPool: S.optional(S.String),
+          job: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CloudRunRenderMetadata" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          kubernetes: S.optional(__S(616, __c19, 8)),
+          custom: S.optional(__S(448, __c14, 0)),
+          cloudRun: S.optional(__S(617, __c19, 9)),
+        }),
+      ).annotate({ identifier: "RenderMetadata" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          failureMessage: S.optional(S.String),
+          metadata: S.optional(__S(618, __c19, 10)),
+          renderingBuild: S.optional(S.String),
+          failureCause: S.optional(S.String),
+          renderingState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TargetRender" });
+    case 12:
+      return S.Record(S.String, __S(619, __c19, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          image: S.optional(S.String),
+          tag: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BuildArtifact" });
+    case 14:
+      return S.Array(__S(621, __c19, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          renderStartTime: S.optional(S.String),
-          abandoned: S.optional(S.Boolean),
-          labels: S.optional(__S(96, __c3, 0)),
-          description: S.optional(S.String),
-          buildArtifacts: S.optional(__S(609, __c19, 1)),
-          toolVersions: S.optional(__S(544, __c17, 0)),
-          targetArtifacts: S.optional(__S(613, __c19, 5)),
-          targetSnapshots: S.optional(__S(640, __c20, 0)),
-          uid: S.optional(S.String),
+          renderEndTime: S.optional(S.String),
           deployParameters: S.optional(__S(96, __c3, 0)),
           skaffoldVersion: S.optional(S.String),
-          deliveryPipelineSnapshot: S.optional(__S(311, __c9, 23)),
-          customTargetTypeSnapshots: S.optional(__S(576, __c18, 0)),
-          targetRenders: S.optional(__S(618, __c19, 10)),
-          renderEndTime: S.optional(S.String),
-          condition: S.optional(__S(622, __c19, 14)),
-          skaffoldConfigPath: S.optional(S.String),
+          targetArtifacts: S.optional(__S(611, __c19, 3)),
+          condition: S.optional(__S(615, __c19, 7)),
+          targetSnapshots: S.optional(__S(640, __c20, 0)),
+          targetRenders: S.optional(__S(620, __c19, 12)),
+          uid: S.optional(S.String),
+          abandoned: S.optional(S.Boolean),
           etag: S.optional(S.String),
-          renderState: S.optional(S.String),
-          annotations: S.optional(__S(96, __c3, 0)),
-          createTime: S.optional(S.String),
           skaffoldConfigUri: S.optional(S.String),
+          customTargetTypeSnapshots: S.optional(__S(576, __c18, 0)),
+          renderState: S.optional(S.String),
+          buildArtifacts: S.optional(__S(622, __c19, 14)),
+          annotations: S.optional(__S(96, __c3, 0)),
+          description: S.optional(S.String),
+          labels: S.optional(__S(96, __c3, 0)),
+          skaffoldConfigPath: S.optional(S.String),
           name: S.optional(S.String),
+          renderStartTime: S.optional(S.String),
+          deliveryPipelineSnapshot: S.optional(__S(312, __c9, 24)),
+          toolVersions: S.optional(__S(544, __c17, 0)),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Release" });
   }
@@ -4808,12 +4808,12 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          overrideDeployPolicy: S.optional(__S(2208, __c69, 0).pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          startingPhaseId: S.optional(S.String.pipe(T.Query())),
+          overrideDeployPolicy: S.optional(__S(2176, __c68, 0).pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           rolloutId: S.optional(S.String.pipe(T.Query())),
-          startingPhaseId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(744, __c23, 8).pipe(T.HttpBody())),
+          body: S.optional(__S(745, __c23, 9).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4829,12 +4829,12 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          service: S.optional(S.String),
           previousRevision: S.optional(S.String),
-          serviceUrls: S.optional(__S(2208, __c69, 0)),
-          job: S.optional(S.String),
-          revision: S.optional(S.String),
           workerPool: S.optional(S.String),
+          revision: S.optional(S.String),
+          serviceUrls: S.optional(__S(2176, __c68, 0)),
+          job: S.optional(S.String),
+          service: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudRunMetadata" });
   }
@@ -4844,92 +4844,100 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          postdeployJob: S.optional(__S(264, __c8, 8)),
-          predeployJob: S.optional(__S(264, __c8, 8)),
-          id: S.optional(S.String),
-          jobRun: S.optional(S.String),
-          analysisJob: S.optional(__S(261, __c8, 5)),
-          createChildRolloutJob: S.optional(__S(1824, __c57, 0)),
-          skipMessage: S.optional(S.String),
-          state: S.optional(S.String),
-          deployJob: S.optional(__S(1824, __c57, 0)),
-          advanceChildRolloutJob: S.optional(__S(1824, __c57, 0)),
-          verifyJob: S.optional(__S(263, __c8, 7)),
+          advanceAutomationRuns: S.optional(__S(2176, __c68, 0)),
+          promoteAutomationRun: S.optional(S.String),
+          repairAutomationRuns: S.optional(__S(2176, __c68, 0)),
         }),
-      ).annotate({ identifier: "Job" });
+      ).annotate({ identifier: "AutomationRolloutMetadata" });
     case 1:
-      return S.Array(__S(736, __c23, 0));
+      return S.suspend(() =>
+        S.Struct({
+          automation: S.optional(__S(736, __c23, 0)),
+          custom: S.optional(__S(448, __c14, 0)),
+          cloudRun: S.optional(__S(704, __c22, 0)),
+        }),
+      ).annotate({ identifier: "Metadata" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          createRolloutJobs: S.optional(__S(737, __c23, 1)),
-          advanceRolloutJobs: S.optional(__S(737, __c23, 1)),
+          googleCloud: S.optional(__S(263, __c8, 7)),
+          customChecks: S.optional(__S(260, __c8, 4)),
+          duration: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ChildRolloutJobs" });
+      ).annotate({ identifier: "AnalysisJob" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          verifyJob: S.optional(__S(736, __c23, 0)),
-          deployJob: S.optional(__S(736, __c23, 0)),
-          predeployJob: S.optional(__S(736, __c23, 0)),
-          postdeployJob: S.optional(__S(736, __c23, 0)),
-          analysisJob: S.optional(__S(736, __c23, 0)),
+          advanceChildRolloutJob: S.optional(__S(1792, __c56, 0)),
+          analysisJob: S.optional(__S(738, __c23, 2)),
+          id: S.optional(S.String),
+          createChildRolloutJob: S.optional(__S(1792, __c56, 0)),
+          postdeployJob: S.optional(__S(258, __c8, 2)),
+          jobRun: S.optional(S.String),
+          verifyJob: S.optional(__S(257, __c8, 1)),
+          predeployJob: S.optional(__S(258, __c8, 2)),
+          state: S.optional(S.String),
+          skipMessage: S.optional(S.String),
+          deployJob: S.optional(__S(1792, __c56, 0)),
         }),
-      ).annotate({ identifier: "DeploymentJobs" });
+      ).annotate({ identifier: "Job" });
     case 4:
+      return S.Array(__S(739, __c23, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          childRolloutJobs: S.optional(__S(738, __c23, 2)),
-          skipMessage: S.optional(S.String),
-          state: S.optional(S.String),
-          id: S.optional(S.String),
-          deploymentJobs: S.optional(__S(739, __c23, 3)),
+          advanceRolloutJobs: S.optional(__S(740, __c23, 4)),
+          createRolloutJobs: S.optional(__S(740, __c23, 4)),
         }),
-      ).annotate({ identifier: "Phase" });
-    case 5:
-      return S.Array(__S(740, __c23, 4));
+      ).annotate({ identifier: "ChildRolloutJobs" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          promoteAutomationRun: S.optional(S.String),
-          repairAutomationRuns: S.optional(__S(2208, __c69, 0)),
-          advanceAutomationRuns: S.optional(__S(2208, __c69, 0)),
+          predeployJob: S.optional(__S(739, __c23, 3)),
+          deployJob: S.optional(__S(739, __c23, 3)),
+          postdeployJob: S.optional(__S(739, __c23, 3)),
+          verifyJob: S.optional(__S(739, __c23, 3)),
+          analysisJob: S.optional(__S(739, __c23, 3)),
         }),
-      ).annotate({ identifier: "AutomationRolloutMetadata" });
+      ).annotate({ identifier: "DeploymentJobs" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          cloudRun: S.optional(__S(704, __c22, 0)),
-          automation: S.optional(__S(742, __c23, 6)),
-          custom: S.optional(__S(448, __c14, 0)),
+          childRolloutJobs: S.optional(__S(741, __c23, 5)),
+          skipMessage: S.optional(S.String),
+          state: S.optional(S.String),
+          id: S.optional(S.String),
+          deploymentJobs: S.optional(__S(742, __c23, 6)),
         }),
-      ).annotate({ identifier: "Metadata" });
+      ).annotate({ identifier: "Phase" });
     case 8:
+      return S.Array(__S(743, __c23, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          state: S.optional(S.String),
-          etag: S.optional(S.String),
-          uid: S.optional(S.String),
-          rollbackOfRollout: S.optional(S.String),
-          createTime: S.optional(S.String),
-          deployFailureCause: S.optional(S.String),
-          targetId: S.optional(S.String),
-          failureReason: S.optional(S.String),
-          deployStartTime: S.optional(S.String),
-          name: S.optional(S.String),
-          phases: S.optional(__S(741, __c23, 5)),
-          deployEndTime: S.optional(S.String),
-          approveTime: S.optional(S.String),
-          controllerRollout: S.optional(S.String),
-          activeRepairAutomationRun: S.optional(S.String),
-          labels: S.optional(__S(96, __c3, 0)),
           enqueueTime: S.optional(S.String),
+          approveTime: S.optional(S.String),
+          activeRepairAutomationRun: S.optional(S.String),
+          name: S.optional(S.String),
+          uid: S.optional(S.String),
+          state: S.optional(S.String),
+          labels: S.optional(__S(96, __c3, 0)),
+          deployFailureCause: S.optional(S.String),
           approvalState: S.optional(S.String),
           annotations: S.optional(__S(96, __c3, 0)),
-          metadata: S.optional(__S(743, __c23, 7)),
-          rolledBackByRollouts: S.optional(__S(2208, __c69, 0)),
+          deployEndTime: S.optional(S.String),
+          rollbackOfRollout: S.optional(S.String),
+          description: S.optional(S.String),
+          failureReason: S.optional(S.String),
+          targetId: S.optional(S.String),
+          metadata: S.optional(__S(737, __c23, 1)),
+          etag: S.optional(S.String),
+          phases: S.optional(__S(744, __c23, 8)),
+          deployStartTime: S.optional(S.String),
+          rolledBackByRollouts: S.optional(__S(2176, __c68, 0)),
           deployingBuild: S.optional(S.String),
+          controllerRollout: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Rollout" });
   }
@@ -4939,11 +4947,11 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          deployPolicyId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(843, __c26, 11).pipe(T.HttpBody())),
+          requestId: S.optional(S.String.pipe(T.Query())),
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          deployPolicyId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(844, __c26, 12).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4959,9 +4967,9 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          year: S.optional(S.Number),
           month: S.optional(S.Number),
           day: S.optional(S.Number),
+          year: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Clouddeploy_Date" });
   }
@@ -4972,17 +4980,17 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           minutes: S.optional(S.Number),
-          seconds: S.optional(S.Number),
           hours: S.optional(S.Number),
+          seconds: S.optional(S.Number),
           nanos: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TimeOfDay" });
     case 1:
       return S.suspend(() =>
         S.Struct({
+          startTime: S.optional(__S(832, __c26, 0)),
           daysOfWeek: S.optional(__S(480, __c15, 0)),
           endTime: S.optional(__S(832, __c26, 0)),
-          startTime: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "WeeklyWindow" });
     case 2:
@@ -4990,10 +4998,10 @@ function __c26(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.optional(__S(832, __c26, 0)),
-          endTime: S.optional(__S(832, __c26, 0)),
           endDate: S.optional(__S(800, __c25, 0)),
+          endTime: S.optional(__S(832, __c26, 0)),
           startDate: S.optional(__S(800, __c25, 0)),
+          startTime: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "OneTimeWindow" });
     case 4:
@@ -5001,18 +5009,18 @@ function __c26(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
+          timeZone: S.optional(S.String),
           weeklyWindows: S.optional(__S(834, __c26, 2)),
           oneTimeWindows: S.optional(__S(836, __c26, 4)),
-          timeZone: S.optional(S.String),
         }),
       ).annotate({ identifier: "TimeWindows" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          timeWindows: S.optional(__S(837, __c26, 5)),
-          id: S.optional(S.String),
-          actions: S.optional(__S(480, __c15, 0)),
           invokers: S.optional(__S(480, __c15, 0)),
+          actions: S.optional(__S(480, __c15, 0)),
+          id: S.optional(S.String),
+          timeWindows: S.optional(__S(837, __c26, 5)),
         }),
       ).annotate({ identifier: "RolloutRestriction" });
     case 7:
@@ -5026,26 +5034,33 @@ function __c26(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          deliveryPipeline: S.optional(__S(352, __c11, 0)),
+          labels: S.optional(__S(96, __c3, 0)),
+          id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeliveryPipelineAttribute" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          deliveryPipeline: S.optional(__S(841, __c26, 9)),
           target: S.optional(__S(352, __c11, 0)),
         }),
       ).annotate({ identifier: "DeployPolicyResourceSelector" });
-    case 10:
-      return S.Array(__S(841, __c26, 9));
     case 11:
+      return S.Array(__S(842, __c26, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String),
-          labels: S.optional(__S(96, __c3, 0)),
-          suspended: S.optional(S.Boolean),
-          annotations: S.optional(__S(96, __c3, 0)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
           rules: S.optional(__S(840, __c26, 8)),
-          uid: S.optional(S.String),
-          selectors: S.optional(__S(842, __c26, 10)),
-          description: S.optional(S.String),
+          labels: S.optional(__S(96, __c3, 0)),
+          annotations: S.optional(__S(96, __c3, 0)),
+          selectors: S.optional(__S(843, __c26, 11)),
+          createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
+          suspended: S.optional(S.Boolean),
+          etag: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          uid: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeployPolicy" });
   }
@@ -5055,10 +5070,10 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
+          targetId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          targetId: S.optional(S.String.pipe(T.Query())),
+          requestId: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(525, __c16, 13).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -5075,11 +5090,11 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          etag: S.optional(S.String.pipe(T.Query())),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          etag: S.optional(S.String.pipe(T.Query())),
+          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5095,12 +5110,12 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          force: S.optional(S.Boolean.pipe(T.Query())),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
           etag: S.optional(S.String.pipe(T.Query())),
+          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          force: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5117,10 +5132,10 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           etag: S.optional(S.String.pipe(T.Query())),
+          requestId: S.optional(S.String.pipe(T.Query())),
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5136,11 +5151,11 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
+          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          etag: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          etag: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5174,9 +5189,9 @@ function __c33(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           etag: S.optional(S.String.pipe(T.Query())),
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5204,9 +5219,9 @@ function __c34(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          version: S.optional(S.String),
           supportExpirationTime: S.optional(S.String),
           supportEndDate: S.optional(__S(800, __c25, 0)),
-          version: S.optional(S.String),
           maintenanceModeTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "SkaffoldVersion" });
@@ -5215,10 +5230,10 @@ function __c34(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          defaultToolVersions: S.optional(__S(544, __c17, 0)),
           defaultSkaffoldVersion: S.optional(S.String),
-          supportedVersions: S.optional(__S(1090, __c34, 2)),
+          defaultToolVersions: S.optional(__S(544, __c17, 0)),
           name: S.optional(S.String),
+          supportedVersions: S.optional(__S(1090, __c34, 2)),
         }),
       ).annotate({ identifier: "Config" });
   }
@@ -5245,47 +5260,47 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(2208, __c69, 0)),
-          logType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuditLogConfig" });
-    case 1:
-      return S.Array(__S(1152, __c36, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(1153, __c36, 1)),
-        }),
-      ).annotate({ identifier: "AuditConfig" });
-    case 3:
-      return S.Array(__S(1154, __c36, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          location: S.optional(S.String),
-          title: S.optional(S.String),
           expression: S.optional(S.String),
+          title: S.optional(S.String),
+          location: S.optional(S.String),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Expr" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          condition: S.optional(__S(1152, __c36, 0)),
+          role: S.optional(S.String),
+          members: S.optional(__S(2176, __c68, 0)),
+        }),
+      ).annotate({ identifier: "Binding" });
+    case 2:
+      return S.Array(__S(1153, __c36, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          logType: S.optional(S.String),
+          exemptedMembers: S.optional(__S(2176, __c68, 0)),
+        }),
+      ).annotate({ identifier: "AuditLogConfig" });
+    case 4:
+      return S.Array(__S(1155, __c36, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          members: S.optional(__S(2208, __c69, 0)),
-          role: S.optional(S.String),
-          condition: S.optional(__S(1156, __c36, 4)),
+          service: S.optional(S.String),
+          auditLogConfigs: S.optional(__S(1156, __c36, 4)),
         }),
-      ).annotate({ identifier: "Binding" });
+      ).annotate({ identifier: "AuditConfig" });
     case 6:
       return S.Array(__S(1157, __c36, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String),
+          bindings: S.optional(__S(1154, __c36, 2)),
           version: S.optional(S.Number),
-          auditConfigs: S.optional(__S(1155, __c36, 3)),
-          bindings: S.optional(__S(1158, __c36, 6)),
+          etag: S.optional(S.String),
+          auditConfigs: S.optional(__S(1158, __c36, 6)),
         }),
       ).annotate({ identifier: "Policy" });
   }
@@ -5362,10 +5377,10 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          locationId: S.optional(S.String),
           name: S.optional(S.String),
-          metadata: S.optional(__S(32, __c1, 0)),
+          locationId: S.optional(S.String),
           displayName: S.optional(S.String),
+          metadata: S.optional(__S(32, __c1, 0)),
           labels: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "Location" });
@@ -5424,115 +5439,115 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          phase: S.optional(S.String),
-          targetId: S.optional(S.String),
           rollout: S.optional(S.String),
+          destinationPhase: S.optional(S.String),
+          sourcePhase: S.optional(S.String),
           wait: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PromoteReleaseOperation" });
+      ).annotate({ identifier: "AdvanceRolloutOperation" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          stateDesc: S.optional(S.String),
+          rollout: S.optional(S.String),
+          wait: S.optional(S.String),
+          targetId: S.optional(S.String),
+          phase: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PromoteReleaseOperation" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           attempt: S.optional(S.String),
           state: S.optional(S.String),
           wait: S.optional(S.String),
+          stateDesc: S.optional(S.String),
         }),
       ).annotate({ identifier: "RetryAttempt" });
-    case 2:
-      return S.Array(__S(1441, __c45, 1));
     case 3:
+      return S.Array(__S(1442, __c45, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           totalAttempts: S.optional(S.String),
           backoffMode: S.optional(S.String),
-          attempts: S.optional(__S(1442, __c45, 2)),
+          attempts: S.optional(__S(1443, __c45, 3)),
         }),
       ).annotate({ identifier: "RetryPhase" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          disableRollbackIfRolloutPending: S.optional(S.Boolean),
-          destinationPhase: S.optional(S.String),
-          rolloutId: S.optional(S.String),
-          stateDesc: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RollbackAttempt" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          retry: S.optional(__S(1443, __c45, 3)),
-          rollback: S.optional(__S(1444, __c45, 4)),
+          rolloutId: S.optional(S.String),
+          state: S.optional(S.String),
+          destinationPhase: S.optional(S.String),
+          stateDesc: S.optional(S.String),
+          disableRollbackIfRolloutPending: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "RepairPhase" });
+      ).annotate({ identifier: "RollbackAttempt" });
     case 6:
-      return S.Array(__S(1445, __c45, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
-          repairPhases: S.optional(__S(1446, __c45, 6)),
-          currentRepairPhaseIndex: S.optional(S.String),
-          phaseId: S.optional(S.String),
-          jobId: S.optional(S.String),
-          rollout: S.optional(S.String),
+          retry: S.optional(__S(1444, __c45, 4)),
+          rollback: S.optional(__S(1445, __c45, 5)),
         }),
-      ).annotate({ identifier: "RepairRolloutOperation" });
+      ).annotate({ identifier: "RepairPhase" });
+    case 7:
+      return S.Array(__S(1446, __c45, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          release: S.optional(S.String),
-          targetId: S.optional(S.String),
-          phase: S.optional(S.String),
+          phaseId: S.optional(S.String),
+          jobId: S.optional(S.String),
+          rollout: S.optional(S.String),
+          repairPhases: S.optional(__S(1447, __c45, 7)),
+          currentRepairPhaseIndex: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TimedPromoteReleaseOperation" });
+      ).annotate({ identifier: "RepairRolloutOperation" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          wait: S.optional(S.String),
-          sourcePhase: S.optional(S.String),
-          destinationPhase: S.optional(S.String),
-          rollout: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AdvanceRolloutOperation" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
           ruleId: S.optional(S.String),
-          policy: S.optional(S.String),
           failureMessage: S.optional(S.String),
+          policy: S.optional(S.String),
         }),
       ).annotate({ identifier: "PolicyViolationDetails" });
+    case 10:
+      return S.Array(__S(1449, __c45, 9));
     case 11:
-      return S.Array(__S(1450, __c45, 10));
+      return S.suspend(() =>
+        S.Struct({
+          policyViolationDetails: S.optional(__S(1450, __c45, 10)),
+        }),
+      ).annotate({ identifier: "PolicyViolation" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          policyViolationDetails: S.optional(__S(1451, __c45, 11)),
+          targetId: S.optional(S.String),
+          phase: S.optional(S.String),
+          release: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PolicyViolation" });
+      ).annotate({ identifier: "TimedPromoteReleaseOperation" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          ruleId: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          automationId: S.optional(S.String),
-          promoteReleaseOperation: S.optional(__S(1440, __c45, 0)),
-          repairRolloutOperation: S.optional(__S(1447, __c45, 7)),
-          timedPromoteReleaseOperation: S.optional(__S(1448, __c45, 8)),
-          state: S.optional(S.String),
-          waitUntilTime: S.optional(S.String),
-          targetId: S.optional(S.String),
-          advanceRolloutOperation: S.optional(__S(1449, __c45, 9)),
-          etag: S.optional(S.String),
-          stateDescription: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          policyViolation: S.optional(__S(1452, __c45, 12)),
-          uid: S.optional(S.String),
           automationSnapshot: S.optional(__S(400, __c12, 16)),
+          state: S.optional(S.String),
+          advanceRolloutOperation: S.optional(__S(1440, __c45, 0)),
+          waitUntilTime: S.optional(S.String),
+          promoteReleaseOperation: S.optional(__S(1441, __c45, 1)),
+          createTime: S.optional(S.String),
+          repairRolloutOperation: S.optional(__S(1448, __c45, 8)),
+          ruleId: S.optional(S.String),
+          name: S.optional(S.String),
+          automationId: S.optional(S.String),
+          stateDescription: S.optional(S.String),
+          policyViolation: S.optional(__S(1451, __c45, 11)),
+          targetId: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          timedPromoteReleaseOperation: S.optional(__S(1452, __c45, 12)),
+          expireTime: S.optional(S.String),
+          etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutomationRun" });
   }
@@ -5608,18 +5623,17 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          custom: S.optional(__S(448, __c14, 0)),
+          rolloutPhaseId: S.optional(S.String),
+          rollout: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PredeployJobRunMetadata" });
+      ).annotate({ identifier: "AdvanceChildRolloutJobRun" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          failureCause: S.optional(S.String),
-          metadata: S.optional(__S(1600, __c50, 0)),
-          failureMessage: S.optional(S.String),
-          build: S.optional(S.String),
+          artifactUri: S.optional(S.String),
+          manifestPaths: S.optional(__S(2176, __c68, 0)),
         }),
-      ).annotate({ identifier: "PredeployJobRun" });
+      ).annotate({ identifier: "DeployArtifact" });
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5629,115 +5643,125 @@ function __c50(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          customTarget: S.optional(__S(1602, __c50, 2)),
           cloudRun: S.optional(__S(704, __c22, 0)),
           custom: S.optional(__S(448, __c14, 0)),
-          customTarget: S.optional(__S(1602, __c50, 2)),
         }),
       ).annotate({ identifier: "DeployJobRunMetadata" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          manifestPaths: S.optional(__S(2208, __c69, 0)),
-          artifactUri: S.optional(S.String),
+          artifact: S.optional(__S(1601, __c50, 1)),
+          failureCause: S.optional(S.String),
+          build: S.optional(S.String),
+          failureMessage: S.optional(S.String),
+          metadata: S.optional(__S(1603, __c50, 3)),
         }),
-      ).annotate({ identifier: "DeployArtifact" });
+      ).annotate({ identifier: "DeployJobRun" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          failureCause: S.optional(S.String),
-          failureMessage: S.optional(S.String),
-          build: S.optional(S.String),
-          metadata: S.optional(__S(1603, __c50, 3)),
-          artifact: S.optional(__S(1604, __c50, 4)),
+          custom: S.optional(__S(448, __c14, 0)),
         }),
-      ).annotate({ identifier: "DeployJobRun" });
+      ).annotate({ identifier: "VerifyJobRunMetadata" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          alertPolicy: S.optional(S.String),
-          alerts: S.optional(__S(2208, __c69, 0)),
+          metadata: S.optional(__S(1605, __c50, 5)),
+          build: S.optional(S.String),
+          artifactUri: S.optional(S.String),
+          failureCause: S.optional(S.String),
+          failureMessage: S.optional(S.String),
+          eventLogPath: S.optional(S.String),
         }),
-      ).annotate({ identifier: "FailedAlertPolicy" });
+      ).annotate({ identifier: "VerifyJobRun" });
     case 7:
-      return S.Array(__S(1606, __c50, 6));
+      return S.suspend(() =>
+        S.Struct({
+          failureMessage: S.optional(S.String),
+          build: S.optional(S.String),
+          failureCause: S.optional(S.String),
+          metadata: S.optional(__S(1605, __c50, 5)),
+        }),
+      ).annotate({ identifier: "PostdeployJobRun" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          failedAlertPolicies: S.optional(__S(1607, __c50, 7)),
+          failureCause: S.optional(S.String),
+          build: S.optional(S.String),
           failureMessage: S.optional(S.String),
-          alertPolicies: S.optional(__S(2208, __c69, 0)),
-          labels: S.optional(__S(96, __c3, 0)),
+          metadata: S.optional(__S(1605, __c50, 5)),
+        }),
+      ).annotate({ identifier: "PredeployJobRun" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          alerts: S.optional(__S(2176, __c68, 0)),
+          alertPolicy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FailedAlertPolicy" });
+    case 10:
+      return S.Array(__S(1609, __c50, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
           id: S.optional(S.String),
+          failedAlertPolicies: S.optional(__S(1610, __c50, 10)),
+          alertPolicies: S.optional(__S(2176, __c68, 0)),
+          failureMessage: S.optional(S.String),
+          labels: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "AlertPolicyCheckStatus" });
-    case 9:
-      return S.Array(__S(1608, __c50, 8));
-    case 10:
+    case 12:
+      return S.Array(__S(1611, __c50, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
           failureCause: S.optional(S.String),
-          failureMessage: S.optional(S.String),
-          latestBuild: S.optional(S.String),
-          metadata: S.optional(__S(448, __c14, 0)),
-          id: S.optional(S.String),
-          task: S.optional(__S(129, __c4, 1)),
           frequency: S.optional(S.String),
+          id: S.optional(S.String),
+          failureMessage: S.optional(S.String),
+          metadata: S.optional(__S(448, __c14, 0)),
+          latestBuild: S.optional(S.String),
+          task: S.optional(__S(129, __c4, 1)),
         }),
       ).annotate({ identifier: "CustomCheckStatus" });
-    case 11:
-      return S.Array(__S(1610, __c50, 10));
-    case 12:
+    case 14:
+      return S.Array(__S(1613, __c50, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
-          alertPolicyAnalyses: S.optional(__S(1609, __c50, 9)),
-          customCheckAnalyses: S.optional(__S(1611, __c50, 11)),
           failedCheckId: S.optional(S.String),
+          alertPolicyAnalyses: S.optional(__S(1612, __c50, 12)),
+          customCheckAnalyses: S.optional(__S(1614, __c50, 14)),
         }),
       ).annotate({ identifier: "AnalysisJobRun" });
-    case 13:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           rollout: S.optional(S.String),
           rolloutPhaseId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateChildRolloutJobRun" });
-    case 14:
+    case 17:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(1600, __c50, 0)),
-          artifactUri: S.optional(S.String),
-          failureMessage: S.optional(S.String),
-          build: S.optional(S.String),
-          eventLogPath: S.optional(S.String),
-          failureCause: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VerifyJobRun" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          rolloutPhaseId: S.optional(S.String),
-          rollout: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AdvanceChildRolloutJobRun" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          uid: S.optional(S.String),
-          predeployJobRun: S.optional(__S(1601, __c50, 1)),
-          name: S.optional(S.String),
-          postdeployJobRun: S.optional(__S(1601, __c50, 1)),
-          deployJobRun: S.optional(__S(1605, __c50, 5)),
-          analysisJobRun: S.optional(__S(1612, __c50, 12)),
-          createChildRolloutJobRun: S.optional(__S(1613, __c50, 13)),
-          etag: S.optional(S.String),
-          endTime: S.optional(S.String),
+          advanceChildRolloutJobRun: S.optional(__S(1600, __c50, 0)),
           startTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          verifyJobRun: S.optional(__S(1614, __c50, 14)),
+          uid: S.optional(S.String),
+          deployJobRun: S.optional(__S(1604, __c50, 4)),
           phaseId: S.optional(S.String),
-          advanceChildRolloutJobRun: S.optional(__S(1615, __c50, 15)),
+          etag: S.optional(S.String),
+          verifyJobRun: S.optional(__S(1606, __c50, 6)),
+          postdeployJobRun: S.optional(__S(1607, __c50, 7)),
+          predeployJobRun: S.optional(__S(1608, __c50, 8)),
           state: S.optional(S.String),
+          endTime: S.optional(S.String),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          analysisJobRun: S.optional(__S(1615, __c50, 15)),
           jobId: S.optional(S.String),
+          createChildRolloutJobRun: S.optional(__S(1616, __c50, 16)),
         }),
       ).annotate({ identifier: "JobRun" });
   }
@@ -5795,8 +5819,16 @@ function __c54(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          phaseId: S.optional(S.String),
+          jobId: S.optional(S.String),
+          overrideDeployPolicy: S.optional(__S(2176, __c68, 0)),
+        }),
+      ).annotate({ identifier: "IgnoreJobRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           rollout: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1728, __c54, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5814,20 +5846,8 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          jobId: S.optional(S.String),
-          phaseId: S.optional(S.String),
-          overrideDeployPolicy: S.optional(__S(2208, __c69, 0)),
-        }),
-      ).annotate({ identifier: "IgnoreJobRequest" });
-  }
-}
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1824, __c57, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5838,22 +5858,22 @@ function __c56(j: number): any {
       ).annotate({ identifier: "AbandonProjectsLocationsDeliveryPipelinesReleasesRequest" });
   }
 }
-function __c57(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "AbandonReleaseRequest" });
   }
 }
-function __c58(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          extraLocationTypes: S.optional(__S(2208, __c69, 0).pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(2176, __c68, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5867,22 +5887,22 @@ function __c58(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          locations: S.optional(__S(1825, __c57, 1)),
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(1857, __c58, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c59(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5894,11 +5914,41 @@ function __c59(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          unreachable: S.optional(__S(2176, __c68, 0)),
           nextPageToken: S.optional(S.String),
           customTargetTypes: S.optional(__S(576, __c18, 0)),
-          unreachable: S.optional(__S(2208, __c69, 0)),
         }),
       ).annotate({ identifier: "ListCustomTargetTypesResponse" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+parent}/deliveryPipelines",
+            baseUrl: "https://clouddeploy.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsDeliveryPipelinesRequest" });
+    case 1:
+      return S.Array(__S(312, __c9, 24));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          deliveryPipelines: S.optional(__S(1889, __c59, 1)),
+          unreachable: S.optional(__S(2176, __c68, 0)),
+        }),
+      ).annotate({ identifier: "ListDeliveryPipelinesResponse" });
   }
 }
 function __c60(j: number): any {
@@ -5914,36 +5964,6 @@ function __c60(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "v1/{+parent}/deliveryPipelines",
-            baseUrl: "https://clouddeploy.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsDeliveryPipelinesRequest" });
-    case 1:
-      return S.Array(__S(311, __c9, 23));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          deliveryPipelines: S.optional(__S(1921, __c60, 1)),
-          nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2208, __c69, 0)),
-        }),
-      ).annotate({ identifier: "ListDeliveryPipelinesResponse" });
-  }
-}
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
             uri: "v1/{+parent}/automationRuns",
             baseUrl: "https://clouddeploy.googleapis.com/",
           }),
@@ -5954,23 +5974,23 @@ function __c61(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2208, __c69, 0)),
-          automationRuns: S.optional(__S(1953, __c61, 1)),
+          unreachable: S.optional(__S(2176, __c68, 0)),
           nextPageToken: S.optional(S.String),
+          automationRuns: S.optional(__S(1921, __c60, 1)),
         }),
       ).annotate({ identifier: "ListAutomationRunsResponse" });
   }
 }
-function __c62(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5984,22 +6004,22 @@ function __c62(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2208, __c69, 0)),
+          automations: S.optional(__S(1953, __c61, 1)),
           nextPageToken: S.optional(S.String),
-          automations: S.optional(__S(1985, __c62, 1)),
+          unreachable: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "ListAutomationsResponse" });
   }
 }
-function __c63(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -6014,23 +6034,23 @@ function __c63(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          releases: S.optional(__S(1985, __c62, 1)),
+          unreachable: S.optional(__S(2176, __c68, 0)),
           nextPageToken: S.optional(S.String),
-          releases: S.optional(__S(2017, __c63, 1)),
-          unreachable: S.optional(__S(2208, __c69, 0)),
         }),
       ).annotate({ identifier: "ListReleasesResponse" });
   }
 }
-function __c64(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6040,27 +6060,27 @@ function __c64(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest" });
     case 1:
-      return S.Array(__S(744, __c23, 8));
+      return S.Array(__S(745, __c23, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          rollouts: S.optional(__S(2049, __c64, 1)),
-          unreachable: S.optional(__S(2208, __c69, 0)),
+          rollouts: S.optional(__S(2017, __c63, 1)),
+          unreachable: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "ListRolloutsResponse" });
   }
 }
-function __c65(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6072,25 +6092,25 @@ function __c65(j: number): any {
         identifier: "ListProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRunsRequest",
       });
     case 1:
-      return S.Array(__S(1616, __c50, 16));
+      return S.Array(__S(1617, __c50, 17));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          jobRuns: S.optional(__S(2081, __c65, 1)),
-          unreachable: S.optional(__S(2208, __c69, 0)),
+          jobRuns: S.optional(__S(2049, __c64, 1)),
+          unreachable: S.optional(__S(2176, __c68, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListJobRunsResponse" });
   }
 }
-function __c66(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
@@ -6102,27 +6122,27 @@ function __c66(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDeployPoliciesRequest" });
     case 1:
-      return S.Array(__S(843, __c26, 11));
+      return S.Array(__S(844, __c26, 12));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2208, __c69, 0)),
           nextPageToken: S.optional(S.String),
-          deployPolicies: S.optional(__S(2113, __c66, 1)),
+          unreachable: S.optional(__S(2176, __c68, 0)),
+          deployPolicies: S.optional(__S(2081, __c65, 1)),
         }),
       ).annotate({ identifier: "ListDeployPoliciesResponse" });
   }
 }
-function __c67(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6136,19 +6156,19 @@ function __c67(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          unreachable: S.optional(__S(2176, __c68, 0)),
+          operations: S.optional(__S(2113, __c66, 1)),
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(2145, __c67, 1)),
-          unreachable: S.optional(__S(2208, __c69, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c68(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          overrideDeployPolicy: S.optional(__S(2208, __c69, 0)),
+          overrideDeployPolicy: S.optional(__S(2176, __c68, 0)),
           phaseId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdvanceRolloutRequest" });
@@ -6156,7 +6176,7 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2176, __c68, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2144, __c67, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6169,22 +6189,22 @@ function __c68(j: number): any {
       });
   }
 }
-function __c69(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c70(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6196,22 +6216,22 @@ function __c70(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           targets: S.optional(__S(640, __c20, 0)),
-          unreachable: S.optional(__S(2208, __c69, 0)),
+          nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "ListTargetsResponse" });
   }
 }
-function __c71(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           body: S.optional(__S(167, __c5, 7).pipe(T.HttpBody())),
         }).pipe(
@@ -6224,17 +6244,17 @@ function __c71(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCustomTargetTypesRequest" });
   }
 }
-function __c72(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(311, __c9, 23).pipe(T.HttpBody())),
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(312, __c9, 24).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6245,16 +6265,16 @@ function __c72(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDeliveryPipelinesRequest" });
   }
 }
-function __c73(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
+          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          updateMask: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(400, __c12, 16).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -6266,17 +6286,17 @@ function __c73(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDeliveryPipelinesAutomationsRequest" });
   }
 }
-function __c74(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(843, __c26, 11).pipe(T.HttpBody())),
+          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          body: S.optional(__S(844, __c26, 12).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6287,16 +6307,16 @@ function __c74(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDeployPoliciesRequest" });
   }
 }
-function __c75(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           body: S.optional(__S(525, __c16, 13).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -6308,13 +6328,21 @@ function __c75(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsTargetsRequest" });
   }
 }
-function __c76(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          overrideDeployPolicy: S.optional(__S(2176, __c68, 0)),
+          jobId: S.optional(S.String),
+          phaseId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RetryJobRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           rollout: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6327,32 +6355,32 @@ function __c76(j: number): any {
       });
   }
 }
-function __c77(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           startingPhaseId: S.optional(S.String),
-          rollout: S.optional(__S(744, __c23, 8)),
+          rollout: S.optional(__S(745, __c23, 9)),
         }),
       ).annotate({ identifier: "RollbackTargetConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          rollbackConfig: S.optional(__S(2464, __c77, 0)),
-          rolloutId: S.optional(S.String),
           rolloutToRollBack: S.optional(S.String),
-          releaseId: S.optional(S.String),
+          overrideDeployPolicy: S.optional(__S(2176, __c68, 0)),
+          rolloutId: S.optional(S.String),
+          rollbackConfig: S.optional(__S(2432, __c76, 0)),
           targetId: S.optional(S.String),
-          overrideDeployPolicy: S.optional(__S(2208, __c69, 0)),
           validateOnly: S.optional(S.Boolean),
+          releaseId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RollbackTargetRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2465, __c77, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(2433, __c76, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6364,18 +6392,18 @@ function __c77(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          rollbackConfig: S.optional(__S(2464, __c77, 0)),
+          rollbackConfig: S.optional(__S(2432, __c76, 0)),
         }),
       ).annotate({ identifier: "RollbackTargetResponse" });
   }
 }
-function __c78(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6386,24 +6414,24 @@ function __c78(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsCustomTargetTypesRequest" });
   }
 }
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          policy: S.optional(__S(1159, __c36, 7)),
+          updateMask: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
 function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String),
-          policy: S.optional(__S(1159, __c36, 7)),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-  }
-}
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6414,20 +6442,20 @@ function __c80(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsDeliveryPipelinesRequest" });
   }
 }
-function __c81(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          overrideDeployPolicy: S.optional(__S(2208, __c69, 0)),
           approved: S.optional(S.Boolean),
+          overrideDeployPolicy: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "ApproveRolloutRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2560, __c80, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6440,13 +6468,13 @@ function __c81(j: number): any {
       });
   }
 }
-function __c82(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6457,13 +6485,13 @@ function __c82(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsDeployPoliciesRequest" });
   }
 }
-function __c83(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6474,13 +6502,13 @@ function __c83(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsTargetsRequest" });
   }
 }
-function __c84(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2880, __c90, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2848, __c89, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6493,13 +6521,13 @@ function __c84(j: number): any {
       });
   }
 }
-function __c85(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2752, __c86, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6510,23 +6538,23 @@ function __c85(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsDeliveryPipelinesRequest" });
   }
 }
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          permissions: S.optional(__S(2176, __c68, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+  }
+}
 function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(2208, __c69, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
-  }
-}
-function __c87(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2752, __c86, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6537,13 +6565,13 @@ function __c87(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsTargetsRequest" });
   }
 }
-function __c88(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1824, __c57, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6554,13 +6582,13 @@ function __c88(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsDeliveryPipelinesAutomationRunsRequest" });
   }
 }
-function __c89(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2880, __c90, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2848, __c89, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6571,23 +6599,23 @@ function __c89(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest" });
   }
 }
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          overrideDeployPolicy: S.optional(__S(2176, __c68, 0)),
+        }),
+      ).annotate({ identifier: "CancelRolloutRequest" });
+  }
+}
 function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          overrideDeployPolicy: S.optional(__S(2208, __c69, 0)),
-        }),
-      ).annotate({ identifier: "CancelRolloutRequest" });
-  }
-}
-function __c91(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1824, __c57, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",

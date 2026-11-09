@@ -165,6 +165,13 @@ export interface AccelerationSettings {
   Mode?: AccelerationMode;
 }
 export type BillingTagsSource = "QUEUE" | "PRESET" | "JOB_TEMPLATE" | "JOB" | (string & {});
+export type __stringPatternArnAwsElementalInferenceFeedAZ0919 = string;
+export interface ElementalInferenceFeedConfigurationSource {
+  FeedArn?: string;
+}
+export interface ElementalInferenceSettings {
+  FeedConfigurationSource?: ElementalInferenceFeedConfigurationSource;
+}
 export type __integerMinNegative50Max50 = number;
 export interface HopDestination {
   Priority?: number;
@@ -172,7 +179,7 @@ export interface HopDestination {
   WaitMinutes?: number;
 }
 export type __listOfHopDestination = HopDestination[];
-const __listOfHopDestination = /*@__PURE__*/ __L.at(__c7, 2);
+const __listOfHopDestination = /*@__PURE__*/ __L.at(__c7, 4);
 export type __integerMinNegative1000Max1000 = number;
 export type __stringMin14PatternS3BmpBMPPngPNGHttpsBmpBMPPngPNG = string;
 export interface AvailBlanking {
@@ -198,7 +205,7 @@ export interface ColorConversion3DLUTSetting {
   OutputMasteringLuminance?: number;
 }
 export type __listOfColorConversion3DLUTSetting = ColorConversion3DLUTSetting[];
-const __listOfColorConversion3DLUTSetting = /*@__PURE__*/ __L.at(__c7, 5);
+const __listOfColorConversion3DLUTSetting = /*@__PURE__*/ __L.at(__c7, 7);
 export type __stringPatternSNManifestConfirmConditionNotificationNS = string;
 export interface EsamManifestConfirmConditionNotification {
   MccXml?: string;
@@ -234,7 +241,7 @@ export interface AudioSelectorGroup {
   AudioSelectorNames?: string[];
 }
 export type __mapOfAudioSelectorGroup = { [key: string]: AudioSelectorGroup | undefined };
-const __mapOfAudioSelectorGroup = /*@__PURE__*/ __L.at(__c7, 12);
+const __mapOfAudioSelectorGroup = /*@__PURE__*/ __L.at(__c7, 14);
 export type AudioDurationCorrection =
   | "DISABLED"
   | "AUTO"
@@ -500,7 +507,7 @@ export interface AudioSelector {
   Tracks?: number[];
 }
 export type __mapOfAudioSelector = { [key: string]: AudioSelector | undefined };
-const __mapOfAudioSelector = /*@__PURE__*/ __L.at(__c7, 15);
+const __mapOfAudioSelector = /*@__PURE__*/ __L.at(__c7, 17);
 export type AncillaryConvert608To708 = "UPCONVERT" | "DISABLED" | (string & {});
 export type __integerMin1Max4 = number;
 export type AncillaryTerminateCaptions = "END_OF_INPUT" | "DISABLED" | (string & {});
@@ -590,7 +597,7 @@ export interface CaptionSelector {
   SourceSettings?: CaptionSourceSettings;
 }
 export type __mapOfCaptionSelector = { [key: string]: CaptionSelector | undefined };
-const __mapOfCaptionSelector = /*@__PURE__*/ __L.at(__c7, 25);
+const __mapOfCaptionSelector = /*@__PURE__*/ __L.at(__c7, 27);
 export type __integerMin2Max2147483647 = number;
 export interface Rectangle {
   Height?: number;
@@ -620,7 +627,7 @@ export interface DynamicAudioSelector {
   SelectorType?: DynamicAudioSelectorType;
 }
 export type __mapOfDynamicAudioSelector = { [key: string]: DynamicAudioSelector | undefined };
-const __mapOfDynamicAudioSelector = /*@__PURE__*/ __L.at(__c7, 27);
+const __mapOfDynamicAudioSelector = /*@__PURE__*/ __L.at(__c7, 29);
 export type __stringMax2048PatternS3Https = string;
 export type InputFilterEnable = "AUTO" | "DISABLE" | "FORCE" | (string & {});
 export type __integerMin0Max5 = number;
@@ -654,7 +661,7 @@ export interface InputClipping {
   StartTimecode?: string;
 }
 export type __listOfInputClipping = InputClipping[];
-const __listOfInputClipping = /*@__PURE__*/ __L.at(__c7, 29);
+const __listOfInputClipping = /*@__PURE__*/ __L.at(__c7, 31);
 export type InputScanType = "AUTO" | "PSF" | (string & {});
 export interface MultiViewInput {
   FileInput?: string;
@@ -663,7 +670,7 @@ export interface MultiViewSettings {
   Input?: MultiViewInput;
 }
 export type __listOfMultiViewSettings = MultiViewSettings[];
-const __listOfMultiViewSettings = /*@__PURE__*/ __L.at(__c8, 0);
+const __listOfMultiViewSettings = /*@__PURE__*/ __L.at(__c8, 2);
 export type InputPsiControl = "IGNORE_PSI" | "USE_PSI" | (string & {});
 export type __stringPatternS3ASSETMAPXml = string;
 export type __listOf__stringPatternS3ASSETMAPXml = string[];
@@ -733,7 +740,7 @@ export interface VideoOverlayTransition {
   StartTimecode?: string;
 }
 export type __listOfVideoOverlayTransition = VideoOverlayTransition[];
-const __listOfVideoOverlayTransition = /*@__PURE__*/ __L.at(__c8, 5);
+const __listOfVideoOverlayTransition = /*@__PURE__*/ __L.at(__c8, 7);
 export interface VideoOverlay {
   Crop?: VideoOverlayCrop;
   EndTimecode?: string;
@@ -744,7 +751,7 @@ export interface VideoOverlay {
   Transitions?: VideoOverlayTransition[];
 }
 export type __listOfVideoOverlay = VideoOverlay[];
-const __listOfVideoOverlay = /*@__PURE__*/ __L.at(__c8, 7);
+const __listOfVideoOverlay = /*@__PURE__*/ __L.at(__c8, 9);
 export type AlphaBehavior = "DISCARD" | "REMAP_TO_LUMA" | (string & {});
 export type ColorSpaceUsage = "FORCE" | "FALLBACK" | (string & {});
 export type EmbeddedTimecodeOverride = "NONE" | "USE_MDPM" | (string & {});
@@ -865,7 +872,7 @@ export interface MotionImageInserter {
   StartTime?: string;
 }
 export type __listOfMotionImageInserter = MotionImageInserter[];
-const __listOfMotionImageInserter = /*@__PURE__*/ __L.at(__c8, 12);
+const __listOfMotionImageInserter = /*@__PURE__*/ __L.at(__c8, 14);
 export type __integerMin0Max0 = number;
 export interface NielsenConfiguration {
   BreakoutCode?: number;
@@ -907,13 +914,13 @@ export interface AllowedRenditionSize {
   Width?: number;
 }
 export type __listOfAllowedRenditionSize = AllowedRenditionSize[];
-const __listOfAllowedRenditionSize = /*@__PURE__*/ __L.at(__c8, 16);
+const __listOfAllowedRenditionSize = /*@__PURE__*/ __L.at(__c8, 18);
 export interface ForceIncludeRenditionSize {
   Height?: number;
   Width?: number;
 }
 export type __listOfForceIncludeRenditionSize = ForceIncludeRenditionSize[];
-const __listOfForceIncludeRenditionSize = /*@__PURE__*/ __L.at(__c8, 18);
+const __listOfForceIncludeRenditionSize = /*@__PURE__*/ __L.at(__c8, 20);
 export interface MinBottomRenditionSize {
   Height?: number;
   Width?: number;
@@ -936,7 +943,7 @@ export interface AutomatedAbrRule {
   Type?: RuleType;
 }
 export type __listOfAutomatedAbrRule = AutomatedAbrRule[];
-const __listOfAutomatedAbrRule = /*@__PURE__*/ __L.at(__c8, 20);
+const __listOfAutomatedAbrRule = /*@__PURE__*/ __L.at(__c8, 22);
 export interface AutomatedAbrSettings {
   MaxAbrBitrate?: number;
   MaxQualityLevel?: number;
@@ -953,9 +960,12 @@ export interface CmafAdditionalManifest {
   SelectedOutputs?: string[];
 }
 export type __listOfCmafAdditionalManifest = CmafAdditionalManifest[];
-const __listOfCmafAdditionalManifest = /*@__PURE__*/ __L.at(__c8, 24);
+const __listOfCmafAdditionalManifest = /*@__PURE__*/ __L.at(__c8, 26);
 export type CmafClientCache = "DISABLED" | "ENABLED" | (string & {});
 export type CmafCodecSpecification = "RFC_6381" | "RFC_4281" | (string & {});
+export type DashAdaptationSetGrouping = "CODEC" | (string & {});
+export type __listOfDashAdaptationSetGrouping = DashAdaptationSetGrouping[];
+const __listOfDashAdaptationSetGrouping = /*@__PURE__*/ __L.at(__c3, 9);
 export type __stringMin1Max256 = string;
 export type DashManifestStyle = "BASIC" | "COMPACT" | "DISTINCT" | "FULL" | (string & {});
 export type S3ObjectCannedAcl =
@@ -1092,7 +1102,7 @@ export interface CmafImageBasedTrickPlayVariant {
   TileWidth?: number;
 }
 export type __listOfCmafImageBasedTrickPlayVariant = CmafImageBasedTrickPlayVariant[];
-const __listOfCmafImageBasedTrickPlayVariant = /*@__PURE__*/ __L.at(__c9, 2);
+const __listOfCmafImageBasedTrickPlayVariant = /*@__PURE__*/ __L.at(__c9, 4);
 export type CmafManifestCompression = "GZIP" | "NONE" | (string & {});
 export type CmafManifestDurationFormat = "FLOATING_POINT" | "INTEGER" | (string & {});
 export type CmafMpdManifestBandwidthType = "AVERAGE" | "MAX" | (string & {});
@@ -1111,6 +1121,7 @@ export interface CmafGroupSettings {
   BaseUrl?: string;
   ClientCache?: CmafClientCache;
   CodecSpecification?: CmafCodecSpecification;
+  DashAdaptationSetGrouping?: DashAdaptationSetGrouping[];
   DashIFrameTrickPlayNameModifier?: string;
   DashManifestStyle?: DashManifestStyle;
   Destination?: string;
@@ -1212,6 +1223,7 @@ export interface DashIsoGroupSettings {
   AdditionalManifests?: DashAdditionalManifest[];
   AudioChannelConfigSchemeIdUri?: DashIsoGroupAudioChannelConfigSchemeIdUri;
   BaseUrl?: string;
+  DashAdaptationSetGrouping?: DashAdaptationSetGrouping[];
   DashIFrameTrickPlayNameModifier?: string;
   DashManifestStyle?: DashManifestStyle;
   Destination?: string;
@@ -1239,7 +1251,8 @@ export interface FileGroupSettings {
 }
 export type HlsAdMarkers = "ELEMENTAL" | "ELEMENTAL_SCTE35" | (string & {});
 export type __listOfHlsAdMarkers = HlsAdMarkers[];
-const __listOfHlsAdMarkers = /*@__PURE__*/ __L.at(__c3, 9);
+const __listOfHlsAdMarkers =
+  __listOfDashAdaptationSetGrouping as any as S.Schema<__listOfHlsAdMarkers>;
 export interface HlsAdditionalManifest {
   ManifestNameModifier?: string;
   SelectedOutputs?: string[];
@@ -1255,7 +1268,7 @@ export interface HlsCaptionLanguageMapping {
   LanguageDescription?: string;
 }
 export type __listOfHlsCaptionLanguageMapping = HlsCaptionLanguageMapping[];
-const __listOfHlsCaptionLanguageMapping = /*@__PURE__*/ __L.at(__c9, 9);
+const __listOfHlsCaptionLanguageMapping = /*@__PURE__*/ __L.at(__c9, 11);
 export type HlsCaptionLanguageSetting = "INSERT" | "OMIT" | "NONE" | (string & {});
 export type HlsCaptionSegmentLengthControl = "LARGE_SEGMENTS" | "MATCH_VIDEO" | (string & {});
 export type HlsClientCache = "DISABLED" | "ENABLED" | (string & {});
@@ -1384,7 +1397,8 @@ export type FrameMetricType =
   | "SHOT_CHANGE"
   | (string & {});
 export type __listOfFrameMetricType = FrameMetricType[];
-const __listOfFrameMetricType = __listOfHlsAdMarkers as any as S.Schema<__listOfFrameMetricType>;
+const __listOfFrameMetricType =
+  __listOfDashAdaptationSetGrouping as any as S.Schema<__listOfFrameMetricType>;
 export type OutputGroupType =
   | "HLS_GROUP_SETTINGS"
   | "DASH_ISO_GROUP_SETTINGS"
@@ -1432,7 +1446,8 @@ export type AudioChannelTag =
   | "M"
   | (string & {});
 export type __listOfAudioChannelTag = AudioChannelTag[];
-const __listOfAudioChannelTag = __listOfHlsAdMarkers as any as S.Schema<__listOfAudioChannelTag>;
+const __listOfAudioChannelTag =
+  __listOfDashAdaptationSetGrouping as any as S.Schema<__listOfAudioChannelTag>;
 export interface AudioChannelTaggingSettings {
   ChannelTag?: AudioChannelTag;
   ChannelTags?: AudioChannelTag[];
@@ -1999,7 +2014,8 @@ export type TeletextPageType =
   | "PAGE_TYPE_HEARING_IMPAIRED_SUBTITLE"
   | (string & {});
 export type __listOfTeletextPageType = TeletextPageType[];
-const __listOfTeletextPageType = __listOfHlsAdMarkers as any as S.Schema<__listOfTeletextPageType>;
+const __listOfTeletextPageType =
+  __listOfDashAdaptationSetGrouping as any as S.Schema<__listOfTeletextPageType>;
 export interface TeletextDestinationSettings {
   PageNumber?: string;
   PageTypes?: TeletextPageType[];
@@ -2047,15 +2063,18 @@ export interface CaptionDestinationSettings {
   TtmlDestinationSettings?: TtmlDestinationSettings;
   WebvttDestinationSettings?: WebvttDestinationSettings;
 }
+export type CaptionSource = "INPUT_CAPTION_SELECTOR" | "SMART_SUBTITLE" | (string & {});
 export interface CaptionDescription {
+  AudioSourceNames?: string[];
   CaptionSelectorName?: string;
   CustomLanguageCode?: string;
   DestinationSettings?: CaptionDestinationSettings;
   LanguageCode?: LanguageCode;
   LanguageDescription?: string;
+  Source?: CaptionSource;
 }
 export type __listOfCaptionDescription = CaptionDescription[];
-const __listOfCaptionDescription = /*@__PURE__*/ __L.at(__c9, 16);
+const __listOfCaptionDescription = /*@__PURE__*/ __L.at(__c9, 18);
 export type CmfcAudioDuration = "DEFAULT_CODEC_DURATION" | "MATCH_VIDEO_DURATION" | (string & {});
 export type CmfcAudioTrackType =
   | "ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT"
@@ -2365,6 +2384,7 @@ export type Av1AdaptiveQuantization =
   | "MAX"
   | (string & {});
 export type Av1BitDepth = "BIT_8" | "BIT_10" | (string & {});
+export type __integerMin1000Max1152000000 = number;
 export type Av1FilmGrainSynthesis = "DISABLED" | "ENABLED" | (string & {});
 export type Av1FramerateControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export type Av1FramerateConversionAlgorithm =
@@ -2373,7 +2393,6 @@ export type Av1FramerateConversionAlgorithm =
   | "FRAMEFORMER"
   | "MAINTAIN_FRAME_COUNT"
   | (string & {});
-export type __integerMin1000Max1152000000 = number;
 export type __integerMin0Max15 = number;
 export type __integerMin1Max10 = number;
 export type __doubleMin0Max1 = number;
@@ -2381,11 +2400,14 @@ export interface Av1QvbrSettings {
   QvbrQualityLevel?: number;
   QvbrQualityLevelFineTune?: number;
 }
-export type Av1RateControlMode = "QVBR" | (string & {});
+export type Av1RateControlMode = "CBR" | "QVBR" | (string & {});
+export type Av1SceneChangeDetect = "DISABLED" | "ENABLED" | "TRANSITION_DETECTION" | (string & {});
+export type __integerMin1000Max3000 = number;
 export type Av1SpatialAdaptiveQuantization = "DISABLED" | "ENABLED" | (string & {});
 export interface Av1Settings {
   AdaptiveQuantization?: Av1AdaptiveQuantization;
   BitDepth?: Av1BitDepth;
+  Bitrate?: number;
   FilmGrainSynthesis?: Av1FilmGrainSynthesis;
   FramerateControl?: Av1FramerateControl;
   FramerateConversionAlgorithm?: Av1FramerateConversionAlgorithm;
@@ -2397,7 +2419,10 @@ export interface Av1Settings {
   PerFrameMetrics?: FrameMetricType[];
   QvbrSettings?: Av1QvbrSettings;
   RateControlMode?: Av1RateControlMode;
+  SceneChangeDetect?: Av1SceneChangeDetect;
   Slices?: number;
+  SlidingWindowMs?: number;
+  SlidingWindowPeakBitrate?: number;
   SpatialAdaptiveQuantization?: Av1SpatialAdaptiveQuantization;
 }
 export type AvcIntraClass = "CLASS_50" | "CLASS_100" | "CLASS_200" | "CLASS_4K_2K" | (string & {});
@@ -2605,6 +2630,8 @@ export interface H264Settings {
   ScanTypeConversionMode?: H264ScanTypeConversionMode;
   SceneChangeDetect?: H264SceneChangeDetect;
   Slices?: number;
+  SlidingWindowMs?: number;
+  SlidingWindowPeakBitrate?: number;
   SlowPal?: H264SlowPal;
   Softness?: number;
   SpatialAdaptiveQuantization?: H264SpatialAdaptiveQuantization;
@@ -2741,6 +2768,8 @@ export interface H265Settings {
   ScanTypeConversionMode?: H265ScanTypeConversionMode;
   SceneChangeDetect?: H265SceneChangeDetect;
   Slices?: number;
+  SlidingWindowMs?: number;
+  SlidingWindowPeakBitrate?: number;
   SlowPal?: H265SlowPal;
   SpatialAdaptiveQuantization?: H265SpatialAdaptiveQuantization;
   Telecine?: H265Telecine;
@@ -2822,6 +2851,8 @@ export interface Mpeg2Settings {
   RateControlMode?: Mpeg2RateControlMode;
   ScanTypeConversionMode?: Mpeg2ScanTypeConversionMode;
   SceneChangeDetect?: Mpeg2SceneChangeDetect;
+  SlidingWindowMs?: number;
+  SlidingWindowPeakBitrate?: number;
   SlowPal?: Mpeg2SlowPal;
   Softness?: number;
   SpatialAdaptiveQuantization?: Mpeg2SpatialAdaptiveQuantization;
@@ -3211,6 +3242,8 @@ export type NoiseReducerFilter =
   | "CONSERVE"
   | "SPATIAL"
   | "TEMPORAL"
+  | "PERCEPTUAL"
+  | "NONE"
   | (string & {});
 export type __integerMin0Max3 = number;
 export interface NoiseReducerFilterSettings {
@@ -3317,7 +3350,7 @@ export interface Output {
   VideoDescription?: VideoDescription;
 }
 export type __listOfOutput = Output[];
-const __listOfOutput = /*@__PURE__*/ __L.at(__c9, 20);
+const __listOfOutput = /*@__PURE__*/ __L.at(__c9, 22);
 export interface OutputGroup {
   AutomatedEncodingSettings?: AutomatedEncodingSettings;
   CustomName?: string;
@@ -3326,7 +3359,7 @@ export interface OutputGroup {
   Outputs?: Output[];
 }
 export type __listOfOutputGroup = OutputGroup[];
-const __listOfOutputGroup = /*@__PURE__*/ __L.at(__c9, 22);
+const __listOfOutputGroup = /*@__PURE__*/ __L.at(__c9, 24);
 export type TimecodeSource = "EMBEDDED" | "ZEROBASED" | "SPECIFIEDSTART" | (string & {});
 export type __stringPattern0940191020191209301 = string;
 export interface TimecodeConfig {
@@ -3340,7 +3373,7 @@ export interface Id3Insertion {
   Timecode?: string;
 }
 export type __listOfId3Insertion = Id3Insertion[];
-const __listOfId3Insertion = /*@__PURE__*/ __L.at(__c9, 25);
+const __listOfId3Insertion = /*@__PURE__*/ __L.at(__c9, 27);
 export interface TimedMetadataInsertion {
   Id3Insertions?: Id3Insertion[];
 }
@@ -3385,6 +3418,7 @@ export interface CreateJobRequest {
   AccelerationSettings?: AccelerationSettings;
   BillingTagsSource?: BillingTagsSource;
   ClientRequestToken?: string;
+  ElementalInferenceSettings?: ElementalInferenceSettings;
   HopDestinations?: HopDestination[];
   JobEngineVersion?: string;
   JobTemplate?: string;
@@ -3405,10 +3439,10 @@ export type AccelerationStatus =
   | (string & {});
 export type __timestampUnix = Date;
 export type JobPhase = "PROBING" | "TRANSCODING" | "UPLOADING" | (string & {});
-export type ElementalInferenceFeature = "SMART_CROP" | (string & {});
+export type ElementalInferenceFeature = "SMART_CROP" | "SMART_SUBTITLE" | (string & {});
 export type __listOfElementalInferenceFeature = ElementalInferenceFeature[];
 const __listOfElementalInferenceFeature =
-  __listOfHlsAdMarkers as any as S.Schema<__listOfElementalInferenceFeature>;
+  __listOfDashAdaptationSetGrouping as any as S.Schema<__listOfElementalInferenceFeature>;
 export type ElementalInferenceFeedManagementState =
   | "CREATED"
   | "ASSOCIATED"
@@ -3481,6 +3515,7 @@ export interface Job {
   CreatedAt?: Date;
   CurrentPhase?: JobPhase;
   ElementalInferenceConfiguration?: ElementalInferenceConfiguration;
+  ElementalInferenceSettings?: ElementalInferenceSettings;
   ErrorCode?: number;
   ErrorMessage?: string;
   HopDestinations?: HopDestination[];
@@ -3562,6 +3597,7 @@ export interface CreateJobTemplateRequest {
   AccelerationSettings?: AccelerationSettings;
   Category?: string;
   Description?: string;
+  ElementalInferenceSettings?: ElementalInferenceSettings;
   HopDestinations?: HopDestination[];
   Name?: string;
   Priority?: number;
@@ -3577,6 +3613,7 @@ export interface JobTemplate {
   Category?: string;
   CreatedAt?: Date;
   Description?: string;
+  ElementalInferenceSettings?: ElementalInferenceSettings;
   HopDestinations?: HopDestination[];
   LastUpdated?: Date;
   Name?: string;
@@ -4189,6 +4226,7 @@ export interface UpdateJobTemplateRequest {
   AccelerationSettings?: AccelerationSettings;
   Category?: string;
   Description?: string;
+  ElementalInferenceSettings?: ElementalInferenceSettings;
   HopDestinations?: HopDestination[];
   Name: string;
   Priority?: number;
@@ -5507,6 +5545,7 @@ function __c0(j: number): any {
           AccelerationSettings: S.optional(__S(224, __c7, 0)),
           BillingTagsSource: S.optional(S.String),
           ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          ElementalInferenceSettings: S.optional(__S(226, __c7, 2)),
           HopDestinations: S.optional(__listOfHopDestination),
           JobEngineVersion: S.optional(S.String),
           JobTemplate: S.optional(S.String),
@@ -5524,6 +5563,7 @@ function __c0(j: number): any {
               AccelerationSettings: "accelerationSettings",
               BillingTagsSource: "billingTagsSource",
               ClientRequestToken: "clientRequestToken",
+              ElementalInferenceSettings: "elementalInferenceSettings",
               HopDestinations: "hopDestinations",
               JobEngineVersion: "jobEngineVersion",
               JobTemplate: "jobTemplate",
@@ -6675,6 +6715,7 @@ function __c4(j: number): any {
         S.Struct({
           AdaptiveQuantization: S.optional(S.String),
           BitDepth: S.optional(S.String),
+          Bitrate: S.optional(S.Number),
           FilmGrainSynthesis: S.optional(S.String),
           FramerateControl: S.optional(S.String),
           FramerateConversionAlgorithm: S.optional(S.String),
@@ -6686,12 +6727,16 @@ function __c4(j: number): any {
           PerFrameMetrics: S.optional(__listOfFrameMetricType),
           QvbrSettings: S.optional(__S(146, __c4, 18)),
           RateControlMode: S.optional(S.String),
+          SceneChangeDetect: S.optional(S.String),
           Slices: S.optional(S.Number),
+          SlidingWindowMs: S.optional(S.Number),
+          SlidingWindowPeakBitrate: S.optional(S.Number),
           SpatialAdaptiveQuantization: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
             AdaptiveQuantization: "adaptiveQuantization",
             BitDepth: "bitDepth",
+            Bitrate: "bitrate",
             FilmGrainSynthesis: "filmGrainSynthesis",
             FramerateControl: "framerateControl",
             FramerateConversionAlgorithm: "framerateConversionAlgorithm",
@@ -6703,7 +6748,10 @@ function __c4(j: number): any {
             PerFrameMetrics: "perFrameMetrics",
             QvbrSettings: "qvbrSettings",
             RateControlMode: "rateControlMode",
+            SceneChangeDetect: "sceneChangeDetect",
             Slices: "slices",
+            SlidingWindowMs: "slidingWindowMs",
+            SlidingWindowPeakBitrate: "slidingWindowPeakBitrate",
             SpatialAdaptiveQuantization: "spatialAdaptiveQuantization",
           }),
         ),
@@ -6838,6 +6886,8 @@ function __c4(j: number): any {
           ScanTypeConversionMode: S.optional(S.String),
           SceneChangeDetect: S.optional(S.String),
           Slices: S.optional(S.Number),
+          SlidingWindowMs: S.optional(S.Number),
+          SlidingWindowPeakBitrate: S.optional(S.Number),
           SlowPal: S.optional(S.String),
           Softness: S.optional(S.Number),
           SpatialAdaptiveQuantization: S.optional(S.String),
@@ -6887,6 +6937,8 @@ function __c4(j: number): any {
             ScanTypeConversionMode: "scanTypeConversionMode",
             SceneChangeDetect: "sceneChangeDetect",
             Slices: "slices",
+            SlidingWindowMs: "slidingWindowMs",
+            SlidingWindowPeakBitrate: "slidingWindowPeakBitrate",
             SlowPal: "slowPal",
             Softness: "softness",
             SpatialAdaptiveQuantization: "spatialAdaptiveQuantization",
@@ -6940,6 +6992,8 @@ function __c4(j: number): any {
           ScanTypeConversionMode: S.optional(S.String),
           SceneChangeDetect: S.optional(S.String),
           Slices: S.optional(S.Number),
+          SlidingWindowMs: S.optional(S.Number),
+          SlidingWindowPeakBitrate: S.optional(S.Number),
           SlowPal: S.optional(S.String),
           SpatialAdaptiveQuantization: S.optional(S.String),
           Telecine: S.optional(S.String),
@@ -6993,6 +7047,8 @@ function __c4(j: number): any {
             ScanTypeConversionMode: "scanTypeConversionMode",
             SceneChangeDetect: "sceneChangeDetect",
             Slices: "slices",
+            SlidingWindowMs: "slidingWindowMs",
+            SlidingWindowPeakBitrate: "slidingWindowPeakBitrate",
             SlowPal: "slowPal",
             SpatialAdaptiveQuantization: "spatialAdaptiveQuantization",
             Telecine: "telecine",
@@ -7039,6 +7095,8 @@ function __c4(j: number): any {
           RateControlMode: S.optional(S.String),
           ScanTypeConversionMode: S.optional(S.String),
           SceneChangeDetect: S.optional(S.String),
+          SlidingWindowMs: S.optional(S.Number),
+          SlidingWindowPeakBitrate: S.optional(S.Number),
           SlowPal: S.optional(S.String),
           Softness: S.optional(S.Number),
           SpatialAdaptiveQuantization: S.optional(S.String),
@@ -7075,6 +7133,8 @@ function __c4(j: number): any {
             RateControlMode: "rateControlMode",
             ScanTypeConversionMode: "scanTypeConversionMode",
             SceneChangeDetect: "sceneChangeDetect",
+            SlidingWindowMs: "slidingWindowMs",
+            SlidingWindowPeakBitrate: "slidingWindowPeakBitrate",
             SlowPal: "slowPal",
             Softness: "softness",
             SpatialAdaptiveQuantization: "spatialAdaptiveQuantization",
@@ -7640,21 +7700,31 @@ function __c7(j: number): any {
       ).annotate({ identifier: "AccelerationSettings" });
     case 1:
       return S.suspend(() =>
+        S.Struct({ FeedArn: S.optional(S.String) }).pipe(S.encodeKeys({ FeedArn: "feedArn" })),
+      ).annotate({ identifier: "ElementalInferenceFeedConfigurationSource" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ FeedConfigurationSource: S.optional(__S(225, __c7, 1)) }).pipe(
+          S.encodeKeys({ FeedConfigurationSource: "feedConfigurationSource" }),
+        ),
+      ).annotate({ identifier: "ElementalInferenceSettings" });
+    case 3:
+      return S.suspend(() =>
         S.Struct({
           Priority: S.optional(S.Number),
           Queue: S.optional(S.String),
           WaitMinutes: S.optional(S.Number),
         }).pipe(S.encodeKeys({ Priority: "priority", Queue: "queue", WaitMinutes: "waitMinutes" })),
       ).annotate({ identifier: "HopDestination" });
-    case 2:
-      return S.Array(__S(225, __c7, 1));
-    case 3:
+    case 4:
+      return S.Array(__S(227, __c7, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({ AvailBlankingImage: S.optional(S.String) }).pipe(
           S.encodeKeys({ AvailBlankingImage: "availBlankingImage" }),
         ),
       ).annotate({ identifier: "AvailBlanking" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           FileInput: S.optional(S.String),
@@ -7672,22 +7742,22 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ColorConversion3DLUTSetting" });
-    case 5:
-      return S.Array(__S(228, __c7, 4));
-    case 6:
+    case 7:
+      return S.Array(__S(230, __c7, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({ MccXml: S.optional(S.String) }).pipe(S.encodeKeys({ MccXml: "mccXml" })),
       ).annotate({ identifier: "EsamManifestConfirmConditionNotification" });
-    case 7:
+    case 9:
       return S.suspend(() =>
         S.Struct({ SccXml: S.optional(S.String) }).pipe(S.encodeKeys({ SccXml: "sccXml" })),
       ).annotate({ identifier: "EsamSignalProcessingNotification" });
-    case 8:
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          ManifestConfirmConditionNotification: S.optional(__S(230, __c7, 6)),
+          ManifestConfirmConditionNotification: S.optional(__S(232, __c7, 8)),
           ResponseSignalPreroll: S.optional(S.Number),
-          SignalProcessingNotification: S.optional(__S(231, __c7, 7)),
+          SignalProcessingNotification: S.optional(__S(233, __c7, 9)),
         }).pipe(
           S.encodeKeys({
             ManifestConfirmConditionNotification: "manifestConfirmConditionNotification",
@@ -7696,7 +7766,7 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "EsamSettings" });
-    case 9:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           CopyProtectionAction: S.optional(S.String),
@@ -7708,21 +7778,21 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ExtendedDataServices" });
-    case 10:
+    case 12:
       return S.suspend(() =>
         S.Struct({ AddTexture: S.optional(S.String), Sharpening: S.optional(S.String) }).pipe(
           S.encodeKeys({ AddTexture: "addTexture", Sharpening: "sharpening" }),
         ),
       ).annotate({ identifier: "AdvancedInputFilterSettings" });
-    case 11:
+    case 13:
       return S.suspend(() =>
         S.Struct({ AudioSelectorNames: S.optional(__listOf__stringMin1) }).pipe(
           S.encodeKeys({ AudioSelectorNames: "audioSelectorNames" }),
         ),
       ).annotate({ identifier: "AudioSelectorGroup" });
-    case 12:
-      return S.Record(S.String, /*@__PURE__*/ __S(235, __c7, 11).pipe(S.optional));
-    case 13:
+    case 14:
+      return S.Record(S.String, /*@__PURE__*/ __S(237, __c7, 13).pipe(S.optional));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           RenditionGroupId: S.optional(S.String),
@@ -7736,14 +7806,14 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "HlsRenditionGroupSettings" });
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           AudioDurationCorrection: S.optional(S.String),
           CustomLanguageCode: S.optional(S.String),
           DefaultSelection: S.optional(S.String),
           ExternalAudioFileInput: S.optional(S.String),
-          HlsRenditionGroupSettings: S.optional(__S(237, __c7, 13)),
+          HlsRenditionGroupSettings: S.optional(__S(239, __c7, 15)),
           LanguageCode: S.optional(S.String),
           Offset: S.optional(S.Number),
           Pids: S.optional(__listOf__integerMin1Max2147483647),
@@ -7772,9 +7842,9 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AudioSelector" });
-    case 15:
-      return S.Record(S.String, /*@__PURE__*/ __S(238, __c7, 14).pipe(S.optional));
-    case 16:
+    case 17:
+      return S.Record(S.String, /*@__PURE__*/ __S(240, __c7, 16).pipe(S.optional));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           Convert608To708: S.optional(S.String),
@@ -7788,11 +7858,11 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AncillarySourceSettings" });
-    case 17:
+    case 19:
       return S.suspend(() =>
         S.Struct({ Pid: S.optional(S.Number) }).pipe(S.encodeKeys({ Pid: "pid" })),
       ).annotate({ identifier: "DvbSubSourceSettings" });
-    case 18:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           Convert608To708: S.optional(S.String),
@@ -7808,7 +7878,7 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "EmbeddedSourceSettings" });
-    case 19:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           FramerateDenominator: S.optional(S.Number),
@@ -7820,13 +7890,13 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CaptionSourceFramerate" });
-    case 20:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           ByteRateLimit: S.optional(S.String),
           Convert608To708: S.optional(S.String),
           ConvertPaintToPop: S.optional(S.String),
-          Framerate: S.optional(__S(243, __c7, 19)),
+          Framerate: S.optional(__S(245, __c7, 21)),
           SourceFile: S.optional(S.String),
           TimeDelta: S.optional(S.Number),
           TimeDeltaUnits: S.optional(S.String),
@@ -7844,29 +7914,29 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "FileSourceSettings" });
-    case 21:
+    case 23:
       return S.suspend(() =>
         S.Struct({ PageNumber: S.optional(S.String) }).pipe(
           S.encodeKeys({ PageNumber: "pageNumber" }),
         ),
       ).annotate({ identifier: "TeletextSourceSettings" });
-    case 22:
+    case 24:
       return S.suspend(() =>
         S.Struct({ StreamNumber: S.optional(S.Number), TrackNumber: S.optional(S.Number) }).pipe(
           S.encodeKeys({ StreamNumber: "streamNumber", TrackNumber: "trackNumber" }),
         ),
       ).annotate({ identifier: "TrackSourceSettings" });
-    case 23:
+    case 25:
       return S.suspend(() =>
         S.Struct({
-          AncillarySourceSettings: S.optional(__S(240, __c7, 16)),
-          DvbSubSourceSettings: S.optional(__S(241, __c7, 17)),
-          EmbeddedSourceSettings: S.optional(__S(242, __c7, 18)),
-          FileSourceSettings: S.optional(__S(244, __c7, 20)),
+          AncillarySourceSettings: S.optional(__S(242, __c7, 18)),
+          DvbSubSourceSettings: S.optional(__S(243, __c7, 19)),
+          EmbeddedSourceSettings: S.optional(__S(244, __c7, 20)),
+          FileSourceSettings: S.optional(__S(246, __c7, 22)),
           SourceType: S.optional(S.String),
-          TeletextSourceSettings: S.optional(__S(245, __c7, 21)),
-          TrackSourceSettings: S.optional(__S(246, __c7, 22)),
-          WebvttHlsSourceSettings: S.optional(__S(237, __c7, 13)),
+          TeletextSourceSettings: S.optional(__S(247, __c7, 23)),
+          TrackSourceSettings: S.optional(__S(248, __c7, 24)),
+          WebvttHlsSourceSettings: S.optional(__S(239, __c7, 15)),
         }).pipe(
           S.encodeKeys({
             AncillarySourceSettings: "ancillarySourceSettings",
@@ -7880,12 +7950,12 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CaptionSourceSettings" });
-    case 24:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           CustomLanguageCode: S.optional(S.String),
           LanguageCode: S.optional(S.String),
-          SourceSettings: S.optional(__S(247, __c7, 23)),
+          SourceSettings: S.optional(__S(249, __c7, 25)),
         }).pipe(
           S.encodeKeys({
             CustomLanguageCode: "customLanguageCode",
@@ -7894,9 +7964,9 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CaptionSelector" });
-    case 25:
-      return S.Record(S.String, /*@__PURE__*/ __S(248, __c7, 24).pipe(S.optional));
-    case 26:
+    case 27:
+      return S.Record(S.String, /*@__PURE__*/ __S(250, __c7, 26).pipe(S.optional));
+    case 28:
       return S.suspend(() =>
         S.Struct({
           AudioDurationCorrection: S.optional(S.String),
@@ -7914,33 +7984,33 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DynamicAudioSelector" });
-    case 27:
-      return S.Record(S.String, /*@__PURE__*/ __S(250, __c7, 26).pipe(S.optional));
-    case 28:
+    case 29:
+      return S.Record(S.String, /*@__PURE__*/ __S(252, __c7, 28).pipe(S.optional));
+    case 30:
       return S.suspend(() =>
         S.Struct({ EndTimecode: S.optional(S.String), StartTimecode: S.optional(S.String) }).pipe(
           S.encodeKeys({ EndTimecode: "endTimecode", StartTimecode: "startTimecode" }),
         ),
       ).annotate({ identifier: "InputClipping" });
-    case 29:
-      return S.Array(__S(252, __c7, 28));
-    case 30:
-      return S.suspend(() =>
-        S.Struct({ FileInput: S.optional(S.String) }).pipe(
-          S.encodeKeys({ FileInput: "fileInput" }),
-        ),
-      ).annotate({ identifier: "MultiViewInput" });
     case 31:
-      return S.suspend(() =>
-        S.Struct({ Input: S.optional(__S(254, __c7, 30)) }).pipe(S.encodeKeys({ Input: "input" })),
-      ).annotate({ identifier: "MultiViewSettings" });
+      return S.Array(__S(254, __c7, 30));
   }
 }
 function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(255, __c7, 31));
+      return S.suspend(() =>
+        S.Struct({ FileInput: S.optional(S.String) }).pipe(
+          S.encodeKeys({ FileInput: "fileInput" }),
+        ),
+      ).annotate({ identifier: "MultiViewInput" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({ Input: S.optional(__S(256, __c8, 0)) }).pipe(S.encodeKeys({ Input: "input" })),
+      ).annotate({ identifier: "MultiViewSettings" });
+    case 2:
+      return S.Array(__S(257, __c8, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           Height: S.optional(S.Number),
@@ -7950,7 +8020,7 @@ function __c8(j: number): any {
           Y: S.optional(S.Number),
         }).pipe(S.encodeKeys({ Height: "height", Unit: "unit", Width: "width", X: "x", Y: "y" })),
       ).annotate({ identifier: "VideoOverlayCrop" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           Height: S.optional(S.Number),
@@ -7970,7 +8040,7 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "VideoOverlayPosition" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           AudioSelectors: S.optional(__mapOfAudioSelector),
@@ -7988,10 +8058,10 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "VideoOverlayInput" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          EndPosition: S.optional(__S(258, __c8, 2)),
+          EndPosition: S.optional(__S(260, __c8, 4)),
           EndTimecode: S.optional(S.String),
           StartTimecode: S.optional(S.String),
         }).pipe(
@@ -8002,15 +8072,15 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "VideoOverlayTransition" });
-    case 5:
-      return S.Array(__S(260, __c8, 4));
-    case 6:
+    case 7:
+      return S.Array(__S(262, __c8, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          Crop: S.optional(__S(257, __c8, 1)),
+          Crop: S.optional(__S(259, __c8, 3)),
           EndTimecode: S.optional(S.String),
-          InitialPosition: S.optional(__S(258, __c8, 2)),
-          Input: S.optional(__S(259, __c8, 3)),
+          InitialPosition: S.optional(__S(260, __c8, 4)),
+          Input: S.optional(__S(261, __c8, 5)),
           Playback: S.optional(S.String),
           StartTimecode: S.optional(S.String),
           Transitions: S.optional(__listOfVideoOverlayTransition),
@@ -8026,9 +8096,9 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "VideoOverlay" });
-    case 7:
-      return S.Array(__S(262, __c8, 6));
-    case 8:
+    case 9:
+      return S.Array(__S(264, __c8, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
           AlphaBehavior: S.optional(S.String),
@@ -8062,7 +8132,7 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "VideoSelector" });
-    case 9:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           ChannelName: S.optional(S.String),
@@ -8096,19 +8166,19 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "KantarWatermarkSettings" });
-    case 10:
+    case 12:
       return S.suspend(() =>
         S.Struct({ ImageX: S.optional(S.Number), ImageY: S.optional(S.Number) }).pipe(
           S.encodeKeys({ ImageX: "imageX", ImageY: "imageY" }),
         ),
       ).annotate({ identifier: "MotionImageInsertionOffset" });
-    case 11:
+    case 13:
       return S.suspend(() =>
         S.Struct({
-          Framerate: S.optional(__S(243, __c7, 19)),
+          Framerate: S.optional(__S(245, __c7, 21)),
           Input: S.optional(S.String),
           InsertionMode: S.optional(S.String),
-          Offset: S.optional(__S(266, __c8, 10)),
+          Offset: S.optional(__S(268, __c8, 12)),
           Playback: S.optional(S.String),
           StartTime: S.optional(S.String),
         }).pipe(
@@ -8122,15 +8192,15 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "MotionImageInserter" });
-    case 12:
-      return S.Array(__S(267, __c8, 11));
-    case 13:
+    case 14:
+      return S.Array(__S(269, __c8, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({ BreakoutCode: S.optional(S.Number), DistributorId: S.optional(S.String) }).pipe(
           S.encodeKeys({ BreakoutCode: "breakoutCode", DistributorId: "distributorId" }),
         ),
       ).annotate({ identifier: "NielsenConfiguration" });
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           ActiveWatermarkProcess: S.optional(S.String),
@@ -8160,7 +8230,7 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "NielsenNonLinearWatermarkSettings" });
-    case 15:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           Height: S.optional(S.Number),
@@ -8168,23 +8238,23 @@ function __c8(j: number): any {
           Width: S.optional(S.Number),
         }).pipe(S.encodeKeys({ Height: "height", Required: "required", Width: "width" })),
       ).annotate({ identifier: "AllowedRenditionSize" });
-    case 16:
-      return S.Array(__S(271, __c8, 15));
-    case 17:
+    case 18:
+      return S.Array(__S(273, __c8, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({ Height: S.optional(S.Number), Width: S.optional(S.Number) }).pipe(
           S.encodeKeys({ Height: "height", Width: "width" }),
         ),
       ).annotate({ identifier: "ForceIncludeRenditionSize" });
-    case 18:
-      return S.Array(__S(273, __c8, 17));
-    case 19:
+    case 20:
+      return S.Array(__S(275, __c8, 19));
+    case 21:
       return S.suspend(() =>
         S.Struct({
           AllowedRenditions: S.optional(__listOfAllowedRenditionSize),
           ForceIncludeRenditions: S.optional(__listOfForceIncludeRenditionSize),
-          MinBottomRenditionSize: S.optional(__S(273, __c8, 17)),
-          MinTopRenditionSize: S.optional(__S(273, __c8, 17)),
+          MinBottomRenditionSize: S.optional(__S(275, __c8, 19)),
+          MinTopRenditionSize: S.optional(__S(275, __c8, 19)),
           Type: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
@@ -8196,9 +8266,9 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AutomatedAbrRule" });
-    case 20:
-      return S.Array(__S(275, __c8, 19));
-    case 21:
+    case 22:
+      return S.Array(__S(277, __c8, 21));
+    case 23:
       return S.suspend(() =>
         S.Struct({
           MaxAbrBitrate: S.optional(S.Number),
@@ -8216,13 +8286,13 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AutomatedAbrSettings" });
-    case 22:
+    case 24:
       return S.suspend(() =>
-        S.Struct({ AbrSettings: S.optional(__S(277, __c8, 21)) }).pipe(
+        S.Struct({ AbrSettings: S.optional(__S(279, __c8, 23)) }).pipe(
           S.encodeKeys({ AbrSettings: "abrSettings" }),
         ),
       ).annotate({ identifier: "AutomatedEncodingSettings" });
-    case 23:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           ManifestNameModifier: S.optional(S.String),
@@ -8234,15 +8304,15 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CmafAdditionalManifest" });
-    case 24:
-      return S.Array(__S(279, __c8, 23));
-    case 25:
+    case 26:
+      return S.Array(__S(281, __c8, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({ CannedAcl: S.optional(S.String) }).pipe(
           S.encodeKeys({ CannedAcl: "cannedAcl" }),
         ),
       ).annotate({ identifier: "S3DestinationAccessControl" });
-    case 26:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           EncryptionType: S.optional(S.String),
@@ -8256,11 +8326,11 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "S3EncryptionSettings" });
-    case 27:
+    case 29:
       return S.suspend(() =>
         S.Struct({
-          AccessControl: S.optional(__S(281, __c8, 25)),
-          Encryption: S.optional(__S(282, __c8, 26)),
+          AccessControl: S.optional(__S(283, __c8, 27)),
+          Encryption: S.optional(__S(284, __c8, 28)),
           StorageClass: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
@@ -8270,13 +8340,13 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "S3DestinationSettings" });
-    case 28:
+    case 30:
       return S.suspend(() =>
-        S.Struct({ S3Settings: S.optional(__S(283, __c8, 27)) }).pipe(
+        S.Struct({ S3Settings: S.optional(__S(285, __c8, 29)) }).pipe(
           S.encodeKeys({ S3Settings: "s3Settings" }),
         ),
       ).annotate({ identifier: "DestinationSettings" });
-    case 29:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           SpekeAudioPreset: S.optional(S.String),
@@ -8288,14 +8358,18 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "EncryptionContractConfiguration" });
-    case 30:
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           CertificateArn: S.optional(S.String),
           DashSignaledSystemIds: S.optional(
             __listOf__stringMin36Max36Pattern09aFAF809aFAF409aFAF409aFAF409aFAF12,
           ),
-          EncryptionContractConfiguration: S.optional(__S(285, __c8, 29)),
+          EncryptionContractConfiguration: S.optional(__S(287, __c8, 31)),
           HlsSignaledSystemIds: S.optional(
             __listOf__stringMin36Max36Pattern09aFAF809aFAF409aFAF409aFAF409aFAF12,
           ),
@@ -8312,7 +8386,7 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SpekeKeyProviderCmaf" });
-    case 31:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           KeyFormat: S.optional(S.String),
@@ -8328,19 +8402,15 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "StaticKeyProvider" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           ClearLeadSegments: S.optional(S.Number),
           ConstantInitializationVector: S.optional(S.String),
           EncryptionMethod: S.optional(S.String),
           InitializationVectorInManifest: S.optional(S.String),
-          SpekeKeyProvider: S.optional(__S(286, __c8, 30)),
-          StaticKeyProvider: S.optional(__S(287, __c8, 31)),
+          SpekeKeyProvider: S.optional(__S(288, __c9, 0)),
+          StaticKeyProvider: S.optional(__S(289, __c9, 1)),
           Type: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
@@ -8354,7 +8424,7 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CmafEncryptionSettings" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           IntervalCadence: S.optional(S.String),
@@ -8374,23 +8444,24 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CmafImageBasedTrickPlaySettings" });
-    case 2:
-      return S.Array(__S(289, __c9, 1));
-    case 3:
+    case 4:
+      return S.Array(__S(291, __c9, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           AdditionalManifests: S.optional(__listOfCmafAdditionalManifest),
           BaseUrl: S.optional(S.String),
           ClientCache: S.optional(S.String),
           CodecSpecification: S.optional(S.String),
+          DashAdaptationSetGrouping: S.optional(__listOfDashAdaptationSetGrouping),
           DashIFrameTrickPlayNameModifier: S.optional(S.String),
           DashManifestStyle: S.optional(S.String),
           Destination: S.optional(S.String),
-          DestinationSettings: S.optional(__S(284, __c8, 28)),
-          Encryption: S.optional(__S(288, __c9, 0)),
+          DestinationSettings: S.optional(__S(286, __c8, 30)),
+          Encryption: S.optional(__S(290, __c9, 2)),
           FragmentLength: S.optional(S.Number),
           ImageBasedTrickPlay: S.optional(S.String),
-          ImageBasedTrickPlaySettings: S.optional(__S(289, __c9, 1)),
+          ImageBasedTrickPlaySettings: S.optional(__S(291, __c9, 3)),
           ImageBasedTrickPlayVariants: S.optional(__listOfCmafImageBasedTrickPlayVariant),
           ManifestCompression: S.optional(S.String),
           ManifestDurationFormat: S.optional(S.String),
@@ -8414,6 +8485,7 @@ function __c9(j: number): any {
             BaseUrl: "baseUrl",
             ClientCache: "clientCache",
             CodecSpecification: "codecSpecification",
+            DashAdaptationSetGrouping: "dashAdaptationSetGrouping",
             DashIFrameTrickPlayNameModifier: "dashIFrameTrickPlayNameModifier",
             DashManifestStyle: "dashManifestStyle",
             Destination: "destination",
@@ -8442,11 +8514,11 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CmafGroupSettings" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           CertificateArn: S.optional(S.String),
-          EncryptionContractConfiguration: S.optional(__S(285, __c8, 29)),
+          EncryptionContractConfiguration: S.optional(__S(287, __c8, 31)),
           ResourceId: S.optional(S.String),
           SystemIds: S.optional(__listOf__stringPattern09aFAF809aFAF409aFAF409aFAF409aFAF12),
           Url: S.optional(S.String),
@@ -8460,11 +8532,11 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SpekeKeyProvider" });
-    case 5:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           PlaybackDeviceCompatibility: S.optional(S.String),
-          SpekeKeyProvider: S.optional(__S(292, __c9, 4)),
+          SpekeKeyProvider: S.optional(__S(294, __c9, 6)),
         }).pipe(
           S.encodeKeys({
             PlaybackDeviceCompatibility: "playbackDeviceCompatibility",
@@ -8472,21 +8544,22 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DashIsoEncryptionSettings" });
-    case 6:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           AdditionalManifests: S.optional(__listOfDashAdditionalManifest),
           AudioChannelConfigSchemeIdUri: S.optional(S.String),
           BaseUrl: S.optional(S.String),
+          DashAdaptationSetGrouping: S.optional(__listOfDashAdaptationSetGrouping),
           DashIFrameTrickPlayNameModifier: S.optional(S.String),
           DashManifestStyle: S.optional(S.String),
           Destination: S.optional(S.String),
-          DestinationSettings: S.optional(__S(284, __c8, 28)),
-          Encryption: S.optional(__S(293, __c9, 5)),
+          DestinationSettings: S.optional(__S(286, __c8, 30)),
+          Encryption: S.optional(__S(295, __c9, 7)),
           FragmentLength: S.optional(S.Number),
           HbbtvCompliance: S.optional(S.String),
           ImageBasedTrickPlay: S.optional(S.String),
-          ImageBasedTrickPlaySettings: S.optional(__S(289, __c9, 1)),
+          ImageBasedTrickPlaySettings: S.optional(__S(291, __c9, 3)),
           ImageBasedTrickPlayVariants: S.optional(__listOfDashIsoImageBasedTrickPlayVariant),
           MinBufferTime: S.optional(S.Number),
           MinFinalSegmentLength: S.optional(S.Number),
@@ -8503,6 +8576,7 @@ function __c9(j: number): any {
             AdditionalManifests: "additionalManifests",
             AudioChannelConfigSchemeIdUri: "audioChannelConfigSchemeIdUri",
             BaseUrl: "baseUrl",
+            DashAdaptationSetGrouping: "dashAdaptationSetGrouping",
             DashIFrameTrickPlayNameModifier: "dashIFrameTrickPlayNameModifier",
             DashManifestStyle: "dashManifestStyle",
             Destination: "destination",
@@ -8526,16 +8600,16 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DashIsoGroupSettings" });
-    case 7:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           Destination: S.optional(S.String),
-          DestinationSettings: S.optional(__S(284, __c8, 28)),
+          DestinationSettings: S.optional(__S(286, __c8, 30)),
         }).pipe(
           S.encodeKeys({ Destination: "destination", DestinationSettings: "destinationSettings" }),
         ),
       ).annotate({ identifier: "FileGroupSettings" });
-    case 8:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           CaptionChannel: S.optional(S.Number),
@@ -8551,17 +8625,17 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "HlsCaptionLanguageMapping" });
-    case 9:
-      return S.Array(__S(296, __c9, 8));
-    case 10:
+    case 11:
+      return S.Array(__S(298, __c9, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           ConstantInitializationVector: S.optional(S.String),
           EncryptionMethod: S.optional(S.String),
           InitializationVectorInManifest: S.optional(S.String),
           OfflineEncrypted: S.optional(S.String),
-          SpekeKeyProvider: S.optional(__S(292, __c9, 4)),
-          StaticKeyProvider: S.optional(__S(287, __c8, 31)),
+          SpekeKeyProvider: S.optional(__S(294, __c9, 6)),
+          StaticKeyProvider: S.optional(__S(289, __c9, 1)),
           Type: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
@@ -8575,7 +8649,7 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "HlsEncryptionSettings" });
-    case 11:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           AdMarkers: S.optional(__listOfHlsAdMarkers),
@@ -8588,11 +8662,11 @@ function __c9(j: number): any {
           ClientCache: S.optional(S.String),
           CodecSpecification: S.optional(S.String),
           Destination: S.optional(S.String),
-          DestinationSettings: S.optional(__S(284, __c8, 28)),
+          DestinationSettings: S.optional(__S(286, __c8, 30)),
           DirectoryStructure: S.optional(S.String),
-          Encryption: S.optional(__S(298, __c9, 10)),
+          Encryption: S.optional(__S(300, __c9, 12)),
           ImageBasedTrickPlay: S.optional(S.String),
-          ImageBasedTrickPlaySettings: S.optional(__S(289, __c9, 1)),
+          ImageBasedTrickPlaySettings: S.optional(__S(291, __c9, 3)),
           ImageBasedTrickPlayVariants: S.optional(__listOfHlsImageBasedTrickPlayVariant),
           ManifestCompression: S.optional(S.String),
           ManifestDurationFormat: S.optional(S.String),
@@ -8649,20 +8723,20 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "HlsGroupSettings" });
-    case 12:
+    case 14:
       return S.suspend(() =>
-        S.Struct({ SpekeKeyProvider: S.optional(__S(292, __c9, 4)) }).pipe(
+        S.Struct({ SpekeKeyProvider: S.optional(__S(294, __c9, 6)) }).pipe(
           S.encodeKeys({ SpekeKeyProvider: "spekeKeyProvider" }),
         ),
       ).annotate({ identifier: "MsSmoothEncryptionSettings" });
-    case 13:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           AdditionalManifests: S.optional(__listOfMsSmoothAdditionalManifest),
           AudioDeduplication: S.optional(S.String),
           Destination: S.optional(S.String),
-          DestinationSettings: S.optional(__S(284, __c8, 28)),
-          Encryption: S.optional(__S(300, __c9, 12)),
+          DestinationSettings: S.optional(__S(286, __c8, 30)),
+          Encryption: S.optional(__S(302, __c9, 14)),
           FragmentLength: S.optional(S.Number),
           FragmentLengthControl: S.optional(S.String),
           ManifestEncoding: S.optional(S.String),
@@ -8679,14 +8753,14 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "MsSmoothGroupSettings" });
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({
-          CmafGroupSettings: S.optional(__S(291, __c9, 3)),
-          DashIsoGroupSettings: S.optional(__S(294, __c9, 6)),
-          FileGroupSettings: S.optional(__S(295, __c9, 7)),
-          HlsGroupSettings: S.optional(__S(299, __c9, 11)),
-          MsSmoothGroupSettings: S.optional(__S(301, __c9, 13)),
+          CmafGroupSettings: S.optional(__S(293, __c9, 5)),
+          DashIsoGroupSettings: S.optional(__S(296, __c9, 8)),
+          FileGroupSettings: S.optional(__S(297, __c9, 9)),
+          HlsGroupSettings: S.optional(__S(301, __c9, 13)),
+          MsSmoothGroupSettings: S.optional(__S(303, __c9, 15)),
           PerFrameMetrics: S.optional(__listOfFrameMetricType),
           Type: S.optional(S.String),
         }).pipe(
@@ -8701,27 +8775,31 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "OutputGroupSettings" });
-    case 15:
+    case 17:
       return S.suspend(() =>
         S.Struct({
+          AudioSourceNames: S.optional(__listOf__stringMin1),
           CaptionSelectorName: S.optional(S.String),
           CustomLanguageCode: S.optional(S.String),
           DestinationSettings: S.optional(__S(131, __c4, 3)),
           LanguageCode: S.optional(S.String),
           LanguageDescription: S.optional(S.String),
+          Source: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
+            AudioSourceNames: "audioSourceNames",
             CaptionSelectorName: "captionSelectorName",
             CustomLanguageCode: "customLanguageCode",
             DestinationSettings: "destinationSettings",
             LanguageCode: "languageCode",
             LanguageDescription: "languageDescription",
+            Source: "source",
           }),
         ),
       ).annotate({ identifier: "CaptionDescription" });
-    case 16:
-      return S.Array(__S(303, __c9, 15));
-    case 17:
+    case 18:
+      return S.Array(__S(305, __c9, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           AudioGroupId: S.optional(S.String),
@@ -8743,13 +8821,13 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "HlsSettings" });
-    case 18:
+    case 20:
       return S.suspend(() =>
-        S.Struct({ HlsSettings: S.optional(__S(305, __c9, 17)) }).pipe(
+        S.Struct({ HlsSettings: S.optional(__S(307, __c9, 19)) }).pipe(
           S.encodeKeys({ HlsSettings: "hlsSettings" }),
         ),
       ).annotate({ identifier: "OutputSettings" });
-    case 19:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           AudioDescriptions: S.optional(__listOfAudioDescription),
@@ -8757,7 +8835,7 @@ function __c9(j: number): any {
           ContainerSettings: S.optional(__S(145, __c4, 17)),
           Extension: S.optional(S.String),
           NameModifier: S.optional(S.String),
-          OutputSettings: S.optional(__S(306, __c9, 18)),
+          OutputSettings: S.optional(__S(308, __c9, 20)),
           Preset: S.optional(S.String),
           VideoDescription: S.optional(__S(183, __c5, 23)),
         }).pipe(
@@ -8773,15 +8851,15 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "Output" });
-    case 20:
-      return S.Array(__S(307, __c9, 19));
-    case 21:
+    case 22:
+      return S.Array(__S(309, __c9, 21));
+    case 23:
       return S.suspend(() =>
         S.Struct({
-          AutomatedEncodingSettings: S.optional(__S(278, __c8, 22)),
+          AutomatedEncodingSettings: S.optional(__S(280, __c8, 24)),
           CustomName: S.optional(S.String),
           Name: S.optional(S.String),
-          OutputGroupSettings: S.optional(__S(302, __c9, 14)),
+          OutputGroupSettings: S.optional(__S(304, __c9, 16)),
           Outputs: S.optional(__listOfOutput),
         }).pipe(
           S.encodeKeys({
@@ -8793,9 +8871,9 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "OutputGroup" });
-    case 22:
-      return S.Array(__S(309, __c9, 21));
-    case 23:
+    case 24:
+      return S.Array(__S(311, __c9, 23));
+    case 25:
       return S.suspend(() =>
         S.Struct({
           Anchor: S.optional(S.String),
@@ -8811,15 +8889,15 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TimecodeConfig" });
-    case 24:
+    case 26:
       return S.suspend(() =>
         S.Struct({ Id3: S.optional(S.String), Timecode: S.optional(S.String) }).pipe(
           S.encodeKeys({ Id3: "id3", Timecode: "timecode" }),
         ),
       ).annotate({ identifier: "Id3Insertion" });
-    case 25:
-      return S.Array(__S(312, __c9, 24));
-    case 26:
+    case 27:
+      return S.Array(__S(314, __c9, 26));
+    case 28:
       return S.suspend(() =>
         S.Struct({ Id3Insertions: S.optional(__listOfId3Insertion) }).pipe(
           S.encodeKeys({ Id3Insertions: "id3Insertions" }),
@@ -8897,7 +8975,7 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AdvancedInputFilter: S.optional(S.String),
-          AdvancedInputFilterSettings: S.optional(__S(234, __c7, 10)),
+          AdvancedInputFilterSettings: S.optional(__S(236, __c7, 12)),
           AudioSelectorGroups: S.optional(__mapOfAudioSelectorGroup),
           AudioSelectors: S.optional(__mapOfAudioSelector),
           CaptionSelectors: S.optional(__mapOfCaptionSelector),
@@ -8923,7 +9001,7 @@ function __c11(j: number): any {
           TimecodeStart: S.optional(S.String),
           VideoGenerator: S.optional(__S(354, __c11, 2)),
           VideoOverlays: S.optional(__listOfVideoOverlay),
-          VideoSelector: S.optional(__S(264, __c8, 8)),
+          VideoSelector: S.optional(__S(266, __c8, 10)),
         }).pipe(
           S.encodeKeys({
             AdvancedInputFilter: "advancedInputFilter",
@@ -8963,20 +9041,20 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AdAvailOffset: S.optional(S.Number),
-          AvailBlanking: S.optional(__S(227, __c7, 3)),
+          AvailBlanking: S.optional(__S(229, __c7, 5)),
           ColorConversion3DLUTSettings: S.optional(__listOfColorConversion3DLUTSetting),
-          Esam: S.optional(__S(232, __c7, 8)),
-          ExtendedDataServices: S.optional(__S(233, __c7, 9)),
+          Esam: S.optional(__S(234, __c7, 10)),
+          ExtendedDataServices: S.optional(__S(235, __c7, 11)),
           FollowSource: S.optional(S.Number),
           Inputs: S.optional(__listOfInput),
-          KantarWatermark: S.optional(__S(265, __c8, 9)),
-          MotionImageInserter: S.optional(__S(267, __c8, 11)),
+          KantarWatermark: S.optional(__S(267, __c8, 11)),
+          MotionImageInserter: S.optional(__S(269, __c8, 13)),
           MotionImageInserters: S.optional(__listOfMotionImageInserter),
-          NielsenConfiguration: S.optional(__S(269, __c8, 13)),
-          NielsenNonLinearWatermark: S.optional(__S(270, __c8, 14)),
+          NielsenConfiguration: S.optional(__S(271, __c8, 15)),
+          NielsenNonLinearWatermark: S.optional(__S(272, __c8, 16)),
           OutputGroups: S.optional(__listOfOutputGroup),
-          TimecodeConfig: S.optional(__S(311, __c9, 23)),
-          TimedMetadataInsertion: S.optional(__S(314, __c9, 26)),
+          TimecodeConfig: S.optional(__S(313, __c9, 25)),
+          TimedMetadataInsertion: S.optional(__S(316, __c9, 28)),
         }).pipe(
           S.encodeKeys({
             AdAvailOffset: "adAvailOffset",
@@ -9091,6 +9169,7 @@ function __c11(j: number): any {
           CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           CurrentPhase: S.optional(S.String),
           ElementalInferenceConfiguration: S.optional(__S(360, __c11, 8)),
+          ElementalInferenceSettings: S.optional(__S(226, __c7, 2)),
           ErrorCode: S.optional(S.Number),
           ErrorMessage: S.optional(S.String),
           HopDestinations: S.optional(__listOfHopDestination),
@@ -9125,6 +9204,7 @@ function __c11(j: number): any {
             CreatedAt: "createdAt",
             CurrentPhase: "currentPhase",
             ElementalInferenceConfiguration: "elementalInferenceConfiguration",
+            ElementalInferenceSettings: "elementalInferenceSettings",
             ErrorCode: "errorCode",
             ErrorMessage: "errorMessage",
             HopDestinations: "hopDestinations",
@@ -9162,6 +9242,7 @@ function __c12(j: number): any {
           AccelerationSettings: S.optional(__S(224, __c7, 0)),
           Category: S.optional(S.String),
           Description: S.optional(S.String),
+          ElementalInferenceSettings: S.optional(__S(226, __c7, 2)),
           HopDestinations: S.optional(__listOfHopDestination),
           Name: S.optional(S.String),
           Priority: S.optional(S.Number),
@@ -9175,6 +9256,7 @@ function __c12(j: number): any {
               AccelerationSettings: "accelerationSettings",
               Category: "category",
               Description: "description",
+              ElementalInferenceSettings: "elementalInferenceSettings",
               HopDestinations: "hopDestinations",
               Name: "name",
               Priority: "priority",
@@ -9203,7 +9285,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AdvancedInputFilter: S.optional(S.String),
-          AdvancedInputFilterSettings: S.optional(__S(234, __c7, 10)),
+          AdvancedInputFilterSettings: S.optional(__S(236, __c7, 12)),
           AudioSelectorGroups: S.optional(__mapOfAudioSelectorGroup),
           AudioSelectors: S.optional(__mapOfAudioSelector),
           CaptionSelectors: S.optional(__mapOfCaptionSelector),
@@ -9224,7 +9306,7 @@ function __c13(j: number): any {
           TimecodeSource: S.optional(S.String),
           TimecodeStart: S.optional(S.String),
           VideoOverlays: S.optional(__listOfVideoOverlay),
-          VideoSelector: S.optional(__S(264, __c8, 8)),
+          VideoSelector: S.optional(__S(266, __c8, 10)),
         }).pipe(
           S.encodeKeys({
             AdvancedInputFilter: "advancedInputFilter",
@@ -9259,20 +9341,20 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AdAvailOffset: S.optional(S.Number),
-          AvailBlanking: S.optional(__S(227, __c7, 3)),
+          AvailBlanking: S.optional(__S(229, __c7, 5)),
           ColorConversion3DLUTSettings: S.optional(__listOfColorConversion3DLUTSetting),
-          Esam: S.optional(__S(232, __c7, 8)),
-          ExtendedDataServices: S.optional(__S(233, __c7, 9)),
+          Esam: S.optional(__S(234, __c7, 10)),
+          ExtendedDataServices: S.optional(__S(235, __c7, 11)),
           FollowSource: S.optional(S.Number),
           Inputs: S.optional(__listOfInputTemplate),
-          KantarWatermark: S.optional(__S(265, __c8, 9)),
-          MotionImageInserter: S.optional(__S(267, __c8, 11)),
+          KantarWatermark: S.optional(__S(267, __c8, 11)),
+          MotionImageInserter: S.optional(__S(269, __c8, 13)),
           MotionImageInserters: S.optional(__listOfMotionImageInserter),
-          NielsenConfiguration: S.optional(__S(269, __c8, 13)),
-          NielsenNonLinearWatermark: S.optional(__S(270, __c8, 14)),
+          NielsenConfiguration: S.optional(__S(271, __c8, 15)),
+          NielsenNonLinearWatermark: S.optional(__S(272, __c8, 16)),
           OutputGroups: S.optional(__listOfOutputGroup),
-          TimecodeConfig: S.optional(__S(311, __c9, 23)),
-          TimedMetadataInsertion: S.optional(__S(314, __c9, 26)),
+          TimecodeConfig: S.optional(__S(313, __c9, 25)),
+          TimedMetadataInsertion: S.optional(__S(316, __c9, 28)),
         }).pipe(
           S.encodeKeys({
             AdAvailOffset: "adAvailOffset",
@@ -9301,6 +9383,7 @@ function __c13(j: number): any {
           Category: S.optional(S.String),
           CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Description: S.optional(S.String),
+          ElementalInferenceSettings: S.optional(__S(226, __c7, 2)),
           HopDestinations: S.optional(__listOfHopDestination),
           LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Name: S.optional(S.String),
@@ -9316,6 +9399,7 @@ function __c13(j: number): any {
             Category: "category",
             CreatedAt: "createdAt",
             Description: "description",
+            ElementalInferenceSettings: "elementalInferenceSettings",
             HopDestinations: "hopDestinations",
             LastUpdated: "lastUpdated",
             Name: "name",
@@ -10472,6 +10556,7 @@ function __c50(j: number): any {
           AccelerationSettings: S.optional(__S(224, __c7, 0)),
           Category: S.optional(S.String),
           Description: S.optional(S.String),
+          ElementalInferenceSettings: S.optional(__S(226, __c7, 2)),
           HopDestinations: S.optional(__listOfHopDestination),
           Name: S.String.pipe(T.HttpLabel("Name")),
           Priority: S.optional(S.Number),
@@ -10484,6 +10569,7 @@ function __c50(j: number): any {
               AccelerationSettings: "accelerationSettings",
               Category: "category",
               Description: "description",
+              ElementalInferenceSettings: "elementalInferenceSettings",
               HopDestinations: "hopDestinations",
               Priority: "priority",
               Queue: "queue",

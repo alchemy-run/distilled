@@ -460,9 +460,18 @@ export interface EcrConfiguration {
   repositoryName?: string;
   containerTags?: string[];
 }
+export type ImageScanningType = "TEST_INSTANCE_CVE" | "ON_DEMAND_AMI_CVE" | (string & {});
+export type ImageScanningTypeList = ImageScanningType[];
+export type MaximumSeverityLabel = "INFORMATIONAL" | "LOW" | "MEDIUM" | "HIGH" | (string & {});
+export interface ScanResultCondition {
+  maximumSeverityLabel: MaximumSeverityLabel;
+  fixAvailable?: boolean;
+}
 export interface ImageScanningConfiguration {
   imageScanningEnabled?: boolean;
   ecrConfiguration?: EcrConfiguration;
+  imageScanningTypes?: ImageScanningType[];
+  scanResultCondition?: ScanResultCondition;
 }
 export type WorkflowVersionArnOrBuildVersionArn = string;
 export type WorkflowParameterName = string;
@@ -610,6 +619,14 @@ export interface Placement {
   hostId?: string;
   hostResourceGroupArn?: string;
 }
+export type CapacityWaitTimeoutSeconds = number;
+export interface AutoScalingGroupConfiguration {
+  name: string;
+  capacityWaitTimeoutSeconds?: number;
+}
+export interface ParentInstanceConfiguration {
+  autoScalingGroup: AutoScalingGroupConfiguration;
+}
 export interface CreateInfrastructureConfigurationRequest {
   name: string;
   description?: string;
@@ -620,11 +637,13 @@ export interface CreateInfrastructureConfigurationRequest {
   logging?: Logging;
   keyPair?: string;
   terminateInstanceOnFailure?: boolean;
+  terminateInstanceOnCompletion?: boolean;
   snsTopicArn?: string;
   resourceTags?: { [key: string]: string | undefined };
   instanceMetadataOptions?: InstanceMetadataOptions;
   tags?: { [key: string]: string | undefined };
   placement?: Placement;
+  parentInstance?: ParentInstanceConfiguration;
   clientToken: string;
   dryRun?: boolean;
 }
@@ -1012,6 +1031,8 @@ export interface InfrastructureConfiguration {
   instanceMetadataOptions?: InstanceMetadataOptions;
   tags?: { [key: string]: string | undefined };
   placement?: Placement;
+  terminateInstanceOnCompletion?: boolean;
+  parentInstance?: ParentInstanceConfiguration;
 }
 export interface Ami {
   region?: string;
@@ -2126,10 +2147,12 @@ export interface UpdateInfrastructureConfigurationRequest {
   logging?: Logging;
   keyPair?: string;
   terminateInstanceOnFailure?: boolean;
+  terminateInstanceOnCompletion?: boolean;
   snsTopicArn?: string;
   resourceTags?: { [key: string]: string | undefined };
   instanceMetadataOptions?: InstanceMetadataOptions;
   placement?: Placement;
+  parentInstance?: ParentInstanceConfiguration;
   clientToken: string;
 }
 export interface UpdateInfrastructureConfigurationResponse {
@@ -5719,8 +5742,8 @@ function __c15(j: number): any {
           enhancedImageMetadataEnabled: S.optional(S.Boolean),
           tags: S.optional(__S(64, __c4, 0)),
           clientToken: S.String.pipe(T.IdempotencyToken()),
-          imageScanningConfiguration: S.optional(__S(258, __c16, 2)),
-          workflows: S.optional(__S(260, __c16, 4)),
+          imageScanningConfiguration: S.optional(__S(260, __c16, 4)),
+          workflows: S.optional(__S(262, __c16, 6)),
           executionRole: S.optional(S.String),
           loggingConfiguration: S.optional(__S(272, __c17, 0)),
         }).pipe(
@@ -5755,13 +5778,21 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "EcrConfiguration" });
     case 2:
+      return S.Array(S.String);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ maximumSeverityLabel: S.String, fixAvailable: S.optional(S.Boolean) }),
+      ).annotate({ identifier: "ScanResultCondition" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           imageScanningEnabled: S.optional(S.Boolean),
           ecrConfiguration: S.optional(__S(257, __c16, 1)),
+          imageScanningTypes: S.optional(__S(258, __c16, 2)),
+          scanResultCondition: S.optional(__S(259, __c16, 3)),
         }),
       ).annotate({ identifier: "ImageScanningConfiguration" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           workflowArn: S.String,
@@ -5770,8 +5801,8 @@ function __c16(j: number): any {
           onFailure: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkflowConfiguration" });
-    case 4:
-      return S.Array(__S(259, __c16, 3));
+    case 6:
+      return S.Array(__S(261, __c16, 5));
   }
 }
 function __c17(j: number): any {
@@ -5800,8 +5831,8 @@ function __c18(j: number): any {
           tags: S.optional(__S(64, __c4, 0)),
           imageTags: S.optional(__S(64, __c4, 0)),
           clientToken: S.String.pipe(T.IdempotencyToken()),
-          imageScanningConfiguration: S.optional(__S(258, __c16, 2)),
-          workflows: S.optional(__S(260, __c16, 4)),
+          imageScanningConfiguration: S.optional(__S(260, __c16, 4)),
+          workflows: S.optional(__S(262, __c16, 6)),
           executionRole: S.optional(S.String),
           loggingConfiguration: S.optional(__S(306, __c19, 2)),
           dryRun: S.optional(S.Boolean),
@@ -5916,11 +5947,13 @@ function __c23(j: number): any {
           logging: S.optional(__S(401, __c25, 1)),
           keyPair: S.optional(S.String),
           terminateInstanceOnFailure: S.optional(S.Boolean),
+          terminateInstanceOnCompletion: S.optional(S.Boolean),
           snsTopicArn: S.optional(S.String),
           resourceTags: S.optional(__S(64, __c4, 0)),
           instanceMetadataOptions: S.optional(__S(402, __c25, 2)),
           tags: S.optional(__S(64, __c4, 0)),
           placement: S.optional(__S(384, __c24, 0)),
+          parentInstance: S.optional(__S(404, __c25, 4)),
           clientToken: S.String.pipe(T.IdempotencyToken()),
           dryRun: S.optional(S.Boolean),
         }).pipe(
@@ -5966,6 +5999,14 @@ function __c25(j: number): any {
           httpPutResponseHopLimit: S.optional(S.Number),
         }),
       ).annotate({ identifier: "InstanceMetadataOptions" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ name: S.String, capacityWaitTimeoutSeconds: S.optional(S.Number) }),
+      ).annotate({ identifier: "AutoScalingGroupConfiguration" });
+    case 4:
+      return S.suspend(() => S.Struct({ autoScalingGroup: __S(403, __c25, 3) })).annotate({
+        identifier: "ParentInstanceConfiguration",
+      });
   }
 }
 function __c26(j: number): any {
@@ -6585,11 +6626,11 @@ function __c56(j: number): any {
           buildType: S.optional(S.String),
           imageSource: S.optional(S.String),
           scanState: S.optional(__S(736, __c46, 0)),
-          imageScanningConfiguration: S.optional(__S(258, __c16, 2)),
+          imageScanningConfiguration: S.optional(__S(260, __c16, 4)),
           deprecationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lifecycleExecutionId: S.optional(S.String),
           executionRole: S.optional(S.String),
-          workflows: S.optional(__S(260, __c16, 4)),
+          workflows: S.optional(__S(262, __c16, 6)),
           loggingConfiguration: S.optional(__S(272, __c17, 0)),
         }),
       ).annotate({ identifier: "Image" });
@@ -6650,6 +6691,8 @@ function __c58(j: number): any {
           instanceMetadataOptions: S.optional(__S(402, __c25, 2)),
           tags: S.optional(__S(64, __c4, 0)),
           placement: S.optional(__S(384, __c24, 0)),
+          terminateInstanceOnCompletion: S.optional(S.Boolean),
+          parentInstance: S.optional(__S(404, __c25, 4)),
         }),
       ).annotate({ identifier: "InfrastructureConfiguration" });
   }
@@ -6773,10 +6816,10 @@ function __c61(j: number): any {
           lastRunStatus: S.optional(S.String),
           dateNextRun: S.optional(S.String),
           tags: S.optional(__S(64, __c4, 0)),
-          imageScanningConfiguration: S.optional(__S(258, __c16, 2)),
+          imageScanningConfiguration: S.optional(__S(260, __c16, 4)),
           imageTags: S.optional(__S(64, __c4, 0)),
           executionRole: S.optional(S.String),
-          workflows: S.optional(__S(260, __c16, 4)),
+          workflows: S.optional(__S(262, __c16, 6)),
           loggingConfiguration: S.optional(__S(306, __c19, 2)),
           consecutiveFailures: S.optional(S.Number),
         }),
@@ -8456,8 +8499,8 @@ function __c113(j: number): any {
           schedule: S.optional(__S(305, __c19, 1)),
           status: S.optional(S.String),
           clientToken: S.String.pipe(T.IdempotencyToken()),
-          imageScanningConfiguration: S.optional(__S(258, __c16, 2)),
-          workflows: S.optional(__S(260, __c16, 4)),
+          imageScanningConfiguration: S.optional(__S(260, __c16, 4)),
+          workflows: S.optional(__S(262, __c16, 6)),
           loggingConfiguration: S.optional(__S(306, __c19, 2)),
           executionRole: S.optional(S.String),
           imageTags: S.optional(__S(64, __c4, 0)),
@@ -8488,10 +8531,12 @@ function __c114(j: number): any {
           logging: S.optional(__S(401, __c25, 1)),
           keyPair: S.optional(S.String),
           terminateInstanceOnFailure: S.optional(S.Boolean),
+          terminateInstanceOnCompletion: S.optional(S.Boolean),
           snsTopicArn: S.optional(S.String),
           resourceTags: S.optional(__S(64, __c4, 0)),
           instanceMetadataOptions: S.optional(__S(402, __c25, 2)),
           placement: S.optional(__S(384, __c24, 0)),
+          parentInstance: S.optional(__S(404, __c25, 4)),
           clientToken: S.String.pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(

@@ -89,10 +89,10 @@ export interface InsertArchiveRequest {
 }
 /** JSON response template for groups migration API. */
 export interface Groups {
-  /** The status of the insert request. */
-  responseCode?: string;
   /** The kind of insert resource this is. */
   kind?: string;
+  /** The status of the insert request. */
+  responseCode?: string;
 }
 export type InsertArchiveError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Inserts a new mail into the archive of the Google group. */
@@ -129,8 +129,8 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          responseCode: S.optional(S.String),
           kind: S.optional(S.String),
+          responseCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "Groups" });
   }

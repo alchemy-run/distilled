@@ -109,10 +109,8 @@ export class OrganizationNotFound
 export interface CreateMemberRequestMemberUser {
   email: string;
 }
-export type CreateMemberRequestMemberStatus = "active" | "canceled";
 export interface CreateMemberRequestMember {
   user: CreateMemberRequestMemberUser;
-  status?: CreateMemberRequestMemberStatus | (string & {});
 }
 export interface CreateMemberRequest {
   organizationId: string;
@@ -126,6 +124,27 @@ export interface CreateMemberResponseUser {
   name: string;
   twoFactorAuthenticationEnabled: boolean;
 }
+export interface CreateMemberResponsePoliciesItemRolesItem {
+  id: string;
+}
+export type CreateMemberResponsePoliciesItemRolesList =
+  Array<CreateMemberResponsePoliciesItemRolesItem>;
+export type CreateMemberResponsePoliciesItemScopesItemSubsetOfList = Array<unknown>;
+export interface CreateMemberResponsePoliciesItemScopesItem {
+  /** An Organization (`com.cloudflare.api.tenant.unit.&lt;tag&gt;`) or Account (`com.cloudflare.api.account.&lt;tag&gt;`) key. */
+  key: string;
+  /** The route Organization for Account scopes. Optional in requests and always returned for Account scopes. */
+  subsetOf?: CreateMemberResponsePoliciesItemScopesItemSubsetOfList | null;
+}
+export type CreateMemberResponsePoliciesItemScopesList =
+  Array<CreateMemberResponsePoliciesItemScopesItem>;
+export interface CreateMemberResponsePoliciesItem {
+  roles: CreateMemberResponsePoliciesItemRolesList;
+  scopes: CreateMemberResponsePoliciesItemScopesList;
+  /** Omit to create a policy. An unchanged policy keeps its ID; a changed policy is replaced under a new ID. */
+  id?: string | null;
+}
+export type CreateMemberResponsePoliciesList = Array<CreateMemberResponsePoliciesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateMemberResponse {
   /** Organization Member ID */
@@ -135,21 +154,22 @@ export interface CreateMemberResponse {
   status: CreateMemberResponseStatus;
   updateTime: string;
   user: CreateMemberResponseUser;
+  /** Direct policies of the membership. Present only for DSR members enrolled in Organization Roles. */
+  policies?: CreateMemberResponsePoliciesList | null;
 }
-export interface CreateRequestParent {
-  id: string;
-  name?: string;
-}
+export type CreateRequestParent = CreateMemberResponsePoliciesItemRolesItem;
 export interface CreateRequestProfile {
-  businessAddress: string;
-  businessEmail: string;
-  businessName: string;
-  businessPhone: string;
-  externalMetadata: string;
+  businessAddress?: string;
+  businessEmail?: string;
+  businessName?: string;
+  businessPhone?: string;
+  externalMetadata?: string;
 }
 export interface CreateOrganizationRequest {
+  /** The Organization name, limited to 65 UTF-8 bytes. */
   name: string;
-  parent?: CreateRequestParent;
+  parent?: CreateMemberResponsePoliciesItemRolesItem;
+  /** Optional profile fields, each limited to 1,000 UTF-8 bytes. An empty profile is ignored. */
   profile?: CreateRequestProfile;
 }
 export type CreateResponseMetaHierarchyTagsList = Array<string>;
@@ -164,17 +184,25 @@ export interface CreateResponseMetaTenantFlags {
   subOrgCreation: string;
 }
 export interface CreateResponseMeta {
+  areChildAccountsAccessibleByOrgMembers?: boolean | null;
   /** Ordered chain of organization tags from the root organization down to (and including) this organization itself. Root organizations return a single-element array containing their own tag; sub-organizations return `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for constructing authorization scopes that need to cover every ancestor in the hierarchy. */
   hierarchyTags?: CreateResponseMetaHierarchyTagsList | null;
   managedBy?: string | null;
   /** Enable features for Organizations. */
   tenantFlags?: CreateResponseMetaTenantFlags | null;
+  tenantType?: string | null;
 }
 export interface CreateResponseParent {
   id: string;
   name: string;
 }
-export type CreateResponseProfile = CreateRequestProfile;
+export interface CreateResponseProfile {
+  businessAddress: string;
+  businessEmail: string;
+  businessName: string;
+  businessPhone: string;
+  externalMetadata: string;
+}
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateOrganizationResponse {
   id: string;
@@ -182,14 +210,17 @@ export interface CreateOrganizationResponse {
   meta: CreateResponseMeta;
   name: string;
   parent?: CreateResponseParent | null;
-  profile?: CreateRequestProfile | null;
+  profile?: CreateResponseProfile | null;
 }
 export interface DeleteMemberRequest {
   organizationId: string;
   /** Organization Member ID */
   memberId: string;
 }
-export interface DeleteMemberResponse {}
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface DeleteMemberResponse {
+  id: string;
+}
 export interface DeleteOrganizationRequest {
   organizationId: string;
 }
@@ -296,6 +327,25 @@ export interface GetMemberRequest {
 export type GetMemberResponseMetaMap = { [key: string]: unknown | undefined };
 export type GetMemberResponseStatus = "active" | "pending" | "rejected" | "canceled";
 export type GetMemberResponseUser = CreateMemberResponseUser;
+export type GetMemberResponsePoliciesItemRolesItem = CreateMemberResponsePoliciesItemRolesItem;
+export type GetMemberResponsePoliciesItemRolesList =
+  Array<CreateMemberResponsePoliciesItemRolesItem>;
+export type GetMemberResponsePoliciesItemScopesItemSubsetOfList = Array<unknown>;
+export interface GetMemberResponsePoliciesItemScopesItem {
+  /** An Organization (`com.cloudflare.api.tenant.unit.&lt;tag&gt;`) or Account (`com.cloudflare.api.account.&lt;tag&gt;`) key. */
+  key: string;
+  /** The route Organization for Account scopes. Optional in requests and always returned for Account scopes. */
+  subsetOf?: GetMemberResponsePoliciesItemScopesItemSubsetOfList | null;
+}
+export type GetMemberResponsePoliciesItemScopesList =
+  Array<GetMemberResponsePoliciesItemScopesItem>;
+export interface GetMemberResponsePoliciesItem {
+  roles: GetMemberResponsePoliciesItemRolesList;
+  scopes: GetMemberResponsePoliciesItemScopesList;
+  /** Omit to create a policy. An unchanged policy keeps its ID; a changed policy is replaced under a new ID. */
+  id?: string | null;
+}
+export type GetMemberResponsePoliciesList = Array<GetMemberResponsePoliciesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetMemberResponse {
   /** Organization Member ID */
@@ -305,6 +355,8 @@ export interface GetMemberResponse {
   status: GetMemberResponseStatus;
   updateTime: string;
   user: CreateMemberResponseUser;
+  /** Direct policies of the membership. Present only for DSR members enrolled in Organization Roles. */
+  policies?: GetMemberResponsePoliciesList | null;
 }
 export interface GetOrganizationRequest {
   organizationId: string;
@@ -312,14 +364,16 @@ export interface GetOrganizationRequest {
 export type GetResponseMetaHierarchyTagsList = Array<string>;
 export type GetResponseMetaTenantFlags = CreateResponseMetaTenantFlags;
 export interface GetResponseMeta {
+  areChildAccountsAccessibleByOrgMembers?: boolean | null;
   /** Ordered chain of organization tags from the root organization down to (and including) this organization itself. Root organizations return a single-element array containing their own tag; sub-organizations return `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for constructing authorization scopes that need to cover every ancestor in the hierarchy. */
   hierarchyTags?: GetResponseMetaHierarchyTagsList | null;
   managedBy?: string | null;
   /** Enable features for Organizations. */
   tenantFlags?: CreateResponseMetaTenantFlags | null;
+  tenantType?: string | null;
 }
 export type GetResponseParent = CreateResponseParent;
-export type GetResponseProfile = CreateRequestProfile;
+export type GetResponseProfile = CreateResponseProfile;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetOrganizationResponse {
   id: string;
@@ -327,7 +381,7 @@ export interface GetOrganizationResponse {
   meta: GetResponseMeta;
   name: string;
   parent?: CreateResponseParent | null;
-  profile?: CreateRequestProfile | null;
+  profile?: CreateResponseProfile | null;
 }
 export interface GetOrganizationAccountRequestAccountPubname {
   /** (case-insensitive) Filter the list of accounts to where the account_pubname contains a particular string. */
@@ -347,6 +401,7 @@ export interface GetOrganizationAccountRequestName {
   startsWith?: string;
 }
 export type GetOrganizationAccountRequestOrderBy = "account_name";
+export type GetOrganizationAccountRequestStatus = "active" | "deleted";
 export interface GetOrganizationAccountRequest {
   organizationId: string;
   accountPubname?: GetOrganizationAccountRequestAccountPubname;
@@ -354,17 +409,20 @@ export interface GetOrganizationAccountRequest {
   direction?: GetOrganizationAccountRequestDirection | (string & {});
   /** Include Account tags from the resource tag mirror. Omit this parameter to preserve the existing Account response shape. */
   includeTags?: boolean;
-  /** Whether to calculate and return the exact result_info.total_size for cursor pagination. Defaults to true. When false, total_size is omitted. page_size and include_total may change between pages; next_page_token remains the authoritative continuation signal. Legacy page/per_page requests always calculate total_count. */
+  /** Whether to calculate and return the exact result_info.total_size for cursor pagination. Defaults to true. When false, total_size is omitted. page_size and include_total may change between pages; next_page_token remains the authoritative continuation signal. */
   includeTotal?: boolean;
   name?: GetOrganizationAccountRequestName;
-  /** Field to order results by. Currently supported values: `account_name`. When not specified, results are ordered by internal account ID. */
+  /** Field to order results by. Currently supported values: `account_name`. */
   orderBy?: GetOrganizationAccountRequestOrderBy | (string & {});
   /** The amount of items to return. Defaults to 10. */
   pageSize?: number;
   /** An opaque token returned from the last list response that when provided will retrieve the next page. */
   pageToken?: string;
+  /** Filter accounts by lifecycle status. Defaults to `active`. */
+  status?: GetOrganizationAccountRequestStatus | (string & {});
+  accept?: string;
 }
-export interface GetOrganizationAccountResultItemSettings {
+export interface GetOrganizationAccountResultItemTenantAccountSettings {
   abuseContactEmail: string;
   accessApprovalExpiry: string;
   apiAccessEnabled: boolean;
@@ -374,17 +432,38 @@ export interface GetOrganizationAccountResultItemSettings {
   /** Use [DNS Settings](https://developers.cloudflare.com/api/operations/dns-settings-for-an-account-list-dns-settings) instead. Deprecated. */
   useAccountCustomNsByDefault: boolean;
 }
-export type GetOrganizationAccountResultItemType = "standard" | "enterprise";
-export type GetOrganizationAccountResultItemTagsMap = { [key: string]: string | undefined };
-export interface GetOrganizationAccountResultItem {
+export type GetOrganizationAccountResultItemTenantAccountType = "standard" | "enterprise";
+export type GetOrganizationAccountResultItemTenantAccountTagsMap = {
+  [key: string]: string | undefined;
+};
+export interface GetOrganizationAccountResultItemTenantAccount {
   id: string;
   createdOn: string;
   name: string;
-  settings: GetOrganizationAccountResultItemSettings;
-  type: GetOrganizationAccountResultItemType;
+  settings: GetOrganizationAccountResultItemTenantAccountSettings;
+  type: GetOrganizationAccountResultItemTenantAccountType;
   /** Account tags, present only when `include_tags=true` is requested. */
-  tags?: GetOrganizationAccountResultItemTagsMap | null;
+  tags?: GetOrganizationAccountResultItemTenantAccountTagsMap | null;
 }
+export type GetOrganizationAccountResultItemOrganizationsAPILegacyAccountAccountType =
+  | "standard"
+  | "enterprise";
+export interface GetOrganizationAccountResultItemOrganizationsAPILegacyAccountSettings {
+  accessApprovalExpiry: string;
+  apiAccessEnabled: boolean;
+  enforceTwoFactor: boolean;
+  useAccountCustomNsByDefault: boolean;
+}
+export interface GetOrganizationAccountResultItemOrganizationsAPILegacyAccount {
+  accountPubname: string;
+  accountTag: string;
+  accountType: GetOrganizationAccountResultItemOrganizationsAPILegacyAccountAccountType;
+  createdOn: string;
+  settings: GetOrganizationAccountResultItemOrganizationsAPILegacyAccountSettings;
+}
+export type GetOrganizationAccountResultItem =
+  | GetOrganizationAccountResultItemTenantAccount
+  | GetOrganizationAccountResultItemOrganizationsAPILegacyAccount;
 export type GetOrganizationAccountResultList = Array<GetOrganizationAccountResultItem>;
 export type GetOrganizationAccountResponse = GetOrganizationAccountResultList;
 export interface GetOrganizationProfileRequest {
@@ -637,13 +716,32 @@ export interface ListMembersRequest {
   pageSize?: number;
   /** An opaque token returned from the last list response that when provided will retrieve the next page. */
   pageToken?: string;
-  /** Filter the list of memberships by membership status. */
+  /** Filter the list of memberships by membership status. Defaults to `active`, `pending`, and `rejected`; pass `canceled` explicitly to include canceled memberships. */
   status?: ListMembersRequestStatusList;
   user?: ListMembersRequestUser;
 }
 export type ListMembersResultItemMetaMap = { [key: string]: unknown | undefined };
 export type ListMembersResultItemStatus = "active" | "pending" | "rejected" | "canceled";
 export type ListMembersResultItemUser = CreateMemberResponseUser;
+export type ListMembersResultItemPoliciesItemRolesItem = CreateMemberResponsePoliciesItemRolesItem;
+export type ListMembersResultItemPoliciesItemRolesList =
+  Array<CreateMemberResponsePoliciesItemRolesItem>;
+export type ListMembersResultItemPoliciesItemScopesItemSubsetOfList = Array<unknown>;
+export interface ListMembersResultItemPoliciesItemScopesItem {
+  /** An Organization (`com.cloudflare.api.tenant.unit.&lt;tag&gt;`) or Account (`com.cloudflare.api.account.&lt;tag&gt;`) key. */
+  key: string;
+  /** The route Organization for Account scopes. Optional in requests and always returned for Account scopes. */
+  subsetOf?: ListMembersResultItemPoliciesItemScopesItemSubsetOfList | null;
+}
+export type ListMembersResultItemPoliciesItemScopesList =
+  Array<ListMembersResultItemPoliciesItemScopesItem>;
+export interface ListMembersResultItemPoliciesItem {
+  roles: ListMembersResultItemPoliciesItemRolesList;
+  scopes: ListMembersResultItemPoliciesItemScopesList;
+  /** Omit to create a policy. An unchanged policy keeps its ID; a changed policy is replaced under a new ID. */
+  id?: string | null;
+}
+export type ListMembersResultItemPoliciesList = Array<ListMembersResultItemPoliciesItem>;
 export interface ListMembersResultItem {
   /** Organization Member ID */
   id: string;
@@ -652,6 +750,8 @@ export interface ListMembersResultItem {
   status: ListMembersResultItemStatus;
   updateTime: string;
   user: CreateMemberResponseUser;
+  /** Direct policies of the membership. Present only for DSR members enrolled in Organization Roles. */
+  policies?: ListMembersResultItemPoliciesList | null;
 }
 export type ListMembersResultList = Array<ListMembersResultItem>;
 export type ListMembersResponse = ListMembersResultList;
@@ -664,6 +764,11 @@ export interface ListRequestContaining {
   /** Filter the list of organizations to the ones that contain this particular user. */
   user?: string;
 }
+export type ListRequestDirection = "asc" | "desc";
+export interface ListRequestMember {
+  /** Filter organizations to those where the given user, by email, is an active member of that exact organization. This does not include hierarchy-derived access. */
+  email?: string;
+}
 export interface ListRequestName {
   /** (case-insensitive) Filter the list of organizations to where the name contains a particular string. */
   contains?: string;
@@ -672,6 +777,7 @@ export interface ListRequestName {
   /** (case-insensitive) Filter the list of organizations to where the name starts with a particular string. */
   startsWith?: string;
 }
+export type ListRequestOrderBy = "name";
 export interface ListRequestParent {
   /** Filter the list of organizations to the ones that are a sub-organization of the specified organization. */
   id?: string;
@@ -680,7 +786,12 @@ export interface ListOrganizationsRequest {
   /** Only return organizations with the specified IDs (ex. id=foo&id=bar). Send multiple elements by repeating the query value. */
   id?: ListRequestIdList;
   containing?: ListRequestContaining;
+  /** Sort direction for the `order_by` field. Defaults to `asc` when `order_by` is specified. */
+  direction?: ListRequestDirection | (string & {});
+  member?: ListRequestMember;
   name?: ListRequestName;
+  /** Field to order results by. Currently supported values: `name`. When not specified, results are ordered by hierarchy. */
+  orderBy?: ListRequestOrderBy | (string & {});
   /** The amount of items to return. Defaults to 10. */
   pageSize?: number;
   /** An opaque token returned from the last list response that when provided will retrieve the next page. */
@@ -690,21 +801,23 @@ export interface ListOrganizationsRequest {
 export type ListResultItemMetaHierarchyTagsList = Array<string>;
 export type ListResultItemMetaTenantFlags = CreateResponseMetaTenantFlags;
 export interface ListResultItemMeta {
+  areChildAccountsAccessibleByOrgMembers?: boolean | null;
   /** Ordered chain of organization tags from the root organization down to (and including) this organization itself. Root organizations return a single-element array containing their own tag; sub-organizations return `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for constructing authorization scopes that need to cover every ancestor in the hierarchy. */
   hierarchyTags?: ListResultItemMetaHierarchyTagsList | null;
   managedBy?: string | null;
   /** Enable features for Organizations. */
   tenantFlags?: CreateResponseMetaTenantFlags | null;
+  tenantType?: string | null;
 }
 export type ListResultItemParent = CreateResponseParent;
-export type ListResultItemProfile = CreateRequestProfile;
+export type ListResultItemProfile = CreateResponseProfile;
 export interface ListResultItem {
   id: string;
   createTime: string;
   meta: ListResultItemMeta;
   name: string;
   parent?: CreateResponseParent | null;
-  profile?: CreateRequestProfile | null;
+  profile?: CreateResponseProfile | null;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListOrganizationsResponse {
@@ -778,32 +891,33 @@ export type LogsAuditHistoryResultList = Array<LogsAuditHistoryResultItem>;
 export type LogsAuditHistoryResponse = LogsAuditHistoryResultList;
 export interface PutOrganizationProfileRequest {
   organizationId: string;
-  businessAddress: string;
-  businessEmail: string;
-  businessName: string;
-  businessPhone: string;
-  externalMetadata: string;
+  businessAddress?: string;
+  businessEmail?: string;
+  businessName?: string;
+  businessPhone?: string;
+  externalMetadata?: string;
 }
 export interface PutOrganizationProfileResponse {}
-export type UpdateRequestParent = CreateRequestParent;
-export type UpdateRequestProfile = CreateRequestProfile;
 export interface UpdateOrganizationRequest {
   organizationId: string;
-  name: string;
-  parent?: CreateRequestParent;
-  profile?: CreateRequestProfile;
+  /** The Organization name, limited to 65 UTF-8 bytes. An omitted, empty, or unchanged value is a no-op. */
+  name?: string;
+  /** The current parent Organization ID. A different value is rejected; this endpoint cannot move an Organization. */
+  parentId?: string;
 }
 export type UpdateResponseMetaHierarchyTagsList = Array<string>;
 export type UpdateResponseMetaTenantFlags = CreateResponseMetaTenantFlags;
 export interface UpdateResponseMeta {
+  areChildAccountsAccessibleByOrgMembers?: boolean | null;
   /** Ordered chain of organization tags from the root organization down to (and including) this organization itself. Root organizations return a single-element array containing their own tag; sub-organizations return `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for constructing authorization scopes that need to cover every ancestor in the hierarchy. */
   hierarchyTags?: UpdateResponseMetaHierarchyTagsList | null;
   managedBy?: string | null;
   /** Enable features for Organizations. */
   tenantFlags?: CreateResponseMetaTenantFlags | null;
+  tenantType?: string | null;
 }
 export type UpdateResponseParent = CreateResponseParent;
-export type UpdateResponseProfile = CreateRequestProfile;
+export type UpdateResponseProfile = CreateResponseProfile;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateOrganizationResponse {
   id: string;
@@ -811,7 +925,7 @@ export interface UpdateOrganizationResponse {
   meta: UpdateResponseMeta;
   name: string;
   parent?: CreateResponseParent | null;
-  profile?: CreateRequestProfile | null;
+  profile?: CreateResponseProfile | null;
 }
 export type CreateMemberError = CloudflareOpError;
 /** Create a membership that grants access to a specific Organization. */
@@ -821,8 +935,8 @@ export const createMember: API.OperationMethod<
   CreateMemberError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(74, __c9, 2) as any as S.Schema<CreateMemberRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<CreateMemberResponse>,
+  input: __S(82, __c10, 2) as any as S.Schema<CreateMemberRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<CreateMemberResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -831,15 +945,15 @@ export const createMember: API.OperationMethod<
 }));
 
 export type CreateOrganizationError = Forbidden | CloudflareOpError;
-/** Create a new organization for a user. Sub-organization creation availability depends on the organization's capabilities. */
+/** Create a new organization for a user. Sub-organization creation availability depends on the organization's capabilities. The optional `profile` object accepts partial profile details; its individual fields are not required. Organization names are limited to 65 UTF-8 bytes. Each profile field is limited to 1,000 UTF-8 bytes, and a non-empty business email must be valid. At least one of business name, address, phone, or email must be non-empty to persist a profile. */
 export const createOrganization: API.OperationMethod<
   CreateOrganizationRequest,
   CreateOrganizationResponse,
   CreateOrganizationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<CreateOrganizationRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<CreateOrganizationResponse>,
+  input: __S(113, __c14, 1) as any as S.Schema<CreateOrganizationRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<CreateOrganizationResponse>,
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -855,8 +969,8 @@ export const deleteMember: API.OperationMethod<
   DeleteMemberError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<DeleteMemberRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<DeleteMemberResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<DeleteMemberRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<DeleteMemberResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -865,15 +979,15 @@ export const deleteMember: API.OperationMethod<
 }));
 
 export type DeleteOrganizationError = OrganizationNotFound | Forbidden | CloudflareOpError;
-/** Delete an organization. The organization MUST be empty before deleting. It must not contain any sub-organizations, accounts, members or users. Sub-organization deletion availability depends on the organization's capabilities. **Access Control:** Restricted to enterprise organizations. */
+/** Delete an organization. It must not contain active sub-organizations or accounts. A root organization must also have no active managed users. Sub-organization deletion availability depends on the organization's capabilities. **Access Control:** Root deletion is restricted to enterprise organizations. */
 export const deleteOrganization: API.OperationMethod<
   DeleteOrganizationRequest,
   DeleteOrganizationResponse,
   DeleteOrganizationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<DeleteOrganizationRequest>,
-  output: __S(153, __c19, 1) as any as S.Schema<DeleteOrganizationResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<DeleteOrganizationRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<DeleteOrganizationResponse>,
   errors: [OrganizationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -889,8 +1003,8 @@ export const getBillingUsage: API.OperationMethod<
   GetBillingUsageError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetBillingUsageRequest>,
-  output: __S(165, __c20, 5) as any as S.Schema<GetBillingUsageResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<GetBillingUsageRequest>,
+  output: __S(173, __c21, 5) as any as S.Schema<GetBillingUsageResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -906,8 +1020,8 @@ export const getMember: API.OperationMethod<
   GetMemberError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetMemberRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<GetMemberResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<GetMemberRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<GetMemberResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -923,8 +1037,8 @@ export const getOrganization: API.OperationMethod<
   GetOrganizationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<GetOrganizationRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<GetOrganizationResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<GetOrganizationRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<GetOrganizationResponse>,
   errors: [OrganizationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -933,15 +1047,15 @@ export const getOrganization: API.OperationMethod<
 }));
 
 export type GetOrganizationAccountError = CloudflareOpError;
-/** Retrieve the accounts immediately attached to a specific organization. Accounts attached to sub-organizations are not included. */
+/** Retrieve the accounts immediately attached to a specific organization. Accounts attached to sub-organizations are not included. Use `page_token` and `page_size` for cursor pagination. The default response uses Account fields; `Accept: application/json; legacy=true` requests the LegacyAccount representation. */
 export const getOrganizationAccount: API.OperationMethod<
   GetOrganizationAccountRequest,
   GetOrganizationAccountResponse,
   GetOrganizationAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<GetOrganizationAccountRequest>,
-  output: __S(189, __c23, 5) as any as S.Schema<GetOrganizationAccountResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<GetOrganizationAccountRequest>,
+  output: __S(195, __c24, 3) as any as S.Schema<GetOrganizationAccountResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -950,7 +1064,7 @@ export const getOrganizationAccount: API.OperationMethod<
 }));
 
 export type GetOrganizationProfileError = OrganizationNotFound | Forbidden | CloudflareOpError;
-/** Get an organizations profile if it exists. */
+/** Retrieves the business profile (name, email, phone, address, and external metadata) associated with this organization's customer record. Profiles can be shared across accounts and organizations. Only available to members of the organization. */
 export const getOrganizationProfile: API.OperationMethod<
   GetOrganizationProfileRequest,
   GetOrganizationProfileResponse,
@@ -1001,8 +1115,8 @@ export const listMembers: API.OperationMethod<
   ListMembersError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33, __c4, 1) as any as S.Schema<ListMembersRequest>,
-  output: __S(36, __c4, 4) as any as S.Schema<ListMembersResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<ListMembersRequest>,
+  output: __S(35, __c4, 3) as any as S.Schema<ListMembersResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1011,7 +1125,7 @@ export const listMembers: API.OperationMethod<
 }));
 
 export type ListOrganizationsError = Forbidden | CloudflareOpError;
-/** Retrieve a list of organizations a particular user has access to. */
+/** Retrieve a list of organizations a particular user has access to. At most one of `containing.account`, `containing.user`, or `containing.organization` may be provided. */
 export const listOrganizations: API.PaginatedOperationMethod<
   ListOrganizationsRequest,
   ListOrganizationsResponse,
@@ -1020,8 +1134,8 @@ export const listOrganizations: API.PaginatedOperationMethod<
   ListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(42, __c5, 2) as any as S.Schema<ListOrganizationsRequest>,
-    output: __S(45, __c5, 5) as any as S.Schema<ListOrganizationsResponse>,
+    input: __S(50, __c6, 2) as any as S.Schema<ListOrganizationsRequest>,
+    output: __S(53, __c6, 5) as any as S.Schema<ListOrganizationsResponse>,
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -1040,8 +1154,8 @@ export const logsAuditHistory: API.OperationMethod<
   LogsAuditHistoryError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<LogsAuditHistoryRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<LogsAuditHistoryResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<LogsAuditHistoryRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<LogsAuditHistoryResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1050,15 +1164,15 @@ export const logsAuditHistory: API.OperationMethod<
 }));
 
 export type PutOrganizationProfileError = OrganizationNotFound | Forbidden | CloudflareOpError;
-/** Modify organization profile. */
+/** Partially updates the business profile (name, email, phone, address, and external metadata) associated with this organization's customer record, creating the profile if it does not exist. Changes apply to every account and organization sharing that profile. Omitted, empty, or null fields are left unchanged. Each profile field is limited to 1,000 UTF-8 bytes. Only available to members of the organization. */
 export const putOrganizationProfile: API.OperationMethod<
   PutOrganizationProfileRequest,
   PutOrganizationProfileResponse,
   PutOrganizationProfileError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<PutOrganizationProfileRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<PutOrganizationProfileResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<PutOrganizationProfileRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<PutOrganizationProfileResponse>,
   errors: [OrganizationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1067,15 +1181,15 @@ export const putOrganizationProfile: API.OperationMethod<
 }));
 
 export type UpdateOrganizationError = OrganizationNotFound | Forbidden | CloudflareOpError;
-/** Update an organization's name. */
+/** Update an organization's name. Supplying `parent_id` verifies the current parent; this endpoint cannot move an organization. Organization names are limited to 65 UTF-8 bytes. */
 export const updateOrganization: API.OperationMethod<
   UpdateOrganizationRequest,
   UpdateOrganizationResponse,
   UpdateOrganizationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<UpdateOrganizationRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<UpdateOrganizationResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<UpdateOrganizationRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<UpdateOrganizationResponse>,
   errors: [OrganizationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1113,7 +1227,7 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          not: S.optional(__S(112, __c14, 0)),
+          not: S.optional(__S(120, __c15, 0)),
         }),
       ).annotate({ identifier: "LogsAuditListRequestId" });
     case 1:
@@ -1282,43 +1396,48 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          email: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListMembersRequestUser" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           organizationId: S.String.pipe(T.Label("organization_id")),
           pageSize: S.optional(S.Number.pipe(T.Query("page_size"))),
           pageToken: S.optional(S.String.pipe(T.Query("page_token"))),
           status: S.optional(__S(16, __c2, 0).pipe(T.Query())),
-          user: S.optional(__S(32, __c4, 0).pipe(T.DeepQuery("user"))),
+          user: S.optional(__S(40, __c5, 0).pipe(T.DeepQuery("user"))),
         })
           .pipe(
             T.Http({ method: "GET", uri: "/organizations/{organization_id}/members", code: 200 }),
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListMembersRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           createTime: S.String.pipe(T.Body("create_time")),
-          meta: __S(88, __c11, 0),
+          meta: __S(104, __c13, 0),
           status: S.String,
           updateTime: S.String.pipe(T.Body("update_time")),
-          user: __S(89, __c11, 1),
+          user: __S(105, __c13, 1),
+          policies: S.optional(S.NullOr(__S(111, __c13, 7))),
         }),
       ).annotate({ identifier: "ListMembersResultItem" });
+    case 2:
+      return S.Array(__S(33, __c4, 1));
     case 3:
-      return S.Array(__S(34, __c4, 2));
-    case 4:
       return S.suspend(() =>
-        __S(35, __c4, 3).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(34, __c4, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListMembersResponse" });
   }
 }
 function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          email: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListMembersRequestUser" });
+  }
+}
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1337,12 +1456,15 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(__S(112, __c14, 0).pipe(T.Query())),
-          containing: S.optional(__S(40, __c5, 0).pipe(T.DeepQuery("containing"))),
-          name: S.optional(__S(192, __c24, 0).pipe(T.DeepQuery("name"))),
+          id: S.optional(__S(120, __c15, 0).pipe(T.Query())),
+          containing: S.optional(__S(48, __c6, 0).pipe(T.DeepQuery("containing"))),
+          direction: S.optional(S.String.pipe(T.Query())),
+          member: S.optional(__S(40, __c5, 0).pipe(T.DeepQuery("member"))),
+          name: S.optional(__S(200, __c25, 0).pipe(T.DeepQuery("name"))),
+          orderBy: S.optional(S.String.pipe(T.Query("order_by"))),
           pageSize: S.optional(S.Number.pipe(T.Query("page_size"))),
           pageToken: S.optional(S.String.pipe(T.Query("page_token"))),
-          parent: S.optional(__S(41, __c5, 1).pipe(T.DeepQuery("parent"))),
+          parent: S.optional(__S(49, __c6, 1).pipe(T.DeepQuery("parent"))),
         })
           .pipe(T.Http({ method: "GET", uri: "/organizations", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -1352,24 +1474,24 @@ function __c5(j: number): any {
         S.Struct({
           id: S.String,
           createTime: S.String.pipe(T.Body("create_time")),
-          meta: __S(122, __c15, 2),
+          meta: __S(129, __c16, 1),
           name: S.String,
-          parent: S.optional(S.NullOr(__S(123, __c15, 3))),
-          profile: S.optional(S.NullOr(__S(120, __c15, 0))),
+          parent: S.optional(S.NullOr(__S(130, __c16, 2))),
+          profile: S.optional(S.NullOr(__S(131, __c16, 3))),
         }),
       ).annotate({ identifier: "ListResultItem" });
     case 4:
-      return S.Array(__S(43, __c5, 3));
+      return S.Array(__S(51, __c6, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          result: __S(44, __c5, 4).pipe(T.EnvelopePayload()),
+          result: __S(52, __c6, 4).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListOrganizationsResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1398,41 +1520,44 @@ function __c6(j: number): any {
       ).annotate({ identifier: "LogsAuditHistoryResponse" });
   }
 }
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label("organization_id")),
-          businessAddress: S.String.pipe(T.Body("business_address")),
-          businessEmail: S.String.pipe(T.Body("business_email")),
-          businessName: S.String.pipe(T.Body("business_name")),
-          businessPhone: S.String.pipe(T.Body("business_phone")),
-          externalMetadata: S.String.pipe(T.Body("external_metadata")),
-        })
-          .pipe(
-            T.Http({ method: "PUT", uri: "/organizations/{organization_id}/profile", code: 200 }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "PutOrganizationProfileRequest" });
-  }
-}
 function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label("organization_id")),
-          name: S.String,
-          parent: S.optional(__S(104, __c13, 0)),
-          profile: S.optional(__S(120, __c15, 0)),
+          businessAddress: S.optional(S.String.pipe(T.Body("business_address"))),
+          businessEmail: S.optional(S.String.pipe(T.Body("business_email"))),
+          businessName: S.optional(S.String.pipe(T.Body("business_name"))),
+          businessPhone: S.optional(S.String.pipe(T.Body("business_phone"))),
+          externalMetadata: S.optional(S.String.pipe(T.Body("external_metadata"))),
+        })
+          .pipe(
+            T.Http({ method: "PUT", uri: "/organizations/{organization_id}/profile", code: 200 }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "PutOrganizationProfileRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY))).annotate({
+        identifier: "PutOrganizationProfileResponse",
+      });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label("organization_id")),
+          name: S.optional(S.String),
+          parentId: S.optional(S.String.pipe(T.Body("parent_id"))),
         })
           .pipe(T.Http({ method: "PUT", uri: "/organizations/{organization_id}", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UpdateOrganizationRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1443,15 +1568,14 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          user: __S(72, __c9, 0),
-          status: S.optional(S.String),
+          user: __S(80, __c10, 0),
         }),
       ).annotate({ identifier: "CreateMemberRequestMember" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label("organization_id")),
-          member: __S(73, __c9, 1),
+          member: __S(81, __c10, 1),
         })
           .pipe(
             T.Http({ method: "POST", uri: "/organizations/{organization_id}/members", code: 200 }),
@@ -1460,22 +1584,33 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateMemberRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+        }),
+      ).annotate({ identifier: "CreateMemberResponsePoliciesItemRolesItem" });
+  }
+}
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           createTime: S.String.pipe(T.Body("create_time")),
-          meta: __S(88, __c11, 0),
+          meta: __S(104, __c13, 0),
           status: S.String,
           updateTime: S.String.pipe(T.Body("update_time")),
-          user: __S(89, __c11, 1),
+          user: __S(105, __c13, 1),
+          policies: S.optional(S.NullOr(__S(111, __c13, 7))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateMemberResponse" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -1490,52 +1625,64 @@ function __c11(j: number): any {
           ),
         }),
       ).annotate({ identifier: "CreateMemberResponseUser" });
+    case 2:
+      return S.Array(__S(88, __c11, 0));
+    case 3:
+      return S.Array(S.Unknown);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          subsetOf: S.optional(S.NullOr(__S(107, __c13, 3)).pipe(T.Body("subset_of"))),
+        }),
+      ).annotate({ identifier: "CreateMemberResponsePoliciesItemScopesItem" });
+    case 5:
+      return S.Array(__S(108, __c13, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          roles: __S(106, __c13, 2),
+          scopes: __S(109, __c13, 5),
+          id: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CreateMemberResponsePoliciesItem" });
+    case 7:
+      return S.Array(__S(110, __c13, 6));
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          businessAddress: S.optional(S.String.pipe(T.Body("business_address"))),
+          businessEmail: S.optional(S.String.pipe(T.Body("business_email"))),
+          businessName: S.optional(S.String.pipe(T.Body("business_name"))),
+          businessPhone: S.optional(S.String.pipe(T.Body("business_phone"))),
+          externalMetadata: S.optional(S.String.pipe(T.Body("external_metadata"))),
+        }),
+      ).annotate({ identifier: "CreateRequestProfile" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String,
-          parent: S.optional(__S(104, __c13, 0)),
-          profile: S.optional(__S(120, __c15, 0)),
+          parent: S.optional(__S(88, __c11, 0)),
+          profile: S.optional(__S(112, __c14, 0)),
         })
           .pipe(T.Http({ method: "POST", uri: "/organizations", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateOrganizationRequest" });
   }
 }
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateRequestParent" });
-  }
-}
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          businessAddress: S.String.pipe(T.Body("business_address")),
-          businessEmail: S.String.pipe(T.Body("business_email")),
-          businessName: S.String.pipe(T.Body("business_name")),
-          businessPhone: S.String.pipe(T.Body("business_phone")),
-          externalMetadata: S.String.pipe(T.Body("external_metadata")),
-        }),
-      ).annotate({ identifier: "CreateRequestProfile" });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           accountCreation: S.String.pipe(T.Body("account_creation")),
@@ -1550,39 +1697,53 @@ function __c15(j: number): any {
           subOrgCreation: S.String.pipe(T.Body("sub_org_creation")),
         }),
       ).annotate({ identifier: "CreateResponseMetaTenantFlags" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          hierarchyTags: S.optional(S.NullOr(__S(112, __c14, 0)).pipe(T.Body("hierarchy_tags"))),
+          areChildAccountsAccessibleByOrgMembers: S.optional(
+            S.NullOr(S.Boolean).pipe(T.Body("are_child_accounts_accessible_by_org_members")),
+          ),
+          hierarchyTags: S.optional(S.NullOr(__S(120, __c15, 0)).pipe(T.Body("hierarchy_tags"))),
           managedBy: S.optional(S.NullOr(S.String).pipe(T.Body("managed_by"))),
-          tenantFlags: S.optional(S.NullOr(__S(121, __c15, 1)).pipe(T.Body("tenant_flags"))),
+          tenantFlags: S.optional(S.NullOr(__S(128, __c16, 0)).pipe(T.Body("tenant_flags"))),
+          tenantType: S.optional(S.NullOr(S.String).pipe(T.Body("tenant_type"))),
         }),
       ).annotate({ identifier: "CreateResponseMeta" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "CreateResponseParent" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          businessAddress: S.String.pipe(T.Body("business_address")),
+          businessEmail: S.String.pipe(T.Body("business_email")),
+          businessName: S.String.pipe(T.Body("business_name")),
+          businessPhone: S.String.pipe(T.Body("business_phone")),
+          externalMetadata: S.String.pipe(T.Body("external_metadata")),
+        }),
+      ).annotate({ identifier: "CreateResponseProfile" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           createTime: S.String.pipe(T.Body("create_time")),
-          meta: __S(122, __c15, 2),
+          meta: __S(129, __c16, 1),
           name: S.String,
-          parent: S.optional(S.NullOr(__S(123, __c15, 3))),
-          profile: S.optional(S.NullOr(__S(120, __c15, 0))),
+          parent: S.optional(S.NullOr(__S(130, __c16, 2))),
+          profile: S.optional(S.NullOr(__S(131, __c16, 3))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateOrganizationResponse" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1601,15 +1762,17 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DeleteMemberRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY))).annotate({
-        identifier: "DeleteMemberResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "DeleteMemberResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1619,15 +1782,9 @@ function __c19(j: number): any {
           .pipe(T.Http({ method: "DELETE", uri: "/organizations/{organization_id}", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteOrganizationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "DeleteOrganizationResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1648,7 +1805,7 @@ function __c20(j: number): any {
     case 1:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 2:
-      return S.Record(S.String, __S(161, __c20, 1));
+      return S.Record(S.String, __S(169, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1681,7 +1838,7 @@ function __c20(j: number): any {
           regionName: S.optional(S.NullOr(S.String).pipe(T.Body("RegionName"))),
           subAccountId: S.optional(S.NullOr(S.String).pipe(T.Body("SubAccountId"))),
           subAccountName: S.optional(S.NullOr(S.String).pipe(T.Body("SubAccountName"))),
-          tags: S.optional(S.NullOr(__S(162, __c20, 2)).pipe(T.Body("Tags"))),
+          tags: S.optional(S.NullOr(__S(170, __c21, 2)).pipe(T.Body("Tags"))),
           xBillableMetricName: S.optional(S.NullOr(S.String).pipe(T.Body("x_BillableMetricName"))),
           xProductCategoryName: S.optional(
             S.NullOr(S.String).pipe(T.Body("x_ProductCategoryName")),
@@ -1693,14 +1850,14 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "BillingUsageGetResultItem" });
     case 4:
-      return S.Array(__S(163, __c20, 3));
+      return S.Array(__S(171, __c21, 3));
     case 5:
       return S.suspend(() =>
-        __S(164, __c20, 4).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(172, __c21, 4).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBillingUsageResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1719,7 +1876,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetMemberRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1731,22 +1888,24 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetOrganizationRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label("organization_id")),
           accountPubname: S.optional(
-            __S(192, __c24, 0).pipe(T.Body("account_pubname"), T.DeepQuery("account_pubname")),
+            __S(200, __c25, 0).pipe(T.Body("account_pubname"), T.DeepQuery("account_pubname")),
           ),
           direction: S.optional(S.String.pipe(T.Query())),
           includeTags: S.optional(S.Boolean.pipe(T.Query("include_tags"))),
           includeTotal: S.optional(S.Boolean.pipe(T.Query("include_total"))),
-          name: S.optional(__S(192, __c24, 0).pipe(T.DeepQuery("name"))),
+          name: S.optional(__S(200, __c25, 0).pipe(T.DeepQuery("name"))),
           orderBy: S.optional(S.String.pipe(T.Query("order_by"))),
           pageSize: S.optional(S.Number.pipe(T.Query("page_size"))),
           pageToken: S.optional(S.String.pipe(T.Query("page_token"))),
+          status: S.optional(S.String.pipe(T.Query())),
+          accept: S.optional(S.String.pipe(T.Header("Accept"))),
         })
           .pipe(
             T.Http({ method: "GET", uri: "/organizations/{organization_id}/accounts", code: 200 }),
@@ -1754,38 +1913,21 @@ function __c23(j: number): any {
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetOrganizationAccountRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          abuseContactEmail: S.String.pipe(T.Body("abuse_contact_email")),
-          accessApprovalExpiry: S.String.pipe(T.Body("access_approval_expiry")),
-          apiAccessEnabled: S.Boolean.pipe(T.Body("api_access_enabled")),
-          defaultNameservers: S.String.pipe(T.Body("default_nameservers")),
-          enforceTwofactor: S.Boolean.pipe(T.Body("enforce_twofactor")),
-          useAccountCustomNsByDefault: S.Boolean.pipe(T.Body("use_account_custom_ns_by_default")),
-        }),
-      ).annotate({ identifier: "GetOrganizationAccountResultItemSettings" });
+      return S.Unknown.pipe(
+        /*@__PURE__*/ T.UnionCases([
+          ["id", "createdOn", "name", "settings", "type", "tags"],
+          ["accountPubname", "accountTag", "accountType", "createdOn", "settings"],
+        ]),
+      );
     case 2:
-      return S.Record(S.String, S.String);
+      return S.Array(__S(193, __c24, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          createdOn: S.String.pipe(T.Body("created_on")),
-          name: S.String,
-          settings: __S(185, __c23, 1),
-          type: S.String,
-          tags: S.optional(S.NullOr(__S(186, __c23, 2))),
-        }),
-      ).annotate({ identifier: "GetOrganizationAccountResultItem" });
-    case 4:
-      return S.Array(__S(187, __c23, 3));
-    case 5:
-      return S.suspend(() =>
-        __S(188, __c23, 4).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(194, __c24, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetOrganizationAccountResponse" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

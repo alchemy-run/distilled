@@ -88,6 +88,7 @@ export interface AcceptProjectTransferRequestRequestPaidFeatures {
 export interface AcceptProjectTransferRequestRequestAcceptedPoliciesValue {
   eula: string;
   privacy: string;
+  [key: string]: unknown;
 }
 export type AcceptProjectTransferRequestRequestAcceptedPoliciesMap = {
   [key: string]: AcceptProjectTransferRequestRequestAcceptedPoliciesValue | undefined;
@@ -104,35 +105,30 @@ export interface AcceptProjectTransferRequestRequest {
   paidFeatures?: AcceptProjectTransferRequestRequestPaidFeatures;
   acceptedPolicies?: AcceptProjectTransferRequestRequestAcceptedPoliciesMap;
 }
-export type AcceptProjectTransferRequestResponseBodyCase0PartnerCallsItemResourceIdsList =
-  Array<string>;
-export type AcceptProjectTransferRequestResponseBodyCase0PartnerCallsItemResultStatus =
+export type AcceptProjectTransferRequestResponsePartnerCallsItemResourceIdsList = Array<string>;
+export type AcceptProjectTransferRequestResponsePartnerCallsItemResultStatus =
   | "errored"
   | "fulfilled";
-export interface AcceptProjectTransferRequestResponseBodyCase0PartnerCallsItemResult {
+export interface AcceptProjectTransferRequestResponsePartnerCallsItemResult {
   code?: string;
   error?: unknown;
-  status: AcceptProjectTransferRequestResponseBodyCase0PartnerCallsItemResultStatus;
+  status: AcceptProjectTransferRequestResponsePartnerCallsItemResultStatus;
 }
-export interface AcceptProjectTransferRequestResponseBodyCase0PartnerCallsItem {
+export interface AcceptProjectTransferRequestResponsePartnerCallsItem {
   installationId: string;
-  resourceIds: AcceptProjectTransferRequestResponseBodyCase0PartnerCallsItemResourceIdsList;
-  result: AcceptProjectTransferRequestResponseBodyCase0PartnerCallsItemResult;
+  resourceIds: AcceptProjectTransferRequestResponsePartnerCallsItemResourceIdsList;
+  result: AcceptProjectTransferRequestResponsePartnerCallsItemResult;
 }
-export type AcceptProjectTransferRequestResponseBodyCase0PartnerCallsList =
-  Array<AcceptProjectTransferRequestResponseBodyCase0PartnerCallsItem>;
-export type AcceptProjectTransferRequestResponseBodyCase0ResourceTransferErrorsList =
-  Array<unknown>;
-export type AcceptProjectTransferRequestResponseBodyCase0TransferredStoreIdsList = Array<string>;
-export interface AcceptProjectTransferRequestResponseBodyCase0 {
-  partnerCalls: AcceptProjectTransferRequestResponseBodyCase0PartnerCallsList;
-  resourceTransferErrors: AcceptProjectTransferRequestResponseBodyCase0ResourceTransferErrorsList;
-  transferredStoreIds: AcceptProjectTransferRequestResponseBodyCase0TransferredStoreIdsList;
+export type AcceptProjectTransferRequestResponsePartnerCallsList =
+  Array<AcceptProjectTransferRequestResponsePartnerCallsItem>;
+export type AcceptProjectTransferRequestResponseResourceTransferErrorsList = Array<unknown>;
+export type AcceptProjectTransferRequestResponseTransferredStoreIdsList = Array<string>;
+export interface AcceptProjectTransferRequestResponse {
+  partnerCalls: AcceptProjectTransferRequestResponsePartnerCallsList;
+  projectName: string;
+  resourceTransferErrors: AcceptProjectTransferRequestResponseResourceTransferErrorsList;
+  transferredStoreIds: AcceptProjectTransferRequestResponseTransferredStoreIdsList;
 }
-export type AcceptProjectTransferRequestResponseBody =
-  | AcceptProjectTransferRequestResponseBodyCase0
-  | unknown;
-export type AcceptProjectTransferRequestResponse = AcceptProjectTransferRequestResponseBody;
 /** Status code for domain redirect */
 export type AddProjectDomainRequestRedirectStatusCode = 301 | 302 | 307 | 308;
 export interface AddProjectDomainRequest {
@@ -195,6 +191,18 @@ export type BatchRemoveProjectEnvResponseIdsList = Array<string>;
 export interface BatchRemoveProjectEnvResponse {
   deleted: number;
   ids: BatchRemoveProjectEnvResponseIdsList;
+}
+/** How far in the future the project will be automatically deleted */
+export type CreateProjectRequestExpirationTimeframe =
+  | "1-hour"
+  | "1-day"
+  | "1-week"
+  | "2-week"
+  | "1-month";
+/** Schedules the project for automatic deletion after the given timeframe. */
+export interface CreateProjectRequestExpiration {
+  /** How far in the future the project will be automatically deleted */
+  timeframe: CreateProjectRequestExpirationTimeframe | (string & {});
 }
 export type CreateProjectRequestEnvironmentVariablesItemTargetCase0 =
   | "production"
@@ -394,10 +402,10 @@ export interface CreateProjectRequestOidcTokenConfig {
   issuerMode?: CreateProjectRequestOidcTokenConfigIssuerMode | (string & {});
 }
 export type CreateProjectRequestResourceConfigBuildMachineType =
+  | "standard"
   | "basic"
   | "enhanced"
   | "turbo"
-  | "standard"
   | "elastic";
 /** The regions to deploy Vercel Functions to for this project */
 export type CreateProjectRequestResourceConfigFunctionDefaultRegionsList = Array<string>;
@@ -466,6 +474,8 @@ export interface CreateProjectRequest {
   enablePreviewFeedback?: boolean | null;
   /** Opt-in to production toolbar on the project level */
   enableProductionFeedback?: boolean | null;
+  /** Schedules the project for automatic deletion after the given timeframe. */
+  expiration?: CreateProjectRequestExpiration;
   /** Specifies whether preview deployments are disabled for this project. */
   previewDeploymentsDisabled?: boolean | null;
   /** Custom domain suffix for preview deployments. Takes precedence over team-level suffix. Must be a domain owned by the team. */
@@ -705,28 +715,35 @@ export interface CreateProjectResponseCreatorCase0 {
   via: CreateProjectResponseCreatorCase0Via | null;
   user: CreateProjectResponseCreatorCase0User;
 }
-export type CreateProjectResponseCreatorCase1App = CreateProjectResponseCreatorCase0ViaCase0App;
-export type CreateProjectResponseCreatorCase1Type = "app";
+export type CreateProjectResponseCreatorCase1Project = CreateProjectResponseCreatorCase0User;
+export type CreateProjectResponseCreatorCase1Type = "project";
 export interface CreateProjectResponseCreatorCase1 {
-  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  project: CreateProjectResponseCreatorCase0User;
   type: CreateProjectResponseCreatorCase1Type;
 }
-export type CreateProjectResponseCreatorCase2Integration =
-  CreateProjectResponseCreatorCase0ViaCase1Integration;
-export type CreateProjectResponseCreatorCase2Type = "integration";
+export type CreateProjectResponseCreatorCase2App = CreateProjectResponseCreatorCase0ViaCase0App;
+export type CreateProjectResponseCreatorCase2Type = "app";
 export interface CreateProjectResponseCreatorCase2 {
-  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
   type: CreateProjectResponseCreatorCase2Type;
 }
-export type CreateProjectResponseCreatorCase3Type = "system";
+export type CreateProjectResponseCreatorCase3Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type CreateProjectResponseCreatorCase3Type = "integration";
 export interface CreateProjectResponseCreatorCase3 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
   type: CreateProjectResponseCreatorCase3Type;
+}
+export type CreateProjectResponseCreatorCase4Type = "system";
+export interface CreateProjectResponseCreatorCase4 {
+  type: CreateProjectResponseCreatorCase4Type;
 }
 export type CreateProjectResponseCreator =
   | CreateProjectResponseCreatorCase0
   | CreateProjectResponseCreatorCase1
   | CreateProjectResponseCreatorCase2
-  | CreateProjectResponseCreatorCase3;
+  | CreateProjectResponseCreatorCase3
+  | CreateProjectResponseCreatorCase4;
 /** The origin of this definition. 'api' means created via the API. Undefined means it originated from a deployment (vercel.json). */
 export type CreateProjectResponseCronsDefinitionsItemSource = "api";
 export interface CreateProjectResponseCronsDefinitionsItem {
@@ -853,6 +870,7 @@ export interface CreateProjectResponseDefaultResourceConfigBuildMachineElasticTr
 }
 export type CreateProjectResponseDefaultResourceConfigBuildMachineSelection = "elastic" | "fixed";
 export type CreateProjectResponseDefaultResourceConfigBuildMachineType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
@@ -869,6 +887,47 @@ export type CreateProjectResponseDefaultResourceConfigFunctionDefaultMemoryType 
   | "standard"
   | "standard_legacy";
 export type CreateProjectResponseDefaultResourceConfigFunctionDefaultRegionsList = Array<string>;
+export type CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase0Cores = 4;
+export type CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase0Label = "standard";
+export type CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase0Memory = 8192;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase0 {
+  cores: CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase0Cores;
+  label: CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase0Label;
+  memory: CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase0Memory;
+}
+export type CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase1Cores = 8;
+export type CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase1Label = "enhanced";
+export type CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase1Memory = 16384;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase1 {
+  cores: CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase1Cores;
+  label: CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase1Label;
+  memory: CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase1Memory;
+}
+export type CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase2Cores = 14;
+export type CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase2Label = "14cpu-28gb";
+export type CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase2Memory = 28672;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase2 {
+  cores: CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase2Cores;
+  label: CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase2Label;
+  memory: CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase2Memory;
+}
+export type CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase3Cores = 30;
+export type CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase3Label = "turbo";
+export type CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase3Memory = 61440;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase3 {
+  cores: CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase3Cores;
+  label: CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase3Label;
+  memory: CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase3Memory;
+}
+export type CreateProjectResponseDefaultResourceConfigElasticBuildMachine =
+  | CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase0
+  | CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase1
+  | CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase2
+  | CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase3;
 export interface CreateProjectResponseDefaultResourceConfig {
   buildMachineElasticLastUpdated?: number;
   buildMachineElasticReason?: CreateProjectResponseDefaultResourceConfigBuildMachineElasticReason;
@@ -884,6 +943,7 @@ export interface CreateProjectResponseDefaultResourceConfig {
   functionDefaultTimeout?: number;
   functionZeroConfigFailover?: boolean;
   isNSNBDisabled?: boolean;
+  elasticBuildMachine?: CreateProjectResponseDefaultResourceConfigElasticBuildMachine;
 }
 /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
 export interface CreateProjectResponseDeploymentExpiration {
@@ -1189,7 +1249,7 @@ export interface CreateProjectResponseExpirationCase0 {
 export interface CreateProjectResponseExpirationCase1 {
   /** Unix ms timestamp when the project was locked. */
   lockedAt: number;
-  /** userId of the actor that triggered the lock (system or admin). */
+  /** ID of the user, app, or integration that locked the project, or `system`. */
   lockedBy: string;
 }
 export type CreateProjectResponseExpiration =
@@ -1351,6 +1411,10 @@ export type CreateProjectResponseJobsFlagDefinitionsPresentTargetsList = Array<s
 export interface CreateProjectResponseJobsFlagDefinitionsPresent {
   targets: CreateProjectResponseJobsFlagDefinitionsPresentTargetsList;
 }
+export type CreateProjectResponseJobsHealthCheckTargetsList = Array<string>;
+export interface CreateProjectResponseJobsHealthCheck {
+  targets: CreateProjectResponseJobsHealthCheckTargetsList;
+}
 export type CreateProjectResponseJobsLintTargetsList = Array<string>;
 export interface CreateProjectResponseJobsLint {
   targets: CreateProjectResponseJobsLintTargetsList;
@@ -1365,6 +1429,7 @@ export interface CreateProjectResponseJobsTypecheck {
 }
 export interface CreateProjectResponseJobs {
   flag_definitions_present?: CreateProjectResponseJobsFlagDefinitionsPresent;
+  health_check?: CreateProjectResponseJobsHealthCheck;
   lint?: CreateProjectResponseJobsLint;
   mfe_config_present?: CreateProjectResponseJobsMfeConfigPresent;
   typecheck?: CreateProjectResponseJobsTypecheck;
@@ -1713,6 +1778,7 @@ export type CreateProjectResponseNodeVersion =
   | "20.x"
   | "22.x"
   | "24.x"
+  | "26.x"
   | "8.10.x";
 /** - team: `https://oidc.vercel.com/[team_slug]` - global: `https://oidc.vercel.com` */
 export type CreateProjectResponseOidcTokenConfigIssuerMode = "global" | "team";
@@ -1739,6 +1805,15 @@ export interface CreateProjectResponsePassport {
   connectorId: string;
   deploymentType: CreateProjectResponsePassportDeploymentType;
 }
+export type CreateProjectResponsePasswordProtectionDeploymentType =
+  | "all"
+  | "all_except_custom_domains"
+  | "preview"
+  | "prod_deployment_urls_and_all_previews";
+/** Password protection settings returned without the secret password hash. */
+export interface CreateProjectResponsePasswordProtection {
+  deploymentType: CreateProjectResponsePasswordProtectionDeploymentType;
+}
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type ACLAction = "create" | "delete" | "list" | "read" | "update";
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -1757,6 +1832,8 @@ export type CreateProjectResponsePermissionsAiGatewayApiKeySpendAttributionList 
 export type CreateProjectResponsePermissionsAiGatewayApiKeyZdrExemptionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsAiGatewayBudgetList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type CreateProjectResponsePermissionsAiGatewayByokCredentialsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsAiGatewayCreditsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -1856,6 +1933,8 @@ export type CreateProjectResponsePermissionsConnectLogsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsConnexClientList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type CreateProjectResponsePermissionsConnexClientAccessList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsConnexClientProjectList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsConnexContactList = Array<ACLAction>;
@@ -1919,6 +1998,8 @@ export type CreateProjectResponsePermissionsDomainTransferInList = Array<ACLActi
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsDrainList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type CreateProjectResponsePermissionsDriveList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsEdgeCacheNamespaceList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsEdgeConfigList = Array<ACLAction>;
@@ -1928,6 +2009,8 @@ export type CreateProjectResponsePermissionsEdgeConfigItemList = Array<ACLAction
 export type CreateProjectResponsePermissionsEdgeConfigSchemaList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsEdgeConfigTokenList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type CreateProjectResponsePermissionsEmaSetupList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsEndpointVerificationList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -1940,6 +2023,8 @@ export type CreateProjectResponsePermissionsFileUploadList = Array<ACLAction>;
 export type CreateProjectResponsePermissionsFlagsExplorerSubscriptionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsGitCredentialGrantList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type CreateProjectResponsePermissionsGithubUsageList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsGitRepositoryList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -2015,7 +2100,13 @@ export type CreateProjectResponsePermissionsMarketplaceSettingsList = Array<ACLA
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsMessageboardList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-export type CreateProjectResponsePermissionsMessageboardSpaceList = Array<ACLAction>;
+export type CreateProjectResponsePermissionsMessageboardChannelList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type CreateProjectResponsePermissionsMessageboardMessageList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type CreateProjectResponsePermissionsMessageboardModerationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type CreateProjectResponsePermissionsMessageboardReactionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsMessageboardTaskList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -2106,6 +2197,8 @@ export type CreateProjectResponsePermissionsPreviewDeploymentSuffixList = Array<
 export type CreateProjectResponsePermissionsPrivateCloudAccountList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsPrivateLinkEndpointList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type CreateProjectResponsePermissionsPrivateNpmUsageList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsProductionAliasProtectionBypassList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -2210,6 +2303,8 @@ export type CreateProjectResponsePermissionsRepositoryList = Array<ACLAction>;
 export type CreateProjectResponsePermissionsSamlConfigList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsScheduleList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type CreateProjectResponsePermissionsSchedulePreviewList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsSeawallConfigList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -2344,6 +2439,8 @@ export interface CreateProjectResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayBudget?: CreateProjectResponsePermissionsAiGatewayBudgetList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayByokCredentials?: CreateProjectResponsePermissionsAiGatewayByokCredentialsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayCredits?: CreateProjectResponsePermissionsAiGatewayCreditsList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayGuardrails?: CreateProjectResponsePermissionsAiGatewayGuardrailsList;
@@ -2442,6 +2539,8 @@ export interface CreateProjectResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   connexClient?: CreateProjectResponsePermissionsConnexClientList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  connexClientAccess?: CreateProjectResponsePermissionsConnexClientAccessList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   connexClientProject?: CreateProjectResponsePermissionsConnexClientProjectList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   connexContact?: CreateProjectResponsePermissionsConnexContactList;
@@ -2504,6 +2603,8 @@ export interface CreateProjectResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   drain?: CreateProjectResponsePermissionsDrainList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  drive?: CreateProjectResponsePermissionsDriveList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   edgeCacheNamespace?: CreateProjectResponsePermissionsEdgeCacheNamespaceList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   edgeConfig?: CreateProjectResponsePermissionsEdgeConfigList;
@@ -2513,6 +2614,8 @@ export interface CreateProjectResponsePermissions {
   edgeConfigSchema?: CreateProjectResponsePermissionsEdgeConfigSchemaList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   edgeConfigToken?: CreateProjectResponsePermissionsEdgeConfigTokenList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  emaSetup?: CreateProjectResponsePermissionsEmaSetupList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   endpointVerification?: CreateProjectResponsePermissionsEndpointVerificationList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -2525,6 +2628,8 @@ export interface CreateProjectResponsePermissions {
   flagsExplorerSubscription?: CreateProjectResponsePermissionsFlagsExplorerSubscriptionList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   gitCredentialGrant?: CreateProjectResponsePermissionsGitCredentialGrantList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  githubUsage?: CreateProjectResponsePermissionsGithubUsageList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   gitRepository?: CreateProjectResponsePermissionsGitRepositoryList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -2598,7 +2703,13 @@ export interface CreateProjectResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   messageboard?: CreateProjectResponsePermissionsMessageboardList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  messageboardSpace?: CreateProjectResponsePermissionsMessageboardSpaceList;
+  messageboardChannel?: CreateProjectResponsePermissionsMessageboardChannelList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardMessage?: CreateProjectResponsePermissionsMessageboardMessageList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardModeration?: CreateProjectResponsePermissionsMessageboardModerationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardReaction?: CreateProjectResponsePermissionsMessageboardReactionList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   messageboardTask?: CreateProjectResponsePermissionsMessageboardTaskList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -2689,6 +2800,8 @@ export interface CreateProjectResponsePermissions {
   privateCloudAccount?: CreateProjectResponsePermissionsPrivateCloudAccountList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   privateLinkEndpoint?: CreateProjectResponsePermissionsPrivateLinkEndpointList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  privateNpmUsage?: CreateProjectResponsePermissionsPrivateNpmUsageList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   productionAliasProtectionBypass?: CreateProjectResponsePermissionsProductionAliasProtectionBypassList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -2791,6 +2904,8 @@ export interface CreateProjectResponsePermissions {
   samlConfig?: CreateProjectResponsePermissionsSamlConfigList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   schedule?: CreateProjectResponsePermissionsScheduleList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  schedulePreview?: CreateProjectResponsePermissionsSchedulePreviewList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   seawallConfig?: CreateProjectResponsePermissionsSeawallConfigList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -2957,6 +3072,7 @@ export interface CreateProjectResponseResourceConfigBuildMachineElasticTransitio
 }
 export type CreateProjectResponseResourceConfigBuildMachineSelection = "elastic" | "fixed";
 export type CreateProjectResponseResourceConfigBuildMachineType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
@@ -2973,6 +3089,47 @@ export type CreateProjectResponseResourceConfigFunctionDefaultMemoryType =
   | "standard"
   | "standard_legacy";
 export type CreateProjectResponseResourceConfigFunctionDefaultRegionsList = Array<string>;
+export type CreateProjectResponseResourceConfigElasticBuildMachineCase0Cores = 4;
+export type CreateProjectResponseResourceConfigElasticBuildMachineCase0Label = "standard";
+export type CreateProjectResponseResourceConfigElasticBuildMachineCase0Memory = 8192;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface CreateProjectResponseResourceConfigElasticBuildMachineCase0 {
+  cores: CreateProjectResponseResourceConfigElasticBuildMachineCase0Cores;
+  label: CreateProjectResponseResourceConfigElasticBuildMachineCase0Label;
+  memory: CreateProjectResponseResourceConfigElasticBuildMachineCase0Memory;
+}
+export type CreateProjectResponseResourceConfigElasticBuildMachineCase1Cores = 8;
+export type CreateProjectResponseResourceConfigElasticBuildMachineCase1Label = "enhanced";
+export type CreateProjectResponseResourceConfigElasticBuildMachineCase1Memory = 16384;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface CreateProjectResponseResourceConfigElasticBuildMachineCase1 {
+  cores: CreateProjectResponseResourceConfigElasticBuildMachineCase1Cores;
+  label: CreateProjectResponseResourceConfigElasticBuildMachineCase1Label;
+  memory: CreateProjectResponseResourceConfigElasticBuildMachineCase1Memory;
+}
+export type CreateProjectResponseResourceConfigElasticBuildMachineCase2Cores = 14;
+export type CreateProjectResponseResourceConfigElasticBuildMachineCase2Label = "14cpu-28gb";
+export type CreateProjectResponseResourceConfigElasticBuildMachineCase2Memory = 28672;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface CreateProjectResponseResourceConfigElasticBuildMachineCase2 {
+  cores: CreateProjectResponseResourceConfigElasticBuildMachineCase2Cores;
+  label: CreateProjectResponseResourceConfigElasticBuildMachineCase2Label;
+  memory: CreateProjectResponseResourceConfigElasticBuildMachineCase2Memory;
+}
+export type CreateProjectResponseResourceConfigElasticBuildMachineCase3Cores = 30;
+export type CreateProjectResponseResourceConfigElasticBuildMachineCase3Label = "turbo";
+export type CreateProjectResponseResourceConfigElasticBuildMachineCase3Memory = 61440;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface CreateProjectResponseResourceConfigElasticBuildMachineCase3 {
+  cores: CreateProjectResponseResourceConfigElasticBuildMachineCase3Cores;
+  label: CreateProjectResponseResourceConfigElasticBuildMachineCase3Label;
+  memory: CreateProjectResponseResourceConfigElasticBuildMachineCase3Memory;
+}
+export type CreateProjectResponseResourceConfigElasticBuildMachine =
+  | CreateProjectResponseResourceConfigElasticBuildMachineCase0
+  | CreateProjectResponseResourceConfigElasticBuildMachineCase1
+  | CreateProjectResponseResourceConfigElasticBuildMachineCase2
+  | CreateProjectResponseResourceConfigElasticBuildMachineCase3;
 export interface CreateProjectResponseResourceConfig {
   buildMachineElasticLastUpdated?: number;
   buildMachineElasticReason?: CreateProjectResponseResourceConfigBuildMachineElasticReason;
@@ -2988,17 +3145,82 @@ export interface CreateProjectResponseResourceConfig {
   functionDefaultTimeout?: number;
   functionZeroConfigFailover?: boolean;
   isNSNBDisabled?: boolean;
+  elasticBuildMachine?: CreateProjectResponseResourceConfigElasticBuildMachine;
 }
+export type CreateProjectResponseRollbackDescriptionPrincipalCase0Type = "user";
+export type CreateProjectResponseRollbackDescriptionPrincipalCase0ViaCase0App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type CreateProjectResponseRollbackDescriptionPrincipalCase0ViaCase0Type = "app";
+/** Set when a Vercel App or Integration acts on behalf of a {@link User}. Captures user-consented OAuth delegation that the ACL layer may inspect to evaluate scope restrictions. This is NOT for impersonation or token-exchange provenance -- those live on `auth.token`, not on the principal. */
+export interface CreateProjectResponseRollbackDescriptionPrincipalCase0ViaCase0 {
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  type: CreateProjectResponseRollbackDescriptionPrincipalCase0ViaCase0Type;
+}
+export type CreateProjectResponseRollbackDescriptionPrincipalCase0ViaCase1Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type CreateProjectResponseRollbackDescriptionPrincipalCase0ViaCase1Type = "integration";
+/** Set when a Vercel App or Integration acts on behalf of a {@link User}. Captures user-consented OAuth delegation that the ACL layer may inspect to evaluate scope restrictions. This is NOT for impersonation or token-exchange provenance -- those live on `auth.token`, not on the principal. */
+export interface CreateProjectResponseRollbackDescriptionPrincipalCase0ViaCase1 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  type: CreateProjectResponseRollbackDescriptionPrincipalCase0ViaCase1Type;
+}
+export type CreateProjectResponseRollbackDescriptionPrincipalCase0Via =
+  | CreateProjectResponseRollbackDescriptionPrincipalCase0ViaCase0
+  | CreateProjectResponseRollbackDescriptionPrincipalCase0ViaCase1;
+export type CreateProjectResponseRollbackDescriptionPrincipalCase0User =
+  CreateProjectResponseCreatorCase0User;
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface CreateProjectResponseRollbackDescriptionPrincipalCase0 {
+  type: CreateProjectResponseRollbackDescriptionPrincipalCase0Type;
+  via: CreateProjectResponseRollbackDescriptionPrincipalCase0Via | null;
+  user: CreateProjectResponseCreatorCase0User;
+}
+export type CreateProjectResponseRollbackDescriptionPrincipalCase1Project =
+  CreateProjectResponseCreatorCase0User;
+export type CreateProjectResponseRollbackDescriptionPrincipalCase1Type = "project";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface CreateProjectResponseRollbackDescriptionPrincipalCase1 {
+  project: CreateProjectResponseCreatorCase0User;
+  type: CreateProjectResponseRollbackDescriptionPrincipalCase1Type;
+}
+export type CreateProjectResponseRollbackDescriptionPrincipalCase2App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type CreateProjectResponseRollbackDescriptionPrincipalCase2Type = "app";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface CreateProjectResponseRollbackDescriptionPrincipalCase2 {
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  type: CreateProjectResponseRollbackDescriptionPrincipalCase2Type;
+}
+export type CreateProjectResponseRollbackDescriptionPrincipalCase3Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type CreateProjectResponseRollbackDescriptionPrincipalCase3Type = "integration";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface CreateProjectResponseRollbackDescriptionPrincipalCase3 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  type: CreateProjectResponseRollbackDescriptionPrincipalCase3Type;
+}
+export type CreateProjectResponseRollbackDescriptionPrincipalCase4Type = "system";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface CreateProjectResponseRollbackDescriptionPrincipalCase4 {
+  type: CreateProjectResponseRollbackDescriptionPrincipalCase4Type;
+}
+export type CreateProjectResponseRollbackDescriptionPrincipal =
+  | CreateProjectResponseRollbackDescriptionPrincipalCase0
+  | CreateProjectResponseRollbackDescriptionPrincipalCase1
+  | CreateProjectResponseRollbackDescriptionPrincipalCase2
+  | CreateProjectResponseRollbackDescriptionPrincipalCase3
+  | CreateProjectResponseRollbackDescriptionPrincipalCase4;
 /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
 export interface CreateProjectResponseRollbackDescription {
   /** Timestamp of when the rollback was requested. */
   createdAt: number;
   /** User-supplied explanation of why they rolled back the project. Limited to 250 characters. */
   description: string;
-  /** The user who rolled back the project. */
-  userId: string;
-  /** The username of the user who rolled back the project. */
-  username: string;
+  principal?: CreateProjectResponseRollbackDescriptionPrincipal;
+  /** The ID of the user who rolled back the project, when the principal was a user. */
+  userId?: string;
+  /** The username of the user who rolled back the project, when the principal was a user. */
+  username?: string;
 }
 /** What to do when the gate trips: pause the rollout, or roll it back. */
 export type CreateProjectResponseRollingReleaseGateAction = "pause" | "rollback";
@@ -3016,8 +3238,8 @@ export interface CreateProjectResponseRollingReleaseGateChecksItem {
   excludeStatusCodes?: CreateProjectResponseRollingReleaseGateChecksItemExcludeStatusCodesList;
   /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
   ingestWatermarkSeconds?: number;
-  /** Minimum number of requests required in the window before the check can fail. Below this, the check is inconclusive rather than failing, so low-traffic stages don't gate on noise. Defaults to `100` when omitted. */
-  minSampleSize?: number;
+  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
+  significanceLevel?: number;
   /** The metric this check evaluates. */
   type: CreateProjectResponseRollingReleaseGateChecksItemType;
 }
@@ -3167,11 +3389,17 @@ export type CreateProjectResponseSecurityRulesetsValueLogHeadersCase1 = "*";
 export type CreateProjectResponseSecurityRulesetsValueLogHeaders =
   | CreateProjectResponseSecurityRulesetsValueLogHeadersCase0List
   | CreateProjectResponseSecurityRulesetsValueLogHeadersCase1;
+export type CreateProjectResponseSecurityRulesetsValueRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
 export type CreateProjectResponseSecurityRulesetsValueRateLimitAlgo =
   | "fixed_window"
   | "token_bucket";
 export type CreateProjectResponseSecurityRulesetsValueRateLimitKeysList = Array<string>;
 export interface CreateProjectResponseSecurityRulesetsValueRateLimit {
+  action?: CreateProjectResponseSecurityRulesetsValueRateLimitAction | null;
   algo: CreateProjectResponseSecurityRulesetsValueRateLimitAlgo;
   keys: CreateProjectResponseSecurityRulesetsValueRateLimitKeysList;
   limit: number;
@@ -3610,6 +3838,10 @@ export interface CreateProjectResponseUsageStatus {
   /** Per-project throttle, set explicitly for this project (e.g. via the per-project Flat Rate CDN endpoint). */
   throttled?: boolean;
 }
+export interface CreateProjectResponseVercelFlags {
+  /** When Flags were enabled for the project, taken from the Flags settings row's `createdAt`. Recorded by `@api/api-feature-flags` on flags sync. */
+  enabledAt?: number;
+}
 export interface CreateProjectResponseWebAnalytics {
   canceledAt?: number;
   disabledAt?: number;
@@ -3626,6 +3858,7 @@ export interface CreateProjectResponse {
   autoAssignCustomDomainsUpdatedBy?: string;
   autoExposeSystemEnvs?: boolean;
   avatar?: string | null;
+  avatarDarkMode?: string | null;
   blobs?: CreateProjectResponseBlobs;
   buildCommand?: string | null;
   commandForIgnoringBuildStep?: string | null;
@@ -3679,7 +3912,8 @@ export interface CreateProjectResponse {
   outputDirectory?: string | null;
   passiveConnectConfigurationId?: string | null;
   passport?: CreateProjectResponsePassport | null;
-  passwordProtection?: unknown | null;
+  /** Password protection settings returned without the secret password hash. */
+  passwordProtection?: CreateProjectResponsePasswordProtection | null;
   paused?: boolean;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   permissions?: CreateProjectResponsePermissions;
@@ -3718,6 +3952,7 @@ export interface CreateProjectResponse {
   usageStatus?: CreateProjectResponseUsageStatus;
   v0?: boolean;
   v0Created?: boolean;
+  vercelFlags?: CreateProjectResponseVercelFlags;
   webAnalytics?: CreateProjectResponseWebAnalytics;
 }
 export type CreateProjectEnvRequestBodyCase1List = Array<unknown>;
@@ -4149,6 +4384,3406 @@ export interface DeleteProjectRequest {
   slug?: string;
 }
 export interface DeleteProjectResponse {}
+export interface DeleteProjectAvatarRequest {
+  /** The unique project identifier or the project name. */
+  idOrName: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string;
+}
+export type DeleteProjectAvatarResponseAliasItemConfiguredBy = "A" | "CNAME" | "dns-01" | "http";
+export type DeleteProjectAvatarResponseAliasItemDeploymentAliasList = Array<string>;
+export type DeleteProjectAvatarResponseAliasItemDeploymentAliasAssigned = number | boolean;
+export type DeleteProjectAvatarResponseAliasItemDeploymentAliasError =
+  CreateProjectResponseAliasItemDeploymentAliasError;
+export type DeleteProjectAvatarResponseAliasItemDeploymentAutomaticAliasesList = Array<string>;
+/** The type of matching to perform */
+export type DeleteProjectAvatarResponseAliasItemDeploymentBranchMatcherType =
+  | "endsWith"
+  | "equals"
+  | "startsWith";
+export interface DeleteProjectAvatarResponseAliasItemDeploymentBranchMatcher {
+  /** The pattern to match against branch names */
+  pattern: string;
+  /** The type of matching to perform */
+  type: DeleteProjectAvatarResponseAliasItemDeploymentBranchMatcherType;
+}
+export type DeleteProjectAvatarResponseAliasItemDeploymentBuildsItem =
+  CreateProjectResponseAliasItemDeploymentBuildsItem;
+export type DeleteProjectAvatarResponseAliasItemDeploymentBuildsList =
+  Array<CreateProjectResponseAliasItemDeploymentBuildsItem>;
+export type DeleteProjectAvatarResponseAliasItemDeploymentChecksConclusion =
+  | "canceled"
+  | "failed"
+  | "skipped"
+  | "succeeded";
+export type DeleteProjectAvatarResponseAliasItemDeploymentChecksState =
+  | "completed"
+  | "registered"
+  | "running";
+export type DeleteProjectAvatarResponseAliasItemDeploymentCreator =
+  CreateProjectResponseAliasItemDeploymentCreator;
+export type DeleteProjectAvatarResponseAliasItemDeploymentMetaMap = {
+  [key: string]: string | undefined;
+};
+export type DeleteProjectAvatarResponseAliasItemDeploymentOidcTokenClaimsMfeGroupIdsList =
+  Array<string>;
+export interface DeleteProjectAvatarResponseAliasItemDeploymentOidcTokenClaims {
+  aud: string;
+  custom_environment_id?: string;
+  deployment_id?: string;
+  environment: string;
+  iss: string;
+  mfe_group_ids?: DeleteProjectAvatarResponseAliasItemDeploymentOidcTokenClaimsMfeGroupIdsList;
+  owner: string;
+  owner_id: string;
+  plan?: string;
+  project: string;
+  project_id: string;
+  scope: string;
+  sub: string;
+}
+export type DeleteProjectAvatarResponseAliasItemDeploymentPlan = "enterprise" | "hobby" | "pro";
+export type DeleteProjectAvatarResponseAliasItemDeploymentReadyState =
+  | "BLOCKED"
+  | "BUILDING"
+  | "CANCELED"
+  | "ERROR"
+  | "INITIALIZING"
+  | "QUEUED"
+  | "READY";
+export type DeleteProjectAvatarResponseAliasItemDeploymentReadySubstate =
+  | "PROMOTED"
+  | "ROLLING"
+  | "STAGED";
+export type DeleteProjectAvatarResponseAliasItemDeploymentType = "LAMBDAS";
+export interface DeleteProjectAvatarResponseAliasItemDeployment {
+  alias?: DeleteProjectAvatarResponseAliasItemDeploymentAliasList;
+  aliasAssigned?: DeleteProjectAvatarResponseAliasItemDeploymentAliasAssigned | null;
+  aliasError?: CreateProjectResponseAliasItemDeploymentAliasError | null;
+  aliasFinal?: string | null;
+  automaticAliases?: DeleteProjectAvatarResponseAliasItemDeploymentAutomaticAliasesList;
+  branchMatcher?: DeleteProjectAvatarResponseAliasItemDeploymentBranchMatcher;
+  buildingAt?: number;
+  builds?: DeleteProjectAvatarResponseAliasItemDeploymentBuildsList;
+  checksConclusion?: DeleteProjectAvatarResponseAliasItemDeploymentChecksConclusion;
+  checksState?: DeleteProjectAvatarResponseAliasItemDeploymentChecksState;
+  connectBuildsEnabled?: boolean;
+  connectConfigurationId?: string;
+  createdAt: number;
+  createdIn: string;
+  creator: CreateProjectResponseAliasItemDeploymentCreator | null;
+  deletedAt?: number;
+  deploymentHostname: string;
+  forced?: boolean;
+  id: string;
+  meta?: DeleteProjectAvatarResponseAliasItemDeploymentMetaMap;
+  monorepoManager?: string | null;
+  name: string;
+  oidcTokenClaims?: DeleteProjectAvatarResponseAliasItemDeploymentOidcTokenClaims;
+  plan: DeleteProjectAvatarResponseAliasItemDeploymentPlan;
+  /** Whether or not preview comments are enabled for the deployment */
+  previewCommentsEnabled?: boolean;
+  private: boolean;
+  readyAt?: number;
+  readyState: DeleteProjectAvatarResponseAliasItemDeploymentReadyState;
+  readySubstate?: DeleteProjectAvatarResponseAliasItemDeploymentReadySubstate;
+  requestedAt?: number;
+  target?: string | null;
+  teamId?: string | null;
+  type: DeleteProjectAvatarResponseAliasItemDeploymentType;
+  url: string;
+  /** Present for user creators; omitted for app/integration/system creators. */
+  userId?: string;
+  withCache?: boolean;
+}
+export type DeleteProjectAvatarResponseAliasItemEnvironment = "preview" | "production";
+export type DeleteProjectAvatarResponseAliasItemRedirectStatusCode = 301 | 302 | 307 | 308;
+export type DeleteProjectAvatarResponseAliasItemTarget = "PREVIEW" | "PRODUCTION" | "STAGING";
+export interface DeleteProjectAvatarResponseAliasItem {
+  configuredBy?: DeleteProjectAvatarResponseAliasItemConfiguredBy | null;
+  configuredChangedAt?: number | null;
+  createdAt?: number | null;
+  deployment: DeleteProjectAvatarResponseAliasItemDeployment | null;
+  domain: string;
+  environment: DeleteProjectAvatarResponseAliasItemEnvironment;
+  gitBranch?: string | null;
+  redirect?: string | null;
+  redirectStatusCode?: DeleteProjectAvatarResponseAliasItemRedirectStatusCode | null;
+  target: DeleteProjectAvatarResponseAliasItemTarget;
+}
+export type DeleteProjectAvatarResponseAliasList = Array<DeleteProjectAvatarResponseAliasItem>;
+export type DeleteProjectAvatarResponseAnalytics = CreateProjectResponseAnalytics;
+export type DeleteProjectAvatarResponseBlobs = CreateProjectResponseBlobs;
+export type DeleteProjectAvatarResponseConnectConfigurationsItemAwsSubnetIdsList = Array<string>;
+export interface DeleteProjectAvatarResponseConnectConfigurationsItemAws {
+  securityGroupId?: string;
+  subnetIds: DeleteProjectAvatarResponseConnectConfigurationsItemAwsSubnetIdsList;
+}
+export type DeleteProjectAvatarResponseConnectConfigurationsItemEnvIdCase1 =
+  | "preview"
+  | "production";
+export type DeleteProjectAvatarResponseConnectConfigurationsItemEnvId =
+  | string
+  | DeleteProjectAvatarResponseConnectConfigurationsItemEnvIdCase1;
+export interface DeleteProjectAvatarResponseConnectConfigurationsItem {
+  aws?: DeleteProjectAvatarResponseConnectConfigurationsItemAws;
+  buildsEnabled: boolean;
+  connectConfigurationId: string;
+  createdAt: number;
+  dc?: string;
+  envId: DeleteProjectAvatarResponseConnectConfigurationsItemEnvId;
+  passive: boolean;
+  updatedAt: number;
+}
+export type DeleteProjectAvatarResponseConnectConfigurationsList =
+  Array<DeleteProjectAvatarResponseConnectConfigurationsItem>;
+export type DeleteProjectAvatarResponseCreatorCase0Type = "user";
+export type DeleteProjectAvatarResponseCreatorCase0ViaCase0App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type DeleteProjectAvatarResponseCreatorCase0ViaCase0Type = "app";
+/** Set when a Vercel App or Integration acts on behalf of a {@link User}. Captures user-consented OAuth delegation that the ACL layer may inspect to evaluate scope restrictions. This is NOT for impersonation or token-exchange provenance -- those live on `auth.token`, not on the principal. */
+export interface DeleteProjectAvatarResponseCreatorCase0ViaCase0 {
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  type: DeleteProjectAvatarResponseCreatorCase0ViaCase0Type;
+}
+export type DeleteProjectAvatarResponseCreatorCase0ViaCase1Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type DeleteProjectAvatarResponseCreatorCase0ViaCase1Type = "integration";
+/** Set when a Vercel App or Integration acts on behalf of a {@link User}. Captures user-consented OAuth delegation that the ACL layer may inspect to evaluate scope restrictions. This is NOT for impersonation or token-exchange provenance -- those live on `auth.token`, not on the principal. */
+export interface DeleteProjectAvatarResponseCreatorCase0ViaCase1 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  type: DeleteProjectAvatarResponseCreatorCase0ViaCase1Type;
+}
+export type DeleteProjectAvatarResponseCreatorCase0Via =
+  | DeleteProjectAvatarResponseCreatorCase0ViaCase0
+  | DeleteProjectAvatarResponseCreatorCase0ViaCase1;
+export type DeleteProjectAvatarResponseCreatorCase0User = CreateProjectResponseCreatorCase0User;
+export interface DeleteProjectAvatarResponseCreatorCase0 {
+  type: DeleteProjectAvatarResponseCreatorCase0Type;
+  via: DeleteProjectAvatarResponseCreatorCase0Via | null;
+  user: CreateProjectResponseCreatorCase0User;
+}
+export type DeleteProjectAvatarResponseCreatorCase1Project = CreateProjectResponseCreatorCase0User;
+export type DeleteProjectAvatarResponseCreatorCase1Type = "project";
+export interface DeleteProjectAvatarResponseCreatorCase1 {
+  project: CreateProjectResponseCreatorCase0User;
+  type: DeleteProjectAvatarResponseCreatorCase1Type;
+}
+export type DeleteProjectAvatarResponseCreatorCase2App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type DeleteProjectAvatarResponseCreatorCase2Type = "app";
+export interface DeleteProjectAvatarResponseCreatorCase2 {
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  type: DeleteProjectAvatarResponseCreatorCase2Type;
+}
+export type DeleteProjectAvatarResponseCreatorCase3Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type DeleteProjectAvatarResponseCreatorCase3Type = "integration";
+export interface DeleteProjectAvatarResponseCreatorCase3 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  type: DeleteProjectAvatarResponseCreatorCase3Type;
+}
+export type DeleteProjectAvatarResponseCreatorCase4Type = "system";
+export interface DeleteProjectAvatarResponseCreatorCase4 {
+  type: DeleteProjectAvatarResponseCreatorCase4Type;
+}
+export type DeleteProjectAvatarResponseCreator =
+  | DeleteProjectAvatarResponseCreatorCase0
+  | DeleteProjectAvatarResponseCreatorCase1
+  | DeleteProjectAvatarResponseCreatorCase2
+  | DeleteProjectAvatarResponseCreatorCase3
+  | DeleteProjectAvatarResponseCreatorCase4;
+/** The origin of this definition. 'api' means created via the API. Undefined means it originated from a deployment (vercel.json). */
+export type DeleteProjectAvatarResponseCronsDefinitionsItemSource = "api";
+export interface DeleteProjectAvatarResponseCronsDefinitionsItem {
+  /** A human-readable description of what this cron job does. */
+  description?: string;
+  /** The hostname that should be used. */
+  host: string;
+  /** Whether the host was inferred from the production deployment URL rather than explicitly provided. */
+  hostInferred?: boolean;
+  /** The path that should be called for the cronjob. */
+  path: string;
+  /** The cron expression. */
+  schedule: string;
+  /** The origin of this definition. 'api' means created via the API. Undefined means it originated from a deployment (vercel.json). */
+  source?: DeleteProjectAvatarResponseCronsDefinitionsItemSource;
+}
+export type DeleteProjectAvatarResponseCronsDefinitionsList =
+  Array<DeleteProjectAvatarResponseCronsDefinitionsItem>;
+export interface DeleteProjectAvatarResponseCrons {
+  definitions: DeleteProjectAvatarResponseCronsDefinitionsList;
+  /** The ID of the Deployment from which the definitions originated. */
+  deploymentId: string | null;
+  /** The time the feature was disabled for this project. */
+  disabledAt: number | null;
+  /** The time the feature was enabled for this project. Note: It enables automatically with the first Deployment that outputs cronjobs. */
+  enabledAt: number;
+  updatedAt: number;
+}
+/** The type of matching to perform */
+export type DeleteProjectAvatarResponseCustomEnvironmentsItemBranchMatcherType =
+  | "endsWith"
+  | "equals"
+  | "startsWith";
+/** Configuration for matching git branches to this environment */
+export interface DeleteProjectAvatarResponseCustomEnvironmentsItemBranchMatcher {
+  /** The pattern to match against branch names */
+  pattern: string;
+  /** The type of matching to perform */
+  type: DeleteProjectAvatarResponseCustomEnvironmentsItemBranchMatcherType;
+}
+/** List of aliases for the current deployment */
+export type DeleteProjectAvatarResponseCustomEnvironmentsItemCurrentDeploymentAliasesList =
+  Array<string>;
+export type DeleteProjectAvatarResponseCustomEnvironmentsItemDomainsItemRedirectStatusCode =
+  | 301
+  | 302
+  | 307
+  | 308;
+/** A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`. */
+export type DeleteProjectAvatarResponseCustomEnvironmentsItemDomainsItemVerificationItem =
+  AddProjectDomainResponseVerificationItem;
+/** A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`. */
+export type DeleteProjectAvatarResponseCustomEnvironmentsItemDomainsItemVerificationList =
+  Array<AddProjectDomainResponseVerificationItem>;
+/** List of domains associated with this environment */
+export interface DeleteProjectAvatarResponseCustomEnvironmentsItemDomainsItem {
+  apexName: string;
+  createdAt?: number;
+  customEnvironmentId?: string | null;
+  gitBranch?: string | null;
+  name: string;
+  projectId: string;
+  redirect?: string | null;
+  redirectStatusCode?: DeleteProjectAvatarResponseCustomEnvironmentsItemDomainsItemRedirectStatusCode | null;
+  updatedAt?: number;
+  /** A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`. */
+  verification?: DeleteProjectAvatarResponseCustomEnvironmentsItemDomainsItemVerificationList;
+  /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
+  verified: boolean;
+}
+/** List of domains associated with this environment */
+export type DeleteProjectAvatarResponseCustomEnvironmentsItemDomainsList =
+  Array<DeleteProjectAvatarResponseCustomEnvironmentsItemDomainsItem>;
+/** The type of environment (production, preview, or development) */
+export type DeleteProjectAvatarResponseCustomEnvironmentsItemType =
+  | "development"
+  | "preview"
+  | "production";
+/** Internal representation of a custom environment with all required properties */
+export interface DeleteProjectAvatarResponseCustomEnvironmentsItem {
+  /** Configuration for matching git branches to this environment */
+  branchMatcher?: DeleteProjectAvatarResponseCustomEnvironmentsItemBranchMatcher;
+  /** Timestamp when the environment was created */
+  createdAt: number;
+  /** List of aliases for the current deployment */
+  currentDeploymentAliases?: DeleteProjectAvatarResponseCustomEnvironmentsItemCurrentDeploymentAliasesList;
+  /** Optional description of the environment's purpose */
+  description?: string;
+  /** List of domains associated with this environment */
+  domains?: DeleteProjectAvatarResponseCustomEnvironmentsItemDomainsList;
+  /** Unique identifier for the custom environment (format: env_*) */
+  id: string;
+  /** URL-friendly name of the environment */
+  slug: string;
+  /** The type of environment (production, preview, or development) */
+  type: DeleteProjectAvatarResponseCustomEnvironmentsItemType;
+  /** Timestamp when the environment was last updated */
+  updatedAt: number;
+}
+export type DeleteProjectAvatarResponseCustomEnvironmentsList =
+  Array<DeleteProjectAvatarResponseCustomEnvironmentsItem>;
+export type DeleteProjectAvatarResponseDataCache = CreateProjectResponseDataCache;
+export type DeleteProjectAvatarResponseDefaultResourceConfigBuildMachineElasticReason =
+  | "basic-floor"
+  | "build-timeout-failure"
+  | "enospc-failure"
+  | "enterprise-floor"
+  | "high-peak-disk"
+  | "high-peak-memory"
+  | "long-build-duration"
+  | "oom-failure"
+  | "short-build-duration"
+  | "sustained-high-cpu";
+export type DeleteProjectAvatarResponseDefaultResourceConfigBuildMachineElasticTransitionDirection =
+  | "downgrade"
+  | "upgrade";
+export interface DeleteProjectAvatarResponseDefaultResourceConfigBuildMachineElasticTransition {
+  algorithmVersion: string;
+  at: number;
+  direction: DeleteProjectAvatarResponseDefaultResourceConfigBuildMachineElasticTransitionDirection;
+}
+export type DeleteProjectAvatarResponseDefaultResourceConfigBuildMachineSelection =
+  | "elastic"
+  | "fixed";
+export type DeleteProjectAvatarResponseDefaultResourceConfigBuildMachineType =
+  | "14cpu-28gb"
+  | "basic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+export type DeleteProjectAvatarResponseDefaultResourceConfigBuildQueueConfiguration =
+  | "SKIP_NAMESPACE_QUEUE"
+  | "WAIT_FOR_NAMESPACE_QUEUE";
+export interface DeleteProjectAvatarResponseDefaultResourceConfigBuildQueue {
+  configuration?: DeleteProjectAvatarResponseDefaultResourceConfigBuildQueueConfiguration;
+}
+export type DeleteProjectAvatarResponseDefaultResourceConfigFunctionDefaultMemoryType =
+  | "performance"
+  | "performance_xl"
+  | "standard"
+  | "standard_legacy";
+export type DeleteProjectAvatarResponseDefaultResourceConfigFunctionDefaultRegionsList =
+  Array<string>;
+export type DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase0Cores = 4;
+export type DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase0Label =
+  "standard";
+export type DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase0Memory = 8192;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase0 {
+  cores: DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase0Cores;
+  label: DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase0Label;
+  memory: DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase0Memory;
+}
+export type DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase1Cores = 8;
+export type DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase1Label =
+  "enhanced";
+export type DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase1Memory = 16384;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase1 {
+  cores: DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase1Cores;
+  label: DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase1Label;
+  memory: DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase1Memory;
+}
+export type DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase2Cores = 14;
+export type DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase2Label =
+  "14cpu-28gb";
+export type DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase2Memory = 28672;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase2 {
+  cores: DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase2Cores;
+  label: DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase2Label;
+  memory: DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase2Memory;
+}
+export type DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase3Cores = 30;
+export type DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase3Label = "turbo";
+export type DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase3Memory = 61440;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase3 {
+  cores: DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase3Cores;
+  label: DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase3Label;
+  memory: DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase3Memory;
+}
+export type DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachine =
+  | DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase0
+  | DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase1
+  | DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase2
+  | DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase3;
+export interface DeleteProjectAvatarResponseDefaultResourceConfig {
+  buildMachineElasticLastUpdated?: number;
+  buildMachineElasticReason?: DeleteProjectAvatarResponseDefaultResourceConfigBuildMachineElasticReason;
+  buildMachineElasticTransition?: DeleteProjectAvatarResponseDefaultResourceConfigBuildMachineElasticTransition;
+  buildMachineSelection?: DeleteProjectAvatarResponseDefaultResourceConfigBuildMachineSelection;
+  buildMachineType?: DeleteProjectAvatarResponseDefaultResourceConfigBuildMachineType;
+  buildQueue?: DeleteProjectAvatarResponseDefaultResourceConfigBuildQueue;
+  elasticConcurrencyEnabled?: boolean;
+  enableFunctionsBeta?: boolean;
+  fluid?: boolean;
+  functionDefaultMemoryType?: DeleteProjectAvatarResponseDefaultResourceConfigFunctionDefaultMemoryType;
+  functionDefaultRegions: DeleteProjectAvatarResponseDefaultResourceConfigFunctionDefaultRegionsList;
+  functionDefaultTimeout?: number;
+  functionZeroConfigFailover?: boolean;
+  isNSNBDisabled?: boolean;
+  elasticBuildMachine?: DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachine;
+}
+/** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
+export type DeleteProjectAvatarResponseDeploymentExpiration =
+  CreateProjectResponseDeploymentExpiration;
+export type DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItemEnvironmentsItemCase0Target =
+  | "preview"
+  | "production";
+export type DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItemEnvironmentsItemCase0Type =
+  "system";
+export interface DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItemEnvironmentsItemCase0 {
+  target: DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItemEnvironmentsItemCase0Target;
+  type: DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItemEnvironmentsItemCase0Type;
+}
+export type DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItemEnvironmentsItemCase1Type =
+  "custom";
+export interface DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItemEnvironmentsItemCase1 {
+  environmentId: string;
+  type: DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItemEnvironmentsItemCase1Type;
+}
+export type DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItemEnvironmentsItem =
+  | DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItemEnvironmentsItemCase0
+  | DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItemEnvironmentsItemCase1;
+export type DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItemEnvironmentsList =
+  Array<DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItemEnvironmentsItem>;
+/** Customer-configurable deployment sources. Every deploy classifies to exactly one. JSON schema in `packages/deployment-policy/schemas/body.ts` enumerates exactly these values. - `'git'` -- git provider webhook. - `'cli'` -- Vercel CLI (legacy classic-token CLI and SIWV CLI both). - `'rest-api'` -- direct user/team-token REST upload. Does NOT cover deploy hooks, Marketplace integrations, or first-party app tokens. - `'deploy-hook'` -- project deploy-hook URL. The URL is the credential. - `'integration'` -- third-party Marketplace actor: Marketplace integration token, user-delegated OAuth from a Marketplace app, or an unrecognized third-party Vercel App. First-party Vercel Apps are never `'integration'`. - `'v0'` -- the v0 product surface (entitlement-gated). v0 deploys through the CLI under the hood, but classifies as its own source so a team can allow or deny v0 independently of `'cli'`. First-party Vercel apps (Toolbar, etc.) classify as `'first-party'` -- see `ClassifiedSource` in `./checks`. They're not in this union because they aren't customer-configurable; they bypass `checkDeploymentSources` entirely. v0 is intentionally NOT among them: like the CLI, it's a real product surface and is policy-controllable. */
+export type DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItemSourcesItem =
+  | "cli"
+  | "deploy-hook"
+  | "git"
+  | "integration"
+  | "rest-api"
+  | "v0";
+export type DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItemSourcesList =
+  Array<DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItemSourcesItem>;
+/** `enabled: true` with empty `sources` is deny-all. */
+export interface DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItem {
+  enabled: boolean;
+  environments: DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItemEnvironmentsList;
+  sources: DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItemSourcesList;
+}
+export type DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesList =
+  Array<DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItem>;
+export type DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemEnvironmentsItemCase0Target =
+  | "preview"
+  | "production";
+export type DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemEnvironmentsItemCase0Type =
+  "system";
+export interface DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemEnvironmentsItemCase0 {
+  target: DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemEnvironmentsItemCase0Target;
+  type: DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemEnvironmentsItemCase0Type;
+}
+export type DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemEnvironmentsItemCase1Type =
+  "custom";
+export interface DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemEnvironmentsItemCase1 {
+  environmentId: string;
+  type: DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemEnvironmentsItemCase1Type;
+}
+export type DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemEnvironmentsItem =
+  | DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemEnvironmentsItemCase0
+  | DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemEnvironmentsItemCase1;
+export type DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemEnvironmentsList =
+  Array<DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemEnvironmentsItem>;
+export type DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemSourcesItemCase0Provider =
+  | "bitbucket"
+  | "github";
+/** Allowlist entry for GitHub and Bitbucket, whose repos are identified by a flat `org`/`repo` (Bitbucket's workspace/owner maps to `org`, its repo slug to `repo`). Omit `repo` to match any repo in the org. Org is matched case-insensitively. */
+export interface DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemSourcesItemCase0 {
+  org: string;
+  provider: DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemSourcesItemCase0Provider;
+  repo?: string;
+}
+export type DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemSourcesItemCase1Provider =
+  "gitlab";
+/** Allowlist entry for GitLab, which uses nested groups rather than a flat org/repo. `namespace` is the full group path (e.g. `group` or `group/subgroup`); `project` is the leaf project name. Omit `project` to match any project under the namespace. Namespace is matched case-insensitively. */
+export interface DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemSourcesItemCase1 {
+  namespace: string;
+  project?: string;
+  provider: DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemSourcesItemCase1Provider;
+}
+export type DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemSourcesItem =
+  | DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemSourcesItemCase0
+  | DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemSourcesItemCase1;
+export type DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemSourcesList =
+  Array<DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemSourcesItem>;
+/** `enabled: true` with empty `sources` is deny-all. */
+export interface DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItem {
+  enabled: boolean;
+  environments: DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemEnvironmentsList;
+  sources: DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItemSourcesList;
+}
+export type DeleteProjectAvatarResponseDeploymentPolicyGitSourcesList =
+  Array<DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItem>;
+/** Project shape. `null` on a rule list clears the project's override for that rule type (fall back to team for every env); omitting is equivalent. Setting `deploymentPolicy` itself to `null` clears every override at once. Kept structurally distinct from {@link TeamDeploymentPolicy} so the two storage locations don't share a type by accident. */
+export interface DeleteProjectAvatarResponseDeploymentPolicy {
+  deploymentSources?: DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesList | null;
+  gitSources?: DeleteProjectAvatarResponseDeploymentPolicyGitSourcesList | null;
+}
+export type DeleteProjectAvatarResponseDismissedToastsItemAction = "accept" | "cancel" | "delete";
+export type DeleteProjectAvatarResponseDismissedToastsItemValueCase2CurrentValue =
+  | string
+  | number
+  | boolean;
+export type DeleteProjectAvatarResponseDismissedToastsItemValueCase2PreviousValue =
+  | string
+  | number
+  | boolean;
+export interface DeleteProjectAvatarResponseDismissedToastsItemValueCase2 {
+  currentValue: DeleteProjectAvatarResponseDismissedToastsItemValueCase2CurrentValue;
+  previousValue: DeleteProjectAvatarResponseDismissedToastsItemValueCase2PreviousValue;
+}
+export type DeleteProjectAvatarResponseDismissedToastsItemValue =
+  | string
+  | number
+  | DeleteProjectAvatarResponseDismissedToastsItemValueCase2
+  | boolean;
+export interface DeleteProjectAvatarResponseDismissedToastsItem {
+  action: DeleteProjectAvatarResponseDismissedToastsItemAction;
+  dismissedAt: number;
+  key: string;
+  value: DeleteProjectAvatarResponseDismissedToastsItemValue | null;
+}
+export type DeleteProjectAvatarResponseDismissedToastsList =
+  Array<DeleteProjectAvatarResponseDismissedToastsItem>;
+export type DeleteProjectAvatarResponseEnvItemContentHintCase0Type = "redis-url";
+export interface DeleteProjectAvatarResponseEnvItemContentHintCase0 {
+  storeId: string;
+  type: DeleteProjectAvatarResponseEnvItemContentHintCase0Type;
+}
+export type DeleteProjectAvatarResponseEnvItemContentHintCase1Type = "redis-rest-api-url";
+export interface DeleteProjectAvatarResponseEnvItemContentHintCase1 {
+  storeId: string;
+  type: DeleteProjectAvatarResponseEnvItemContentHintCase1Type;
+}
+export type DeleteProjectAvatarResponseEnvItemContentHintCase2Type = "redis-rest-api-token";
+export interface DeleteProjectAvatarResponseEnvItemContentHintCase2 {
+  storeId: string;
+  type: DeleteProjectAvatarResponseEnvItemContentHintCase2Type;
+}
+export type DeleteProjectAvatarResponseEnvItemContentHintCase3Type =
+  "redis-rest-api-read-only-token";
+export interface DeleteProjectAvatarResponseEnvItemContentHintCase3 {
+  storeId: string;
+  type: DeleteProjectAvatarResponseEnvItemContentHintCase3Type;
+}
+export type DeleteProjectAvatarResponseEnvItemContentHintCase4Type = "blob-read-write-token";
+export interface DeleteProjectAvatarResponseEnvItemContentHintCase4 {
+  storeId: string;
+  type: DeleteProjectAvatarResponseEnvItemContentHintCase4Type;
+}
+export type DeleteProjectAvatarResponseEnvItemContentHintCase5Type = "blob-store-id";
+export interface DeleteProjectAvatarResponseEnvItemContentHintCase5 {
+  storeId: string;
+  type: DeleteProjectAvatarResponseEnvItemContentHintCase5Type;
+}
+export type DeleteProjectAvatarResponseEnvItemContentHintCase6Type = "blob-webhook-public-key";
+export interface DeleteProjectAvatarResponseEnvItemContentHintCase6 {
+  storeId: string;
+  type: DeleteProjectAvatarResponseEnvItemContentHintCase6Type;
+}
+export type DeleteProjectAvatarResponseEnvItemContentHintCase7Type = "postgres-url";
+export interface DeleteProjectAvatarResponseEnvItemContentHintCase7 {
+  storeId: string;
+  type: DeleteProjectAvatarResponseEnvItemContentHintCase7Type;
+}
+export type DeleteProjectAvatarResponseEnvItemContentHintCase8Type = "postgres-url-non-pooling";
+export interface DeleteProjectAvatarResponseEnvItemContentHintCase8 {
+  storeId: string;
+  type: DeleteProjectAvatarResponseEnvItemContentHintCase8Type;
+}
+export type DeleteProjectAvatarResponseEnvItemContentHintCase9Type = "postgres-prisma-url";
+export interface DeleteProjectAvatarResponseEnvItemContentHintCase9 {
+  storeId: string;
+  type: DeleteProjectAvatarResponseEnvItemContentHintCase9Type;
+}
+export type DeleteProjectAvatarResponseEnvItemContentHintCase10Type = "postgres-user";
+export interface DeleteProjectAvatarResponseEnvItemContentHintCase10 {
+  storeId: string;
+  type: DeleteProjectAvatarResponseEnvItemContentHintCase10Type;
+}
+export type DeleteProjectAvatarResponseEnvItemContentHintCase11Type = "postgres-host";
+export interface DeleteProjectAvatarResponseEnvItemContentHintCase11 {
+  storeId: string;
+  type: DeleteProjectAvatarResponseEnvItemContentHintCase11Type;
+}
+export type DeleteProjectAvatarResponseEnvItemContentHintCase12Type = "postgres-password";
+export interface DeleteProjectAvatarResponseEnvItemContentHintCase12 {
+  storeId: string;
+  type: DeleteProjectAvatarResponseEnvItemContentHintCase12Type;
+}
+export type DeleteProjectAvatarResponseEnvItemContentHintCase13Type = "postgres-database";
+export interface DeleteProjectAvatarResponseEnvItemContentHintCase13 {
+  storeId: string;
+  type: DeleteProjectAvatarResponseEnvItemContentHintCase13Type;
+}
+export type DeleteProjectAvatarResponseEnvItemContentHintCase14Type = "postgres-url-no-ssl";
+export interface DeleteProjectAvatarResponseEnvItemContentHintCase14 {
+  storeId: string;
+  type: DeleteProjectAvatarResponseEnvItemContentHintCase14Type;
+}
+export type DeleteProjectAvatarResponseEnvItemContentHintCase15Type = "integration-store-secret";
+export interface DeleteProjectAvatarResponseEnvItemContentHintCase15 {
+  integrationConfigurationId: string;
+  integrationId: string;
+  integrationProductId: string;
+  storeId: string;
+  type: DeleteProjectAvatarResponseEnvItemContentHintCase15Type;
+}
+export type DeleteProjectAvatarResponseEnvItemContentHintCase16Type = "flags-connection-string";
+export interface DeleteProjectAvatarResponseEnvItemContentHintCase16 {
+  projectId: string;
+  type: DeleteProjectAvatarResponseEnvItemContentHintCase16Type;
+}
+export type DeleteProjectAvatarResponseEnvItemContentHint =
+  | DeleteProjectAvatarResponseEnvItemContentHintCase0
+  | DeleteProjectAvatarResponseEnvItemContentHintCase1
+  | DeleteProjectAvatarResponseEnvItemContentHintCase2
+  | DeleteProjectAvatarResponseEnvItemContentHintCase3
+  | DeleteProjectAvatarResponseEnvItemContentHintCase4
+  | DeleteProjectAvatarResponseEnvItemContentHintCase5
+  | DeleteProjectAvatarResponseEnvItemContentHintCase6
+  | DeleteProjectAvatarResponseEnvItemContentHintCase7
+  | DeleteProjectAvatarResponseEnvItemContentHintCase8
+  | DeleteProjectAvatarResponseEnvItemContentHintCase9
+  | DeleteProjectAvatarResponseEnvItemContentHintCase10
+  | DeleteProjectAvatarResponseEnvItemContentHintCase11
+  | DeleteProjectAvatarResponseEnvItemContentHintCase12
+  | DeleteProjectAvatarResponseEnvItemContentHintCase13
+  | DeleteProjectAvatarResponseEnvItemContentHintCase14
+  | DeleteProjectAvatarResponseEnvItemContentHintCase15
+  | DeleteProjectAvatarResponseEnvItemContentHintCase16;
+export type DeleteProjectAvatarResponseEnvItemCustomEnvironmentIdsList = Array<string>;
+export type DeleteProjectAvatarResponseEnvItemInternalContentHintType = "flags-secret";
+/** Similar to `contentHints`, but should not be exposed to the user. */
+export interface DeleteProjectAvatarResponseEnvItemInternalContentHint {
+  /** Contains the `value` of the env variable, encrypted with a special key to make decryption possible in the subscriber Lambda. */
+  encryptedValue: string;
+  type: DeleteProjectAvatarResponseEnvItemInternalContentHintType;
+}
+export type DeleteProjectAvatarResponseEnvItemTargetCase0Item =
+  | "development"
+  | "development"
+  | "preview"
+  | "preview"
+  | "production";
+export type DeleteProjectAvatarResponseEnvItemTargetCase0List =
+  Array<DeleteProjectAvatarResponseEnvItemTargetCase0Item>;
+export type DeleteProjectAvatarResponseEnvItemTargetCase1 =
+  | "development"
+  | "development"
+  | "preview"
+  | "preview"
+  | "production";
+export type DeleteProjectAvatarResponseEnvItemTarget =
+  | DeleteProjectAvatarResponseEnvItemTargetCase0List
+  | DeleteProjectAvatarResponseEnvItemTargetCase1;
+export type DeleteProjectAvatarResponseEnvItemType =
+  | "encrypted"
+  | "plain"
+  | "secret"
+  | "sensitive"
+  | "system";
+/** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
+export type DeleteProjectAvatarResponseEnvItemVisibility = "config" | "secret";
+export interface DeleteProjectAvatarResponseEnvItem {
+  comment?: string;
+  configurationId?: string | null;
+  contentHint?: DeleteProjectAvatarResponseEnvItemContentHint | null;
+  createdAt?: number;
+  createdBy?: string | null;
+  customEnvironmentIds?: DeleteProjectAvatarResponseEnvItemCustomEnvironmentIdsList;
+  decrypted?: boolean;
+  edgeConfigId?: string | null;
+  edgeConfigTokenId?: string | null;
+  gitBranch?: string;
+  id?: string;
+  /** Similar to `contentHints`, but should not be exposed to the user. */
+  internalContentHint?: DeleteProjectAvatarResponseEnvItemInternalContentHint | null;
+  key: string;
+  /** Legacy now-encryption ciphertext, present after migration swaps value/vsmValue */
+  legacyValue?: string;
+  /** This is used to identify variables that have been migrated from type secret to sensitive. */
+  sunsetSecretId?: string;
+  target?: DeleteProjectAvatarResponseEnvItemTarget;
+  type: DeleteProjectAvatarResponseEnvItemType;
+  updatedAt?: number;
+  updatedBy?: string | null;
+  value: string;
+  /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
+  visibility?: DeleteProjectAvatarResponseEnvItemVisibility;
+  vsmValue?: string;
+}
+export type DeleteProjectAvatarResponseEnvList = Array<DeleteProjectAvatarResponseEnvItem>;
+export type DeleteProjectAvatarResponseExpirationCase0 = CreateProjectResponseExpirationCase0;
+export type DeleteProjectAvatarResponseExpirationCase1 = CreateProjectResponseExpirationCase1;
+export type DeleteProjectAvatarResponseExpiration =
+  | CreateProjectResponseExpirationCase0
+  | CreateProjectResponseExpirationCase1;
+export type DeleteProjectAvatarResponseFeatures = CreateProjectResponseFeatures;
+export type DeleteProjectAvatarResponseFramework =
+  | "actix-web"
+  | "angular"
+  | "ash"
+  | "astro"
+  | "axum"
+  | "blitzjs"
+  | "brunch"
+  | "bun"
+  | "container"
+  | "create-react-app"
+  | "django"
+  | "docusaurus"
+  | "docusaurus-2"
+  | "dojo"
+  | "eleventy"
+  | "elysia"
+  | "ember"
+  | "eve"
+  | "express"
+  | "factory-eve"
+  | "fastapi"
+  | "fasthtml"
+  | "fastify"
+  | "flask"
+  | "gatsby"
+  | "go"
+  | "gridsome"
+  | "h3"
+  | "hexo"
+  | "hono"
+  | "hugo"
+  | "hydrogen"
+  | "ionic-angular"
+  | "ionic-react"
+  | "jekyll"
+  | "koa"
+  | "mastra"
+  | "middleman"
+  | "nestjs"
+  | "nextjs"
+  | "nitro"
+  | "node"
+  | "nuxtjs"
+  | "parcel"
+  | "polymer"
+  | "preact"
+  | "python"
+  | "react-router"
+  | "redwoodjs"
+  | "remix"
+  | "ruby"
+  | "rust"
+  | "saber"
+  | "sanity"
+  | "sanity-v2"
+  | "sapper"
+  | "scully"
+  | "services"
+  | "solidstart"
+  | "solidstart-1"
+  | "stencil"
+  | "storybook"
+  | "svelte"
+  | "sveltekit"
+  | "sveltekit-1"
+  | "tanstack-start"
+  | "tanstack-start-lovable"
+  | "umijs"
+  | "vite"
+  | "vitepress"
+  | "vue"
+  | "vuepress"
+  | "xmcp"
+  | "zola";
+export type DeleteProjectAvatarResponseGitComments = CreateProjectResponseGitComments;
+/** Configuration for consolidated git commit status reporting. When enabled, Vercel will post a single consolidated commit status instead of individual statuses for each deployment. */
+export type DeleteProjectAvatarResponseGitProviderOptionsConsolidatedGitCommitStatus =
+  CreateProjectResponseGitProviderOptionsConsolidatedGitCommitStatus;
+/** Whether the Vercel bot should automatically create GitHub deployments https://docs.github.com/en/rest/deployments/deployments#about-deployments NOTE: repository-dispatch events should be used instead */
+export type DeleteProjectAvatarResponseGitProviderOptionsCreateDeployments = "disabled" | "enabled";
+export interface DeleteProjectAvatarResponseGitProviderOptions {
+  /** Configuration for consolidated git commit status reporting. When enabled, Vercel will post a single consolidated commit status instead of individual statuses for each deployment. */
+  consolidatedGitCommitStatus?: CreateProjectResponseGitProviderOptionsConsolidatedGitCommitStatus;
+  /** Whether the Vercel bot should automatically create GitHub deployments https://docs.github.com/en/rest/deployments/deployments#about-deployments NOTE: repository-dispatch events should be used instead */
+  createDeployments: DeleteProjectAvatarResponseGitProviderOptionsCreateDeployments;
+  /** Whether the Vercel bot should not automatically create GitHub repository-dispatch events on deployment events. https://vercel.com/docs/git/vercel-for-github#repository-dispatch-events - `true`: disable repository-dispatch events for this project (explicit override of the team setting). - `false`: enable repository-dispatch events for this project (explicit override of the team setting). - absent: inherit from `team.disableRepositoryDispatchEvents`. */
+  disableRepositoryDispatchEvents?: boolean;
+  /** Whether Vercel should post commit statuses for this project. When omitted, commit statuses remain enabled. */
+  gitCommitStatus?: boolean;
+  /** Whether the project requires commits to be signed & verified before deployments will be created. - `true`: require verified commits for this project (explicit override of the team setting). - `false`: do not require verified commits (explicit override of the team setting). - absent: inherit from `team.requireVerifiedCommits`. */
+  requireVerifiedCommits?: boolean;
+}
+export type DeleteProjectAvatarResponseInternalRoutesItemCase0 =
+  CreateProjectResponseInternalRoutesItemCase0;
+export type DeleteProjectAvatarResponseInternalRoutesItemCase1HasItemCase0Key =
+  "x-vercel-ip-country";
+export type DeleteProjectAvatarResponseInternalRoutesItemCase1HasItemCase0Type = "header";
+export type DeleteProjectAvatarResponseInternalRoutesItemCase1HasItemCase0Value =
+  CreateProjectResponseInternalRoutesItemCase1HasItemCase0Value;
+export interface DeleteProjectAvatarResponseInternalRoutesItemCase1HasItemCase0 {
+  key: DeleteProjectAvatarResponseInternalRoutesItemCase1HasItemCase0Key;
+  type: DeleteProjectAvatarResponseInternalRoutesItemCase1HasItemCase0Type;
+  value: CreateProjectResponseInternalRoutesItemCase1HasItemCase0Value;
+}
+export type DeleteProjectAvatarResponseInternalRoutesItemCase1HasItemCase1Type = "host";
+export type DeleteProjectAvatarResponseInternalRoutesItemCase1HasItemCase1Value =
+  CreateProjectResponseInternalRoutesItemCase1HasItemCase0Value;
+export interface DeleteProjectAvatarResponseInternalRoutesItemCase1HasItemCase1 {
+  type: DeleteProjectAvatarResponseInternalRoutesItemCase1HasItemCase1Type;
+  value: CreateProjectResponseInternalRoutesItemCase1HasItemCase0Value;
+}
+export type DeleteProjectAvatarResponseInternalRoutesItemCase1HasItem =
+  | DeleteProjectAvatarResponseInternalRoutesItemCase1HasItemCase0
+  | DeleteProjectAvatarResponseInternalRoutesItemCase1HasItemCase1;
+export type DeleteProjectAvatarResponseInternalRoutesItemCase1HasList =
+  Array<DeleteProjectAvatarResponseInternalRoutesItemCase1HasItem>;
+export type DeleteProjectAvatarResponseInternalRoutesItemCase1MitigateAction = "block_legal_cwc";
+export interface DeleteProjectAvatarResponseInternalRoutesItemCase1Mitigate {
+  action: DeleteProjectAvatarResponseInternalRoutesItemCase1MitigateAction;
+}
+export interface DeleteProjectAvatarResponseInternalRoutesItemCase1 {
+  has: DeleteProjectAvatarResponseInternalRoutesItemCase1HasList;
+  mitigate: DeleteProjectAvatarResponseInternalRoutesItemCase1Mitigate;
+  src?: string;
+}
+export type DeleteProjectAvatarResponseInternalRoutesItem =
+  | CreateProjectResponseInternalRoutesItemCase0
+  | DeleteProjectAvatarResponseInternalRoutesItemCase1;
+export type DeleteProjectAvatarResponseInternalRoutesList =
+  Array<DeleteProjectAvatarResponseInternalRoutesItem>;
+export type DeleteProjectAvatarResponseIpBucketsItem = CreateProjectResponseIpBucketsItem;
+export type DeleteProjectAvatarResponseIpBucketsList = Array<CreateProjectResponseIpBucketsItem>;
+export type DeleteProjectAvatarResponseJobsFlagDefinitionsPresentTargetsList = Array<string>;
+export interface DeleteProjectAvatarResponseJobsFlagDefinitionsPresent {
+  targets: DeleteProjectAvatarResponseJobsFlagDefinitionsPresentTargetsList;
+}
+export type DeleteProjectAvatarResponseJobsHealthCheckTargetsList = Array<string>;
+export interface DeleteProjectAvatarResponseJobsHealthCheck {
+  targets: DeleteProjectAvatarResponseJobsHealthCheckTargetsList;
+}
+export type DeleteProjectAvatarResponseJobsLintTargetsList = Array<string>;
+export interface DeleteProjectAvatarResponseJobsLint {
+  targets: DeleteProjectAvatarResponseJobsLintTargetsList;
+}
+export type DeleteProjectAvatarResponseJobsMfeConfigPresentTargetsList = Array<string>;
+export interface DeleteProjectAvatarResponseJobsMfeConfigPresent {
+  targets: DeleteProjectAvatarResponseJobsMfeConfigPresentTargetsList;
+}
+export type DeleteProjectAvatarResponseJobsTypecheckTargetsList = Array<string>;
+export interface DeleteProjectAvatarResponseJobsTypecheck {
+  targets: DeleteProjectAvatarResponseJobsTypecheckTargetsList;
+}
+export interface DeleteProjectAvatarResponseJobs {
+  flag_definitions_present?: DeleteProjectAvatarResponseJobsFlagDefinitionsPresent;
+  health_check?: DeleteProjectAvatarResponseJobsHealthCheck;
+  lint?: DeleteProjectAvatarResponseJobsLint;
+  mfe_config_present?: DeleteProjectAvatarResponseJobsMfeConfigPresent;
+  typecheck?: DeleteProjectAvatarResponseJobsTypecheck;
+}
+export type DeleteProjectAvatarResponseLastAliasRequestJobStatus =
+  | "failed"
+  | "in-progress"
+  | "pending"
+  | "skipped"
+  | "succeeded";
+export type DeleteProjectAvatarResponseLastAliasRequestType = "promote" | "rollback";
+export interface DeleteProjectAvatarResponseLastAliasRequest {
+  fromDeploymentId: string | null;
+  /** If rolling back from a rolling release, fromDeploymentId captures the "base" of that rolling release, and fromRollingReleaseId captures the "target" of that rolling release. */
+  fromRollingReleaseId?: string;
+  jobStatus: DeleteProjectAvatarResponseLastAliasRequestJobStatus;
+  requestedAt: number;
+  toDeploymentId: string;
+  type: DeleteProjectAvatarResponseLastAliasRequestType;
+}
+export type DeleteProjectAvatarResponseLatestDeploymentsItemAliasList = Array<string>;
+export type DeleteProjectAvatarResponseLatestDeploymentsItemAliasAssigned = number | boolean;
+export type DeleteProjectAvatarResponseLatestDeploymentsItemAliasError =
+  CreateProjectResponseAliasItemDeploymentAliasError;
+export type DeleteProjectAvatarResponseLatestDeploymentsItemAutomaticAliasesList = Array<string>;
+/** The type of matching to perform */
+export type DeleteProjectAvatarResponseLatestDeploymentsItemBranchMatcherType =
+  | "endsWith"
+  | "equals"
+  | "startsWith";
+export interface DeleteProjectAvatarResponseLatestDeploymentsItemBranchMatcher {
+  /** The pattern to match against branch names */
+  pattern: string;
+  /** The type of matching to perform */
+  type: DeleteProjectAvatarResponseLatestDeploymentsItemBranchMatcherType;
+}
+export type DeleteProjectAvatarResponseLatestDeploymentsItemBuildsItem =
+  CreateProjectResponseAliasItemDeploymentBuildsItem;
+export type DeleteProjectAvatarResponseLatestDeploymentsItemBuildsList =
+  Array<CreateProjectResponseAliasItemDeploymentBuildsItem>;
+export type DeleteProjectAvatarResponseLatestDeploymentsItemChecksConclusion =
+  | "canceled"
+  | "failed"
+  | "skipped"
+  | "succeeded";
+export type DeleteProjectAvatarResponseLatestDeploymentsItemChecksState =
+  | "completed"
+  | "registered"
+  | "running";
+export type DeleteProjectAvatarResponseLatestDeploymentsItemCreator =
+  CreateProjectResponseAliasItemDeploymentCreator;
+export type DeleteProjectAvatarResponseLatestDeploymentsItemMetaMap = {
+  [key: string]: string | undefined;
+};
+export type DeleteProjectAvatarResponseLatestDeploymentsItemOidcTokenClaimsMfeGroupIdsList =
+  Array<string>;
+export interface DeleteProjectAvatarResponseLatestDeploymentsItemOidcTokenClaims {
+  aud: string;
+  custom_environment_id?: string;
+  deployment_id?: string;
+  environment: string;
+  iss: string;
+  mfe_group_ids?: DeleteProjectAvatarResponseLatestDeploymentsItemOidcTokenClaimsMfeGroupIdsList;
+  owner: string;
+  owner_id: string;
+  plan?: string;
+  project: string;
+  project_id: string;
+  scope: string;
+  sub: string;
+}
+export type DeleteProjectAvatarResponseLatestDeploymentsItemPlan = "enterprise" | "hobby" | "pro";
+export type DeleteProjectAvatarResponseLatestDeploymentsItemReadyState =
+  | "BLOCKED"
+  | "BUILDING"
+  | "CANCELED"
+  | "ERROR"
+  | "INITIALIZING"
+  | "QUEUED"
+  | "READY";
+export type DeleteProjectAvatarResponseLatestDeploymentsItemReadySubstate =
+  | "PROMOTED"
+  | "ROLLING"
+  | "STAGED";
+export type DeleteProjectAvatarResponseLatestDeploymentsItemType = "LAMBDAS";
+export interface DeleteProjectAvatarResponseLatestDeploymentsItem {
+  alias?: DeleteProjectAvatarResponseLatestDeploymentsItemAliasList;
+  aliasAssigned?: DeleteProjectAvatarResponseLatestDeploymentsItemAliasAssigned | null;
+  aliasError?: CreateProjectResponseAliasItemDeploymentAliasError | null;
+  aliasFinal?: string | null;
+  automaticAliases?: DeleteProjectAvatarResponseLatestDeploymentsItemAutomaticAliasesList;
+  branchMatcher?: DeleteProjectAvatarResponseLatestDeploymentsItemBranchMatcher;
+  buildingAt?: number;
+  builds?: DeleteProjectAvatarResponseLatestDeploymentsItemBuildsList;
+  checksConclusion?: DeleteProjectAvatarResponseLatestDeploymentsItemChecksConclusion;
+  checksState?: DeleteProjectAvatarResponseLatestDeploymentsItemChecksState;
+  connectBuildsEnabled?: boolean;
+  connectConfigurationId?: string;
+  createdAt: number;
+  createdIn: string;
+  creator: CreateProjectResponseAliasItemDeploymentCreator | null;
+  deletedAt?: number;
+  deploymentHostname: string;
+  forced?: boolean;
+  id: string;
+  meta?: DeleteProjectAvatarResponseLatestDeploymentsItemMetaMap;
+  monorepoManager?: string | null;
+  name: string;
+  oidcTokenClaims?: DeleteProjectAvatarResponseLatestDeploymentsItemOidcTokenClaims;
+  plan: DeleteProjectAvatarResponseLatestDeploymentsItemPlan;
+  /** Whether or not preview comments are enabled for the deployment */
+  previewCommentsEnabled?: boolean;
+  private: boolean;
+  readyAt?: number;
+  readyState: DeleteProjectAvatarResponseLatestDeploymentsItemReadyState;
+  readySubstate?: DeleteProjectAvatarResponseLatestDeploymentsItemReadySubstate;
+  requestedAt?: number;
+  target?: string | null;
+  teamId?: string | null;
+  type: DeleteProjectAvatarResponseLatestDeploymentsItemType;
+  url: string;
+  /** Present for user creators; omitted for app/integration/system creators. */
+  userId?: string;
+  withCache?: boolean;
+}
+export type DeleteProjectAvatarResponseLatestDeploymentsList =
+  Array<DeleteProjectAvatarResponseLatestDeploymentsItem>;
+export type DeleteProjectAvatarResponseLinkCase0DeployHooksItem =
+  CreateProjectResponseLinkCase0DeployHooksItem;
+export type DeleteProjectAvatarResponseLinkCase0DeployHooksList =
+  Array<CreateProjectResponseLinkCase0DeployHooksItem>;
+export type DeleteProjectAvatarResponseLinkCase0Type = "github";
+export interface DeleteProjectAvatarResponseLinkCase0 {
+  createdAt?: number;
+  deployHooks: DeleteProjectAvatarResponseLinkCase0DeployHooksList;
+  gitCredentialId: string;
+  org: string;
+  productionBranch: string;
+  repo?: string;
+  repoId?: number;
+  /** A new field, should be included in all new project links, is being added just in time when a deployment is created. This is needed for Protected Git scopes. */
+  repoOwnerId?: number;
+  sourceless?: boolean;
+  type: DeleteProjectAvatarResponseLinkCase0Type;
+  updatedAt?: number;
+}
+export type DeleteProjectAvatarResponseLinkCase1DeployHooksItem =
+  CreateProjectResponseLinkCase0DeployHooksItem;
+export type DeleteProjectAvatarResponseLinkCase1DeployHooksList =
+  Array<CreateProjectResponseLinkCase0DeployHooksItem>;
+export type DeleteProjectAvatarResponseLinkCase1Type = "github-limited";
+export interface DeleteProjectAvatarResponseLinkCase1 {
+  createdAt?: number;
+  deployHooks: DeleteProjectAvatarResponseLinkCase1DeployHooksList;
+  gitCredentialId: string;
+  org: string;
+  productionBranch: string;
+  repo?: string;
+  repoId?: number;
+  /** A new field, should be included in all new project links, is being added just in time when a deployment is created. This is needed for Protected Git scopes. */
+  repoOwnerId?: number;
+  sourceless?: boolean;
+  type: DeleteProjectAvatarResponseLinkCase1Type;
+  updatedAt?: number;
+}
+export type DeleteProjectAvatarResponseLinkCase2DeployHooksItem =
+  CreateProjectResponseLinkCase0DeployHooksItem;
+export type DeleteProjectAvatarResponseLinkCase2DeployHooksList =
+  Array<CreateProjectResponseLinkCase0DeployHooksItem>;
+export type DeleteProjectAvatarResponseLinkCase2Type = "github-custom-host";
+export interface DeleteProjectAvatarResponseLinkCase2 {
+  createdAt?: number;
+  deployHooks: DeleteProjectAvatarResponseLinkCase2DeployHooksList;
+  gitCredentialId: string;
+  host: string;
+  org: string;
+  productionBranch: string;
+  repo?: string;
+  repoId?: number;
+  /** A new field, should be included in all new project links, is being added just in time when a deployment is created. This is needed for Protected Git scopes. */
+  repoOwnerId?: number;
+  sourceless?: boolean;
+  type: DeleteProjectAvatarResponseLinkCase2Type;
+  updatedAt?: number;
+}
+export type DeleteProjectAvatarResponseLinkCase3DeployHooksItem =
+  CreateProjectResponseLinkCase0DeployHooksItem;
+export type DeleteProjectAvatarResponseLinkCase3DeployHooksList =
+  Array<CreateProjectResponseLinkCase0DeployHooksItem>;
+export type DeleteProjectAvatarResponseLinkCase3Type = "gitlab";
+export interface DeleteProjectAvatarResponseLinkCase3 {
+  createdAt?: number;
+  deployHooks: DeleteProjectAvatarResponseLinkCase3DeployHooksList;
+  gitCredentialId: string;
+  productionBranch: string;
+  projectId: string;
+  projectName: string;
+  projectNamespace: string;
+  projectNameWithNamespace: string;
+  /** A new field, should be included in all new project links, is being added just in time when a deployment is created. This is needed for Protected Git scopes. This is the id of the top level group that a namespace belongs to. Gitlab supports group nesting (up to 20 levels). */
+  projectOwnerId?: number;
+  projectUrl: string;
+  sourceless?: boolean;
+  type: DeleteProjectAvatarResponseLinkCase3Type;
+  updatedAt?: number;
+}
+export type DeleteProjectAvatarResponseLinkCase4DeployHooksItem =
+  CreateProjectResponseLinkCase0DeployHooksItem;
+export type DeleteProjectAvatarResponseLinkCase4DeployHooksList =
+  Array<CreateProjectResponseLinkCase0DeployHooksItem>;
+export type DeleteProjectAvatarResponseLinkCase4Type = "bitbucket";
+export interface DeleteProjectAvatarResponseLinkCase4 {
+  createdAt?: number;
+  deployHooks: DeleteProjectAvatarResponseLinkCase4DeployHooksList;
+  gitCredentialId: string;
+  name: string;
+  owner: string;
+  productionBranch: string;
+  slug: string;
+  sourceless?: boolean;
+  type: DeleteProjectAvatarResponseLinkCase4Type;
+  updatedAt?: number;
+  uuid: string;
+  workspaceUuid: string;
+}
+export type DeleteProjectAvatarResponseLinkCase5DeployHooksItem =
+  CreateProjectResponseLinkCase0DeployHooksItem;
+export type DeleteProjectAvatarResponseLinkCase5DeployHooksList =
+  Array<CreateProjectResponseLinkCase0DeployHooksItem>;
+export type DeleteProjectAvatarResponseLinkCase5Type = "vercel";
+export interface DeleteProjectAvatarResponseLinkCase5 {
+  createdAt?: number;
+  deployHooks: DeleteProjectAvatarResponseLinkCase5DeployHooksList;
+  gitCredentialId: string;
+  org: string;
+  productionBranch: string;
+  repo: string;
+  repoId: string;
+  sourceless?: boolean;
+  type: DeleteProjectAvatarResponseLinkCase5Type;
+  updatedAt?: number;
+}
+export type DeleteProjectAvatarResponseLinkCase6DeployHooksItem =
+  CreateProjectResponseLinkCase0DeployHooksItem;
+export type DeleteProjectAvatarResponseLinkCase6DeployHooksList =
+  Array<CreateProjectResponseLinkCase0DeployHooksItem>;
+export type DeleteProjectAvatarResponseLinkCase6Type = "v0";
+export interface DeleteProjectAvatarResponseLinkCase6 {
+  createdAt?: number;
+  deployHooks: DeleteProjectAvatarResponseLinkCase6DeployHooksList;
+  gitCredentialId: string;
+  org: string;
+  productionBranch: string;
+  repo: string;
+  repoId: string;
+  sourceless?: boolean;
+  type: DeleteProjectAvatarResponseLinkCase6Type;
+  updatedAt?: number;
+}
+export type DeleteProjectAvatarResponseLinkCase7DeployHooksItem =
+  CreateProjectResponseLinkCase0DeployHooksItem;
+export type DeleteProjectAvatarResponseLinkCase7DeployHooksList =
+  Array<CreateProjectResponseLinkCase0DeployHooksItem>;
+export type DeleteProjectAvatarResponseLinkCase7Type = "cursor-origin";
+export interface DeleteProjectAvatarResponseLinkCase7 {
+  createdAt?: number;
+  deployHooks: DeleteProjectAvatarResponseLinkCase7DeployHooksList;
+  gitCredentialId: string;
+  /** Owner (namespace) slug, e.g. `acme`. */
+  owner: string;
+  /** Origin namespace id (`ns_...`) of the owner. */
+  ownerId: string;
+  productionBranch: string;
+  repo: string;
+  /** Origin repository id. */
+  repoId: string;
+  sourceless?: boolean;
+  type: DeleteProjectAvatarResponseLinkCase7Type;
+  updatedAt?: number;
+}
+export type DeleteProjectAvatarResponseLink =
+  | DeleteProjectAvatarResponseLinkCase0
+  | DeleteProjectAvatarResponseLinkCase1
+  | DeleteProjectAvatarResponseLinkCase2
+  | DeleteProjectAvatarResponseLinkCase3
+  | DeleteProjectAvatarResponseLinkCase4
+  | DeleteProjectAvatarResponseLinkCase5
+  | DeleteProjectAvatarResponseLinkCase6
+  | DeleteProjectAvatarResponseLinkCase7;
+/** The group IDs of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
+export type DeleteProjectAvatarResponseMicrofrontendsCase0GroupIdsList = Array<string>;
+export interface DeleteProjectAvatarResponseMicrofrontendsCase0 {
+  /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. Includes the leading slash, e.g. `/docs` */
+  defaultRoute?: string;
+  /** Whether microfrontends are enabled for this project. */
+  enabled: boolean;
+  /** Whether the project was part of the legacy limits for hobby and pro-trial before billing was added. This field is only set when the team is upgraded to a paid plan and we are backfilling the subscription status. We cap the subscription to 2 projects and set this field for the 3rd project. When this field is set, the project is not charged for and we do not call any billing APIs for this project. */
+  freeProjectForLegacyLimits?: boolean;
+  /** The group IDs of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
+  groupIds: DeleteProjectAvatarResponseMicrofrontendsCase0GroupIdsList;
+  isDefaultApp: boolean;
+  /** Timestamp when the microfrontends settings were last updated. */
+  updatedAt: number;
+}
+/** The group IDs of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
+export type DeleteProjectAvatarResponseMicrofrontendsCase1GroupIdsList = Array<string>;
+export interface DeleteProjectAvatarResponseMicrofrontendsCase1 {
+  /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. Includes the leading slash, e.g. `/docs` */
+  defaultRoute?: string;
+  /** Whether to add microfrontends routing to aliases. This means domains in this project will route as a microfrontend. */
+  doNotRouteWithMicrofrontendsRouting?: boolean;
+  /** Whether microfrontends are enabled for this project. */
+  enabled: boolean;
+  /** Whether the project was part of the legacy limits for hobby and pro-trial before billing was added. This field is only set when the team is upgraded to a paid plan and we are backfilling the subscription status. We cap the subscription to 2 projects and set this field for the 3rd project. When this field is set, the project is not charged for and we do not call any billing APIs for this project. */
+  freeProjectForLegacyLimits?: boolean;
+  /** The group IDs of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
+  groupIds: DeleteProjectAvatarResponseMicrofrontendsCase1GroupIdsList;
+  isDefaultApp?: boolean;
+  /** Whether observability data should be routed to this microfrontend project or a root project. */
+  routeObservabilityToThisProject?: boolean;
+  /** Timestamp when the microfrontends settings were last updated. */
+  updatedAt: number;
+}
+export type DeleteProjectAvatarResponseMicrofrontendsCase2GroupIdsList = Array<unknown>;
+export interface DeleteProjectAvatarResponseMicrofrontendsCase2 {
+  enabled: boolean;
+  freeProjectForLegacyLimits?: boolean;
+  groupIds: DeleteProjectAvatarResponseMicrofrontendsCase2GroupIdsList;
+  updatedAt: number;
+}
+export type DeleteProjectAvatarResponseMicrofrontends =
+  | DeleteProjectAvatarResponseMicrofrontendsCase0
+  | DeleteProjectAvatarResponseMicrofrontendsCase1
+  | DeleteProjectAvatarResponseMicrofrontendsCase2;
+export type DeleteProjectAvatarResponseNodeVersion =
+  | "10.x"
+  | "12.x"
+  | "14.x"
+  | "16.x"
+  | "18.x"
+  | "20.x"
+  | "22.x"
+  | "24.x"
+  | "26.x"
+  | "8.10.x";
+/** - team: `https://oidc.vercel.com/[team_slug]` - global: `https://oidc.vercel.com` */
+export type DeleteProjectAvatarResponseOidcTokenConfigIssuerMode = "global" | "team";
+export interface DeleteProjectAvatarResponseOidcTokenConfig {
+  /** Whether or not to generate OpenID Connect JSON Web Tokens. */
+  enabled?: boolean;
+  /** - team: `https://oidc.vercel.com/[team_slug]` - global: `https://oidc.vercel.com` */
+  issuerMode?: DeleteProjectAvatarResponseOidcTokenConfigIssuerMode;
+}
+export type DeleteProjectAvatarResponseOptionsAllowlistPathsItem =
+  CreateProjectResponseOptionsAllowlistPathsItem;
+export type DeleteProjectAvatarResponseOptionsAllowlistPathsList =
+  Array<CreateProjectResponseOptionsAllowlistPathsItem>;
+export interface DeleteProjectAvatarResponseOptionsAllowlist {
+  paths: DeleteProjectAvatarResponseOptionsAllowlistPathsList;
+}
+export type DeleteProjectAvatarResponsePassportDeploymentType =
+  | "all"
+  | "all_except_custom_domains"
+  | "preview"
+  | "prod_deployment_urls_and_all_previews";
+export interface DeleteProjectAvatarResponsePassport {
+  connectorId: string;
+  deploymentType: DeleteProjectAvatarResponsePassportDeploymentType;
+}
+export type DeleteProjectAvatarResponsePasswordProtectionDeploymentType =
+  | "all"
+  | "all_except_custom_domains"
+  | "preview"
+  | "prod_deployment_urls_and_all_previews";
+/** Password protection settings returned without the secret password hash. */
+export interface DeleteProjectAvatarResponsePasswordProtection {
+  deploymentType: DeleteProjectAvatarResponsePasswordProtectionDeploymentType;
+}
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAccessGroupList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAgentList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAiGatewayApiKeyList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAiGatewayApiKeyBypassAllList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAiGatewayApiKeyOwnedBySelfList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAiGatewayApiKeySpendAttributionList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAiGatewayApiKeyZdrExemptionList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAiGatewayBudgetList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAiGatewayByokCredentialsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAiGatewayCreditsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAiGatewayGuardrailsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAiGatewayPrivateModelsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAiGatewayRulesList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAiGatewaySettingsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAiGatewayTranscriptsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAiGatewayTranscriptsSettingsList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAiGatewayUsageList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAiGatewayVirtualModelConfigsList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAlertRulesList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAlertsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAliasGlobalList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAliasProjectList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAliasProtectionBypassList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAnalyticsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAnalyticsSamplingList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAnalyticsUsageList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsApiKeyList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsApiKeyAiGatewayList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsApiKeyOwnedBySelfList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAuditLogList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAutomationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsBillingAddressList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsBillingInformationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsBillingInvoiceList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsBillingInvoiceEmailRecipientList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsBillingInvoiceLanguageList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsBillingPlanList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsBillingPurchaseOrderList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsBillingRefundList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsBillingTaxIdList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsBlobList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsBlobStoreTokenSetList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsBudgetList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsBuildMachineList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsBuildMachineDefaultList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsBulkRedirectsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsCacheArtifactList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsCacheArtifactUsageEventList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsCiInvocationsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsCiLogsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsCodeChecksList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsCodeOwnersList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsConcurrentBuildsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsConnectList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsConnectConfigurationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsConnectConfigurationLinkList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsConnectLogsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsConnexClientList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsConnexClientAccessList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsConnexClientProjectList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsConnexContactList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsConnexInstallationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsConnexTokenList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsCursorOriginInstallationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDataCacheBillingSettingsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDataCacheNamespaceList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDefaultDeploymentProtectionList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDeploymentList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDeploymentBuildLogsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDeploymentCheckList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDeploymentCheckPreviewList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDeploymentCheckReRunFromProductionBranchList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDeploymentPolicyList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDeploymentPreviewList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDeploymentPrivateList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDeploymentProductionGitList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDeploymentPromoteList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDeploymentProtectionExceptionList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDeploymentRollbackList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDeploymentV0List = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDomainList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDomainAcceptDelegationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDomainAuthCodesList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDomainCertificateList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDomainCheckConfigList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDomainMoveList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDomainPurchaseList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDomainRecordList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDomainTransferInList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDrainList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDriveList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsEdgeCacheNamespaceList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsEdgeConfigList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsEdgeConfigItemList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsEdgeConfigSchemaList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsEdgeConfigTokenList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsEmaSetupList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsEndpointVerificationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsEnvironmentsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsEventList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsFileUploadList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsFlagsExplorerSubscriptionList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsGitCredentialGrantList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsGithubUsageList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsGitRepositoryList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsImageOptimizationNewPriceList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsIntegrationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsIntegrationAccountList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsIntegrationConfigurationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsIntegrationConfigurationProjectsList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsIntegrationConfigurationRoleList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsIntegrationConfigurationTransferList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsIntegrationDeploymentActionList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsIntegrationEventList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsIntegrationLogList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsIntegrationPullRequestList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsIntegrationResourceList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsIntegrationResourceDataList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsIntegrationResourceReplCommandList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsIntegrationResourceSecretsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsIntegrationSSOSessionList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsIntegrationStoreTokenSetList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsIntegrationStrictList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsIntegrationVercelConfigurationOverrideList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsIpBlockingList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsJobList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsJobGlobalList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsKmsIssuerList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsKmsProjectGrantList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsLogDrainList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsLogsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsLogsPresetList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsMarketplaceBillingDataList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsMarketplaceExperimentationEdgeConfigDataList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsMarketplaceExperimentationItemList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsMarketplaceFlexCommitList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsMarketplaceInstallationMemberList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsMarketplaceInvoiceList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsMarketplaceSettingsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsMessageboardList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsMessageboardChannelList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsMessageboardMessageList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsMessageboardModerationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsMessageboardReactionList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsMessageboardTaskList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsMonitoringList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsMonitoringAlertList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsMonitoringChartList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsMonitoringQueryList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsMonitoringSettingsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsNotificationCustomerBudgetList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsNotificationDeploymentFailedList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsNotificationDomainConfigurationList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsNotificationDomainExpireList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsNotificationDomainMovedList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsNotificationDomainPurchaseList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsNotificationDomainRenewalList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsNotificationDomainTransferList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsNotificationDomainUnverifiedList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsNotificationMonitoringAlertList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsNotificationPaymentFailedList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsNotificationPreferencesList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsNotificationStatementOfReasonsList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsNotificationUsageAlertList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsOauth2ApplicationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsOauth2ConnectionList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsObservabilityConfigurationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsObservabilityDataList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsObservabilityFunnelList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsObservabilityNotebookList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsOidcFederationPolicyList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsOnDemandBuildList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsOnDemandConcurrencyList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsOpenTelemetryEndpointList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsOptionsAllowlistList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsOrganizationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsOrganizationDomainList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsOrganizationTeamList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsOwnEventList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsPageIntegrityList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsPasswordProtectionList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsPasswordProtectionInvoiceItemList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsPaymentMethodList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsPermissionsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsPostgresList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsPostgresStoreTokenSetList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsPreviewDeploymentSuffixList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsPrivateCloudAccountList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsPrivateLinkEndpointList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsPrivateNpmUsageList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProductionAliasProtectionBypassList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProductionShareableLinkList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectAccessGroupList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectAnalyticsSamplingList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectAnalyticsUsageList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectCheckList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectCheckRunList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectDeploymentExpirationList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectDeploymentHookList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectDeploymentProtectionStrictList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectDomainList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectDomainCheckConfigList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectDomainMoveList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectDomainVerifyList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectEnvVarsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectEnvVarsProductionList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectEnvVarsUnownedByIntegrationList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectEventList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectFlagsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectFlagsProductionList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectFlagsSdkKeyList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectFromV0List = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectIdList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectIntegrationConfigurationList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectLinkList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectMemberList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectMonitoringList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectOIDCTokenList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectPermissionsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectProductionBranchList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectProtectionBypassList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectRollingReleaseList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectRoutesList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectSettingList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectSupportCaseList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectSupportCaseCommentList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectTierList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectTransferList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectTransferInList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectTransferOutList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectTransferRequestList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectUsageList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProTrialOnboardingList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsRateLimitList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsRedisList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsRedisStoreTokenSetList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsRemoteCachingList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsRepositoryList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsSamlConfigList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsScheduleList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsSchedulePreviewList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsSeawallConfigList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsSecretList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsSecurityConfigList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsSecurityPlusConfigurationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsSensitiveEnvironmentVariablePolicyList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsSettingList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsShareableLinkList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsShareableLinkStrictList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsSharedEnvVarConnectionList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsSharedEnvVarsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsSharedEnvVarsProductionList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsSkewProtectionList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsSpaceList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsSpaceRunList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsStoreIsLockedList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsStoreTokenSetSensitiveList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsStoreTransferList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsSupportCaseList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsSupportCaseCommentList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsTeamList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsTeamAccessRequestList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsTeamFellowMembershipList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsTeamGitExclusivityList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsTeamInviteList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsTeamInviteCodeList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsTeamInviteLinkList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsTeamJoinList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsTeamMemberMfaStatusList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsTeamMicrofrontendsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsTeamOwnMembershipList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsTeamOwnMembershipDisconnectSAMLList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsTeamSudoList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsTeamTokenInvalidationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsTokenList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsToolbarCommentList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsTrustedIpsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsTrustedSourcesList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsUsageList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsUsageCycleList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsUserList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsUserConnectionList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsUserMfaConfigurationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsUserPreferenceList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsUserSudoList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsV0ChatList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsVcrRepositoryList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsVercelAppInstallationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsVercelAppInstallationRequestList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsVercelAuthList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsVercelRunList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsVpcPeeringConnectionList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsWebAnalyticsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsWebAnalyticsPlanList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsWebAuthnList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsWebhookList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsWebhookEventList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsWorkflowRunDataList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export interface DeleteProjectAvatarResponsePermissions {
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  accessGroup?: DeleteProjectAvatarResponsePermissionsAccessGroupList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  agent?: DeleteProjectAvatarResponsePermissionsAgentList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayApiKey?: DeleteProjectAvatarResponsePermissionsAiGatewayApiKeyList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayApiKeyBypassAll?: DeleteProjectAvatarResponsePermissionsAiGatewayApiKeyBypassAllList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayApiKeyOwnedBySelf?: DeleteProjectAvatarResponsePermissionsAiGatewayApiKeyOwnedBySelfList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayApiKeySpendAttribution?: DeleteProjectAvatarResponsePermissionsAiGatewayApiKeySpendAttributionList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayApiKeyZdrExemption?: DeleteProjectAvatarResponsePermissionsAiGatewayApiKeyZdrExemptionList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayBudget?: DeleteProjectAvatarResponsePermissionsAiGatewayBudgetList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayByokCredentials?: DeleteProjectAvatarResponsePermissionsAiGatewayByokCredentialsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayCredits?: DeleteProjectAvatarResponsePermissionsAiGatewayCreditsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayGuardrails?: DeleteProjectAvatarResponsePermissionsAiGatewayGuardrailsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayPrivateModels?: DeleteProjectAvatarResponsePermissionsAiGatewayPrivateModelsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayRules?: DeleteProjectAvatarResponsePermissionsAiGatewayRulesList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewaySettings?: DeleteProjectAvatarResponsePermissionsAiGatewaySettingsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayTranscripts?: DeleteProjectAvatarResponsePermissionsAiGatewayTranscriptsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayTranscriptsSettings?: DeleteProjectAvatarResponsePermissionsAiGatewayTranscriptsSettingsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayUsage?: DeleteProjectAvatarResponsePermissionsAiGatewayUsageList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayVirtualModelConfigs?: DeleteProjectAvatarResponsePermissionsAiGatewayVirtualModelConfigsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  alertRules?: DeleteProjectAvatarResponsePermissionsAlertRulesList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  alerts?: DeleteProjectAvatarResponsePermissionsAlertsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aliasGlobal?: DeleteProjectAvatarResponsePermissionsAliasGlobalList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aliasProject?: DeleteProjectAvatarResponsePermissionsAliasProjectList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aliasProtectionBypass?: DeleteProjectAvatarResponsePermissionsAliasProtectionBypassList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  analytics?: DeleteProjectAvatarResponsePermissionsAnalyticsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  analyticsSampling?: DeleteProjectAvatarResponsePermissionsAnalyticsSamplingList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  analyticsUsage?: DeleteProjectAvatarResponsePermissionsAnalyticsUsageList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  apiKey?: DeleteProjectAvatarResponsePermissionsApiKeyList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  apiKeyAiGateway?: DeleteProjectAvatarResponsePermissionsApiKeyAiGatewayList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  apiKeyOwnedBySelf?: DeleteProjectAvatarResponsePermissionsApiKeyOwnedBySelfList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  auditLog?: DeleteProjectAvatarResponsePermissionsAuditLogList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  automation?: DeleteProjectAvatarResponsePermissionsAutomationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  billingAddress?: DeleteProjectAvatarResponsePermissionsBillingAddressList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  billingInformation?: DeleteProjectAvatarResponsePermissionsBillingInformationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  billingInvoice?: DeleteProjectAvatarResponsePermissionsBillingInvoiceList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  billingInvoiceEmailRecipient?: DeleteProjectAvatarResponsePermissionsBillingInvoiceEmailRecipientList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  billingInvoiceLanguage?: DeleteProjectAvatarResponsePermissionsBillingInvoiceLanguageList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  billingPlan?: DeleteProjectAvatarResponsePermissionsBillingPlanList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  billingPurchaseOrder?: DeleteProjectAvatarResponsePermissionsBillingPurchaseOrderList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  billingRefund?: DeleteProjectAvatarResponsePermissionsBillingRefundList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  billingTaxId?: DeleteProjectAvatarResponsePermissionsBillingTaxIdList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  blob?: DeleteProjectAvatarResponsePermissionsBlobList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  blobStoreTokenSet?: DeleteProjectAvatarResponsePermissionsBlobStoreTokenSetList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  budget?: DeleteProjectAvatarResponsePermissionsBudgetList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  buildMachine?: DeleteProjectAvatarResponsePermissionsBuildMachineList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  buildMachineDefault?: DeleteProjectAvatarResponsePermissionsBuildMachineDefaultList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  bulkRedirects?: DeleteProjectAvatarResponsePermissionsBulkRedirectsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  cacheArtifact?: DeleteProjectAvatarResponsePermissionsCacheArtifactList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  cacheArtifactUsageEvent?: DeleteProjectAvatarResponsePermissionsCacheArtifactUsageEventList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  ciInvocations?: DeleteProjectAvatarResponsePermissionsCiInvocationsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  ciLogs?: DeleteProjectAvatarResponsePermissionsCiLogsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  codeChecks?: DeleteProjectAvatarResponsePermissionsCodeChecksList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  codeOwners?: DeleteProjectAvatarResponsePermissionsCodeOwnersList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  concurrentBuilds?: DeleteProjectAvatarResponsePermissionsConcurrentBuildsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  connect?: DeleteProjectAvatarResponsePermissionsConnectList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  connectConfiguration?: DeleteProjectAvatarResponsePermissionsConnectConfigurationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  connectConfigurationLink?: DeleteProjectAvatarResponsePermissionsConnectConfigurationLinkList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  connectLogs?: DeleteProjectAvatarResponsePermissionsConnectLogsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  connexClient?: DeleteProjectAvatarResponsePermissionsConnexClientList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  connexClientAccess?: DeleteProjectAvatarResponsePermissionsConnexClientAccessList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  connexClientProject?: DeleteProjectAvatarResponsePermissionsConnexClientProjectList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  connexContact?: DeleteProjectAvatarResponsePermissionsConnexContactList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  connexInstallation?: DeleteProjectAvatarResponsePermissionsConnexInstallationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  connexToken?: DeleteProjectAvatarResponsePermissionsConnexTokenList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  cursorOriginInstallation?: DeleteProjectAvatarResponsePermissionsCursorOriginInstallationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  dataCacheBillingSettings?: DeleteProjectAvatarResponsePermissionsDataCacheBillingSettingsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  dataCacheNamespace?: DeleteProjectAvatarResponsePermissionsDataCacheNamespaceList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  defaultDeploymentProtection?: DeleteProjectAvatarResponsePermissionsDefaultDeploymentProtectionList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  deployment?: DeleteProjectAvatarResponsePermissionsDeploymentList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  deploymentBuildLogs?: DeleteProjectAvatarResponsePermissionsDeploymentBuildLogsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  deploymentCheck?: DeleteProjectAvatarResponsePermissionsDeploymentCheckList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  deploymentCheckPreview?: DeleteProjectAvatarResponsePermissionsDeploymentCheckPreviewList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  deploymentCheckReRunFromProductionBranch?: DeleteProjectAvatarResponsePermissionsDeploymentCheckReRunFromProductionBranchList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  deploymentPolicy?: DeleteProjectAvatarResponsePermissionsDeploymentPolicyList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  deploymentPreview?: DeleteProjectAvatarResponsePermissionsDeploymentPreviewList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  deploymentPrivate?: DeleteProjectAvatarResponsePermissionsDeploymentPrivateList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  deploymentProductionGit?: DeleteProjectAvatarResponsePermissionsDeploymentProductionGitList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  deploymentPromote?: DeleteProjectAvatarResponsePermissionsDeploymentPromoteList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  deploymentProtectionException?: DeleteProjectAvatarResponsePermissionsDeploymentProtectionExceptionList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  deploymentRollback?: DeleteProjectAvatarResponsePermissionsDeploymentRollbackList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  deploymentV0?: DeleteProjectAvatarResponsePermissionsDeploymentV0List;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  domain?: DeleteProjectAvatarResponsePermissionsDomainList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  domainAcceptDelegation?: DeleteProjectAvatarResponsePermissionsDomainAcceptDelegationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  domainAuthCodes?: DeleteProjectAvatarResponsePermissionsDomainAuthCodesList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  domainCertificate?: DeleteProjectAvatarResponsePermissionsDomainCertificateList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  domainCheckConfig?: DeleteProjectAvatarResponsePermissionsDomainCheckConfigList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  domainMove?: DeleteProjectAvatarResponsePermissionsDomainMoveList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  domainPurchase?: DeleteProjectAvatarResponsePermissionsDomainPurchaseList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  domainRecord?: DeleteProjectAvatarResponsePermissionsDomainRecordList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  domainTransferIn?: DeleteProjectAvatarResponsePermissionsDomainTransferInList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  drain?: DeleteProjectAvatarResponsePermissionsDrainList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  drive?: DeleteProjectAvatarResponsePermissionsDriveList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  edgeCacheNamespace?: DeleteProjectAvatarResponsePermissionsEdgeCacheNamespaceList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  edgeConfig?: DeleteProjectAvatarResponsePermissionsEdgeConfigList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  edgeConfigItem?: DeleteProjectAvatarResponsePermissionsEdgeConfigItemList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  edgeConfigSchema?: DeleteProjectAvatarResponsePermissionsEdgeConfigSchemaList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  edgeConfigToken?: DeleteProjectAvatarResponsePermissionsEdgeConfigTokenList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  emaSetup?: DeleteProjectAvatarResponsePermissionsEmaSetupList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  endpointVerification?: DeleteProjectAvatarResponsePermissionsEndpointVerificationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  environments?: DeleteProjectAvatarResponsePermissionsEnvironmentsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  event?: DeleteProjectAvatarResponsePermissionsEventList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  fileUpload?: DeleteProjectAvatarResponsePermissionsFileUploadList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  flagsExplorerSubscription?: DeleteProjectAvatarResponsePermissionsFlagsExplorerSubscriptionList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  gitCredentialGrant?: DeleteProjectAvatarResponsePermissionsGitCredentialGrantList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  githubUsage?: DeleteProjectAvatarResponsePermissionsGithubUsageList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  gitRepository?: DeleteProjectAvatarResponsePermissionsGitRepositoryList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  imageOptimizationNewPrice?: DeleteProjectAvatarResponsePermissionsImageOptimizationNewPriceList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  integration?: DeleteProjectAvatarResponsePermissionsIntegrationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  integrationAccount?: DeleteProjectAvatarResponsePermissionsIntegrationAccountList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  integrationConfiguration?: DeleteProjectAvatarResponsePermissionsIntegrationConfigurationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  integrationConfigurationProjects?: DeleteProjectAvatarResponsePermissionsIntegrationConfigurationProjectsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  integrationConfigurationRole?: DeleteProjectAvatarResponsePermissionsIntegrationConfigurationRoleList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  integrationConfigurationTransfer?: DeleteProjectAvatarResponsePermissionsIntegrationConfigurationTransferList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  integrationDeploymentAction?: DeleteProjectAvatarResponsePermissionsIntegrationDeploymentActionList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  integrationEvent?: DeleteProjectAvatarResponsePermissionsIntegrationEventList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  integrationLog?: DeleteProjectAvatarResponsePermissionsIntegrationLogList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  integrationPullRequest?: DeleteProjectAvatarResponsePermissionsIntegrationPullRequestList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  integrationResource?: DeleteProjectAvatarResponsePermissionsIntegrationResourceList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  integrationResourceData?: DeleteProjectAvatarResponsePermissionsIntegrationResourceDataList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  integrationResourceReplCommand?: DeleteProjectAvatarResponsePermissionsIntegrationResourceReplCommandList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  integrationResourceSecrets?: DeleteProjectAvatarResponsePermissionsIntegrationResourceSecretsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  integrationSSOSession?: DeleteProjectAvatarResponsePermissionsIntegrationSSOSessionList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  integrationStoreTokenSet?: DeleteProjectAvatarResponsePermissionsIntegrationStoreTokenSetList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  integrationStrict?: DeleteProjectAvatarResponsePermissionsIntegrationStrictList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  integrationVercelConfigurationOverride?: DeleteProjectAvatarResponsePermissionsIntegrationVercelConfigurationOverrideList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  ipBlocking?: DeleteProjectAvatarResponsePermissionsIpBlockingList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  job?: DeleteProjectAvatarResponsePermissionsJobList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  jobGlobal?: DeleteProjectAvatarResponsePermissionsJobGlobalList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  kmsIssuer?: DeleteProjectAvatarResponsePermissionsKmsIssuerList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  kmsProjectGrant?: DeleteProjectAvatarResponsePermissionsKmsProjectGrantList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  logDrain?: DeleteProjectAvatarResponsePermissionsLogDrainList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  logs?: DeleteProjectAvatarResponsePermissionsLogsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  logsPreset?: DeleteProjectAvatarResponsePermissionsLogsPresetList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  marketplaceBillingData?: DeleteProjectAvatarResponsePermissionsMarketplaceBillingDataList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  marketplaceExperimentationEdgeConfigData?: DeleteProjectAvatarResponsePermissionsMarketplaceExperimentationEdgeConfigDataList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  marketplaceExperimentationItem?: DeleteProjectAvatarResponsePermissionsMarketplaceExperimentationItemList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  marketplaceFlexCommit?: DeleteProjectAvatarResponsePermissionsMarketplaceFlexCommitList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  marketplaceInstallationMember?: DeleteProjectAvatarResponsePermissionsMarketplaceInstallationMemberList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  marketplaceInvoice?: DeleteProjectAvatarResponsePermissionsMarketplaceInvoiceList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  marketplaceSettings?: DeleteProjectAvatarResponsePermissionsMarketplaceSettingsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboard?: DeleteProjectAvatarResponsePermissionsMessageboardList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardChannel?: DeleteProjectAvatarResponsePermissionsMessageboardChannelList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardMessage?: DeleteProjectAvatarResponsePermissionsMessageboardMessageList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardModeration?: DeleteProjectAvatarResponsePermissionsMessageboardModerationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardReaction?: DeleteProjectAvatarResponsePermissionsMessageboardReactionList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardTask?: DeleteProjectAvatarResponsePermissionsMessageboardTaskList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  Monitoring?: DeleteProjectAvatarResponsePermissionsMonitoringList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  monitoringAlert?: DeleteProjectAvatarResponsePermissionsMonitoringAlertList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  monitoringChart?: DeleteProjectAvatarResponsePermissionsMonitoringChartList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  monitoringQuery?: DeleteProjectAvatarResponsePermissionsMonitoringQueryList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  monitoringSettings?: DeleteProjectAvatarResponsePermissionsMonitoringSettingsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  notificationCustomerBudget?: DeleteProjectAvatarResponsePermissionsNotificationCustomerBudgetList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  notificationDeploymentFailed?: DeleteProjectAvatarResponsePermissionsNotificationDeploymentFailedList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  notificationDomainConfiguration?: DeleteProjectAvatarResponsePermissionsNotificationDomainConfigurationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  notificationDomainExpire?: DeleteProjectAvatarResponsePermissionsNotificationDomainExpireList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  notificationDomainMoved?: DeleteProjectAvatarResponsePermissionsNotificationDomainMovedList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  notificationDomainPurchase?: DeleteProjectAvatarResponsePermissionsNotificationDomainPurchaseList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  notificationDomainRenewal?: DeleteProjectAvatarResponsePermissionsNotificationDomainRenewalList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  notificationDomainTransfer?: DeleteProjectAvatarResponsePermissionsNotificationDomainTransferList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  notificationDomainUnverified?: DeleteProjectAvatarResponsePermissionsNotificationDomainUnverifiedList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  NotificationMonitoringAlert?: DeleteProjectAvatarResponsePermissionsNotificationMonitoringAlertList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  notificationPaymentFailed?: DeleteProjectAvatarResponsePermissionsNotificationPaymentFailedList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  notificationPreferences?: DeleteProjectAvatarResponsePermissionsNotificationPreferencesList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  notificationStatementOfReasons?: DeleteProjectAvatarResponsePermissionsNotificationStatementOfReasonsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  notificationUsageAlert?: DeleteProjectAvatarResponsePermissionsNotificationUsageAlertList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  oauth2Application?: DeleteProjectAvatarResponsePermissionsOauth2ApplicationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  oauth2Connection?: DeleteProjectAvatarResponsePermissionsOauth2ConnectionList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  observabilityConfiguration?: DeleteProjectAvatarResponsePermissionsObservabilityConfigurationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  observabilityData?: DeleteProjectAvatarResponsePermissionsObservabilityDataList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  observabilityFunnel?: DeleteProjectAvatarResponsePermissionsObservabilityFunnelList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  observabilityNotebook?: DeleteProjectAvatarResponsePermissionsObservabilityNotebookList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  oidcFederationPolicy?: DeleteProjectAvatarResponsePermissionsOidcFederationPolicyList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  onDemandBuild?: DeleteProjectAvatarResponsePermissionsOnDemandBuildList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  onDemandConcurrency?: DeleteProjectAvatarResponsePermissionsOnDemandConcurrencyList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  openTelemetryEndpoint?: DeleteProjectAvatarResponsePermissionsOpenTelemetryEndpointList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  optionsAllowlist?: DeleteProjectAvatarResponsePermissionsOptionsAllowlistList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  organization?: DeleteProjectAvatarResponsePermissionsOrganizationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  organizationDomain?: DeleteProjectAvatarResponsePermissionsOrganizationDomainList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  organizationTeam?: DeleteProjectAvatarResponsePermissionsOrganizationTeamList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  ownEvent?: DeleteProjectAvatarResponsePermissionsOwnEventList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  pageIntegrity?: DeleteProjectAvatarResponsePermissionsPageIntegrityList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  passwordProtection?: DeleteProjectAvatarResponsePermissionsPasswordProtectionList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  passwordProtectionInvoiceItem?: DeleteProjectAvatarResponsePermissionsPasswordProtectionInvoiceItemList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  paymentMethod?: DeleteProjectAvatarResponsePermissionsPaymentMethodList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  permissions?: DeleteProjectAvatarResponsePermissionsPermissionsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  postgres?: DeleteProjectAvatarResponsePermissionsPostgresList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  postgresStoreTokenSet?: DeleteProjectAvatarResponsePermissionsPostgresStoreTokenSetList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  previewDeploymentSuffix?: DeleteProjectAvatarResponsePermissionsPreviewDeploymentSuffixList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  privateCloudAccount?: DeleteProjectAvatarResponsePermissionsPrivateCloudAccountList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  privateLinkEndpoint?: DeleteProjectAvatarResponsePermissionsPrivateLinkEndpointList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  privateNpmUsage?: DeleteProjectAvatarResponsePermissionsPrivateNpmUsageList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  productionAliasProtectionBypass?: DeleteProjectAvatarResponsePermissionsProductionAliasProtectionBypassList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  productionShareableLink?: DeleteProjectAvatarResponsePermissionsProductionShareableLinkList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  project?: DeleteProjectAvatarResponsePermissionsProjectList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectAccessGroup?: DeleteProjectAvatarResponsePermissionsProjectAccessGroupList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectAnalyticsSampling?: DeleteProjectAvatarResponsePermissionsProjectAnalyticsSamplingList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectAnalyticsUsage?: DeleteProjectAvatarResponsePermissionsProjectAnalyticsUsageList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectCheck?: DeleteProjectAvatarResponsePermissionsProjectCheckList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectCheckRun?: DeleteProjectAvatarResponsePermissionsProjectCheckRunList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectDeploymentExpiration?: DeleteProjectAvatarResponsePermissionsProjectDeploymentExpirationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectDeploymentHook?: DeleteProjectAvatarResponsePermissionsProjectDeploymentHookList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectDeploymentProtectionStrict?: DeleteProjectAvatarResponsePermissionsProjectDeploymentProtectionStrictList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectDomain?: DeleteProjectAvatarResponsePermissionsProjectDomainList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectDomainCheckConfig?: DeleteProjectAvatarResponsePermissionsProjectDomainCheckConfigList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectDomainMove?: DeleteProjectAvatarResponsePermissionsProjectDomainMoveList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectDomainVerify?: DeleteProjectAvatarResponsePermissionsProjectDomainVerifyList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectEnvVars?: DeleteProjectAvatarResponsePermissionsProjectEnvVarsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectEnvVarsProduction?: DeleteProjectAvatarResponsePermissionsProjectEnvVarsProductionList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectEnvVarsUnownedByIntegration?: DeleteProjectAvatarResponsePermissionsProjectEnvVarsUnownedByIntegrationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectEvent?: DeleteProjectAvatarResponsePermissionsProjectEventList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectFlags?: DeleteProjectAvatarResponsePermissionsProjectFlagsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectFlagsProduction?: DeleteProjectAvatarResponsePermissionsProjectFlagsProductionList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectFlagsSdkKey?: DeleteProjectAvatarResponsePermissionsProjectFlagsSdkKeyList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectFromV0?: DeleteProjectAvatarResponsePermissionsProjectFromV0List;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectId?: DeleteProjectAvatarResponsePermissionsProjectIdList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectIntegrationConfiguration?: DeleteProjectAvatarResponsePermissionsProjectIntegrationConfigurationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectLink?: DeleteProjectAvatarResponsePermissionsProjectLinkList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectMember?: DeleteProjectAvatarResponsePermissionsProjectMemberList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectMonitoring?: DeleteProjectAvatarResponsePermissionsProjectMonitoringList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectOIDCToken?: DeleteProjectAvatarResponsePermissionsProjectOIDCTokenList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectPermissions?: DeleteProjectAvatarResponsePermissionsProjectPermissionsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectProductionBranch?: DeleteProjectAvatarResponsePermissionsProjectProductionBranchList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectProtectionBypass?: DeleteProjectAvatarResponsePermissionsProjectProtectionBypassList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectRollingRelease?: DeleteProjectAvatarResponsePermissionsProjectRollingReleaseList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectRoutes?: DeleteProjectAvatarResponsePermissionsProjectRoutesList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectSetting?: DeleteProjectAvatarResponsePermissionsProjectSettingList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectSupportCase?: DeleteProjectAvatarResponsePermissionsProjectSupportCaseList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectSupportCaseComment?: DeleteProjectAvatarResponsePermissionsProjectSupportCaseCommentList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectTier?: DeleteProjectAvatarResponsePermissionsProjectTierList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectTransfer?: DeleteProjectAvatarResponsePermissionsProjectTransferList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectTransferIn?: DeleteProjectAvatarResponsePermissionsProjectTransferInList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectTransferOut?: DeleteProjectAvatarResponsePermissionsProjectTransferOutList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectTransferRequest?: DeleteProjectAvatarResponsePermissionsProjectTransferRequestList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectUsage?: DeleteProjectAvatarResponsePermissionsProjectUsageList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  proTrialOnboarding?: DeleteProjectAvatarResponsePermissionsProTrialOnboardingList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  rateLimit?: DeleteProjectAvatarResponsePermissionsRateLimitList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  redis?: DeleteProjectAvatarResponsePermissionsRedisList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  redisStoreTokenSet?: DeleteProjectAvatarResponsePermissionsRedisStoreTokenSetList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  remoteCaching?: DeleteProjectAvatarResponsePermissionsRemoteCachingList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  repository?: DeleteProjectAvatarResponsePermissionsRepositoryList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  samlConfig?: DeleteProjectAvatarResponsePermissionsSamlConfigList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  schedule?: DeleteProjectAvatarResponsePermissionsScheduleList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  schedulePreview?: DeleteProjectAvatarResponsePermissionsSchedulePreviewList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  seawallConfig?: DeleteProjectAvatarResponsePermissionsSeawallConfigList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  secret?: DeleteProjectAvatarResponsePermissionsSecretList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  securityConfig?: DeleteProjectAvatarResponsePermissionsSecurityConfigList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  securityPlusConfiguration?: DeleteProjectAvatarResponsePermissionsSecurityPlusConfigurationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  sensitiveEnvironmentVariablePolicy?: DeleteProjectAvatarResponsePermissionsSensitiveEnvironmentVariablePolicyList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  setting?: DeleteProjectAvatarResponsePermissionsSettingList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  shareableLink?: DeleteProjectAvatarResponsePermissionsShareableLinkList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  shareableLinkStrict?: DeleteProjectAvatarResponsePermissionsShareableLinkStrictList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  sharedEnvVarConnection?: DeleteProjectAvatarResponsePermissionsSharedEnvVarConnectionList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  sharedEnvVars?: DeleteProjectAvatarResponsePermissionsSharedEnvVarsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  sharedEnvVarsProduction?: DeleteProjectAvatarResponsePermissionsSharedEnvVarsProductionList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  skewProtection?: DeleteProjectAvatarResponsePermissionsSkewProtectionList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  space?: DeleteProjectAvatarResponsePermissionsSpaceList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  spaceRun?: DeleteProjectAvatarResponsePermissionsSpaceRunList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  storeIsLocked?: DeleteProjectAvatarResponsePermissionsStoreIsLockedList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  storeTokenSetSensitive?: DeleteProjectAvatarResponsePermissionsStoreTokenSetSensitiveList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  storeTransfer?: DeleteProjectAvatarResponsePermissionsStoreTransferList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  supportCase?: DeleteProjectAvatarResponsePermissionsSupportCaseList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  supportCaseComment?: DeleteProjectAvatarResponsePermissionsSupportCaseCommentList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  team?: DeleteProjectAvatarResponsePermissionsTeamList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  teamAccessRequest?: DeleteProjectAvatarResponsePermissionsTeamAccessRequestList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  teamFellowMembership?: DeleteProjectAvatarResponsePermissionsTeamFellowMembershipList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  teamGitExclusivity?: DeleteProjectAvatarResponsePermissionsTeamGitExclusivityList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  teamInvite?: DeleteProjectAvatarResponsePermissionsTeamInviteList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  teamInviteCode?: DeleteProjectAvatarResponsePermissionsTeamInviteCodeList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  teamInviteLink?: DeleteProjectAvatarResponsePermissionsTeamInviteLinkList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  teamJoin?: DeleteProjectAvatarResponsePermissionsTeamJoinList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  teamMemberMfaStatus?: DeleteProjectAvatarResponsePermissionsTeamMemberMfaStatusList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  teamMicrofrontends?: DeleteProjectAvatarResponsePermissionsTeamMicrofrontendsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  teamOwnMembership?: DeleteProjectAvatarResponsePermissionsTeamOwnMembershipList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  teamOwnMembershipDisconnectSAML?: DeleteProjectAvatarResponsePermissionsTeamOwnMembershipDisconnectSAMLList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  teamSudo?: DeleteProjectAvatarResponsePermissionsTeamSudoList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  teamTokenInvalidation?: DeleteProjectAvatarResponsePermissionsTeamTokenInvalidationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  token?: DeleteProjectAvatarResponsePermissionsTokenList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  toolbarComment?: DeleteProjectAvatarResponsePermissionsToolbarCommentList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  trustedIps?: DeleteProjectAvatarResponsePermissionsTrustedIpsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  trustedSources?: DeleteProjectAvatarResponsePermissionsTrustedSourcesList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  usage?: DeleteProjectAvatarResponsePermissionsUsageList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  usageCycle?: DeleteProjectAvatarResponsePermissionsUsageCycleList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  user?: DeleteProjectAvatarResponsePermissionsUserList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  userConnection?: DeleteProjectAvatarResponsePermissionsUserConnectionList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  userMfaConfiguration?: DeleteProjectAvatarResponsePermissionsUserMfaConfigurationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  userPreference?: DeleteProjectAvatarResponsePermissionsUserPreferenceList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  userSudo?: DeleteProjectAvatarResponsePermissionsUserSudoList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  v0Chat?: DeleteProjectAvatarResponsePermissionsV0ChatList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  vcrRepository?: DeleteProjectAvatarResponsePermissionsVcrRepositoryList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  vercelAppInstallation?: DeleteProjectAvatarResponsePermissionsVercelAppInstallationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  vercelAppInstallationRequest?: DeleteProjectAvatarResponsePermissionsVercelAppInstallationRequestList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  vercelAuth?: DeleteProjectAvatarResponsePermissionsVercelAuthList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  vercelRun?: DeleteProjectAvatarResponsePermissionsVercelRunList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  vpcPeeringConnection?: DeleteProjectAvatarResponsePermissionsVpcPeeringConnectionList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  webAnalytics?: DeleteProjectAvatarResponsePermissionsWebAnalyticsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  webAnalyticsPlan?: DeleteProjectAvatarResponsePermissionsWebAnalyticsPlanList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  webAuthn?: DeleteProjectAvatarResponsePermissionsWebAuthnList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  webhook?: DeleteProjectAvatarResponsePermissionsWebhookList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  webhook_event?: DeleteProjectAvatarResponsePermissionsWebhookEventList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  workflowRunData?: DeleteProjectAvatarResponsePermissionsWorkflowRunDataList;
+}
+export type DeleteProjectAvatarResponseProtectionBypassValueCase0Scope =
+  "integration-automation-bypass";
+export interface DeleteProjectAvatarResponseProtectionBypassValueCase0 {
+  configurationId: string;
+  createdAt: number;
+  createdBy: string;
+  integrationId: string;
+  scope: DeleteProjectAvatarResponseProtectionBypassValueCase0Scope;
+}
+export type DeleteProjectAvatarResponseProtectionBypassValueCase1Scope = "automation-bypass";
+export interface DeleteProjectAvatarResponseProtectionBypassValueCase1 {
+  createdAt: number;
+  createdBy: string;
+  /** When there was only one bypass, it was automatically set as an env var on deployments. With multiple bypasses, there is always one bypass that is selected as the default, and gets set as an env var on deployments. As this is a new field, undefined means that the bypass is the env var. If there are any automation bypasses, exactly one must be the env var. */
+  isEnvVar?: boolean;
+  /** Optional note about the bypass to be displayed in the UI */
+  note?: string;
+  scope: DeleteProjectAvatarResponseProtectionBypassValueCase1Scope;
+}
+export type DeleteProjectAvatarResponseProtectionBypassValue =
+  | DeleteProjectAvatarResponseProtectionBypassValueCase0
+  | DeleteProjectAvatarResponseProtectionBypassValueCase1;
+export type DeleteProjectAvatarResponseProtectionBypassMap = {
+  [key: string]: DeleteProjectAvatarResponseProtectionBypassValue | undefined;
+};
+export type DeleteProjectAvatarResponseProtectionConfigSandboxUrls =
+  CreateProjectResponseProtectionConfigSandboxUrls;
+export type DeleteProjectAvatarResponseProtectionConfig = CreateProjectResponseProtectionConfig;
+export type DeleteProjectAvatarResponseResourceConfigBuildMachineElasticReason =
+  | "basic-floor"
+  | "build-timeout-failure"
+  | "enospc-failure"
+  | "enterprise-floor"
+  | "high-peak-disk"
+  | "high-peak-memory"
+  | "long-build-duration"
+  | "oom-failure"
+  | "short-build-duration"
+  | "sustained-high-cpu";
+export type DeleteProjectAvatarResponseResourceConfigBuildMachineElasticTransitionDirection =
+  | "downgrade"
+  | "upgrade";
+export interface DeleteProjectAvatarResponseResourceConfigBuildMachineElasticTransition {
+  algorithmVersion: string;
+  at: number;
+  direction: DeleteProjectAvatarResponseResourceConfigBuildMachineElasticTransitionDirection;
+}
+export type DeleteProjectAvatarResponseResourceConfigBuildMachineSelection = "elastic" | "fixed";
+export type DeleteProjectAvatarResponseResourceConfigBuildMachineType =
+  | "14cpu-28gb"
+  | "basic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+export type DeleteProjectAvatarResponseResourceConfigBuildQueueConfiguration =
+  | "SKIP_NAMESPACE_QUEUE"
+  | "WAIT_FOR_NAMESPACE_QUEUE";
+export interface DeleteProjectAvatarResponseResourceConfigBuildQueue {
+  configuration?: DeleteProjectAvatarResponseResourceConfigBuildQueueConfiguration;
+}
+export type DeleteProjectAvatarResponseResourceConfigFunctionDefaultMemoryType =
+  | "performance"
+  | "performance_xl"
+  | "standard"
+  | "standard_legacy";
+export type DeleteProjectAvatarResponseResourceConfigFunctionDefaultRegionsList = Array<string>;
+export type DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase0Cores = 4;
+export type DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase0Label = "standard";
+export type DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase0Memory = 8192;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase0 {
+  cores: DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase0Cores;
+  label: DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase0Label;
+  memory: DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase0Memory;
+}
+export type DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase1Cores = 8;
+export type DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase1Label = "enhanced";
+export type DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase1Memory = 16384;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase1 {
+  cores: DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase1Cores;
+  label: DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase1Label;
+  memory: DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase1Memory;
+}
+export type DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase2Cores = 14;
+export type DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase2Label = "14cpu-28gb";
+export type DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase2Memory = 28672;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase2 {
+  cores: DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase2Cores;
+  label: DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase2Label;
+  memory: DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase2Memory;
+}
+export type DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase3Cores = 30;
+export type DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase3Label = "turbo";
+export type DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase3Memory = 61440;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase3 {
+  cores: DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase3Cores;
+  label: DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase3Label;
+  memory: DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase3Memory;
+}
+export type DeleteProjectAvatarResponseResourceConfigElasticBuildMachine =
+  | DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase0
+  | DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase1
+  | DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase2
+  | DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase3;
+export interface DeleteProjectAvatarResponseResourceConfig {
+  buildMachineElasticLastUpdated?: number;
+  buildMachineElasticReason?: DeleteProjectAvatarResponseResourceConfigBuildMachineElasticReason;
+  buildMachineElasticTransition?: DeleteProjectAvatarResponseResourceConfigBuildMachineElasticTransition;
+  buildMachineSelection?: DeleteProjectAvatarResponseResourceConfigBuildMachineSelection;
+  buildMachineType?: DeleteProjectAvatarResponseResourceConfigBuildMachineType;
+  buildQueue?: DeleteProjectAvatarResponseResourceConfigBuildQueue;
+  elasticConcurrencyEnabled?: boolean;
+  enableFunctionsBeta?: boolean;
+  fluid?: boolean;
+  functionDefaultMemoryType?: DeleteProjectAvatarResponseResourceConfigFunctionDefaultMemoryType;
+  functionDefaultRegions: DeleteProjectAvatarResponseResourceConfigFunctionDefaultRegionsList;
+  functionDefaultTimeout?: number;
+  functionZeroConfigFailover?: boolean;
+  isNSNBDisabled?: boolean;
+  elasticBuildMachine?: DeleteProjectAvatarResponseResourceConfigElasticBuildMachine;
+}
+export type DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase0Type = "user";
+export type DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase0App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase0Type = "app";
+/** Set when a Vercel App or Integration acts on behalf of a {@link User}. Captures user-consented OAuth delegation that the ACL layer may inspect to evaluate scope restrictions. This is NOT for impersonation or token-exchange provenance -- those live on `auth.token`, not on the principal. */
+export interface DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase0 {
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  type: DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase0Type;
+}
+export type DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase1Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase1Type =
+  "integration";
+/** Set when a Vercel App or Integration acts on behalf of a {@link User}. Captures user-consented OAuth delegation that the ACL layer may inspect to evaluate scope restrictions. This is NOT for impersonation or token-exchange provenance -- those live on `auth.token`, not on the principal. */
+export interface DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase1 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  type: DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase1Type;
+}
+export type DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase0Via =
+  | DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase0
+  | DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase1;
+export type DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase0User =
+  CreateProjectResponseCreatorCase0User;
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase0 {
+  type: DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase0Type;
+  via: DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase0Via | null;
+  user: CreateProjectResponseCreatorCase0User;
+}
+export type DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase1Project =
+  CreateProjectResponseCreatorCase0User;
+export type DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase1Type = "project";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase1 {
+  project: CreateProjectResponseCreatorCase0User;
+  type: DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase1Type;
+}
+export type DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase2App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase2Type = "app";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase2 {
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  type: DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase2Type;
+}
+export type DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase3Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase3Type = "integration";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase3 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  type: DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase3Type;
+}
+export type DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase4Type = "system";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase4 {
+  type: DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase4Type;
+}
+export type DeleteProjectAvatarResponseRollbackDescriptionPrincipal =
+  | DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase0
+  | DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase1
+  | DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase2
+  | DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase3
+  | DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase4;
+/** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
+export interface DeleteProjectAvatarResponseRollbackDescription {
+  /** Timestamp of when the rollback was requested. */
+  createdAt: number;
+  /** User-supplied explanation of why they rolled back the project. Limited to 250 characters. */
+  description: string;
+  principal?: DeleteProjectAvatarResponseRollbackDescriptionPrincipal;
+  /** The ID of the user who rolled back the project, when the principal was a user. */
+  userId?: string;
+  /** The username of the user who rolled back the project, when the principal was a user. */
+  username?: string;
+}
+/** What to do when the gate trips: pause the rollout, or roll it back. */
+export type DeleteProjectAvatarResponseRollingReleaseGateAction = "pause" | "rollback";
+/** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
+export type DeleteProjectAvatarResponseRollingReleaseGateChecksItemExcludePathsList = Array<string>;
+/** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
+export type DeleteProjectAvatarResponseRollingReleaseGateChecksItemExcludeStatusCodesList =
+  Array<number>;
+/** The metric this check evaluates. */
+export type DeleteProjectAvatarResponseRollingReleaseGateChecksItemType = "error-rate-5xx";
+/** The checks to evaluate. An empty array means nothing is evaluated. */
+export interface DeleteProjectAvatarResponseRollingReleaseGateChecksItem {
+  /** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
+  excludePaths?: DeleteProjectAvatarResponseRollingReleaseGateChecksItemExcludePathsList;
+  /** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
+  excludeStatusCodes?: DeleteProjectAvatarResponseRollingReleaseGateChecksItemExcludeStatusCodesList;
+  /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
+  ingestWatermarkSeconds?: number;
+  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
+  significanceLevel?: number;
+  /** The metric this check evaluates. */
+  type: DeleteProjectAvatarResponseRollingReleaseGateChecksItemType;
+}
+/** The checks to evaluate. An empty array means nothing is evaluated. */
+export type DeleteProjectAvatarResponseRollingReleaseGateChecksList =
+  Array<DeleteProjectAvatarResponseRollingReleaseGateChecksItem>;
+/** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
+export interface DeleteProjectAvatarResponseRollingReleaseGate {
+  /** What to do when the gate trips: pause the rollout, or roll it back. */
+  action: DeleteProjectAvatarResponseRollingReleaseGateAction;
+  /** The checks to evaluate. An empty array means nothing is evaluated. */
+  checks: DeleteProjectAvatarResponseRollingReleaseGateChecksList;
+  /** When true, a tripped gate is only reported -- {@link action} is not taken. */
+  dryRun: boolean;
+  /** Whether automated gating is enabled for this project's rollouts. */
+  enabled: boolean;
+  /** How many failing evaluations within {@link windowSize} trip the gate. Defaults to `3` when omitted. */
+  failureThreshold?: number;
+  /** How many of the most recent evaluations {@link failureThreshold} is counted against. Defaults to `5` when omitted. */
+  windowSize?: number;
+}
+/** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
+export type DeleteProjectAvatarResponseRollingReleaseStagesItem =
+  CreateProjectResponseRollingReleaseStagesItem;
+/** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
+export type DeleteProjectAvatarResponseRollingReleaseStagesList =
+  Array<CreateProjectResponseRollingReleaseStagesItem>;
+/** Project-level rolling release configuration that defines how deployments should be gradually rolled out */
+export interface DeleteProjectAvatarResponseRollingRelease {
+  /** Whether the request served by a canary deployment should return a header indicating a canary was served. Defaults to `false` when omitted. */
+  canaryResponseHeader?: boolean;
+  /** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
+  gate?: DeleteProjectAvatarResponseRollingReleaseGate;
+  /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
+  stages?: DeleteProjectAvatarResponseRollingReleaseStagesList | null;
+  /** The environment that the release targets, currently only supports production. Adding in case we want to configure with alias groups or custom environments. */
+  target: string;
+}
+export type DeleteProjectAvatarResponseSandboxFailoverRegionsItem =
+  | "arn1"
+  | "bom1"
+  | "cdg1"
+  | "cle1"
+  | "cpt1"
+  | "dub1"
+  | "fra1"
+  | "gru1"
+  | "hkg1"
+  | "hnd1"
+  | "iad1"
+  | "icn1"
+  | "kix1"
+  | "lhr1"
+  | "pdx1"
+  | "sfo1"
+  | "sin1"
+  | "syd1"
+  | "yul1";
+export type DeleteProjectAvatarResponseSandboxFailoverRegionsList =
+  Array<DeleteProjectAvatarResponseSandboxFailoverRegionsItem>;
+export type DeleteProjectAvatarResponseSandboxRegion =
+  | "arn1"
+  | "bom1"
+  | "cdg1"
+  | "cle1"
+  | "cpt1"
+  | "dub1"
+  | "fra1"
+  | "gru1"
+  | "hkg1"
+  | "hnd1"
+  | "iad1"
+  | "icn1"
+  | "kix1"
+  | "lhr1"
+  | "pdx1"
+  | "sfo1"
+  | "sin1"
+  | "syd1"
+  | "yul1";
+export interface DeleteProjectAvatarResponseSandbox {
+  failoverRegions?: DeleteProjectAvatarResponseSandboxFailoverRegionsList;
+  region?: DeleteProjectAvatarResponseSandboxRegion;
+}
+export type DeleteProjectAvatarResponseSecurityFirewallBypassIpsList = Array<string>;
+export type DeleteProjectAvatarResponseSecurityLogHeadersCase0List = Array<string>;
+export type DeleteProjectAvatarResponseSecurityLogHeadersCase1 = "*";
+export type DeleteProjectAvatarResponseSecurityLogHeaders =
+  | DeleteProjectAvatarResponseSecurityLogHeadersCase0List
+  | DeleteProjectAvatarResponseSecurityLogHeadersCase1;
+export type DeleteProjectAvatarResponseSecurityManagedRulesAiBotsAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export interface DeleteProjectAvatarResponseSecurityManagedRulesAiBots {
+  action?: DeleteProjectAvatarResponseSecurityManagedRulesAiBotsAction;
+  active: boolean;
+}
+export type DeleteProjectAvatarResponseSecurityManagedRulesBotFilterAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export interface DeleteProjectAvatarResponseSecurityManagedRulesBotFilter {
+  action?: DeleteProjectAvatarResponseSecurityManagedRulesBotFilterAction;
+  active: boolean;
+}
+export type DeleteProjectAvatarResponseSecurityManagedRulesOwaspAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export interface DeleteProjectAvatarResponseSecurityManagedRulesOwasp {
+  action?: DeleteProjectAvatarResponseSecurityManagedRulesOwaspAction;
+  active: boolean;
+}
+export type DeleteProjectAvatarResponseSecurityManagedRulesTrafficSourcesAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export interface DeleteProjectAvatarResponseSecurityManagedRulesTrafficSources {
+  action?: DeleteProjectAvatarResponseSecurityManagedRulesTrafficSourcesAction;
+  active: boolean;
+}
+export type DeleteProjectAvatarResponseSecurityManagedRulesVercelRulesetAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export interface DeleteProjectAvatarResponseSecurityManagedRulesVercelRuleset {
+  action?: DeleteProjectAvatarResponseSecurityManagedRulesVercelRulesetAction;
+  active: boolean;
+}
+export interface DeleteProjectAvatarResponseSecurityManagedRules {
+  ai_bots: DeleteProjectAvatarResponseSecurityManagedRulesAiBots;
+  bot_filter: DeleteProjectAvatarResponseSecurityManagedRulesBotFilter;
+  owasp: DeleteProjectAvatarResponseSecurityManagedRulesOwasp;
+  traffic_sources: DeleteProjectAvatarResponseSecurityManagedRulesTrafficSources;
+  vercel_ruleset: DeleteProjectAvatarResponseSecurityManagedRulesVercelRuleset;
+}
+export type DeleteProjectAvatarResponseSecurityRulesetsValueAction =
+  | "allow"
+  | "bypass"
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit"
+  | "redirect";
+export type DeleteProjectAvatarResponseSecurityRulesetsValueLogHeadersCase0List = Array<string>;
+export type DeleteProjectAvatarResponseSecurityRulesetsValueLogHeadersCase1 = "*";
+export type DeleteProjectAvatarResponseSecurityRulesetsValueLogHeaders =
+  | DeleteProjectAvatarResponseSecurityRulesetsValueLogHeadersCase0List
+  | DeleteProjectAvatarResponseSecurityRulesetsValueLogHeadersCase1;
+export type DeleteProjectAvatarResponseSecurityRulesetsValueRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
+export type DeleteProjectAvatarResponseSecurityRulesetsValueRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export type DeleteProjectAvatarResponseSecurityRulesetsValueRateLimitKeysList = Array<string>;
+export interface DeleteProjectAvatarResponseSecurityRulesetsValueRateLimit {
+  action?: DeleteProjectAvatarResponseSecurityRulesetsValueRateLimitAction | null;
+  algo: DeleteProjectAvatarResponseSecurityRulesetsValueRateLimitAlgo;
+  keys: DeleteProjectAvatarResponseSecurityRulesetsValueRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export type DeleteProjectAvatarResponseSecurityRulesetsValueRedirect =
+  CreateProjectResponseSecurityRulesetsValueRedirect;
+export interface DeleteProjectAvatarResponseSecurityRulesetsValue {
+  action: DeleteProjectAvatarResponseSecurityRulesetsValueAction;
+  actionDuration?: string | null;
+  bypassSystem?: boolean | null;
+  logHeaders?: DeleteProjectAvatarResponseSecurityRulesetsValueLogHeaders;
+  rateLimit?: DeleteProjectAvatarResponseSecurityRulesetsValueRateLimit | null;
+  redirect?: CreateProjectResponseSecurityRulesetsValueRedirect | null;
+}
+export type DeleteProjectAvatarResponseSecurityRulesetsMap = {
+  [key: string]: DeleteProjectAvatarResponseSecurityRulesetsValue | undefined;
+};
+export interface DeleteProjectAvatarResponseSecurity {
+  attackModeActiveUntil?: number | null;
+  attackModeEnabled?: boolean;
+  attackModeUpdatedAt?: number;
+  botIdEnabled?: boolean;
+  firewallBypassIps?: DeleteProjectAvatarResponseSecurityFirewallBypassIpsList;
+  firewallConfigVersion?: number;
+  firewallEnabled?: boolean;
+  firewallSeawallEnabled?: boolean;
+  firewallUpdatedAt?: number;
+  ja3Enabled?: boolean;
+  ja4Enabled?: boolean;
+  log_headers?: DeleteProjectAvatarResponseSecurityLogHeaders;
+  managedRules?: DeleteProjectAvatarResponseSecurityManagedRules | null;
+  /** Whether Page Integrity is enabled for this project. Used by the metadata service to gate DynamoDB lookups against the page-integrity-inventory table. */
+  pageIntegrityEnabled?: boolean;
+  rulesets?: DeleteProjectAvatarResponseSecurityRulesetsMap;
+}
+/** Framework slug, when the service has one (omitted otherwise). */
+export type DeleteProjectAvatarResponseServicesItemFramework =
+  | "actix-web"
+  | "angular"
+  | "ash"
+  | "astro"
+  | "axum"
+  | "blitzjs"
+  | "brunch"
+  | "bun"
+  | "container"
+  | "create-react-app"
+  | "django"
+  | "docusaurus"
+  | "docusaurus-2"
+  | "dojo"
+  | "eleventy"
+  | "elysia"
+  | "ember"
+  | "eve"
+  | "express"
+  | "factory-eve"
+  | "fastapi"
+  | "fasthtml"
+  | "fastify"
+  | "flask"
+  | "gatsby"
+  | "go"
+  | "gridsome"
+  | "h3"
+  | "hexo"
+  | "hono"
+  | "hugo"
+  | "hydrogen"
+  | "ionic-angular"
+  | "ionic-react"
+  | "jekyll"
+  | "koa"
+  | "mastra"
+  | "middleman"
+  | "nestjs"
+  | "nextjs"
+  | "nitro"
+  | "node"
+  | "nuxtjs"
+  | "parcel"
+  | "polymer"
+  | "preact"
+  | "python"
+  | "react-router"
+  | "redwoodjs"
+  | "remix"
+  | "ruby"
+  | "rust"
+  | "saber"
+  | "sanity"
+  | "sanity-v2"
+  | "sapper"
+  | "scully"
+  | "services"
+  | "solidstart"
+  | "solidstart-1"
+  | "stencil"
+  | "storybook"
+  | "svelte"
+  | "sveltekit"
+  | "sveltekit-1"
+  | "tanstack-start"
+  | "tanstack-start-lovable"
+  | "umijs"
+  | "vite"
+  | "vitepress"
+  | "vue"
+  | "vuepress"
+  | "xmcp"
+  | "zola";
+/** Service kind (Service.type). Omitted for schemas that do not define one. */
+export type DeleteProjectAvatarResponseServicesItemServiceType = "cron" | "job" | "web" | "worker";
+export interface DeleteProjectAvatarResponseServicesItem {
+  /** Framework slug, when the service has one (omitted otherwise). */
+  framework?: DeleteProjectAvatarResponseServicesItemFramework;
+  /** Generic runtime, e.g. 'node' | 'python' | 'go' | 'ruby' | 'rust' (Service.runtime). Omitted for static builds. */
+  runtime?: string;
+  /** Service name from the deployment (Service.name). */
+  serviceName: string;
+  /** Service kind (Service.type). Omitted for schemas that do not define one. */
+  serviceType?: DeleteProjectAvatarResponseServicesItemServiceType;
+}
+export type DeleteProjectAvatarResponseServicesList =
+  Array<DeleteProjectAvatarResponseServicesItem>;
+export type DeleteProjectAvatarResponseSkewProtectionAllowedDomainsList = Array<string>;
+export type DeleteProjectAvatarResponseSpeedInsights = CreateProjectResponseSpeedInsights;
+export type DeleteProjectAvatarResponseSsoProtectionApril2026SecurityIncidentMigrationAppliedFrom =
+  | "all"
+  | "all_except_custom_domains"
+  | "preview"
+  | "prod_deployment_urls_and_all_previews";
+export type DeleteProjectAvatarResponseSsoProtectionCve55182MigrationAppliedFrom =
+  | "all"
+  | "all_except_custom_domains"
+  | "preview"
+  | "prod_deployment_urls_and_all_previews";
+export type DeleteProjectAvatarResponseSsoProtectionDeploymentType =
+  | "all"
+  | "all_except_custom_domains"
+  | "preview"
+  | "prod_deployment_urls_and_all_previews";
+export interface DeleteProjectAvatarResponseSsoProtection {
+  april2026SecurityIncidentMigrationAppliedFrom?: DeleteProjectAvatarResponseSsoProtectionApril2026SecurityIncidentMigrationAppliedFrom | null;
+  cve55182MigrationAppliedFrom?: DeleteProjectAvatarResponseSsoProtectionCve55182MigrationAppliedFrom | null;
+  deploymentType: DeleteProjectAvatarResponseSsoProtectionDeploymentType;
+}
+export type DeleteProjectAvatarResponseStaticIpsRegionsList = Array<string>;
+export interface DeleteProjectAvatarResponseStaticIps {
+  builds: boolean;
+  enabled: boolean;
+  regions: DeleteProjectAvatarResponseStaticIpsRegionsList;
+}
+export type DeleteProjectAvatarResponseTargetsValueAliasList = Array<string>;
+export type DeleteProjectAvatarResponseTargetsValueAliasAssigned = number | boolean;
+export type DeleteProjectAvatarResponseTargetsValueAliasError =
+  CreateProjectResponseAliasItemDeploymentAliasError;
+export type DeleteProjectAvatarResponseTargetsValueAutomaticAliasesList = Array<string>;
+/** The type of matching to perform */
+export type DeleteProjectAvatarResponseTargetsValueBranchMatcherType =
+  | "endsWith"
+  | "equals"
+  | "startsWith";
+export interface DeleteProjectAvatarResponseTargetsValueBranchMatcher {
+  /** The pattern to match against branch names */
+  pattern: string;
+  /** The type of matching to perform */
+  type: DeleteProjectAvatarResponseTargetsValueBranchMatcherType;
+}
+export type DeleteProjectAvatarResponseTargetsValueBuildsItem =
+  CreateProjectResponseAliasItemDeploymentBuildsItem;
+export type DeleteProjectAvatarResponseTargetsValueBuildsList =
+  Array<CreateProjectResponseAliasItemDeploymentBuildsItem>;
+export type DeleteProjectAvatarResponseTargetsValueChecksConclusion =
+  | "canceled"
+  | "failed"
+  | "skipped"
+  | "succeeded";
+export type DeleteProjectAvatarResponseTargetsValueChecksState =
+  | "completed"
+  | "registered"
+  | "running";
+export type DeleteProjectAvatarResponseTargetsValueCreator =
+  CreateProjectResponseAliasItemDeploymentCreator;
+export type DeleteProjectAvatarResponseTargetsValueMetaMap = { [key: string]: string | undefined };
+export type DeleteProjectAvatarResponseTargetsValueOidcTokenClaimsMfeGroupIdsList = Array<string>;
+export interface DeleteProjectAvatarResponseTargetsValueOidcTokenClaims {
+  aud: string;
+  custom_environment_id?: string;
+  deployment_id?: string;
+  environment: string;
+  iss: string;
+  mfe_group_ids?: DeleteProjectAvatarResponseTargetsValueOidcTokenClaimsMfeGroupIdsList;
+  owner: string;
+  owner_id: string;
+  plan?: string;
+  project: string;
+  project_id: string;
+  scope: string;
+  sub: string;
+}
+export type DeleteProjectAvatarResponseTargetsValuePlan = "enterprise" | "hobby" | "pro";
+export type DeleteProjectAvatarResponseTargetsValueReadyState =
+  | "BLOCKED"
+  | "BUILDING"
+  | "CANCELED"
+  | "ERROR"
+  | "INITIALIZING"
+  | "QUEUED"
+  | "READY";
+export type DeleteProjectAvatarResponseTargetsValueReadySubstate =
+  | "PROMOTED"
+  | "ROLLING"
+  | "STAGED";
+export type DeleteProjectAvatarResponseTargetsValueType = "LAMBDAS";
+export interface DeleteProjectAvatarResponseTargetsValue {
+  alias?: DeleteProjectAvatarResponseTargetsValueAliasList;
+  aliasAssigned?: DeleteProjectAvatarResponseTargetsValueAliasAssigned | null;
+  aliasError?: CreateProjectResponseAliasItemDeploymentAliasError | null;
+  aliasFinal?: string | null;
+  automaticAliases?: DeleteProjectAvatarResponseTargetsValueAutomaticAliasesList;
+  branchMatcher?: DeleteProjectAvatarResponseTargetsValueBranchMatcher;
+  buildingAt?: number;
+  builds?: DeleteProjectAvatarResponseTargetsValueBuildsList;
+  checksConclusion?: DeleteProjectAvatarResponseTargetsValueChecksConclusion;
+  checksState?: DeleteProjectAvatarResponseTargetsValueChecksState;
+  connectBuildsEnabled?: boolean;
+  connectConfigurationId?: string;
+  createdAt: number;
+  createdIn: string;
+  creator: CreateProjectResponseAliasItemDeploymentCreator | null;
+  deletedAt?: number;
+  deploymentHostname: string;
+  forced?: boolean;
+  id: string;
+  meta?: DeleteProjectAvatarResponseTargetsValueMetaMap;
+  monorepoManager?: string | null;
+  name: string;
+  oidcTokenClaims?: DeleteProjectAvatarResponseTargetsValueOidcTokenClaims;
+  plan: DeleteProjectAvatarResponseTargetsValuePlan;
+  /** Whether or not preview comments are enabled for the deployment */
+  previewCommentsEnabled?: boolean;
+  private: boolean;
+  readyAt?: number;
+  readyState: DeleteProjectAvatarResponseTargetsValueReadyState;
+  readySubstate?: DeleteProjectAvatarResponseTargetsValueReadySubstate;
+  requestedAt?: number;
+  target?: string | null;
+  teamId?: string | null;
+  type: DeleteProjectAvatarResponseTargetsValueType;
+  url: string;
+  /** Present for user creators; omitted for app/integration/system creators. */
+  userId?: string;
+  withCache?: boolean;
+}
+export type DeleteProjectAvatarResponseTargetsMap = {
+  [key: string]: DeleteProjectAvatarResponseTargetsValue | null | undefined;
+};
+export type DeleteProjectAvatarResponseTier = "priority";
+export type DeleteProjectAvatarResponseTracingIgnorePathsList = Array<string>;
+/** Which tracing destination this rule applies to. `internal` is the hidden Vercel production-tracing drain (internal delivery); `external` is any customer-configured drain. Derived from the owning drain's delivery type when project tracing is computed; absent on configs persisted before this field existed. */
+export type DeleteProjectAvatarResponseTracingSamplingRulesItemDestination =
+  | "external"
+  | "internal";
+export type DeleteProjectAvatarResponseTracingSamplingRulesItemEnv = "preview" | "production";
+export interface DeleteProjectAvatarResponseTracingSamplingRulesItem {
+  /** Which tracing destination this rule applies to. `internal` is the hidden Vercel production-tracing drain (internal delivery); `external` is any customer-configured drain. Derived from the owning drain's delivery type when project tracing is computed; absent on configs persisted before this field existed. */
+  destination?: DeleteProjectAvatarResponseTracingSamplingRulesItemDestination;
+  env?: DeleteProjectAvatarResponseTracingSamplingRulesItemEnv;
+  rate: number;
+  requestPath?: string;
+}
+export type DeleteProjectAvatarResponseTracingSamplingRulesList =
+  Array<DeleteProjectAvatarResponseTracingSamplingRulesItem>;
+export interface DeleteProjectAvatarResponseTracing {
+  domains?: string;
+  ignorePaths?: DeleteProjectAvatarResponseTracingIgnorePathsList;
+  samplingRules?: DeleteProjectAvatarResponseTracingSamplingRulesList;
+}
+export type DeleteProjectAvatarResponseTrustedIpsCase0AddressesItem =
+  CreateProjectResponseTrustedIpsCase0AddressesItem;
+export type DeleteProjectAvatarResponseTrustedIpsCase0AddressesList =
+  Array<CreateProjectResponseTrustedIpsCase0AddressesItem>;
+export type DeleteProjectAvatarResponseTrustedIpsCase0DeploymentType =
+  | "all"
+  | "all_except_custom_domains"
+  | "preview"
+  | "prod_deployment_urls_and_all_previews"
+  | "production";
+export type DeleteProjectAvatarResponseTrustedIpsCase0ProtectionMode = "additional" | "exclusive";
+export interface DeleteProjectAvatarResponseTrustedIpsCase0 {
+  addresses: DeleteProjectAvatarResponseTrustedIpsCase0AddressesList;
+  deploymentType: DeleteProjectAvatarResponseTrustedIpsCase0DeploymentType;
+  protectionMode: DeleteProjectAvatarResponseTrustedIpsCase0ProtectionMode;
+}
+export type DeleteProjectAvatarResponseTrustedIpsCase1DeploymentType =
+  | "all"
+  | "all_except_custom_domains"
+  | "preview"
+  | "prod_deployment_urls_and_all_previews"
+  | "production";
+export interface DeleteProjectAvatarResponseTrustedIpsCase1 {
+  deploymentType: DeleteProjectAvatarResponseTrustedIpsCase1DeploymentType;
+}
+export type DeleteProjectAvatarResponseTrustedIps =
+  | DeleteProjectAvatarResponseTrustedIpsCase0
+  | DeleteProjectAvatarResponseTrustedIpsCase1;
+export type DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItemToCase0Preset =
+  "all-custom";
+/** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
+export type DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItemToCase0SlugsList =
+  Array<string>;
+/** The target envs on the current project that may be accessed. */
+export interface DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItemToCase0 {
+  preset?: DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItemToCase0Preset;
+  /** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
+  slugs: DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItemToCase0SlugsList;
+}
+export type DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItemToCase1Preset =
+  "all-custom";
+/** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
+export type DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItemToCase1SlugsList =
+  Array<string>;
+/** The target envs on the current project that may be accessed. */
+export interface DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItemToCase1 {
+  preset: DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItemToCase1Preset;
+  /** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
+  slugs?: DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItemToCase1SlugsList;
+}
+export type DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItemTo =
+  | DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItemToCase0
+  | DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItemToCase1;
+export type DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItemClaimsValueList =
+  Array<string>;
+export type DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItemClaimsMap = {
+  [key: string]:
+    | DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItemClaimsValueList
+    | undefined;
+};
+export interface DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItem {
+  to: DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItemTo;
+  claims: DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItemClaimsMap;
+  label?: string;
+}
+export type DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueList =
+  Array<DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItem>;
+export type DeleteProjectAvatarResponseTrustedSourcesOidcProvidersMap = {
+  [key: string]: DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueList | undefined;
+};
+export type DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemFromCase0Preset =
+  "all-custom";
+/** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
+export type DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemFromCase0SlugsList =
+  Array<string>;
+/** The source envs on the trusted project that are allowed to access `to`. */
+export interface DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemFromCase0 {
+  preset?: DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemFromCase0Preset;
+  /** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
+  slugs: DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemFromCase0SlugsList;
+}
+export type DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemFromCase1Preset =
+  "all-custom";
+/** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
+export type DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemFromCase1SlugsList =
+  Array<string>;
+/** The source envs on the trusted project that are allowed to access `to`. */
+export interface DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemFromCase1 {
+  preset: DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemFromCase1Preset;
+  /** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
+  slugs?: DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemFromCase1SlugsList;
+}
+export type DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemFrom =
+  | DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemFromCase0
+  | DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemFromCase1;
+export type DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemToCase0Preset =
+  "all-custom";
+/** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
+export type DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemToCase0SlugsList =
+  Array<string>;
+/** The target envs on the current project that may be accessed. */
+export interface DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemToCase0 {
+  preset?: DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemToCase0Preset;
+  /** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
+  slugs: DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemToCase0SlugsList;
+}
+export type DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemToCase1Preset =
+  "all-custom";
+/** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
+export type DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemToCase1SlugsList =
+  Array<string>;
+/** The target envs on the current project that may be accessed. */
+export interface DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemToCase1 {
+  preset: DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemToCase1Preset;
+  /** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
+  slugs?: DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemToCase1SlugsList;
+}
+export type DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemTo =
+  | DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemToCase0
+  | DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemToCase1;
+/** Optional overrides for the default same-env-by-slug matching. Provide explicit rules to allow cross-env access or presets. An empty array denies all access and is only allowed for the current project. */
+export interface DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItem {
+  from: DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemFrom;
+  to: DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItemTo;
+}
+/** Optional overrides for the default same-env-by-slug matching. Provide explicit rules to allow cross-env access or presets. An empty array denies all access and is only allowed for the current project. */
+export type DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowList =
+  Array<DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItem>;
+export interface DeleteProjectAvatarResponseTrustedSourcesProjectsValue {
+  /** Optional overrides for the default same-env-by-slug matching. Provide explicit rules to allow cross-env access or presets. An empty array denies all access and is only allowed for the current project. */
+  customAllow?: DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowList;
+  label?: string;
+}
+export type DeleteProjectAvatarResponseTrustedSourcesProjectsMap = {
+  [key: string]: DeleteProjectAvatarResponseTrustedSourcesProjectsValue | undefined;
+};
+export interface DeleteProjectAvatarResponseTrustedSources {
+  /** Allow same-team Vercel CI access to preview and production deployments built from the CI run's repository, using the deployment source rather than the current project repository link. Defaults to enabled when not stored; omitted or null Trusted Sources updates preserve the stored value. */
+  enableVercelCiSameRepository?: boolean;
+  oidcProviders?: DeleteProjectAvatarResponseTrustedSourcesOidcProvidersMap;
+  projects?: DeleteProjectAvatarResponseTrustedSourcesProjectsMap;
+}
+/** Billing mode. Always 'flat' for flat-rate projects. */
+export type DeleteProjectAvatarResponseUsageStatusKind = "flat";
+export interface DeleteProjectAvatarResponseUsageStatus {
+  /** Timestamp until which throttling is bypassed (project pays list rates for overage). */
+  bypassThrottleUntil?: number;
+  /** Timestamp until which the project has exceeded its CDN allowance. */
+  exceededAllowanceUntil?: number;
+  /** Billing mode. Always 'flat' for flat-rate projects. */
+  kind: DeleteProjectAvatarResponseUsageStatusKind;
+  /** Synced from `team.billing.usageStatus.throttled`. When `true`, the team has throttled all of its projects regardless of `throttled`. The effective throttle the CDN enforces is `throttled || teamThrottled`. */
+  teamThrottled?: boolean;
+  /** Per-project throttle, set explicitly for this project (e.g. via the per-project Flat Rate CDN endpoint). */
+  throttled?: boolean;
+}
+export type DeleteProjectAvatarResponseVercelFlags = CreateProjectResponseVercelFlags;
+export type DeleteProjectAvatarResponseWebAnalytics = CreateProjectResponseWebAnalytics;
+export interface DeleteProjectAvatarResponse {
+  accountId: string;
+  alias: DeleteProjectAvatarResponseAliasList;
+  analytics?: CreateProjectResponseAnalytics;
+  appliedCve55182Migration?: boolean;
+  autoAssignCustomDomains?: boolean;
+  autoAssignCustomDomainsUpdatedBy?: string;
+  autoExposeSystemEnvs?: boolean;
+  avatar?: string | null;
+  avatarDarkMode?: string | null;
+  blobs?: CreateProjectResponseBlobs;
+  buildCommand?: string | null;
+  commandForIgnoringBuildStep?: string | null;
+  concurrencyBucketName?: string;
+  connectBuildsEnabled?: boolean;
+  connectConfigurationId?: string | null;
+  connectConfigurations?: DeleteProjectAvatarResponseConnectConfigurationsList | null;
+  createdAt?: number;
+  creator?: DeleteProjectAvatarResponseCreator;
+  crons?: DeleteProjectAvatarResponseCrons;
+  customEnvironments?: DeleteProjectAvatarResponseCustomEnvironmentsList;
+  customerSupportCodeVisibility?: boolean;
+  dataCache?: CreateProjectResponseDataCache;
+  defaultResourceConfig: DeleteProjectAvatarResponseDefaultResourceConfig;
+  /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
+  deploymentExpiration: CreateProjectResponseDeploymentExpiration;
+  /** Project shape. `null` on a rule list clears the project's override for that rule type (fall back to team for every env); omitting is equivalent. Setting `deploymentPolicy` itself to `null` clears every override at once. Kept structurally distinct from {@link TeamDeploymentPolicy} so the two storage locations don't share a type by accident. */
+  deploymentPolicy?: DeleteProjectAvatarResponseDeploymentPolicy | null;
+  devCommand?: string | null;
+  directoryListing: boolean;
+  dismissedToasts?: DeleteProjectAvatarResponseDismissedToastsList;
+  enableAffectedProjectsDeployments?: boolean;
+  enableExternalRewriteCaching?: boolean;
+  enablePreviewFeedback?: boolean | null;
+  enableProductionFeedback?: boolean | null;
+  env?: DeleteProjectAvatarResponseEnvList;
+  expiration?: DeleteProjectAvatarResponseExpiration;
+  features?: CreateProjectResponseFeatures;
+  framework?: DeleteProjectAvatarResponseFramework | null;
+  gitComments?: CreateProjectResponseGitComments;
+  gitForkProtection?: boolean;
+  gitLFS?: boolean;
+  gitProviderOptions?: DeleteProjectAvatarResponseGitProviderOptions;
+  hasActiveBranches?: boolean;
+  hasDeployments?: boolean;
+  id: string;
+  installCommand?: string | null;
+  internalRoutes?: DeleteProjectAvatarResponseInternalRoutesList;
+  ipBuckets?: DeleteProjectAvatarResponseIpBucketsList;
+  jobs?: DeleteProjectAvatarResponseJobs;
+  lastAliasRequest?: DeleteProjectAvatarResponseLastAliasRequest | null;
+  lastRollbackTarget?: unknown | null;
+  latestDeployments?: DeleteProjectAvatarResponseLatestDeploymentsList;
+  link?: DeleteProjectAvatarResponseLink;
+  live?: boolean;
+  microfrontends?: DeleteProjectAvatarResponseMicrofrontends;
+  name: string;
+  nodeVersion: DeleteProjectAvatarResponseNodeVersion;
+  oidcTokenConfig?: DeleteProjectAvatarResponseOidcTokenConfig;
+  optionsAllowlist?: DeleteProjectAvatarResponseOptionsAllowlist | null;
+  outputDirectory?: string | null;
+  passiveConnectConfigurationId?: string | null;
+  passport?: DeleteProjectAvatarResponsePassport | null;
+  /** Password protection settings returned without the secret password hash. */
+  passwordProtection?: DeleteProjectAvatarResponsePasswordProtection | null;
+  paused?: boolean;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  permissions?: DeleteProjectAvatarResponsePermissions;
+  productionDeploymentsFastLane?: boolean;
+  protectedSourcemaps?: boolean;
+  protectionBypass?: DeleteProjectAvatarResponseProtectionBypassMap;
+  protectionConfig?: CreateProjectResponseProtectionConfig;
+  resourceConfig: DeleteProjectAvatarResponseResourceConfig;
+  /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
+  rollbackDescription?: DeleteProjectAvatarResponseRollbackDescription;
+  /** Project-level rolling release configuration that defines how deployments should be gradually rolled out */
+  rollingRelease?: DeleteProjectAvatarResponseRollingRelease | null;
+  rootDirectory?: string | null;
+  sandbox?: DeleteProjectAvatarResponseSandbox;
+  security?: DeleteProjectAvatarResponseSecurity;
+  serverlessFunctionZeroConfigFailover?: boolean;
+  services?: DeleteProjectAvatarResponseServicesList;
+  skewProtectionAllowedDomains?: DeleteProjectAvatarResponseSkewProtectionAllowedDomainsList;
+  skewProtectionBoundaryAt?: number;
+  skewProtectionMaxAge?: number;
+  skipGitConnectDuringLink?: boolean;
+  sourceFilesOutsideRootDirectory?: boolean;
+  speedInsights?: CreateProjectResponseSpeedInsights;
+  ssoProtection?: DeleteProjectAvatarResponseSsoProtection | null;
+  staticIps?: DeleteProjectAvatarResponseStaticIps;
+  targets?: DeleteProjectAvatarResponseTargetsMap;
+  tier?: DeleteProjectAvatarResponseTier;
+  tracing?: DeleteProjectAvatarResponseTracing;
+  transferCompletedAt?: number;
+  transferredFromAccountId?: string;
+  transferStartedAt?: number;
+  transferToAccountId?: string;
+  trustedIps?: DeleteProjectAvatarResponseTrustedIps | null;
+  trustedSources?: DeleteProjectAvatarResponseTrustedSources | null;
+  updatedAt?: number;
+  usageStatus?: DeleteProjectAvatarResponseUsageStatus;
+  v0?: boolean;
+  v0Created?: boolean;
+  vercelFlags?: CreateProjectResponseVercelFlags;
+  webAnalytics?: CreateProjectResponseWebAnalytics;
+}
 export type EditProjectEnvRequestTargetItem = "production" | "preview" | "development";
 /** The target environment of the environment variable */
 export type EditProjectEnvRequestTargetList = Array<
@@ -5059,28 +8694,35 @@ export interface GetProjectResponseCreatorCase0 {
   via: GetProjectResponseCreatorCase0Via | null;
   user: CreateProjectResponseCreatorCase0User;
 }
-export type GetProjectResponseCreatorCase1App = CreateProjectResponseCreatorCase0ViaCase0App;
-export type GetProjectResponseCreatorCase1Type = "app";
+export type GetProjectResponseCreatorCase1Project = CreateProjectResponseCreatorCase0User;
+export type GetProjectResponseCreatorCase1Type = "project";
 export interface GetProjectResponseCreatorCase1 {
-  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  project: CreateProjectResponseCreatorCase0User;
   type: GetProjectResponseCreatorCase1Type;
 }
-export type GetProjectResponseCreatorCase2Integration =
-  CreateProjectResponseCreatorCase0ViaCase1Integration;
-export type GetProjectResponseCreatorCase2Type = "integration";
+export type GetProjectResponseCreatorCase2App = CreateProjectResponseCreatorCase0ViaCase0App;
+export type GetProjectResponseCreatorCase2Type = "app";
 export interface GetProjectResponseCreatorCase2 {
-  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
   type: GetProjectResponseCreatorCase2Type;
 }
-export type GetProjectResponseCreatorCase3Type = "system";
+export type GetProjectResponseCreatorCase3Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type GetProjectResponseCreatorCase3Type = "integration";
 export interface GetProjectResponseCreatorCase3 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
   type: GetProjectResponseCreatorCase3Type;
+}
+export type GetProjectResponseCreatorCase4Type = "system";
+export interface GetProjectResponseCreatorCase4 {
+  type: GetProjectResponseCreatorCase4Type;
 }
 export type GetProjectResponseCreator =
   | GetProjectResponseCreatorCase0
   | GetProjectResponseCreatorCase1
   | GetProjectResponseCreatorCase2
-  | GetProjectResponseCreatorCase3;
+  | GetProjectResponseCreatorCase3
+  | GetProjectResponseCreatorCase4;
 /** The origin of this definition. 'api' means created via the API. Undefined means it originated from a deployment (vercel.json). */
 export type GetProjectResponseCronsDefinitionsItemSource = "api";
 export interface GetProjectResponseCronsDefinitionsItem {
@@ -5199,6 +8841,7 @@ export interface GetProjectResponseDefaultResourceConfigBuildMachineElasticTrans
 }
 export type GetProjectResponseDefaultResourceConfigBuildMachineSelection = "elastic" | "fixed";
 export type GetProjectResponseDefaultResourceConfigBuildMachineType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
@@ -5215,6 +8858,47 @@ export type GetProjectResponseDefaultResourceConfigFunctionDefaultMemoryType =
   | "standard"
   | "standard_legacy";
 export type GetProjectResponseDefaultResourceConfigFunctionDefaultRegionsList = Array<string>;
+export type GetProjectResponseDefaultResourceConfigElasticBuildMachineCase0Cores = 4;
+export type GetProjectResponseDefaultResourceConfigElasticBuildMachineCase0Label = "standard";
+export type GetProjectResponseDefaultResourceConfigElasticBuildMachineCase0Memory = 8192;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectResponseDefaultResourceConfigElasticBuildMachineCase0 {
+  cores: GetProjectResponseDefaultResourceConfigElasticBuildMachineCase0Cores;
+  label: GetProjectResponseDefaultResourceConfigElasticBuildMachineCase0Label;
+  memory: GetProjectResponseDefaultResourceConfigElasticBuildMachineCase0Memory;
+}
+export type GetProjectResponseDefaultResourceConfigElasticBuildMachineCase1Cores = 8;
+export type GetProjectResponseDefaultResourceConfigElasticBuildMachineCase1Label = "enhanced";
+export type GetProjectResponseDefaultResourceConfigElasticBuildMachineCase1Memory = 16384;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectResponseDefaultResourceConfigElasticBuildMachineCase1 {
+  cores: GetProjectResponseDefaultResourceConfigElasticBuildMachineCase1Cores;
+  label: GetProjectResponseDefaultResourceConfigElasticBuildMachineCase1Label;
+  memory: GetProjectResponseDefaultResourceConfigElasticBuildMachineCase1Memory;
+}
+export type GetProjectResponseDefaultResourceConfigElasticBuildMachineCase2Cores = 14;
+export type GetProjectResponseDefaultResourceConfigElasticBuildMachineCase2Label = "14cpu-28gb";
+export type GetProjectResponseDefaultResourceConfigElasticBuildMachineCase2Memory = 28672;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectResponseDefaultResourceConfigElasticBuildMachineCase2 {
+  cores: GetProjectResponseDefaultResourceConfigElasticBuildMachineCase2Cores;
+  label: GetProjectResponseDefaultResourceConfigElasticBuildMachineCase2Label;
+  memory: GetProjectResponseDefaultResourceConfigElasticBuildMachineCase2Memory;
+}
+export type GetProjectResponseDefaultResourceConfigElasticBuildMachineCase3Cores = 30;
+export type GetProjectResponseDefaultResourceConfigElasticBuildMachineCase3Label = "turbo";
+export type GetProjectResponseDefaultResourceConfigElasticBuildMachineCase3Memory = 61440;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectResponseDefaultResourceConfigElasticBuildMachineCase3 {
+  cores: GetProjectResponseDefaultResourceConfigElasticBuildMachineCase3Cores;
+  label: GetProjectResponseDefaultResourceConfigElasticBuildMachineCase3Label;
+  memory: GetProjectResponseDefaultResourceConfigElasticBuildMachineCase3Memory;
+}
+export type GetProjectResponseDefaultResourceConfigElasticBuildMachine =
+  | GetProjectResponseDefaultResourceConfigElasticBuildMachineCase0
+  | GetProjectResponseDefaultResourceConfigElasticBuildMachineCase1
+  | GetProjectResponseDefaultResourceConfigElasticBuildMachineCase2
+  | GetProjectResponseDefaultResourceConfigElasticBuildMachineCase3;
 export interface GetProjectResponseDefaultResourceConfig {
   buildMachineElasticLastUpdated?: number;
   buildMachineElasticReason?: GetProjectResponseDefaultResourceConfigBuildMachineElasticReason;
@@ -5230,6 +8914,7 @@ export interface GetProjectResponseDefaultResourceConfig {
   functionDefaultTimeout?: number;
   functionZeroConfigFailover?: boolean;
   isNSNBDisabled?: boolean;
+  elasticBuildMachine?: GetProjectResponseDefaultResourceConfigElasticBuildMachine;
 }
 /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
 export type GetProjectResponseDeploymentExpiration = CreateProjectResponseDeploymentExpiration;
@@ -5664,6 +9349,10 @@ export type GetProjectResponseJobsFlagDefinitionsPresentTargetsList = Array<stri
 export interface GetProjectResponseJobsFlagDefinitionsPresent {
   targets: GetProjectResponseJobsFlagDefinitionsPresentTargetsList;
 }
+export type GetProjectResponseJobsHealthCheckTargetsList = Array<string>;
+export interface GetProjectResponseJobsHealthCheck {
+  targets: GetProjectResponseJobsHealthCheckTargetsList;
+}
 export type GetProjectResponseJobsLintTargetsList = Array<string>;
 export interface GetProjectResponseJobsLint {
   targets: GetProjectResponseJobsLintTargetsList;
@@ -5678,6 +9367,7 @@ export interface GetProjectResponseJobsTypecheck {
 }
 export interface GetProjectResponseJobs {
   flag_definitions_present?: GetProjectResponseJobsFlagDefinitionsPresent;
+  health_check?: GetProjectResponseJobsHealthCheck;
   lint?: GetProjectResponseJobsLint;
   mfe_config_present?: GetProjectResponseJobsMfeConfigPresent;
   typecheck?: GetProjectResponseJobsTypecheck;
@@ -6018,6 +9708,7 @@ export type GetProjectResponseNodeVersion =
   | "20.x"
   | "22.x"
   | "24.x"
+  | "26.x"
   | "8.10.x";
 /** - team: `https://oidc.vercel.com/[team_slug]` - global: `https://oidc.vercel.com` */
 export type GetProjectResponseOidcTokenConfigIssuerMode = "global" | "team";
@@ -6043,6 +9734,15 @@ export interface GetProjectResponsePassport {
   connectorId: string;
   deploymentType: GetProjectResponsePassportDeploymentType;
 }
+export type GetProjectResponsePasswordProtectionDeploymentType =
+  | "all"
+  | "all_except_custom_domains"
+  | "preview"
+  | "prod_deployment_urls_and_all_previews";
+/** Password protection settings returned without the secret password hash. */
+export interface GetProjectResponsePasswordProtection {
+  deploymentType: GetProjectResponsePasswordProtectionDeploymentType;
+}
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsAccessGroupList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -6059,6 +9759,8 @@ export type GetProjectResponsePermissionsAiGatewayApiKeySpendAttributionList = A
 export type GetProjectResponsePermissionsAiGatewayApiKeyZdrExemptionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsAiGatewayBudgetList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectResponsePermissionsAiGatewayByokCredentialsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsAiGatewayCreditsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -6158,6 +9860,8 @@ export type GetProjectResponsePermissionsConnectLogsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsConnexClientList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectResponsePermissionsConnexClientAccessList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsConnexClientProjectList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsConnexContactList = Array<ACLAction>;
@@ -6221,6 +9925,8 @@ export type GetProjectResponsePermissionsDomainTransferInList = Array<ACLAction>
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsDrainList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectResponsePermissionsDriveList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsEdgeCacheNamespaceList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsEdgeConfigList = Array<ACLAction>;
@@ -6230,6 +9936,8 @@ export type GetProjectResponsePermissionsEdgeConfigItemList = Array<ACLAction>;
 export type GetProjectResponsePermissionsEdgeConfigSchemaList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsEdgeConfigTokenList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectResponsePermissionsEmaSetupList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsEndpointVerificationList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -6242,6 +9950,8 @@ export type GetProjectResponsePermissionsFileUploadList = Array<ACLAction>;
 export type GetProjectResponsePermissionsFlagsExplorerSubscriptionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsGitCredentialGrantList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectResponsePermissionsGithubUsageList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsGitRepositoryList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -6317,7 +10027,13 @@ export type GetProjectResponsePermissionsMarketplaceSettingsList = Array<ACLActi
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsMessageboardList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-export type GetProjectResponsePermissionsMessageboardSpaceList = Array<ACLAction>;
+export type GetProjectResponsePermissionsMessageboardChannelList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectResponsePermissionsMessageboardMessageList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectResponsePermissionsMessageboardModerationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectResponsePermissionsMessageboardReactionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsMessageboardTaskList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -6408,6 +10124,8 @@ export type GetProjectResponsePermissionsPreviewDeploymentSuffixList = Array<ACL
 export type GetProjectResponsePermissionsPrivateCloudAccountList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsPrivateLinkEndpointList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectResponsePermissionsPrivateNpmUsageList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsProductionAliasProtectionBypassList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -6510,6 +10228,8 @@ export type GetProjectResponsePermissionsRepositoryList = Array<ACLAction>;
 export type GetProjectResponsePermissionsSamlConfigList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsScheduleList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectResponsePermissionsSchedulePreviewList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsSeawallConfigList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -6643,6 +10363,8 @@ export interface GetProjectResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayBudget?: GetProjectResponsePermissionsAiGatewayBudgetList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayByokCredentials?: GetProjectResponsePermissionsAiGatewayByokCredentialsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayCredits?: GetProjectResponsePermissionsAiGatewayCreditsList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayGuardrails?: GetProjectResponsePermissionsAiGatewayGuardrailsList;
@@ -6741,6 +10463,8 @@ export interface GetProjectResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   connexClient?: GetProjectResponsePermissionsConnexClientList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  connexClientAccess?: GetProjectResponsePermissionsConnexClientAccessList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   connexClientProject?: GetProjectResponsePermissionsConnexClientProjectList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   connexContact?: GetProjectResponsePermissionsConnexContactList;
@@ -6803,6 +10527,8 @@ export interface GetProjectResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   drain?: GetProjectResponsePermissionsDrainList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  drive?: GetProjectResponsePermissionsDriveList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   edgeCacheNamespace?: GetProjectResponsePermissionsEdgeCacheNamespaceList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   edgeConfig?: GetProjectResponsePermissionsEdgeConfigList;
@@ -6812,6 +10538,8 @@ export interface GetProjectResponsePermissions {
   edgeConfigSchema?: GetProjectResponsePermissionsEdgeConfigSchemaList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   edgeConfigToken?: GetProjectResponsePermissionsEdgeConfigTokenList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  emaSetup?: GetProjectResponsePermissionsEmaSetupList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   endpointVerification?: GetProjectResponsePermissionsEndpointVerificationList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -6824,6 +10552,8 @@ export interface GetProjectResponsePermissions {
   flagsExplorerSubscription?: GetProjectResponsePermissionsFlagsExplorerSubscriptionList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   gitCredentialGrant?: GetProjectResponsePermissionsGitCredentialGrantList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  githubUsage?: GetProjectResponsePermissionsGithubUsageList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   gitRepository?: GetProjectResponsePermissionsGitRepositoryList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -6897,7 +10627,13 @@ export interface GetProjectResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   messageboard?: GetProjectResponsePermissionsMessageboardList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  messageboardSpace?: GetProjectResponsePermissionsMessageboardSpaceList;
+  messageboardChannel?: GetProjectResponsePermissionsMessageboardChannelList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardMessage?: GetProjectResponsePermissionsMessageboardMessageList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardModeration?: GetProjectResponsePermissionsMessageboardModerationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardReaction?: GetProjectResponsePermissionsMessageboardReactionList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   messageboardTask?: GetProjectResponsePermissionsMessageboardTaskList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -6988,6 +10724,8 @@ export interface GetProjectResponsePermissions {
   privateCloudAccount?: GetProjectResponsePermissionsPrivateCloudAccountList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   privateLinkEndpoint?: GetProjectResponsePermissionsPrivateLinkEndpointList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  privateNpmUsage?: GetProjectResponsePermissionsPrivateNpmUsageList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   productionAliasProtectionBypass?: GetProjectResponsePermissionsProductionAliasProtectionBypassList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -7090,6 +10828,8 @@ export interface GetProjectResponsePermissions {
   samlConfig?: GetProjectResponsePermissionsSamlConfigList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   schedule?: GetProjectResponsePermissionsScheduleList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  schedulePreview?: GetProjectResponsePermissionsSchedulePreviewList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   seawallConfig?: GetProjectResponsePermissionsSeawallConfigList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -7253,6 +10993,7 @@ export interface GetProjectResponseResourceConfigBuildMachineElasticTransition {
 }
 export type GetProjectResponseResourceConfigBuildMachineSelection = "elastic" | "fixed";
 export type GetProjectResponseResourceConfigBuildMachineType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
@@ -7269,6 +11010,47 @@ export type GetProjectResponseResourceConfigFunctionDefaultMemoryType =
   | "standard"
   | "standard_legacy";
 export type GetProjectResponseResourceConfigFunctionDefaultRegionsList = Array<string>;
+export type GetProjectResponseResourceConfigElasticBuildMachineCase0Cores = 4;
+export type GetProjectResponseResourceConfigElasticBuildMachineCase0Label = "standard";
+export type GetProjectResponseResourceConfigElasticBuildMachineCase0Memory = 8192;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectResponseResourceConfigElasticBuildMachineCase0 {
+  cores: GetProjectResponseResourceConfigElasticBuildMachineCase0Cores;
+  label: GetProjectResponseResourceConfigElasticBuildMachineCase0Label;
+  memory: GetProjectResponseResourceConfigElasticBuildMachineCase0Memory;
+}
+export type GetProjectResponseResourceConfigElasticBuildMachineCase1Cores = 8;
+export type GetProjectResponseResourceConfigElasticBuildMachineCase1Label = "enhanced";
+export type GetProjectResponseResourceConfigElasticBuildMachineCase1Memory = 16384;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectResponseResourceConfigElasticBuildMachineCase1 {
+  cores: GetProjectResponseResourceConfigElasticBuildMachineCase1Cores;
+  label: GetProjectResponseResourceConfigElasticBuildMachineCase1Label;
+  memory: GetProjectResponseResourceConfigElasticBuildMachineCase1Memory;
+}
+export type GetProjectResponseResourceConfigElasticBuildMachineCase2Cores = 14;
+export type GetProjectResponseResourceConfigElasticBuildMachineCase2Label = "14cpu-28gb";
+export type GetProjectResponseResourceConfigElasticBuildMachineCase2Memory = 28672;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectResponseResourceConfigElasticBuildMachineCase2 {
+  cores: GetProjectResponseResourceConfigElasticBuildMachineCase2Cores;
+  label: GetProjectResponseResourceConfigElasticBuildMachineCase2Label;
+  memory: GetProjectResponseResourceConfigElasticBuildMachineCase2Memory;
+}
+export type GetProjectResponseResourceConfigElasticBuildMachineCase3Cores = 30;
+export type GetProjectResponseResourceConfigElasticBuildMachineCase3Label = "turbo";
+export type GetProjectResponseResourceConfigElasticBuildMachineCase3Memory = 61440;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectResponseResourceConfigElasticBuildMachineCase3 {
+  cores: GetProjectResponseResourceConfigElasticBuildMachineCase3Cores;
+  label: GetProjectResponseResourceConfigElasticBuildMachineCase3Label;
+  memory: GetProjectResponseResourceConfigElasticBuildMachineCase3Memory;
+}
+export type GetProjectResponseResourceConfigElasticBuildMachine =
+  | GetProjectResponseResourceConfigElasticBuildMachineCase0
+  | GetProjectResponseResourceConfigElasticBuildMachineCase1
+  | GetProjectResponseResourceConfigElasticBuildMachineCase2
+  | GetProjectResponseResourceConfigElasticBuildMachineCase3;
 export interface GetProjectResponseResourceConfig {
   buildMachineElasticLastUpdated?: number;
   buildMachineElasticReason?: GetProjectResponseResourceConfigBuildMachineElasticReason;
@@ -7284,9 +11066,83 @@ export interface GetProjectResponseResourceConfig {
   functionDefaultTimeout?: number;
   functionZeroConfigFailover?: boolean;
   isNSNBDisabled?: boolean;
+  elasticBuildMachine?: GetProjectResponseResourceConfigElasticBuildMachine;
 }
+export type GetProjectResponseRollbackDescriptionPrincipalCase0Type = "user";
+export type GetProjectResponseRollbackDescriptionPrincipalCase0ViaCase0App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type GetProjectResponseRollbackDescriptionPrincipalCase0ViaCase0Type = "app";
+/** Set when a Vercel App or Integration acts on behalf of a {@link User}. Captures user-consented OAuth delegation that the ACL layer may inspect to evaluate scope restrictions. This is NOT for impersonation or token-exchange provenance -- those live on `auth.token`, not on the principal. */
+export interface GetProjectResponseRollbackDescriptionPrincipalCase0ViaCase0 {
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  type: GetProjectResponseRollbackDescriptionPrincipalCase0ViaCase0Type;
+}
+export type GetProjectResponseRollbackDescriptionPrincipalCase0ViaCase1Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type GetProjectResponseRollbackDescriptionPrincipalCase0ViaCase1Type = "integration";
+/** Set when a Vercel App or Integration acts on behalf of a {@link User}. Captures user-consented OAuth delegation that the ACL layer may inspect to evaluate scope restrictions. This is NOT for impersonation or token-exchange provenance -- those live on `auth.token`, not on the principal. */
+export interface GetProjectResponseRollbackDescriptionPrincipalCase0ViaCase1 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  type: GetProjectResponseRollbackDescriptionPrincipalCase0ViaCase1Type;
+}
+export type GetProjectResponseRollbackDescriptionPrincipalCase0Via =
+  | GetProjectResponseRollbackDescriptionPrincipalCase0ViaCase0
+  | GetProjectResponseRollbackDescriptionPrincipalCase0ViaCase1;
+export type GetProjectResponseRollbackDescriptionPrincipalCase0User =
+  CreateProjectResponseCreatorCase0User;
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface GetProjectResponseRollbackDescriptionPrincipalCase0 {
+  type: GetProjectResponseRollbackDescriptionPrincipalCase0Type;
+  via: GetProjectResponseRollbackDescriptionPrincipalCase0Via | null;
+  user: CreateProjectResponseCreatorCase0User;
+}
+export type GetProjectResponseRollbackDescriptionPrincipalCase1Project =
+  CreateProjectResponseCreatorCase0User;
+export type GetProjectResponseRollbackDescriptionPrincipalCase1Type = "project";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface GetProjectResponseRollbackDescriptionPrincipalCase1 {
+  project: CreateProjectResponseCreatorCase0User;
+  type: GetProjectResponseRollbackDescriptionPrincipalCase1Type;
+}
+export type GetProjectResponseRollbackDescriptionPrincipalCase2App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type GetProjectResponseRollbackDescriptionPrincipalCase2Type = "app";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface GetProjectResponseRollbackDescriptionPrincipalCase2 {
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  type: GetProjectResponseRollbackDescriptionPrincipalCase2Type;
+}
+export type GetProjectResponseRollbackDescriptionPrincipalCase3Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type GetProjectResponseRollbackDescriptionPrincipalCase3Type = "integration";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface GetProjectResponseRollbackDescriptionPrincipalCase3 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  type: GetProjectResponseRollbackDescriptionPrincipalCase3Type;
+}
+export type GetProjectResponseRollbackDescriptionPrincipalCase4Type = "system";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface GetProjectResponseRollbackDescriptionPrincipalCase4 {
+  type: GetProjectResponseRollbackDescriptionPrincipalCase4Type;
+}
+export type GetProjectResponseRollbackDescriptionPrincipal =
+  | GetProjectResponseRollbackDescriptionPrincipalCase0
+  | GetProjectResponseRollbackDescriptionPrincipalCase1
+  | GetProjectResponseRollbackDescriptionPrincipalCase2
+  | GetProjectResponseRollbackDescriptionPrincipalCase3
+  | GetProjectResponseRollbackDescriptionPrincipalCase4;
 /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
-export type GetProjectResponseRollbackDescription = CreateProjectResponseRollbackDescription;
+export interface GetProjectResponseRollbackDescription {
+  /** Timestamp of when the rollback was requested. */
+  createdAt: number;
+  /** User-supplied explanation of why they rolled back the project. Limited to 250 characters. */
+  description: string;
+  principal?: GetProjectResponseRollbackDescriptionPrincipal;
+  /** The ID of the user who rolled back the project, when the principal was a user. */
+  userId?: string;
+  /** The username of the user who rolled back the project, when the principal was a user. */
+  username?: string;
+}
 /** What to do when the gate trips: pause the rollout, or roll it back. */
 export type GetProjectResponseRollingReleaseGateAction = "pause" | "rollback";
 /** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
@@ -7303,8 +11159,8 @@ export interface GetProjectResponseRollingReleaseGateChecksItem {
   excludeStatusCodes?: GetProjectResponseRollingReleaseGateChecksItemExcludeStatusCodesList;
   /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
   ingestWatermarkSeconds?: number;
-  /** Minimum number of requests required in the window before the check can fail. Below this, the check is inconclusive rather than failing, so low-traffic stages don't gate on noise. Defaults to `100` when omitted. */
-  minSampleSize?: number;
+  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
+  significanceLevel?: number;
   /** The metric this check evaluates. */
   type: GetProjectResponseRollingReleaseGateChecksItemType;
 }
@@ -7446,9 +11302,15 @@ export type GetProjectResponseSecurityRulesetsValueLogHeadersCase1 = "*";
 export type GetProjectResponseSecurityRulesetsValueLogHeaders =
   | GetProjectResponseSecurityRulesetsValueLogHeadersCase0List
   | GetProjectResponseSecurityRulesetsValueLogHeadersCase1;
+export type GetProjectResponseSecurityRulesetsValueRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
 export type GetProjectResponseSecurityRulesetsValueRateLimitAlgo = "fixed_window" | "token_bucket";
 export type GetProjectResponseSecurityRulesetsValueRateLimitKeysList = Array<string>;
 export interface GetProjectResponseSecurityRulesetsValueRateLimit {
+  action?: GetProjectResponseSecurityRulesetsValueRateLimitAction | null;
   algo: GetProjectResponseSecurityRulesetsValueRateLimitAlgo;
   keys: GetProjectResponseSecurityRulesetsValueRateLimitKeysList;
   limit: number;
@@ -7865,6 +11727,7 @@ export interface GetProjectResponseUsageStatus {
   /** Per-project throttle, set explicitly for this project (e.g. via the per-project Flat Rate CDN endpoint). */
   throttled?: boolean;
 }
+export type GetProjectResponseVercelFlags = CreateProjectResponseVercelFlags;
 export type GetProjectResponseWebAnalytics = CreateProjectResponseWebAnalytics;
 export interface GetProjectResponse {
   accountId: string;
@@ -7875,6 +11738,7 @@ export interface GetProjectResponse {
   autoAssignCustomDomainsUpdatedBy?: string;
   autoExposeSystemEnvs?: boolean;
   avatar?: string | null;
+  avatarDarkMode?: string | null;
   blobs?: CreateProjectResponseBlobs;
   buildCommand?: string | null;
   commandForIgnoringBuildStep?: string | null;
@@ -7929,7 +11793,8 @@ export interface GetProjectResponse {
   outputDirectory?: string | null;
   passiveConnectConfigurationId?: string | null;
   passport?: GetProjectResponsePassport | null;
-  passwordProtection?: unknown | null;
+  /** Password protection settings returned without the secret password hash. */
+  passwordProtection?: GetProjectResponsePasswordProtection | null;
   paused?: boolean;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   permissions?: GetProjectResponsePermissions;
@@ -7939,7 +11804,7 @@ export interface GetProjectResponse {
   protectionConfig?: CreateProjectResponseProtectionConfig;
   resourceConfig: GetProjectResponseResourceConfig;
   /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
-  rollbackDescription?: CreateProjectResponseRollbackDescription;
+  rollbackDescription?: GetProjectResponseRollbackDescription;
   /** Project-level rolling release configuration that defines how deployments should be gradually rolled out */
   rollingRelease?: GetProjectResponseRollingRelease | null;
   rootDirectory?: string | null;
@@ -7968,6 +11833,7 @@ export interface GetProjectResponse {
   usageStatus?: GetProjectResponseUsageStatus;
   v0?: boolean;
   v0Created?: boolean;
+  vercelFlags?: CreateProjectResponseVercelFlags;
   webAnalytics?: CreateProjectResponseWebAnalytics;
 }
 export interface GetProjectDomainRequest {
@@ -8579,6 +12445,10 @@ export type GetProjectsRequestBuildQueueConfiguration =
 export interface GetProjectsRequest {
   /** Query only projects updated after the given timestamp or continuation token. */
   from?: string;
+  /** Query only projects updated after this JavaScript timestamp. */
+  since?: number;
+  /** Query only projects updated before this JavaScript timestamp. */
+  until?: number;
   /** Specifies whether PRs from Git forks should require a team member's authorization before it can be deployed */
   gitForkProtection?: GetProjectsRequestGitForkProtection | (string & {});
   /** Limit the number of projects returned */
@@ -8769,29 +12639,37 @@ export interface GetProjectsResponseBodyCase0ItemCreatorCase0 {
   via: GetProjectsResponseBodyCase0ItemCreatorCase0Via | null;
   user: CreateProjectResponseCreatorCase0User;
 }
-export type GetProjectsResponseBodyCase0ItemCreatorCase1App =
-  CreateProjectResponseCreatorCase0ViaCase0App;
-export type GetProjectsResponseBodyCase0ItemCreatorCase1Type = "app";
+export type GetProjectsResponseBodyCase0ItemCreatorCase1Project =
+  CreateProjectResponseCreatorCase0User;
+export type GetProjectsResponseBodyCase0ItemCreatorCase1Type = "project";
 export interface GetProjectsResponseBodyCase0ItemCreatorCase1 {
-  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  project: CreateProjectResponseCreatorCase0User;
   type: GetProjectsResponseBodyCase0ItemCreatorCase1Type;
 }
-export type GetProjectsResponseBodyCase0ItemCreatorCase2Integration =
-  CreateProjectResponseCreatorCase0ViaCase1Integration;
-export type GetProjectsResponseBodyCase0ItemCreatorCase2Type = "integration";
+export type GetProjectsResponseBodyCase0ItemCreatorCase2App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type GetProjectsResponseBodyCase0ItemCreatorCase2Type = "app";
 export interface GetProjectsResponseBodyCase0ItemCreatorCase2 {
-  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
   type: GetProjectsResponseBodyCase0ItemCreatorCase2Type;
 }
-export type GetProjectsResponseBodyCase0ItemCreatorCase3Type = "system";
+export type GetProjectsResponseBodyCase0ItemCreatorCase3Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type GetProjectsResponseBodyCase0ItemCreatorCase3Type = "integration";
 export interface GetProjectsResponseBodyCase0ItemCreatorCase3 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
   type: GetProjectsResponseBodyCase0ItemCreatorCase3Type;
+}
+export type GetProjectsResponseBodyCase0ItemCreatorCase4Type = "system";
+export interface GetProjectsResponseBodyCase0ItemCreatorCase4 {
+  type: GetProjectsResponseBodyCase0ItemCreatorCase4Type;
 }
 export type GetProjectsResponseBodyCase0ItemCreator =
   | GetProjectsResponseBodyCase0ItemCreatorCase0
   | GetProjectsResponseBodyCase0ItemCreatorCase1
   | GetProjectsResponseBodyCase0ItemCreatorCase2
-  | GetProjectsResponseBodyCase0ItemCreatorCase3;
+  | GetProjectsResponseBodyCase0ItemCreatorCase3
+  | GetProjectsResponseBodyCase0ItemCreatorCase4;
 /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
 export type GetProjectsResponseBodyCase0ItemDeploymentExpiration =
   CreateProjectResponseDeploymentExpiration;
@@ -8968,6 +12846,11 @@ export interface GetProjectsResponseBodyCase0ItemEnvItem {
 }
 export type GetProjectsResponseBodyCase0ItemEnvList =
   Array<GetProjectsResponseBodyCase0ItemEnvItem>;
+export type GetProjectsResponseBodyCase0ItemExpirationCase0 = CreateProjectResponseExpirationCase0;
+export type GetProjectsResponseBodyCase0ItemExpirationCase1 = CreateProjectResponseExpirationCase1;
+export type GetProjectsResponseBodyCase0ItemExpiration =
+  | CreateProjectResponseExpirationCase0
+  | CreateProjectResponseExpirationCase1;
 export type GetProjectsResponseBodyCase0ItemFramework =
   | "actix-web"
   | "angular"
@@ -9387,6 +13270,7 @@ export type GetProjectsResponseBodyCase0ItemNodeVersion =
   | "20.x"
   | "22.x"
   | "24.x"
+  | "26.x"
   | "8.10.x";
 /** - team: `https://oidc.vercel.com/[team_slug]` - global: `https://oidc.vercel.com` */
 export type GetProjectsResponseBodyCase0ItemOidcTokenConfigIssuerMode = "global" | "team";
@@ -9428,6 +13312,7 @@ export type GetProjectsResponseBodyCase0ItemResourceConfigBuildMachineSelection 
   | "elastic"
   | "fixed";
 export type GetProjectsResponseBodyCase0ItemResourceConfigBuildMachineType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
@@ -9445,6 +13330,50 @@ export type GetProjectsResponseBodyCase0ItemResourceConfigFunctionDefaultMemoryT
   | "standard_legacy";
 export type GetProjectsResponseBodyCase0ItemResourceConfigFunctionDefaultRegionsList =
   Array<string>;
+export type GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase0Cores = 4;
+export type GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase0Label =
+  "standard";
+export type GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase0Memory = 8192;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase0 {
+  cores: GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase0Cores;
+  label: GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase0Label;
+  memory: GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase0Memory;
+}
+export type GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase1Cores = 8;
+export type GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase1Label =
+  "enhanced";
+export type GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase1Memory = 16384;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase1 {
+  cores: GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase1Cores;
+  label: GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase1Label;
+  memory: GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase1Memory;
+}
+export type GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase2Cores = 14;
+export type GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase2Label =
+  "14cpu-28gb";
+export type GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase2Memory = 28672;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase2 {
+  cores: GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase2Cores;
+  label: GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase2Label;
+  memory: GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase2Memory;
+}
+export type GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase3Cores = 30;
+export type GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase3Label = "turbo";
+export type GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase3Memory = 61440;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase3 {
+  cores: GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase3Cores;
+  label: GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase3Label;
+  memory: GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase3Memory;
+}
+export type GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachine =
+  | GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase0
+  | GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase1
+  | GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase2
+  | GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase3;
 export interface GetProjectsResponseBodyCase0ItemResourceConfig {
   buildMachineElasticLastUpdated?: number;
   buildMachineElasticReason?: GetProjectsResponseBodyCase0ItemResourceConfigBuildMachineElasticReason;
@@ -9460,6 +13389,7 @@ export interface GetProjectsResponseBodyCase0ItemResourceConfig {
   functionDefaultTimeout?: number;
   functionZeroConfigFailover?: boolean;
   isNSNBDisabled?: boolean;
+  elasticBuildMachine?: GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachine;
 }
 /** What to do when the gate trips: pause the rollout, or roll it back. */
 export type GetProjectsResponseBodyCase0ItemRollingReleaseGateAction = "pause" | "rollback";
@@ -9479,8 +13409,8 @@ export interface GetProjectsResponseBodyCase0ItemRollingReleaseGateChecksItem {
   excludeStatusCodes?: GetProjectsResponseBodyCase0ItemRollingReleaseGateChecksItemExcludeStatusCodesList;
   /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
   ingestWatermarkSeconds?: number;
-  /** Minimum number of requests required in the window before the check can fail. Below this, the check is inconclusive rather than failing, so low-traffic stages don't gate on noise. Defaults to `100` when omitted. */
-  minSampleSize?: number;
+  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
+  significanceLevel?: number;
   /** The metric this check evaluates. */
   type: GetProjectsResponseBodyCase0ItemRollingReleaseGateChecksItemType;
 }
@@ -9640,6 +13570,68 @@ export interface GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemMitig
   rule_id: string;
   ttl?: number;
 }
+export type GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseHasItemType =
+  | "response_header"
+  | "response_status";
+export type GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseHasItemValueCase1IncList =
+  Array<string>;
+export type GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseHasItemValueCase1NincList =
+  Array<string>;
+export interface GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseHasItemValueCase1 {
+  eq?: string;
+  gt?: number;
+  gte?: number;
+  inc?: GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseHasItemValueCase1IncList;
+  list?: string;
+  lt?: number;
+  lte?: number;
+  neq?: string;
+  ninc?: GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseHasItemValueCase1NincList;
+  pre?: string;
+  re?: string;
+  suf?: string;
+}
+export type GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseHasItemValue =
+  | string
+  | GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseHasItemValueCase1;
+export interface GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseHasItem {
+  key?: string;
+  type: GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseHasItemType;
+  value?: GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseHasItemValue;
+}
+export type GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseHasList =
+  Array<GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseHasItem>;
+export type GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseMissingItemType =
+  | "response_header"
+  | "response_status";
+export type GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseMissingItemValueCase1IncList =
+  Array<string>;
+export type GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseMissingItemValueCase1NincList =
+  Array<string>;
+export interface GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseMissingItemValueCase1 {
+  eq?: string;
+  gt?: number;
+  gte?: number;
+  inc?: GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseMissingItemValueCase1IncList;
+  list?: string;
+  lt?: number;
+  lte?: number;
+  neq?: string;
+  ninc?: GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseMissingItemValueCase1NincList;
+  pre?: string;
+  re?: string;
+  suf?: string;
+}
+export type GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseMissingItemValue =
+  | string
+  | GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseMissingItemValueCase1;
+export interface GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseMissingItem {
+  key?: string;
+  type: GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseMissingItemType;
+  value?: GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseMissingItemValue;
+}
+export type GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseMissingList =
+  Array<GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseMissingItem>;
 export type GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemSrcCase1IncList =
   Array<string>;
 export type GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemSrcCase1NincList =
@@ -9682,6 +13674,8 @@ export interface GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItem {
   has?: GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemHasList;
   missing?: GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemMissingList;
   mitigate?: GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemMitigate;
+  response_has?: GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseHasList;
+  response_missing?: GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemResponseMissingList;
   src?: GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemSrc;
   status?: number;
   tierRequirement?: GetProjectsResponseBodyCase0ItemSecurityFirewallRoutesItemTierRequirement;
@@ -9756,11 +13750,17 @@ export type GetProjectsResponseBodyCase0ItemSecurityRulesetsValueLogHeadersCase1
 export type GetProjectsResponseBodyCase0ItemSecurityRulesetsValueLogHeaders =
   | GetProjectsResponseBodyCase0ItemSecurityRulesetsValueLogHeadersCase0List
   | GetProjectsResponseBodyCase0ItemSecurityRulesetsValueLogHeadersCase1;
+export type GetProjectsResponseBodyCase0ItemSecurityRulesetsValueRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
 export type GetProjectsResponseBodyCase0ItemSecurityRulesetsValueRateLimitAlgo =
   | "fixed_window"
   | "token_bucket";
 export type GetProjectsResponseBodyCase0ItemSecurityRulesetsValueRateLimitKeysList = Array<string>;
 export interface GetProjectsResponseBodyCase0ItemSecurityRulesetsValueRateLimit {
+  action?: GetProjectsResponseBodyCase0ItemSecurityRulesetsValueRateLimitAction | null;
   algo: GetProjectsResponseBodyCase0ItemSecurityRulesetsValueRateLimitAlgo;
   keys: GetProjectsResponseBodyCase0ItemSecurityRulesetsValueRateLimitKeysList;
   limit: number;
@@ -10062,6 +14062,7 @@ export interface GetProjectsResponseBodyCase0Item {
   devCommand?: string | null;
   directoryListing: boolean;
   env?: GetProjectsResponseBodyCase0ItemEnvList;
+  expiration?: GetProjectsResponseBodyCase0ItemExpiration;
   framework?: GetProjectsResponseBodyCase0ItemFramework | null;
   gitComments?: CreateProjectResponseGitComments;
   gitForkProtection?: boolean;
@@ -10281,29 +14282,37 @@ export interface GetProjectsResponseBodyCase1ProjectsItemCreatorCase0 {
   via: GetProjectsResponseBodyCase1ProjectsItemCreatorCase0Via | null;
   user: CreateProjectResponseCreatorCase0User;
 }
-export type GetProjectsResponseBodyCase1ProjectsItemCreatorCase1App =
-  CreateProjectResponseCreatorCase0ViaCase0App;
-export type GetProjectsResponseBodyCase1ProjectsItemCreatorCase1Type = "app";
+export type GetProjectsResponseBodyCase1ProjectsItemCreatorCase1Project =
+  CreateProjectResponseCreatorCase0User;
+export type GetProjectsResponseBodyCase1ProjectsItemCreatorCase1Type = "project";
 export interface GetProjectsResponseBodyCase1ProjectsItemCreatorCase1 {
-  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  project: CreateProjectResponseCreatorCase0User;
   type: GetProjectsResponseBodyCase1ProjectsItemCreatorCase1Type;
 }
-export type GetProjectsResponseBodyCase1ProjectsItemCreatorCase2Integration =
-  CreateProjectResponseCreatorCase0ViaCase1Integration;
-export type GetProjectsResponseBodyCase1ProjectsItemCreatorCase2Type = "integration";
+export type GetProjectsResponseBodyCase1ProjectsItemCreatorCase2App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type GetProjectsResponseBodyCase1ProjectsItemCreatorCase2Type = "app";
 export interface GetProjectsResponseBodyCase1ProjectsItemCreatorCase2 {
-  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
   type: GetProjectsResponseBodyCase1ProjectsItemCreatorCase2Type;
 }
-export type GetProjectsResponseBodyCase1ProjectsItemCreatorCase3Type = "system";
+export type GetProjectsResponseBodyCase1ProjectsItemCreatorCase3Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type GetProjectsResponseBodyCase1ProjectsItemCreatorCase3Type = "integration";
 export interface GetProjectsResponseBodyCase1ProjectsItemCreatorCase3 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
   type: GetProjectsResponseBodyCase1ProjectsItemCreatorCase3Type;
+}
+export type GetProjectsResponseBodyCase1ProjectsItemCreatorCase4Type = "system";
+export interface GetProjectsResponseBodyCase1ProjectsItemCreatorCase4 {
+  type: GetProjectsResponseBodyCase1ProjectsItemCreatorCase4Type;
 }
 export type GetProjectsResponseBodyCase1ProjectsItemCreator =
   | GetProjectsResponseBodyCase1ProjectsItemCreatorCase0
   | GetProjectsResponseBodyCase1ProjectsItemCreatorCase1
   | GetProjectsResponseBodyCase1ProjectsItemCreatorCase2
-  | GetProjectsResponseBodyCase1ProjectsItemCreatorCase3;
+  | GetProjectsResponseBodyCase1ProjectsItemCreatorCase3
+  | GetProjectsResponseBodyCase1ProjectsItemCreatorCase4;
 /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
 export type GetProjectsResponseBodyCase1ProjectsItemDeploymentExpiration =
   CreateProjectResponseDeploymentExpiration;
@@ -10488,6 +14497,13 @@ export interface GetProjectsResponseBodyCase1ProjectsItemEnvItem {
 }
 export type GetProjectsResponseBodyCase1ProjectsItemEnvList =
   Array<GetProjectsResponseBodyCase1ProjectsItemEnvItem>;
+export type GetProjectsResponseBodyCase1ProjectsItemExpirationCase0 =
+  CreateProjectResponseExpirationCase0;
+export type GetProjectsResponseBodyCase1ProjectsItemExpirationCase1 =
+  CreateProjectResponseExpirationCase1;
+export type GetProjectsResponseBodyCase1ProjectsItemExpiration =
+  | CreateProjectResponseExpirationCase0
+  | CreateProjectResponseExpirationCase1;
 export type GetProjectsResponseBodyCase1ProjectsItemFramework =
   | "actix-web"
   | "angular"
@@ -10912,6 +14928,7 @@ export type GetProjectsResponseBodyCase1ProjectsItemNodeVersion =
   | "20.x"
   | "22.x"
   | "24.x"
+  | "26.x"
   | "8.10.x";
 /** - team: `https://oidc.vercel.com/[team_slug]` - global: `https://oidc.vercel.com` */
 export type GetProjectsResponseBodyCase1ProjectsItemOidcTokenConfigIssuerMode = "global" | "team";
@@ -10953,6 +14970,7 @@ export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigBuildMachineSe
   | "elastic"
   | "fixed";
 export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigBuildMachineType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
@@ -10970,6 +14988,57 @@ export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigFunctionDefaul
   | "standard_legacy";
 export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigFunctionDefaultRegionsList =
   Array<string>;
+export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase0Cores = 4;
+export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase0Label =
+  "standard";
+export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase0Memory =
+  8192;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase0 {
+  cores: GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase0Cores;
+  label: GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase0Label;
+  memory: GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase0Memory;
+}
+export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase1Cores = 8;
+export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase1Label =
+  "enhanced";
+export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase1Memory =
+  16384;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase1 {
+  cores: GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase1Cores;
+  label: GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase1Label;
+  memory: GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase1Memory;
+}
+export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase2Cores =
+  14;
+export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase2Label =
+  "14cpu-28gb";
+export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase2Memory =
+  28672;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase2 {
+  cores: GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase2Cores;
+  label: GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase2Label;
+  memory: GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase2Memory;
+}
+export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase3Cores =
+  30;
+export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase3Label =
+  "turbo";
+export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase3Memory =
+  61440;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase3 {
+  cores: GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase3Cores;
+  label: GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase3Label;
+  memory: GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase3Memory;
+}
+export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachine =
+  | GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase0
+  | GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase1
+  | GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase2
+  | GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase3;
 export interface GetProjectsResponseBodyCase1ProjectsItemResourceConfig {
   buildMachineElasticLastUpdated?: number;
   buildMachineElasticReason?: GetProjectsResponseBodyCase1ProjectsItemResourceConfigBuildMachineElasticReason;
@@ -10985,6 +15054,7 @@ export interface GetProjectsResponseBodyCase1ProjectsItemResourceConfig {
   functionDefaultTimeout?: number;
   functionZeroConfigFailover?: boolean;
   isNSNBDisabled?: boolean;
+  elasticBuildMachine?: GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachine;
 }
 /** What to do when the gate trips: pause the rollout, or roll it back. */
 export type GetProjectsResponseBodyCase1ProjectsItemRollingReleaseGateAction = "pause" | "rollback";
@@ -11005,8 +15075,8 @@ export interface GetProjectsResponseBodyCase1ProjectsItemRollingReleaseGateCheck
   excludeStatusCodes?: GetProjectsResponseBodyCase1ProjectsItemRollingReleaseGateChecksItemExcludeStatusCodesList;
   /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
   ingestWatermarkSeconds?: number;
-  /** Minimum number of requests required in the window before the check can fail. Below this, the check is inconclusive rather than failing, so low-traffic stages don't gate on noise. Defaults to `100` when omitted. */
-  minSampleSize?: number;
+  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
+  significanceLevel?: number;
   /** The metric this check evaluates. */
   type: GetProjectsResponseBodyCase1ProjectsItemRollingReleaseGateChecksItemType;
 }
@@ -11169,6 +15239,68 @@ export interface GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesI
   rule_id: string;
   ttl?: number;
 }
+export type GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseHasItemType =
+  | "response_header"
+  | "response_status";
+export type GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseHasItemValueCase1IncList =
+  Array<string>;
+export type GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseHasItemValueCase1NincList =
+  Array<string>;
+export interface GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseHasItemValueCase1 {
+  eq?: string;
+  gt?: number;
+  gte?: number;
+  inc?: GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseHasItemValueCase1IncList;
+  list?: string;
+  lt?: number;
+  lte?: number;
+  neq?: string;
+  ninc?: GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseHasItemValueCase1NincList;
+  pre?: string;
+  re?: string;
+  suf?: string;
+}
+export type GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseHasItemValue =
+  | string
+  | GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseHasItemValueCase1;
+export interface GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseHasItem {
+  key?: string;
+  type: GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseHasItemType;
+  value?: GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseHasItemValue;
+}
+export type GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseHasList =
+  Array<GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseHasItem>;
+export type GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseMissingItemType =
+  | "response_header"
+  | "response_status";
+export type GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseMissingItemValueCase1IncList =
+  Array<string>;
+export type GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseMissingItemValueCase1NincList =
+  Array<string>;
+export interface GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseMissingItemValueCase1 {
+  eq?: string;
+  gt?: number;
+  gte?: number;
+  inc?: GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseMissingItemValueCase1IncList;
+  list?: string;
+  lt?: number;
+  lte?: number;
+  neq?: string;
+  ninc?: GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseMissingItemValueCase1NincList;
+  pre?: string;
+  re?: string;
+  suf?: string;
+}
+export type GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseMissingItemValue =
+  | string
+  | GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseMissingItemValueCase1;
+export interface GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseMissingItem {
+  key?: string;
+  type: GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseMissingItemType;
+  value?: GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseMissingItemValue;
+}
+export type GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseMissingList =
+  Array<GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseMissingItem>;
 export type GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemSrcCase1IncList =
   Array<string>;
 export type GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemSrcCase1NincList =
@@ -11212,6 +15344,8 @@ export interface GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesI
   has?: GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemHasList;
   missing?: GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemMissingList;
   mitigate?: GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemMitigate;
+  response_has?: GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseHasList;
+  response_missing?: GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemResponseMissingList;
   src?: GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemSrc;
   status?: number;
   tierRequirement?: GetProjectsResponseBodyCase1ProjectsItemSecurityFirewallRoutesItemTierRequirement;
@@ -11286,12 +15420,18 @@ export type GetProjectsResponseBodyCase1ProjectsItemSecurityRulesetsValueLogHead
 export type GetProjectsResponseBodyCase1ProjectsItemSecurityRulesetsValueLogHeaders =
   | GetProjectsResponseBodyCase1ProjectsItemSecurityRulesetsValueLogHeadersCase0List
   | GetProjectsResponseBodyCase1ProjectsItemSecurityRulesetsValueLogHeadersCase1;
+export type GetProjectsResponseBodyCase1ProjectsItemSecurityRulesetsValueRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
 export type GetProjectsResponseBodyCase1ProjectsItemSecurityRulesetsValueRateLimitAlgo =
   | "fixed_window"
   | "token_bucket";
 export type GetProjectsResponseBodyCase1ProjectsItemSecurityRulesetsValueRateLimitKeysList =
   Array<string>;
 export interface GetProjectsResponseBodyCase1ProjectsItemSecurityRulesetsValueRateLimit {
+  action?: GetProjectsResponseBodyCase1ProjectsItemSecurityRulesetsValueRateLimitAction | null;
   algo: GetProjectsResponseBodyCase1ProjectsItemSecurityRulesetsValueRateLimitAlgo;
   keys: GetProjectsResponseBodyCase1ProjectsItemSecurityRulesetsValueRateLimitKeysList;
   limit: number;
@@ -11602,6 +15742,7 @@ export interface GetProjectsResponseBodyCase1ProjectsItem {
   devCommand?: string | null;
   directoryListing: boolean;
   env?: GetProjectsResponseBodyCase1ProjectsItemEnvList;
+  expiration?: GetProjectsResponseBodyCase1ProjectsItemExpiration;
   framework?: GetProjectsResponseBodyCase1ProjectsItemFramework | null;
   gitComments?: CreateProjectResponseGitComments;
   gitForkProtection?: boolean;
@@ -11847,29 +15988,37 @@ export interface GetProjectsResponseBodyCase2ProjectsItemCreatorCase0 {
   via: GetProjectsResponseBodyCase2ProjectsItemCreatorCase0Via | null;
   user: CreateProjectResponseCreatorCase0User;
 }
-export type GetProjectsResponseBodyCase2ProjectsItemCreatorCase1App =
-  CreateProjectResponseCreatorCase0ViaCase0App;
-export type GetProjectsResponseBodyCase2ProjectsItemCreatorCase1Type = "app";
+export type GetProjectsResponseBodyCase2ProjectsItemCreatorCase1Project =
+  CreateProjectResponseCreatorCase0User;
+export type GetProjectsResponseBodyCase2ProjectsItemCreatorCase1Type = "project";
 export interface GetProjectsResponseBodyCase2ProjectsItemCreatorCase1 {
-  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  project: CreateProjectResponseCreatorCase0User;
   type: GetProjectsResponseBodyCase2ProjectsItemCreatorCase1Type;
 }
-export type GetProjectsResponseBodyCase2ProjectsItemCreatorCase2Integration =
-  CreateProjectResponseCreatorCase0ViaCase1Integration;
-export type GetProjectsResponseBodyCase2ProjectsItemCreatorCase2Type = "integration";
+export type GetProjectsResponseBodyCase2ProjectsItemCreatorCase2App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type GetProjectsResponseBodyCase2ProjectsItemCreatorCase2Type = "app";
 export interface GetProjectsResponseBodyCase2ProjectsItemCreatorCase2 {
-  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
   type: GetProjectsResponseBodyCase2ProjectsItemCreatorCase2Type;
 }
-export type GetProjectsResponseBodyCase2ProjectsItemCreatorCase3Type = "system";
+export type GetProjectsResponseBodyCase2ProjectsItemCreatorCase3Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type GetProjectsResponseBodyCase2ProjectsItemCreatorCase3Type = "integration";
 export interface GetProjectsResponseBodyCase2ProjectsItemCreatorCase3 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
   type: GetProjectsResponseBodyCase2ProjectsItemCreatorCase3Type;
+}
+export type GetProjectsResponseBodyCase2ProjectsItemCreatorCase4Type = "system";
+export interface GetProjectsResponseBodyCase2ProjectsItemCreatorCase4 {
+  type: GetProjectsResponseBodyCase2ProjectsItemCreatorCase4Type;
 }
 export type GetProjectsResponseBodyCase2ProjectsItemCreator =
   | GetProjectsResponseBodyCase2ProjectsItemCreatorCase0
   | GetProjectsResponseBodyCase2ProjectsItemCreatorCase1
   | GetProjectsResponseBodyCase2ProjectsItemCreatorCase2
-  | GetProjectsResponseBodyCase2ProjectsItemCreatorCase3;
+  | GetProjectsResponseBodyCase2ProjectsItemCreatorCase3
+  | GetProjectsResponseBodyCase2ProjectsItemCreatorCase4;
 /** The origin of this definition. 'api' means created via the API. Undefined means it originated from a deployment (vercel.json). */
 export type GetProjectsResponseBodyCase2ProjectsItemCronsDefinitionsItemSource = "api";
 export interface GetProjectsResponseBodyCase2ProjectsItemCronsDefinitionsItem {
@@ -11995,6 +16144,7 @@ export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigBuildMa
   | "elastic"
   | "fixed";
 export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigBuildMachineType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
@@ -12012,6 +16162,59 @@ export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigFunctio
   | "standard_legacy";
 export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigFunctionDefaultRegionsList =
   Array<string>;
+export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase0Cores =
+  4;
+export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase0Label =
+  "standard";
+export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase0Memory =
+  8192;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase0 {
+  cores: GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase0Cores;
+  label: GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase0Label;
+  memory: GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase0Memory;
+}
+export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase1Cores =
+  8;
+export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase1Label =
+  "enhanced";
+export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase1Memory =
+  16384;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase1 {
+  cores: GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase1Cores;
+  label: GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase1Label;
+  memory: GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase1Memory;
+}
+export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase2Cores =
+  14;
+export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase2Label =
+  "14cpu-28gb";
+export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase2Memory =
+  28672;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase2 {
+  cores: GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase2Cores;
+  label: GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase2Label;
+  memory: GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase2Memory;
+}
+export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase3Cores =
+  30;
+export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase3Label =
+  "turbo";
+export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase3Memory =
+  61440;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase3 {
+  cores: GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase3Cores;
+  label: GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase3Label;
+  memory: GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase3Memory;
+}
+export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachine =
+  | GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase0
+  | GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase1
+  | GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase2
+  | GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase3;
 export interface GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfig {
   buildMachineElasticLastUpdated?: number;
   buildMachineElasticReason?: GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigBuildMachineElasticReason;
@@ -12027,6 +16230,7 @@ export interface GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfig {
   functionDefaultTimeout?: number;
   functionZeroConfigFailover?: boolean;
   isNSNBDisabled?: boolean;
+  elasticBuildMachine?: GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachine;
 }
 /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
 export type GetProjectsResponseBodyCase2ProjectsItemDeploymentExpiration =
@@ -12487,6 +16691,10 @@ export type GetProjectsResponseBodyCase2ProjectsItemJobsFlagDefinitionsPresentTa
 export interface GetProjectsResponseBodyCase2ProjectsItemJobsFlagDefinitionsPresent {
   targets: GetProjectsResponseBodyCase2ProjectsItemJobsFlagDefinitionsPresentTargetsList;
 }
+export type GetProjectsResponseBodyCase2ProjectsItemJobsHealthCheckTargetsList = Array<string>;
+export interface GetProjectsResponseBodyCase2ProjectsItemJobsHealthCheck {
+  targets: GetProjectsResponseBodyCase2ProjectsItemJobsHealthCheckTargetsList;
+}
 export type GetProjectsResponseBodyCase2ProjectsItemJobsLintTargetsList = Array<string>;
 export interface GetProjectsResponseBodyCase2ProjectsItemJobsLint {
   targets: GetProjectsResponseBodyCase2ProjectsItemJobsLintTargetsList;
@@ -12501,6 +16709,7 @@ export interface GetProjectsResponseBodyCase2ProjectsItemJobsTypecheck {
 }
 export interface GetProjectsResponseBodyCase2ProjectsItemJobs {
   flag_definitions_present?: GetProjectsResponseBodyCase2ProjectsItemJobsFlagDefinitionsPresent;
+  health_check?: GetProjectsResponseBodyCase2ProjectsItemJobsHealthCheck;
   lint?: GetProjectsResponseBodyCase2ProjectsItemJobsLint;
   mfe_config_present?: GetProjectsResponseBodyCase2ProjectsItemJobsMfeConfigPresent;
   typecheck?: GetProjectsResponseBodyCase2ProjectsItemJobsTypecheck;
@@ -12851,6 +17060,7 @@ export type GetProjectsResponseBodyCase2ProjectsItemNodeVersion =
   | "20.x"
   | "22.x"
   | "24.x"
+  | "26.x"
   | "8.10.x";
 /** - team: `https://oidc.vercel.com/[team_slug]` - global: `https://oidc.vercel.com` */
 export type GetProjectsResponseBodyCase2ProjectsItemOidcTokenConfigIssuerMode = "global" | "team";
@@ -12876,6 +17086,15 @@ export interface GetProjectsResponseBodyCase2ProjectsItemPassport {
   connectorId: string;
   deploymentType: GetProjectsResponseBodyCase2ProjectsItemPassportDeploymentType;
 }
+export type GetProjectsResponseBodyCase2ProjectsItemPasswordProtectionDeploymentType =
+  | "all"
+  | "all_except_custom_domains"
+  | "preview"
+  | "prod_deployment_urls_and_all_previews";
+/** Password protection settings returned without the secret password hash. */
+export interface GetProjectsResponseBodyCase2ProjectsItemPasswordProtection {
+  deploymentType: GetProjectsResponseBodyCase2ProjectsItemPasswordProtectionDeploymentType;
+}
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsAccessGroupList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -12897,6 +17116,9 @@ export type GetProjectsResponseBodyCase2ProjectsItemPermissionsAiGatewayApiKeyZd
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsAiGatewayBudgetList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectsResponseBodyCase2ProjectsItemPermissionsAiGatewayByokCredentialsList =
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsAiGatewayCreditsList =
@@ -13023,6 +17245,9 @@ export type GetProjectsResponseBodyCase2ProjectsItemPermissionsConnectLogsList =
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsConnexClientList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectsResponseBodyCase2ProjectsItemPermissionsConnexClientAccessList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsConnexClientProjectList =
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -13108,6 +17333,8 @@ export type GetProjectsResponseBodyCase2ProjectsItemPermissionsDomainTransferInL
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsDrainList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectsResponseBodyCase2ProjectsItemPermissionsDriveList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsEdgeCacheNamespaceList =
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -13121,6 +17348,8 @@ export type GetProjectsResponseBodyCase2ProjectsItemPermissionsEdgeConfigSchemaL
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsEdgeConfigTokenList =
   Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectsResponseBodyCase2ProjectsItemPermissionsEmaSetupList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsEndpointVerificationList =
   Array<ACLAction>;
@@ -13136,6 +17365,8 @@ export type GetProjectsResponseBodyCase2ProjectsItemPermissionsFlagsExplorerSubs
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsGitCredentialGrantList =
   Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectsResponseBodyCase2ProjectsItemPermissionsGithubUsageList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsGitRepositoryList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -13235,7 +17466,16 @@ export type GetProjectsResponseBodyCase2ProjectsItemPermissionsMarketplaceSettin
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsMessageboardList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-export type GetProjectsResponseBodyCase2ProjectsItemPermissionsMessageboardSpaceList =
+export type GetProjectsResponseBodyCase2ProjectsItemPermissionsMessageboardChannelList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectsResponseBodyCase2ProjectsItemPermissionsMessageboardMessageList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectsResponseBodyCase2ProjectsItemPermissionsMessageboardModerationList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectsResponseBodyCase2ProjectsItemPermissionsMessageboardReactionList =
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsMessageboardTaskList =
@@ -13363,6 +17603,9 @@ export type GetProjectsResponseBodyCase2ProjectsItemPermissionsPrivateCloudAccou
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsPrivateLinkEndpointList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectsResponseBodyCase2ProjectsItemPermissionsPrivateNpmUsageList =
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsProductionAliasProtectionBypassList =
@@ -13499,6 +17742,9 @@ export type GetProjectsResponseBodyCase2ProjectsItemPermissionsRepositoryList = 
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsSamlConfigList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsScheduleList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectsResponseBodyCase2ProjectsItemPermissionsSchedulePreviewList =
+  Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsSeawallConfigList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -13661,6 +17907,8 @@ export interface GetProjectsResponseBodyCase2ProjectsItemPermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayBudget?: GetProjectsResponseBodyCase2ProjectsItemPermissionsAiGatewayBudgetList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayByokCredentials?: GetProjectsResponseBodyCase2ProjectsItemPermissionsAiGatewayByokCredentialsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayCredits?: GetProjectsResponseBodyCase2ProjectsItemPermissionsAiGatewayCreditsList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayGuardrails?: GetProjectsResponseBodyCase2ProjectsItemPermissionsAiGatewayGuardrailsList;
@@ -13759,6 +18007,8 @@ export interface GetProjectsResponseBodyCase2ProjectsItemPermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   connexClient?: GetProjectsResponseBodyCase2ProjectsItemPermissionsConnexClientList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  connexClientAccess?: GetProjectsResponseBodyCase2ProjectsItemPermissionsConnexClientAccessList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   connexClientProject?: GetProjectsResponseBodyCase2ProjectsItemPermissionsConnexClientProjectList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   connexContact?: GetProjectsResponseBodyCase2ProjectsItemPermissionsConnexContactList;
@@ -13821,6 +18071,8 @@ export interface GetProjectsResponseBodyCase2ProjectsItemPermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   drain?: GetProjectsResponseBodyCase2ProjectsItemPermissionsDrainList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  drive?: GetProjectsResponseBodyCase2ProjectsItemPermissionsDriveList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   edgeCacheNamespace?: GetProjectsResponseBodyCase2ProjectsItemPermissionsEdgeCacheNamespaceList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   edgeConfig?: GetProjectsResponseBodyCase2ProjectsItemPermissionsEdgeConfigList;
@@ -13830,6 +18082,8 @@ export interface GetProjectsResponseBodyCase2ProjectsItemPermissions {
   edgeConfigSchema?: GetProjectsResponseBodyCase2ProjectsItemPermissionsEdgeConfigSchemaList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   edgeConfigToken?: GetProjectsResponseBodyCase2ProjectsItemPermissionsEdgeConfigTokenList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  emaSetup?: GetProjectsResponseBodyCase2ProjectsItemPermissionsEmaSetupList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   endpointVerification?: GetProjectsResponseBodyCase2ProjectsItemPermissionsEndpointVerificationList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -13842,6 +18096,8 @@ export interface GetProjectsResponseBodyCase2ProjectsItemPermissions {
   flagsExplorerSubscription?: GetProjectsResponseBodyCase2ProjectsItemPermissionsFlagsExplorerSubscriptionList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   gitCredentialGrant?: GetProjectsResponseBodyCase2ProjectsItemPermissionsGitCredentialGrantList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  githubUsage?: GetProjectsResponseBodyCase2ProjectsItemPermissionsGithubUsageList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   gitRepository?: GetProjectsResponseBodyCase2ProjectsItemPermissionsGitRepositoryList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -13915,7 +18171,13 @@ export interface GetProjectsResponseBodyCase2ProjectsItemPermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   messageboard?: GetProjectsResponseBodyCase2ProjectsItemPermissionsMessageboardList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  messageboardSpace?: GetProjectsResponseBodyCase2ProjectsItemPermissionsMessageboardSpaceList;
+  messageboardChannel?: GetProjectsResponseBodyCase2ProjectsItemPermissionsMessageboardChannelList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardMessage?: GetProjectsResponseBodyCase2ProjectsItemPermissionsMessageboardMessageList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardModeration?: GetProjectsResponseBodyCase2ProjectsItemPermissionsMessageboardModerationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardReaction?: GetProjectsResponseBodyCase2ProjectsItemPermissionsMessageboardReactionList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   messageboardTask?: GetProjectsResponseBodyCase2ProjectsItemPermissionsMessageboardTaskList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -14006,6 +18268,8 @@ export interface GetProjectsResponseBodyCase2ProjectsItemPermissions {
   privateCloudAccount?: GetProjectsResponseBodyCase2ProjectsItemPermissionsPrivateCloudAccountList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   privateLinkEndpoint?: GetProjectsResponseBodyCase2ProjectsItemPermissionsPrivateLinkEndpointList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  privateNpmUsage?: GetProjectsResponseBodyCase2ProjectsItemPermissionsPrivateNpmUsageList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   productionAliasProtectionBypass?: GetProjectsResponseBodyCase2ProjectsItemPermissionsProductionAliasProtectionBypassList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -14108,6 +18372,8 @@ export interface GetProjectsResponseBodyCase2ProjectsItemPermissions {
   samlConfig?: GetProjectsResponseBodyCase2ProjectsItemPermissionsSamlConfigList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   schedule?: GetProjectsResponseBodyCase2ProjectsItemPermissionsScheduleList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  schedulePreview?: GetProjectsResponseBodyCase2ProjectsItemPermissionsSchedulePreviewList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   seawallConfig?: GetProjectsResponseBodyCase2ProjectsItemPermissionsSeawallConfigList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -14276,6 +18542,7 @@ export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigBuildMachineSe
   | "elastic"
   | "fixed";
 export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigBuildMachineType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
@@ -14293,6 +18560,57 @@ export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigFunctionDefaul
   | "standard_legacy";
 export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigFunctionDefaultRegionsList =
   Array<string>;
+export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase0Cores = 4;
+export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase0Label =
+  "standard";
+export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase0Memory =
+  8192;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase0 {
+  cores: GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase0Cores;
+  label: GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase0Label;
+  memory: GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase0Memory;
+}
+export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase1Cores = 8;
+export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase1Label =
+  "enhanced";
+export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase1Memory =
+  16384;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase1 {
+  cores: GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase1Cores;
+  label: GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase1Label;
+  memory: GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase1Memory;
+}
+export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase2Cores =
+  14;
+export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase2Label =
+  "14cpu-28gb";
+export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase2Memory =
+  28672;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase2 {
+  cores: GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase2Cores;
+  label: GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase2Label;
+  memory: GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase2Memory;
+}
+export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase3Cores =
+  30;
+export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase3Label =
+  "turbo";
+export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase3Memory =
+  61440;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase3 {
+  cores: GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase3Cores;
+  label: GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase3Label;
+  memory: GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase3Memory;
+}
+export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachine =
+  | GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase0
+  | GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase1
+  | GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase2
+  | GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase3;
 export interface GetProjectsResponseBodyCase2ProjectsItemResourceConfig {
   buildMachineElasticLastUpdated?: number;
   buildMachineElasticReason?: GetProjectsResponseBodyCase2ProjectsItemResourceConfigBuildMachineElasticReason;
@@ -14308,10 +18626,88 @@ export interface GetProjectsResponseBodyCase2ProjectsItemResourceConfig {
   functionDefaultTimeout?: number;
   functionZeroConfigFailover?: boolean;
   isNSNBDisabled?: boolean;
+  elasticBuildMachine?: GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachine;
 }
+export type GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase0Type = "user";
+export type GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase0ViaCase0App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase0ViaCase0Type =
+  "app";
+/** Set when a Vercel App or Integration acts on behalf of a {@link User}. Captures user-consented OAuth delegation that the ACL layer may inspect to evaluate scope restrictions. This is NOT for impersonation or token-exchange provenance -- those live on `auth.token`, not on the principal. */
+export interface GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase0ViaCase0 {
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  type: GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase0ViaCase0Type;
+}
+export type GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase0ViaCase1Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase0ViaCase1Type =
+  "integration";
+/** Set when a Vercel App or Integration acts on behalf of a {@link User}. Captures user-consented OAuth delegation that the ACL layer may inspect to evaluate scope restrictions. This is NOT for impersonation or token-exchange provenance -- those live on `auth.token`, not on the principal. */
+export interface GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase0ViaCase1 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  type: GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase0ViaCase1Type;
+}
+export type GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase0Via =
+  | GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase0ViaCase0
+  | GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase0ViaCase1;
+export type GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase0User =
+  CreateProjectResponseCreatorCase0User;
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase0 {
+  type: GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase0Type;
+  via: GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase0Via | null;
+  user: CreateProjectResponseCreatorCase0User;
+}
+export type GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase1Project =
+  CreateProjectResponseCreatorCase0User;
+export type GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase1Type =
+  "project";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase1 {
+  project: CreateProjectResponseCreatorCase0User;
+  type: GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase1Type;
+}
+export type GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase2App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase2Type = "app";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase2 {
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  type: GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase2Type;
+}
+export type GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase3Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase3Type =
+  "integration";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase3 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  type: GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase3Type;
+}
+export type GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase4Type =
+  "system";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase4 {
+  type: GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase4Type;
+}
+export type GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipal =
+  | GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase0
+  | GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase1
+  | GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase2
+  | GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase3
+  | GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase4;
 /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
-export type GetProjectsResponseBodyCase2ProjectsItemRollbackDescription =
-  CreateProjectResponseRollbackDescription;
+export interface GetProjectsResponseBodyCase2ProjectsItemRollbackDescription {
+  /** Timestamp of when the rollback was requested. */
+  createdAt: number;
+  /** User-supplied explanation of why they rolled back the project. Limited to 250 characters. */
+  description: string;
+  principal?: GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipal;
+  /** The ID of the user who rolled back the project, when the principal was a user. */
+  userId?: string;
+  /** The username of the user who rolled back the project, when the principal was a user. */
+  username?: string;
+}
 /** What to do when the gate trips: pause the rollout, or roll it back. */
 export type GetProjectsResponseBodyCase2ProjectsItemRollingReleaseGateAction = "pause" | "rollback";
 /** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
@@ -14331,8 +18727,8 @@ export interface GetProjectsResponseBodyCase2ProjectsItemRollingReleaseGateCheck
   excludeStatusCodes?: GetProjectsResponseBodyCase2ProjectsItemRollingReleaseGateChecksItemExcludeStatusCodesList;
   /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
   ingestWatermarkSeconds?: number;
-  /** Minimum number of requests required in the window before the check can fail. Below this, the check is inconclusive rather than failing, so low-traffic stages don't gate on noise. Defaults to `100` when omitted. */
-  minSampleSize?: number;
+  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
+  significanceLevel?: number;
   /** The metric this check evaluates. */
   type: GetProjectsResponseBodyCase2ProjectsItemRollingReleaseGateChecksItemType;
 }
@@ -14484,12 +18880,18 @@ export type GetProjectsResponseBodyCase2ProjectsItemSecurityRulesetsValueLogHead
 export type GetProjectsResponseBodyCase2ProjectsItemSecurityRulesetsValueLogHeaders =
   | GetProjectsResponseBodyCase2ProjectsItemSecurityRulesetsValueLogHeadersCase0List
   | GetProjectsResponseBodyCase2ProjectsItemSecurityRulesetsValueLogHeadersCase1;
+export type GetProjectsResponseBodyCase2ProjectsItemSecurityRulesetsValueRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
 export type GetProjectsResponseBodyCase2ProjectsItemSecurityRulesetsValueRateLimitAlgo =
   | "fixed_window"
   | "token_bucket";
 export type GetProjectsResponseBodyCase2ProjectsItemSecurityRulesetsValueRateLimitKeysList =
   Array<string>;
 export interface GetProjectsResponseBodyCase2ProjectsItemSecurityRulesetsValueRateLimit {
+  action?: GetProjectsResponseBodyCase2ProjectsItemSecurityRulesetsValueRateLimitAction | null;
   algo: GetProjectsResponseBodyCase2ProjectsItemSecurityRulesetsValueRateLimitAlgo;
   keys: GetProjectsResponseBodyCase2ProjectsItemSecurityRulesetsValueRateLimitKeysList;
   limit: number;
@@ -14946,6 +19348,7 @@ export interface GetProjectsResponseBodyCase2ProjectsItemUsageStatus {
   /** Per-project throttle, set explicitly for this project (e.g. via the per-project Flat Rate CDN endpoint). */
   throttled?: boolean;
 }
+export type GetProjectsResponseBodyCase2ProjectsItemVercelFlags = CreateProjectResponseVercelFlags;
 export type GetProjectsResponseBodyCase2ProjectsItemWebAnalytics =
   CreateProjectResponseWebAnalytics;
 export interface GetProjectsResponseBodyCase2ProjectsItem {
@@ -14957,6 +19360,7 @@ export interface GetProjectsResponseBodyCase2ProjectsItem {
   autoAssignCustomDomainsUpdatedBy?: string;
   autoExposeSystemEnvs?: boolean;
   avatar?: string | null;
+  avatarDarkMode?: string | null;
   blobs?: CreateProjectResponseBlobs;
   buildCommand?: string | null;
   commandForIgnoringBuildStep?: string | null;
@@ -15010,7 +19414,8 @@ export interface GetProjectsResponseBodyCase2ProjectsItem {
   outputDirectory?: string | null;
   passiveConnectConfigurationId?: string | null;
   passport?: GetProjectsResponseBodyCase2ProjectsItemPassport | null;
-  passwordProtection?: unknown | null;
+  /** Password protection settings returned without the secret password hash. */
+  passwordProtection?: GetProjectsResponseBodyCase2ProjectsItemPasswordProtection | null;
   paused?: boolean;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   permissions?: GetProjectsResponseBodyCase2ProjectsItemPermissions;
@@ -15020,7 +19425,7 @@ export interface GetProjectsResponseBodyCase2ProjectsItem {
   protectionConfig?: CreateProjectResponseProtectionConfig;
   resourceConfig: GetProjectsResponseBodyCase2ProjectsItemResourceConfig;
   /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
-  rollbackDescription?: CreateProjectResponseRollbackDescription;
+  rollbackDescription?: GetProjectsResponseBodyCase2ProjectsItemRollbackDescription;
   /** Project-level rolling release configuration that defines how deployments should be gradually rolled out */
   rollingRelease?: GetProjectsResponseBodyCase2ProjectsItemRollingRelease | null;
   rootDirectory?: string | null;
@@ -15049,6 +19454,7 @@ export interface GetProjectsResponseBodyCase2ProjectsItem {
   usageStatus?: GetProjectsResponseBodyCase2ProjectsItemUsageStatus;
   v0?: boolean;
   v0Created?: boolean;
+  vercelFlags?: CreateProjectResponseVercelFlags;
   webAnalytics?: CreateProjectResponseWebAnalytics;
 }
 export type GetProjectsResponseBodyCase2ProjectsList =
@@ -15974,29 +20380,36 @@ export interface UpdateMicrofrontendsResponseCreatorCase0 {
   via: UpdateMicrofrontendsResponseCreatorCase0Via | null;
   user: CreateProjectResponseCreatorCase0User;
 }
-export type UpdateMicrofrontendsResponseCreatorCase1App =
-  CreateProjectResponseCreatorCase0ViaCase0App;
-export type UpdateMicrofrontendsResponseCreatorCase1Type = "app";
+export type UpdateMicrofrontendsResponseCreatorCase1Project = CreateProjectResponseCreatorCase0User;
+export type UpdateMicrofrontendsResponseCreatorCase1Type = "project";
 export interface UpdateMicrofrontendsResponseCreatorCase1 {
-  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  project: CreateProjectResponseCreatorCase0User;
   type: UpdateMicrofrontendsResponseCreatorCase1Type;
 }
-export type UpdateMicrofrontendsResponseCreatorCase2Integration =
-  CreateProjectResponseCreatorCase0ViaCase1Integration;
-export type UpdateMicrofrontendsResponseCreatorCase2Type = "integration";
+export type UpdateMicrofrontendsResponseCreatorCase2App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type UpdateMicrofrontendsResponseCreatorCase2Type = "app";
 export interface UpdateMicrofrontendsResponseCreatorCase2 {
-  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
   type: UpdateMicrofrontendsResponseCreatorCase2Type;
 }
-export type UpdateMicrofrontendsResponseCreatorCase3Type = "system";
+export type UpdateMicrofrontendsResponseCreatorCase3Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type UpdateMicrofrontendsResponseCreatorCase3Type = "integration";
 export interface UpdateMicrofrontendsResponseCreatorCase3 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
   type: UpdateMicrofrontendsResponseCreatorCase3Type;
+}
+export type UpdateMicrofrontendsResponseCreatorCase4Type = "system";
+export interface UpdateMicrofrontendsResponseCreatorCase4 {
+  type: UpdateMicrofrontendsResponseCreatorCase4Type;
 }
 export type UpdateMicrofrontendsResponseCreator =
   | UpdateMicrofrontendsResponseCreatorCase0
   | UpdateMicrofrontendsResponseCreatorCase1
   | UpdateMicrofrontendsResponseCreatorCase2
-  | UpdateMicrofrontendsResponseCreatorCase3;
+  | UpdateMicrofrontendsResponseCreatorCase3
+  | UpdateMicrofrontendsResponseCreatorCase4;
 /** The origin of this definition. 'api' means created via the API. Undefined means it originated from a deployment (vercel.json). */
 export type UpdateMicrofrontendsResponseCronsDefinitionsItemSource = "api";
 export interface UpdateMicrofrontendsResponseCronsDefinitionsItem {
@@ -16122,6 +20535,7 @@ export type UpdateMicrofrontendsResponseDefaultResourceConfigBuildMachineSelecti
   | "elastic"
   | "fixed";
 export type UpdateMicrofrontendsResponseDefaultResourceConfigBuildMachineType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
@@ -16139,6 +20553,51 @@ export type UpdateMicrofrontendsResponseDefaultResourceConfigFunctionDefaultMemo
   | "standard_legacy";
 export type UpdateMicrofrontendsResponseDefaultResourceConfigFunctionDefaultRegionsList =
   Array<string>;
+export type UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase0Cores = 4;
+export type UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase0Label =
+  "standard";
+export type UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase0Memory = 8192;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase0 {
+  cores: UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase0Cores;
+  label: UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase0Label;
+  memory: UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase0Memory;
+}
+export type UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase1Cores = 8;
+export type UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase1Label =
+  "enhanced";
+export type UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase1Memory = 16384;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase1 {
+  cores: UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase1Cores;
+  label: UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase1Label;
+  memory: UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase1Memory;
+}
+export type UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase2Cores = 14;
+export type UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase2Label =
+  "14cpu-28gb";
+export type UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase2Memory = 28672;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase2 {
+  cores: UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase2Cores;
+  label: UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase2Label;
+  memory: UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase2Memory;
+}
+export type UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase3Cores = 30;
+export type UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase3Label =
+  "turbo";
+export type UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase3Memory = 61440;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase3 {
+  cores: UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase3Cores;
+  label: UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase3Label;
+  memory: UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase3Memory;
+}
+export type UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachine =
+  | UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase0
+  | UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase1
+  | UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase2
+  | UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase3;
 export interface UpdateMicrofrontendsResponseDefaultResourceConfig {
   buildMachineElasticLastUpdated?: number;
   buildMachineElasticReason?: UpdateMicrofrontendsResponseDefaultResourceConfigBuildMachineElasticReason;
@@ -16154,6 +20613,7 @@ export interface UpdateMicrofrontendsResponseDefaultResourceConfig {
   functionDefaultTimeout?: number;
   functionZeroConfigFailover?: boolean;
   isNSNBDisabled?: boolean;
+  elasticBuildMachine?: UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachine;
 }
 /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
 export type UpdateMicrofrontendsResponseDeploymentExpiration =
@@ -16591,6 +21051,10 @@ export type UpdateMicrofrontendsResponseJobsFlagDefinitionsPresentTargetsList = 
 export interface UpdateMicrofrontendsResponseJobsFlagDefinitionsPresent {
   targets: UpdateMicrofrontendsResponseJobsFlagDefinitionsPresentTargetsList;
 }
+export type UpdateMicrofrontendsResponseJobsHealthCheckTargetsList = Array<string>;
+export interface UpdateMicrofrontendsResponseJobsHealthCheck {
+  targets: UpdateMicrofrontendsResponseJobsHealthCheckTargetsList;
+}
 export type UpdateMicrofrontendsResponseJobsLintTargetsList = Array<string>;
 export interface UpdateMicrofrontendsResponseJobsLint {
   targets: UpdateMicrofrontendsResponseJobsLintTargetsList;
@@ -16605,6 +21069,7 @@ export interface UpdateMicrofrontendsResponseJobsTypecheck {
 }
 export interface UpdateMicrofrontendsResponseJobs {
   flag_definitions_present?: UpdateMicrofrontendsResponseJobsFlagDefinitionsPresent;
+  health_check?: UpdateMicrofrontendsResponseJobsHealthCheck;
   lint?: UpdateMicrofrontendsResponseJobsLint;
   mfe_config_present?: UpdateMicrofrontendsResponseJobsMfeConfigPresent;
   typecheck?: UpdateMicrofrontendsResponseJobsTypecheck;
@@ -16948,6 +21413,7 @@ export type UpdateMicrofrontendsResponseNodeVersion =
   | "20.x"
   | "22.x"
   | "24.x"
+  | "26.x"
   | "8.10.x";
 /** - team: `https://oidc.vercel.com/[team_slug]` - global: `https://oidc.vercel.com` */
 export type UpdateMicrofrontendsResponseOidcTokenConfigIssuerMode = "global" | "team";
@@ -16973,6 +21439,15 @@ export interface UpdateMicrofrontendsResponsePassport {
   connectorId: string;
   deploymentType: UpdateMicrofrontendsResponsePassportDeploymentType;
 }
+export type UpdateMicrofrontendsResponsePasswordProtectionDeploymentType =
+  | "all"
+  | "all_except_custom_domains"
+  | "preview"
+  | "prod_deployment_urls_and_all_previews";
+/** Password protection settings returned without the secret password hash. */
+export interface UpdateMicrofrontendsResponsePasswordProtection {
+  deploymentType: UpdateMicrofrontendsResponsePasswordProtectionDeploymentType;
+}
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsAccessGroupList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -16992,6 +21467,8 @@ export type UpdateMicrofrontendsResponsePermissionsAiGatewayApiKeyZdrExemptionLi
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsAiGatewayBudgetList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateMicrofrontendsResponsePermissionsAiGatewayByokCredentialsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsAiGatewayCreditsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -17094,6 +21571,8 @@ export type UpdateMicrofrontendsResponsePermissionsConnectLogsList = Array<ACLAc
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsConnexClientList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateMicrofrontendsResponsePermissionsConnexClientAccessList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsConnexClientProjectList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsConnexContactList = Array<ACLAction>;
@@ -17159,6 +21638,8 @@ export type UpdateMicrofrontendsResponsePermissionsDomainTransferInList = Array<
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsDrainList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateMicrofrontendsResponsePermissionsDriveList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsEdgeCacheNamespaceList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsEdgeConfigList = Array<ACLAction>;
@@ -17168,6 +21649,8 @@ export type UpdateMicrofrontendsResponsePermissionsEdgeConfigItemList = Array<AC
 export type UpdateMicrofrontendsResponsePermissionsEdgeConfigSchemaList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsEdgeConfigTokenList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateMicrofrontendsResponsePermissionsEmaSetupList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsEndpointVerificationList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -17180,6 +21663,8 @@ export type UpdateMicrofrontendsResponsePermissionsFileUploadList = Array<ACLAct
 export type UpdateMicrofrontendsResponsePermissionsFlagsExplorerSubscriptionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsGitCredentialGrantList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateMicrofrontendsResponsePermissionsGithubUsageList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsGitRepositoryList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -17263,7 +21748,13 @@ export type UpdateMicrofrontendsResponsePermissionsMarketplaceSettingsList = Arr
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsMessageboardList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-export type UpdateMicrofrontendsResponsePermissionsMessageboardSpaceList = Array<ACLAction>;
+export type UpdateMicrofrontendsResponsePermissionsMessageboardChannelList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateMicrofrontendsResponsePermissionsMessageboardMessageList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateMicrofrontendsResponsePermissionsMessageboardModerationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateMicrofrontendsResponsePermissionsMessageboardReactionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsMessageboardTaskList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -17364,6 +21855,8 @@ export type UpdateMicrofrontendsResponsePermissionsPreviewDeploymentSuffixList =
 export type UpdateMicrofrontendsResponsePermissionsPrivateCloudAccountList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsPrivateLinkEndpointList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateMicrofrontendsResponsePermissionsPrivateNpmUsageList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsProductionAliasProtectionBypassList =
   Array<ACLAction>;
@@ -17471,6 +21964,8 @@ export type UpdateMicrofrontendsResponsePermissionsRepositoryList = Array<ACLAct
 export type UpdateMicrofrontendsResponsePermissionsSamlConfigList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsScheduleList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateMicrofrontendsResponsePermissionsSchedulePreviewList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsSeawallConfigList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -17607,6 +22102,8 @@ export interface UpdateMicrofrontendsResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayBudget?: UpdateMicrofrontendsResponsePermissionsAiGatewayBudgetList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayByokCredentials?: UpdateMicrofrontendsResponsePermissionsAiGatewayByokCredentialsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayCredits?: UpdateMicrofrontendsResponsePermissionsAiGatewayCreditsList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayGuardrails?: UpdateMicrofrontendsResponsePermissionsAiGatewayGuardrailsList;
@@ -17705,6 +22202,8 @@ export interface UpdateMicrofrontendsResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   connexClient?: UpdateMicrofrontendsResponsePermissionsConnexClientList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  connexClientAccess?: UpdateMicrofrontendsResponsePermissionsConnexClientAccessList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   connexClientProject?: UpdateMicrofrontendsResponsePermissionsConnexClientProjectList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   connexContact?: UpdateMicrofrontendsResponsePermissionsConnexContactList;
@@ -17767,6 +22266,8 @@ export interface UpdateMicrofrontendsResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   drain?: UpdateMicrofrontendsResponsePermissionsDrainList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  drive?: UpdateMicrofrontendsResponsePermissionsDriveList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   edgeCacheNamespace?: UpdateMicrofrontendsResponsePermissionsEdgeCacheNamespaceList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   edgeConfig?: UpdateMicrofrontendsResponsePermissionsEdgeConfigList;
@@ -17776,6 +22277,8 @@ export interface UpdateMicrofrontendsResponsePermissions {
   edgeConfigSchema?: UpdateMicrofrontendsResponsePermissionsEdgeConfigSchemaList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   edgeConfigToken?: UpdateMicrofrontendsResponsePermissionsEdgeConfigTokenList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  emaSetup?: UpdateMicrofrontendsResponsePermissionsEmaSetupList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   endpointVerification?: UpdateMicrofrontendsResponsePermissionsEndpointVerificationList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -17788,6 +22291,8 @@ export interface UpdateMicrofrontendsResponsePermissions {
   flagsExplorerSubscription?: UpdateMicrofrontendsResponsePermissionsFlagsExplorerSubscriptionList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   gitCredentialGrant?: UpdateMicrofrontendsResponsePermissionsGitCredentialGrantList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  githubUsage?: UpdateMicrofrontendsResponsePermissionsGithubUsageList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   gitRepository?: UpdateMicrofrontendsResponsePermissionsGitRepositoryList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -17861,7 +22366,13 @@ export interface UpdateMicrofrontendsResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   messageboard?: UpdateMicrofrontendsResponsePermissionsMessageboardList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  messageboardSpace?: UpdateMicrofrontendsResponsePermissionsMessageboardSpaceList;
+  messageboardChannel?: UpdateMicrofrontendsResponsePermissionsMessageboardChannelList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardMessage?: UpdateMicrofrontendsResponsePermissionsMessageboardMessageList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardModeration?: UpdateMicrofrontendsResponsePermissionsMessageboardModerationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardReaction?: UpdateMicrofrontendsResponsePermissionsMessageboardReactionList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   messageboardTask?: UpdateMicrofrontendsResponsePermissionsMessageboardTaskList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -17952,6 +22463,8 @@ export interface UpdateMicrofrontendsResponsePermissions {
   privateCloudAccount?: UpdateMicrofrontendsResponsePermissionsPrivateCloudAccountList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   privateLinkEndpoint?: UpdateMicrofrontendsResponsePermissionsPrivateLinkEndpointList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  privateNpmUsage?: UpdateMicrofrontendsResponsePermissionsPrivateNpmUsageList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   productionAliasProtectionBypass?: UpdateMicrofrontendsResponsePermissionsProductionAliasProtectionBypassList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -18054,6 +22567,8 @@ export interface UpdateMicrofrontendsResponsePermissions {
   samlConfig?: UpdateMicrofrontendsResponsePermissionsSamlConfigList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   schedule?: UpdateMicrofrontendsResponsePermissionsScheduleList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  schedulePreview?: UpdateMicrofrontendsResponsePermissionsSchedulePreviewList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   seawallConfig?: UpdateMicrofrontendsResponsePermissionsSeawallConfigList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -18218,6 +22733,7 @@ export interface UpdateMicrofrontendsResponseResourceConfigBuildMachineElasticTr
 }
 export type UpdateMicrofrontendsResponseResourceConfigBuildMachineSelection = "elastic" | "fixed";
 export type UpdateMicrofrontendsResponseResourceConfigBuildMachineType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
@@ -18234,6 +22750,47 @@ export type UpdateMicrofrontendsResponseResourceConfigFunctionDefaultMemoryType 
   | "standard"
   | "standard_legacy";
 export type UpdateMicrofrontendsResponseResourceConfigFunctionDefaultRegionsList = Array<string>;
+export type UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase0Cores = 4;
+export type UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase0Label = "standard";
+export type UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase0Memory = 8192;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase0 {
+  cores: UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase0Cores;
+  label: UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase0Label;
+  memory: UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase0Memory;
+}
+export type UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase1Cores = 8;
+export type UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase1Label = "enhanced";
+export type UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase1Memory = 16384;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase1 {
+  cores: UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase1Cores;
+  label: UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase1Label;
+  memory: UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase1Memory;
+}
+export type UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase2Cores = 14;
+export type UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase2Label = "14cpu-28gb";
+export type UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase2Memory = 28672;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase2 {
+  cores: UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase2Cores;
+  label: UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase2Label;
+  memory: UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase2Memory;
+}
+export type UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase3Cores = 30;
+export type UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase3Label = "turbo";
+export type UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase3Memory = 61440;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase3 {
+  cores: UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase3Cores;
+  label: UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase3Label;
+  memory: UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase3Memory;
+}
+export type UpdateMicrofrontendsResponseResourceConfigElasticBuildMachine =
+  | UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase0
+  | UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase1
+  | UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase2
+  | UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase3;
 export interface UpdateMicrofrontendsResponseResourceConfig {
   buildMachineElasticLastUpdated?: number;
   buildMachineElasticReason?: UpdateMicrofrontendsResponseResourceConfigBuildMachineElasticReason;
@@ -18249,10 +22806,84 @@ export interface UpdateMicrofrontendsResponseResourceConfig {
   functionDefaultTimeout?: number;
   functionZeroConfigFailover?: boolean;
   isNSNBDisabled?: boolean;
+  elasticBuildMachine?: UpdateMicrofrontendsResponseResourceConfigElasticBuildMachine;
 }
+export type UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase0Type = "user";
+export type UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase0ViaCase0App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase0ViaCase0Type = "app";
+/** Set when a Vercel App or Integration acts on behalf of a {@link User}. Captures user-consented OAuth delegation that the ACL layer may inspect to evaluate scope restrictions. This is NOT for impersonation or token-exchange provenance -- those live on `auth.token`, not on the principal. */
+export interface UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase0ViaCase0 {
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  type: UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase0ViaCase0Type;
+}
+export type UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase0ViaCase1Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase0ViaCase1Type =
+  "integration";
+/** Set when a Vercel App or Integration acts on behalf of a {@link User}. Captures user-consented OAuth delegation that the ACL layer may inspect to evaluate scope restrictions. This is NOT for impersonation or token-exchange provenance -- those live on `auth.token`, not on the principal. */
+export interface UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase0ViaCase1 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  type: UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase0ViaCase1Type;
+}
+export type UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase0Via =
+  | UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase0ViaCase0
+  | UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase0ViaCase1;
+export type UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase0User =
+  CreateProjectResponseCreatorCase0User;
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase0 {
+  type: UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase0Type;
+  via: UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase0Via | null;
+  user: CreateProjectResponseCreatorCase0User;
+}
+export type UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase1Project =
+  CreateProjectResponseCreatorCase0User;
+export type UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase1Type = "project";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase1 {
+  project: CreateProjectResponseCreatorCase0User;
+  type: UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase1Type;
+}
+export type UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase2App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase2Type = "app";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase2 {
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  type: UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase2Type;
+}
+export type UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase3Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase3Type = "integration";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase3 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  type: UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase3Type;
+}
+export type UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase4Type = "system";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase4 {
+  type: UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase4Type;
+}
+export type UpdateMicrofrontendsResponseRollbackDescriptionPrincipal =
+  | UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase0
+  | UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase1
+  | UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase2
+  | UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase3
+  | UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase4;
 /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
-export type UpdateMicrofrontendsResponseRollbackDescription =
-  CreateProjectResponseRollbackDescription;
+export interface UpdateMicrofrontendsResponseRollbackDescription {
+  /** Timestamp of when the rollback was requested. */
+  createdAt: number;
+  /** User-supplied explanation of why they rolled back the project. Limited to 250 characters. */
+  description: string;
+  principal?: UpdateMicrofrontendsResponseRollbackDescriptionPrincipal;
+  /** The ID of the user who rolled back the project, when the principal was a user. */
+  userId?: string;
+  /** The username of the user who rolled back the project, when the principal was a user. */
+  username?: string;
+}
 /** What to do when the gate trips: pause the rollout, or roll it back. */
 export type UpdateMicrofrontendsResponseRollingReleaseGateAction = "pause" | "rollback";
 /** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
@@ -18271,8 +22902,8 @@ export interface UpdateMicrofrontendsResponseRollingReleaseGateChecksItem {
   excludeStatusCodes?: UpdateMicrofrontendsResponseRollingReleaseGateChecksItemExcludeStatusCodesList;
   /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
   ingestWatermarkSeconds?: number;
-  /** Minimum number of requests required in the window before the check can fail. Below this, the check is inconclusive rather than failing, so low-traffic stages don't gate on noise. Defaults to `100` when omitted. */
-  minSampleSize?: number;
+  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
+  significanceLevel?: number;
   /** The metric this check evaluates. */
   type: UpdateMicrofrontendsResponseRollingReleaseGateChecksItemType;
 }
@@ -18423,11 +23054,17 @@ export type UpdateMicrofrontendsResponseSecurityRulesetsValueLogHeadersCase1 = "
 export type UpdateMicrofrontendsResponseSecurityRulesetsValueLogHeaders =
   | UpdateMicrofrontendsResponseSecurityRulesetsValueLogHeadersCase0List
   | UpdateMicrofrontendsResponseSecurityRulesetsValueLogHeadersCase1;
+export type UpdateMicrofrontendsResponseSecurityRulesetsValueRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
 export type UpdateMicrofrontendsResponseSecurityRulesetsValueRateLimitAlgo =
   | "fixed_window"
   | "token_bucket";
 export type UpdateMicrofrontendsResponseSecurityRulesetsValueRateLimitKeysList = Array<string>;
 export interface UpdateMicrofrontendsResponseSecurityRulesetsValueRateLimit {
+  action?: UpdateMicrofrontendsResponseSecurityRulesetsValueRateLimitAction | null;
   algo: UpdateMicrofrontendsResponseSecurityRulesetsValueRateLimitAlgo;
   keys: UpdateMicrofrontendsResponseSecurityRulesetsValueRateLimitKeysList;
   limit: number;
@@ -18864,6 +23501,7 @@ export interface UpdateMicrofrontendsResponseUsageStatus {
   /** Per-project throttle, set explicitly for this project (e.g. via the per-project Flat Rate CDN endpoint). */
   throttled?: boolean;
 }
+export type UpdateMicrofrontendsResponseVercelFlags = CreateProjectResponseVercelFlags;
 export type UpdateMicrofrontendsResponseWebAnalytics = CreateProjectResponseWebAnalytics;
 export interface UpdateMicrofrontendsResponse {
   accountId: string;
@@ -18874,6 +23512,7 @@ export interface UpdateMicrofrontendsResponse {
   autoAssignCustomDomainsUpdatedBy?: string;
   autoExposeSystemEnvs?: boolean;
   avatar?: string | null;
+  avatarDarkMode?: string | null;
   blobs?: CreateProjectResponseBlobs;
   buildCommand?: string | null;
   commandForIgnoringBuildStep?: string | null;
@@ -18927,7 +23566,8 @@ export interface UpdateMicrofrontendsResponse {
   outputDirectory?: string | null;
   passiveConnectConfigurationId?: string | null;
   passport?: UpdateMicrofrontendsResponsePassport | null;
-  passwordProtection?: unknown | null;
+  /** Password protection settings returned without the secret password hash. */
+  passwordProtection?: UpdateMicrofrontendsResponsePasswordProtection | null;
   paused?: boolean;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   permissions?: UpdateMicrofrontendsResponsePermissions;
@@ -18937,7 +23577,7 @@ export interface UpdateMicrofrontendsResponse {
   protectionConfig?: CreateProjectResponseProtectionConfig;
   resourceConfig: UpdateMicrofrontendsResponseResourceConfig;
   /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
-  rollbackDescription?: CreateProjectResponseRollbackDescription;
+  rollbackDescription?: UpdateMicrofrontendsResponseRollbackDescription;
   /** Project-level rolling release configuration that defines how deployments should be gradually rolled out */
   rollingRelease?: UpdateMicrofrontendsResponseRollingRelease | null;
   rootDirectory?: string | null;
@@ -18966,6 +23606,7 @@ export interface UpdateMicrofrontendsResponse {
   usageStatus?: UpdateMicrofrontendsResponseUsageStatus;
   v0?: boolean;
   v0Created?: boolean;
+  vercelFlags?: CreateProjectResponseVercelFlags;
   webAnalytics?: CreateProjectResponseWebAnalytics;
 }
 /** The framework that is being used for this project. When `null` is used no framework is selected */
@@ -19045,6 +23686,7 @@ export type UpdateProjectRequestFramework =
   | "services"
   | "mastra";
 export type UpdateProjectRequestNodeVersion =
+  | "26.x"
   | "24.x"
   | "22.x"
   | "20.x"
@@ -19054,10 +23696,10 @@ export type UpdateProjectRequestNodeVersion =
   | "12.x"
   | "10.x";
 export type UpdateProjectRequestResourceConfigBuildMachineType =
+  | "standard"
   | "basic"
   | "enhanced"
   | "turbo"
-  | "standard"
   | "elastic";
 export type UpdateProjectRequestResourceConfigBuildMachineSelection = "elastic" | "fixed";
 export type UpdateProjectRequestResourceConfigBuildQueueConfiguration =
@@ -19151,6 +23793,26 @@ export interface UpdateProjectRequestTracing {
   ignorePaths?: UpdateProjectRequestTracingIgnorePathsList;
   /** Sampling rules for trace collection */
   samplingRules?: UpdateProjectRequestTracingSamplingRulesList;
+}
+/** Opt-in to Git pull request and commit comments on the project level. Replaces `github.silent`. */
+export interface UpdateProjectRequestGitComments {
+  /** Whether or not Vercel should comment on pull requests */
+  onPullRequest: boolean;
+  /** Whether or not Vercel should comment on commits */
+  onCommit: boolean;
+}
+/** Whether or not Vercel should automatically create GitHub deployments */
+export type UpdateProjectRequestGitProviderOptionsCreateDeployments = "enabled" | "disabled";
+/** Miscellaneous options related to how this projects interacts with the linked git source. */
+export interface UpdateProjectRequestGitProviderOptions {
+  /** Whether or not Vercel should automatically create GitHub deployments */
+  createDeployments?: UpdateProjectRequestGitProviderOptionsCreateDeployments | (string & {});
+  /** Whether Vercel should not automatically create GitHub repository-dispatch events on deployment events. */
+  disableRepositoryDispatchEvents?: boolean;
+  /** Whether the project requires commits to be signed & verified before deployments will be created. `true` enables, `false` disables (explicit override of the team setting), `null` clears the override to inherit from the team setting. */
+  requireVerifiedCommits?: boolean | null;
+  /** Whether Vercel should post git commit statuses for this project. */
+  gitCommitStatus?: boolean;
 }
 /** team: `https://oidc.vercel.com/[team_slug]` global: `https://oidc.vercel.com` */
 export type UpdateProjectRequestOidcTokenConfigIssuerMode = "team" | "global";
@@ -19262,15 +23924,11 @@ export interface UpdateProjectRequestTrustedIpsAddressesItem {
 }
 export type UpdateProjectRequestTrustedIpsAddressesList =
   Array<UpdateProjectRequestTrustedIpsAddressesItem>;
-/** exclusive: ip match is enough to bypass deployment protection (regardless of other settings). additional: ip must match + any other protection should be also provided (password, vercel auth, shareable link, automation bypass header, automation bypass query param) */
-export type UpdateProjectRequestTrustedIpsProtectionMode = "exclusive" | "additional";
 /** Restricts access to deployments based on the incoming request IP address */
 export interface UpdateProjectRequestTrustedIps {
   /** Specify if the Trusted IPs will apply to every Deployment Target or just Preview */
   deploymentType: UpdateProjectRequestTrustedIpsDeploymentType | (string & {});
   addresses: UpdateProjectRequestTrustedIpsAddressesList;
-  /** exclusive: ip match is enough to bypass deployment protection (regardless of other settings). additional: ip must match + any other protection should be also provided (password, vercel auth, shareable link, automation bypass header, automation bypass query param) */
-  protectionMode: UpdateProjectRequestTrustedIpsProtectionMode | (string & {});
 }
 export interface UpdateProjectRequestTrustedSourcesProjectsValueCustomAllowItem {
   /** A set of environments, expressed as explicit slugs, a named preset, or both. At least one of `slugs` or `preset` must be set. */
@@ -19531,6 +24189,10 @@ export interface UpdateProjectRequest {
   staticIps?: UpdateProjectRequestStaticIps;
   /** Tracing configuration for this project */
   tracing?: UpdateProjectRequestTracing | null;
+  /** Opt-in to Git pull request and commit comments on the project level. Replaces `github.silent`. */
+  gitComments?: UpdateProjectRequestGitComments | null;
+  /** Miscellaneous options related to how this projects interacts with the linked git source. */
+  gitProviderOptions?: UpdateProjectRequestGitProviderOptions | null;
   /** OpenID Connect JSON Web Token generation configuration. */
   oidcTokenConfig?: UpdateProjectRequestOidcTokenConfig;
   /** Allows to protect project deployments with a password */
@@ -19721,28 +24383,35 @@ export interface UpdateProjectResponseCreatorCase0 {
   via: UpdateProjectResponseCreatorCase0Via | null;
   user: CreateProjectResponseCreatorCase0User;
 }
-export type UpdateProjectResponseCreatorCase1App = CreateProjectResponseCreatorCase0ViaCase0App;
-export type UpdateProjectResponseCreatorCase1Type = "app";
+export type UpdateProjectResponseCreatorCase1Project = CreateProjectResponseCreatorCase0User;
+export type UpdateProjectResponseCreatorCase1Type = "project";
 export interface UpdateProjectResponseCreatorCase1 {
-  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  project: CreateProjectResponseCreatorCase0User;
   type: UpdateProjectResponseCreatorCase1Type;
 }
-export type UpdateProjectResponseCreatorCase2Integration =
-  CreateProjectResponseCreatorCase0ViaCase1Integration;
-export type UpdateProjectResponseCreatorCase2Type = "integration";
+export type UpdateProjectResponseCreatorCase2App = CreateProjectResponseCreatorCase0ViaCase0App;
+export type UpdateProjectResponseCreatorCase2Type = "app";
 export interface UpdateProjectResponseCreatorCase2 {
-  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
   type: UpdateProjectResponseCreatorCase2Type;
 }
-export type UpdateProjectResponseCreatorCase3Type = "system";
+export type UpdateProjectResponseCreatorCase3Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type UpdateProjectResponseCreatorCase3Type = "integration";
 export interface UpdateProjectResponseCreatorCase3 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
   type: UpdateProjectResponseCreatorCase3Type;
+}
+export type UpdateProjectResponseCreatorCase4Type = "system";
+export interface UpdateProjectResponseCreatorCase4 {
+  type: UpdateProjectResponseCreatorCase4Type;
 }
 export type UpdateProjectResponseCreator =
   | UpdateProjectResponseCreatorCase0
   | UpdateProjectResponseCreatorCase1
   | UpdateProjectResponseCreatorCase2
-  | UpdateProjectResponseCreatorCase3;
+  | UpdateProjectResponseCreatorCase3
+  | UpdateProjectResponseCreatorCase4;
 /** The origin of this definition. 'api' means created via the API. Undefined means it originated from a deployment (vercel.json). */
 export type UpdateProjectResponseCronsDefinitionsItemSource = "api";
 export interface UpdateProjectResponseCronsDefinitionsItem {
@@ -19865,6 +24534,7 @@ export interface UpdateProjectResponseDefaultResourceConfigBuildMachineElasticTr
 }
 export type UpdateProjectResponseDefaultResourceConfigBuildMachineSelection = "elastic" | "fixed";
 export type UpdateProjectResponseDefaultResourceConfigBuildMachineType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
@@ -19881,6 +24551,47 @@ export type UpdateProjectResponseDefaultResourceConfigFunctionDefaultMemoryType 
   | "standard"
   | "standard_legacy";
 export type UpdateProjectResponseDefaultResourceConfigFunctionDefaultRegionsList = Array<string>;
+export type UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase0Cores = 4;
+export type UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase0Label = "standard";
+export type UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase0Memory = 8192;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase0 {
+  cores: UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase0Cores;
+  label: UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase0Label;
+  memory: UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase0Memory;
+}
+export type UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase1Cores = 8;
+export type UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase1Label = "enhanced";
+export type UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase1Memory = 16384;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase1 {
+  cores: UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase1Cores;
+  label: UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase1Label;
+  memory: UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase1Memory;
+}
+export type UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase2Cores = 14;
+export type UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase2Label = "14cpu-28gb";
+export type UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase2Memory = 28672;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase2 {
+  cores: UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase2Cores;
+  label: UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase2Label;
+  memory: UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase2Memory;
+}
+export type UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase3Cores = 30;
+export type UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase3Label = "turbo";
+export type UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase3Memory = 61440;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase3 {
+  cores: UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase3Cores;
+  label: UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase3Label;
+  memory: UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase3Memory;
+}
+export type UpdateProjectResponseDefaultResourceConfigElasticBuildMachine =
+  | UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase0
+  | UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase1
+  | UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase2
+  | UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase3;
 export interface UpdateProjectResponseDefaultResourceConfig {
   buildMachineElasticLastUpdated?: number;
   buildMachineElasticReason?: UpdateProjectResponseDefaultResourceConfigBuildMachineElasticReason;
@@ -19896,6 +24607,7 @@ export interface UpdateProjectResponseDefaultResourceConfig {
   functionDefaultTimeout?: number;
   functionZeroConfigFailover?: boolean;
   isNSNBDisabled?: boolean;
+  elasticBuildMachine?: UpdateProjectResponseDefaultResourceConfigElasticBuildMachine;
 }
 /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
 export type UpdateProjectResponseDeploymentExpiration = CreateProjectResponseDeploymentExpiration;
@@ -20313,6 +25025,10 @@ export type UpdateProjectResponseJobsFlagDefinitionsPresentTargetsList = Array<s
 export interface UpdateProjectResponseJobsFlagDefinitionsPresent {
   targets: UpdateProjectResponseJobsFlagDefinitionsPresentTargetsList;
 }
+export type UpdateProjectResponseJobsHealthCheckTargetsList = Array<string>;
+export interface UpdateProjectResponseJobsHealthCheck {
+  targets: UpdateProjectResponseJobsHealthCheckTargetsList;
+}
 export type UpdateProjectResponseJobsLintTargetsList = Array<string>;
 export interface UpdateProjectResponseJobsLint {
   targets: UpdateProjectResponseJobsLintTargetsList;
@@ -20327,6 +25043,7 @@ export interface UpdateProjectResponseJobsTypecheck {
 }
 export interface UpdateProjectResponseJobs {
   flag_definitions_present?: UpdateProjectResponseJobsFlagDefinitionsPresent;
+  health_check?: UpdateProjectResponseJobsHealthCheck;
   lint?: UpdateProjectResponseJobsLint;
   mfe_config_present?: UpdateProjectResponseJobsMfeConfigPresent;
   typecheck?: UpdateProjectResponseJobsTypecheck;
@@ -20670,6 +25387,7 @@ export type UpdateProjectResponseNodeVersion =
   | "20.x"
   | "22.x"
   | "24.x"
+  | "26.x"
   | "8.10.x";
 /** - team: `https://oidc.vercel.com/[team_slug]` - global: `https://oidc.vercel.com` */
 export type UpdateProjectResponseOidcTokenConfigIssuerMode = "global" | "team";
@@ -20695,6 +25413,15 @@ export interface UpdateProjectResponsePassport {
   connectorId: string;
   deploymentType: UpdateProjectResponsePassportDeploymentType;
 }
+export type UpdateProjectResponsePasswordProtectionDeploymentType =
+  | "all"
+  | "all_except_custom_domains"
+  | "preview"
+  | "prod_deployment_urls_and_all_previews";
+/** Password protection settings returned without the secret password hash. */
+export interface UpdateProjectResponsePasswordProtection {
+  deploymentType: UpdateProjectResponsePasswordProtectionDeploymentType;
+}
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsAccessGroupList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -20711,6 +25438,8 @@ export type UpdateProjectResponsePermissionsAiGatewayApiKeySpendAttributionList 
 export type UpdateProjectResponsePermissionsAiGatewayApiKeyZdrExemptionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsAiGatewayBudgetList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateProjectResponsePermissionsAiGatewayByokCredentialsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsAiGatewayCreditsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -20810,6 +25539,8 @@ export type UpdateProjectResponsePermissionsConnectLogsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsConnexClientList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateProjectResponsePermissionsConnexClientAccessList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsConnexClientProjectList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsConnexContactList = Array<ACLAction>;
@@ -20873,6 +25604,8 @@ export type UpdateProjectResponsePermissionsDomainTransferInList = Array<ACLActi
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsDrainList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateProjectResponsePermissionsDriveList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsEdgeCacheNamespaceList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsEdgeConfigList = Array<ACLAction>;
@@ -20882,6 +25615,8 @@ export type UpdateProjectResponsePermissionsEdgeConfigItemList = Array<ACLAction
 export type UpdateProjectResponsePermissionsEdgeConfigSchemaList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsEdgeConfigTokenList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateProjectResponsePermissionsEmaSetupList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsEndpointVerificationList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -20894,6 +25629,8 @@ export type UpdateProjectResponsePermissionsFileUploadList = Array<ACLAction>;
 export type UpdateProjectResponsePermissionsFlagsExplorerSubscriptionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsGitCredentialGrantList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateProjectResponsePermissionsGithubUsageList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsGitRepositoryList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -20969,7 +25706,13 @@ export type UpdateProjectResponsePermissionsMarketplaceSettingsList = Array<ACLA
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsMessageboardList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-export type UpdateProjectResponsePermissionsMessageboardSpaceList = Array<ACLAction>;
+export type UpdateProjectResponsePermissionsMessageboardChannelList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateProjectResponsePermissionsMessageboardMessageList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateProjectResponsePermissionsMessageboardModerationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateProjectResponsePermissionsMessageboardReactionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsMessageboardTaskList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -21060,6 +25803,8 @@ export type UpdateProjectResponsePermissionsPreviewDeploymentSuffixList = Array<
 export type UpdateProjectResponsePermissionsPrivateCloudAccountList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsPrivateLinkEndpointList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateProjectResponsePermissionsPrivateNpmUsageList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsProductionAliasProtectionBypassList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -21164,6 +25909,8 @@ export type UpdateProjectResponsePermissionsRepositoryList = Array<ACLAction>;
 export type UpdateProjectResponsePermissionsSamlConfigList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsScheduleList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateProjectResponsePermissionsSchedulePreviewList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsSeawallConfigList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -21298,6 +26045,8 @@ export interface UpdateProjectResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayBudget?: UpdateProjectResponsePermissionsAiGatewayBudgetList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayByokCredentials?: UpdateProjectResponsePermissionsAiGatewayByokCredentialsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayCredits?: UpdateProjectResponsePermissionsAiGatewayCreditsList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayGuardrails?: UpdateProjectResponsePermissionsAiGatewayGuardrailsList;
@@ -21396,6 +26145,8 @@ export interface UpdateProjectResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   connexClient?: UpdateProjectResponsePermissionsConnexClientList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  connexClientAccess?: UpdateProjectResponsePermissionsConnexClientAccessList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   connexClientProject?: UpdateProjectResponsePermissionsConnexClientProjectList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   connexContact?: UpdateProjectResponsePermissionsConnexContactList;
@@ -21458,6 +26209,8 @@ export interface UpdateProjectResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   drain?: UpdateProjectResponsePermissionsDrainList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  drive?: UpdateProjectResponsePermissionsDriveList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   edgeCacheNamespace?: UpdateProjectResponsePermissionsEdgeCacheNamespaceList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   edgeConfig?: UpdateProjectResponsePermissionsEdgeConfigList;
@@ -21467,6 +26220,8 @@ export interface UpdateProjectResponsePermissions {
   edgeConfigSchema?: UpdateProjectResponsePermissionsEdgeConfigSchemaList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   edgeConfigToken?: UpdateProjectResponsePermissionsEdgeConfigTokenList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  emaSetup?: UpdateProjectResponsePermissionsEmaSetupList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   endpointVerification?: UpdateProjectResponsePermissionsEndpointVerificationList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -21479,6 +26234,8 @@ export interface UpdateProjectResponsePermissions {
   flagsExplorerSubscription?: UpdateProjectResponsePermissionsFlagsExplorerSubscriptionList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   gitCredentialGrant?: UpdateProjectResponsePermissionsGitCredentialGrantList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  githubUsage?: UpdateProjectResponsePermissionsGithubUsageList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   gitRepository?: UpdateProjectResponsePermissionsGitRepositoryList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -21552,7 +26309,13 @@ export interface UpdateProjectResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   messageboard?: UpdateProjectResponsePermissionsMessageboardList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  messageboardSpace?: UpdateProjectResponsePermissionsMessageboardSpaceList;
+  messageboardChannel?: UpdateProjectResponsePermissionsMessageboardChannelList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardMessage?: UpdateProjectResponsePermissionsMessageboardMessageList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardModeration?: UpdateProjectResponsePermissionsMessageboardModerationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardReaction?: UpdateProjectResponsePermissionsMessageboardReactionList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   messageboardTask?: UpdateProjectResponsePermissionsMessageboardTaskList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -21643,6 +26406,8 @@ export interface UpdateProjectResponsePermissions {
   privateCloudAccount?: UpdateProjectResponsePermissionsPrivateCloudAccountList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   privateLinkEndpoint?: UpdateProjectResponsePermissionsPrivateLinkEndpointList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  privateNpmUsage?: UpdateProjectResponsePermissionsPrivateNpmUsageList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   productionAliasProtectionBypass?: UpdateProjectResponsePermissionsProductionAliasProtectionBypassList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -21745,6 +26510,8 @@ export interface UpdateProjectResponsePermissions {
   samlConfig?: UpdateProjectResponsePermissionsSamlConfigList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   schedule?: UpdateProjectResponsePermissionsScheduleList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  schedulePreview?: UpdateProjectResponsePermissionsSchedulePreviewList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   seawallConfig?: UpdateProjectResponsePermissionsSeawallConfigList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -21908,6 +26675,7 @@ export interface UpdateProjectResponseResourceConfigBuildMachineElasticTransitio
 }
 export type UpdateProjectResponseResourceConfigBuildMachineSelection = "elastic" | "fixed";
 export type UpdateProjectResponseResourceConfigBuildMachineType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
@@ -21924,6 +26692,47 @@ export type UpdateProjectResponseResourceConfigFunctionDefaultMemoryType =
   | "standard"
   | "standard_legacy";
 export type UpdateProjectResponseResourceConfigFunctionDefaultRegionsList = Array<string>;
+export type UpdateProjectResponseResourceConfigElasticBuildMachineCase0Cores = 4;
+export type UpdateProjectResponseResourceConfigElasticBuildMachineCase0Label = "standard";
+export type UpdateProjectResponseResourceConfigElasticBuildMachineCase0Memory = 8192;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UpdateProjectResponseResourceConfigElasticBuildMachineCase0 {
+  cores: UpdateProjectResponseResourceConfigElasticBuildMachineCase0Cores;
+  label: UpdateProjectResponseResourceConfigElasticBuildMachineCase0Label;
+  memory: UpdateProjectResponseResourceConfigElasticBuildMachineCase0Memory;
+}
+export type UpdateProjectResponseResourceConfigElasticBuildMachineCase1Cores = 8;
+export type UpdateProjectResponseResourceConfigElasticBuildMachineCase1Label = "enhanced";
+export type UpdateProjectResponseResourceConfigElasticBuildMachineCase1Memory = 16384;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UpdateProjectResponseResourceConfigElasticBuildMachineCase1 {
+  cores: UpdateProjectResponseResourceConfigElasticBuildMachineCase1Cores;
+  label: UpdateProjectResponseResourceConfigElasticBuildMachineCase1Label;
+  memory: UpdateProjectResponseResourceConfigElasticBuildMachineCase1Memory;
+}
+export type UpdateProjectResponseResourceConfigElasticBuildMachineCase2Cores = 14;
+export type UpdateProjectResponseResourceConfigElasticBuildMachineCase2Label = "14cpu-28gb";
+export type UpdateProjectResponseResourceConfigElasticBuildMachineCase2Memory = 28672;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UpdateProjectResponseResourceConfigElasticBuildMachineCase2 {
+  cores: UpdateProjectResponseResourceConfigElasticBuildMachineCase2Cores;
+  label: UpdateProjectResponseResourceConfigElasticBuildMachineCase2Label;
+  memory: UpdateProjectResponseResourceConfigElasticBuildMachineCase2Memory;
+}
+export type UpdateProjectResponseResourceConfigElasticBuildMachineCase3Cores = 30;
+export type UpdateProjectResponseResourceConfigElasticBuildMachineCase3Label = "turbo";
+export type UpdateProjectResponseResourceConfigElasticBuildMachineCase3Memory = 61440;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UpdateProjectResponseResourceConfigElasticBuildMachineCase3 {
+  cores: UpdateProjectResponseResourceConfigElasticBuildMachineCase3Cores;
+  label: UpdateProjectResponseResourceConfigElasticBuildMachineCase3Label;
+  memory: UpdateProjectResponseResourceConfigElasticBuildMachineCase3Memory;
+}
+export type UpdateProjectResponseResourceConfigElasticBuildMachine =
+  | UpdateProjectResponseResourceConfigElasticBuildMachineCase0
+  | UpdateProjectResponseResourceConfigElasticBuildMachineCase1
+  | UpdateProjectResponseResourceConfigElasticBuildMachineCase2
+  | UpdateProjectResponseResourceConfigElasticBuildMachineCase3;
 export interface UpdateProjectResponseResourceConfig {
   buildMachineElasticLastUpdated?: number;
   buildMachineElasticReason?: UpdateProjectResponseResourceConfigBuildMachineElasticReason;
@@ -21939,9 +26748,83 @@ export interface UpdateProjectResponseResourceConfig {
   functionDefaultTimeout?: number;
   functionZeroConfigFailover?: boolean;
   isNSNBDisabled?: boolean;
+  elasticBuildMachine?: UpdateProjectResponseResourceConfigElasticBuildMachine;
 }
+export type UpdateProjectResponseRollbackDescriptionPrincipalCase0Type = "user";
+export type UpdateProjectResponseRollbackDescriptionPrincipalCase0ViaCase0App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type UpdateProjectResponseRollbackDescriptionPrincipalCase0ViaCase0Type = "app";
+/** Set when a Vercel App or Integration acts on behalf of a {@link User}. Captures user-consented OAuth delegation that the ACL layer may inspect to evaluate scope restrictions. This is NOT for impersonation or token-exchange provenance -- those live on `auth.token`, not on the principal. */
+export interface UpdateProjectResponseRollbackDescriptionPrincipalCase0ViaCase0 {
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  type: UpdateProjectResponseRollbackDescriptionPrincipalCase0ViaCase0Type;
+}
+export type UpdateProjectResponseRollbackDescriptionPrincipalCase0ViaCase1Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type UpdateProjectResponseRollbackDescriptionPrincipalCase0ViaCase1Type = "integration";
+/** Set when a Vercel App or Integration acts on behalf of a {@link User}. Captures user-consented OAuth delegation that the ACL layer may inspect to evaluate scope restrictions. This is NOT for impersonation or token-exchange provenance -- those live on `auth.token`, not on the principal. */
+export interface UpdateProjectResponseRollbackDescriptionPrincipalCase0ViaCase1 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  type: UpdateProjectResponseRollbackDescriptionPrincipalCase0ViaCase1Type;
+}
+export type UpdateProjectResponseRollbackDescriptionPrincipalCase0Via =
+  | UpdateProjectResponseRollbackDescriptionPrincipalCase0ViaCase0
+  | UpdateProjectResponseRollbackDescriptionPrincipalCase0ViaCase1;
+export type UpdateProjectResponseRollbackDescriptionPrincipalCase0User =
+  CreateProjectResponseCreatorCase0User;
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface UpdateProjectResponseRollbackDescriptionPrincipalCase0 {
+  type: UpdateProjectResponseRollbackDescriptionPrincipalCase0Type;
+  via: UpdateProjectResponseRollbackDescriptionPrincipalCase0Via | null;
+  user: CreateProjectResponseCreatorCase0User;
+}
+export type UpdateProjectResponseRollbackDescriptionPrincipalCase1Project =
+  CreateProjectResponseCreatorCase0User;
+export type UpdateProjectResponseRollbackDescriptionPrincipalCase1Type = "project";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface UpdateProjectResponseRollbackDescriptionPrincipalCase1 {
+  project: CreateProjectResponseCreatorCase0User;
+  type: UpdateProjectResponseRollbackDescriptionPrincipalCase1Type;
+}
+export type UpdateProjectResponseRollbackDescriptionPrincipalCase2App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type UpdateProjectResponseRollbackDescriptionPrincipalCase2Type = "app";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface UpdateProjectResponseRollbackDescriptionPrincipalCase2 {
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  type: UpdateProjectResponseRollbackDescriptionPrincipalCase2Type;
+}
+export type UpdateProjectResponseRollbackDescriptionPrincipalCase3Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type UpdateProjectResponseRollbackDescriptionPrincipalCase3Type = "integration";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface UpdateProjectResponseRollbackDescriptionPrincipalCase3 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  type: UpdateProjectResponseRollbackDescriptionPrincipalCase3Type;
+}
+export type UpdateProjectResponseRollbackDescriptionPrincipalCase4Type = "system";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface UpdateProjectResponseRollbackDescriptionPrincipalCase4 {
+  type: UpdateProjectResponseRollbackDescriptionPrincipalCase4Type;
+}
+export type UpdateProjectResponseRollbackDescriptionPrincipal =
+  | UpdateProjectResponseRollbackDescriptionPrincipalCase0
+  | UpdateProjectResponseRollbackDescriptionPrincipalCase1
+  | UpdateProjectResponseRollbackDescriptionPrincipalCase2
+  | UpdateProjectResponseRollbackDescriptionPrincipalCase3
+  | UpdateProjectResponseRollbackDescriptionPrincipalCase4;
 /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
-export type UpdateProjectResponseRollbackDescription = CreateProjectResponseRollbackDescription;
+export interface UpdateProjectResponseRollbackDescription {
+  /** Timestamp of when the rollback was requested. */
+  createdAt: number;
+  /** User-supplied explanation of why they rolled back the project. Limited to 250 characters. */
+  description: string;
+  principal?: UpdateProjectResponseRollbackDescriptionPrincipal;
+  /** The ID of the user who rolled back the project, when the principal was a user. */
+  userId?: string;
+  /** The username of the user who rolled back the project, when the principal was a user. */
+  username?: string;
+}
 /** What to do when the gate trips: pause the rollout, or roll it back. */
 export type UpdateProjectResponseRollingReleaseGateAction = "pause" | "rollback";
 /** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
@@ -21958,8 +26841,8 @@ export interface UpdateProjectResponseRollingReleaseGateChecksItem {
   excludeStatusCodes?: UpdateProjectResponseRollingReleaseGateChecksItemExcludeStatusCodesList;
   /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
   ingestWatermarkSeconds?: number;
-  /** Minimum number of requests required in the window before the check can fail. Below this, the check is inconclusive rather than failing, so low-traffic stages don't gate on noise. Defaults to `100` when omitted. */
-  minSampleSize?: number;
+  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
+  significanceLevel?: number;
   /** The metric this check evaluates. */
   type: UpdateProjectResponseRollingReleaseGateChecksItemType;
 }
@@ -22101,11 +26984,17 @@ export type UpdateProjectResponseSecurityRulesetsValueLogHeadersCase1 = "*";
 export type UpdateProjectResponseSecurityRulesetsValueLogHeaders =
   | UpdateProjectResponseSecurityRulesetsValueLogHeadersCase0List
   | UpdateProjectResponseSecurityRulesetsValueLogHeadersCase1;
+export type UpdateProjectResponseSecurityRulesetsValueRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
 export type UpdateProjectResponseSecurityRulesetsValueRateLimitAlgo =
   | "fixed_window"
   | "token_bucket";
 export type UpdateProjectResponseSecurityRulesetsValueRateLimitKeysList = Array<string>;
 export interface UpdateProjectResponseSecurityRulesetsValueRateLimit {
+  action?: UpdateProjectResponseSecurityRulesetsValueRateLimitAction | null;
   algo: UpdateProjectResponseSecurityRulesetsValueRateLimitAlgo;
   keys: UpdateProjectResponseSecurityRulesetsValueRateLimitKeysList;
   limit: number;
@@ -22531,6 +27420,7 @@ export interface UpdateProjectResponseUsageStatus {
   /** Per-project throttle, set explicitly for this project (e.g. via the per-project Flat Rate CDN endpoint). */
   throttled?: boolean;
 }
+export type UpdateProjectResponseVercelFlags = CreateProjectResponseVercelFlags;
 export type UpdateProjectResponseWebAnalytics = CreateProjectResponseWebAnalytics;
 export interface UpdateProjectResponse {
   accountId: string;
@@ -22541,6 +27431,7 @@ export interface UpdateProjectResponse {
   autoAssignCustomDomainsUpdatedBy?: string;
   autoExposeSystemEnvs?: boolean;
   avatar?: string | null;
+  avatarDarkMode?: string | null;
   blobs?: CreateProjectResponseBlobs;
   buildCommand?: string | null;
   commandForIgnoringBuildStep?: string | null;
@@ -22594,7 +27485,8 @@ export interface UpdateProjectResponse {
   outputDirectory?: string | null;
   passiveConnectConfigurationId?: string | null;
   passport?: UpdateProjectResponsePassport | null;
-  passwordProtection?: unknown | null;
+  /** Password protection settings returned without the secret password hash. */
+  passwordProtection?: UpdateProjectResponsePasswordProtection | null;
   paused?: boolean;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   permissions?: UpdateProjectResponsePermissions;
@@ -22604,7 +27496,7 @@ export interface UpdateProjectResponse {
   protectionConfig?: CreateProjectResponseProtectionConfig;
   resourceConfig: UpdateProjectResponseResourceConfig;
   /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
-  rollbackDescription?: CreateProjectResponseRollbackDescription;
+  rollbackDescription?: UpdateProjectResponseRollbackDescription;
   /** Project-level rolling release configuration that defines how deployments should be gradually rolled out */
   rollingRelease?: UpdateProjectResponseRollingRelease | null;
   rootDirectory?: string | null;
@@ -22633,6 +27525,7 @@ export interface UpdateProjectResponse {
   usageStatus?: UpdateProjectResponseUsageStatus;
   v0?: boolean;
   v0Created?: boolean;
+  vercelFlags?: CreateProjectResponseVercelFlags;
   webAnalytics?: CreateProjectResponseWebAnalytics;
 }
 /** Status code for domain redirect */
@@ -22928,29 +27821,36 @@ export interface UploadProjectAvatarResponseCreatorCase0 {
   via: UploadProjectAvatarResponseCreatorCase0Via | null;
   user: CreateProjectResponseCreatorCase0User;
 }
-export type UploadProjectAvatarResponseCreatorCase1App =
-  CreateProjectResponseCreatorCase0ViaCase0App;
-export type UploadProjectAvatarResponseCreatorCase1Type = "app";
+export type UploadProjectAvatarResponseCreatorCase1Project = CreateProjectResponseCreatorCase0User;
+export type UploadProjectAvatarResponseCreatorCase1Type = "project";
 export interface UploadProjectAvatarResponseCreatorCase1 {
-  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  project: CreateProjectResponseCreatorCase0User;
   type: UploadProjectAvatarResponseCreatorCase1Type;
 }
-export type UploadProjectAvatarResponseCreatorCase2Integration =
-  CreateProjectResponseCreatorCase0ViaCase1Integration;
-export type UploadProjectAvatarResponseCreatorCase2Type = "integration";
+export type UploadProjectAvatarResponseCreatorCase2App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type UploadProjectAvatarResponseCreatorCase2Type = "app";
 export interface UploadProjectAvatarResponseCreatorCase2 {
-  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
   type: UploadProjectAvatarResponseCreatorCase2Type;
 }
-export type UploadProjectAvatarResponseCreatorCase3Type = "system";
+export type UploadProjectAvatarResponseCreatorCase3Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type UploadProjectAvatarResponseCreatorCase3Type = "integration";
 export interface UploadProjectAvatarResponseCreatorCase3 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
   type: UploadProjectAvatarResponseCreatorCase3Type;
+}
+export type UploadProjectAvatarResponseCreatorCase4Type = "system";
+export interface UploadProjectAvatarResponseCreatorCase4 {
+  type: UploadProjectAvatarResponseCreatorCase4Type;
 }
 export type UploadProjectAvatarResponseCreator =
   | UploadProjectAvatarResponseCreatorCase0
   | UploadProjectAvatarResponseCreatorCase1
   | UploadProjectAvatarResponseCreatorCase2
-  | UploadProjectAvatarResponseCreatorCase3;
+  | UploadProjectAvatarResponseCreatorCase3
+  | UploadProjectAvatarResponseCreatorCase4;
 /** The origin of this definition. 'api' means created via the API. Undefined means it originated from a deployment (vercel.json). */
 export type UploadProjectAvatarResponseCronsDefinitionsItemSource = "api";
 export interface UploadProjectAvatarResponseCronsDefinitionsItem {
@@ -23076,6 +27976,7 @@ export type UploadProjectAvatarResponseDefaultResourceConfigBuildMachineSelectio
   | "elastic"
   | "fixed";
 export type UploadProjectAvatarResponseDefaultResourceConfigBuildMachineType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
@@ -23093,6 +27994,50 @@ export type UploadProjectAvatarResponseDefaultResourceConfigFunctionDefaultMemor
   | "standard_legacy";
 export type UploadProjectAvatarResponseDefaultResourceConfigFunctionDefaultRegionsList =
   Array<string>;
+export type UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase0Cores = 4;
+export type UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase0Label =
+  "standard";
+export type UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase0Memory = 8192;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase0 {
+  cores: UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase0Cores;
+  label: UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase0Label;
+  memory: UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase0Memory;
+}
+export type UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase1Cores = 8;
+export type UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase1Label =
+  "enhanced";
+export type UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase1Memory = 16384;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase1 {
+  cores: UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase1Cores;
+  label: UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase1Label;
+  memory: UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase1Memory;
+}
+export type UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase2Cores = 14;
+export type UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase2Label =
+  "14cpu-28gb";
+export type UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase2Memory = 28672;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase2 {
+  cores: UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase2Cores;
+  label: UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase2Label;
+  memory: UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase2Memory;
+}
+export type UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase3Cores = 30;
+export type UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase3Label = "turbo";
+export type UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase3Memory = 61440;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase3 {
+  cores: UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase3Cores;
+  label: UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase3Label;
+  memory: UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase3Memory;
+}
+export type UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachine =
+  | UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase0
+  | UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase1
+  | UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase2
+  | UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase3;
 export interface UploadProjectAvatarResponseDefaultResourceConfig {
   buildMachineElasticLastUpdated?: number;
   buildMachineElasticReason?: UploadProjectAvatarResponseDefaultResourceConfigBuildMachineElasticReason;
@@ -23108,6 +28053,7 @@ export interface UploadProjectAvatarResponseDefaultResourceConfig {
   functionDefaultTimeout?: number;
   functionZeroConfigFailover?: boolean;
   isNSNBDisabled?: boolean;
+  elasticBuildMachine?: UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachine;
 }
 /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
 export type UploadProjectAvatarResponseDeploymentExpiration =
@@ -23543,6 +28489,10 @@ export type UploadProjectAvatarResponseJobsFlagDefinitionsPresentTargetsList = A
 export interface UploadProjectAvatarResponseJobsFlagDefinitionsPresent {
   targets: UploadProjectAvatarResponseJobsFlagDefinitionsPresentTargetsList;
 }
+export type UploadProjectAvatarResponseJobsHealthCheckTargetsList = Array<string>;
+export interface UploadProjectAvatarResponseJobsHealthCheck {
+  targets: UploadProjectAvatarResponseJobsHealthCheckTargetsList;
+}
 export type UploadProjectAvatarResponseJobsLintTargetsList = Array<string>;
 export interface UploadProjectAvatarResponseJobsLint {
   targets: UploadProjectAvatarResponseJobsLintTargetsList;
@@ -23557,6 +28507,7 @@ export interface UploadProjectAvatarResponseJobsTypecheck {
 }
 export interface UploadProjectAvatarResponseJobs {
   flag_definitions_present?: UploadProjectAvatarResponseJobsFlagDefinitionsPresent;
+  health_check?: UploadProjectAvatarResponseJobsHealthCheck;
   lint?: UploadProjectAvatarResponseJobsLint;
   mfe_config_present?: UploadProjectAvatarResponseJobsMfeConfigPresent;
   typecheck?: UploadProjectAvatarResponseJobsTypecheck;
@@ -23900,6 +28851,7 @@ export type UploadProjectAvatarResponseNodeVersion =
   | "20.x"
   | "22.x"
   | "24.x"
+  | "26.x"
   | "8.10.x";
 /** - team: `https://oidc.vercel.com/[team_slug]` - global: `https://oidc.vercel.com` */
 export type UploadProjectAvatarResponseOidcTokenConfigIssuerMode = "global" | "team";
@@ -23925,6 +28877,15 @@ export interface UploadProjectAvatarResponsePassport {
   connectorId: string;
   deploymentType: UploadProjectAvatarResponsePassportDeploymentType;
 }
+export type UploadProjectAvatarResponsePasswordProtectionDeploymentType =
+  | "all"
+  | "all_except_custom_domains"
+  | "preview"
+  | "prod_deployment_urls_and_all_previews";
+/** Password protection settings returned without the secret password hash. */
+export interface UploadProjectAvatarResponsePasswordProtection {
+  deploymentType: UploadProjectAvatarResponsePasswordProtectionDeploymentType;
+}
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsAccessGroupList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -23943,6 +28904,8 @@ export type UploadProjectAvatarResponsePermissionsAiGatewayApiKeyZdrExemptionLis
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsAiGatewayBudgetList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UploadProjectAvatarResponsePermissionsAiGatewayByokCredentialsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsAiGatewayCreditsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -24045,6 +29008,8 @@ export type UploadProjectAvatarResponsePermissionsConnectLogsList = Array<ACLAct
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsConnexClientList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UploadProjectAvatarResponsePermissionsConnexClientAccessList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsConnexClientProjectList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsConnexContactList = Array<ACLAction>;
@@ -24110,6 +29075,8 @@ export type UploadProjectAvatarResponsePermissionsDomainTransferInList = Array<A
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsDrainList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UploadProjectAvatarResponsePermissionsDriveList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsEdgeCacheNamespaceList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsEdgeConfigList = Array<ACLAction>;
@@ -24119,6 +29086,8 @@ export type UploadProjectAvatarResponsePermissionsEdgeConfigItemList = Array<ACL
 export type UploadProjectAvatarResponsePermissionsEdgeConfigSchemaList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsEdgeConfigTokenList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UploadProjectAvatarResponsePermissionsEmaSetupList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsEndpointVerificationList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -24131,6 +29100,8 @@ export type UploadProjectAvatarResponsePermissionsFileUploadList = Array<ACLActi
 export type UploadProjectAvatarResponsePermissionsFlagsExplorerSubscriptionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsGitCredentialGrantList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UploadProjectAvatarResponsePermissionsGithubUsageList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsGitRepositoryList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -24213,7 +29184,13 @@ export type UploadProjectAvatarResponsePermissionsMarketplaceSettingsList = Arra
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsMessageboardList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-export type UploadProjectAvatarResponsePermissionsMessageboardSpaceList = Array<ACLAction>;
+export type UploadProjectAvatarResponsePermissionsMessageboardChannelList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UploadProjectAvatarResponsePermissionsMessageboardMessageList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UploadProjectAvatarResponsePermissionsMessageboardModerationList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UploadProjectAvatarResponsePermissionsMessageboardReactionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsMessageboardTaskList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -24310,6 +29287,8 @@ export type UploadProjectAvatarResponsePermissionsPreviewDeploymentSuffixList = 
 export type UploadProjectAvatarResponsePermissionsPrivateCloudAccountList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsPrivateLinkEndpointList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UploadProjectAvatarResponsePermissionsPrivateNpmUsageList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsProductionAliasProtectionBypassList =
   Array<ACLAction>;
@@ -24417,6 +29396,8 @@ export type UploadProjectAvatarResponsePermissionsRepositoryList = Array<ACLActi
 export type UploadProjectAvatarResponsePermissionsSamlConfigList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsScheduleList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UploadProjectAvatarResponsePermissionsSchedulePreviewList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsSeawallConfigList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -24553,6 +29534,8 @@ export interface UploadProjectAvatarResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayBudget?: UploadProjectAvatarResponsePermissionsAiGatewayBudgetList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayByokCredentials?: UploadProjectAvatarResponsePermissionsAiGatewayByokCredentialsList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayCredits?: UploadProjectAvatarResponsePermissionsAiGatewayCreditsList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayGuardrails?: UploadProjectAvatarResponsePermissionsAiGatewayGuardrailsList;
@@ -24651,6 +29634,8 @@ export interface UploadProjectAvatarResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   connexClient?: UploadProjectAvatarResponsePermissionsConnexClientList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  connexClientAccess?: UploadProjectAvatarResponsePermissionsConnexClientAccessList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   connexClientProject?: UploadProjectAvatarResponsePermissionsConnexClientProjectList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   connexContact?: UploadProjectAvatarResponsePermissionsConnexContactList;
@@ -24713,6 +29698,8 @@ export interface UploadProjectAvatarResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   drain?: UploadProjectAvatarResponsePermissionsDrainList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  drive?: UploadProjectAvatarResponsePermissionsDriveList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   edgeCacheNamespace?: UploadProjectAvatarResponsePermissionsEdgeCacheNamespaceList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   edgeConfig?: UploadProjectAvatarResponsePermissionsEdgeConfigList;
@@ -24722,6 +29709,8 @@ export interface UploadProjectAvatarResponsePermissions {
   edgeConfigSchema?: UploadProjectAvatarResponsePermissionsEdgeConfigSchemaList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   edgeConfigToken?: UploadProjectAvatarResponsePermissionsEdgeConfigTokenList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  emaSetup?: UploadProjectAvatarResponsePermissionsEmaSetupList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   endpointVerification?: UploadProjectAvatarResponsePermissionsEndpointVerificationList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -24734,6 +29723,8 @@ export interface UploadProjectAvatarResponsePermissions {
   flagsExplorerSubscription?: UploadProjectAvatarResponsePermissionsFlagsExplorerSubscriptionList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   gitCredentialGrant?: UploadProjectAvatarResponsePermissionsGitCredentialGrantList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  githubUsage?: UploadProjectAvatarResponsePermissionsGithubUsageList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   gitRepository?: UploadProjectAvatarResponsePermissionsGitRepositoryList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -24807,7 +29798,13 @@ export interface UploadProjectAvatarResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   messageboard?: UploadProjectAvatarResponsePermissionsMessageboardList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  messageboardSpace?: UploadProjectAvatarResponsePermissionsMessageboardSpaceList;
+  messageboardChannel?: UploadProjectAvatarResponsePermissionsMessageboardChannelList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardMessage?: UploadProjectAvatarResponsePermissionsMessageboardMessageList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardModeration?: UploadProjectAvatarResponsePermissionsMessageboardModerationList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  messageboardReaction?: UploadProjectAvatarResponsePermissionsMessageboardReactionList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   messageboardTask?: UploadProjectAvatarResponsePermissionsMessageboardTaskList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -24898,6 +29895,8 @@ export interface UploadProjectAvatarResponsePermissions {
   privateCloudAccount?: UploadProjectAvatarResponsePermissionsPrivateCloudAccountList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   privateLinkEndpoint?: UploadProjectAvatarResponsePermissionsPrivateLinkEndpointList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  privateNpmUsage?: UploadProjectAvatarResponsePermissionsPrivateNpmUsageList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   productionAliasProtectionBypass?: UploadProjectAvatarResponsePermissionsProductionAliasProtectionBypassList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -25000,6 +29999,8 @@ export interface UploadProjectAvatarResponsePermissions {
   samlConfig?: UploadProjectAvatarResponsePermissionsSamlConfigList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   schedule?: UploadProjectAvatarResponsePermissionsScheduleList;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  schedulePreview?: UploadProjectAvatarResponsePermissionsSchedulePreviewList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   seawallConfig?: UploadProjectAvatarResponsePermissionsSeawallConfigList;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -25164,6 +30165,7 @@ export interface UploadProjectAvatarResponseResourceConfigBuildMachineElasticTra
 }
 export type UploadProjectAvatarResponseResourceConfigBuildMachineSelection = "elastic" | "fixed";
 export type UploadProjectAvatarResponseResourceConfigBuildMachineType =
+  | "14cpu-28gb"
   | "basic"
   | "enhanced"
   | "standard"
@@ -25180,6 +30182,47 @@ export type UploadProjectAvatarResponseResourceConfigFunctionDefaultMemoryType =
   | "standard"
   | "standard_legacy";
 export type UploadProjectAvatarResponseResourceConfigFunctionDefaultRegionsList = Array<string>;
+export type UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase0Cores = 4;
+export type UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase0Label = "standard";
+export type UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase0Memory = 8192;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase0 {
+  cores: UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase0Cores;
+  label: UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase0Label;
+  memory: UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase0Memory;
+}
+export type UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase1Cores = 8;
+export type UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase1Label = "enhanced";
+export type UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase1Memory = 16384;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase1 {
+  cores: UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase1Cores;
+  label: UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase1Label;
+  memory: UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase1Memory;
+}
+export type UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase2Cores = 14;
+export type UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase2Label = "14cpu-28gb";
+export type UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase2Memory = 28672;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase2 {
+  cores: UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase2Cores;
+  label: UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase2Label;
+  memory: UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase2Memory;
+}
+export type UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase3Cores = 30;
+export type UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase3Label = "turbo";
+export type UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase3Memory = 61440;
+/** Server-owned Elastic assignment; responses may fall back to the legacy label. Not accepted as input. Memory is measured in MiB. */
+export interface UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase3 {
+  cores: UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase3Cores;
+  label: UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase3Label;
+  memory: UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase3Memory;
+}
+export type UploadProjectAvatarResponseResourceConfigElasticBuildMachine =
+  | UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase0
+  | UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase1
+  | UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase2
+  | UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase3;
 export interface UploadProjectAvatarResponseResourceConfig {
   buildMachineElasticLastUpdated?: number;
   buildMachineElasticReason?: UploadProjectAvatarResponseResourceConfigBuildMachineElasticReason;
@@ -25195,10 +30238,84 @@ export interface UploadProjectAvatarResponseResourceConfig {
   functionDefaultTimeout?: number;
   functionZeroConfigFailover?: boolean;
   isNSNBDisabled?: boolean;
+  elasticBuildMachine?: UploadProjectAvatarResponseResourceConfigElasticBuildMachine;
 }
+export type UploadProjectAvatarResponseRollbackDescriptionPrincipalCase0Type = "user";
+export type UploadProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase0App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type UploadProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase0Type = "app";
+/** Set when a Vercel App or Integration acts on behalf of a {@link User}. Captures user-consented OAuth delegation that the ACL layer may inspect to evaluate scope restrictions. This is NOT for impersonation or token-exchange provenance -- those live on `auth.token`, not on the principal. */
+export interface UploadProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase0 {
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  type: UploadProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase0Type;
+}
+export type UploadProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase1Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type UploadProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase1Type =
+  "integration";
+/** Set when a Vercel App or Integration acts on behalf of a {@link User}. Captures user-consented OAuth delegation that the ACL layer may inspect to evaluate scope restrictions. This is NOT for impersonation or token-exchange provenance -- those live on `auth.token`, not on the principal. */
+export interface UploadProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase1 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  type: UploadProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase1Type;
+}
+export type UploadProjectAvatarResponseRollbackDescriptionPrincipalCase0Via =
+  | UploadProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase0
+  | UploadProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase1;
+export type UploadProjectAvatarResponseRollbackDescriptionPrincipalCase0User =
+  CreateProjectResponseCreatorCase0User;
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface UploadProjectAvatarResponseRollbackDescriptionPrincipalCase0 {
+  type: UploadProjectAvatarResponseRollbackDescriptionPrincipalCase0Type;
+  via: UploadProjectAvatarResponseRollbackDescriptionPrincipalCase0Via | null;
+  user: CreateProjectResponseCreatorCase0User;
+}
+export type UploadProjectAvatarResponseRollbackDescriptionPrincipalCase1Project =
+  CreateProjectResponseCreatorCase0User;
+export type UploadProjectAvatarResponseRollbackDescriptionPrincipalCase1Type = "project";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface UploadProjectAvatarResponseRollbackDescriptionPrincipalCase1 {
+  project: CreateProjectResponseCreatorCase0User;
+  type: UploadProjectAvatarResponseRollbackDescriptionPrincipalCase1Type;
+}
+export type UploadProjectAvatarResponseRollbackDescriptionPrincipalCase2App =
+  CreateProjectResponseCreatorCase0ViaCase0App;
+export type UploadProjectAvatarResponseRollbackDescriptionPrincipalCase2Type = "app";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface UploadProjectAvatarResponseRollbackDescriptionPrincipalCase2 {
+  app: CreateProjectResponseCreatorCase0ViaCase0App;
+  type: UploadProjectAvatarResponseRollbackDescriptionPrincipalCase2Type;
+}
+export type UploadProjectAvatarResponseRollbackDescriptionPrincipalCase3Integration =
+  CreateProjectResponseCreatorCase0ViaCase1Integration;
+export type UploadProjectAvatarResponseRollbackDescriptionPrincipalCase3Type = "integration";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface UploadProjectAvatarResponseRollbackDescriptionPrincipalCase3 {
+  integration: CreateProjectResponseCreatorCase0ViaCase1Integration;
+  type: UploadProjectAvatarResponseRollbackDescriptionPrincipalCase3Type;
+}
+export type UploadProjectAvatarResponseRollbackDescriptionPrincipalCase4Type = "system";
+/** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
+export interface UploadProjectAvatarResponseRollbackDescriptionPrincipalCase4 {
+  type: UploadProjectAvatarResponseRollbackDescriptionPrincipalCase4Type;
+}
+export type UploadProjectAvatarResponseRollbackDescriptionPrincipal =
+  | UploadProjectAvatarResponseRollbackDescriptionPrincipalCase0
+  | UploadProjectAvatarResponseRollbackDescriptionPrincipalCase1
+  | UploadProjectAvatarResponseRollbackDescriptionPrincipalCase2
+  | UploadProjectAvatarResponseRollbackDescriptionPrincipalCase3
+  | UploadProjectAvatarResponseRollbackDescriptionPrincipalCase4;
 /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
-export type UploadProjectAvatarResponseRollbackDescription =
-  CreateProjectResponseRollbackDescription;
+export interface UploadProjectAvatarResponseRollbackDescription {
+  /** Timestamp of when the rollback was requested. */
+  createdAt: number;
+  /** User-supplied explanation of why they rolled back the project. Limited to 250 characters. */
+  description: string;
+  principal?: UploadProjectAvatarResponseRollbackDescriptionPrincipal;
+  /** The ID of the user who rolled back the project, when the principal was a user. */
+  userId?: string;
+  /** The username of the user who rolled back the project, when the principal was a user. */
+  username?: string;
+}
 /** What to do when the gate trips: pause the rollout, or roll it back. */
 export type UploadProjectAvatarResponseRollingReleaseGateAction = "pause" | "rollback";
 /** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
@@ -25216,8 +30333,8 @@ export interface UploadProjectAvatarResponseRollingReleaseGateChecksItem {
   excludeStatusCodes?: UploadProjectAvatarResponseRollingReleaseGateChecksItemExcludeStatusCodesList;
   /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
   ingestWatermarkSeconds?: number;
-  /** Minimum number of requests required in the window before the check can fail. Below this, the check is inconclusive rather than failing, so low-traffic stages don't gate on noise. Defaults to `100` when omitted. */
-  minSampleSize?: number;
+  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
+  significanceLevel?: number;
   /** The metric this check evaluates. */
   type: UploadProjectAvatarResponseRollingReleaseGateChecksItemType;
 }
@@ -25368,11 +30485,17 @@ export type UploadProjectAvatarResponseSecurityRulesetsValueLogHeadersCase1 = "*
 export type UploadProjectAvatarResponseSecurityRulesetsValueLogHeaders =
   | UploadProjectAvatarResponseSecurityRulesetsValueLogHeadersCase0List
   | UploadProjectAvatarResponseSecurityRulesetsValueLogHeadersCase1;
+export type UploadProjectAvatarResponseSecurityRulesetsValueRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
 export type UploadProjectAvatarResponseSecurityRulesetsValueRateLimitAlgo =
   | "fixed_window"
   | "token_bucket";
 export type UploadProjectAvatarResponseSecurityRulesetsValueRateLimitKeysList = Array<string>;
 export interface UploadProjectAvatarResponseSecurityRulesetsValueRateLimit {
+  action?: UploadProjectAvatarResponseSecurityRulesetsValueRateLimitAction | null;
   algo: UploadProjectAvatarResponseSecurityRulesetsValueRateLimitAlgo;
   keys: UploadProjectAvatarResponseSecurityRulesetsValueRateLimitKeysList;
   limit: number;
@@ -25809,6 +30932,7 @@ export interface UploadProjectAvatarResponseUsageStatus {
   /** Per-project throttle, set explicitly for this project (e.g. via the per-project Flat Rate CDN endpoint). */
   throttled?: boolean;
 }
+export type UploadProjectAvatarResponseVercelFlags = CreateProjectResponseVercelFlags;
 export type UploadProjectAvatarResponseWebAnalytics = CreateProjectResponseWebAnalytics;
 export interface UploadProjectAvatarResponse {
   accountId: string;
@@ -25819,6 +30943,7 @@ export interface UploadProjectAvatarResponse {
   autoAssignCustomDomainsUpdatedBy?: string;
   autoExposeSystemEnvs?: boolean;
   avatar?: string | null;
+  avatarDarkMode?: string | null;
   blobs?: CreateProjectResponseBlobs;
   buildCommand?: string | null;
   commandForIgnoringBuildStep?: string | null;
@@ -25872,7 +30997,8 @@ export interface UploadProjectAvatarResponse {
   outputDirectory?: string | null;
   passiveConnectConfigurationId?: string | null;
   passport?: UploadProjectAvatarResponsePassport | null;
-  passwordProtection?: unknown | null;
+  /** Password protection settings returned without the secret password hash. */
+  passwordProtection?: UploadProjectAvatarResponsePasswordProtection | null;
   paused?: boolean;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   permissions?: UploadProjectAvatarResponsePermissions;
@@ -25882,7 +31008,7 @@ export interface UploadProjectAvatarResponse {
   protectionConfig?: CreateProjectResponseProtectionConfig;
   resourceConfig: UploadProjectAvatarResponseResourceConfig;
   /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
-  rollbackDescription?: CreateProjectResponseRollbackDescription;
+  rollbackDescription?: UploadProjectAvatarResponseRollbackDescription;
   /** Project-level rolling release configuration that defines how deployments should be gradually rolled out */
   rollingRelease?: UploadProjectAvatarResponseRollingRelease | null;
   rootDirectory?: string | null;
@@ -25911,6 +31037,7 @@ export interface UploadProjectAvatarResponse {
   usageStatus?: UploadProjectAvatarResponseUsageStatus;
   v0?: boolean;
   v0Created?: boolean;
+  vercelFlags?: CreateProjectResponseVercelFlags;
   webAnalytics?: CreateProjectResponseWebAnalytics;
 }
 export interface VerifyProjectDomainRequest {
@@ -25950,8 +31077,8 @@ export const acceptProjectTransferRequest: API.OperationMethod<
   AcceptProjectTransferRequestError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1091, __c34, 3) as any as S.Schema<AcceptProjectTransferRequestRequest>,
-  output: __S(1092, __c34, 4) as any as S.Schema<AcceptProjectTransferRequestResponse>,
+  input: __S(1155, __c36, 3) as any as S.Schema<AcceptProjectTransferRequestRequest>,
+  output: __S(1159, __c36, 7) as any as S.Schema<AcceptProjectTransferRequestResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -25973,8 +31100,8 @@ export const addProjectDomain: API.OperationMethod<
   AddProjectDomainError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<AddProjectDomainRequest>,
-  output: __S(1154, __c36, 2) as any as S.Schema<AddProjectDomainResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<AddProjectDomainRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<AddProjectDomainResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -25995,8 +31122,8 @@ export const batchRemoveProjectEnv: API.OperationMethod<
   BatchRemoveProjectEnvError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<BatchRemoveProjectEnvRequest>,
-  output: __S(1185, __c37, 1) as any as S.Schema<BatchRemoveProjectEnvResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<BatchRemoveProjectEnvRequest>,
+  output: __S(1313, __c41, 1) as any as S.Schema<BatchRemoveProjectEnvResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -26018,8 +31145,8 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1252, __c39, 4) as any as S.Schema<CreateProjectRequest>,
-  output: __S(1287, __c40, 7) as any as S.Schema<CreateProjectResponse>,
+  input: __S(1349, __c42, 5) as any as S.Schema<CreateProjectRequest>,
+  output: __S(1387, __c43, 11) as any as S.Schema<CreateProjectResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -26111,6 +31238,23 @@ export const deleteProject: API.OperationMethod<
   span: "DeleteProject",
 }));
 
+export type DeleteProjectAvatarError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** Delete a project avatar Remove the avatar of the project identified by `idOrName`. Deletes the chosen avatar field so the next production deploy can run auto-detection again. Does not delete the stored image. */
+export const deleteProjectAvatar: API.OperationMethod<
+  DeleteProjectAvatarRequest,
+  DeleteProjectAvatarResponse,
+  DeleteProjectAvatarError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(192, __c6, 0) as any as S.Schema<DeleteProjectAvatarRequest>,
+  output: __S(230, __c7, 6) as any as S.Schema<DeleteProjectAvatarResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectAvatar",
+}));
+
 export type EditProjectEnvError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
 /** Edit an environment variable Edit a specific environment variable for a given project by passing the environment variable identifier and either passing the project `id` or `name` in the URL. */
 export const editProjectEnv: API.OperationMethod<
@@ -26119,8 +31263,8 @@ export const editProjectEnv: API.OperationMethod<
   EditProjectEnvError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<EditProjectEnvRequest>,
-  output: __S(193, __c6, 1) as any as S.Schema<EditProjectEnvResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<EditProjectEnvRequest>,
+  output: __S(257, __c8, 1) as any as S.Schema<EditProjectEnvResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -26136,8 +31280,8 @@ export const filterProjectEnvs: API.OperationMethod<
   FilterProjectEnvsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<FilterProjectEnvsRequest>,
-  output: __S(225, __c7, 1) as any as S.Schema<FilterProjectEnvsResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<FilterProjectEnvsRequest>,
+  output: __S(289, __c9, 1) as any as S.Schema<FilterProjectEnvsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -26153,8 +31297,8 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(295, __c9, 7) as any as S.Schema<GetProjectResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(362, __c11, 10) as any as S.Schema<GetProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -26170,8 +31314,8 @@ export const getProjectDomain: API.OperationMethod<
   GetProjectDomainError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<GetProjectDomainRequest>,
-  output: __S(1154, __c36, 2) as any as S.Schema<GetProjectDomainResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<GetProjectDomainRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<GetProjectDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -26187,8 +31331,8 @@ export const getProjectDomains: API.OperationMethod<
   GetProjectDomainsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetProjectDomainsRequest>,
-  output: __S(353, __c11, 1) as any as S.Schema<GetProjectDomainsResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetProjectDomainsRequest>,
+  output: __S(417, __c13, 1) as any as S.Schema<GetProjectDomainsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -26204,8 +31348,8 @@ export const getProjectEnv: API.OperationMethod<
   GetProjectEnvError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetProjectEnvRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<GetProjectEnvResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<GetProjectEnvRequest>,
+  output: __S(449, __c14, 1) as any as S.Schema<GetProjectEnvResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -26221,8 +31365,8 @@ export const getProjects: API.OperationMethod<
   GetProjectsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<GetProjectsRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<GetProjectsResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetProjectsRequest>,
+  output: __S(481, __c15, 1) as any as S.Schema<GetProjectsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -26238,7 +31382,7 @@ export const getProjectToken: API.OperationMethod<
   GetProjectTokenError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetProjectTokenRequest>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetProjectTokenRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<GetProjectTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
@@ -26255,8 +31399,8 @@ export const getProjectTrace: API.OperationMethod<
   GetProjectTraceError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetProjectTraceRequest>,
-  output: __S(492, __c15, 12) as any as S.Schema<GetProjectTraceResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetProjectTraceRequest>,
+  output: __S(556, __c17, 12) as any as S.Schema<GetProjectTraceResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -26272,8 +31416,8 @@ export const listPromoteAliases: API.OperationMethod<
   ListPromoteAliasesError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ListPromoteAliasesRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<ListPromoteAliasesResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<ListPromoteAliasesRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<ListPromoteAliasesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -26289,8 +31433,8 @@ export const moveProjectDomain: API.OperationMethod<
   MoveProjectDomainError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<MoveProjectDomainRequest>,
-  output: __S(1154, __c36, 2) as any as S.Schema<MoveProjectDomainResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<MoveProjectDomainRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<MoveProjectDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -26306,7 +31450,7 @@ export const pauseProject: API.OperationMethod<
   PauseProjectError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<PauseProjectRequest>,
+  input: __S(640, __c20, 0) as any as S.Schema<PauseProjectRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<PauseProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
@@ -26323,8 +31467,8 @@ export const removeProjectDomain: API.OperationMethod<
   RemoveProjectDomainError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<RemoveProjectDomainRequest>,
-  output: __S(609, __c19, 1) as any as S.Schema<RemoveProjectDomainResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<RemoveProjectDomainRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<RemoveProjectDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -26340,8 +31484,8 @@ export const removeProjectEnv: API.OperationMethod<
   RemoveProjectEnvError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<RemoveProjectEnvRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<RemoveProjectEnvResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<RemoveProjectEnvRequest>,
+  output: __S(705, __c22, 1) as any as S.Schema<RemoveProjectEnvResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -26363,7 +31507,7 @@ export const requestPromote: API.OperationMethod<
   RequestPromoteError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<RequestPromoteRequest>,
+  input: __S(736, __c23, 0) as any as S.Schema<RequestPromoteRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<RequestPromoteResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
@@ -26387,7 +31531,7 @@ export const requestRollback: API.OperationMethod<
   RequestRollbackError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<RequestRollbackRequest>,
+  input: __S(768, __c24, 0) as any as S.Schema<RequestRollbackRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<RequestRollbackResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
@@ -26404,7 +31548,7 @@ export const unpauseProject: API.OperationMethod<
   UnpauseProjectError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<UnpauseProjectRequest>,
+  input: __S(800, __c25, 0) as any as S.Schema<UnpauseProjectRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<UnpauseProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
@@ -26426,8 +31570,8 @@ export const updateMicrofrontends: API.OperationMethod<
   UpdateMicrofrontendsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<UpdateMicrofrontendsRequest>,
-  output: __S(803, __c25, 3) as any as S.Schema<UpdateMicrofrontendsResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<UpdateMicrofrontendsRequest>,
+  output: __S(870, __c27, 6) as any as S.Schema<UpdateMicrofrontendsResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -26449,8 +31593,8 @@ export const updateProject: API.OperationMethod<
   UpdateProjectError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(853, __c26, 21) as any as S.Schema<UpdateProjectRequest>,
-  output: __S(888, __c27, 24) as any as S.Schema<UpdateProjectResponse>,
+  input: __S(918, __c28, 22) as any as S.Schema<UpdateProjectRequest>,
+  output: __S(956, __c29, 28) as any as S.Schema<UpdateProjectResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -26466,8 +31610,8 @@ export const updateProjectDomain: API.OperationMethod<
   UpdateProjectDomainError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<UpdateProjectDomainRequest>,
-  output: __S(1154, __c36, 2) as any as S.Schema<UpdateProjectDomainResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<UpdateProjectDomainRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<UpdateProjectDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -26488,8 +31632,8 @@ export const updateProjectProtectionBypass: API.OperationMethod<
   UpdateProjectProtectionBypassError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(931, __c29, 3) as any as S.Schema<UpdateProjectProtectionBypassRequest>,
-  output: __S(933, __c29, 5) as any as S.Schema<UpdateProjectProtectionBypassResponse>,
+  input: __S(995, __c31, 3) as any as S.Schema<UpdateProjectProtectionBypassRequest>,
+  output: __S(997, __c31, 5) as any as S.Schema<UpdateProjectProtectionBypassResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -26512,8 +31656,8 @@ export const updateProjectsByProjectIdRollbackByDeploymentIdUpdateDescription: A
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    960,
-    __c30,
+    1024,
+    __c32,
     0,
   ) as any as S.Schema<UpdateProjectsByProjectIdRollbackByDeploymentIdUpdateDescriptionRequest>,
   output: __S(
@@ -26536,8 +31680,8 @@ export const uploadProjectAvatar: API.OperationMethod<
   UploadProjectAvatarError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<UploadProjectAvatarRequest>,
-  output: __S(1027, __c32, 3) as any as S.Schema<UploadProjectAvatarResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<UploadProjectAvatarRequest>,
+  output: __S(1094, __c34, 6) as any as S.Schema<UploadProjectAvatarResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -26553,8 +31697,8 @@ export const verifyProjectDomain: API.OperationMethod<
   VerifyProjectDomainError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<VerifyProjectDomainRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<VerifyProjectDomainResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<VerifyProjectDomainRequest>,
+  output: __S(1121, __c35, 1) as any as S.Schema<VerifyProjectDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -26677,11 +31821,491 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           idOrName: S.String.pipe(T.Label()),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "DELETE", uri: "/v1/projects/{idOrName}/avatar", code: 200 })),
+      ).annotate({ identifier: "DeleteProjectAvatarRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          alias: S.optional(__S(1216, __c38, 0)),
+          aliasAssigned: S.optional(S.NullOr(S.Unknown)),
+          aliasError: S.optional(S.NullOr(__S(1475, __c46, 3))),
+          aliasFinal: S.optional(S.NullOr(S.String)),
+          automaticAliases: S.optional(__S(1216, __c38, 0)),
+          branchMatcher: S.optional(__S(1476, __c46, 4)),
+          buildingAt: S.optional(S.Number),
+          builds: S.optional(__S(1478, __c46, 6)),
+          checksConclusion: S.optional(S.String),
+          checksState: S.optional(S.String),
+          connectBuildsEnabled: S.optional(S.Boolean),
+          connectConfigurationId: S.optional(S.String),
+          createdAt: S.Number,
+          createdIn: S.String,
+          creator: S.NullOr(__S(1479, __c46, 7)),
+          deletedAt: S.optional(S.Number),
+          deploymentHostname: S.String,
+          forced: S.optional(S.Boolean),
+          id: S.String,
+          meta: S.optional(__S(1440, __c45, 0)),
+          monorepoManager: S.optional(S.NullOr(S.String)),
+          name: S.String,
+          oidcTokenClaims: S.optional(__S(1480, __c46, 8)),
+          plan: S.String,
+          previewCommentsEnabled: S.optional(S.Boolean),
+          private: S.Boolean,
+          readyAt: S.optional(S.Number),
+          readyState: S.String,
+          readySubstate: S.optional(S.String),
+          requestedAt: S.optional(S.Number),
+          target: S.optional(S.NullOr(S.String)),
+          teamId: S.optional(S.NullOr(S.String)),
+          type: S.String,
+          url: S.String,
+          userId: S.optional(S.String),
+          withCache: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DeleteProjectAvatarResponseAliasItemDeployment" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          configuredBy: S.optional(S.NullOr(S.String)),
+          configuredChangedAt: S.optional(S.NullOr(S.Number)),
+          createdAt: S.optional(S.NullOr(S.Number)),
+          deployment: S.NullOr(__S(193, __c6, 1)),
+          domain: S.String,
+          environment: S.String,
+          gitBranch: S.optional(S.NullOr(S.String)),
+          redirect: S.optional(S.NullOr(S.String)),
+          redirectStatusCode: S.optional(S.NullOr(S.Number)),
+          target: S.String,
+        }),
+      ).annotate({ identifier: "DeleteProjectAvatarResponseAliasItem" });
+    case 3:
+      return S.Array(__S(194, __c6, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          aws: S.optional(__S(1483, __c46, 11)),
+          buildsEnabled: S.Boolean,
+          connectConfigurationId: S.String,
+          createdAt: S.Number,
+          dc: S.optional(S.String),
+          envId: S.Unknown,
+          passive: S.Boolean,
+          updatedAt: S.Number,
+        }),
+      ).annotate({ identifier: "DeleteProjectAvatarResponseConnectConfigurationsItem" });
+    case 5:
+      return S.Array(__S(196, __c6, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          buildMachineElasticLastUpdated: S.optional(S.Number),
+          buildMachineElasticReason: S.optional(S.String),
+          buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
+          buildMachineSelection: S.optional(S.String),
+          buildMachineType: S.optional(S.String),
+          buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticConcurrencyEnabled: S.optional(S.Boolean),
+          enableFunctionsBeta: S.optional(S.Boolean),
+          fluid: S.optional(S.Boolean),
+          functionDefaultMemoryType: S.optional(S.String),
+          functionDefaultRegions: __S(1216, __c38, 0),
+          functionDefaultTimeout: S.optional(S.Number),
+          functionZeroConfigFailover: S.optional(S.Boolean),
+          isNSNBDisabled: S.optional(S.Boolean),
+          elasticBuildMachine: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "DeleteProjectAvatarResponseDefaultResourceConfig" });
+    case 7:
+      return S.Array(S.Unknown);
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+          environments: __S(199, __c6, 7),
+          sources: __S(1408, __c44, 0),
+        }),
+      ).annotate({
+        identifier: "DeleteProjectAvatarResponseDeploymentPolicyDeploymentSourcesItem",
+      });
+    case 9:
+      return S.Array(__S(200, __c6, 8));
+    case 10:
+      return S.Array(S.Unknown);
+    case 11:
+      return S.Array(S.Unknown);
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+          environments: __S(202, __c6, 10),
+          sources: __S(203, __c6, 11),
+        }),
+      ).annotate({ identifier: "DeleteProjectAvatarResponseDeploymentPolicyGitSourcesItem" });
+    case 13:
+      return S.Array(__S(204, __c6, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          deploymentSources: S.optional(S.NullOr(__S(201, __c6, 9))),
+          gitSources: S.optional(S.NullOr(__S(205, __c6, 13))),
+        }),
+      ).annotate({ identifier: "DeleteProjectAvatarResponseDeploymentPolicy" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.String,
+          dismissedAt: S.Number,
+          key: S.String,
+          value: S.NullOr(S.Unknown),
+        }),
+      ).annotate({ identifier: "DeleteProjectAvatarResponseDismissedToastsItem" });
+    case 16:
+      return S.Array(__S(207, __c6, 15));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          comment: S.optional(S.String),
+          configurationId: S.optional(S.NullOr(S.String)),
+          contentHint: S.optional(S.NullOr(S.Unknown)),
+          createdAt: S.optional(S.Number),
+          createdBy: S.optional(S.NullOr(S.String)),
+          customEnvironmentIds: S.optional(__S(1216, __c38, 0)),
+          decrypted: S.optional(S.Boolean),
+          edgeConfigId: S.optional(S.NullOr(S.String)),
+          edgeConfigTokenId: S.optional(S.NullOr(S.String)),
+          gitBranch: S.optional(S.String),
+          id: S.optional(S.String),
+          internalContentHint: S.optional(S.NullOr(__S(1409, __c44, 1))),
+          key: S.String,
+          legacyValue: S.optional(S.String),
+          sunsetSecretId: S.optional(S.String),
+          target: S.optional(S.Unknown),
+          type: S.String,
+          updatedAt: S.optional(S.Number),
+          updatedBy: S.optional(S.NullOr(S.String)),
+          value: S.String,
+          visibility: S.optional(S.String),
+          vsmValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteProjectAvatarResponseEnvItem" });
+    case 18:
+      return S.Array(__S(209, __c6, 17));
+    case 19:
+      return S.Array(S.Unknown);
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          alias: S.optional(__S(1216, __c38, 0)),
+          aliasAssigned: S.optional(S.NullOr(S.Unknown)),
+          aliasError: S.optional(S.NullOr(__S(1475, __c46, 3))),
+          aliasFinal: S.optional(S.NullOr(S.String)),
+          automaticAliases: S.optional(__S(1216, __c38, 0)),
+          branchMatcher: S.optional(__S(1476, __c46, 4)),
+          buildingAt: S.optional(S.Number),
+          builds: S.optional(__S(1478, __c46, 6)),
+          checksConclusion: S.optional(S.String),
+          checksState: S.optional(S.String),
+          connectBuildsEnabled: S.optional(S.Boolean),
+          connectConfigurationId: S.optional(S.String),
+          createdAt: S.Number,
+          createdIn: S.String,
+          creator: S.NullOr(__S(1479, __c46, 7)),
+          deletedAt: S.optional(S.Number),
+          deploymentHostname: S.String,
+          forced: S.optional(S.Boolean),
+          id: S.String,
+          meta: S.optional(__S(1440, __c45, 0)),
+          monorepoManager: S.optional(S.NullOr(S.String)),
+          name: S.String,
+          oidcTokenClaims: S.optional(__S(1480, __c46, 8)),
+          plan: S.String,
+          previewCommentsEnabled: S.optional(S.Boolean),
+          private: S.Boolean,
+          readyAt: S.optional(S.Number),
+          readyState: S.String,
+          readySubstate: S.optional(S.String),
+          requestedAt: S.optional(S.Number),
+          target: S.optional(S.NullOr(S.String)),
+          teamId: S.optional(S.NullOr(S.String)),
+          type: S.String,
+          url: S.String,
+          userId: S.optional(S.String),
+          withCache: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DeleteProjectAvatarResponseLatestDeploymentsItem" });
+    case 21:
+      return S.Array(__S(212, __c6, 20));
+    case 22:
+      return S.Record(S.String, S.Unknown);
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          buildMachineElasticLastUpdated: S.optional(S.Number),
+          buildMachineElasticReason: S.optional(S.String),
+          buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
+          buildMachineSelection: S.optional(S.String),
+          buildMachineType: S.optional(S.String),
+          buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticConcurrencyEnabled: S.optional(S.Boolean),
+          enableFunctionsBeta: S.optional(S.Boolean),
+          fluid: S.optional(S.Boolean),
+          functionDefaultMemoryType: S.optional(S.String),
+          functionDefaultRegions: __S(1216, __c38, 0),
+          functionDefaultTimeout: S.optional(S.Number),
+          functionZeroConfigFailover: S.optional(S.Boolean),
+          isNSNBDisabled: S.optional(S.Boolean),
+          elasticBuildMachine: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "DeleteProjectAvatarResponseResourceConfig" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.Number,
+          description: S.String,
+          principal: S.optional(S.Unknown),
+          userId: S.optional(S.String),
+          username: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteProjectAvatarResponseRollbackDescription" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.String,
+          actionDuration: S.optional(S.NullOr(S.String)),
+          bypassSystem: S.optional(S.NullOr(S.Boolean)),
+          logHeaders: S.optional(S.Unknown),
+          rateLimit: S.optional(S.NullOr(__S(1518, __c47, 14))),
+          redirect: S.optional(S.NullOr(__S(1519, __c47, 15))),
+        }),
+      ).annotate({ identifier: "DeleteProjectAvatarResponseSecurityRulesetsValue" });
+    case 26:
+      return S.Record(S.String, __S(217, __c6, 25));
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          attackModeActiveUntil: S.optional(S.NullOr(S.Number)),
+          attackModeEnabled: S.optional(S.Boolean),
+          attackModeUpdatedAt: S.optional(S.Number),
+          botIdEnabled: S.optional(S.Boolean),
+          firewallBypassIps: S.optional(__S(1216, __c38, 0)),
+          firewallConfigVersion: S.optional(S.Number),
+          firewallEnabled: S.optional(S.Boolean),
+          firewallSeawallEnabled: S.optional(S.Boolean),
+          firewallUpdatedAt: S.optional(S.Number),
+          ja3Enabled: S.optional(S.Boolean),
+          ja4Enabled: S.optional(S.Boolean),
+          log_headers: S.optional(S.Unknown),
+          managedRules: S.optional(S.NullOr(__S(1517, __c47, 13))),
+          pageIntegrityEnabled: S.optional(S.Boolean),
+          rulesets: S.optional(__S(218, __c6, 26)),
+        }),
+      ).annotate({ identifier: "DeleteProjectAvatarResponseSecurity" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          alias: S.optional(__S(1216, __c38, 0)),
+          aliasAssigned: S.optional(S.NullOr(S.Unknown)),
+          aliasError: S.optional(S.NullOr(__S(1475, __c46, 3))),
+          aliasFinal: S.optional(S.NullOr(S.String)),
+          automaticAliases: S.optional(__S(1216, __c38, 0)),
+          branchMatcher: S.optional(__S(1476, __c46, 4)),
+          buildingAt: S.optional(S.Number),
+          builds: S.optional(__S(1478, __c46, 6)),
+          checksConclusion: S.optional(S.String),
+          checksState: S.optional(S.String),
+          connectBuildsEnabled: S.optional(S.Boolean),
+          connectConfigurationId: S.optional(S.String),
+          createdAt: S.Number,
+          createdIn: S.String,
+          creator: S.NullOr(__S(1479, __c46, 7)),
+          deletedAt: S.optional(S.Number),
+          deploymentHostname: S.String,
+          forced: S.optional(S.Boolean),
+          id: S.String,
+          meta: S.optional(__S(1440, __c45, 0)),
+          monorepoManager: S.optional(S.NullOr(S.String)),
+          name: S.String,
+          oidcTokenClaims: S.optional(__S(1480, __c46, 8)),
+          plan: S.String,
+          previewCommentsEnabled: S.optional(S.Boolean),
+          private: S.Boolean,
+          readyAt: S.optional(S.Number),
+          readyState: S.String,
+          readySubstate: S.optional(S.String),
+          requestedAt: S.optional(S.Number),
+          target: S.optional(S.NullOr(S.String)),
+          teamId: S.optional(S.NullOr(S.String)),
+          type: S.String,
+          url: S.String,
+          userId: S.optional(S.String),
+          withCache: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DeleteProjectAvatarResponseTargetsValue" });
+    case 29:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(220, __c6, 28)));
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          to: S.Unknown,
+          claims: __S(1528, __c47, 24),
+          label: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItem" });
+    case 31:
+      return S.Array(__S(222, __c6, 30));
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, __S(223, __c6, 31));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          from: S.Unknown,
+          to: S.Unknown,
+        }),
+      ).annotate({
+        identifier: "DeleteProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItem",
+      });
+    case 2:
+      return S.Array(__S(225, __c7, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          customAllow: S.optional(__S(226, __c7, 2)),
+          label: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteProjectAvatarResponseTrustedSourcesProjectsValue" });
+    case 4:
+      return S.Record(S.String, __S(227, __c7, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          enableVercelCiSameRepository: S.optional(S.Boolean),
+          oidcProviders: S.optional(__S(224, __c7, 0)),
+          projects: S.optional(__S(228, __c7, 4)),
+        }),
+      ).annotate({ identifier: "DeleteProjectAvatarResponseTrustedSources" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String,
+          alias: __S(195, __c6, 3),
+          analytics: S.optional(__S(1481, __c46, 9)),
+          appliedCve55182Migration: S.optional(S.Boolean),
+          autoAssignCustomDomains: S.optional(S.Boolean),
+          autoAssignCustomDomainsUpdatedBy: S.optional(S.String),
+          autoExposeSystemEnvs: S.optional(S.Boolean),
+          avatar: S.optional(S.NullOr(S.String)),
+          avatarDarkMode: S.optional(S.NullOr(S.String)),
+          blobs: S.optional(__S(1482, __c46, 10)),
+          buildCommand: S.optional(S.NullOr(S.String)),
+          commandForIgnoringBuildStep: S.optional(S.NullOr(S.String)),
+          concurrencyBucketName: S.optional(S.String),
+          connectBuildsEnabled: S.optional(S.Boolean),
+          connectConfigurationId: S.optional(S.NullOr(S.String)),
+          connectConfigurations: S.optional(S.NullOr(__S(197, __c6, 5))),
+          createdAt: S.optional(S.Number),
+          creator: S.optional(S.Unknown),
+          crons: S.optional(__S(1486, __c46, 14)),
+          customEnvironments: S.optional(__S(1489, __c46, 17)),
+          customerSupportCodeVisibility: S.optional(S.Boolean),
+          dataCache: S.optional(__S(1490, __c46, 18)),
+          defaultResourceConfig: __S(198, __c6, 6),
+          deploymentExpiration: __S(1492, __c46, 20),
+          deploymentPolicy: S.optional(S.NullOr(__S(206, __c6, 14))),
+          devCommand: S.optional(S.NullOr(S.String)),
+          directoryListing: S.Boolean,
+          dismissedToasts: S.optional(__S(208, __c6, 16)),
+          enableAffectedProjectsDeployments: S.optional(S.Boolean),
+          enableExternalRewriteCaching: S.optional(S.Boolean),
+          enablePreviewFeedback: S.optional(S.NullOr(S.Boolean)),
+          enableProductionFeedback: S.optional(S.NullOr(S.Boolean)),
+          env: S.optional(__S(210, __c6, 18)),
+          expiration: S.optional(S.Unknown),
+          features: S.optional(__S(1493, __c46, 21)),
+          framework: S.optional(S.NullOr(S.String)),
+          gitComments: S.optional(__S(1494, __c46, 22)),
+          gitForkProtection: S.optional(S.Boolean),
+          gitLFS: S.optional(S.Boolean),
+          gitProviderOptions: S.optional(__S(1496, __c46, 24)),
+          hasActiveBranches: S.optional(S.Boolean),
+          hasDeployments: S.optional(S.Boolean),
+          id: S.String,
+          installCommand: S.optional(S.NullOr(S.String)),
+          internalRoutes: S.optional(__S(211, __c6, 19)),
+          ipBuckets: S.optional(__S(1498, __c46, 26)),
+          jobs: S.optional(__S(1500, __c46, 28)),
+          lastAliasRequest: S.optional(S.NullOr(__S(1501, __c46, 29))),
+          lastRollbackTarget: S.optional(S.NullOr(S.Unknown)),
+          latestDeployments: S.optional(__S(213, __c6, 21)),
+          link: S.optional(S.Unknown),
+          live: S.optional(S.Boolean),
+          microfrontends: S.optional(S.Unknown),
+          name: S.String,
+          nodeVersion: S.String,
+          oidcTokenConfig: S.optional(__S(1473, __c46, 1)),
+          optionsAllowlist: S.optional(S.NullOr(__S(1504, __c47, 0))),
+          outputDirectory: S.optional(S.NullOr(S.String)),
+          passiveConnectConfigurationId: S.optional(S.NullOr(S.String)),
+          passport: S.optional(S.NullOr(__S(1505, __c47, 1))),
+          passwordProtection: S.optional(S.NullOr(__S(1472, __c46, 0))),
+          paused: S.optional(S.Boolean),
+          permissions: S.optional(__S(1506, __c47, 2)),
+          productionDeploymentsFastLane: S.optional(S.Boolean),
+          protectedSourcemaps: S.optional(S.Boolean),
+          protectionBypass: S.optional(__S(214, __c6, 22)),
+          protectionConfig: S.optional(__S(1508, __c47, 4)),
+          resourceConfig: __S(215, __c6, 23),
+          rollbackDescription: S.optional(__S(216, __c6, 24)),
+          rollingRelease: S.optional(S.NullOr(__S(1514, __c47, 10))),
+          rootDirectory: S.optional(S.NullOr(S.String)),
+          sandbox: S.optional(__S(1515, __c47, 11)),
+          security: S.optional(__S(219, __c6, 27)),
+          serverlessFunctionZeroConfigFailover: S.optional(S.Boolean),
+          services: S.optional(__S(1521, __c47, 17)),
+          skewProtectionAllowedDomains: S.optional(__S(1216, __c38, 0)),
+          skewProtectionBoundaryAt: S.optional(S.Number),
+          skewProtectionMaxAge: S.optional(S.Number),
+          skipGitConnectDuringLink: S.optional(S.Boolean),
+          sourceFilesOutsideRootDirectory: S.optional(S.Boolean),
+          speedInsights: S.optional(__S(1522, __c47, 18)),
+          ssoProtection: S.optional(S.NullOr(__S(1523, __c47, 19))),
+          staticIps: S.optional(__S(1524, __c47, 20)),
+          targets: S.optional(__S(221, __c6, 29)),
+          tier: S.optional(S.String),
+          tracing: S.optional(__S(1527, __c47, 23)),
+          transferCompletedAt: S.optional(S.Number),
+          transferredFromAccountId: S.optional(S.String),
+          transferStartedAt: S.optional(S.Number),
+          transferToAccountId: S.optional(S.String),
+          trustedIps: S.optional(S.NullOr(S.Unknown)),
+          trustedSources: S.optional(S.NullOr(__S(229, __c7, 5))),
+          updatedAt: S.optional(S.Number),
+          usageStatus: S.optional(__S(1529, __c47, 25)),
+          v0: S.optional(S.Boolean),
+          v0Created: S.optional(S.Boolean),
+          vercelFlags: S.optional(__S(1530, __c47, 26)),
+          webAnalytics: S.optional(__S(1531, __c47, 27)),
+        }),
+      ).annotate({ identifier: "DeleteProjectAvatarResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          idOrName: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
           key: S.optional(S.String),
-          target: S.optional(__S(1312, __c41, 0)),
+          target: S.optional(__S(1408, __c44, 0)),
           gitBranch: S.optional(S.NullOr(S.String)),
           type: S.optional(S.String),
           value: S.optional(S.String),
@@ -26703,7 +32327,7 @@ function __c6(j: number): any {
           edgeConfigTokenId: S.optional(S.NullOr(S.String)),
           gitBranch: S.optional(S.String),
           id: S.optional(S.String),
-          internalContentHint: S.optional(S.NullOr(__S(1313, __c41, 1))),
+          internalContentHint: S.optional(S.NullOr(__S(1409, __c44, 1))),
           key: S.String,
           legacyValue: S.optional(S.String),
           sunsetSecretId: S.optional(S.String),
@@ -26717,7 +32341,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "EditProjectEnvResponse" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26738,7 +32362,7 @@ function __c7(j: number): any {
       });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26753,27 +32377,27 @@ function __c8(j: number): any {
         S.Struct({
           alias: S.optional(__S(1216, __c38, 0)),
           aliasAssigned: S.optional(S.NullOr(S.Unknown)),
-          aliasError: S.optional(S.NullOr(__S(1378, __c43, 2))),
+          aliasError: S.optional(S.NullOr(__S(1475, __c46, 3))),
           aliasFinal: S.optional(S.NullOr(S.String)),
           automaticAliases: S.optional(__S(1216, __c38, 0)),
-          branchMatcher: S.optional(__S(1379, __c43, 3)),
+          branchMatcher: S.optional(__S(1476, __c46, 4)),
           buildingAt: S.optional(S.Number),
-          builds: S.optional(__S(1381, __c43, 5)),
+          builds: S.optional(__S(1478, __c46, 6)),
           checksConclusion: S.optional(S.String),
           checksState: S.optional(S.String),
           connectBuildsEnabled: S.optional(S.Boolean),
           connectConfigurationId: S.optional(S.String),
           createdAt: S.Number,
           createdIn: S.String,
-          creator: S.NullOr(__S(1382, __c43, 6)),
+          creator: S.NullOr(__S(1479, __c46, 7)),
           deletedAt: S.optional(S.Number),
           deploymentHostname: S.String,
           forced: S.optional(S.Boolean),
           id: S.String,
-          meta: S.optional(__S(1344, __c42, 0)),
+          meta: S.optional(__S(1440, __c45, 0)),
           monorepoManager: S.optional(S.NullOr(S.String)),
           name: S.String,
-          oidcTokenClaims: S.optional(__S(1383, __c43, 7)),
+          oidcTokenClaims: S.optional(__S(1480, __c46, 8)),
           plan: S.String,
           previewCommentsEnabled: S.optional(S.Boolean),
           private: S.Boolean,
@@ -26795,7 +32419,7 @@ function __c8(j: number): any {
           configuredBy: S.optional(S.NullOr(S.String)),
           configuredChangedAt: S.optional(S.NullOr(S.Number)),
           createdAt: S.optional(S.NullOr(S.Number)),
-          deployment: S.NullOr(__S(257, __c8, 1)),
+          deployment: S.NullOr(__S(321, __c10, 1)),
           domain: S.String,
           environment: S.String,
           gitBranch: S.optional(S.NullOr(S.String)),
@@ -26805,11 +32429,11 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "GetProjectResponseAliasItem" });
     case 3:
-      return S.Array(__S(258, __c8, 2));
+      return S.Array(__S(322, __c10, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          aws: S.optional(__S(1386, __c43, 10)),
+          aws: S.optional(__S(1483, __c46, 11)),
           buildsEnabled: S.Boolean,
           connectConfigurationId: S.String,
           createdAt: S.Number,
@@ -26820,41 +32444,61 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "GetProjectResponseConnectConfigurationsItem" });
     case 5:
-      return S.Array(__S(260, __c8, 4));
+      return S.Array(__S(324, __c10, 4));
     case 6:
-      return S.Array(S.Unknown);
+      return S.suspend(() =>
+        S.Struct({
+          buildMachineElasticLastUpdated: S.optional(S.Number),
+          buildMachineElasticReason: S.optional(S.String),
+          buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
+          buildMachineSelection: S.optional(S.String),
+          buildMachineType: S.optional(S.String),
+          buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticConcurrencyEnabled: S.optional(S.Boolean),
+          enableFunctionsBeta: S.optional(S.Boolean),
+          fluid: S.optional(S.Boolean),
+          functionDefaultMemoryType: S.optional(S.String),
+          functionDefaultRegions: __S(1216, __c38, 0),
+          functionDefaultTimeout: S.optional(S.Number),
+          functionZeroConfigFailover: S.optional(S.Boolean),
+          isNSNBDisabled: S.optional(S.Boolean),
+          elasticBuildMachine: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "GetProjectResponseDefaultResourceConfig" });
     case 7:
+      return S.Array(S.Unknown);
+    case 8:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
-          environments: __S(262, __c8, 6),
-          sources: __S(1312, __c41, 0),
+          environments: __S(327, __c10, 7),
+          sources: __S(1408, __c44, 0),
         }),
       ).annotate({ identifier: "GetProjectResponseDeploymentPolicyDeploymentSourcesItem" });
-    case 8:
-      return S.Array(__S(263, __c8, 7));
     case 9:
-      return S.Array(S.Unknown);
+      return S.Array(__S(328, __c10, 8));
     case 10:
       return S.Array(S.Unknown);
     case 11:
+      return S.Array(S.Unknown);
+    case 12:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
-          environments: __S(265, __c8, 9),
-          sources: __S(266, __c8, 10),
+          environments: __S(330, __c10, 10),
+          sources: __S(331, __c10, 11),
         }),
       ).annotate({ identifier: "GetProjectResponseDeploymentPolicyGitSourcesItem" });
-    case 12:
-      return S.Array(__S(267, __c8, 11));
     case 13:
+      return S.Array(__S(332, __c10, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
-          deploymentSources: S.optional(S.NullOr(__S(264, __c8, 8))),
-          gitSources: S.optional(S.NullOr(__S(268, __c8, 12))),
+          deploymentSources: S.optional(S.NullOr(__S(329, __c10, 9))),
+          gitSources: S.optional(S.NullOr(__S(333, __c10, 13))),
         }),
       ).annotate({ identifier: "GetProjectResponseDeploymentPolicy" });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
@@ -26863,9 +32507,9 @@ function __c8(j: number): any {
           value: S.NullOr(S.Unknown),
         }),
       ).annotate({ identifier: "GetProjectResponseDismissedToastsItem" });
-    case 15:
-      return S.Array(__S(270, __c8, 14));
     case 16:
+      return S.Array(__S(335, __c10, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           comment: S.optional(S.String),
@@ -26879,7 +32523,7 @@ function __c8(j: number): any {
           edgeConfigTokenId: S.optional(S.NullOr(S.String)),
           gitBranch: S.optional(S.String),
           id: S.optional(S.String),
-          internalContentHint: S.optional(S.NullOr(__S(1313, __c41, 1))),
+          internalContentHint: S.optional(S.NullOr(__S(1409, __c44, 1))),
           key: S.String,
           legacyValue: S.optional(S.String),
           sunsetSecretId: S.optional(S.String),
@@ -26892,53 +32536,53 @@ function __c8(j: number): any {
           vsmValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetProjectResponseEnvItem" });
-    case 17:
-      return S.Array(__S(272, __c8, 16));
     case 18:
+      return S.Array(__S(337, __c10, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           externalResourceId: S.String,
         }),
       ).annotate({ identifier: "GetProjectResponseIntegrationsItemResourcesItem" });
-    case 19:
-      return S.Array(__S(274, __c8, 18));
     case 20:
+      return S.Array(__S(339, __c10, 19));
+    case 21:
       return S.suspend(() =>
         S.Struct({
           installationId: S.String,
-          resources: S.optional(__S(275, __c8, 19)),
+          resources: S.optional(__S(340, __c10, 20)),
         }),
       ).annotate({ identifier: "GetProjectResponseIntegrationsItem" });
-    case 21:
-      return S.Array(__S(276, __c8, 20));
     case 22:
-      return S.Array(S.Unknown);
+      return S.Array(__S(341, __c10, 21));
     case 23:
+      return S.Array(S.Unknown);
+    case 24:
       return S.suspend(() =>
         S.Struct({
           alias: S.optional(__S(1216, __c38, 0)),
           aliasAssigned: S.optional(S.NullOr(S.Unknown)),
-          aliasError: S.optional(S.NullOr(__S(1378, __c43, 2))),
+          aliasError: S.optional(S.NullOr(__S(1475, __c46, 3))),
           aliasFinal: S.optional(S.NullOr(S.String)),
           automaticAliases: S.optional(__S(1216, __c38, 0)),
-          branchMatcher: S.optional(__S(1379, __c43, 3)),
+          branchMatcher: S.optional(__S(1476, __c46, 4)),
           buildingAt: S.optional(S.Number),
-          builds: S.optional(__S(1381, __c43, 5)),
+          builds: S.optional(__S(1478, __c46, 6)),
           checksConclusion: S.optional(S.String),
           checksState: S.optional(S.String),
           connectBuildsEnabled: S.optional(S.Boolean),
           connectConfigurationId: S.optional(S.String),
           createdAt: S.Number,
           createdIn: S.String,
-          creator: S.NullOr(__S(1382, __c43, 6)),
+          creator: S.NullOr(__S(1479, __c46, 7)),
           deletedAt: S.optional(S.Number),
           deploymentHostname: S.String,
           forced: S.optional(S.Boolean),
           id: S.String,
-          meta: S.optional(__S(1344, __c42, 0)),
+          meta: S.optional(__S(1440, __c45, 0)),
           monorepoManager: S.optional(S.NullOr(S.String)),
           name: S.String,
-          oidcTokenClaims: S.optional(__S(1383, __c43, 7)),
+          oidcTokenClaims: S.optional(__S(1480, __c46, 8)),
           plan: S.String,
           previewCommentsEnabled: S.optional(S.Boolean),
           private: S.Boolean,
@@ -26954,24 +32598,54 @@ function __c8(j: number): any {
           withCache: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GetProjectResponseLatestDeploymentsItem" });
-    case 24:
-      return S.Array(__S(279, __c8, 23));
     case 25:
-      return S.Record(S.String, S.Unknown);
+      return S.Array(__S(344, __c10, 24));
     case 26:
+      return S.Record(S.String, S.Unknown);
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          buildMachineElasticLastUpdated: S.optional(S.Number),
+          buildMachineElasticReason: S.optional(S.String),
+          buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
+          buildMachineSelection: S.optional(S.String),
+          buildMachineType: S.optional(S.String),
+          buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticConcurrencyEnabled: S.optional(S.Boolean),
+          enableFunctionsBeta: S.optional(S.Boolean),
+          fluid: S.optional(S.Boolean),
+          functionDefaultMemoryType: S.optional(S.String),
+          functionDefaultRegions: __S(1216, __c38, 0),
+          functionDefaultTimeout: S.optional(S.Number),
+          functionZeroConfigFailover: S.optional(S.Boolean),
+          isNSNBDisabled: S.optional(S.Boolean),
+          elasticBuildMachine: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "GetProjectResponseResourceConfig" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.Number,
+          description: S.String,
+          principal: S.optional(S.Unknown),
+          userId: S.optional(S.String),
+          username: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetProjectResponseRollbackDescription" });
+    case 29:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
           actionDuration: S.optional(S.NullOr(S.String)),
           bypassSystem: S.optional(S.NullOr(S.Boolean)),
           logHeaders: S.optional(S.Unknown),
-          rateLimit: S.optional(S.NullOr(__S(1423, __c44, 15))),
-          redirect: S.optional(S.NullOr(__S(1424, __c44, 16))),
+          rateLimit: S.optional(S.NullOr(__S(1518, __c47, 14))),
+          redirect: S.optional(S.NullOr(__S(1519, __c47, 15))),
         }),
       ).annotate({ identifier: "GetProjectResponseSecurityRulesetsValue" });
-    case 27:
-      return S.Record(S.String, __S(282, __c8, 26));
-    case 28:
+    case 30:
+      return S.Record(S.String, __S(349, __c10, 29));
+    case 31:
       return S.suspend(() =>
         S.Struct({
           attackModeActiveUntil: S.optional(S.NullOr(S.Number)),
@@ -26986,37 +32660,41 @@ function __c8(j: number): any {
           ja3Enabled: S.optional(S.Boolean),
           ja4Enabled: S.optional(S.Boolean),
           log_headers: S.optional(S.Unknown),
-          managedRules: S.optional(S.NullOr(__S(1422, __c44, 14))),
+          managedRules: S.optional(S.NullOr(__S(1517, __c47, 13))),
           pageIntegrityEnabled: S.optional(S.Boolean),
-          rulesets: S.optional(__S(283, __c8, 27)),
+          rulesets: S.optional(__S(350, __c10, 30)),
         }),
       ).annotate({ identifier: "GetProjectResponseSecurity" });
-    case 29:
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           alias: S.optional(__S(1216, __c38, 0)),
           aliasAssigned: S.optional(S.NullOr(S.Unknown)),
-          aliasError: S.optional(S.NullOr(__S(1378, __c43, 2))),
+          aliasError: S.optional(S.NullOr(__S(1475, __c46, 3))),
           aliasFinal: S.optional(S.NullOr(S.String)),
           automaticAliases: S.optional(__S(1216, __c38, 0)),
-          branchMatcher: S.optional(__S(1379, __c43, 3)),
+          branchMatcher: S.optional(__S(1476, __c46, 4)),
           buildingAt: S.optional(S.Number),
-          builds: S.optional(__S(1381, __c43, 5)),
+          builds: S.optional(__S(1478, __c46, 6)),
           checksConclusion: S.optional(S.String),
           checksState: S.optional(S.String),
           connectBuildsEnabled: S.optional(S.Boolean),
           connectConfigurationId: S.optional(S.String),
           createdAt: S.Number,
           createdIn: S.String,
-          creator: S.NullOr(__S(1382, __c43, 6)),
+          creator: S.NullOr(__S(1479, __c46, 7)),
           deletedAt: S.optional(S.Number),
           deploymentHostname: S.String,
           forced: S.optional(S.Boolean),
           id: S.String,
-          meta: S.optional(__S(1344, __c42, 0)),
+          meta: S.optional(__S(1440, __c45, 0)),
           monorepoManager: S.optional(S.NullOr(S.String)),
           name: S.String,
-          oidcTokenClaims: S.optional(__S(1383, __c43, 7)),
+          oidcTokenClaims: S.optional(__S(1480, __c46, 8)),
           plan: S.String,
           previewCommentsEnabled: S.optional(S.Boolean),
           private: S.Boolean,
@@ -27032,155 +32710,153 @@ function __c8(j: number): any {
           withCache: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GetProjectResponseTargetsValue" });
-    case 30:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(285, __c8, 29)));
-    case 31:
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(352, __c11, 0)));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           to: S.Unknown,
-          claims: __S(1433, __c44, 25),
+          claims: __S(1528, __c47, 24),
           label: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetProjectResponseTrustedSourcesOidcProvidersValueItem" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(287, __c8, 31));
-    case 1:
-      return S.Record(S.String, __S(288, __c9, 0));
-    case 2:
+    case 3:
+      return S.Array(__S(354, __c11, 2));
+    case 4:
+      return S.Record(S.String, __S(355, __c11, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           from: S.Unknown,
           to: S.Unknown,
         }),
       ).annotate({ identifier: "GetProjectResponseTrustedSourcesProjectsValueCustomAllowItem" });
-    case 3:
-      return S.Array(__S(290, __c9, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          customAllow: S.optional(__S(291, __c9, 3)),
-          label: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetProjectResponseTrustedSourcesProjectsValue" });
-    case 5:
-      return S.Record(S.String, __S(292, __c9, 4));
     case 6:
-      return S.suspend(() =>
-        S.Struct({
-          enableVercelCiSameRepository: S.optional(S.Boolean),
-          oidcProviders: S.optional(__S(289, __c9, 1)),
-          projects: S.optional(__S(293, __c9, 5)),
-        }),
-      ).annotate({ identifier: "GetProjectResponseTrustedSources" });
+      return S.Array(__S(357, __c11, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
+          customAllow: S.optional(__S(358, __c11, 6)),
+          label: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetProjectResponseTrustedSourcesProjectsValue" });
+    case 8:
+      return S.Record(S.String, __S(359, __c11, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          enableVercelCiSameRepository: S.optional(S.Boolean),
+          oidcProviders: S.optional(__S(356, __c11, 4)),
+          projects: S.optional(__S(360, __c11, 8)),
+        }),
+      ).annotate({ identifier: "GetProjectResponseTrustedSources" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
           accountId: S.String,
-          alias: __S(259, __c8, 3),
-          analytics: S.optional(__S(1384, __c43, 8)),
+          alias: __S(323, __c10, 3),
+          analytics: S.optional(__S(1481, __c46, 9)),
           appliedCve55182Migration: S.optional(S.Boolean),
           autoAssignCustomDomains: S.optional(S.Boolean),
           autoAssignCustomDomainsUpdatedBy: S.optional(S.String),
           autoExposeSystemEnvs: S.optional(S.Boolean),
           avatar: S.optional(S.NullOr(S.String)),
-          blobs: S.optional(__S(1385, __c43, 9)),
+          avatarDarkMode: S.optional(S.NullOr(S.String)),
+          blobs: S.optional(__S(1482, __c46, 10)),
           buildCommand: S.optional(S.NullOr(S.String)),
           commandForIgnoringBuildStep: S.optional(S.NullOr(S.String)),
           concurrencyBucketName: S.optional(S.String),
           connectBuildsEnabled: S.optional(S.Boolean),
           connectConfigurationId: S.optional(S.NullOr(S.String)),
-          connectConfigurations: S.optional(S.NullOr(__S(261, __c8, 5))),
+          connectConfigurations: S.optional(S.NullOr(__S(325, __c10, 5))),
           createdAt: S.optional(S.Number),
           creator: S.optional(S.Unknown),
-          crons: S.optional(__S(1389, __c43, 13)),
-          customEnvironments: S.optional(__S(1392, __c43, 16)),
+          crons: S.optional(__S(1486, __c46, 14)),
+          customEnvironments: S.optional(__S(1489, __c46, 17)),
           customerSupportCodeVisibility: S.optional(S.Boolean),
-          dataCache: S.optional(__S(1393, __c43, 17)),
-          defaultResourceConfig: __S(1395, __c43, 19),
-          deploymentExpiration: __S(1396, __c43, 20),
-          deploymentPolicy: S.optional(S.NullOr(__S(269, __c8, 13))),
+          dataCache: S.optional(__S(1490, __c46, 18)),
+          defaultResourceConfig: __S(326, __c10, 6),
+          deploymentExpiration: __S(1492, __c46, 20),
+          deploymentPolicy: S.optional(S.NullOr(__S(334, __c10, 14))),
           devCommand: S.optional(S.NullOr(S.String)),
           directoryListing: S.Boolean,
-          dismissedToasts: S.optional(__S(271, __c8, 15)),
+          dismissedToasts: S.optional(__S(336, __c10, 16)),
           enableAffectedProjectsDeployments: S.optional(S.Boolean),
           enableExternalRewriteCaching: S.optional(S.Boolean),
           enablePreviewFeedback: S.optional(S.NullOr(S.Boolean)),
           enableProductionFeedback: S.optional(S.NullOr(S.Boolean)),
-          env: S.optional(__S(273, __c8, 17)),
+          env: S.optional(__S(338, __c10, 18)),
           expiration: S.optional(S.Unknown),
-          features: S.optional(__S(1397, __c43, 21)),
+          features: S.optional(__S(1493, __c46, 21)),
           framework: S.optional(S.NullOr(S.String)),
-          gitComments: S.optional(__S(1398, __c43, 22)),
+          gitComments: S.optional(__S(1494, __c46, 22)),
           gitForkProtection: S.optional(S.Boolean),
           gitLFS: S.optional(S.Boolean),
-          gitProviderOptions: S.optional(__S(1400, __c43, 24)),
+          gitProviderOptions: S.optional(__S(1496, __c46, 24)),
           hasActiveBranches: S.optional(S.Boolean),
           hasDeployments: S.optional(S.Boolean),
           id: S.String,
           installCommand: S.optional(S.NullOr(S.String)),
-          integrations: S.optional(__S(277, __c8, 21)),
-          internalRoutes: S.optional(__S(278, __c8, 22)),
-          ipBuckets: S.optional(__S(1402, __c43, 26)),
-          jobs: S.optional(__S(1404, __c43, 28)),
-          lastAliasRequest: S.optional(S.NullOr(__S(1405, __c43, 29))),
+          integrations: S.optional(__S(342, __c10, 22)),
+          internalRoutes: S.optional(__S(343, __c10, 23)),
+          ipBuckets: S.optional(__S(1498, __c46, 26)),
+          jobs: S.optional(__S(1500, __c46, 28)),
+          lastAliasRequest: S.optional(S.NullOr(__S(1501, __c46, 29))),
           lastRollbackTarget: S.optional(S.NullOr(S.Unknown)),
-          latestDeployments: S.optional(__S(280, __c8, 24)),
+          latestDeployments: S.optional(__S(345, __c10, 25)),
           link: S.optional(S.Unknown),
           live: S.optional(S.Boolean),
           microfrontends: S.optional(S.Unknown),
           name: S.String,
           nodeVersion: S.String,
-          oidcTokenConfig: S.optional(__S(1376, __c43, 0)),
-          optionsAllowlist: S.optional(S.NullOr(__S(1408, __c44, 0))),
+          oidcTokenConfig: S.optional(__S(1473, __c46, 1)),
+          optionsAllowlist: S.optional(S.NullOr(__S(1504, __c47, 0))),
           outputDirectory: S.optional(S.NullOr(S.String)),
           passiveConnectConfigurationId: S.optional(S.NullOr(S.String)),
-          passport: S.optional(S.NullOr(__S(1409, __c44, 1))),
-          passwordProtection: S.optional(S.NullOr(S.Unknown)),
+          passport: S.optional(S.NullOr(__S(1505, __c47, 1))),
+          passwordProtection: S.optional(S.NullOr(__S(1472, __c46, 0))),
           paused: S.optional(S.Boolean),
-          permissions: S.optional(__S(1410, __c44, 2)),
+          permissions: S.optional(__S(1506, __c47, 2)),
           productionDeploymentsFastLane: S.optional(S.Boolean),
           protectedSourcemaps: S.optional(S.Boolean),
-          protectionBypass: S.optional(__S(281, __c8, 25)),
-          protectionConfig: S.optional(__S(1412, __c44, 4)),
-          resourceConfig: __S(1395, __c43, 19),
-          rollbackDescription: S.optional(__S(1413, __c44, 5)),
-          rollingRelease: S.optional(S.NullOr(__S(1419, __c44, 11))),
+          protectionBypass: S.optional(__S(346, __c10, 26)),
+          protectionConfig: S.optional(__S(1508, __c47, 4)),
+          resourceConfig: __S(347, __c10, 27),
+          rollbackDescription: S.optional(__S(348, __c10, 28)),
+          rollingRelease: S.optional(S.NullOr(__S(1514, __c47, 10))),
           rootDirectory: S.optional(S.NullOr(S.String)),
-          sandbox: S.optional(__S(1420, __c44, 12)),
-          security: S.optional(__S(284, __c8, 28)),
+          sandbox: S.optional(__S(1515, __c47, 11)),
+          security: S.optional(__S(351, __c10, 31)),
           serverlessFunctionZeroConfigFailover: S.optional(S.Boolean),
-          services: S.optional(__S(1426, __c44, 18)),
+          services: S.optional(__S(1521, __c47, 17)),
           skewProtectionAllowedDomains: S.optional(__S(1216, __c38, 0)),
           skewProtectionBoundaryAt: S.optional(S.Number),
           skewProtectionMaxAge: S.optional(S.Number),
           skipGitConnectDuringLink: S.optional(S.Boolean),
           sourceFilesOutsideRootDirectory: S.optional(S.Boolean),
-          speedInsights: S.optional(__S(1427, __c44, 19)),
-          ssoProtection: S.optional(S.NullOr(__S(1428, __c44, 20))),
-          staticIps: S.optional(__S(1429, __c44, 21)),
-          targets: S.optional(__S(286, __c8, 30)),
+          speedInsights: S.optional(__S(1522, __c47, 18)),
+          ssoProtection: S.optional(S.NullOr(__S(1523, __c47, 19))),
+          staticIps: S.optional(__S(1524, __c47, 20)),
+          targets: S.optional(__S(353, __c11, 1)),
           tier: S.optional(S.String),
-          tracing: S.optional(__S(1432, __c44, 24)),
+          tracing: S.optional(__S(1527, __c47, 23)),
           transferCompletedAt: S.optional(S.Number),
           transferredFromAccountId: S.optional(S.String),
           transferStartedAt: S.optional(S.Number),
           transferToAccountId: S.optional(S.String),
           trustedIps: S.optional(S.NullOr(S.Unknown)),
-          trustedSources: S.optional(S.NullOr(__S(294, __c9, 6))),
+          trustedSources: S.optional(S.NullOr(__S(361, __c11, 9))),
           updatedAt: S.optional(S.Number),
-          usageStatus: S.optional(__S(1434, __c44, 26)),
+          usageStatus: S.optional(__S(1529, __c47, 25)),
           v0: S.optional(S.Boolean),
           v0Created: S.optional(S.Boolean),
-          webAnalytics: S.optional(__S(1435, __c44, 27)),
+          vercelFlags: S.optional(__S(1530, __c47, 26)),
+          webAnalytics: S.optional(__S(1531, __c47, 27)),
         }),
       ).annotate({ identifier: "GetProjectResponse" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27195,7 +32871,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetProjectDomainRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27222,7 +32898,7 @@ function __c11(j: number): any {
       });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27239,12 +32915,14 @@ function __c12(j: number): any {
       });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           from: S.optional(S.String.pipe(T.Query())),
+          since: S.optional(S.Number.pipe(T.Query())),
+          until: S.optional(S.Number.pipe(T.Query())),
           gitForkProtection: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
@@ -27269,7 +32947,7 @@ function __c13(j: number): any {
       });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27282,7 +32960,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetProjectTokenRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27296,24 +32974,24 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          attributes: __S(1344, __c42, 0),
+          attributes: __S(1440, __c45, 0),
           name: S.String,
         }),
       ).annotate({ identifier: "GetProjectTraceResponseTraceResourcesItem" });
     case 2:
-      return S.Array(__S(481, __c15, 1));
+      return S.Array(__S(545, __c17, 1));
     case 3:
       return S.Record(S.String, S.Unknown);
     case 4:
       return S.suspend(() =>
         S.Struct({
-          attributes: __S(483, __c15, 3),
+          attributes: __S(547, __c17, 3),
           name: S.String,
-          timestamp: __S(1345, __c42, 1),
+          timestamp: __S(1441, __c45, 1),
         }),
       ).annotate({ identifier: "GetProjectTraceResponseTraceSpansItemEventsItem" });
     case 5:
-      return S.Array(__S(484, __c15, 4));
+      return S.Array(__S(548, __c17, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -27322,7 +33000,7 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "GetProjectTraceResponseTraceSpansItemLibrary" });
     case 7:
-      return S.Array(__S(483, __c15, 3));
+      return S.Array(__S(547, __c17, 3));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -27333,43 +33011,43 @@ function __c15(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          attributes: __S(483, __c15, 3),
-          duration: __S(1345, __c42, 1),
-          endTime: __S(1345, __c42, 1),
-          events: __S(485, __c15, 5),
+          attributes: __S(547, __c17, 3),
+          duration: __S(1441, __c45, 1),
+          endTime: __S(1441, __c45, 1),
+          events: __S(549, __c17, 5),
           kind: S.Number,
-          library: __S(486, __c15, 6),
-          links: __S(487, __c15, 7),
+          library: __S(550, __c17, 6),
+          links: __S(551, __c17, 7),
           name: S.String,
           parentSpanId: S.optional(S.String),
           resource: S.String,
           spanId: S.String,
-          startTime: __S(1345, __c42, 1),
-          status: __S(488, __c15, 8),
+          startTime: __S(1441, __c45, 1),
+          status: __S(552, __c17, 8),
           traceFlags: S.Number,
           traceState: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetProjectTraceResponseTraceSpansItem" });
     case 10:
-      return S.Array(__S(489, __c15, 9));
+      return S.Array(__S(553, __c17, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(482, __c15, 2)),
+          resources: S.optional(__S(546, __c17, 2)),
           rootSpanId: S.optional(S.String),
-          spans: __S(490, __c15, 10),
+          spans: __S(554, __c17, 10),
           traceId: S.String,
         }),
       ).annotate({ identifier: "GetProjectTraceResponseTrace" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          trace: __S(491, __c15, 11),
+          trace: __S(555, __c17, 11),
         }),
       ).annotate({ identifier: "GetProjectTraceResponse" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27391,7 +33069,7 @@ function __c16(j: number): any {
       });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27414,7 +33092,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "MoveProjectDomainRequest" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27426,7 +33104,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "PauseProjectRequest" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27446,7 +33124,7 @@ function __c19(j: number): any {
       });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27464,7 +33142,7 @@ function __c20(j: number): any {
       });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27483,7 +33161,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "RequestPromoteRequest" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27503,7 +33181,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "RequestRollbackRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27515,7 +33193,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "UnpauseProjectRequest" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27538,27 +33216,27 @@ function __c24(j: number): any {
         S.Struct({
           alias: S.optional(__S(1216, __c38, 0)),
           aliasAssigned: S.optional(S.NullOr(S.Unknown)),
-          aliasError: S.optional(S.NullOr(__S(1378, __c43, 2))),
+          aliasError: S.optional(S.NullOr(__S(1475, __c46, 3))),
           aliasFinal: S.optional(S.NullOr(S.String)),
           automaticAliases: S.optional(__S(1216, __c38, 0)),
-          branchMatcher: S.optional(__S(1379, __c43, 3)),
+          branchMatcher: S.optional(__S(1476, __c46, 4)),
           buildingAt: S.optional(S.Number),
-          builds: S.optional(__S(1381, __c43, 5)),
+          builds: S.optional(__S(1478, __c46, 6)),
           checksConclusion: S.optional(S.String),
           checksState: S.optional(S.String),
           connectBuildsEnabled: S.optional(S.Boolean),
           connectConfigurationId: S.optional(S.String),
           createdAt: S.Number,
           createdIn: S.String,
-          creator: S.NullOr(__S(1382, __c43, 6)),
+          creator: S.NullOr(__S(1479, __c46, 7)),
           deletedAt: S.optional(S.Number),
           deploymentHostname: S.String,
           forced: S.optional(S.Boolean),
           id: S.String,
-          meta: S.optional(__S(1344, __c42, 0)),
+          meta: S.optional(__S(1440, __c45, 0)),
           monorepoManager: S.optional(S.NullOr(S.String)),
           name: S.String,
-          oidcTokenClaims: S.optional(__S(1383, __c43, 7)),
+          oidcTokenClaims: S.optional(__S(1480, __c46, 8)),
           plan: S.String,
           previewCommentsEnabled: S.optional(S.Boolean),
           private: S.Boolean,
@@ -27580,7 +33258,7 @@ function __c24(j: number): any {
           configuredBy: S.optional(S.NullOr(S.String)),
           configuredChangedAt: S.optional(S.NullOr(S.Number)),
           createdAt: S.optional(S.NullOr(S.Number)),
-          deployment: S.NullOr(__S(769, __c24, 1)),
+          deployment: S.NullOr(__S(833, __c26, 1)),
           domain: S.String,
           environment: S.String,
           gitBranch: S.optional(S.NullOr(S.String)),
@@ -27590,11 +33268,11 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "UpdateMicrofrontendsResponseAliasItem" });
     case 3:
-      return S.Array(__S(770, __c24, 2));
+      return S.Array(__S(834, __c26, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          aws: S.optional(__S(1386, __c43, 10)),
+          aws: S.optional(__S(1483, __c46, 11)),
           buildsEnabled: S.Boolean,
           connectConfigurationId: S.String,
           createdAt: S.Number,
@@ -27605,43 +33283,63 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "UpdateMicrofrontendsResponseConnectConfigurationsItem" });
     case 5:
-      return S.Array(__S(772, __c24, 4));
+      return S.Array(__S(836, __c26, 4));
     case 6:
-      return S.Array(S.Unknown);
+      return S.suspend(() =>
+        S.Struct({
+          buildMachineElasticLastUpdated: S.optional(S.Number),
+          buildMachineElasticReason: S.optional(S.String),
+          buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
+          buildMachineSelection: S.optional(S.String),
+          buildMachineType: S.optional(S.String),
+          buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticConcurrencyEnabled: S.optional(S.Boolean),
+          enableFunctionsBeta: S.optional(S.Boolean),
+          fluid: S.optional(S.Boolean),
+          functionDefaultMemoryType: S.optional(S.String),
+          functionDefaultRegions: __S(1216, __c38, 0),
+          functionDefaultTimeout: S.optional(S.Number),
+          functionZeroConfigFailover: S.optional(S.Boolean),
+          isNSNBDisabled: S.optional(S.Boolean),
+          elasticBuildMachine: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "UpdateMicrofrontendsResponseDefaultResourceConfig" });
     case 7:
+      return S.Array(S.Unknown);
+    case 8:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
-          environments: __S(774, __c24, 6),
-          sources: __S(1312, __c41, 0),
+          environments: __S(839, __c26, 7),
+          sources: __S(1408, __c44, 0),
         }),
       ).annotate({
         identifier: "UpdateMicrofrontendsResponseDeploymentPolicyDeploymentSourcesItem",
       });
-    case 8:
-      return S.Array(__S(775, __c24, 7));
     case 9:
-      return S.Array(S.Unknown);
+      return S.Array(__S(840, __c26, 8));
     case 10:
       return S.Array(S.Unknown);
     case 11:
+      return S.Array(S.Unknown);
+    case 12:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
-          environments: __S(777, __c24, 9),
-          sources: __S(778, __c24, 10),
+          environments: __S(842, __c26, 10),
+          sources: __S(843, __c26, 11),
         }),
       ).annotate({ identifier: "UpdateMicrofrontendsResponseDeploymentPolicyGitSourcesItem" });
-    case 12:
-      return S.Array(__S(779, __c24, 11));
     case 13:
+      return S.Array(__S(844, __c26, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
-          deploymentSources: S.optional(S.NullOr(__S(776, __c24, 8))),
-          gitSources: S.optional(S.NullOr(__S(780, __c24, 12))),
+          deploymentSources: S.optional(S.NullOr(__S(841, __c26, 9))),
+          gitSources: S.optional(S.NullOr(__S(845, __c26, 13))),
         }),
       ).annotate({ identifier: "UpdateMicrofrontendsResponseDeploymentPolicy" });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
@@ -27650,9 +33348,9 @@ function __c24(j: number): any {
           value: S.NullOr(S.Unknown),
         }),
       ).annotate({ identifier: "UpdateMicrofrontendsResponseDismissedToastsItem" });
-    case 15:
-      return S.Array(__S(782, __c24, 14));
     case 16:
+      return S.Array(__S(847, __c26, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           comment: S.optional(S.String),
@@ -27666,7 +33364,7 @@ function __c24(j: number): any {
           edgeConfigTokenId: S.optional(S.NullOr(S.String)),
           gitBranch: S.optional(S.String),
           id: S.optional(S.String),
-          internalContentHint: S.optional(S.NullOr(__S(1313, __c41, 1))),
+          internalContentHint: S.optional(S.NullOr(__S(1409, __c44, 1))),
           key: S.String,
           legacyValue: S.optional(S.String),
           sunsetSecretId: S.optional(S.String),
@@ -27679,36 +33377,36 @@ function __c24(j: number): any {
           vsmValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateMicrofrontendsResponseEnvItem" });
-    case 17:
-      return S.Array(__S(784, __c24, 16));
     case 18:
-      return S.Array(S.Unknown);
+      return S.Array(__S(849, __c26, 17));
     case 19:
+      return S.Array(S.Unknown);
+    case 20:
       return S.suspend(() =>
         S.Struct({
           alias: S.optional(__S(1216, __c38, 0)),
           aliasAssigned: S.optional(S.NullOr(S.Unknown)),
-          aliasError: S.optional(S.NullOr(__S(1378, __c43, 2))),
+          aliasError: S.optional(S.NullOr(__S(1475, __c46, 3))),
           aliasFinal: S.optional(S.NullOr(S.String)),
           automaticAliases: S.optional(__S(1216, __c38, 0)),
-          branchMatcher: S.optional(__S(1379, __c43, 3)),
+          branchMatcher: S.optional(__S(1476, __c46, 4)),
           buildingAt: S.optional(S.Number),
-          builds: S.optional(__S(1381, __c43, 5)),
+          builds: S.optional(__S(1478, __c46, 6)),
           checksConclusion: S.optional(S.String),
           checksState: S.optional(S.String),
           connectBuildsEnabled: S.optional(S.Boolean),
           connectConfigurationId: S.optional(S.String),
           createdAt: S.Number,
           createdIn: S.String,
-          creator: S.NullOr(__S(1382, __c43, 6)),
+          creator: S.NullOr(__S(1479, __c46, 7)),
           deletedAt: S.optional(S.Number),
           deploymentHostname: S.String,
           forced: S.optional(S.Boolean),
           id: S.String,
-          meta: S.optional(__S(1344, __c42, 0)),
+          meta: S.optional(__S(1440, __c45, 0)),
           monorepoManager: S.optional(S.NullOr(S.String)),
           name: S.String,
-          oidcTokenClaims: S.optional(__S(1383, __c43, 7)),
+          oidcTokenClaims: S.optional(__S(1480, __c46, 8)),
           plan: S.String,
           previewCommentsEnabled: S.optional(S.Boolean),
           private: S.Boolean,
@@ -27724,24 +33422,54 @@ function __c24(j: number): any {
           withCache: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "UpdateMicrofrontendsResponseLatestDeploymentsItem" });
-    case 20:
-      return S.Array(__S(787, __c24, 19));
     case 21:
-      return S.Record(S.String, S.Unknown);
+      return S.Array(__S(852, __c26, 20));
     case 22:
+      return S.Record(S.String, S.Unknown);
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          buildMachineElasticLastUpdated: S.optional(S.Number),
+          buildMachineElasticReason: S.optional(S.String),
+          buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
+          buildMachineSelection: S.optional(S.String),
+          buildMachineType: S.optional(S.String),
+          buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticConcurrencyEnabled: S.optional(S.Boolean),
+          enableFunctionsBeta: S.optional(S.Boolean),
+          fluid: S.optional(S.Boolean),
+          functionDefaultMemoryType: S.optional(S.String),
+          functionDefaultRegions: __S(1216, __c38, 0),
+          functionDefaultTimeout: S.optional(S.Number),
+          functionZeroConfigFailover: S.optional(S.Boolean),
+          isNSNBDisabled: S.optional(S.Boolean),
+          elasticBuildMachine: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "UpdateMicrofrontendsResponseResourceConfig" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.Number,
+          description: S.String,
+          principal: S.optional(S.Unknown),
+          userId: S.optional(S.String),
+          username: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateMicrofrontendsResponseRollbackDescription" });
+    case 25:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
           actionDuration: S.optional(S.NullOr(S.String)),
           bypassSystem: S.optional(S.NullOr(S.Boolean)),
           logHeaders: S.optional(S.Unknown),
-          rateLimit: S.optional(S.NullOr(__S(1423, __c44, 15))),
-          redirect: S.optional(S.NullOr(__S(1424, __c44, 16))),
+          rateLimit: S.optional(S.NullOr(__S(1518, __c47, 14))),
+          redirect: S.optional(S.NullOr(__S(1519, __c47, 15))),
         }),
       ).annotate({ identifier: "UpdateMicrofrontendsResponseSecurityRulesetsValue" });
-    case 23:
-      return S.Record(S.String, __S(790, __c24, 22));
-    case 24:
+    case 26:
+      return S.Record(S.String, __S(857, __c26, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
           attackModeActiveUntil: S.optional(S.NullOr(S.Number)),
@@ -27756,37 +33484,37 @@ function __c24(j: number): any {
           ja3Enabled: S.optional(S.Boolean),
           ja4Enabled: S.optional(S.Boolean),
           log_headers: S.optional(S.Unknown),
-          managedRules: S.optional(S.NullOr(__S(1422, __c44, 14))),
+          managedRules: S.optional(S.NullOr(__S(1517, __c47, 13))),
           pageIntegrityEnabled: S.optional(S.Boolean),
-          rulesets: S.optional(__S(791, __c24, 23)),
+          rulesets: S.optional(__S(858, __c26, 26)),
         }),
       ).annotate({ identifier: "UpdateMicrofrontendsResponseSecurity" });
-    case 25:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           alias: S.optional(__S(1216, __c38, 0)),
           aliasAssigned: S.optional(S.NullOr(S.Unknown)),
-          aliasError: S.optional(S.NullOr(__S(1378, __c43, 2))),
+          aliasError: S.optional(S.NullOr(__S(1475, __c46, 3))),
           aliasFinal: S.optional(S.NullOr(S.String)),
           automaticAliases: S.optional(__S(1216, __c38, 0)),
-          branchMatcher: S.optional(__S(1379, __c43, 3)),
+          branchMatcher: S.optional(__S(1476, __c46, 4)),
           buildingAt: S.optional(S.Number),
-          builds: S.optional(__S(1381, __c43, 5)),
+          builds: S.optional(__S(1478, __c46, 6)),
           checksConclusion: S.optional(S.String),
           checksState: S.optional(S.String),
           connectBuildsEnabled: S.optional(S.Boolean),
           connectConfigurationId: S.optional(S.String),
           createdAt: S.Number,
           createdIn: S.String,
-          creator: S.NullOr(__S(1382, __c43, 6)),
+          creator: S.NullOr(__S(1479, __c46, 7)),
           deletedAt: S.optional(S.Number),
           deploymentHostname: S.String,
           forced: S.optional(S.Boolean),
           id: S.String,
-          meta: S.optional(__S(1344, __c42, 0)),
+          meta: S.optional(__S(1440, __c45, 0)),
           monorepoManager: S.optional(S.NullOr(S.String)),
           name: S.String,
-          oidcTokenClaims: S.optional(__S(1383, __c43, 7)),
+          oidcTokenClaims: S.optional(__S(1480, __c46, 8)),
           plan: S.String,
           previewCommentsEnabled: S.optional(S.Boolean),
           private: S.Boolean,
@@ -27802,23 +33530,27 @@ function __c24(j: number): any {
           withCache: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "UpdateMicrofrontendsResponseTargetsValue" });
-    case 26:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(793, __c24, 25)));
-    case 27:
+    case 29:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(860, __c26, 28)));
+    case 30:
       return S.suspend(() =>
         S.Struct({
           to: S.Unknown,
-          claims: __S(1433, __c44, 25),
+          claims: __S(1528, __c47, 24),
           label: S.optional(S.String),
         }),
       ).annotate({
         identifier: "UpdateMicrofrontendsResponseTrustedSourcesOidcProvidersValueItem",
       });
-    case 28:
-      return S.Array(__S(795, __c24, 27));
-    case 29:
-      return S.Record(S.String, __S(796, __c24, 28));
-    case 30:
+    case 31:
+      return S.Array(__S(862, __c26, 30));
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, __S(863, __c26, 31));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           from: S.Unknown,
@@ -27827,142 +33559,138 @@ function __c24(j: number): any {
       ).annotate({
         identifier: "UpdateMicrofrontendsResponseTrustedSourcesProjectsValueCustomAllowItem",
       });
-    case 31:
-      return S.Array(__S(798, __c24, 30));
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          customAllow: S.optional(__S(799, __c24, 31)),
-          label: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateMicrofrontendsResponseTrustedSourcesProjectsValue" });
-    case 1:
-      return S.Record(S.String, __S(800, __c25, 0));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          enableVercelCiSameRepository: S.optional(S.Boolean),
-          oidcProviders: S.optional(__S(797, __c24, 29)),
-          projects: S.optional(__S(801, __c25, 1)),
-        }),
-      ).annotate({ identifier: "UpdateMicrofrontendsResponseTrustedSources" });
+      return S.Array(__S(865, __c27, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
+          customAllow: S.optional(__S(866, __c27, 2)),
+          label: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateMicrofrontendsResponseTrustedSourcesProjectsValue" });
+    case 4:
+      return S.Record(S.String, __S(867, __c27, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          enableVercelCiSameRepository: S.optional(S.Boolean),
+          oidcProviders: S.optional(__S(864, __c27, 0)),
+          projects: S.optional(__S(868, __c27, 4)),
+        }),
+      ).annotate({ identifier: "UpdateMicrofrontendsResponseTrustedSources" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
           accountId: S.String,
-          alias: __S(771, __c24, 3),
-          analytics: S.optional(__S(1384, __c43, 8)),
+          alias: __S(835, __c26, 3),
+          analytics: S.optional(__S(1481, __c46, 9)),
           appliedCve55182Migration: S.optional(S.Boolean),
           autoAssignCustomDomains: S.optional(S.Boolean),
           autoAssignCustomDomainsUpdatedBy: S.optional(S.String),
           autoExposeSystemEnvs: S.optional(S.Boolean),
           avatar: S.optional(S.NullOr(S.String)),
-          blobs: S.optional(__S(1385, __c43, 9)),
+          avatarDarkMode: S.optional(S.NullOr(S.String)),
+          blobs: S.optional(__S(1482, __c46, 10)),
           buildCommand: S.optional(S.NullOr(S.String)),
           commandForIgnoringBuildStep: S.optional(S.NullOr(S.String)),
           concurrencyBucketName: S.optional(S.String),
           connectBuildsEnabled: S.optional(S.Boolean),
           connectConfigurationId: S.optional(S.NullOr(S.String)),
-          connectConfigurations: S.optional(S.NullOr(__S(773, __c24, 5))),
+          connectConfigurations: S.optional(S.NullOr(__S(837, __c26, 5))),
           createdAt: S.optional(S.Number),
           creator: S.optional(S.Unknown),
-          crons: S.optional(__S(1389, __c43, 13)),
-          customEnvironments: S.optional(__S(1392, __c43, 16)),
+          crons: S.optional(__S(1486, __c46, 14)),
+          customEnvironments: S.optional(__S(1489, __c46, 17)),
           customerSupportCodeVisibility: S.optional(S.Boolean),
-          dataCache: S.optional(__S(1393, __c43, 17)),
-          defaultResourceConfig: __S(1395, __c43, 19),
-          deploymentExpiration: __S(1396, __c43, 20),
-          deploymentPolicy: S.optional(S.NullOr(__S(781, __c24, 13))),
+          dataCache: S.optional(__S(1490, __c46, 18)),
+          defaultResourceConfig: __S(838, __c26, 6),
+          deploymentExpiration: __S(1492, __c46, 20),
+          deploymentPolicy: S.optional(S.NullOr(__S(846, __c26, 14))),
           devCommand: S.optional(S.NullOr(S.String)),
           directoryListing: S.Boolean,
-          dismissedToasts: S.optional(__S(783, __c24, 15)),
+          dismissedToasts: S.optional(__S(848, __c26, 16)),
           enableAffectedProjectsDeployments: S.optional(S.Boolean),
           enableExternalRewriteCaching: S.optional(S.Boolean),
           enablePreviewFeedback: S.optional(S.NullOr(S.Boolean)),
           enableProductionFeedback: S.optional(S.NullOr(S.Boolean)),
-          env: S.optional(__S(785, __c24, 17)),
+          env: S.optional(__S(850, __c26, 18)),
           expiration: S.optional(S.Unknown),
-          features: S.optional(__S(1397, __c43, 21)),
+          features: S.optional(__S(1493, __c46, 21)),
           framework: S.optional(S.NullOr(S.String)),
-          gitComments: S.optional(__S(1398, __c43, 22)),
+          gitComments: S.optional(__S(1494, __c46, 22)),
           gitForkProtection: S.optional(S.Boolean),
           gitLFS: S.optional(S.Boolean),
-          gitProviderOptions: S.optional(__S(1400, __c43, 24)),
+          gitProviderOptions: S.optional(__S(1496, __c46, 24)),
           hasActiveBranches: S.optional(S.Boolean),
           hasDeployments: S.optional(S.Boolean),
           id: S.String,
           installCommand: S.optional(S.NullOr(S.String)),
-          internalRoutes: S.optional(__S(786, __c24, 18)),
-          ipBuckets: S.optional(__S(1402, __c43, 26)),
-          jobs: S.optional(__S(1404, __c43, 28)),
-          lastAliasRequest: S.optional(S.NullOr(__S(1405, __c43, 29))),
+          internalRoutes: S.optional(__S(851, __c26, 19)),
+          ipBuckets: S.optional(__S(1498, __c46, 26)),
+          jobs: S.optional(__S(1500, __c46, 28)),
+          lastAliasRequest: S.optional(S.NullOr(__S(1501, __c46, 29))),
           lastRollbackTarget: S.optional(S.NullOr(S.Unknown)),
-          latestDeployments: S.optional(__S(788, __c24, 20)),
+          latestDeployments: S.optional(__S(853, __c26, 21)),
           link: S.optional(S.Unknown),
           live: S.optional(S.Boolean),
           microfrontends: S.optional(S.Unknown),
           name: S.String,
           nodeVersion: S.String,
-          oidcTokenConfig: S.optional(__S(1376, __c43, 0)),
-          optionsAllowlist: S.optional(S.NullOr(__S(1408, __c44, 0))),
+          oidcTokenConfig: S.optional(__S(1473, __c46, 1)),
+          optionsAllowlist: S.optional(S.NullOr(__S(1504, __c47, 0))),
           outputDirectory: S.optional(S.NullOr(S.String)),
           passiveConnectConfigurationId: S.optional(S.NullOr(S.String)),
-          passport: S.optional(S.NullOr(__S(1409, __c44, 1))),
-          passwordProtection: S.optional(S.NullOr(S.Unknown)),
+          passport: S.optional(S.NullOr(__S(1505, __c47, 1))),
+          passwordProtection: S.optional(S.NullOr(__S(1472, __c46, 0))),
           paused: S.optional(S.Boolean),
-          permissions: S.optional(__S(1410, __c44, 2)),
+          permissions: S.optional(__S(1506, __c47, 2)),
           productionDeploymentsFastLane: S.optional(S.Boolean),
           protectedSourcemaps: S.optional(S.Boolean),
-          protectionBypass: S.optional(__S(789, __c24, 21)),
-          protectionConfig: S.optional(__S(1412, __c44, 4)),
-          resourceConfig: __S(1395, __c43, 19),
-          rollbackDescription: S.optional(__S(1413, __c44, 5)),
-          rollingRelease: S.optional(S.NullOr(__S(1419, __c44, 11))),
+          protectionBypass: S.optional(__S(854, __c26, 22)),
+          protectionConfig: S.optional(__S(1508, __c47, 4)),
+          resourceConfig: __S(855, __c26, 23),
+          rollbackDescription: S.optional(__S(856, __c26, 24)),
+          rollingRelease: S.optional(S.NullOr(__S(1514, __c47, 10))),
           rootDirectory: S.optional(S.NullOr(S.String)),
-          sandbox: S.optional(__S(1420, __c44, 12)),
-          security: S.optional(__S(792, __c24, 24)),
+          sandbox: S.optional(__S(1515, __c47, 11)),
+          security: S.optional(__S(859, __c26, 27)),
           serverlessFunctionZeroConfigFailover: S.optional(S.Boolean),
-          services: S.optional(__S(1426, __c44, 18)),
+          services: S.optional(__S(1521, __c47, 17)),
           skewProtectionAllowedDomains: S.optional(__S(1216, __c38, 0)),
           skewProtectionBoundaryAt: S.optional(S.Number),
           skewProtectionMaxAge: S.optional(S.Number),
           skipGitConnectDuringLink: S.optional(S.Boolean),
           sourceFilesOutsideRootDirectory: S.optional(S.Boolean),
-          speedInsights: S.optional(__S(1427, __c44, 19)),
-          ssoProtection: S.optional(S.NullOr(__S(1428, __c44, 20))),
-          staticIps: S.optional(__S(1429, __c44, 21)),
-          targets: S.optional(__S(794, __c24, 26)),
+          speedInsights: S.optional(__S(1522, __c47, 18)),
+          ssoProtection: S.optional(S.NullOr(__S(1523, __c47, 19))),
+          staticIps: S.optional(__S(1524, __c47, 20)),
+          targets: S.optional(__S(861, __c26, 29)),
           tier: S.optional(S.String),
-          tracing: S.optional(__S(1432, __c44, 24)),
+          tracing: S.optional(__S(1527, __c47, 23)),
           transferCompletedAt: S.optional(S.Number),
           transferredFromAccountId: S.optional(S.String),
           transferStartedAt: S.optional(S.Number),
           transferToAccountId: S.optional(S.String),
           trustedIps: S.optional(S.NullOr(S.Unknown)),
-          trustedSources: S.optional(S.NullOr(__S(802, __c25, 2))),
+          trustedSources: S.optional(S.NullOr(__S(869, __c27, 5))),
           updatedAt: S.optional(S.Number),
-          usageStatus: S.optional(__S(1434, __c44, 26)),
+          usageStatus: S.optional(__S(1529, __c47, 25)),
           v0: S.optional(S.Boolean),
           v0Created: S.optional(S.Boolean),
-          webAnalytics: S.optional(__S(1435, __c44, 27)),
+          vercelFlags: S.optional(__S(1530, __c47, 26)),
+          webAnalytics: S.optional(__S(1531, __c47, 27)),
         }),
       ).annotate({ identifier: "UpdateMicrofrontendsResponse" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Unknown);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           buildMachineType: S.optional(S.String),
           buildMachineSelection: S.optional(S.String),
-          buildQueue: S.optional(__S(1377, __c43, 1)),
+          buildQueue: S.optional(__S(1474, __c46, 2)),
           fluid: S.optional(S.Boolean),
           functionDefaultRegions: S.optional(__S(1216, __c38, 0)),
           functionDefaultTimeout: S.optional(S.Number),
@@ -27971,18 +33699,18 @@ function __c26(j: number): any {
           elasticConcurrencyEnabled: S.optional(S.Boolean),
           buildMachineElasticLastUpdated: S.optional(S.Number),
           buildMachineElasticReason: S.optional(S.String),
-          buildMachineElasticTransition: S.optional(__S(1442, __c45, 2)),
+          buildMachineElasticTransition: S.optional(__S(1537, __c48, 1)),
           isNSNBDisabled: S.optional(S.Boolean),
           enableFunctionsBeta: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "UpdateProjectRequestResourceConfig" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
         }),
       ).annotate({ identifier: "UpdateProjectRequestStaticIps" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           rate: S.Number,
@@ -27991,86 +33719,101 @@ function __c26(j: number): any {
           destination: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateProjectRequestTracingSamplingRulesItem" });
+    case 3:
+      return S.Array(__S(898, __c28, 2));
     case 4:
-      return S.Array(__S(835, __c26, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
           domains: S.optional(S.String),
           ignorePaths: S.optional(__S(1216, __c38, 0)),
-          samplingRules: S.optional(__S(836, __c26, 4)),
+          samplingRules: S.optional(__S(899, __c28, 3)),
         }),
       ).annotate({ identifier: "UpdateProjectRequestTracing" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          onPullRequest: S.Boolean,
+          onCommit: S.Boolean,
+        }),
+      ).annotate({ identifier: "UpdateProjectRequestGitComments" });
     case 6:
+      return S.suspend(() =>
+        S.Struct({
+          createDeployments: S.optional(S.String),
+          disableRepositoryDispatchEvents: S.optional(S.Boolean),
+          requireVerifiedCommits: S.optional(S.NullOr(S.Boolean)),
+          gitCommitStatus: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "UpdateProjectRequestGitProviderOptions" });
+    case 7:
       return S.suspend(() =>
         S.Struct({
           deploymentType: S.String,
           password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "UpdateProjectRequestPasswordProtection" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           connectorId: S.String,
           deploymentType: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateProjectRequestPassport" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           value: S.String,
           note: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateProjectRequestTrustedIpsAddressesItem" });
-    case 9:
-      return S.Array(__S(840, __c26, 8));
     case 10:
+      return S.Array(__S(905, __c28, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
           deploymentType: S.String,
-          addresses: __S(841, __c26, 9),
-          protectionMode: S.String,
+          addresses: __S(906, __c28, 10),
         }),
       ).annotate({ identifier: "UpdateProjectRequestTrustedIps" });
-    case 11:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           to: S.Unknown,
           from: S.Unknown,
         }),
       ).annotate({ identifier: "UpdateProjectRequestTrustedSourcesProjectsValueCustomAllowItem" });
-    case 12:
-      return S.Array(__S(843, __c26, 11));
     case 13:
+      return S.Array(__S(908, __c28, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
           label: S.optional(S.String),
-          customAllow: S.optional(__S(844, __c26, 12)),
+          customAllow: S.optional(__S(909, __c28, 13)),
         }),
       ).annotate({ identifier: "UpdateProjectRequestTrustedSourcesProjectsValue" });
-    case 14:
-      return S.Record(S.String, __S(845, __c26, 13));
     case 15:
+      return S.Record(S.String, __S(910, __c28, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({
           label: S.optional(S.String),
           to: S.Unknown,
-          claims: __S(1433, __c44, 25),
+          claims: __S(1528, __c47, 24),
         }),
       ).annotate({ identifier: "UpdateProjectRequestTrustedSourcesOidcProvidersValueItem" });
-    case 16:
-      return S.Array(__S(847, __c26, 15));
     case 17:
-      return S.Record(S.String, __S(848, __c26, 16));
+      return S.Array(__S(912, __c28, 16));
     case 18:
+      return S.Record(S.String, __S(913, __c28, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           enableVercelCiSameRepository: S.optional(S.Boolean),
-          projects: S.optional(__S(846, __c26, 14)),
-          oidcProviders: S.optional(__S(849, __c26, 17)),
+          projects: S.optional(__S(911, __c28, 15)),
+          oidcProviders: S.optional(__S(914, __c28, 18)),
         }),
       ).annotate({ identifier: "UpdateProjectRequestTrustedSources" });
-    case 19:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
@@ -28079,9 +33822,9 @@ function __c26(j: number): any {
           value: S.Unknown,
         }),
       ).annotate({ identifier: "UpdateProjectRequestDismissedToastsItem" });
-    case 20:
-      return S.Array(__S(851, __c26, 19));
     case 21:
+      return S.Array(__S(916, __c28, 20));
+    case 22:
       return S.suspend(() =>
         S.Struct({
           idOrName: S.String.pipe(T.Label()),
@@ -28105,7 +33848,7 @@ function __c26(j: number): any {
           outputDirectory: S.optional(S.NullOr(S.String)),
           previewDeploymentsDisabled: S.optional(S.NullOr(S.Boolean)),
           previewDeploymentSuffix: S.optional(S.NullOr(S.String)),
-          resourceConfig: S.optional(__S(833, __c26, 1)),
+          resourceConfig: S.optional(__S(896, __c28, 0)),
           publicSource: S.optional(S.NullOr(S.Boolean)),
           rootDirectory: S.optional(S.NullOr(S.String)),
           serverlessFunctionRegion: S.optional(S.NullOr(S.String)),
@@ -28119,47 +33862,49 @@ function __c26(j: number): any {
           enableProductionFeedback: S.optional(S.NullOr(S.Boolean)),
           enableAffectedProjectsDeployments: S.optional(S.Boolean),
           enableExternalRewriteCaching: S.optional(S.Boolean),
-          staticIps: S.optional(__S(834, __c26, 2)),
-          tracing: S.optional(S.NullOr(__S(837, __c26, 5))),
-          oidcTokenConfig: S.optional(__S(1376, __c43, 0)),
-          passwordProtection: S.optional(S.NullOr(__S(838, __c26, 6))),
-          passport: S.optional(S.NullOr(__S(839, __c26, 7))),
-          sandbox: S.optional(__S(1441, __c45, 1)),
-          ssoProtection: S.optional(S.NullOr(__S(1440, __c45, 0))),
-          trustedIps: S.optional(S.NullOr(__S(842, __c26, 10))),
-          trustedSources: S.optional(S.NullOr(__S(850, __c26, 18))),
+          staticIps: S.optional(__S(897, __c28, 1)),
+          tracing: S.optional(S.NullOr(__S(900, __c28, 4))),
+          gitComments: S.optional(S.NullOr(__S(901, __c28, 5))),
+          gitProviderOptions: S.optional(S.NullOr(__S(902, __c28, 6))),
+          oidcTokenConfig: S.optional(__S(1473, __c46, 1)),
+          passwordProtection: S.optional(S.NullOr(__S(903, __c28, 7))),
+          passport: S.optional(S.NullOr(__S(904, __c28, 8))),
+          sandbox: S.optional(__S(1536, __c48, 0)),
+          ssoProtection: S.optional(S.NullOr(__S(1472, __c46, 0))),
+          trustedIps: S.optional(S.NullOr(__S(907, __c28, 11))),
+          trustedSources: S.optional(S.NullOr(__S(915, __c28, 19))),
           deploymentPolicy: S.optional(S.Unknown),
-          optionsAllowlist: S.optional(S.NullOr(__S(1408, __c44, 0))),
-          connectConfigurations: S.optional(S.NullOr(__S(832, __c26, 0))),
-          dismissedToasts: S.optional(__S(852, __c26, 20)),
+          optionsAllowlist: S.optional(S.NullOr(__S(1504, __c47, 0))),
+          connectConfigurations: S.optional(S.NullOr(__S(1184, __c37, 0))),
+          dismissedToasts: S.optional(__S(917, __c28, 21)),
         }).pipe(T.Http({ method: "PATCH", uri: "/v9/projects/{idOrName}", code: 200 })),
       ).annotate({ identifier: "UpdateProjectRequest" });
-    case 22:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           alias: S.optional(__S(1216, __c38, 0)),
           aliasAssigned: S.optional(S.NullOr(S.Unknown)),
-          aliasError: S.optional(S.NullOr(__S(1378, __c43, 2))),
+          aliasError: S.optional(S.NullOr(__S(1475, __c46, 3))),
           aliasFinal: S.optional(S.NullOr(S.String)),
           automaticAliases: S.optional(__S(1216, __c38, 0)),
-          branchMatcher: S.optional(__S(1379, __c43, 3)),
+          branchMatcher: S.optional(__S(1476, __c46, 4)),
           buildingAt: S.optional(S.Number),
-          builds: S.optional(__S(1381, __c43, 5)),
+          builds: S.optional(__S(1478, __c46, 6)),
           checksConclusion: S.optional(S.String),
           checksState: S.optional(S.String),
           connectBuildsEnabled: S.optional(S.Boolean),
           connectConfigurationId: S.optional(S.String),
           createdAt: S.Number,
           createdIn: S.String,
-          creator: S.NullOr(__S(1382, __c43, 6)),
+          creator: S.NullOr(__S(1479, __c46, 7)),
           deletedAt: S.optional(S.Number),
           deploymentHostname: S.String,
           forced: S.optional(S.Boolean),
           id: S.String,
-          meta: S.optional(__S(1344, __c42, 0)),
+          meta: S.optional(__S(1440, __c45, 0)),
           monorepoManager: S.optional(S.NullOr(S.String)),
           name: S.String,
-          oidcTokenClaims: S.optional(__S(1383, __c43, 7)),
+          oidcTokenClaims: S.optional(__S(1480, __c46, 8)),
           plan: S.String,
           previewCommentsEnabled: S.optional(S.Boolean),
           private: S.Boolean,
@@ -28175,13 +33920,13 @@ function __c26(j: number): any {
           withCache: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "UpdateProjectResponseAliasItemDeployment" });
-    case 23:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           configuredBy: S.optional(S.NullOr(S.String)),
           configuredChangedAt: S.optional(S.NullOr(S.Number)),
           createdAt: S.optional(S.NullOr(S.Number)),
-          deployment: S.NullOr(__S(854, __c26, 22)),
+          deployment: S.NullOr(__S(919, __c28, 23)),
           domain: S.String,
           environment: S.String,
           gitBranch: S.optional(S.NullOr(S.String)),
@@ -28190,12 +33935,12 @@ function __c26(j: number): any {
           target: S.String,
         }),
       ).annotate({ identifier: "UpdateProjectResponseAliasItem" });
-    case 24:
-      return S.Array(__S(855, __c26, 23));
     case 25:
+      return S.Array(__S(920, __c28, 24));
+    case 26:
       return S.suspend(() =>
         S.Struct({
-          aws: S.optional(__S(1386, __c43, 10)),
+          aws: S.optional(__S(1483, __c46, 11)),
           buildsEnabled: S.Boolean,
           connectConfigurationId: S.String,
           createdAt: S.Number,
@@ -28205,46 +33950,66 @@ function __c26(j: number): any {
           updatedAt: S.Number,
         }),
       ).annotate({ identifier: "UpdateProjectResponseConnectConfigurationsItem" });
-    case 26:
-      return S.Array(__S(857, __c26, 25));
     case 27:
-      return S.Array(S.Unknown);
+      return S.Array(__S(922, __c28, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.Boolean,
-          environments: __S(859, __c26, 27),
-          sources: __S(1312, __c41, 0),
+          buildMachineElasticLastUpdated: S.optional(S.Number),
+          buildMachineElasticReason: S.optional(S.String),
+          buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
+          buildMachineSelection: S.optional(S.String),
+          buildMachineType: S.optional(S.String),
+          buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticConcurrencyEnabled: S.optional(S.Boolean),
+          enableFunctionsBeta: S.optional(S.Boolean),
+          fluid: S.optional(S.Boolean),
+          functionDefaultMemoryType: S.optional(S.String),
+          functionDefaultRegions: __S(1216, __c38, 0),
+          functionDefaultTimeout: S.optional(S.Number),
+          functionZeroConfigFailover: S.optional(S.Boolean),
+          isNSNBDisabled: S.optional(S.Boolean),
+          elasticBuildMachine: S.optional(S.Unknown),
         }),
-      ).annotate({ identifier: "UpdateProjectResponseDeploymentPolicyDeploymentSourcesItem" });
+      ).annotate({ identifier: "UpdateProjectResponseDefaultResourceConfig" });
     case 29:
-      return S.Array(__S(860, __c26, 28));
+      return S.Array(S.Unknown);
     case 30:
-      return S.Array(S.Unknown);
-    case 31:
-      return S.Array(S.Unknown);
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
-          environments: __S(862, __c26, 30),
-          sources: __S(863, __c26, 31),
+          environments: __S(925, __c28, 29),
+          sources: __S(1408, __c44, 0),
         }),
-      ).annotate({ identifier: "UpdateProjectResponseDeploymentPolicyGitSourcesItem" });
+      ).annotate({ identifier: "UpdateProjectResponseDeploymentPolicyDeploymentSourcesItem" });
+    case 31:
+      return S.Array(__S(926, __c28, 30));
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
     case 1:
-      return S.Array(__S(864, __c27, 0));
+      return S.Array(S.Unknown);
     case 2:
       return S.suspend(() =>
         S.Struct({
-          deploymentSources: S.optional(S.NullOr(__S(861, __c26, 29))),
-          gitSources: S.optional(S.NullOr(__S(865, __c27, 1))),
+          enabled: S.Boolean,
+          environments: __S(928, __c29, 0),
+          sources: __S(929, __c29, 1),
+        }),
+      ).annotate({ identifier: "UpdateProjectResponseDeploymentPolicyGitSourcesItem" });
+    case 3:
+      return S.Array(__S(930, __c29, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          deploymentSources: S.optional(S.NullOr(__S(927, __c28, 31))),
+          gitSources: S.optional(S.NullOr(__S(931, __c29, 3))),
         }),
       ).annotate({ identifier: "UpdateProjectResponseDeploymentPolicy" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
@@ -28253,9 +34018,9 @@ function __c27(j: number): any {
           value: S.NullOr(S.Unknown),
         }),
       ).annotate({ identifier: "UpdateProjectResponseDismissedToastsItem" });
-    case 4:
-      return S.Array(__S(867, __c27, 3));
-    case 5:
+    case 6:
+      return S.Array(__S(933, __c29, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           comment: S.optional(S.String),
@@ -28269,7 +34034,7 @@ function __c27(j: number): any {
           edgeConfigTokenId: S.optional(S.NullOr(S.String)),
           gitBranch: S.optional(S.String),
           id: S.optional(S.String),
-          internalContentHint: S.optional(S.NullOr(__S(1313, __c41, 1))),
+          internalContentHint: S.optional(S.NullOr(__S(1409, __c44, 1))),
           key: S.String,
           legacyValue: S.optional(S.String),
           sunsetSecretId: S.optional(S.String),
@@ -28282,36 +34047,36 @@ function __c27(j: number): any {
           vsmValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateProjectResponseEnvItem" });
-    case 6:
-      return S.Array(__S(869, __c27, 5));
-    case 7:
-      return S.Array(S.Unknown);
     case 8:
+      return S.Array(__S(935, __c29, 7));
+    case 9:
+      return S.Array(S.Unknown);
+    case 10:
       return S.suspend(() =>
         S.Struct({
           alias: S.optional(__S(1216, __c38, 0)),
           aliasAssigned: S.optional(S.NullOr(S.Unknown)),
-          aliasError: S.optional(S.NullOr(__S(1378, __c43, 2))),
+          aliasError: S.optional(S.NullOr(__S(1475, __c46, 3))),
           aliasFinal: S.optional(S.NullOr(S.String)),
           automaticAliases: S.optional(__S(1216, __c38, 0)),
-          branchMatcher: S.optional(__S(1379, __c43, 3)),
+          branchMatcher: S.optional(__S(1476, __c46, 4)),
           buildingAt: S.optional(S.Number),
-          builds: S.optional(__S(1381, __c43, 5)),
+          builds: S.optional(__S(1478, __c46, 6)),
           checksConclusion: S.optional(S.String),
           checksState: S.optional(S.String),
           connectBuildsEnabled: S.optional(S.Boolean),
           connectConfigurationId: S.optional(S.String),
           createdAt: S.Number,
           createdIn: S.String,
-          creator: S.NullOr(__S(1382, __c43, 6)),
+          creator: S.NullOr(__S(1479, __c46, 7)),
           deletedAt: S.optional(S.Number),
           deploymentHostname: S.String,
           forced: S.optional(S.Boolean),
           id: S.String,
-          meta: S.optional(__S(1344, __c42, 0)),
+          meta: S.optional(__S(1440, __c45, 0)),
           monorepoManager: S.optional(S.NullOr(S.String)),
           name: S.String,
-          oidcTokenClaims: S.optional(__S(1383, __c43, 7)),
+          oidcTokenClaims: S.optional(__S(1480, __c46, 8)),
           plan: S.String,
           previewCommentsEnabled: S.optional(S.Boolean),
           private: S.Boolean,
@@ -28327,24 +34092,54 @@ function __c27(j: number): any {
           withCache: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "UpdateProjectResponseLatestDeploymentsItem" });
-    case 9:
-      return S.Array(__S(872, __c27, 8));
-    case 10:
-      return S.Record(S.String, S.Unknown);
     case 11:
+      return S.Array(__S(938, __c29, 10));
+    case 12:
+      return S.Record(S.String, S.Unknown);
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          buildMachineElasticLastUpdated: S.optional(S.Number),
+          buildMachineElasticReason: S.optional(S.String),
+          buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
+          buildMachineSelection: S.optional(S.String),
+          buildMachineType: S.optional(S.String),
+          buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticConcurrencyEnabled: S.optional(S.Boolean),
+          enableFunctionsBeta: S.optional(S.Boolean),
+          fluid: S.optional(S.Boolean),
+          functionDefaultMemoryType: S.optional(S.String),
+          functionDefaultRegions: __S(1216, __c38, 0),
+          functionDefaultTimeout: S.optional(S.Number),
+          functionZeroConfigFailover: S.optional(S.Boolean),
+          isNSNBDisabled: S.optional(S.Boolean),
+          elasticBuildMachine: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "UpdateProjectResponseResourceConfig" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.Number,
+          description: S.String,
+          principal: S.optional(S.Unknown),
+          userId: S.optional(S.String),
+          username: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateProjectResponseRollbackDescription" });
+    case 15:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
           actionDuration: S.optional(S.NullOr(S.String)),
           bypassSystem: S.optional(S.NullOr(S.Boolean)),
           logHeaders: S.optional(S.Unknown),
-          rateLimit: S.optional(S.NullOr(__S(1423, __c44, 15))),
-          redirect: S.optional(S.NullOr(__S(1424, __c44, 16))),
+          rateLimit: S.optional(S.NullOr(__S(1518, __c47, 14))),
+          redirect: S.optional(S.NullOr(__S(1519, __c47, 15))),
         }),
       ).annotate({ identifier: "UpdateProjectResponseSecurityRulesetsValue" });
-    case 12:
-      return S.Record(S.String, __S(875, __c27, 11));
-    case 13:
+    case 16:
+      return S.Record(S.String, __S(943, __c29, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           attackModeActiveUntil: S.optional(S.NullOr(S.Number)),
@@ -28359,37 +34154,37 @@ function __c27(j: number): any {
           ja3Enabled: S.optional(S.Boolean),
           ja4Enabled: S.optional(S.Boolean),
           log_headers: S.optional(S.Unknown),
-          managedRules: S.optional(S.NullOr(__S(1422, __c44, 14))),
+          managedRules: S.optional(S.NullOr(__S(1517, __c47, 13))),
           pageIntegrityEnabled: S.optional(S.Boolean),
-          rulesets: S.optional(__S(876, __c27, 12)),
+          rulesets: S.optional(__S(944, __c29, 16)),
         }),
       ).annotate({ identifier: "UpdateProjectResponseSecurity" });
-    case 14:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           alias: S.optional(__S(1216, __c38, 0)),
           aliasAssigned: S.optional(S.NullOr(S.Unknown)),
-          aliasError: S.optional(S.NullOr(__S(1378, __c43, 2))),
+          aliasError: S.optional(S.NullOr(__S(1475, __c46, 3))),
           aliasFinal: S.optional(S.NullOr(S.String)),
           automaticAliases: S.optional(__S(1216, __c38, 0)),
-          branchMatcher: S.optional(__S(1379, __c43, 3)),
+          branchMatcher: S.optional(__S(1476, __c46, 4)),
           buildingAt: S.optional(S.Number),
-          builds: S.optional(__S(1381, __c43, 5)),
+          builds: S.optional(__S(1478, __c46, 6)),
           checksConclusion: S.optional(S.String),
           checksState: S.optional(S.String),
           connectBuildsEnabled: S.optional(S.Boolean),
           connectConfigurationId: S.optional(S.String),
           createdAt: S.Number,
           createdIn: S.String,
-          creator: S.NullOr(__S(1382, __c43, 6)),
+          creator: S.NullOr(__S(1479, __c46, 7)),
           deletedAt: S.optional(S.Number),
           deploymentHostname: S.String,
           forced: S.optional(S.Boolean),
           id: S.String,
-          meta: S.optional(__S(1344, __c42, 0)),
+          meta: S.optional(__S(1440, __c45, 0)),
           monorepoManager: S.optional(S.NullOr(S.String)),
           name: S.String,
-          oidcTokenClaims: S.optional(__S(1383, __c43, 7)),
+          oidcTokenClaims: S.optional(__S(1480, __c46, 8)),
           plan: S.String,
           previewCommentsEnabled: S.optional(S.Boolean),
           private: S.Boolean,
@@ -28405,150 +34200,152 @@ function __c27(j: number): any {
           withCache: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "UpdateProjectResponseTargetsValue" });
-    case 15:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(878, __c27, 14)));
-    case 16:
+    case 19:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(946, __c29, 18)));
+    case 20:
       return S.suspend(() =>
         S.Struct({
           to: S.Unknown,
-          claims: __S(1433, __c44, 25),
+          claims: __S(1528, __c47, 24),
           label: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateProjectResponseTrustedSourcesOidcProvidersValueItem" });
-    case 17:
-      return S.Array(__S(880, __c27, 16));
-    case 18:
-      return S.Record(S.String, __S(881, __c27, 17));
-    case 19:
+    case 21:
+      return S.Array(__S(948, __c29, 20));
+    case 22:
+      return S.Record(S.String, __S(949, __c29, 21));
+    case 23:
       return S.suspend(() =>
         S.Struct({
           from: S.Unknown,
           to: S.Unknown,
         }),
       ).annotate({ identifier: "UpdateProjectResponseTrustedSourcesProjectsValueCustomAllowItem" });
-    case 20:
-      return S.Array(__S(883, __c27, 19));
-    case 21:
+    case 24:
+      return S.Array(__S(951, __c29, 23));
+    case 25:
       return S.suspend(() =>
         S.Struct({
-          customAllow: S.optional(__S(884, __c27, 20)),
+          customAllow: S.optional(__S(952, __c29, 24)),
           label: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateProjectResponseTrustedSourcesProjectsValue" });
-    case 22:
-      return S.Record(S.String, __S(885, __c27, 21));
-    case 23:
+    case 26:
+      return S.Record(S.String, __S(953, __c29, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
           enableVercelCiSameRepository: S.optional(S.Boolean),
-          oidcProviders: S.optional(__S(882, __c27, 18)),
-          projects: S.optional(__S(886, __c27, 22)),
+          oidcProviders: S.optional(__S(950, __c29, 22)),
+          projects: S.optional(__S(954, __c29, 26)),
         }),
       ).annotate({ identifier: "UpdateProjectResponseTrustedSources" });
-    case 24:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String,
-          alias: __S(856, __c26, 24),
-          analytics: S.optional(__S(1384, __c43, 8)),
+          alias: __S(921, __c28, 25),
+          analytics: S.optional(__S(1481, __c46, 9)),
           appliedCve55182Migration: S.optional(S.Boolean),
           autoAssignCustomDomains: S.optional(S.Boolean),
           autoAssignCustomDomainsUpdatedBy: S.optional(S.String),
           autoExposeSystemEnvs: S.optional(S.Boolean),
           avatar: S.optional(S.NullOr(S.String)),
-          blobs: S.optional(__S(1385, __c43, 9)),
+          avatarDarkMode: S.optional(S.NullOr(S.String)),
+          blobs: S.optional(__S(1482, __c46, 10)),
           buildCommand: S.optional(S.NullOr(S.String)),
           commandForIgnoringBuildStep: S.optional(S.NullOr(S.String)),
           concurrencyBucketName: S.optional(S.String),
           connectBuildsEnabled: S.optional(S.Boolean),
           connectConfigurationId: S.optional(S.NullOr(S.String)),
-          connectConfigurations: S.optional(S.NullOr(__S(858, __c26, 26))),
+          connectConfigurations: S.optional(S.NullOr(__S(923, __c28, 27))),
           createdAt: S.optional(S.Number),
           creator: S.optional(S.Unknown),
-          crons: S.optional(__S(1389, __c43, 13)),
-          customEnvironments: S.optional(__S(1392, __c43, 16)),
+          crons: S.optional(__S(1486, __c46, 14)),
+          customEnvironments: S.optional(__S(1489, __c46, 17)),
           customerSupportCodeVisibility: S.optional(S.Boolean),
-          dataCache: S.optional(__S(1393, __c43, 17)),
-          defaultResourceConfig: __S(1395, __c43, 19),
-          deploymentExpiration: __S(1396, __c43, 20),
-          deploymentPolicy: S.optional(S.NullOr(__S(866, __c27, 2))),
+          dataCache: S.optional(__S(1490, __c46, 18)),
+          defaultResourceConfig: __S(924, __c28, 28),
+          deploymentExpiration: __S(1492, __c46, 20),
+          deploymentPolicy: S.optional(S.NullOr(__S(932, __c29, 4))),
           devCommand: S.optional(S.NullOr(S.String)),
           directoryListing: S.Boolean,
-          dismissedToasts: S.optional(__S(868, __c27, 4)),
+          dismissedToasts: S.optional(__S(934, __c29, 6)),
           enableAffectedProjectsDeployments: S.optional(S.Boolean),
           enableExternalRewriteCaching: S.optional(S.Boolean),
           enablePreviewFeedback: S.optional(S.NullOr(S.Boolean)),
           enableProductionFeedback: S.optional(S.NullOr(S.Boolean)),
-          env: S.optional(__S(870, __c27, 6)),
+          env: S.optional(__S(936, __c29, 8)),
           expiration: S.optional(S.Unknown),
-          features: S.optional(__S(1397, __c43, 21)),
+          features: S.optional(__S(1493, __c46, 21)),
           framework: S.optional(S.NullOr(S.String)),
-          gitComments: S.optional(__S(1398, __c43, 22)),
+          gitComments: S.optional(__S(1494, __c46, 22)),
           gitForkProtection: S.optional(S.Boolean),
           gitLFS: S.optional(S.Boolean),
-          gitProviderOptions: S.optional(__S(1400, __c43, 24)),
+          gitProviderOptions: S.optional(__S(1496, __c46, 24)),
           hasActiveBranches: S.optional(S.Boolean),
           hasDeployments: S.optional(S.Boolean),
           id: S.String,
           installCommand: S.optional(S.NullOr(S.String)),
-          internalRoutes: S.optional(__S(871, __c27, 7)),
-          ipBuckets: S.optional(__S(1402, __c43, 26)),
-          jobs: S.optional(__S(1404, __c43, 28)),
-          lastAliasRequest: S.optional(S.NullOr(__S(1405, __c43, 29))),
+          internalRoutes: S.optional(__S(937, __c29, 9)),
+          ipBuckets: S.optional(__S(1498, __c46, 26)),
+          jobs: S.optional(__S(1500, __c46, 28)),
+          lastAliasRequest: S.optional(S.NullOr(__S(1501, __c46, 29))),
           lastRollbackTarget: S.optional(S.NullOr(S.Unknown)),
-          latestDeployments: S.optional(__S(873, __c27, 9)),
+          latestDeployments: S.optional(__S(939, __c29, 11)),
           link: S.optional(S.Unknown),
           live: S.optional(S.Boolean),
           microfrontends: S.optional(S.Unknown),
           name: S.String,
           nodeVersion: S.String,
-          oidcTokenConfig: S.optional(__S(1376, __c43, 0)),
-          optionsAllowlist: S.optional(S.NullOr(__S(1408, __c44, 0))),
+          oidcTokenConfig: S.optional(__S(1473, __c46, 1)),
+          optionsAllowlist: S.optional(S.NullOr(__S(1504, __c47, 0))),
           outputDirectory: S.optional(S.NullOr(S.String)),
           passiveConnectConfigurationId: S.optional(S.NullOr(S.String)),
-          passport: S.optional(S.NullOr(__S(1409, __c44, 1))),
-          passwordProtection: S.optional(S.NullOr(S.Unknown)),
+          passport: S.optional(S.NullOr(__S(1505, __c47, 1))),
+          passwordProtection: S.optional(S.NullOr(__S(1472, __c46, 0))),
           paused: S.optional(S.Boolean),
-          permissions: S.optional(__S(1410, __c44, 2)),
+          permissions: S.optional(__S(1506, __c47, 2)),
           productionDeploymentsFastLane: S.optional(S.Boolean),
           protectedSourcemaps: S.optional(S.Boolean),
-          protectionBypass: S.optional(__S(874, __c27, 10)),
-          protectionConfig: S.optional(__S(1412, __c44, 4)),
-          resourceConfig: __S(1395, __c43, 19),
-          rollbackDescription: S.optional(__S(1413, __c44, 5)),
-          rollingRelease: S.optional(S.NullOr(__S(1419, __c44, 11))),
+          protectionBypass: S.optional(__S(940, __c29, 12)),
+          protectionConfig: S.optional(__S(1508, __c47, 4)),
+          resourceConfig: __S(941, __c29, 13),
+          rollbackDescription: S.optional(__S(942, __c29, 14)),
+          rollingRelease: S.optional(S.NullOr(__S(1514, __c47, 10))),
           rootDirectory: S.optional(S.NullOr(S.String)),
-          sandbox: S.optional(__S(1420, __c44, 12)),
-          security: S.optional(__S(877, __c27, 13)),
+          sandbox: S.optional(__S(1515, __c47, 11)),
+          security: S.optional(__S(945, __c29, 17)),
           serverlessFunctionZeroConfigFailover: S.optional(S.Boolean),
-          services: S.optional(__S(1426, __c44, 18)),
+          services: S.optional(__S(1521, __c47, 17)),
           skewProtectionAllowedDomains: S.optional(__S(1216, __c38, 0)),
           skewProtectionBoundaryAt: S.optional(S.Number),
           skewProtectionMaxAge: S.optional(S.Number),
           skipGitConnectDuringLink: S.optional(S.Boolean),
           sourceFilesOutsideRootDirectory: S.optional(S.Boolean),
-          speedInsights: S.optional(__S(1427, __c44, 19)),
-          ssoProtection: S.optional(S.NullOr(__S(1428, __c44, 20))),
-          staticIps: S.optional(__S(1429, __c44, 21)),
-          targets: S.optional(__S(879, __c27, 15)),
+          speedInsights: S.optional(__S(1522, __c47, 18)),
+          ssoProtection: S.optional(S.NullOr(__S(1523, __c47, 19))),
+          staticIps: S.optional(__S(1524, __c47, 20)),
+          targets: S.optional(__S(947, __c29, 19)),
           tier: S.optional(S.String),
-          tracing: S.optional(__S(1432, __c44, 24)),
+          tracing: S.optional(__S(1527, __c47, 23)),
           transferCompletedAt: S.optional(S.Number),
           transferredFromAccountId: S.optional(S.String),
           transferStartedAt: S.optional(S.Number),
           transferToAccountId: S.optional(S.String),
           trustedIps: S.optional(S.NullOr(S.Unknown)),
-          trustedSources: S.optional(S.NullOr(__S(887, __c27, 23))),
+          trustedSources: S.optional(S.NullOr(__S(955, __c29, 27))),
           updatedAt: S.optional(S.Number),
-          usageStatus: S.optional(__S(1434, __c44, 26)),
+          usageStatus: S.optional(__S(1529, __c47, 25)),
           v0: S.optional(S.Boolean),
           v0Created: S.optional(S.Boolean),
-          webAnalytics: S.optional(__S(1435, __c44, 27)),
+          vercelFlags: S.optional(__S(1530, __c47, 26)),
+          webAnalytics: S.optional(__S(1531, __c47, 27)),
         }),
       ).annotate({ identifier: "UpdateProjectResponse" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28566,7 +34363,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "UpdateProjectDomainRequest" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28596,9 +34393,9 @@ function __c29(j: number): any {
           idOrName: S.String.pipe(T.Label()),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
-          revoke: S.optional(__S(928, __c29, 0)),
-          generate: S.optional(__S(929, __c29, 1)),
-          update: S.optional(__S(930, __c29, 2)),
+          revoke: S.optional(__S(992, __c31, 0)),
+          generate: S.optional(__S(993, __c31, 1)),
+          update: S.optional(__S(994, __c31, 2)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/v1/projects/{idOrName}/protection-bypass", code: 200 }),
         ),
@@ -28608,12 +34405,12 @@ function __c29(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          protectionBypass: S.optional(__S(932, __c29, 4)),
+          protectionBypass: S.optional(__S(996, __c31, 4)),
         }),
       ).annotate({ identifier: "UpdateProjectProtectionBypassResponse" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28633,7 +34430,7 @@ function __c30(j: number): any {
       });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28648,27 +34445,27 @@ function __c31(j: number): any {
         S.Struct({
           alias: S.optional(__S(1216, __c38, 0)),
           aliasAssigned: S.optional(S.NullOr(S.Unknown)),
-          aliasError: S.optional(S.NullOr(__S(1378, __c43, 2))),
+          aliasError: S.optional(S.NullOr(__S(1475, __c46, 3))),
           aliasFinal: S.optional(S.NullOr(S.String)),
           automaticAliases: S.optional(__S(1216, __c38, 0)),
-          branchMatcher: S.optional(__S(1379, __c43, 3)),
+          branchMatcher: S.optional(__S(1476, __c46, 4)),
           buildingAt: S.optional(S.Number),
-          builds: S.optional(__S(1381, __c43, 5)),
+          builds: S.optional(__S(1478, __c46, 6)),
           checksConclusion: S.optional(S.String),
           checksState: S.optional(S.String),
           connectBuildsEnabled: S.optional(S.Boolean),
           connectConfigurationId: S.optional(S.String),
           createdAt: S.Number,
           createdIn: S.String,
-          creator: S.NullOr(__S(1382, __c43, 6)),
+          creator: S.NullOr(__S(1479, __c46, 7)),
           deletedAt: S.optional(S.Number),
           deploymentHostname: S.String,
           forced: S.optional(S.Boolean),
           id: S.String,
-          meta: S.optional(__S(1344, __c42, 0)),
+          meta: S.optional(__S(1440, __c45, 0)),
           monorepoManager: S.optional(S.NullOr(S.String)),
           name: S.String,
-          oidcTokenClaims: S.optional(__S(1383, __c43, 7)),
+          oidcTokenClaims: S.optional(__S(1480, __c46, 8)),
           plan: S.String,
           previewCommentsEnabled: S.optional(S.Boolean),
           private: S.Boolean,
@@ -28690,7 +34487,7 @@ function __c31(j: number): any {
           configuredBy: S.optional(S.NullOr(S.String)),
           configuredChangedAt: S.optional(S.NullOr(S.Number)),
           createdAt: S.optional(S.NullOr(S.Number)),
-          deployment: S.NullOr(__S(993, __c31, 1)),
+          deployment: S.NullOr(__S(1057, __c33, 1)),
           domain: S.String,
           environment: S.String,
           gitBranch: S.optional(S.NullOr(S.String)),
@@ -28700,11 +34497,11 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "UploadProjectAvatarResponseAliasItem" });
     case 3:
-      return S.Array(__S(994, __c31, 2));
+      return S.Array(__S(1058, __c33, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          aws: S.optional(__S(1386, __c43, 10)),
+          aws: S.optional(__S(1483, __c46, 11)),
           buildsEnabled: S.Boolean,
           connectConfigurationId: S.String,
           createdAt: S.Number,
@@ -28715,43 +34512,63 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "UploadProjectAvatarResponseConnectConfigurationsItem" });
     case 5:
-      return S.Array(__S(996, __c31, 4));
+      return S.Array(__S(1060, __c33, 4));
     case 6:
-      return S.Array(S.Unknown);
+      return S.suspend(() =>
+        S.Struct({
+          buildMachineElasticLastUpdated: S.optional(S.Number),
+          buildMachineElasticReason: S.optional(S.String),
+          buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
+          buildMachineSelection: S.optional(S.String),
+          buildMachineType: S.optional(S.String),
+          buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticConcurrencyEnabled: S.optional(S.Boolean),
+          enableFunctionsBeta: S.optional(S.Boolean),
+          fluid: S.optional(S.Boolean),
+          functionDefaultMemoryType: S.optional(S.String),
+          functionDefaultRegions: __S(1216, __c38, 0),
+          functionDefaultTimeout: S.optional(S.Number),
+          functionZeroConfigFailover: S.optional(S.Boolean),
+          isNSNBDisabled: S.optional(S.Boolean),
+          elasticBuildMachine: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "UploadProjectAvatarResponseDefaultResourceConfig" });
     case 7:
+      return S.Array(S.Unknown);
+    case 8:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
-          environments: __S(998, __c31, 6),
-          sources: __S(1312, __c41, 0),
+          environments: __S(1063, __c33, 7),
+          sources: __S(1408, __c44, 0),
         }),
       ).annotate({
         identifier: "UploadProjectAvatarResponseDeploymentPolicyDeploymentSourcesItem",
       });
-    case 8:
-      return S.Array(__S(999, __c31, 7));
     case 9:
-      return S.Array(S.Unknown);
+      return S.Array(__S(1064, __c33, 8));
     case 10:
       return S.Array(S.Unknown);
     case 11:
+      return S.Array(S.Unknown);
+    case 12:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
-          environments: __S(1001, __c31, 9),
-          sources: __S(1002, __c31, 10),
+          environments: __S(1066, __c33, 10),
+          sources: __S(1067, __c33, 11),
         }),
       ).annotate({ identifier: "UploadProjectAvatarResponseDeploymentPolicyGitSourcesItem" });
-    case 12:
-      return S.Array(__S(1003, __c31, 11));
     case 13:
+      return S.Array(__S(1068, __c33, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
-          deploymentSources: S.optional(S.NullOr(__S(1000, __c31, 8))),
-          gitSources: S.optional(S.NullOr(__S(1004, __c31, 12))),
+          deploymentSources: S.optional(S.NullOr(__S(1065, __c33, 9))),
+          gitSources: S.optional(S.NullOr(__S(1069, __c33, 13))),
         }),
       ).annotate({ identifier: "UploadProjectAvatarResponseDeploymentPolicy" });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
@@ -28760,9 +34577,9 @@ function __c31(j: number): any {
           value: S.NullOr(S.Unknown),
         }),
       ).annotate({ identifier: "UploadProjectAvatarResponseDismissedToastsItem" });
-    case 15:
-      return S.Array(__S(1006, __c31, 14));
     case 16:
+      return S.Array(__S(1071, __c33, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           comment: S.optional(S.String),
@@ -28776,7 +34593,7 @@ function __c31(j: number): any {
           edgeConfigTokenId: S.optional(S.NullOr(S.String)),
           gitBranch: S.optional(S.String),
           id: S.optional(S.String),
-          internalContentHint: S.optional(S.NullOr(__S(1313, __c41, 1))),
+          internalContentHint: S.optional(S.NullOr(__S(1409, __c44, 1))),
           key: S.String,
           legacyValue: S.optional(S.String),
           sunsetSecretId: S.optional(S.String),
@@ -28789,36 +34606,36 @@ function __c31(j: number): any {
           vsmValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "UploadProjectAvatarResponseEnvItem" });
-    case 17:
-      return S.Array(__S(1008, __c31, 16));
     case 18:
-      return S.Array(S.Unknown);
+      return S.Array(__S(1073, __c33, 17));
     case 19:
+      return S.Array(S.Unknown);
+    case 20:
       return S.suspend(() =>
         S.Struct({
           alias: S.optional(__S(1216, __c38, 0)),
           aliasAssigned: S.optional(S.NullOr(S.Unknown)),
-          aliasError: S.optional(S.NullOr(__S(1378, __c43, 2))),
+          aliasError: S.optional(S.NullOr(__S(1475, __c46, 3))),
           aliasFinal: S.optional(S.NullOr(S.String)),
           automaticAliases: S.optional(__S(1216, __c38, 0)),
-          branchMatcher: S.optional(__S(1379, __c43, 3)),
+          branchMatcher: S.optional(__S(1476, __c46, 4)),
           buildingAt: S.optional(S.Number),
-          builds: S.optional(__S(1381, __c43, 5)),
+          builds: S.optional(__S(1478, __c46, 6)),
           checksConclusion: S.optional(S.String),
           checksState: S.optional(S.String),
           connectBuildsEnabled: S.optional(S.Boolean),
           connectConfigurationId: S.optional(S.String),
           createdAt: S.Number,
           createdIn: S.String,
-          creator: S.NullOr(__S(1382, __c43, 6)),
+          creator: S.NullOr(__S(1479, __c46, 7)),
           deletedAt: S.optional(S.Number),
           deploymentHostname: S.String,
           forced: S.optional(S.Boolean),
           id: S.String,
-          meta: S.optional(__S(1344, __c42, 0)),
+          meta: S.optional(__S(1440, __c45, 0)),
           monorepoManager: S.optional(S.NullOr(S.String)),
           name: S.String,
-          oidcTokenClaims: S.optional(__S(1383, __c43, 7)),
+          oidcTokenClaims: S.optional(__S(1480, __c46, 8)),
           plan: S.String,
           previewCommentsEnabled: S.optional(S.Boolean),
           private: S.Boolean,
@@ -28834,24 +34651,54 @@ function __c31(j: number): any {
           withCache: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "UploadProjectAvatarResponseLatestDeploymentsItem" });
-    case 20:
-      return S.Array(__S(1011, __c31, 19));
     case 21:
-      return S.Record(S.String, S.Unknown);
+      return S.Array(__S(1076, __c33, 20));
     case 22:
+      return S.Record(S.String, S.Unknown);
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          buildMachineElasticLastUpdated: S.optional(S.Number),
+          buildMachineElasticReason: S.optional(S.String),
+          buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
+          buildMachineSelection: S.optional(S.String),
+          buildMachineType: S.optional(S.String),
+          buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticConcurrencyEnabled: S.optional(S.Boolean),
+          enableFunctionsBeta: S.optional(S.Boolean),
+          fluid: S.optional(S.Boolean),
+          functionDefaultMemoryType: S.optional(S.String),
+          functionDefaultRegions: __S(1216, __c38, 0),
+          functionDefaultTimeout: S.optional(S.Number),
+          functionZeroConfigFailover: S.optional(S.Boolean),
+          isNSNBDisabled: S.optional(S.Boolean),
+          elasticBuildMachine: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "UploadProjectAvatarResponseResourceConfig" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.Number,
+          description: S.String,
+          principal: S.optional(S.Unknown),
+          userId: S.optional(S.String),
+          username: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UploadProjectAvatarResponseRollbackDescription" });
+    case 25:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
           actionDuration: S.optional(S.NullOr(S.String)),
           bypassSystem: S.optional(S.NullOr(S.Boolean)),
           logHeaders: S.optional(S.Unknown),
-          rateLimit: S.optional(S.NullOr(__S(1423, __c44, 15))),
-          redirect: S.optional(S.NullOr(__S(1424, __c44, 16))),
+          rateLimit: S.optional(S.NullOr(__S(1518, __c47, 14))),
+          redirect: S.optional(S.NullOr(__S(1519, __c47, 15))),
         }),
       ).annotate({ identifier: "UploadProjectAvatarResponseSecurityRulesetsValue" });
-    case 23:
-      return S.Record(S.String, __S(1014, __c31, 22));
-    case 24:
+    case 26:
+      return S.Record(S.String, __S(1081, __c33, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
           attackModeActiveUntil: S.optional(S.NullOr(S.Number)),
@@ -28866,37 +34713,37 @@ function __c31(j: number): any {
           ja3Enabled: S.optional(S.Boolean),
           ja4Enabled: S.optional(S.Boolean),
           log_headers: S.optional(S.Unknown),
-          managedRules: S.optional(S.NullOr(__S(1422, __c44, 14))),
+          managedRules: S.optional(S.NullOr(__S(1517, __c47, 13))),
           pageIntegrityEnabled: S.optional(S.Boolean),
-          rulesets: S.optional(__S(1015, __c31, 23)),
+          rulesets: S.optional(__S(1082, __c33, 26)),
         }),
       ).annotate({ identifier: "UploadProjectAvatarResponseSecurity" });
-    case 25:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           alias: S.optional(__S(1216, __c38, 0)),
           aliasAssigned: S.optional(S.NullOr(S.Unknown)),
-          aliasError: S.optional(S.NullOr(__S(1378, __c43, 2))),
+          aliasError: S.optional(S.NullOr(__S(1475, __c46, 3))),
           aliasFinal: S.optional(S.NullOr(S.String)),
           automaticAliases: S.optional(__S(1216, __c38, 0)),
-          branchMatcher: S.optional(__S(1379, __c43, 3)),
+          branchMatcher: S.optional(__S(1476, __c46, 4)),
           buildingAt: S.optional(S.Number),
-          builds: S.optional(__S(1381, __c43, 5)),
+          builds: S.optional(__S(1478, __c46, 6)),
           checksConclusion: S.optional(S.String),
           checksState: S.optional(S.String),
           connectBuildsEnabled: S.optional(S.Boolean),
           connectConfigurationId: S.optional(S.String),
           createdAt: S.Number,
           createdIn: S.String,
-          creator: S.NullOr(__S(1382, __c43, 6)),
+          creator: S.NullOr(__S(1479, __c46, 7)),
           deletedAt: S.optional(S.Number),
           deploymentHostname: S.String,
           forced: S.optional(S.Boolean),
           id: S.String,
-          meta: S.optional(__S(1344, __c42, 0)),
+          meta: S.optional(__S(1440, __c45, 0)),
           monorepoManager: S.optional(S.NullOr(S.String)),
           name: S.String,
-          oidcTokenClaims: S.optional(__S(1383, __c43, 7)),
+          oidcTokenClaims: S.optional(__S(1480, __c46, 8)),
           plan: S.String,
           previewCommentsEnabled: S.optional(S.Boolean),
           private: S.Boolean,
@@ -28912,21 +34759,25 @@ function __c31(j: number): any {
           withCache: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "UploadProjectAvatarResponseTargetsValue" });
-    case 26:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(1017, __c31, 25)));
-    case 27:
+    case 29:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(1084, __c33, 28)));
+    case 30:
       return S.suspend(() =>
         S.Struct({
           to: S.Unknown,
-          claims: __S(1433, __c44, 25),
+          claims: __S(1528, __c47, 24),
           label: S.optional(S.String),
         }),
       ).annotate({ identifier: "UploadProjectAvatarResponseTrustedSourcesOidcProvidersValueItem" });
-    case 28:
-      return S.Array(__S(1019, __c31, 27));
-    case 29:
-      return S.Record(S.String, __S(1020, __c31, 28));
-    case 30:
+    case 31:
+      return S.Array(__S(1086, __c33, 30));
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, __S(1087, __c33, 31));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           from: S.Unknown,
@@ -28935,133 +34786,131 @@ function __c31(j: number): any {
       ).annotate({
         identifier: "UploadProjectAvatarResponseTrustedSourcesProjectsValueCustomAllowItem",
       });
-    case 31:
-      return S.Array(__S(1022, __c31, 30));
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          customAllow: S.optional(__S(1023, __c31, 31)),
-          label: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UploadProjectAvatarResponseTrustedSourcesProjectsValue" });
-    case 1:
-      return S.Record(S.String, __S(1024, __c32, 0));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          enableVercelCiSameRepository: S.optional(S.Boolean),
-          oidcProviders: S.optional(__S(1021, __c31, 29)),
-          projects: S.optional(__S(1025, __c32, 1)),
-        }),
-      ).annotate({ identifier: "UploadProjectAvatarResponseTrustedSources" });
+      return S.Array(__S(1089, __c34, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
+          customAllow: S.optional(__S(1090, __c34, 2)),
+          label: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UploadProjectAvatarResponseTrustedSourcesProjectsValue" });
+    case 4:
+      return S.Record(S.String, __S(1091, __c34, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          enableVercelCiSameRepository: S.optional(S.Boolean),
+          oidcProviders: S.optional(__S(1088, __c34, 0)),
+          projects: S.optional(__S(1092, __c34, 4)),
+        }),
+      ).annotate({ identifier: "UploadProjectAvatarResponseTrustedSources" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
           accountId: S.String,
-          alias: __S(995, __c31, 3),
-          analytics: S.optional(__S(1384, __c43, 8)),
+          alias: __S(1059, __c33, 3),
+          analytics: S.optional(__S(1481, __c46, 9)),
           appliedCve55182Migration: S.optional(S.Boolean),
           autoAssignCustomDomains: S.optional(S.Boolean),
           autoAssignCustomDomainsUpdatedBy: S.optional(S.String),
           autoExposeSystemEnvs: S.optional(S.Boolean),
           avatar: S.optional(S.NullOr(S.String)),
-          blobs: S.optional(__S(1385, __c43, 9)),
+          avatarDarkMode: S.optional(S.NullOr(S.String)),
+          blobs: S.optional(__S(1482, __c46, 10)),
           buildCommand: S.optional(S.NullOr(S.String)),
           commandForIgnoringBuildStep: S.optional(S.NullOr(S.String)),
           concurrencyBucketName: S.optional(S.String),
           connectBuildsEnabled: S.optional(S.Boolean),
           connectConfigurationId: S.optional(S.NullOr(S.String)),
-          connectConfigurations: S.optional(S.NullOr(__S(997, __c31, 5))),
+          connectConfigurations: S.optional(S.NullOr(__S(1061, __c33, 5))),
           createdAt: S.optional(S.Number),
           creator: S.optional(S.Unknown),
-          crons: S.optional(__S(1389, __c43, 13)),
-          customEnvironments: S.optional(__S(1392, __c43, 16)),
+          crons: S.optional(__S(1486, __c46, 14)),
+          customEnvironments: S.optional(__S(1489, __c46, 17)),
           customerSupportCodeVisibility: S.optional(S.Boolean),
-          dataCache: S.optional(__S(1393, __c43, 17)),
-          defaultResourceConfig: __S(1395, __c43, 19),
-          deploymentExpiration: __S(1396, __c43, 20),
-          deploymentPolicy: S.optional(S.NullOr(__S(1005, __c31, 13))),
+          dataCache: S.optional(__S(1490, __c46, 18)),
+          defaultResourceConfig: __S(1062, __c33, 6),
+          deploymentExpiration: __S(1492, __c46, 20),
+          deploymentPolicy: S.optional(S.NullOr(__S(1070, __c33, 14))),
           devCommand: S.optional(S.NullOr(S.String)),
           directoryListing: S.Boolean,
-          dismissedToasts: S.optional(__S(1007, __c31, 15)),
+          dismissedToasts: S.optional(__S(1072, __c33, 16)),
           enableAffectedProjectsDeployments: S.optional(S.Boolean),
           enableExternalRewriteCaching: S.optional(S.Boolean),
           enablePreviewFeedback: S.optional(S.NullOr(S.Boolean)),
           enableProductionFeedback: S.optional(S.NullOr(S.Boolean)),
-          env: S.optional(__S(1009, __c31, 17)),
+          env: S.optional(__S(1074, __c33, 18)),
           expiration: S.optional(S.Unknown),
-          features: S.optional(__S(1397, __c43, 21)),
+          features: S.optional(__S(1493, __c46, 21)),
           framework: S.optional(S.NullOr(S.String)),
-          gitComments: S.optional(__S(1398, __c43, 22)),
+          gitComments: S.optional(__S(1494, __c46, 22)),
           gitForkProtection: S.optional(S.Boolean),
           gitLFS: S.optional(S.Boolean),
-          gitProviderOptions: S.optional(__S(1400, __c43, 24)),
+          gitProviderOptions: S.optional(__S(1496, __c46, 24)),
           hasActiveBranches: S.optional(S.Boolean),
           hasDeployments: S.optional(S.Boolean),
           id: S.String,
           installCommand: S.optional(S.NullOr(S.String)),
-          internalRoutes: S.optional(__S(1010, __c31, 18)),
-          ipBuckets: S.optional(__S(1402, __c43, 26)),
-          jobs: S.optional(__S(1404, __c43, 28)),
-          lastAliasRequest: S.optional(S.NullOr(__S(1405, __c43, 29))),
+          internalRoutes: S.optional(__S(1075, __c33, 19)),
+          ipBuckets: S.optional(__S(1498, __c46, 26)),
+          jobs: S.optional(__S(1500, __c46, 28)),
+          lastAliasRequest: S.optional(S.NullOr(__S(1501, __c46, 29))),
           lastRollbackTarget: S.optional(S.NullOr(S.Unknown)),
-          latestDeployments: S.optional(__S(1012, __c31, 20)),
+          latestDeployments: S.optional(__S(1077, __c33, 21)),
           link: S.optional(S.Unknown),
           live: S.optional(S.Boolean),
           microfrontends: S.optional(S.Unknown),
           name: S.String,
           nodeVersion: S.String,
-          oidcTokenConfig: S.optional(__S(1376, __c43, 0)),
-          optionsAllowlist: S.optional(S.NullOr(__S(1408, __c44, 0))),
+          oidcTokenConfig: S.optional(__S(1473, __c46, 1)),
+          optionsAllowlist: S.optional(S.NullOr(__S(1504, __c47, 0))),
           outputDirectory: S.optional(S.NullOr(S.String)),
           passiveConnectConfigurationId: S.optional(S.NullOr(S.String)),
-          passport: S.optional(S.NullOr(__S(1409, __c44, 1))),
-          passwordProtection: S.optional(S.NullOr(S.Unknown)),
+          passport: S.optional(S.NullOr(__S(1505, __c47, 1))),
+          passwordProtection: S.optional(S.NullOr(__S(1472, __c46, 0))),
           paused: S.optional(S.Boolean),
-          permissions: S.optional(__S(1410, __c44, 2)),
+          permissions: S.optional(__S(1506, __c47, 2)),
           productionDeploymentsFastLane: S.optional(S.Boolean),
           protectedSourcemaps: S.optional(S.Boolean),
-          protectionBypass: S.optional(__S(1013, __c31, 21)),
-          protectionConfig: S.optional(__S(1412, __c44, 4)),
-          resourceConfig: __S(1395, __c43, 19),
-          rollbackDescription: S.optional(__S(1413, __c44, 5)),
-          rollingRelease: S.optional(S.NullOr(__S(1419, __c44, 11))),
+          protectionBypass: S.optional(__S(1078, __c33, 22)),
+          protectionConfig: S.optional(__S(1508, __c47, 4)),
+          resourceConfig: __S(1079, __c33, 23),
+          rollbackDescription: S.optional(__S(1080, __c33, 24)),
+          rollingRelease: S.optional(S.NullOr(__S(1514, __c47, 10))),
           rootDirectory: S.optional(S.NullOr(S.String)),
-          sandbox: S.optional(__S(1420, __c44, 12)),
-          security: S.optional(__S(1016, __c31, 24)),
+          sandbox: S.optional(__S(1515, __c47, 11)),
+          security: S.optional(__S(1083, __c33, 27)),
           serverlessFunctionZeroConfigFailover: S.optional(S.Boolean),
-          services: S.optional(__S(1426, __c44, 18)),
+          services: S.optional(__S(1521, __c47, 17)),
           skewProtectionAllowedDomains: S.optional(__S(1216, __c38, 0)),
           skewProtectionBoundaryAt: S.optional(S.Number),
           skewProtectionMaxAge: S.optional(S.Number),
           skipGitConnectDuringLink: S.optional(S.Boolean),
           sourceFilesOutsideRootDirectory: S.optional(S.Boolean),
-          speedInsights: S.optional(__S(1427, __c44, 19)),
-          ssoProtection: S.optional(S.NullOr(__S(1428, __c44, 20))),
-          staticIps: S.optional(__S(1429, __c44, 21)),
-          targets: S.optional(__S(1018, __c31, 26)),
+          speedInsights: S.optional(__S(1522, __c47, 18)),
+          ssoProtection: S.optional(S.NullOr(__S(1523, __c47, 19))),
+          staticIps: S.optional(__S(1524, __c47, 20)),
+          targets: S.optional(__S(1085, __c33, 29)),
           tier: S.optional(S.String),
-          tracing: S.optional(__S(1432, __c44, 24)),
+          tracing: S.optional(__S(1527, __c47, 23)),
           transferCompletedAt: S.optional(S.Number),
           transferredFromAccountId: S.optional(S.String),
           transferStartedAt: S.optional(S.Number),
           transferToAccountId: S.optional(S.String),
           trustedIps: S.optional(S.NullOr(S.Unknown)),
-          trustedSources: S.optional(S.NullOr(__S(1026, __c32, 2))),
+          trustedSources: S.optional(S.NullOr(__S(1093, __c34, 5))),
           updatedAt: S.optional(S.Number),
-          usageStatus: S.optional(__S(1434, __c44, 26)),
+          usageStatus: S.optional(__S(1529, __c47, 25)),
           v0: S.optional(S.Boolean),
           v0Created: S.optional(S.Boolean),
-          webAnalytics: S.optional(__S(1435, __c44, 27)),
+          vercelFlags: S.optional(__S(1530, __c47, 26)),
+          webAnalytics: S.optional(__S(1531, __c47, 27)),
         }),
       ).annotate({ identifier: "UploadProjectAvatarResponse" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29095,7 +34944,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "VerifyProjectDomainResponse" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29107,13 +34956,16 @@ function __c34(j: number): any {
       ).annotate({ identifier: "AcceptProjectTransferRequestRequestPaidFeatures" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          eula: S.String,
-          privacy: S.String,
-        }),
+        S.StructWithRest(
+          S.Struct({
+            eula: S.String,
+            privacy: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "AcceptProjectTransferRequestRequestAcceptedPoliciesValue" });
     case 2:
-      return S.Record(S.String, __S(1089, __c34, 1));
+      return S.Record(S.String, __S(1153, __c36, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -29121,17 +34973,52 @@ function __c34(j: number): any {
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
           newProjectName: S.optional(S.String),
-          paidFeatures: S.optional(__S(1088, __c34, 0)),
-          acceptedPolicies: S.optional(__S(1090, __c34, 2)),
+          paidFeatures: S.optional(__S(1152, __c36, 0)),
+          acceptedPolicies: S.optional(__S(1154, __c36, 2)),
         }).pipe(T.Http({ method: "PUT", uri: "/projects/transfer-request/{code}", code: 200 })),
       ).annotate({ identifier: "AcceptProjectTransferRequestRequest" });
     case 4:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "AcceptProjectTransferRequestResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          error: S.optional(S.Unknown),
+          status: S.String,
+        }),
+      ).annotate({ identifier: "AcceptProjectTransferRequestResponsePartnerCallsItemResult" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          installationId: S.String,
+          resourceIds: __S(1216, __c38, 0),
+          result: __S(1156, __c36, 4),
+        }),
+      ).annotate({ identifier: "AcceptProjectTransferRequestResponsePartnerCallsItem" });
+    case 6:
+      return S.Array(__S(1157, __c36, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          partnerCalls: __S(1158, __c36, 6),
+          projectName: S.String,
+          resourceTransferErrors: __S(1184, __c37, 0),
+          transferredStoreIds: __S(1216, __c38, 0),
+        }),
+      ).annotate({ identifier: "AcceptProjectTransferRequestResponse" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29148,7 +35035,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "AddProjectDomainRequest" });
   }
 }
-function __c36(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29160,7 +35047,7 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "AddProjectDomainResponseVerificationItem" });
     case 1:
-      return S.Array(__S(1152, __c36, 0));
+      return S.Array(__S(1280, __c40, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -29173,13 +35060,13 @@ function __c36(j: number): any {
           redirect: S.optional(S.NullOr(S.String)),
           redirectStatusCode: S.optional(S.NullOr(S.Number)),
           updatedAt: S.optional(S.Number),
-          verification: S.optional(__S(1153, __c36, 1)),
+          verification: S.optional(__S(1281, __c40, 1)),
           verified: S.Boolean,
         }),
       ).annotate({ identifier: "AddProjectDomainResponse" });
   }
 }
-function __c37(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29199,15 +35086,15 @@ function __c37(j: number): any {
       ).annotate({ identifier: "BatchRemoveProjectEnvResponse" });
   }
 }
-function __c38(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-  }
-}
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          timeframe: S.String,
+        }),
+      ).annotate({ identifier: "CreateProjectRequestExpiration" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
@@ -29217,16 +35104,16 @@ function __c39(j: number): any {
           value: S.String,
         }),
       ).annotate({ identifier: "CreateProjectRequestEnvironmentVariablesItem" });
-    case 1:
-      return S.Array(__S(1248, __c39, 0));
     case 2:
+      return S.Array(__S(1345, __c42, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           repo: S.String,
           type: S.String,
         }),
       ).annotate({ identifier: "CreateProjectRequestGitRepository" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           buildMachineType: S.optional(S.String),
@@ -29239,68 +35126,69 @@ function __c39(j: number): any {
           buildMachineSelection: S.optional(S.String),
           buildMachineElasticLastUpdated: S.optional(S.Number),
           buildMachineElasticReason: S.optional(S.String),
-          buildMachineElasticTransition: S.optional(__S(1442, __c45, 2)),
+          buildMachineElasticTransition: S.optional(__S(1537, __c48, 1)),
           isNSNBDisabled: S.optional(S.Boolean),
-          buildQueue: S.optional(__S(1377, __c43, 1)),
+          buildQueue: S.optional(__S(1474, __c46, 2)),
           enableFunctionsBeta: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateProjectRequestResourceConfig" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
           enablePreviewFeedback: S.optional(S.NullOr(S.Boolean)),
           enableProductionFeedback: S.optional(S.NullOr(S.Boolean)),
+          expiration: S.optional(__S(1344, __c42, 0)),
           previewDeploymentsDisabled: S.optional(S.NullOr(S.Boolean)),
           previewDeploymentSuffix: S.optional(S.NullOr(S.String)),
           buildCommand: S.optional(S.NullOr(S.String)),
           commandForIgnoringBuildStep: S.optional(S.NullOr(S.String)),
           devCommand: S.optional(S.NullOr(S.String)),
-          environmentVariables: S.optional(__S(1249, __c39, 1)),
+          environmentVariables: S.optional(__S(1346, __c42, 2)),
           framework: S.optional(S.String),
-          gitRepository: S.optional(__S(1250, __c39, 2)),
+          gitRepository: S.optional(__S(1347, __c42, 3)),
           installCommand: S.optional(S.NullOr(S.String)),
           name: S.String,
           skipGitConnectDuringLink: S.optional(S.Boolean),
-          ssoProtection: S.optional(S.NullOr(__S(1440, __c45, 0))),
-          sandbox: S.optional(__S(1441, __c45, 1)),
+          ssoProtection: S.optional(S.NullOr(__S(1472, __c46, 0))),
+          sandbox: S.optional(__S(1536, __c48, 0)),
           outputDirectory: S.optional(S.NullOr(S.String)),
           publicSource: S.optional(S.NullOr(S.Boolean)),
           rootDirectory: S.optional(S.NullOr(S.String)),
           serverlessFunctionRegion: S.optional(S.NullOr(S.String)),
           serverlessFunctionZeroConfigFailover: S.optional(S.Boolean),
-          oidcTokenConfig: S.optional(__S(1376, __c43, 0)),
+          oidcTokenConfig: S.optional(__S(1473, __c46, 1)),
           enableAffectedProjectsDeployments: S.optional(S.Boolean),
-          resourceConfig: S.optional(__S(1251, __c39, 3)),
+          resourceConfig: S.optional(__S(1348, __c42, 4)),
         }).pipe(T.Http({ method: "POST", uri: "/v11/projects", code: 200 })),
       ).annotate({ identifier: "CreateProjectRequest" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           alias: S.optional(__S(1216, __c38, 0)),
           aliasAssigned: S.optional(S.NullOr(S.Unknown)),
-          aliasError: S.optional(S.NullOr(__S(1378, __c43, 2))),
+          aliasError: S.optional(S.NullOr(__S(1475, __c46, 3))),
           aliasFinal: S.optional(S.NullOr(S.String)),
           automaticAliases: S.optional(__S(1216, __c38, 0)),
-          branchMatcher: S.optional(__S(1379, __c43, 3)),
+          branchMatcher: S.optional(__S(1476, __c46, 4)),
           buildingAt: S.optional(S.Number),
-          builds: S.optional(__S(1381, __c43, 5)),
+          builds: S.optional(__S(1478, __c46, 6)),
           checksConclusion: S.optional(S.String),
           checksState: S.optional(S.String),
           connectBuildsEnabled: S.optional(S.Boolean),
           connectConfigurationId: S.optional(S.String),
           createdAt: S.Number,
           createdIn: S.String,
-          creator: S.NullOr(__S(1382, __c43, 6)),
+          creator: S.NullOr(__S(1479, __c46, 7)),
           deletedAt: S.optional(S.Number),
           deploymentHostname: S.String,
           forced: S.optional(S.Boolean),
           id: S.String,
-          meta: S.optional(__S(1344, __c42, 0)),
+          meta: S.optional(__S(1440, __c45, 0)),
           monorepoManager: S.optional(S.NullOr(S.String)),
           name: S.String,
-          oidcTokenClaims: S.optional(__S(1383, __c43, 7)),
+          oidcTokenClaims: S.optional(__S(1480, __c46, 8)),
           plan: S.String,
           previewCommentsEnabled: S.optional(S.Boolean),
           private: S.Boolean,
@@ -29316,13 +35204,13 @@ function __c39(j: number): any {
           withCache: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateProjectResponseAliasItemDeployment" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           configuredBy: S.optional(S.NullOr(S.String)),
           configuredChangedAt: S.optional(S.NullOr(S.Number)),
           createdAt: S.optional(S.NullOr(S.Number)),
-          deployment: S.NullOr(__S(1253, __c39, 5)),
+          deployment: S.NullOr(__S(1350, __c42, 6)),
           domain: S.String,
           environment: S.String,
           gitBranch: S.optional(S.NullOr(S.String)),
@@ -29331,12 +35219,12 @@ function __c39(j: number): any {
           target: S.String,
         }),
       ).annotate({ identifier: "CreateProjectResponseAliasItem" });
-    case 7:
-      return S.Array(__S(1254, __c39, 6));
     case 8:
+      return S.Array(__S(1351, __c42, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          aws: S.optional(__S(1386, __c43, 10)),
+          aws: S.optional(__S(1483, __c46, 11)),
           buildsEnabled: S.Boolean,
           connectConfigurationId: S.String,
           createdAt: S.Number,
@@ -29346,42 +35234,62 @@ function __c39(j: number): any {
           updatedAt: S.Number,
         }),
       ).annotate({ identifier: "CreateProjectResponseConnectConfigurationsItem" });
-    case 9:
-      return S.Array(__S(1256, __c39, 8));
     case 10:
-      return S.Array(S.Unknown);
+      return S.Array(__S(1353, __c42, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.Boolean,
-          environments: __S(1258, __c39, 10),
-          sources: __S(1312, __c41, 0),
+          buildMachineElasticLastUpdated: S.optional(S.Number),
+          buildMachineElasticReason: S.optional(S.String),
+          buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
+          buildMachineSelection: S.optional(S.String),
+          buildMachineType: S.optional(S.String),
+          buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticConcurrencyEnabled: S.optional(S.Boolean),
+          enableFunctionsBeta: S.optional(S.Boolean),
+          fluid: S.optional(S.Boolean),
+          functionDefaultMemoryType: S.optional(S.String),
+          functionDefaultRegions: __S(1216, __c38, 0),
+          functionDefaultTimeout: S.optional(S.Number),
+          functionZeroConfigFailover: S.optional(S.Boolean),
+          isNSNBDisabled: S.optional(S.Boolean),
+          elasticBuildMachine: S.optional(S.Unknown),
         }),
-      ).annotate({ identifier: "CreateProjectResponseDeploymentPolicyDeploymentSourcesItem" });
+      ).annotate({ identifier: "CreateProjectResponseDefaultResourceConfig" });
     case 12:
-      return S.Array(__S(1259, __c39, 11));
+      return S.Array(S.Unknown);
     case 13:
-      return S.Array(S.Unknown);
-    case 14:
-      return S.Array(S.Unknown);
-    case 15:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
-          environments: __S(1261, __c39, 13),
-          sources: __S(1262, __c39, 14),
+          environments: __S(1356, __c42, 12),
+          sources: __S(1408, __c44, 0),
         }),
-      ).annotate({ identifier: "CreateProjectResponseDeploymentPolicyGitSourcesItem" });
+      ).annotate({ identifier: "CreateProjectResponseDeploymentPolicyDeploymentSourcesItem" });
+    case 14:
+      return S.Array(__S(1357, __c42, 13));
+    case 15:
+      return S.Array(S.Unknown);
     case 16:
-      return S.Array(__S(1263, __c39, 15));
+      return S.Array(S.Unknown);
     case 17:
       return S.suspend(() =>
         S.Struct({
-          deploymentSources: S.optional(S.NullOr(__S(1260, __c39, 12))),
-          gitSources: S.optional(S.NullOr(__S(1264, __c39, 16))),
+          enabled: S.Boolean,
+          environments: __S(1359, __c42, 15),
+          sources: __S(1360, __c42, 16),
+        }),
+      ).annotate({ identifier: "CreateProjectResponseDeploymentPolicyGitSourcesItem" });
+    case 18:
+      return S.Array(__S(1361, __c42, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          deploymentSources: S.optional(S.NullOr(__S(1358, __c42, 14))),
+          gitSources: S.optional(S.NullOr(__S(1362, __c42, 18))),
         }),
       ).annotate({ identifier: "CreateProjectResponseDeploymentPolicy" });
-    case 18:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
@@ -29390,9 +35298,9 @@ function __c39(j: number): any {
           value: S.NullOr(S.Unknown),
         }),
       ).annotate({ identifier: "CreateProjectResponseDismissedToastsItem" });
-    case 19:
-      return S.Array(__S(1266, __c39, 18));
-    case 20:
+    case 21:
+      return S.Array(__S(1364, __c42, 20));
+    case 22:
       return S.suspend(() =>
         S.Struct({
           comment: S.optional(S.String),
@@ -29406,7 +35314,7 @@ function __c39(j: number): any {
           edgeConfigTokenId: S.optional(S.NullOr(S.String)),
           gitBranch: S.optional(S.String),
           id: S.optional(S.String),
-          internalContentHint: S.optional(S.NullOr(__S(1313, __c41, 1))),
+          internalContentHint: S.optional(S.NullOr(__S(1409, __c44, 1))),
           key: S.String,
           legacyValue: S.optional(S.String),
           sunsetSecretId: S.optional(S.String),
@@ -29419,36 +35327,36 @@ function __c39(j: number): any {
           vsmValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateProjectResponseEnvItem" });
-    case 21:
-      return S.Array(__S(1268, __c39, 20));
-    case 22:
-      return S.Array(S.Unknown);
     case 23:
+      return S.Array(__S(1366, __c42, 22));
+    case 24:
+      return S.Array(S.Unknown);
+    case 25:
       return S.suspend(() =>
         S.Struct({
           alias: S.optional(__S(1216, __c38, 0)),
           aliasAssigned: S.optional(S.NullOr(S.Unknown)),
-          aliasError: S.optional(S.NullOr(__S(1378, __c43, 2))),
+          aliasError: S.optional(S.NullOr(__S(1475, __c46, 3))),
           aliasFinal: S.optional(S.NullOr(S.String)),
           automaticAliases: S.optional(__S(1216, __c38, 0)),
-          branchMatcher: S.optional(__S(1379, __c43, 3)),
+          branchMatcher: S.optional(__S(1476, __c46, 4)),
           buildingAt: S.optional(S.Number),
-          builds: S.optional(__S(1381, __c43, 5)),
+          builds: S.optional(__S(1478, __c46, 6)),
           checksConclusion: S.optional(S.String),
           checksState: S.optional(S.String),
           connectBuildsEnabled: S.optional(S.Boolean),
           connectConfigurationId: S.optional(S.String),
           createdAt: S.Number,
           createdIn: S.String,
-          creator: S.NullOr(__S(1382, __c43, 6)),
+          creator: S.NullOr(__S(1479, __c46, 7)),
           deletedAt: S.optional(S.Number),
           deploymentHostname: S.String,
           forced: S.optional(S.Boolean),
           id: S.String,
-          meta: S.optional(__S(1344, __c42, 0)),
+          meta: S.optional(__S(1440, __c45, 0)),
           monorepoManager: S.optional(S.NullOr(S.String)),
           name: S.String,
-          oidcTokenClaims: S.optional(__S(1383, __c43, 7)),
+          oidcTokenClaims: S.optional(__S(1480, __c46, 8)),
           plan: S.String,
           previewCommentsEnabled: S.optional(S.Boolean),
           private: S.Boolean,
@@ -29464,24 +35372,58 @@ function __c39(j: number): any {
           withCache: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateProjectResponseLatestDeploymentsItem" });
-    case 24:
-      return S.Array(__S(1271, __c39, 23));
-    case 25:
-      return S.Record(S.String, S.Unknown);
     case 26:
+      return S.Array(__S(1369, __c42, 25));
+    case 27:
+      return S.Record(S.String, S.Unknown);
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          buildMachineElasticLastUpdated: S.optional(S.Number),
+          buildMachineElasticReason: S.optional(S.String),
+          buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
+          buildMachineSelection: S.optional(S.String),
+          buildMachineType: S.optional(S.String),
+          buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticConcurrencyEnabled: S.optional(S.Boolean),
+          enableFunctionsBeta: S.optional(S.Boolean),
+          fluid: S.optional(S.Boolean),
+          functionDefaultMemoryType: S.optional(S.String),
+          functionDefaultRegions: __S(1216, __c38, 0),
+          functionDefaultTimeout: S.optional(S.Number),
+          functionZeroConfigFailover: S.optional(S.Boolean),
+          isNSNBDisabled: S.optional(S.Boolean),
+          elasticBuildMachine: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "CreateProjectResponseResourceConfig" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.Number,
+          description: S.String,
+          principal: S.optional(S.Unknown),
+          userId: S.optional(S.String),
+          username: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateProjectResponseRollbackDescription" });
+    case 30:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
           actionDuration: S.optional(S.NullOr(S.String)),
           bypassSystem: S.optional(S.NullOr(S.Boolean)),
           logHeaders: S.optional(S.Unknown),
-          rateLimit: S.optional(S.NullOr(__S(1423, __c44, 15))),
-          redirect: S.optional(S.NullOr(__S(1424, __c44, 16))),
+          rateLimit: S.optional(S.NullOr(__S(1518, __c47, 14))),
+          redirect: S.optional(S.NullOr(__S(1519, __c47, 15))),
         }),
       ).annotate({ identifier: "CreateProjectResponseSecurityRulesetsValue" });
-    case 27:
-      return S.Record(S.String, __S(1274, __c39, 26));
-    case 28:
+    case 31:
+      return S.Record(S.String, __S(1374, __c42, 30));
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           attackModeActiveUntil: S.optional(S.NullOr(S.Number)),
@@ -29496,37 +35438,37 @@ function __c39(j: number): any {
           ja3Enabled: S.optional(S.Boolean),
           ja4Enabled: S.optional(S.Boolean),
           log_headers: S.optional(S.Unknown),
-          managedRules: S.optional(S.NullOr(__S(1422, __c44, 14))),
+          managedRules: S.optional(S.NullOr(__S(1517, __c47, 13))),
           pageIntegrityEnabled: S.optional(S.Boolean),
-          rulesets: S.optional(__S(1275, __c39, 27)),
+          rulesets: S.optional(__S(1375, __c42, 31)),
         }),
       ).annotate({ identifier: "CreateProjectResponseSecurity" });
-    case 29:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           alias: S.optional(__S(1216, __c38, 0)),
           aliasAssigned: S.optional(S.NullOr(S.Unknown)),
-          aliasError: S.optional(S.NullOr(__S(1378, __c43, 2))),
+          aliasError: S.optional(S.NullOr(__S(1475, __c46, 3))),
           aliasFinal: S.optional(S.NullOr(S.String)),
           automaticAliases: S.optional(__S(1216, __c38, 0)),
-          branchMatcher: S.optional(__S(1379, __c43, 3)),
+          branchMatcher: S.optional(__S(1476, __c46, 4)),
           buildingAt: S.optional(S.Number),
-          builds: S.optional(__S(1381, __c43, 5)),
+          builds: S.optional(__S(1478, __c46, 6)),
           checksConclusion: S.optional(S.String),
           checksState: S.optional(S.String),
           connectBuildsEnabled: S.optional(S.Boolean),
           connectConfigurationId: S.optional(S.String),
           createdAt: S.Number,
           createdIn: S.String,
-          creator: S.NullOr(__S(1382, __c43, 6)),
+          creator: S.NullOr(__S(1479, __c46, 7)),
           deletedAt: S.optional(S.Number),
           deploymentHostname: S.String,
           forced: S.optional(S.Boolean),
           id: S.String,
-          meta: S.optional(__S(1344, __c42, 0)),
+          meta: S.optional(__S(1440, __c45, 0)),
           monorepoManager: S.optional(S.NullOr(S.String)),
           name: S.String,
-          oidcTokenClaims: S.optional(__S(1383, __c43, 7)),
+          oidcTokenClaims: S.optional(__S(1480, __c46, 8)),
           plan: S.String,
           previewCommentsEnabled: S.optional(S.Boolean),
           private: S.Boolean,
@@ -29542,154 +35484,152 @@ function __c39(j: number): any {
           withCache: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateProjectResponseTargetsValue" });
-    case 30:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(1277, __c39, 29)));
-    case 31:
+    case 2:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(1377, __c43, 1)));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           to: S.Unknown,
-          claims: __S(1433, __c44, 25),
+          claims: __S(1528, __c47, 24),
           label: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateProjectResponseTrustedSourcesOidcProvidersValueItem" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1279, __c39, 31));
-    case 1:
-      return S.Record(S.String, __S(1280, __c40, 0));
-    case 2:
+    case 4:
+      return S.Array(__S(1379, __c43, 3));
+    case 5:
+      return S.Record(S.String, __S(1380, __c43, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           from: S.Unknown,
           to: S.Unknown,
         }),
       ).annotate({ identifier: "CreateProjectResponseTrustedSourcesProjectsValueCustomAllowItem" });
-    case 3:
-      return S.Array(__S(1282, __c40, 2));
-    case 4:
+    case 7:
+      return S.Array(__S(1382, __c43, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          customAllow: S.optional(__S(1283, __c40, 3)),
+          customAllow: S.optional(__S(1383, __c43, 7)),
           label: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateProjectResponseTrustedSourcesProjectsValue" });
-    case 5:
-      return S.Record(S.String, __S(1284, __c40, 4));
-    case 6:
+    case 9:
+      return S.Record(S.String, __S(1384, __c43, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
           enableVercelCiSameRepository: S.optional(S.Boolean),
-          oidcProviders: S.optional(__S(1281, __c40, 1)),
-          projects: S.optional(__S(1285, __c40, 5)),
+          oidcProviders: S.optional(__S(1381, __c43, 5)),
+          projects: S.optional(__S(1385, __c43, 9)),
         }),
       ).annotate({ identifier: "CreateProjectResponseTrustedSources" });
-    case 7:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String,
-          alias: __S(1255, __c39, 7),
-          analytics: S.optional(__S(1384, __c43, 8)),
+          alias: __S(1352, __c42, 8),
+          analytics: S.optional(__S(1481, __c46, 9)),
           appliedCve55182Migration: S.optional(S.Boolean),
           autoAssignCustomDomains: S.optional(S.Boolean),
           autoAssignCustomDomainsUpdatedBy: S.optional(S.String),
           autoExposeSystemEnvs: S.optional(S.Boolean),
           avatar: S.optional(S.NullOr(S.String)),
-          blobs: S.optional(__S(1385, __c43, 9)),
+          avatarDarkMode: S.optional(S.NullOr(S.String)),
+          blobs: S.optional(__S(1482, __c46, 10)),
           buildCommand: S.optional(S.NullOr(S.String)),
           commandForIgnoringBuildStep: S.optional(S.NullOr(S.String)),
           concurrencyBucketName: S.optional(S.String),
           connectBuildsEnabled: S.optional(S.Boolean),
           connectConfigurationId: S.optional(S.NullOr(S.String)),
-          connectConfigurations: S.optional(S.NullOr(__S(1257, __c39, 9))),
+          connectConfigurations: S.optional(S.NullOr(__S(1354, __c42, 10))),
           createdAt: S.optional(S.Number),
           creator: S.optional(S.Unknown),
-          crons: S.optional(__S(1389, __c43, 13)),
-          customEnvironments: S.optional(__S(1392, __c43, 16)),
+          crons: S.optional(__S(1486, __c46, 14)),
+          customEnvironments: S.optional(__S(1489, __c46, 17)),
           customerSupportCodeVisibility: S.optional(S.Boolean),
-          dataCache: S.optional(__S(1393, __c43, 17)),
-          defaultResourceConfig: __S(1395, __c43, 19),
-          deploymentExpiration: __S(1396, __c43, 20),
-          deploymentPolicy: S.optional(S.NullOr(__S(1265, __c39, 17))),
+          dataCache: S.optional(__S(1490, __c46, 18)),
+          defaultResourceConfig: __S(1355, __c42, 11),
+          deploymentExpiration: __S(1492, __c46, 20),
+          deploymentPolicy: S.optional(S.NullOr(__S(1363, __c42, 19))),
           devCommand: S.optional(S.NullOr(S.String)),
           directoryListing: S.Boolean,
-          dismissedToasts: S.optional(__S(1267, __c39, 19)),
+          dismissedToasts: S.optional(__S(1365, __c42, 21)),
           enableAffectedProjectsDeployments: S.optional(S.Boolean),
           enableExternalRewriteCaching: S.optional(S.Boolean),
           enablePreviewFeedback: S.optional(S.NullOr(S.Boolean)),
           enableProductionFeedback: S.optional(S.NullOr(S.Boolean)),
-          env: S.optional(__S(1269, __c39, 21)),
+          env: S.optional(__S(1367, __c42, 23)),
           expiration: S.optional(S.Unknown),
-          features: S.optional(__S(1397, __c43, 21)),
+          features: S.optional(__S(1493, __c46, 21)),
           framework: S.optional(S.NullOr(S.String)),
-          gitComments: S.optional(__S(1398, __c43, 22)),
+          gitComments: S.optional(__S(1494, __c46, 22)),
           gitForkProtection: S.optional(S.Boolean),
           gitLFS: S.optional(S.Boolean),
-          gitProviderOptions: S.optional(__S(1400, __c43, 24)),
+          gitProviderOptions: S.optional(__S(1496, __c46, 24)),
           hasActiveBranches: S.optional(S.Boolean),
           hasDeployments: S.optional(S.Boolean),
           id: S.String,
           installCommand: S.optional(S.NullOr(S.String)),
-          internalRoutes: S.optional(__S(1270, __c39, 22)),
-          ipBuckets: S.optional(__S(1402, __c43, 26)),
-          jobs: S.optional(__S(1404, __c43, 28)),
-          lastAliasRequest: S.optional(S.NullOr(__S(1405, __c43, 29))),
+          internalRoutes: S.optional(__S(1368, __c42, 24)),
+          ipBuckets: S.optional(__S(1498, __c46, 26)),
+          jobs: S.optional(__S(1500, __c46, 28)),
+          lastAliasRequest: S.optional(S.NullOr(__S(1501, __c46, 29))),
           lastRollbackTarget: S.optional(S.NullOr(S.Unknown)),
-          latestDeployments: S.optional(__S(1272, __c39, 24)),
+          latestDeployments: S.optional(__S(1370, __c42, 26)),
           link: S.optional(S.Unknown),
           live: S.optional(S.Boolean),
           microfrontends: S.optional(S.Unknown),
           name: S.String,
           nodeVersion: S.String,
-          oidcTokenConfig: S.optional(__S(1376, __c43, 0)),
-          optionsAllowlist: S.optional(S.NullOr(__S(1408, __c44, 0))),
+          oidcTokenConfig: S.optional(__S(1473, __c46, 1)),
+          optionsAllowlist: S.optional(S.NullOr(__S(1504, __c47, 0))),
           outputDirectory: S.optional(S.NullOr(S.String)),
           passiveConnectConfigurationId: S.optional(S.NullOr(S.String)),
-          passport: S.optional(S.NullOr(__S(1409, __c44, 1))),
-          passwordProtection: S.optional(S.NullOr(S.Unknown)),
+          passport: S.optional(S.NullOr(__S(1505, __c47, 1))),
+          passwordProtection: S.optional(S.NullOr(__S(1472, __c46, 0))),
           paused: S.optional(S.Boolean),
-          permissions: S.optional(__S(1410, __c44, 2)),
+          permissions: S.optional(__S(1506, __c47, 2)),
           productionDeploymentsFastLane: S.optional(S.Boolean),
           protectedSourcemaps: S.optional(S.Boolean),
-          protectionBypass: S.optional(__S(1273, __c39, 25)),
-          protectionConfig: S.optional(__S(1412, __c44, 4)),
-          resourceConfig: __S(1395, __c43, 19),
-          rollbackDescription: S.optional(__S(1413, __c44, 5)),
-          rollingRelease: S.optional(S.NullOr(__S(1419, __c44, 11))),
+          protectionBypass: S.optional(__S(1371, __c42, 27)),
+          protectionConfig: S.optional(__S(1508, __c47, 4)),
+          resourceConfig: __S(1372, __c42, 28),
+          rollbackDescription: S.optional(__S(1373, __c42, 29)),
+          rollingRelease: S.optional(S.NullOr(__S(1514, __c47, 10))),
           rootDirectory: S.optional(S.NullOr(S.String)),
-          sandbox: S.optional(__S(1420, __c44, 12)),
-          security: S.optional(__S(1276, __c39, 28)),
+          sandbox: S.optional(__S(1515, __c47, 11)),
+          security: S.optional(__S(1376, __c43, 0)),
           serverlessFunctionZeroConfigFailover: S.optional(S.Boolean),
-          services: S.optional(__S(1426, __c44, 18)),
+          services: S.optional(__S(1521, __c47, 17)),
           skewProtectionAllowedDomains: S.optional(__S(1216, __c38, 0)),
           skewProtectionBoundaryAt: S.optional(S.Number),
           skewProtectionMaxAge: S.optional(S.Number),
           skipGitConnectDuringLink: S.optional(S.Boolean),
           sourceFilesOutsideRootDirectory: S.optional(S.Boolean),
-          speedInsights: S.optional(__S(1427, __c44, 19)),
-          ssoProtection: S.optional(S.NullOr(__S(1428, __c44, 20))),
-          staticIps: S.optional(__S(1429, __c44, 21)),
-          targets: S.optional(__S(1278, __c39, 30)),
+          speedInsights: S.optional(__S(1522, __c47, 18)),
+          ssoProtection: S.optional(S.NullOr(__S(1523, __c47, 19))),
+          staticIps: S.optional(__S(1524, __c47, 20)),
+          targets: S.optional(__S(1378, __c43, 2)),
           tier: S.optional(S.String),
-          tracing: S.optional(__S(1432, __c44, 24)),
+          tracing: S.optional(__S(1527, __c47, 23)),
           transferCompletedAt: S.optional(S.Number),
           transferredFromAccountId: S.optional(S.String),
           transferStartedAt: S.optional(S.Number),
           transferToAccountId: S.optional(S.String),
           trustedIps: S.optional(S.NullOr(S.Unknown)),
-          trustedSources: S.optional(S.NullOr(__S(1286, __c40, 6))),
+          trustedSources: S.optional(S.NullOr(__S(1386, __c43, 10))),
           updatedAt: S.optional(S.Number),
-          usageStatus: S.optional(__S(1434, __c44, 26)),
+          usageStatus: S.optional(__S(1529, __c47, 25)),
           v0: S.optional(S.Boolean),
           v0Created: S.optional(S.Boolean),
-          webAnalytics: S.optional(__S(1435, __c44, 27)),
+          vercelFlags: S.optional(__S(1530, __c47, 26)),
+          webAnalytics: S.optional(__S(1531, __c47, 27)),
         }),
       ).annotate({ identifier: "CreateProjectResponse" });
   }
 }
-function __c41(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -29702,7 +35642,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "CreateProjectResponseEnvItemInternalContentHint" });
   }
 }
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -29710,36 +35650,42 @@ function __c42(j: number): any {
       return S.Array(S.Number);
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deploymentType: S.String,
+        }),
+      ).annotate({ identifier: "CreateProjectRequestSsoProtection" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
           issuerMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateProjectRequestOidcTokenConfig" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           configuration: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateProjectRequestResourceConfigBuildQueue" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           code: S.String,
           message: S.String,
         }),
       ).annotate({ identifier: "CreateProjectResponseAliasItemDeploymentAliasError" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           pattern: S.String,
           type: S.String,
         }),
       ).annotate({ identifier: "CreateProjectResponseAliasItemDeploymentBranchMatcher" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           dest: S.optional(S.String),
@@ -29747,9 +35693,9 @@ function __c43(j: number): any {
           use: S.String,
         }),
       ).annotate({ identifier: "CreateProjectResponseAliasItemDeploymentBuildsItem" });
-    case 5:
-      return S.Array(__S(1380, __c43, 4));
     case 6:
+      return S.Array(__S(1477, __c46, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           email: S.String,
@@ -29759,7 +35705,7 @@ function __c43(j: number): any {
           username: S.String,
         }),
       ).annotate({ identifier: "CreateProjectResponseAliasItemDeploymentCreator" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           aud: S.String,
@@ -29777,7 +35723,7 @@ function __c43(j: number): any {
           sub: S.String,
         }),
       ).annotate({ identifier: "CreateProjectResponseAliasItemDeploymentOidcTokenClaims" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           canceledAt: S.optional(S.NullOr(S.Number)),
@@ -29789,20 +35735,20 @@ function __c43(j: number): any {
           spendLimitInDollars: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "CreateProjectResponseAnalytics" });
-    case 9:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           isDefaultApp: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateProjectResponseBlobs" });
-    case 10:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           securityGroupId: S.optional(S.String),
           subnetIds: __S(1216, __c38, 0),
         }),
       ).annotate({ identifier: "CreateProjectResponseConnectConfigurationsItemAws" });
-    case 11:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
@@ -29813,37 +35759,37 @@ function __c43(j: number): any {
           source: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateProjectResponseCronsDefinitionsItem" });
-    case 12:
-      return S.Array(__S(1387, __c43, 11));
     case 13:
+      return S.Array(__S(1484, __c46, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
-          definitions: __S(1388, __c43, 12),
+          definitions: __S(1485, __c46, 13),
           deploymentId: S.NullOr(S.String),
           disabledAt: S.NullOr(S.Number),
           enabledAt: S.Number,
           updatedAt: S.Number,
         }),
       ).annotate({ identifier: "CreateProjectResponseCrons" });
-    case 14:
-      return S.Array(__S(1154, __c36, 2));
     case 15:
+      return S.Array(__S(1282, __c40, 2));
+    case 16:
       return S.suspend(() =>
         S.Struct({
-          branchMatcher: S.optional(__S(1379, __c43, 3)),
+          branchMatcher: S.optional(__S(1476, __c46, 4)),
           createdAt: S.Number,
           currentDeploymentAliases: S.optional(__S(1216, __c38, 0)),
           description: S.optional(S.String),
-          domains: S.optional(__S(1390, __c43, 14)),
+          domains: S.optional(__S(1487, __c46, 15)),
           id: S.String,
           slug: S.String,
           type: S.String,
           updatedAt: S.Number,
         }),
       ).annotate({ identifier: "CreateProjectResponseCustomEnvironmentsItem" });
-    case 16:
-      return S.Array(__S(1391, __c43, 15));
     case 17:
+      return S.Array(__S(1488, __c46, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           storageSizeBytes: S.optional(S.NullOr(S.Number)),
@@ -29851,7 +35797,7 @@ function __c43(j: number): any {
           userDisabled: S.Boolean,
         }),
       ).annotate({ identifier: "CreateProjectResponseDataCache" });
-    case 18:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           algorithmVersion: S.String,
@@ -29861,25 +35807,6 @@ function __c43(j: number): any {
       ).annotate({
         identifier: "CreateProjectResponseDefaultResourceConfigBuildMachineElasticTransition",
       });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          buildMachineElasticLastUpdated: S.optional(S.Number),
-          buildMachineElasticReason: S.optional(S.String),
-          buildMachineElasticTransition: S.optional(__S(1394, __c43, 18)),
-          buildMachineSelection: S.optional(S.String),
-          buildMachineType: S.optional(S.String),
-          buildQueue: S.optional(__S(1377, __c43, 1)),
-          elasticConcurrencyEnabled: S.optional(S.Boolean),
-          enableFunctionsBeta: S.optional(S.Boolean),
-          fluid: S.optional(S.Boolean),
-          functionDefaultMemoryType: S.optional(S.String),
-          functionDefaultRegions: __S(1216, __c38, 0),
-          functionDefaultTimeout: S.optional(S.Number),
-          functionZeroConfigFailover: S.optional(S.Boolean),
-          isNSNBDisabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "CreateProjectResponseDefaultResourceConfig" });
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -29915,7 +35842,7 @@ function __c43(j: number): any {
     case 24:
       return S.suspend(() =>
         S.Struct({
-          consolidatedGitCommitStatus: S.optional(__S(1399, __c43, 23)),
+          consolidatedGitCommitStatus: S.optional(__S(1495, __c46, 23)),
           createDeployments: S.String,
           disableRepositoryDispatchEvents: S.optional(S.Boolean),
           gitCommitStatus: S.optional(S.Boolean),
@@ -29931,7 +35858,7 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "CreateProjectResponseIpBucketsItem" });
     case 26:
-      return S.Array(__S(1401, __c43, 25));
+      return S.Array(__S(1497, __c46, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
@@ -29942,11 +35869,12 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           flag_definitions_present: S.optional(
-            __S(1403, __c43, 27).pipe(T.Body("flag-definitions-present")),
+            __S(1499, __c46, 27).pipe(T.Body("flag-definitions-present")),
           ),
-          lint: S.optional(__S(1403, __c43, 27)),
-          mfe_config_present: S.optional(__S(1403, __c43, 27).pipe(T.Body("mfe-config-present"))),
-          typecheck: S.optional(__S(1403, __c43, 27)),
+          health_check: S.optional(__S(1499, __c46, 27).pipe(T.Body("health-check"))),
+          lint: S.optional(__S(1499, __c46, 27)),
+          mfe_config_present: S.optional(__S(1499, __c46, 27).pipe(T.Body("mfe-config-present"))),
+          typecheck: S.optional(__S(1499, __c46, 27)),
         }),
       ).annotate({ identifier: "CreateProjectResponseJobs" });
     case 29:
@@ -29967,15 +35895,15 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "CreateProjectResponseOptionsAllowlistPathsItem" });
     case 31:
-      return S.Array(__S(1406, __c43, 30));
+      return S.Array(__S(1502, __c46, 30));
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          paths: __S(1407, __c43, 31),
+          paths: __S(1503, __c46, 31),
         }),
       ).annotate({ identifier: "CreateProjectResponseOptionsAllowlist" });
     case 1:
@@ -29988,295 +35916,305 @@ function __c44(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          accessGroup: S.optional(__S(1312, __c41, 0)),
-          agent: S.optional(__S(1312, __c41, 0)),
-          aiGatewayApiKey: S.optional(__S(1312, __c41, 0)),
-          aiGatewayApiKeyBypassAll: S.optional(__S(1312, __c41, 0)),
-          aiGatewayApiKeyOwnedBySelf: S.optional(__S(1312, __c41, 0)),
-          aiGatewayApiKeySpendAttribution: S.optional(__S(1312, __c41, 0)),
-          aiGatewayApiKeyZdrExemption: S.optional(__S(1312, __c41, 0)),
-          aiGatewayBudget: S.optional(__S(1312, __c41, 0)),
-          aiGatewayCredits: S.optional(__S(1312, __c41, 0)),
-          aiGatewayGuardrails: S.optional(__S(1312, __c41, 0)),
-          aiGatewayPrivateModels: S.optional(__S(1312, __c41, 0)),
-          aiGatewayRules: S.optional(__S(1312, __c41, 0)),
-          aiGatewaySettings: S.optional(__S(1312, __c41, 0)),
-          aiGatewayTranscripts: S.optional(__S(1312, __c41, 0)),
-          aiGatewayTranscriptsSettings: S.optional(__S(1312, __c41, 0)),
-          aiGatewayUsage: S.optional(__S(1312, __c41, 0)),
-          aiGatewayVirtualModelConfigs: S.optional(__S(1312, __c41, 0)),
-          alertRules: S.optional(__S(1312, __c41, 0)),
-          alerts: S.optional(__S(1312, __c41, 0)),
-          aliasGlobal: S.optional(__S(1312, __c41, 0)),
-          aliasProject: S.optional(__S(1312, __c41, 0)),
-          aliasProtectionBypass: S.optional(__S(1312, __c41, 0)),
-          analytics: S.optional(__S(1312, __c41, 0)),
-          analyticsSampling: S.optional(__S(1312, __c41, 0)),
-          analyticsUsage: S.optional(__S(1312, __c41, 0)),
-          apiKey: S.optional(__S(1312, __c41, 0)),
-          apiKeyAiGateway: S.optional(__S(1312, __c41, 0)),
-          apiKeyOwnedBySelf: S.optional(__S(1312, __c41, 0)),
-          auditLog: S.optional(__S(1312, __c41, 0)),
-          automation: S.optional(__S(1312, __c41, 0)),
-          billingAddress: S.optional(__S(1312, __c41, 0)),
-          billingInformation: S.optional(__S(1312, __c41, 0)),
-          billingInvoice: S.optional(__S(1312, __c41, 0)),
-          billingInvoiceEmailRecipient: S.optional(__S(1312, __c41, 0)),
-          billingInvoiceLanguage: S.optional(__S(1312, __c41, 0)),
-          billingPlan: S.optional(__S(1312, __c41, 0)),
-          billingPurchaseOrder: S.optional(__S(1312, __c41, 0)),
-          billingRefund: S.optional(__S(1312, __c41, 0)),
-          billingTaxId: S.optional(__S(1312, __c41, 0)),
-          blob: S.optional(__S(1312, __c41, 0)),
-          blobStoreTokenSet: S.optional(__S(1312, __c41, 0)),
-          budget: S.optional(__S(1312, __c41, 0)),
-          buildMachine: S.optional(__S(1312, __c41, 0)),
-          buildMachineDefault: S.optional(__S(1312, __c41, 0)),
-          bulkRedirects: S.optional(__S(1312, __c41, 0)),
-          cacheArtifact: S.optional(__S(1312, __c41, 0)),
-          cacheArtifactUsageEvent: S.optional(__S(1312, __c41, 0)),
-          ciInvocations: S.optional(__S(1312, __c41, 0)),
-          ciLogs: S.optional(__S(1312, __c41, 0)),
-          codeChecks: S.optional(__S(1312, __c41, 0)),
-          codeOwners: S.optional(__S(1312, __c41, 0)),
-          concurrentBuilds: S.optional(__S(1312, __c41, 0)),
-          connect: S.optional(__S(1312, __c41, 0)),
-          connectConfiguration: S.optional(__S(1312, __c41, 0)),
-          connectConfigurationLink: S.optional(__S(1312, __c41, 0)),
-          connectLogs: S.optional(__S(1312, __c41, 0)),
-          connexClient: S.optional(__S(1312, __c41, 0)),
-          connexClientProject: S.optional(__S(1312, __c41, 0)),
-          connexContact: S.optional(__S(1312, __c41, 0)),
-          connexInstallation: S.optional(__S(1312, __c41, 0)),
-          connexToken: S.optional(__S(1312, __c41, 0)),
-          cursorOriginInstallation: S.optional(__S(1312, __c41, 0)),
-          dataCacheBillingSettings: S.optional(__S(1312, __c41, 0)),
-          dataCacheNamespace: S.optional(__S(1312, __c41, 0)),
-          defaultDeploymentProtection: S.optional(__S(1312, __c41, 0)),
-          deployment: S.optional(__S(1312, __c41, 0)),
-          deploymentBuildLogs: S.optional(__S(1312, __c41, 0)),
-          deploymentCheck: S.optional(__S(1312, __c41, 0)),
-          deploymentCheckPreview: S.optional(__S(1312, __c41, 0)),
-          deploymentCheckReRunFromProductionBranch: S.optional(__S(1312, __c41, 0)),
-          deploymentPolicy: S.optional(__S(1312, __c41, 0)),
-          deploymentPreview: S.optional(__S(1312, __c41, 0)),
-          deploymentPrivate: S.optional(__S(1312, __c41, 0)),
-          deploymentProductionGit: S.optional(__S(1312, __c41, 0)),
-          deploymentPromote: S.optional(__S(1312, __c41, 0)),
-          deploymentProtectionException: S.optional(__S(1312, __c41, 0)),
-          deploymentRollback: S.optional(__S(1312, __c41, 0)),
-          deploymentV0: S.optional(__S(1312, __c41, 0)),
-          domain: S.optional(__S(1312, __c41, 0)),
-          domainAcceptDelegation: S.optional(__S(1312, __c41, 0)),
-          domainAuthCodes: S.optional(__S(1312, __c41, 0)),
-          domainCertificate: S.optional(__S(1312, __c41, 0)),
-          domainCheckConfig: S.optional(__S(1312, __c41, 0)),
-          domainMove: S.optional(__S(1312, __c41, 0)),
-          domainPurchase: S.optional(__S(1312, __c41, 0)),
-          domainRecord: S.optional(__S(1312, __c41, 0)),
-          domainTransferIn: S.optional(__S(1312, __c41, 0)),
-          drain: S.optional(__S(1312, __c41, 0)),
-          edgeCacheNamespace: S.optional(__S(1312, __c41, 0)),
-          edgeConfig: S.optional(__S(1312, __c41, 0)),
-          edgeConfigItem: S.optional(__S(1312, __c41, 0)),
-          edgeConfigSchema: S.optional(__S(1312, __c41, 0)),
-          edgeConfigToken: S.optional(__S(1312, __c41, 0)),
-          endpointVerification: S.optional(__S(1312, __c41, 0)),
-          environments: S.optional(__S(1312, __c41, 0)),
-          event: S.optional(__S(1312, __c41, 0)),
-          fileUpload: S.optional(__S(1312, __c41, 0)),
-          flagsExplorerSubscription: S.optional(__S(1312, __c41, 0)),
-          gitCredentialGrant: S.optional(__S(1312, __c41, 0)),
-          gitRepository: S.optional(__S(1312, __c41, 0)),
-          imageOptimizationNewPrice: S.optional(__S(1312, __c41, 0)),
-          integration: S.optional(__S(1312, __c41, 0)),
-          integrationAccount: S.optional(__S(1312, __c41, 0)),
-          integrationConfiguration: S.optional(__S(1312, __c41, 0)),
-          integrationConfigurationProjects: S.optional(__S(1312, __c41, 0)),
-          integrationConfigurationRole: S.optional(__S(1312, __c41, 0)),
-          integrationConfigurationTransfer: S.optional(__S(1312, __c41, 0)),
-          integrationDeploymentAction: S.optional(__S(1312, __c41, 0)),
-          integrationEvent: S.optional(__S(1312, __c41, 0)),
-          integrationLog: S.optional(__S(1312, __c41, 0)),
-          integrationPullRequest: S.optional(__S(1312, __c41, 0)),
-          integrationResource: S.optional(__S(1312, __c41, 0)),
-          integrationResourceData: S.optional(__S(1312, __c41, 0)),
-          integrationResourceReplCommand: S.optional(__S(1312, __c41, 0)),
-          integrationResourceSecrets: S.optional(__S(1312, __c41, 0)),
-          integrationSSOSession: S.optional(__S(1312, __c41, 0)),
-          integrationStoreTokenSet: S.optional(__S(1312, __c41, 0)),
-          integrationStrict: S.optional(__S(1312, __c41, 0)),
-          integrationVercelConfigurationOverride: S.optional(__S(1312, __c41, 0)),
-          ipBlocking: S.optional(__S(1312, __c41, 0)),
-          job: S.optional(__S(1312, __c41, 0)),
-          jobGlobal: S.optional(__S(1312, __c41, 0)),
-          kmsIssuer: S.optional(__S(1312, __c41, 0)),
-          kmsProjectGrant: S.optional(__S(1312, __c41, 0)),
-          logDrain: S.optional(__S(1312, __c41, 0)),
-          logs: S.optional(__S(1312, __c41, 0)),
-          logsPreset: S.optional(__S(1312, __c41, 0)),
-          marketplaceBillingData: S.optional(__S(1312, __c41, 0)),
-          marketplaceExperimentationEdgeConfigData: S.optional(__S(1312, __c41, 0)),
-          marketplaceExperimentationItem: S.optional(__S(1312, __c41, 0)),
-          marketplaceFlexCommit: S.optional(__S(1312, __c41, 0)),
-          marketplaceInstallationMember: S.optional(__S(1312, __c41, 0)),
-          marketplaceInvoice: S.optional(__S(1312, __c41, 0)),
-          marketplaceSettings: S.optional(__S(1312, __c41, 0)),
-          messageboard: S.optional(__S(1312, __c41, 0)),
-          messageboardSpace: S.optional(__S(1312, __c41, 0)),
-          messageboardTask: S.optional(__S(1312, __c41, 0)),
-          Monitoring: S.optional(__S(1312, __c41, 0)),
-          monitoringAlert: S.optional(__S(1312, __c41, 0)),
-          monitoringChart: S.optional(__S(1312, __c41, 0)),
-          monitoringQuery: S.optional(__S(1312, __c41, 0)),
-          monitoringSettings: S.optional(__S(1312, __c41, 0)),
-          notificationCustomerBudget: S.optional(__S(1312, __c41, 0)),
-          notificationDeploymentFailed: S.optional(__S(1312, __c41, 0)),
-          notificationDomainConfiguration: S.optional(__S(1312, __c41, 0)),
-          notificationDomainExpire: S.optional(__S(1312, __c41, 0)),
-          notificationDomainMoved: S.optional(__S(1312, __c41, 0)),
-          notificationDomainPurchase: S.optional(__S(1312, __c41, 0)),
-          notificationDomainRenewal: S.optional(__S(1312, __c41, 0)),
-          notificationDomainTransfer: S.optional(__S(1312, __c41, 0)),
-          notificationDomainUnverified: S.optional(__S(1312, __c41, 0)),
-          NotificationMonitoringAlert: S.optional(__S(1312, __c41, 0)),
-          notificationPaymentFailed: S.optional(__S(1312, __c41, 0)),
-          notificationPreferences: S.optional(__S(1312, __c41, 0)),
-          notificationStatementOfReasons: S.optional(__S(1312, __c41, 0)),
-          notificationUsageAlert: S.optional(__S(1312, __c41, 0)),
-          oauth2Application: S.optional(__S(1312, __c41, 0)),
-          oauth2Connection: S.optional(__S(1312, __c41, 0)),
-          observabilityConfiguration: S.optional(__S(1312, __c41, 0)),
-          observabilityData: S.optional(__S(1312, __c41, 0)),
-          observabilityFunnel: S.optional(__S(1312, __c41, 0)),
-          observabilityNotebook: S.optional(__S(1312, __c41, 0)),
-          oidcFederationPolicy: S.optional(__S(1312, __c41, 0)),
-          onDemandBuild: S.optional(__S(1312, __c41, 0)),
-          onDemandConcurrency: S.optional(__S(1312, __c41, 0)),
-          openTelemetryEndpoint: S.optional(__S(1312, __c41, 0)),
-          optionsAllowlist: S.optional(__S(1312, __c41, 0)),
-          organization: S.optional(__S(1312, __c41, 0)),
-          organizationDomain: S.optional(__S(1312, __c41, 0)),
-          organizationTeam: S.optional(__S(1312, __c41, 0)),
-          ownEvent: S.optional(__S(1312, __c41, 0)),
-          pageIntegrity: S.optional(__S(1312, __c41, 0)),
-          passwordProtection: S.optional(__S(1312, __c41, 0)),
-          passwordProtectionInvoiceItem: S.optional(__S(1312, __c41, 0)),
-          paymentMethod: S.optional(__S(1312, __c41, 0)),
-          permissions: S.optional(__S(1312, __c41, 0)),
-          postgres: S.optional(__S(1312, __c41, 0)),
-          postgresStoreTokenSet: S.optional(__S(1312, __c41, 0)),
-          previewDeploymentSuffix: S.optional(__S(1312, __c41, 0)),
-          privateCloudAccount: S.optional(__S(1312, __c41, 0)),
-          privateLinkEndpoint: S.optional(__S(1312, __c41, 0)),
-          productionAliasProtectionBypass: S.optional(__S(1312, __c41, 0)),
-          productionShareableLink: S.optional(__S(1312, __c41, 0)),
-          project: S.optional(__S(1312, __c41, 0)),
-          projectAccessGroup: S.optional(__S(1312, __c41, 0)),
-          projectAnalyticsSampling: S.optional(__S(1312, __c41, 0)),
-          projectAnalyticsUsage: S.optional(__S(1312, __c41, 0)),
-          projectCheck: S.optional(__S(1312, __c41, 0)),
-          projectCheckRun: S.optional(__S(1312, __c41, 0)),
-          projectDeploymentExpiration: S.optional(__S(1312, __c41, 0)),
-          projectDeploymentHook: S.optional(__S(1312, __c41, 0)),
-          projectDeploymentProtectionStrict: S.optional(__S(1312, __c41, 0)),
-          projectDomain: S.optional(__S(1312, __c41, 0)),
-          projectDomainCheckConfig: S.optional(__S(1312, __c41, 0)),
-          projectDomainMove: S.optional(__S(1312, __c41, 0)),
-          projectDomainVerify: S.optional(__S(1312, __c41, 0)),
-          projectEnvVars: S.optional(__S(1312, __c41, 0)),
-          projectEnvVarsProduction: S.optional(__S(1312, __c41, 0)),
-          projectEnvVarsUnownedByIntegration: S.optional(__S(1312, __c41, 0)),
-          projectEvent: S.optional(__S(1312, __c41, 0)),
-          projectFlags: S.optional(__S(1312, __c41, 0)),
-          projectFlagsProduction: S.optional(__S(1312, __c41, 0)),
-          projectFlagsSdkKey: S.optional(__S(1312, __c41, 0)),
-          projectFromV0: S.optional(__S(1312, __c41, 0)),
-          projectId: S.optional(__S(1312, __c41, 0)),
-          projectIntegrationConfiguration: S.optional(__S(1312, __c41, 0)),
-          projectLink: S.optional(__S(1312, __c41, 0)),
-          projectMember: S.optional(__S(1312, __c41, 0)),
-          projectMonitoring: S.optional(__S(1312, __c41, 0)),
-          projectOIDCToken: S.optional(__S(1312, __c41, 0)),
-          projectPermissions: S.optional(__S(1312, __c41, 0)),
-          projectProductionBranch: S.optional(__S(1312, __c41, 0)),
-          projectProtectionBypass: S.optional(__S(1312, __c41, 0)),
-          projectRollingRelease: S.optional(__S(1312, __c41, 0)),
-          projectRoutes: S.optional(__S(1312, __c41, 0)),
-          projectSetting: S.optional(__S(1312, __c41, 0)),
-          projectSupportCase: S.optional(__S(1312, __c41, 0)),
-          projectSupportCaseComment: S.optional(__S(1312, __c41, 0)),
-          projectTier: S.optional(__S(1312, __c41, 0)),
-          projectTransfer: S.optional(__S(1312, __c41, 0)),
-          projectTransferIn: S.optional(__S(1312, __c41, 0)),
-          projectTransferOut: S.optional(__S(1312, __c41, 0)),
-          projectTransferRequest: S.optional(__S(1312, __c41, 0)),
-          projectUsage: S.optional(__S(1312, __c41, 0)),
-          proTrialOnboarding: S.optional(__S(1312, __c41, 0)),
-          rateLimit: S.optional(__S(1312, __c41, 0)),
-          redis: S.optional(__S(1312, __c41, 0)),
-          redisStoreTokenSet: S.optional(__S(1312, __c41, 0)),
-          remoteCaching: S.optional(__S(1312, __c41, 0)),
-          repository: S.optional(__S(1312, __c41, 0)),
-          samlConfig: S.optional(__S(1312, __c41, 0)),
-          schedule: S.optional(__S(1312, __c41, 0)),
-          seawallConfig: S.optional(__S(1312, __c41, 0)),
-          secret: S.optional(__S(1312, __c41, 0)),
-          securityConfig: S.optional(__S(1312, __c41, 0)),
-          securityPlusConfiguration: S.optional(__S(1312, __c41, 0)),
-          sensitiveEnvironmentVariablePolicy: S.optional(__S(1312, __c41, 0)),
-          setting: S.optional(__S(1312, __c41, 0)),
-          shareableLink: S.optional(__S(1312, __c41, 0)),
-          shareableLinkStrict: S.optional(__S(1312, __c41, 0)),
-          sharedEnvVarConnection: S.optional(__S(1312, __c41, 0)),
-          sharedEnvVars: S.optional(__S(1312, __c41, 0)),
-          sharedEnvVarsProduction: S.optional(__S(1312, __c41, 0)),
-          skewProtection: S.optional(__S(1312, __c41, 0)),
-          space: S.optional(__S(1312, __c41, 0)),
-          spaceRun: S.optional(__S(1312, __c41, 0)),
-          storeIsLocked: S.optional(__S(1312, __c41, 0)),
-          storeTokenSetSensitive: S.optional(__S(1312, __c41, 0)),
-          storeTransfer: S.optional(__S(1312, __c41, 0)),
-          supportCase: S.optional(__S(1312, __c41, 0)),
-          supportCaseComment: S.optional(__S(1312, __c41, 0)),
-          team: S.optional(__S(1312, __c41, 0)),
-          teamAccessRequest: S.optional(__S(1312, __c41, 0)),
-          teamFellowMembership: S.optional(__S(1312, __c41, 0)),
-          teamGitExclusivity: S.optional(__S(1312, __c41, 0)),
-          teamInvite: S.optional(__S(1312, __c41, 0)),
-          teamInviteCode: S.optional(__S(1312, __c41, 0)),
-          teamInviteLink: S.optional(__S(1312, __c41, 0)),
-          teamJoin: S.optional(__S(1312, __c41, 0)),
-          teamMemberMfaStatus: S.optional(__S(1312, __c41, 0)),
-          teamMicrofrontends: S.optional(__S(1312, __c41, 0)),
-          teamOwnMembership: S.optional(__S(1312, __c41, 0)),
-          teamOwnMembershipDisconnectSAML: S.optional(__S(1312, __c41, 0)),
-          teamSudo: S.optional(__S(1312, __c41, 0)),
-          teamTokenInvalidation: S.optional(__S(1312, __c41, 0)),
-          token: S.optional(__S(1312, __c41, 0)),
-          toolbarComment: S.optional(__S(1312, __c41, 0)),
-          trustedIps: S.optional(__S(1312, __c41, 0)),
-          trustedSources: S.optional(__S(1312, __c41, 0)),
-          usage: S.optional(__S(1312, __c41, 0)),
-          usageCycle: S.optional(__S(1312, __c41, 0)),
-          user: S.optional(__S(1312, __c41, 0)),
-          userConnection: S.optional(__S(1312, __c41, 0)),
-          userMfaConfiguration: S.optional(__S(1312, __c41, 0)),
-          userPreference: S.optional(__S(1312, __c41, 0)),
-          userSudo: S.optional(__S(1312, __c41, 0)),
-          v0Chat: S.optional(__S(1312, __c41, 0)),
-          vcrRepository: S.optional(__S(1312, __c41, 0)),
-          vercelAppInstallation: S.optional(__S(1312, __c41, 0)),
-          vercelAppInstallationRequest: S.optional(__S(1312, __c41, 0)),
-          vercelAuth: S.optional(__S(1312, __c41, 0)),
-          vercelRun: S.optional(__S(1312, __c41, 0)),
-          vpcPeeringConnection: S.optional(__S(1312, __c41, 0)),
-          webAnalytics: S.optional(__S(1312, __c41, 0)),
-          webAnalyticsPlan: S.optional(__S(1312, __c41, 0)),
-          webAuthn: S.optional(__S(1312, __c41, 0)),
-          webhook: S.optional(__S(1312, __c41, 0)),
-          webhook_event: S.optional(__S(1312, __c41, 0).pipe(T.Body("webhook-event"))),
-          workflowRunData: S.optional(__S(1312, __c41, 0)),
+          accessGroup: S.optional(__S(1408, __c44, 0)),
+          agent: S.optional(__S(1408, __c44, 0)),
+          aiGatewayApiKey: S.optional(__S(1408, __c44, 0)),
+          aiGatewayApiKeyBypassAll: S.optional(__S(1408, __c44, 0)),
+          aiGatewayApiKeyOwnedBySelf: S.optional(__S(1408, __c44, 0)),
+          aiGatewayApiKeySpendAttribution: S.optional(__S(1408, __c44, 0)),
+          aiGatewayApiKeyZdrExemption: S.optional(__S(1408, __c44, 0)),
+          aiGatewayBudget: S.optional(__S(1408, __c44, 0)),
+          aiGatewayByokCredentials: S.optional(__S(1408, __c44, 0)),
+          aiGatewayCredits: S.optional(__S(1408, __c44, 0)),
+          aiGatewayGuardrails: S.optional(__S(1408, __c44, 0)),
+          aiGatewayPrivateModels: S.optional(__S(1408, __c44, 0)),
+          aiGatewayRules: S.optional(__S(1408, __c44, 0)),
+          aiGatewaySettings: S.optional(__S(1408, __c44, 0)),
+          aiGatewayTranscripts: S.optional(__S(1408, __c44, 0)),
+          aiGatewayTranscriptsSettings: S.optional(__S(1408, __c44, 0)),
+          aiGatewayUsage: S.optional(__S(1408, __c44, 0)),
+          aiGatewayVirtualModelConfigs: S.optional(__S(1408, __c44, 0)),
+          alertRules: S.optional(__S(1408, __c44, 0)),
+          alerts: S.optional(__S(1408, __c44, 0)),
+          aliasGlobal: S.optional(__S(1408, __c44, 0)),
+          aliasProject: S.optional(__S(1408, __c44, 0)),
+          aliasProtectionBypass: S.optional(__S(1408, __c44, 0)),
+          analytics: S.optional(__S(1408, __c44, 0)),
+          analyticsSampling: S.optional(__S(1408, __c44, 0)),
+          analyticsUsage: S.optional(__S(1408, __c44, 0)),
+          apiKey: S.optional(__S(1408, __c44, 0)),
+          apiKeyAiGateway: S.optional(__S(1408, __c44, 0)),
+          apiKeyOwnedBySelf: S.optional(__S(1408, __c44, 0)),
+          auditLog: S.optional(__S(1408, __c44, 0)),
+          automation: S.optional(__S(1408, __c44, 0)),
+          billingAddress: S.optional(__S(1408, __c44, 0)),
+          billingInformation: S.optional(__S(1408, __c44, 0)),
+          billingInvoice: S.optional(__S(1408, __c44, 0)),
+          billingInvoiceEmailRecipient: S.optional(__S(1408, __c44, 0)),
+          billingInvoiceLanguage: S.optional(__S(1408, __c44, 0)),
+          billingPlan: S.optional(__S(1408, __c44, 0)),
+          billingPurchaseOrder: S.optional(__S(1408, __c44, 0)),
+          billingRefund: S.optional(__S(1408, __c44, 0)),
+          billingTaxId: S.optional(__S(1408, __c44, 0)),
+          blob: S.optional(__S(1408, __c44, 0)),
+          blobStoreTokenSet: S.optional(__S(1408, __c44, 0)),
+          budget: S.optional(__S(1408, __c44, 0)),
+          buildMachine: S.optional(__S(1408, __c44, 0)),
+          buildMachineDefault: S.optional(__S(1408, __c44, 0)),
+          bulkRedirects: S.optional(__S(1408, __c44, 0)),
+          cacheArtifact: S.optional(__S(1408, __c44, 0)),
+          cacheArtifactUsageEvent: S.optional(__S(1408, __c44, 0)),
+          ciInvocations: S.optional(__S(1408, __c44, 0)),
+          ciLogs: S.optional(__S(1408, __c44, 0)),
+          codeChecks: S.optional(__S(1408, __c44, 0)),
+          codeOwners: S.optional(__S(1408, __c44, 0)),
+          concurrentBuilds: S.optional(__S(1408, __c44, 0)),
+          connect: S.optional(__S(1408, __c44, 0)),
+          connectConfiguration: S.optional(__S(1408, __c44, 0)),
+          connectConfigurationLink: S.optional(__S(1408, __c44, 0)),
+          connectLogs: S.optional(__S(1408, __c44, 0)),
+          connexClient: S.optional(__S(1408, __c44, 0)),
+          connexClientAccess: S.optional(__S(1408, __c44, 0)),
+          connexClientProject: S.optional(__S(1408, __c44, 0)),
+          connexContact: S.optional(__S(1408, __c44, 0)),
+          connexInstallation: S.optional(__S(1408, __c44, 0)),
+          connexToken: S.optional(__S(1408, __c44, 0)),
+          cursorOriginInstallation: S.optional(__S(1408, __c44, 0)),
+          dataCacheBillingSettings: S.optional(__S(1408, __c44, 0)),
+          dataCacheNamespace: S.optional(__S(1408, __c44, 0)),
+          defaultDeploymentProtection: S.optional(__S(1408, __c44, 0)),
+          deployment: S.optional(__S(1408, __c44, 0)),
+          deploymentBuildLogs: S.optional(__S(1408, __c44, 0)),
+          deploymentCheck: S.optional(__S(1408, __c44, 0)),
+          deploymentCheckPreview: S.optional(__S(1408, __c44, 0)),
+          deploymentCheckReRunFromProductionBranch: S.optional(__S(1408, __c44, 0)),
+          deploymentPolicy: S.optional(__S(1408, __c44, 0)),
+          deploymentPreview: S.optional(__S(1408, __c44, 0)),
+          deploymentPrivate: S.optional(__S(1408, __c44, 0)),
+          deploymentProductionGit: S.optional(__S(1408, __c44, 0)),
+          deploymentPromote: S.optional(__S(1408, __c44, 0)),
+          deploymentProtectionException: S.optional(__S(1408, __c44, 0)),
+          deploymentRollback: S.optional(__S(1408, __c44, 0)),
+          deploymentV0: S.optional(__S(1408, __c44, 0)),
+          domain: S.optional(__S(1408, __c44, 0)),
+          domainAcceptDelegation: S.optional(__S(1408, __c44, 0)),
+          domainAuthCodes: S.optional(__S(1408, __c44, 0)),
+          domainCertificate: S.optional(__S(1408, __c44, 0)),
+          domainCheckConfig: S.optional(__S(1408, __c44, 0)),
+          domainMove: S.optional(__S(1408, __c44, 0)),
+          domainPurchase: S.optional(__S(1408, __c44, 0)),
+          domainRecord: S.optional(__S(1408, __c44, 0)),
+          domainTransferIn: S.optional(__S(1408, __c44, 0)),
+          drain: S.optional(__S(1408, __c44, 0)),
+          drive: S.optional(__S(1408, __c44, 0)),
+          edgeCacheNamespace: S.optional(__S(1408, __c44, 0)),
+          edgeConfig: S.optional(__S(1408, __c44, 0)),
+          edgeConfigItem: S.optional(__S(1408, __c44, 0)),
+          edgeConfigSchema: S.optional(__S(1408, __c44, 0)),
+          edgeConfigToken: S.optional(__S(1408, __c44, 0)),
+          emaSetup: S.optional(__S(1408, __c44, 0)),
+          endpointVerification: S.optional(__S(1408, __c44, 0)),
+          environments: S.optional(__S(1408, __c44, 0)),
+          event: S.optional(__S(1408, __c44, 0)),
+          fileUpload: S.optional(__S(1408, __c44, 0)),
+          flagsExplorerSubscription: S.optional(__S(1408, __c44, 0)),
+          gitCredentialGrant: S.optional(__S(1408, __c44, 0)),
+          githubUsage: S.optional(__S(1408, __c44, 0)),
+          gitRepository: S.optional(__S(1408, __c44, 0)),
+          imageOptimizationNewPrice: S.optional(__S(1408, __c44, 0)),
+          integration: S.optional(__S(1408, __c44, 0)),
+          integrationAccount: S.optional(__S(1408, __c44, 0)),
+          integrationConfiguration: S.optional(__S(1408, __c44, 0)),
+          integrationConfigurationProjects: S.optional(__S(1408, __c44, 0)),
+          integrationConfigurationRole: S.optional(__S(1408, __c44, 0)),
+          integrationConfigurationTransfer: S.optional(__S(1408, __c44, 0)),
+          integrationDeploymentAction: S.optional(__S(1408, __c44, 0)),
+          integrationEvent: S.optional(__S(1408, __c44, 0)),
+          integrationLog: S.optional(__S(1408, __c44, 0)),
+          integrationPullRequest: S.optional(__S(1408, __c44, 0)),
+          integrationResource: S.optional(__S(1408, __c44, 0)),
+          integrationResourceData: S.optional(__S(1408, __c44, 0)),
+          integrationResourceReplCommand: S.optional(__S(1408, __c44, 0)),
+          integrationResourceSecrets: S.optional(__S(1408, __c44, 0)),
+          integrationSSOSession: S.optional(__S(1408, __c44, 0)),
+          integrationStoreTokenSet: S.optional(__S(1408, __c44, 0)),
+          integrationStrict: S.optional(__S(1408, __c44, 0)),
+          integrationVercelConfigurationOverride: S.optional(__S(1408, __c44, 0)),
+          ipBlocking: S.optional(__S(1408, __c44, 0)),
+          job: S.optional(__S(1408, __c44, 0)),
+          jobGlobal: S.optional(__S(1408, __c44, 0)),
+          kmsIssuer: S.optional(__S(1408, __c44, 0)),
+          kmsProjectGrant: S.optional(__S(1408, __c44, 0)),
+          logDrain: S.optional(__S(1408, __c44, 0)),
+          logs: S.optional(__S(1408, __c44, 0)),
+          logsPreset: S.optional(__S(1408, __c44, 0)),
+          marketplaceBillingData: S.optional(__S(1408, __c44, 0)),
+          marketplaceExperimentationEdgeConfigData: S.optional(__S(1408, __c44, 0)),
+          marketplaceExperimentationItem: S.optional(__S(1408, __c44, 0)),
+          marketplaceFlexCommit: S.optional(__S(1408, __c44, 0)),
+          marketplaceInstallationMember: S.optional(__S(1408, __c44, 0)),
+          marketplaceInvoice: S.optional(__S(1408, __c44, 0)),
+          marketplaceSettings: S.optional(__S(1408, __c44, 0)),
+          messageboard: S.optional(__S(1408, __c44, 0)),
+          messageboardChannel: S.optional(__S(1408, __c44, 0)),
+          messageboardMessage: S.optional(__S(1408, __c44, 0)),
+          messageboardModeration: S.optional(__S(1408, __c44, 0)),
+          messageboardReaction: S.optional(__S(1408, __c44, 0)),
+          messageboardTask: S.optional(__S(1408, __c44, 0)),
+          Monitoring: S.optional(__S(1408, __c44, 0)),
+          monitoringAlert: S.optional(__S(1408, __c44, 0)),
+          monitoringChart: S.optional(__S(1408, __c44, 0)),
+          monitoringQuery: S.optional(__S(1408, __c44, 0)),
+          monitoringSettings: S.optional(__S(1408, __c44, 0)),
+          notificationCustomerBudget: S.optional(__S(1408, __c44, 0)),
+          notificationDeploymentFailed: S.optional(__S(1408, __c44, 0)),
+          notificationDomainConfiguration: S.optional(__S(1408, __c44, 0)),
+          notificationDomainExpire: S.optional(__S(1408, __c44, 0)),
+          notificationDomainMoved: S.optional(__S(1408, __c44, 0)),
+          notificationDomainPurchase: S.optional(__S(1408, __c44, 0)),
+          notificationDomainRenewal: S.optional(__S(1408, __c44, 0)),
+          notificationDomainTransfer: S.optional(__S(1408, __c44, 0)),
+          notificationDomainUnverified: S.optional(__S(1408, __c44, 0)),
+          NotificationMonitoringAlert: S.optional(__S(1408, __c44, 0)),
+          notificationPaymentFailed: S.optional(__S(1408, __c44, 0)),
+          notificationPreferences: S.optional(__S(1408, __c44, 0)),
+          notificationStatementOfReasons: S.optional(__S(1408, __c44, 0)),
+          notificationUsageAlert: S.optional(__S(1408, __c44, 0)),
+          oauth2Application: S.optional(__S(1408, __c44, 0)),
+          oauth2Connection: S.optional(__S(1408, __c44, 0)),
+          observabilityConfiguration: S.optional(__S(1408, __c44, 0)),
+          observabilityData: S.optional(__S(1408, __c44, 0)),
+          observabilityFunnel: S.optional(__S(1408, __c44, 0)),
+          observabilityNotebook: S.optional(__S(1408, __c44, 0)),
+          oidcFederationPolicy: S.optional(__S(1408, __c44, 0)),
+          onDemandBuild: S.optional(__S(1408, __c44, 0)),
+          onDemandConcurrency: S.optional(__S(1408, __c44, 0)),
+          openTelemetryEndpoint: S.optional(__S(1408, __c44, 0)),
+          optionsAllowlist: S.optional(__S(1408, __c44, 0)),
+          organization: S.optional(__S(1408, __c44, 0)),
+          organizationDomain: S.optional(__S(1408, __c44, 0)),
+          organizationTeam: S.optional(__S(1408, __c44, 0)),
+          ownEvent: S.optional(__S(1408, __c44, 0)),
+          pageIntegrity: S.optional(__S(1408, __c44, 0)),
+          passwordProtection: S.optional(__S(1408, __c44, 0)),
+          passwordProtectionInvoiceItem: S.optional(__S(1408, __c44, 0)),
+          paymentMethod: S.optional(__S(1408, __c44, 0)),
+          permissions: S.optional(__S(1408, __c44, 0)),
+          postgres: S.optional(__S(1408, __c44, 0)),
+          postgresStoreTokenSet: S.optional(__S(1408, __c44, 0)),
+          previewDeploymentSuffix: S.optional(__S(1408, __c44, 0)),
+          privateCloudAccount: S.optional(__S(1408, __c44, 0)),
+          privateLinkEndpoint: S.optional(__S(1408, __c44, 0)),
+          privateNpmUsage: S.optional(__S(1408, __c44, 0)),
+          productionAliasProtectionBypass: S.optional(__S(1408, __c44, 0)),
+          productionShareableLink: S.optional(__S(1408, __c44, 0)),
+          project: S.optional(__S(1408, __c44, 0)),
+          projectAccessGroup: S.optional(__S(1408, __c44, 0)),
+          projectAnalyticsSampling: S.optional(__S(1408, __c44, 0)),
+          projectAnalyticsUsage: S.optional(__S(1408, __c44, 0)),
+          projectCheck: S.optional(__S(1408, __c44, 0)),
+          projectCheckRun: S.optional(__S(1408, __c44, 0)),
+          projectDeploymentExpiration: S.optional(__S(1408, __c44, 0)),
+          projectDeploymentHook: S.optional(__S(1408, __c44, 0)),
+          projectDeploymentProtectionStrict: S.optional(__S(1408, __c44, 0)),
+          projectDomain: S.optional(__S(1408, __c44, 0)),
+          projectDomainCheckConfig: S.optional(__S(1408, __c44, 0)),
+          projectDomainMove: S.optional(__S(1408, __c44, 0)),
+          projectDomainVerify: S.optional(__S(1408, __c44, 0)),
+          projectEnvVars: S.optional(__S(1408, __c44, 0)),
+          projectEnvVarsProduction: S.optional(__S(1408, __c44, 0)),
+          projectEnvVarsUnownedByIntegration: S.optional(__S(1408, __c44, 0)),
+          projectEvent: S.optional(__S(1408, __c44, 0)),
+          projectFlags: S.optional(__S(1408, __c44, 0)),
+          projectFlagsProduction: S.optional(__S(1408, __c44, 0)),
+          projectFlagsSdkKey: S.optional(__S(1408, __c44, 0)),
+          projectFromV0: S.optional(__S(1408, __c44, 0)),
+          projectId: S.optional(__S(1408, __c44, 0)),
+          projectIntegrationConfiguration: S.optional(__S(1408, __c44, 0)),
+          projectLink: S.optional(__S(1408, __c44, 0)),
+          projectMember: S.optional(__S(1408, __c44, 0)),
+          projectMonitoring: S.optional(__S(1408, __c44, 0)),
+          projectOIDCToken: S.optional(__S(1408, __c44, 0)),
+          projectPermissions: S.optional(__S(1408, __c44, 0)),
+          projectProductionBranch: S.optional(__S(1408, __c44, 0)),
+          projectProtectionBypass: S.optional(__S(1408, __c44, 0)),
+          projectRollingRelease: S.optional(__S(1408, __c44, 0)),
+          projectRoutes: S.optional(__S(1408, __c44, 0)),
+          projectSetting: S.optional(__S(1408, __c44, 0)),
+          projectSupportCase: S.optional(__S(1408, __c44, 0)),
+          projectSupportCaseComment: S.optional(__S(1408, __c44, 0)),
+          projectTier: S.optional(__S(1408, __c44, 0)),
+          projectTransfer: S.optional(__S(1408, __c44, 0)),
+          projectTransferIn: S.optional(__S(1408, __c44, 0)),
+          projectTransferOut: S.optional(__S(1408, __c44, 0)),
+          projectTransferRequest: S.optional(__S(1408, __c44, 0)),
+          projectUsage: S.optional(__S(1408, __c44, 0)),
+          proTrialOnboarding: S.optional(__S(1408, __c44, 0)),
+          rateLimit: S.optional(__S(1408, __c44, 0)),
+          redis: S.optional(__S(1408, __c44, 0)),
+          redisStoreTokenSet: S.optional(__S(1408, __c44, 0)),
+          remoteCaching: S.optional(__S(1408, __c44, 0)),
+          repository: S.optional(__S(1408, __c44, 0)),
+          samlConfig: S.optional(__S(1408, __c44, 0)),
+          schedule: S.optional(__S(1408, __c44, 0)),
+          schedulePreview: S.optional(__S(1408, __c44, 0)),
+          seawallConfig: S.optional(__S(1408, __c44, 0)),
+          secret: S.optional(__S(1408, __c44, 0)),
+          securityConfig: S.optional(__S(1408, __c44, 0)),
+          securityPlusConfiguration: S.optional(__S(1408, __c44, 0)),
+          sensitiveEnvironmentVariablePolicy: S.optional(__S(1408, __c44, 0)),
+          setting: S.optional(__S(1408, __c44, 0)),
+          shareableLink: S.optional(__S(1408, __c44, 0)),
+          shareableLinkStrict: S.optional(__S(1408, __c44, 0)),
+          sharedEnvVarConnection: S.optional(__S(1408, __c44, 0)),
+          sharedEnvVars: S.optional(__S(1408, __c44, 0)),
+          sharedEnvVarsProduction: S.optional(__S(1408, __c44, 0)),
+          skewProtection: S.optional(__S(1408, __c44, 0)),
+          space: S.optional(__S(1408, __c44, 0)),
+          spaceRun: S.optional(__S(1408, __c44, 0)),
+          storeIsLocked: S.optional(__S(1408, __c44, 0)),
+          storeTokenSetSensitive: S.optional(__S(1408, __c44, 0)),
+          storeTransfer: S.optional(__S(1408, __c44, 0)),
+          supportCase: S.optional(__S(1408, __c44, 0)),
+          supportCaseComment: S.optional(__S(1408, __c44, 0)),
+          team: S.optional(__S(1408, __c44, 0)),
+          teamAccessRequest: S.optional(__S(1408, __c44, 0)),
+          teamFellowMembership: S.optional(__S(1408, __c44, 0)),
+          teamGitExclusivity: S.optional(__S(1408, __c44, 0)),
+          teamInvite: S.optional(__S(1408, __c44, 0)),
+          teamInviteCode: S.optional(__S(1408, __c44, 0)),
+          teamInviteLink: S.optional(__S(1408, __c44, 0)),
+          teamJoin: S.optional(__S(1408, __c44, 0)),
+          teamMemberMfaStatus: S.optional(__S(1408, __c44, 0)),
+          teamMicrofrontends: S.optional(__S(1408, __c44, 0)),
+          teamOwnMembership: S.optional(__S(1408, __c44, 0)),
+          teamOwnMembershipDisconnectSAML: S.optional(__S(1408, __c44, 0)),
+          teamSudo: S.optional(__S(1408, __c44, 0)),
+          teamTokenInvalidation: S.optional(__S(1408, __c44, 0)),
+          token: S.optional(__S(1408, __c44, 0)),
+          toolbarComment: S.optional(__S(1408, __c44, 0)),
+          trustedIps: S.optional(__S(1408, __c44, 0)),
+          trustedSources: S.optional(__S(1408, __c44, 0)),
+          usage: S.optional(__S(1408, __c44, 0)),
+          usageCycle: S.optional(__S(1408, __c44, 0)),
+          user: S.optional(__S(1408, __c44, 0)),
+          userConnection: S.optional(__S(1408, __c44, 0)),
+          userMfaConfiguration: S.optional(__S(1408, __c44, 0)),
+          userPreference: S.optional(__S(1408, __c44, 0)),
+          userSudo: S.optional(__S(1408, __c44, 0)),
+          v0Chat: S.optional(__S(1408, __c44, 0)),
+          vcrRepository: S.optional(__S(1408, __c44, 0)),
+          vercelAppInstallation: S.optional(__S(1408, __c44, 0)),
+          vercelAppInstallationRequest: S.optional(__S(1408, __c44, 0)),
+          vercelAuth: S.optional(__S(1408, __c44, 0)),
+          vercelRun: S.optional(__S(1408, __c44, 0)),
+          vpcPeeringConnection: S.optional(__S(1408, __c44, 0)),
+          webAnalytics: S.optional(__S(1408, __c44, 0)),
+          webAnalyticsPlan: S.optional(__S(1408, __c44, 0)),
+          webAuthn: S.optional(__S(1408, __c44, 0)),
+          webhook: S.optional(__S(1408, __c44, 0)),
+          webhook_event: S.optional(__S(1408, __c44, 0).pipe(T.Body("webhook-event"))),
+          workflowRunData: S.optional(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "CreateProjectResponsePermissions" });
     case 3:
@@ -30288,42 +36226,33 @@ function __c44(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          sandboxUrls: S.optional(__S(1411, __c44, 3)),
+          sandboxUrls: S.optional(__S(1507, __c47, 3)),
         }),
       ).annotate({ identifier: "CreateProjectResponseProtectionConfig" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          createdAt: S.Number,
-          description: S.String,
-          userId: S.String,
-          username: S.String,
-        }),
-      ).annotate({ identifier: "CreateProjectResponseRollbackDescription" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
           excludePaths: S.optional(__S(1216, __c38, 0)),
-          excludeStatusCodes: S.optional(__S(1345, __c42, 1)),
+          excludeStatusCodes: S.optional(__S(1441, __c45, 1)),
           ingestWatermarkSeconds: S.optional(S.Number),
-          minSampleSize: S.optional(S.Number),
+          significanceLevel: S.optional(S.Number),
           type: S.String,
         }),
       ).annotate({ identifier: "CreateProjectResponseRollingReleaseGateChecksItem" });
+    case 6:
+      return S.Array(__S(1509, __c47, 5));
     case 7:
-      return S.Array(__S(1414, __c44, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
-          checks: __S(1415, __c44, 7),
+          checks: __S(1510, __c47, 6),
           dryRun: S.Boolean,
           enabled: S.Boolean,
           failureThreshold: S.optional(S.Number),
           windowSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CreateProjectResponseRollingReleaseGate" });
-    case 9:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           duration: S.optional(S.Number),
@@ -30332,58 +36261,59 @@ function __c44(j: number): any {
           targetPercentage: S.Number,
         }),
       ).annotate({ identifier: "CreateProjectResponseRollingReleaseStagesItem" });
+    case 9:
+      return S.Array(__S(1512, __c47, 8));
     case 10:
-      return S.Array(__S(1417, __c44, 9));
-    case 11:
       return S.suspend(() =>
         S.Struct({
           canaryResponseHeader: S.optional(S.Boolean),
-          gate: S.optional(__S(1416, __c44, 8)),
-          stages: S.optional(S.NullOr(__S(1418, __c44, 10))),
+          gate: S.optional(__S(1511, __c47, 7)),
+          stages: S.optional(S.NullOr(__S(1513, __c47, 9))),
           target: S.String,
         }),
       ).annotate({ identifier: "CreateProjectResponseRollingRelease" });
-    case 12:
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          failoverRegions: S.optional(__S(1312, __c41, 0)),
+          failoverRegions: S.optional(__S(1408, __c44, 0)),
           region: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateProjectResponseSandbox" });
-    case 13:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           action: S.optional(S.String),
           active: S.Boolean,
         }),
       ).annotate({ identifier: "CreateProjectResponseSecurityManagedRulesAiBots" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          ai_bots: __S(1516, __c47, 12),
+          bot_filter: __S(1516, __c47, 12),
+          owasp: __S(1516, __c47, 12),
+          traffic_sources: __S(1516, __c47, 12),
+          vercel_ruleset: __S(1516, __c47, 12),
+        }),
+      ).annotate({ identifier: "CreateProjectResponseSecurityManagedRules" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          ai_bots: __S(1421, __c44, 13),
-          bot_filter: __S(1421, __c44, 13),
-          owasp: __S(1421, __c44, 13),
-          traffic_sources: __S(1421, __c44, 13),
-          vercel_ruleset: __S(1421, __c44, 13),
-        }),
-      ).annotate({ identifier: "CreateProjectResponseSecurityManagedRules" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
+          action: S.optional(S.NullOr(S.String)),
           algo: S.String,
           keys: __S(1216, __c38, 0),
           limit: S.Number,
           window: S.Number,
         }),
       ).annotate({ identifier: "CreateProjectResponseSecurityRulesetsValueRateLimit" });
-    case 16:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           location: S.String,
           permanent: S.Boolean,
         }),
       ).annotate({ identifier: "CreateProjectResponseSecurityRulesetsValueRedirect" });
-    case 17:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           framework: S.optional(S.String),
@@ -30392,9 +36322,9 @@ function __c44(j: number): any {
           serviceType: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateProjectResponseServicesItem" });
+    case 17:
+      return S.Array(__S(1520, __c47, 16));
     case 18:
-      return S.Array(__S(1425, __c44, 17));
-    case 19:
       return S.suspend(() =>
         S.Struct({
           canceledAt: S.optional(S.Number),
@@ -30406,7 +36336,7 @@ function __c44(j: number): any {
           paidAt: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CreateProjectResponseSpeedInsights" });
-    case 20:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           april2026SecurityIncidentMigrationAppliedFrom: S.optional(S.NullOr(S.String)),
@@ -30414,7 +36344,7 @@ function __c44(j: number): any {
           deploymentType: S.String,
         }),
       ).annotate({ identifier: "CreateProjectResponseSsoProtection" });
-    case 21:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           builds: S.Boolean,
@@ -30422,7 +36352,7 @@ function __c44(j: number): any {
           regions: __S(1216, __c38, 0),
         }),
       ).annotate({ identifier: "CreateProjectResponseStaticIps" });
-    case 22:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           destination: S.optional(S.String),
@@ -30431,19 +36361,19 @@ function __c44(j: number): any {
           requestPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateProjectResponseTracingSamplingRulesItem" });
+    case 22:
+      return S.Array(__S(1525, __c47, 21));
     case 23:
-      return S.Array(__S(1430, __c44, 22));
-    case 24:
       return S.suspend(() =>
         S.Struct({
           domains: S.optional(S.String),
           ignorePaths: S.optional(__S(1216, __c38, 0)),
-          samplingRules: S.optional(__S(1431, __c44, 23)),
+          samplingRules: S.optional(__S(1526, __c47, 22)),
         }),
       ).annotate({ identifier: "CreateProjectResponseTracing" });
-    case 25:
+    case 24:
       return S.Record(S.String, __S(1216, __c38, 0));
-    case 26:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           bypassThrottleUntil: S.optional(S.Number),
@@ -30453,6 +36383,12 @@ function __c44(j: number): any {
           throttled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateProjectResponseUsageStatus" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          enabledAt: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CreateProjectResponseVercelFlags" });
     case 27:
       return S.suspend(() =>
         S.Struct({
@@ -30465,22 +36401,16 @@ function __c44(j: number): any {
       ).annotate({ identifier: "CreateProjectResponseWebAnalytics" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deploymentType: S.String,
-        }),
-      ).annotate({ identifier: "CreateProjectRequestSsoProtection" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           region: S.optional(S.String),
-          failoverRegions: S.optional(__S(1312, __c41, 0)),
+          failoverRegions: S.optional(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "CreateProjectRequestSandbox" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           at: S.Number,
