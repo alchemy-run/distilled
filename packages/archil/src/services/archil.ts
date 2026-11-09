@@ -1131,6 +1131,10 @@ export interface DiskResponse {
   metrics?: DiskMetrics;
   connectedClients?: DiskResponseConnectedClientsList;
   authorizedUsers?: DiskResponseAuthorizedUsersList;
+  /** Active data size in bytes (data in the high-speed cache). Absent until the disk holds data. */
+  activeDataBytes?: number;
+  /** Total logical data written to the disk, in bytes. Absent until the disk holds data. */
+  totalDataBytes?: number;
 }
 export interface ApiResponseDisk {
   success: boolean;
@@ -3153,6 +3157,8 @@ function __c40(j: number): any {
           metrics: S.optional(__S(643, __c40, 3)),
           connectedClients: S.optional(__S(645, __c40, 5)),
           authorizedUsers: S.optional(__S(112, __c7, 0)),
+          activeDataBytes: S.optional(S.Number),
+          totalDataBytes: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DiskResponse" });
   }
