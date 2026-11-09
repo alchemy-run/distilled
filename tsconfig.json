@@ -462,6 +462,13 @@
       "path": "./packages/temporal/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/tencentcloud/tsconfig.json"
+    },
+    { "path": "./packages/tencentcloud/tsconfig.test.json" },
+    {
+      "path": "./packages/tencentcloud/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/trigger-dev/tsconfig.json"
     },
     {
