@@ -71,3 +71,14 @@
     three
   - decide the shape: a separate subpath or package, runtime decoding or
     types only, and whether other providers' webhooks follow the same pattern
+- go over the gRPC client
+  - core/src: protocol-grpc.ts, protobuf.ts, grpc-transport.ts and the two
+    transports (grpc-transport-node-http2.ts, grpc-transport-cloudflare-sockets.ts);
+    modal is the only SDK on it
+  - webpack breaks the Workers transport: `import(SOCKETS_MODULE)` becomes an
+    empty context that always rejects ("Cannot find module"), so every call
+    fails with a transport error. esbuild, rolldown, Vite and wrangler keep
+    the import. benches/bundlers marks the webpack case `it.fails`; a
+    `/* webpackIgnore: true */` comment on the import is the likely fix
+  - protobuf.ts throws its encode/decode errors (43 throws) and
+    protocol-grpc.ts catches them; decide if that stays or becomes typed
