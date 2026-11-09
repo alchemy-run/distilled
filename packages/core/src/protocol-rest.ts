@@ -219,8 +219,19 @@ export interface RestProtocolOptions<C> {
 /** The body of a streamed 2xx response, for {@link StreamFraming.stream}. */
 export interface FramedBody {
   readonly body: Stream.Stream<Uint8Array, unknown>;
-  /** Decode one frame (one JSON text) as one element of the output's `items`. */
-  readonly frame: (text: string) => Effect.Effect<unknown, unknown>;
+  /**
+   * Decode one parsed frame as one element of the output's `items`, as a
+   * 2xx body decodes (key mapping, strict validation, `Redacted`).
+   */
+  readonly item: (json: unknown, text: string) => Effect.Effect<unknown, unknown>;
+  /** The SDK's parse error for a frame that is not JSON. */
+  readonly invalid: (text: string) => unknown;
+}
+
+/** A plain call's framed body, read whole: the output JSON, or not JSON. */
+export interface CollectedBody {
+  readonly json: unknown;
+  readonly nonJson: boolean;
 }
 
 /**
@@ -230,13 +241,14 @@ export interface FramedBody {
  * with `SdkError`).
  */
 export interface StreamFraming {
-  /** The response media type of a framed body. */
-  readonly mediaType: string;
-  /** A whole framed body's frames, for a plain call that collects them. */
-  readonly split: (text: string) => ReadonlyArray<string>;
   /**
-   * Each frame as it arrives, through `frame`. `open` sends the request and
-   * fails with the operation's typed error on a non-2xx response.
+   * A plain call's whole body as `{ items }`, or `undefined` when the
+   * response's `Content-Type` is not this framing (decoded as usual).
+   */
+  readonly collect: (text: string, contentType: string | undefined) => CollectedBody | undefined;
+  /**
+   * Each frame as it arrives, through `item`. `open` sends the request and
+   * fails with the operation's typed error on a failed status.
    */
   readonly stream: (open: Effect.Effect<FramedBody, unknown>) => Stream.Stream<unknown, unknown>;
 }
@@ -356,26 +368,6 @@ const decodePlanFor = (outputAst: AST.AST): DecodePlan => {
     decodePlans.set(outputAst, plan);
   }
   return plan;
-};
-
-const framingOf = (config: API.ProtocolOperationConfig): StreamFraming | undefined =>
-  config.framing as StreamFraming | undefined;
-
-/** Whether a `Content-Type` header names `mediaType` (parameters ignored). */
-const isMediaType = (header: string | undefined, mediaType: string): boolean =>
-  header !== undefined && header.split(";")[0]!.trim().toLowerCase() === mediaType;
-
-/** Each frame parsed as JSON, or `undefined` when one is not JSON. */
-const parseFrames = (frames: ReadonlyArray<string>): unknown[] | undefined => {
-  const items: unknown[] = [];
-  for (const frame of frames) {
-    try {
-      items.push(JSON.parse(frame));
-    } catch {
-      return undefined;
-    }
-  }
-  return items;
 };
 
 /**
@@ -534,12 +526,10 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
 
     // A framed (streamed) body that a plain call collects: its frames are
     // the output's `items`.
-    if (framing !== undefined && isMediaType(headers["content-type"], framing.mediaType)) {
-      const items = parseFrames(framing.split(text));
-      json = items === undefined ? undefined : { items };
-      nonJson = items === undefined;
-    }
-    return decodeSuccess(context, headers, text, json, nonJson, outputAst);
+    const collected = framing?.collect(text, headers["content-type"]);
+    return collected === undefined
+      ? decodeSuccess(context, headers, text, json, nonJson, outputAst)
+      : decodeSuccess(context, headers, text, collected.json, collected.nonJson, outputAst);
   };
 
   /**
@@ -602,78 +592,69 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
           return decoded.ok ? Effect.succeed(decoded.value) : fail(decoded.error);
         })) as Effect.Effect<unknown>;
 
-  const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown> =>
+  /**
+   * Send `op`'s request on the calling fiber; decode the response, or open
+   * it as a stream (`openFramed`).
+   */
+  const send = (
+    op: API.PreparedOperation,
+    input: unknown,
+    streaming: boolean,
+  ): Effect.Effect<unknown> =>
     Effect.withFiber((fiber) => {
       const context = fiber.context as Context.Context<any>;
       return withCredentials(context, (creds) => {
         const client = Context.get(context, HttpClient.HttpClient);
         return Effect.flatMap(requestFor(creds, input, op.inputAst), (request) =>
           Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
-            decodeResponse(context, response, op.outputAst, op.errors, framingOf(op.config)),
+            streaming
+              ? openFramed(context, response, op)
+              : decodeResponse(
+                  context,
+                  response,
+                  op.outputAst,
+                  op.errors,
+                  op.config.framing as StreamFraming | undefined,
+                ),
           ),
         );
       });
     }) as Effect.Effect<unknown>;
 
   /**
-   * One frame of a streamed body, decoded as one element of the output's
-   * `items`. A frame that is not JSON fails in every mode.
+   * A streaming call's response: its body and a frame decoder. A failed
+   * status fails with the operation's typed error, as a plain call does.
    */
-  const decodeFrame = (
+  const openFramed = (
     context: Context.Context<any>,
-    headers: Record<string, string | undefined>,
-    text: string,
-    outputAst: AST.AST,
-  ): Effect.Effect<unknown> => {
-    const items = parseFrames([text]);
-    if (items === undefined) {
-      return fail(
-        options.parseError({
-          body: hasSensitiveMember(outputAst) ? "[REDACTED]" : text,
-          cause: "Invalid JSON frame",
-        }),
-      );
-    }
-    const decoded = decodeSuccess(context, headers, text, { items }, false, outputAst);
-    return decoded.ok
-      ? Effect.succeed((decoded.value as { readonly items: ReadonlyArray<unknown> }).items[0])
-      : fail(decoded.error);
-  };
-
-  /**
-   * A streaming call's response: its body and a frame decoder, or the
-   * operation's typed error for a failed status, as a plain call fails.
-   */
-  const openFramed = (op: API.PreparedOperation, input: unknown): Effect.Effect<FramedBody> =>
-    Effect.withFiber((fiber) => {
-      const context = fiber.context as Context.Context<any>;
-      return withCredentials(context, (creds) => {
-        const client = Context.get(context, HttpClient.HttpClient);
-        return Effect.flatMap(requestFor(creds, input, op.inputAst), (request) =>
-          Effect.flatMap(Telemetry.execute(context, client, request), (response) => {
-            const headers = response.headers as Record<string, string | undefined>;
-            if (response.status >= 400) {
-              return Effect.flatMap(response.text, (text) => {
-                const decoded = decodeText(
-                  context,
-                  response.status,
-                  headers,
-                  text ?? "",
-                  op.outputAst,
-                  op.errors,
-                  undefined,
-                );
-                return fail(decoded.ok ? decoded.value : decoded.error);
-              });
-            }
-            return Effect.succeed<FramedBody>({
-              body: response.stream,
-              frame: (text) => decodeFrame(context, headers, text, op.outputAst),
-            });
-          }),
-        );
-      });
-    }) as Effect.Effect<FramedBody>;
+    response: HttpClientResponse.HttpClientResponse,
+    op: API.PreparedOperation,
+  ): Effect.Effect<unknown> =>
+    response.status >= 400
+      ? decodeResponse(context, response, op.outputAst, op.errors, undefined)
+      : Effect.succeed<FramedBody>({
+          body: response.stream,
+          item: (json, text) => {
+            const decoded = decodeSuccess(
+              context,
+              response.headers as Record<string, string | undefined>,
+              text,
+              { items: [json] },
+              false,
+              op.outputAst,
+            );
+            return decoded.ok
+              ? Effect.succeed(
+                  (decoded.value as { readonly items: ReadonlyArray<unknown> }).items[0],
+                )
+              : fail(decoded.error);
+          },
+          invalid: (text) =>
+            options.parseError({
+              body: hasSensitiveMember(op.outputAst) ? "[REDACTED]" : text,
+              cause: "Invalid JSON frame",
+            }),
+        });
 
   return Layer.succeed(
     API.Protocol,
@@ -693,11 +674,14 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
             response,
             outputAst,
             errors,
-            framingOf(config),
+            config.framing as StreamFraming | undefined,
           ),
         ),
-      call,
-      stream: (op, input) => framingOf(op.config)?.stream(openFramed(op, input)),
+      call: (op, input) => send(op, input, false),
+      stream: (op, input) =>
+        (op.config.framing as StreamFraming | undefined)?.stream(
+          send(op, input, true) as Effect.Effect<FramedBody>,
+        ),
     }),
   );
 };
